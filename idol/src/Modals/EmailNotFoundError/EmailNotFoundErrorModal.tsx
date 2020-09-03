@@ -16,7 +16,7 @@ const EmailNotFoundErrorModal: React.FC = () => {
     <Modal
       open={isOpen}
       onClose={() => setOpen(false)}
-      header="Couldn't find member with that email!"
+      header="Couldn't find a DTI member with that email!"
       content='Contact a lead if you believe that this is an error.'
       actions={[{ key: 'close', content: 'Close', negative: true }]}
     />
