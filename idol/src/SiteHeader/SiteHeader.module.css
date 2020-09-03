@@ -1,0 +1,64 @@
+.SiteHeader {
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 10vh;
+  width: 100%;
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.13);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.logo_and_title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu_icon_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-right: 1.5rem;
+  cursor: pointer;
+}
+
+.menu_icon {
+  height: 7vh;
+  width: auto;
+}
+
+.title_conainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.title {
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+}
+
+.dti_logo {
+  height: 7vh;
+  width: auto;
+}
+
+.sign_out_button_container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sign_out_button {
+  height: fit-content;
+  width: fit-content;
+}
