@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "mkdir -p idol/build && echo '<h1>idol site building...</h1>' > idol/build/index.html && npm run buildReact && npm run serveInstall",
-    "start": "npm i && npm run serve",
+    "start": "npm run serve",
     "dev": "cd idol && npm run build && cd ../ && npm run serve",
     "serveInstall": "cd server && npm i",
     "serve": "cd server && npm start",
