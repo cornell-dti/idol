@@ -1,5 +1,5 @@
 import React, { Component, createContext } from "react";
-import { auth, firestore } from "../firebase";
+import { auth } from "../firebase";
 import { MembersAPI, Member } from "../API/MembersAPI";
 import { Emitters } from "../EventEmitter/constant-emitters";
 
@@ -28,7 +28,7 @@ class UserProvider extends Component<any, UserContextType>  {
       this.initialLoad.then(
         () => {
           if (userAuth) {
-            if (this.allMembers.map(mem => mem.email).findIndex(email => email == userAuth.email) != -1) {
+            if (this.allMembers.map(mem => mem.email).findIndex(email => email === userAuth.email) !== -1) {
               this.setState({ user: userAuth });
             } else {
               Emitters.emailNotFoundError.emit();

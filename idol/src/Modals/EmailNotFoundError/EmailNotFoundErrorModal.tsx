@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EmailNotFoundErrorModal.module.css';
-import { Modal, Button } from 'semantic-ui-react';
+// import styles from './EmailNotFoundErrorModal.module.css';
+import { Modal } from 'semantic-ui-react';
 import { Emitters } from '../../EventEmitter/constant-emitters';
 
 const EmailNotFoundErrorModal: React.FC = () => {
@@ -17,7 +17,7 @@ const EmailNotFoundErrorModal: React.FC = () => {
       open={isOpen}
       onClose={() => setOpen(false)}
       header="Couldn't find member with that email!"
-      content='See a lead if you believe this is an error'
+      content='Contact a lead if you believe that this is an error.'
       actions={[{ key: 'close', content: 'Close', negative: true }]}
     />
   )
