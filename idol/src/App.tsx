@@ -1,19 +1,16 @@
 import React, { useContext, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useRouteMatch,
-  useParams
+  Link
 } from "react-router-dom";
 import SignIn from './SignIn/SignIn.lazy';
 import Homepage from './Homepage/Homepage.lazy';
 import { UserContext } from './UserProvider/UserProvider';
 import SiteHeader from './SiteHeader/SiteHeader';
-import { Sidebar, Segment, Menu, Icon, Header } from 'semantic-ui-react';
+import { Sidebar, Menu, Icon } from 'semantic-ui-react';
 import { Emitters } from './EventEmitter/constant-emitters';
 import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundErrorModal';
 

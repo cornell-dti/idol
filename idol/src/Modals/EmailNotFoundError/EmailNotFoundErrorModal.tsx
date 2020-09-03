@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EmailNotFoundErrorModal.module.css';
-import { Modal, Button } from 'semantic-ui-react';
+// import styles from './EmailNotFoundErrorModal.module.css';
+import { Modal } from 'semantic-ui-react';
 import { Emitters } from '../../EventEmitter/constant-emitters';
 
 const EmailNotFoundErrorModal: React.FC = () => {

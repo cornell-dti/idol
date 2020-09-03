@@ -18,7 +18,7 @@ const SiteHeader: React.FC = () => {
           }}>
             <Icon size="big" className={styles.menu_icon} name="bars" />
           </div>
-          <img className={styles.dti_logo} src={dti_logo} />
+          <img className={styles.dti_logo} src={dti_logo} alt="DTI logo" />
           <div className={styles.title_conainer}>
             <Header className={styles.title} as="h1">
               I<span className={styles.subtitle}>nternal</span>&nbsp;
