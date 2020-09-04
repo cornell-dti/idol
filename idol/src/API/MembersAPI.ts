@@ -21,7 +21,7 @@ export class MembersAPI {
         {
           withCredentials: true
         })
-        .then((res) => res.data());
+        .then((res) => res.data);
       return responseProm.then((val) => {
         let mems = val.members as Member[];
         APICache.cache(funcName, mems);
