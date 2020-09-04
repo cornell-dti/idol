@@ -17,7 +17,7 @@ export class MembersAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
     else {
-      let responseProm = axios.get(environment.backendURL + 'members/all',
+      let responseProm = axios.get(environment.backendURL + 'allMembers',
         {
           withCredentials: true
         })
