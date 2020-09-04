@@ -1,5 +1,5 @@
-import { firestore } from "../firebase";
 import { APICache } from "../Cache/Cache";
+import { environment } from "../environment";
 
 export type Member = {
   email: string,
@@ -10,15 +10,20 @@ export type Member = {
 
 export class MembersAPI {
 
-  public static getAllMembers(): Promise<firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>> {
+  public static getAllMembers(): Promise<Member[]> {
     let funcName = this.name;
-    return APICache.has(funcName) ?
-      Promise.resolve(APICache.retrieve(funcName))
-      :
-      firestore.collection('members').get().then((val) => {
-        APICache.cache(funcName, val);
-        return val;
+    if (APICache.has(funcName)) {
+      return Promise.resolve(APICache.retrieve(funcName));
+    }
+    else {
+      let responseProm = fetch(environment.backendURL + 'members/all')
+        .then((res) => res.json());
+      return responseProm.then((val) => {
+        let mems = val.members as Member[];
+        APICache.cache(funcName, mems);
+        return mems;
       });
+    }
   }
 
 }
