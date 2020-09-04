@@ -16,7 +16,14 @@ export class MembersAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
     else {
-      let responseProm = fetch(environment.backendURL + 'members/all', { credentials: "include" })
+      let responseProm = fetch(environment.backendURL + 'members/all', {
+        credentials: "include",
+        method: "get",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
         .then((res) => res.json());
       return responseProm.then((val) => {
         let mems = val.members as Member[];
