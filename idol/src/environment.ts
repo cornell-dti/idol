@@ -6,5 +6,6 @@ export const environment = {
   useProdBackend: useProdBackend,
   backendURL: isProduction ?
     "https://idol.api.cornelldti.org/.netlify/functions/api/"
-    : "http://localhost:9000/.netlify/functions/api/"
+    : (useProdBackend ? "http://idol.api.cornelldti.org/.netlify/functions/api/"
+      : "http://localhost:9000/.netlify/functions/api/")
 }
