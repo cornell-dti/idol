@@ -10,8 +10,8 @@ class UserProvider extends Component<any, UserContextType>  {
 
   initialLoad: Promise<any> = Promise.resolve().then(() => {
     return MembersAPI.getAllMembers().then(
-      (data) => {
-        this.allMembers = data.docs.map(val => val.data() as Member);
+      (members) => {
+        this.allMembers = members;
       }
     );
   });
