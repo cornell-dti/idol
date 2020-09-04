@@ -1,5 +1,6 @@
 import { APICache } from "../Cache/Cache";
 import { environment } from "../environment";
+import axios from 'axios';
 
 export type Member = {
   email: string,
@@ -16,15 +17,11 @@ export class MembersAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
     else {
-      let responseProm = fetch(environment.backendURL + 'members/all', {
-        credentials: "include",
-        method: "get",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      })
-        .then((res) => res.json());
+      let responseProm = axios.get(environment.backendURL + 'members/all',
+        {
+          withCredentials: true
+        })
+        .then((res) => res.data());
       return responseProm.then((val) => {
         let mems = val.members as Member[];
         APICache.cache(funcName, mems);
