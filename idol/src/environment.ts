@@ -1,4 +1,4 @@
-const isProduction = false;
+const isProduction = true;
 const useProdBackend = true;
 
 export const environment = {
