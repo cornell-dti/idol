@@ -25,7 +25,7 @@ export class LoginAPI {
 
   public static logout(): Promise<LogoutResponse> {
     let responseProm = fetch(environment.backendURL + 'logout', {
-      method: "get",
+      method: "post",
       credentials: "include",
       headers: {
         'Accept': 'application/json',
