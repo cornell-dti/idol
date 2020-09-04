@@ -1,21 +1,13 @@
 import React, { Component, createContext } from "react";
 import { auth } from "../firebase";
-import { MembersAPI, Member } from "../API/MembersAPI";
 import { Emitters } from "../EventEmitter/constant-emitters";
+import { LoginAPI } from "../API/LoginAPI";
 
 type UserContextType = { user: firebase.User | null };
 
 export const UserContext = createContext<UserContextType>({ user: null });
 class UserProvider extends Component<any, UserContextType>  {
 
-  initialLoad: Promise<any> = Promise.resolve().then(() => {
-    return MembersAPI.getAllMembers().then(
-      (members) => {
-        this.allMembers = members;
-      }
-    );
-  });
-  allMembers!: Member[];
   constructor(props: any) {
     super(props);
     this.state = {
@@ -24,21 +16,25 @@ class UserProvider extends Component<any, UserContextType>  {
   }
 
   componentDidMount = () => {
-    auth.onAuthStateChanged(userAuth => {
-      this.initialLoad.then(
-        () => {
-          if (userAuth) {
-            if (this.allMembers.map(mem => mem.email).findIndex(email => email === userAuth.email) !== -1) {
-              this.setState({ user: userAuth });
-            } else {
-              Emitters.emailNotFoundError.emit();
-              auth.signOut();
-            }
-          } else {
-            this.setState({ user: userAuth });
+    auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        LoginAPI.login(await userAuth.getIdToken()).then((loginResp) => {
+          if (!loginResp.isLoggedIn) {
+            Emitters.emailNotFoundError.emit();
+            auth.signOut();
+            return;
           }
-        }
-      )
+          this.setState({ user: userAuth });
+        });
+      } else {
+        LoginAPI.logout().then((logoutResp) => {
+          if (!logoutResp.isLoggedIn) {
+            this.setState({ user: userAuth });
+          } else {
+            alert("Couldn't log out!");
+          }
+        });
+      }
     });
   };
   render() {

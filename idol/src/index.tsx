@@ -7,11 +7,9 @@ import 'semantic-ui-css/semantic.min.css'
 import UserProvider from './UserProvider/UserProvider';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <UserProvider>
-      <App />
-    </UserProvider>
-  </React.StrictMode>,
+  <UserProvider>
+    <App />
+  </UserProvider>,
   document.getElementById('root')
 );
 
