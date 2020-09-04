@@ -45,13 +45,13 @@ function App() {
                 onClick={() => { Emitters.navOpenEmitter.emit(false) }}
               >
                 <Link to="/">
-                  <Menu.Item as='a'>
+                  <Menu.Item>
                     <Icon name='home' />
               Home
             </Menu.Item>
                 </Link>
                 <Link to="/attendance">
-                  <Menu.Item as='a'>
+                  <Menu.Item>
                     <Icon name='group' />
               Attendance
             </Menu.Item>
