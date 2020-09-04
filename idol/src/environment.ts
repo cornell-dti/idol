@@ -1,5 +1,5 @@
-const isProduction = false;
-const useProdBackend = false;
+const isProduction = true;
+const useProdBackend = true;
 
 export const environment = {
   isProduction: isProduction,
