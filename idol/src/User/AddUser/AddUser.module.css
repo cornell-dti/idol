@@ -1,0 +1,15 @@
+.AddUser {}
+
+.content {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding-top: 5rem;
+}
+
+.cardContent{
+}
+
+.cardHeader {
+  position: fixed;
+  top: 2rem;
+}

@@ -8,4 +8,8 @@ export class Emitters {
   // Login
   static emailNotFoundError: EventEmitter<void> = new EventEmitter();
 
+
+  // Users
+  static userEditError: EventEmitter<{ headerMsg: string, contentMsg: string }> = new EventEmitter();
+
 }

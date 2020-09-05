@@ -1,4 +1,11 @@
 :root {
+  /*Fonts*/
   --mainFontFamily: 'Noto Sans', sans-serif;
+
+
+
+  /*Colors*/
   --lightGreenBG: rgb(191, 255, 193);
+  --offWhite: rgb(248,248,255);
+
 }

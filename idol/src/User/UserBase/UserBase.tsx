@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './UserBase.module.css';
 import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
+import AddUser from '../AddUser/AddUser';
 
 const UserBase: React.FC = () => {
   let location = useLocation();
@@ -12,14 +13,14 @@ const UserBase: React.FC = () => {
           <Card.Group>
             <Card>
               <Card.Content>
-                <Card.Header>Update Users</Card.Header>
+                <Card.Header>Edit Users</Card.Header>
                 <Card.Description>
                   Create, read, edit, or delete individual users of the system.
               </Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className='ui one buttons'>
-                  <Link to='users/create'>
+                  <Link to='users/edit'>
                     <Button basic color='blue'>
                       Go To
           </Button>
@@ -36,9 +37,9 @@ const UserBase: React.FC = () => {
       <div className={styles.UserBase} data-testid="UserBase">
         <Router>
           <Switch>
-            <Route path="/users/create">
-              HERE WE ARE
-          </Route>
+            <Route path="/users/edit">
+              <AddUser></AddUser>
+            </Route>
             <Route path="/*">
             </Route>
           </Switch>

@@ -14,6 +14,7 @@ import { Sidebar, Menu, Icon } from 'semantic-ui-react';
 import { Emitters } from './EventEmitter/constant-emitters';
 import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundErrorModal';
 import UserBase from './User/UserBase/UserBase';
+import './App.css';
 
 function App() {
   const user = useContext(UserContext);
@@ -26,14 +27,19 @@ function App() {
     return () => {
       Emitters.navOpenEmitter.unsubscribe(cb);
     };
-  })
+  });
   return (
     user.user ?
       (
         <Router>
-          <div className="App" style={{ minHeight: '100vh', minWidth: '100vw' }}>
+          <div className="App" style={{
+            minHeight: '100vh',
+            maxHeight: '100vh',
+            minWidth: '100vw',
+            position: 'relative'
+          }}>
             <SiteHeader />
-            <Sidebar.Pushable>
+            <div style={{ position: 'relative', top: '10vh' }}>
               <Sidebar
                 as={Menu}
                 animation='overlay'
@@ -44,6 +50,7 @@ function App() {
                 visible={visible}
                 width='thin'
                 onClick={() => { Emitters.navOpenEmitter.emit(false) }}
+                className="appSidebar"
               >
                 <Link to="/">
                   <Menu.Item>
@@ -58,21 +65,27 @@ function App() {
             </Menu.Item>
                 </Link>
               </Sidebar>
-              <Sidebar.Pusher dimmed={visible}>
-                <div style={{ minHeight: '90vh', minWidth: '100vw', margin: 0 }}>
-                  <Switch>
-                    <Route path="/users*">
-                      <UserBase />
-                    </Route>
-                    <Route path="/*">
-                      <Homepage />
-                    </Route>
-                  </Switch>
-                </div>
-              </Sidebar.Pusher>
-            </Sidebar.Pushable>
+            </div>
+            <div style={{ position: 'absolute', top: '10vh' }}>
+              <Sidebar.Pushable>
+                <Sidebar.Pusher dimmed={visible}>
+                  <div style={{
+                    minHeight: '90vh', width: '100vw', margin: 0, padding: 0
+                  }}>
+                    <Switch>
+                      <Route path="/users*">
+                        <UserBase />
+                      </Route>
+                      <Route path="/*">
+                        <Homepage />
+                      </Route>
+                    </Switch>
+                  </div>
+                </Sidebar.Pusher>
+              </Sidebar.Pushable>
+            </div>
           </div>
-        </Router>)
+        </Router >)
       :
       (<div className="App">
         <EmailNotFoundErrorModal />

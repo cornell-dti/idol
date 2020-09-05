@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SiteHeader.module.css';
 import { auth } from '../firebase';
 import { Button, Header, Icon } from 'semantic-ui-react';
@@ -9,6 +9,7 @@ const SiteHeader: React.FC = () => {
   let onSignOut = () => {
     auth.signOut();
   };
+  const [idolOpen, setIdolOpen] = useState(false);
   return (
     <div className={styles.SiteHeader} data-testid="SiteHeader">
       <div className={styles.content}>
@@ -19,12 +20,14 @@ const SiteHeader: React.FC = () => {
             <Icon size="big" className={styles.menu_icon} name="bars" />
           </div>
           <img className={styles.dti_logo} src={dti_logo} alt="DTI logo" />
-          <div className={styles.title_conainer}>
+          <div className={styles.title_conainer}
+            onMouseEnter={() => setIdolOpen(true)}
+            onMouseLeave={() => setIdolOpen(false)}>
             <Header className={styles.title} as="h1">
-              I<span className={styles.subtitle}>nternal</span>&nbsp;
-              D<span className={styles.subtitle}>TI</span>&nbsp;
-              O<span className={styles.subtitle}>rganization</span>&nbsp;
-              L<span className={styles.subtitle}>ogic</span>
+              I<div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>nternal&nbsp;</div>
+              D<div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>TI&nbsp;</div>
+              O<div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>rganization&nbsp;</div>
+              L<div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>ogic</div>
             </Header>
           </div>
         </div>
