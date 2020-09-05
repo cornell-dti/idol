@@ -5,7 +5,7 @@ import axios from 'axios';
 export class RolesAPI {
 
   public static getAllRoles(): Promise<string[]> {
-    let funcName = this.name;
+    let funcName = "getAllRoles";
     if (APICache.has(funcName)) {
       return Promise.resolve(APICache.retrieve(funcName));
     }

@@ -12,7 +12,7 @@ export type Member = {
 export class MembersAPI {
 
   public static getAllMembers(): Promise<Member[]> {
-    let funcName = this.name;
+    let funcName = "getAllMembers";
     if (APICache.has(funcName)) {
       return Promise.resolve(APICache.retrieve(funcName));
     }

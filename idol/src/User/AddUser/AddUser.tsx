@@ -73,7 +73,7 @@ class AddUser extends React.Component<any, AddUserState> {
   }
 
   async setUser(member: Member): Promise<any> {
-    APICache.invalidate(MembersAPI.getAllMembers.name);
+    APICache.invalidate("getAllMembers");
     MembersAPI.setMember(member).then(val => {
       if (val.error) {
         Emitters.userEditError.emit({
