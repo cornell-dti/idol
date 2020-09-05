@@ -13,6 +13,7 @@ import SiteHeader from './SiteHeader/SiteHeader';
 import { Sidebar, Menu, Icon } from 'semantic-ui-react';
 import { Emitters } from './EventEmitter/constant-emitters';
 import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundErrorModal';
+import UserBase from './User/UserBase/UserBase';
 
 function App() {
   const user = useContext(UserContext);
@@ -30,7 +31,7 @@ function App() {
     user.user ?
       (
         <Router>
-          <div style={{ minHeight: '100vh', minWidth: '100vw' }}>
+          <div className="App" style={{ minHeight: '100vh', minWidth: '100vw' }}>
             <SiteHeader />
             <Sidebar.Pushable>
               <Sidebar
@@ -50,16 +51,19 @@ function App() {
               Home
             </Menu.Item>
                 </Link>
-                <Link to="/attendance">
+                <Link to="/users">
                   <Menu.Item>
                     <Icon name='group' />
-              Attendance
+              Users
             </Menu.Item>
                 </Link>
               </Sidebar>
               <Sidebar.Pusher dimmed={visible}>
                 <div style={{ minHeight: '90vh', minWidth: '100vw', margin: 0 }}>
                   <Switch>
+                    <Route path="/users*">
+                      <UserBase />
+                    </Route>
                     <Route path="/*">
                       <Homepage />
                     </Route>
@@ -70,7 +74,7 @@ function App() {
           </div>
         </Router>)
       :
-      (<div>
+      (<div className="App">
         <EmailNotFoundErrorModal />
         <Router>
           <Switch>
