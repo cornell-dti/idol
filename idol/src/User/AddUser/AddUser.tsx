@@ -27,9 +27,7 @@ class AddUser extends React.Component<any, AddUserState> {
       isCreatingUser: false
     };
     MembersAPI.getAllMembers().then(mems => {
-      console.log(mems);
       RolesAPI.getAllRoles().then(roles => {
-        console.log(roles);
         this.setState({
           allMembers: mems,
           allRoles: roles,

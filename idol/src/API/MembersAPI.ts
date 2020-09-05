@@ -23,7 +23,6 @@ export class MembersAPI {
         })
         .then((res) => res.data);
       return responseProm.then((val) => {
-        console.log(val);
         let mems = val.members as Member[];
         mems = mems.sort((a, b) => a.first_name < b.first_name ? -1 : 1);
         APICache.cache(funcName, mems);

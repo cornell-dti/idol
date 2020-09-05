@@ -16,7 +16,6 @@ export class RolesAPI {
         })
         .then((res) => res.data);
       return responseProm.then((val) => {
-        console.log(val);
         let mems = val.roles as string[];
         mems = mems.sort((a, b) => a < b ? -1 : 1);
         APICache.cache(funcName, mems);
