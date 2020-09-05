@@ -1,5 +1,5 @@
 import { environment } from "../environment";
-import axios from 'axios';
+import { APIWrapper } from "./APIWrapper";
 
 export type LoginResponse = {
   isLoggedIn: boolean
@@ -12,20 +12,20 @@ export type LogoutResponse = {
 export class LoginAPI {
 
   public static login(authToken: string): Promise<LoginResponse> {
-    let responseProm = axios.post(environment.backendURL + 'login',
+    let responseProm = APIWrapper.post(environment.backendURL + 'login',
       { auth_token: authToken },
       {
         withCredentials: true
       })
-      .then(async (res) => await res.data as LoginResponse);
+      .then((res) => res.data as LoginResponse);
     return responseProm;
   }
 
   public static logout(): Promise<LogoutResponse> {
-    let responseProm = axios.post(environment.backendURL + 'logout', {}, {
+    let responseProm = APIWrapper.post(environment.backendURL + 'logout', {}, {
       withCredentials: true
     })
-      .then(async (res) => await res.data as LogoutResponse);
+      .then((res) => res.data as LogoutResponse);
     return responseProm;
   }
 
