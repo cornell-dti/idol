@@ -14,5 +14,7 @@ export class Emitters {
 
   // Users
   static userEditError: EventEmitter<{ headerMsg: string, contentMsg: string }> = new EventEmitter();
+  // Teams
+  static teamEditError: EventEmitter<{ headerMsg: string, contentMsg: string }> = new EventEmitter();
 
 }

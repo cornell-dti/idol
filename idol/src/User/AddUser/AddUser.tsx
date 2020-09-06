@@ -51,7 +51,7 @@ class AddUser extends React.Component<any, AddUserState> {
   }
 
   async deleteUser(member: Member): Promise<any> {
-    APICache.invalidate(MembersAPI.getAllMembers.name);
+    APICache.invalidate("getAllMembers");
     MembersAPI.deleteMember(member).then(val => {
       if (val.error) {
         Emitters.userEditError.emit({
