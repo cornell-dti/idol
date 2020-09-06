@@ -1,4 +1,6 @@
-.Spotlight {}
+.Spotlight {
+  width: fit-content;
+}
 
 .headshot{
   margin-bottom: 1rem;
