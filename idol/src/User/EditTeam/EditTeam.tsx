@@ -192,6 +192,7 @@ class EditTeam extends React.Component<any, EditTeamState> {
                       return member.email.toLowerCase().startsWith(queryLower)
                         || member.first_name.toLowerCase().startsWith(queryLower)
                         || member.last_name.toLowerCase().startsWith(queryLower)
+                        || member.role.toLowerCase().startsWith(queryLower)
                         || (member.first_name.toLowerCase() + " "
                           + member.last_name.toLowerCase()).startsWith(queryLower)
                     }}
@@ -254,6 +255,7 @@ class EditTeam extends React.Component<any, EditTeamState> {
                       return member.email.toLowerCase().startsWith(queryLower)
                         || member.first_name.toLowerCase().startsWith(queryLower)
                         || member.last_name.toLowerCase().startsWith(queryLower)
+                        || member.role.toLowerCase().startsWith(queryLower)
                         || (member.first_name.toLowerCase() + " "
                           + member.last_name.toLowerCase()).startsWith(queryLower)
                     }}
