@@ -1,1 +1,10 @@
-.Homepage {}
+.Homepage {
+  min-height: 90vh;
+  min-width: 100vw;
+}
+
+.content {
+  margin-left: 2rem;
+  padding-top: 2rem;
+  margin-right: 2rem;
+}

@@ -1,0 +1,21 @@
+.EditTeam {}
+
+.content {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+}
+
+.cardContent{
+  
+}
+
+.cardContent .ui .results {
+  width: 100%;
+}
+
+.cardHeader {
+  position: fixed;
+  top: 2rem;
+}

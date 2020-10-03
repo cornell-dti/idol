@@ -1,0 +1,9 @@
+.Banner {}
+
+.messageBanner{
+  width: 100% !important;
+}
+
+.messageBannerContent {
+  width: 100%;
+}
