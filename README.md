@@ -6,4 +6,4 @@
 
 ### Fall 2020
 
-- **Morgan Belous** - Developer 
+- **Morgan Belous** - Developer
