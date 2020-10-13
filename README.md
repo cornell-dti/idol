@@ -7,3 +7,4 @@
 ### Fall 2020
 
 - **Morgan Belous** - Developer
+- **Henry Li** - Developer
