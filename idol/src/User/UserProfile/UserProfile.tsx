@@ -32,9 +32,7 @@ const morgan: User = {
 
 const UserProfile: React.FC = () => {
 
-  const user = useContext(UserContext);
-
-  // send user.user?.email to backend to find the user, retrieve all information, set it here
+  // send user.user?.email from useContext to backend to find the user, retrieve all information, set it here
   const [firstName, setFirstName] = useState(morgan.firstName);
   const [lastName, setLastName] = useState(morgan.lastName);
   const [graduation, setGraduation] = useState(morgan.graduation);
