@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react'
-import { UserContext } from '../../UserProvider/UserProvider';
 
 type User = {
   firstName: string,
