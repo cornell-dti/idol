@@ -4,6 +4,7 @@ import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react
 import { Card, Button } from 'semantic-ui-react';
 import AddUser from '../AddUser/AddUser';
 import EditTeam from '../EditTeam/EditTeam';
+import UserProfile from '../UserProfile/UserProfile';
 
 const UserBase: React.FC = () => {
   let location = useLocation();
@@ -46,6 +47,23 @@ const UserBase: React.FC = () => {
                 </div>
               </Card.Content>
             </Card>
+            <Card>
+              <Card.Content>
+                <Card.Header>Edit Profile</Card.Header>
+                <Card.Description>
+                  Edit your profile information on DTI's website.
+              </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className='ui one buttons'>
+                  <Link to='users/profile'>
+                    <Button basic color='blue'>
+                      Go To
+          </Button>
+                  </Link>
+                </div>
+              </Card.Content>
+            </Card>
           </Card.Group>
         </div>
       </div>
@@ -60,6 +78,9 @@ const UserBase: React.FC = () => {
             </Route>
             <Route path="/users/teams/edit">
               <EditTeam></EditTeam>
+            </Route>
+            <Route path="/users/profile">
+              <UserProfile></UserProfile>
             </Route>
             <Route path="/*">
             </Route>
