@@ -1,67 +1,120 @@
-import React, { useState } from 'react';
-import { Form, TextArea } from 'semantic-ui-react'
-
-type User = {
-  firstName: string,
-  lastName: string,
-  graduation: string,
-  major: string,
-  doubleMajor: string,
-  minor: string,
-  hometown: string,
-  about: string,
-  website: string,
-  linkedin: string,
-  github: string
-}
-
-const morgan: User = {
-  firstName: 'Morgan',
-  lastName: 'Belous',
-  graduation: 'May 2022',
-  major: "Computer Science",
-  doubleMajor: "",
-  minor: "Business",
-  hometown: "Dix Hills, NY",
-  about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla ultrices nisi id iaculis. Etiam consequat scelerisque erat, eget fermentum arcu tincidunt feugiat. Maecenas et arcu non urna feugiat pharetra et eget justo. Pellentesque tempus diam eu tempus bibendum. Nam quis sagittis tortor, ac condimentum turpis. Etiam facilisis sit amet tortor ac rutrum. In arcu tortor, imperdiet aliquam blandit sed, commodo vel justo. Donec elementum pretium dolor sit amet mollis. Suspendisse convallis commodo turpis vitae aliquam. Vivamus sed suscipit est. Nullam sed ullamcorper mi, eget aliquam massa. Mauris consequat ipsum magna, at condimentum ex bibendum sodales. Vestibulum tellus sapien, bibendum sit amet dui a, malesuada malesuada nulla. Quisque ligula neque, sollicitudin ac egestas sed, tempor sed nibh Morbi tempor, turpis at auctor tincidunt, elit dolor euismod tellus, a maximus erat metus vel turpis. Suspendisse eu urna risus. Sed varius viverra nisi, eu ornare justo tristique vel. Aenean pellentesque dignissim augue, imperdiet condimentum magna malesuada sit amet. Etiam luctus vitae odio non laoreet. Pellentesque congue elit volutpat, blandit enim sit amet, ultrices dui. Nam at diam viverra, rhoncus tellus elementum, sagittis libero. Aenean sollicitudin laoreet ullamcorper. Pellentesque facilisis vestibulum libero eget cursus. Phasellus ullamcorper scelerisque viverra. Pellentesque in malesuada nibh. Vivamus sodales erat non sapien ornare egestas. Sed sagittis condimentum ligula, ut finibus sem pretium ac. Mauris finibus nisi faucibus, vehicula felis vitae, pretium neque. Donec mollis bibendum tempus. Pellentesque gravida justo a sapien dapibus molestie. Pellentesque hendrerit odio nec interdum elementum.",
-  website: "morgan's website",
-  linkedin: "morgan's linkedin",
-  github: "morgan's github"
-};
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../UserProvider/UserProvider';
+import { Form, TextArea } from 'semantic-ui-react';
+import { Member, MembersAPI } from '../../API/MembersAPI';
+import { Emitters } from '../../EventEmitter/constant-emitters';
 
 const UserProfile: React.FC = () => {
 
-  // send user.user?.email from useContext to backend to find the user, retrieve all information, set it here
-  const [firstName, setFirstName] = useState(morgan.firstName);
-  const [lastName, setLastName] = useState(morgan.lastName);
-  const [graduation, setGraduation] = useState(morgan.graduation);
-  const [major, setMajor] = useState(morgan.major);
-  const [doubleMajor, setDoubleMajor] = useState(morgan.doubleMajor);
-  const [minor, setMinor] = useState(morgan.minor);
-  const [hometown, setHometown] = useState(morgan.hometown);
-  const [about, setAbout] = useState(morgan.about);
-  const [website, setWebsite] = useState(morgan.website);
-  const [linkedin, setLinkedin] = useState(morgan.linkedin);
-  const [github, setGithub] = useState(morgan.github);
+  const userEmail = useContext(UserContext).user?.email;
+
+  const getUser = async (email: string): Promise<any> => {
+    const mem = await MembersAPI.getMember(email);
+    return mem;
+  }
+
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [role, setRole] = useState("");
+  const [graduation, setGraduation] = useState("");
+  const [major, setMajor] = useState("");
+  const [doubleMajor, setDoubleMajor] = useState("");
+  const [minor, setMinor] = useState("");
+  const [hometown, setHometown] = useState("");
+  const [about, setAbout] = useState("");
+  const [website, setWebsite] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [github, setGithub] = useState("");
+  const [subteam, setSubteam] = useState("");
+  const [otherSubteams, setOtherSubteams] = useState(null);
+
+  useEffect(() => {
+    if (userEmail) {
+      getUser(userEmail).then(mem => {
+        setEmail(mem.email);
+        setFirstName(mem.first_name);
+        setLastName(mem.last_name);
+        setRole(mem.role);
+        setGraduation(mem.graduation);
+        setMajor(mem.major);
+        setDoubleMajor(mem.double_major ? mem.double_major : "");
+        setMinor(mem.minor ? mem.minor : "");
+        setHometown(mem.hometown);
+        setAbout(mem.about);
+        setWebsite(mem.website ? mem.website : "");
+        setLinkedin(mem.linkedin_link ? mem.linkedin_link : "");
+        setGithub(mem.github_link ? mem.github_link : "");
+        setSubteam(mem.subteam);
+        setOtherSubteams(mem.other_subteams);
+      })
+        .catch(error => {
+          Emitters.generalError.emit({
+            headerMsg: "Couldn't get member!",
+            contentMsg: "Error was: " + error
+          });
+        });
+    }
+  }, [userEmail])
+
+  const updateUser = async (member: Member): Promise<any> => {
+    MembersAPI.updateMember(member).then(val => {
+      if (val.status === 'Success') {
+        alert("Member information successfully updated!");
+        return;
+      } else if (val.error) {
+        Emitters.userEditError.emit({
+          headerMsg: "Couldn't update user!",
+          contentMsg: val.error
+        });
+      }
+    });
+  }
 
   const isFilledOut = (fieldInput: string): boolean => {
     return fieldInput.trim().length === 0 ? false : true;
   }
 
   const saveProfileInfo = () => {
+
     const requiredFields = [firstName, lastName, graduation, major, hometown, about];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {
-      console.log("all required fields complete, send info to backend");
+      const updatedUser: Member = {
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        role,
+        graduation,
+        major,
+        double_major: isFilledOut(doubleMajor) ? doubleMajor : null,
+        minor: isFilledOut(minor) ? minor : null,
+        hometown,
+        about,
+        website: isFilledOut(website) ? website : null,
+        linkedin_link: isFilledOut(linkedin) ? linkedin : null,
+        github_link: isFilledOut(github) ? github : null,
+        subteam,
+        other_subteams: otherSubteams
+      }
+      updateUser(updatedUser);
     }
   }
 
   return (
     <Form style={{ width: '80%', alignSelf: 'center', margin: 'auto', marginTop: '10vh' }}>
       <Form.Group widths='equal'>
-        <Form.Input fluid label='First name' value={firstName} onChange={event => setFirstName(event.target.value)} required />
-        <Form.Input fluid label='Last name' value={lastName} onChange={event => setLastName(event.target.value)} required />
+        <Form.Input fluid label='First name' value={firstName} onChange={event => {
+          if (role === 'admin') {
+            setFirstName(event.target.value);
+          }
+        }} required />
+        <Form.Input fluid label='Last name' value={lastName} onChange={event => {
+          if (role === 'admin') {
+            setLastName(event.target.value);
+          }
+        }} required />
       </Form.Group >
 
       <Form.Group widths='equal'>
@@ -71,7 +124,7 @@ const UserProfile: React.FC = () => {
 
       <Form.Group widths='equal'>
         <Form.Input fluid label='Major' value={major} onChange={event => setMajor(event.target.value)} required />
-        <Form.Input fluid label='Double Major' value={doubleMajor} onChange={event => setDoubleMajor(event.target.value)} />
+        <Form.Input fluid label='Double Major' value={doubleMajor || ""} onChange={event => setDoubleMajor(event.target.value)} />
         <Form.Input fluid label='Minor' value={minor} onChange={event => setMinor(event.target.value)} />
       </Form.Group>
 

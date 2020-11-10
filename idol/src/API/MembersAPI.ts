@@ -4,11 +4,22 @@ import { APIWrapper } from "./APIWrapper";
 import { Emitters } from "../EventEmitter/constant-emitters";
 
 export type Member = {
-  email: string,
-  first_name: string,
-  last_name: string,
-  role: string
-}
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  graduation: string;
+  major: string;
+  double_major: string | null;
+  minor: string | null;
+  website: string | null;
+  linkedin_link: string | null;
+  github_link: string | null;
+  hometown: string;
+  about: string;
+  subteam: string;
+  other_subteams: string[] | null;
+};
 
 export class MembersAPI {
 
@@ -39,6 +50,23 @@ export class MembersAPI {
     }
   }
 
+  public static getMember(email: string): Promise<Member> {
+    let responseProm = APIWrapper.get(environment.backendURL + 'getMember/' + email,
+      {
+        withCredentials: true
+      }).then(res => res.data);
+    return responseProm.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't get member!",
+          contentMsg: "Error was: " + val.error
+        });
+      }
+      let mem = val.member as Member;
+      return mem;
+    });
+  }
+
   public static setMember(member: Member): Promise<any> {
     return APIWrapper.post(environment.backendURL + 'setMember', member, {
       withCredentials: true
@@ -51,4 +79,9 @@ export class MembersAPI {
     }).then(res => res.data);
   }
 
+  public static updateMember(member: Member): Promise<any> {
+    return APIWrapper.post(environment.backendURL + 'updateMember', member, {
+      withCredentials: true
+    }).then(res => res.data);
+  }
 }

@@ -44,7 +44,18 @@ class AddUser extends React.Component<any, AddUserState> {
         first_name: '',
         last_name: '',
         email: '',
-        role: ''
+        role: '',
+        graduation: '',
+        major: '',
+        double_major: '',
+        minor: '',
+        website: '',
+        linkedin_link: '',
+        github_link: '',
+        hometown: '',
+        about: '',
+        subteam: '',
+        other_subteams: []
       },
       isCreatingUser: true
     })
