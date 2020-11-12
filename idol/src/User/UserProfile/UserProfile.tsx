@@ -59,7 +59,7 @@ const UserProfile: React.FC = () => {
 
   const updateUser = async (member: Member): Promise<any> => {
     MembersAPI.updateMember(member).then(val => {
-      if (val.status === 'Success') {
+      if (val.status === 200) {
         alert("Member information successfully updated!");
         return;
       } else if (val.error) {
