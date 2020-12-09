@@ -1,0 +1,148 @@
+import React from 'react';
+import AvatarEditor from 'react-avatar-editor';
+import { Button } from 'semantic-ui-react';
+
+type EditProfileImageState = {
+  image: string;
+  allowZoomOut: boolean;
+  position: { x: number, y: number };
+  scale: number;
+  rotate: number;
+  borderRadius: number;
+  width: number;
+  height: number;
+}
+
+type Props = {
+  currentProfileImage: string;
+  setEditorRef: any;
+  cropAndSubmitImage: any;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      image: this.props.currentProfileImage,
+      allowZoomOut: false,
+      position: { x: 0.5, y: 0.5 },
+      scale: 1,
+      rotate: 0,
+      borderRadius: 0,
+      width: 250,
+      height: 250,
+    }
+  }
+
+  handleNewImage = (e: React.ChangeEvent<any>): void => {
+    const newImage = URL.createObjectURL(e.target.files[0]);
+    this.setState({ image: newImage });
+  }
+
+  handleScale = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const scale = parseFloat(e.target.value)
+    this.setState({ scale })
+  }
+
+  handlePositionChange = (position: { x: number, y: number }): void => {
+    this.setState({ position })
+  }
+
+  handleRotateLeft = (e: any): void => {
+    const rotate = this.state.rotate % 360 - 90;
+    this.setState({ rotate });
+  }
+
+  handleRotateRight = (e: any): void => {
+    const rotate = this.state.rotate % 360 + 90;
+    this.setState({ rotate });
+  }
+
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+
+        <div>
+          <AvatarEditor
+            ref={this.props.setEditorRef}
+            scale={this.state.scale}
+            width={this.state.width}
+            height={this.state.height}
+            position={this.state.position}
+            onPositionChange={this.handlePositionChange}
+            rotate={this.state.rotate}
+            borderRadius={this.state.width / (100 / this.state.borderRadius)}
+            image={this.state.image}
+          />
+        </div>
+
+        <div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '1rem' }}>
+
+            <div>
+              <label htmlFor="newImage">New File:</label>
+              <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={this.handleNewImage} />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <label htmlFor="scale">Zoom:</label>
+              <input
+                id="scale"
+                type="range"
+                onChange={this.handleScale}
+                min={this.state.allowZoomOut ? '0.1' : '1'}
+                max="2"
+                step="0.01"
+                defaultValue="1"
+                style={{ marginLeft: '1rem' }}
+              />
+            </div>
+
+            <div>
+              <label>Rotate:</label>
+              <Button
+                onClick={this.handleRotateLeft}
+                style={{ marginLeft: '1rem' }}
+                content='Left'
+                size='mini'>
+              </Button>
+              <Button
+                onClick={this.handleRotateRight}
+                style={{ marginLeft: '1rem' }}
+                content='Right'
+                size='mini'>
+              </Button>
+            </div>
+
+          </div>
+
+          <div style={{ marginTop: '2rem', marginLeft: '1rem', display: 'flex', flexDirection: 'row' }}>
+
+            <Button
+              color='black'
+              onClick={() => this.props.setOpen(false)}>
+              Discard
+            </Button>
+
+            <Button
+              content="Submit"
+              labelPosition='right'
+              icon='checkmark'
+              onClick={this.props.cropAndSubmitImage}
+              positive
+              style={{ marginLeft: '1rem' }}
+            />
+
+          </div>
+
+        </div>
+
+      </div>
+    )
+  }
+}
+
+export default ProfileImageEditor;
