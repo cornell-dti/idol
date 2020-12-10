@@ -1,0 +1,40 @@
+.avatarAndEditorContainer {
+  align-items: center;
+}
+
+.avatarAndEditorContainer, .labelComponentPair {
+  display: flex;
+  flex-direction: row;
+}
+
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  width: 25rem;
+}
+
+.labelComponentPair {
+  margin: 0.25rem 0;
+  align-items: center;
+}
+
+label {
+  text-align: right;
+  width: 20%;
+}
+
+.buttonWrapper {
+  margin-top: 2rem;
+  margin-left: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .avatarAndEditorContainer {
+    flex-direction: column;
+  }
+
+  .editorContainer {
+    margin-left: 5rem;
+  }
+}

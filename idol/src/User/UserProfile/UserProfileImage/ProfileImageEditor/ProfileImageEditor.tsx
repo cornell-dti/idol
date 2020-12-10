@@ -1,6 +1,7 @@
 import React from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { Button } from 'semantic-ui-react';
+import styles from './ProfileImageEditor.module.css';
 
 type EditProfileImageState = {
   image: string;
@@ -62,7 +63,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <div className={styles.avatarAndEditorContainer}>
 
         <div>
           <AvatarEditor
@@ -78,54 +79,50 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
           />
         </div>
 
-        <div>
+        <div className={styles.editorContainer}>
 
-          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '1rem' }}>
-
-            <div>
-              <label htmlFor="newImage">New File:</label>
-              <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={this.handleNewImage} />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <label htmlFor="scale">Zoom:</label>
-              <input
-                id="scale"
-                type="range"
-                onChange={this.handleScale}
-                min={this.state.allowZoomOut ? '0.1' : '1'}
-                max="2"
-                step="0.01"
-                defaultValue="1"
-                style={{ marginLeft: '1rem' }}
-              />
-            </div>
-
-            <div>
-              <label>Rotate:</label>
-              <Button
-                onClick={this.handleRotateLeft}
-                style={{ marginLeft: '1rem' }}
-                content='Left'
-                size='mini'>
-              </Button>
-              <Button
-                onClick={this.handleRotateRight}
-                style={{ marginLeft: '1rem' }}
-                content='Right'
-                size='mini'>
-              </Button>
-            </div>
-
+          <div className={styles.labelComponentPair}>
+            <label htmlFor="newImage" >New File:</label>
+            <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={this.handleNewImage} style={{ marginLeft: '1rem' }} />
           </div>
 
-          <div style={{ marginTop: '2rem', marginLeft: '1rem', display: 'flex', flexDirection: 'row' }}>
+          <div className={styles.labelComponentPair}>
+            <label htmlFor="scale" >Zoom:</label>
+            <input
+              id="scale"
+              type="range"
+              onChange={this.handleScale}
+              min={this.state.allowZoomOut ? '0.1' : '1'}
+              max="2"
+              step="0.01"
+              defaultValue="1"
+              style={{ marginLeft: '1rem' }}
+            />
+          </div>
+
+          <div className={styles.labelComponentPair}>
+            <label>Rotate:</label>
+            <Button
+              onClick={this.handleRotateLeft}
+              style={{ marginLeft: '1rem' }}
+              content='Left'
+              size='mini'>
+            </Button>
+            <Button
+              onClick={this.handleRotateRight}
+              style={{ marginLeft: '1rem' }}
+              content='Right'
+              size='mini'>
+            </Button>
+          </div>
+
+          <div className={[styles.labelComponentPair, styles.buttonWrapper].join(' ')}>
 
             <Button
               color='black'
               onClick={() => this.props.setOpen(false)}>
               Discard
-            </Button>
+              </Button>
 
             <Button
               content="Submit"
@@ -137,9 +134,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
             />
 
           </div>
-
         </div>
-
       </div>
     )
   }
