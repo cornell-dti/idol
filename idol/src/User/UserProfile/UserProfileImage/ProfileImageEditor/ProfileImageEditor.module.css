@@ -19,7 +19,7 @@
   align-items: center;
 }
 
-label {
+.label {
   text-align: right;
   width: 20%;
 }

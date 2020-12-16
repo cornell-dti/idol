@@ -82,12 +82,12 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
         <div className={styles.editorContainer}>
 
           <div className={styles.labelComponentPair}>
-            <label htmlFor="newImage" >New File:</label>
+            <label htmlFor="newImage" className={styles.label}>New File:</label>
             <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={this.handleNewImage} style={{ marginLeft: '1rem' }} />
           </div>
 
           <div className={styles.labelComponentPair}>
-            <label htmlFor="scale" >Zoom:</label>
+            <label htmlFor="scale" className={styles.label}>Zoom:</label>
             <input
               id="scale"
               type="range"
@@ -101,7 +101,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
           </div>
 
           <div className={styles.labelComponentPair}>
-            <label>Rotate:</label>
+            <label className={styles.label}>Rotate:</label>
             <Button
               onClick={this.handleRotateLeft}
               style={{ marginLeft: '1rem' }}
