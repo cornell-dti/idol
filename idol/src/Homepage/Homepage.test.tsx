@@ -1,14 +1,17 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { within, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Homepage from './Homepage';
 
-describe('<Homepage />', () => {
-  test('it should mount', () => {
-    render(<Homepage />);
-    
-    const homepage = screen.getByTestId('Homepage');
+jest.mock('../Banner/Banner', () => () => <div data-testid="banner" />);
+jest.mock('./Spotlight/Spotlight', () => () => <div data-testid="spotlight" />);
 
-    expect(homepage).toBeInTheDocument();
-  });
+test('Homepage renders banner', () => {
+  const { getByTestId } = render(<Homepage />);
+  expect(getByTestId(/banner/)).toBeInTheDocument();
+});
+
+test('Homepage renders spotlight', () => {
+  const { getByTestId } = render(<Homepage />);
+  expect(getByTestId(/spotlight/)).toBeInTheDocument();
 });
