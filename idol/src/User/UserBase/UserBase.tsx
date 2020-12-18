@@ -5,6 +5,7 @@ import { Card, Button } from 'semantic-ui-react';
 import AddUser from '../AddUser/AddUser';
 import EditTeam from '../EditTeam/EditTeam';
 import UserProfile from '../UserProfile/UserProfile';
+import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
 
 const UserBase: React.FC = () => {
   let location = useLocation();
@@ -64,6 +65,23 @@ const UserBase: React.FC = () => {
                 </div>
               </Card.Content>
             </Card>
+            <Card>
+              <Card.Content>
+                <Card.Header>Edit Profile Image</Card.Header>
+                <Card.Description>
+                  Edit your profile image.
+              </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className='ui one buttons'>
+                  <Link to='users/profileImage'>
+                    <Button basic color='blue'>
+                      Go To
+          </Button>
+                  </Link>
+                </div>
+              </Card.Content>
+            </Card>
           </Card.Group>
         </div>
       </div>
@@ -81,6 +99,9 @@ const UserBase: React.FC = () => {
             </Route>
             <Route path="/users/profile">
               <UserProfile></UserProfile>
+            </Route>
+            <Route path="/users/profileImage">
+              <UserProfileImage></UserProfileImage>
             </Route>
             <Route path="/*">
             </Route>
