@@ -29,6 +29,7 @@ export class APIWrapper {
   }
 
   private static responseMiddleware(resOrErr: any, errDefault?: any) {
+    console.log(resOrErr.response, resOrErr)
     if (resOrErr.name === "Error" && resOrErr.response.status === 440) {
       auth.signOut();
       return errDefault ? errDefault : { data: { error: "Session expired! Log in again!" } };

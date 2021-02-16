@@ -92,7 +92,7 @@ class EditTeam extends React.Component<any, EditTeamState> {
 
   render = () => {
     if (this.state.teamsLoaded) {
-      return (<div className={styles.AddUser} data-testid="AddUser">
+      return (<div className={styles.AddUser} data-testid="EditTeam">
         <ErrorModal onEmitter={Emitters.teamEditError}></ErrorModal>
         <div className={styles.content}>
           <Card.Group>
@@ -323,7 +323,7 @@ class EditTeam extends React.Component<any, EditTeamState> {
         </div>
       </div >);
     } else {
-      return <Loader active={true} size="massive" />
+      return <Loader data-testid="EditTeam" active={true} size="massive" />
     }
   }
 }
