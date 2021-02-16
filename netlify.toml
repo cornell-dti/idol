@@ -1,0 +1,3 @@
+[build]
+  publish = "idol/build/"
+  command = "npm run build"
