@@ -21,8 +21,10 @@ const UserProfileImage: React.FC = () => {
   };
 
   return (
-    <div style={{ width: '100%', marginTop: '5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-
+    <div
+      data-testid="UserProfileImage"
+      style={{ width: '100%', marginTop: '5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+    >
       <Card.Group>
         <Card>
           <Card.Content>

@@ -1,0 +1,30 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install
+        run: cd idol && npm i
+      - name: Lint
+        run: cd idol && npm run lint
+      - name: Type Check
+        run: cd idol && npm run tsc
+      - name: Test
+        run: cd idol && npm run test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install
+        run: cd idol && npm i
+      - name: Build
+        run: cd idol && npm run build

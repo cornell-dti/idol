@@ -87,6 +87,7 @@ let CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({ source, resu
 
   return (
     <Search
+      data-testid="Search"
       loading={loading}
       onResultSelect={(e, data) => {
         dispatch({ type: 'UPDATE_SELECTION', selection: data.result.title, query: data.value || '', results: state.results })

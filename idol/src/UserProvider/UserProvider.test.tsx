@@ -5,8 +5,12 @@ import UserProvider from './UserProvider';
 
 describe('<UserProvider />', () => {
   test('it should mount', () => {
-    render(<UserProvider />);
-    
+    render(
+      <UserProvider>
+        <div data-testid="UserProvider" />
+      </UserProvider>
+    );
+
     const userProvider = screen.getByTestId('UserProvider');
 
     expect(userProvider).toBeInTheDocument();

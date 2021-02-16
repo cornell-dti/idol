@@ -270,7 +270,7 @@ class AddUser extends React.Component<any, AddUserState> {
         </div>
       </div >);
     } else {
-      return <Loader active={true} size="massive" />
+      return <Loader data-testid="AddUser" active={true} size="massive" />
     }
   }
 }
