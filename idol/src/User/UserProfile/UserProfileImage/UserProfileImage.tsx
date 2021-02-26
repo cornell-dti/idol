@@ -14,8 +14,14 @@ const UserProfileImage: React.FC = () => {
 
   const cropAndSubmitImage = () => {
     if (editor !== null) {
-      const url = editor.getImageScaledToCanvas().toDataURL();
-      setProfilePhoto(url);
+      const canvas = editor.getImage().toDataURL();
+      let imageURL: string;
+      fetch(canvas)
+        .then(res => res.blob())
+        .then(blob => {
+          imageURL = window.URL.createObjectURL(blob);
+          setProfilePhoto(imageURL);
+        });
     }
     setOpen(false);
   };
