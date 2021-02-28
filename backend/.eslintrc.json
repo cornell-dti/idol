@@ -1,0 +1,45 @@
+{
+    "root": true,
+    "extends": [
+        "airbnb-base",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "camelcase": "off",
+        "no-console": "warn",
+        "no-restricted-syntax": "warn",
+        "no-use-before-define": "warn",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/camel-case": "off",
+        "import/prefer-default-export": "warn",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".mjs", ".js", ".json", ".ts", ".d.ts", ".tsx"],
+                "paths": ["src"]
+            }
+        }
+    }
+}
