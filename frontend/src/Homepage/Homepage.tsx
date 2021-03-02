@@ -3,8 +3,7 @@ import styles from './Homepage.module.css';
 import Spotlight from './Spotlight/Spotlight';
 import Banner from '../Banner/Banner';
 
-const Homepage: React.FC = () => {
-  return (
+const Homepage: React.FC = () => (
     <div className={styles.Homepage} data-testid="Homepage">
       <div className={styles.content}>
         <Banner title="Welcome to IDOL!"
@@ -14,7 +13,6 @@ const Homepage: React.FC = () => {
         <Spotlight></Spotlight>
       </div>
     </div>
-  )
-};
+  );
 
 export default Homepage;

@@ -1,22 +1,21 @@
-import React, { Component, createContext } from "react";
-import { auth } from "../firebase";
-import { Emitters } from "../EventEmitter/constant-emitters";
-import { LoginAPI } from "../API/LoginAPI";
+import React, { Component, createContext } from 'react';
+import { auth } from '../firebase';
+import Emitters from '../EventEmitter/constant-emitters';
+import { LoginAPI } from '../API/LoginAPI';
 
 type UserContextType = { user: firebase.User | null };
 
 export const UserContext = createContext<UserContextType>({ user: null });
-class UserProvider extends Component<any, UserContextType>  {
-
-  constructor(props: any) {
+class UserProvider extends Component<Record<string, unknown>, UserContextType> {
+  constructor(props: Record<string, unknown>) {
     super(props);
     this.state = {
-      user: auth.currentUser ? auth.currentUser : null
+      user: auth.currentUser ? auth.currentUser : null,
     };
   }
 
-  componentDidMount = () => {
-    auth.onAuthStateChanged(async userAuth => {
+  componentDidMount = (): void => {
+    auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         LoginAPI.login(await userAuth.getIdToken()).then((loginResp) => {
           if (!loginResp.isLoggedIn) {
@@ -37,12 +36,9 @@ class UserProvider extends Component<any, UserContextType>  {
       }
     });
   };
-  render() {
-    return (
-      <UserContext.Provider value={this.state}>
-        {this.props.children}
-      </UserContext.Provider>
-    );
+
+  render(): JSX.Element {
+    return <UserContext.Provider value={this.state}>{this.props.children}</UserContext.Provider>;
   }
 }
 export default UserProvider;

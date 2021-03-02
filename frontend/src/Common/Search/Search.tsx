@@ -52,7 +52,7 @@ type CustomSearchProps<T> = {
   selectCallback: (selected: T) => any;
 }
 
-let CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({ source, resultRenderer, matchChecker, selectCallback }: CustomSearchProps<T>) {
+const CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({ source, resultRenderer, matchChecker, selectCallback }: CustomSearchProps<T>) {
   const [state, dispatch] = React.useReducer(makeReducer<T>(), makeInitialState<T>());
 
   const { loading, results, value } = state as SearchState<T>;
@@ -73,17 +73,15 @@ let CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({ source, resu
 
       dispatch({
         type: 'FINISH_SEARCH',
-        results: source.filter(val => isMatch(data.value, val)).map(val => { return { ...val, title: JSON.stringify(val) } }),
+        results: source.filter(val => isMatch(data.value, val)).map(val => ({ ...val, title: JSON.stringify(val) })),
         selection: '',
         query: data.value
       })
     }, 300);
   }, [matchChecker, source, state.results])
-  React.useEffect(() => {
-    return () => {
+  React.useEffect(() => () => {
       clearTimeout(timeoutRef.current)
-    }
-  }, [])
+    }, [])
 
   return (
     <Search

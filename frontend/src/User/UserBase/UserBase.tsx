@@ -1,14 +1,14 @@
 import React from 'react';
-import styles from './UserBase.module.css';
 import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
+import styles from './UserBase.module.css';
 import AddUser from '../AddUser/AddUser';
 import EditTeam from '../EditTeam/EditTeam';
 import UserProfile from '../UserProfile/UserProfile';
 import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
 
 const UserBase: React.FC = () => {
-  let location = useLocation();
+  const location = useLocation();
   if (location.pathname === '/users') {
     return (
       <div className={styles.UserBase} data-testid="UserBase">
@@ -86,8 +86,8 @@ const UserBase: React.FC = () => {
         </div>
       </div>
     );
-  } else {
-    return (
+  }
+  return (
       <div className={styles.UserBase} data-testid="UserBase">
         <Router>
           <Switch>
@@ -108,8 +108,7 @@ const UserBase: React.FC = () => {
           </Switch>
         </Router>
       </div>
-    )
-  }
+  );
 };
 
 export default UserBase;

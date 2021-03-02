@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Banner.module.css';
 import { Message } from 'semantic-ui-react';
+import styles from './Banner.module.css';
 
 const Banner: React.FC<{ title: string, message: string, style?: React.CSSProperties }>
   = ({ title, message, style }) => (

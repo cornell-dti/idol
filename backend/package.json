@@ -8,8 +8,6 @@
     "dev": "ts-node src/api.ts",
     "tsc": "tsc",
     "build": "tsc",
-    "lint": "eslint . --ext .ts --fix",
-    "lint:check": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prettier-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
   },
@@ -23,7 +21,6 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "eslint-config-airbnb": "^18.2.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "firebase-admin": "^9.2.0",
@@ -33,14 +30,5 @@
     "tsc": "^1.20150623.0",
     "typescript": "^4.0.2",
     "uuid": "^8.3.0"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1",
-    "eslint": "^7.20.0",
-    "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "prettier": "^2.2.1"
   }
 }

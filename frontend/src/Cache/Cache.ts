@@ -1,8 +1,8 @@
-export class APICache {
+export default class APICache {
 
-  private static cacheMap: Map<string, any> = new Map();
+  private static cacheMap: Map<string, unknown> = new Map();
 
-  static cache(tag: string, value: any) {
+  static cache(tag: string, value: unknown): void {
     this.cacheMap.set(tag, value);
   }
 
@@ -11,7 +11,7 @@ export class APICache {
   }
 
   static invalidate<T>(tag: string): T {
-    let lastVals = this.cacheMap.get(tag) as T;
+    const lastVals = this.cacheMap.get(tag) as T;
     this.cacheMap.clear();
     return lastVals;
   }

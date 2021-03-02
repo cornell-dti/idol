@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Image, Button, Modal } from 'semantic-ui-react';
 import AramHeadshot from '../../../static/images/aram-headshot.jpg';
 import ProfileImageEditor from './ProfileImageEditor/ProfileImageEditor';

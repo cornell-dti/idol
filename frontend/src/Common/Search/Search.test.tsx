@@ -10,7 +10,9 @@ describe('<Search />', () => {
         source={[]}
         resultRenderer={() => <div />}
         matchChecker={() => false}
-        selectCallback={(v) => {}}
+        selectCallback={(v) => {
+          // Do nothing
+        }}
       />
     );
 

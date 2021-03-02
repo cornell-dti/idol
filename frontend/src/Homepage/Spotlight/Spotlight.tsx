@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Spotlight.module.css';
 import { Card, Image } from 'semantic-ui-react';
+import styles from './Spotlight.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
 
 const Spotlight: React.FC = () => (

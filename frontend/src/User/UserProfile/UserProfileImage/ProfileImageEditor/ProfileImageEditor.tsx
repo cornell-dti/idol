@@ -51,17 +51,17 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
     this.setState({ position })
   }
 
-  handleRotateLeft = (e: any): void => {
+  handleRotateLeft = (): void => {
     const rotate = this.state.rotate % 360 - 90;
     this.setState({ rotate });
   }
 
-  handleRotateRight = (e: any): void => {
+  handleRotateRight = (): void => {
     const rotate = this.state.rotate % 360 + 90;
     this.setState({ rotate });
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className={styles.avatarAndEditorContainer}>
 

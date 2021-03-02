@@ -1,7 +1,6 @@
-import { EventEmitter } from "./event-emitter";
+import EventEmitter from './event-emitter';
 
-export class Emitters {
-
+export default class Emitters {
   // Navigation
   static navOpenEmitter: EventEmitter<boolean> = new EventEmitter();
 
@@ -9,12 +8,17 @@ export class Emitters {
   static emailNotFoundError: EventEmitter<void> = new EventEmitter();
 
   // Site-wide
-  static generalError: EventEmitter<{ headerMsg: string, contentMsg: string }> = new EventEmitter();
-
+  static generalError: EventEmitter<{ headerMsg: string; contentMsg: string }> = new EventEmitter();
 
   // Users
-  static userEditError: EventEmitter<{ headerMsg: string, contentMsg: string }> = new EventEmitter();
-  // Teams
-  static teamEditError: EventEmitter<{ headerMsg: string, contentMsg: string }> = new EventEmitter();
+  static userEditError: EventEmitter<{
+    headerMsg: string;
+    contentMsg: string;
+  }> = new EventEmitter();
 
+  // Teams
+  static teamEditError: EventEmitter<{
+    headerMsg: string;
+    contentMsg: string;
+  }> = new EventEmitter();
 }

@@ -35,37 +35,29 @@ export default class TeamsDao {
     return db
       .doc(`teams/${teamRef.uuid}`)
       .set(teamRef)
-      .then(() => {
-        return {
-          isSuccessful: true,
-          team: { ...team, uuid: teamRef.uuid }
-        };
-      })
-      .catch((reason) => {
-        return {
-          isSuccessful: false,
-          error: `Couldn't edit team for reason: ${reason}`,
-          team: { ...team, uuid: teamRef.uuid }
-        };
-      });
+      .then(() => ({
+        isSuccessful: true,
+        team: { ...team, uuid: teamRef.uuid }
+      }))
+      .catch((reason) => ({
+        isSuccessful: false,
+        error: `Couldn't edit team for reason: ${reason}`,
+        team: { ...team, uuid: teamRef.uuid }
+      }));
   }
 
   static async deleteTeam(teamUuid: string): Promise<DBTeamResult> {
     return db
       .doc(`teams/${teamUuid}`)
       .delete()
-      .then(() => {
-        return {
-          isSuccessful: true,
-          team: null!
-        };
-      })
-      .catch((reason) => {
-        return {
-          isSuccessful: false,
-          error: `Couldn't delete team for reason: ${reason}`,
-          team: null!
-        };
-      });
+      .then(() => ({
+        isSuccessful: true,
+        team: null!
+      }))
+      .catch((reason) => ({
+        isSuccessful: false,
+        error: `Couldn't delete team for reason: ${reason}`,
+        team: null!
+      }));
   }
 }
