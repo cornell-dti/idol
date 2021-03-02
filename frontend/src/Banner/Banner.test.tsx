@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import Banner from './Banner';
 
 type BannerProps = React.ComponentProps<typeof Banner>;
-let props: BannerProps = {
+const props: BannerProps = {
   title: 'Test Title',
   message: 'Test Message'
 }

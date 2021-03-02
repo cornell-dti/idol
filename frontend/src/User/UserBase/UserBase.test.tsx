@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { createMemoryHistory } from 'history';
 import '@testing-library/jest-dom/extend-expect';
-import UserBase from './UserBase';
 import { Router } from 'react-router-dom';
+import UserBase from './UserBase';
 
 describe('<UserBase />', () => {
   test('route /users', () => {

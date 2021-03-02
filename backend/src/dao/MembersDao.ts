@@ -7,9 +7,7 @@ export default class MembersDao {
     const members: Member[] = await db
       .collection('members')
       .get()
-      .then((vals) => {
-        return vals.docs.map((doc) => doc.data()) as Member[];
-      });
+      .then((vals) => vals.docs.map((doc) => doc.data()) as Member[]);
     return { members, isSuccessful: true };
   }
 
@@ -24,16 +22,12 @@ export default class MembersDao {
     return db
       .doc(`members/${email}`)
       .delete()
-      .then(() => {
-        return { isSuccessful: true, member: null! };
-      })
-      .catch((reason) => {
-        return {
-          isSuccessful: false,
-          error: `Unable to to delete member for reason: ${reason}`,
-          member: null!
-        };
-      });
+      .then(() => ({ isSuccessful: true, member: null! }))
+      .catch((reason) => ({
+        isSuccessful: false,
+        error: `Unable to to delete member for reason: ${reason}`,
+        member: null!
+      }));
   }
 
   static async setMember(
@@ -43,16 +37,12 @@ export default class MembersDao {
     return db
       .doc(`members/${email}`)
       .set(member)
-      .then(() => {
-        return { isSuccessful: true, member };
-      })
-      .catch((reason) => {
-        return {
-          isSuccessful: false,
-          error: `Unable to edit member for reason: ${reason}`,
-          member
-        };
-      });
+      .then(() => ({ isSuccessful: true, member }))
+      .catch((reason) => ({
+        isSuccessful: false,
+        error: `Unable to edit member for reason: ${reason}`,
+        member
+      }));
   }
 
   static async updateMember(
@@ -62,15 +52,11 @@ export default class MembersDao {
     return db
       .doc(`members/${email}`)
       .update(member)
-      .then(() => {
-        return { isSuccessful: true, member };
-      })
-      .catch((reason) => {
-        return {
-          isSuccessful: false,
-          error: `Unable to edit member for reason: ${reason}`,
-          member
-        };
-      });
+      .then(() => ({ isSuccessful: true, member }))
+      .catch((reason) => ({
+        isSuccessful: false,
+        error: `Unable to edit member for reason: ${reason}`,
+        member
+      }));
   }
 }
