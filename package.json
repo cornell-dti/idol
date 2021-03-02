@@ -2,7 +2,13 @@
   "name": "idol-deploy",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "build": "cd idol && npm install && npm run build"
+    "lint": "yarn workspaces run lint",
+    "type-check": "yarn workspaces run tsc",
+    "build": "yarn workspaces run build"
   }
 }

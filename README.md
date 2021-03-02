@@ -1,4 +1,4 @@
-## Idol
+# IDOL
 
 ## About
 
