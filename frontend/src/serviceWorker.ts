@@ -30,10 +30,7 @@ type Config = {
 export function register(config?: Config): Config | undefined {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
-    const publicUrl = new URL(
-      process.env.PUBLIC_URL,
-      window.location.href
-    );
+    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
@@ -67,7 +64,7 @@ export function register(config?: Config): Config | undefined {
 function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl)
-    .then(registration => {
+    .then((registration) => {
       // eslint-disable-next-line no-param-reassign
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
@@ -104,7 +101,7 @@ function registerValidSW(swUrl: string, config?: Config) {
         };
       };
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Error during service worker registration:', error);
     });
 }
@@ -114,7 +111,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' }
   })
-    .then(response => {
+    .then((response) => {
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type');
       if (
@@ -122,7 +119,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then(registration => {
+        navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
             window.location.reload();
           });
@@ -142,10 +139,10 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
 export function unregister(): void {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready
-      .then(registration => {
+      .then((registration) => {
         registration.unregister();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error.message);
       });
   }

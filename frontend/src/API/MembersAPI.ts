@@ -29,13 +29,13 @@ export class MembersAPI {
     }
 
     const responseProm = APIWrapper.get(`${environment.backendURL}allMembers`, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all members!",
-          contentMsg: `Error was: ${val.error}`,
+          contentMsg: `Error was: ${val.error}`
         });
         return [];
       }
@@ -47,14 +47,17 @@ export class MembersAPI {
   }
 
   public static getMember(email: string): Promise<Member> {
-    const responseProm = APIWrapper.get(`${environment.backendURL}getMember/${email}`, {
-      withCredentials: true,
-    }).then((res) => res.data);
+    const responseProm = APIWrapper.get(
+      `${environment.backendURL}getMember/${email}`,
+      {
+        withCredentials: true
+      }
+    ).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get member!",
-          contentMsg: `Error was: ${val.error}`,
+          contentMsg: `Error was: ${val.error}`
         });
       }
       const mem = val.member as Member;
@@ -64,19 +67,19 @@ export class MembersAPI {
 
   public static setMember(member: Member): Promise<any> {
     return APIWrapper.post(`${environment.backendURL}setMember`, member, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
   }
 
   public static deleteMember(member: Member): Promise<any> {
     return APIWrapper.post(`${environment.backendURL}deleteMember`, member, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
   }
 
   public static updateMember(member: Member): Promise<any> {
     return APIWrapper.post(`${environment.backendURL}updateMember`, member, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
   }
 }

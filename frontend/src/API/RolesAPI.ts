@@ -11,13 +11,13 @@ export default class RolesAPI {
     }
 
     const responseProm = APIWrapper.get(`${environment.backendURL}allRoles`, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all roles!",
-          contentMsg: `Error was: ${val.error}`,
+          contentMsg: `Error was: ${val.error}`
         });
         return [];
       }

@@ -13,7 +13,10 @@ type ErrModalProps = {
 
 const ErrorModal: React.FC<ErrModalProps> = ({ onEmitter }) => {
   const [isOpen, setOpen] = useState(false);
-  const [errProps, setErrProps] = useState<ErrProps>({ headerMsg: '', contentMsg: '' });
+  const [errProps, setErrProps] = useState<ErrProps>({
+    headerMsg: '',
+    contentMsg: ''
+  });
   useEffect(() => {
     const cb = (errProps: ErrProps) => {
       setErrProps(errProps);

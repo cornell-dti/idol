@@ -6,7 +6,7 @@ import AddUser from './AddUser';
 describe('<AddUser />', () => {
   test('it should mount', () => {
     render(<AddUser />);
-    
+
     const addUser = screen.getByTestId('AddUser');
 
     expect(addUser).toBeInTheDocument();

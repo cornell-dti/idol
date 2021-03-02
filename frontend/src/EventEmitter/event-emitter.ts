@@ -1,5 +1,4 @@
 export default class EventEmitter<T> {
-
   private readonly subscribers: Set<(event: T) => unknown> = new Set();
 
   subscribe(subscriber: (event: T) => unknown): void {
@@ -11,6 +10,6 @@ export default class EventEmitter<T> {
   }
 
   emit(event: T): void {
-    Array.from(this.subscribers.values()).forEach(sub => sub(event));
+    Array.from(this.subscribers.values()).forEach((sub) => sub(event));
   }
 }

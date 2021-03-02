@@ -1,5 +1,13 @@
 import React from 'react';
-import { Card, Loader, Button, Form, Input, Label, Segment } from 'semantic-ui-react';
+import {
+  Card,
+  Loader,
+  Button,
+  Form,
+  Input,
+  Label,
+  Segment
+} from 'semantic-ui-react';
 import styles from './EditTeam.module.css';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
 import Emitters from '../../EventEmitter/constant-emitters';
@@ -24,7 +32,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
       allTeams: undefined,
       allMembers: undefined,
       teamsLoaded: false,
-      isCreatingTeam: false,
+      isCreatingTeam: false
     };
     TeamsAPI.getAllTeams().then((teams) => {
       MembersAPI.getAllMembers().then((mems) => {
@@ -32,7 +40,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
           allTeams: teams,
           allMembers: mems,
           currentSelectedTeam: teams.length > 0 ? teams[0] : undefined,
-          teamsLoaded: true,
+          teamsLoaded: true
         });
       });
     });
@@ -44,9 +52,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
         name: '',
         leaders: [],
         members: [],
-        uuid: undefined,
+        uuid: undefined
       },
-      isCreatingTeam: true,
+      isCreatingTeam: true
     });
   }
 
@@ -56,14 +64,14 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
       if (val.error) {
         Emitters.teamEditError.emit({
           headerMsg: "Couldn't delete team!",
-          contentMsg: val.error,
+          contentMsg: val.error
         });
       } else {
         TeamsAPI.getAllTeams().then((teams) => {
           this.setState({
             allTeams: teams,
             currentSelectedTeam: teams.length > 0 ? teams[0] : undefined,
-            isCreatingTeam: false,
+            isCreatingTeam: false
           });
         });
       }
@@ -76,14 +84,17 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
       if (val.error) {
         Emitters.teamEditError.emit({
           headerMsg: "Couldn't save team!",
-          contentMsg: val.error,
+          contentMsg: val.error
         });
       } else {
         TeamsAPI.getAllTeams().then((teams) => {
           this.setState({
             allTeams: teams,
             isCreatingTeam: false,
-            currentSelectedTeam: { ...this.state.currentSelectedTeam, uuid: val.team.uuid } as Team,
+            currentSelectedTeam: {
+              ...this.state.currentSelectedTeam,
+              uuid: val.team.uuid
+            } as Team
           });
         });
       }
@@ -101,7 +112,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                 style={{
                   width: '20vw',
                   height: 'calc(90vh - 7rem)',
-                  position: 'relative',
+                  position: 'relative'
                 }}
               >
                 <h2 className={styles.cardHeader}>Select a Team</h2>
@@ -116,7 +127,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     width: '100%',
                     paddingLeft: '1rem',
                     overflowY: 'auto',
-                    position: 'relative',
+                    position: 'relative'
                   }}
                 >
                   <Card.Content className={styles.cardContent}>
@@ -130,19 +141,23 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           background:
                             team.name === this.state.currentSelectedTeam?.name
                               ? 'var(--offWhite)'
-                              : undefined,
+                              : undefined
                         }}
                         onClick={() => {
                           this.setState({
                             currentSelectedTeam: team,
-                            isCreatingTeam: false,
+                            isCreatingTeam: false
                           });
                         }}
                       >
                         <Card.Content>
-                          <Card.Header style={{ margin: 0 }}>{team.name}</Card.Header>
+                          <Card.Header style={{ margin: 0 }}>
+                            {team.name}
+                          </Card.Header>
                           <p style={{ margin: 0, color: 'GrayText' }}>
-                            {`${team.leaders.length + team.members.length} members`}
+                            {`${
+                              team.leaders.length + team.members.length
+                            } members`}
                           </p>
                         </Card.Content>
                       </Card>
@@ -177,7 +192,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
               {this.state.currentSelectedTeam !== undefined ? (
                 <Card style={{ width: 'calc(80vw - 6rem)' }}>
                   <Card.Content className={styles.cardContent}>
-                    <h2 className={styles.cardHeader}>{this.state.currentSelectedTeam.name}</h2>
+                    <h2 className={styles.cardHeader}>
+                      {this.state.currentSelectedTeam.name}
+                    </h2>
                     <Form>
                       <Form.Group widths="equal">
                         <Form.Field
@@ -189,8 +206,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                               this.setState({
                                 currentSelectedTeam: {
                                   ...this.state.currentSelectedTeam,
-                                  name: data.value,
-                                },
+                                  name: data.value
+                                }
                               });
                             }
                           }}
@@ -212,8 +229,12 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.first_name.toLowerCase().startsWith(queryLower) ||
-                            member.last_name.toLowerCase().startsWith(queryLower) ||
+                            member.first_name
+                              .toLowerCase()
+                              .startsWith(queryLower) ||
+                            member.last_name
+                              .toLowerCase()
+                              .startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
                             `${member.first_name.toLowerCase()} ${member.last_name.toLowerCase()}`.startsWith(
                               queryLower
@@ -225,8 +246,10 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             this.setState({
                               currentSelectedTeam: {
                                 ...this.state.currentSelectedTeam,
-                                leaders: this.state.currentSelectedTeam.leaders.concat([mem]),
-                              },
+                                leaders: this.state.currentSelectedTeam.leaders.concat(
+                                  [mem]
+                                )
+                              }
                             });
                           }
                         }}
@@ -243,7 +266,10 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <div className="ui one buttons" style={{ width: '100%' }}>
+                            <div
+                              className="ui one buttons"
+                              style={{ width: '100%' }}
+                            >
                               <Button
                                 basic
                                 color="red"
@@ -255,8 +281,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
-                                        leaders: newLeaders,
-                                      },
+                                        leaders: newLeaders
+                                      }
                                     });
                                   }
                                 }}
@@ -282,8 +308,12 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.first_name.toLowerCase().startsWith(queryLower) ||
-                            member.last_name.toLowerCase().startsWith(queryLower) ||
+                            member.first_name
+                              .toLowerCase()
+                              .startsWith(queryLower) ||
+                            member.last_name
+                              .toLowerCase()
+                              .startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
                             `${member.first_name.toLowerCase()} ${member.last_name.toLowerCase()}`.startsWith(
                               queryLower
@@ -295,8 +325,10 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             this.setState({
                               currentSelectedTeam: {
                                 ...this.state.currentSelectedTeam,
-                                members: this.state.currentSelectedTeam.members.concat([mem]),
-                              },
+                                members: this.state.currentSelectedTeam.members.concat(
+                                  [mem]
+                                )
+                              }
                             });
                           }
                         }}
@@ -313,7 +345,10 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <div className="ui one buttons" style={{ width: '100%' }}>
+                            <div
+                              className="ui one buttons"
+                              style={{ width: '100%' }}
+                            >
                               <Button
                                 basic
                                 color="red"
@@ -325,8 +360,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
-                                        members: newMembers,
-                                      },
+                                        members: newMembers
+                                      }
                                     });
                                   }
                                 }}

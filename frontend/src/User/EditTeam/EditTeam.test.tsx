@@ -6,7 +6,7 @@ import EditTeam from './EditTeam';
 describe('<EditTeam />', () => {
   test('it should mount', () => {
     render(<EditTeam />);
-    
+
     const editTeam = screen.getByTestId('EditTeam');
 
     expect(editTeam).toBeInTheDocument();

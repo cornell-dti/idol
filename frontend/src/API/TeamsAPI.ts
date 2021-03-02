@@ -19,13 +19,13 @@ export class TeamsAPI {
     }
 
     const responseProm = APIWrapper.get(`${environment.backendURL}allTeams`, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all teams!",
-          contentMsg: `Error was: ${val.error}`,
+          contentMsg: `Error was: ${val.error}`
         });
         return [];
       }
@@ -38,13 +38,13 @@ export class TeamsAPI {
 
   public static setTeam(team: Team): Promise<any> {
     return APIWrapper.post(`${environment.backendURL}setTeam`, team, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
   }
 
   public static deleteTeam(team: Team): Promise<any> {
     return APIWrapper.post(`${environment.backendURL}deleteTeam`, team, {
-      withCredentials: true,
+      withCredentials: true
     }).then((res) => res.data);
   }
 }

@@ -7,7 +7,7 @@ type BannerProps = React.ComponentProps<typeof Banner>;
 const props: BannerProps = {
   title: 'Test Title',
   message: 'Test Message'
-}
+};
 
 describe('<Banner />', () => {
   test('test mounting and props', () => {

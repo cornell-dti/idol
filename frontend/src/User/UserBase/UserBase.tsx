@@ -1,5 +1,11 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Link,
+  useLocation
+} from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './UserBase.module.css';
 import AddUser from '../AddUser/AddUser';
@@ -19,14 +25,14 @@ const UserBase: React.FC = () => {
                 <Card.Header>Edit Users</Card.Header>
                 <Card.Description>
                   Create, read, edit, or delete individual users of the system.
-              </Card.Description>
+                </Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <div className='ui one buttons'>
-                  <Link to='users/edit'>
-                    <Button basic color='blue'>
+                <div className="ui one buttons">
+                  <Link to="users/edit">
+                    <Button basic color="blue">
                       Go To
-          </Button>
+                    </Button>
                   </Link>
                 </div>
               </Card.Content>
@@ -36,14 +42,14 @@ const UserBase: React.FC = () => {
                 <Card.Header>Edit Teams</Card.Header>
                 <Card.Description>
                   Create, read, edit, or delete teams in the system.
-              </Card.Description>
+                </Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <div className='ui one buttons'>
-                  <Link to='users/teams/edit'>
-                    <Button basic color='blue'>
+                <div className="ui one buttons">
+                  <Link to="users/teams/edit">
+                    <Button basic color="blue">
                       Go To
-          </Button>
+                    </Button>
                   </Link>
                 </div>
               </Card.Content>
@@ -53,14 +59,14 @@ const UserBase: React.FC = () => {
                 <Card.Header>Edit Profile</Card.Header>
                 <Card.Description>
                   Edit your profile information on DTI's website.
-              </Card.Description>
+                </Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <div className='ui one buttons'>
-                  <Link to='users/profile'>
-                    <Button basic color='blue'>
+                <div className="ui one buttons">
+                  <Link to="users/profile">
+                    <Button basic color="blue">
                       Go To
-          </Button>
+                    </Button>
                   </Link>
                 </div>
               </Card.Content>
@@ -68,16 +74,14 @@ const UserBase: React.FC = () => {
             <Card>
               <Card.Content>
                 <Card.Header>Edit Profile Image</Card.Header>
-                <Card.Description>
-                  Edit your profile image.
-              </Card.Description>
+                <Card.Description>Edit your profile image.</Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <div className='ui one buttons'>
-                  <Link to='users/profileImage'>
-                    <Button basic color='blue'>
+                <div className="ui one buttons">
+                  <Link to="users/profileImage">
+                    <Button basic color="blue">
                       Go To
-          </Button>
+                    </Button>
                   </Link>
                 </div>
               </Card.Content>
@@ -88,26 +92,25 @@ const UserBase: React.FC = () => {
     );
   }
   return (
-      <div className={styles.UserBase} data-testid="UserBase">
-        <Router>
-          <Switch>
-            <Route path="/users/edit">
-              <AddUser></AddUser>
-            </Route>
-            <Route path="/users/teams/edit">
-              <EditTeam></EditTeam>
-            </Route>
-            <Route path="/users/profile">
-              <UserProfile></UserProfile>
-            </Route>
-            <Route path="/users/profileImage">
-              <UserProfileImage></UserProfileImage>
-            </Route>
-            <Route path="/*">
-            </Route>
-          </Switch>
-        </Router>
-      </div>
+    <div className={styles.UserBase} data-testid="UserBase">
+      <Router>
+        <Switch>
+          <Route path="/users/edit">
+            <AddUser></AddUser>
+          </Route>
+          <Route path="/users/teams/edit">
+            <EditTeam></EditTeam>
+          </Route>
+          <Route path="/users/profile">
+            <UserProfile></UserProfile>
+          </Route>
+          <Route path="/users/profileImage">
+            <UserProfileImage></UserProfileImage>
+          </Route>
+          <Route path="/*"></Route>
+        </Switch>
+      </Router>
+    </div>
   );
 };
 

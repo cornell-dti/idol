@@ -30,21 +30,47 @@ const SiteHeader: React.FC = () => {
           >
             <Header className={styles.title} as="h1">
               I
-              <div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>
+              <div
+                className={
+                  idolOpen ? styles.subtitleOpen : styles.subtitleClosed
+                }
+              >
                 nternal&nbsp;
               </div>
               D
-              <div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>TI&nbsp;</div>
+              <div
+                className={
+                  idolOpen ? styles.subtitleOpen : styles.subtitleClosed
+                }
+              >
+                TI&nbsp;
+              </div>
               O
-              <div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>
+              <div
+                className={
+                  idolOpen ? styles.subtitleOpen : styles.subtitleClosed
+                }
+              >
                 rganization&nbsp;
               </div>
-              L<div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>ogic</div>
+              L
+              <div
+                className={
+                  idolOpen ? styles.subtitleOpen : styles.subtitleClosed
+                }
+              >
+                ogic
+              </div>
             </Header>
           </div>
         </div>
         <div className={styles.sign_out_button_container}>
-          <Button className={styles.sign_out_button} basic color="red" onClick={onSignOut}>
+          <Button
+            className={styles.sign_out_button}
+            basic
+            color="red"
+            onClick={onSignOut}
+          >
             Sign Out
           </Button>
         </div>
