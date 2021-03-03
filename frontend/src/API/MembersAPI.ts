@@ -1,5 +1,5 @@
 import APICache from '../Cache/Cache';
-import environment from '../environment';
+import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 
@@ -28,7 +28,7 @@ export class MembersAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
 
-    const responseProm = APIWrapper.get(`${environment.backendURL}allMembers`, {
+    const responseProm = APIWrapper.get(`${backendURL}/allMembers`, {
       withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => {
@@ -47,12 +47,9 @@ export class MembersAPI {
   }
 
   public static getMember(email: string): Promise<Member> {
-    const responseProm = APIWrapper.get(
-      `${environment.backendURL}getMember/${email}`,
-      {
-        withCredentials: true
-      }
-    ).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/getMember/${email}`, {
+      withCredentials: true
+    }).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -66,19 +63,19 @@ export class MembersAPI {
   }
 
   public static setMember(member: Member): Promise<any> {
-    return APIWrapper.post(`${environment.backendURL}setMember`, member, {
+    return APIWrapper.post(`${backendURL}/setMember`, member, {
       withCredentials: true
     }).then((res) => res.data);
   }
 
   public static deleteMember(member: Member): Promise<any> {
-    return APIWrapper.post(`${environment.backendURL}deleteMember`, member, {
+    return APIWrapper.post(`${backendURL}/deleteMember`, member, {
       withCredentials: true
     }).then((res) => res.data);
   }
 
   public static updateMember(member: Member): Promise<any> {
-    return APIWrapper.post(`${environment.backendURL}updateMember`, member, {
+    return APIWrapper.post(`${backendURL}/updateMember`, member, {
       withCredentials: true
     }).then((res) => res.data);
   }

@@ -1,4 +1,4 @@
-import environment from '../environment';
+import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 
 export type LoginResponse = {
@@ -12,7 +12,7 @@ export type LogoutResponse = {
 export class LoginAPI {
   public static login(authToken: string): Promise<LoginResponse> {
     const responseProm = APIWrapper.post(
-      `${environment.backendURL}login`,
+      `${backendURL}/login`,
       { auth_token: authToken },
       {
         withCredentials: true
@@ -23,7 +23,7 @@ export class LoginAPI {
 
   public static logout(): Promise<LogoutResponse> {
     const responseProm = APIWrapper.post(
-      `${environment.backendURL}logout`,
+      `${backendURL}/logout`,
       {},
       {
         withCredentials: true

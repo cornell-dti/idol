@@ -1,15 +1,9 @@
-const isProduction = true;
-const useProdBackend = true;
+export const isProduction = process.env.NODE_ENV === 'production';
 
-const environment = {
-  isProduction,
-  useProdBackend,
-  // eslint-disable-next-line no-nested-ternary
-  backendURL: isProduction
-    ? 'https://idol.api.cornelldti.org/.netlify/functions/api/'
-    : useProdBackend
-    ? 'http://idol.api.cornelldti.org/.netlify/functions/api/'
-    : 'http://localhost:9000/.netlify/functions/api/'
-};
+/** Switch to true when using prod API for dev. Remember to change it back before commit. */
+const useProdBackendForDev = false;
 
-export default environment;
+export const backendURL =
+  isProduction || !useProdBackendForDev
+    ? '/.netlify/functions/api'
+    : 'http://idol.cornelldti.org/.netlify/functions/api';
