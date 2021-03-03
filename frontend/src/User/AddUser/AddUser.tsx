@@ -23,7 +23,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
       allMembers: undefined,
       allRoles: undefined,
       membersLoaded: false,
-      isCreatingUser: false,
+      isCreatingUser: false
     };
     MembersAPI.getAllMembers().then((mems) => {
       RolesAPI.getAllRoles().then((roles) => {
@@ -31,7 +31,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
           allMembers: mems,
           allRoles: roles,
           currentSelectedMember: mems.length > 0 ? mems[0] : undefined,
-          membersLoaded: true,
+          membersLoaded: true
         });
       });
     });
@@ -54,9 +54,9 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
         hometown: '',
         about: '',
         subteam: '',
-        other_subteams: [],
+        other_subteams: []
       },
-      isCreatingUser: true,
+      isCreatingUser: true
     });
   }
 
@@ -66,14 +66,14 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't delete user!",
-          contentMsg: val.error,
+          contentMsg: val.error
         });
       } else {
         MembersAPI.getAllMembers().then((mems) => {
           this.setState({
             allMembers: mems,
             currentSelectedMember: mems.length > 0 ? mems[0] : undefined,
-            isCreatingUser: false,
+            isCreatingUser: false
           });
         });
       }
@@ -86,7 +86,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't save user!",
-          contentMsg: val.error,
+          contentMsg: val.error
         });
       } else {
         MembersAPI.getAllMembers().then((mems) => {
@@ -107,7 +107,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                 style={{
                   width: '20vw',
                   height: 'calc(90vh - 7rem)',
-                  position: 'relative',
+                  position: 'relative'
                 }}
               >
                 <h2 className={styles.cardHeader}>Select a User</h2>
@@ -122,7 +122,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                     width: '100%',
                     paddingLeft: '1rem',
                     overflowY: 'auto',
-                    position: 'relative',
+                    position: 'relative'
                   }}
                 >
                   <Card.Content className={styles.cardContent}>
@@ -134,14 +134,15 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           marginTop: '0.5rem',
                           width: 'calc(100% - 1rem)',
                           background:
-                            mem.email === this.state.currentSelectedMember?.email
+                            mem.email ===
+                            this.state.currentSelectedMember?.email
                               ? 'var(--offWhite)'
-                              : undefined,
+                              : undefined
                         }}
                         onClick={() => {
                           this.setState({
                             currentSelectedMember: mem,
-                            isCreatingUser: false,
+                            isCreatingUser: false
                           });
                         }}
                       >
@@ -149,7 +150,9 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           <Card.Header style={{ margin: 0 }}>
                             {`${mem.first_name} ${mem.last_name}`}
                           </Card.Header>
-                          <p style={{ margin: 0, color: 'GrayText' }}>{mem.email}</p>
+                          <p style={{ margin: 0, color: 'GrayText' }}>
+                            {mem.email}
+                          </p>
                         </Card.Content>
                       </Card>
                     ))}
@@ -197,8 +200,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               this.setState({
                                 currentSelectedMember: {
                                   ...this.state.currentSelectedMember,
-                                  first_name: event.target.value,
-                                },
+                                  first_name: event.target.value
+                                }
                               });
                             }
                           }}
@@ -213,8 +216,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               this.setState({
                                 currentSelectedMember: {
                                   ...this.state.currentSelectedMember,
-                                  last_name: event.target.value,
-                                },
+                                  last_name: event.target.value
+                                }
                               });
                             }
                           }}
@@ -233,8 +236,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                                 this.setState({
                                   currentSelectedMember: {
                                     ...this.state.currentSelectedMember,
-                                    email: event.target.value,
-                                  },
+                                    email: event.target.value
+                                  }
                                 });
                               }
                             }}
@@ -252,8 +255,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                                 this.setState({
                                   currentSelectedMember: {
                                     ...this.state.currentSelectedMember,
-                                    email: event.target.value,
-                                  },
+                                    email: event.target.value
+                                  }
                                 });
                               }
                             }}
@@ -266,7 +269,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           options={this.state.allRoles?.map((val) => ({
                             key: val,
                             text: val,
-                            value: val,
+                            value: val
                           }))}
                           placeholder="Role"
                           onChange={(event: any, data: any) => {
@@ -274,8 +277,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               this.setState({
                                 currentSelectedMember: {
                                   ...this.state.currentSelectedMember,
-                                  role: data.value,
-                                },
+                                  role: data.value
+                                }
                               });
                             }
                           }}

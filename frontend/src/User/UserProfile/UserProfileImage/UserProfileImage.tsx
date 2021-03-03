@@ -16,8 +16,8 @@ const UserProfileImage: React.FC = () => {
       const canvas = editor.getImage().toDataURL();
       let imageURL: string;
       fetch(canvas)
-        .then(res => res.blob())
-        .then(blob => {
+        .then((res) => res.blob())
+        .then((blob) => {
           imageURL = window.URL.createObjectURL(blob);
           setProfilePhoto(imageURL);
         });
@@ -28,16 +28,22 @@ const UserProfileImage: React.FC = () => {
   return (
     <div
       data-testid="UserProfileImage"
-      style={{ width: '100%', marginTop: '5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      style={{
+        width: '100%',
+        marginTop: '5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
     >
       <Card.Group>
         <Card>
           <Card.Content>
-            <Card.Header style={{ marginBottom: '1rem' }}>Profile Image</Card.Header>
-            <Image
-              size='medium'
-              src={profilePhoto}
-            />
+            <Card.Header style={{ marginBottom: '1rem' }}>
+              Profile Image
+            </Card.Header>
+            <Image size="medium" src={profilePhoto} />
           </Card.Content>
         </Card>
       </Card.Group>
@@ -46,7 +52,9 @@ const UserProfileImage: React.FC = () => {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        trigger={<Button style={{ marginTop: '1rem' }}>Update Profile Image</Button>}
+        trigger={
+          <Button style={{ marginTop: '1rem' }}>Update Profile Image</Button>
+        }
       >
         <Modal.Header>Select a Photo</Modal.Header>
         <ProfileImageEditor
@@ -57,7 +65,7 @@ const UserProfileImage: React.FC = () => {
         />
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default UserProfileImage;

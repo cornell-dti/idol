@@ -6,7 +6,7 @@ import Spotlight from './Spotlight';
 describe('<Spotlight />', () => {
   test('it should mount', () => {
     render(<Spotlight />);
-    
+
     const spotlight = screen.getByTestId('Spotlight');
 
     expect(spotlight).toBeInTheDocument();

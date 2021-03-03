@@ -6,7 +6,7 @@ import SiteHeader from './SiteHeader';
 describe('<SiteHeader />', () => {
   test('it should mount', () => {
     render(<SiteHeader />);
-    
+
     const siteHeader = screen.getByTestId('SiteHeader');
 
     expect(siteHeader).toBeInTheDocument();

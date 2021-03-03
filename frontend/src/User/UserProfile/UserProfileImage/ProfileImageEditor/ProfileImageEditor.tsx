@@ -6,23 +6,22 @@ import styles from './ProfileImageEditor.module.css';
 type EditProfileImageState = {
   image: string;
   allowZoomOut: boolean;
-  position: { x: number, y: number };
+  position: { x: number; y: number };
   scale: number;
   rotate: number;
   borderRadius: number;
   width: number;
   height: number;
-}
+};
 
 type Props = {
   currentProfileImage: string;
   setEditorRef: any;
   cropAndSubmitImage: any;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -33,38 +32,37 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
       rotate: 0,
       borderRadius: 0,
       width: 250,
-      height: 250,
-    }
+      height: 250
+    };
   }
 
   handleNewImage = (e: React.ChangeEvent<any>): void => {
     const newImage = URL.createObjectURL(e.target.files[0]);
     this.setState({ image: newImage });
-  }
+  };
 
   handleScale = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const scale = parseFloat(e.target.value)
-    this.setState({ scale })
-  }
+    const scale = parseFloat(e.target.value);
+    this.setState({ scale });
+  };
 
-  handlePositionChange = (position: { x: number, y: number }): void => {
-    this.setState({ position })
-  }
+  handlePositionChange = (position: { x: number; y: number }): void => {
+    this.setState({ position });
+  };
 
   handleRotateLeft = (): void => {
-    const rotate = this.state.rotate % 360 - 90;
+    const rotate = (this.state.rotate % 360) - 90;
     this.setState({ rotate });
-  }
+  };
 
   handleRotateRight = (): void => {
-    const rotate = this.state.rotate % 360 + 90;
+    const rotate = (this.state.rotate % 360) + 90;
     this.setState({ rotate });
-  }
+  };
 
   render(): JSX.Element {
     return (
       <div className={styles.avatarAndEditorContainer}>
-
         <div>
           <AvatarEditor
             ref={this.props.setEditorRef}
@@ -80,14 +78,23 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
         </div>
 
         <div className={styles.editorContainer}>
-
           <div className={styles.labelComponentPair}>
-            <label htmlFor="newImage" className={styles.label}>New File:</label>
-            <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={this.handleNewImage} style={{ marginLeft: '1rem' }} />
+            <label htmlFor="newImage" className={styles.label}>
+              New File:
+            </label>
+            <input
+              id="newImage"
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={this.handleNewImage}
+              style={{ marginLeft: '1rem' }}
+            />
           </div>
 
           <div className={styles.labelComponentPair}>
-            <label htmlFor="scale" className={styles.label}>Zoom:</label>
+            <label htmlFor="scale" className={styles.label}>
+              Zoom:
+            </label>
             <input
               id="scale"
               type="range"
@@ -105,38 +112,38 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
             <Button
               onClick={this.handleRotateLeft}
               style={{ marginLeft: '1rem' }}
-              content='Left'
-              size='mini'>
-            </Button>
+              content="Left"
+              size="mini"
+            ></Button>
             <Button
               onClick={this.handleRotateRight}
               style={{ marginLeft: '1rem' }}
-              content='Right'
-              size='mini'>
-            </Button>
+              content="Right"
+              size="mini"
+            ></Button>
           </div>
 
-          <div className={[styles.labelComponentPair, styles.buttonWrapper].join(' ')}>
-
-            <Button
-              color='black'
-              onClick={() => this.props.setOpen(false)}>
+          <div
+            className={[styles.labelComponentPair, styles.buttonWrapper].join(
+              ' '
+            )}
+          >
+            <Button color="black" onClick={() => this.props.setOpen(false)}>
               Discard
-              </Button>
+            </Button>
 
             <Button
               content="Submit"
-              labelPosition='right'
-              icon='checkmark'
+              labelPosition="right"
+              icon="checkmark"
               onClick={this.props.cropAndSubmitImage}
               positive
               style={{ marginLeft: '1rem' }}
             />
-
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

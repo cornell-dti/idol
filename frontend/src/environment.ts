@@ -9,7 +9,7 @@ const environment = {
     ? 'https://idol.api.cornelldti.org/.netlify/functions/api/'
     : useProdBackend
     ? 'http://idol.api.cornelldti.org/.netlify/functions/api/'
-    : 'http://localhost:9000/.netlify/functions/api/',
+    : 'http://localhost:9000/.netlify/functions/api/'
 };
 
 export default environment;

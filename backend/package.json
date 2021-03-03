@@ -7,9 +7,7 @@
     "start": "./node_modules/.bin/netlify-lambda serve build",
     "dev": "ts-node src/api.ts",
     "tsc": "tsc",
-    "build": "tsc",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
+    "build": "tsc"
   },
   "license": "ISC",
   "dependencies": {

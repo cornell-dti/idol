@@ -12,37 +12,32 @@ const SignIn: React.FC = () => {
     <div className={styles.SignIn} data-testid="SignIn">
       <div className={styles.header}>
         <Divider horizontal>
-          <Header as='h2'>
-            <Icon name='sign-in' />
+          <Header as="h2">
+            <Icon name="sign-in" />
             Choose a sign-in method
-      </Header>
+          </Header>
         </Divider>
       </div>
       <div className={styles.content}>
         <Card.Group>
           <Card>
             <Card.Content>
-              <Image
-                size='medium'
-                src={GoogleLogo}
-              />
+              <Image size="medium" src={GoogleLogo} />
               <Card.Header>Google</Card.Header>
-              <Card.Description>
-                Sign in using Google OAuth2
-              </Card.Description>
+              <Card.Description>Sign in using Google OAuth2</Card.Description>
             </Card.Content>
             <Card.Content extra>
-              <div className='ui one buttons'>
-                <Button basic color='blue' onClick={onGoogleSignIn}>
+              <div className="ui one buttons">
+                <Button basic color="blue" onClick={onGoogleSignIn}>
                   Sign-In
-          </Button>
+                </Button>
               </div>
             </Card.Content>
           </Card>
         </Card.Group>
       </div>
-    </div >
-  )
+    </div>
+  );
 };
 
 export default SignIn;

@@ -2,7 +2,8 @@
   align-items: center;
 }
 
-.avatarAndEditorContainer, .labelComponentPair {
+.avatarAndEditorContainer,
+.labelComponentPair {
   display: flex;
   flex-direction: row;
 }

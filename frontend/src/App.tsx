@@ -35,7 +35,7 @@ function App(): JSX.Element {
               minHeight: '100vh',
               maxHeight: '100vh',
               minWidth: '100vw',
-              position: 'relative',
+              position: 'relative'
             }}
           >
             <SiteHeader />
@@ -76,7 +76,7 @@ function App(): JSX.Element {
                       minHeight: '90vh',
                       width: '100vw',
                       margin: 0,
-                      padding: 0,
+                      padding: 0
                     }}
                   >
                     <Switch>

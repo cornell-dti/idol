@@ -51,7 +51,7 @@ const UserProfile: React.FC = () => {
         .catch((error) => {
           Emitters.generalError.emit({
             headerMsg: "Couldn't get member!",
-            contentMsg: `Error was: ${error}`,
+            contentMsg: `Error was: ${error}`
           });
         });
     }
@@ -64,16 +64,24 @@ const UserProfile: React.FC = () => {
       } else if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't update user!",
-          contentMsg: val.error,
+          contentMsg: val.error
         });
       }
     });
   };
 
-  const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
+  const isFilledOut = (fieldInput: string): boolean =>
+    fieldInput.trim().length > 0;
 
   const saveProfileInfo = () => {
-    const requiredFields = [firstName, lastName, graduation, major, hometown, about];
+    const requiredFields = [
+      firstName,
+      lastName,
+      graduation,
+      major,
+      hometown,
+      about
+    ];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {
@@ -92,14 +100,21 @@ const UserProfile: React.FC = () => {
         linkedin_link: isFilledOut(linkedin) ? linkedin : null,
         github_link: isFilledOut(github) ? github : null,
         subteam,
-        other_subteams: otherSubteams,
+        other_subteams: otherSubteams
       };
       updateUser(updatedUser);
     }
   };
 
   return (
-    <Form style={{ width: '80%', alignSelf: 'center', margin: 'auto', marginTop: '10vh' }}>
+    <Form
+      style={{
+        width: '80%',
+        alignSelf: 'center',
+        margin: 'auto',
+        marginTop: '10vh'
+      }}
+    >
       <Form.Group widths="equal">
         <Form.Input
           fluid

@@ -10,7 +10,7 @@ class UserProvider extends Component<Record<string, unknown>, UserContextType> {
   constructor(props: Record<string, unknown>) {
     super(props);
     this.state = {
-      user: auth.currentUser ? auth.currentUser : null,
+      user: auth.currentUser ? auth.currentUser : null
     };
   }
 
@@ -38,7 +38,11 @@ class UserProvider extends Component<Record<string, unknown>, UserContextType> {
   };
 
   render(): JSX.Element {
-    return <UserContext.Provider value={this.state}>{this.props.children}</UserContext.Provider>;
+    return (
+      <UserContext.Provider value={this.state}>
+        {this.props.children}
+      </UserContext.Provider>
+    );
   }
 }
 export default UserProvider;

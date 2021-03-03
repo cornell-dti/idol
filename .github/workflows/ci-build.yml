@@ -24,7 +24,7 @@ jobs:
       - name: Type Check
         run: yarn type-check
       - name: Format
-        run: yarn workspace backend prettier-check
+        run: yarn format:check
       - name: Test
         run: yarn workspace frontend test
   build:

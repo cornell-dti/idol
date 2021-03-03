@@ -1,5 +1,4 @@
 export default class APICache {
-
   private static cacheMap: Map<string, unknown> = new Map();
 
   static cache(tag: string, value: unknown): void {
@@ -19,5 +18,4 @@ export default class APICache {
   static has(tag: string): boolean {
     return this.cacheMap.has(tag);
   }
-
 }
