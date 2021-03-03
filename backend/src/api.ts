@@ -105,9 +105,9 @@ router.post('/logout', (req, res) => {
 router.get('/allRoles', getAllRoles);
 
 // Members
-router.get('/allMembers', async (req, res) => {
-  const handled = await allMembers(req, res);
-  res.status(handled!.status).json(handled);
+router.get('/allMembers', async (_, res) => {
+  const handled = await allMembers();
+  res.status(handled.status).json(handled);
 });
 router.get('/getMember/:email', async (req, res) => {
   const handled = await getMember(req, res);

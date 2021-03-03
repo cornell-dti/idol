@@ -6,18 +6,9 @@ import { PermissionsManager } from './permissions';
 import { Member } from './DataTypes';
 import { ErrorResponse, MemberResponse, AllMembersResponse } from './APITypes';
 
-export const allMembers = async (
-  req: Request,
-  res: Response
-): Promise<AllMembersResponse | ErrorResponse | undefined> => {
-  if (checkLoggedIn(req, res)) {
-    const result = await MembersDao.getAllMembers();
-    return {
-      status: 200,
-      members: result.members
-    };
-  }
-  return undefined;
+export const allMembers = async (): Promise<AllMembersResponse> => {
+  const result = await MembersDao.getAllMembers();
+  return { status: 200, members: result.members };
 };
 
 export const setMember = async (
