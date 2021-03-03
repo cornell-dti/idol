@@ -1,5 +1,5 @@
 import APICache from '../Cache/Cache';
-import environment from '../environment';
+import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 import { Member } from './MembersAPI';
@@ -18,7 +18,7 @@ export class TeamsAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
 
-    const responseProm = APIWrapper.get(`${environment.backendURL}allTeams`, {
+    const responseProm = APIWrapper.get(`${backendURL}/allTeams`, {
       withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => {
@@ -37,13 +37,13 @@ export class TeamsAPI {
   }
 
   public static setTeam(team: Team): Promise<any> {
-    return APIWrapper.post(`${environment.backendURL}setTeam`, team, {
+    return APIWrapper.post(`${backendURL}/setTeam`, team, {
       withCredentials: true
     }).then((res) => res.data);
   }
 
   public static deleteTeam(team: Team): Promise<any> {
-    return APIWrapper.post(`${environment.backendURL}deleteTeam`, team, {
+    return APIWrapper.post(`${backendURL}/deleteTeam`, team, {
       withCredentials: true
     }).then((res) => res.data);
   }

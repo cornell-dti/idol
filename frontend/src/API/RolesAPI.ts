@@ -1,5 +1,5 @@
 import APICache from '../Cache/Cache';
-import environment from '../environment';
+import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 
@@ -10,7 +10,7 @@ export default class RolesAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
 
-    const responseProm = APIWrapper.get(`${environment.backendURL}allRoles`, {
+    const responseProm = APIWrapper.get(`${backendURL}/allRoles`, {
       withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => {
