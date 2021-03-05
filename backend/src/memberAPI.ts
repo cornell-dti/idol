@@ -161,13 +161,14 @@ export const deleteMember = async (
         } does not have permission to delete members!`
       };
     }
-    if (!req.body.email || req.body.email === '') {
+    let email: string = req.params.email;
+    if (!email || email === '') {
       return {
         status: 400,
         error: "Couldn't delete member with undefined email!"
       };
     }
-    const result = await MembersDao.deleteMember(req.body.email);
+    const result = await MembersDao.deleteMember(email);
     if (result.isSuccessful) {
       return { member: result.member, status: 200 };
     }
