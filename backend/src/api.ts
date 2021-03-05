@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
 import session, { MemoryStore } from 'express-session';
@@ -68,7 +68,7 @@ export const checkLoggedIn = (req, res): boolean => {
 };
 
 // Login
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
   const members = await db
     .collection('members')
     .get()
@@ -93,7 +93,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Logout
-router.post('/logout', (req, res) => {
+router.post('/logout', (req: Request, res: Response) => {
   req.session!.isLoggedIn = false;
   req.session!.destroy((err) => {
     if (err) sessionErrCb(err);
@@ -105,32 +105,41 @@ router.post('/logout', (req, res) => {
 router.get('/allRoles', getAllRoles);
 
 // Members
-router.get('/allMembers', async (_, res) => {
+router.get('/allMembers', async (_, res: Response) => {
   const handled = await allMembers();
   res.status(handled.status).json(handled);
 });
-router.get('/getMember/:email', async (req, res) => {
+router.get('/getMember/:email', async (req: Request, res: Response) => {
   const handled = await getMember(req, res);
   res.status(handled!.status).json(handled);
 });
-router.post('/setMember', async (req, res) => {
+router.post('/setMember', async (req: Request, res: Response) => {
   const handled = await setMember(req, res);
   res.status(handled!.status).json(handled);
 });
-router.delete('/deleteMember', async (req, res) => {
+router.delete('/deleteMember', async (req: Request, res: Response) => {
   const handled = await deleteMember(req, res);
   res.status(handled!.status).json(handled);
 });
 
-router.post('/updateMember', async (req, res) => {
+router.post('/updateMember', async (req: Request, res: Response) => {
   const handled = await updateMember(req, res);
   res.status(handled!.status).json(handled);
 });
 
 // Teams
-router.get('/allTeams', allTeams);
-router.post('/setTeam', setTeam);
-router.delete('/deleteTeam', deleteTeam);
+router.get('/allTeams', async (req: Request, res: Response) => {
+  const handled = await allTeams(req, res);
+  res.status(handled!.status).json(handled);
+});
+router.post('/setTeam', async (req: Request, res: Response) => {
+  const handled = await setTeam(req, res);
+  res.status(handled!.status).json(handled);
+});
+router.delete('/deleteTeam', async (req: Request, res: Response) => {
+  const handled = await deleteTeam(req, res);
+  res.status(handled!.status).json(handled);
+});
 
 app.use('/.netlify/functions/api', router);
 
