@@ -201,7 +201,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           control={Input}
                           label="Name"
                           placeholder="Name"
-                          onChange={(event: any, data: any) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>, data: any) => {
                             if (this.state.currentSelectedTeam) {
                               this.setState({
                                 currentSelectedTeam: {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Image, Button, Modal } from 'semantic-ui-react';
+import AvatarEditor from 'react-avatar-editor';
 import AramHeadshot from '../../../static/images/aram-headshot.jpg';
 import ProfileImageEditor from './ProfileImageEditor/ProfileImageEditor';
 
@@ -8,8 +9,8 @@ const UserProfileImage: React.FC = () => {
 
   // grab image from AWS bucket. set profilePhoto to initial photo
   const [profilePhoto, setProfilePhoto] = useState<string>(AramHeadshot);
-  const [editor, setEditor] = useState<null | any>(null);
-  const setEditorRef = (editor: any) => setEditor(editor);
+  const [editor, setEditor] = useState<null | AvatarEditor>(null);
+  const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
 
   const cropAndSubmitImage = () => {
     if (editor !== null) {
