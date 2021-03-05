@@ -10,7 +10,7 @@ export default class TeamsDao {
     const teams = await Promise.all(
       teamRefs.docs.map((teamRef) => materialize(teamRef.data()))
     );
-    return { isSuccessful: true, teams };
+    return { isSuccessful: true, teams: teams };
   }
 
   static async setTeam(team: Team): Promise<DBTeamResult> {
