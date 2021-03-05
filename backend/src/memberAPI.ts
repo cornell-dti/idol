@@ -161,7 +161,7 @@ export const deleteMember = async (
         } does not have permission to delete members!`
       };
     }
-    let email: string = req.params.email;
+    const { email } = req.params;
     if (!email || email === '') {
       return {
         status: 400,
