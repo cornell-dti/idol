@@ -117,7 +117,7 @@ router.post('/setMember', async (req: Request, res: Response) => {
   const handled = await setMember(req, res);
   res.status(handled!.status).json(handled);
 });
-router.delete('/deleteMember', async (req: Request, res: Response) => {
+router.delete('/deleteMember/:email', async (req: Request, res: Response) => {
   const handled = await deleteMember(req, res);
   res.status(handled!.status).json(handled);
 });
@@ -136,7 +136,7 @@ router.post('/setTeam', async (req: Request, res: Response) => {
   const handled = await setTeam(req, res);
   res.status(handled!.status).json(handled);
 });
-router.delete('/deleteTeam', async (req: Request, res: Response) => {
+router.post('/deleteTeam', async (req: Request, res: Response) => {
   const handled = await deleteTeam(req, res);
   res.status(handled!.status).json(handled);
 });

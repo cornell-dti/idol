@@ -69,7 +69,7 @@ export class MembersAPI {
   }
 
   public static deleteMember(member: Member): Promise<any> {
-    return APIWrapper.post(`${backendURL}/deleteMember`, member, {
+    return APIWrapper.delete(`${backendURL}/deleteMember/${member.email}`, {
       withCredentials: true
     }).then((res) => res.data);
   }
