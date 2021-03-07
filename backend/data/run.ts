@@ -27,21 +27,23 @@ db.collection('members')
       const email: string = jsonData.netid + emailDomain;
 
       const data = {
+        email,
+        netid: jsonData.netid,
         firstName: jsonData.firstName,
         lastName: jsonData.lastName,
-        email,
-        role: jsonData.roleId,
-        about: jsonData.about,
-        github: jsonData.github,
-        linkedin: jsonData.linkedin,
-        major: jsonData.major,
-        minor: jsonData.minor,
-        doubleMajor: jsonData.doubleMajor,
-        hometown: jsonData.hometown,
         graduation: jsonData.graduation,
+        major: jsonData.major,
+        doubleMajor: jsonData.doubleMajor,
+        minor: jsonData.minor,
+        website: jsonData.website,
+        linkedin: jsonData.linkedin,
+        github: jsonData.github,
+        hometown: jsonData.hometown,
+        about: jsonData.about,
         subteam: jsonData.subteam,
         otherSubteams: jsonData.otherSubteams,
-        website: jsonData.website
+        role: jsonData.roleId,
+        roleDescription: jsonData.roleDescription,  
       };
 
       removeEmptyOrNull(data);
