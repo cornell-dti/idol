@@ -27,20 +27,20 @@ db.collection('members')
       const email: string = jsonData.netid + emailDomain;
 
       const data = {
-        first_name: jsonData.firstName,
-        last_name: jsonData.lastName,
+        firstName: jsonData.firstName,
+        lastName: jsonData.lastName,
         email,
         role: jsonData.roleId,
         about: jsonData.about,
-        github_link: jsonData.github,
-        linkedin_link: jsonData.linkedin,
+        github: jsonData.github,
+        linkedin: jsonData.linkedin,
         major: jsonData.major,
         minor: jsonData.minor,
-        double_major: jsonData.doubleMajor,
+        doubleMajor: jsonData.doubleMajor,
         hometown: jsonData.hometown,
         graduation: jsonData.graduation,
         subteam: jsonData.subteam,
-        other_subteams: jsonData.otherSubteams,
+        otherSubteams: jsonData.otherSubteams,
         website: jsonData.website
       };
 

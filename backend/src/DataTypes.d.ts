@@ -4,20 +4,21 @@ export type Role = 'lead' | 'admin' | 'tpm' | 'pm' | 'developer' | 'designer';
 
 export type Member = {
   email: string;
-  first_name: string;
-  last_name: string;
+  netid: string;
+  firstName: string;
+  lastName: string;
   role: Role;
   graduation: string;
   major: string;
-  double_major?: string; // optional
+  doubleMajor?: string; // optional
   minor?: string; // optional
   website?: string; // optional
-  linkedin_link?: string; // optional
-  github_link?: string; // optional
+  linkedin?: string; // optional
+  github?: string; // optional
   hometown: string;
   about: string;
   subteam: string;
-  other_subteams?: string[]; // optional
+  otherSubteams?: string[]; // optional
 };
 
 export type DBTeam = {
