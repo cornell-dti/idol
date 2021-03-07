@@ -1,13 +1,14 @@
 import { firestore } from 'firebase-admin';
 
-export type Role = 'lead' | 'admin' | 'tpm' | 'pm' | 'developer' | 'designer';
+export type Role = 'lead' | 'admin' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
+
+export type roleDescription = 'Lead' | 'Admin' | 'Technical PM' | 'Product Manager' | 'Developer' | 'Designer' | 'Business Analyst'
 
 export type Member = {
   email: string;
   netid: string;
   firstName: string;
   lastName: string;
-  role: Role;
   graduation: string;
   major: string;
   doubleMajor?: string; // optional
@@ -19,6 +20,8 @@ export type Member = {
   about: string;
   subteam: string;
   otherSubteams?: string[]; // optional
+  role: Role;
+  roleDescription: roleDescription;
 };
 
 export type DBTeam = {
