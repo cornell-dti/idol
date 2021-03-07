@@ -1,8 +1,22 @@
 import { firestore } from 'firebase-admin';
 
-export type Role = 'lead' | 'admin' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
+export type Role =
+  | 'lead'
+  | 'admin'
+  | 'tpm'
+  | 'pm'
+  | 'developer'
+  | 'designer'
+  | 'business';
 
-export type roleDescription = 'Lead' | 'Admin' | 'Technical PM' | 'Product Manager' | 'Developer' | 'Designer' | 'Business Analyst'
+export type roleDescription =
+  | 'Lead'
+  | 'Admin'
+  | 'Technical PM'
+  | 'Product Manager'
+  | 'Developer'
+  | 'Designer'
+  | 'Business Analyst';
 
 export type Member = {
   email: string;
