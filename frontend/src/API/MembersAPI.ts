@@ -3,6 +3,12 @@ import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 
+type MemberResponseObj = {
+  status: number;
+  member: Member;
+  error?: string;
+};
+
 export type Member = {
   email: string;
   netid: string;
@@ -64,19 +70,19 @@ export class MembersAPI {
     });
   }
 
-  public static setMember(member: Member): Promise<any> {
+  public static setMember(member: Member): Promise<MemberResponseObj> {
     return APIWrapper.post(`${backendURL}/setMember`, member, {
       withCredentials: true
     }).then((res) => res.data);
   }
 
-  public static deleteMember(member: Member): Promise<any> {
+  public static deleteMember(member: Member): Promise<MemberResponseObj> {
     return APIWrapper.delete(`${backendURL}/deleteMember/${member.email}`, {
       withCredentials: true
     }).then((res) => res.data);
   }
 
-  public static updateMember(member: Member): Promise<any> {
+  public static updateMember(member: Member): Promise<MemberResponseObj> {
     return APIWrapper.post(`${backendURL}/updateMember`, member, {
       withCredentials: true
     }).then((res) => res.data);

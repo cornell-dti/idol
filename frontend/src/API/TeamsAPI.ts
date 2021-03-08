@@ -4,6 +4,12 @@ import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 import { Member } from './MembersAPI';
 
+type TeamResponseObj = {
+  status: number;
+  team: Team;
+  error?: string;
+};
+
 export type Team = {
   name: string;
   leaders: Member[];
@@ -36,13 +42,13 @@ export class TeamsAPI {
     });
   }
 
-  public static setTeam(team: Team): Promise<any> {
+  public static setTeam(team: Team): Promise<TeamResponseObj> {
     return APIWrapper.post(`${backendURL}/setTeam`, team, {
       withCredentials: true
     }).then((res) => res.data);
   }
 
-  public static deleteTeam(team: Team): Promise<any> {
+  public static deleteTeam(team: Team): Promise<TeamResponseObj> {
     return APIWrapper.post(`${backendURL}/deleteTeam`, team, {
       withCredentials: true
     }).then((res) => res.data);
