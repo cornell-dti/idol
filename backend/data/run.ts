@@ -43,7 +43,7 @@ db.collection('members')
         subteam: jsonData.subteam,
         otherSubteams: jsonData.otherSubteams,
         role: jsonData.roleId,
-        roleDescription: jsonData.roleDescription,  
+        roleDescription: jsonData.roleDescription
       };
 
       removeEmptyOrNull(data);
