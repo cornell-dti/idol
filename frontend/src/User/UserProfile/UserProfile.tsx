@@ -1,8 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { UserContext } from '../../UserProvider/UserProvider';
-import { Member, MembersAPI } from '../../API/MembersAPI';
+import {
+  Member,
+  MembersAPI,
+  Role,
+  RoleDescription
+} from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
+import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
 
 const UserProfile: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
@@ -15,7 +21,7 @@ const UserProfile: React.FC = () => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('' as Role);
   const [graduation, setGraduation] = useState('');
   const [major, setMajor] = useState('');
   const [doubleMajor, setDoubleMajor] = useState('');
@@ -86,12 +92,12 @@ const UserProfile: React.FC = () => {
 
     if (isValid) {
       const updatedUser: Member = {
-        netid: '',
+        netid: getNetIDFromEmail(email),
         email,
         firstName,
         lastName,
         role,
-        roleDescription: '',
+        roleDescription: getRoleDescriptionFromRoleID(role),
         graduation,
         major,
         doubleMajor: isFilledOut(doubleMajor) ? doubleMajor : null,

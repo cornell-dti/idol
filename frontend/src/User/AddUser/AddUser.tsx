@@ -1,16 +1,17 @@
 import React from 'react';
 import { Card, Loader, Button, Form, Input, Select } from 'semantic-ui-react';
 import styles from './AddUser.module.css';
-import { Member, MembersAPI } from '../../API/MembersAPI';
+import { Member, MembersAPI, Role } from '../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
 import Emitters from '../../EventEmitter/constant-emitters';
 import RolesAPI from '../../API/RolesAPI';
 import APICache from '../../Cache/Cache';
+import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
 
 type AddUserState = {
-  currentSelectedMember?: Member;
+  currentSelectedMember?: Omit<Member, 'netid' | 'roleDescription'>;
   allMembers?: Member[];
-  allRoles?: string[];
+  allRoles?: Role[];
   membersLoaded: boolean;
   isCreatingUser: boolean;
 };
@@ -40,12 +41,10 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
   createNewUser(): void {
     this.setState({
       currentSelectedMember: {
-        netid: '',
         firstName: '',
         lastName: '',
         email: '',
-        role: '',
-        roleDescription: '',
+        role: '' as Role,
         graduation: '',
         major: '',
         doubleMajor: '',
@@ -62,9 +61,9 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
     });
   }
 
-  async deleteUser(member: Member): Promise<void> {
+  async deleteUser(memberEmail: string): Promise<void> {
     APICache.invalidate('getAllMembers');
-    MembersAPI.deleteMember(member).then((val) => {
+    MembersAPI.deleteMember(memberEmail).then((val) => {
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't delete user!",
@@ -167,7 +166,9 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                       color="red"
                       onClick={() => {
                         if (this.state.currentSelectedMember) {
-                          this.deleteUser(this.state.currentSelectedMember);
+                          this.deleteUser(
+                            this.state.currentSelectedMember.email
+                          );
                         }
                       }}
                     >
@@ -290,7 +291,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               this.setState({
                                 currentSelectedMember: {
                                   ...this.state.currentSelectedMember,
-                                  role: data.value
+                                  role: data.value as Role
                                 }
                               });
                             }
@@ -311,7 +312,15 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                         color="green"
                         onClick={() => {
                           if (this.state.currentSelectedMember) {
-                            this.setUser(this.state.currentSelectedMember);
+                            const partialMember = this.state
+                              .currentSelectedMember;
+                            this.setUser({
+                              ...partialMember,
+                              netid: getNetIDFromEmail(partialMember.email),
+                              roleDescription: getRoleDescriptionFromRoleID(
+                                partialMember.role
+                              )
+                            });
                           }
                         }}
                       >
