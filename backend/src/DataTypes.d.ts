@@ -1,23 +1,41 @@
 import { firestore } from 'firebase-admin';
 
-export type Role = 'lead' | 'admin' | 'tpm' | 'pm' | 'developer' | 'designer';
+export type Role =
+  | 'lead'
+  | 'admin'
+  | 'tpm'
+  | 'pm'
+  | 'developer'
+  | 'designer'
+  | 'business';
+
+export type RoleDescription =
+  | 'Lead'
+  | 'Admin'
+  | 'Technical PM'
+  | 'Product Manager'
+  | 'Developer'
+  | 'Designer'
+  | 'Business Analyst';
 
 export type Member = {
   email: string;
-  first_name: string;
-  last_name: string;
-  role: Role;
+  netid: string;
+  firstName: string;
+  lastName: string;
   graduation: string;
   major: string;
-  double_major?: string; // optional
+  doubleMajor?: string; // optional
   minor?: string; // optional
   website?: string; // optional
-  linkedin_link?: string; // optional
-  github_link?: string; // optional
+  linkedin?: string; // optional
+  github?: string; // optional
   hometown: string;
   about: string;
   subteam: string;
-  other_subteams?: string[]; // optional
+  otherSubteams?: string[]; // optional
+  role: Role;
+  roleDescription: RoleDescription;
 };
 
 export type DBTeam = {

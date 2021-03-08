@@ -33,20 +33,20 @@ const UserProfile: React.FC = () => {
       getUser(userEmail)
         .then((mem) => {
           setEmail(mem.email);
-          setFirstName(mem.first_name);
-          setLastName(mem.last_name);
+          setFirstName(mem.firstName);
+          setLastName(mem.lastName);
           setRole(mem.role);
           setGraduation(mem.graduation);
           setMajor(mem.major);
-          setDoubleMajor(mem.double_major ? mem.double_major : '');
-          setMinor(mem.minor ? mem.minor : '');
+          setDoubleMajor(mem.doubleMajor || '');
+          setMinor(mem.minor || '');
           setHometown(mem.hometown);
           setAbout(mem.about);
-          setWebsite(mem.website ? mem.website : '');
-          setLinkedin(mem.linkedin_link ? mem.linkedin_link : '');
-          setGithub(mem.github_link ? mem.github_link : '');
+          setWebsite(mem.website || '');
+          setLinkedin(mem.linkedin || '');
+          setGithub(mem.github || '');
           setSubteam(mem.subteam);
-          setOtherSubteams(mem.other_subteams);
+          setOtherSubteams(mem.otherSubteams);
         })
         .catch((error) => {
           Emitters.generalError.emit({
@@ -86,21 +86,23 @@ const UserProfile: React.FC = () => {
 
     if (isValid) {
       const updatedUser: Member = {
+        netid: '',
         email,
-        first_name: firstName,
-        last_name: lastName,
+        firstName,
+        lastName,
         role,
+        roleDescription: '',
         graduation,
         major,
-        double_major: isFilledOut(doubleMajor) ? doubleMajor : null,
+        doubleMajor: isFilledOut(doubleMajor) ? doubleMajor : null,
         minor: isFilledOut(minor) ? minor : null,
         hometown,
         about,
         website: isFilledOut(website) ? website : null,
-        linkedin_link: isFilledOut(linkedin) ? linkedin : null,
-        github_link: isFilledOut(github) ? github : null,
+        linkedin: isFilledOut(linkedin) ? linkedin : null,
+        github: isFilledOut(github) ? github : null,
         subteam,
-        other_subteams: otherSubteams
+        otherSubteams
       };
       updateUser(updatedUser);
     }

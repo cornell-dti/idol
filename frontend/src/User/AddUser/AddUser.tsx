@@ -40,21 +40,23 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
   createNewUser(): void {
     this.setState({
       currentSelectedMember: {
-        first_name: '',
-        last_name: '',
+        netid: '',
+        firstName: '',
+        lastName: '',
         email: '',
         role: '',
+        roleDescription: '',
         graduation: '',
         major: '',
-        double_major: '',
+        doubleMajor: '',
         minor: '',
         website: '',
-        linkedin_link: '',
-        github_link: '',
+        linkedin: '',
+        github: '',
         hometown: '',
         about: '',
         subteam: '',
-        other_subteams: []
+        otherSubteams: []
       },
       isCreatingUser: true
     });
@@ -148,7 +150,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                       >
                         <Card.Content>
                           <Card.Header style={{ margin: 0 }}>
-                            {`${mem.first_name} ${mem.last_name}`}
+                            {`${mem.firstName} ${mem.lastName}`}
                           </Card.Header>
                           <p style={{ margin: 0, color: 'GrayText' }}>
                             {mem.email}
@@ -187,7 +189,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                 <Card style={{ width: 'calc(80vw - 6rem)' }}>
                   <Card.Content className={styles.cardContent}>
                     <h2 className={styles.cardHeader}>
-                      {`${this.state.currentSelectedMember.first_name} ${this.state.currentSelectedMember.last_name}`}
+                      {`${this.state.currentSelectedMember.firstName} ${this.state.currentSelectedMember.lastName}`}
                     </h2>
                     <Form>
                       <Form.Group widths="equal">
@@ -202,12 +204,12 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               this.setState({
                                 currentSelectedMember: {
                                   ...this.state.currentSelectedMember,
-                                  first_name: event.target.value
+                                  firstName: event.target.value
                                 }
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember?.first_name}
+                          value={this.state.currentSelectedMember?.firstName}
                         />
                         <Form.Field
                           control={Input}
@@ -220,12 +222,12 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               this.setState({
                                 currentSelectedMember: {
                                   ...this.state.currentSelectedMember,
-                                  last_name: event.target.value
+                                  lastName: event.target.value
                                 }
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember?.last_name}
+                          value={this.state.currentSelectedMember?.lastName}
                         />
                       </Form.Group>
                       <Form.Group widths="equal">

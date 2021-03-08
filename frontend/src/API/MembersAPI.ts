@@ -11,20 +11,22 @@ type MemberResponseObj = {
 
 export type Member = {
   email: string;
-  first_name: string;
-  last_name: string;
-  role: string;
+  netid: string;
+  firstName: string;
+  lastName: string;
   graduation: string;
   major: string;
-  double_major: string | null;
+  doubleMajor: string | null;
   minor: string | null;
   website: string | null;
-  linkedin_link: string | null;
-  github_link: string | null;
+  linkedin: string | null;
+  github: string | null;
   hometown: string;
   about: string;
   subteam: string;
-  other_subteams: string[] | null;
+  otherSubteams: string[] | null;
+  role: string;
+  roleDescription: string;
 };
 
 export class MembersAPI {
@@ -46,7 +48,7 @@ export class MembersAPI {
         return [];
       }
       let mems = val.members as Member[];
-      mems = mems.sort((a, b) => (a.first_name < b.first_name ? -1 : 1));
+      mems = mems.sort((a, b) => (a.firstName < b.firstName ? -1 : 1));
       APICache.cache(funcName, mems);
       return mems;
     });

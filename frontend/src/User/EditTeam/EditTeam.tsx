@@ -232,14 +232,14 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.first_name
+                            member.firstName
                               .toLowerCase()
                               .startsWith(queryLower) ||
-                            member.last_name
+                            member.lastName
                               .toLowerCase()
                               .startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
-                            `${member.first_name.toLowerCase()} ${member.last_name.toLowerCase()}`.startsWith(
+                            `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
                               queryLower
                             )
                           );
@@ -265,7 +265,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                       ).map((member, ind) => (
                         <Card key={ind}>
                           <Card.Content>
-                            <Card.Header>{`${member.first_name} ${member.last_name}`}</Card.Header>
+                            <Card.Header>{`${member.firstName} ${member.lastName}`}</Card.Header>
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
@@ -311,14 +311,14 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.first_name
+                            member.firstName
                               .toLowerCase()
                               .startsWith(queryLower) ||
-                            member.last_name
+                            member.lastName
                               .toLowerCase()
                               .startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
-                            `${member.first_name.toLowerCase()} ${member.last_name.toLowerCase()}`.startsWith(
+                            `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
                               queryLower
                             )
                           );
@@ -344,7 +344,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                       ).map((member, ind) => (
                         <Card key={ind}>
                           <Card.Content>
-                            <Card.Header>{`${member.first_name} ${member.last_name}`}</Card.Header>
+                            <Card.Header>{`${member.firstName} ${member.lastName}`}</Card.Header>
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
