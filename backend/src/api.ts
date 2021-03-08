@@ -136,7 +136,7 @@ router.post('/setTeam', async (req: Request, res: Response) => {
   const handled = await setTeam(req, res);
   res.status(handled!.status).json(handled);
 });
-router.delete('/deleteTeam/:teamuuid', async (req: Request, res: Response) => {
+router.post('/deleteTeam', async (req: Request, res: Response) => {
   const handled = await deleteTeam(req, res);
   res.status(handled!.status).json(handled);
 });
