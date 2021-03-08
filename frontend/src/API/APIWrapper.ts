@@ -33,6 +33,21 @@ export default class APIWrapper {
     return responseProm;
   }
 
+  public static delete(
+    url: string,
+    config?: AxiosRequestConfig | undefined,
+    errDefault?: any
+  ): Promise<any> {
+    const responseProm = axios
+      .delete(url, {
+        ...config,
+        withCredentials: true
+      })
+      .catch((err) => err)
+      .then((resOrErr) => this.responseMiddleware(resOrErr, errDefault));
+    return responseProm;
+  }
+
   private static responseMiddleware(resOrErr: any, errDefault?: any) {
     console.log(resOrErr.response, resOrErr);
     if (resOrErr.name === 'Error' && resOrErr.response.status === 440) {
