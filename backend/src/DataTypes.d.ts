@@ -9,7 +9,7 @@ export type Role =
   | 'designer'
   | 'business';
 
-export type roleDescription =
+export type RoleDescription =
   | 'Lead'
   | 'Admin'
   | 'Technical PM'
