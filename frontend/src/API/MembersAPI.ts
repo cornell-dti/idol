@@ -48,7 +48,7 @@ export class MembersAPI {
         return [];
       }
       let mems = val.members as Member[];
-      mems = mems.sort((a, b) => (a.first_name < b.first_name ? -1 : 1));
+      mems = mems.sort((a, b) => (a.firstName < b.firstName ? -1 : 1));
       APICache.cache(funcName, mems);
       return mems;
     });
