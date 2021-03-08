@@ -35,7 +35,7 @@ export type Member = {
   subteam: string;
   otherSubteams?: string[]; // optional
   role: Role;
-  roleDescription: roleDescription;
+  roleDescription: RoleDescription;
 };
 
 export type DBTeam = {
