@@ -5,20 +5,22 @@ import Emitters from '../EventEmitter/constant-emitters';
 
 export type Member = {
   email: string;
-  first_name: string;
-  last_name: string;
-  role: string;
+  netid: string;
+  firstName: string;
+  lastName: string;
   graduation: string;
   major: string;
-  double_major: string | null;
+  doubleMajor: string | null;
   minor: string | null;
   website: string | null;
-  linkedin_link: string | null;
-  github_link: string | null;
+  linkedin: string | null;
+  github: string | null;
   hometown: string;
   about: string;
   subteam: string;
-  other_subteams: string[] | null;
+  otherSubteams: string[] | null;
+  role: string;
+  roleDescription: string;
 };
 
 export class MembersAPI {
