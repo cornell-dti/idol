@@ -7,7 +7,7 @@ import Emitters from '../../EventEmitter/constant-emitters';
 const UserProfile: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
 
-  const getUser = async (email: string): Promise<any> => {
+  const getUser = async (email: string): Promise<Member> => {
     const mem = await MembersAPI.getMember(email);
     return mem;
   };
@@ -26,7 +26,7 @@ const UserProfile: React.FC = () => {
   const [linkedin, setLinkedin] = useState('');
   const [github, setGithub] = useState('');
   const [subteam, setSubteam] = useState('');
-  const [otherSubteams, setOtherSubteams] = useState(null);
+  const [otherSubteams, setOtherSubteams] = useState<string[] | null>(null);
 
   useEffect(() => {
     if (userEmail) {
@@ -57,7 +57,7 @@ const UserProfile: React.FC = () => {
     }
   }, [userEmail]);
 
-  const updateUser = async (member: Member): Promise<any> => {
+  const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
       if (val.status === 200) {
         alert('Member information successfully updated!');

@@ -16,8 +16,8 @@ type EditProfileImageState = {
 
 type Props = {
   currentProfileImage: string;
-  setEditorRef: any;
-  cropAndSubmitImage: any;
+  setEditorRef: (editor: AvatarEditor) => void;
+  cropAndSubmitImage: () => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -36,7 +36,8 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
     };
   }
 
-  handleNewImage = (e: React.ChangeEvent<any>): void => {
+  handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (!e.target.files) return;
     const newImage = URL.createObjectURL(e.target.files[0]);
     this.setState({ image: newImage });
   };
