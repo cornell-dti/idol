@@ -9,6 +9,24 @@ type MemberResponseObj = {
   error?: string;
 };
 
+export type Role =
+  | 'lead'
+  | 'admin'
+  | 'tpm'
+  | 'pm'
+  | 'developer'
+  | 'designer'
+  | 'business';
+
+export type RoleDescription =
+  | 'Lead'
+  | 'Admin'
+  | 'Technical PM'
+  | 'Product Manager'
+  | 'Developer'
+  | 'Designer'
+  | 'Business Analyst';
+
 export type Member = {
   email: string;
   netid: string;
@@ -25,8 +43,8 @@ export type Member = {
   about: string;
   subteam: string;
   otherSubteams: string[] | null;
-  role: string;
-  roleDescription: string;
+  role: Role;
+  roleDescription: RoleDescription;
 };
 
 export class MembersAPI {
@@ -76,8 +94,8 @@ export class MembersAPI {
     }).then((res) => res.data);
   }
 
-  public static deleteMember(member: Member): Promise<MemberResponseObj> {
-    return APIWrapper.delete(`${backendURL}/deleteMember/${member.email}`, {
+  public static deleteMember(memberEmail: string): Promise<MemberResponseObj> {
+    return APIWrapper.delete(`${backendURL}/deleteMember/${memberEmail}`, {
       withCredentials: true
     }).then((res) => res.data);
   }
