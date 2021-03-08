@@ -250,6 +250,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                             placeholder="Email"
                             readOnly
                             fluid
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                               if (this.state.currentSelectedMember) {
                                 this.setState({
                                   currentSelectedMember: {
@@ -262,7 +263,6 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                             value={this.state.currentSelectedMember?.email}
                           />
                         )}
-                              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         <Form.Field
                           control={Select}
                           label="Role"
@@ -272,7 +272,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                             value: val
                           }))}
                           placeholder="Role"
-                          onChange={(event: React.ChangeEvent<HTMLInputElement>, data: any) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>, data: HTMLInputElement) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {

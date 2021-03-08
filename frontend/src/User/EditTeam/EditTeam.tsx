@@ -58,7 +58,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
     });
   }
 
-  async deleteTeam(team: Team): Promise<any> {
+  async deleteTeam(team: Team): Promise<void> {
     APICache.invalidate('getAllTeams');
     TeamsAPI.deleteTeam(team).then((val) => {
       if (val.error) {
@@ -201,7 +201,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           control={Input}
                           label="Name"
                           placeholder="Name"
-                          onChange={(event: React.ChangeEvent<HTMLInputElement>, data: any) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>, data: HTMLInputElement) => {
                             if (this.state.currentSelectedTeam) {
                               this.setState({
                                 currentSelectedTeam: {
