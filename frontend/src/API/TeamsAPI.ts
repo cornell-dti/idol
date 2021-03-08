@@ -8,7 +8,7 @@ type TeamResponseObj = {
   status: number;
   team: Team;
   error?: string;
-}
+};
 
 export type Team = {
   name: string;

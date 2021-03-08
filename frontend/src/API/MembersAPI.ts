@@ -7,7 +7,7 @@ type MemberResponseObj = {
   status: number;
   member: Member;
   error?: string;
-}
+};
 
 export type Member = {
   email: string;
