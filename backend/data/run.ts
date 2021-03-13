@@ -20,7 +20,7 @@ db.collection('members')
   .get()
   .then((vals) => vals.docs.map((doc) => doc.data().email))
   .then((existingEmails: string[]) => {
-    json.forEach((jsonData) => {      
+    json.forEach((jsonData) => {
       const email: string = jsonData.netid + emailDomain;
 
       const data = {
@@ -45,6 +45,5 @@ db.collection('members')
 
       removeEmptyOrNull(data);
       db.doc(`members/${email}`).set(data);
-    
     });
   });
