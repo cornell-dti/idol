@@ -4,7 +4,8 @@
   "private": true,
   "workspaces": [
     "frontend",
-    "backend"
+    "backend",
+    "dti-website"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts --ext .tsx",

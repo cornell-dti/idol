@@ -1,0 +1,11 @@
+{
+  "diversity": {
+    "femalePercentage": {
+      "": 0.53,
+      "business": 0.8,
+      "developer": 0.43,
+      "designer": 0.75,
+      "pm": 0.43
+    }
+  }
+}
