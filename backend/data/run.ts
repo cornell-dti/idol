@@ -5,25 +5,22 @@ const removeEmptyOrNull = (obj) => {
     (k) =>
       (obj[k] && typeof obj[k] === 'object' && removeEmptyOrNull(obj[k])) ||
       // eslint-disable-next-line no-param-reassign
-      (!obj[k] && obj[k] !== undefined && delete obj[k])
+      (!obj[k] && (obj[k] === undefined || obj[k] === null) && delete obj[k])
   );
   return obj;
 };
 
-const dirPath = './members/';
-const filesPath = './data/members/';
+const filePath = 'backend/data/all-members.json';
 const fs = require('fs');
 
-const jsonFilesList: string[] = fs.readdirSync(filesPath);
+const json = JSON.parse(fs.readFileSync(filePath));
 const emailDomain = '@cornell.edu';
 
 db.collection('members')
   .get()
   .then((vals) => vals.docs.map((doc) => doc.data().email))
   .then((existingEmails: string[]) => {
-    jsonFilesList.forEach((fileName) => {
-      // eslint-disable-next-line import/no-dynamic-require, global-require
-      const jsonData = require(dirPath + fileName);
+    json.forEach((jsonData) => {
       const email: string = jsonData.netid + emailDomain;
 
       const data = {
@@ -47,13 +44,6 @@ db.collection('members')
       };
 
       removeEmptyOrNull(data);
-
-      if (data.website) {
-        if (existingEmails.includes(email)) {
-          db.doc(`members/${email}`).update(data);
-        } else {
-          db.doc(`members/${email}`).set(data);
-        }
-      }
+      db.doc(`members/${email}`).set(data);
     });
   });
