@@ -124,3 +124,5 @@ function isCollRef(val: any) {
     typeof val.startAfter === 'function'
   );
 }
+
+export const getNetIDFromEmail = (email: string): string => email.split('@')[0];

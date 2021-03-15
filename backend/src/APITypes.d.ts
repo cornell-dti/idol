@@ -12,3 +12,6 @@ export type AllMembersResponse = APIResponse & { members: Member[] };
 // Teams
 export type TeamResponse = APIResponse & { team: Team };
 export type AllTeamsResponse = APIResponse & { teams: Team[] };
+
+// Images
+export type ImageResponse = APIResponse & { url: string };

@@ -12,6 +12,7 @@ import {
   deleteMember,
   updateMember
 } from './memberAPI';
+import { getMemberImage } from './imageAPI';
 import { getAllRoles } from './roleAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
 
@@ -138,6 +139,11 @@ router.post('/setTeam', async (req: Request, res: Response) => {
 });
 router.post('/deleteTeam', async (req: Request, res: Response) => {
   const handled = await deleteTeam(req, res);
+  res.status(handled!.status).json(handled);
+});
+
+router.get('/getMemberImage', async (req: Request, res: Response) => {
+  const handled = await getMemberImage(req, res);
   res.status(handled!.status).json(handled);
 });
 
