@@ -42,6 +42,13 @@ export const getMemberImage = async (
     }
     const netId: string = getNetIDFromEmail(user.email);
     const file = bucket.file(`images/${netId}.jpg`);
+    let fileExists = await file.exists().then((result) => result[0]);
+    if (!fileExists) {
+      return {
+        status: 404,
+        error: `The requested image (${netId}.jpg) does not exist`
+      };
+    }
     let signedUrl = await file.getSignedUrl({
       action: 'read',
       expires: Date.now() + 15 * 60000
