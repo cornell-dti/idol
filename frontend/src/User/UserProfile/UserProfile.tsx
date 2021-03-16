@@ -114,6 +114,38 @@ const UserProfile: React.FC = () => {
     }
   };
 
+  let name;
+  if (role === 'admin' || role === 'lead') {
+    name = (
+      <Form.Group widths="equal">
+        <Form.Input
+          fluid
+          label="First name"
+          value={firstName}
+          onChange={(event) => {
+            setFirstName(event.target.value);
+          }}
+          required
+        />
+        <Form.Input
+          fluid
+          label="Last name"
+          value={lastName}
+          onChange={(event) => {
+            setLastName(event.target.value);
+          }}
+          required
+        />
+      </Form.Group>
+    );
+  } else {
+    name = (
+      <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
+        {firstName} {lastName}
+      </h2>
+    );
+  }
+
   return (
     <Form
       style={{
@@ -123,30 +155,7 @@ const UserProfile: React.FC = () => {
         marginTop: '10vh'
       }}
     >
-      <Form.Group widths="equal">
-        <Form.Input
-          fluid
-          label="First name"
-          value={firstName}
-          onChange={(event) => {
-            if (role === 'admin') {
-              setFirstName(event.target.value);
-            }
-          }}
-          required
-        />
-        <Form.Input
-          fluid
-          label="Last name"
-          value={lastName}
-          onChange={(event) => {
-            if (role === 'admin') {
-              setLastName(event.target.value);
-            }
-          }}
-          required
-        />
-      </Form.Group>
+      {name}
 
       <Form.Group widths="equal">
         <Form.Input
