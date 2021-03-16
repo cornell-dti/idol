@@ -1,6 +1,7 @@
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
+import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
 // TODO: add typing and stuff to this file
 export class ImagesAPI {
@@ -12,10 +13,7 @@ export class ImagesAPI {
 
     return responseProm.then((val) => {
       if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't get member image",
-          contentMsg: `Error was: ${val.error}`
-        });
+        return HeadshotPlaceholder;
       }
       const { url } = val;
       return url;
