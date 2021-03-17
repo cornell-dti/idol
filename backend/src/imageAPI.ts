@@ -15,6 +15,29 @@ export const setMemberImage = async (
   req: Request,
   res: Response
 ): Promise<ImageResponse | ErrorResponse | undefined> => {
+  if (checkLoggedIn(req, res)) {
+    const user = await (
+      await db.doc(`members/${req.session!.email}`).get()
+    ).data();
+    if (!user) {
+      return {
+        status: 401,
+        error: `No user with email: ${req.session!.email}`
+      };
+    }
+    const netId: string = getNetIDFromEmail(user.email);
+    const file = bucket.file(`images/${netId}.jpg`);
+    let signedURL = await file.getSignedUrl({
+      action: 'write',
+      version: 'v4',
+      expires: Date.now() + 15 * 60000
+      // contentType: 'image/jpeg'
+    });
+    return {
+      status: 200,
+      url: signedURL[0]
+    };
+  }
   return undefined;
 };
 
