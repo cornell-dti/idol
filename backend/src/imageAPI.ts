@@ -3,7 +3,7 @@ import { checkLoggedIn } from './api';
 import { db, bucket } from './firebase';
 import { AllImagesResponse, ImageResponse, ErrorResponse } from './APITypes';
 import { ProfileImage } from './DataTypes';
-import { getNetIDFromEmail } from './util';
+import { getNetIDFromEmail, filterImagesResponse } from './util';
 
 export const allMemberImages = async (
   req: Request,
@@ -14,7 +14,7 @@ export const allMemberImages = async (
     files[0].map(async (file) => {
       let signedURL = await file.getSignedUrl({
         action: 'read',
-        expires: Date.now() + 15 * 60000
+        expires: Date.now() + 15 * 60000 // 15 min
       });
       let fileName = await file.getMetadata().then((data) => data[1].body.name);
       return {
@@ -24,7 +24,7 @@ export const allMemberImages = async (
     })
   );
   return {
-    images: images.filter((image) => image.fileName.length > 7),
+    images: filterImagesResponse(images),
     status: 200
   };
 };
@@ -48,8 +48,7 @@ export const setMemberImage = async (
     let signedURL = await file.getSignedUrl({
       action: 'write',
       version: 'v4',
-      expires: Date.now() + 15 * 60000
-      // contentType: 'image/jpeg'
+      expires: Date.now() + 15 * 60000 // 15 min
     });
     return {
       status: 200,

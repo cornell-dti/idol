@@ -31,10 +31,7 @@ export class ImagesAPI {
   }
 
   public static uploadMemberImage(body: any): Promise<any> {
-    // TODO
     return this.getSignedURL().then((url) => {
-      console.log(url);
-      console.log(body);
       const responseProm = APIWrapper.put(url, body).then((res) => {
         console.log(res.data);
         return res.data;
