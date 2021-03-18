@@ -1,14 +1,32 @@
 import { Request, Response } from 'express';
 import { checkLoggedIn } from './api';
 import { db, bucket } from './firebase';
-import { ImageResponse, ErrorResponse } from './APITypes';
+import { AllImagesResponse, ImageResponse, ErrorResponse } from './APITypes';
+import { ProfileImage } from './DataTypes';
 import { getNetIDFromEmail } from './util';
 
 export const allMemberImages = async (
   req: Request,
   res: Response
-): Promise<ImageResponse | ErrorResponse | undefined> => {
-  return undefined;
+): Promise<AllImagesResponse | ErrorResponse | undefined> => {
+  const files = await bucket.getFiles({ prefix: 'images/' });
+  const images = await Promise.all(
+    files[0].map(async (file) => {
+      let signedURL = await file.getSignedUrl({
+        action: 'read',
+        expires: Date.now() + 15 * 60000
+      });
+      let fileName = await file.getMetadata().then((data) => data[1].body.name);
+      return {
+        fileName,
+        url: signedURL[0]
+      };
+    })
+  );
+  return {
+    images: images.filter((image) => image.fileName.length > 7),
+    status: 200
+  };
 };
 
 export const setMemberImage = async (

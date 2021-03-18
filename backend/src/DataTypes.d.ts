@@ -38,6 +38,11 @@ export type Member = {
   roleDescription: RoleDescription;
 };
 
+export type ProfileImage = {
+  url: string;
+  fileName: string;
+};
+
 export type DBTeam = {
   uuid: string;
   name: string;

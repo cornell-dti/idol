@@ -12,7 +12,7 @@ import {
   deleteMember,
   updateMember
 } from './memberAPI';
-import { getMemberImage, setMemberImage } from './imageAPI';
+import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { getAllRoles } from './roleAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
 
@@ -150,6 +150,13 @@ router.get('/getMemberImage', async (req: Request, res: Response) => {
 router.get('/getImageSignedURL', async (req: Request, res: Response) => {
   const handled = await setMemberImage(req, res);
   res.status(handled!.status).json(handled);
+});
+
+router.get('/allMemberImages', async (req: Request, res: Response) => {
+  const handled = await allMemberImages(req, res);
+  // res.status(handled!.status).json(handled);
+  console.log(handled);
+  res.json({ status: 200 });
 });
 
 app.use('/.netlify/functions/api', router);

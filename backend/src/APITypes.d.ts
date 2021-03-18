@@ -1,4 +1,4 @@
-import { Member, Team } from './DataTypes';
+import { Member, Team, ProfileImage } from './DataTypes';
 
 type APIResponse = { status: number };
 
@@ -15,3 +15,4 @@ export type AllTeamsResponse = APIResponse & { teams: Team[] };
 
 // Images
 export type ImageResponse = APIResponse & { url: string };
+export type AllImagesResponse = APIResponse & { images: ProfileImage[] };

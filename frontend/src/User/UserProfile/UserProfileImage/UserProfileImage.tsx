@@ -8,13 +8,13 @@ import { ImagesAPI } from '../../../API/ImagesAPI';
 const UserProfileImage: React.FC = () => {
   const [open, setOpen] = React.useState(false);
 
-  // grab image from AWS bucket. set profilePhoto to initial photo
   const [profilePhoto, setProfilePhoto] = useState<string>('');
   const [editor, setEditor] = useState<null | AvatarEditor>(null);
   const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
 
   useEffect(() => {
     ImagesAPI.getMemberImage().then((url: string) => {
+      console.log(url);
       setProfilePhoto(url);
     });
   }, []);
