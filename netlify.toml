@@ -1,4 +1,4 @@
 [build]
-  publish = "dti-website/out/"
+  publish = "frontend/build/"
   functions = "backend/build"
   command = "npm run build"
