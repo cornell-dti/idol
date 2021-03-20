@@ -27,8 +27,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "tsc": "tsc",
     "test": "react-scripts test",
+    "tsc": "tsc",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:9000",
