@@ -9,43 +9,7 @@ type MemberResponseObj = {
   error?: string;
 };
 
-export type Role =
-  | 'lead'
-  | 'admin'
-  | 'tpm'
-  | 'pm'
-  | 'developer'
-  | 'designer'
-  | 'business';
-
-export type RoleDescription =
-  | 'Lead'
-  | 'Admin'
-  | 'Technical PM'
-  | 'Product Manager'
-  | 'Developer'
-  | 'Designer'
-  | 'Business Analyst';
-
-export type Member = {
-  email: string;
-  netid: string;
-  firstName: string;
-  lastName: string;
-  graduation: string;
-  major: string;
-  doubleMajor: string | null;
-  minor: string | null;
-  website: string | null;
-  linkedin: string | null;
-  github: string | null;
-  hometown: string;
-  about: string;
-  subteam: string;
-  otherSubteams: string[] | null;
-  role: Role;
-  roleDescription: RoleDescription;
-};
+export type Member = IdolMember;
 
 export class MembersAPI {
   public static getAllMembers(): Promise<Member[]> {

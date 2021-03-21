@@ -1,0 +1,9 @@
+{
+  "name": "common-types",
+  "version": "1.0.0",
+  "types": "index.d.ts",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "build": "exit 0"
+  }
+}

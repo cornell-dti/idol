@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Loader, Button, Form, Input, Select } from 'semantic-ui-react';
 import styles from './AddUser.module.css';
-import { Member, MembersAPI, Role } from '../../API/MembersAPI';
+import { Member, MembersAPI } from '../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
 import Emitters from '../../EventEmitter/constant-emitters';
 import RolesAPI from '../../API/RolesAPI';

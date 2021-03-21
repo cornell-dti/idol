@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { UserContext } from '../../UserProvider/UserProvider';
-import {
-  Member,
-  MembersAPI,
-  Role,
-  RoleDescription
-} from '../../API/MembersAPI';
+import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
 
@@ -32,7 +27,9 @@ const UserProfile: React.FC = () => {
   const [linkedin, setLinkedin] = useState('');
   const [github, setGithub] = useState('');
   const [subteam, setSubteam] = useState('');
-  const [otherSubteams, setOtherSubteams] = useState<string[] | null>(null);
+  const [otherSubteams, setOtherSubteams] = useState<readonly string[] | null>(
+    null
+  );
 
   useEffect(() => {
     if (userEmail) {
@@ -52,7 +49,7 @@ const UserProfile: React.FC = () => {
           setLinkedin(mem.linkedin || '');
           setGithub(mem.github || '');
           setSubteam(mem.subteam);
-          setOtherSubteams(mem.otherSubteams);
+          setOtherSubteams(mem.otherSubteams || null);
         })
         .catch((error) => {
           Emitters.generalError.emit({

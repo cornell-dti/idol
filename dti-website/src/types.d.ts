@@ -5,7 +5,7 @@ interface Member {
   readonly lastName: string;
   readonly isLead?: boolean;
   readonly roleId: string;
-  readonly otherSubteams?: readonly string[] | string | undefined;
+  readonly otherSubteams?: readonly string[];
   readonly subteam?: string;
   readonly graduation: string;
   readonly major: string;
