@@ -1,9 +1,7 @@
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
-// import Emitters from '../EventEmitter/constant-emitters';
 import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
-// TODO: add typing and stuff to this file
 export class ImagesAPI {
   public static getMemberImage(): Promise<string> {
     const responseProm = APIWrapper.get(`${backendURL}/getMemberImage`, {
@@ -22,12 +20,7 @@ export class ImagesAPI {
     const responseProm = APIWrapper.get(`${backendURL}/getImageSignedURL`, {
       withCredentials: true
     }).then((res) => res.data);
-    return responseProm.then((val) => {
-      if (val.error) {
-        // TODO: handle error with uploading image
-      }
-      return val.url;
-    });
+    return responseProm.then((val) => val.url);
   }
 
   public static uploadMemberImage(body: any): Promise<any> {
