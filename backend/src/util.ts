@@ -128,13 +128,10 @@ function isCollRef(val: any) {
 
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
-export const filterImagesResponse = (images: any[]): ProfileImage[] => {
-  return images
+export const filterImagesResponse = (images: any[]): ProfileImage[] =>
+  images
     .filter((image) => image.fileName.length > 7)
-    .map((image) => {
-      return {
-        ...image,
-        fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
-      };
-    });
-};
+    .map((image) => ({
+      ...image,
+      fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
+    }));
