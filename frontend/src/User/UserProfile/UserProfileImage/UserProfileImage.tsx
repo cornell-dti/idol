@@ -14,7 +14,6 @@ const UserProfileImage: React.FC = () => {
 
   useEffect(() => {
     ImagesAPI.getMemberImage().then((url: string) => {
-      console.log(url);
       setProfilePhoto(url);
     });
   }, []);
