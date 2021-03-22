@@ -25,7 +25,6 @@ const UserProfileImage: React.FC = () => {
       fetch(canvas)
         .then((res) => res.blob())
         .then((blob) => {
-          ImagesAPI.uploadMemberImage(blob);
           imageURL = window.URL.createObjectURL(blob);
           ImagesAPI.uploadMemberImage(blob);
           setProfilePhoto(imageURL);
