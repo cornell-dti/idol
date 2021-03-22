@@ -48,6 +48,21 @@ export default class APIWrapper {
     return responseProm;
   }
 
+  public static put(
+    url: string,
+    body: any,
+    config?: AxiosRequestConfig | undefined,
+    errDefault?: any
+  ): Promise<any> {
+    const responseProm = axios
+      .put(url, body, {
+        ...config
+      })
+      .catch((err) => err)
+      .then((resOrErr) => resOrErr);
+    return responseProm;
+  }
+
   private static responseMiddleware(resOrErr: any, errDefault?: any) {
     console.log(resOrErr.response, resOrErr);
     if (resOrErr.name === 'Error' && resOrErr.response.status === 440) {

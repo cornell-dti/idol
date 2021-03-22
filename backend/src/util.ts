@@ -1,6 +1,7 @@
 // This file contains common operations that will need to be performed often.
 
 import { firestore } from 'firebase-admin';
+import { ProfileImage } from './DataTypes';
 
 /**
  * This function takes a collection reference and turns it into an array
@@ -124,3 +125,13 @@ function isCollRef(val: any) {
     typeof val.startAfter === 'function'
   );
 }
+
+export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
+
+export const filterImagesResponse = (images: any[]): ProfileImage[] =>
+  images
+    .filter((image) => image.fileName.length > 7)
+    .map((image) => ({
+      ...image,
+      fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
+    }));

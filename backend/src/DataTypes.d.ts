@@ -2,6 +2,11 @@ import { firestore } from 'firebase-admin';
 
 export type Member = IdolMember;
 
+export type ProfileImage = {
+  url: string;
+  fileName: string;
+};
+
 export type DBTeam = {
   uuid: string;
   name: string;
