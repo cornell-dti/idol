@@ -1,5 +1,3 @@
-import { Role, RoleDescription } from './API/MembersAPI';
-
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
 export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {

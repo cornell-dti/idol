@@ -1,6 +1,4 @@
-import { Role } from './DataTypes';
-
-export const allRoles: Role[] = [
+export const allRoles: readonly Role[] = [
   'lead',
   'admin',
   'tpm',
