@@ -12,6 +12,7 @@ import AddUser from '../AddUser/AddUser';
 import EditTeam from '../EditTeam/EditTeam';
 import UserProfile from '../UserProfile/UserProfile';
 import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
+import Shoutouts from '../Shoutouts/Shoutouts';
 
 const UserBase: React.FC = () => {
   const location = useLocation();
@@ -86,6 +87,23 @@ const UserBase: React.FC = () => {
                 </div>
               </Card.Content>
             </Card>
+            <Card>
+              <Card.Content>
+                <Card.Header>Shoutouts</Card.Header>
+                <Card.Description>
+                  View your past given and received shoutouts.
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui one buttons">
+                  <Link to="users/shoutouts">
+                    <Button basic color="blue">
+                      Go To
+                    </Button>
+                  </Link>
+                </div>
+              </Card.Content>
+            </Card>
           </Card.Group>
         </div>
       </div>
@@ -106,6 +124,9 @@ const UserBase: React.FC = () => {
           </Route>
           <Route path="/users/profileImage">
             <UserProfileImage></UserProfileImage>
+          </Route>
+          <Route path="/users/shoutouts">
+            <Shoutouts></Shoutouts>
           </Route>
           <Route path="/*"></Route>
         </Switch>
