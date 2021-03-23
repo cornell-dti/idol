@@ -3,7 +3,7 @@ import { useState } from 'react';
 import HeadshotCard from './HeadshotCard';
 import MemberProfileModal from './MemberProfileModal';
 
-type MemberInfo = { readonly id: string; readonly info: Member };
+type MemberInfo = { readonly id: string; readonly info: NovaMember };
 
 interface PhantomMember {
   id: string;

@@ -4,6 +4,7 @@
   "types": "index.d.ts",
   "license": "AGPL-3.0",
   "scripts": {
+    "tsc": "exit 0",
     "build": "exit 0"
   }
 }

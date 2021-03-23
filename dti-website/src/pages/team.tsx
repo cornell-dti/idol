@@ -23,7 +23,7 @@ export default function TeamPage(): JSX.Element {
   const filterMembers = (
     role = '',
     isLead = false
-  ): readonly { info: Member; id: string }[] =>
+  ): readonly { info: NovaMember; id: string }[] =>
     members
       .filter(
         (member) =>

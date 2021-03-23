@@ -2,8 +2,8 @@ import HeadshotGrid from './HeadshotGrid';
 import PageSection from './PageSection';
 
 type Props = {
-  readonly current: readonly Member[];
-  readonly past: readonly Member[];
+  readonly current: readonly NovaMember[];
+  readonly past: readonly NovaMember[];
 };
 
 export default function TeamMembers({ current, past }: Props): JSX.Element {

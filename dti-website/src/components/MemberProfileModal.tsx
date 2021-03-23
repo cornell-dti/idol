@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import MemberProfile from './MemberProfile';
 
 type Props = {
-  readonly profile: { readonly info: Member };
+  readonly profile: { readonly info: NovaMember };
   readonly open: boolean;
   readonly onClose: () => void;
   readonly isStatic?: boolean;
