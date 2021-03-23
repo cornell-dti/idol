@@ -54,20 +54,14 @@ export default function MemberProfile({
           <img
             className="profile-image rounded-circle mx-auto d-block"
             src={`/static/members/${profile.info.netid}.jpg`}
-            alt={`${profile.info.firstName} ${profile.info.lastName}`}
+            alt={profile.info.name}
             onError={() => setImageError(true)}
           />
         )}
         <Row className="profile-main">
           <Col className="my-auto">
             <div className="profile-name-header">
-              {profile.info.name === undefined ? (
-                <div>{profile.info.name}</div>
-              ) : (
-                <div>
-                  {profile.info.firstName} {profile.info.lastName}
-                </div>
-              )}
+              <div>{profile.info.name}</div>
             </div>
             <div className="profile-role text-dark">
               {profile.info.roleDescription || 'No Profile Available'}

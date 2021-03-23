@@ -1,8 +1,6 @@
 [
   {
     "netid": "aa753",
-    "firstName": "Akash",
-    "lastName": "Aryal",
     "name": "Akash Aryal",
     "graduation": "May 2023",
     "major": "CS",
@@ -18,8 +16,6 @@
   },
   {
     "netid": "abn53",
-    "firstName": "Alexander",
-    "lastName": "Nagel",
     "name": "Alexander Nagel",
     "graduation": "May 2024",
     "major": "Computer Science",
@@ -33,8 +29,6 @@
   },
   {
     "netid": "ac2343",
-    "firstName": "Andrea",
-    "lastName": "Chen",
     "name": "Andrea Chen",
     "graduation": "May 2023",
     "major": "Economics",
@@ -51,8 +45,6 @@
   },
   {
     "netid": "ac2677",
-    "firstName": "Angela",
-    "lastName": "Chen",
     "name": "Angela Chen",
     "graduation": "May 2023",
     "major": "CS",
@@ -67,8 +59,6 @@
   },
   {
     "netid": "acb352",
-    "firstName": "Aram",
-    "lastName": "Baghdassarian",
     "name": "Aram Baghdassarian",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -83,8 +73,6 @@
   },
   {
     "netid": "ad665",
-    "firstName": "Ashneel",
-    "lastName": "Das",
     "name": "Ashneel Das",
     "graduation": "May 2021",
     "major": "CS",
@@ -99,8 +87,6 @@
   },
   {
     "netid": "ag759",
-    "firstName": "Ansh",
-    "lastName": "Godha",
     "name": "Ansh Godha",
     "graduation": "December 2021",
     "major": "Computer Science",
@@ -115,8 +101,6 @@
   },
   {
     "netid": "ajc436",
-    "firstName": "Alexander",
-    "lastName": "Choi",
     "name": "Alexander Choi",
     "graduation": "May 2024",
     "major": "Policy Analysis and Management",
@@ -128,8 +112,6 @@
   },
   {
     "netid": "bfs45",
-    "firstName": "Benjamin",
-    "lastName": "Shen",
     "name": "Benjamin Shen",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -147,8 +129,6 @@
   },
   {
     "netid": "bh456",
-    "firstName": "Bo",
-    "lastName": "Hu",
     "name": "Becky Hu",
     "graduation": "May 2023",
     "major": "CS",
@@ -162,8 +142,6 @@
   },
   {
     "netid": "bsg68",
-    "firstName": "Bryan",
-    "lastName": "Graeser",
     "name": "Bryan Graeser",
     "graduation": "December 2021",
     "major": "Information Science (MPS) ",
@@ -179,8 +157,6 @@
   },
   {
     "netid": "bt277",
-    "firstName": "Bahar",
-    "lastName": "Tehranipoor",
     "name": "Bahar Tehranipoor",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -199,8 +175,6 @@
   },
   {
     "netid": "ch746",
-    "firstName": "Cristie",
-    "lastName": "Huang",
     "name": "Cristie Huang",
     "graduation": "May 2022",
     "major": "Information Science",
@@ -215,8 +189,6 @@
   },
   {
     "netid": "cjl334",
-    "firstName": "Christine",
-    "lastName": "Lee",
     "name": "Christine Lee",
     "graduation": "May 2024",
     "major": "Design and Environmental Analysis",
@@ -230,8 +202,6 @@
   },
   {
     "netid": "cl859",
-    "firstName": "Changyuan",
-    "lastName": "Lin",
     "name": "Changyuan Lin",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -245,8 +215,6 @@
   },
   {
     "netid": "cph64",
-    "firstName": "Christopher",
-    "lastName": "Hansen",
     "name": "Christopher Hansen",
     "graduation": "December 2021",
     "major": "Computer Science",
@@ -261,8 +229,6 @@
   },
   {
     "netid": "ec629",
-    "firstName": "Ein",
-    "lastName": "Chang",
     "name": "Ein Chang",
     "graduation": "May 2022",
     "major": "CS",
@@ -277,8 +243,6 @@
   },
   {
     "netid": "ete26",
-    "firstName": "Ehi",
-    "lastName": "Esemuze",
     "name": "Ehi Esemuze",
     "graduation": "May 2023",
     "major": "Information Science",
@@ -294,8 +258,6 @@
   },
   {
     "netid": "fl328",
-    "firstName": "Flora",
-    "lastName": "Liang",
     "name": "Flora Liang",
     "graduation": "May 2024",
     "major": "AEM",
@@ -307,8 +269,6 @@
   },
   {
     "netid": "gw284",
-    "firstName": "Guanqun",
-    "lastName": "Wu",
     "name": "Guanqun Wu",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -323,8 +283,6 @@
   },
   {
     "netid": "hl2334",
-    "firstName": "Hanwen",
-    "lastName": "Lin",
     "name": "Hank Lin",
     "graduation": "May 2023",
     "major": "Information Science",
@@ -337,8 +295,6 @@
   },
   {
     "netid": "hl738",
-    "firstName": "Henry ",
-    "lastName": "Li",
     "name": "Henry  Li",
     "graduation": "May 2023",
     "major": "Information Science ",
@@ -352,8 +308,6 @@
   },
   {
     "netid": "hl985",
-    "firstName": "Hahnbee",
-    "lastName": "Lee",
     "name": "Hahnbee Lee",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -370,8 +324,6 @@
   },
   {
     "netid": "htl28",
-    "firstName": "Huy",
-    "lastName": "Le",
     "name": "Huey Le",
     "graduation": "May 2023",
     "major": "Economics",
@@ -387,8 +339,6 @@
   },
   {
     "netid": "hxy2",
-    "firstName": "Helen",
-    "lastName": "Yang",
     "name": "Helen Yang",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -404,8 +354,6 @@
   },
   {
     "netid": "jb2375",
-    "firstName": "Jagger",
-    "lastName": "Brulato",
     "name": "Jagger Brulato",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -424,8 +372,6 @@
   },
   {
     "netid": "jj523",
-    "firstName": "Jeremy",
-    "lastName": "Jung",
     "name": "Jeremy Jung",
     "graduation": "May 2023",
     "major": "Mathematics",
@@ -441,8 +387,6 @@
   },
   {
     "netid": "jk2299",
-    "firstName": "Ju Mong",
-    "lastName": "Ko",
     "name": "Toby Ko",
     "graduation": "December 2021",
     "major": "Information Science",
@@ -457,8 +401,6 @@
   },
   {
     "netid": "jl2366",
-    "firstName": "Ji Eun",
-    "lastName": "Lee",
     "name": "Joanne Lee",
     "graduation": "May 2021",
     "major": "FSAD",
@@ -471,8 +413,6 @@
   },
   {
     "netid": "jt568",
-    "firstName": "Jason",
-    "lastName": "Tung",
     "name": "Jason Tung",
     "graduation": "May 2023",
     "major": "CS",
@@ -488,8 +428,6 @@
   },
   {
     "netid": "jw823",
-    "firstName": "Jessie",
-    "lastName": "Wong",
     "name": "Jessie Wong",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -505,8 +443,6 @@
   },
   {
     "netid": "jx295",
-    "firstName": "Jingyi",
-    "lastName": "Xie",
     "name": "Nina Xie",
     "graduation": "May 2022",
     "major": "Information Science, Systems, and Technology",
@@ -521,8 +457,6 @@
   },
   {
     "netid": "jyf5",
-    "firstName": "Jessica",
-    "lastName": "Feng",
     "name": "Jessica Feng",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -539,8 +473,6 @@
   },
   {
     "netid": "kjj32",
-    "firstName": "Kinjal",
-    "lastName": "Jasani",
     "name": "Kinjal Jasani",
     "graduation": "December 2021",
     "major": "Electrical and Computer Engineering",
@@ -557,8 +489,6 @@
   },
   {
     "netid": "ksg73",
-    "firstName": "Katherine",
-    "lastName": "Go",
     "name": "Katherine Go",
     "graduation": "May 2022",
     "major": "Information Science",
@@ -577,8 +507,6 @@
   },
   {
     "netid": "kw433",
-    "firstName": "Katrina",
-    "lastName": "Wang",
     "name": "Katrina Wang",
     "graduation": "May 2023",
     "major": "CS",
@@ -593,8 +521,6 @@
   },
   {
     "netid": "lrh74",
-    "firstName": "Luis",
-    "lastName": "Hoderlein",
     "name": "Luis Hoderlein",
     "graduation": "May 2023",
     "major": "Statistics",
@@ -609,8 +535,6 @@
   },
   {
     "netid": "ls797",
-    "firstName": "Laura",
-    "lastName": "Sizemore",
     "name": "Laura Sizemore",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -624,8 +548,6 @@
   },
   {
     "netid": "mc2488",
-    "firstName": "Megan",
-    "lastName": "Chang",
     "name": "Megan Chang",
     "graduation": "May 2022",
     "major": "Information Science",
@@ -639,8 +561,6 @@
   },
   {
     "netid": "mg2239",
-    "firstName": "Matthew",
-    "lastName": "Guo",
     "name": "Matthew Guo",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -655,8 +575,6 @@
   },
   {
     "netid": "mg897",
-    "firstName": "Mihikaa",
-    "lastName": "Goenka",
     "name": "Mihikaa Goenka",
     "graduation": "May 2022",
     "major": "CS",
@@ -670,8 +588,6 @@
   },
   {
     "netid": "mhb224",
-    "firstName": "Morgan",
-    "lastName": "Belous",
     "name": "Morgan Belous",
     "graduation": "May 2022",
     "major": "information science",
@@ -687,8 +603,6 @@
   },
   {
     "netid": "mks257",
-    "firstName": "Miah",
-    "lastName": "Sanchez",
     "name": "Miah Sanchez",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -701,8 +615,6 @@
   },
   {
     "netid": "mly32",
-    "firstName": "Michael",
-    "lastName": "Ye",
     "name": "Michael Ye",
     "graduation": "May 2023",
     "major": "CS",
@@ -714,8 +626,6 @@
   },
   {
     "netid": "mma89",
-    "firstName": "Mena",
-    "lastName": "Attia",
     "name": "Mena Attia",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -729,8 +639,6 @@
   },
   {
     "netid": "mwy9",
-    "firstName": "Miranda",
-    "lastName": "Yu",
     "name": "Miranda Yu",
     "graduation": "May 2024",
     "major": "Economics",
@@ -743,8 +651,6 @@
   },
   {
     "netid": "my474",
-    "firstName": "Meijun",
-    "lastName": "Yin",
     "name": "Meijun Yin",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -762,8 +668,6 @@
   },
   {
     "netid": "nfg23",
-    "firstName": "Nahbuma",
-    "lastName": "Gana",
     "name": "Buma Gana",
     "graduation": "May 2022",
     "major": "Informatio Science, UX Design",
@@ -780,8 +684,6 @@
   },
   {
     "netid": "nk495",
-    "firstName": "Nikita",
-    "lastName": "Kasumov",
     "name": "Nikita Kasumov",
     "graduation": "May 2024",
     "major": "Computer Science",
@@ -796,8 +698,6 @@
   },
   {
     "netid": "nma46",
-    "firstName": "Nada",
-    "lastName": "Attia",
     "name": "Nada Attia",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -810,8 +710,6 @@
   },
   {
     "netid": "ph437",
-    "firstName": "Pinxuan",
-    "lastName": "Huang",
     "name": "Pinxuan Huang",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -825,8 +723,6 @@
   },
   {
     "netid": "plw53",
-    "firstName": "Peter",
-    "lastName": "Wu",
     "name": "Peter Wu",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -845,8 +741,6 @@
   },
   {
     "netid": "rj356",
-    "firstName": "Riya",
-    "lastName": "Jaggi",
     "name": "Riya Jaggi",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -861,8 +755,6 @@
   },
   {
     "netid": "rm697",
-    "firstName": "Rohan",
-    "lastName": "Maheshwari",
     "name": "Rohan Maheshwari",
     "graduation": "May 2024",
     "major": "Computer Science",
@@ -876,8 +768,6 @@
   },
   {
     "netid": "rmz38",
-    "firstName": "Rose ",
-    "lastName": "Zhou",
     "name": "Rose  Zhou",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -893,8 +783,6 @@
   },
   {
     "netid": "sc2843",
-    "firstName": "Sophia",
-    "lastName": "Chu",
     "name": "Sophia Chu",
     "graduation": "May 2023",
     "major": "Operations Researxh",
@@ -910,8 +798,6 @@
   },
   {
     "netid": "sj598",
-    "firstName": "Julie",
-    "lastName": "Jeong",
     "name": "Julie Jeong",
     "graduation": "May 2024",
     "major": "Computer Science",
@@ -925,8 +811,6 @@
   },
   {
     "netid": "sl2486",
-    "firstName": "Samantha",
-    "lastName": "Liu",
     "name": "Samantha Liu",
     "graduation": "May 2022",
     "major": "CS",
@@ -941,8 +825,6 @@
   },
   {
     "netid": "sl764",
-    "firstName": "Mia SeungEun",
-    "lastName": "Lee",
     "name": "Mia SeungEun Lee",
     "graduation": "May 2021",
     "major": "Communication",
@@ -957,8 +839,6 @@
   },
   {
     "netid": "sp2262",
-    "firstName": "Simran",
-    "lastName": "Puri",
     "name": "Simran Puri",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -971,8 +851,6 @@
   },
   {
     "netid": "ss2629",
-    "firstName": "Sanjana",
-    "lastName": "Seshadri",
     "name": "Sanjana Seshadri",
     "graduation": "May 2021",
     "major": "Information Science",
@@ -990,8 +868,6 @@
   },
   {
     "netid": "sta48",
-    "firstName": "Sayeeda",
-    "lastName": "Aishee",
     "name": "Jahin Aishee",
     "graduation": "May 2022",
     "major": "ISST",
@@ -1007,8 +883,6 @@
   },
   {
     "netid": "sw754",
-    "firstName": "Scott",
-    "lastName": "Wang",
     "name": "Scott Wang",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -1023,8 +897,6 @@
   },
   {
     "netid": "sy629",
-    "firstName": "Sang",
-    "lastName": "Yun",
     "name": "Shane Yun",
     "graduation": "May 2021",
     "major": "Information Science",
@@ -1039,8 +911,6 @@
   },
   {
     "netid": "syg4",
-    "firstName": "Sheri",
-    "lastName": "Guo",
     "name": "Sheri Guo",
     "graduation": "December 2021",
     "major": "Infosci",
@@ -1055,8 +925,6 @@
   },
   {
     "netid": "sz329",
-    "firstName": "Shi Chong",
-    "lastName": "Zhao",
     "name": "Shi Chong Zhao",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -1074,8 +942,6 @@
   },
   {
     "netid": "tsc82",
-    "firstName": "Theresa",
-    "lastName": "Cho",
     "name": "Theresa Cho",
     "graduation": "May 2021",
     "major": "Information Science",
@@ -1090,8 +956,6 @@
   },
   {
     "netid": "txy3",
-    "firstName": "Tony",
-    "lastName": "Yang",
     "name": "Tony Yang",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -1106,8 +970,6 @@
   },
   {
     "netid": "tz66",
-    "firstName": "Sam",
-    "lastName": "Zhou",
     "name": "Sam Zhou",
     "graduation": "December 2021",
     "major": "Computer Science",
@@ -1126,8 +988,6 @@
   },
   {
     "netid": "vg222",
-    "firstName": "Vaishnavi",
-    "lastName": "Gupta",
     "name": "Vaishnavi Gupta",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -1141,8 +1001,6 @@
   },
   {
     "netid": "vls63",
-    "firstName": "Vivian",
-    "lastName": "Shiu",
     "name": "Vivian Shiu",
     "graduation": "May 2021",
     "major": "Design & Environmental Analysis",
@@ -1160,8 +1018,6 @@
   },
   {
     "netid": "wes229",
-    "firstName": "William",
-    "lastName": "Spencer",
     "name": "Will Spencer",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -1179,8 +1035,6 @@
   },
   {
     "netid": "wk228",
-    "firstName": "Woosang",
-    "lastName": "Kang",
     "name": "Woosang Kang",
     "graduation": "May 2022",
     "major": "Computer Science",
@@ -1195,8 +1049,6 @@
   },
   {
     "netid": "yah8",
-    "firstName": "Yamato",
-    "lastName": "Hill",
     "name": "Yamato Hill",
     "graduation": "May 2023",
     "major": "AEM",
@@ -1210,8 +1062,6 @@
   },
   {
     "netid": "yc686",
-    "firstName": "Yvonne",
-    "lastName": "Chan",
     "name": "Yvonne Chan",
     "graduation": "May 2021",
     "major": "Computer Science",
@@ -1231,8 +1081,6 @@
   },
   {
     "netid": "yc728",
-    "firstName": "Yinuo",
-    "lastName": "Chen",
     "name": "Enoch Chen",
     "graduation": "May 2023",
     "major": "Computer Science",
@@ -1247,8 +1095,6 @@
   },
   {
     "netid": "yc943",
-    "firstName": "Yuxuan",
-    "lastName": "Chen",
     "name": "Yuxuan Chen",
     "graduation": "May 2022",
     "major": "ISST",
