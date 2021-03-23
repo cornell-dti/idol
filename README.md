@@ -10,6 +10,7 @@
 - **Henry Li** - Developer
 - **Riya Jaggi** - Developer
 - **Sam Zhou** - Developer
+- **Grace Han** - Developer
 
 ### Fall 2020
 
