@@ -10,7 +10,7 @@ import MissingImage from '../assets/other/missing.svg';
 import { teams as teamsJson } from '../data/sets/teams.json';
 
 type Props = {
-  readonly profile: { readonly info: Member };
+  readonly profile: { readonly info: NovaMember };
   readonly className?: string;
 };
 

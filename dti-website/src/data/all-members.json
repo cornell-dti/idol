@@ -83,7 +83,7 @@
   },
   {
     "netid": "ad665",
-    "firstName": "Ashnee",
+    "firstName": "Ashneel",
     "lastName": "Das",
     "name": "Ashneel Das",
     "graduation": "May 2021",
@@ -138,12 +138,12 @@
     "subteam": "courseplan",
     "roleId": "developer",
     "roleDescription": "Developer",
-    "website": "https://benjaminshen.com",
-    "linkedin": "https://www.linkedin.com/in/benjaminfshen/",
-    "github": "https://github.com/benjamin-shen",
     "otherSubteams": [
       "flux"
-    ]
+    ],
+    "website": "https://benjaminshen.com",
+    "linkedin": "https://www.linkedin.com/in/benjaminfshen/",
+    "github": "https://github.com/benjamin-shen"
   },
   {
     "netid": "bh456",
@@ -172,10 +172,10 @@
     "subteam": "carriage",
     "roleId": "pm",
     "roleDescription": "Product Manager",
-    "linkedin": "https://www.linkedin.com/in/bryangraeser/",
     "otherSubteams": [
       "reviews"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/bryangraeser/"
   },
   {
     "netid": "bt277",
@@ -190,12 +190,12 @@
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Business",
-    "website": "https://bahartehrani.github.io/",
-    "linkedin": "https://www.linkedin.com/in/bahar-tehranipoor-781735182/",
-    "github": "https://github.com/bahartehrani",
     "otherSubteams": [
       "clubhub"
-    ]
+    ],
+    "website": "https://bahartehrani.github.io/",
+    "linkedin": "https://www.linkedin.com/in/bahar-tehranipoor-781735182/",
+    "github": "https://github.com/bahartehrani"
   },
   {
     "netid": "ch746",
@@ -209,9 +209,9 @@
     "subteam": "queuemein",
     "roleId": "designer",
     "roleDescription": "Designer",
+    "otherSubteams": [],
     "website": "https://www.cristiehuang.com/",
-    "linkedin": "https://www.linkedin.com/in/cristie-huang/",
-    "otherSubteams": []
+    "linkedin": "https://www.linkedin.com/in/cristie-huang/"
   },
   {
     "netid": "cjl334",
@@ -272,8 +272,8 @@
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Info Sci ",
-    "linkedin": "https://linkedin.com/in/ein-chang",
-    "otherSubteams": []
+    "otherSubteams": [],
+    "linkedin": "https://linkedin.com/in/ein-chang"
   },
   {
     "netid": "ete26",
@@ -287,10 +287,10 @@
     "subteam": "leads",
     "roleId": "lead",
     "roleDescription": "Lead",
-    "linkedin": "https://www.linkedin.com/in/ehi-esemuze/",
     "otherSubteams": [
       "business"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/ehi-esemuze/"
   },
   {
     "netid": "fl328",
@@ -397,10 +397,10 @@
     "subteam": "carriage",
     "roleId": "developer",
     "roleDescription": "Developer",
+    "otherSubteams": [],
     "website": "https://helenxuyang.github.io/",
     "linkedin": "https://www.linkedin.com/in/helenxuyang/",
-    "github": "https://github.com/helenxuyang/",
-    "otherSubteams": []
+    "github": "https://github.com/helenxuyang/"
   },
   {
     "netid": "jb2375",
@@ -415,12 +415,12 @@
     "roleId": "lead",
     "roleDescription": "Lead",
     "doubleMajor": "Economics",
-    "website": "https://jagger.netlify.app/",
-    "linkedin": "https://www.linkedin.com/in/jagger-brulato-896968149/",
-    "github": "https://github.com/JBoss925",
     "otherSubteams": [
       "idol"
-    ]
+    ],
+    "website": "https://jagger.netlify.app/",
+    "linkedin": "https://www.linkedin.com/in/jagger-brulato-896968149/",
+    "github": "https://github.com/JBoss925"
   },
   {
     "netid": "jj523",
@@ -456,7 +456,7 @@
     "github": "https://github.com/bungaepyo"
   },
   {
-    "netid": "Jl2366",
+    "netid": "jl2366",
     "firstName": "Ji Eun",
     "lastName": "Lee",
     "name": "Joanne Lee",
@@ -481,10 +481,10 @@
     "subteam": "samwise",
     "roleId": "developer",
     "roleDescription": "Developer",
+    "otherSubteams": [],
     "website": "https://jasontung.me/",
     "linkedin": "https://www.linkedin.com/in/jason-tung/",
-    "github": "https://github.com/jason-tung/",
-    "otherSubteams": []
+    "github": "https://github.com/jason-tung/"
   },
   {
     "netid": "jw823",
@@ -498,10 +498,10 @@
     "subteam": "business",
     "roleId": "business",
     "roleDescription": "Business Analyst",
-    "linkedin": "https://www.linkedin.com/in/jessiewong401/",
     "otherSubteams": [
       "carriage"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/jessiewong401/"
   },
   {
     "netid": "jx295",
@@ -531,11 +531,11 @@
     "subteam": "dac",
     "roleId": "pm",
     "roleDescription": "Technical PM",
-    "linkedin": "https://www.linkedin.com/in/jessica-feng/",
-    "github": "https://github.com/jessfeng",
     "otherSubteams": [
       "flux"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/jessica-feng/",
+    "github": "https://github.com/jessfeng"
   },
   {
     "netid": "kjj32",
@@ -550,10 +550,10 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Computer Science and Biomedical Engineering",
-    "linkedin": "https://www.linkedin.com/in/kinjal-jasani-9a3210196/",
     "otherSubteams": [
       "carriage"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/kinjal-jasani-9a3210196/"
   },
   {
     "netid": "ksg73",
@@ -568,12 +568,12 @@
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Creative Writing, Game Design",
-    "website": "https://youtube.com/alohakatiex",
-    "linkedin": "https://www.linkedin.com/in/katie-tracy/",
-    "github": "https://github.com/alohakatiex",
     "otherSubteams": [
       "flux"
-    ]
+    ],
+    "website": "https://youtube.com/alohakatiex",
+    "linkedin": "https://www.linkedin.com/in/katie-tracy/",
+    "github": "https://github.com/alohakatiex"
   },
   {
     "netid": "kw433",
@@ -587,9 +587,9 @@
     "subteam": "clubhub",
     "roleId": "developer",
     "roleDescription": "Developer",
+    "otherSubteams": [],
     "linkedin": "https://www.linkedin.com/in/katrina-k-wang/",
-    "github": "https://github.com/katrina433",
-    "otherSubteams": []
+    "github": "https://github.com/katrina433"
   },
   {
     "netid": "lrh74",
@@ -753,12 +753,12 @@
     "subteam": "leads",
     "roleId": "lead",
     "roleDescription": "Lead",
-    "website": "https://meganyin.com/",
-    "linkedin": "https://www.linkedin.com/in/meganyin13/",
-    "github": "https://github.com/meganyin13",
     "otherSubteams": [
       "samwise"
-    ]
+    ],
+    "website": "https://meganyin.com/",
+    "linkedin": "https://www.linkedin.com/in/meganyin13/",
+    "github": "https://github.com/meganyin13"
   },
   {
     "netid": "nfg23",
@@ -772,11 +772,11 @@
     "subteam": "flux",
     "roleId": "designer",
     "roleDescription": "Designer",
-    "website": "https://www.nahbumagana.me/",
-    "linkedin": "https://www.linkedin.com/in/nahbuma/",
     "otherSubteams": [
       "cuapts"
-    ]
+    ],
+    "website": "https://www.nahbumagana.me/",
+    "linkedin": "https://www.linkedin.com/in/nahbuma/"
   },
   {
     "netid": "nk495",
@@ -820,8 +820,8 @@
     "subteam": "samwise",
     "roleId": "developer",
     "roleDescription": "Developer",
-    "github": "https://github.com/pihucode",
-    "otherSubteams": []
+    "otherSubteams": [],
+    "github": "https://github.com/pihucode"
   },
   {
     "netid": "plw53",
@@ -836,12 +836,12 @@
     "roleId": "pm",
     "roleDescription": "Technical PM",
     "minor": "Mathematics",
-    "website": "https://peterlwu.com/",
-    "linkedin": "https://www.linkedin.com/in/peterlingwu/",
-    "github": "https://github.com/ptwu",
     "otherSubteams": [
       "samwise"
-    ]
+    ],
+    "website": "https://peterlwu.com/",
+    "linkedin": "https://www.linkedin.com/in/peterlingwu/",
+    "github": "https://github.com/ptwu"
   },
   {
     "netid": "rj356",
@@ -982,11 +982,11 @@
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Business",
-    "website": "https://www.sanjanaseshadri.com/",
-    "linkedin": "https://www.linkedin.com/in/sseshadri20/",
     "otherSubteams": [
       "nova"
-    ]
+    ],
+    "website": "https://www.sanjanaseshadri.com/",
+    "linkedin": "https://www.linkedin.com/in/sseshadri20/"
   },
   {
     "netid": "sta48",
@@ -1000,10 +1000,10 @@
     "subteam": "zing",
     "roleId": "designer",
     "roleDescription": "Designer",
-    "website": "http://jahin.design",
     "otherSubteams": [
       "carriage"
-    ]
+    ],
+    "website": "http://jahin.design"
   },
   {
     "netid": "sw754",
@@ -1038,7 +1038,7 @@
     ]
   },
   {
-    "netid": "Syg4",
+    "netid": "syg4",
     "firstName": "Sheri",
     "lastName": "Guo",
     "name": "Sheri Guo",
@@ -1066,11 +1066,11 @@
     "roleId": "pm",
     "roleDescription": "Technical PM",
     "minor": "Cognitive Science",
-    "linkedin": "https://www.linkedin.com/in/shichong97/",
-    "github": "https://github.com/shichong-97",
     "otherSubteams": [
       "clubhub"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/shichong97/",
+    "github": "https://github.com/shichong-97"
   },
   {
     "netid": "tsc82",
@@ -1117,12 +1117,12 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Math",
-    "website": "https://developersam.com",
-    "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
-    "github": "https://github.com",
     "otherSubteams": [
       "samwise"
-    ]
+    ],
+    "website": "https://developersam.com",
+    "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
+    "github": "https://github.com"
   },
   {
     "netid": "vg222",
@@ -1152,11 +1152,11 @@
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Information Science (UX)",
-    "website": "http://vivianshiu.net",
-    "linkedin": "https://www.linkedin.com/in/vivian-shiu-826181145/",
     "otherSubteams": [
       "samwise"
-    ]
+    ],
+    "website": "http://vivianshiu.net",
+    "linkedin": "https://www.linkedin.com/in/vivian-shiu-826181145/"
   },
   {
     "netid": "wes229",
@@ -1171,11 +1171,11 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Public Policy",
-    "linkedin": "https://www.linkedin.com/in/willespencer/",
-    "github": "https://github.com/willespencer",
     "otherSubteams": [
       "nova"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/willespencer/",
+    "github": "https://github.com/willespencer"
   },
   {
     "netid": "wk228",
@@ -1221,13 +1221,13 @@
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Information Science",
-    "linkedin": "https://www.linkedin.com/in/yvonne-chan-yc/",
-    "github": "http://github.com/ChanYvonne/",
     "otherSubteams": [
       "reviews",
       "flux",
       "nova"
-    ]
+    ],
+    "linkedin": "https://www.linkedin.com/in/yvonne-chan-yc/",
+    "github": "http://github.com/ChanYvonne/"
   },
   {
     "netid": "yc728",
@@ -1243,8 +1243,7 @@
     "roleDescription": "Developer",
     "website": "https://enochen.me/",
     "linkedin": "https://www.linkedin.com/in/enochen728/",
-    "github": "http://github.com/Enochen/",
-    "otherSubteams": []
+    "github": "http://github.com/Enochen/"
   },
   {
     "netid": "yc943",
@@ -1258,8 +1257,8 @@
     "subteam": "courseplan",
     "roleId": "designer",
     "roleDescription": "Designer",
+    "otherSubteams": [],
     "website": "yuxuanchen.me",
-    "linkedin": "https://www.linkedin.com/in/yuxuanchen12/",
-    "otherSubteams": []
+    "linkedin": "https://www.linkedin.com/in/yuxuanchen12/"
   }
 ]
