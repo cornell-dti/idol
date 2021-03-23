@@ -1,15 +1,7 @@
-type Role =
-  | 'lead'
-  | 'admin'
-  | 'tpm'
-  | 'pm'
-  | 'developer'
-  | 'designer'
-  | 'business';
+type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
 
 type RoleDescription =
   | 'Lead'
-  | 'Admin'
   | 'Technical PM'
   | 'Product Manager'
   | 'Developer'
