@@ -16,16 +16,16 @@ export const setMember = async (
   res: Response
 ): Promise<MemberResponse | ErrorResponse | undefined> => {
   if (checkLoggedIn(req, res)) {
-    const user = await (
+    const user = (await (
       await db.doc(`members/${req.session!.email}`).get()
-    ).data();
+    ).data()) as Member;
     if (!user) {
       return {
         status: 401,
         error: `No user with email: ${req.session!.email}`
       };
     }
-    const canEdit = PermissionsManager.canEditMembers(user.role);
+    const canEdit = await PermissionsManager.canEditMembers(user);
     if (!canEdit) {
       return {
         status: 403,
@@ -54,16 +54,16 @@ export const updateMember = async (
   res: Response
 ): Promise<MemberResponse | ErrorResponse | undefined> => {
   if (checkLoggedIn(req, res)) {
-    const user = await (
+    const user = (await (
       await db.doc(`members/${req.session!.email}`).get()
-    ).data();
+    ).data()) as Member;
     if (!user) {
       return {
         status: 401,
         error: `No user with email: ${req.session!.email}`
       };
     }
-    const canEdit = PermissionsManager.canEditMembers(user.role);
+    const canEdit = await PermissionsManager.canEditMembers(user);
     if (!canEdit && user.email !== req.body.email) {
       // members are able to edit their own information
       return {
@@ -115,16 +115,16 @@ export const getMember = async (
   res: Response
 ): Promise<MemberResponse | ErrorResponse | undefined> => {
   if (checkLoggedIn(req, res)) {
-    const user = await (
+    const user = (await (
       await db.doc(`members/${req.session!.email}`).get()
-    ).data();
+    ).data()) as Member;
     if (!user) {
       return {
         status: 401,
         error: `No user with email:${req.session!.email}`
       };
     }
-    const canEdit: boolean = PermissionsManager.canEditMembers(user.role);
+    const canEdit: boolean = await PermissionsManager.canEditMembers(user);
     const memberEmail: string = req.params.email;
     if (!canEdit && memberEmail !== req.session!.email) {
       return {
@@ -154,16 +154,16 @@ export const deleteMember = async (
   res: Response
 ): Promise<MemberResponse | ErrorResponse | undefined> => {
   if (checkLoggedIn(req, res)) {
-    const user = await (
+    const user = (await (
       await db.doc(`members/${req.session!.email}`).get()
-    ).data();
+    ).data()) as Member;
     if (!user) {
       return {
         status: 401,
         error: `No user with email: ${req.session!.email}`
       };
     }
-    const canEdit = PermissionsManager.canEditMembers(user.role);
+    const canEdit = await PermissionsManager.canEditMembers(user);
     if (!canEdit) {
       return {
         status: 403,

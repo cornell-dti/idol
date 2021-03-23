@@ -15,6 +15,7 @@ import {
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { getAllRoles } from './roleAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
+import { PermissionsManager } from './permissions';
 
 // Constants and configurations
 const app = express();
