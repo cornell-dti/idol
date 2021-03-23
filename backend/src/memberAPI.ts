@@ -79,9 +79,20 @@ export const updateMember = async (
         error: "Couldn't edit member with undefined email!"
       };
     }
+    const member = await (
+      await db.doc(`members/${req.body!.email}`).get()
+    ).data();
+    if (!member) {
+      return {
+        status: 404,
+        error: `No member with email: ${req.body!.email}`
+      };
+    }
     if (
-      (req.body.role || req.body.first_name || req.body.last_name) &&
-      !canEdit
+      !canEdit &&
+      (req.body.role !== member.role ||
+        req.body.first_name !== member.first_name ||
+        req.body.last_name !== member.last_name)
     ) {
       return {
         status: 403,
