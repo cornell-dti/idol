@@ -39,8 +39,6 @@ interface IdolMember {
 interface NovaMember {
   readonly netid: string;
   readonly name: string;
-  readonly firstName: string;
-  readonly lastName: string;
   readonly isLead?: boolean;
   readonly graduation: string;
   readonly major: string;
