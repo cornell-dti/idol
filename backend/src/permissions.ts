@@ -1,3 +1,6 @@
+import { db } from './firebase';
+import { Member } from './DataTypes';
+
 export const allRoles: readonly Role[] = [
   'lead',
   'admin',
@@ -8,17 +11,22 @@ export const allRoles: readonly Role[] = [
 ];
 
 export class PermissionsManager {
-  static canEditMembers(role: Role): boolean {
-    if (role === 'lead' || role === 'admin') {
+  static async canEditMembers(mem: Member): Promise<boolean> {
+    if (mem.role === 'lead' || (await this.isAdmin(mem))) {
       return true;
     }
     return false;
   }
 
-  static canEditTeams(role: Role): boolean {
-    if (role === 'lead' || role === 'admin') {
+  static async canEditTeams(mem: Member): Promise<boolean> {
+    if (mem.role === 'lead' || (await this.isAdmin(mem))) {
       return true;
     }
     return false;
+  }
+
+  public static async isAdmin(mem: Member): Promise<boolean> {
+    const member = await (await db.doc(`admins/${mem.email}`).get()).data();
+    return member !== undefined;
   }
 }

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { db } from './firebase';
 import { PermissionsManager } from './permissions';
 import { checkLoggedIn } from './api';
-import { Team } from './DataTypes';
+import { Team, Member } from './DataTypes';
 import TeamsDao from './dao/TeamsDao';
 import { ErrorResponse, TeamResponse, AllTeamsResponse } from './APITypes';
 
@@ -23,10 +23,10 @@ export const setTeam = async (
 ): Promise<TeamResponse | ErrorResponse | undefined> => {
   if (checkLoggedIn(req, res)) {
     const teamBody = req.body as Team;
-    const member = await (
+    const member = (await (
       await db.doc(`members/${req.session!.email}`).get()
-    ).data();
-    const canEdit = PermissionsManager.canEditTeams(member!.role);
+    ).data()) as Member;
+    const canEdit = await PermissionsManager.canEditTeams(member);
     if (!canEdit) {
       return {
         status: 403,
@@ -70,7 +70,7 @@ export const deleteTeam = async (
     }
     const member = (await (
       await db.doc(`members/${req.session!.email}`).get()
-    ).data()) as any;
+    ).data()) as Member;
     const teamSnap = await await db.doc(`teams/${teamBody.uuid}`).get();
     if (!teamSnap.exists) {
       return {
@@ -78,7 +78,7 @@ export const deleteTeam = async (
         error: `No team with uuid: ${teamBody.uuid}`
       };
     }
-    const canEdit = PermissionsManager.canEditTeams(member.role);
+    const canEdit = await PermissionsManager.canEditTeams(member);
     if (!canEdit) {
       return {
         status: 403,
