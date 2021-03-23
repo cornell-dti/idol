@@ -980,7 +980,8 @@
     "roleDescription": "Developer",
     "minor": "Math",
     "otherSubteams": [
-      "samwise"
+      "samwise",
+      "idol"
     ],
     "website": "https://developersam.com",
     "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
@@ -1106,5 +1107,20 @@
     "otherSubteams": [],
     "website": "yuxuanchen.me",
     "linkedin": "https://www.linkedin.com/in/yuxuanchen12/"
+  },
+  {
+    "netid": "yy596",
+    "name": "Ying Yang",
+    "graduation": "May 2022",
+    "major": "ISST",
+    "hometown": "Brooklyn, NY",
+    "about": "I’m a sophomore majoring in ISST. As a part of DTI, I want to create new solutions that solve social issues for long-lasting impact. On-campus, I’m also a member of Cornell Cup Robotics, ACSU, and CSA. Outside of school, I love singing, exploring new music, searching for new fashion trends, and photography!",
+    "subteam": "dac",
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "otherSubteams": [
+      "samwise"
+    ],
+    "linkedin": "https://www.linkedin.com/in/ying-yang-8080a0169/"
   }
 ]
