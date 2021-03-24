@@ -29,12 +29,13 @@ import './projects.scss';
 import './sponsor.scss';
 import './team.scss';
 
+fetch("/.netlify/functions/server");
+
 const App = (props: AppProps): ReactElement => {
   const { Component, pageProps } = props;
 
   return (
     <>
-    <object type="text/html" data="/.netlify/functions/server"></object>
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
