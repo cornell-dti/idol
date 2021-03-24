@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
 import session, { MemoryStore } from 'express-session';
@@ -13,9 +13,8 @@ import {
   updateMember
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
-import { getAllRoles } from './roleAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { PermissionsManager } from './permissions';
+import { allRoles } from './permissions';
 
 // Constants and configurations
 const app = express();
@@ -57,7 +56,7 @@ const sessionErrCb = (err) => {
 };
 
 // Check valid session
-export const checkLoggedIn = (req, res): boolean => {
+const checkLoggedIn = (req: Request, res: Response): boolean => {
   if (!enforceSession) {
     return true;
   }
@@ -68,6 +67,28 @@ export const checkLoggedIn = (req, res): boolean => {
   res.status(440).json({ error: 'Not logged in!' });
   return false;
 };
+
+const loginCheckedHandler = (
+  handler: (req: Request, res: Response) => Promise<void>
+): RequestHandler => async (req: Request, res: Response): Promise<void> => {
+  if (!checkLoggedIn(req, res)) return;
+  await handler(req, res);
+};
+
+const loginCheckedGet = (
+  path: string,
+  handler: (req: Request, res: Response) => Promise<void>
+) => router.get(path, loginCheckedHandler(handler));
+
+const loginCheckedPost = (
+  path: string,
+  handler: (req: Request, res: Response) => Promise<void>
+) => router.post(path, loginCheckedHandler(handler));
+
+const loginCheckedDelete = (
+  path: string,
+  handler: (req: Request, res: Response) => Promise<void>
+) => router.delete(path, loginCheckedHandler(handler));
 
 // Login
 router.post('/login', async (req: Request, res: Response) => {
@@ -104,58 +125,58 @@ router.post('/logout', (req: Request, res: Response) => {
 });
 
 // Roles
-router.get('/allRoles', getAllRoles);
+router.get('/allRoles', (_, res) => res.status(200).json({ roles: allRoles }));
 
 // Members
-router.get('/allMembers', async (_, res: Response) => {
+router.get('/allMembers', async (_, res) => {
   const handled = await allMembers();
   res.status(handled.status).json(handled);
 });
-router.get('/getMember/:email', async (req: Request, res: Response) => {
-  const handled = await getMember(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedGet('/getMember/:email', async (req, res) => {
+  const handled = await getMember(req);
+  res.status(handled.status).json(handled);
 });
-router.post('/setMember', async (req: Request, res: Response) => {
-  const handled = await setMember(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedPost('/setMember', async (req, res) => {
+  const handled = await setMember(req);
+  res.status(handled.status).json(handled);
 });
-router.delete('/deleteMember/:email', async (req: Request, res: Response) => {
-  const handled = await deleteMember(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedDelete('/deleteMember/:email', async (req, res) => {
+  const handled = await deleteMember(req);
+  res.status(handled.status).json(handled);
 });
-
-router.post('/updateMember', async (req: Request, res: Response) => {
-  const handled = await updateMember(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedPost('/updateMember', async (req, res) => {
+  const handled = await updateMember(req);
+  res.status(handled.status).json(handled);
 });
 
 // Teams
-router.get('/allTeams', async (req: Request, res: Response) => {
-  const handled = await allTeams(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedGet('/allTeams', async (_, res) => {
+  const handled = await allTeams();
+  res.status(handled.status).json(handled);
 });
-router.post('/setTeam', async (req: Request, res: Response) => {
-  const handled = await setTeam(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedPost('/setTeam', async (req, res) => {
+  const handled = await setTeam(req);
+  res.status(handled.status).json(handled);
 });
-router.post('/deleteTeam', async (req: Request, res: Response) => {
-  const handled = await deleteTeam(req, res);
-  res.status(handled!.status).json(handled);
-});
-
-router.get('/getMemberImage', async (req: Request, res: Response) => {
-  const handled = await getMemberImage(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedPost('/deleteTeam', async (req, res) => {
+  const handled = await deleteTeam(req);
+  res.status(handled.status).json(handled);
 });
 
-router.get('/getImageSignedURL', async (req: Request, res: Response) => {
-  const handled = await setMemberImage(req, res);
-  res.status(handled!.status).json(handled);
+// Images
+loginCheckedGet('/getMemberImage', async (req, res) => {
+  const handled = await getMemberImage(req);
+  res.status(handled.status).json(handled);
 });
 
-router.get('/allMemberImages', async (req: Request, res: Response) => {
-  const handled = await allMemberImages(req, res);
-  res.status(handled!.status).json(handled);
+loginCheckedGet('/getImageSignedURL', async (req, res) => {
+  const handled = await setMemberImage(req);
+  res.status(handled.status).json(handled);
+});
+
+router.get('/allMemberImages', async (_, res) => {
+  const handled = await allMemberImages();
+  res.status(handled.status).json(handled);
 });
 
 app.use('/.netlify/functions/api', router);
@@ -163,8 +184,9 @@ app.use('/.netlify/functions/api', router);
 // Startup local server if not production (prod is serverless)
 if (!isProd) {
   app.listen(PORT, () => {
+    // eslint-disable-next-line no-console
     console.log(`IDOL backend listening on port: ${PORT}`);
   });
 }
 
-module.exports.handler = serverless(app);
+export const handler = serverless(app);
