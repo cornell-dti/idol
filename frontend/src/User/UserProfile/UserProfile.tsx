@@ -112,7 +112,7 @@ const UserProfile: React.FC = () => {
   };
 
   let name;
-  if (role === 'admin' || role === 'lead') {
+  if (role === 'lead') {
     name = (
       <Form.Group widths="equal">
         <Form.Input

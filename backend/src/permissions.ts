@@ -3,7 +3,6 @@ import { Member } from './DataTypes';
 
 export const allRoles: readonly Role[] = [
   'lead',
-  'admin',
   'tpm',
   'pm',
   'developer',
