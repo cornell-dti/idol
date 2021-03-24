@@ -58,7 +58,9 @@ export class MembersAPI {
     }).then((res) => res.data);
   }
 
-  public static deleteMember(memberEmail: string): Promise<MemberResponseObj> {
+  public static deleteMember(
+    memberEmail: string
+  ): Promise<{ status: number; error?: string }> {
     return APIWrapper.delete(`${backendURL}/deleteMember/${memberEmail}`, {
       withCredentials: true
     }).then((res) => res.data);

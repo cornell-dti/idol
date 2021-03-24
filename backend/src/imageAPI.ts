@@ -29,12 +29,10 @@ export const allMemberImages = async (): Promise<AllImagesResponse> => {
 export const setMemberImage = async (
   req: Request
 ): Promise<ImageResponse | ErrorResponse> => {
-  const user = (await db.doc(`members/${req.session!.email}`).get()).data();
+  const userEmail: string = req.session?.email as string;
+  const user = (await db.doc(`members/${userEmail}`).get()).data();
   if (!user) {
-    return {
-      status: 401,
-      error: `No user with email: ${req.session!.email}`
-    };
+    return { status: 401, error: `No user with email: ${userEmail}` };
   }
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
@@ -52,19 +50,18 @@ export const setMemberImage = async (
 export const getMemberImage = async (
   req: Request
 ): Promise<ImageResponse | ErrorResponse> => {
-  const user = (await db.doc(`members/${req.session!.email}`).get()).data();
+  const userEmail: string = req.session?.email as string;
+  const user = (await db.doc(`members/${userEmail}`).get()).data();
   if (!user) {
     return {
       status: 401,
-      error: `No user with email: ${req.session!.email}`
+      error: `No user with email: ${userEmail}`
     };
   }
-  if (user.email !== req.session!.email) {
+  if (user.email !== userEmail) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to get members!`
+      error: `User with email: ${userEmail} does not have permission to get members!`
     };
   }
   const netId: string = getNetIDFromEmail(user.email);

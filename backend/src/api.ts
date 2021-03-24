@@ -51,9 +51,9 @@ app.use(
     }
   })
 );
-const sessionErrCb = (err) => {
-  console.log(err);
-};
+
+// eslint-disable-next-line no-console
+const sessionErrCb = (err) => console.error(err);
 
 // Check valid session
 const checkLoggedIn = (req: Request, res: Response): boolean => {
@@ -106,9 +106,10 @@ router.post('/login', async (req: Request, res: Response) => {
         res.json({ isLoggedIn: false });
         return;
       }
-      req.session!.isLoggedIn = true;
-      req.session!.email = foundMember.email;
-      req.session!.save((err) => {
+      const session = req.session as Express.Session;
+      session.isLoggedIn = true;
+      session.email = foundMember.email;
+      session.save((err) => {
         if (err) sessionErrCb(err);
         res.json({ isLoggedIn: true });
       });
@@ -117,8 +118,9 @@ router.post('/login', async (req: Request, res: Response) => {
 
 // Logout
 router.post('/logout', (req: Request, res: Response) => {
-  req.session!.isLoggedIn = false;
-  req.session!.destroy((err) => {
+  const session = req.session as Express.Session;
+  session.isLoggedIn = false;
+  session.destroy((err) => {
     if (err) sessionErrCb(err);
     res.json({ isLoggedIn: false });
   });

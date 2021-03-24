@@ -42,36 +42,19 @@ function makeReducer<T>() {
   };
 }
 
-type resultRenderer<T> =
-  | ((
-      props: SearchResultProps
-    ) => React.ReactElement<
-      any,
-      | string
-      | ((
-          props: any
-        ) => React.ReactElement<
-          any,
-          string | (new (props: any) => React.Component<any, any, any>)
-        > | null)
-      | (new (props: any) => React.Component<any>)
-    >)
-  | undefined;
-type matchChecker<T> = (input: string, object: T) => boolean;
-
 type CustomSearchProps<T> = {
   source: T[];
-  resultRenderer: resultRenderer<T>;
-  matchChecker: matchChecker<T>;
-  selectCallback: (selected: T) => any;
+  resultRenderer?: (props: SearchResultProps) => React.ReactElement;
+  matchChecker: (input: string, object: T) => boolean;
+  selectCallback: (selected: T) => void;
 };
 
-const CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({
+function CustomSearch<T>({
   source,
   resultRenderer,
   matchChecker,
   selectCallback
-}: CustomSearchProps<T>) {
+}: CustomSearchProps<T>): JSX.Element {
   const [state, dispatch] = React.useReducer(
     makeReducer<T>(),
     makeInitialState<T>()
@@ -79,10 +62,10 @@ const CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({
 
   const { loading, results, value } = state as SearchState<T>;
 
-  const timeoutRef = React.useRef<any>();
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const handleSearchChange = React.useCallback(
     (e, data) => {
-      clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       dispatch({
         type: 'START_SEARCH',
         query: data.value,
@@ -116,7 +99,7 @@ const CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({
   );
   React.useEffect(
     () => () => {
-      clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     },
     []
   );
@@ -141,6 +124,6 @@ const CustomSearch: React.FC<CustomSearchProps<any>> = function <T>({
       value={value}
     />
   );
-};
+}
 
 export default CustomSearch;

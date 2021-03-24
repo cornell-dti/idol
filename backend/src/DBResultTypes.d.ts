@@ -1,11 +1,13 @@
 import { Member, Team } from './DataTypes';
 
-type DBResult = { isSuccessful: boolean; error?: string };
+type DBResult =
+  | { readonly isSuccessful: true }
+  | { readonly isSuccessful: false; readonly error: string };
 
-type DBAllMembersResult = { members: Member[] } & DBResult;
+type DBAllMembersResult = { readonly members: Member[] } & DBResult;
 
-type DBMemberResult = { member: Member } & DBResult;
+type DBMemberResult = { readonly member: Member } & DBResult;
 
-type DBAllTeamsResult = { teams: Team[] } & DBResult;
+type DBAllTeamsResult = { readonly teams: Team[] } & DBResult;
 
-type DBTeamResult = { team: Team } & DBResult;
+type DBTeamResult = { readonly team: Team } & DBResult;

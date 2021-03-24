@@ -17,9 +17,11 @@ const configureAccount = (sa) => {
   return configAcc;
 };
 
-const app = admin.initializeApp({
+admin.initializeApp({
   credential: admin.credential.cert(configureAccount(serviceAccount)),
   databaseURL: 'https://idol-b6c68.firebaseio.com'
 });
 
-export const db = admin.firestore();
+const db = admin.firestore();
+
+export default db;
