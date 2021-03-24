@@ -11,7 +11,9 @@ const PORT = process.env.PORT || 8000;
 router.get('/', (req: Request, res: Response) => {
   console.log("Connection made!");
   // Check whether to update?
-  exec('cd ../../dti-website && yarn run pull-from-idol');
+  exec('cd ../../dti-website && yarn run pull-from-idol', (err, stdout, stderr) => {
+    console.log(err, stdout, stderr);
+  });
   res.send('');
 });
 
