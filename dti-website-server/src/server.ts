@@ -1,15 +1,19 @@
 import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import path from 'path';
+import { exec } from 'child_process';
 
 // Constants and configurations
 const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 8000;
 
-router.use(express.static(path.join(__dirname, '../../dti-website/out/')));
+router.get('/', (req: Request, res: Response) => {
+  // Check whether to update?
+  exec('cd ../../dti-website && yarn run pull-from-idol');
+  res.send('');
+});
 
-app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../template/index.html')));
 app.use('/.netlify/functions/server', router);
 
 export const handler = serverless(app);
