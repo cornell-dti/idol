@@ -7,7 +7,9 @@ const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 8000;
 
-app.use(express.static(path.join(__dirname, '../../dti-website/out/index.html')));
-app.use('/.netlify/functions/api', router);
+router.use(express.static(path.join(__dirname, '../../dti-website/out/index.html')));
+
+app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../template/index.html')));
+app.use('/.netlify/functions/server', router);
 
 export const handler = serverless(app);

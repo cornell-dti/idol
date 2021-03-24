@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/netlify-lambda serve build",
-    "dev": "ts-node --transpile-only src/api.ts",
+    "dev": "ts-node --transpile-only src/server.ts",
     "tsc": "tsc",
     "build": "tsc"
   },
