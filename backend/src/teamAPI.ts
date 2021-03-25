@@ -14,16 +14,13 @@ export const setTeam = async (
   req: Request
 ): Promise<TeamResponse | ErrorResponse> => {
   const teamBody = req.body as Team;
-  const member = (await (
-    await db.doc(`members/${req.session!.email}`).get()
-  ).data()) as Member;
+  const userEmail: string = req.session?.email as string;
+  const member = (await db.doc(`members/${userEmail}`).get()).data() as Member;
   const canEdit = await PermissionsManager.canEditTeams(member);
   if (!canEdit) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to edit teams!`
+      error: `User with email: ${userEmail} does not have permission to edit teams!`
     };
   }
   if (teamBody.leaders.length > 0 && !teamBody.leaders[0].email) {
@@ -42,7 +39,7 @@ export const setTeam = async (
   if (result.isSuccessful) {
     return { status: 200, team: result.team };
   }
-  return { status: 500, error: result.error! };
+  return { status: 500, error: result.error };
 };
 
 export const deleteTeam = async (
@@ -55,10 +52,9 @@ export const deleteTeam = async (
       error: "Couldn't delete team with undefined uuid!"
     };
   }
-  const member = (await (
-    await db.doc(`members/${req.session!.email}`).get()
-  ).data()) as Member;
-  const teamSnap = await await db.doc(`teams/${teamBody.uuid}`).get();
+  const userEmail: string = req.session?.email as string;
+  const member = (await db.doc(`members/${userEmail}`).get()).data() as Member;
+  const teamSnap = await db.doc(`teams/${teamBody.uuid}`).get();
   if (!teamSnap.exists) {
     return {
       status: 404,
@@ -69,14 +65,12 @@ export const deleteTeam = async (
   if (!canEdit) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to delete teams!`
+      error: `User with email: ${userEmail} does not have permission to delete teams!`
     };
   }
   const result = await TeamsDao.deleteTeam(teamBody.uuid);
   if (result.isSuccessful) {
     return { status: 200, team: teamBody };
   }
-  return { status: 500, error: result.error! };
+  return { status: 500, error: result.error };
 };

@@ -63,6 +63,7 @@ const UserProfile: React.FC = () => {
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
       if (val.status === 200) {
+        // eslint-disable-next-line no-alert
         alert('Member information successfully updated!');
       } else if (val.error) {
         Emitters.userEditError.emit({

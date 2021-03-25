@@ -2,7 +2,7 @@ import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
-export class ImagesAPI {
+export default class ImagesAPI {
   public static getMemberImage(): Promise<string> {
     const responseProm = APIWrapper.get(`${backendURL}/getMemberImage`, {
       withCredentials: true
@@ -16,19 +16,16 @@ export class ImagesAPI {
     });
   }
 
-  private static getSignedURL(): Promise<any> {
+  private static getSignedURL(): Promise<string> {
     const responseProm = APIWrapper.get(`${backendURL}/getImageSignedURL`, {
       withCredentials: true
     }).then((res) => res.data);
     return responseProm.then((val) => val.url);
   }
 
-  public static uploadMemberImage(body: any): Promise<any> {
+  public static uploadMemberImage(body: Blob): Promise<void> {
     return this.getSignedURL().then((url) => {
-      const responseProm = APIWrapper.put(url, body).then((res) => {
-        console.log(res.data);
-        return res.data;
-      });
+      APIWrapper.put(url, body).then((res) => res.data);
     });
   }
 }

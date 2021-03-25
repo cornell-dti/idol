@@ -1,5 +1,5 @@
 import { Member } from '../DataTypes';
-import { DBAllMembersResult, DBMemberResult } from '../DBResultTypes';
+import { DBAllMembersResult, DBMemberResult, DBResult } from '../DBResultTypes';
 import { db } from '../firebase';
 
 export default class MembersDao {
@@ -11,22 +11,21 @@ export default class MembersDao {
     return { members, isSuccessful: true };
   }
 
-  static async getMember(email: string): Promise<DBMemberResult> {
-    const member = (await (
-      await db.doc(`members/${email}`).get()
-    ).data()) as Member;
+  static async getMember(
+    email: string
+  ): Promise<DBResult & { member: Member }> {
+    const member = (await db.doc(`members/${email}`).get()).data() as Member;
     return { member, isSuccessful: true };
   }
 
-  static async deleteMember(email: string): Promise<DBMemberResult> {
+  static async deleteMember(email: string): Promise<DBResult> {
     return db
       .doc(`members/${email}`)
       .delete()
-      .then(() => ({ isSuccessful: true, member: null! }))
+      .then(() => ({ isSuccessful: true } as const))
       .catch((reason) => ({
         isSuccessful: false,
-        error: `Unable to to delete member for reason: ${reason}`,
-        member: null!
+        error: `Unable to to delete member for reason: ${reason}`
       }));
   }
 
@@ -37,7 +36,7 @@ export default class MembersDao {
     return db
       .doc(`members/${email}`)
       .set(member)
-      .then(() => ({ isSuccessful: true, member }))
+      .then(() => ({ isSuccessful: true, member } as const))
       .catch((reason) => ({
         isSuccessful: false,
         error: `Unable to edit member for reason: ${reason}`,
@@ -52,7 +51,7 @@ export default class MembersDao {
     return db
       .doc(`members/${email}`)
       .update(member)
-      .then(() => ({ isSuccessful: true, member }))
+      .then(() => ({ isSuccessful: true, member } as const))
       .catch((reason) => ({
         isSuccessful: false,
         error: `Unable to edit member for reason: ${reason}`,

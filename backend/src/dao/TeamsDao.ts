@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Team, DBTeam } from '../DataTypes';
 import { db } from '../firebase';
 import { materialize } from '../util';
-import { DBAllTeamsResult, DBTeamResult } from '../DBResultTypes';
+import { DBAllTeamsResult, DBTeamResult, DBResult } from '../DBResultTypes';
 
 export default class TeamsDao {
   static async getAllTeams(): Promise<DBAllTeamsResult> {
@@ -35,10 +35,13 @@ export default class TeamsDao {
     return db
       .doc(`teams/${teamRef.uuid}`)
       .set(teamRef)
-      .then(() => ({
-        isSuccessful: true,
-        team: { ...team, uuid: teamRef.uuid }
-      }))
+      .then(
+        () =>
+          ({
+            isSuccessful: true,
+            team: { ...team, uuid: teamRef.uuid }
+          } as const)
+      )
       .catch((reason) => ({
         isSuccessful: false,
         error: `Couldn't edit team for reason: ${reason}`,
@@ -46,18 +49,14 @@ export default class TeamsDao {
       }));
   }
 
-  static async deleteTeam(teamUuid: string): Promise<DBTeamResult> {
+  static async deleteTeam(teamUuid: string): Promise<DBResult> {
     return db
       .doc(`teams/${teamUuid}`)
       .delete()
-      .then(() => ({
-        isSuccessful: true,
-        team: null!
-      }))
+      .then(() => ({ isSuccessful: true } as const))
       .catch((reason) => ({
         isSuccessful: false,
-        error: `Couldn't delete team for reason: ${reason}`,
-        team: null!
+        error: `Couldn't delete team for reason: ${reason}`
       }));
   }
 }

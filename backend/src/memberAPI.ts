@@ -3,7 +3,12 @@ import MembersDao from './dao/MembersDao';
 import { db } from './firebase';
 import { PermissionsManager } from './permissions';
 import { Member } from './DataTypes';
-import { ErrorResponse, MemberResponse, AllMembersResponse } from './APITypes';
+import {
+  ErrorResponse,
+  MemberResponse,
+  AllMembersResponse,
+  APIResponse
+} from './APITypes';
 
 export const allMembers = async (): Promise<AllMembersResponse> => {
   const result = await MembersDao.getAllMembers();
@@ -13,22 +18,16 @@ export const allMembers = async (): Promise<AllMembersResponse> => {
 export const setMember = async (
   req: Request
 ): Promise<MemberResponse | ErrorResponse> => {
-  const user = (
-    await db.doc(`members/${req.session!.email}`).get()
-  ).data() as Member;
+  const userEmail: string = req.session?.email as string;
+  const user = (await db.doc(`members/${userEmail}`).get()).data() as Member;
   if (!user) {
-    return {
-      status: 401,
-      error: `No user with email: ${req.session!.email}`
-    };
+    return { status: 401, error: `No user with email: ${userEmail}` };
   }
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to edit members!`
+      error: `User with email: ${userEmail} does not have permission to edit members!`
     };
   }
   if (!req.body.email || req.body.email === '') {
@@ -41,29 +40,23 @@ export const setMember = async (
   if (result.isSuccessful) {
     return { status: 200, member: result.member };
   }
-  return { error: result.error!, status: 500 };
+  return { error: result.error, status: 500 };
 };
 
 export const updateMember = async (
   req: Request
 ): Promise<MemberResponse | ErrorResponse> => {
-  const user = (
-    await db.doc(`members/${req.session!.email}`).get()
-  ).data() as Member;
+  const userEmail: string = req.session?.email as string;
+  const user = (await db.doc(`members/${userEmail}`).get()).data() as Member;
   if (!user) {
-    return {
-      status: 401,
-      error: `No user with email: ${req.session!.email}`
-    };
+    return { status: 401, error: `No user with email: ${userEmail}` };
   }
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit && user.email !== req.body.email) {
     // members are able to edit their own information
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to edit members!`
+      error: `User with email: ${userEmail} does not have permission to edit members!`
     };
   }
   if (!req.body.email || req.body.email === '') {
@@ -72,12 +65,9 @@ export const updateMember = async (
       error: "Couldn't edit member with undefined email!"
     };
   }
-  const member = (await db.doc(`members/${req.body!.email}`).get()).data();
+  const member = (await db.doc(`members/${userEmail}`).get()).data();
   if (!member) {
-    return {
-      status: 404,
-      error: `No member with email: ${req.body!.email}`
-    };
+    return { status: 404, error: `No member with email: ${userEmail}` };
   }
   if (
     !canEdit &&
@@ -87,38 +77,30 @@ export const updateMember = async (
   ) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to edit member name or roles!`
+      error: `User with email: ${userEmail} does not have permission to edit member name or roles!`
     };
   }
   const result = await MembersDao.updateMember(req.body.email, req.body);
   if (result.isSuccessful) {
     return { member: result.member, status: 200 };
   }
-  return { status: 500, error: result.error! };
+  return { status: 500, error: result.error };
 };
 
 export const getMember = async (
   req: Request
 ): Promise<MemberResponse | ErrorResponse> => {
-  const user = (
-    await db.doc(`members/${req.session!.email}`).get()
-  ).data() as Member;
+  const userEmail: string = req.session?.email as string;
+  const user = (await db.doc(`members/${userEmail}`).get()).data() as Member;
   if (!user) {
-    return {
-      status: 401,
-      error: `No user with email:${req.session!.email}`
-    };
+    return { status: 401, error: `No user with email: ${userEmail}` };
   }
   const canEdit: boolean = await PermissionsManager.canEditMembers(user);
   const memberEmail: string = req.params.email;
-  if (!canEdit && memberEmail !== req.session!.email) {
+  if (!canEdit && memberEmail !== userEmail) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to get members!`
+      error: `User with email: ${userEmail} does not have permission to get members!`
     };
   }
   const result = await MembersDao.getMember(memberEmail);
@@ -136,23 +118,17 @@ export const getMember = async (
 
 export const deleteMember = async (
   req: Request
-): Promise<MemberResponse | ErrorResponse> => {
-  const user = (
-    await db.doc(`members/${req.session!.email}`).get()
-  ).data() as Member;
+): Promise<APIResponse | ErrorResponse> => {
+  const userEmail: string = req.session?.email as string;
+  const user = (await db.doc(`members/${userEmail}`).get()).data() as Member;
   if (!user) {
-    return {
-      status: 401,
-      error: `No user with email: ${req.session!.email}`
-    };
+    return { status: 401, error: `No user with email: ${userEmail}` };
   }
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit) {
     return {
       status: 403,
-      error: `User with email: ${
-        req.session!.email
-      } does not have permission to delete members!`
+      error: `User with email: ${userEmail} does not have permission to delete members!`
     };
   }
   const { email } = req.params;
@@ -163,8 +139,7 @@ export const deleteMember = async (
     };
   }
   const result = await MembersDao.deleteMember(email);
-  if (result.isSuccessful) {
-    return { member: result.member, status: 200 };
-  }
-  return { status: 500, error: result.error! };
+  return result.isSuccessful
+    ? { status: 200 }
+    : { status: 500, error: result.error };
 };
