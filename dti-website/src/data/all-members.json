@@ -268,6 +268,18 @@
     "roleDescription": "Business Analyst"
   },
   {
+    "netid": "gsh68",
+    "name": "Grace Han",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "otherSubteams": []
+  },
+  {
     "netid": "gw284",
     "name": "Guanqun Wu",
     "graduation": "May 2021",
@@ -295,14 +307,14 @@
   },
   {
     "netid": "hl738",
-    "name": "Henry  Li",
+    "name": "Henry Li",
     "graduation": "May 2023",
     "major": "Information Science ",
     "hometown": "Albany , NY",
     "about": "I drink lots of coffee so I can turn caffeine into code. Please don't add milk to my coffee because dairy is scary. Thanks :) ",
     "subteam": "idol",
     "roleId": "pm",
-    "roleDescription": "Technical PM",
+    "roleDescription": "Product Manager",
     "linkedin": "https://linkedin.com/in/henryli6",
     "github": "https://github.com/henry-li-06"
   },
@@ -985,7 +997,7 @@
     ],
     "website": "https://developersam.com",
     "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
-    "github": "https://github.com"
+    "github": "https://github.com/SamChou19815"
   },
   {
     "netid": "vg222",
