@@ -4,7 +4,6 @@ import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 
 type MemberResponseObj = {
-  status: number;
   member: Member;
   error?: string;
 };

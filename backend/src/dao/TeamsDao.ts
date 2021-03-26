@@ -1,19 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Team, DBTeam } from '../DataTypes';
+import { NotFoundError } from '../errors';
 import { db } from '../firebase';
 import { materialize } from '../util';
-import { DBAllTeamsResult, DBTeamResult, DBResult } from '../DBResultTypes';
 
 export default class TeamsDao {
-  static async getAllTeams(): Promise<DBAllTeamsResult> {
+  static async getAllTeams(): Promise<Team[]> {
     const teamRefs = await db.collection('teams').get();
-    const teams = await Promise.all(
+    return Promise.all(
       teamRefs.docs.map((teamRef) => materialize(teamRef.data()))
     );
-    return { isSuccessful: true, teams };
   }
 
-  static async setTeam(team: Team): Promise<DBTeamResult> {
+  static async setTeam(team: Team): Promise<Team> {
     const teamRef: DBTeam = {
       uuid: team.uuid ? team.uuid : uuidv4(),
       name: team.name,
@@ -26,37 +25,15 @@ export default class TeamsDao {
         .map((ref) => ref.get().then((val) => val.exists))
     );
     if (existRes.findIndex((val) => val === false) !== -1) {
-      return {
-        isSuccessful: false,
-        error: "Couldn't create team from members that don't exist!",
-        team
-      };
+      throw new NotFoundError(
+        "Couldn't create team from members that don't exist!"
+      );
     }
-    return db
-      .doc(`teams/${teamRef.uuid}`)
-      .set(teamRef)
-      .then(
-        () =>
-          ({
-            isSuccessful: true,
-            team: { ...team, uuid: teamRef.uuid }
-          } as const)
-      )
-      .catch((reason) => ({
-        isSuccessful: false,
-        error: `Couldn't edit team for reason: ${reason}`,
-        team: { ...team, uuid: teamRef.uuid }
-      }));
+    await db.doc(`teams/${teamRef.uuid}`).set(teamRef);
+    return { ...team, uuid: teamRef.uuid };
   }
 
-  static async deleteTeam(teamUuid: string): Promise<DBResult> {
-    return db
-      .doc(`teams/${teamUuid}`)
-      .delete()
-      .then(() => ({ isSuccessful: true } as const))
-      .catch((reason) => ({
-        isSuccessful: false,
-        error: `Couldn't delete team for reason: ${reason}`
-      }));
+  static async deleteTeam(teamUuid: string): Promise<void> {
+    await db.doc(`teams/${teamUuid}`).delete();
   }
 }

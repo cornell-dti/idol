@@ -15,6 +15,7 @@ import {
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
 import { allRoles } from './permissions';
+import { HandlerError } from './errors';
 
 // Constants and configurations
 const app = express();
@@ -69,25 +70,35 @@ const checkLoggedIn = (req: Request, res: Response): boolean => {
 };
 
 const loginCheckedHandler = (
-  handler: (req: Request, res: Response) => Promise<void>
+  handler: (req: Request) => Promise<Record<string, unknown>>
 ): RequestHandler => async (req: Request, res: Response): Promise<void> => {
   if (!checkLoggedIn(req, res)) return;
-  await handler(req, res);
+  try {
+    res.status(200).send(await handler(req));
+  } catch (error) {
+    if (error instanceof HandlerError) {
+      res.status(error.errorCode).send({ error: error.reason });
+      return;
+    }
+    res
+      .status(500)
+      .send({ error: `Failed to handle the request due to ${error}.` });
+  }
 };
 
 const loginCheckedGet = (
   path: string,
-  handler: (req: Request, res: Response) => Promise<void>
+  handler: (req: Request) => Promise<Record<string, unknown>>
 ) => router.get(path, loginCheckedHandler(handler));
 
 const loginCheckedPost = (
   path: string,
-  handler: (req: Request, res: Response) => Promise<void>
+  handler: (req: Request) => Promise<Record<string, unknown>>
 ) => router.post(path, loginCheckedHandler(handler));
 
 const loginCheckedDelete = (
   path: string,
-  handler: (req: Request, res: Response) => Promise<void>
+  handler: (req: Request) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
 
 // Login
@@ -131,54 +142,40 @@ router.get('/allRoles', (_, res) => res.status(200).json({ roles: allRoles }));
 
 // Members
 router.get('/allMembers', async (_, res) => {
-  const handled = await allMembers();
-  res.status(handled.status).json(handled);
+  const members = await allMembers();
+  res.status(200).json({ members });
 });
-loginCheckedGet('/getMember/:email', async (req, res) => {
-  const handled = await getMember(req);
-  res.status(handled.status).json(handled);
+loginCheckedGet('/getMember/:email', async (req) => ({
+  member: await getMember(req)
+}));
+loginCheckedPost('/setMember', async (req) => ({
+  member: await setMember(req)
+}));
+loginCheckedDelete('/deleteMember/:email', async (req) => {
+  await deleteMember(req);
+  return {};
 });
-loginCheckedPost('/setMember', async (req, res) => {
-  const handled = await setMember(req);
-  res.status(handled.status).json(handled);
-});
-loginCheckedDelete('/deleteMember/:email', async (req, res) => {
-  const handled = await deleteMember(req);
-  res.status(handled.status).json(handled);
-});
-loginCheckedPost('/updateMember', async (req, res) => {
-  const handled = await updateMember(req);
-  res.status(handled.status).json(handled);
-});
+loginCheckedPost('/updateMember', async (req) => ({
+  member: await updateMember(req)
+}));
 
 // Teams
-loginCheckedGet('/allTeams', async (_, res) => {
-  const handled = await allTeams();
-  res.status(handled.status).json(handled);
-});
-loginCheckedPost('/setTeam', async (req, res) => {
-  const handled = await setTeam(req);
-  res.status(handled.status).json(handled);
-});
-loginCheckedPost('/deleteTeam', async (req, res) => {
-  const handled = await deleteTeam(req);
-  res.status(handled.status).json(handled);
-});
+loginCheckedGet('/allTeams', async (_) => ({ teams: await allTeams() }));
+loginCheckedPost('/setTeam', async (req) => ({ team: await setTeam(req) }));
+loginCheckedPost('/deleteTeam', async (req) => ({
+  team: await deleteTeam(req)
+}));
 
 // Images
-loginCheckedGet('/getMemberImage', async (req, res) => {
-  const handled = await getMemberImage(req);
-  res.status(handled.status).json(handled);
-});
-
-loginCheckedGet('/getImageSignedURL', async (req, res) => {
-  const handled = await setMemberImage(req);
-  res.status(handled.status).json(handled);
-});
-
+loginCheckedGet('/getMemberImage', async (req) => ({
+  url: await getMemberImage(req)
+}));
+loginCheckedGet('/getImageSignedURL', async (req) => ({
+  url: await setMemberImage(req)
+}));
 router.get('/allMemberImages', async (_, res) => {
-  const handled = await allMemberImages();
-  res.status(handled.status).json(handled);
+  const images = await allMemberImages();
+  res.status(200).json({ images });
 });
 
 app.use('/.netlify/functions/api', router);
