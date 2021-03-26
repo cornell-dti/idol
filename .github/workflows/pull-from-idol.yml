@@ -4,7 +4,7 @@ on:
     # Run the script at 0AM in UTC every day, which is 7PM or 8PM in ET.
     - cron: '0 0 * * *'
   pull_request:
-    path:
+    paths:
       - dti-website/pull-from-idol.ts
       - .github/workflows/pull-from-idol.yml
 

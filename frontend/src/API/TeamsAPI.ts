@@ -5,7 +5,6 @@ import Emitters from '../EventEmitter/constant-emitters';
 import { Member } from './MembersAPI';
 
 type TeamResponseObj = {
-  status: number;
   team: Team;
   error?: string;
 };
