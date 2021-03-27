@@ -86,7 +86,7 @@ async function main(): Promise<void> {
   });
   diffOutput = output.stdout.toString();
   unlinkSync('existing.json');
-  // Compute diff when not on CI
+  // Just log diff when not on CI
   if (!process.env.CI) {
     console.log('\n' + diffOutput);
     return;
