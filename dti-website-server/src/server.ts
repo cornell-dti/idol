@@ -7,7 +7,7 @@ const router = express.Router();
 const PORT = process.env.PORT || 8000;
 
 router.get('/', (req: Request, res: Response) => {
-  console.log("Ping!");
+  console.log('Ping!');
   res.send('Pong!');
 });
 

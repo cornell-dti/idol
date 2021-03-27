@@ -29,7 +29,7 @@ import './projects.scss';
 import './sponsor.scss';
 import './team.scss';
 
-fetch("/.netlify/functions/server");
+fetch('/.netlify/functions/server');
 
 const App = (props: AppProps): ReactElement => {
   const { Component, pageProps } = props;
