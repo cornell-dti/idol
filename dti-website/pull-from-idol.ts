@@ -81,14 +81,14 @@ async function main(): Promise<void> {
   let diffOutput = '';
 
   writeFileSync('existing.json', existingContent);
-  let output = spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
+  const output = spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
     encoding: 'utf-8'
   });
   diffOutput = output.stdout.toString();
   unlinkSync('existing.json');
   // Just log diff when not on CI
   if (!process.env.CI) {
-    console.log('\n' + diffOutput);
+    console.log(`\n${diffOutput}`);
     return;
   }
 

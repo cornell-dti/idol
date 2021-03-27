@@ -1,47 +1,46 @@
 import { Octokit } from '@octokit/rest';
+import { Request } from 'express';
 import MembersDao from '../dao/MembersDao';
 import { PermissionsManager } from '../permissions';
-import {
-  UnauthorizedError,
-  PermissionError,
-  BadRequestError,
-  HandlerError
-} from '../errors';
-import { Request } from 'express';
+import { UnauthorizedError, PermissionError, BadRequestError } from '../errors';
+
 require('dotenv').config();
 
 export const requestIDOLPullDispatch = async (req: Request) => {
-  let check = await checkPermissions(req);
+  await checkPermissions(req);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  let res = await octokit.request('POST /repos/{owner}/{repo}/dispatches', {
-    owner: 'cornell-dti',
-    repo: 'idol',
-    event_type: 'pull-idol-changes'
-  });
-  return { updated: res.status == 204, res: res };
+  const result = await octokit.request(
+    'POST /repos/{owner}/{repo}/dispatches',
+    {
+      owner: 'cornell-dti',
+      repo: 'idol',
+      event_type: 'pull-idol-changes'
+    }
+  );
+  return { updated: result.status === 204, res: result };
 };
 
 export const getIDOLChangesPR = async (req: Request) => {
-  let check = await checkPermissions(req);
-  let foundPR = await findBotPR();
+  await checkPermissions(req);
+  const foundPR = await findBotPR();
   return { pr: foundPR };
 };
 
 export const acceptIDOLChanges = async (req: Request) => {
-  let check = await checkPermissions(req);
+  await checkPermissions(req);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  let foundPR = await findBotPR();
+  const foundPR = await findBotPR();
   const octokit2 = new Octokit({
     auth: `token ${process.env.BOT_2_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  let approveReview = await octokit2.request(
+  const approveReview = await octokit2.request(
     'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
     {
       owner: 'cornell-dti',
@@ -55,7 +54,7 @@ export const acceptIDOLChanges = async (req: Request) => {
       'Could not approve the IDOL changes pull request!'
     );
   }
-  let acceptedPR = await octokit.rest.pulls.merge({
+  const acceptedPR = await octokit.rest.pulls.merge({
     owner: 'cornell-dti',
     repo: 'idol',
     pull_number: foundPR.number,
@@ -65,13 +64,13 @@ export const acceptIDOLChanges = async (req: Request) => {
 };
 
 export const rejectIDOLChanges = async (req: Request) => {
-  let check = await checkPermissions(req);
-  let foundPR = await findBotPR();
+  await checkPermissions(req);
+  const foundPR = await findBotPR();
   const octokit2 = new Octokit({
     auth: `token ${process.env.BOT_2_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  let closedReview = await octokit2.rest.pulls.update({
+  const closedReview = await octokit2.rest.pulls.update({
     owner: 'cornell-dti',
     repo: 'idol',
     pull_number: foundPR.number,
@@ -90,17 +89,16 @@ const findBotPR = async () => {
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  let allPulls = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
+  const allPulls = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
     owner: 'cornell-dti',
     repo: 'idol',
     event_type: 'pull-idol-changes'
   });
-  let foundPR = allPulls.data.find((el) => {
-    return (
+  const foundPR = allPulls.data.find(
+    (el) =>
       el.title === '[bot] Automatically pull latest data from IDOL backend' &&
       el.state === 'open'
-    );
-  });
+  );
   if (!foundPR) {
     throw new BadRequestError(
       'Unable to find a valid open IDOL member update pull request!'

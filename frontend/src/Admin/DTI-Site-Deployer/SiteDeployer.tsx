@@ -1,13 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  CardGroup,
-  Form,
-  Loader,
-  TextArea
-} from 'semantic-ui-react';
+import { Button, Card, CardGroup, Loader } from 'semantic-ui-react';
 import { UserContext } from '../../UserProvider/UserProvider';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
@@ -26,10 +19,10 @@ const SiteDeployer: React.FC = () => {
   const history = useHistory();
 
   const [isLoading, setLoading] = useState(true);
-  const [pullRequests, setPullRequests] = useState<any[]>([]);
+  const [pullRequests, setPullRequests] = useState<{ body: string }[]>([]);
 
   const loadPullRequests = () => {
-    APIWrapper.get(`${backendURL}/getIDOLChangesPR`, {}).then((resp: any) => {
+    APIWrapper.get(`${backendURL}/getIDOLChangesPR`, {}).then((resp) => {
       if (!resp.data.pr) {
         setPullRequests([]);
         setLoading(false);
@@ -44,7 +37,7 @@ const SiteDeployer: React.FC = () => {
     if (userEmail) {
       getUser(userEmail)
         .then((mem) => {
-          if (mem.role != 'lead') {
+          if (mem.role !== 'lead') {
             Emitters.generalError.emit({
               headerMsg: 'Access Denied',
               contentMsg: `Insufficient permissions.`
@@ -63,7 +56,7 @@ const SiteDeployer: React.FC = () => {
           history.push('/');
         });
     }
-  }, [userEmail]);
+  });
 
   const onClickAccept = () => {
     setLoading(true);
@@ -100,7 +93,7 @@ const SiteDeployer: React.FC = () => {
     loadPullRequests();
   };
 
-  const PRToCard = (pullRequest: any, key: number) => (
+  const PRToCard = (pullRequest: { body: string }, key: number) => (
     <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={key}>
       <Card.Content>{pullRequest.body}</Card.Content>
       <Card.Content extra>
@@ -182,7 +175,7 @@ const SiteDeployer: React.FC = () => {
     <div className={styles.content}>
       <TopButtons />
       <CardGroup>
-        {pullRequests.length == 0 ? <EmptyCard /> : pullRequests.map(PRToCard)}
+        {pullRequests.length === 0 ? <EmptyCard /> : pullRequests.map(PRToCard)}
       </CardGroup>
     </div>
   );
