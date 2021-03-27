@@ -8,9 +8,9 @@ import { UnauthorizedError, PermissionError, BadRequestError } from './errors';
 require('dotenv').config();
 
 export const requestIDOLPullDispatch = async (
-  req: Request
+  user: IdolMember
 ): Promise<{ updated: boolean }> => {
-  await checkPermissions(req);
+  await checkPermissions(user);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
@@ -27,17 +27,17 @@ export const requestIDOLPullDispatch = async (
 };
 
 export const getIDOLChangesPR = async (
-  req: Request
+  user: IdolMember
 ): Promise<{ pr: PRResponse }> => {
-  await checkPermissions(req);
+  await checkPermissions(user);
   const foundPR = await findBotPR();
   return { pr: foundPR };
 };
 
 export const acceptIDOLChanges = async (
-  req: Request
+  user: IdolMember
 ): Promise<{ pr: PRResponse; merged: boolean }> => {
-  await checkPermissions(req);
+  await checkPermissions(user);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
@@ -71,9 +71,9 @@ export const acceptIDOLChanges = async (
 };
 
 export const rejectIDOLChanges = async (
-  req: Request
+  user: IdolMember
 ): Promise<{ pr: PRResponse; closed: boolean }> => {
-  await checkPermissions(req);
+  await checkPermissions(user);
   const foundPR = await findBotPR();
   const octokit2 = new Octokit({
     auth: `token ${process.env.BOT_2_TOKEN}`,
@@ -116,14 +116,11 @@ const findBotPR = async (): Promise<PRResponse> => {
   return foundPR;
 };
 
-const checkPermissions = async (req: Request): Promise<void> => {
-  const userEmail: string = req.session?.email as string;
-  const user = await MembersDao.getMember(userEmail);
-  if (!user) throw new UnauthorizedError(`No user with email: ${userEmail}`);
+const checkPermissions = async (user: IdolMember): Promise<void> => {
   const canEdit = await PermissionsManager.canDeploySite(user);
   if (!canEdit) {
     throw new PermissionError(
-      `User with email: ${userEmail} does not have permission to trigger site deploys!`
+      `User with email: ${user.email} does not have permission to trigger site deploys!`
     );
   }
 };

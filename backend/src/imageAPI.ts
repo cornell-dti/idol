@@ -1,9 +1,7 @@
-import { Request } from 'express';
 import { bucket } from './firebase';
 import { getNetIDFromEmail, filterImagesResponse } from './util';
 import { ProfileImage } from './DataTypes';
-import { BadRequestError, NotFoundError, PermissionError } from './errors';
-import MembersDao from './dao/MembersDao';
+import { NotFoundError } from './errors';
 
 export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   const files = await bucket.getFiles({ prefix: 'images/' });
@@ -25,10 +23,7 @@ export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   return filterImagesResponse(images);
 };
 
-export const setMemberImage = async (req: Request): Promise<string> => {
-  const userEmail: string = req.session?.email as string;
-  const user = await MembersDao.getMember(userEmail);
-  if (!user) throw new BadRequestError(`No user with email: ${userEmail}`);
+export const setMemberImage = async (user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
   const signedURL = await file.getSignedUrl({
@@ -39,15 +34,7 @@ export const setMemberImage = async (req: Request): Promise<string> => {
   return signedURL[0];
 };
 
-export const getMemberImage = async (req: Request): Promise<string> => {
-  const userEmail: string = req.session?.email as string;
-  const user = await MembersDao.getMember(userEmail);
-  if (!user) throw new BadRequestError(`No user with email: ${userEmail}`);
-  if (user.email !== userEmail) {
-    throw new PermissionError(
-      `User with email: ${userEmail} does not have permission to get members!`
-    );
-  }
+export const getMemberImage = async (user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
