@@ -78,15 +78,14 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Compute diff when not on CI
-  if (!process.env.CI) {
-    writeFileSync('existing.json', existingContent);
-    spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
-      stdio: 'inherit'
-    });
-    unlinkSync('existing.json');
-    return;
-  }
+  let diffOutput = "";
+
+  writeFileSync('existing.json', existingContent);
+  let output = spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
+    stdio: 'inherit'
+  });
+  diffOutput = output.output.join('\n');
+  unlinkSync('existing.json');
 
   // Create commit
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
@@ -104,12 +103,14 @@ async function main(): Promise<void> {
     }
   }
 
+  console.log("HERE" + diffOutput);
+
   // Create PR
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/big-diff-warning'
   });
-  const prBody = `## Summary
+  const prBody = diffOutput === '' ? `## Summary
 
 This is a PR auto-generated from \`yarn workspace dti-website pull-from-idol\`.
 It updates the members JSON with latest data from IDOL backend.
@@ -117,7 +118,7 @@ Please review it carefully to ensure nothing bad is here.
 
 ## Test Plan
 
-:eyes:`;
+:eyes:` : diffOutput;
   const existingPR = (
     await octokit.pulls.list({
       owner: 'cornell-dti',
