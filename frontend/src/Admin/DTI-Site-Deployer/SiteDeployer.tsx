@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Card, CardGroup, Form, TextArea } from 'semantic-ui-react';
+import {
+  Button,
+  Card,
+  CardGroup,
+  Form,
+  Loader,
+  TextArea
+} from 'semantic-ui-react';
 import { UserContext } from '../../UserProvider/UserProvider';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
@@ -19,21 +26,19 @@ const SiteDeployer: React.FC = () => {
   const history = useHistory();
 
   // No loading for now, but for future reference
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [pullRequests, setPullRequests] = useState<any[]>([]);
 
   const loadPullRequests = () => {
     APIWrapper.get(`${backendURL}/getIDOLChangesPR`, {}).then((resp: any) => {
       if (!resp.data.pr) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't get IDOL changes PR!",
-          contentMsg: resp.data.error
-        });
+        setPullRequests([]);
+        setLoading(false);
         return;
       }
       setPullRequests([resp.data.pr]);
+      setLoading(false);
     });
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -62,6 +67,7 @@ const SiteDeployer: React.FC = () => {
   }, [userEmail]);
 
   const onClickAccept = () => {
+    setLoading(true);
     APIWrapper.post(`${backendURL}/acceptIDOLChanges`, {}).then((resp) => {
       if (resp.data.merged) {
         setPullRequests([]);
@@ -71,10 +77,12 @@ const SiteDeployer: React.FC = () => {
           contentMsg: resp.data.error
         });
       }
+      setLoading(false);
     });
   };
 
   const onClickReject = () => {
+    setLoading(true);
     APIWrapper.post(`${backendURL}/rejectIDOLChanges`, {}).then((resp) => {
       if (resp.data.closed) {
         setPullRequests([]);
@@ -84,10 +92,12 @@ const SiteDeployer: React.FC = () => {
           contentMsg: resp.data.error
         });
       }
+      setLoading(false);
     });
   };
 
   const onClickRefresh = () => {
+    setLoading(true);
     loadPullRequests();
   };
 
@@ -164,6 +174,10 @@ const SiteDeployer: React.FC = () => {
       </Card.Content>
     </Card>
   );
+
+  if (isLoading) {
+    return <Loader data-testid="AddUser" active={true} size="massive" />;
+  }
 
   return (
     <div className={styles.content}>
