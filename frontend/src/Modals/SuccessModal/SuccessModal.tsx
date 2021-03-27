@@ -29,18 +29,15 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ onEmitter }) => {
     };
   });
   return (
-    <Modal
-      open={isOpen}
-      onClose={() => setOpen(false)}
-    >
+    <Modal open={isOpen} onClose={() => setOpen(false)}>
       <Modal.Header>{`${successProps.headerMsg} :)`}</Modal.Header>
       <Modal.Content>{successProps.contentMsg}</Modal.Content>
       {successProps.child ?? successProps.child}
       <Modal.Actions>
         <Button
           content="Done"
-          labelPosition='right'
-          icon='checkmark'
+          labelPosition="right"
+          icon="checkmark"
           onClick={() => setOpen(false)}
           positive
         />

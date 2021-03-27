@@ -6,7 +6,7 @@ import Emitters from '../../EventEmitter/constant-emitters';
 import { backendURL } from '../../environment';
 import styles from './SiteDeployer.module.css';
 import APIWrapper from '../../API/APIWrapper';
-import { PermissionsAPI } from '../../API/PermissionsAPI';
+import PermissionsAPI from '../../API/PermissionsAPI';
 
 const SiteDeployer: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
@@ -126,13 +126,18 @@ const SiteDeployer: React.FC = () => {
     APIWrapper.post(`${backendURL}/pullIDOLChanges`, {}).then((resp) => {
       if (resp.data.updated) {
         Emitters.generalSuccess.emit({
-          headerMsg: "pull-from-idol workflow triggered!",
+          headerMsg: 'pull-from-idol workflow triggered!',
           contentMsg: `Our github bot is now chugging away migrating our data changes!`,
-          child: (<Modal.Content>
-            <p>
-              Come monitor it over on <a href="https://github.com/cornell-dti/idol/actions?query=workflow%3A%22Pull+from+IDOL%22">our github!</a>
-            </p>
-          </Modal.Content>)
+          child: (
+            <Modal.Content>
+              <p>
+                Come monitor it over on{' '}
+                <a href="https://github.com/cornell-dti/idol/actions?query=workflow%3A%22Pull+from+IDOL%22">
+                  our github!
+                </a>
+              </p>
+            </Modal.Content>
+          )
         });
       } else {
         Emitters.generalError.emit({

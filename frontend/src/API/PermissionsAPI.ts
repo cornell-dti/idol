@@ -3,7 +3,7 @@ import { backendURL } from '../environment';
 import PermissionsError from '../Errors/PermissionsError';
 import APIWrapper from './APIWrapper';
 
-export class PermissionsAPI {
+export default class PermissionsAPI {
   public static async isAdmin(email: string): Promise<{ isAdmin: boolean }> {
     const funcName = 'isAdmin';
     if (APICache.has(funcName)) {

@@ -3,10 +3,13 @@ import { Request } from 'express';
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
 import { UnauthorizedError, PermissionError, BadRequestError } from './errors';
+import { PRResponse } from './GithubTypes';
 
 require('dotenv').config();
 
-export const requestIDOLPullDispatch = async (req: Request) => {
+export const requestIDOLPullDispatch = async (
+  req: Request
+): Promise<{ updated: boolean }> => {
   await checkPermissions(req);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
@@ -20,16 +23,20 @@ export const requestIDOLPullDispatch = async (req: Request) => {
       event_type: 'pull-idol-changes'
     }
   );
-  return { updated: result.status === 204, res: result };
+  return { updated: result.status === 204 };
 };
 
-export const getIDOLChangesPR = async (req: Request) => {
+export const getIDOLChangesPR = async (
+  req: Request
+): Promise<{ pr: PRResponse }> => {
   await checkPermissions(req);
   const foundPR = await findBotPR();
   return { pr: foundPR };
 };
 
-export const acceptIDOLChanges = async (req: Request) => {
+export const acceptIDOLChanges = async (
+  req: Request
+): Promise<{ pr: PRResponse; merged: boolean }> => {
   await checkPermissions(req);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
@@ -63,7 +70,9 @@ export const acceptIDOLChanges = async (req: Request) => {
   return { pr: foundPR, merged: acceptedPR.data.merged };
 };
 
-export const rejectIDOLChanges = async (req: Request) => {
+export const rejectIDOLChanges = async (
+  req: Request
+): Promise<{ pr: PRResponse; closed: boolean }> => {
   await checkPermissions(req);
   const foundPR = await findBotPR();
   const octokit2 = new Octokit({
@@ -84,7 +93,7 @@ export const rejectIDOLChanges = async (req: Request) => {
   return { pr: foundPR, closed: closedReview.data.state === 'closed' };
 };
 
-const findBotPR = async () => {
+const findBotPR = async (): Promise<PRResponse> => {
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
@@ -107,7 +116,7 @@ const findBotPR = async () => {
   return foundPR;
 };
 
-const checkPermissions = async (req: Request) => {
+const checkPermissions = async (req: Request): Promise<void> => {
   const userEmail: string = req.session?.email as string;
   const user = await MembersDao.getMember(userEmail);
   if (!user) throw new UnauthorizedError(`No user with email: ${userEmail}`);
