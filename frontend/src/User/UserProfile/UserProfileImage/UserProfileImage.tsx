@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Image, Button, Modal } from 'semantic-ui-react';
 import AvatarEditor from 'react-avatar-editor';
-import AramHeadshot from '../../../static/images/aram-headshot.jpg';
 import ProfileImageEditor from './ProfileImageEditor/ProfileImageEditor';
+import ImagesAPI from '../../../API/ImagesAPI';
 
 const UserProfileImage: React.FC = () => {
   const [open, setOpen] = React.useState(false);
 
-  // grab image from AWS bucket. set profilePhoto to initial photo
-  const [profilePhoto, setProfilePhoto] = useState<string>(AramHeadshot);
+  const [profilePhoto, setProfilePhoto] = useState<string>('');
   const [editor, setEditor] = useState<null | AvatarEditor>(null);
   const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
+
+  useEffect(() => {
+    ImagesAPI.getMemberImage().then((url: string) => {
+      setProfilePhoto(url);
+    });
+  }, []);
 
   const cropAndSubmitImage = () => {
     if (editor !== null) {
@@ -20,6 +25,7 @@ const UserProfileImage: React.FC = () => {
         .then((res) => res.blob())
         .then((blob) => {
           imageURL = window.URL.createObjectURL(blob);
+          ImagesAPI.uploadMemberImage(blob);
           setProfilePhoto(imageURL);
         });
     }

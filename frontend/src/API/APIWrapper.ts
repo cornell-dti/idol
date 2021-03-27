@@ -4,9 +4,8 @@ import { auth } from '../firebase';
 export default class APIWrapper {
   public static post(
     url: string,
-    body: any,
-    config?: AxiosRequestConfig | undefined,
-    errDefault?: any
+    body: unknown,
+    config?: AxiosRequestConfig | undefined
   ): Promise<any> {
     const responseProm = axios
       .post(url, body, {
@@ -14,14 +13,13 @@ export default class APIWrapper {
         withCredentials: true
       })
       .catch((err) => err)
-      .then((resOrErr) => this.responseMiddleware(resOrErr, errDefault));
+      .then((resOrErr) => this.responseMiddleware(resOrErr));
     return responseProm;
   }
 
   public static get(
     url: string,
-    config?: AxiosRequestConfig | undefined,
-    errDefault?: any
+    config?: AxiosRequestConfig | undefined
   ): Promise<any> {
     const responseProm = axios
       .get(url, {
@@ -29,14 +27,13 @@ export default class APIWrapper {
         withCredentials: true
       })
       .catch((err) => err)
-      .then((resOrErr) => this.responseMiddleware(resOrErr, errDefault));
+      .then((resOrErr) => this.responseMiddleware(resOrErr));
     return responseProm;
   }
 
   public static delete(
     url: string,
-    config?: AxiosRequestConfig | undefined,
-    errDefault?: any
+    config?: AxiosRequestConfig | undefined
   ): Promise<any> {
     const responseProm = axios
       .delete(url, {
@@ -44,26 +41,29 @@ export default class APIWrapper {
         withCredentials: true
       })
       .catch((err) => err)
-      .then((resOrErr) => this.responseMiddleware(resOrErr, errDefault));
+      .then((resOrErr) => this.responseMiddleware(resOrErr));
     return responseProm;
   }
 
-  private static responseMiddleware(resOrErr: any, errDefault?: any) {
-    console.log(resOrErr.response, resOrErr);
+  public static put(
+    url: string,
+    body: unknown,
+    config?: AxiosRequestConfig | undefined
+  ): Promise<any> {
+    const responseProm = axios
+      .put(url, body, { ...config })
+      .catch((err) => err)
+      .then((resOrErr) => this.responseMiddleware(resOrErr));
+    return responseProm;
+  }
+
+  private static responseMiddleware(resOrErr: any) {
     if (resOrErr.name === 'Error' && resOrErr.response.status === 440) {
       auth.signOut();
-      return (
-        errDefault || { data: { error: 'Session expired! Log in again!' } }
-      );
+      return { data: { error: 'Session expired! Log in again!' } };
     }
-    if (resOrErr.name === 'Error' && errDefault) {
-      // It's an error, return the default value
-      return errDefault;
-    }
-    if (resOrErr.name === 'Error' && !errDefault) {
-      // No default, return the response
-      return resOrErr.response;
-    }
+    // No default, return the response
+    if (resOrErr.name === 'Error') return resOrErr.response;
     return resOrErr;
   }
 }

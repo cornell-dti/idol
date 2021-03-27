@@ -1,6 +1,7 @@
 // This file contains common operations that will need to be performed often.
 
 import { firestore } from 'firebase-admin';
+import { ProfileImage } from './DataTypes';
 
 /**
  * This function takes a collection reference and turns it into an array
@@ -10,7 +11,7 @@ import { firestore } from 'firebase-admin';
  */
 export async function docRefArrayFromCollectionRef(
   coll: firestore.CollectionReference
-): Promise<Array<any>> {
+): Promise<Array<firestore.DocumentReference>> {
   // Init array
   const insArr: firestore.DocumentReference[] = [];
   // Go through each doc and add their reference
@@ -124,3 +125,15 @@ function isCollRef(val: any) {
     typeof val.startAfter === 'function'
   );
 }
+
+export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
+
+export const filterImagesResponse = (
+  images: readonly { readonly fileName: string; readonly url: string }[]
+): ProfileImage[] =>
+  images
+    .filter((image) => image.fileName.length > 7)
+    .map((image) => ({
+      ...image,
+      fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
+    }));

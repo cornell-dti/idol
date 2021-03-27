@@ -2,7 +2,6 @@ import APICache from '../Cache/Cache';
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
-import { Role } from './MembersAPI';
 
 export default class RolesAPI {
   public static getAllRoles(): Promise<Role[]> {

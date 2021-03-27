@@ -1,0 +1,382 @@
+[
+  {
+    "name": "Carriage",
+    "teamId": "carriage",
+    "card": "/static/projects/carriage-card.png",
+    "header": "Carriage",
+    "subheader": "Efficient Transit for CULift.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/carriage-header.png",
+      "subheader": "Carriage is dedicated to making Cornell accessible for all students. We work with CULift, Cornell’s paratransit service for students with disabilities, to build mobile and web platforms that improve the experience of scheduling, performing, and monitoring CULift rides for students, drivers, and administrators alike."
+    },
+    "github": "https://github.com/cornell-dti/carriage-web",
+    "driver-github": "https://github.com/cornell-dti/carriage-driver",
+    "rider-github": "https://github.com/cornell-dti/carriage-rider",
+    "heroStartingColor": "#000000",
+    "heroEndingColor": "#EEEEEE",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Rider Mobile & Web.",
+        "description": "CULift riders can schedule and track their rides.",
+        "image": "/static/projects/carriage-feature1.png"
+      },
+      {
+        "title": "Driver Mobile.",
+        "description": "CULift drivers can track rides and communicate progress with the dispatcher.",
+        "image": "/static/projects/carriage-feature2.png"
+      },
+      {
+        "title": "Admin Web.",
+        "description": "CULift dispatchers can schedule and monitor rides, and SDS administrators can oversee service access and metrics.",
+        "image": "/static/projects/carriage-feature3.png"
+      }
+    ]
+  },
+  {
+    "name": "CoursePlan",
+    "teamId": "courseplan",
+    "card": "/static/projects/courseplan-card.png",
+    "header": "CoursePlan",
+    "subheader": "Don't Wait, Plan Ahead.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/courseplan-header.png",
+      "subheader": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements–all in one place. If you see courses you need to take next semester, just drag them into your schedule."
+    },
+    "website": "https://courseplan.io",
+    "website-title": "CoursePlan",
+    "github": "https://github.com/cornell-dti/course-plan",
+    "heroStartingColor": "#1AA9A5",
+    "heroEndingColor": "#92C3E6",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "New Way to Track Your Requirements.",
+        "description": "Fully personalized to track your requirements. Customizable interface to view your courses. Built-in system to check your progress. Recommends courses based on your needs.",
+        "image": "/static/projects/courseplan-feature1.png"
+      },
+      {
+        "title": "Drag Your Course In.",
+        "description": "CoursePlan’s intuitive interface recommends courses based on unfulfilled requirements and allows you to easily drag and drop them into your planner.",
+        "image": "/static/projects/courseplan-feature2.png"
+      },
+      {
+        "title": "Plan Your Semesters.",
+        "description": "Use CoursePlan’s semesterly planner to choose courses well in advance and ensure that you never miss a requirement.",
+        "image": "/static/projects/courseplan-feature3.png"
+      }
+    ]
+  },
+  {
+    "name": "eve",
+    "teamId": "events",
+    "card": "/static/projects/events-card.png",
+    "header": "eve",
+    "subheader": "Events at Cornell. Just for you.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/events-header.png",
+      "subheader": "With so much going on at Cornell, finding all the events you want to go to is hard. Cue keeps you updated on what events are happening around you, so you’ll never miss out!"
+    },
+    "ios-github": "https://github.com/cornell-dti/events-manager-ios",
+    "android-github": "https://github.com/cornell-dti/events-manager-android",
+    "github": "https://github.com/cornell-dti/events-backend",
+    "heroStartingColor": "#C86DD7",
+    "heroEndingColor": "#978CFF",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Trending Now.",
+        "description": "Whether it’s a busy Monday or a casual weekend, cue lets you know what’s happening on campus.",
+        "image": "/static/projects/events-feature1.jpg"
+      },
+      {
+        "title": "Manage Your Events.",
+        "description": "Track all the events you’re interested in with the app, anywhere on-the-go.",
+        "image": "/static/projects/events-feature2.jpg"
+      },
+      {
+        "title": "Stay Updated.",
+        "description": "Cue makes it easy to stay up to date with all the organizations you care about.",
+        "image": "/static/projects/events-feature3.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Flux",
+    "teamId": "flux",
+    "card": "/static/projects/flux-card.png",
+    "header": "flux",
+    "subheader": "Real time traffic flow.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/flux-header.png",
+      "subheader": "Nobody wants to go eat at a dining hall only to find that there are no places to sit. With Flux real-time data reporting, you can now avoid crowded dining halls and find the best places and times to eat on campus."
+    },
+    "ios-github": "https://github.com/cornell-dti/campus-density-ios",
+    "android-github": "https://github.com/cornell-dti/campus-density-android",
+    "github": "https://github.com/cornell-dti/campus-density-backend",
+    "playstore": "https://play.google.com/store/apps/details?id=org.cornelldti.density.density",
+    "appstore": "https://apps.apple.com/us/app/flux-skip-the-crowd/id1454265033",
+    "heroStartingColor": "#FFF",
+    "heroEndingColor": "#FFA01E",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Browse.",
+        "description": "Filter dining halls by location or crowdedness.",
+        "image": "/static/projects/flux-feature1.jpg"
+      },
+      {
+        "title": "Plan.",
+        "description": "Know ahead of time the best places to be.",
+        "image": "/static/projects/flux-feature1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "O-Week",
+    "active": false,
+    "teamId": "oweek",
+    "card": "/static/projects/events-card.png",
+    "header": "O-Week",
+    "subheader": "Orientation Week. Made Simple.",
+    "hero": {
+      "header": "What We Do",
+      "image": "",
+      "subheader": "Cornell is big. Orientation week is messy. With O-Week, new students can find orientation week events, keep track of their favorites, and know where and when to go."
+    },
+    "appstore": "https://itunes.apple.com/us/app/cu-orientation/id1244530142?mt=8",
+    "playstore": "https://play.google.com/store/apps/details?id=com.cornellsatech.o_week",
+    "ios-github": "https://github.com/cornell-dti/o-week-ios",
+    "android-github": "https://github.com/cornell-dti/o-week-android",
+    "heroStartingColor": "#FF324A",
+    "heroEndingColor": "#FFFFFF",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Find It.",
+        "description": "Search for new events by keyword.",
+        "image": "/static/projects/orientation-feature1.jpg"
+      },
+      {
+        "title": "Remind Me.",
+        "description": "Be notified before any events required for your major.",
+        "image": "/static/projects/orientation-feature2.jpg"
+      },
+      {
+        "title": "Get There.",
+        "description": "Directions to any event are just a tap away.",
+        "image": "/static/projects/orientation-feature3.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Queue Me In",
+    "teamId": "queuemein",
+    "card": "/static/projects/queuemein-card.png",
+    "header": "Queue Me In",
+    "subheader": "Office Hours. Simplified.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/queuemein-header.png",
+      "subheader": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their class."
+    },
+    "github": "https://github.com/cornell-dti/office-hours",
+    "website": "https://queueme.in",
+    "website-title": "QueueMe.in",
+    "heroStartingColor": "#7D82FF",
+    "heroEndingColor": "#FFFFFF",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Pick a Session.",
+        "description": "Browse upcoming office hours by day to pick one that works best for you. You can see whether or not the queue has opened, and how many students have already entered a question!",
+        "image": "/static/projects/queuemein-feature1.jpg"
+      },
+      {
+        "title": "Add Your Question.",
+        "description": "Join an office hour session! By adding your question, you can secure your place in line without worrying about other students cutting in.",
+        "image": "/static/projects/queuemein-feature2.jpg"
+      },
+      {
+        "title": "View the Queue.",
+        "description": "You can find an opportunity to listen in for a question you also have, or view other questions asked to understand overall problem areas.",
+        "image": "/static/projects/queuemein-feature3.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Research Connect",
+    "active": false,
+    "teamId": "research",
+    "card": "/static/projects/researchconnect-card.png",
+    "header": "Research Connect",
+    "subheader": "Handshake for Lab Research.",
+    "hero": {
+      "header": "What We Do",
+      "image": "",
+      "subheader": "Large universities have so many research opportunities, but few ways to find out about them. Research Connect is a platform where students can find opportunities and research labs can find students they’re looking for."
+    },
+    "website": "https://www.research-connect.com",
+    "website-title": "Research Connect",
+    "github": "https://github.com/cornell-dti/research-connect",
+    "external": "http://cornellsun.com/2018/04/24/cornellians-share-business-plans-in-competition-promoting-entrepreneurship/",
+    "heroStartingColor": "#FAACA8",
+    "heroEndingColor": "#FAACA8",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Find Research Opportunities.",
+        "description": "Instead of having to email researchers, we streamline the process by showing undergrads all of the opportunities available to them.",
+        "image": "/static/projects/researchconnect-feature1.jpg"
+      },
+      {
+        "title": "View Requirements. Apply Online.",
+        "description": "Find out exactly what requirements a lab is searching for that match your background.",
+        "image": "/static/projects/researchconnect-feature2.jpg"
+      },
+      {
+        "title": "Search Faculty.",
+        "description": "Search for faculty across all departments to find out who is conducting research and whether they’re looking for students. (Coming Soon)",
+        "image": "/static/projects/researchconnect-feature3.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Course Reviews",
+    "teamId": "reviews",
+    "card": "/static/projects/reviews-card.png",
+    "header": "Course Reviews",
+    "subheader": "Real Students. Real Class Feedback.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/reviews-header.png",
+      "subheader": "Course Reviews is a course review website by Cornell students, for Cornell students. You can browse classes and view their metrics, read about other students’ experiences, and submit your own course reviews for others. Pre-Enroll has never been easier."
+    },
+    "website": "http://www.cureviews.org",
+    "website-title": "CU Reviews",
+    "github": "https://github.com/cornell-dti/course-reviews-react-2.0",
+    "external": "http://cornellsun.com/2018/05/09/website-designed-by-students-provides-more-comprehensive-course-information/",
+    "heroStartingColor": "#619DFE",
+    "heroEndingColor": "#C2E9FB",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Search for Classes.",
+        "description": "Search for Cornell classes using our wicked fast search.",
+        "image": "/static/projects/reviews-feature1.jpg"
+      },
+      {
+        "title": "Write a Review.",
+        "description": "Write about the class, plus rate its difficulty and workload.",
+        "image": "/static/projects/reviews-feature2.jpg"
+      },
+      {
+        "title": "Check Out Class Reviews.",
+        "description": "Read what other students have to say about the class.",
+        "image": "/static/projects/reviews-feature3.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Samwise",
+    "teamId": "samwise",
+    "card": "/static/projects/samwise-card.png",
+    "header": "Samwise",
+    "subheader": "A Student Planner for Everyone.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/samwise-header.png",
+      "subheader": "Managing a full credit-load and a healthy life is difficult. As due dates approach, it becomes easy to misjudge the amount of work remaining for any given assignment. By creating your tangible timeline, completing work no longer means giving up sleep."
+    },
+    "website": "https://samwise.today",
+    "website-title": "Samwise",
+    "github": "https://github.com/cornell-dti/samwise",
+    "heroStartingColor": "#FF7A02",
+    "heroEndingColor": "#FFF7E8",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Seize Your Day.",
+        "description": "Getting overwhelmed by looming assignments is not why you attend university. Samwise supports your sanity by presenting only what you need to be successful today.",
+        "image": "/static/projects/samwise-feature1.jpg"
+      },
+      {
+        "title": "Plan Ahead.",
+        "description": "Seeing is believing. Add tasks with confidence as Samwise helps manage your workload days ahead. Work smarter, not harder.",
+        "image": "/static/projects/samwise-feature2.jpg"
+      },
+      {
+        "title": "Focus On What Matters.",
+        "description": "Remembering every task required for a specific assignment is hard. Take the guesswork out of homework with subtasks that work for you. Samwise brings your deadlines into focus, one step at a time.",
+        "image": "/static/projects/samwise-feature3.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Shout",
+    "active": false,
+    "teamId": "shout",
+    "card": "/static/projects/shout-card.png",
+    "header": "Shout",
+    "subheader": "Find Out. Go Out. Reach Out.",
+    "hero": {
+      "header": "What We Do",
+      "image": "",
+      "subheader": "Shout helps raise awareness of sexual assault on campus and gives survivors a voice to share their stories and locate regions on campus where incidents have occurred."
+    },
+    "ios-github": "https://github.com/cornell-dti/shout-ios",
+    "android-github": "https://github.com/cornell-dti/shout-android",
+    "heroStartingColor": "#A1F6F4",
+    "heroEndingColor": "#FAFAFA",
+    "heroUseDarkText": true,
+    "features": [
+      {
+        "title": "Find Out.",
+        "description": "Newsfeed that lists all of the reports and stories that are posted to the app. The reports include a title, brief description, date, and location and can be clicked on to see more information."
+      },
+      {
+        "title": "Go Out.",
+        "description": "The map interface that includes a search bar to find locations and reports on campus."
+      },
+      {
+        "title": "Reach Out.",
+        "description": "The Resources page that lists hotlines available for those in need and organizations and centers to contact on campus."
+      }
+    ]
+  },
+  {
+    "name": "Team Website",
+    "active": false,
+    "teamId": "website",
+    "card": "/static/projects/website-card.png",
+    "header": "Team Website",
+    "subheader": "Our Home Online.",
+    "hero": {
+      "header": "What We Do",
+      "image": "",
+      "subheader": "Building websites is in our DNA, so we wanted to made our own online presence extra special. That’s why we designed and developed everything ourselves, so anyone from students and community members to interested applicants and recruiters can find out more about us."
+    },
+    "github": "https://github.com/cornell-dti/nova.cornelldti.org",
+    "heroStartingColor": "#373737",
+    "heroEndingColor": "#FF324A",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Simple, But Bold.",
+        "description": "All of our feature pages include an autoplaying video to take users inside what it’s like to be a DTI member. Each of our pages follows a consistent design language that conveys the content of the page at a glance. Between each of these features, users are drawn to scroll and experience more of the website and find out more about our team."
+      },
+      {
+        "title": "Showcasing Diversity.",
+        "description": "We especially care about having a diverse team full of unique perspectives, and we wanted to highlight our commitment on our Team page. View our statistics at a glance with our interactive chart visual."
+      },
+      {
+        "title": "Apply Online.",
+        "description": "One of our biggest requests was a dedicated application page for students applying to our team. We made it easy for all interested applicants to find out about the recruitment process year-round."
+      }
+    ]
+  }
+]

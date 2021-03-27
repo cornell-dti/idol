@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "license": "AGPL-3.0",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
@@ -27,8 +28,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "tsc": "tsc",
     "test": "react-scripts test",
+    "tsc": "tsc",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:9000",

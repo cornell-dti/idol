@@ -6,8 +6,6 @@ import UserProfile from './UserProfile';
 describe('<UserProfile />', () => {
   test('labels', () => {
     render(<UserProfile />);
-    expect(screen.getByText('First name')).toBeInTheDocument();
-    expect(screen.getByText('Last name')).toBeInTheDocument();
     expect(screen.getByText('Graduation')).toBeInTheDocument();
     expect(screen.getByText('Major')).toBeInTheDocument();
     expect(screen.getByText('Double Major')).toBeInTheDocument();

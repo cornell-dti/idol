@@ -1,97 +1,49 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { db } from './firebase';
 import { PermissionsManager } from './permissions';
-import { checkLoggedIn } from './api';
 import { Team } from './DataTypes';
 import TeamsDao from './dao/TeamsDao';
-import { ErrorResponse, TeamResponse, AllTeamsResponse } from './APITypes';
+import { BadRequestError, NotFoundError, PermissionError } from './errors';
 
-export const allTeams = async (
-  req: Request,
-  res: Response
-): Promise<AllTeamsResponse | ErrorResponse | undefined> => {
-  if (checkLoggedIn(req, res)) {
-    const result = await TeamsDao.getAllTeams();
-    return { status: 200, teams: result.teams };
+export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
+
+export const setTeam = async (req: Request): Promise<Team> => {
+  const teamBody = req.body as Team;
+  const userEmail: string = req.session?.email as string;
+  const member = (
+    await db.doc(`members/${userEmail}`).get()
+  ).data() as IdolMember;
+  const canEdit = await PermissionsManager.canEditTeams(member);
+  if (!canEdit) {
+    throw new PermissionError(
+      `User with email: ${userEmail} does not have permission to edit teams!`
+    );
   }
-  return undefined;
+  if (teamBody.members.length > 0 && !teamBody.members[0].email) {
+    throw new BadRequestError('Malformed members on POST!');
+  }
+  return TeamsDao.setTeam(teamBody);
 };
 
-export const setTeam = async (
-  req: Request,
-  res: Response
-): Promise<TeamResponse | ErrorResponse | undefined> => {
-  if (checkLoggedIn(req, res)) {
-    const teamBody = req.body as Team;
-    const member = await (
-      await db.doc(`members/${req.session!.email}`).get()
-    ).data();
-    const canEdit = PermissionsManager.canEditTeams(member!.role);
-    if (!canEdit) {
-      return {
-        status: 403,
-        error: `User with email: ${
-          req.session!.email
-        } does not have permission to edit teams!`
-      };
-    }
-    if (teamBody.leaders.length > 0 && !teamBody.leaders[0].email) {
-      return {
-        status: 400,
-        error: 'Malformed leaders on POST!'
-      };
-    }
-    if (teamBody.members.length > 0 && !teamBody.members[0].email) {
-      return {
-        status: 400,
-        error: 'Malformed members on POST!'
-      };
-    }
-    const result = await TeamsDao.setTeam(teamBody);
-    if (result.isSuccessful) {
-      return { status: 200, team: result.team };
-    }
-    return { status: 500, error: result.error! };
+export const deleteTeam = async (req: Request): Promise<Team> => {
+  const teamBody = req.body as Team;
+  if (!teamBody.uuid || teamBody.uuid === '') {
+    throw new BadRequestError("Couldn't delete team with undefined uuid!");
   }
-  return undefined;
-};
-
-export const deleteTeam = async (
-  req: Request,
-  res: Response
-): Promise<TeamResponse | ErrorResponse | undefined> => {
-  if (checkLoggedIn(req, res)) {
-    const teamBody = req.body as Team;
-    if (!teamBody.uuid || teamBody.uuid === '') {
-      return {
-        status: 400,
-        error: "Couldn't delete team with undefined uuid!"
-      };
-    }
-    const member = (await (
-      await db.doc(`members/${req.session!.email}`).get()
-    ).data()) as any;
-    const teamSnap = await await db.doc(`teams/${teamBody.uuid}`).get();
-    if (!teamSnap.exists) {
-      return {
-        status: 404,
-        error: `No team with uuid: ${teamBody.uuid}`
-      };
-    }
-    const canEdit = PermissionsManager.canEditTeams(member.role);
-    if (!canEdit) {
-      return {
-        status: 403,
-        error: `User with email: ${
-          req.session!.email
-        } does not have permission to delete teams!`
-      };
-    }
-    const result = await TeamsDao.deleteTeam(teamBody.uuid);
-    if (result.isSuccessful) {
-      return { status: 200, team: teamBody };
-    }
-    return { status: 500, error: result.error! };
+  const userEmail: string = req.session?.email as string;
+  const member = (
+    await db.doc(`members/${userEmail}`).get()
+  ).data() as IdolMember;
+  const teamSnap = await db.doc(`teams/${teamBody.uuid}`).get();
+  if (!teamSnap.exists) {
+    throw new NotFoundError(`No team with uuid: ${teamBody.uuid}`);
   }
-  return undefined;
+  const canEdit = await PermissionsManager.canEditTeams(member);
+  if (!canEdit) {
+    throw new PermissionError(
+      `User with email: ${userEmail} does not have permission to delete teams!`
+    );
+  }
+  await TeamsDao.deleteTeam(teamBody.uuid);
+  return teamBody;
 };

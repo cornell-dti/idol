@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { UserContext } from '../../UserProvider/UserProvider';
-import {
-  Member,
-  MembersAPI,
-  Role,
-  RoleDescription
-} from '../../API/MembersAPI';
+import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
 
@@ -32,7 +27,9 @@ const UserProfile: React.FC = () => {
   const [linkedin, setLinkedin] = useState('');
   const [github, setGithub] = useState('');
   const [subteam, setSubteam] = useState('');
-  const [otherSubteams, setOtherSubteams] = useState<string[] | null>(null);
+  const [otherSubteams, setOtherSubteams] = useState<readonly string[] | null>(
+    null
+  );
 
   useEffect(() => {
     if (userEmail) {
@@ -52,7 +49,7 @@ const UserProfile: React.FC = () => {
           setLinkedin(mem.linkedin || '');
           setGithub(mem.github || '');
           setSubteam(mem.subteam);
-          setOtherSubteams(mem.otherSubteams);
+          setOtherSubteams(mem.otherSubteams || null);
         })
         .catch((error) => {
           Emitters.generalError.emit({
@@ -65,13 +62,14 @@ const UserProfile: React.FC = () => {
 
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
-      if (val.status === 200) {
-        alert('Member information successfully updated!');
-      } else if (val.error) {
+      if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't update user!",
           contentMsg: val.error
         });
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('Member information successfully updated!');
       }
     });
   };
@@ -114,6 +112,38 @@ const UserProfile: React.FC = () => {
     }
   };
 
+  let name;
+  if (role === 'lead') {
+    name = (
+      <Form.Group widths="equal">
+        <Form.Input
+          fluid
+          label="First name"
+          value={firstName}
+          onChange={(event) => {
+            setFirstName(event.target.value);
+          }}
+          required
+        />
+        <Form.Input
+          fluid
+          label="Last name"
+          value={lastName}
+          onChange={(event) => {
+            setLastName(event.target.value);
+          }}
+          required
+        />
+      </Form.Group>
+    );
+  } else {
+    name = (
+      <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
+        {firstName} {lastName}
+      </h2>
+    );
+  }
+
   return (
     <Form
       style={{
@@ -123,30 +153,7 @@ const UserProfile: React.FC = () => {
         marginTop: '10vh'
       }}
     >
-      <Form.Group widths="equal">
-        <Form.Input
-          fluid
-          label="First name"
-          value={firstName}
-          onChange={(event) => {
-            if (role === 'admin') {
-              setFirstName(event.target.value);
-            }
-          }}
-          required
-        />
-        <Form.Input
-          fluid
-          label="Last name"
-          value={lastName}
-          onChange={(event) => {
-            if (role === 'admin') {
-              setLastName(event.target.value);
-            }
-          }}
-          required
-        />
-      </Form.Group>
+      {name}
 
       <Form.Group widths="equal">
         <Form.Input
