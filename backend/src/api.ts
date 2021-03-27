@@ -19,7 +19,7 @@ import {
   getIDOLChangesPR,
   rejectIDOLChanges,
   requestIDOLPullDispatch
-} from './site-integration/site-integration';
+} from './site-integration';
 import { allRoles } from './permissions';
 import { HandlerError } from './errors';
 
