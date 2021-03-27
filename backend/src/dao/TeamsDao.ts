@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Team, DBTeam } from '../DataTypes';
 import { NotFoundError } from '../errors';
-import { db } from '../firebase';
+import { db, teamCollection } from '../firebase';
 import { materialize } from '../util';
 
 export default class TeamsDao {
   static async getAllTeams(): Promise<Team[]> {
-    const teamRefs = await db.collection('teams').get();
+    const teamRefs = await teamCollection.get();
     return Promise.all(
       teamRefs.docs.map((teamRef) => materialize(teamRef.data()))
     );
@@ -29,7 +29,7 @@ export default class TeamsDao {
         "Couldn't create team from members that don't exist!"
       );
     }
-    await db.doc(`teams/${teamRef.uuid}`).set(teamRef);
+    await teamCollection.doc(teamRef.uuid).set(teamRef);
     return { ...team, uuid: teamRef.uuid };
   }
 

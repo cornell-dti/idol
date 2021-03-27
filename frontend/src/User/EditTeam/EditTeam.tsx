@@ -224,7 +224,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                         source={this.state.allMembers}
                         resultRenderer={(mem) => (
                           <Segment>
-                            <h4>{`${mem.first_name} ${mem.last_name}`}</h4>
+                            <h4>{`${mem.firstName} ${mem.lastName}`}</h4>
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
@@ -303,7 +303,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                         source={this.state.allMembers}
                         resultRenderer={(mem) => (
                           <Segment>
-                            <h4>{`${mem.first_name} ${mem.last_name}`}</h4>
+                            <h4>{`${mem.firstName} ${mem.lastName}`}</h4>
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
