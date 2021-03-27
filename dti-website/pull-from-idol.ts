@@ -114,7 +114,9 @@ async function main(): Promise<void> {
     userAgent: 'cornell-dti/big-diff-warning'
   });
   const prBody = `## Diffs
+  \`\`\`diff
   ${diffOutput}
+  \`\`\`
   
   ## Summary
 
