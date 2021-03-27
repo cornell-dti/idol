@@ -56,7 +56,7 @@ const SiteDeployer: React.FC = () => {
           history.push('/');
         });
     }
-  });
+  }, []);
 
   const onClickAccept = () => {
     setLoading(true);
