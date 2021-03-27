@@ -25,7 +25,6 @@ const SiteDeployer: React.FC = () => {
 
   const history = useHistory();
 
-  // No loading for now, but for future reference
   const [isLoading, setLoading] = useState(true);
   const [pullRequests, setPullRequests] = useState<any[]>([]);
 
