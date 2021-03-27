@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Button, Card, CardGroup, Loader } from 'semantic-ui-react';
+import { Button, Card, CardGroup, Loader, Modal } from 'semantic-ui-react';
 import { UserContext } from '../../UserProvider/UserProvider';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import { backendURL } from '../../environment';
 import styles from './SiteDeployer.module.css';
 import APIWrapper from '../../API/APIWrapper';
+import { PermissionsAPI } from '../../API/PermissionsAPI';
 
 const SiteDeployer: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
@@ -34,8 +34,13 @@ const SiteDeployer: React.FC = () => {
   useEffect(() => {
     if (userEmail) {
       getUser(userEmail)
-        .then((mem) => {
-          if (mem.role !== 'lead') {
+        .then(async (mem) => {
+          if (
+            !(
+              (await PermissionsAPI.isAdmin(mem.email).catch((err) => false)) ||
+              mem.role === 'lead'
+            )
+          ) {
             Emitters.generalError.emit({
               headerMsg: 'Access Denied',
               contentMsg: `Insufficient permissions.`
@@ -52,7 +57,7 @@ const SiteDeployer: React.FC = () => {
           });
         });
     }
-  }, []);
+  }, [userEmail]);
 
   const onClickAccept = () => {
     setLoading(true);
@@ -120,7 +125,15 @@ const SiteDeployer: React.FC = () => {
   const onTriggerPullFromIDOL = () => {
     APIWrapper.post(`${backendURL}/pullIDOLChanges`, {}).then((resp) => {
       if (resp.data.updated) {
-        alert('Workflow triggered!');
+        Emitters.generalSuccess.emit({
+          headerMsg: "pull-from-idol workflow triggered!",
+          contentMsg: `Our github bot is now chugging away migrating our data changes!`,
+          child: (<Modal.Content>
+            <p>
+              Come monitor it over on <a href="https://github.com/cornell-dti/idol/actions?query=workflow%3A%22Pull+from+IDOL%22">our github!</a>
+            </p>
+          </Modal.Content>)
+        });
       } else {
         Emitters.generalError.emit({
           headerMsg: "Couldn't trigger the pull-from-idol workflow!",

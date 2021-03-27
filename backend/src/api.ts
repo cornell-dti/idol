@@ -20,7 +20,7 @@ import {
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './site-integration';
-import { allRoles } from './permissions';
+import { allRoles, PermissionsManager } from './permissions';
 import { HandlerError } from './errors';
 
 // Constants and configurations
@@ -183,6 +183,11 @@ router.get('/allMemberImages', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
+
+// Permissions
+loginCheckedGet('/isAdmin/:email', async (req) => ({
+  isAdmin: await PermissionsManager.isAdmin(await getMember(req))
+}));
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', requestIDOLPullDispatch);

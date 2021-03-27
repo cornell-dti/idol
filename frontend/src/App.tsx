@@ -12,6 +12,7 @@ import UserBase from './User/UserBase/UserBase';
 
 import ErrorModal from './Modals/ErrorModal/ErrorModal';
 import AdminBase from './Admin/AdminBase/AdminBase';
+import SuccessModal from './Modals/SuccessModal/SuccessModal';
 
 function App(): JSX.Element {
   const user = useContext(UserContext);
@@ -28,6 +29,7 @@ function App(): JSX.Element {
   return (
     <div>
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
+      <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
       {user.user ? (
         <Router>
           <div
