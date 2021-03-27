@@ -1,6 +1,6 @@
 import { Octokit } from '@octokit/rest';
-import { PRResponse } from './GithubTypes';
 import { Request } from 'express';
+import { PRResponse } from './GithubTypes';
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
 import { UnauthorizedError, PermissionError, BadRequestError } from './errors';
