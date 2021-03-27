@@ -14,7 +14,7 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { requestIDOLPullDispatch } from './site-integration/site-integration';
+import { acceptIDOLChanges, getIDOLChangesPR, rejectIDOLChanges, requestIDOLPullDispatch } from './site-integration/site-integration';
 import { allRoles } from './permissions';
 import { HandlerError } from './errors';
 
@@ -181,6 +181,9 @@ router.get('/allMemberImages', async (_, res) => {
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', requestIDOLPullDispatch);
+loginCheckedGet('/getIDOLChangesPR', getIDOLChangesPR);
+loginCheckedPost('/acceptIDOLChanges', acceptIDOLChanges);
+loginCheckedPost('/rejectIDOLChanges', rejectIDOLChanges);
 
 app.use('/.netlify/functions/api', router);
 

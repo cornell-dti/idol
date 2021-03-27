@@ -20,9 +20,19 @@ const SiteDeployer: React.FC = () => {
 
   // No loading for now, but for future reference
   const [isLoading, setLoading] = useState(false);
-  const [pullRequests, setPullRequests] = useState(['PR #1', 'PR #2']);
+  const [pullRequests, setPullRequests] = useState<any[]>([]);
 
   const loadPullRequests = () => {
+    APIWrapper.get(`${backendURL}/getIDOLChangesPR`, {}).then((resp: any) => {
+      if(!resp.data.pr){
+        Emitters.generalError.emit({
+          headerMsg: 'Couldn\'t get IDOL changes PR!',
+          contentMsg: resp.data.error
+        });
+        return;
+      }
+      setPullRequests([resp.data.pr]);
+    });
     setLoading(false);
   };
 
@@ -52,16 +62,28 @@ const SiteDeployer: React.FC = () => {
   }, [userEmail]);
 
   const onClickAccept = (pullRequest: any) => {
-    console.log(pullRequest);
+    APIWrapper.post(`${backendURL}/acceptIDOLChanges`, {}).then((resp) => {
+      if(resp.data.merged){
+        setPullRequests([]);
+      }
+    });
   };
 
   const onClickReject = (pullRequest: any) => {
-    console.log(pullRequest);
+    APIWrapper.post(`${backendURL}/rejectIDOLChanges`, {}).then((resp) => {
+      if(resp.data.closed){
+        setPullRequests([]);
+      }
+    });
   };
 
+  const onClickRefresh = () => {
+    loadPullRequests();
+  }
+
   const PRToCard = (pullRequest: any, key: number) => (
-    <Card style={{ width: '100%' }} key={key}>
-      <Card.Content>{pullRequest}</Card.Content>
+    <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={key}>
+      <Card.Content>{pullRequest.body}</Card.Content>
       <Card.Content extra>
         <div className="ui one buttons" style={{ width: '100%' }}>
           <Button
@@ -89,8 +111,9 @@ const SiteDeployer: React.FC = () => {
 
   const onTriggerPullFromIDOL = () => {
     APIWrapper.post(`${backendURL}/pullIDOLChanges`, {}).then((resp) => {
-      console.log('IDOL changes ');
-      console.log(resp);
+      if(resp.data.updated){
+        alert("Workflow triggered!");
+      }
     });
   };
 
@@ -105,13 +128,28 @@ const SiteDeployer: React.FC = () => {
       >
         Pull Changes From IDOL
       </Button>
+      <Button
+        basic
+        color="purple"
+        onClick={() => {
+          onClickRefresh();
+        }}
+      >
+        Refresh UI
+      </Button>
     </div>
+  );
+
+  const EmptyCard = () => (
+    <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={-1}>
+      <Card.Content>No valid member json PR open. Refresh the UI after requesting to pull the IDOL changes (once the PR is created by the Github Actions workflow).</Card.Content>
+    </Card>
   );
 
   return (
     <div className={styles.content}>
       <TopButtons />
-      <CardGroup>{pullRequests.map(PRToCard)}</CardGroup>
+      <CardGroup>{ pullRequests.length == 0 ? <EmptyCard /> : pullRequests.map(PRToCard)}</CardGroup>
     </div>
   );
 };
