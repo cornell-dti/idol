@@ -4,7 +4,6 @@ import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 
 type MemberResponseObj = {
-  status: number;
   member: Member;
   error?: string;
 };
@@ -58,7 +57,9 @@ export class MembersAPI {
     }).then((res) => res.data);
   }
 
-  public static deleteMember(memberEmail: string): Promise<MemberResponseObj> {
+  public static deleteMember(
+    memberEmail: string
+  ): Promise<{ status: number; error?: string }> {
     return APIWrapper.delete(`${backendURL}/deleteMember/${memberEmail}`, {
       withCredentials: true
     }).then((res) => res.data);

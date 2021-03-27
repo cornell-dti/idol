@@ -9,6 +9,7 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
+    "@octokit/rest": "^18.4.0",
     "@types/d3": "5.7.2",
     "@types/node-fetch": "^2.5.8",
     "bootstrap": "^4.6.0",

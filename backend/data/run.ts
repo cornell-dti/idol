@@ -1,4 +1,4 @@
-import { db } from './firebase';
+import db from './firebase';
 
 const removeEmptyOrNull = (obj) => {
   Object.keys(obj).forEach(

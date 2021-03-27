@@ -30,6 +30,7 @@ class UserProvider extends Component<Record<string, unknown>, UserContextType> {
           if (!logoutResp.isLoggedIn) {
             this.setState({ user: userAuth });
           } else {
+            // eslint-disable-next-line no-alert
             alert("Couldn't log out!");
           }
         });

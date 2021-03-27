@@ -11,7 +11,7 @@ import { ProfileImage } from './DataTypes';
  */
 export async function docRefArrayFromCollectionRef(
   coll: firestore.CollectionReference
-): Promise<Array<any>> {
+): Promise<Array<firestore.DocumentReference>> {
   // Init array
   const insArr: firestore.DocumentReference[] = [];
   // Go through each doc and add their reference
@@ -128,7 +128,9 @@ function isCollRef(val: any) {
 
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
-export const filterImagesResponse = (images: any[]): ProfileImage[] =>
+export const filterImagesResponse = (
+  images: readonly { readonly fileName: string; readonly url: string }[]
+): ProfileImage[] =>
   images
     .filter((image) => image.fileName.length > 7)
     .map((image) => ({
