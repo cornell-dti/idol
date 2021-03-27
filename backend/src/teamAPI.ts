@@ -1,18 +1,23 @@
 import { Request } from 'express';
-import { db } from './firebase';
+import { teamCollection } from './firebase';
 import { PermissionsManager } from './permissions';
 import { Team } from './DataTypes';
+import MembersDao from './dao/MembersDao';
 import TeamsDao from './dao/TeamsDao';
-import { BadRequestError, NotFoundError, PermissionError } from './errors';
+import {
+  BadRequestError,
+  UnauthorizedError,
+  NotFoundError,
+  PermissionError
+} from './errors';
 
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
 
 export const setTeam = async (req: Request): Promise<Team> => {
   const teamBody = req.body as Team;
   const userEmail: string = req.session?.email as string;
-  const member = (
-    await db.doc(`members/${userEmail}`).get()
-  ).data() as IdolMember;
+  const member = await MembersDao.getMember(userEmail);
+  if (!member) throw new UnauthorizedError(`No user with email: ${userEmail}`);
   const canEdit = await PermissionsManager.canEditTeams(member);
   if (!canEdit) {
     throw new PermissionError(
@@ -31,10 +36,9 @@ export const deleteTeam = async (req: Request): Promise<Team> => {
     throw new BadRequestError("Couldn't delete team with undefined uuid!");
   }
   const userEmail: string = req.session?.email as string;
-  const member = (
-    await db.doc(`members/${userEmail}`).get()
-  ).data() as IdolMember;
-  const teamSnap = await db.doc(`teams/${teamBody.uuid}`).get();
+  const member = await MembersDao.getMember(userEmail);
+  if (!member) throw new UnauthorizedError(`No user with email: ${userEmail}`);
+  const teamSnap = await teamCollection.doc(teamBody.uuid).get();
   if (!teamSnap.exists) {
     throw new NotFoundError(`No team with uuid: ${teamBody.uuid}`);
   }

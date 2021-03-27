@@ -1,6 +1,5 @@
 import { Request } from 'express';
 import MembersDao from './dao/MembersDao';
-import { db } from './firebase';
 import { PermissionsManager } from './permissions';
 import {
   BadRequestError,
@@ -14,9 +13,7 @@ export const allMembers = (): Promise<readonly IdolMember[]> =>
 
 export const setMember = async (req: Request): Promise<IdolMember> => {
   const userEmail: string = req.session?.email as string;
-  const user = (
-    await db.doc(`members/${userEmail}`).get()
-  ).data() as IdolMember;
+  const user = await MembersDao.getMember(userEmail);
   if (!user) throw new UnauthorizedError(`No user with email: ${userEmail}`);
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit) {
@@ -32,9 +29,7 @@ export const setMember = async (req: Request): Promise<IdolMember> => {
 
 export const updateMember = async (req: Request): Promise<IdolMember> => {
   const userEmail: string = req.session?.email as string;
-  const user = (
-    await db.doc(`members/${userEmail}`).get()
-  ).data() as IdolMember;
+  const user = await MembersDao.getMember(userEmail);
   if (!user) throw new UnauthorizedError(`No user with email: ${userEmail}`);
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit && user.email !== req.body.email) {
@@ -46,13 +41,11 @@ export const updateMember = async (req: Request): Promise<IdolMember> => {
   if (!req.body.email || req.body.email === '') {
     throw new BadRequestError("Couldn't edit member with undefined email!");
   }
-  const member = (await db.doc(`members/${userEmail}`).get()).data();
-  if (!member) throw new NotFoundError(`No member with email: ${userEmail}`);
   if (
     !canEdit &&
-    (req.body.role !== member.role ||
-      req.body.first_name !== member.first_name ||
-      req.body.last_name !== member.last_name)
+    (req.body.role !== user.role ||
+      req.body.firstName !== user.firstName ||
+      req.body.lastName !== user.lastName)
   ) {
     throw new PermissionError(
       `User with email: ${userEmail} does not have permission to edit member name or roles!`
@@ -63,9 +56,7 @@ export const updateMember = async (req: Request): Promise<IdolMember> => {
 
 export const getMember = async (req: Request): Promise<IdolMember> => {
   const userEmail: string = req.session?.email as string;
-  const user = (
-    await db.doc(`members/${userEmail}`).get()
-  ).data() as IdolMember;
+  const user = await MembersDao.getMember(userEmail);
   if (!user) throw new UnauthorizedError(`No user with email: ${userEmail}`);
   const canEdit: boolean = await PermissionsManager.canEditMembers(user);
   const memberEmail: string = req.params.email;
@@ -83,9 +74,7 @@ export const getMember = async (req: Request): Promise<IdolMember> => {
 
 export const deleteMember = async (req: Request): Promise<void> => {
   const userEmail: string = req.session?.email as string;
-  const user = (
-    await db.doc(`members/${userEmail}`).get()
-  ).data() as IdolMember;
+  const user = await MembersDao.getMember(userEmail);
   if (!user) throw new UnauthorizedError(`No user with email: ${userEmail}`);
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit) {
