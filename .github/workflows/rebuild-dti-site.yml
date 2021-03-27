@@ -1,10 +1,13 @@
-name: Rebuild DTI from Master Every 2 Hours
+name: Rebuild DTI from Master on PR Merge into Master
 on:
-  schedule:
-  - cron: '0 */2 * * *'
+  pull_request:
+    branches:
+      - master
+    types: [closed]
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
     - name: Trigger the build webhook on Netlify
       run: curl -s -X POST "https://api.netlify.com/build_hooks/${TOKEN}"
