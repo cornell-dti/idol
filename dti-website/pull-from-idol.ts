@@ -86,6 +86,11 @@ async function main(): Promise<void> {
   });
   diffOutput = output.stdout.toString();
   unlinkSync('existing.json');
+  // Compute diff when not on CI
+  if (!process.env.CI) {
+    console.log('\n' + diffOutput);
+    return;
+  }
 
   // Create commit
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
@@ -102,8 +107,6 @@ async function main(): Promise<void> {
       runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
     }
   }
-
-  console.log('\n\n\n\n\n' + diffOutput);
 
   // Create PR
   const octokit = new Octokit({
