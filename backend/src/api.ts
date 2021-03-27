@@ -14,7 +14,12 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { acceptIDOLChanges, getIDOLChangesPR, rejectIDOLChanges, requestIDOLPullDispatch } from './site-integration/site-integration';
+import {
+  acceptIDOLChanges,
+  getIDOLChangesPR,
+  rejectIDOLChanges,
+  requestIDOLPullDispatch
+} from './site-integration/site-integration';
 import { allRoles } from './permissions';
 import { HandlerError } from './errors';
 

@@ -24,9 +24,9 @@ const SiteDeployer: React.FC = () => {
 
   const loadPullRequests = () => {
     APIWrapper.get(`${backendURL}/getIDOLChangesPR`, {}).then((resp: any) => {
-      if(!resp.data.pr){
+      if (!resp.data.pr) {
         Emitters.generalError.emit({
-          headerMsg: 'Couldn\'t get IDOL changes PR!',
+          headerMsg: "Couldn't get IDOL changes PR!",
           contentMsg: resp.data.error
         });
         return;
@@ -61,25 +61,35 @@ const SiteDeployer: React.FC = () => {
     }
   }, [userEmail]);
 
-  const onClickAccept = (pullRequest: any) => {
+  const onClickAccept = () => {
     APIWrapper.post(`${backendURL}/acceptIDOLChanges`, {}).then((resp) => {
-      if(resp.data.merged){
+      if (resp.data.merged) {
         setPullRequests([]);
+      } else {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't accept IDOL changes PR!",
+          contentMsg: resp.data.error
+        });
       }
     });
   };
 
-  const onClickReject = (pullRequest: any) => {
+  const onClickReject = () => {
     APIWrapper.post(`${backendURL}/rejectIDOLChanges`, {}).then((resp) => {
-      if(resp.data.closed){
+      if (resp.data.closed) {
         setPullRequests([]);
+      } else {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't reject IDOL changes PR!",
+          contentMsg: resp.data.error
+        });
       }
     });
   };
 
   const onClickRefresh = () => {
     loadPullRequests();
-  }
+  };
 
   const PRToCard = (pullRequest: any, key: number) => (
     <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={key}>
@@ -90,7 +100,7 @@ const SiteDeployer: React.FC = () => {
             basic
             color="green"
             onClick={() => {
-              onClickAccept(pullRequest);
+              onClickAccept();
             }}
           >
             Accept & Deploy
@@ -99,7 +109,7 @@ const SiteDeployer: React.FC = () => {
             basic
             color="red"
             onClick={() => {
-              onClickReject(pullRequest);
+              onClickReject();
             }}
           >
             Reject Changes
@@ -111,8 +121,13 @@ const SiteDeployer: React.FC = () => {
 
   const onTriggerPullFromIDOL = () => {
     APIWrapper.post(`${backendURL}/pullIDOLChanges`, {}).then((resp) => {
-      if(resp.data.updated){
-        alert("Workflow triggered!");
+      if (resp.data.updated) {
+        alert('Workflow triggered!');
+      } else {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't trigger the pull-from-idol workflow!",
+          contentMsg: resp.data.error
+        });
       }
     });
   };
@@ -142,14 +157,20 @@ const SiteDeployer: React.FC = () => {
 
   const EmptyCard = () => (
     <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={-1}>
-      <Card.Content>No valid member json PR open. Refresh the UI after requesting to pull the IDOL changes (once the PR is created by the Github Actions workflow).</Card.Content>
+      <Card.Content>
+        No valid member json PR open. Refresh the UI after requesting to pull
+        the IDOL changes (once the PR is created by the Github Actions
+        workflow).
+      </Card.Content>
     </Card>
   );
 
   return (
     <div className={styles.content}>
       <TopButtons />
-      <CardGroup>{ pullRequests.length == 0 ? <EmptyCard /> : pullRequests.map(PRToCard)}</CardGroup>
+      <CardGroup>
+        {pullRequests.length == 0 ? <EmptyCard /> : pullRequests.map(PRToCard)}
+      </CardGroup>
     </div>
   );
 };

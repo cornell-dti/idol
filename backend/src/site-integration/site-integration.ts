@@ -1,7 +1,12 @@
 import { Octokit } from '@octokit/rest';
 import MembersDao from '../dao/MembersDao';
 import { PermissionsManager } from '../permissions';
-import { UnauthorizedError, PermissionError, BadRequestError, HandlerError } from '../errors';
+import {
+  UnauthorizedError,
+  PermissionError,
+  BadRequestError,
+  HandlerError
+} from '../errors';
 import { Request } from 'express';
 require('dotenv').config();
 
@@ -36,14 +41,19 @@ export const acceptIDOLChanges = async (req: Request) => {
     auth: `token ${process.env.BOT_2_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  let approveReview = await octokit2.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
-    owner: 'cornell-dti',
-    repo: 'idol',
-    pull_number: foundPR.number,
-    event: 'APPROVE'
-  });
-  if(approveReview.data.state !== 'APPROVED'){
-    throw new PermissionError("Could not approve the IDOL changes pull request!");
+  let approveReview = await octokit2.request(
+    'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+    {
+      owner: 'cornell-dti',
+      repo: 'idol',
+      pull_number: foundPR.number,
+      event: 'APPROVE'
+    }
+  );
+  if (approveReview.data.state !== 'APPROVED') {
+    throw new PermissionError(
+      'Could not approve the IDOL changes pull request!'
+    );
   }
   let acceptedPR = await octokit.rest.pulls.merge({
     owner: 'cornell-dti',
@@ -67,8 +77,10 @@ export const rejectIDOLChanges = async (req: Request) => {
     pull_number: foundPR.number,
     state: 'closed'
   });
-  if(closedReview.data.state !== 'closed'){
-    throw new PermissionError("Could not approve the IDOL changes pull request!");
+  if (closedReview.data.state !== 'closed') {
+    throw new PermissionError(
+      'Could not approve the IDOL changes pull request!'
+    );
   }
   return { pr: foundPR, closed: closedReview.data.state === 'closed' };
 };
@@ -84,14 +96,18 @@ const findBotPR = async () => {
     event_type: 'pull-idol-changes'
   });
   let foundPR = allPulls.data.find((el) => {
-    return el.title === "[bot] Automatically pull latest data from IDOL backend"
-    && el.state === "open"
+    return (
+      el.title === '[bot] Automatically pull latest data from IDOL backend' &&
+      el.state === 'open'
+    );
   });
-  if(!foundPR){
-    throw new BadRequestError("Unable to find a valid open IDOL member update pull request!");
+  if (!foundPR) {
+    throw new BadRequestError(
+      'Unable to find a valid open IDOL member update pull request!'
+    );
   }
   return foundPR;
-}
+};
 
 const checkPermissions = async (req: Request) => {
   const userEmail: string = req.session?.email as string;
@@ -103,4 +119,4 @@ const checkPermissions = async (req: Request) => {
       `User with email: ${userEmail} does not have permission to trigger site deploys!`
     );
   }
-}
+};

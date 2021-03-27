@@ -78,7 +78,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  let diffOutput = "";
+  let diffOutput = '';
 
   writeFileSync('existing.json', existingContent);
   let output = spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
