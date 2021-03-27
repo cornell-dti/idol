@@ -91,7 +91,8 @@ const UserBase: React.FC = () => {
               <Card.Content>
                 <Card.Header>Shoutouts</Card.Header>
                 <Card.Description>
-                  View your past given and received shoutouts.
+                  Give someone a shoutout or view your past given and received
+                  shoutouts.
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
