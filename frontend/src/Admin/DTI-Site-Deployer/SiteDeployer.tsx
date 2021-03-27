@@ -16,8 +16,6 @@ const SiteDeployer: React.FC = () => {
     return mem;
   };
 
-  const history = useHistory();
-
   const [isLoading, setLoading] = useState(true);
   const [pullRequests, setPullRequests] = useState<{ body: string }[]>([]);
 
@@ -42,7 +40,6 @@ const SiteDeployer: React.FC = () => {
               headerMsg: 'Access Denied',
               contentMsg: `Insufficient permissions.`
             });
-            history.push('/');
           } else {
             loadPullRequests();
           }
@@ -53,7 +50,6 @@ const SiteDeployer: React.FC = () => {
               "Couldn't get member! Refresh the page if you believe this is an error.",
             contentMsg: `Error was: ${error}`
           });
-          history.push('/');
         });
     }
   }, []);
