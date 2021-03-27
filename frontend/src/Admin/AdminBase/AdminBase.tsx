@@ -21,7 +21,7 @@ const AdminBase: React.FC = () => {
               <Card.Content>
                 <Card.Header>Site Deployer</Card.Header>
                 <Card.Description>
-                  Create, read, edit, or delete individual users of the system.
+                  Approve the new info from IDOL and redeploy the site.
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
