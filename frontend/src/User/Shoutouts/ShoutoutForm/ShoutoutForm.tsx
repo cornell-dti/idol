@@ -33,7 +33,8 @@ const ShoutoutForm: React.FC = () => {
         shoutoutRecipientEmail: recipient.email,
         message
       };
-      console.log(shoutout);
+
+      // eslint-disable-next-line no-alert
       alert('Shoutout successfully submitted!');
       setRecipient(undefined);
       setMessage('');
