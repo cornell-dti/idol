@@ -107,7 +107,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
               <Card
                 style={{
                   width: '20vw',
-                  height: 'calc(90vh - 7rem)',
+                  height: 'calc(100vh - 80px - 7rem)',
                   position: 'relative'
                 }}
               >

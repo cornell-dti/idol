@@ -14,6 +14,7 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
+import { requestIDOLPullDispatch } from './site-integration/site-integration';
 import { allRoles } from './permissions';
 import { HandlerError } from './errors';
 
@@ -177,6 +178,9 @@ router.get('/allMemberImages', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
+
+// Pull from IDOL
+loginCheckedPost('/pullIDOLChanges', requestIDOLPullDispatch);
 
 app.use('/.netlify/functions/api', router);
 

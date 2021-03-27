@@ -82,9 +82,10 @@ async function main(): Promise<void> {
 
   writeFileSync('existing.json', existingContent);
   let output = spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
-    stdio: 'inherit'
+    stdio: 'inherit',
+    encoding: 'utf-8'
   });
-  diffOutput = output.output.join('\n');
+  diffOutput = output.stdout.toString();
   unlinkSync('existing.json');
 
   // Create commit
