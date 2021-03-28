@@ -11,7 +11,6 @@ import PermissionsAPI from '../../API/PermissionsAPI';
 import 'prismjs/themes/prism.css';
 
 require('prismjs');
-const { PrismCode } = require('react-prism');
 
 const SiteDeployer: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
@@ -111,20 +110,34 @@ const SiteDeployer: React.FC = () => {
       (afterDiffSplit.shift() as string).trim(),
       afterDiffSplit.filter((v) => v !== '').join('`') as string
     ];
-    const diffs = `@@ ${afterSplitRes[0]}`;
+    const diffs = `@@ ${afterSplitRes[0]}`.split('\n').map((l) => {
+      const line = `${l}\n`;
+      if (line.startsWith('@@')) {
+        return (
+          <span style={{ backgroundColor: 'rgba(0,0,255,0.2)' }}>{line}</span>
+        );
+      }
+      if (line.startsWith('+')) {
+        return (
+          <span style={{ backgroundColor: 'rgba(0,255,0,0.2)' }}>{line}</span>
+        );
+      }
+      if (line.startsWith('-')) {
+        return (
+          <span style={{ backgroundColor: 'rgba(255,0,0,0.2)' }}>{line}</span>
+        );
+      }
+      return line;
+    });
     const rest = afterSplitRes[1].trim();
 
     return (
       <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={key}>
         <Card.Content>
           <h2>Diffs</h2>
-          <PrismCode
-            component="pre"
-            className="language-javascript"
-            style={{ overflow: 'scroll' }}
-          >
-            {diffs}
-          </PrismCode>
+          <pre className="language-diff-json diff-highlight">
+            <code className="language-diff-json diff-highlight">{diffs}</code>
+          </pre>
         </Card.Content>
         <Card.Content>
           <ReactMarkdown>{rest}</ReactMarkdown>
