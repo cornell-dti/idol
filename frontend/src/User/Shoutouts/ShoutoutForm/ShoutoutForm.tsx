@@ -36,7 +36,7 @@ const ShoutoutForm: React.FC = () => {
       style={{
         width: '100%',
         alignSelf: 'center',
-        margin: 'auto',
+        margin: 'auto'
       }}
     >
       <h2 style={{ marginBottom: '2vh' }}>Give someone a shoutout! 📣</h2>
