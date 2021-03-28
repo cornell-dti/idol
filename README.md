@@ -17,3 +17,4 @@
 - **Morgan Belous** - Developer
 - **Henry Li** - Developer
 - **Riya Jaggi** - Developer
+- **Jagger Brulato** - Developer

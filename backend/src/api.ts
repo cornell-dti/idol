@@ -14,7 +14,13 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { allRoles } from './permissions';
+import {
+  acceptIDOLChanges,
+  getIDOLChangesPR,
+  rejectIDOLChanges,
+  requestIDOLPullDispatch
+} from './site-integration';
+import { allRoles, PermissionsManager } from './permissions';
 import { HandlerError } from './errors';
 
 // Constants and configurations
@@ -177,6 +183,17 @@ router.get('/allMemberImages', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
+
+// Permissions
+loginCheckedGet('/isAdmin/:email', async (req) => ({
+  isAdmin: await PermissionsManager.isAdmin(await getMember(req))
+}));
+
+// Pull from IDOL
+loginCheckedPost('/pullIDOLChanges', requestIDOLPullDispatch);
+loginCheckedGet('/getIDOLChangesPR', getIDOLChangesPR);
+loginCheckedPost('/acceptIDOLChanges', acceptIDOLChanges);
+loginCheckedPost('/rejectIDOLChanges', rejectIDOLChanges);
 
 app.use('/.netlify/functions/api', router);
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import EventEmitter from './event-emitter';
 
 export default class Emitters {
@@ -11,6 +12,12 @@ export default class Emitters {
   static generalError: EventEmitter<{
     headerMsg: string;
     contentMsg: string;
+  }> = new EventEmitter();
+
+  static generalSuccess: EventEmitter<{
+    headerMsg: string;
+    contentMsg: string;
+    child?: React.ReactElement;
   }> = new EventEmitter();
 
   // Users

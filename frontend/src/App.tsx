@@ -11,6 +11,8 @@ import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundEr
 import UserBase from './User/UserBase/UserBase';
 
 import ErrorModal from './Modals/ErrorModal/ErrorModal';
+import AdminBase from './Admin/AdminBase/AdminBase';
+import SuccessModal from './Modals/SuccessModal/SuccessModal';
 
 function App(): JSX.Element {
   const user = useContext(UserContext);
@@ -27,6 +29,7 @@ function App(): JSX.Element {
   return (
     <div>
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
+      <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
       {user.user ? (
         <Router>
           <div
@@ -39,7 +42,7 @@ function App(): JSX.Element {
             }}
           >
             <SiteHeader />
-            <div style={{ position: 'relative', top: '10vh' }}>
+            <div style={{ position: 'relative', top: '80px' }}>
               <Sidebar
                 as={Menu}
                 animation="overlay"
@@ -66,14 +69,20 @@ function App(): JSX.Element {
                     Users
                   </Menu.Item>
                 </Link>
+                <Link to="/admin">
+                  <Menu.Item>
+                    <Icon name="shield" />
+                    Admin
+                  </Menu.Item>
+                </Link>
               </Sidebar>
             </div>
-            <div style={{ position: 'absolute', top: '10vh' }}>
+            <div style={{ position: 'absolute', top: '80px' }}>
               <Sidebar.Pushable>
                 <Sidebar.Pusher dimmed={visible}>
                   <div
                     style={{
-                      minHeight: '90vh',
+                      minHeight: 'calc(100vh - 80px)',
                       width: '100vw',
                       margin: 0,
                       padding: 0
@@ -82,6 +91,9 @@ function App(): JSX.Element {
                     <Switch>
                       <Route path="/users*">
                         <UserBase />
+                      </Route>
+                      <Route path="/admin*">
+                        <AdminBase />
                       </Route>
                       <Route path="/*">
                         <Homepage />

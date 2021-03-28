@@ -78,13 +78,17 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Compute diff when not on CI
+  let diffOutput = '';
+
+  writeFileSync('existing.json', existingContent);
+  const output = spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
+    encoding: 'utf-8'
+  });
+  diffOutput = output.stdout.toString();
+  unlinkSync('existing.json');
+  // Just log diff when not on CI
   if (!process.env.CI) {
-    writeFileSync('existing.json', existingContent);
-    spawnSync('diff', ['--unified=0', 'existing.json', jsonPath], {
-      stdio: 'inherit'
-    });
-    unlinkSync('existing.json');
+    console.log(`\n${diffOutput}`);
     return;
   }
 
@@ -109,15 +113,20 @@ async function main(): Promise<void> {
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/big-diff-warning'
   });
-  const prBody = `## Summary
+  const prBody = `## Diffs
+  \`\`\`diff
+  ${diffOutput}
+  \`\`\`
+  
+  ## Summary
 
-This is a PR auto-generated from \`yarn workspace dti-website pull-from-idol\`.
-It updates the members JSON with latest data from IDOL backend.
-Please review it carefully to ensure nothing bad is here.
-
-## Test Plan
-
-:eyes:`;
+  This is a PR auto-generated from \`yarn workspace dti-website pull-from-idol\`.
+  It updates the members JSON with latest data from IDOL backend.
+  Please review it carefully to ensure nothing bad is here.
+  
+  ## Test Plan
+  
+  :eyes:`;
   const existingPR = (
     await octokit.pulls.list({
       owner: 'cornell-dti',
