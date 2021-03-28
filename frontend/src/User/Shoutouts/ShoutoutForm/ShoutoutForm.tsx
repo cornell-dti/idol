@@ -5,12 +5,6 @@ import CustomSearch from '../../../Common/Search/Search';
 import Emitters from '../../../EventEmitter/constant-emitters';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 
-type Shoutout = {
-  shoutoutGiverEmail: string;
-  shoutoutRecipientEmail: string;
-  message: string;
-};
-
 const ShoutoutForm: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
   const [members, setMembers] = useState<IdolMember[] | undefined>(undefined);
@@ -28,12 +22,6 @@ const ShoutoutForm: React.FC = () => {
         contentMsg: 'Please select a member!'
       });
     } else if (recipient && userEmail && message !== '') {
-      const shoutout: Shoutout = {
-        shoutoutGiverEmail: userEmail,
-        shoutoutRecipientEmail: recipient.email,
-        message
-      };
-
       // eslint-disable-next-line no-alert
       alert('Shoutout successfully submitted!');
       setRecipient(undefined);
