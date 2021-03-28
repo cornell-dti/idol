@@ -1,9 +1,7 @@
 import { Octokit } from '@octokit/rest';
-import { Request } from 'express';
 import { PRResponse } from './GithubTypes';
-import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
-import { UnauthorizedError, PermissionError, BadRequestError } from './errors';
+import { PermissionError, BadRequestError } from './errors';
 
 require('dotenv').config();
 
