@@ -22,8 +22,10 @@ const ShoutoutForm: React.FC = () => {
         contentMsg: 'Please select a member!'
       });
     } else if (recipient && userEmail && message !== '') {
-      // eslint-disable-next-line no-alert
-      alert('Shoutout successfully submitted!');
+      Emitters.generalSuccess.emit({
+        headerMsg: 'shoutout submitted!',
+        contentMsg: `Thank you for recognizing ${recipient.firstName}'s awesomeness! 🙏`
+      });
       setRecipient(undefined);
       setMessage('');
     }
@@ -32,13 +34,12 @@ const ShoutoutForm: React.FC = () => {
   return (
     <Form
       style={{
-        width: '50%',
+        width: '100%',
         alignSelf: 'center',
         margin: 'auto',
-        marginTop: '10vh'
       }}
     >
-      <h2 style={{ marginBottom: '2vh' }}>Give someone a shoutout!</h2>
+      <h2 style={{ marginBottom: '2vh' }}>Give someone a shoutout! 📣</h2>
       <label style={{ fontWeight: 'bold' }}>
         Who is awesome? <span style={{ color: '#db2828' }}>*</span>
       </label>
