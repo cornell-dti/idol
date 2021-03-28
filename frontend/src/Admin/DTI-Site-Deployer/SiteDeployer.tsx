@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, CardGroup, Loader, Modal } from 'semantic-ui-react';
+import ReactMarkdown from 'react-markdown'
 import { UserContext } from '../../UserProvider/UserProvider';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
@@ -7,6 +8,10 @@ import { backendURL } from '../../environment';
 import styles from './SiteDeployer.module.css';
 import APIWrapper from '../../API/APIWrapper';
 import PermissionsAPI from '../../API/PermissionsAPI';
+import 'prismjs/themes/prism.css'
+
+const prism = require('prismjs');
+const { PrismCode } = require('react-prism');
 
 const SiteDeployer: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
@@ -94,33 +99,53 @@ const SiteDeployer: React.FC = () => {
     loadPullRequests();
   };
 
-  const PRToCard = (pullRequest: { body: string }, key: number) => (
-    <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={key}>
-      <Card.Content>{pullRequest.body}</Card.Content>
-      <Card.Content extra>
-        <div className="ui one buttons" style={{ width: '100%' }}>
-          <Button
-            basic
-            color="green"
-            onClick={() => {
-              onClickAccept();
-            }}
-          >
-            Accept & Deploy
-          </Button>
-          <Button
-            basic
-            color="red"
-            onClick={() => {
-              onClickReject();
-            }}
-          >
-            Reject Changes
-          </Button>
-        </div>
-      </Card.Content>
-    </Card>
-  );
+  const PRToCard = (pullRequest: { body: string }, key: number) => {
+    const fullText = pullRequest.body;
+    const diffSplit = fullText.split('@@');
+    const atSplitRes = [diffSplit.shift() as string, diffSplit.filter(v => v !== '').join('@@') as string];
+    const afterDiffSplit = atSplitRes[1].split('\`');
+    const afterSplitRes = [(afterDiffSplit.shift() as string).trim(), afterDiffSplit.filter(v => v !== '').join('\`') as string];
+    const diffs = `@@ ${afterSplitRes[0]}`;
+    const rest = afterSplitRes[1].trim();
+
+    return (
+      <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={key}>
+        <Card.Content>
+          <h2>Diffs</h2>
+          <PrismCode component="pre" className="language-javascript" style={{ overflow: 'scroll' }}>
+            {diffs}
+          </PrismCode>
+        </Card.Content>
+        <Card.Content>
+          <ReactMarkdown>
+            {rest}
+          </ReactMarkdown>
+        </Card.Content>
+        <Card.Content extra>
+          <div className="ui one buttons" style={{ width: '100%' }}>
+            <Button
+              basic
+              color="green"
+              onClick={() => {
+                onClickAccept();
+              }}
+            >
+              Accept & Deploy
+            </Button>
+            <Button
+              basic
+              color="red"
+              onClick={() => {
+                onClickReject();
+              }}
+            >
+              Reject Changes
+            </Button>
+          </div>
+        </Card.Content>
+      </Card>
+    );
+  };
 
   const onTriggerPullFromIDOL = () => {
     APIWrapper.post(`${backendURL}/pullIDOLChanges`, {}).then((resp) => {
