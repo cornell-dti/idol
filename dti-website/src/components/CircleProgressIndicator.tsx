@@ -15,7 +15,6 @@ export default function CircleProgressIndicator({
     const currentInterval = intervalRef.current;
     if (currentInterval !== -1) {
       clearInterval(currentInterval);
-      intervalRef.current = -1;
     }
 
     intervalRef.current = setInterval(() => {
@@ -23,7 +22,6 @@ export default function CircleProgressIndicator({
 
       if (diff <= 0.005) {
         clearInterval(currentInterval as NodeJS.Timeout);
-        intervalRef.current = -1;
 
         setCurrentPercentage(percentage);
       } else if (currentPercentage < percentage) {
@@ -32,12 +30,6 @@ export default function CircleProgressIndicator({
         setCurrentPercentage((p) => p - Math.min(0.01, diff));
       }
     }, 5);
-
-    return () => {
-      if (intervalRef.current !== -1) {
-        clearInterval(intervalRef.current);
-      }
-    };
   }, [currentPercentage, percentage]);
 
   return (
