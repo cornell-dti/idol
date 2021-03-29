@@ -19,9 +19,11 @@ const configureAccount = (sa) => {
 
 admin.initializeApp({
   credential: admin.credential.cert(configureAccount(serviceAccount)),
-  databaseURL: 'https://idol-b6c68.firebaseio.com'
+  databaseURL: 'https://idol-b6c68.firebaseio.com',
+  storageBucket: 'gs://idol-b6c68.appspot.com'
 });
 
 const db = admin.firestore();
+export const bucket = admin.storage().bucket();
 
 export default db;
