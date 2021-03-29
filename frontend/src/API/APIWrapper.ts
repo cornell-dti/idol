@@ -1,69 +1,50 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { auth } from '../firebase';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type APIProcessedResponse = { data: any };
 
 export default class APIWrapper {
   public static post(
     url: string,
-    body: unknown,
-    config?: AxiosRequestConfig | undefined
-  ): Promise<any> {
-    const responseProm = axios
-      .post(url, body, {
-        ...config,
-        withCredentials: true
-      })
-      .catch((err) => err)
+    body: unknown
+  ): Promise<APIProcessedResponse> {
+    return axios
+      .post(url, body, { withCredentials: true })
+      .catch((err: AxiosError) => err)
       .then((resOrErr) => this.responseMiddleware(resOrErr));
-    return responseProm;
   }
 
-  public static get(
-    url: string,
-    config?: AxiosRequestConfig | undefined
-  ): Promise<any> {
-    const responseProm = axios
-      .get(url, {
-        ...config,
-        withCredentials: true
-      })
-      .catch((err) => err)
+  public static get(url: string): Promise<APIProcessedResponse> {
+    return axios
+      .get(url, { withCredentials: true })
+      .catch((err: AxiosError) => err)
       .then((resOrErr) => this.responseMiddleware(resOrErr));
-    return responseProm;
   }
 
-  public static delete(
-    url: string,
-    config?: AxiosRequestConfig | undefined
-  ): Promise<any> {
-    const responseProm = axios
-      .delete(url, {
-        ...config,
-        withCredentials: true
-      })
-      .catch((err) => err)
+  public static delete(url: string): Promise<APIProcessedResponse> {
+    return axios
+      .delete(url, { withCredentials: true })
+      .catch((err: AxiosError) => err)
       .then((resOrErr) => this.responseMiddleware(resOrErr));
-    return responseProm;
   }
 
-  public static put(
-    url: string,
-    body: unknown,
-    config?: AxiosRequestConfig | undefined
-  ): Promise<any> {
-    const responseProm = axios
-      .put(url, body, { ...config })
-      .catch((err) => err)
+  public static put(url: string, body: unknown): Promise<APIProcessedResponse> {
+    return axios
+      .put(url, body, {})
+      .catch((err: AxiosError) => err)
       .then((resOrErr) => this.responseMiddleware(resOrErr));
-    return responseProm;
   }
 
-  private static responseMiddleware(resOrErr: any) {
-    if (resOrErr.name === 'Error' && resOrErr.response.status === 440) {
+  private static responseMiddleware(
+    resOrErr: AxiosResponse | AxiosError
+  ): APIProcessedResponse {
+    if (resOrErr instanceof Error && resOrErr.response?.status === 440) {
       auth.signOut();
       return { data: { error: 'Session expired! Log in again!' } };
     }
     // No default, return the response
-    if (resOrErr.name === 'Error') return resOrErr.response;
+    if (resOrErr instanceof Error) return resOrErr.response ?? { data: null };
     return resOrErr;
   }
 }

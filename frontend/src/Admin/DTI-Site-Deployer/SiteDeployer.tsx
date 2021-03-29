@@ -24,7 +24,7 @@ const SiteDeployer: React.FC = () => {
   const [pullRequests, setPullRequests] = useState<{ body: string }[]>([]);
 
   const loadPullRequests = () => {
-    APIWrapper.get(`${backendURL}/getIDOLChangesPR`, {}).then((resp) => {
+    APIWrapper.get(`${backendURL}/getIDOLChangesPR`).then((resp) => {
       if (!resp.data.pr) {
         setPullRequests([]);
         setLoading(false);
