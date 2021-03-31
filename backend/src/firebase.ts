@@ -2,11 +2,14 @@ import admin from 'firebase-admin';
 import { DBTeam } from './DataTypes';
 
 require('dotenv').config();
+
 const isProdDb: boolean = JSON.parse(process.env.IS_PROD_DB as string);
 
-const serviceAccount = require(isProdDb
+const serviceAccountPath = isProdDb
   ? '../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json'
-  : '../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+  : '../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json';
+// eslint-disable-next-line import/no-dynamic-require
+const serviceAccount = require(serviceAccountPath);
 
 const configureAccount = (sa) => {
   const configAcc = sa;
