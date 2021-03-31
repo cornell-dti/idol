@@ -29,6 +29,7 @@ function App(): JSX.Element {
   return (
     <div>
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
+      <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
       <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
       {user.user ? (
         <Router>

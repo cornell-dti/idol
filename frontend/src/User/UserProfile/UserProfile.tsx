@@ -52,7 +52,7 @@ const UserProfile: React.FC = () => {
           setOtherSubteams(mem.otherSubteams || null);
         })
         .catch((error) => {
-          Emitters.generalError.emit({
+          Emitters.userEditError.emit({
             headerMsg: "Couldn't get member!",
             contentMsg: `Error was: ${error}`
           });
@@ -68,7 +68,10 @@ const UserProfile: React.FC = () => {
           contentMsg: val.error
         });
       } else {
-        alert('Member information successfully updated!');
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Information Updated',
+          contentMsg: `Member information successfully updated!`
+        });
       }
     });
   };
