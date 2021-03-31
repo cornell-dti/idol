@@ -52,7 +52,7 @@ const UserProfile: React.FC = () => {
           setOtherSubteams(mem.otherSubteams || null);
         })
         .catch((error) => {
-          Emitters.userEditError.emit({
+          Emitters.generalError.emit({
             headerMsg: "Couldn't get member!",
             contentMsg: `Error was: ${error}`
           });
