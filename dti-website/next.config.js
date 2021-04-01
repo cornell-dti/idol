@@ -1,5 +1,4 @@
-const { ESBuildPlugin, ESBuildMinifyPlugin } = require('esbuild-loader');
-const { ProvidePlugin } = require('webpack');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 const withEsbuildMinify = (config, options) => {
   const terserIndex = config.optimization.minimizer.findIndex(
@@ -25,15 +24,12 @@ const withEsbuildLoader = (config, options) => {
 };
 
 module.exports = {
-  webpack(config) {
+  webpack(config, { webpack }) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack']
     });
-    config.plugins.push(
-      new ESBuildPlugin(),
-      new ProvidePlugin({ React: 'react' })
-    );
+    config.plugins.push(new webpack.ProvidePlugin({ React: 'react' }));
     withEsbuildMinify(config);
     withEsbuildLoader(config, { loader: 'tsx', target: 'es2017' });
     return config;
