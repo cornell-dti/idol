@@ -1,5 +1,9 @@
+/** The common types required by more than one workspace. */
+
+/** All possible roles for a DTI member */
 type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
 
+/** The corresponding more human readable role description of all roles. */
 type RoleDescription =
   | 'Lead'
   | 'Technical PM'
@@ -8,6 +12,7 @@ type RoleDescription =
   | 'Designer'
   | 'Business Analyst';
 
+/** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
   readonly netid: string;
   readonly email: string;
@@ -28,6 +33,7 @@ interface IdolMember {
   readonly roleDescription: RoleDescription;
 }
 
+/** The data type used by Nova site to represent a DTI member. */
 interface NovaMember {
   readonly netid: string;
   readonly name: string;

@@ -14,8 +14,15 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { allRoles } from './permissions';
+import {
+  acceptIDOLChanges,
+  getIDOLChangesPR,
+  rejectIDOLChanges,
+  requestIDOLPullDispatch
+} from './site-integration';
+import { allRoles, PermissionsManager } from './permissions';
 import { HandlerError } from './errors';
+import MembersDao from './dao/MembersDao';
 
 // Constants and configurations
 const app = express();
@@ -70,11 +77,17 @@ const checkLoggedIn = (req: Request, res: Response): boolean => {
 };
 
 const loginCheckedHandler = (
-  handler: (req: Request) => Promise<Record<string, unknown>>
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ): RequestHandler => async (req: Request, res: Response): Promise<void> => {
   if (!checkLoggedIn(req, res)) return;
+  const userEmail: string = req.session?.email as string;
+  const user = await MembersDao.getMember(userEmail);
+  if (!user) {
+    res.status(401).send({ error: `No user with email: ${userEmail}` });
+    return;
+  }
   try {
-    res.status(200).send(await handler(req));
+    res.status(200).send(await handler(req, user));
   } catch (error) {
     if (error instanceof HandlerError) {
       res.status(error.errorCode).send({ error: error.reason });
@@ -88,17 +101,17 @@ const loginCheckedHandler = (
 
 const loginCheckedGet = (
   path: string,
-  handler: (req: Request) => Promise<Record<string, unknown>>
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.get(path, loginCheckedHandler(handler));
 
 const loginCheckedPost = (
   path: string,
-  handler: (req: Request) => Promise<Record<string, unknown>>
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.post(path, loginCheckedHandler(handler));
 
 const loginCheckedDelete = (
   path: string,
-  handler: (req: Request) => Promise<Record<string, unknown>>
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
 
 // Login
@@ -145,38 +158,53 @@ router.get('/allMembers', async (_, res) => {
   const members = await allMembers();
   res.status(200).json({ members });
 });
-loginCheckedGet('/getMember/:email', async (req) => ({
-  member: await getMember(req)
+loginCheckedGet('/getMember/:email', async (req, user) => ({
+  member: await getMember(req.params.email, user)
 }));
-loginCheckedPost('/setMember', async (req) => ({
-  member: await setMember(req)
+loginCheckedPost('/setMember', async (req, user) => ({
+  member: await setMember(req.body, user)
 }));
-loginCheckedDelete('/deleteMember/:email', async (req) => {
-  await deleteMember(req);
+loginCheckedDelete('/deleteMember/:email', async (req, user) => {
+  await deleteMember(req.params.email, user);
   return {};
 });
-loginCheckedPost('/updateMember', async (req) => ({
-  member: await updateMember(req)
+loginCheckedPost('/updateMember', async (req, user) => ({
+  member: await updateMember(req.body, user)
 }));
 
 // Teams
-loginCheckedGet('/allTeams', async (_) => ({ teams: await allTeams() }));
-loginCheckedPost('/setTeam', async (req) => ({ team: await setTeam(req) }));
-loginCheckedPost('/deleteTeam', async (req) => ({
-  team: await deleteTeam(req)
+loginCheckedGet('/allTeams', async () => ({ teams: await allTeams() }));
+loginCheckedPost('/setTeam', async (req, user) => ({
+  team: await setTeam(req.body, user)
+}));
+loginCheckedPost('/deleteTeam', async (req, user) => ({
+  team: await deleteTeam(req.body, user)
 }));
 
 // Images
-loginCheckedGet('/getMemberImage', async (req) => ({
-  url: await getMemberImage(req)
+loginCheckedGet('/getMemberImage', async (_, user) => ({
+  url: await getMemberImage(user)
 }));
-loginCheckedGet('/getImageSignedURL', async (req) => ({
-  url: await setMemberImage(req)
+loginCheckedGet('/getImageSignedURL', async (_, user) => ({
+  url: await setMemberImage(user)
 }));
 router.get('/allMemberImages', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
+
+// Permissions
+loginCheckedGet('/isAdmin/:email', async (_, user) => ({
+  isAdmin: await PermissionsManager.isAdmin(user)
+}));
+
+// Pull from IDOL
+loginCheckedPost('/pullIDOLChanges', (_, user) =>
+  requestIDOLPullDispatch(user)
+);
+loginCheckedGet('/getIDOLChangesPR', (_, user) => getIDOLChangesPR(user));
+loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
+loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 app.use('/.netlify/functions/api', router);
 

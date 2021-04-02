@@ -1,14 +1,29 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Team, DBTeam } from '../DataTypes';
 import { NotFoundError } from '../errors';
-import { db } from '../firebase';
-import { materialize } from '../util';
+import { db, memberCollection, teamCollection } from '../firebase';
 
 export default class TeamsDao {
   static async getAllTeams(): Promise<Team[]> {
-    const teamRefs = await db.collection('teams').get();
+    const teamRefs = await teamCollection.get();
     return Promise.all(
-      teamRefs.docs.map((teamRef) => materialize(teamRef.data()))
+      teamRefs.docs.map(async (teamRef) => {
+        const { uuid, name, leaders, members } = teamRef.data();
+        return {
+          uuid,
+          name,
+          leaders: await Promise.all(
+            leaders.map((ref) =>
+              ref.get().then((doc) => doc.data() as IdolMember)
+            )
+          ),
+          members: await Promise.all(
+            members.map((ref) =>
+              ref.get().then((doc) => doc.data() as IdolMember)
+            )
+          )
+        };
+      })
     );
   }
 
@@ -16,8 +31,8 @@ export default class TeamsDao {
     const teamRef: DBTeam = {
       uuid: team.uuid ? team.uuid : uuidv4(),
       name: team.name,
-      leaders: team.leaders.map((leader) => db.doc(`members/${leader.email}`)),
-      members: team.members.map((mem) => db.doc(`members/${mem.email}`))
+      leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
+      members: team.members.map((mem) => memberCollection.doc(mem.email))
     };
     const existRes = await Promise.all(
       teamRef.leaders
@@ -29,7 +44,7 @@ export default class TeamsDao {
         "Couldn't create team from members that don't exist!"
       );
     }
-    await db.doc(`teams/${teamRef.uuid}`).set(teamRef);
+    await teamCollection.doc(teamRef.uuid).set(teamRef);
     return { ...team, uuid: teamRef.uuid };
   }
 

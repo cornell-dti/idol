@@ -46,14 +46,14 @@ export default function DtiFooter({
                   <div className="subfooter-text subfooter-text-red">
                     Sign up for our newsletter!
                   </div>
-                  <a className="button-wrapper">
+                  <div className="button-wrapper">
                     <button
                       onClick={() => setIsSubscribing(true)}
-                      className="subfooter-button subfooter-button-red"
+                      className=" subfooter-button subfooter-button-red"
                     >
                       Subscribe
                     </button>
-                  </a>
+                  </div>
                 </Col>
               </Row>
             </Col>

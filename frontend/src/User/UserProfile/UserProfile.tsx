@@ -68,8 +68,10 @@ const UserProfile: React.FC = () => {
           contentMsg: val.error
         });
       } else {
-        // eslint-disable-next-line no-alert
-        alert('Member information successfully updated!');
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Information Updated',
+          contentMsg: `Member information successfully updated!`
+        });
       }
     });
   };

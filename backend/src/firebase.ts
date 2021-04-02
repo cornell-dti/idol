@@ -1,4 +1,5 @@
 import admin from 'firebase-admin';
+import { DBTeam } from './DataTypes';
 
 require('dotenv').config();
 
@@ -25,3 +26,29 @@ export const app = admin.initializeApp({
 
 export const bucket = admin.storage().bucket();
 export const db = admin.firestore();
+
+export const memberCollection: admin.firestore.CollectionReference<IdolMember> = db
+  .collection('members')
+  .withConverter({
+    fromFirestore(snapshot): IdolMember {
+      return snapshot.data() as IdolMember;
+    },
+    toFirestore(userData: IdolMember) {
+      return userData;
+    }
+  });
+
+export const teamCollection: admin.firestore.CollectionReference<DBTeam> = db
+  .collection('teams')
+  .withConverter({
+    fromFirestore(snapshot): DBTeam {
+      return snapshot.data() as DBTeam;
+    },
+    toFirestore(userData: DBTeam) {
+      return userData;
+    }
+  });
+
+export const adminCollection: admin.firestore.CollectionReference = db.collection(
+  'admins'
+);

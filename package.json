@@ -6,7 +6,8 @@
     "common-types",
     "frontend",
     "backend",
-    "dti-website"
+    "dti-website",
+    "dti-website-server"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts --ext .tsx",
