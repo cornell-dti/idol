@@ -111,6 +111,45 @@
     "roleDescription": "Business Analyst"
   },
   {
+    "netid": "apb235",
+    "name": "Althea Bata",
+    "graduation": "2024",
+    "major": "Applied Economics & Management",
+    "hometown": "Staten Island, NY",
+    "about": "Hi, I'm Althea (Al-thay-uh)! I'm a double major in AEM and IS in the Dyson School. Give me a problem and I'll immediately think about it from different lens! I'm incredibly passionate about the intersection between business, technology, design, and social impact, which I love exploring through innovative projects. On campus, I'm also involved in WICC's Girls Who Code program as a High School Co-Leader teaching Python and project development to highschoolers, SWIB, Smart Woman Securities, and Cornell Filipino Association, and Cornell Kali Club. When I'm not working on academics or project team work, I'm exploring Ithaca and trying new foods (especially sweets), practicing Filipino martial arts, making calligraphy, listening to pop music, and watching cat videos on YouTube.\n\nFeel free to reach out if you'd like to chat or have any questions!",
+    "subteam": "",
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "doubleMajor": "Information Science",
+    "otherSubteams": [],
+    "linkedin": "http://www.linkedin.com/in/altheaangela-bata",
+    "github": "https://github.com/altheabata"
+  },
+  {
+    "netid": "atq2",
+    "name": "Amanda Qiu",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "otherSubteams": []
+  },
+  {
+    "netid": "az354",
+    "name": "Alyssa Zhang",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "otherSubteams": []
+  },
+  {
     "netid": "bfs45",
     "name": "Benjamin Shen",
     "graduation": "May 2022",
@@ -174,6 +213,18 @@
     "github": "https://github.com/bahartehrani"
   },
   {
+    "netid": "cc2395",
+    "name": "Carl Chen",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "otherSubteams": []
+  },
+  {
     "netid": "ch746",
     "name": "Cristie Huang",
     "graduation": "May 2022",
@@ -201,6 +252,21 @@
     "linkedin": "https://linkedin.com/in/christinelee11"
   },
   {
+    "netid": "cl2264",
+    "name": "Connie Liu",
+    "graduation": "2023",
+    "major": "Information Science",
+    "hometown": "Pennsylvania",
+    "about": "Connie is a sophomore who loves the intersections of art, sustainability, and tech!",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "minor": "Computer Science",
+    "otherSubteams": [],
+    "website": "connie-liu.me",
+    "linkedin": "linkedin.com/in/connieliu23"
+  },
+  {
     "netid": "cl859",
     "name": "Changyuan Lin",
     "graduation": "May 2023",
@@ -212,6 +278,20 @@
     "roleDescription": "Developer",
     "linkedin": "https://www.linkedin.com/in/coreballium/",
     "github": "https://github.com/Coreball"
+  },
+  {
+    "netid": "cll246",
+    "name": "Chenchen Lu",
+    "graduation": "2023",
+    "major": "Information Science",
+    "hometown": "Los Angeles",
+    "about": "Passionate about design, giant bells, and kombucha.",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "otherSubteams": [],
+    "website": "https://www.chenchenlu.me/",
+    "linkedin": "https://www.linkedin.com/in/chenchenlu/"
   },
   {
     "netid": "cph64",
@@ -228,6 +308,30 @@
     "github": "https://github.com/chansen424"
   },
   {
+    "netid": "ebs98",
+    "name": "Emma Shen",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "otherSubteams": []
+  },
+  {
+    "netid": "ec592",
+    "name": "Emily Chan",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "lead",
+    "roleDescription": "Lead",
+    "otherSubteams": []
+  },
+  {
     "netid": "ec629",
     "name": "Ein Chang",
     "graduation": "May 2022",
@@ -242,12 +346,24 @@
     "linkedin": "https://linkedin.com/in/ein-chang"
   },
   {
+    "netid": "esh79",
+    "name": "Erika Hauschild",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "otherSubteams": []
+  },
+  {
     "netid": "ete26",
     "name": "Ehi Esemuze",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Sugar Land, TX",
-    "about": "Hi! My name is Ehi and I’m a sophomore studying Information Science in the College of Arts & Sciences. I am passionate about using design across mediums to create technology that is functional, accessible, sustainable, ethical, and makes positive social impact. On campus I'm involved in WICC, the Shakespeare Troupe at Cornell, URMC, and the Cog Dog Theatre Troupe. Outside of academic and project team work, you can find me acting in a show, attempting to pick up a new language, listening to music, or reading/writing poetry or prose. Feel free to reach out and start a conversation!",
+    "about": "Hi! My name is Ehi and I’m a sophomore studying Information Science in the College of Arts & Sciences. I am passionate about using design across mediums to create technology that is functional, accessible, sustainable, ethical, and makes positive social impact. On campus I'm involved in WICC and I'm a current new member of Tri Delta and Theta Tau. Outside of academic and project team work, you can find me acting in a show, attempting to pick up a new language, listening to music, or reading/writing poetry or prose. Feel free to reach out and start a conversation!",
     "subteam": "leads",
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -266,6 +382,18 @@
     "subteam": "business",
     "roleId": "business",
     "roleDescription": "Business Analyst"
+  },
+  {
+    "netid": "gd372",
+    "name": "Guillaume de Cannart",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "otherSubteams": []
   },
   {
     "netid": "gsh68",
@@ -399,6 +527,18 @@
     "github": "https://github.com/triple-jay"
   },
   {
+    "netid": "jj534",
+    "name": "Jaehyung Joo",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "otherSubteams": []
+  },
+  {
     "netid": "jk2299",
     "name": "Toby Ko",
     "graduation": "December 2021",
@@ -430,7 +570,7 @@
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Bayside, NY",
-    "about": "I like to play video games and study japanese :~)",
+    "about": "I like to play video games & sleep :~)\n",
     "subteam": "samwise",
     "roleId": "developer",
     "roleDescription": "Developer",
@@ -483,6 +623,19 @@
     ],
     "linkedin": "https://www.linkedin.com/in/jessica-feng/",
     "github": "https://github.com/jessfeng"
+  },
+  {
+    "netid": "kg357",
+    "name": "Kehui Guo",
+    "graduation": "May 2023",
+    "major": "Information Science",
+    "hometown": "Beijing, China",
+    "about": "Hi, I am Kehui (you can also call me Jasmine~) I am a sophomore majoring in Information Science. I love using design to connect people and technology, solving problems in both the physical and the digital world with engaging user experience. In my free time, I enjoy watching tv dramas, sleeping, playing billiards, and taking pretty pictures of my friends:))",
+    "subteam": "",
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "minor": "Design and Environmental Analysis",
+    "otherSubteams": []
   },
   {
     "netid": "kjj32",
@@ -735,6 +888,20 @@
     "github": "https://github.com/pihucode"
   },
   {
+    "netid": "pk457",
+    "name": "Pooja Kanumalla",
+    "graduation": "May 2023",
+    "major": "Computer Science",
+    "hometown": "Orlando, FL",
+    "about": "Pooja is interested in the intersection of technology and business, and wants to use her skills to aid the underprivileged. Outside of school, Pooja enjoys hanging out with friends and biking.",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "minor": "Business, Information Science",
+    "otherSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/pooja-kanumalla-70a8b01a4/"
+  },
+  {
     "netid": "plw53",
     "name": "Peter Wu",
     "graduation": "May 2023",
@@ -954,6 +1121,18 @@
     "github": "https://github.com/shichong-97"
   },
   {
+    "netid": "tm452",
+    "name": "Tanay Menezes",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "otherSubteams": []
+  },
+  {
     "netid": "tsc82",
     "name": "Theresa Cho",
     "graduation": "May 2021",
@@ -962,7 +1141,7 @@
     "about": "Hi there! I'm Theresa, the TPM for CoursePlan. In my free time, I enjoy singing, sharing memes, and watching kdramas and cool movies (the whole range from superhero blockbusters to awesome thrillers like Get Out). Wherever I am and in whatever I do, I hope to bring about a positive change and make some great friends along the way!",
     "subteam": "courseplan",
     "roleId": "pm",
-    "roleDescription": "Technical PM",
+    "roleDescription": "Product Manager",
     "minor": "Computer Science",
     "linkedin": "https://www.linkedin.com/in/theresa-cho-405226173/",
     "github": "https://github.com/tcho6319"
@@ -999,6 +1178,18 @@
     "website": "https://developersam.com",
     "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
     "github": "https://github.com/SamChou19815"
+  },
+  {
+    "netid": "uk44",
+    "name": "Aaron Kang",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "otherSubteams": []
   },
   {
     "netid": "vg222",
@@ -1060,6 +1251,21 @@
     "website": "https://woosang.io",
     "linkedin": "https://www.linkedin.com/in/woosang",
     "github": "https://github.com/paul-kang-1"
+  },
+  {
+    "netid": "xsy3",
+    "name": "Sean Yu",
+    "graduation": "2023",
+    "major": "Computer Science",
+    "hometown": "Palo Alto, CA",
+    "about": "I code and make music!",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "minor": "Game Design",
+    "otherSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/xiaochenseanyu/",
+    "github": "https://github.com/XiaochenSeanYu"
   },
   {
     "netid": "yah8",
@@ -1135,5 +1341,32 @@
       "samwise"
     ],
     "linkedin": "https://www.linkedin.com/in/ying-yang-8080a0169/"
+  },
+  {
+    "netid": "za44",
+    "name": "Zachary Ashen",
+    "graduation": "2024",
+    "major": "Computer Science",
+    "hometown": "Brooklyn, NY",
+    "about": "I'm a freshman majoring in Computer Science and Economics. Outside of DTI, I enjoy playing baseball, working on personal programming projects, and reading history books.",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "doubleMajor": "Economics",
+    "otherSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/zacharyashen/",
+    "github": "https://github.com/zack-ashen"
+  },
+  {
+    "netid": "zak33",
+    "name": "Zak Kent",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteam": "",
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "otherSubteams": []
   }
 ]
