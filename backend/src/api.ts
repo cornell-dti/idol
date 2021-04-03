@@ -127,7 +127,7 @@ router.post('/login', async (req: Request, res: Response) => {
     .then((decoded) => {
       const foundMember = members.find((val) => val.email === decoded.email);
       if (!foundMember) {
-        res.json({ isLoggedIn: false });
+        res.json({ email: decoded.email, isLoggedIn: false });
         return;
       }
       const session = req.session as Express.Session;

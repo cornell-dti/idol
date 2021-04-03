@@ -18,6 +18,7 @@ class UserProvider extends Component<Record<string, unknown>, UserContextType> {
     auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         LoginAPI.login(await userAuth.getIdToken()).then((loginResp) => {
+          console.log(loginResp);
           if (!loginResp.isLoggedIn) {
             Emitters.emailNotFoundError.emit();
             auth.signOut();
