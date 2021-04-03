@@ -5,11 +5,10 @@ require('dotenv').config();
 
 const useProdDb: boolean = JSON.parse(process.env.USE_PROD_DB as string);
 
-const serviceAccountPath = useProdDb
-  ? '../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json'
-  : '../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json';
-// eslint-disable-next-line import/no-dynamic-require
-const serviceAccount = require(serviceAccountPath);
+const prodServiceAccount = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
+const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+
+const serviceAccount = useProdDb ? prodServiceAccount : devServiceAccount;
 
 const configureAccount = (sa) => {
   const configAcc = sa;
