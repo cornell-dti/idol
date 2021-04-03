@@ -3,9 +3,9 @@ import { DBTeam } from './DataTypes';
 
 require('dotenv').config();
 
-const isProdDb: boolean = JSON.parse(process.env.IS_PROD_DB as string);
+const useProdDb: boolean = JSON.parse(process.env.USE_PROD_DB as string);
 
-const serviceAccountPath = isProdDb
+const serviceAccountPath = useProdDb
   ? '../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json'
   : '../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json';
 // eslint-disable-next-line import/no-dynamic-require
@@ -15,16 +15,16 @@ const configureAccount = (sa) => {
   const configAcc = sa;
   let parsedPK;
   try {
-    parsedPK = isProdDb
+    parsedPK = useProdDb
       ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY as string)
       : JSON.parse(process.env.FIREBASE_DEV_PRIVATE_KEY as string);
   } catch (err) {
-    parsedPK = isProdDb
+    parsedPK = useProdDb
       ? process.env.FIREBASE_PRIVATE_KEY
       : process.env.FIREBASE_DEV_PRIVATE_KEY;
   }
   configAcc.private_key = parsedPK;
-  configAcc.private_key_id = isProdDb
+  configAcc.private_key_id = useProdDb
     ? process.env.FIREBASE_PRIVATE_KEY_ID
     : process.env.FIREBASE_DEV_PRIVATE_KEY_ID;
   return configAcc;
@@ -33,7 +33,7 @@ const configureAccount = (sa) => {
 export const app = admin.initializeApp({
   credential: admin.credential.cert(configureAccount(serviceAccount)),
   databaseURL: 'https://idol-b6c68.firebaseio.com',
-  storageBucket: isProdDb
+  storageBucket: useProdDb
     ? 'gs://idol-b6c68.appspot.com'
     : 'gs://cornelldti-idol.appspot.com'
 });
