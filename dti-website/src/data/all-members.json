@@ -231,10 +231,12 @@
     "major": "Information Science",
     "hometown": "Arcadia, CA",
     "about": "Hey, I'm Cristie! I'm a designer who's passionate about unlocking people's potential through innovative digital experiences. When I'm not pushing pixels, you can catch me thrifting, making niche Spotify playlists, and baking minimalist cakes! ",
-    "subteam": "queuemein",
+    "subteam": "courseplan",
     "roleId": "designer",
     "roleDescription": "Designer",
-    "otherSubteams": [],
+    "otherSubteams": [
+      "queuemein"
+    ],
     "website": "https://www.cristiehuang.com/",
     "linkedin": "https://www.linkedin.com/in/cristie-huang/"
   },
@@ -571,10 +573,12 @@
     "major": "CS",
     "hometown": "Bayside, NY",
     "about": "I like to play video games & sleep :~)\n",
-    "subteam": "samwise",
+    "subteam": "courseplan",
     "roleId": "developer",
     "roleDescription": "Developer",
-    "otherSubteams": [],
+    "otherSubteams": [
+      "samwise"
+    ],
     "website": "https://jasontung.me/",
     "linkedin": "https://www.linkedin.com/in/jason-tung/",
     "github": "https://github.com/jason-tung/"
@@ -631,7 +635,7 @@
     "major": "Information Science",
     "hometown": "Beijing, China",
     "about": "Hi, I am Kehui (you can also call me Jasmine~) I am a sophomore majoring in Information Science. I love using design to connect people and technology, solving problems in both the physical and the digital world with engaging user experience. In my free time, I enjoy watching tv dramas, sleeping, playing billiards, and taking pretty pictures of my friends:))",
-    "subteam": "",
+    "subteam": "courseplan",
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Design and Environmental Analysis",
@@ -855,7 +859,7 @@
     "major": "Computer Science",
     "hometown": "Sharon, MA",
     "about": "I am a freshman majoring in CS in arts and sciences, but trying to transfer to engineering because strongly dislike the requirements. I am also part of the Wrestling Club, DGA, and the Cornell Hacking Club. I like biking, working out, exploring the outdoors, and eating junk food on weekends. I first got involved with DTI through the Propel program where my team was working on a campus scavenger hunt app called CornellGO! (check it out on the play/app store soon, please, it would help us a lot!). Now, we are working on the app as an unofficial part of DTI and trying to make it one of the main projects!",
-    "subteam": "freshman",
+    "subteam": "courseplan",
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Physics",
@@ -953,10 +957,13 @@
     "major": "Computer Science",
     "hometown": "Jamesville, NY",
     "about": "Hi! I'm a Computer Science junior minoring in Psychology and Game Design. Aside from my work in DTI, I volunteer at the Association of Computer Science Undergraduates' and Esports at Cornell's events. In every activity I do on campus, I love learning about other people and welcoming new students! When I have free time, I'm playing video games, drawing, and skiing.",
-    "subteam": "courseplan",
+    "subteam": "queuemein",
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Game Design, Psychology",
+    "otherSubteams": [
+      "courseplan"
+    ],
     "website": "https://rmz38.github.io/personal-site/",
     "linkedin": "https://www.linkedin.com/in/rose-zhou-752744177/",
     "github": "https://github.com/rmz38"
