@@ -1,9 +1,9 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { isProduction } from './environment';
+import { useProdDb } from './environment';
 
-const firebaseConfig = isProduction
+const firebaseConfig = useProdDb
   ? {
       apiKey: 'AIzaSyCCT5j588crPFvtKW5jM7Zkb_DLU_61VdY',
       authDomain: 'idol-b6c68.firebaseapp.com',
