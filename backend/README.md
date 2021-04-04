@@ -45,3 +45,7 @@ Example: An endpoint to update member information.
 
 3. In the database logic layer, we perform some raw database operation. The code here is usually
    quite simple and not directly related to any business logic. [Example](https://github.com/cornell-dti/idol/blob/907a3f950cd24023b2b6cbb663f04146822a00ed/backend/src/dao/MembersDao.ts#L26-L32).
+
+## Production vs. Development Firebase Instance
+
+The IDOL backend has a Firebase instance for development and a Firebase instance for production. To use the production Firebase instance locally, set the `USE_PROD_DB` environment to `true`. Otherwise, set `USE_PROD_DB` to `false` to use the development Firebase instance.
