@@ -48,4 +48,4 @@ Example: An endpoint to update member information.
 
 ## Production vs. Development Firebase Instance
 
-The IDOL backend has a Firebase instance for development and a Firebase instance for production. To use the production Firebase instance locally, set the `USE_PROD_DB` environment to `true`. Otherwise, set `USE_PROD_DB` to `false` to use the development Firebase instance.
+The IDOL backend has a Firebase instance for development and a Firebase instance for production. To use the production Firebase instance locally, set the `USE_PROD_DB` environment variable to `true`. Otherwise, set `USE_PROD_DB` to `false` to use the development Firebase instance.
