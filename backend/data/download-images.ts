@@ -1,25 +1,31 @@
-import { bucket } from './firebase';
+#!/usr/bin/env node
+
+import fetch from 'node-fetch';
+import { ProfileImage } from '../src/DataTypes';
 
 const fs = require('fs-extra');
 
-const dirPath = 'backend/data/members/images/';
-if (!fs.existsSync(dirPath)) {
-  fs.mkdirSync(dirPath);
-} else {
-  fs.emptyDirSync(dirPath);
+const dirPath = './data/members/images/'; 
+
+async function getMemberImages(): Promise<readonly ProfileImage[]> {
+  const { images } : { images: readonly ProfileImage[] } = await fetch(
+    'https://idol.cornelldti.org/.netlify/functions/api/allMemberImages'
+  ).then((response) => response.json());
+  return images;
 }
 
-bucket
-  .getFiles()
-  .then((results) => {
-    const files = results[0];
-    files.forEach(async (file) => {
-      const fileName = file.name.slice(file.name.indexOf('/') + 1);
-      if (fileName.length > 0) {
-        const filePath = dirPath + fileName;
-        if (fs.existsSync(filePath) === false) fs.ensureFile(filePath);
-        bucket.file(file.name).download({ destination: filePath });
-      }
-    });
-  })
-  .catch((err) => console.log('Error in getting files: ', err));
+async function downloadFile(image: ProfileImage) {
+  const {fileName} = image;
+  const filePath = dirPath + fileName;
+  const response = await fetch(image.url);
+  const buffer = await response.buffer();
+  fs.writeFile(filePath, buffer);
+}
+
+async function main(): Promise<void> {
+  fs.emptyDirSync(dirPath);
+  const memberImages = await getMemberImages();
+  memberImages.forEach((image) => {downloadFile(image)});
+}
+
+main();
