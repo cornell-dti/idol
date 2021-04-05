@@ -82,7 +82,7 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
             width="36px"
             height="36px"
             viewBox="0 0 24 24"
-            enable-background="new 0 0 24 24"
+            enableBackground="new 0 0 24 24"
             xmlSpace="preserve"
           >
             <path fill="none" d="M0,0h24v24H0V0z"></path>
@@ -102,7 +102,10 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
         )}
       </Button>
 
-      <Navbar.Collapse id="nav_collapse" appear={navShown}>
+      <Navbar.Collapse
+        id="nav_collapse"
+        style={navShown ? {} : { display: 'none' }}
+      >
         <ul className="navbar-nav ml-auto">
           <NavItem to="/">Home</NavItem>
           <NavItem to="/team/">Team</NavItem>
@@ -111,7 +114,7 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
           <NavItem to="/courses/">Courses</NavItem>
           <NavItem to="/sponsor/">Sponsor</NavItem>
           {applicationsOpen ? (
-            <NavItem to="/apply/" className="override-apply-color">
+            <NavItem to="/apply/">
               <Button className="apply-button" variant="primary">
                 Apply Now!
               </Button>
@@ -120,10 +123,7 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
             <NavItem to="/apply/">Apply</NavItem>
           )}
           {GIVING_DAY && (
-            <NavItem
-              to="https://givingday.cornell.edu/campaigns/cu-design-and-tech-initiative"
-              className="override-apply-color"
-            >
+            <NavItem to="https://givingday.cornell.edu/campaigns/cu-design-and-tech-initiative">
               <Button className="apply-button" variant="primary">
                 Give Now!
               </Button>
