@@ -3,7 +3,7 @@
 import fetch from 'node-fetch';
 import { ProfileImage } from '../src/DataTypes';
 
-const fs = require('fs-extra');
+import fs from 'fs-extra';
 
 const dirPath = './data/members/images/';
 
