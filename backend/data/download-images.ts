@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 import fetch from 'node-fetch';
-import { ProfileImage } from '../src/DataTypes';
-
 import fs from 'fs-extra';
+import { ProfileImage } from '../src/DataTypes';
 
 const dirPath = './data/members/images/';
 
