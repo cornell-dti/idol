@@ -1,6 +1,5 @@
 import { bucket } from './firebase';
 import { getNetIDFromEmail, filterImagesResponse } from './util';
-import { ProfileImage } from './DataTypes';
 import { NotFoundError } from './errors';
 
 export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {

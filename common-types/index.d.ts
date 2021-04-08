@@ -52,3 +52,8 @@ interface NovaMember {
   readonly roleId: string;
   readonly roleDescription: string;
 }
+
+interface ProfileImage {
+  readonly url: string;
+  readonly fileName: string;
+}

@@ -1,7 +1,5 @@
 // This file contains common operations that will need to be performed often.
 
-import { ProfileImage } from './DataTypes';
-
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
 export const filterImagesResponse = (

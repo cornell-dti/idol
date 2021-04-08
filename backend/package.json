@@ -28,7 +28,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "firebase-admin": "^9.2.0",
-    "fs-extra": "^9.1.0",
     "netlify-lambda": "^2.0.1",
     "node-fetch": "^2.6.1",
     "serverless-http": "^2.5.0",
