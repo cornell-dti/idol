@@ -27,6 +27,26 @@ export default class TeamsDao {
     );
   }
 
+  static async getTeam(id: string): Promise<Team | null> {
+    const teamRef = await teamCollection.doc(id).get();
+    const team = teamRef.data();
+    if(!team) return null;
+    return {
+      uuid: team.uuid,
+      name: team.name,
+      members: await Promise.all(
+        team.members.map((ref) =>
+          ref.get().then((doc) => doc.data() as IdolMember)
+        )
+      ),
+      leaders: await Promise.all(
+        team.leaders.map((ref) =>
+          ref.get().then((doc) => doc.data() as IdolMember)
+        )
+      )
+    }
+  }
+
   static async setTeam(team: Team): Promise<Team> {
     const teamRef: DBTeam = {
       uuid: team.uuid ? team.uuid : uuidv4(),

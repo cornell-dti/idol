@@ -3,8 +3,55 @@ import { PermissionsManager } from './permissions';
 import { Team } from './DataTypes';
 import TeamsDao from './dao/TeamsDao';
 import { BadRequestError, NotFoundError, PermissionError } from './errors';
+import MembersDao from './dao/MembersDao';
 
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
+
+/**
+ * take the new team and compare to old team and then update the members
+ */
+const updateTeamMembers = async (team: Team): Promise<void> => {
+ const oldTeam = await TeamsDao.getTeam(team.uuid);
+ let newMembers: IdolMember[] = [];
+ let deletedMembers: IdolMember[] = [];
+
+ if (oldTeam != null){
+   for (let leader of team.leaders) {
+    if (!oldTeam.leaders.includes(leader)){
+      newMembers.push(leader);
+    }
+   }
+   for (let member of team.members) {
+    if (!oldTeam.members.includes(member)){
+      newMembers.push(member);
+    }
+   }
+   for (let leader of oldTeam.leaders) {
+    if (!team.leaders.includes(leader)){
+      deletedMembers.push(leader);
+    }
+   }
+   for (let member of oldTeam.members) {
+    if (!team.members.includes(member)){
+      deletedMembers.push(member);
+    }
+   }
+ }
+ else {
+   newMembers = [...team.leaders, ...team.members];
+ }
+ 
+for (let member of newMembers) {
+  let updatedMember = { ...member };
+  updatedMember.subteam = team.name;
+  MembersDao.setMember(updatedMember.email, updatedMember);
+}
+for (let member of deletedMembers) {
+  let updatedMember = { ...member };
+  updatedMember.subteam = null;
+  MembersDao.setMember(updatedMember.email, updatedMember);
+}
+}
 
 export const setTeam = async (
   teamBody: Team,
@@ -19,7 +66,8 @@ export const setTeam = async (
   if (teamBody.members.length > 0 && !teamBody.members[0].email) {
     throw new BadRequestError('Malformed members on POST!');
   }
-  return TeamsDao.setTeam(teamBody);
+  
+  return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
 };
 
 export const deleteTeam = async (

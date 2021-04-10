@@ -27,7 +27,7 @@ interface IdolMember {
   readonly github?: string | null;
   readonly hometown: string;
   readonly about: string;
-  readonly subteam: string;
+  readonly subteam: string | null;
   readonly otherSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
