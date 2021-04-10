@@ -18,6 +18,7 @@ import '../components/ProjectHeader.scss';
 import '../components/ProjectLearnMore.scss';
 import '../components/QuickLink.scss';
 import '../components/RoleSelector.scss';
+import '../components/TeamMembers.scss';
 import '../components/TextHero.scss';
 import '../components/TimelineSection.scss';
 
