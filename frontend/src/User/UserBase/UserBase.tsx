@@ -12,7 +12,7 @@ import AddUser from '../AddUser/AddUser';
 import EditTeam from '../EditTeam/EditTeam';
 import UserProfile from '../UserProfile/UserProfile';
 import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
-import Shoutouts from '../Shoutouts/Shoutouts';
+import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
 
 const UserBase: React.FC = () => {
   const location = useLocation();
@@ -127,7 +127,7 @@ const UserBase: React.FC = () => {
             <UserProfileImage></UserProfileImage>
           </Route>
           <Route path="/users/shoutouts">
-            <Shoutouts></Shoutouts>
+            <ShoutoutsPage></ShoutoutsPage>
           </Route>
           <Route path="/*"></Route>
         </Switch>

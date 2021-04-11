@@ -1,0 +1,26 @@
+.shoutoutTitle {
+  text-align: center;
+}
+
+.listsContainer {
+  display: flex;
+}
+
+.listContainer {
+  padding: 2em;
+  width: 50%;
+}
+
+@media only screen and (max-width: 900px) {
+  .shoutoutTitle {
+    text-align: left;
+  }
+
+  .listsContainer {
+    flex-direction: column;
+  }
+
+  .listContainer {
+    width: 100%;
+  }
+}
