@@ -84,7 +84,7 @@ const ShoutoutForm: React.FC = () => {
           </p>
           <Button
             negative
-            onClick={(evt) => {
+            onClick={() => {
               setRecipient(undefined);
             }}
           >
