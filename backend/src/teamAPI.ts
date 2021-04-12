@@ -11,47 +11,38 @@ export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
  * take the new team and compare to old team and then update the members
  */
 const updateTeamMembers = async (team: Team): Promise<void> => {
- const oldTeam = await TeamsDao.getTeam(team.uuid);
- let newMembers: IdolMember[] = [];
- let deletedMembers: IdolMember[] = [];
+  const oldTeam = await TeamsDao.getTeam(team.uuid);
+  let newMembers: IdolMember[] = [];
+  let deletedMembers: IdolMember[] = [];
 
  if (oldTeam != null){
-   for (let leader of team.leaders) {
-    if (!oldTeam.leaders.includes(leader)){
-      newMembers.push(leader);
-    }
-   }
-   for (let member of team.members) {
-    if (!oldTeam.members.includes(member)){
+  let oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
+  let newTeamMembers = [...team.leaders, ...team.members];
+   for (let member of newTeamMembers) {
+    if (!oldTeamMembers.includes(member)){
       newMembers.push(member);
     }
    }
-   for (let leader of oldTeam.leaders) {
-    if (!team.leaders.includes(leader)){
-      deletedMembers.push(leader);
-    }
-   }
-   for (let member of oldTeam.members) {
-    if (!team.members.includes(member)){
+   for (let member of oldTeamMembers) {
+    if (!newTeamMembers.includes(member)){
       deletedMembers.push(member);
     }
-   }
- }
- else {
-   newMembers = [...team.leaders, ...team.members];
- }
- 
-for (let member of newMembers) {
-  let updatedMember = { ...member };
-  updatedMember.subteam = team.name;
-  MembersDao.setMember(updatedMember.email, updatedMember);
-}
-for (let member of deletedMembers) {
-  let updatedMember = { ...member };
-  updatedMember.subteam = null;
-  MembersDao.setMember(updatedMember.email, updatedMember);
-}
-}
+  } 
+}else {
+    newMembers = [...team.leaders, ...team.members];
+  }
+
+  for (let member of newMembers) {
+    let updatedMember = { ...member };
+    updatedMember.subteam = team.name;
+    MembersDao.setMember(updatedMember.email, updatedMember);
+  }
+  for (let member of deletedMembers) {
+    let updatedMember = { ...member };
+    updatedMember.subteam = '';
+    MembersDao.setMember(updatedMember.email, updatedMember);
+  }
+};
 
 export const setTeam = async (
   teamBody: Team,
@@ -66,7 +57,7 @@ export const setTeam = async (
   if (teamBody.members.length > 0 && !teamBody.members[0].email) {
     throw new BadRequestError('Malformed members on POST!');
   }
-  
+
   return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
 };
 
@@ -89,4 +80,5 @@ export const deleteTeam = async (
   }
   await TeamsDao.deleteTeam(teamBody.uuid);
   return teamBody;
+  //return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
 };

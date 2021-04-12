@@ -30,7 +30,7 @@ export default class TeamsDao {
   static async getTeam(id: string): Promise<Team | null> {
     const teamRef = await teamCollection.doc(id).get();
     const team = teamRef.data();
-    if(!team) return null;
+    if (!team) return null;
     return {
       uuid: team.uuid,
       name: team.name,
@@ -44,7 +44,7 @@ export default class TeamsDao {
           ref.get().then((doc) => doc.data() as IdolMember)
         )
       )
-    }
+    };
   }
 
   static async setTeam(team: Team): Promise<Team> {
