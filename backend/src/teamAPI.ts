@@ -7,15 +7,11 @@ import MembersDao from './dao/MembersDao';
 
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
 
-/**
- * take the new team and compare to old team and then update the members
- */
 const updateTeamMembers = async (team: Team): Promise<void> => {
   const oldTeam = await TeamsDao.getTeam(team.uuid);
   let newMembers: IdolMember[] = [];
   let deletedMembers: IdolMember[] = [];
 
-<<<<<<< HEAD
  if (oldTeam != null){
   let oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
   let newTeamMembers = [...team.leaders, ...team.members];
@@ -30,30 +26,6 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
     }
   } 
 }else {
-=======
-  if (oldTeam != null) {
-    for (let leader of team.leaders) {
-      if (!oldTeam.leaders.includes(leader)) {
-        newMembers.push(leader);
-      }
-    }
-    for (let member of team.members) {
-      if (!oldTeam.members.includes(member)) {
-        newMembers.push(member);
-      }
-    }
-    for (let leader of oldTeam.leaders) {
-      if (!team.leaders.includes(leader)) {
-        deletedMembers.push(leader);
-      }
-    }
-    for (let member of oldTeam.members) {
-      if (!team.members.includes(member)) {
-        deletedMembers.push(member);
-      }
-    }
-  } else {
->>>>>>> 85540a3bae4e2f8605fc6fe81cda18be3c394236
     newMembers = [...team.leaders, ...team.members];
   }
 
@@ -103,7 +75,7 @@ export const deleteTeam = async (
       `User with email: ${member.email} does not have permission to delete teams!`
     );
   }
-  await TeamsDao.deleteTeam(teamBody.uuid);
-  return teamBody;
-  //return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
+  //await TeamsDao.deleteTeam(teamBody.uuid);
+  //return teamBody;
+  return updateTeamMembers({ ...teamBody, members: [], leaders: [] }).then(() => TeamsDao.setTeam(teamBody));
 };
