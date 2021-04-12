@@ -15,6 +15,7 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   let newMembers: IdolMember[] = [];
   let deletedMembers: IdolMember[] = [];
 
+<<<<<<< HEAD
  if (oldTeam != null){
   let oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
   let newTeamMembers = [...team.leaders, ...team.members];
@@ -29,6 +30,30 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
     }
   } 
 }else {
+=======
+  if (oldTeam != null) {
+    for (let leader of team.leaders) {
+      if (!oldTeam.leaders.includes(leader)) {
+        newMembers.push(leader);
+      }
+    }
+    for (let member of team.members) {
+      if (!oldTeam.members.includes(member)) {
+        newMembers.push(member);
+      }
+    }
+    for (let leader of oldTeam.leaders) {
+      if (!team.leaders.includes(leader)) {
+        deletedMembers.push(leader);
+      }
+    }
+    for (let member of oldTeam.members) {
+      if (!team.members.includes(member)) {
+        deletedMembers.push(member);
+      }
+    }
+  } else {
+>>>>>>> 85540a3bae4e2f8605fc6fe81cda18be3c394236
     newMembers = [...team.leaders, ...team.members];
   }
 
