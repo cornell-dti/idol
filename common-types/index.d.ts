@@ -28,7 +28,7 @@ interface IdolMember {
   readonly hometown: string;
   readonly about: string;
   readonly subteam: string[];
-  readonly otherSubteams?: readonly string[] | null;
+  readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
 }
@@ -48,7 +48,7 @@ interface NovaMember {
   readonly hometown: string;
   readonly about: string;
   readonly subteam?: string[];
-  readonly otherSubteams?: readonly string[];
+  readonly formerSubteams?: readonly string[];
   readonly roleId: string;
   readonly roleDescription: string;
 }
