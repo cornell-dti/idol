@@ -25,21 +25,16 @@ export default function MemberProfile({
 }: Props): JSX.Element {
   const [imageError, setImageError] = useState(false);
 
-  const subteams = (() => {
-    const { subteam } = profile.info;
-    const subteams = subteam ? [subteam] : [];
-    const other = profile.info.otherSubteams;
+  const { subteams, formerSubteams } = profile.info;
 
-    if (Array.isArray(other)) {
-      subteams.push(...other);
-    } else if (typeof other === 'string') {
-      subteams.push(other);
-    }
+  let allSubteams: string[];
+  if (subteams && formerSubteams)
+    allSubteams = [...subteams, ...formerSubteams];
+  else if (subteams) allSubteams = subteams;
+  else if (formerSubteams) allSubteams = formerSubteams;
+  else allSubteams = [];
 
-    return subteams;
-  })();
-
-  const teams = subteams
+  const teams = allSubteams
     .map((team) => teamsJson.find((teamData) => teamData.id === team))
     .filter((d): d is Team => d != null);
 
@@ -125,7 +120,7 @@ export default function MemberProfile({
           </div>
         )}
       </Col>
-      {(profile.info.about || profile.info.subteam) && (
+      {(profile.info.about || profile.info.subteams) && (
         <>
           <Col lg="1" className="col-0">
             <div className="divider" />
@@ -141,9 +136,9 @@ export default function MemberProfile({
                 </Row>
               </div>
             )}
-            {(profile.info.subteam ||
-              (profile.info.otherSubteams &&
-                profile.info.otherSubteams.length > 0)) && (
+            {(profile.info.subteams ||
+              (profile.info.formerSubteams &&
+                profile.info.formerSubteams.length > 0)) && (
               <Row>
                 <Col>
                   <div id="teamwork" className="member-modal-header left-space">

@@ -30,8 +30,8 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     github,
     hometown,
     about,
-    subteam,
-    otherSubteams,
+    subteams,
+    formerSubteams,
     role,
     roleDescription
   } = idolMember;
@@ -43,12 +43,12 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     major,
     hometown,
     about,
-    subteam,
+    subteams,
     roleId: role,
     roleDescription,
     doubleMajor: doubleMajor || undefined,
     minor: minor || undefined,
-    otherSubteams: otherSubteams || undefined,
+    formerSubteams: formerSubteams || undefined,
     website: website || undefined,
     linkedin: linkedin || undefined,
     github: github || undefined
