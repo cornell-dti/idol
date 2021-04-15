@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { EmitFlags } from 'typescript';
 import { Team, DBTeam } from '../DataTypes';
 import { NotFoundError } from '../errors';
 import { db, memberCollection, teamCollection } from '../firebase';
@@ -49,7 +49,7 @@ export default class TeamsDao {
 
   static async setTeam(team: Team): Promise<Team> {
     const teamRef: DBTeam = {
-      uuid: team.uuid ? team.uuid : uuidv4(),
+      uuid: team.uuid,
       name: team.name,
       leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
       members: team.members.map((mem) => memberCollection.doc(mem.email))
@@ -68,7 +68,8 @@ export default class TeamsDao {
     return { ...team, uuid: teamRef.uuid };
   }
 
-  static async deleteTeam(teamUuid: string): Promise<void> {
-    await db.doc(`teams/${teamUuid}`).delete();
+  static async deleteTeam(team: Team): Promise<Team> {
+    await db.doc(`teams/${team.uuid}`).delete();
+    return team;
   }
 }
