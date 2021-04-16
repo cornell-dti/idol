@@ -18,30 +18,23 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   if (oldTeam != null) {
     let oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
     let newTeamMembers = [...team.leaders, ...team.members];
-    for (let member of newTeamMembers) {
-      if (!oldTeamMembers.includes(member)) {
-        newMembers.push(member);
-      }
-    }
-    for (let member of oldTeamMembers) {
-      if (!newTeamMembers.includes(member)) {
-        deletedMembers.push(member);
-      }
-    }
+    newMembers = newTeamMembers.filter(member => !oldTeamMembers.includes(member));
+    deletedMembers = oldTeamMembers.filter(member => !newTeamMembers.includes(member));
   } else {
     newMembers = [...team.leaders, ...team.members];
   }
 
-  for (let member of newMembers) {
-    let updatedMember = { ...member };
-    updatedMember.subteam = team.name;
-    MembersDao.setMember(updatedMember.email, updatedMember);
-  }
-  for (let member of deletedMembers) {
-    let updatedMember = { ...member };
-    updatedMember.subteam = '';
-    MembersDao.setMember(updatedMember.email, updatedMember);
-  }
+  newMembers.forEach(member => {
+    let updatedMember = { ...member }
+    updatedMember.subteam = team.name
+    MembersDao.setMember(updatedMember.email, updatedMember)
+  })
+
+  deletedMembers.forEach(member => {
+    let updatedMember = { ...member }
+    updatedMember.subteam = team.name
+    MembersDao.setMember(updatedMember.email, updatedMember)
+  })
 };
 
 export const setTeam = async (
