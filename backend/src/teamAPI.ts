@@ -32,7 +32,7 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
 
   deletedMembers.forEach(member => {
     let updatedMember = { ...member }
-    updatedMember.subteam = team.name
+    updatedMember.subteam = ''
     MembersDao.setMember(updatedMember.email, updatedMember)
   })
 };
