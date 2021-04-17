@@ -1,10 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
 import { teamCollection } from './firebase';
 import { PermissionsManager } from './permissions';
 import { Team } from './DataTypes';
 import TeamsDao from './dao/TeamsDao';
 import { BadRequestError, NotFoundError, PermissionError } from './errors';
 import MembersDao from './dao/MembersDao';
-import { v4 as uuidv4 } from 'uuid';
 
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
 
@@ -16,8 +16,8 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   let deletedMembers: IdolMember[] = [];
 
   if (oldTeam != null) {
-    let oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
-    let newTeamMembers = [...team.leaders, ...team.members];
+    const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
+    const newTeamMembers = [...team.leaders, ...team.members];
     newMembers = newTeamMembers.filter(member => !oldTeamMembers.includes(member));
     deletedMembers = oldTeamMembers.filter(member => !newTeamMembers.includes(member));
   } else {
@@ -25,13 +25,13 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   }
 
   newMembers.forEach(member => {
-    let updatedMember = { ...member }
+    const updatedMember = { ...member }
     updatedMember.subteam = team.name
     MembersDao.setMember(updatedMember.email, updatedMember)
   })
 
   deletedMembers.forEach(member => {
-    let updatedMember = { ...member }
+    const updatedMember = { ...member }
     updatedMember.subteam = ''
     MembersDao.setMember(updatedMember.email, updatedMember)
   })
