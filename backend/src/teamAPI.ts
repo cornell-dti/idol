@@ -19,23 +19,27 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   if (oldTeam != null) {
     const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
     const newTeamMembers = [...team.leaders, ...team.members];
-    newMembers = newTeamMembers.filter(member => !oldTeamMembers.includes(member));
-    deletedMembers = oldTeamMembers.filter(member => !newTeamMembers.includes(member));
+    newMembers = newTeamMembers.filter(
+      (member) => !oldTeamMembers.includes(member)
+    );
+    deletedMembers = oldTeamMembers.filter(
+      (member) => !newTeamMembers.includes(member)
+    );
   } else {
     newMembers = [...team.leaders, ...team.members];
   }
 
-  newMembers.forEach(member => {
-    const updatedMember = { ...member }
-    updatedMember.subteam = team.name
-    MembersDao.setMember(updatedMember.email, updatedMember)
-  })
+  newMembers.forEach((member) => {
+    const updatedMember = { ...member };
+    updatedMember.subteam = team.name;
+    MembersDao.setMember(updatedMember.email, updatedMember);
+  });
 
-  deletedMembers.forEach(member => {
-    const updatedMember = { ...member }
-    updatedMember.subteam = ''
-    MembersDao.setMember(updatedMember.email, updatedMember)
-  })
+  deletedMembers.forEach((member) => {
+    const updatedMember = { ...member };
+    updatedMember.subteam = '';
+    MembersDao.setMember(updatedMember.email, updatedMember);
+  });
 };
 
 export const setTeam = async (
