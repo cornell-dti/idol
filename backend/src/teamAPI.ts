@@ -9,7 +9,8 @@ import MembersDao from './dao/MembersDao';
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
 
 const updateTeamMembers = async (team: Team): Promise<void> => {
-  team.uuid = team.uuid ? team.uuid : uuidv4();
+  const teamCopy = team;
+  teamCopy.uuid = team.uuid ? team.uuid : uuidv4();
 
   const oldTeam = await TeamsDao.getTeam(team.uuid);
   let newMembers: IdolMember[] = [];
