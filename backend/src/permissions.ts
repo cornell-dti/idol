@@ -21,6 +21,10 @@ export class PermissionsManager {
     return mem.role === 'lead' || this.isAdmin(mem);
   }
 
+  static async canReviewChanges(mem: IdolMember): Promise<boolean> {
+    return mem.role === 'lead' || this.isAdmin(mem);
+  }
+
   public static async isAdmin(mem: IdolMember): Promise<boolean> {
     const member = (await adminCollection.doc(mem.email).get()).data();
     return member !== undefined;

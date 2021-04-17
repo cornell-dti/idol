@@ -1,9 +1,13 @@
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
 import { BadRequestError, PermissionError, NotFoundError } from './errors';
+import { computeMembersDiff } from './util';
 
 export const allMembers = (): Promise<readonly IdolMember[]> =>
-  MembersDao.getAllMembers();
+  MembersDao.getAllMembers(false);
+
+export const allApprovedMembers = (): Promise<readonly IdolMember[]> =>
+  MembersDao.getAllMembers(true);
 
 export const setMember = async (
   body: IdolMember,
@@ -79,4 +83,33 @@ export const deleteMember = async (
     throw new BadRequestError("Couldn't delete member with undefined email!");
   }
   await MembersDao.deleteMember(email);
+};
+
+export const getUserInformationDifference = async (
+  user: IdolMember
+): Promise<readonly IdolMemberDiff[]> => {
+  const canReview = await PermissionsManager.canReviewChanges(user);
+  if (!canReview) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to review members information diff!`
+    );
+  }
+  const [allApprovedMembersList, allLatestMembersList] = await Promise.all([
+    allApprovedMembers(),
+    allMembers()
+  ]);
+  return computeMembersDiff(allApprovedMembersList, allLatestMembersList);
+};
+
+export const approveUserInformationChange = async (
+  approved: readonly string[],
+  user: IdolMember
+): Promise<void> => {
+  const canReview = await PermissionsManager.canReviewChanges(user);
+  if (!canReview) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to review members information diff!`
+    );
+  }
+  await MembersDao.approveMemberInformationChanges(approved);
 };
