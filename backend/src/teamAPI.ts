@@ -29,17 +29,15 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
     newMembers = [...team.leaders, ...team.members];
   }
 
-  newMembers.forEach((member) => {
-    const updatedMember = { ...member };
-    updatedMember.subteam = team.name;
+  await Promise.all(newMembers.map(async member => {
+    const updatedMember = { ...member, subteam: team.name};
+    await MembersDao.setMember(updatedMember.email, updatedMember);
+  }));
+  
+  await Promise.all(deletedMembers.map(async member => {
+    const updatedMember = { ...member, subteam: ''};
     MembersDao.setMember(updatedMember.email, updatedMember);
-  });
-
-  deletedMembers.forEach((member) => {
-    const updatedMember = { ...member };
-    updatedMember.subteam = '';
-    MembersDao.setMember(updatedMember.email, updatedMember);
-  });
+  }));
 };
 
 export const setTeam = async (

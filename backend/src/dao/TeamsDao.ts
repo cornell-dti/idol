@@ -1,4 +1,3 @@
-import { EmitFlags } from 'typescript';
 import { Team, DBTeam } from '../DataTypes';
 import { NotFoundError } from '../errors';
 import { db, memberCollection, teamCollection } from '../firebase';
