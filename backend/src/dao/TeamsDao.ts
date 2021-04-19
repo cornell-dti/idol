@@ -49,7 +49,7 @@ export default class TeamsDao {
 
   static async setTeam(team: Team): Promise<Team> {
     const teamRef: DBTeam = {
-      uuid: team.uuid ? team.uuid: uuidv4(),
+      uuid: team.uuid ? team.uuid : uuidv4(),
       name: team.name,
       leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
       members: team.members.map((mem) => memberCollection.doc(mem.email))
