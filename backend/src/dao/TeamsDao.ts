@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Team, DBTeam } from '../DataTypes';
 import { NotFoundError } from '../errors';
 import { db, memberCollection, teamCollection } from '../firebase';
@@ -48,7 +49,7 @@ export default class TeamsDao {
 
   static async setTeam(team: Team): Promise<Team> {
     const teamRef: DBTeam = {
-      uuid: team.uuid,
+      uuid: team.uuid ? team.uuid: uuidv4(),
       name: team.name,
       leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
       members: team.members.map((mem) => memberCollection.doc(mem.email))
