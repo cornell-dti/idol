@@ -186,7 +186,8 @@ loginCheckedPost('/approveMemberDiffs', async (req, user) => ({
 }));
 
 // Teams
-loginCheckedGet('/allTeams', async () => ({ teams: await allTeams() }));
+router.get('/allTeams', async (_, res) => ({ teams: await allTeams() }));
+
 loginCheckedPost('/setTeam', async (req, user) => ({
   team: await setTeam(req.body, user)
 }));
