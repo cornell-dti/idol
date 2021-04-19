@@ -87,9 +87,7 @@ function CustomSearch<T>({
 
         dispatch({
           type: 'FINISH_SEARCH',
-          results: source
-            .filter((val) => isMatch(data.value, val))
-            .map((val) => ({ ...val, title: JSON.stringify(val) })),
+          results: source.filter((val) => isMatch(data.value, val)),
           selection: '',
           query: data.value
         });

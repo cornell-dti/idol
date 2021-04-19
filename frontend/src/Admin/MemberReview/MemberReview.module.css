@@ -1,0 +1,21 @@
+.Wrapper {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding-top: 2rem;
+}
+
+.ApprovingContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.ApprovingContainerCards {
+  width: 70%;
+  height: calc(100vh - 90px);
+  overflow: scroll;
+}
+
+.ApprovingContainerSideBar {
+  flex: 1 1 auto;
+  padding: 1em;
+}

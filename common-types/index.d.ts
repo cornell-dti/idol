@@ -33,6 +33,12 @@ interface IdolMember {
   readonly roleDescription: RoleDescription;
 }
 
+interface IdolMemberDiff {
+  /** Email of the member. */
+  readonly email: string;
+  readonly diffString: string;
+}
+
 /** The data type used by Nova site to represent a DTI member. */
 interface NovaMember {
   readonly netid: string;
