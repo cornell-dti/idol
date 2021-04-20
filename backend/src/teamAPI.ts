@@ -31,14 +31,20 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
 
   await Promise.all(
     newMembers.map(async (member) => {
-      const updatedMember = { ...member, subteam: team.name };
+      const updatedMember = {
+        ...member,
+        subteams: [...member.subteams, team.name]
+      };
       await MembersDao.setMember(updatedMember.email, updatedMember);
     })
   );
 
   await Promise.all(
     deletedMembers.map(async (member) => {
-      const updatedMember = { ...member, subteam: '' };
+      const updatedMember = {
+        ...member,
+        subteams: member.subteams.filter((subteam) => subteam !== team.name)
+      };
       MembersDao.setMember(updatedMember.email, updatedMember);
     })
   );
