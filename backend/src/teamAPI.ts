@@ -9,25 +9,37 @@ import MembersDao from './dao/MembersDao';
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
 
 const updateTeamMembers = async (team: Team): Promise<void> => {
-  const teamCopy = team;
-  teamCopy.uuid = team.uuid ? team.uuid : uuidv4();
+  const teamCopy = { ...team };
+  teamCopy.uuid = teamCopy.uuid ? teamCopy.uuid : uuidv4();
+  let oldTeam = await TeamsDao.getTeam(team.uuid ? team.uuid : uuidv4());
+  if (!oldTeam)
+    oldTeam = {
+      leaders: [],
+      members: [],
+      name: '',
+      uuid: '',
+      formerMembers: []
+    };
 
-  const oldTeam = await TeamsDao.getTeam(team.uuid);
+  updateCurrentMembers(teamCopy, oldTeam);
+  updateFormerMembers(teamCopy, oldTeam);
+};
+
+const updateCurrentMembers = async (
+  team: Team,
+  oldTeam: Team
+): Promise<void> => {
   let newMembers: IdolMember[] = [];
   let deletedMembers: IdolMember[] = [];
 
-  if (oldTeam != null) {
-    const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
-    const newTeamMembers = [...team.leaders, ...team.members];
-    newMembers = newTeamMembers.filter(
-      (member) => !oldTeamMembers.includes(member)
-    );
-    deletedMembers = oldTeamMembers.filter(
-      (member) => !newTeamMembers.includes(member)
-    );
-  } else {
-    newMembers = [...team.leaders, ...team.members];
-  }
+  const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
+  const newTeamMembers = [...team.leaders, ...team.members];
+  newMembers = newTeamMembers.filter(
+    (member) => !oldTeamMembers.includes(member)
+  );
+  deletedMembers = oldTeamMembers.filter(
+    (member) => !newTeamMembers.includes(member)
+  );
 
   await Promise.all(
     newMembers.map(async (member) => {
@@ -46,6 +58,44 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
         subteams: member.subteams.filter((subteam) => subteam !== team.name)
       };
       MembersDao.setMember(updatedMember.email, updatedMember);
+    })
+  );
+};
+
+const updateFormerMembers = async (
+  team: Team,
+  oldTeam: Team
+): Promise<void> => {
+  let newFormerMembers: IdolMember[] = [];
+  let removedFormerMembers: IdolMember[] = [];
+
+  newFormerMembers = team.formerMembers.filter(
+    (member) => !oldTeam.formerMembers.includes(member)
+  );
+  removedFormerMembers = oldTeam.formerMembers.filter(
+    (member) => !team.formerMembers.includes(member)
+  );
+
+  await Promise.all(
+    newFormerMembers.map(async (member) => {
+      const updatedMember = {
+        ...member,
+        formerSubteams: member.formerSubteams
+          ? [...member.formerSubteams, team.name]
+          : [team.name]
+      };
+      await MembersDao.setMember(updatedMember.email, updatedMember);
+    })
+  );
+  await Promise.all(
+    removedFormerMembers.map(async (member) => {
+      const updatedMember = {
+        ...member,
+        formerSubteams: member.formerSubteams
+          ? member.formerSubteams.filter((subteam) => subteam !== team.name)
+          : []
+      };
+      await MembersDao.setMember(updatedMember.email, updatedMember);
     })
   );
 };

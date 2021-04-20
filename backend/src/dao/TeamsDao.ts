@@ -8,10 +8,15 @@ export default class TeamsDao {
     const teamRefs = await teamCollection.get();
     return Promise.all(
       teamRefs.docs.map(async (teamRef) => {
-        const { uuid, name, leaders, members } = teamRef.data();
+        const { uuid, name, leaders, members, formerMembers } = teamRef.data();
         return {
           uuid,
           name,
+          formerMembers: await Promise.all(
+            formerMembers.map((ref) =>
+              ref.get().then((doc) => doc.data() as IdolMember)
+            )
+          ),
           leaders: await Promise.all(
             leaders.map((ref) =>
               ref.get().then((doc) => doc.data() as IdolMember)
@@ -34,6 +39,11 @@ export default class TeamsDao {
     return {
       uuid: team.uuid,
       name: team.name,
+      formerMembers: await Promise.all(
+        team.formerMembers.map((ref) =>
+          ref.get().then((doc) => doc.data() as IdolMember)
+        )
+      ),
       members: await Promise.all(
         team.members.map((ref) =>
           ref.get().then((doc) => doc.data() as IdolMember)
@@ -52,7 +62,10 @@ export default class TeamsDao {
       uuid: team.uuid ? team.uuid : uuidv4(),
       name: team.name,
       leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
-      members: team.members.map((mem) => memberCollection.doc(mem.email))
+      members: team.members.map((mem) => memberCollection.doc(mem.email)),
+      formerMembers: team.formerMembers.map((mem) =>
+        memberCollection.doc(mem.email)
+      )
     };
     const existRes = await Promise.all(
       teamRef.leaders
