@@ -404,7 +404,7 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteam": "",
+    "subteam": "idol",
     "roleId": "developer",
     "roleDescription": "Developer",
     "otherSubteams": []
@@ -440,7 +440,7 @@
     "name": "Henry Li",
     "graduation": "May 2023",
     "major": "Information Science",
-    "hometown": "Albany , NY",
+    "hometown": "Albany, NY",
     "about": "I drink lots of coffee so I can turn caffeine into code. Please don't add milk to my coffee because dairy is scary. Thanks :) ",
     "subteam": "idol",
     "roleId": "tpm",
