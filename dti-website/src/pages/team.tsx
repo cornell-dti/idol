@@ -24,13 +24,13 @@ export default function TeamPage(): JSX.Element {
     role = '',
     isLead = false
   ): readonly { info: NovaMember; id: string }[] =>
-    members
+    (members as NovaMember[])
       .filter(
         (member) =>
           ((typeof member.roleId === 'string' &&
             member.roleId.endsWith(role)) ||
             role === '') &&
-          // @ts-expect-error: missing
+          // // @ts-expect-error: missing
           (member.isLead != null && member.isLead === true) === isLead
       )
       .map((member) => ({ info: member, id: member.netid }))

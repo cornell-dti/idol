@@ -48,7 +48,7 @@ const UserProfile: React.FC = () => {
           setWebsite(mem.website || '');
           setLinkedin(mem.linkedin || '');
           setGithub(mem.github || '');
-          setSubteams(mem.subteams);
+          setSubteams([...mem.subteams]);
           setFormerSubteams(mem.formerSubteams || null);
         })
         .catch((error) => {
