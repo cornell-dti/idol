@@ -412,13 +412,6 @@
     "github": "https://github.com/abcdefguan"
   },
   {
-    "netid": "hello",
-    "name": "Hello DTI",
-    "subteams": [],
-    "roleId": "admin",
-    "roleDescription": "Admin"
-  },
-  {
     "netid": "hl2334",
     "name": "Hank Lin",
     "graduation": "May 2023",
