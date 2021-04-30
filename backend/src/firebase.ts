@@ -51,6 +51,17 @@ export const memberCollection: admin.firestore.CollectionReference<IdolMember> =
     }
   });
 
+export const approvedMemberCollection: admin.firestore.CollectionReference<IdolMember> = db
+  .collection('approved-members')
+  .withConverter({
+    fromFirestore(snapshot): IdolMember {
+      return snapshot.data() as IdolMember;
+    },
+    toFirestore(userData: IdolMember) {
+      return userData;
+    }
+  });
+
 export const teamCollection: admin.firestore.CollectionReference<DBTeam> = db
   .collection('teams')
   .withConverter({

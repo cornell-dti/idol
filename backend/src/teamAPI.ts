@@ -1,10 +1,48 @@
+import { v4 as uuidv4 } from 'uuid';
 import { teamCollection } from './firebase';
 import { PermissionsManager } from './permissions';
 import { Team } from './DataTypes';
 import TeamsDao from './dao/TeamsDao';
 import { BadRequestError, NotFoundError, PermissionError } from './errors';
+import MembersDao from './dao/MembersDao';
 
 export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
+
+const updateTeamMembers = async (team: Team): Promise<void> => {
+  const teamCopy = team;
+  teamCopy.uuid = team.uuid ? team.uuid : uuidv4();
+
+  const oldTeam = await TeamsDao.getTeam(team.uuid);
+  let newMembers: IdolMember[] = [];
+  let deletedMembers: IdolMember[] = [];
+
+  if (oldTeam != null) {
+    const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
+    const newTeamMembers = [...team.leaders, ...team.members];
+    newMembers = newTeamMembers.filter(
+      (member) => !oldTeamMembers.includes(member)
+    );
+    deletedMembers = oldTeamMembers.filter(
+      (member) => !newTeamMembers.includes(member)
+    );
+  } else {
+    newMembers = [...team.leaders, ...team.members];
+  }
+
+  await Promise.all(
+    newMembers.map(async (member) => {
+      const updatedMember = { ...member, subteam: team.name };
+      await MembersDao.setMember(updatedMember.email, updatedMember);
+    })
+  );
+
+  await Promise.all(
+    deletedMembers.map(async (member) => {
+      const updatedMember = { ...member, subteam: '' };
+      MembersDao.setMember(updatedMember.email, updatedMember);
+    })
+  );
+};
 
 export const setTeam = async (
   teamBody: Team,
@@ -19,7 +57,7 @@ export const setTeam = async (
   if (teamBody.members.length > 0 && !teamBody.members[0].email) {
     throw new BadRequestError('Malformed members on POST!');
   }
-  return TeamsDao.setTeam(teamBody);
+  return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
 };
 
 export const deleteTeam = async (
@@ -39,6 +77,7 @@ export const deleteTeam = async (
       `User with email: ${member.email} does not have permission to delete teams!`
     );
   }
-  await TeamsDao.deleteTeam(teamBody.uuid);
-  return teamBody;
+  return updateTeamMembers({ ...teamBody, members: [], leaders: [] }).then(() =>
+    TeamsDao.deleteTeam(teamBody)
+  );
 };

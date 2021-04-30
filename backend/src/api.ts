@@ -7,10 +7,13 @@ import admin from 'firebase-admin';
 import { db as database, app as adminApp } from './firebase';
 import {
   allMembers,
+  allApprovedMembers,
   getMember,
   setMember,
   deleteMember,
-  updateMember
+  updateMember,
+  getUserInformationDifference,
+  approveUserInformationChange
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
@@ -159,6 +162,10 @@ router.get('/allMembers', async (_, res) => {
   const members = await allMembers();
   res.status(200).json({ members });
 });
+router.get('/allApprovedMembers', async (_, res) => {
+  const members = await allApprovedMembers();
+  res.status(200).json({ members });
+});
 loginCheckedGet('/getMember/:email', async (req, user) => ({
   member: await getMember(req.params.email, user)
 }));
@@ -171,6 +178,12 @@ loginCheckedDelete('/deleteMember/:email', async (req, user) => {
 });
 loginCheckedPost('/updateMember', async (req, user) => ({
   member: await updateMember(req.body, user)
+}));
+loginCheckedGet('/memberDiffs', async (_, user) => ({
+  diffs: await getUserInformationDifference(user)
+}));
+loginCheckedPost('/approveMemberDiffs', async (req, user) => ({
+  member: await approveUserInformationChange(req.body.approved, user)
 }));
 
 // Teams
