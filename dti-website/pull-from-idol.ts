@@ -48,7 +48,9 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     roleDescription,
     doubleMajor: doubleMajor || undefined,
     minor: minor || undefined,
-    formerSubteams: formerSubteams ? [...formerSubteams] : undefined,
+    formerSubteams: formerSubteams
+      ? ([...formerSubteams] as string[])
+      : undefined,
     website: website || undefined,
     linkedin: linkedin || undefined,
     github: github || undefined

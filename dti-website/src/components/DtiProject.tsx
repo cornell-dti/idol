@@ -20,11 +20,11 @@ export default function DtiProject({
 }): JSX.Element {
   const project = allProjects.find((it) => it.teamId === teamId);
   if (project == null) throw new Error();
-  const pastMembers: NovaMember[] = (allMembers as NovaMember[]).filter(
-    (member) => (member.formerSubteams || []).includes(teamId)
+  const pastMembers = (allMembers as NovaMember[]).filter((member) =>
+    ((member.formerSubteams as string[]) || []).includes(teamId)
   );
   const currentMembers = (allMembers as NovaMember[]).filter((member) =>
-    member.subteams ? member.subteams.includes(teamId) : false
+    member.subteams ? (member.subteams as string[]).includes(teamId) : false
   );
 
   return (
