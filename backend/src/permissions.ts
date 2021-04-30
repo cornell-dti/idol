@@ -22,11 +22,11 @@ export class PermissionsManager {
   }
 
   static async canReviewChanges(mem: IdolMember): Promise<boolean> {
-    return mem.role === 'lead' || this.isAdmin(mem);  
+    return mem.role === 'lead' || this.isAdmin(mem);
   }
-  
+
   static async canGetShoutouts(mem: IdolMember): Promise<boolean> {
-    return mem.role === 'lead' || this.isAdmin(mem); 
+    return mem.role === 'lead' || this.isAdmin(mem);
   }
 
   public static async isAdmin(mem: IdolMember): Promise<boolean> {
