@@ -13,3 +13,15 @@ export type Team = {
   leaders: IdolMember[];
   members: IdolMember[];
 };
+
+export type DBShoutout = {
+  giver: firestore.DocumentReference;
+  receiver: firestore.DocumentReference;
+  message: string;
+};
+
+export type Shoutout = {
+  giver: IdolMember;
+  receiver: IdolMember;
+  message: string;
+};

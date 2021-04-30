@@ -14,6 +14,7 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
+import { getShoutouts, giveShoutout } from './shoutoutAPI';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
@@ -192,6 +193,14 @@ router.get('/allMemberImages', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
+
+loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
+  shoutouts: await getShoutouts(req.params.email, req.params.type, user)
+}));
+
+loginCheckedPost('/giveShoutout', async (req, user) => ({
+  shoutout: await giveShoutout(req.body, user)
+}));
 
 // Permissions
 loginCheckedGet('/isAdmin/:email', async (_, user) => ({

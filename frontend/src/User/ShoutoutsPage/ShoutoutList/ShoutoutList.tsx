@@ -1,24 +1,15 @@
-import { Card, Message } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import ShoutoutCard from '../ShoutoutCard/ShoutoutCard';
-import { Shoutout } from '../ShoutoutsPage';
+import { Shoutout } from '../../../API/ShoutoutsAPI';
 
-const ShoutoutList = (props: {
-  shoutouts?: Shoutout[];
-  emptyMessage: string;
-}): JSX.Element => {
-  const { shoutouts, emptyMessage } = props;
+const ShoutoutList = (props: { shoutouts: Shoutout[] }): JSX.Element => {
+  const { shoutouts } = props;
   return (
-    <div>
-      {shoutouts ? (
-        <Card.Group>
-          {shoutouts.map((shoutout, i) => (
-            <ShoutoutCard key={i} {...shoutout} />
-          ))}
-        </Card.Group>
-      ) : (
-        <Message>{emptyMessage}</Message>
-      )}
-    </div>
+    <Card.Group>
+      {shoutouts.map((shoutout, i) => (
+        <ShoutoutCard key={i} {...shoutout} />
+      ))}
+    </Card.Group>
   );
 };
 

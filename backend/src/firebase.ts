@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { DBTeam } from './DataTypes';
+import { DBShoutout, DBTeam, Shoutout } from './DataTypes';
 
 require('dotenv').config();
 
@@ -58,6 +58,17 @@ export const teamCollection: admin.firestore.CollectionReference<DBTeam> = db
       return snapshot.data() as DBTeam;
     },
     toFirestore(userData: DBTeam) {
+      return userData;
+    }
+  });
+
+export const shoutoutCollection: admin.firestore.CollectionReference<DBShoutout> = db
+  .collection('shoutouts')
+  .withConverter({
+    fromFirestore(snapshot): DBShoutout {
+      return snapshot.data() as DBShoutout;
+    },
+    toFirestore(userData: DBShoutout) {
       return userData;
     }
   });
