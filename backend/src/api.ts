@@ -13,7 +13,7 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  approveUserInformationChange
+  reviewUserInformationChange
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
@@ -181,8 +181,12 @@ loginCheckedPost('/updateMember', async (req, user) => ({
 loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
 }));
-loginCheckedPost('/approveMemberDiffs', async (req, user) => ({
-  member: await approveUserInformationChange(req.body.approved, user)
+loginCheckedPost('/reviewMemberDiffs', async (req, user) => ({
+  member: await reviewUserInformationChange(
+    req.body.approved,
+    req.body.rejected,
+    user
+  )
 }));
 
 // Teams

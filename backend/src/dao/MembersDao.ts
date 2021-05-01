@@ -55,4 +55,27 @@ export default class MembersDao {
     });
     await batch.commit();
   }
+
+  /**
+   * Similar to approveMemberInformationChanges, but reverts the change in
+   * memberCollection using the data in approvedMemberCollection
+   */
+  static async revertMemberInformationChanges(
+    emails: readonly string[]
+  ): Promise<void> {
+    const batch = db.batch();
+    const latestMemberInfoList = await Promise.all(
+      emails.map(async (email) => {
+        const data = (await approvedMemberCollection.doc(email).get()).data();
+        if (data == null) batch.delete(memberCollection.doc(email));
+        return data;
+      })
+    );
+    latestMemberInfoList.forEach((member) => {
+      if (member != null) {
+        batch.set(memberCollection.doc(member.email), member);
+      }
+    });
+    await batch.commit();
+  }
 }
