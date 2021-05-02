@@ -30,7 +30,6 @@ export default function TeamPage(): JSX.Element {
           ((typeof member.roleId === 'string' &&
             member.roleId.endsWith(role)) ||
             role === '') &&
-          // // @ts-expect-error: missing
           (member.isLead != null && member.isLead === true) === isLead
       )
       .map((member) => ({ info: member, id: member.netid }))
