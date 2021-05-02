@@ -101,8 +101,9 @@ export const getUserInformationDifference = async (
   return computeMembersDiff(allApprovedMembersList, allLatestMembersList);
 };
 
-export const approveUserInformationChange = async (
+export const reviewUserInformationChange = async (
   approved: readonly string[],
+  rejected: readonly string[],
   user: IdolMember
 ): Promise<void> => {
   const canReview = await PermissionsManager.canReviewChanges(user);
@@ -111,5 +112,8 @@ export const approveUserInformationChange = async (
       `User with email: ${user.email} does not have permission to review members information diff!`
     );
   }
-  await MembersDao.approveMemberInformationChanges(approved);
+  await Promise.all([
+    MembersDao.approveMemberInformationChanges(approved),
+    MembersDao.revertMemberInformationChanges(rejected)
+  ]);
 };

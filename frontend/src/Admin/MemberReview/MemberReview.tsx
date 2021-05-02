@@ -35,31 +35,43 @@ const getDiffs = async (): Promise<readonly IdolMemberDiff[]> => {
   return resp.data.diffs;
 };
 
+type Status = 'accepted' | 'rejected' | 'no-action';
+
 const MemberReview: React.FC = () => {
   const [diffs, setDiffs] = useState<readonly IdolMemberDiff[] | null>(null);
-  const [approved, setApproved] = useState<readonly string[]>([]);
+  const [statusList, setStatusList] = useState<readonly Status[]>([]);
 
   useEffect(() => {
     getDiffs().then((fetchedDiffs) => {
       setDiffs(fetchedDiffs);
-      setApproved([]);
+      setStatusList(fetchedDiffs.map(() => 'no-action'));
     });
   }, []);
 
   if (diffs == null) return <Loader active={true} size="massive" />;
 
-  const toggleApprove = (email: string) =>
-    setApproved((currentApproved) =>
-      currentApproved.includes(email)
-        ? currentApproved.filter((it) => it !== email)
-        : [...currentApproved, email]
-    );
+  const changeStatus = (index: number, status: Status) =>
+    setStatusList((oldList) => {
+      const newList = [...oldList];
+      newList[index] = status;
+      return newList;
+    });
 
-  const sendApproveRequest = async () => {
-    await APIWrapper.post(`${backendURL}/approveMemberDiffs`, { approved });
+  const approvedEmails = diffs
+    .filter((_, index) => statusList[index] === 'accepted')
+    .map((it) => it.email);
+  const rejectedEmails = diffs
+    .filter((_, index) => statusList[index] === 'rejected')
+    .map((it) => it.email);
+
+  const sendReviewRequest = async () => {
+    await APIWrapper.post(`${backendURL}/reviewMemberDiffs`, {
+      approved: approvedEmails,
+      rejected: rejectedEmails
+    });
     const fetchedDiffs = await getDiffs();
     setDiffs(fetchedDiffs);
-    setApproved([]);
+    setStatusList(fetchedDiffs.map(() => 'no-action'));
   };
 
   return (
@@ -72,7 +84,7 @@ const MemberReview: React.FC = () => {
       {diffs.length > 0 && (
         <div className={styles.ApprovingContainer}>
           <div className={styles.ApprovingContainerCards}>
-            {diffs.map(({ email, diffString }) => (
+            {diffs.map(({ email, diffString }, index) => (
               <Card
                 key={email}
                 style={{ width: '100%', whiteSpace: 'pre-wrap' }}
@@ -83,13 +95,33 @@ const MemberReview: React.FC = () => {
                 </Card.Content>
                 <Card.Content extra>
                   <div className="ui one buttons" style={{ width: '100%' }}>
-                    <Button
-                      basic
-                      color={approved.includes(email) ? 'red' : 'green'}
-                      onClick={() => toggleApprove(email)}
-                    >
-                      {approved.includes(email) ? 'Unapprove' : 'Approve'}
-                    </Button>
+                    {statusList[index] !== 'accepted' && (
+                      <Button
+                        basic
+                        color="green"
+                        onClick={() => changeStatus(index, 'accepted')}
+                      >
+                        Approve
+                      </Button>
+                    )}
+                    {statusList[index] !== 'rejected' && (
+                      <Button
+                        basic
+                        color="red"
+                        onClick={() => changeStatus(index, 'rejected')}
+                      >
+                        Reject
+                      </Button>
+                    )}
+                    {statusList[index] !== 'no-action' && (
+                      <Button
+                        basic
+                        color="grey"
+                        onClick={() => changeStatus(index, 'no-action')}
+                      >
+                        No Action
+                      </Button>
+                    )}
                   </div>
                 </Card.Content>
               </Card>
@@ -102,7 +134,17 @@ const MemberReview: React.FC = () => {
               </Card.Content>
               <Card.Content>
                 <ul>
-                  {approved.map((email) => (
+                  {approvedEmails.map((email) => (
+                    <li key={email}>Email: {email}</li>
+                  ))}
+                </ul>
+              </Card.Content>
+              <Card.Content>
+                <h2>Current Rejected Member Change List</h2>
+              </Card.Content>
+              <Card.Content>
+                <ul>
+                  {rejectedEmails.map((email) => (
                     <li key={email}>Email: {email}</li>
                   ))}
                 </ul>
@@ -111,11 +153,13 @@ const MemberReview: React.FC = () => {
                 <div className="ui one buttons" style={{ width: '100%' }}>
                   <Button
                     basic
-                    disabled={approved.length === 0}
+                    disabled={
+                      approvedEmails.length + rejectedEmails.length === 0
+                    }
                     color="green"
-                    onClick={sendApproveRequest}
+                    onClick={sendReviewRequest}
                   >
-                    Submit Approvals
+                    Submit Reviews
                   </Button>
                 </div>
               </Card.Content>
