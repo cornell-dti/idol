@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { DBShoutout, DBTeam, Shoutout } from './DataTypes';
+import { DBShoutout, DBTeam } from './DataTypes';
 
 require('dotenv').config();
 
