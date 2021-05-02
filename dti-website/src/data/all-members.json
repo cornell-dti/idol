@@ -388,14 +388,16 @@
   {
     "netid": "gd372",
     "name": "Guillaume de Cannart",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "graduation": "Spring 2022",
+    "major": "Electrical & Computer Engineering",
+    "hometown": "Brussels, Belgium",
+    "about": "Hi! 💬\n\n\nMy name is Guillaume (pronounced Ghee-Ohm) and I'm an aspiring Product Manager. I study ECE and am fascinated by robotics and other technologies that can improve everyday chores such as commute and cooking. I'm super interested in Product Management because I'm obsessed with working smart, not hard: to do so, addressing the root cause of a problem is of critical importance, and this is exactly what PM-ing addresses. Besides these career aspirations, I aim to become a renowned music producer and I love to go windsurfing in my free time!",
     "subteam": "",
     "roleId": "pm",
     "roleDescription": "Product Manager",
-    "otherSubteams": []
+    "otherSubteams": [],
+    "website": "https://guidec.github.io/resume",
+    "linkedin": "https://www.linkedin.com/in/gdecannart/"
   },
   {
     "netid": "gsh68",
@@ -1189,14 +1191,16 @@
   {
     "netid": "uk44",
     "name": "Aaron Kang",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "graduation": "May 2023",
+    "major": "Computer Science",
+    "hometown": "Seoul, South Korea",
+    "about": "I'm a simple person that likes to code stuff! In my free time recently, I have been trying to learn how to draw and play the piano, though I fail miserably most of the time :( I hope someday I get good them. ",
     "subteam": "",
     "roleId": "developer",
     "roleDescription": "Developer",
-    "otherSubteams": []
+    "otherSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/aaron-kang-0b7830192/",
+    "github": "https://github.com/aaronkang7"
   },
   {
     "netid": "vg222",
