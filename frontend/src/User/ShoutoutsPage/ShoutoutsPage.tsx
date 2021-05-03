@@ -18,7 +18,7 @@ const ShoutoutsPage: React.FC = () => {
 
   const getShoutouts = async (
     email: string,
-    type: string
+    type: 'given' | 'received'
   ): Promise<Shoutout[]> => {
     const shoutouts = await ShoutoutsAPI.getShoutouts(email, type);
     return shoutouts;

@@ -17,7 +17,7 @@ export const giveShoutout = async (
 
 export const getShoutouts = async (
   memberEmail: string,
-  type: string,
+  type: 'given' | 'received',
   user: IdolMember
 ): Promise<Shoutout[]> => {
   const canEdit: boolean = await PermissionsManager.canGetShoutouts(user);

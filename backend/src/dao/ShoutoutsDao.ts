@@ -2,7 +2,10 @@ import { memberCollection, shoutoutCollection } from '../firebase';
 import { Shoutout, DBShoutout } from '../DataTypes';
 
 export default class ShoutoutsDao {
-  static async getShoutouts(email: string, type: string): Promise<Shoutout[]> {
+  static async getShoutouts(
+    email: string,
+    type: 'given' | 'received'
+  ): Promise<Shoutout[]> {
     const givenOrReceived = type === 'given' ? 'giver' : 'receiver';
     const shoutoutRefs = await shoutoutCollection
       .where(givenOrReceived, '==', memberCollection.doc(email))

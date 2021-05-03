@@ -15,7 +15,10 @@ type ShoutoutResponseObj = {
 };
 
 export class ShoutoutsAPI {
-  public static getShoutouts(email: string, type: string): Promise<Shoutout[]> {
+  public static getShoutouts(
+    email: string,
+    type: 'given' | 'received'
+  ): Promise<Shoutout[]> {
     const responseProm = APIWrapper.get(
       `${backendURL}/getShoutouts/${email}/${type}`
     ).then((res) => res.data);
