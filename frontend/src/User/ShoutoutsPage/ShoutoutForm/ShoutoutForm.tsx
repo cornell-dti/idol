@@ -1,33 +1,63 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Form, TextArea, Segment, Label, Button } from 'semantic-ui-react';
 import { UserContext } from '../../../UserProvider/UserProvider';
 import CustomSearch from '../../../Common/Search/Search';
 import Emitters from '../../../EventEmitter/constant-emitters';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
+import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
 
 const ShoutoutForm: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
   const [members, setMembers] = useState<IdolMember[] | undefined>(undefined);
+  const [user, setUser] = useState<IdolMember | undefined>(undefined);
   const [recipient, setRecipient] = useState<IdolMember | undefined>(undefined);
   const [message, setMessage] = useState('');
 
-  MembersAPI.getAllMembers().then((mems) => {
-    setMembers(mems);
-  });
+  useEffect(() => {
+    if (userEmail) {
+      MembersAPI.getMember(userEmail).then((mem) => {
+        setUser(mem);
+      });
+    }
 
-  const sendShoutout = () => {
+    MembersAPI.getAllMembers().then((mems) => {
+      setMembers(mems);
+    });
+  }, [userEmail]);
+
+  const giveShoutout = () => {
     if (!recipient) {
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
         contentMsg: 'Please select a member!'
       });
-    } else if (recipient && userEmail && message !== '') {
-      Emitters.generalSuccess.emit({
-        headerMsg: 'shoutout submitted!',
-        contentMsg: `Thank you for recognizing ${recipient.firstName}'s awesomeness! 🙏`
+    } else if (recipient.email === userEmail) {
+      Emitters.generalError.emit({
+        headerMsg: 'No Self Shoutouts',
+        contentMsg:
+          "You can't give yourself a shoutout, please select a different member!"
       });
-      setRecipient(undefined);
-      setMessage('');
+    } else if (user && recipient && message !== '') {
+      const shoutout: Shoutout = {
+        giver: user,
+        receiver: recipient,
+        message
+      };
+      ShoutoutsAPI.giveShoutout(shoutout).then((val) => {
+        if (val.error) {
+          Emitters.generalError.emit({
+            headerMsg: "Couldn't send shoutout!",
+            contentMsg: val.error
+          });
+        } else {
+          Emitters.generalSuccess.emit({
+            headerMsg: 'Shoutout submitted!',
+            contentMsg: `Thank you for recognizing ${recipient.firstName}'s awesomeness! 🙏`
+          });
+          setRecipient(undefined);
+          setMessage('');
+        }
+      });
     }
   };
 
@@ -105,7 +135,7 @@ const ShoutoutForm: React.FC = () => {
         />
       </div>
 
-      <Form.Button floated="right" onClick={sendShoutout}>
+      <Form.Button floated="right" onClick={giveShoutout}>
         Send
       </Form.Button>
     </Form>
