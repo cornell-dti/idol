@@ -5,6 +5,7 @@ export type DBTeam = {
   name: string;
   leaders: firestore.DocumentReference[];
   members: firestore.DocumentReference[];
+  formerMembers: firestore.DocumentReference[];
 };
 
 export type Team = {
@@ -12,6 +13,7 @@ export type Team = {
   name: string;
   leaders: IdolMember[];
   members: IdolMember[];
+  formerMembers: IdolMember[];
 };
 
 export type DBShoutout = {

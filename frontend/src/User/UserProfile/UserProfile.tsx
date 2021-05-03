@@ -26,10 +26,10 @@ const UserProfile: React.FC = () => {
   const [website, setWebsite] = useState('');
   const [linkedin, setLinkedin] = useState('');
   const [github, setGithub] = useState('');
-  const [subteam, setSubteam] = useState('');
-  const [otherSubteams, setOtherSubteams] = useState<readonly string[] | null>(
-    null
-  );
+  const [subteams, setSubteams] = useState<string[]>([]);
+  const [formerSubteams, setFormerSubteams] = useState<
+    readonly string[] | null
+  >(null);
 
   useEffect(() => {
     if (userEmail) {
@@ -48,8 +48,8 @@ const UserProfile: React.FC = () => {
           setWebsite(mem.website || '');
           setLinkedin(mem.linkedin || '');
           setGithub(mem.github || '');
-          setSubteam(mem.subteam);
-          setOtherSubteams(mem.otherSubteams || null);
+          setSubteams([...mem.subteams]);
+          setFormerSubteams(mem.formerSubteams || null);
         })
         .catch((error) => {
           Emitters.generalError.emit({
@@ -107,8 +107,8 @@ const UserProfile: React.FC = () => {
         website: isFilledOut(website) ? website : null,
         linkedin: isFilledOut(linkedin) ? linkedin : null,
         github: isFilledOut(github) ? github : null,
-        subteam,
-        otherSubteams
+        subteams,
+        formerSubteams
       };
       updateUser(updatedUser);
     }
