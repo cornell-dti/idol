@@ -9,6 +9,7 @@ import {
 import { Card, Button } from 'semantic-ui-react';
 import styles from './UserBase.module.css';
 import AddUser from '../AddUser/AddUser';
+import DTI48 from '../DTI48/DTI48';
 import EditTeam from '../EditTeam/EditTeam';
 import UserProfile from '../UserProfile/UserProfile';
 import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
@@ -105,6 +106,23 @@ const UserBase: React.FC = () => {
                 </div>
               </Card.Content>
             </Card>
+            <Card>
+              <Card.Content>
+                <Card.Header>DTI48</Card.Header>
+                <Card.Description>
+                  Keep merging until you get Gilly.
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui one buttons">
+                  <Link to="users/dti48">
+                    <Button basic color="blue">
+                      Go To
+                    </Button>
+                  </Link>
+                </div>
+              </Card.Content>
+            </Card>
           </Card.Group>
         </div>
       </div>
@@ -128,6 +146,9 @@ const UserBase: React.FC = () => {
           </Route>
           <Route path="/users/shoutouts">
             <ShoutoutsPage></ShoutoutsPage>
+          </Route>
+          <Route path="/users/dti48">
+            <DTI48></DTI48>
           </Route>
           <Route path="/*"></Route>
         </Switch>
