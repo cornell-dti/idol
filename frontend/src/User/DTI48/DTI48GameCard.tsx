@@ -20,9 +20,15 @@ function Slot({ chain, value }: SlotProps) {
   return <DTI48ProfileImage netid={netid} name={`${firstName} ${lastName}`} />;
 }
 
-type Props = { readonly chain: readonly IdolMember[] };
+type Props = {
+  readonly chain: readonly IdolMember[];
+  readonly searchTyping: boolean;
+};
 
-export default function DTI48GameCard({ chain }: Props): JSX.Element {
+export default function DTI48GameCard({
+  chain,
+  searchTyping
+}: Props): JSX.Element {
   const maximumNumber = chain.length;
   const [board, setBoard] = useState(createBoard(3, maximumNumber));
   const score = getScore(board);
@@ -30,6 +36,7 @@ export default function DTI48GameCard({ chain }: Props): JSX.Element {
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
+      if (searchTyping) return;
       switch (event.key) {
         case 'w':
           setBoard((b) => step(b, 'u'));
@@ -44,13 +51,11 @@ export default function DTI48GameCard({ chain }: Props): JSX.Element {
           setBoard((b) => step(b, 'r'));
           break;
         default:
-          return;
       }
-      event.preventDefault();
     };
     window.addEventListener('keypress', handler);
     return () => window.removeEventListener('keypress', handler);
-  }, []);
+  }, [searchTyping]);
 
   return (
     <div className={styles.CardContainer}>

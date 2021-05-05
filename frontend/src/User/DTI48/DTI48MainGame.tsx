@@ -11,6 +11,7 @@ export default function DTI48MainGame({ members }: Props): JSX.Element {
   const userEmail = useContext(UserContext).user?.email ?? '@cornell.edu';
   const netID = userEmail.split('@')[0];
   const [playerNetID, setPlayerNetID] = useState(netID);
+  const [searchTyping, setSearchTyping] = useState(false);
 
   return (
     <div>
@@ -26,10 +27,13 @@ export default function DTI48MainGame({ members }: Props): JSX.Element {
           text: `${member.firstName} ${member.lastName} (${member.netid})`
         }))}
         onChange={(_, data) => setPlayerNetID(data.value as string)}
+        onFocus={() => setSearchTyping(true)}
+        onBlur={() => setSearchTyping(false)}
       />
       <DTI48GameCard
         key={playerNetID}
         chain={computeDTI48UpgradeChain(playerNetID, members)}
+        searchTyping={searchTyping}
       />
     </div>
   );
