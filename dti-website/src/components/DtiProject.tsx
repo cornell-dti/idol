@@ -21,7 +21,7 @@ export default function DtiProject({
   const project = allProjects.find((it) => it.teamId === teamId);
   if (project == null) throw new Error();
   const pastMembers = allMembers.filter((member) =>
-    (member.formerSubteams || []).includes(teamId)
+    ((member.formerSubteams || []) as string[]).includes(teamId)
   );
   const currentMembers = allMembers.filter((member) =>
     member.subteams ? (member.subteams as string[]).includes(teamId) : false
