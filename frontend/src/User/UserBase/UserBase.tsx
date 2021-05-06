@@ -16,7 +16,7 @@ import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
 
 const UserBase: React.FC = () => {
   const location = useLocation();
-  if (location.pathname === '/users') {
+  if (location.pathname === '/users' || location.pathname === '/users/') {
     return (
       <div className={styles.UserBase} data-testid="UserBase">
         <div className={styles.content}>

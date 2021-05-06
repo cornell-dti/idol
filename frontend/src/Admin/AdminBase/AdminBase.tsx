@@ -13,7 +13,7 @@ import styles from './AdminBase.module.css';
 
 const AdminBase: React.FC = () => {
   const location = useLocation();
-  if (location.pathname === '/admin') {
+  if (location.pathname === '/admin' || location.pathname === '/admin/') {
     return (
       <div className={styles.AdminBase} data-testid="AdminBase">
         <div className={styles.content}>

@@ -13,6 +13,7 @@ import UserBase from './User/UserBase/UserBase';
 import ErrorModal from './Modals/ErrorModal/ErrorModal';
 import AdminBase from './Admin/AdminBase/AdminBase';
 import SuccessModal from './Modals/SuccessModal/SuccessModal';
+import FormsBase from './Forms/FormsBase/FormsBase';
 
 function App(): JSX.Element {
   const user = useContext(UserContext);
@@ -76,6 +77,12 @@ function App(): JSX.Element {
                     Admin
                   </Menu.Item>
                 </Link>
+                <Link to="/forms">
+                  <Menu.Item>
+                    <Icon name="file alternate" />
+                    Forms
+                  </Menu.Item>
+                </Link>
               </Sidebar>
             </div>
             <div style={{ position: 'absolute', top: '80px' }}>
@@ -92,6 +99,9 @@ function App(): JSX.Element {
                     <Switch>
                       <Route path="/users*">
                         <UserBase />
+                      </Route>
+                      <Route path="/forms*">
+                        <FormsBase />
                       </Route>
                       <Route path="/admin*">
                         <AdminBase />

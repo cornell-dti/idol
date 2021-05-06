@@ -27,3 +27,13 @@ export type Shoutout = {
   receiver: IdolMember;
   message: string;
 };
+
+export type DBSignInForm = {
+  users: firestore.DocumentReference[];
+  id: string;
+};
+
+export type SignInForm = {
+  users: IdolMember[];
+  id: string;
+};
