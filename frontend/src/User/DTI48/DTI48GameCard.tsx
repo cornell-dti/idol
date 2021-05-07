@@ -17,7 +17,13 @@ function Slot({ chain, value }: SlotProps) {
     return <DTI48PlaceholderSlot type="win" />;
   }
   const { netid, firstName, lastName } = chain[value - 1];
-  return <DTI48ProfileImage netid={netid} name={`${firstName} ${lastName}`} />;
+  return (
+    <DTI48ProfileImage
+      key={netid}
+      netid={netid}
+      name={`${firstName} ${lastName}`}
+    />
+  );
 }
 
 type Props = {
@@ -83,8 +89,8 @@ export default function DTI48GameCard({
             ))}
           </div>
           <div className={styles.Hide}>
-            {chain.map((_, index) => (
-              <Slot key={index} chain={chain} value={index + 1} />
+            {chain.map((member, index) => (
+              <Slot key={member.netid} chain={chain} value={index + 1} />
             ))}
           </div>
         </Card.Content>
