@@ -109,11 +109,13 @@
     "hometown": "Mumbai",
     "about": "I love developing tools for social impact, and am particularly interested in making sure my apps can reach as many students as possible. Recently, I’ve been looking into EdTech and AR development. I also love playing squash and participating in adventure sports (at least in a non-pandemic era)!",
     "subteams": [
+      "zing"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": [
       "flux"
     ],
-    "roleId": "tpm",
-    "roleDescription": "Technical PM",
-    "formerSubteams": [],
     "website": "https://anshgodha.me",
     "linkedin": "http://linkedin.com/in/ansh-godha-a61936172",
     "github": "https://github.com/AnshG714"
@@ -322,11 +324,13 @@
     "hometown": "Denver, CO",
     "about": "Hi, I'm Changyuan. Sometimes I like to dual wield two laptops. Btw, I use Arch",
     "subteams": [
-      "flux"
+      "zing"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "flux"
+    ],
     "linkedin": "https://www.linkedin.com/in/coreballium/",
     "github": "https://github.com/Coreball"
   },
@@ -645,12 +649,14 @@
     "hometown": "Seoul",
     "about": "Life is like a box of chocolates. You never know what you're gonna get.",
     "subteams": [
-      "flux"
+      "carriage"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "History of Art",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "flux"
+    ],
     "linkedin": "https://www.linkedin.com/in/ju-mong-ko-31837b136/",
     "github": "https://github.com/bungaepyo"
   },
@@ -870,7 +876,7 @@
     "subteams": [
       "carriage"
     ],
-    "roleId": "pm",
+    "roleId": "tpm",
     "roleDescription": "Technical PM",
     "formerSubteams": [],
     "website": "http://mattguo.xyz/",
@@ -885,12 +891,14 @@
     "hometown": "India, Other - India",
     "about": "I am studying Computer Science and Business in the College of Arts and Sciences. I am an iOS developer on the Flux subteam and have been associated with DTI for over a year and a half now. I love being able to work with a group of like minded students to develop technology that would make campus life easier! Outside of DTI, I’m also a Chair for Society of Women Engineers and the Tech Lead for Impact Investing at Cornell and Asha. When I’m not working at Olin, you can find me exploring new places in Ithaca (as and when the weather permits), going on hikes or grabbing boba with friends. Feel free to reach out! ",
     "subteams": [
-      "flux"
+      "carriage"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Business / AEM",
-    "formerSubteams": []
+    "formerSubteams": [
+      "flux"
+    ]
   },
   {
     "netid": "mhb224",
@@ -997,12 +1005,12 @@
     "hometown": "Poolesville, MD",
     "about": "Hi! I'm Buma and I'm a junior ('22) studying information science and an aspiring product designer. I'm really passionate about augumented/virtual reality, tech for social impact and accessible design education. On campus I'm a part of The Wardrobe, Cornell Panhellenic, Medium Design Collective. Outside of school I'm really interested in astrology, fashion and watching funny tiktok threads on youtube!",
     "subteams": [
-      "flux"
+      "cuapts"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": [
-      "cuapts"
+      "flux"
     ],
     "website": "https://www.nahbumagana.me/",
     "linkedin": "https://www.linkedin.com/in/nahbuma/"
@@ -1426,12 +1434,14 @@
     "hometown": "New Delhi",
     "about": "Hi, I'm Vaish! I'm a sophomore CS (and maybe math?) major, and I'm especially interested in backend development, as well as using algo/ML to solve interesting problems. Big fan of plants and trains.",
     "subteams": [
-      "flux"
+      "courseplan"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Math",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "flux"
+    ],
     "website": "https://vaishnavigupta.com/"
   },
   {
