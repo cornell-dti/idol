@@ -9,6 +9,7 @@ import {
 import { Card, Button } from 'semantic-ui-react';
 import SiteDeployer from '../DTI-Site-Deployer/SiteDeployer';
 import MemberReview from '../MemberReview/MemberReview';
+import SignInFormCreatorBase from '../SignInFormCreator/SignInFormCreator';
 import styles from './AdminBase.module.css';
 
 const AdminBase: React.FC = () => {
@@ -27,7 +28,7 @@ const AdminBase: React.FC = () => {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="admin/member-review">
+                  <Link to="/admin/member-review">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -44,7 +45,24 @@ const AdminBase: React.FC = () => {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="admin/site-deployer">
+                  <Link to="/admin/site-deployer">
+                    <Button basic color="blue">
+                      Go To
+                    </Button>
+                  </Link>
+                </div>
+              </Card.Content>
+            </Card>
+            <Card>
+              <Card.Content>
+                <Card.Header>Sign-In Creator</Card.Header>
+                <Card.Description>
+                  Create a new sign-in code/link!
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui one buttons">
+                  <Link to="/admin/signin-creator">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -66,6 +84,9 @@ const AdminBase: React.FC = () => {
           </Route>
           <Route path="/admin/site-deployer">
             <SiteDeployer />
+          </Route>
+          <Route path="/admin/signin-creator">
+            <SignInFormCreatorBase />
           </Route>
           <Route path="/*"></Route>
         </Switch>

@@ -2,22 +2,34 @@ import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
 
-type SignInCheckRequest = {
+export type SignInCheckRequest = {
   id: string;
 };
 
-type SignInCheckResponse = {
+export type SignInCheckResponse = {
   exists: boolean;
 };
 
-type SignInSubmitRequest = {
+export type SignInSubmitRequest = {
   id: string;
 };
 
-type SignInSubmitResponse = {
+export type SignInSubmitResponse = {
   success: boolean;
+  signedInAt: number;
   id: string;
   error?: string;
+};
+
+export type SignInCreateRequest = {
+  id: string;
+};
+
+export type SignInCreateResponse = {
+  success: boolean;
+  createdAt?: number;
+  id: string;
+  error?: Record<string, unknown>;
 };
 
 export default class SignInFormAPI {
@@ -47,5 +59,15 @@ export default class SignInFormAPI {
       }
       return resp;
     });
+  }
+
+  public static createSignInForm(id: string): Promise<SignInCreateResponse> {
+    const req: SignInCreateRequest = { id };
+    const responseProm = APIWrapper.post(
+      `${backendURL}/signinCreate`,
+      req
+    ).then((res) => res.data);
+
+    return responseProm;
   }
 }
