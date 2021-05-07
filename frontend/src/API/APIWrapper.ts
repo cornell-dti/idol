@@ -42,7 +42,7 @@ export default class APIWrapper {
   private static responseMiddleware(
     resOrErr: AxiosResponse | AxiosError
   ): APIProcessedResponse {
-    if (resOrErr instanceof Error && resOrErr.response?.status === 440) {
+    if (resOrErr instanceof Error && resOrErr.response?.status === 222) {
       console.log(resOrErr);
       auth.signOut();
       return { data: { error: 'Session expired! Log in again!' } };
