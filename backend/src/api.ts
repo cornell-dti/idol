@@ -78,7 +78,8 @@ const checkLoggedIn = (req: Request, res: Response): boolean => {
   // Session expired
   res.status(222).json({
     error: 'Not logged in!',
-    session: req.session
+    email: req.session?.email,
+    isLoggedIn: req.session?.isLoggedIn
   });
   return false;
 };
