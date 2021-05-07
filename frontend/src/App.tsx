@@ -14,6 +14,7 @@ import ErrorModal from './Modals/ErrorModal/ErrorModal';
 import AdminBase from './Admin/AdminBase/AdminBase';
 import SuccessModal from './Modals/SuccessModal/SuccessModal';
 import FormsBase from './Forms/FormsBase/FormsBase';
+import GamesBase from './Games/GamesBase/GamesBase';
 
 function App(): JSX.Element {
   const user = useContext(UserContext);
@@ -90,6 +91,9 @@ const RouterImpl: React.FC<{ navVisible: boolean, setNavVisible: React.Dispatch<
                 <Route path="/admin*">
                   <AdminBase />
                 </Route>
+                <Route path="/games*">
+                  <GamesBase />
+                </Route>
                 <Route path="/*">
                   <Homepage />
                 </Route>
@@ -126,6 +130,12 @@ const MenuContent: React.FC = () => (
       <Menu.Item>
         <Icon name="file alternate" />
         Forms
+      </Menu.Item>
+    </Link>
+    <Link to="/games">
+      <Menu.Item>
+        <Icon name="game" />
+        Games
       </Menu.Item>
     </Link>
   </>
