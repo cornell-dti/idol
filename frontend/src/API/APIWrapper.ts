@@ -19,9 +19,7 @@ export default class APIWrapper {
     return axios
       .get(url, { withCredentials: true })
       .catch((err: AxiosError) => err)
-      .then((resOrErr) => {
-        return this.responseMiddleware(resOrErr);
-      });
+      .then((resOrErr) => this.responseMiddleware(resOrErr));
   }
 
   public static delete(url: string): Promise<APIProcessedResponse> {
