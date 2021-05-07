@@ -11,15 +11,15 @@ type MemberResponseObj = {
 export type Member = IdolMember;
 
 export class MembersAPI {
-  public static getAllMembers(): Promise<Member[]> {
-    const funcName = 'getAllMembers';
+  public static getAllMembers(approved = false): Promise<Member[]> {
+    const funcName = approved ? 'getAllApprovedMembers' : 'getAllMembers';
     if (APICache.has(funcName)) {
       return Promise.resolve(APICache.retrieve(funcName));
     }
 
-    const responseProm = APIWrapper.get(`${backendURL}/allMembers`).then(
-      (res) => res.data
-    );
+    const responseProm = APIWrapper.get(
+      `${backendURL}/${approved ? 'allApprovedMembers' : 'allMembers'}`
+    ).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
