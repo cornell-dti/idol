@@ -630,7 +630,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": []
@@ -799,11 +801,13 @@
     "hometown": "Mastic, NY",
     "about": "Hi! I'm a sophomore studying Computer Science. I enjoy making mobile and web apps. I procrastinate by making productivity apps.",
     "subteams": [
-      "clubhub"
+      "dac"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "linkedin": "https://www.linkedin.com/in/katrina-k-wang/",
     "github": "https://github.com/katrina433"
   },
@@ -1231,13 +1235,14 @@
     "hometown": "San Francisco, CA",
     "about": "I'm an aspiring product designer and I hope to make a positive, social impact through the field of design. Besides designing, I love all things music and dance! On campus, I am a member of Cornell Anjali, an Indian classical dance team, and a member of Forté Campus at Cornell, a professional business organization. In my free time, I enjoy exploring new places to eat and drink coffee, finding fun things to take pictures of, and doing yoga.",
     "subteams": [
-      "samwise"
+      "roommates"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Business",
     "formerSubteams": [
-      "nova"
+      "nova",
+      "samwise"
     ],
     "website": "https://www.sanjanaseshadri.com/",
     "linkedin": "https://www.linkedin.com/in/sseshadri20/"
@@ -1475,11 +1480,13 @@
     "hometown": "Jeju Island, South Korea",
     "about": "Hi! I'm a CS sophomore in the CoE. My primary interests are developing a resilient and scalable backend system and producing & posting quality music on my YouTube channel!",
     "subteams": [
-      "clubhub"
+      "zing"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "website": "https://woosang.io",
     "linkedin": "https://www.linkedin.com/in/woosang",
     "github": "https://github.com/paul-kang-1"
@@ -1546,11 +1553,13 @@
     "hometown": "Great Neck, NY",
     "about": "Hey, I'm Enoch! Crazy ideas pop into my mind sometimes, and I love making them a reality. I am passionate about my projects, but otherwise I'm a pretty chill dude. You can catch me listening to music, taking things apart, or contemplating life.",
     "subteams": [
-      "clubhub"
+      "cuapts"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "website": "https://enochen.me/",
     "linkedin": "https://www.linkedin.com/in/enochen728/",
     "github": "http://github.com/Enochen/"
