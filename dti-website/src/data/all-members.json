@@ -25,7 +25,7 @@
     "hometown": "Bethesda, MD",
     "about": "Hey, I'm Alex and I'm a computer science major in the College of Arts and Sciences. I am a web developer and machine learning enthusiast who loves hackathons. Outside of DTI, I like to listen to music, read, play video games, and hike.",
     "subteams": [
-      "freshman"
+      "queuemein"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
@@ -41,15 +41,14 @@
     "hometown": "North Potomac, MD",
     "about": "Hi, I’m Andrea! I’m currently a sophomore studying Economics and Statistics in the College of Arts and Sciences. On campus, I am involved in The Wardrobe and PMC. Outside of school, I enjoy following the Washington Capitals, eating Cava, and hiking.",
     "subteams": [
-      "reviews"
+      "reviews",
+      "business"
     ],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "doubleMajor": "Statistics",
     "minor": "Computer Science",
-    "formerSubteams": [
-      "business"
-    ]
+    "formerSubteams": []
   },
   {
     "netid": "ac2677",
@@ -140,7 +139,9 @@
     "major": "Applied Economics & Management",
     "hometown": "Staten Island, NY",
     "about": "Hi, I'm Althea (Al-thay-uh)! I'm a double major in AEM and IS in the Dyson School. Give me a problem and I'll immediately think about it from different lens! I'm incredibly passionate about the intersection between business, technology, design, and social impact, which I love exploring through innovative projects. On campus, I'm also involved in WICC's Girls Who Code program as a High School Co-Leader teaching Python and project development to highschoolers, SWIB, Smart Woman Securities, and Cornell Filipino Association, and Cornell Kali Club. When I'm not working on academics or project team work, I'm exploring Ithaca and trying new foods (especially sweets), practicing Filipino martial arts, making calligraphy, listening to pop music, and watching cat videos on YouTube.\n\nFeel free to reach out if you'd like to chat or have any questions!",
-    "subteams": [],
+    "subteams": [
+      "sjh"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "doubleMajor": "Information Science",
@@ -155,7 +156,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "roommates"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": []
@@ -167,7 +170,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": []
@@ -251,7 +256,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": []
@@ -282,7 +289,7 @@
     "hometown": "Seoul, South Korea",
     "about": "Hi, I'm Christine! I am a freshman majoring in DEA and minoring in Information Science. I'm interested in how design and technology affects humans (both psychologically and physically) and the environment. If I am not in the DEA studio, you will find me chilling with my friends or drinking boba. ",
     "subteams": [
-      "freshman"
+      "reviews"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
@@ -297,7 +304,9 @@
     "major": "Information Science",
     "hometown": "Pennsylvania",
     "about": "Connie is a sophomore who loves the intersections of art, sustainability, and tech!",
-    "subteams": [],
+    "subteams": [
+      "sjh"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Computer Science",
@@ -328,7 +337,9 @@
     "major": "Information Science",
     "hometown": "Los Angeles",
     "about": "Passionate about design, giant bells, and kombucha.",
-    "subteams": [],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": [],
@@ -359,7 +370,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": []
@@ -371,7 +384,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "formerSubteams": []
@@ -399,7 +414,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": []
@@ -442,7 +459,9 @@
     "major": "Electrical & Computer Engineering",
     "hometown": "Brussels, Belgium",
     "about": "Hi! 💬\n\n\nMy name is Guillaume (pronounced Ghee-Ohm) and I'm an aspiring Product Manager. I study ECE and am fascinated by robotics and other technologies that can improve everyday chores such as commute and cooking. I'm super interested in Product Management because I'm obsessed with working smart, not hard: to do so, addressing the root cause of a problem is of critical importance, and this is exactly what PM-ing addresses. Besides these career aspirations, I aim to become a renowned music producer and I love to go windsurfing in my free time!",
-    "subteams": [],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "formerSubteams": [],
@@ -949,7 +968,7 @@
   },
   {
     "netid": "my474",
-    "name": "Meijun Yin",
+    "name": "Megan Yin",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "New York City, NY",
@@ -1024,11 +1043,13 @@
     "hometown": "Dubai, UAE",
     "about": "I am a creator who enjoys building projects across different mediums: programming, digital art, video games, and even food. Presently, I devote my time into being productive, whether it be learning interesting concepts, picking up a new skill, or collaborating with others.",
     "subteams": [
-      "samwise"
+      "carriage"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "samwise"
+    ],
     "github": "https://github.com/pihucode"
   },
   {
@@ -1038,7 +1059,9 @@
     "major": "Computer Science",
     "hometown": "Orlando, FL",
     "about": "Pooja is interested in the intersection of technology and business, and wants to use her skills to aid the underprivileged. Outside of school, Pooja enjoys hanging out with friends and biking.",
-    "subteams": [],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Business, Information Science",
@@ -1090,7 +1113,7 @@
     "hometown": "Dallas, TX",
     "about": "I am a freshman at Cornell studying Computer Science with an interest in Fullstack Development. Outside of school, you can find me on the sand in a game of spikeball or immersed in the virtual world of Twitch and gaming.",
     "subteams": [
-      "freshman"
+      "dac"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
@@ -1143,7 +1166,7 @@
     "hometown": "Norwood, NJ",
     "about": "Hi! I’m a freshman planning to major in computer science with a business minor in the College of Engineering. I would like to explore different areas within computer science and I am also interested in design and marketing! I’m an addict to bubble tea, strawberry acai lemonade, and hot cheetos. My other interests include watching dog videos, handcrafting, painting, bowling, collecting earrings, and taking photos.",
     "subteams": [
-      "freshman"
+      "reviews"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
@@ -1312,7 +1335,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": []
@@ -1379,7 +1404,9 @@
     "major": "Computer Science",
     "hometown": "Seoul, South Korea",
     "about": "I'm a simple person that likes to code stuff! In my free time recently, I have been trying to learn how to draw and play the piano, though I fail miserably most of the time :( I hope someday I get good them. ",
-    "subteams": [],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
@@ -1464,7 +1491,9 @@
     "major": "Computer Science",
     "hometown": "Palo Alto, CA",
     "about": "I code and make music!",
-    "subteams": [],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Game Design",
@@ -1566,7 +1595,9 @@
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
     "about": "I'm a freshman majoring in Computer Science and Economics. Outside of DTI, I enjoy playing baseball, working on personal programming projects, and reading history books.",
-    "subteams": [],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "doubleMajor": "Economics",
@@ -1581,7 +1612,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": []
