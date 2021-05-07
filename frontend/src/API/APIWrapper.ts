@@ -20,7 +20,6 @@ export default class APIWrapper {
       .get(url, { withCredentials: true })
       .catch((err: AxiosError) => err)
       .then((resOrErr) => {
-        console.log(resOrErr);
         return this.responseMiddleware(resOrErr);
       });
   }
@@ -42,8 +41,8 @@ export default class APIWrapper {
   private static responseMiddleware(
     resOrErr: AxiosResponse | AxiosError
   ): APIProcessedResponse {
+    console.log(resOrErr);
     if (resOrErr instanceof Error && resOrErr.response?.status === 222) {
-      console.log(resOrErr);
       auth.signOut();
       return { data: { error: 'Session expired! Log in again!' } };
     }
