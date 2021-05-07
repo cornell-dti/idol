@@ -58,7 +58,7 @@ const ShoutoutsPage: React.FC = () => {
           alignSelf: 'center',
           margin: 'auto',
           paddingTop: '10vh',
-          height: 'calc(100vh - 80px - 25vh)'
+          height: 'calc(100vh - 80px - 25vh)',
         }}
       >
         <ShoutoutForm />

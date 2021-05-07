@@ -13,7 +13,7 @@ const ShoutoutCard = ({ giver, receiver, message }: Props): JSX.Element => (
       header={`To: ${receiver?.firstName} ${receiver?.lastName} (${receiver.email})`}
     />
     <Card.Meta
-      style={{ paddingLeft: '1rem' }}
+      style={{ paddingLeft: '1rem', paddingBottom: '1rem' }}
       content={`From: ${giver?.firstName} ${giver?.lastName} (${giver.email})`}
     />
     <Card.Content description={message} />
