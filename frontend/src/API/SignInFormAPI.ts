@@ -24,7 +24,7 @@ export default class SignInFormAPI {
   public static checkFormExists(id: string): Promise<boolean> {
     const req: SignInCheckRequest = { id };
     const responseProm = APIWrapper.post(
-      `${backendURL}/signin/exists/${id}`,
+      `${backendURL}/signinExists`,
       req
     ).then((res) => res.data);
 
@@ -34,7 +34,7 @@ export default class SignInFormAPI {
   public static submitSignIn(id: string): Promise<SignInSubmitResponse> {
     const req: SignInSubmitRequest = { id };
     const responseProm = APIWrapper.post(
-      `${backendURL}/signin/${id}`,
+      `${backendURL}/signin`,
       req
     ).then((res) => res.data);
 

@@ -238,11 +238,11 @@ loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
 loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 // Sign In Forms
-loginCheckedPost('/signin/exists/:id', async (req, _) =>
-  signInFormExists(req.params.id)
+loginCheckedPost('/signinExists', async (req, _) =>
+  signInFormExists(req.body.id)
 );
-loginCheckedPost('/signin/:id', async (req, user) =>
-  signIn(req.params.id, user)
+loginCheckedPost('/signin', async (req, user) =>
+  signIn(req.body.id, user)
 );
 
 app.use('/.netlify/functions/api', router);

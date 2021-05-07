@@ -26,6 +26,15 @@ const CodeForm: React.FC<{
   ) => void = (e, { name, value }) => {
     setInputVal(value);
   };
+  const signInButton = (
+    <Button
+      disabled={disabled || inputVal === ''}
+      onClick={onClick}
+      type="submit"
+    >
+      Sign In
+    </Button>
+  );
   return (
     <div className={styles.content}>
       <Form
@@ -48,15 +57,14 @@ const CodeForm: React.FC<{
             ]
           }
         />
-        <Link to={`/forms/signin/${inputVal}`}>
-          <Button
-            disabled={disabled || inputVal === ''}
-            onClick={onClick}
-            type="submit"
-          >
-            Sign In
-          </Button>
-        </Link>
+        {(disabled || inputVal === '') ? (
+          signInButton
+        )
+        : (
+          <Link to={`/forms/signin/${inputVal}`}>
+            {signInButton}
+          </Link>
+        )}
       </Form>
     </div>
   );
