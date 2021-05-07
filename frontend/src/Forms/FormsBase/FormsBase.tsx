@@ -7,9 +7,9 @@ import {
   useLocation
 } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
-import ShoutoutsPage from '../../User/ShoutoutsPage/ShoutoutsPage';
-import UserProfile from '../../User/UserProfile/UserProfile';
-import UserProfileImage from '../../User/UserProfile/UserProfileImage/UserProfileImage';
+import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
+import UserProfile from '../UserProfile/UserProfile';
+import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
 import SignInForm from '../SignInForm/SignInForm';
 import styles from './FormsBase.module.css';
 
