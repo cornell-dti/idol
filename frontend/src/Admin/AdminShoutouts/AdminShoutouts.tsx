@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Item, Card } from 'semantic-ui-react';
 import { ShoutoutsAPI, Shoutout } from '../../API/ShoutoutsAPI';
 import PermissionsAPI from '../../API/PermissionsAPI';
