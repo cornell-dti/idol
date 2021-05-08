@@ -36,6 +36,10 @@ export class MembersAPI {
   }
 
   public static getMember(email: string): Promise<Member> {
+    const funcName = `member/${email}`;
+    if (APICache.has(funcName)) {
+      return Promise.resolve(APICache.retrieve(funcName));
+    }
     const responseProm = APIWrapper.get(
       `${backendURL}/getMember/${email}`
     ).then((res) => res.data);
@@ -47,11 +51,13 @@ export class MembersAPI {
         });
       }
       const mem = val.member as Member;
+      APICache.cache(funcName, mem);
       return mem;
     });
   }
 
   public static setMember(member: Member): Promise<MemberResponseObj> {
+    APICache.invalidate(`members/${member.netid}@cornell.edu`);
     return APIWrapper.post(`${backendURL}/setMember`, member).then(
       (res) => res.data
     );
@@ -60,6 +66,7 @@ export class MembersAPI {
   public static deleteMember(
     memberEmail: string
   ): Promise<{ status: number; error?: string }> {
+    APICache.invalidate(`members/${memberEmail}`);
     return APIWrapper.delete(`${backendURL}/deleteMember/${memberEmail}`).then(
       (res) => res.data
     );
