@@ -1,12 +1,5 @@
 import SignInFormDao from './dao/SignInFormDao';
 import { signInFormCollection } from './firebase';
-import {
-  SignInAllResponse,
-  SignInCheckResponse,
-  SignInCreateResponse,
-  SignInDeleteResponse,
-  SignInSubmitResponse
-} from '../../frontend/src/API/SignInFormAPI';
 import { PermissionsManager } from './permissions';
 
 const checkIfDocExists = async (id: string): Promise<boolean> =>

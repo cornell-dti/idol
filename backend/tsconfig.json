@@ -3,10 +3,9 @@
     "esModuleInterop": true,
     // TODO: change this to true when all issues are fixed
     "noImplicitAny": false,
-    "outDir": "build",
+    "outDir": "./build",
     "strict": true,
     "target": "ES5",
-    "lib": ["ESNext", "DOM"]
   },
-  "include": ["src/*"]
+  "include": ["./src/*.ts"]
 }
