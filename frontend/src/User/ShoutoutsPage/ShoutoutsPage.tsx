@@ -31,9 +31,8 @@ const ShoutoutsPage: React.FC = () => {
             headerMsg: `Couldn't get given shoutouts!`,
             contentMsg: `Error was: ${error}`
           });
-        });
-
-      getShoutouts(userEmail, 'received')
+        })
+        .then(() => getShoutouts(userEmail, 'received'))
         .then((received) => {
           setReceivedShoutouts(received);
         })
