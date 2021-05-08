@@ -18,7 +18,5 @@ describe('<UserBase />', () => {
     );
     expect(screen.getByText('Edit Users')).toBeInTheDocument();
     expect(screen.getByText('Edit Teams')).toBeInTheDocument();
-    expect(screen.getByText('Edit Profile')).toBeInTheDocument();
-    expect(screen.getByText('Edit Profile Image')).toBeInTheDocument();
   });
 });
