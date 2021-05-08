@@ -8,10 +8,8 @@ import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
 const UserProfile: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
 
-  const getUser = async (email: string): Promise<Member> => {
-    const mem = await MembersAPI.getMember(email);
-    return mem;
-  };
+  const getUser = async (email: string): Promise<Member> =>
+    await MembersAPI.getMember(email);
 
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');

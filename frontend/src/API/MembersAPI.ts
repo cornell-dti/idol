@@ -57,7 +57,7 @@ export class MembersAPI {
   }
 
   public static setMember(member: Member): Promise<MemberResponseObj> {
-    APICache.invalidate(`members/${member.netid}@cornell.edu`);
+    APICache.invalidate(`members/${member.email}`);
     return APIWrapper.post(`${backendURL}/setMember`, member).then(
       (res) => res.data
     );
@@ -73,7 +73,7 @@ export class MembersAPI {
   }
 
   public static updateMember(member: Member): Promise<MemberResponseObj> {
-    APICache.invalidate(`members/${member.netid}@cornell.edu`);
+    APICache.invalidate(`members/${member.email}`);
     return APIWrapper.post(`${backendURL}/updateMember`, member).then(
       (res) => res.data
     );

@@ -14,15 +14,15 @@ const ShoutoutForm: React.FC = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (userEmail) {
-      MembersAPI.getMember(userEmail).then((mem) => {
-        setUser(mem);
+    MembersAPI.getAllMembers()
+      .then((mems) => {
+        setMembers(mems);
+      })
+      .then(() => {
+        if (userEmail) {
+          MembersAPI.getMember(userEmail).then((mem) => setUser(mem));
+        }
       });
-    }
-
-    MembersAPI.getAllMembers().then((mems) => {
-      setMembers(mems);
-    });
   }, [userEmail]);
 
   const giveShoutout = () => {
