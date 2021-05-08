@@ -1,6 +1,6 @@
 import SignInFormDao from './dao/SignInFormDao';
 import { signInFormCollection } from './firebase';
-import { SignInCheckResponse, SignInCreateResponse, SignInSubmitResponse } from '../../frontend/src/API/SignInFormAPI';
+import { SignInAllResponse, SignInCheckResponse, SignInCreateResponse, SignInDeleteResponse, SignInSubmitResponse } from '../../frontend/src/API/SignInFormAPI';
 import { PermissionsManager } from './permissions';
 
 const checkIfDocExists = async (id: string): Promise<boolean> =>
@@ -14,7 +14,7 @@ export const signInFormExists = async (
 };
 
 export const createSignInForm = async (id: string, user: IdolMember): Promise<SignInCreateResponse> => {
-  if(!PermissionsManager.canCreateSignIn(user)){
+  if(!PermissionsManager.canEditSignIn(user)){
     return {
       success: false,
       id,
@@ -33,6 +33,44 @@ export const createSignInForm = async (id: string, user: IdolMember): Promise<Si
       success: false,
       id,
       error: e,
+    };
+  }
+}
+
+export const deleteSignInForm = async (id: string, user: IdolMember): Promise<SignInDeleteResponse> => {
+  if(!PermissionsManager.canEditSignIn(user)){
+    return {
+      success: false,
+      error: { reason: 'You don\'t have permission to create a sign-in form!' }
+    };
+  }
+  try {
+    const deletedSignInForm = await SignInFormDao.deleteSignIn(id);
+    return {
+      success: deletedSignInForm,
+    };
+  } catch (e) {
+    return {
+      success: false,
+      error: e,
+    };
+  }
+}
+
+export const allSignInForms = async (user: IdolMember): Promise<SignInAllResponse> => {
+  if(!PermissionsManager.canEditSignIn(user)){
+    return {
+      forms: []
+    }
+  }
+  try {
+    const gotAllSignIns = await SignInFormDao.allSignInForms();
+    return {
+      forms: gotAllSignIns
+    };
+  } catch (e) {
+    return {
+      forms: []
     };
   }
 }

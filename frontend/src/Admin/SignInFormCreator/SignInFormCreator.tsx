@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button, Form, Icon, InputOnChangeData, Loader, Message, Popup } from 'semantic-ui-react';
+import { Button, Card, Form, Header, Icon, InputOnChangeData, List, ListItemProps, Loader, Message, Popup, SemanticICONS } from 'semantic-ui-react';
+import { SignInForm } from '../../../../backend/src/DataTypes';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import styles from './SignInFormCreator.module.css';
@@ -150,6 +151,9 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         })
           setCreateError(resp.error);
         }
+        if(resp.success){
+          Emitters.signInCodeCreated.emit();
+        }
       });
     }
   }, [id, foundForm]);
@@ -219,18 +223,149 @@ const SignInFormCreatorBase: React.FC = () => (
   </div>
 );
 
+const FormListEntry: React.FC<{ key: string | number, 
+  onClick?: (sif: SignInForm) => unknown,
+  onDelete?: (sif: SignInForm) => unknown,
+  form: SignInForm,
+  icon: SemanticICONS
+}> = ({ key, onClick, form, icon, onDelete, children }) => (
+  <List.Item key={key} onClick={onClick && (() => (onClick(form)))}>
+    <List.Icon name={icon} size='large' />
+    <List.Content>
+      <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <List.Header as='a'>{form.id}</List.Header>
+          <List.Description as='a'>
+            Created at {new Date(form.createdAt).toLocaleTimeString()} on {new Date(form.createdAt).toLocaleDateString()}
+          </List.Description>
+        </div>
+        <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+          <Button icon="trash" size="tiny" onClick={(event) => {
+            event.stopPropagation();
+            onDelete && onDelete(form);
+          }}/>
+          <Button icon="copy" size="tiny" onClick={(event) => {
+            event.stopPropagation();
+            navigator.clipboard.writeText(`${window.location.origin}/forms/signin/${form.id}`);
+          }}/>
+        </div>
+      </div>
+      {children && children}
+    </List.Content>
+  </List.Item>
+);
+
+const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({ children, onRefresh }) => (
+  <>
+    <Card style={{ width: '100%' }}>
+      <Card.Content>
+        <div className={styles.listContainer}>
+          {children}
+        </div>
+      </Card.Content>
+    </Card>
+    <Button style={{ margin: 8 }} onClick={onRefresh} icon='refresh' />
+  </>
+);
+
+let prom: Promise<unknown> = Promise.resolve();
+
 const CodeAttendanceViewer: React.FC = () => {
   const [isLoading, setLoading] = useState(true);
-  const [searchingNotViewing, setSearchingNotViewing] = useState(true);
+  const [isGrabbing, setGrabbing] = useState(true);
+  const [forms, setForms] = useState<SignInForm[]>([]);
+  const [viewingForm, setViewingForm] = useState<SignInForm | null>(null);
+
+  const fullReset = () => {
+    setLoading(true);
+    setGrabbing(true);
+    setForms([]);
+    setViewingForm(null);
+  };
+
+  const onDelete = (f: SignInForm) => {
+    setLoading(true);
+    prom = prom.then(() => (SignInFormAPI.deleteSignInForm(f.id).then(
+      (resp) => {
+        if(resp.success){
+          fullReset();
+        } else {
+          Emitters.generalError.emit({
+            headerMsg: 'Could not delete code!',
+            contentMsg: `There was an error! ERR: ${JSON.stringify(resp.error)}`
+          });
+        }
+      })
+    ));
+  };
+
+  useEffect(() => {
+    const cb = () => {
+      fullReset();
+    };
+    Emitters.signInCodeCreated.subscribe(cb);
+    return () => {
+      Emitters.signInCodeCreated.unsubscribe(cb);
+    };
+  });
+
+  useEffect(() => {
+    if(isGrabbing){
+      SignInFormAPI.getAllSignInForms().then((v) => {
+        setForms(v.forms);
+        setGrabbing(false);
+        setLoading(false);
+      });
+    }
+  }, [isGrabbing]);
 
   if(isLoading){
     return (
       <Loader active size="large">Loading attendance data...</Loader>
     )
   }
+  const onClick = (e: SignInForm) => {
+    setViewingForm(e);
+  }
+  if(viewingForm === null){
+    const listElts = forms.map((e, ind) => (
+      <FormListEntry key={ind} onClick={onClick} form={e} icon="angle right" onDelete={() => (onDelete(e))}/>
+    ));
+    return (
+      <ListContainer onRefresh={fullReset}>
+        <List relaxed key={1}>
+          {listElts}
+          {listElts.length === 0 && <Header size="medium">No sign-in codes yet!</Header>}
+        </List>
+      </ListContainer>
+    );
+  }
+
+  const onReturn = () => {
+    setViewingForm(null);
+  };
+
+  const signIns = viewingForm.users.sort((a, b) => a.signedInAt <= b.signedInAt ? -1 : 1).map(({ signedInAt, user }, ind) => (
+    <List.Item key={ind} onClick={onReturn} style={{ marginTop: 8 }}>
+      <List.Icon name='hand paper outline' size='small' />
+      <List.Content>
+        <List.Header as='a'>{`${user.firstName} ${user.lastName} (${user.netid})`}</List.Header>
+        <List.Description as='a'>Signed in at {new Date(signedInAt).toLocaleTimeString()} on {new Date(signedInAt).toLocaleDateString()}</List.Description>
+      </List.Content>
+    </List.Item>
+  ));
+  
   return (
-    <></>
-  );
+    <ListContainer onRefresh={fullReset}>
+      <List relaxed key={2} style={{ padding: 0 }}>
+        <FormListEntry key={3} onClick={onReturn} form={viewingForm} icon="angle left" onDelete={() => (onDelete(viewingForm))}>
+          <List.List key={3} style={{ padding: 0, marginTop: 16 }}>
+            {signIns}
+          </List.List>
+        </FormListEntry>
+      </List>
+    </ListContainer>
+  )
 };
 
 export default SignInFormCreatorBase;

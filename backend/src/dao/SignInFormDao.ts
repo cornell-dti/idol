@@ -1,6 +1,7 @@
-import { DBSignInForm } from '../DataTypes';
+import { DBSignInForm, SignInForm } from '../DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
 import { NotFoundError } from '../errors';
+import MembersDao from './MembersDao';
 
 export default class SignInFormDao {
   static async signIn(id: string, email: string): Promise<number> {
@@ -26,7 +27,7 @@ export default class SignInFormDao {
       });
   }
 
-  static async createSignIn(id: string) {
+  static async createSignIn(id: string): Promise<boolean> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
     if (formRef.exists)
@@ -37,6 +38,45 @@ export default class SignInFormDao {
       users: []
     }).then((r) => true).catch((r) => {
       throw r;
+    });
+  }
+
+  static async deleteSignIn(id: string): Promise<boolean> {
+    const formDoc = signInFormCollection.doc(id);
+    const formRef = await formDoc.get();
+    if (!formRef.exists)
+      throw new NotFoundError(`No form with id '${id}' exists!`);
+    return formDoc.delete().then((r) => true).catch((r) => {
+      throw r;
+    });
+  }
+
+  static async allSignInForms(): Promise<SignInForm[]> {
+    const docsRefs = signInFormCollection.listDocuments();
+    return docsRefs.then((v) => {
+      const filledForms = v.map(async (doc) => {
+        const formRef = await doc.get();
+        if (!formRef.exists)
+          throw new NotFoundError(`This should be impossible. CODE: DTI-1`);
+        const formData = formRef.data();
+        if (formData === undefined)
+          throw new NotFoundError(`This should be impossible. CODE: DTI-2`);
+        const userProms = formData.users.map((u) => {
+          return MembersDao.getMember(u.user.id).then((value) => {
+            if (value === undefined)
+              throw new NotFoundError(`This should be impossible. CODE: DTI-3`);
+            return {
+              signedInAt: u.signedInAt, user: value
+            };
+          });
+        });
+        const signIns = await Promise.all(userProms);
+        return ({
+          ...formData,
+          users: signIns
+        });
+      });
+      return Promise.all(filledForms);
     });
   }
 }

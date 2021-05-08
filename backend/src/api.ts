@@ -27,7 +27,7 @@ import {
 import { allRoles, PermissionsManager } from './permissions';
 import { HandlerError } from './errors';
 import MembersDao from './dao/MembersDao';
-import { createSignInForm, signIn, signInFormExists } from './signinformAPI';
+import { allSignInForms, createSignInForm, deleteSignInForm, signIn, signInFormExists } from './signinformAPI';
 
 // Constants and configurations
 const app = express();
@@ -239,13 +239,19 @@ loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 // Sign In Forms
 loginCheckedPost('/signinExists', async (req, _) =>
-  signInFormExists(req.body.id)
+  await signInFormExists(req.body.id)
 );
 loginCheckedPost('/signinCreate', async (req, user) =>
-  createSignInForm(req.body.id, user)
+  await createSignInForm(req.body.id, user)
+);
+loginCheckedPost('/signinDelete', async (req, user) =>
+  await deleteSignInForm(req.body.id, user)
 );
 loginCheckedPost('/signin', async (req, user) =>
-  signIn(req.body.id, user)
+await signIn(req.body.id, user)
+);
+loginCheckedPost('/signinAll', async (_, user) =>
+  await allSignInForms(user)
 );
 
 app.use('/.netlify/functions/api', router);

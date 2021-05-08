@@ -1,6 +1,7 @@
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import Emitters from '../EventEmitter/constant-emitters';
+import { SignInForm } from '../../../backend/src/DataTypes';
 
 export type SignInCheckRequest = {
   id: string;
@@ -30,6 +31,19 @@ export type SignInCreateResponse = {
   createdAt?: number;
   id: string;
   error?: Record<string, unknown>;
+};
+
+export type SignInDeleteRequest = {
+  id: string;
+};
+
+export type SignInDeleteResponse = {
+  success: boolean;
+  error?: Record<string, unknown>;
+};
+
+export type SignInAllResponse = {
+  forms: SignInForm[];
 };
 
 export default class SignInFormAPI {
@@ -66,6 +80,25 @@ export default class SignInFormAPI {
     const responseProm = APIWrapper.post(
       `${backendURL}/signinCreate`,
       req
+    ).then((res) => res.data);
+
+    return responseProm;
+  }
+
+  public static deleteSignInForm(id: string): Promise<SignInDeleteResponse> {
+    const req: SignInDeleteRequest = { id };
+    const responseProm = APIWrapper.post(
+      `${backendURL}/signinDelete`,
+      req
+    ).then((res) => res.data);
+
+    return responseProm;
+  }
+
+  public static getAllSignInForms(): Promise<SignInAllResponse> {
+    const responseProm = APIWrapper.post(
+      `${backendURL}/signinAll`,
+      {}
     ).then((res) => res.data);
 
     return responseProm;
