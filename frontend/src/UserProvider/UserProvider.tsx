@@ -3,15 +3,18 @@ import { auth } from '../firebase';
 import Emitters from '../EventEmitter/constant-emitters';
 import { LoginAPI } from '../API/LoginAPI';
 
-type UserContextType = { user: firebase.User | null, loggingIntoDTI: boolean };
+type UserContextType = { user: firebase.User | null; loggingIntoDTI: boolean };
 
-export const UserContext = createContext<UserContextType>({ user: null, loggingIntoDTI: false });
+export const UserContext = createContext<UserContextType>({
+  user: null,
+  loggingIntoDTI: false
+});
 class UserProvider extends Component<Record<string, unknown>, UserContextType> {
   constructor(props: Record<string, unknown>) {
     super(props);
     this.state = {
       user: auth.currentUser ? auth.currentUser : null,
-      loggingIntoDTI: false,
+      loggingIntoDTI: false
     };
   }
 
@@ -37,7 +40,7 @@ class UserProvider extends Component<Record<string, unknown>, UserContextType> {
           } else {
             Emitters.generalError.emit({
               headerMsg: "Couldn't log out!",
-              contentMsg: "Backend could not sign you out!"
+              contentMsg: 'Backend could not sign you out!'
             });
           }
         });

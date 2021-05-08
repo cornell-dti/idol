@@ -59,10 +59,9 @@ export default class SignInFormAPI {
 
   public static submitSignIn(id: string): Promise<SignInSubmitResponse> {
     const req: SignInSubmitRequest = { id };
-    const responseProm = APIWrapper.post(
-      `${backendURL}/signin`,
-      req
-    ).then((res) => res.data);
+    const responseProm = APIWrapper.post(`${backendURL}/signin`, req).then(
+      (res) => res.data
+    );
 
     return responseProm.then((resp: SignInSubmitResponse) => {
       if (resp.error) {
@@ -96,10 +95,9 @@ export default class SignInFormAPI {
   }
 
   public static getAllSignInForms(): Promise<SignInAllResponse> {
-    const responseProm = APIWrapper.post(
-      `${backendURL}/signinAll`,
-      {}
-    ).then((res) => res.data);
+    const responseProm = APIWrapper.post(`${backendURL}/signinAll`, {}).then(
+      (res) => res.data
+    );
 
     return responseProm;
   }

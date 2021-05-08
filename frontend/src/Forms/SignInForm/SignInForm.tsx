@@ -57,13 +57,10 @@ const CodeForm: React.FC<{
             ]
           }
         />
-        {(disabled || inputVal === '') ? (
+        {disabled || inputVal === '' ? (
           signInButton
-        )
-        : (
-          <Link to={`/forms/signin/${inputVal}`}>
-            {signInButton}
-          </Link>
+        ) : (
+          <Link to={`/forms/signin/${inputVal}`}>{signInButton}</Link>
         )}
       </Form>
     </div>

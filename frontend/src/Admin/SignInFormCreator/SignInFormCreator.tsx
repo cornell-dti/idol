@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button, Card, Form, Header, Icon, InputOnChangeData, List, ListItemProps, Loader, Message, Popup, SemanticICONS } from 'semantic-ui-react';
+import {
+  Button,
+  Card,
+  Form,
+  Header,
+  Icon,
+  InputOnChangeData,
+  List,
+  Loader,
+  Message,
+  Popup,
+  SemanticICONS
+} from 'semantic-ui-react';
 import { SignInForm } from '../../../../backend/src/DataTypes';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
@@ -20,7 +32,7 @@ const CodeForm: React.FC<{
   info?: { header: string; content: string };
   error?: { header: string; content: string };
   success?: { header: string; content: string };
-  link?: string
+  link?: string;
 }> = ({ defaultValue, onClick, disabled, info, error, success, link }) => {
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
@@ -48,16 +60,26 @@ const CodeForm: React.FC<{
         <Message info>
           <Message.Header>Your link has been created!</Message.Header>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <a href={link} style={{ marginRight: 8 }}><p>{link}</p></a>
-            <Popup on='hover' content={showCopied ? 'Copied!' : 'Copy the sign-in link!'} trigger={
-              <Button size="tiny" icon onClick={() => {
-                navigator.clipboard.writeText(link).then(() => {
-                  setShowCopied(true);
-                });
-              }}>
-                <Icon name='copy' />
-              </Button>
-            } />
+            <a href={link} style={{ marginRight: 8 }}>
+              <p>{link}</p>
+            </a>
+            <Popup
+              on="hover"
+              content={showCopied ? 'Copied!' : 'Copy the sign-in link!'}
+              trigger={
+                <Button
+                  size="tiny"
+                  icon
+                  onClick={() => {
+                    navigator.clipboard.writeText(link).then(() => {
+                      setShowCopied(true);
+                    });
+                  }}
+                >
+                  <Icon name="copy" />
+                </Button>
+              }
+            />
           </div>
         </Message>
       )}
@@ -81,13 +103,10 @@ const CodeForm: React.FC<{
             ]
           }
         />
-        {(disabled || inputVal === '') ? (
+        {disabled || inputVal === '' ? (
           signInButton
-        )
-        : (
-          <Link to={`/admin/signin-creator/${inputVal}`}>
-            {signInButton}
-          </Link>
+        ) : (
+          <Link to={`/admin/signin-creator/${inputVal}`}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -120,7 +139,9 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
   const [createdCode, setCreatedCode] = useState(false);
-  const [createError, setCreateError] = useState<Record<string, unknown> | undefined>(undefined);
+  const [createError, setCreateError] = useState<
+    Record<string, unknown> | undefined
+  >(undefined);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
@@ -146,12 +167,12 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         setCreatedCode(resp.success);
         if (resp.error) {
           Emitters.generalError.emit({
-          headerMsg: 'Couldn\'t create sign-in form!',
-          contentMsg: (resp.error as any).reason
-        })
+            headerMsg: "Couldn't create sign-in form!",
+            contentMsg: (resp.error as { reason: string }).reason
+          });
           setCreateError(resp.error);
         }
-        if(resp.success){
+        if (resp.success) {
           Emitters.signInCodeCreated.emit();
         }
       });
@@ -218,36 +239,50 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
 
 const SignInFormCreatorBase: React.FC = () => (
   <div className={styles.content}>
-    <SignInFormCreator/>
-    <CodeAttendanceViewer/>
+    <SignInFormCreator />
+    <CodeAttendanceViewer />
   </div>
 );
 
-const FormListEntry: React.FC<{ key: string | number, 
-  onClick?: (sif: SignInForm) => unknown,
-  onDelete?: (sif: SignInForm) => unknown,
-  form: SignInForm,
-  icon: SemanticICONS
+const FormListEntry: React.FC<{
+  key: string | number;
+  onClick?: (sif: SignInForm) => unknown;
+  onDelete?: (sif: SignInForm) => unknown;
+  form: SignInForm;
+  icon: SemanticICONS;
 }> = ({ key, onClick, form, icon, onDelete, children }) => (
-  <List.Item key={key} onClick={onClick && (() => (onClick(form)))}>
-    <List.Icon name={icon} size='large' />
+  <List.Item key={key} onClick={onClick && (() => onClick(form))}>
+    <List.Icon name={icon} size="large" style={{ padding: 0 }} />
     <List.Content>
       <div style={{ display: 'flex' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <List.Header as='a'>{form.id}</List.Header>
-          <List.Description as='a'>
-            Created at {new Date(form.createdAt).toLocaleTimeString()} on {new Date(form.createdAt).toLocaleDateString()}
+          <List.Header as="a">{form.id}</List.Header>
+          <List.Description as="a">
+            Created at {new Date(form.createdAt).toLocaleTimeString()} on{' '}
+            {new Date(form.createdAt).toLocaleDateString()}
           </List.Description>
         </div>
-        <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-          <Button icon="trash" size="tiny" onClick={(event) => {
-            event.stopPropagation();
-            onDelete && onDelete(form);
-          }}/>
-          <Button icon="copy" size="tiny" onClick={(event) => {
-            event.stopPropagation();
-            navigator.clipboard.writeText(`${window.location.origin}/forms/signin/${form.id}`);
-          }}/>
+        <div
+          style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}
+        >
+          <Button
+            icon="trash"
+            size="tiny"
+            onClick={(event) => {
+              event.stopPropagation();
+              onDelete && onDelete(form);
+            }}
+          />
+          <Button
+            icon="copy"
+            size="tiny"
+            onClick={(event) => {
+              event.stopPropagation();
+              navigator.clipboard.writeText(
+                `${window.location.origin}/forms/signin/${form.id}`
+              );
+            }}
+          />
         </div>
       </div>
       {children && children}
@@ -255,16 +290,17 @@ const FormListEntry: React.FC<{ key: string | number,
   </List.Item>
 );
 
-const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({ children, onRefresh }) => (
+const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({
+  children,
+  onRefresh
+}) => (
   <>
     <Card style={{ width: '100%' }}>
       <Card.Content>
-        <div className={styles.listContainer}>
-          {children}
-        </div>
+        <div className={styles.listContainer}>{children}</div>
       </Card.Content>
     </Card>
-    <Button style={{ margin: 8 }} onClick={onRefresh} icon='refresh' />
+    <Button style={{ margin: 8 }} onClick={onRefresh} icon="refresh" />
   </>
 );
 
@@ -285,9 +321,9 @@ const CodeAttendanceViewer: React.FC = () => {
 
   const onDelete = (f: SignInForm) => {
     setLoading(true);
-    prom = prom.then(() => (SignInFormAPI.deleteSignInForm(f.id).then(
-      (resp) => {
-        if(resp.success){
+    prom = prom.then(() =>
+      SignInFormAPI.deleteSignInForm(f.id).then((resp) => {
+        if (resp.success) {
           fullReset();
         } else {
           Emitters.generalError.emit({
@@ -296,7 +332,7 @@ const CodeAttendanceViewer: React.FC = () => {
           });
         }
       })
-    ));
+    );
   };
 
   useEffect(() => {
@@ -310,7 +346,7 @@ const CodeAttendanceViewer: React.FC = () => {
   });
 
   useEffect(() => {
-    if(isGrabbing){
+    if (isGrabbing) {
       SignInFormAPI.getAllSignInForms().then((v) => {
         setForms(v.forms);
         setGrabbing(false);
@@ -319,23 +355,33 @@ const CodeAttendanceViewer: React.FC = () => {
     }
   }, [isGrabbing]);
 
-  if(isLoading){
+  if (isLoading) {
     return (
-      <Loader active size="large">Loading attendance data...</Loader>
-    )
+      <Loader active size="large">
+        Loading attendance data...
+      </Loader>
+    );
   }
   const onClick = (e: SignInForm) => {
     setViewingForm(e);
-  }
-  if(viewingForm === null){
+  };
+  if (viewingForm === null) {
     const listElts = forms.map((e, ind) => (
-      <FormListEntry key={ind} onClick={onClick} form={e} icon="angle right" onDelete={() => (onDelete(e))}/>
+      <FormListEntry
+        key={ind}
+        onClick={onClick}
+        form={e}
+        icon="angle right"
+        onDelete={() => onDelete(e)}
+      />
     ));
     return (
       <ListContainer onRefresh={fullReset}>
         <List relaxed key={1}>
           {listElts}
-          {listElts.length === 0 && <Header size="medium">No sign-in codes yet!</Header>}
+          {listElts.length === 0 && (
+            <Header size="medium">No sign-in codes yet!</Header>
+          )}
         </List>
       </ListContainer>
     );
@@ -345,27 +391,44 @@ const CodeAttendanceViewer: React.FC = () => {
     setViewingForm(null);
   };
 
-  const signIns = viewingForm.users.sort((a, b) => a.signedInAt <= b.signedInAt ? -1 : 1).map(({ signedInAt, user }, ind) => (
-    <List.Item key={ind} onClick={onReturn} style={{ marginTop: 8 }}>
-      <List.Icon name='hand paper outline' size='small' />
-      <List.Content>
-        <List.Header as='a'>{`${user.firstName} ${user.lastName} (${user.netid})`}</List.Header>
-        <List.Description as='a'>Signed in at {new Date(signedInAt).toLocaleTimeString()} on {new Date(signedInAt).toLocaleDateString()}</List.Description>
-      </List.Content>
-    </List.Item>
-  ));
-  
+  const signIns = viewingForm.users
+    .sort((a, b) => (a.signedInAt <= b.signedInAt ? -1 : 1))
+    .map(({ signedInAt, user }, ind) => (
+      <List.Item key={ind} onClick={onReturn} style={{ marginTop: 8 }}>
+        <List.Icon name="hand paper outline" size="small" />
+        <List.Content>
+          <List.Header as="a">{`${user.firstName} ${user.lastName} (${user.netid})`}</List.Header>
+          <List.Description as="a">
+            Signed in at {new Date(signedInAt).toLocaleTimeString()} on{' '}
+            {new Date(signedInAt).toLocaleDateString()}
+          </List.Description>
+        </List.Content>
+      </List.Item>
+    ));
+
   return (
     <ListContainer onRefresh={fullReset}>
       <List relaxed key={2} style={{ padding: 0 }}>
-        <FormListEntry key={3} onClick={onReturn} form={viewingForm} icon="angle left" onDelete={() => (onDelete(viewingForm))}>
-          <List.List key={3} style={{ padding: 0, marginTop: 16 }}>
+        <FormListEntry
+          key={3}
+          onClick={onReturn}
+          form={viewingForm}
+          icon="angle left"
+          onDelete={() => onDelete(viewingForm)}
+        >
+          <List.List
+            key={3}
+            style={{
+              padding: 0,
+              marginTop: viewingForm.users.length > 0 ? 16 : 0
+            }}
+          >
             {signIns}
           </List.List>
         </FormListEntry>
       </List>
     </ListContainer>
-  )
+  );
 };
 
 export default SignInFormCreatorBase;

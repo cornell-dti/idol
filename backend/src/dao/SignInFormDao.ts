@@ -32,13 +32,16 @@ export default class SignInFormDao {
     const formRef = await formDoc.get();
     if (formRef.exists)
       throw new NotFoundError(`A form with id '${id}' already exists!`);
-    return formDoc.set({
-      createdAt: Date.now(),
-      id,
-      users: []
-    }).then((r) => true).catch((r) => {
-      throw r;
-    });
+    return formDoc
+      .set({
+        createdAt: Date.now(),
+        id,
+        users: []
+      })
+      .then((r) => true)
+      .catch((r) => {
+        throw r;
+      });
   }
 
   static async deleteSignIn(id: string): Promise<boolean> {
@@ -46,9 +49,12 @@ export default class SignInFormDao {
     const formRef = await formDoc.get();
     if (!formRef.exists)
       throw new NotFoundError(`No form with id '${id}' exists!`);
-    return formDoc.delete().then((r) => true).catch((r) => {
-      throw r;
-    });
+    return formDoc
+      .delete()
+      .then((r) => true)
+      .catch((r) => {
+        throw r;
+      });
   }
 
   static async allSignInForms(): Promise<SignInForm[]> {
@@ -62,19 +68,21 @@ export default class SignInFormDao {
         if (formData === undefined)
           throw new NotFoundError(`This should be impossible. CODE: DTI-2`);
         const userProms = formData.users.map((u) => {
-          return MembersDao.getMember(u.user.id).then((value) => {
+          const memberID = u.user.id;
+          return MembersDao.getMember(memberID).then((value) => {
             if (value === undefined)
               throw new NotFoundError(`This should be impossible. CODE: DTI-3`);
             return {
-              signedInAt: u.signedInAt, user: value
+              signedInAt: u.signedInAt,
+              user: value
             };
           });
         });
         const signIns = await Promise.all(userProms);
-        return ({
+        return {
           ...formData,
           users: signIns
-        });
+        };
       });
       return Promise.all(filledForms);
     });

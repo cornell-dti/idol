@@ -29,13 +29,13 @@ export type Shoutout = {
 };
 
 export type DBSignInForm = {
-  users: { signedInAt: number, user: firestore.DocumentReference }[];
+  users: { signedInAt: number; user: firestore.DocumentReference }[];
   createdAt: number;
   id: string;
 };
 
 export type SignInForm = {
-  users: { signedInAt: number, user: IdolMember }[];
+  users: { signedInAt: number; user: IdolMember }[];
   createdAt: number;
   id: string;
 };

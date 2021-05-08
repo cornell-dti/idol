@@ -29,8 +29,8 @@ function App(): JSX.Element {
     };
   });
 
-  if(user.user === null || user.loggingIntoDTI){
-    return (<NotAuthed />);
+  if (user.user === null || user.loggingIntoDTI) {
+    return <NotAuthed />;
   }
 
   return (
@@ -43,7 +43,10 @@ function App(): JSX.Element {
   );
 }
 
-const RouterImpl: React.FC<{ navVisible: boolean, setNavVisible: React.Dispatch<React.SetStateAction<boolean>> }> = ({ navVisible, setNavVisible }) => (
+const RouterImpl: React.FC<{
+  navVisible: boolean;
+  setNavVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ navVisible, setNavVisible }) => (
   <Router>
     <div
       className="App"
@@ -55,7 +58,13 @@ const RouterImpl: React.FC<{ navVisible: boolean, setNavVisible: React.Dispatch<
       }}
     >
       <SiteHeader />
-      <div style={{ position: 'absolute', top: '80px', height: 'calc(100vh - 80px)' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: '80px',
+          height: 'calc(100vh - 80px)'
+        }}
+      >
         <Sidebar
           as={Menu}
           animation="overlay"
@@ -78,7 +87,7 @@ const RouterImpl: React.FC<{ navVisible: boolean, setNavVisible: React.Dispatch<
               style={{
                 width: '100vw',
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <Switch>
@@ -160,13 +169,15 @@ const NotAuthed: React.FC = () => {
         <Switch>
           <Route path="/*">
             <div style={{ height: '100vh', width: '100vw' }}>
-              <Loader active={true} size="massive" >Signing you in...</Loader>
+              <Loader active={true} size="massive">
+                Signing you in...
+              </Loader>
             </div>
           </Route>
         </Switch>
       </Router>
     </div>
   );
-}
+};
 
 export default App;
