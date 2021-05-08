@@ -245,12 +245,12 @@ const SignInFormCreatorBase: React.FC = () => (
 );
 
 const FormListEntry: React.FC<{
-  key: string | number;
+  keyVal: string | number;
   onClick?: (sif: SignInForm) => unknown;
   onDelete?: (sif: SignInForm) => unknown;
   form: SignInForm;
   icon: SemanticICONS;
-}> = ({ key, onClick, form, icon, onDelete, children }) => (
+}> = ({ keyVal: key, onClick, form, icon, onDelete, children }) => (
   <List.Item key={key} onClick={onClick && (() => onClick(form))}>
     <List.Icon name={icon} size="large" style={{ padding: 0 }} />
     <List.Content>
@@ -369,6 +369,7 @@ const CodeAttendanceViewer: React.FC = () => {
     const listElts = forms.map((e, ind) => (
       <FormListEntry
         key={ind}
+        keyVal={ind}
         onClick={onClick}
         form={e}
         icon="angle right"
@@ -377,7 +378,7 @@ const CodeAttendanceViewer: React.FC = () => {
     ));
     return (
       <ListContainer onRefresh={fullReset}>
-        <List relaxed key={1}>
+        <List relaxed key={-97}>
           {listElts}
           {listElts.length === 0 && (
             <Header size="medium">No sign-in codes yet!</Header>
@@ -408,16 +409,16 @@ const CodeAttendanceViewer: React.FC = () => {
 
   return (
     <ListContainer onRefresh={fullReset}>
-      <List relaxed key={2} style={{ padding: 0 }}>
+      <List relaxed key={-98} style={{ padding: 0 }}>
         <FormListEntry
-          key={3}
+          keyVal={-100}
           onClick={onReturn}
           form={viewingForm}
           icon="angle left"
           onDelete={() => onDelete(viewingForm)}
         >
           <List.List
-            key={3}
+            key={-99}
             style={{
               padding: 0,
               marginTop: viewingForm.users.length > 0 ? 16 : 0
