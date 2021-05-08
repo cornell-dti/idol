@@ -120,6 +120,7 @@ const loginCheckedPost = (
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.post(path, loginCheckedHandler(handler));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loginCheckedDelete = (
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
@@ -173,15 +174,19 @@ router.get('/allApprovedMembers', async (_, res) => {
   const members = await allApprovedMembers();
   res.status(200).json({ members });
 });
-loginCheckedGet('/getMember/:email', async (req, user) => ({
-  member: await getMember(req.params.email, user)
+loginCheckedPost('/getMember', async (req, user) => ({
+  member: await getMember(req.body.email, user)
 }));
 loginCheckedPost('/setMember', async (req, user) => ({
   member: await setMember(req.body, user)
 }));
-loginCheckedDelete('/deleteMember/:email', async (req, user) => {
-  await deleteMember(req.params.email, user);
-  return {};
+loginCheckedPost('/deleteMember', async (req, user) => {
+  try {
+    await deleteMember(req.body.email, user);
+    return { status: 200 };
+  } catch (e) {
+    return { status: 200, error: e };
+  }
 });
 loginCheckedPost('/updateMember', async (req, user) => ({
   member: await updateMember(req.body, user)
@@ -218,10 +223,10 @@ router.get('/allMemberImages', async (_, res) => {
   res.status(200).json({ images });
 });
 
-loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
+loginCheckedPost('/getShoutouts', async (req, user) => ({
   shoutouts: await getShoutouts(
-    req.params.email,
-    req.params.type as 'given' | 'received',
+    req.body.email,
+    req.body.type as 'given' | 'received',
     user
   )
 }));

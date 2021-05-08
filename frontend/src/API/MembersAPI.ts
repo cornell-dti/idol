@@ -36,9 +36,9 @@ export class MembersAPI {
   }
 
   public static getMember(email: string): Promise<Member> {
-    const responseProm = APIWrapper.get(
-      `${backendURL}/getMember/${email}`
-    ).then((res) => res.data);
+    const responseProm = APIWrapper.post(`${backendURL}/getMember`, {
+      email
+    }).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -60,9 +60,9 @@ export class MembersAPI {
   public static deleteMember(
     memberEmail: string
   ): Promise<{ status: number; error?: string }> {
-    return APIWrapper.delete(`${backendURL}/deleteMember/${memberEmail}`).then(
-      (res) => res.data
-    );
+    return APIWrapper.post(`${backendURL}/deleteMember`, {
+      email: memberEmail
+    }).then((res) => res.data);
   }
 
   public static updateMember(member: Member): Promise<MemberResponseObj> {

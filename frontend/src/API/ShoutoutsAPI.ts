@@ -36,9 +36,10 @@ export class ShoutoutsAPI {
     email: string,
     type: 'given' | 'received'
   ): Promise<Shoutout[]> {
-    const responseProm = APIWrapper.get(
-      `${backendURL}/getShoutouts/${email}/${type}`
-    ).then((res) => res.data);
+    const responseProm = APIWrapper.post(`${backendURL}/getShoutouts`, {
+      email,
+      type
+    }).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
