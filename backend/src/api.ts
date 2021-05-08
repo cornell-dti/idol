@@ -17,7 +17,7 @@ import {
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { getShoutouts, giveShoutout } from './shoutoutAPI';
+import { getAllShoutouts, getShoutouts, giveShoutout } from './shoutoutAPI';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
@@ -226,12 +226,16 @@ loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
   )
 }));
 
+loginCheckedGet('/allShoutouts', async () => ({
+  shoutouts: await getAllShoutouts()
+}));
+
 loginCheckedPost('/giveShoutout', async (req, user) => ({
   shoutout: await giveShoutout(req.body, user)
 }));
 
 // Permissions
-loginCheckedGet('/isAdmin/:email', async (_, user) => ({
+loginCheckedGet('/isAdmin', async (_, user) => ({
   isAdmin: await PermissionsManager.isAdmin(user)
 }));
 

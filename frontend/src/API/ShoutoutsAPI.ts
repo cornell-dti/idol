@@ -15,6 +15,23 @@ type ShoutoutResponseObj = {
 };
 
 export class ShoutoutsAPI {
+  public static getAllShoutouts(): Promise<Shoutout[]> {
+    const responseProm = APIWrapper.get(`${backendURL}/allShoutouts`).then(
+      (res) => res.data
+    );
+    return responseProm.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't get all shoutouts",
+          contentMsg: `Eror was: ${val.err}`
+        });
+        return [];
+      }
+      const shoutouts = val.shoutouts as Shoutout[];
+      return shoutouts;
+    });
+  }
+
   public static getShoutouts(
     email: string,
     type: 'given' | 'received'

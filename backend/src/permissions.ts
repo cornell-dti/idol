@@ -35,6 +35,6 @@ export class PermissionsManager {
 
   public static async isAdmin(mem: IdolMember): Promise<boolean> {
     const member = (await adminCollection.doc(mem.email).get()).data();
-    return member !== undefined;
+    return mem.role === 'lead' || member !== undefined;
   }
 }
