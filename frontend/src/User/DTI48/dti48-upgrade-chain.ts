@@ -21,6 +21,10 @@ export const DEV_LEAD_NETIDS = ['cph64', 'jb2375', 'my474'];
 function getDirectChildrenForDTI48OrganizationTree<
   M extends SimplifiedMemberForTreeGeneration
 >(member: M, allMembers: readonly M[]): readonly M[] {
+  const sameSubteam = (otherMember: M) =>
+    member.subteams.some((memberSubteam) =>
+      otherMember.subteams.includes(memberSubteam)
+    );
   switch (member.role) {
     case 'developer':
     case 'designer':
@@ -29,19 +33,21 @@ function getDirectChildrenForDTI48OrganizationTree<
     case 'tpm':
       return allMembers.filter(
         (otherMember) =>
-          otherMember.role === 'developer' &&
-          member.subteams.some((memberSubteam) =>
-            otherMember.subteams.includes(memberSubteam)
-          )
+          otherMember.role === 'developer' && sameSubteam(otherMember)
       );
-    case 'pm':
-      return allMembers.filter(
-        (otherMember) =>
-          otherMember.role === 'designer' &&
-          member.subteams.some((memberSubteam) =>
-            otherMember.subteams.includes(memberSubteam)
-          )
+    case 'pm': {
+      const allPMs = allMembers.filter(
+        (otherMember) => otherMember.role === 'pm' && sameSubteam(otherMember)
       );
+      if (member.netid === allPMs[0].netid) {
+        // If you are the first PM in the chain, designers are your children
+        return allMembers.filter(
+          (otherMember) =>
+            otherMember.role === 'designer' && sameSubteam(otherMember)
+        );
+      }
+      return [allPMs[allPMs.findIndex((pm) => pm.netid === member.netid) - 1]];
+    }
     case 'lead':
       // Design Leads have no children :(
       if (DESIGN_LEAD_NETIDS.includes(member.netid)) return [];
@@ -51,7 +57,18 @@ function getDirectChildrenForDTI48OrganizationTree<
         );
       }
       if (PRODUCT_LEAD_NETID === member.netid) {
-        return allMembers.filter((otherMember) => otherMember.role === 'pm');
+        return allMembers.filter((pm) => {
+          if (pm.role !== 'pm') return false;
+          // Only consider last PM on the chain as children.
+          const allPMs = allMembers.filter(
+            (otherPM) =>
+              otherPM.role === 'pm' &&
+              otherPM.subteams.some((memberSubteam) =>
+                pm.subteams.includes(memberSubteam)
+              )
+          );
+          return pm.netid === allPMs[allPMs.length - 1].netid;
+        });
       }
       // Dev leads form a chain of children
       if (DEV_LEAD_NETIDS.includes(member.netid)) {
