@@ -246,7 +246,7 @@ app.use('/.netlify/functions/api', router);
 if (!isProd) {
   app.listen(PORT, () => {
     // eslint-disable-next-line no-console
-    console.log(`IDOL backend listening on port ${PORT}`);
+    console.log(`IDOL backend listening on port: ${PORT}`);
   });
 }
 
