@@ -41,7 +41,7 @@ const SiteDeployer: React.FC = () => {
         .then(async (mem) => {
           if (
             !(
-              (await PermissionsAPI.isAdmin(mem.email).catch((err) => false)) ||
+              (await PermissionsAPI.isAdmin().catch((err) => false)) ||
               mem.role === 'lead'
             )
           ) {
