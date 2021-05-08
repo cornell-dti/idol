@@ -9,12 +9,8 @@ import { Shoutout, ShoutoutsAPI } from '../../API/ShoutoutsAPI';
 
 const ShoutoutsPage: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
-  const [givenShoutouts, setGivenShoutouts] = useState<Shoutout[] | undefined>(
-    undefined
-  );
-  const [receivedShoutouts, setReceivedShoutouts] = useState<
-    Shoutout[] | undefined
-  >(undefined);
+  const [givenShoutouts, setGivenShoutouts] = useState<Shoutout[]>([]);
+  const [receivedShoutouts, setReceivedShoutouts] = useState<Shoutout[]>([]);
 
   const getShoutouts = async (
     email: string,
@@ -67,7 +63,7 @@ const ShoutoutsPage: React.FC = () => {
       <div className={styles.listsContainer}>
         <div className={styles.listContainer}>
           <h2 className={styles.shoutoutTitle}>Given Shoutouts</h2>
-          {givenShoutouts && givenShoutouts.length > 0 ? (
+          {givenShoutouts.length > 0 ? (
             <ShoutoutList shoutouts={givenShoutouts} />
           ) : (
             <Message>Give someone a shoutout!</Message>
@@ -77,7 +73,7 @@ const ShoutoutsPage: React.FC = () => {
         <div className={styles.listContainer}>
           <h2 className={styles.shoutoutTitle}>Received Shoutouts</h2>
 
-          {receivedShoutouts && receivedShoutouts.length > 0 ? (
+          {receivedShoutouts.length > 0 ? (
             <ShoutoutList shoutouts={receivedShoutouts} />
           ) : (
             <Message>You currently have no shoutouts.</Message>
