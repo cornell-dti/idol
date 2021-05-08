@@ -41,14 +41,16 @@
     "hometown": "North Potomac, MD",
     "about": "Hi, I’m Andrea! I’m currently a sophomore studying Economics and Statistics in the College of Arts and Sciences. On campus, I am involved in The Wardrobe and PMC. Outside of school, I enjoy following the Washington Capitals, eating Cava, and hiking.",
     "subteams": [
-      "reviews",
-      "business"
+      "dac"
     ],
-    "roleId": "business",
-    "roleDescription": "Business Analyst",
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
     "doubleMajor": "Statistics",
     "minor": "Computer Science",
-    "formerSubteams": []
+    "formerSubteams": [
+      "reviews",
+      "business"
+    ]
   },
   {
     "netid": "ac2677",
