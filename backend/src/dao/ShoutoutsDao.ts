@@ -2,6 +2,27 @@ import { memberCollection, shoutoutCollection } from '../firebase';
 import { Shoutout, DBShoutout } from '../DataTypes';
 
 export default class ShoutoutsDao {
+  static async getAllShoutouts(): Promise<Shoutout[]> {
+    return Promise.all(
+      await shoutoutCollection.get().then((shoutoutRefs) =>
+        shoutoutRefs.docs.map(async (doc) => {
+          const dbShoutout = doc.data() as DBShoutout;
+          const giver = (await dbShoutout.giver
+            .get()
+            .then((doc) => doc.data())) as IdolMember;
+          const receiver = (await dbShoutout.receiver
+            .get()
+            .then((doc) => doc.data())) as IdolMember;
+          return {
+            ...dbShoutout,
+            giver,
+            receiver
+          };
+        })
+      )
+    );
+  }
+
   static async getShoutouts(
     email: string,
     type: 'given' | 'received'

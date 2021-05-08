@@ -3,6 +3,9 @@ import { PermissionError } from './errors';
 import { Shoutout } from './DataTypes';
 import ShoutoutsDao from './dao/ShoutoutsDao';
 
+export const getAllShoutouts = (): Promise<Shoutout[]> =>
+  ShoutoutsDao.getAllShoutouts();
+
 export const giveShoutout = async (
   body: Shoutout,
   user: IdolMember
