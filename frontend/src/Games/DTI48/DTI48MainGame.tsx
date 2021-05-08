@@ -10,11 +10,12 @@ type Props = { readonly members: readonly IdolMember[] };
 export default function DTI48MainGame({ members }: Props): JSX.Element {
   const userEmail = useContext(UserContext).user?.email ?? '@cornell.edu';
   const netID = userEmail.split('@')[0];
+  const [changeIndex, setChangeIndex] = useState(0);
   const [playerNetID, setPlayerNetID] = useState(netID);
   const [searchTyping, setSearchTyping] = useState(false);
 
   return (
-    <div>
+    <div key={`${playerNetID}-${changeIndex}`}>
       <Dropdown
         placeholder="Select a DTI member to play as"
         className={styles.Dropdown}
@@ -27,11 +28,15 @@ export default function DTI48MainGame({ members }: Props): JSX.Element {
           text: `${member.firstName} ${member.lastName} (${member.netid})`
         }))}
         onChange={(_, data) => setPlayerNetID(data.value as string)}
+        onClose={() => {
+          setChangeIndex((i) => i + 1);
+          setSearchTyping(false);
+        }}
+        value={playerNetID}
         onFocus={() => setSearchTyping(true)}
         onBlur={() => setSearchTyping(false)}
       />
       <DTI48GameCard
-        key={playerNetID}
         chain={computeDTI48UpgradeChain(playerNetID, members)}
         searchTyping={searchTyping}
       />
