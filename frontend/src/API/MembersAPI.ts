@@ -73,6 +73,7 @@ export class MembersAPI {
   }
 
   public static updateMember(member: Member): Promise<MemberResponseObj> {
+    APICache.invalidate(`members/${member.netid}@cornell.edu`);
     return APIWrapper.post(`${backendURL}/updateMember`, member).then(
       (res) => res.data
     );
