@@ -1,6 +1,5 @@
 import APICache from '../Cache/Cache';
 import { backendURL } from '../environment';
-import PermissionsError from '../Errors/PermissionsError';
 import APIWrapper from './APIWrapper';
 
 export default class PermissionsAPI {
