@@ -61,8 +61,7 @@ app.use(bodyParser.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
-    resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new MemoryStore(),
     cookie: {
       secure: !!isProd,
