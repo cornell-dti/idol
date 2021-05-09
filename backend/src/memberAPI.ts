@@ -92,7 +92,7 @@ export const deleteImage = async (email: string): Promise<void> => {
   const imageFile = bucket.file(`images/${netId}.jpg`);
 
   // Delete the file
-  imageFile.delete();
+  await imageFile.delete();
 };
 
 export const getUserInformationDifference = async (
