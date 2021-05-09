@@ -17,6 +17,10 @@ export class PermissionsManager {
     return mem.role === 'lead' || this.isAdmin(mem);
   }
 
+  static async canEditSignIn(mem: IdolMember): Promise<boolean> {
+    return mem.role === 'lead' || this.isAdmin(mem);
+  }
+
   static async canEditTeams(mem: IdolMember): Promise<boolean> {
     return mem.role === 'lead' || this.isAdmin(mem);
   }

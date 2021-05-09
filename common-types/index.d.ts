@@ -63,3 +63,12 @@ interface ProfileImage {
   readonly url: string;
   readonly fileName: string;
 }
+
+interface SignInForm {
+  readonly users: readonly {
+    readonly signedInAt: number;
+    readonly user: IdolMember;
+  }[];
+  readonly createdAt: number;
+  readonly id: string;
+}

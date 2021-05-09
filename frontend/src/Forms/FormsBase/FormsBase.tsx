@@ -10,6 +10,7 @@ import { Card, Button } from 'semantic-ui-react';
 import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
 import UserProfile from '../UserProfile/UserProfile';
 import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
+import SignInForm from '../SignInForm/SignInForm';
 import styles from './FormsBase.module.css';
 
 const FormsBase: React.FC = () => {
@@ -19,6 +20,21 @@ const FormsBase: React.FC = () => {
       <div className={styles.FormsBase} data-testid="FormsBase">
         <div className={styles.content}>
           <Card.Group>
+            <Card>
+              <Card.Content>
+                <Card.Header>Sign-In Form</Card.Header>
+                <Card.Description>Sign in to an event!</Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui one buttons">
+                  <Link to="/forms/signin">
+                    <Button basic color="blue">
+                      Go To
+                    </Button>
+                  </Link>
+                </div>
+              </Card.Content>
+            </Card>
             <Card>
               <Card.Content>
                 <Card.Header>Shoutouts</Card.Header>
@@ -78,6 +94,9 @@ const FormsBase: React.FC = () => {
     <div className={styles.FormsBase} data-testid="FormsBase">
       <Router>
         <Switch>
+          <Route path="/forms/signin*">
+            <SignInForm />
+          </Route>
           <Route path="/forms/profile">
             <UserProfile />
           </Route>
