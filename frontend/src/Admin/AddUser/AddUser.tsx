@@ -297,9 +297,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                             }
                           }}
                           value={
-                            this.state.currentSelectedMember?.role
-                              ? this.state.currentSelectedMember?.role
-                              : ''
+                            this.state.currentSelectedMember.role || ''
                           }
                         />
                       </Form.Group>
@@ -376,7 +374,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember?.doubleMajor}
+                          value={this.state.currentSelectedMember.doubleMajor || ''}
                         />
                         <Form.Field
                           control={Input}
@@ -394,7 +392,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember?.minor}
+                          value={this.state.currentSelectedMember.minor || ''}
                         />
                       </Form.Group>
                       <Form.Group widths="equal">
@@ -434,7 +432,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember.website}
+                          value={this.state.currentSelectedMember.website || ''}
                         />
                         <Form.Field
                           control={Input}
@@ -452,7 +450,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember?.linkedin}
+                          value={this.state.currentSelectedMember.linkedin || ''}
                         />
                         <Form.Field
                           control={Input}
@@ -470,7 +468,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember?.github}
+                          value={this.state.currentSelectedMember.github || ''}
                         />
                       </Form.Group>
                     </Form>
