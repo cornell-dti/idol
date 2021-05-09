@@ -81,12 +81,12 @@ export const deleteMember = async (
   if (!email || email === '') {
     throw new BadRequestError("Couldn't delete member with undefined email!");
   }
-  await MembersDao.deleteMember(email).then(() => deleteImage(user));
+  await MembersDao.deleteMember(email).then(() => deleteImage(email));
 };
 
-export const deleteImage = async (user: IdolMember): Promise<void> => {
+export const deleteImage = async (email: string): Promise<void> => {
   // Create a reference to the file to delete
-  const netId: string = getNetIDFromEmail(user.email);
+  const netId: string = getNetIDFromEmail(email);
   const imageFile = bucket.file(`images/${netId}.jpg`);
 
   // Delete the file
@@ -99,5 +99,3 @@ export const deleteImage = async (user: IdolMember): Promise<void> => {
       // Uh-oh, an error occurred!
     });
 };
-
-
