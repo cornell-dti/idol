@@ -1,5 +1,13 @@
 import React from 'react';
-import { Card, Loader, Button, Form, Input, Select } from 'semantic-ui-react';
+import {
+  Card,
+  Loader,
+  Button,
+  Form,
+  Input,
+  Select,
+  TextArea
+} from 'semantic-ui-react';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
@@ -196,8 +204,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                       <Form.Group widths="equal">
                         <Form.Field
                           control={Input}
-                          label="First name"
-                          placeholder="First name"
+                          label="First Name"
+                          placeholder="First Name"
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
                           ) => {
@@ -214,8 +222,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                         />
                         <Form.Field
                           control={Input}
-                          label="Last name"
-                          placeholder="Last name"
+                          label="Last Name"
+                          placeholder="Last Name"
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
                           ) => {
@@ -296,11 +304,181 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
+                          value={this.state.currentSelectedMember.role || ''}
+                        />
+                      </Form.Group>
+                      <Form.Group widths="equal">
+                        <Form.Field
+                          control={Input}
+                          label="Graduation"
+                          placeholder="Graduation"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  graduation: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember?.graduation}
+                        />
+                        <Form.Field
+                          control={Input}
+                          label="Hometown"
+                          placeholder="Hometown"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  hometown: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember?.hometown}
+                        />
+                      </Form.Group>
+                      <Form.Group widths="equal">
+                        <Form.Field
+                          control={Input}
+                          label="Major"
+                          placeholder="Major"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  major: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember?.major}
+                        />
+                        <Form.Field
+                          control={Input}
+                          label="Double Major"
+                          placeholder="Double Major"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  doubleMajor: event.target.value
+                                }
+                              });
+                            }
+                          }}
                           value={
-                            this.state.currentSelectedMember?.role
-                              ? this.state.currentSelectedMember?.role
-                              : ''
+                            this.state.currentSelectedMember.doubleMajor || ''
                           }
+                        />
+                        <Form.Field
+                          control={Input}
+                          label="Minor"
+                          placeholder="Minor"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  minor: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember.minor || ''}
+                        />
+                      </Form.Group>
+                      <Form.Group widths="equal">
+                        <Form.Field
+                          control={TextArea}
+                          label="About"
+                          placeholder="About"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  about: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember?.about}
+                        />
+                      </Form.Group>
+                      <Form.Group widths="equal">
+                        <Form.Field
+                          control={Input}
+                          label="Website"
+                          placeholder="Website"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  website: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember.website || ''}
+                        />
+                        <Form.Field
+                          control={Input}
+                          label="LinkedIn"
+                          placeholder="LinkedIn"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  linkedin: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={
+                            this.state.currentSelectedMember.linkedin || ''
+                          }
+                        />
+                        <Form.Field
+                          control={Input}
+                          label="GitHub"
+                          placeholder="GitHub"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (this.state.currentSelectedMember) {
+                              this.setState({
+                                currentSelectedMember: {
+                                  ...this.state.currentSelectedMember,
+                                  github: event.target.value
+                                }
+                              });
+                            }
+                          }}
+                          value={this.state.currentSelectedMember.github || ''}
                         />
                       </Form.Group>
                     </Form>
