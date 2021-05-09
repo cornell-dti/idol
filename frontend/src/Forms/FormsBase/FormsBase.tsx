@@ -7,28 +7,29 @@ import {
   useLocation
 } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
-import SiteDeployer from '../DTI-Site-Deployer/SiteDeployer';
-import MemberReview from '../MemberReview/MemberReview';
-import AdminShoutouts from '../AdminShoutouts/AdminShoutouts';
-import styles from './AdminBase.module.css';
+import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
+import UserProfile from '../UserProfile/UserProfile';
+import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
+import styles from './FormsBase.module.css';
 
-const AdminBase: React.FC = () => {
+const FormsBase: React.FC = () => {
   const location = useLocation();
-  if (location.pathname === '/admin' || location.pathname === '/admin/') {
+  if (location.pathname === '/forms' || location.pathname === '/forms/') {
     return (
-      <div className={styles.AdminBase} data-testid="AdminBase">
+      <div className={styles.FormsBase} data-testid="FormsBase">
         <div className={styles.content}>
           <Card.Group>
             <Card>
               <Card.Content>
-                <Card.Header>Member Information Review</Card.Header>
+                <Card.Header>Shoutouts</Card.Header>
                 <Card.Description>
-                  Approve the new info from IDOL.
+                  Give someone a shoutout or view your past given and received
+                  shoutouts.
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="/admin/member-review">
+                  <Link to="/forms/shoutouts">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -38,14 +39,14 @@ const AdminBase: React.FC = () => {
             </Card>
             <Card>
               <Card.Content>
-                <Card.Header>Site Deployer</Card.Header>
+                <Card.Header>Edit Profile</Card.Header>
                 <Card.Description>
-                  Approve the new info from IDOL and redeploy the site.
+                  Edit your profile information on DTI's website.
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="/admin/site-deployer">
+                  <Link to="/forms/profile">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -55,12 +56,12 @@ const AdminBase: React.FC = () => {
             </Card>
             <Card>
               <Card.Content>
-                <Card.Header>View Shoutouts</Card.Header>
-                <Card.Description>View recent shoutouts</Card.Description>
+                <Card.Header>Edit Profile Image</Card.Header>
+                <Card.Description>Edit your profile image.</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="admin/shoutouts">
+                  <Link to="/forms/profileImage">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -74,17 +75,17 @@ const AdminBase: React.FC = () => {
     );
   }
   return (
-    <div className={styles.AdminBase} data-testid="AdminBase">
+    <div className={styles.FormsBase} data-testid="FormsBase">
       <Router>
         <Switch>
-          <Route path="/admin/member-review">
-            <MemberReview />
+          <Route path="/forms/profile">
+            <UserProfile />
           </Route>
-          <Route path="/admin/site-deployer">
-            <SiteDeployer />
+          <Route path="/forms/profileImage">
+            <UserProfileImage />
           </Route>
-          <Route path="/admin/shoutouts">
-            <AdminShoutouts />
+          <Route path="/forms/shoutouts">
+            <ShoutoutsPage />
           </Route>
           <Route path="/*"></Route>
         </Switch>
@@ -93,4 +94,4 @@ const AdminBase: React.FC = () => {
   );
 };
 
-export default AdminBase;
+export default FormsBase;

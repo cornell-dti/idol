@@ -3,6 +3,7 @@
 }
 
 .listsContainer {
+  min-height: 50vh;
   display: flex;
 }
 
