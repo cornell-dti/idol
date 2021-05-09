@@ -23,7 +23,7 @@ export class ShoutoutsAPI {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all shoutouts",
-          contentMsg: `Eror was: ${val.err}`
+          contentMsg: `Error was: ${val.err}`
         });
         return [];
       }

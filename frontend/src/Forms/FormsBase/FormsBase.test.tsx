@@ -4,19 +4,19 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '@testing-library/jest-dom/extend-expect';
 import { Router } from 'react-router-dom';
-import UserBase from './UserBase';
+import FormsBase from './FormsBase';
 
-describe('<UserBase />', () => {
-  test('route /users', () => {
+describe('<FormsBase />', () => {
+  test('route /forms', () => {
     const history = createMemoryHistory();
-    const route = '/users';
+    const route = '/forms';
     history.push(route);
     render(
       <Router history={history}>
-        <UserBase />
+        <FormsBase />
       </Router>
     );
-    expect(screen.getByText('Edit Users')).toBeInTheDocument();
-    expect(screen.getByText('Edit Teams')).toBeInTheDocument();
+    expect(screen.getByText('Edit Profile')).toBeInTheDocument();
+    expect(screen.getByText('Edit Profile Image')).toBeInTheDocument();
   });
 });
