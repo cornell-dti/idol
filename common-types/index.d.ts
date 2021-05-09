@@ -1,3 +1,5 @@
+/** The common types required by more than one workspace. */
+
 /** All possible roles for a DTI member */
 type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
 
