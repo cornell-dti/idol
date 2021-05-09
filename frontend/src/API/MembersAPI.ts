@@ -36,9 +36,13 @@ export class MembersAPI {
   }
 
   public static getMember(email: string): Promise<Member> {
-    const responseProm = APIWrapper.post(`${backendURL}/getMember`, {
-      email
-    }).then((res) => res.data);
+    const funcName = `member/${email}`;
+    if (APICache.has(funcName)) {
+      return Promise.resolve(APICache.retrieve(funcName));
+    }
+    const responseProm = APIWrapper.get(
+      `${backendURL}/getMember/${email}`
+    ).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -47,11 +51,13 @@ export class MembersAPI {
         });
       }
       const mem = val.member as Member;
+      APICache.cache(funcName, mem);
       return mem;
     });
   }
 
   public static setMember(member: Member): Promise<MemberResponseObj> {
+    APICache.invalidate(`members/${member.email}`);
     return APIWrapper.post(`${backendURL}/setMember`, member).then(
       (res) => res.data
     );
@@ -60,12 +66,14 @@ export class MembersAPI {
   public static deleteMember(
     memberEmail: string
   ): Promise<{ status: number; error?: string }> {
-    return APIWrapper.post(`${backendURL}/deleteMember`, {
-      email: memberEmail
-    }).then((res) => res.data);
+    APICache.invalidate(`members/${memberEmail}`);
+    return APIWrapper.delete(`${backendURL}/deleteMember/${memberEmail}`).then(
+      (res) => res.data
+    );
   }
 
   public static updateMember(member: Member): Promise<MemberResponseObj> {
+    APICache.invalidate(`members/${member.email}`);
     return APIWrapper.post(`${backendURL}/updateMember`, member).then(
       (res) => res.data
     );
