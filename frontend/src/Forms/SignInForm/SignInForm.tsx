@@ -92,15 +92,11 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(false);
   const [signInAttempted, setSignInAttempted] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-  const [signInError, setSignInError] = useState<string | undefined>(undefined);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(false);
     setSignInAttempted(false);
-    setSignedIn(false);
-    setSignInError(undefined);
   };
 
   useEffect(() => {
@@ -116,10 +112,6 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     if (foundForm) {
       SignInFormAPI.submitSignIn(id).then((resp) => {
         setSignInAttempted(true);
-        setSignedIn(resp.success);
-        if (resp.error) {
-          setSignInError(resp.error);
-        }
       });
     }
   }, [id, foundForm]);
@@ -139,7 +131,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     );
   }
 
-  const signInResult = signedIn ? (
+  const ifSigningIn = signInAttempted ? (
     <div className={styles.content}>
       <CodeForm
         defaultValue={id}
@@ -150,21 +142,6 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         }}
       />
     </div>
-  ) : (
-    <div className={styles.content}>
-      <CodeForm
-        defaultValue={id}
-        onClick={onResultsScreenResubmit}
-        error={{
-          header: 'Sign-In Failed!',
-          content: `Contact a lead if you believe this is an error. ERR: ${signInError}`
-        }}
-      />
-    </div>
-  );
-
-  const ifSigningIn = signInAttempted ? (
-    signInResult
   ) : (
     <div className={styles.content}>
       <CodeForm

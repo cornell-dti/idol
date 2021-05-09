@@ -1,4 +1,4 @@
-import { DBSignInForm, SignInForm } from '../DataTypes';
+import { SignInForm } from '../DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
 import { NotFoundError } from '../errors';
 import MembersDao from './MembersDao';
@@ -9,8 +9,8 @@ export default class SignInFormDao {
     const formRef = await formDoc.get();
     if (!formRef.exists)
       throw new NotFoundError(`No form with id '${id}' found.`);
-    const form: DBSignInForm | undefined = formRef.data();
-    if (form === undefined)
+    const form = formRef.data();
+    if (form == null)
       throw new NotFoundError(`No form content in form with id '${id}' found.`);
     const userDoc = memberCollection.doc(email);
     const userRef = await userDoc.get();
@@ -21,40 +21,23 @@ export default class SignInFormDao {
       .update({
         users: form.users.concat({ signedInAt: signedInAtVal, user: userDoc })
       })
-      .then((_) => signedInAtVal)
-      .catch((r) => {
-        throw r;
-      });
+      .then((_) => signedInAtVal);
   }
 
-  static async createSignIn(id: string): Promise<boolean> {
+  static async createSignIn(id: string): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
     if (formRef.exists)
       throw new NotFoundError(`A form with id '${id}' already exists!`);
-    return formDoc
-      .set({
-        createdAt: Date.now(),
-        id,
-        users: []
-      })
-      .then((r) => true)
-      .catch((r) => {
-        throw r;
-      });
+    await formDoc.set({ createdAt: Date.now(), id, users: [] });
   }
 
-  static async deleteSignIn(id: string): Promise<boolean> {
+  static async deleteSignIn(id: string): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
     if (!formRef.exists)
       throw new NotFoundError(`No form with id '${id}' exists!`);
-    return formDoc
-      .delete()
-      .then((r) => true)
-      .catch((r) => {
-        throw r;
-      });
+    await formDoc.delete();
   }
 
   static async allSignInForms(): Promise<SignInForm[]> {

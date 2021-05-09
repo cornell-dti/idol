@@ -248,15 +248,16 @@ loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
 loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 // Sign In Form
-loginCheckedPost('/signinExists', async (req, _) =>
-  signInFormExists(req.body.id)
-);
+loginCheckedPost('/signinExists', async (req, _) => ({
+  exists: await signInFormExists(req.body.id)
+}));
 loginCheckedPost('/signinCreate', async (req, user) =>
   createSignInForm(req.body.id, user)
 );
-loginCheckedPost('/signinDelete', async (req, user) =>
-  deleteSignInForm(req.body.id, user)
-);
+loginCheckedPost('/signinDelete', async (req, user) => {
+  await deleteSignInForm(req.body.id, user);
+  return {};
+});
 loginCheckedPost('/signin', async (req, user) => signIn(req.body.id, user));
 loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
 

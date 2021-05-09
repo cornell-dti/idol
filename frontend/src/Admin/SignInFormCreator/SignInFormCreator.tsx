@@ -13,7 +13,6 @@ import {
   Popup,
   SemanticICONS
 } from 'semantic-ui-react';
-import { SignInForm } from '../../../../backend/src/DataTypes';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import styles from './SignInFormCreator.module.css';
@@ -138,17 +137,11 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
-  const [createdCode, setCreatedCode] = useState(false);
-  const [createError, setCreateError] = useState<
-    Record<string, unknown> | undefined
-  >(undefined);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(true);
     setCreateAttempted(false);
-    setCreatedCode(false);
-    setCreateError(undefined);
   };
 
   useEffect(() => {
@@ -164,17 +157,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     if (!foundForm) {
       SignInFormAPI.createSignInForm(id).then((resp) => {
         setCreateAttempted(true);
-        setCreatedCode(resp.success);
-        if (resp.error) {
-          Emitters.generalError.emit({
-            headerMsg: "Couldn't create sign-in form!",
-            contentMsg: (resp.error as { reason: string }).reason
-          });
-          setCreateError(resp.error);
-        }
-        if (resp.success) {
-          Emitters.signInCodeCreated.emit();
-        }
+        Emitters.signInCodeCreated.emit();
       });
     }
   }, [id, foundForm]);
@@ -192,7 +175,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     );
   }
 
-  const signInResult = createdCode ? (
+  const ifFormOpen = createAttempted ? (
     <CodeForm
       link={`${window.location.origin}/forms/signin/${id}`}
       defaultValue={id}
@@ -202,19 +185,6 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         content: 'Your code/link has been created!'
       }}
     />
-  ) : (
-    <CodeForm
-      defaultValue={id}
-      onClick={onResultsScreenResubmit}
-      error={{
-        header: 'Create Failed!',
-        content: `Contact a lead if you believe this is an error. ERR: ${createError}`
-      }}
-    />
-  );
-
-  const ifFormOpen = createAttempted ? (
-    signInResult
   ) : (
     <CodeForm
       disabled
@@ -309,7 +279,7 @@ let prom: Promise<unknown> = Promise.resolve();
 const CodeAttendanceViewer: React.FC = () => {
   const [isLoading, setLoading] = useState(true);
   const [isGrabbing, setGrabbing] = useState(true);
-  const [forms, setForms] = useState<SignInForm[]>([]);
+  const [forms, setForms] = useState<readonly SignInForm[]>([]);
   const [viewingForm, setViewingForm] = useState<SignInForm | null>(null);
 
   const fullReset = () => {
@@ -322,15 +292,8 @@ const CodeAttendanceViewer: React.FC = () => {
   const onDelete = (f: SignInForm) => {
     setLoading(true);
     prom = prom.then(() =>
-      SignInFormAPI.deleteSignInForm(f.id).then((resp) => {
-        if (resp.success) {
-          fullReset();
-        } else {
-          Emitters.generalError.emit({
-            headerMsg: 'Could not delete code!',
-            contentMsg: `There was an error! ERR: ${JSON.stringify(resp.error)}`
-          });
-        }
+      SignInFormAPI.deleteSignInForm(f.id).then(() => {
+        fullReset();
       })
     );
   };
@@ -392,7 +355,7 @@ const CodeAttendanceViewer: React.FC = () => {
     setViewingForm(null);
   };
 
-  const signIns = viewingForm.users
+  const signIns = [...viewingForm.users]
     .sort((a, b) => (a.signedInAt <= b.signedInAt ? -1 : 1))
     .map(({ signedInAt, user }, ind) => (
       <List.Item key={ind} onClick={onReturn} style={{ marginTop: 8 }}>
