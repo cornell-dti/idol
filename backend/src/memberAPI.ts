@@ -1,4 +1,4 @@
-import { getNetIDFromEmail, filterImagesResponse } from './util';
+import { getNetIDFromEmail} from './util';
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
 import { BadRequestError, PermissionError, NotFoundError } from './errors';
