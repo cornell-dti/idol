@@ -1,9 +1,8 @@
-import { getNetIDFromEmail} from './util';
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
 import { BadRequestError, PermissionError, NotFoundError } from './errors';
 import { bucket } from './firebase';
-import { computeMembersDiff } from './util';
+import { getNetIDFromEmail, computeMembersDiff } from './util';
 
 export const allMembers = (): Promise<readonly IdolMember[]> =>
   MembersDao.getAllMembers(false);
@@ -93,14 +92,7 @@ export const deleteImage = async (email: string): Promise<void> => {
   const imageFile = bucket.file(`images/${netId}.jpg`);
 
   // Delete the file
-  imageFile
-    .delete()
-    .then(() => {
-      // File deleted successfully
-    })
-    .catch((error) => {
-      // Uh-oh, an error occurred!
-    });
+  imageFile.delete();
 };
 
 export const getUserInformationDifference = async (
