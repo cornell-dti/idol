@@ -16,7 +16,7 @@ import styles from './AdminBase.module.css';
 
 const AdminBase: React.FC = () => {
   const location = useLocation();
-  if (location.pathname === '/admin') {
+  if (location.pathname === '/admin' || location.pathname === '/admin/') {
     return (
       <div className={styles.AdminBase} data-testid="AdminBase">
         <div className={styles.content}>
@@ -30,7 +30,7 @@ const AdminBase: React.FC = () => {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="admin/member-review">
+                  <Link to="/admin/member-review">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -47,7 +47,7 @@ const AdminBase: React.FC = () => {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="admin/site-deployer">
+                  <Link to="/admin/site-deployer">
                     <Button basic color="blue">
                       Go To
                     </Button>

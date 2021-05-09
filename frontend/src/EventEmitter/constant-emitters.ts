@@ -31,4 +31,7 @@ export default class Emitters {
     headerMsg: string;
     contentMsg: string;
   }> = new EventEmitter();
+
+  // Sign-in code
+  static signInCodeCreated: EventEmitter<void> = new EventEmitter();
 }
