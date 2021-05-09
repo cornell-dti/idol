@@ -10,8 +10,6 @@ import { Card, Button } from 'semantic-ui-react';
 import SiteDeployer from '../DTI-Site-Deployer/SiteDeployer';
 import MemberReview from '../MemberReview/MemberReview';
 import AdminShoutouts from '../AdminShoutouts/AdminShoutouts';
-import AddUser from '../AddUser/AddUser';
-import EditTeam from '../EditTeam/EditTeam';
 import styles from './AdminBase.module.css';
 
 const AdminBase: React.FC = () => {
@@ -70,40 +68,6 @@ const AdminBase: React.FC = () => {
                 </div>
               </Card.Content>
             </Card>
-            <Card>
-              <Card.Content>
-                <Card.Header>Edit Users</Card.Header>
-                <Card.Description>
-                  Create, read, edit, or delete individual users of the system.
-                </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <div className="ui one buttons">
-                  <Link to="admin/edit">
-                    <Button basic color="blue">
-                      Go To
-                    </Button>
-                  </Link>
-                </div>
-              </Card.Content>
-            </Card>
-            <Card>
-              <Card.Content>
-                <Card.Header>Edit Teams</Card.Header>
-                <Card.Description>
-                  Create, read, edit, or delete teams in the system.
-                </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <div className="ui one buttons">
-                  <Link to="admin/teams/edit">
-                    <Button basic color="blue">
-                      Go To
-                    </Button>
-                  </Link>
-                </div>
-              </Card.Content>
-            </Card>
           </Card.Group>
         </div>
       </div>
@@ -121,12 +85,6 @@ const AdminBase: React.FC = () => {
           </Route>
           <Route path="/admin/shoutouts">
             <AdminShoutouts />
-          </Route>
-          <Route path="/admin/edit">
-            <AddUser></AddUser>
-          </Route>
-          <Route path="/admin/teams/edit">
-            <EditTeam></EditTeam>
           </Route>
           <Route path="/*"></Route>
         </Switch>
