@@ -1,5 +1,13 @@
 import React from 'react';
-import { Card, Loader, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
+import {
+  Card,
+  Loader,
+  Button,
+  Form,
+  Input,
+  Select,
+  TextArea
+} from 'semantic-ui-react';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
@@ -296,9 +304,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={
-                            this.state.currentSelectedMember.role || ''
-                          }
+                          value={this.state.currentSelectedMember.role || ''}
                         />
                       </Form.Group>
                       <Form.Group widths="equal">
@@ -374,7 +380,9 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember.doubleMajor || ''}
+                          value={
+                            this.state.currentSelectedMember.doubleMajor || ''
+                          }
                         />
                         <Form.Field
                           control={Input}
@@ -450,7 +458,9 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={this.state.currentSelectedMember.linkedin || ''}
+                          value={
+                            this.state.currentSelectedMember.linkedin || ''
+                          }
                         />
                         <Form.Field
                           control={Input}
