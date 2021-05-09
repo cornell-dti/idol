@@ -62,7 +62,6 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
     saveUninitialized: false,
-    resave: false,
     store: new MemoryStore(),
     cookie: {
       secure: !!isProd,
