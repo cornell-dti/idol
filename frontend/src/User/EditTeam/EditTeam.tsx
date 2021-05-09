@@ -52,7 +52,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
         name: '',
         leaders: [],
         members: [],
-        uuid: undefined
+        uuid: undefined,
+        formerMembers: []
       },
       isCreatingTeam: true
     });
@@ -364,6 +365,85 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
                                         members: newMembers
+                                      }
+                                    });
+                                  }
+                                }}
+                              >
+                                Remove from Team
+                              </Button>
+                            </div>
+                          </Card.Content>
+                        </Card>
+                      ))}
+                    </Card.Group>
+                    <h4>Former Members</h4>
+                    {this.state.allMembers ? (
+                      <CustomSearch
+                        source={this.state.allMembers}
+                        resultRenderer={(mem) => (
+                          <Segment>
+                            <h4>{`${mem.firstName} ${mem.lastName}`}</h4>
+                            <Label>{mem.email}</Label>
+                          </Segment>
+                        )}
+                        matchChecker={(query: string, member: Member) => {
+                          const queryLower = query.toLowerCase();
+                          return (
+                            member.email.toLowerCase().startsWith(queryLower) ||
+                            member.firstName
+                              .toLowerCase()
+                              .startsWith(queryLower) ||
+                            member.lastName
+                              .toLowerCase()
+                              .startsWith(queryLower) ||
+                            member.role.toLowerCase().startsWith(queryLower) ||
+                            `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
+                              queryLower
+                            )
+                          );
+                        }}
+                        selectCallback={(mem: Member) => {
+                          if (this.state.currentSelectedTeam) {
+                            this.setState({
+                              currentSelectedTeam: {
+                                ...this.state.currentSelectedTeam,
+                                formerMembers: this.state.currentSelectedTeam.formerMembers.concat(
+                                  [mem]
+                                )
+                              }
+                            });
+                          }
+                        }}
+                      ></CustomSearch>
+                    ) : undefined}
+                    <Card.Group style={{ marginTop: '1rem' }}>
+                      {(this.state.currentSelectedTeam
+                        ? this.state.currentSelectedTeam.formerMembers
+                        : []
+                      ).map((member, ind) => (
+                        <Card key={ind}>
+                          <Card.Content>
+                            <Card.Header>{`${member.firstName} ${member.lastName}`}</Card.Header>
+                            <Card.Description>{member.email}</Card.Description>
+                          </Card.Content>
+                          <Card.Content extra>
+                            <div
+                              className="ui one buttons"
+                              style={{ width: '100%' }}
+                            >
+                              <Button
+                                basic
+                                color="red"
+                                onClick={() => {
+                                  if (this.state.currentSelectedTeam) {
+                                    const newFormerMembers = this.state.currentSelectedTeam.formerMembers.filter(
+                                      (mem) => mem.email !== member.email
+                                    );
+                                    this.setState({
+                                      currentSelectedTeam: {
+                                        ...this.state.currentSelectedTeam,
+                                        formerMembers: newFormerMembers
                                       }
                                     });
                                   }

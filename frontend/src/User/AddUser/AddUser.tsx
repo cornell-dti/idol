@@ -54,8 +54,8 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
         github: '',
         hometown: '',
         about: '',
-        subteam: '',
-        otherSubteams: []
+        subteams: [],
+        formerSubteams: []
       },
       isCreatingUser: true
     });

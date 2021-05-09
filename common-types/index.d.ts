@@ -27,10 +27,16 @@ interface IdolMember {
   readonly github?: string | null;
   readonly hometown: string;
   readonly about: string;
-  readonly subteam: string;
-  readonly otherSubteams?: readonly string[] | null;
+  readonly subteams: readonly string[];
+  readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
+}
+
+interface IdolMemberDiff {
+  /** Email of the member. */
+  readonly email: string;
+  readonly diffString: string;
 }
 
 /** The data type used by Nova site to represent a DTI member. */
@@ -47,8 +53,13 @@ interface NovaMember {
   readonly github?: string;
   readonly hometown: string;
   readonly about: string;
-  readonly subteam?: string;
-  readonly otherSubteams?: readonly string[];
+  readonly subteams?: string[];
+  readonly formerSubteams?: string[];
   readonly roleId: string;
   readonly roleDescription: string;
+}
+
+interface ProfileImage {
+  readonly url: string;
+  readonly fileName: string;
 }

@@ -8,10 +8,15 @@ export default class TeamsDao {
     const teamRefs = await teamCollection.get();
     return Promise.all(
       teamRefs.docs.map(async (teamRef) => {
-        const { uuid, name, leaders, members } = teamRef.data();
+        const { uuid, name, leaders, members, formerMembers } = teamRef.data();
         return {
           uuid,
           name,
+          formerMembers: await Promise.all(
+            formerMembers.map((ref) =>
+              ref.get().then((doc) => doc.data() as IdolMember)
+            )
+          ),
           leaders: await Promise.all(
             leaders.map((ref) =>
               ref.get().then((doc) => doc.data() as IdolMember)
@@ -27,12 +32,40 @@ export default class TeamsDao {
     );
   }
 
+  static async getTeam(id: string): Promise<Team | null> {
+    const teamRef = await teamCollection.doc(id).get();
+    const team = teamRef.data();
+    if (!team) return null;
+    return {
+      uuid: team.uuid,
+      name: team.name,
+      formerMembers: await Promise.all(
+        team.formerMembers.map((ref) =>
+          ref.get().then((doc) => doc.data() as IdolMember)
+        )
+      ),
+      members: await Promise.all(
+        team.members.map((ref) =>
+          ref.get().then((doc) => doc.data() as IdolMember)
+        )
+      ),
+      leaders: await Promise.all(
+        team.leaders.map((ref) =>
+          ref.get().then((doc) => doc.data() as IdolMember)
+        )
+      )
+    };
+  }
+
   static async setTeam(team: Team): Promise<Team> {
     const teamRef: DBTeam = {
       uuid: team.uuid ? team.uuid : uuidv4(),
       name: team.name,
       leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
-      members: team.members.map((mem) => memberCollection.doc(mem.email))
+      members: team.members.map((mem) => memberCollection.doc(mem.email)),
+      formerMembers: team.formerMembers.map((mem) =>
+        memberCollection.doc(mem.email)
+      )
     };
     const existRes = await Promise.all(
       teamRef.leaders
@@ -48,7 +81,8 @@ export default class TeamsDao {
     return { ...team, uuid: teamRef.uuid };
   }
 
-  static async deleteTeam(teamUuid: string): Promise<void> {
-    await db.doc(`teams/${teamUuid}`).delete();
+  static async deleteTeam(team: Team): Promise<Team> {
+    await db.doc(`teams/${team.uuid}`).delete();
+    return team;
   }
 }

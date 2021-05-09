@@ -14,6 +14,7 @@ export type Team = {
   leaders: Member[];
   members: Member[];
   uuid?: string;
+  formerMembers: Member[];
 };
 
 export class TeamsAPI {

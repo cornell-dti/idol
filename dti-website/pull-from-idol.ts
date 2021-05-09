@@ -11,7 +11,7 @@ import fetch from 'node-fetch';
 
 async function getIdolMembers(): Promise<readonly IdolMember[]> {
   const { members }: { members: readonly IdolMember[] } = await fetch(
-    'https://idol.cornelldti.org/.netlify/functions/api/allMembers'
+    'https://idol.cornelldti.org/.netlify/functions/api/allApprovedMembers'
   ).then((response) => response.json());
   return members.filter((it) => it.email.endsWith('@cornell.edu'));
 }
@@ -30,8 +30,8 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     github,
     hometown,
     about,
-    subteam,
-    otherSubteams,
+    subteams,
+    formerSubteams,
     role,
     roleDescription
   } = idolMember;
@@ -43,12 +43,14 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     major,
     hometown,
     about,
-    subteam,
+    subteams: [...subteams],
     roleId: role,
     roleDescription,
     doubleMajor: doubleMajor || undefined,
     minor: minor || undefined,
-    otherSubteams: otherSubteams || undefined,
+    formerSubteams: formerSubteams
+      ? ([...formerSubteams] as string[])
+      : undefined,
     website: website || undefined,
     linkedin: linkedin || undefined,
     github: github || undefined
@@ -117,15 +119,15 @@ async function main(): Promise<void> {
   \`\`\`diff
   ${diffOutput}
   \`\`\`
-  
+
   ## Summary
 
   This is a PR auto-generated from \`yarn workspace dti-website pull-from-idol\`.
-  It updates the members JSON with latest data from IDOL backend.
-  Please review it carefully to ensure nothing bad is here.
-  
+  It updates the members JSON with latest **approved** data from IDOL backend.
+  Please review it carefully again to ensure nothing bad is here.
+
   ## Test Plan
-  
+
   :eyes:`;
   const existingPR = (
     await octokit.pulls.list({

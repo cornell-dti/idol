@@ -5,7 +5,7 @@
   "private": true,
   "bin": "./index.js",
   "scripts": {
-    "tsc": "tsc --noEmit index.js",
+    "tsc": "tsc --allowJs --noEmit index.js",
     "build": "exit 0"
   },
   "dependencies": {

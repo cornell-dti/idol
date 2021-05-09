@@ -17,7 +17,7 @@ export default function NavItem({
 }: Props): JSX.Element {
   return (
     <li className={clsx('nav-item', className)}>
-      <Link href={to} passHref prefetch>
+      <Link href={to} passHref>
         <a className="nav-link">{children}</a>
       </Link>
     </li>

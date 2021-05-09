@@ -7,13 +7,17 @@ import admin from 'firebase-admin';
 import { db as database, app as adminApp } from './firebase';
 import {
   allMembers,
+  allApprovedMembers,
   getMember,
   setMember,
   deleteMember,
-  updateMember
+  updateMember,
+  getUserInformationDifference,
+  reviewUserInformationChange
 } from './memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
 import { allTeams, setTeam, deleteTeam } from './teamAPI';
+import { getAllShoutouts, getShoutouts, giveShoutout } from './shoutoutAPI';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
@@ -158,6 +162,10 @@ router.get('/allMembers', async (_, res) => {
   const members = await allMembers();
   res.status(200).json({ members });
 });
+router.get('/allApprovedMembers', async (_, res) => {
+  const members = await allApprovedMembers();
+  res.status(200).json({ members });
+});
 loginCheckedGet('/getMember/:email', async (req, user) => ({
   member: await getMember(req.params.email, user)
 }));
@@ -170,6 +178,16 @@ loginCheckedDelete('/deleteMember/:email', async (req, user) => {
 });
 loginCheckedPost('/updateMember', async (req, user) => ({
   member: await updateMember(req.body, user)
+}));
+loginCheckedGet('/memberDiffs', async (_, user) => ({
+  diffs: await getUserInformationDifference(user)
+}));
+loginCheckedPost('/reviewMemberDiffs', async (req, user) => ({
+  member: await reviewUserInformationChange(
+    req.body.approved,
+    req.body.rejected,
+    user
+  )
 }));
 
 // Teams
@@ -193,8 +211,24 @@ router.get('/allMemberImages', async (_, res) => {
   res.status(200).json({ images });
 });
 
+loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
+  shoutouts: await getShoutouts(
+    req.params.email,
+    req.params.type as 'given' | 'received',
+    user
+  )
+}));
+
+loginCheckedGet('/allShoutouts', async () => ({
+  shoutouts: await getAllShoutouts()
+}));
+
+loginCheckedPost('/giveShoutout', async (req, user) => ({
+  shoutout: await giveShoutout(req.body, user)
+}));
+
 // Permissions
-loginCheckedGet('/isAdmin/:email', async (_, user) => ({
+loginCheckedGet('/isAdmin', async (_, user) => ({
   isAdmin: await PermissionsManager.isAdmin(user)
 }));
 
