@@ -1,6 +1,9 @@
+//import imageAPI from './imageAPI';
+import { getNetIDFromEmail, filterImagesResponse } from './util';
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
 import { BadRequestError, PermissionError, NotFoundError } from './errors';
+import { bucket } from './firebase';
 
 export const allMembers = (): Promise<readonly IdolMember[]> =>
   MembersDao.getAllMembers();
@@ -78,5 +81,23 @@ export const deleteMember = async (
   if (!email || email === '') {
     throw new BadRequestError("Couldn't delete member with undefined email!");
   }
-  await MembersDao.deleteMember(email);
+  await MembersDao.deleteMember(email).then(() => deleteImage(user));
 };
+
+export const deleteImage = async (user: IdolMember): Promise<void> => {
+  // Create a reference to the file to delete
+  const netId: string = getNetIDFromEmail(user.email);
+  const imageFile = bucket.file(`images/${netId}.jpg`);
+
+  // Delete the file
+  imageFile
+    .delete()
+    .then(() => {
+      // File deleted successfully
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+    });
+};
+
+
