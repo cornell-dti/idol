@@ -1,4 +1,3 @@
-//import imageAPI from './imageAPI';
 import { getNetIDFromEmail, filterImagesResponse } from './util';
 import MembersDao from './dao/MembersDao';
 import { PermissionsManager } from './permissions';
