@@ -8,9 +8,7 @@ import {
 } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './UserBase.module.css';
-import AddUser from '../AddUser/AddUser';
 import DTI48 from '../DTI48/DTI48';
-import EditTeam from '../EditTeam/EditTeam';
 import UserProfile from '../UserProfile/UserProfile';
 import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
 import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
@@ -98,12 +96,6 @@ const UserBase: React.FC = () => {
     <div className={styles.UserBase} data-testid="UserBase">
       <Router>
         <Switch>
-          <Route path="/users/edit">
-            <AddUser></AddUser>
-          </Route>
-          <Route path="/users/teams/edit">
-            <EditTeam></EditTeam>
-          </Route>
           <Route path="/users/profile">
             <UserProfile></UserProfile>
           </Route>

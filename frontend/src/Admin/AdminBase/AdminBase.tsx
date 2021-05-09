@@ -10,6 +10,8 @@ import { Card, Button } from 'semantic-ui-react';
 import SiteDeployer from '../DTI-Site-Deployer/SiteDeployer';
 import MemberReview from '../MemberReview/MemberReview';
 import AdminShoutouts from '../AdminShoutouts/AdminShoutouts';
+import AddUser from '../AddUser/AddUser';
+import EditTeam from '../EditTeam/EditTeam';
 import styles from './AdminBase.module.css';
 
 const AdminBase: React.FC = () => {
@@ -77,7 +79,7 @@ const AdminBase: React.FC = () => {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="users/edit">
+                  <Link to="admin/edit">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -94,7 +96,7 @@ const AdminBase: React.FC = () => {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to="users/teams/edit">
+                  <Link to="admin/teams/edit">
                     <Button basic color="blue">
                       Go To
                     </Button>
@@ -119,6 +121,12 @@ const AdminBase: React.FC = () => {
           </Route>
           <Route path="/admin/shoutouts">
             <AdminShoutouts />
+          </Route>
+          <Route path="/admin/edit">
+            <AddUser></AddUser>
+          </Route>
+          <Route path="/admin/teams/edit">
+            <EditTeam></EditTeam>
           </Route>
           <Route path="/*"></Route>
         </Switch>
