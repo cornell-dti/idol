@@ -4,7 +4,7 @@ export const isProduction = process.env.NODE_ENV === 'production';
 const useProdBackendForDev = false;
 
 /** Switch to false to use development Firebase instance. Change back to true before committing. */
-export const useProdDb = false;
+export const useProdDb = true;
 
 export const backendURL =
   isProduction || !useProdBackendForDev
