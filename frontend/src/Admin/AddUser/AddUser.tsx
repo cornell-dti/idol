@@ -204,7 +204,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                       <Form.Group widths="equal">
                         <Form.Field
                           control={Input}
-                          label="First name"
+                          label="First Name"
                           placeholder="First Name"
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
@@ -222,7 +222,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                         />
                         <Form.Field
                           control={Input}
-                          label="Last name"
+                          label="Last Name"
                           placeholder="Last Name"
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
