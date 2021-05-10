@@ -147,7 +147,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                         }}
                       >
                         <Card.Content>
-                          <Card.Header style={{ margin: 0}}>
+                          <Card.Header style={{ margin: 0 }}>
                             {`${mem.firstName} ${mem.lastName}`}
                           </Card.Header>
                           <p
@@ -175,7 +175,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                     <Button
                       basic
                       color="red"
-                      style={{ width: '50%'}}
+                      style={{ width: '50%' }}
                       onClick={() => {
                         if (this.state.currentSelectedMember) {
                           this.deleteUser(this.state.currentSelectedMember.email);

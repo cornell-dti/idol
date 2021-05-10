@@ -158,7 +158,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     <Button
                       basic
                       color="red"
-                      style = {{width: '50%'}}
+                      style={{ width: '50%' }}
                       onClick={() => {
                         if (this.state.currentSelectedTeam) {
                           this.deleteTeam(this.state.currentSelectedTeam);
@@ -170,7 +170,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     <Button
                       basic
                       color="blue"
-                      style = {{width: '50%'}}
+                      style={{ width: '50%' }}
                       onClick={() => {
                         this.createNewTeam();
                       }}
@@ -258,10 +258,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                                 color="red"
                                 onClick={() => {
                                   if (this.state.currentSelectedTeam) {
-                                    const newLeaders =
-                                      this.state.currentSelectedTeam.leaders.filter(
-                                        (mem) => mem.email !== member.email
-                                      );
+                                    const newLeaders = this.state.currentSelectedTeam.leaders.filter(
+                                      (mem) => mem.email !== member.email
+                                    );
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
