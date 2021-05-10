@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardGroup, Loader, Modal } from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
-import { UserContext } from '../../UserProvider/UserProvider';
+import { useUserEmail } from '../../UserProvider/UserProvider';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import { backendURL } from '../../environment';
@@ -13,7 +13,7 @@ import 'prismjs/themes/prism.css';
 require('prismjs');
 
 const SiteDeployer: React.FC = () => {
-  const userEmail = useContext(UserContext).user?.email;
+  const userEmail = useUserEmail();
 
   const getUser = async (email: string): Promise<Member> => {
     const mem = await MembersAPI.getMember(email);

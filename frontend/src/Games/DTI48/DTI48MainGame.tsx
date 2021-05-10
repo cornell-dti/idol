@@ -1,14 +1,14 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import computeDTI48UpgradeChain from './dti48-upgrade-chain';
-import { UserContext } from '../../UserProvider/UserProvider';
+import { useUserEmail } from '../../UserProvider/UserProvider';
 import DTI48GameCard from './DTI48GameCard';
 import styles from './DTI48MainGame.module.css';
 
 type Props = { readonly members: readonly IdolMember[] };
 
 export default function DTI48MainGame({ members }: Props): JSX.Element {
-  const userEmail = useContext(UserContext).user?.email ?? '@cornell.edu';
+  const userEmail = useUserEmail();
   const netID = userEmail.split('@')[0];
   const [changeIndex, setChangeIndex] = useState(0);
   const [playerNetID, setPlayerNetID] = useState(netID);
