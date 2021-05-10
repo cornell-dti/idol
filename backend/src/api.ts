@@ -1,10 +1,9 @@
 import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
-import session, { MemoryStore } from 'express-session';
 import bodyParser from 'body-parser';
 import admin from 'firebase-admin';
-import { db as database, app as adminApp } from './firebase';
+import { app as adminApp } from './firebase';
 import {
   allMembers,
   allApprovedMembers,
@@ -38,7 +37,6 @@ import {
 // Constants and configurations
 const app = express();
 const router = express.Router();
-const db = database;
 const PORT = process.env.PORT || 9000;
 const isProd: boolean = JSON.parse(process.env.IS_PROD as string);
 const allowAllOrigins = false;
@@ -58,40 +56,22 @@ app.use(
   })
 );
 app.use(bodyParser.json());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET as string,
-    resave: true,
-    saveUninitialized: true,
-    store: new MemoryStore(),
-    cookie: {
-      secure: !!isProd,
-      maxAge: 3600000
-    }
-  })
-);
 
-// eslint-disable-next-line no-console
-const sessionErrCb = (err) => console.error(err);
-
-// Check valid session
-const checkLoggedIn = (req: Request, res: Response): boolean => {
-  if (!enforceSession) {
-    return true;
-  }
-  if (req.session?.isLoggedIn) {
-    return true;
-  }
-  // Session expired
-  res.status(440).json({ error: 'Not logged in!' });
-  return false;
+const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
+  const idToken = request.headers['auth-token'];
+  if (typeof idToken !== 'string') return undefined;
+  const decodedToken = await admin.auth(adminApp).verifyIdToken(idToken);
+  return decodedToken.email;
 };
 
 const loginCheckedHandler =
   (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
   async (req: Request, res: Response): Promise<void> => {
-    if (!checkLoggedIn(req, res)) return;
-    const userEmail: string = req.session?.email as string;
+    const userEmail = await getUserEmailFromRequest(req);
+    if (userEmail == null) {
+      res.status(440).json({ error: 'Not logged in!' });
+      return;
+    }
     const user = await MembersDao.getMember(userEmail);
     if (!user) {
       res.status(401).send({ error: `No user with email: ${userEmail}` });
@@ -122,42 +102,6 @@ const loginCheckedDelete = (
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
-
-// Login
-router.post('/login', async (req: Request, res: Response) => {
-  const members = await db
-    .collection('members')
-    .get()
-    .then((vals) => vals.docs.map((doc) => doc.data()));
-  const { auth_token } = req.body;
-  admin
-    .auth(adminApp)
-    .verifyIdToken(auth_token)
-    .then((decoded) => {
-      const foundMember = members.find((val) => val.email === decoded.email);
-      if (!foundMember) {
-        res.json({ isLoggedIn: false });
-        return;
-      }
-      const session = req.session as Express.Session;
-      session.isLoggedIn = true;
-      session.email = foundMember.email;
-      session.save((err) => {
-        if (err) sessionErrCb(err);
-        res.json({ isLoggedIn: true });
-      });
-    });
-});
-
-// Logout
-router.post('/logout', (req: Request, res: Response) => {
-  const session = req.session as Express.Session;
-  session.isLoggedIn = false;
-  session.destroy((err) => {
-    if (err) sessionErrCb(err);
-    res.json({ isLoggedIn: false });
-  });
-});
 
 // Roles
 router.get('/allRoles', (_, res) => res.status(200).json({ roles: allRoles }));
