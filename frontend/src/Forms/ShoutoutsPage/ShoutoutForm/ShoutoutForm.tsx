@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Form, TextArea, Segment, Label, Button } from 'semantic-ui-react';
+import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
 import { UserContext } from '../../../UserProvider/UserProvider';
 import CustomSearch from '../../../Common/Search/Search';
 import Emitters from '../../../EventEmitter/constant-emitters';
@@ -73,54 +73,58 @@ const ShoutoutForm: React.FC = () => {
         Who is awesome? <span style={{ color: '#db2828' }}>*</span>
       </label>
 
-      {members && !recipient ? (
-        <CustomSearch
-          source={members}
-          resultRenderer={(mem) => (
-            <Segment>
-              <h4>{`${mem.firstName} ${mem.lastName}`}</h4>
-              <Label>{mem.email}</Label>
-            </Segment>
-          )}
-          matchChecker={(query: string, member: Member) => {
-            const queryLower = query.toLowerCase();
-            return (
-              member.email.toLowerCase().startsWith(queryLower) ||
-              member.firstName.toLowerCase().startsWith(queryLower) ||
-              member.lastName.toLowerCase().startsWith(queryLower) ||
-              member.role.toLowerCase().startsWith(queryLower) ||
-              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                queryLower
-              )
-            );
-          }}
-          selectCallback={(mem: Member) => {
-            setRecipient(mem);
-          }}
-        ></CustomSearch>
-      ) : undefined}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {members && !recipient ? (
+          <CustomSearch
+            source={members}
+            resultRenderer={(mem) => (
+              <Segment>
+                <h4>{`${mem.firstName} ${mem.lastName}`}</h4>
+                <Label>{mem.email}</Label>
+              </Segment>
+            )}
+            matchChecker={(query: string, member: Member) => {
+              const queryLower = query.toLowerCase();
+              return (
+                member.email.toLowerCase().startsWith(queryLower) ||
+                member.firstName.toLowerCase().startsWith(queryLower) ||
+                member.lastName.toLowerCase().startsWith(queryLower) ||
+                member.role.toLowerCase().startsWith(queryLower) ||
+                `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
+                  queryLower
+                )
+              );
+            }}
+            selectCallback={(mem: Member) => {
+              setRecipient(mem);
+            }}
+          ></CustomSearch>
+        ) : undefined}
 
-      {recipient ? (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'baseline'
-          }}
-        >
-          <p style={{ paddingRight: '1.5em' }}>
-            {recipient?.firstName} {recipient?.lastName}
-          </p>
-          <Button
-            negative
-            onClick={() => {
-              setRecipient(undefined);
+        {recipient ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'baseline'
             }}
           >
-            Clear
-          </Button>
-        </div>
-      ) : undefined}
+            <p style={{ paddingRight: '1.5em' }}>
+              {recipient?.firstName} {recipient?.lastName}
+            </p>
+            <Button
+              negative
+              onClick={() => {
+                setRecipient(undefined);
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+        ) : undefined}
+
+        <Checkbox label={{ children: 'Anonymous?' }} style={{ paddingLeft: '2em' }} />
+      </div>
 
       <div style={{ padding: '0.8em 0' }}>
         <Form.Input
