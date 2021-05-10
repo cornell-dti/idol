@@ -158,6 +158,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     <Button
                       basic
                       color="red"
+                      style = {{width: '50%'}}
                       onClick={() => {
                         if (this.state.currentSelectedTeam) {
                           this.deleteTeam(this.state.currentSelectedTeam);
@@ -169,6 +170,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     <Button
                       basic
                       color="blue"
+                      style = {{width: '50%'}}
                       onClick={() => {
                         this.createNewTeam();
                       }}
@@ -327,10 +329,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                                 color="red"
                                 onClick={() => {
                                   if (this.state.currentSelectedTeam) {
-                                    const newMembers =
-                                      this.state.currentSelectedTeam.members.filter(
-                                        (mem) => mem.email !== member.email
-                                      );
+                                    const newMembers = this.state.currentSelectedTeam.members.filter(
+                                      (mem) => mem.email !== member.email
+                                    );
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
@@ -400,10 +401,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                                 color="red"
                                 onClick={() => {
                                   if (this.state.currentSelectedTeam) {
-                                    const newFormerMembers =
-                                      this.state.currentSelectedTeam.formerMembers.filter(
-                                        (mem) => mem.email !== member.email
-                                      );
+                                    const newFormerMembers = this.state.currentSelectedTeam.formerMembers.filter(
+                                      (mem) => mem.email !== member.email
+                                    );
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
