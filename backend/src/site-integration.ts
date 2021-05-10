@@ -5,28 +5,21 @@ import { PermissionError, BadRequestError } from './errors';
 
 require('dotenv').config();
 
-export const requestIDOLPullDispatch = async (
-  user: IdolMember
-): Promise<{ updated: boolean }> => {
+export const requestIDOLPullDispatch = async (user: IdolMember): Promise<{ updated: boolean }> => {
   await checkPermissions(user);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
   });
-  const result = await octokit.request(
-    'POST /repos/{owner}/{repo}/dispatches',
-    {
-      owner: 'cornell-dti',
-      repo: 'idol',
-      event_type: 'pull-idol-changes'
-    }
-  );
+  const result = await octokit.request('POST /repos/{owner}/{repo}/dispatches', {
+    owner: 'cornell-dti',
+    repo: 'idol',
+    event_type: 'pull-idol-changes'
+  });
   return { updated: result.status === 204 };
 };
 
-export const getIDOLChangesPR = async (
-  user: IdolMember
-): Promise<{ pr: PRResponse }> => {
+export const getIDOLChangesPR = async (user: IdolMember): Promise<{ pr: PRResponse }> => {
   await checkPermissions(user);
   const foundPR = await findBotPR();
   return { pr: foundPR };
@@ -55,9 +48,7 @@ export const acceptIDOLChanges = async (
     }
   );
   if (approveReview.data.state !== 'APPROVED') {
-    throw new PermissionError(
-      'Could not approve the IDOL changes pull request!'
-    );
+    throw new PermissionError('Could not approve the IDOL changes pull request!');
   }
   const acceptedPR = await octokit.rest.pulls.merge({
     owner: 'cornell-dti',
@@ -84,9 +75,7 @@ export const rejectIDOLChanges = async (
     state: 'closed'
   });
   if (closedReview.data.state !== 'closed') {
-    throw new PermissionError(
-      'Could not approve the IDOL changes pull request!'
-    );
+    throw new PermissionError('Could not approve the IDOL changes pull request!');
   }
   return { pr: foundPR, closed: closedReview.data.state === 'closed' };
 };
@@ -103,13 +92,10 @@ const findBotPR = async (): Promise<PRResponse> => {
   });
   const foundPR = allPulls.data.find(
     (el) =>
-      el.title === '[bot] Automatically pull latest data from IDOL backend' &&
-      el.state === 'open'
+      el.title === '[bot] Automatically pull latest data from IDOL backend' && el.state === 'open'
   );
   if (!foundPR) {
-    throw new BadRequestError(
-      'Unable to find a valid open IDOL member update pull request!'
-    );
+    throw new BadRequestError('Unable to find a valid open IDOL member update pull request!');
   }
   return foundPR;
 };

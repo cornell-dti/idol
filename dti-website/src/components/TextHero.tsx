@@ -11,12 +11,7 @@ type Props = {
   readonly children?: ReactNode;
 };
 
-export default function TextHero({
-  header,
-  subheader,
-  style,
-  children
-}: Props): JSX.Element {
+export default function TextHero({ header, subheader, style, children }: Props): JSX.Element {
   return (
     <PageSection style={style}>
       <Row className="justify-content-center">

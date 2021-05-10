@@ -54,11 +54,7 @@ export default function RoleSelector({
     );
 
   const selectorCSS = (selected: boolean, isDark = false) =>
-    clsx(
-      selected
-        ? ['selector', 'selected', isDark ? 'fg-light' : 'fg-dark']
-        : ['selector']
-    );
+    clsx(selected ? ['selector', 'selected', isDark ? 'fg-light' : 'fg-dark'] : ['selector']);
 
   const mobileSelectorCSS = (isCentered: boolean, isDark = false) =>
     clsx(isDark ? 'fg-light' : 'fg-dark', isCentered ? 'centered' : null);

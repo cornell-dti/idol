@@ -49,11 +49,7 @@ class UserProvider extends Component<Record<string, unknown>, UserContextType> {
   };
 
   render(): JSX.Element {
-    return (
-      <UserContext.Provider value={this.state}>
-        {this.props.children}
-      </UserContext.Provider>
-    );
+    return <UserContext.Provider value={this.state}>{this.props.children}</UserContext.Provider>;
   }
 }
 export default UserProvider;

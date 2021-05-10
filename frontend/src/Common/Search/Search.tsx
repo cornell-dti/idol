@@ -55,10 +55,7 @@ function CustomSearch<T>({
   matchChecker,
   selectCallback
 }: CustomSearchProps<T>): JSX.Element {
-  const [state, dispatch] = React.useReducer(
-    makeReducer<T>(),
-    makeInitialState<T>()
-  );
+  const [state, dispatch] = React.useReducer(makeReducer<T>(), makeInitialState<T>());
 
   const { loading, results, value } = state as SearchState<T>;
 

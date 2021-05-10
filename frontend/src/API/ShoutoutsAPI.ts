@@ -16,9 +16,7 @@ type ShoutoutResponseObj = {
 
 export class ShoutoutsAPI {
   public static getAllShoutouts(): Promise<Shoutout[]> {
-    const responseProm = APIWrapper.get(`${backendURL}/allShoutouts`).then(
-      (res) => res.data
-    );
+    const responseProm = APIWrapper.get(`${backendURL}/allShoutouts`).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -32,13 +30,10 @@ export class ShoutoutsAPI {
     });
   }
 
-  public static getShoutouts(
-    email: string,
-    type: 'given' | 'received'
-  ): Promise<Shoutout[]> {
-    const responseProm = APIWrapper.get(
-      `${backendURL}/getShoutouts/${email}/${type}`
-    ).then((res) => res.data);
+  public static getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
+    const responseProm = APIWrapper.get(`${backendURL}/getShoutouts/${email}/${type}`).then(
+      (res) => res.data
+    );
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -53,8 +48,6 @@ export class ShoutoutsAPI {
   }
 
   public static giveShoutout(shoutout: Shoutout): Promise<ShoutoutResponseObj> {
-    return APIWrapper.post(`${backendURL}/giveShoutout`, shoutout).then(
-      (res) => res.data
-    );
+    return APIWrapper.post(`${backendURL}/giveShoutout`, shoutout).then((res) => res.data);
   }
 }

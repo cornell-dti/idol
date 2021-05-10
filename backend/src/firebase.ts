@@ -18,9 +18,7 @@ const configureAccount = (sa) => {
       ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY as string)
       : JSON.parse(process.env.FIREBASE_DEV_PRIVATE_KEY as string);
   } catch (err) {
-    parsedPK = useProdDb
-      ? process.env.FIREBASE_PRIVATE_KEY
-      : process.env.FIREBASE_DEV_PRIVATE_KEY;
+    parsedPK = useProdDb ? process.env.FIREBASE_PRIVATE_KEY : process.env.FIREBASE_DEV_PRIVATE_KEY;
   }
   configAcc.private_key = parsedPK;
   configAcc.private_key_id = useProdDb
@@ -32,9 +30,7 @@ const configureAccount = (sa) => {
 export const app = admin.initializeApp({
   credential: admin.credential.cert(configureAccount(serviceAccount)),
   databaseURL: 'https://idol-b6c68.firebaseio.com',
-  storageBucket: useProdDb
-    ? 'gs://idol-b6c68.appspot.com'
-    : 'gs://cornelldti-idol.appspot.com'
+  storageBucket: useProdDb ? 'gs://idol-b6c68.appspot.com' : 'gs://cornelldti-idol.appspot.com'
 });
 
 export const bucket = admin.storage().bucket();
@@ -95,6 +91,4 @@ export const signInFormCollection: admin.firestore.CollectionReference<DBSignInF
     }
   });
 
-export const adminCollection: admin.firestore.CollectionReference = db.collection(
-  'admins'
-);
+export const adminCollection: admin.firestore.CollectionReference = db.collection('admins');

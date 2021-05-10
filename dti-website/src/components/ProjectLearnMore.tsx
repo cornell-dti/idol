@@ -15,8 +15,7 @@ export default function ProjectLearnMore({
   if (
     enableAll ||
     (!website && !playstore && !appstore) ||
-    ((playstore || appstore || website) &&
-      (ios_github || android_github || github))
+    ((playstore || appstore || website) && (ios_github || android_github || github))
   ) {
     return (
       <PageSection className="project-learn-more">
@@ -26,36 +25,27 @@ export default function ProjectLearnMore({
             <Row>
               {(enableAll || website || playstore || appstore) && ios_github && (
                 <Col className="connect-icon-container col-auto">
-                  <Button
-                    variant="secondary"
-                    className="align-content-center"
-                    href={ios_github}
-                  >
+                  <Button variant="secondary" className="align-content-center" href={ios_github}>
                     <GitHub className="connect-icon connect-icon-blank" />
                     <span className="connect-text">iOS</span>
                   </Button>
                 </Col>
               )}
-              {(enableAll || website || playstore || appstore) &&
-                android_github && (
-                  <Col className="connect-icon-container col-auto">
-                    <Button
-                      variant="secondary"
-                      className="align-content-center"
-                      href={android_github}
-                    >
-                      <GitHub className="connect-icon connect-icon-blank" />
-                      <span className="connect-text">Android</span>
-                    </Button>
-                  </Col>
-                )}
-              {(enableAll || website || playstore || appstore) && github && (
+              {(enableAll || website || playstore || appstore) && android_github && (
                 <Col className="connect-icon-container col-auto">
                   <Button
                     variant="secondary"
                     className="align-content-center"
-                    href={github}
+                    href={android_github}
                   >
+                    <GitHub className="connect-icon connect-icon-blank" />
+                    <span className="connect-text">Android</span>
+                  </Button>
+                </Col>
+              )}
+              {(enableAll || website || playstore || appstore) && github && (
+                <Col className="connect-icon-container col-auto">
+                  <Button variant="secondary" className="align-content-center" href={github}>
                     <GitHub className="connect-icon connect-icon-blank" />
                     <span className="connect-text">GitHub</span>
                   </Button>

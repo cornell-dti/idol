@@ -17,12 +17,7 @@ import SignInFormAPI from '../../API/SignInFormAPI';
 import Emitters from '../../EventEmitter/constant-emitters';
 import styles from './SignInFormCreator.module.css';
 
-const SIGNIN_CODE_PLACEHOLDERS = [
-  'devsesh-2493',
-  'dtiah-5-21',
-  '14M3L337',
-  '867-5309'
-];
+const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];
 
 const CodeForm: React.FC<{
   defaultValue?: string;
@@ -97,9 +92,7 @@ const CodeForm: React.FC<{
           onChange={handleCodeChange}
           label="New Sign-In Code"
           placeholder={
-            SIGNIN_CODE_PLACEHOLDERS[
-              Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)
-            ]
+            SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
         />
         {disabled || inputVal === '' ? (
@@ -186,10 +179,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
       }}
     />
   ) : (
-    <CodeForm
-      disabled
-      info={{ header: 'Creating your form...', content: 'Please stand by!' }}
-    />
+    <CodeForm disabled info={{ header: 'Creating your form...', content: 'Please stand by!' }} />
   );
 
   const rendered = !foundForm ? (
@@ -232,9 +222,7 @@ const FormListEntry: React.FC<{
             {new Date(form.createdAt).toLocaleDateString()}
           </List.Description>
         </div>
-        <div
-          style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}
-        >
+        <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
           <Button
             icon="trash"
             size="tiny"
@@ -248,9 +236,7 @@ const FormListEntry: React.FC<{
             size="tiny"
             onClick={(event) => {
               event.stopPropagation();
-              navigator.clipboard.writeText(
-                `${window.location.origin}/forms/signin/${form.id}`
-              );
+              navigator.clipboard.writeText(`${window.location.origin}/forms/signin/${form.id}`);
             }}
           />
         </div>
@@ -260,10 +246,7 @@ const FormListEntry: React.FC<{
   </List.Item>
 );
 
-const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({
-  children,
-  onRefresh
-}) => (
+const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({ children, onRefresh }) => (
   <>
     <Card style={{ width: '100%' }}>
       <Card.Content>
@@ -343,9 +326,7 @@ const CodeAttendanceViewer: React.FC = () => {
       <ListContainer onRefresh={fullReset}>
         <List relaxed key={-97}>
           {listElts}
-          {listElts.length === 0 && (
-            <Header size="medium">No sign-in codes yet!</Header>
-          )}
+          {listElts.length === 0 && <Header size="medium">No sign-in codes yet!</Header>}
         </List>
       </ListContainer>
     );

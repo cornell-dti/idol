@@ -8,11 +8,7 @@ type Props = {
   readonly children?: ReactNode;
 };
 
-export default function TimelineSection({
-  header,
-  rightHeader,
-  children
-}: Props): JSX.Element {
+export default function TimelineSection({ header, rightHeader, children }: Props): JSX.Element {
   return (
     <section className="timeline-section">
       <Row className="timeline-header align-items-center">

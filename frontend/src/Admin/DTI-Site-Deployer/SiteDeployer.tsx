@@ -39,12 +39,7 @@ const SiteDeployer: React.FC = () => {
     if (userEmail) {
       getUser(userEmail)
         .then(async (mem) => {
-          if (
-            !(
-              (await PermissionsAPI.isAdmin().catch((err) => false)) ||
-              mem.role === 'lead'
-            )
-          ) {
+          if (!((await PermissionsAPI.isAdmin().catch((err) => false)) || mem.role === 'lead')) {
             Emitters.generalError.emit({
               headerMsg: 'Access Denied',
               contentMsg: `Insufficient permissions.`
@@ -55,8 +50,7 @@ const SiteDeployer: React.FC = () => {
         })
         .catch((error) => {
           Emitters.generalError.emit({
-            headerMsg:
-              "Couldn't get member! Refresh the page if you believe this is an error.",
+            headerMsg: "Couldn't get member! Refresh the page if you believe this is an error.",
             contentMsg: `Error was: ${error}`
           });
         });
@@ -113,19 +107,13 @@ const SiteDeployer: React.FC = () => {
     const diffs = `@@ ${afterSplitRes[0]}`.split('\n').map((l) => {
       const line = `${l}\n`;
       if (line.startsWith('@@')) {
-        return (
-          <span style={{ backgroundColor: 'rgba(0,0,255,0.2)' }}>{line}</span>
-        );
+        return <span style={{ backgroundColor: 'rgba(0,0,255,0.2)' }}>{line}</span>;
       }
       if (line.startsWith('+')) {
-        return (
-          <span style={{ backgroundColor: 'rgba(0,255,0,0.2)' }}>{line}</span>
-        );
+        return <span style={{ backgroundColor: 'rgba(0,255,0,0.2)' }}>{line}</span>;
       }
       if (line.startsWith('-')) {
-        return (
-          <span style={{ backgroundColor: 'rgba(255,0,0,0.2)' }}>{line}</span>
-        );
+        return <span style={{ backgroundColor: 'rgba(255,0,0,0.2)' }}>{line}</span>;
       }
       return line;
     });
@@ -220,9 +208,8 @@ const SiteDeployer: React.FC = () => {
   const EmptyCard = () => (
     <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }} key={-1}>
       <Card.Content>
-        No valid member json PR open. Refresh the UI after requesting to pull
-        the IDOL changes (once the PR is created by the Github Actions
-        workflow).
+        No valid member json PR open. Refresh the UI after requesting to pull the IDOL changes (once
+        the PR is created by the Github Actions workflow).
       </Card.Content>
     </Card>
   );

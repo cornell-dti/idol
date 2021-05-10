@@ -85,10 +85,7 @@ const MemberReview: React.FC = () => {
         <div className={styles.ApprovingContainer}>
           <div className={styles.ApprovingContainerCards}>
             {diffs.map(({ email, diffString }, index) => (
-              <Card
-                key={email}
-                style={{ width: '100%', whiteSpace: 'pre-wrap' }}
-              >
+              <Card key={email} style={{ width: '100%', whiteSpace: 'pre-wrap' }}>
                 <Card.Content>
                   <h2>{email}</h2>
                   <DiffRenderer>{diffString}</DiffRenderer>
@@ -96,29 +93,17 @@ const MemberReview: React.FC = () => {
                 <Card.Content extra>
                   <div className="ui one buttons" style={{ width: '100%' }}>
                     {statusList[index] !== 'accepted' && (
-                      <Button
-                        basic
-                        color="green"
-                        onClick={() => changeStatus(index, 'accepted')}
-                      >
+                      <Button basic color="green" onClick={() => changeStatus(index, 'accepted')}>
                         Approve
                       </Button>
                     )}
                     {statusList[index] !== 'rejected' && (
-                      <Button
-                        basic
-                        color="red"
-                        onClick={() => changeStatus(index, 'rejected')}
-                      >
+                      <Button basic color="red" onClick={() => changeStatus(index, 'rejected')}>
                         Reject
                       </Button>
                     )}
                     {statusList[index] !== 'no-action' && (
-                      <Button
-                        basic
-                        color="grey"
-                        onClick={() => changeStatus(index, 'no-action')}
-                      >
+                      <Button basic color="grey" onClick={() => changeStatus(index, 'no-action')}>
                         No Action
                       </Button>
                     )}
@@ -153,9 +138,7 @@ const MemberReview: React.FC = () => {
                 <div className="ui one buttons" style={{ width: '100%' }}>
                   <Button
                     basic
-                    disabled={
-                      approvedEmails.length + rejectedEmails.length === 0
-                    }
+                    disabled={approvedEmails.length + rejectedEmails.length === 0}
                     color="green"
                     onClick={sendReviewRequest}
                   >

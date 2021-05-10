@@ -24,9 +24,7 @@ export class TeamsAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
 
-    const responseProm = APIWrapper.get(`${backendURL}/allTeams`).then(
-      (res) => res.data
-    );
+    const responseProm = APIWrapper.get(`${backendURL}/allTeams`).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -43,14 +41,10 @@ export class TeamsAPI {
   }
 
   public static setTeam(team: Team): Promise<TeamResponseObj> {
-    return APIWrapper.post(`${backendURL}/setTeam`, team).then(
-      (res) => res.data
-    );
+    return APIWrapper.post(`${backendURL}/setTeam`, team).then((res) => res.data);
   }
 
   public static deleteTeam(team: Team): Promise<TeamResponseObj> {
-    return APIWrapper.post(`${backendURL}/deleteTeam`, team).then(
-      (res) => res.data
-    );
+    return APIWrapper.post(`${backendURL}/deleteTeam`, team).then((res) => res.data);
   }
 }

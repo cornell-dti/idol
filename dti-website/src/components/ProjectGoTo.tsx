@@ -8,10 +8,7 @@ import GitHub from '../assets/social/github.svg';
 
 type Props = { readonly project: Project; readonly className?: string };
 
-export default function ProjectGoTo({
-  project,
-  className
-}: Props): JSX.Element {
+export default function ProjectGoTo({ project, className }: Props): JSX.Element {
   return (
     <Row className={clsx('project-goto', className)}>
       <Col className="col-auto">
@@ -33,51 +30,38 @@ export default function ProjectGoTo({
               <StoreBadge store="appstore" url={project.appstore} />
             </Col>
           )}
-          {project.ios_github &&
-            !project.appstore &&
-            !project.playstore &&
-            !project.website && (
-              <Col className="connect-icon-container col-auto">
-                <Button
-                  variant="secondary"
-                  className="align-content-center"
-                  href={project.ios_github}
-                >
-                  <GitHub className="connect-icon connect-icon-blank" />
-                  <span className="connect-text">iOS</span>
-                </Button>
-              </Col>
-            )}
-          {project.android_github &&
-            !project.appstore &&
-            !project.playstore &&
-            !project.website && (
-              <Col className="connect-icon-container col-auto">
-                <Button
-                  variant="secondary"
-                  className="align-content-center"
-                  href={project.android_github}
-                >
-                  <GitHub className="connect-icon connect-icon-blank" />
-                  <span className="connect-text">Android</span>
-                </Button>
-              </Col>
-            )}
-          {project.github &&
-            !project.appstore &&
-            !project.playstore &&
-            !project.website && (
-              <Col className="connect-icon-container col-auto">
-                <Button
-                  variant="secondary"
-                  className="align-content-center"
-                  href={project.github}
-                >
-                  <GitHub className="connect-icon connect-icon-blank" />
-                  <span className="connect-text">GitHub</span>
-                </Button>
-              </Col>
-            )}
+          {project.ios_github && !project.appstore && !project.playstore && !project.website && (
+            <Col className="connect-icon-container col-auto">
+              <Button
+                variant="secondary"
+                className="align-content-center"
+                href={project.ios_github}
+              >
+                <GitHub className="connect-icon connect-icon-blank" />
+                <span className="connect-text">iOS</span>
+              </Button>
+            </Col>
+          )}
+          {project.android_github && !project.appstore && !project.playstore && !project.website && (
+            <Col className="connect-icon-container col-auto">
+              <Button
+                variant="secondary"
+                className="align-content-center"
+                href={project.android_github}
+              >
+                <GitHub className="connect-icon connect-icon-blank" />
+                <span className="connect-text">Android</span>
+              </Button>
+            </Col>
+          )}
+          {project.github && !project.appstore && !project.playstore && !project.website && (
+            <Col className="connect-icon-container col-auto">
+              <Button variant="secondary" className="align-content-center" href={project.github}>
+                <GitHub className="connect-icon connect-icon-blank" />
+                <span className="connect-text">GitHub</span>
+              </Button>
+            </Col>
+          )}
         </Row>
       </Col>
     </Row>

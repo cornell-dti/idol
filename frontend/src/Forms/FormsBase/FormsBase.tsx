@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-  BrowserRouter as Router,
-  Link,
-  useLocation
-} from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
 import UserProfile from '../UserProfile/UserProfile';
@@ -39,8 +33,7 @@ const FormsBase: React.FC = () => {
               <Card.Content>
                 <Card.Header>Shoutouts</Card.Header>
                 <Card.Description>
-                  Give someone a shoutout or view your past given and received
-                  shoutouts.
+                  Give someone a shoutout or view your past given and received shoutouts.
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
@@ -56,9 +49,7 @@ const FormsBase: React.FC = () => {
             <Card>
               <Card.Content>
                 <Card.Header>Edit Profile</Card.Header>
-                <Card.Description>
-                  Edit your profile information on DTI's website.
-                </Card.Description>
+                <Card.Description>Edit your profile information on DTI's website.</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">

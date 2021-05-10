@@ -244,16 +244,10 @@ it('computeDTI48UpgradeChain lead chain test', () => {
 
 it('computeDTI48UpgradeChain TPM/PM chain test', () => {
   tpms.forEach((tpm) =>
-    expect(getChain(tpm)).toEqual([
-      tpm.netid,
-      ...DEV_LEAD_NETIDS,
-      OPS_LEAD_NETID
-    ])
+    expect(getChain(tpm)).toEqual([tpm.netid, ...DEV_LEAD_NETIDS, OPS_LEAD_NETID])
   );
 
-  pms.forEach((pm) =>
-    expect(getChain(pm)).toEqual([pm.netid, PRODUCT_LEAD_NETID, OPS_LEAD_NETID])
-  );
+  pms.forEach((pm) => expect(getChain(pm)).toEqual([pm.netid, PRODUCT_LEAD_NETID, OPS_LEAD_NETID]));
 });
 
 it('computeDTI48UpgradeChain Business chain test', () => {
@@ -266,9 +260,7 @@ it('computeDTI48UpgradeChain Design/Dev chain test', () => {
   designs.forEach((m) =>
     expect(getChain(m)).toEqual([
       m.netid,
-      ...pms
-        .filter((pm) => pm.subteams[0] === m.subteams[0])
-        .map((pm) => pm.netid),
+      ...pms.filter((pm) => pm.subteams[0] === m.subteams[0]).map((pm) => pm.netid),
       PRODUCT_LEAD_NETID,
       OPS_LEAD_NETID
     ])
@@ -277,9 +269,7 @@ it('computeDTI48UpgradeChain Design/Dev chain test', () => {
   devs.forEach((m) =>
     expect(getChain(m)).toEqual([
       m.netid,
-      ...tpms
-        .filter((tpm) => tpm.subteams[0] === m.subteams[0])
-        .map((tpm) => tpm.netid),
+      ...tpms.filter((tpm) => tpm.subteams[0] === m.subteams[0]).map((tpm) => tpm.netid),
       ...DEV_LEAD_NETIDS,
       OPS_LEAD_NETID
     ])

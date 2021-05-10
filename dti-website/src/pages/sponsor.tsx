@@ -62,54 +62,34 @@ export default function SponsorPage(): JSX.Element {
         <Container>
           <PageSection>
             <Row className="sponsor-row align-items-center justify-content-center">
-              <Col
-                sm="12"
-                md="7"
-                className="sponsor-row-img order-md-2 order-sm-1"
-              >
+              <Col sm="12" md="7" className="sponsor-row-img order-md-2 order-sm-1">
                 <img
                   className="sponsor-row-image"
                   src="/static/pages/sponsor-events-googleLunch.jpg"
                   alt="google lunch"
                 />
               </Col>
-              <Col
-                className="sponsor-row-content-container order-md-1 order-2"
-                sm="12"
-                md="5"
-              >
-                <h2 className="sponsor-row-content-header">
-                  Build Relationships
-                </h2>
+              <Col className="sponsor-row-content-container order-md-1 order-2" sm="12" md="5">
+                <h2 className="sponsor-row-content-header">Build Relationships</h2>
                 <p className="sponsor-row-content">
-                  We want sponsors to be as invested in partnering with us as we
-                  are with them. In addition to helping make community
-                  initiatives possible, we will help organizations create
-                  diverse talent pipeline, present information sessions, conduct
-                  workshops, and help establish a presence on our campus.
+                  We want sponsors to be as invested in partnering with us as we are with them. In
+                  addition to helping make community initiatives possible, we will help
+                  organizations create diverse talent pipeline, present information sessions,
+                  conduct workshops, and help establish a presence on our campus.
                 </p>
               </Col>
             </Row>
             <Row className="sponsor-row align-items-center justify-content-center">
-              <Col
-                sm="12"
-                md="5"
-                className="sponsor-row-content-container order-2"
-              >
+              <Col sm="12" md="5" className="sponsor-row-content-container order-2">
                 <h2>Impact</h2>
                 <p className="sponsor-row-content">
-                  All of the funds we receive through sponsorships is directly
-                  invested back into the team. Through user research, software
-                  licenses, community outreach, and marketing, sponsorships help
-                  us grow our vision of helping out the community through
-                  technology.
+                  All of the funds we receive through sponsorships is directly invested back into
+                  the team. Through user research, software licenses, community outreach, and
+                  marketing, sponsorships help us grow our vision of helping out the community
+                  through technology.
                 </p>
               </Col>
-              <Col
-                sm="12"
-                md="7"
-                className="sponsor-row-img order-md-1 order-1"
-              >
+              <Col sm="12" md="7" className="sponsor-row-img order-md-1 order-1">
                 <img
                   className="sponsor-row-image"
                   src="/static/pages/sponsor-events-infoSesion.png"
@@ -155,14 +135,10 @@ export default function SponsorPage(): JSX.Element {
                           <tr key={item.benefits}>
                             <td>
                               <Row>
-                                <Col className="col-12 text-sm-head">
-                                  {item.benefits}
-                                </Col>
+                                <Col className="col-12 text-sm-head">{item.benefits}</Col>
                               </Row>
                               <Row>
-                                <Col className="col-12 text-sm-left">
-                                  {item.subheader}
-                                </Col>
+                                <Col className="col-12 text-sm-left">{item.subheader}</Col>
                               </Row>
                             </td>
                             <td>
@@ -249,25 +225,13 @@ export default function SponsorPage(): JSX.Element {
                 />
               </Col>
               <Col className="my-auto" sm="12" md="3">
-                <img
-                  className="sponsor-icon"
-                  src="/static/pages/sponsor-zeplin.png"
-                  alt="zeplin"
-                />
+                <img className="sponsor-icon" src="/static/pages/sponsor-zeplin.png" alt="zeplin" />
               </Col>
               <Col className="my-auto" sm="12" md="3">
-                <img
-                  className="sponsor-icon"
-                  src="/static/pages/sponsor-google.png"
-                  alt="google"
-                />
+                <img className="sponsor-icon" src="/static/pages/sponsor-google.png" alt="google" />
               </Col>
               <Col className="my-auto" sm="12" md="3">
-                <img
-                  className="sponsor-icon"
-                  src="/static/pages/sponsor-asana.png"
-                  alt="asana"
-                />
+                <img className="sponsor-icon" src="/static/pages/sponsor-asana.png" alt="asana" />
               </Col>
             </Row>
           </PageSection>

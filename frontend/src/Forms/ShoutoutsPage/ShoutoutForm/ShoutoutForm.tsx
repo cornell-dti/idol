@@ -34,8 +34,7 @@ const ShoutoutForm: React.FC = () => {
     } else if (recipient.email === userEmail) {
       Emitters.generalError.emit({
         headerMsg: 'No Self Shoutouts',
-        contentMsg:
-          "You can't give yourself a shoutout, please select a different member!"
+        contentMsg: "You can't give yourself a shoutout, please select a different member!"
       });
     } else if (user && recipient && message !== '') {
       const shoutout: Shoutout = {

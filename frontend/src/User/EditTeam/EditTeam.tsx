@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  Loader,
-  Button,
-  Form,
-  Input,
-  Label,
-  Segment
-} from 'semantic-ui-react';
+import { Card, Loader, Button, Form, Input, Label, Segment } from 'semantic-ui-react';
 import styles from './EditTeam.module.css';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
 import Emitters from '../../EventEmitter/constant-emitters';
@@ -152,13 +144,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                         }}
                       >
                         <Card.Content>
-                          <Card.Header style={{ margin: 0 }}>
-                            {team.name}
-                          </Card.Header>
+                          <Card.Header style={{ margin: 0 }}>{team.name}</Card.Header>
                           <p style={{ margin: 0, color: 'GrayText' }}>
-                            {`${
-                              team.leaders.length + team.members.length
-                            } members`}
+                            {`${team.leaders.length + team.members.length} members`}
                           </p>
                         </Card.Content>
                       </Card>
@@ -193,9 +181,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
               {this.state.currentSelectedTeam !== undefined ? (
                 <Card style={{ width: 'calc(80vw - 6rem)' }}>
                   <Card.Content className={styles.cardContent}>
-                    <h2 className={styles.cardHeader}>
-                      {this.state.currentSelectedTeam.name}
-                    </h2>
+                    <h2 className={styles.cardHeader}>{this.state.currentSelectedTeam.name}</h2>
                     <Form>
                       <Form.Group widths="equal">
                         <Form.Field
@@ -233,12 +219,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.firstName
-                              .toLowerCase()
-                              .startsWith(queryLower) ||
-                            member.lastName
-                              .toLowerCase()
-                              .startsWith(queryLower) ||
+                            member.firstName.toLowerCase().startsWith(queryLower) ||
+                            member.lastName.toLowerCase().startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
                             `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
                               queryLower
@@ -250,9 +232,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             this.setState({
                               currentSelectedTeam: {
                                 ...this.state.currentSelectedTeam,
-                                leaders: this.state.currentSelectedTeam.leaders.concat(
-                                  [mem]
-                                )
+                                leaders: this.state.currentSelectedTeam.leaders.concat([mem])
                               }
                             });
                           }
@@ -270,18 +250,16 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <div
-                              className="ui one buttons"
-                              style={{ width: '100%' }}
-                            >
+                            <div className="ui one buttons" style={{ width: '100%' }}>
                               <Button
                                 basic
                                 color="red"
                                 onClick={() => {
                                   if (this.state.currentSelectedTeam) {
-                                    const newLeaders = this.state.currentSelectedTeam.leaders.filter(
-                                      (mem) => mem.email !== member.email
-                                    );
+                                    const newLeaders =
+                                      this.state.currentSelectedTeam.leaders.filter(
+                                        (mem) => mem.email !== member.email
+                                      );
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
@@ -312,12 +290,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.firstName
-                              .toLowerCase()
-                              .startsWith(queryLower) ||
-                            member.lastName
-                              .toLowerCase()
-                              .startsWith(queryLower) ||
+                            member.firstName.toLowerCase().startsWith(queryLower) ||
+                            member.lastName.toLowerCase().startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
                             `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
                               queryLower
@@ -329,9 +303,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             this.setState({
                               currentSelectedTeam: {
                                 ...this.state.currentSelectedTeam,
-                                members: this.state.currentSelectedTeam.members.concat(
-                                  [mem]
-                                )
+                                members: this.state.currentSelectedTeam.members.concat([mem])
                               }
                             });
                           }
@@ -349,18 +321,16 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <div
-                              className="ui one buttons"
-                              style={{ width: '100%' }}
-                            >
+                            <div className="ui one buttons" style={{ width: '100%' }}>
                               <Button
                                 basic
                                 color="red"
                                 onClick={() => {
                                   if (this.state.currentSelectedTeam) {
-                                    const newMembers = this.state.currentSelectedTeam.members.filter(
-                                      (mem) => mem.email !== member.email
-                                    );
+                                    const newMembers =
+                                      this.state.currentSelectedTeam.members.filter(
+                                        (mem) => mem.email !== member.email
+                                      );
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,
@@ -391,12 +361,8 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                           const queryLower = query.toLowerCase();
                           return (
                             member.email.toLowerCase().startsWith(queryLower) ||
-                            member.firstName
-                              .toLowerCase()
-                              .startsWith(queryLower) ||
-                            member.lastName
-                              .toLowerCase()
-                              .startsWith(queryLower) ||
+                            member.firstName.toLowerCase().startsWith(queryLower) ||
+                            member.lastName.toLowerCase().startsWith(queryLower) ||
                             member.role.toLowerCase().startsWith(queryLower) ||
                             `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
                               queryLower
@@ -408,9 +374,9 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             this.setState({
                               currentSelectedTeam: {
                                 ...this.state.currentSelectedTeam,
-                                formerMembers: this.state.currentSelectedTeam.formerMembers.concat(
-                                  [mem]
-                                )
+                                formerMembers: this.state.currentSelectedTeam.formerMembers.concat([
+                                  mem
+                                ])
                               }
                             });
                           }
@@ -428,18 +394,16 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Card.Description>{member.email}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <div
-                              className="ui one buttons"
-                              style={{ width: '100%' }}
-                            >
+                            <div className="ui one buttons" style={{ width: '100%' }}>
                               <Button
                                 basic
                                 color="red"
                                 onClick={() => {
                                   if (this.state.currentSelectedTeam) {
-                                    const newFormerMembers = this.state.currentSelectedTeam.formerMembers.filter(
-                                      (mem) => mem.email !== member.email
-                                    );
+                                    const newFormerMembers =
+                                      this.state.currentSelectedTeam.formerMembers.filter(
+                                        (mem) => mem.email !== member.email
+                                      );
                                     this.setState({
                                       currentSelectedTeam: {
                                         ...this.state.currentSelectedTeam,

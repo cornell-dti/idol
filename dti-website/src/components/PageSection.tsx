@@ -7,11 +7,7 @@ type Props = {
   readonly children: ReactNode;
 };
 
-export default function PageSection({
-  className,
-  style,
-  children
-}: Props): JSX.Element {
+export default function PageSection({ className, style, children }: Props): JSX.Element {
   return (
     <section className={clsx('page-section', className)} style={style}>
       {children}

@@ -41,10 +41,7 @@ async function main(): Promise<void> {
     fs
       .readdirSync(buildPath)
       .map((filename) =>
-        fs.copyFile(
-          join(buildPath, filename),
-          join('public', 'static', 'members', filename)
-        )
+        fs.copyFile(join(buildPath, filename), join('public', 'static', 'members', filename))
       )
   );
   await fs.emptyDir(HEADSHOT_TEMP);

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-  BrowserRouter as Router,
-  Link,
-  useLocation
-} from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './UserBase.module.css';
 import AddUser from '../AddUser/AddUser';

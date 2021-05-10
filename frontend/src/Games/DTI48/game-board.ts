@@ -9,9 +9,7 @@ export type GameStatus = 'win' | 'lose' | 'ongoing';
 export type MoveDirection = 'u' | 'd' | 'l' | 'r';
 
 const getBoardEmptyIndices = (board: GameBoard) =>
-  board.board
-    .map((value, index) => (value === 0 ? index : -1))
-    .filter((it) => it !== -1);
+  board.board.map((value, index) => (value === 0 ? index : -1)).filter((it) => it !== -1);
 
 const randomPlacement = (board: GameBoard): GameBoard => {
   const emptyIndices = getBoardEmptyIndices(board);
@@ -47,18 +45,14 @@ export const gameStatus = (board: GameBoard): GameStatus => {
   return 'ongoing';
 };
 
-const indexConversion = (
-  board: GameBoard,
-  row: number,
-  column: number
-): number => row * board.width + column;
+const indexConversion = (board: GameBoard, row: number, column: number): number =>
+  row * board.width + column;
 
 const transpose = (board: GameBoard): GameBoard => {
   const boardCopy = new Array<number>(board.width ** 2);
   for (let i = 0; i < board.width; i += 1) {
     for (let j = 0; j < board.width; j += 1) {
-      boardCopy[indexConversion(board, j, i)] =
-        board.board[indexConversion(board, i, j)];
+      boardCopy[indexConversion(board, j, i)] = board.board[indexConversion(board, i, j)];
     }
   }
   return { ...board, board: boardCopy };
@@ -69,8 +63,7 @@ const flip = (board: GameBoard): GameBoard => {
   for (let i = 0; i < board.width; i += 1) {
     const reversedI = board.width - 1 - i;
     for (let j = 0; j < board.width; j += 1) {
-      boardCopy[indexConversion(board, i, j)] =
-        board.board[indexConversion(board, reversedI, j)];
+      boardCopy[indexConversion(board, i, j)] = board.board[indexConversion(board, reversedI, j)];
     }
   }
   return { ...board, board: boardCopy };
@@ -141,10 +134,7 @@ export const step = (board: GameBoard, direction: MoveDirection): GameBoard => {
   return randomPlacement(movementResult);
 };
 
-export const createBoard = (
-  width: number,
-  maximumNumber: number
-): GameBoard => {
+export const createBoard = (width: number, maximumNumber: number): GameBoard => {
   const len = width ** 2;
   const board = new Array(len);
   for (let i = 0; i < len; i += 1) board[i] = 0;

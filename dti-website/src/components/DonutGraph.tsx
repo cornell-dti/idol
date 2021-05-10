@@ -39,7 +39,7 @@ export default function DonutGraph({
       stroke={strokeColor}
       key={id}
       fill={fillColor(d.data.key) as string}
-      d={arc((d as unknown) as d3.DefaultArcObject) as string}
+      d={arc(d as unknown as d3.DefaultArcObject) as string}
       strokeLinecap="round"
     />
   ));

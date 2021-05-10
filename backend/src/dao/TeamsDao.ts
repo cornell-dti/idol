@@ -13,19 +13,13 @@ export default class TeamsDao {
           uuid,
           name,
           formerMembers: await Promise.all(
-            formerMembers.map((ref) =>
-              ref.get().then((doc) => doc.data() as IdolMember)
-            )
+            formerMembers.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
           ),
           leaders: await Promise.all(
-            leaders.map((ref) =>
-              ref.get().then((doc) => doc.data() as IdolMember)
-            )
+            leaders.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
           ),
           members: await Promise.all(
-            members.map((ref) =>
-              ref.get().then((doc) => doc.data() as IdolMember)
-            )
+            members.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
           )
         };
       })
@@ -40,19 +34,13 @@ export default class TeamsDao {
       uuid: team.uuid,
       name: team.name,
       formerMembers: await Promise.all(
-        team.formerMembers.map((ref) =>
-          ref.get().then((doc) => doc.data() as IdolMember)
-        )
+        team.formerMembers.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
       ),
       members: await Promise.all(
-        team.members.map((ref) =>
-          ref.get().then((doc) => doc.data() as IdolMember)
-        )
+        team.members.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
       ),
       leaders: await Promise.all(
-        team.leaders.map((ref) =>
-          ref.get().then((doc) => doc.data() as IdolMember)
-        )
+        team.leaders.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
       )
     };
   }
@@ -63,19 +51,13 @@ export default class TeamsDao {
       name: team.name,
       leaders: team.leaders.map((leader) => memberCollection.doc(leader.email)),
       members: team.members.map((mem) => memberCollection.doc(mem.email)),
-      formerMembers: team.formerMembers.map((mem) =>
-        memberCollection.doc(mem.email)
-      )
+      formerMembers: team.formerMembers.map((mem) => memberCollection.doc(mem.email))
     };
     const existRes = await Promise.all(
-      teamRef.leaders
-        .concat(teamRef.members)
-        .map((ref) => ref.get().then((val) => val.exists))
+      teamRef.leaders.concat(teamRef.members).map((ref) => ref.get().then((val) => val.exists))
     );
     if (existRes.findIndex((val) => val === false) !== -1) {
-      throw new NotFoundError(
-        "Couldn't create team from members that don't exist!"
-      );
+      throw new NotFoundError("Couldn't create team from members that don't exist!");
     }
     await teamCollection.doc(teamRef.uuid).set(teamRef);
     return { ...team, uuid: teamRef.uuid };

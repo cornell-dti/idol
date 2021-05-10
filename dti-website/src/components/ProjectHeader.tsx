@@ -20,9 +20,7 @@ export default function ProjectHeader({ project }: Props): JSX.Element {
               <Row className="no-gutters">
                 <Col className="col-12">
                   <h3 className="project-hero-text-header">{project.header}</h3>
-                  <p className="project-hero-description">
-                    {project.subheader}
-                  </p>
+                  <p className="project-hero-description">{project.subheader}</p>
                 </Col>
               </Row>
               <ProjectGoTo className="no-gutters" project={project} />

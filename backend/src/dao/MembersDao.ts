@@ -15,18 +15,12 @@ export default class MembersDao {
     await memberCollection.doc(email).delete();
   }
 
-  static async setMember(
-    email: string,
-    member: IdolMember
-  ): Promise<IdolMember> {
+  static async setMember(email: string, member: IdolMember): Promise<IdolMember> {
     await memberCollection.doc(email).set(member);
     return member;
   }
 
-  static async updateMember(
-    email: string,
-    member: IdolMember
-  ): Promise<IdolMember> {
+  static async updateMember(email: string, member: IdolMember): Promise<IdolMember> {
     await memberCollection.doc(email).update(member);
     return member;
   }
@@ -37,9 +31,7 @@ export default class MembersDao {
    * This function will automatically decide whether to update or delete the documents in the approved
    * collection based on whether they exist in the original collection.
    */
-  static async approveMemberInformationChanges(
-    emails: readonly string[]
-  ): Promise<void> {
+  static async approveMemberInformationChanges(emails: readonly string[]): Promise<void> {
     const batch = db.batch();
     const approvedMemberInfoList = await Promise.all(
       emails.map(async (email) => {
@@ -60,9 +52,7 @@ export default class MembersDao {
    * Similar to approveMemberInformationChanges, but reverts the change in
    * memberCollection using the data in approvedMemberCollection
    */
-  static async revertMemberInformationChanges(
-    emails: readonly string[]
-  ): Promise<void> {
+  static async revertMemberInformationChanges(emails: readonly string[]): Promise<void> {
     const batch = db.batch();
     const latestMemberInfoList = await Promise.all(
       emails.map(async (email) => {

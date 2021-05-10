@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  Loader,
-  Button,
-  Form,
-  Input,
-  Select,
-  TextArea
-} from 'semantic-ui-react';
+import { Card, Loader, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
@@ -143,8 +135,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           marginTop: '0.5rem',
                           width: 'calc(100% - 1rem)',
                           background:
-                            mem.email ===
-                            this.state.currentSelectedMember?.email
+                            mem.email === this.state.currentSelectedMember?.email
                               ? 'var(--offWhite)'
                               : undefined
                         }}
@@ -159,9 +150,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           <Card.Header style={{ margin: 0 }}>
                             {`${mem.firstName} ${mem.lastName}`}
                           </Card.Header>
-                          <p style={{ margin: 0, color: 'GrayText' }}>
-                            {mem.email}
-                          </p>
+                          <p style={{ margin: 0, color: 'GrayText' }}>{mem.email}</p>
                         </Card.Content>
                       </Card>
                     ))}
@@ -174,9 +163,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                       color="red"
                       onClick={() => {
                         if (this.state.currentSelectedMember) {
-                          this.deleteUser(
-                            this.state.currentSelectedMember.email
-                          );
+                          this.deleteUser(this.state.currentSelectedMember.email);
                         }
                       }}
                     >
@@ -206,9 +193,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="First Name"
                           placeholder="First Name"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -224,9 +209,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="Last Name"
                           placeholder="Last Name"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -246,9 +229,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                             label="Email"
                             placeholder="Email"
                             fluid
-                            onChange={(
-                              event: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                               if (this.state.currentSelectedMember) {
                                 this.setState({
                                   currentSelectedMember: {
@@ -267,9 +248,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                             placeholder="Email"
                             readOnly
                             fluid
-                            onChange={(
-                              event: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                               if (this.state.currentSelectedMember) {
                                 this.setState({
                                   currentSelectedMember: {
@@ -312,9 +291,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="Graduation"
                           placeholder="Graduation"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -330,9 +307,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="Hometown"
                           placeholder="Hometown"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -350,9 +325,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="Major"
                           placeholder="Major"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -368,9 +341,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="Double Major"
                           placeholder="Double Major"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -380,17 +351,13 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={
-                            this.state.currentSelectedMember.doubleMajor || ''
-                          }
+                          value={this.state.currentSelectedMember.doubleMajor || ''}
                         />
                         <Form.Field
                           control={Input}
                           label="Minor"
                           placeholder="Minor"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -408,9 +375,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={TextArea}
                           label="About"
                           placeholder="About"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -428,9 +393,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="Website"
                           placeholder="Website"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -446,9 +409,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           control={Input}
                           label="LinkedIn"
                           placeholder="LinkedIn"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -458,17 +419,13 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                               });
                             }
                           }}
-                          value={
-                            this.state.currentSelectedMember.linkedin || ''
-                          }
+                          value={this.state.currentSelectedMember.linkedin || ''}
                         />
                         <Form.Field
                           control={Input}
                           label="GitHub"
                           placeholder="GitHub"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (this.state.currentSelectedMember) {
                               this.setState({
                                 currentSelectedMember: {
@@ -490,14 +447,11 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                         color="green"
                         onClick={() => {
                           if (this.state.currentSelectedMember) {
-                            const partialMember = this.state
-                              .currentSelectedMember;
+                            const partialMember = this.state.currentSelectedMember;
                             this.setUser({
                               ...partialMember,
                               netid: getNetIDFromEmail(partialMember.email),
-                              roleDescription: getRoleDescriptionFromRoleID(
-                                partialMember.role
-                              )
+                              roleDescription: getRoleDescriptionFromRoleID(partialMember.role)
                             });
                           }
                         }}

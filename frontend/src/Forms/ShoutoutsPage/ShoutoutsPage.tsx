@@ -12,10 +12,7 @@ const ShoutoutsPage: React.FC = () => {
   const [givenShoutouts, setGivenShoutouts] = useState<Shoutout[]>([]);
   const [receivedShoutouts, setReceivedShoutouts] = useState<Shoutout[]>([]);
 
-  const getShoutouts = async (
-    email: string,
-    type: 'given' | 'received'
-  ): Promise<Shoutout[]> => {
+  const getShoutouts = async (email: string, type: 'given' | 'received'): Promise<Shoutout[]> => {
     const shoutouts = await ShoutoutsAPI.getShoutouts(email, type);
     return shoutouts;
   };

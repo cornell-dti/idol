@@ -3,13 +3,9 @@ import { PermissionError } from './errors';
 import { Shoutout } from './DataTypes';
 import ShoutoutsDao from './dao/ShoutoutsDao';
 
-export const getAllShoutouts = (): Promise<Shoutout[]> =>
-  ShoutoutsDao.getAllShoutouts();
+export const getAllShoutouts = (): Promise<Shoutout[]> => ShoutoutsDao.getAllShoutouts();
 
-export const giveShoutout = async (
-  body: Shoutout,
-  user: IdolMember
-): Promise<Shoutout> => {
+export const giveShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
   if (body.giver.email !== user.email) {
     throw new PermissionError(
       `User with email: ${user.email} can't post a shoutout from a different user!`

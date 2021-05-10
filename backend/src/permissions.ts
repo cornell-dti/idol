@@ -1,12 +1,6 @@
 import { adminCollection } from './firebase';
 
-export const allRoles: readonly Role[] = [
-  'lead',
-  'tpm',
-  'pm',
-  'developer',
-  'designer'
-];
+export const allRoles: readonly Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer'];
 
 export class PermissionsManager {
   static async canEditMembers(mem: IdolMember): Promise<boolean> {

@@ -15,10 +15,8 @@ export default function IndexPage(): JSX.Element {
           image="/static/pages/home-hero.png"
           lazy="/static/pages/home-hero-lazy.jpg"
           video={{
-            mp4:
-              'https://d2ytxic79evey7.cloudfront.net/pages/home/hero/hero.mp4',
-            webm:
-              'https://d2ytxic79evey7.cloudfront.net/pages/home/hero/hero.webm'
+            mp4: 'https://d2ytxic79evey7.cloudfront.net/pages/home/hero/hero.mp4',
+            webm: 'https://d2ytxic79evey7.cloudfront.net/pages/home/hero/hero.webm'
           }}
         />
         <div className="home-background home-background-overlay" />

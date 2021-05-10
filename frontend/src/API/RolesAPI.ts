@@ -10,9 +10,7 @@ export default class RolesAPI {
       return Promise.resolve(APICache.retrieve(funcName));
     }
 
-    const responseProm = APIWrapper.get(`${backendURL}/allRoles`).then(
-      (res) => res.data
-    );
+    const responseProm = APIWrapper.get(`${backendURL}/allRoles`).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({

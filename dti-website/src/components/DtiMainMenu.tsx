@@ -49,21 +49,13 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
         'fixed-top',
         'navbar-expand-lg',
         ...(transparent && !navShown
-          ? [
-              'navbar-dti',
-              light ? 'navbar-light' : 'navbar-dark',
-              'bg-transparent'
-            ]
+          ? ['navbar-dti', light ? 'navbar-light' : 'navbar-dark', 'bg-transparent']
           : ['navbar-dti', 'navbar-dti-light', 'navbar-light', 'bg-light'])
       )}
       ref={dtiNavBarRef}
     >
       <Navbar.Brand className="navbar-branding-dti" href="#">
-        <img
-          className="brand-icon"
-          src="/static/branding/brand-icon.svg"
-          alt="DTI"
-        />
+        <img className="brand-icon" src="/static/branding/brand-icon.svg" alt="DTI" />
       </Navbar.Brand>
 
       <Button
@@ -102,10 +94,7 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
         )}
       </Button>
 
-      <Navbar.Collapse
-        id="nav_collapse"
-        style={navShown ? {} : { display: 'none' }}
-      >
+      <Navbar.Collapse id="nav_collapse" style={navShown ? {} : { display: 'none' }}>
         <ul className="navbar-nav ml-auto">
           <NavItem to="/">Home</NavItem>
           <NavItem to="/team/">Team</NavItem>

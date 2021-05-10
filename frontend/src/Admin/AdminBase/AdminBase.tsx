@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-  BrowserRouter as Router,
-  Link,
-  useLocation
-} from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import SiteDeployer from '../DTI-Site-Deployer/SiteDeployer';
 import MemberReview from '../MemberReview/MemberReview';
@@ -23,9 +17,7 @@ const AdminBase: React.FC = () => {
             <Card>
               <Card.Content>
                 <Card.Header>Member Information Review</Card.Header>
-                <Card.Description>
-                  Approve the new info from IDOL.
-                </Card.Description>
+                <Card.Description>Approve the new info from IDOL.</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
@@ -57,9 +49,7 @@ const AdminBase: React.FC = () => {
             <Card>
               <Card.Content>
                 <Card.Header>Sign-In Creator</Card.Header>
-                <Card.Description>
-                  Create a new sign-in code/link!
-                </Card.Description>
+                <Card.Description>Create a new sign-in code/link!</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
