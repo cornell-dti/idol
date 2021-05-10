@@ -5,9 +5,10 @@ type Props = {
   readonly giver: Member;
   readonly receiver: Member;
   readonly message: string;
+  readonly isAnon: boolean;
 };
 
-const ShoutoutCard = ({ giver, receiver, message }: Props): JSX.Element => (
+const ShoutoutCard = ({ giver, receiver, message, isAnon }: Props): JSX.Element => (
   <Card style={{ width: '100%' }}>
     <Card.Content header={`To: ${receiver?.firstName} ${receiver?.lastName} (${receiver.email})`} />
     <Card.Meta

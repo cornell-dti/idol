@@ -28,11 +28,12 @@ export default class ShoutoutsDao {
       .get();
     return Promise.all(
       shoutoutRefs.docs.map(async (shoutoutRef) => {
-        const { giver, receiver, message } = shoutoutRef.data();
+        const { giver, receiver, message, isAnon } = shoutoutRef.data();
         return {
           giver: (await giver.get().then((doc) => doc.data())) as IdolMember,
           receiver: (await receiver.get().then((doc) => doc.data())) as IdolMember,
-          message
+          message,
+          isAnon
         };
       })
     );

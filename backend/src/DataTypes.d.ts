@@ -20,12 +20,14 @@ export type DBShoutout = {
   giver: firestore.DocumentReference;
   receiver: firestore.DocumentReference;
   message: string;
+  isAnon: boolean;
 };
 
 export type Shoutout = {
   giver: IdolMember;
   receiver: IdolMember;
   message: string;
+  isAnon: boolean;
 };
 
 export type DBSignInForm = {

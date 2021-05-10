@@ -12,6 +12,7 @@ const ShoutoutForm: React.FC = () => {
   const [user, setUser] = useState<IdolMember | undefined>(undefined);
   const [recipient, setRecipient] = useState<IdolMember | undefined>(undefined);
   const [message, setMessage] = useState('');
+  const [isAnon, setIsAnon] = useState(false);
 
   useEffect(() => {
     MembersAPI.getAllMembers()
@@ -40,7 +41,8 @@ const ShoutoutForm: React.FC = () => {
       const shoutout: Shoutout = {
         giver: user,
         receiver: recipient,
-        message
+        message,
+        isAnon
       };
       ShoutoutsAPI.giveShoutout(shoutout).then((val) => {
         if (val.error) {
@@ -123,7 +125,11 @@ const ShoutoutForm: React.FC = () => {
           </div>
         ) : undefined}
 
-        <Checkbox label={{ children: 'Anonymous?' }} style={{ paddingLeft: '2em' }} />
+        <Checkbox
+          label={{ children: 'Anonymous?' }}
+          style={{ paddingLeft: '2em' }}
+          onChange={() => setIsAnon(!isAnon)}
+        />
       </div>
 
       <div style={{ padding: '0.8em 0' }}>
