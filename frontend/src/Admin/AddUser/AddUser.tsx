@@ -182,7 +182,18 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                 </Card.Content>
               </Card>
               {this.state.currentSelectedMember !== undefined ? (
-                <Card style={{ width: 'calc(80vw - 6rem)' }}>
+                <Card style={{
+                  width: 'calc(80vw - 6rem)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  flexShrink: 3,
+                  flexGrow: 1,
+                  flexWrap: "wrap",
+                  overflowY: 'auto',
+                  overflowX: 'auto',
+                  position: 'relative'
+                  }}>
                   <Card.Content className={styles.cardContent}>
                     <h2 className={styles.cardHeader}>
                       {`${this.state.currentSelectedMember.firstName} ${this.state.currentSelectedMember.lastName}`}
