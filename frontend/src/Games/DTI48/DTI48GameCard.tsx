@@ -17,13 +17,7 @@ function Slot({ chain, value }: SlotProps) {
     return <DTI48PlaceholderSlot type="win" />;
   }
   const { netid, firstName, lastName } = chain[value - 1];
-  return (
-    <DTI48ProfileImage
-      key={netid}
-      netid={netid}
-      name={`${firstName} ${lastName}`}
-    />
-  );
+  return <DTI48ProfileImage key={netid} netid={netid} name={`${firstName} ${lastName}`} />;
 }
 
 type Props = {
@@ -31,10 +25,7 @@ type Props = {
   readonly searchTyping: boolean;
 };
 
-export default function DTI48GameCard({
-  chain,
-  searchTyping
-}: Props): JSX.Element {
+export default function DTI48GameCard({ chain, searchTyping }: Props): JSX.Element {
   const maximumNumber = chain.length;
   const [board, setBoard] = useState(createBoard(3, maximumNumber));
   const score = getScore(board);
@@ -67,9 +58,7 @@ export default function DTI48GameCard({
     <div className={styles.CardContainer}>
       <Card className={styles.Card}>
         <Card.Content>
-          <Card.Header className={styles.MarginBottom}>
-            Score: {score}
-          </Card.Header>
+          <Card.Header className={styles.MarginBottom}>Score: {score}</Card.Header>
           {status !== 'ongoing' ? (
             <Card.Header
               className={styles.MarginBottom}
@@ -96,11 +85,7 @@ export default function DTI48GameCard({
         </Card.Content>
         <Card.Content extra>
           <div className="ui one buttons">
-            <Button
-              basic
-              color="green"
-              onClick={() => setBoard(createBoard(3, maximumNumber))}
-            >
+            <Button basic color="green" onClick={() => setBoard(createBoard(3, maximumNumber))}>
               Restart
             </Button>
           </div>

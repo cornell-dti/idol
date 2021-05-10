@@ -15,11 +15,7 @@ export default function ProjectFeaturesList({ project }: Props): JSX.Element {
         <Row className="mobile-space align-items-center">
           <Col md="7">
             <div className="feature-header mobile">{feature1.title}</div>
-            <img
-              className="product"
-              src={feature1.image}
-              alt={feature1.title}
-            />
+            <img className="product" src={feature1.image} alt={feature1.title} />
           </Col>
           <Col md="5">
             <div className="feature-header hide">{feature1.title}</div>
@@ -36,11 +32,7 @@ export default function ProjectFeaturesList({ project }: Props): JSX.Element {
           </Col>
           <Col md="7" className="switch2">
             <div className="feature-header mobile">{feature2.title}</div>
-            <img
-              className="product"
-              src={feature2.image}
-              alt={feature2.title}
-            />
+            <img className="product" src={feature2.image} alt={feature2.title} />
           </Col>
         </Row>
       )}
@@ -49,11 +41,7 @@ export default function ProjectFeaturesList({ project }: Props): JSX.Element {
         <Row className="mobile-space align-items-center">
           <Col md="7">
             <div className="feature-header mobile">{feature3.title}</div>
-            <img
-              className="product"
-              src={feature3.image}
-              alt={feature3.title}
-            />
+            <img className="product" src={feature3.image} alt={feature3.title} />
           </Col>
           <Col md="5">
             <div className="feature-header hide">{feature3.title}</div>

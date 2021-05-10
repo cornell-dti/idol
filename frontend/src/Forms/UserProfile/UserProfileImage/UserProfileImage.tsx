@@ -47,9 +47,7 @@ const UserProfileImage: React.FC = () => {
       <Card.Group>
         <Card>
           <Card.Content>
-            <Card.Header style={{ marginBottom: '1rem' }}>
-              Profile Image
-            </Card.Header>
+            <Card.Header style={{ marginBottom: '1rem' }}>Profile Image</Card.Header>
             <Image size="medium" src={profilePhoto} />
           </Card.Content>
         </Card>
@@ -59,9 +57,7 @@ const UserProfileImage: React.FC = () => {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        trigger={
-          <Button style={{ marginTop: '1rem' }}>Update Profile Image</Button>
-        }
+        trigger={<Button style={{ marginTop: '1rem' }}>Update Profile Image</Button>}
       >
         <Modal.Header>Select a Photo</Modal.Header>
         <ProfileImageEditor

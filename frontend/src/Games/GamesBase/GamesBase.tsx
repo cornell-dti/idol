@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-  BrowserRouter as Router,
-  Link,
-  useLocation
-} from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './GamesBase.module.css';
 import DTI48 from '../DTI48/DTI48';
@@ -20,9 +14,7 @@ const GamesBase: React.FC = () => {
             <Card>
               <Card.Content>
                 <Card.Header>DTI48</Card.Header>
-                <Card.Description>
-                  Keep merging until you get Gilly.
-                </Card.Description>
+                <Card.Description>Keep merging until you get Gilly.</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">

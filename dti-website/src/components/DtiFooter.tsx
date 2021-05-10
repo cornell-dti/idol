@@ -17,9 +17,7 @@ import MailChimpForm from './MailChimpForm';
 
 type Props = { readonly hideSubfooter?: boolean };
 
-export default function DtiFooter({
-  hideSubfooter = false
-}: Props): JSX.Element {
+export default function DtiFooter({ hideSubfooter = false }: Props): JSX.Element {
   const [isSubscribing, setIsSubscribing] = useState(false);
 
   return (
@@ -30,16 +28,9 @@ export default function DtiFooter({
             <Col className="col-12">
               <Row className="row subfooter-wrapper align-items-start justify-content-end subfooter-wrapper">
                 <Col className="subfooter-col" md="6" sm="6">
-                  <div className="subfooter-text subfooter-text-gray">
-                    Have a great idea?
-                  </div>
-                  <a
-                    className="button-wrapper"
-                    href="mailto:hello@cornelldti.org"
-                  >
-                    <button className="subfooter-button subfooter-button-gray">
-                      Contact Us
-                    </button>
+                  <div className="subfooter-text subfooter-text-gray">Have a great idea?</div>
+                  <a className="button-wrapper" href="mailto:hello@cornelldti.org">
+                    <button className="subfooter-button subfooter-button-gray">Contact Us</button>
                   </a>
                 </Col>
                 <Col className="subfooter-col" md="6" sm="6">
@@ -64,11 +55,7 @@ export default function DtiFooter({
             <Row className="footer-row  align-items-center">
               <Col lg="12" xl="6">
                 <Row className="justify-content-start">
-                  <img
-                    className="brand"
-                    src="/static/branding/wordmark.png"
-                    alt=""
-                  />
+                  <img className="brand" src="/static/branding/wordmark.png" alt="" />
                 </Row>
               </Col>
               <Col lg="12" xl="6" className="social-icons-wrapper">
@@ -103,8 +90,7 @@ export default function DtiFooter({
             </Row>
             <Row className="bottom justify-content-end">
               <div className="copyright">
-                &copy; {new Date().getUTCFullYear()} Cornell Design &amp; Tech
-                Initiative
+                &copy; {new Date().getUTCFullYear()} Cornell Design &amp; Tech Initiative
               </div>
               <span className="divider"></span>
               <div className="attribution">

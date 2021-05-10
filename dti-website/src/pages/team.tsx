@@ -20,16 +20,11 @@ export default function TeamPage(): JSX.Element {
   const malePercentage = 1 - diversity.femalePercentage[roleId];
   const femalePercentage = diversity.femalePercentage[roleId];
 
-  const filterMembers = (
-    role = '',
-    isLead = false
-  ): readonly { info: NovaMember; id: string }[] =>
+  const filterMembers = (role = '', isLead = false): readonly { info: NovaMember; id: string }[] =>
     (members as NovaMember[])
       .filter(
         (member) =>
-          ((typeof member.roleId === 'string' &&
-            member.roleId.endsWith(role)) ||
-            role === '') &&
+          ((typeof member.roleId === 'string' && member.roleId.endsWith(role)) || role === '') &&
           (member.isLead != null && member.isLead === true) === isLead
       )
       .map((member) => ({ info: member, id: member.netid }))
@@ -50,32 +45,23 @@ export default function TeamPage(): JSX.Element {
           header="Working Together"
           subheader="We are Cornell Design & Tech Initiative. But individually, we are a talented, diverse group of students from different colleges and countries striving to make a difference in our community."
           video={{
-            mp4:
-              'https://d2ytxic79evey7.cloudfront.net/pages/team/hero/hero.mp4',
-            webm:
-              'https://d2ytxic79evey7.cloudfront.net/pages/team/hero/hero.webm'
+            mp4: 'https://d2ytxic79evey7.cloudfront.net/pages/team/hero/hero.mp4',
+            webm: 'https://d2ytxic79evey7.cloudfront.net/pages/team/hero/hero.webm'
           }}
           lazy="/static/pages/team-hero-lazy.jpg"
           image="/static/pages/team-hero.png"
         />
         <div className="diversity diversity-background">
           <Row className="no-gutters diversity diversity-content">
-            <Col
-              sm="12"
-              md="7"
-              className="diversity-inner-left diversity-left-overlay"
-            >
+            <Col sm="12" md="7" className="diversity-inner-left diversity-left-overlay">
               <Row>
                 <Col sm="12" md="9">
-                  <div className="team-header diversity-header my-auto">
-                    Diversity
-                  </div>
+                  <div className="team-header diversity-header my-auto">Diversity</div>
                   <div className="diversity-description my-auto lg-y-padding">
-                    More than just being inclusive, our team strives to bring as
-                    many backgrounds and perspectives together to solve
-                    community problems. These statistics come from recruiting
-                    across campus and seeking applicants with the best skills
-                    and potential for growth on the team. Updated Spring 2019.
+                    More than just being inclusive, our team strives to bring as many backgrounds
+                    and perspectives together to solve community problems. These statistics come
+                    from recruiting across campus and seeking applicants with the best skills and
+                    potential for growth on the team. Updated Spring 2019.
                   </div>
                   <h3 className="graph-header lg-y-padding">Gender Ratio</h3>
                   <Row className="lg-y-padding justify-content-center">
@@ -88,9 +74,7 @@ export default function TeamPage(): JSX.Element {
                               <p className="graph-datum-description">Male</p>
                             </Col>
                             <Col className="col-6 graph-datum red">
-                              <h3>{`${Math.round(
-                                100 * femalePercentage
-                              )}%`}</h3>
+                              <h3>{`${Math.round(100 * femalePercentage)}%`}</h3>
                               <p className="graph-datum-description">Female</p>
                             </Col>
                           </Row>
@@ -114,11 +98,7 @@ export default function TeamPage(): JSX.Element {
                 <Col md="3" />
               </Row>
             </Col>
-            <Col
-              sm="12"
-              md="4"
-              className="diversity-inner-right mx-auto align-self-center"
-            >
+            <Col sm="12" md="4" className="diversity-inner-right mx-auto align-self-center">
               <Row>
                 <Col className="col-12 diversity-description diversity-inner-text">
                   <div className="diversity-stat-header">58%</div>
@@ -157,10 +137,7 @@ export default function TeamPage(): JSX.Element {
                   onRoleIdChange={setRoleId}
                 />
                 <HeadshotGrid
-                  members={[
-                    ...filterMembers(roleId, true),
-                    ...filterMembers(roleId)
-                  ]}
+                  members={[...filterMembers(roleId, true), ...filterMembers(roleId)]}
                 />
               </Col>
             </Row>

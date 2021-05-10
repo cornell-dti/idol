@@ -16,13 +16,7 @@
  * - check-size: ensure that all images inside basePath are smaller than 20KB.
  */
 
-const {
-  readdirSync,
-  mkdirSync,
-  rmdirSync,
-  unlinkSync,
-  statSync
-} = require('fs');
+const { readdirSync, mkdirSync, rmdirSync, unlinkSync, statSync } = require('fs');
 const { join, extname, normalize } = require('path');
 
 const sharp = require('sharp');
@@ -35,9 +29,7 @@ const compressImages = require('compress-images');
 const imagePaths = (basePath) =>
   readdirSync(basePath).filter(
     (filename) =>
-      extname(filename) === '.jpg' ||
-      extname(filename) === '.jpeg' ||
-      extname(filename) === '.png'
+      extname(filename) === '.jpg' || extname(filename) === '.jpeg' || extname(filename) === '.png'
   );
 
 /**
@@ -67,10 +59,7 @@ const resizeImage = (height, source, output) =>
  */
 const optimizeImages = (baseDirectory, outputDirectory) => {
   // Turn `\` back into `/` for windows compatibility.
-  const sources = normalize(join(baseDirectory, '/*.{jpg,jpeg,png}')).replace(
-    /\\/g,
-    '/'
-  );
+  const sources = normalize(join(baseDirectory, '/*.{jpg,jpeg,png}')).replace(/\\/g, '/');
   return new Promise((resolve, reject) => {
     compressImages(
       sources,
@@ -121,9 +110,7 @@ const transformForAll = async (basePath, outputPath, noResize) => {
   const images = imagePaths(basePath);
   mkdirSync(resizeOutputDirectory, { recursive: true });
   await Promise.all(
-    images.map((it) =>
-      resizeImage(500, join(basePath, it), join(resizeOutputDirectory, it))
-    )
+    images.map((it) => resizeImage(500, join(basePath, it), join(resizeOutputDirectory, it)))
   );
   await optimizeImages(resizeOutputDirectory, outputPath);
   images.forEach((it) => unlinkSync(join(resizeOutputDirectory, it)));
@@ -140,14 +127,10 @@ const checkMaxSizeForAll = (basePath, maxSize) => {
     .map((it) => join(basePath, it))
     .filter((it) => getSizeInKB(it) > maxSize);
   if (violators.length === 0) {
-    console.log(
-      `All images' sizes are within the maximum allowed range (${maxSize}KB).`
-    );
+    console.log(`All images' sizes are within the maximum allowed range (${maxSize}KB).`);
     return;
   }
-  console.error(
-    `These images are too big. Maybe you forget to transform them.`
-  );
+  console.error(`These images are too big. Maybe you forget to transform them.`);
   console.error(`Max allowed: ${maxSize}KB.`);
   console.group();
   violators.forEach((it) => console.error(it));
@@ -169,10 +152,7 @@ const main = async () => {
       );
       return;
     case 'check-size':
-      checkMaxSizeForAll(
-        normalize(basePath),
-        parseFloat(cliArguments[4] || '20')
-      );
+      checkMaxSizeForAll(normalize(basePath), parseFloat(cliArguments[4] || '20'));
       return;
     default:
       console.error(`Unknown command: ${cliArguments.slice(2).join(' ')}`);

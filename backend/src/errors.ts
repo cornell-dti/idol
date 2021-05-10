@@ -1,10 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
 export class HandlerError extends Error {
-  constructor(
-    public readonly errorCode: number,
-    public readonly reason: string
-  ) {
+  constructor(public readonly errorCode: number, public readonly reason: string) {
     super();
   }
 }

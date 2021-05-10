@@ -77,9 +77,7 @@ export default function ApplyPage(): JSX.Element {
             <Container className="email-form">
               <Row className="no-gutters justify-content-center">
                 <Col className="col-auto">
-                  <h2 className="email-header">
-                    Applications are currently closed.
-                  </h2>
+                  <h2 className="email-header">Applications are currently closed.</h2>
                 </Col>
               </Row>
             </Container>
@@ -87,35 +85,22 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center info-session-interjection">
-            <Col
-              className="info-session-description"
-              sm="12"
-              md="4"
-              md-offset="1"
-            >
+            <Col className="info-session-description" sm="12" md="4" md-offset="1">
               <div className="header">Information Sessions!</div>
               <div className="subheader">{content.semester}</div>
               <div className="description">
-                Come say hello! You'll have the opportunity to learn more about
-                our team, hear from current members about the exciting work they
-                do, and have the opportunity to chat to people about roles
-                you're interested in!
+                Come say hello! You'll have the opportunity to learn more about our team, hear from
+                current members about the exciting work they do, and have the opportunity to chat to
+                people about roles you're interested in!
               </div>
             </Col>
-            <Col
-              className="info-session-details"
-              sm="12"
-              md="auto"
-              md-offset="1"
-            >
+            <Col className="info-session-details" sm="12" md="auto" md-offset="1">
               <Row className="h-100 justify-content-center align-items-center">
                 <Col className="col-auto">
                   <div className="info-session h-50">
                     <div className="time">{session1.time}</div>
                     <div className="location location-desktop">
-                      {`${session1.location}${
-                        session1.link && session1.link.url ? ' • ' : ''
-                      }`}
+                      {`${session1.location}${session1.link && session1.link.url ? ' • ' : ''}`}
                       {session1.link && session1.link.url && (
                         <a className="apply-link" href={session1.link.url}>
                           {session1.link.text}
@@ -135,9 +120,7 @@ export default function ApplyPage(): JSX.Element {
                   <div className="info-session h-50">
                     <div className="time">{session2.time}</div>
                     <div className="location location-desktop">
-                      {`${session2.location}${
-                        session2.link && session2.link.url ? ' • ' : ''
-                      }`}
+                      {`${session2.location}${session2.link && session2.link.url ? ' • ' : ''}`}
                       {session2.link && session2.link.url && (
                         <a className="apply-link" href={session2.link.url}>
                           {session2.link.text}
@@ -161,26 +144,15 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center coffee-chat">
-            <Col
-              className="info-session-description"
-              sm="12"
-              md="4"
-              md-offset="1"
-            >
+            <Col className="info-session-description" sm="12" md="4" md-offset="1">
               <div className="header">Coffee Chats</div>
               <div className="subheader">Spring 2021</div>
               <div className="description">
-                Sign up to chat with some members on the team! You can learn
-                more about what we do by sending an email to any of the members
-                on the spreadsheet.
+                Sign up to chat with some members on the team! You can learn more about what we do
+                by sending an email to any of the members on the spreadsheet.
               </div>
             </Col>
-            <Col
-              className="info-session-details"
-              sm="12"
-              md="auto"
-              md-offset="1"
-            >
+            <Col className="info-session-details" sm="12" md="auto" md-offset="1">
               <Row className="h-100 justify-content-center align-items-center">
                 <Col className="col-auto">
                   <div className="info-session h-50">
@@ -208,11 +180,7 @@ export default function ApplyPage(): JSX.Element {
             showAll={false}
           />
           {sections.map((info) => (
-            <TimelineSection
-              key={info.id}
-              header={info.header}
-              rightHeader={info.rightHeader}
-            >
+            <TimelineSection key={info.id} header={info.header} rightHeader={info.rightHeader}>
               {info.sections.map((section) => (
                 <div key={section.header}>
                   <div className="apply-header">{section.header}</div>

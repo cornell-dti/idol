@@ -19,9 +19,7 @@ export const computeMembersDiff = <M extends SimplifiedMember>(
   allApprovedMembersList: readonly M[],
   allLatestMembersList: readonly M[]
 ): readonly IdolMemberDiff[] => {
-  const approvedMemberMap = new Map(
-    allApprovedMembersList.map((it) => [it.email, it])
-  );
+  const approvedMemberMap = new Map(allApprovedMembersList.map((it) => [it.email, it]));
 
   const diffs: IdolMemberDiff[] = [];
 

@@ -19,17 +19,13 @@ interface Team {
   readonly id: string;
 }
 
-export default function MemberProfile({
-  profile,
-  className
-}: Props): JSX.Element {
+export default function MemberProfile({ profile, className }: Props): JSX.Element {
   const [imageError, setImageError] = useState(false);
 
   const { subteams, formerSubteams } = profile.info;
 
   let allSubteams: string[];
-  if (subteams && formerSubteams)
-    allSubteams = [...subteams, ...formerSubteams];
+  if (subteams && formerSubteams) allSubteams = [...subteams, ...formerSubteams];
   else if (subteams) allSubteams = subteams;
   else if (formerSubteams) allSubteams = formerSubteams;
   else allSubteams = [];
@@ -66,9 +62,7 @@ export default function MemberProfile({
         {profile.info.graduation && (
           <Row className="profile-facts" id="profile-spacing">
             <Col className="col-5 profile-label">Graduating</Col>
-            <Col className="col-7 profile-details">
-              {profile.info.graduation}
-            </Col>
+            <Col className="col-7 profile-details">{profile.info.graduation}</Col>
           </Row>
         )}
         {profile.info.major && (
@@ -137,8 +131,7 @@ export default function MemberProfile({
               </div>
             )}
             {(profile.info.subteams ||
-              (profile.info.formerSubteams &&
-                profile.info.formerSubteams.length > 0)) && (
+              (profile.info.formerSubteams && profile.info.formerSubteams.length > 0)) && (
               <Row>
                 <Col>
                   <div id="teamwork" className="member-modal-header left-space">

@@ -8,8 +8,7 @@ import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
 const UserProfile: React.FC = () => {
   const userEmail = useContext(UserContext).user?.email;
 
-  const getUser = async (email: string): Promise<Member> =>
-    MembersAPI.getMember(email);
+  const getUser = async (email: string): Promise<Member> => MembersAPI.getMember(email);
 
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -25,9 +24,7 @@ const UserProfile: React.FC = () => {
   const [linkedin, setLinkedin] = useState('');
   const [github, setGithub] = useState('');
   const [subteams, setSubteams] = useState<string[]>([]);
-  const [formerSubteams, setFormerSubteams] = useState<
-    readonly string[] | null
-  >(null);
+  const [formerSubteams, setFormerSubteams] = useState<readonly string[] | null>(null);
 
   useEffect(() => {
     if (userEmail) {
@@ -74,18 +71,10 @@ const UserProfile: React.FC = () => {
     });
   };
 
-  const isFilledOut = (fieldInput: string): boolean =>
-    fieldInput.trim().length > 0;
+  const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
 
   const saveProfileInfo = () => {
-    const requiredFields = [
-      firstName,
-      lastName,
-      graduation,
-      major,
-      hometown,
-      about
-    ];
+    const requiredFields = [firstName, lastName, graduation, major, hometown, about];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {

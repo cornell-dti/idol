@@ -43,11 +43,7 @@ export default function MemberProfileModal({
           <Container fluid>
             <Row>
               <Col>
-                <Button
-                  variant="secondary"
-                  className="modal-close-button close"
-                  onClick={onClose}
-                >
+                <Button variant="secondary" className="modal-close-button close" onClick={onClose}>
                   x
                 </Button>
               </Col>

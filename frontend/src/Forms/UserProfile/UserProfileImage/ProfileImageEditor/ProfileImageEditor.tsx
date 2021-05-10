@@ -124,11 +124,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
             ></Button>
           </div>
 
-          <div
-            className={[styles.labelComponentPair, styles.buttonWrapper].join(
-              ' '
-            )}
-          >
+          <div className={[styles.labelComponentPair, styles.buttonWrapper].join(' ')}>
             <Button color="black" onClick={() => this.props.setOpen(false)}>
               Discard
             </Button>

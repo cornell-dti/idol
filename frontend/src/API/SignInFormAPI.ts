@@ -8,17 +8,11 @@ export default class SignInFormAPI {
     }).then((res) => res.data.exists);
   }
 
-  public static submitSignIn(
-    id: string
-  ): Promise<{ signedInAt: number; id: string }> {
-    return APIWrapper.post(`${backendURL}/signin`, { id }).then(
-      (res) => res.data
-    );
+  public static submitSignIn(id: string): Promise<{ signedInAt: number; id: string }> {
+    return APIWrapper.post(`${backendURL}/signin`, { id }).then((res) => res.data);
   }
 
-  public static createSignInForm(
-    id: string
-  ): Promise<{ id: string; createdAt: number }> {
+  public static createSignInForm(id: string): Promise<{ id: string; createdAt: number }> {
     return APIWrapper.post(`${backendURL}/signinCreate`, {
       id
     }).then((res) => res.data);
@@ -33,8 +27,6 @@ export default class SignInFormAPI {
   public static getAllSignInForms(): Promise<{
     readonly forms: readonly SignInForm[];
   }> {
-    return APIWrapper.post(`${backendURL}/signinAll`, {}).then(
-      (res) => res.data
-    );
+    return APIWrapper.post(`${backendURL}/signinAll`, {}).then((res) => res.data);
   }
 }

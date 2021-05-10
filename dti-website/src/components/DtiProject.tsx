@@ -13,11 +13,7 @@ import ProjectFeaturesList from './ProjectFeaturesList';
 import ProjectLearnMore from './ProjectLearnMore';
 import TeamMembers from './TeamMembers';
 
-export default function DtiProject({
-  teamId
-}: {
-  readonly teamId: string;
-}): JSX.Element {
+export default function DtiProject({ teamId }: { readonly teamId: string }): JSX.Element {
   const project = allProjects.find((it) => it.teamId === teamId);
   if (project == null) throw new Error();
   const pastMembers = allMembers.filter((member) =>
@@ -35,10 +31,7 @@ export default function DtiProject({
           <Row className="justify-content-center">
             <Col md="10" sm="12">
               <Container fluid>
-                <TextHero
-                  header={project.hero.header}
-                  subheader={project.hero.subheader}
-                />
+                <TextHero header={project.hero.header} subheader={project.hero.subheader} />
               </Container>
               <ProjectFeaturesList project={project} />
               <TeamMembers past={pastMembers} current={currentMembers} />

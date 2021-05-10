@@ -3,10 +3,7 @@ import DonutGraph from './DonutGraph';
 
 type Props = { readonly percentage?: number; readonly children: ReactNode };
 
-export default function CircleProgressIndicator({
-  percentage = 0,
-  children
-}: Props): JSX.Element {
+export default function CircleProgressIndicator({ percentage = 0, children }: Props): JSX.Element {
   const [currentPercentage, setCurrentPercentage] = useState(0);
 
   const intervalRef = useRef<NodeJS.Timeout | -1>(-1);

@@ -42,20 +42,15 @@ export default function ProjectsPage(): JSX.Element {
           header="We Are Our Products"
           subheader="We've learned that tackling the hardest problems is the only way to truly create value for the people around us. Each of our projects address an unfulfilled need that exists in our community using human-centered design and software engineering."
           video={{
-            mp4:
-              'https://d2ytxic79evey7.cloudfront.net/pages/projects/hero/hero.mp4',
-            webm:
-              'https://d2ytxic79evey7.cloudfront.net/pages/projects/hero/hero.webm'
+            mp4: 'https://d2ytxic79evey7.cloudfront.net/pages/projects/hero/hero.mp4',
+            webm: 'https://d2ytxic79evey7.cloudfront.net/pages/projects/hero/hero.webm'
           }}
           lazy="/static/pages/projects-hero-lazy.jpg"
           image="/static/pages/projects-hero.png"
         />
         <PageSection className="project-page-main-section">
           {projectRows.map((projectRow) => (
-            <Row
-              className="project-row justify-content-center"
-              key={projectRow.index}
-            >
+            <Row className="project-row justify-content-center" key={projectRow.index}>
               {projectRow.members.map((project) => (
                 <Col
                   md="12"
@@ -65,11 +60,7 @@ export default function ProjectsPage(): JSX.Element {
                   key={project.teamId}
                 >
                   <Link href={`/projects/${project.teamId}/`}>
-                    <img
-                      src={project.card}
-                      className="project-card"
-                      alt={project.name}
-                    />
+                    <img src={project.card} className="project-card" alt={project.name} />
                   </Link>
                 </Col>
               ))}

@@ -8,12 +8,7 @@ type Props = {
   readonly link: string;
 };
 
-export default function QuickLink({
-  image,
-  header,
-  subheader,
-  link
-}: Props): JSX.Element {
+export default function QuickLink({ image, header, subheader, link }: Props): JSX.Element {
   return (
     <Row noGutters>
       <Col className="col-12">
@@ -25,12 +20,8 @@ export default function QuickLink({
           <div className="quicklink-visual-dimensions">
             <a href={link}>
               <div className="quicklink-internal">
-                <div className="quicklink-text quicklink-text-header">
-                  {header}
-                </div>
-                <div className="quicklink-text quicklink-text-subheader">
-                  {subheader}
-                </div>
+                <div className="quicklink-text quicklink-text-header">{header}</div>
+                <div className="quicklink-text quicklink-text-subheader">{subheader}</div>
               </div>
             </a>
           </div>

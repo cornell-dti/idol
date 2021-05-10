@@ -12,17 +12,13 @@ export default function TeamMembers({ current, past }: Props): JSX.Element {
       {current.length > 0 && (
         <PageSection>
           <div className="project-header">Team</div>
-          <HeadshotGrid
-            members={current.map((info) => ({ info, id: info.netid }))}
-          />
+          <HeadshotGrid members={current.map((info) => ({ info, id: info.netid }))} />
         </PageSection>
       )}
       {past.length > 0 && (
         <PageSection>
           <div className="project-header">Former Members</div>
-          <HeadshotGrid
-            members={past.map((info) => ({ info, id: info.netid }))}
-          />
+          <HeadshotGrid members={past.map((info) => ({ info, id: info.netid }))} />
         </PageSection>
       )}
     </div>

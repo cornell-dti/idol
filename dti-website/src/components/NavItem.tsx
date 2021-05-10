@@ -10,11 +10,7 @@ type Props = {
   readonly children: ReactNode;
 };
 
-export default function NavItem({
-  to,
-  className,
-  children
-}: Props): JSX.Element {
+export default function NavItem({ to, className, children }: Props): JSX.Element {
   return (
     <li className={clsx('nav-item', className)}>
       <Link href={to} passHref>

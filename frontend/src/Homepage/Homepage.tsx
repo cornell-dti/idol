@@ -15,10 +15,7 @@ const Homepage: React.FC = () => (
       ></Banner>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Spotlight></Spotlight>
-        <Card
-          style={{ width: '50%', display: 'flex', justfiyContent: 'center' }}
-          size="medium"
-        >
+        <Card style={{ width: '50%', display: 'flex', justfiyContent: 'center' }} size="medium">
           <Card.Content style={{ height: '100%' }}>
             <ShoutoutForm></ShoutoutForm>
           </Card.Content>

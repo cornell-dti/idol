@@ -11,12 +11,7 @@ type Props = {
   readonly onClick?: () => void;
 };
 
-export default function HeadshotCard({
-  image,
-  name,
-  role = '',
-  onClick
-}: Props): JSX.Element {
+export default function HeadshotCard({ image, name, role = '', onClick }: Props): JSX.Element {
   const [foundPic, setFoundPic] = useState(true);
 
   return (
@@ -26,12 +21,7 @@ export default function HeadshotCard({
           <Row className="image-row no-gutters">
             <Col>
               {foundPic ? (
-                <img
-                  src={image}
-                  onError={() => setFoundPic(false)}
-                  alt={name}
-                  loading="lazy"
-                />
+                <img src={image} onError={() => setFoundPic(false)} alt={name} loading="lazy" />
               ) : (
                 <div className="profile-image">
                   <MissingImage className="profile-image-missing" />

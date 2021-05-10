@@ -15,9 +15,7 @@ type Props = { readonly members: readonly MemberInfo[] };
 export default function HeadshotGrid({ members }: Props): JSX.Element {
   const [currentProfile, setCurrentProfile] = useState<MemberInfo | null>(null);
 
-  const pad = (
-    original: readonly MemberInfo[]
-  ): ReadonlyArray<MemberInfo | PhantomMember> => {
+  const pad = (original: readonly MemberInfo[]): ReadonlyArray<MemberInfo | PhantomMember> => {
     const copy: Array<MemberInfo | PhantomMember> = [...original];
     const max = 16;
     for (let i = 0; i < max; i += 1) {
@@ -29,11 +27,7 @@ export default function HeadshotGrid({ members }: Props): JSX.Element {
   return (
     <div className="headshot-grid d-flex flex-row flex-wrap justify-content-start">
       {pad(members).map((member) => (
-        <div
-          className="flexible-item"
-          v-for="member in pad(members)"
-          key={member.id}
-        >
+        <div className="flexible-item" v-for="member in pad(members)" key={member.id}>
           {'phantom' in member ? (
             <div className="phantom-headshot-card">
               <HeadshotCard name={member.id} role={member.id} image="" />

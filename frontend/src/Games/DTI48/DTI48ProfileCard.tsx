@@ -5,18 +5,8 @@ import styles from './DTI48ProfileCard.module.css';
 
 type Props = { readonly netid: string; readonly name: string };
 
-export function DTI48PlaceholderSlot({
-  type
-}: {
-  readonly type: 'win' | 'empty';
-}): JSX.Element {
-  return (
-    <div
-      className={`${styles.Placeholder} ${
-        type === 'win' ? styles.Win : styles.Empty
-      }`}
-    />
-  );
+export function DTI48PlaceholderSlot({ type }: { readonly type: 'win' | 'empty' }): JSX.Element {
+  return <div className={`${styles.Placeholder} ${type === 'win' ? styles.Win : styles.Empty}`} />;
 }
 
 export function DTI48ProfileImage({ netid, name }: Props): JSX.Element {

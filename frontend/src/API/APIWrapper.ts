@@ -5,10 +5,7 @@ import { auth } from '../firebase';
 type APIProcessedResponse = { data: any };
 
 export default class APIWrapper {
-  public static post(
-    url: string,
-    body: unknown
-  ): Promise<APIProcessedResponse> {
+  public static post(url: string, body: unknown): Promise<APIProcessedResponse> {
     return axios
       .post(url, body, { withCredentials: true })
       .catch((err: AxiosError) => err)
@@ -36,9 +33,7 @@ export default class APIWrapper {
       .then((resOrErr) => this.responseMiddleware(resOrErr));
   }
 
-  private static responseMiddleware(
-    resOrErr: AxiosResponse | AxiosError
-  ): APIProcessedResponse {
+  private static responseMiddleware(resOrErr: AxiosResponse | AxiosError): APIProcessedResponse {
     if (resOrErr instanceof Error && resOrErr.response?.status === 440) {
       auth.signOut();
       return { data: { error: 'Session expired! Log in again!' } };

@@ -48,9 +48,7 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     roleDescription,
     doubleMajor: doubleMajor || undefined,
     minor: minor || undefined,
-    formerSubteams: formerSubteams
-      ? ([...formerSubteams] as string[])
-      : undefined,
+    formerSubteams: formerSubteams ? ([...formerSubteams] as string[]) : undefined,
     website: website || undefined,
     linkedin: linkedin || undefined,
     github: github || undefined
@@ -98,8 +96,7 @@ async function main(): Promise<void> {
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/pull-from-idol';
-  const commitMessage =
-    '[bot] Automatically pull latest data from IDOL backend';
+  const commitMessage = '[bot] Automatically pull latest data from IDOL backend';
   runCommand('git', 'add', '.');
   runCommand('git', 'fetch', '--all');
   runCommand('git', 'checkout', 'master');

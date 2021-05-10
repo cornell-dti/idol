@@ -25,21 +25,14 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   updateFormerMembers(teamCopy, oldTeam);
 };
 
-const updateCurrentMembers = async (
-  team: Team,
-  oldTeam: Team
-): Promise<void> => {
+const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> => {
   let newMembers: IdolMember[] = [];
   let deletedMembers: IdolMember[] = [];
 
   const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
   const newTeamMembers = [...team.leaders, ...team.members];
-  newMembers = newTeamMembers.filter(
-    (member) => !oldTeamMembers.includes(member)
-  );
-  deletedMembers = oldTeamMembers.filter(
-    (member) => !newTeamMembers.includes(member)
-  );
+  newMembers = newTeamMembers.filter((member) => !oldTeamMembers.includes(member));
+  deletedMembers = oldTeamMembers.filter((member) => !newTeamMembers.includes(member));
 
   await Promise.all(
     newMembers.map(async (member) => {
@@ -62,16 +55,11 @@ const updateCurrentMembers = async (
   );
 };
 
-const updateFormerMembers = async (
-  team: Team,
-  oldTeam: Team
-): Promise<void> => {
+const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => {
   let newFormerMembers: IdolMember[] = [];
   let removedFormerMembers: IdolMember[] = [];
 
-  newFormerMembers = team.formerMembers.filter(
-    (member) => !oldTeam.formerMembers.includes(member)
-  );
+  newFormerMembers = team.formerMembers.filter((member) => !oldTeam.formerMembers.includes(member));
   removedFormerMembers = oldTeam.formerMembers.filter(
     (member) => !team.formerMembers.includes(member)
   );
@@ -80,9 +68,7 @@ const updateFormerMembers = async (
     newFormerMembers.map(async (member) => {
       const updatedMember = {
         ...member,
-        formerSubteams: member.formerSubteams
-          ? [...member.formerSubteams, team.name]
-          : [team.name]
+        formerSubteams: member.formerSubteams ? [...member.formerSubteams, team.name] : [team.name]
       };
       await MembersDao.setMember(updatedMember.email, updatedMember);
     })
@@ -100,10 +86,7 @@ const updateFormerMembers = async (
   );
 };
 
-export const setTeam = async (
-  teamBody: Team,
-  member: IdolMember
-): Promise<Team> => {
+export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
   const canEdit = await PermissionsManager.canEditTeams(member);
   if (!canEdit) {
     throw new PermissionError(
@@ -116,10 +99,7 @@ export const setTeam = async (
   return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
 };
 
-export const deleteTeam = async (
-  teamBody: Team,
-  member: IdolMember
-): Promise<Team> => {
+export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
   if (!teamBody.uuid || teamBody.uuid === '') {
     throw new BadRequestError("Couldn't delete team with undefined uuid!");
   }

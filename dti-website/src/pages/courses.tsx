@@ -60,10 +60,7 @@ export default function CoursesPage(): JSX.Element {
             return (
               <PageSection key={c.id}>
                 <Row className="courses-row align-items-center justify-content-center">
-                  <Col
-                    lg="7"
-                    className={`col-12 order-lg-${order} order-1 courses-row-img`}
-                  >
+                  <Col lg="7" className={`col-12 order-lg-${order} order-1 courses-row-img`}>
                     <img className="courses-row-image" src={c.image} alt="" />
                   </Col>
                   <Col
@@ -73,18 +70,14 @@ export default function CoursesPage(): JSX.Element {
                     lg="5"
                   >
                     <h2 className="courses-row-content-header">{c.header}</h2>
-                    <div className="courses-row-content-subheader">
-                      {c.subtitle}
-                    </div>
+                    <div className="courses-row-content-subheader">{c.subtitle}</div>
                     <Button
                       variant="secondary"
                       className="social-button"
                       href={c.buttons.apply.link}
                     >
                       <ApplyIcon />
-                      <div className="social-button-text">
-                        {c.buttons.apply.title || ''}
-                      </div>
+                      <div className="social-button-text">{c.buttons.apply.title || ''}</div>
                     </Button>
                   </Col>
                 </Row>

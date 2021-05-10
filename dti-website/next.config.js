@@ -1,7 +1,5 @@
 const withEsbuildLoader = (config, options) => {
-  const jsLoaders = config.module.rules.filter(
-    (rule) => rule.test && rule.test.test('.tsx')
-  );
+  const jsLoaders = config.module.rules.filter((rule) => rule.test && rule.test.test('.tsx'));
   jsLoaders.forEach((jsLoader) => {
     jsLoader.use.loader = require.resolve('esbuild-loader');
     jsLoader.use.options = options;

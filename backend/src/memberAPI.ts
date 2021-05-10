@@ -4,16 +4,12 @@ import { BadRequestError, PermissionError, NotFoundError } from './errors';
 import { bucket } from './firebase';
 import { getNetIDFromEmail, computeMembersDiff } from './util';
 
-export const allMembers = (): Promise<readonly IdolMember[]> =>
-  MembersDao.getAllMembers(false);
+export const allMembers = (): Promise<readonly IdolMember[]> => MembersDao.getAllMembers(false);
 
 export const allApprovedMembers = (): Promise<readonly IdolMember[]> =>
   MembersDao.getAllMembers(true);
 
-export const setMember = async (
-  body: IdolMember,
-  user: IdolMember
-): Promise<IdolMember> => {
+export const setMember = async (body: IdolMember, user: IdolMember): Promise<IdolMember> => {
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit) {
     throw new PermissionError(
@@ -26,10 +22,7 @@ export const setMember = async (
   return MembersDao.setMember(body.email, body);
 };
 
-export const updateMember = async (
-  body: IdolMember,
-  user: IdolMember
-): Promise<IdolMember> => {
+export const updateMember = async (body: IdolMember, user: IdolMember): Promise<IdolMember> => {
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit && user.email !== body.email) {
     // members are able to edit their own information
@@ -53,10 +46,7 @@ export const updateMember = async (
   return MembersDao.updateMember(body.email, body);
 };
 
-export const getMember = async (
-  memberEmail: string,
-  user: IdolMember
-): Promise<IdolMember> => {
+export const getMember = async (memberEmail: string, user: IdolMember): Promise<IdolMember> => {
   const canEdit: boolean = await PermissionsManager.canEditMembers(user);
   if (!canEdit && memberEmail !== user.email) {
     throw new PermissionError(
@@ -70,10 +60,7 @@ export const getMember = async (
   return member;
 };
 
-export const deleteMember = async (
-  email: string,
-  user: IdolMember
-): Promise<void> => {
+export const deleteMember = async (email: string, user: IdolMember): Promise<void> => {
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit) {
     throw new PermissionError(

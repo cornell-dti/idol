@@ -87,28 +87,26 @@ const checkLoggedIn = (req: Request, res: Response): boolean => {
   return false;
 };
 
-const loginCheckedHandler = (
-  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
-): RequestHandler => async (req: Request, res: Response): Promise<void> => {
-  if (!checkLoggedIn(req, res)) return;
-  const userEmail: string = req.session?.email as string;
-  const user = await MembersDao.getMember(userEmail);
-  if (!user) {
-    res.status(401).send({ error: `No user with email: ${userEmail}` });
-    return;
-  }
-  try {
-    res.status(200).send(await handler(req, user));
-  } catch (error) {
-    if (error instanceof HandlerError) {
-      res.status(error.errorCode).send({ error: error.reason });
+const loginCheckedHandler =
+  (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
+  async (req: Request, res: Response): Promise<void> => {
+    if (!checkLoggedIn(req, res)) return;
+    const userEmail: string = req.session?.email as string;
+    const user = await MembersDao.getMember(userEmail);
+    if (!user) {
+      res.status(401).send({ error: `No user with email: ${userEmail}` });
       return;
     }
-    res
-      .status(500)
-      .send({ error: `Failed to handle the request due to ${error}.` });
-  }
-};
+    try {
+      res.status(200).send(await handler(req, user));
+    } catch (error) {
+      if (error instanceof HandlerError) {
+        res.status(error.errorCode).send({ error: error.reason });
+        return;
+      }
+      res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
+    }
+  };
 
 const loginCheckedGet = (
   path: string,
@@ -190,11 +188,7 @@ loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
 }));
 loginCheckedPost('/reviewMemberDiffs', async (req, user) => ({
-  member: await reviewUserInformationChange(
-    req.body.approved,
-    req.body.rejected,
-    user
-  )
+  member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
 }));
 
 // Teams
@@ -219,11 +213,7 @@ router.get('/allMemberImages', async (_, res) => {
 });
 
 loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
-  shoutouts: await getShoutouts(
-    req.params.email,
-    req.params.type as 'given' | 'received',
-    user
-  )
+  shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
 }));
 
 loginCheckedGet('/allShoutouts', async () => ({
@@ -240,9 +230,7 @@ loginCheckedGet('/isAdmin', async (_, user) => ({
 }));
 
 // Pull from IDOL
-loginCheckedPost('/pullIDOLChanges', (_, user) =>
-  requestIDOLPullDispatch(user)
-);
+loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
 loginCheckedGet('/getIDOLChangesPR', (_, user) => getIDOLChangesPR(user));
 loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
 loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
@@ -251,9 +239,7 @@ loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 loginCheckedPost('/signinExists', async (req, _) => ({
   exists: await signInFormExists(req.body.id)
 }));
-loginCheckedPost('/signinCreate', async (req, user) =>
-  createSignInForm(req.body.id, user)
-);
+loginCheckedPost('/signinCreate', async (req, user) => createSignInForm(req.body.id, user));
 loginCheckedPost('/signinDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};

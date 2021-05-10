@@ -4,12 +4,7 @@ import { Button, Form, InputOnChangeData, Message } from 'semantic-ui-react';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import styles from './SignInForm.module.css';
 
-const SIGNIN_CODE_PLACEHOLDERS = [
-  'devsesh-2493',
-  'dtiah-5-21',
-  '14M3L337',
-  '867-5309'
-];
+const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];
 
 const CodeForm: React.FC<{
   defaultValue?: string;
@@ -27,11 +22,7 @@ const CodeForm: React.FC<{
     setInputVal(value);
   };
   const signInButton = (
-    <Button
-      disabled={disabled || inputVal === ''}
-      onClick={onClick}
-      type="submit"
-    >
+    <Button disabled={disabled || inputVal === ''} onClick={onClick} type="submit">
       Sign In
     </Button>
   );
@@ -52,9 +43,7 @@ const CodeForm: React.FC<{
           onChange={handleCodeChange}
           label="Sign-In Code"
           placeholder={
-            SIGNIN_CODE_PLACEHOLDERS[
-              Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)
-            ]
+            SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
         />
         {disabled || inputVal === '' ? (
@@ -70,10 +59,7 @@ const CodeForm: React.FC<{
 const SignInForm: React.FC = () => {
   const location = useLocation();
 
-  if (
-    location.pathname === '/forms/signin' ||
-    location.pathname === '/forms/signin/'
-  ) {
+  if (location.pathname === '/forms/signin' || location.pathname === '/forms/signin/') {
     return (
       <div className={styles.content}>
         <CodeForm />
@@ -144,10 +130,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     </div>
   ) : (
     <div className={styles.content}>
-      <CodeForm
-        disabled
-        info={{ header: 'Signing you in...', content: 'Please stand by!' }}
-      />
+      <CodeForm disabled info={{ header: 'Signing you in...', content: 'Please stand by!' }} />
     </div>
   );
 

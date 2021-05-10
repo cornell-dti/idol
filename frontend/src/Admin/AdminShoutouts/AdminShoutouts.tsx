@@ -11,9 +11,7 @@ const AdminShoutouts: React.FC = () => {
   useEffect(() => {
     PermissionsAPI.isAdmin().then(({ isAdmin }) => {
       if (isAdmin) {
-        ShoutoutsAPI.getAllShoutouts().then((shoutouts) =>
-          setShoutouts(shoutouts)
-        );
+        ShoutoutsAPI.getAllShoutouts().then((shoutouts) => setShoutouts(shoutouts));
       } else {
         Emitters.generalError.emit({
           headerMsg: 'Access Denied',

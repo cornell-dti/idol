@@ -17,8 +17,7 @@ const Spotlight: React.FC = () => (
           <Image className={styles.headshot} size="medium" src={AramHeadshot} />
           <Card.Header>Ring Aram the Rosey</Card.Header>
           <Card.Description>
-            Aram is then new PM lead for DTI! He is also known for his signature
-            blue hoodie.
+            Aram is then new PM lead for DTI! He is also known for his signature blue hoodie.
           </Card.Description>
         </Card.Content>
       </Card>

@@ -11,22 +11,11 @@ type Props = {
   readonly subheader?: string;
 };
 
-export default function NovaHero({
-  header,
-  video,
-  lazy,
-  image,
-  subheader
-}: Props): JSX.Element {
+export default function NovaHero({ header, video, lazy, image, subheader }: Props): JSX.Element {
   return (
     <div className="nova-hero">
       <div className="nova-hero-visual-container">
-        <LazyVideo
-          className="nova-hero-visual"
-          lazy={lazy}
-          image={image}
-          video={video}
-        />
+        <LazyVideo className="nova-hero-visual" lazy={lazy} image={image} video={video} />
         <div className="nova-hero-overlay" />
       </div>
       {(header || subheader) && (
