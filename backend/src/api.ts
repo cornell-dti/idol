@@ -64,29 +64,29 @@ const getUserEmailFromRequest = async (request: Request): Promise<string | undef
   return decodedToken.email;
 };
 
-const loginCheckedHandler =
-  (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
-  async (req: Request, res: Response): Promise<void> => {
-    const userEmail = await getUserEmailFromRequest(req);
-    if (userEmail == null) {
-      res.status(440).json({ error: 'Not logged in!' });
+const loginCheckedHandler = (
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
+): RequestHandler => async (req: Request, res: Response): Promise<void> => {
+  const userEmail = await getUserEmailFromRequest(req);
+  if (userEmail == null) {
+    res.status(440).json({ error: 'Not logged in!' });
+    return;
+  }
+  const user = await MembersDao.getMember(userEmail);
+  if (!user) {
+    res.status(401).send({ error: `No user with email: ${userEmail}` });
+    return;
+  }
+  try {
+    res.status(200).send(await handler(req, user));
+  } catch (error) {
+    if (error instanceof HandlerError) {
+      res.status(error.errorCode).send({ error: error.reason });
       return;
     }
-    const user = await MembersDao.getMember(userEmail);
-    if (!user) {
-      res.status(401).send({ error: `No user with email: ${userEmail}` });
-      return;
-    }
-    try {
-      res.status(200).send(await handler(req, user));
-    } catch (error) {
-      if (error instanceof HandlerError) {
-        res.status(error.errorCode).send({ error: error.reason });
-        return;
-      }
-      res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
-    }
-  };
+    res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
+  }
+};
 
 const loginCheckedGet = (
   path: string,
