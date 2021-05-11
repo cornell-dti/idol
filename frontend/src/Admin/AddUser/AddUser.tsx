@@ -150,17 +150,32 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                           <Card.Header style={{ margin: 0 }}>
                             {`${mem.firstName} ${mem.lastName}`}
                           </Card.Header>
-                          <p style={{ margin: 0, color: 'GrayText' }}>{mem.email}</p>
+                          <p
+                            style={{
+                              margin: 0,
+                              color: 'GrayText',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {mem.email}
+                          </p>
                         </Card.Content>
                       </Card>
                     ))}
                   </Card.Content>
                 </div>
                 <Card.Content extra>
-                  <div className="ui one buttons" style={{ width: '100%' }}>
+                  <div
+                    className="ui one buttons"
+                    style={{
+                      width: '100%'
+                    }}
+                  >
                     <Button
                       basic
                       color="red"
+                      style={{ width: '50%' }}
                       onClick={() => {
                         if (this.state.currentSelectedMember) {
                           this.deleteUser(this.state.currentSelectedMember.email);
@@ -172,6 +187,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                     <Button
                       basic
                       color="blue"
+                      style={{ width: '50%' }}
                       onClick={() => {
                         this.createNewUser();
                       }}
@@ -182,7 +198,18 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
                 </Card.Content>
               </Card>
               {this.state.currentSelectedMember !== undefined ? (
-                <Card style={{ width: 'calc(80vw - 6rem)' }}>
+                <Card
+                  style={{
+                    width: 'calc(80vw - 6rem)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    flexWrap: 'wrap',
+                    overflowY: 'auto',
+                    overflowX: 'auto',
+                    position: 'relative'
+                  }}
+                >
                   <Card.Content className={styles.cardContent}>
                     <h2 className={styles.cardHeader}>
                       {`${this.state.currentSelectedMember.firstName} ${this.state.currentSelectedMember.lastName}`}

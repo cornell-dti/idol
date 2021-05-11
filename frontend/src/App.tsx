@@ -8,7 +8,6 @@ import { useUserContext } from './UserProvider/UserProvider';
 import SiteHeader from './SiteHeader/SiteHeader';
 import Emitters from './EventEmitter/constant-emitters';
 import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundErrorModal';
-import UserBase from './User/UserBase/UserBase';
 
 import ErrorModal from './Modals/ErrorModal/ErrorModal';
 import AdminBase from './Admin/AdminBase/AdminBase';
@@ -119,9 +118,6 @@ const RouterImpl: React.FC<{
               }}
             >
               <Switch>
-                <Route path="/users*">
-                  <UserBase />
-                </Route>
                 <Route path="/forms*">
                   <FormsBase />
                 </Route>
@@ -149,12 +145,6 @@ const MenuContent: React.FC = () => (
       <Menu.Item>
         <Icon name="home" />
         Home
-      </Menu.Item>
-    </Link>
-    <Link to="/users">
-      <Menu.Item>
-        <Icon name="group" />
-        Users
       </Menu.Item>
     </Link>
     <Link to="/admin">
