@@ -158,6 +158,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     <Button
                       basic
                       color="red"
+                      style={{ width: '50%' }}
                       onClick={() => {
                         if (this.state.currentSelectedTeam) {
                           this.deleteTeam(this.state.currentSelectedTeam);
@@ -169,6 +170,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                     <Button
                       basic
                       color="blue"
+                      style={{ width: '50%' }}
                       onClick={() => {
                         this.createNewTeam();
                       }}

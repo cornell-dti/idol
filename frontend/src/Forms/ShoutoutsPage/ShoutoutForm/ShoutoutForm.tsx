@@ -1,13 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
-import { UserContext } from '../../../UserProvider/UserProvider';
+import { useUserEmail } from '../../../UserProvider/UserProvider';
 import CustomSearch from '../../../Common/Search/Search';
 import Emitters from '../../../EventEmitter/constant-emitters';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
 
 const ShoutoutForm: React.FC = () => {
-  const userEmail = useContext(UserContext).user?.email;
+  const userEmail = useUserEmail();
   const [members, setMembers] = useState<IdolMember[] | undefined>(undefined);
   const [user, setUser] = useState<IdolMember | undefined>(undefined);
   const [recipient, setRecipient] = useState<IdolMember | undefined>(undefined);

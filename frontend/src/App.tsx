@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Sidebar, Menu, Icon, Loader } from 'semantic-ui-react';
 import SignIn from './SignIn/SignIn.lazy';
 import Homepage from './Homepage/Homepage.lazy';
-import { UserContext } from './UserProvider/UserProvider';
+import { useUserContext } from './UserProvider/UserProvider';
 import SiteHeader from './SiteHeader/SiteHeader';
 import Emitters from './EventEmitter/constant-emitters';
 import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundErrorModal';
-import UserBase from './User/UserBase/UserBase';
 
 import ErrorModal from './Modals/ErrorModal/ErrorModal';
 import AdminBase from './Admin/AdminBase/AdminBase';
@@ -17,7 +16,7 @@ import FormsBase from './Forms/FormsBase/FormsBase';
 import GamesBase from './Games/GamesBase/GamesBase';
 
 function App(): JSX.Element {
-  const user = useContext(UserContext);
+  const user = useUserContext();
   const [navVisible, setNavVisible] = React.useState(false);
   useEffect(() => {
     const cb = (isOpen: boolean) => {
@@ -29,8 +28,36 @@ function App(): JSX.Element {
     };
   });
 
-  if (user.user === null || user.loggingIntoDTI) {
-    return <NotAuthed />;
+  if (user === 'INIT') {
+    return (
+      <div className="App">
+        <Router>
+          <Switch>
+            <Route path="/*">
+              <div style={{ height: '100vh', width: '100vw' }}>
+                <Loader active={true} size="massive">
+                  Signing you in...
+                </Loader>
+              </div>
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
+  if (user == null) {
+    return (
+      <div className="App">
+        <EmailNotFoundErrorModal />
+        <Router>
+          <Switch>
+            <Route path="/*">
+              <SignIn />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    );
   }
 
   return (
@@ -91,9 +118,6 @@ const RouterImpl: React.FC<{
               }}
             >
               <Switch>
-                <Route path="/users*">
-                  <UserBase />
-                </Route>
                 <Route path="/forms*">
                   <FormsBase />
                 </Route>
@@ -123,12 +147,6 @@ const MenuContent: React.FC = () => (
         Home
       </Menu.Item>
     </Link>
-    <Link to="/users">
-      <Menu.Item>
-        <Icon name="group" />
-        Users
-      </Menu.Item>
-    </Link>
     <Link to="/admin">
       <Menu.Item>
         <Icon name="shield" />
@@ -149,35 +167,5 @@ const MenuContent: React.FC = () => (
     </Link>
   </>
 );
-
-const NotAuthed: React.FC = () => {
-  const user = useContext(UserContext);
-  return !user.loggingIntoDTI ? (
-    <div className="App">
-      <EmailNotFoundErrorModal />
-      <Router>
-        <Switch>
-          <Route path="/*">
-            <SignIn />
-          </Route>
-        </Switch>
-      </Router>
-    </div>
-  ) : (
-    <div className="App">
-      <Router>
-        <Switch>
-          <Route path="/*">
-            <div style={{ height: '100vh', width: '100vw' }}>
-              <Loader active={true} size="massive">
-                Signing you in...
-              </Loader>
-            </div>
-          </Route>
-        </Switch>
-      </Router>
-    </div>
-  );
-};
 
 export default App;

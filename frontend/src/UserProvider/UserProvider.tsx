@@ -1,55 +1,46 @@
-import React, { Component, createContext } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../firebase';
-import Emitters from '../EventEmitter/constant-emitters';
-import { LoginAPI } from '../API/LoginAPI';
 
-type UserContextType = { user: firebase.User | null; loggingIntoDTI: boolean };
+type UserContextType = { readonly email: string } | 'INIT' | null;
 
-export const UserContext = createContext<UserContextType>({
-  user: null,
-  loggingIntoDTI: false
-});
-class UserProvider extends Component<Record<string, unknown>, UserContextType> {
-  constructor(props: Record<string, unknown>) {
-    super(props);
-    this.state = {
-      user: auth.currentUser ? auth.currentUser : null,
-      loggingIntoDTI: false
-    };
-  }
+const UserContext = createContext<UserContextType>(null);
 
-  componentDidMount = (): void => {
-    auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        this.setState({ loggingIntoDTI: true });
-        LoginAPI.login(await userAuth.getIdToken()).then((loginResp) => {
-          if (!loginResp.isLoggedIn) {
-            auth.signOut().then(() => {
-              this.setState({ user: null });
-              Emitters.emailNotFoundError.emit();
-            });
-            this.setState({ loggingIntoDTI: false });
-            return;
-          }
-          this.setState({ user: userAuth, loggingIntoDTI: false });
-        });
-      } else {
-        LoginAPI.logout().then((logoutResp) => {
-          if (!logoutResp.isLoggedIn) {
-            this.setState({ user: null, loggingIntoDTI: false });
-          } else {
-            Emitters.generalError.emit({
-              headerMsg: "Couldn't log out!",
-              contentMsg: 'Backend could not sign you out!'
-            });
-          }
-        });
-      }
-    });
-  };
+const getUserEmail = (user: firebase.User) => {
+  const { email } = user;
+  if (email == null) throw new Error();
+  return email;
+};
 
-  render(): JSX.Element {
-    return <UserContext.Provider value={this.state}>{this.props.children}</UserContext.Provider>;
-  }
+export const useUserContext = (): UserContextType => useContext(UserContext);
+
+export const useUserEmail = (): string => {
+  const context = useUserContext();
+  if (context === 'INIT' || context == null) return '@cornell.edu';
+  return context.email;
+};
+
+let cachedUser: firebase.User | null = null;
+
+export const getUserIdToken = async (): Promise<string | null> => {
+  if (cachedUser == null) return null;
+  return cachedUser.getIdToken();
+};
+
+export default function UserProvider({ children }: { readonly children: ReactNode }): JSX.Element {
+  const [user, setUser] = useState<UserContextType>('INIT');
+
+  useEffect(
+    () =>
+      auth.onAuthStateChanged(async (userAuth) => {
+        if (userAuth) {
+          setUser({ email: getUserEmail(userAuth) });
+          cachedUser = userAuth;
+        } else {
+          setUser(null);
+        }
+      }),
+    []
+  );
+
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
-export default UserProvider;
