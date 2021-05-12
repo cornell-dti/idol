@@ -28,17 +28,29 @@ export default class ShoutoutsDao {
       .get();
     return Promise.all(
       shoutoutRefs.docs.map(async (shoutoutRef) => {
-        const { giver, receiver, message } = shoutoutRef.data();
-        return {
-          giver: (await giver.get().then((doc) => doc.data())) as IdolMember,
-          receiver: (await receiver.get().then((doc) => doc.data())) as IdolMember,
-          message
-        };
+        const { giver, receiver, message, isAnon } = shoutoutRef.data();
+        return isAnon
+          ? {
+              receiver: (await receiver.get().then((doc) => doc.data())) as IdolMember,
+              message,
+              isAnon
+            }
+          : {
+              giver: (await giver.get().then((doc) => doc.data())) as IdolMember,
+              receiver: (await receiver.get().then((doc) => doc.data())) as IdolMember,
+              message,
+              isAnon
+            };
       })
     );
   }
 
-  static async setShoutout(shoutout: Shoutout): Promise<Shoutout> {
+  static async setShoutout(shoutout: {
+    giver: IdolMember;
+    receiver: IdolMember;
+    message: string;
+    isAnon: boolean;
+  }): Promise<Shoutout> {
     const shoutoutRef: DBShoutout = {
       ...shoutout,
       giver: memberCollection.doc(shoutout.giver.email),

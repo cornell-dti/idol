@@ -20,13 +20,21 @@ export type DBShoutout = {
   giver: firestore.DocumentReference;
   receiver: firestore.DocumentReference;
   message: string;
+  isAnon: boolean;
 };
 
-export type Shoutout = {
-  giver: IdolMember;
-  receiver: IdolMember;
-  message: string;
-};
+export type Shoutout =
+  | {
+      giver: IdolMember;
+      receiver: IdolMember;
+      message: string;
+      isAnon: false;
+    }
+  | {
+      receiver: IdolMember;
+      message: string;
+      isAnon: true;
+    };
 
 export type DBSignInForm = {
   users: { signedInAt: number; user: firestore.DocumentReference }[];

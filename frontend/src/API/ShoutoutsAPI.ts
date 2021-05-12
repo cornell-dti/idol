@@ -7,6 +7,7 @@ export type Shoutout = {
   giver: Member;
   receiver: Member;
   message: string;
+  isAnon: boolean;
 };
 
 type ShoutoutResponseObj = {
