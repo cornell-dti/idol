@@ -7,9 +7,7 @@ const withEsbuildLoader = (config, options) => {
 };
 
 module.exports = {
-  future: {
-    webpack5: true
-  },
+  webpack5: true,
   webpack(config, { webpack }) {
     config.module.rules.push({
       test: /\.svg$/,
