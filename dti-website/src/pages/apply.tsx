@@ -16,7 +16,6 @@ import content from '../data/apply.json';
 
 interface ApplyType {
   readonly header: string;
-  readonly rightHeader: string;
   readonly sections: readonly {
     readonly header: string;
     readonly content: string;
