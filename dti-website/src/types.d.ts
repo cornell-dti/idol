@@ -1,3 +1,5 @@
+/// <reference types="common-types" />
+
 interface Project {
   readonly active?: boolean;
   readonly teamId: string;
