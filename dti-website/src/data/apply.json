@@ -7,7 +7,7 @@
       "events": [
         {
           "label": "Applications Open",
-          "time": "Thursday, 8/26 @ 12am ET"
+          "time": "Thursday 8/26 @ 12am ET"
         },
         {
           "label": "Info Sessions",
@@ -15,7 +15,7 @@
         },
         {
           "label": "Applications Close",
-          "time": "Wednesday, 9/8 @ 12am ET"
+          "time": "Wednesday 9/8 @ 12am ET"
         },
         {
           "label": "Interviews",
@@ -23,11 +23,11 @@
         },
         {
           "label": "Offer Rollout Begin",
-          "time": "Wednesday, 9/22 @ 12am ET"
+          "time": "Wednesday 9/22 @ 12am ET"
         },
         {
           "label": "Fall Add Deadline",
-          "time": "Friday, 10/1 @ 5pm ET"
+          "time": "Friday 10/1 @ 5pm ET"
         }
       ]
     },
@@ -40,7 +40,7 @@
         },
         {
           "label": "Project Team Fest",
-          "time": "Tuesday, 9/21 @ 4pm - 7pm ET"
+          "time": "Tuesday 9/21 @ 4pm - 7pm ET"
         },
         {
           "label": "Info Sessions",
@@ -48,7 +48,7 @@
         },
         {
           "label": "Applications Due",
-          "time": "Friday, 10/1 @ 11:59pm ET"
+          "time": "Friday 10/1 @ 11:59pm ET"
         },
         {
           "label": "Interviews",
@@ -56,14 +56,14 @@
         },
         {
           "label": "Offer Rollout Begins",
-          "time": "Monday, 10/18 @ 12am ET"
+          "time": "Monday 10/18 @ 12am ET"
         }
       ]
     }
   ],
   "infoSessions": [
     {
-      "time": "6:45 PM - 8:15 PM ET • Monday, 8/30",
+      "time": "6:45 PM - 8:15 PM ET • Monday 8/30",
       "location": "Information Session",
       "link": {
         "url": "https://goo.gl/maps/X1ftKXK51TecUpe49",
@@ -71,7 +71,7 @@
       }
     },
     {
-      "time": "5:30 PM - 7:00 PM ET • Thursday, 9/2",
+      "time": "5:30 PM - 7:00 PM ET • Thursday 9/2",
       "location": "Information Session",
       "link": {
         "url": "https://goo.gl/maps/X1ftKXK51TecUpe49",
@@ -79,7 +79,7 @@
       }
     },
     {
-      "time": "4:00 PM - 7:00 PM ET • Tuesday, 9/21",
+      "time": "4:00 PM - 7:00 PM ET • Tuesday 9/21",
       "location": "Project Team Fest",
       "link": {
         "url": "https://goo.gl/maps/Tq9MQJaVSNfsRE3BA",
@@ -92,7 +92,7 @@
       "id": "designer",
       "apply": {
         "header": "Product Design Role",
-        "rightHeader": "",
+        "rightHeader": ["S: due 11:59 PM on Friday 2/19"],
         "sections": [
           {
             "header": "What We're Looking For",
@@ -111,7 +111,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "",
+        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -125,7 +125,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "",
+        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",
@@ -138,7 +138,7 @@
       "id": "developer",
       "apply": {
         "header": "Software Development Role",
-        "rightHeader": "",
+        "rightHeader": "due 11:59 PM on Friday 2/19",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -157,7 +157,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "",
+        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -171,7 +171,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "",
+        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",
@@ -184,7 +184,7 @@
       "id": "business",
       "apply": {
         "header": "Business Role",
-        "rightHeader": "",
+        "rightHeader": "due 11:59 PM on Friday 2/19",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -203,7 +203,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "",
+        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -217,7 +217,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "",
+        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",
@@ -230,7 +230,7 @@
       "id": "pm",
       "apply": {
         "header": "Product Management Role",
-        "rightHeader": "",
+        "rightHeader": "due 11:59 PM on Friday 2/19",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -249,7 +249,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "",
+        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -263,7 +263,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "",
+        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",

@@ -89,7 +89,7 @@ export default function ApplyPage(): JSX.Element {
               <div className="subheader">{content.semester}</div>
             </Col>
             {content.timelines.map((timeline) => (
-              <Col className="timeline-details" sm="12" md="6" md-offset="1">
+              <Col key={timeline.name} className="timeline-details" sm="12" md="6" md-offset="1">
                 <Row className="h-100 justify-content-center align-items-center">
                   <Col className="col-auto">
                     <div className="timeline h-50">
@@ -122,7 +122,7 @@ export default function ApplyPage(): JSX.Element {
               <Row className="h-100 justify-content-center align-items-center">
                 <Col className="col-auto">
                   {sessions.map((session) => (
-                    <div className="info-session h-50">
+                    <div key={session.time} className="info-session h-50">
                       <div className="time">{session.time}</div>
                       <div className="location location-desktop">
                         {`${session.location}${session.link && session.link.url ? ' • ' : ''}`}
@@ -186,7 +186,7 @@ export default function ApplyPage(): JSX.Element {
             showAll={false}
           />
           {sections.map((info) => (
-            <TimelineSection key={info.id} header={info.header} rightHeader={info.rightHeader}>
+            <TimelineSection key={info.id} header={info.header}>
               {info.sections.map((section) => (
                 <div key={section.header}>
                   <div className="apply-header">{section.header}</div>

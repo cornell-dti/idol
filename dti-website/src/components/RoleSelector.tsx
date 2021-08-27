@@ -61,6 +61,7 @@ export default function RoleSelector({
 
   return (
     <div className={clsx('role-selector-component', className)}>
+      <Row className="justify-content-center desktop-selector-header">Applications 👇</Row>
       <Row className="filter-btn-group desktop-selector-container">
         {showAll && (
           <Col
@@ -107,6 +108,9 @@ export default function RoleSelector({
                 All
               </option>
             )}
+            <option className="fg-dark" value="">
+              Select One
+            </option>
             {roles.map((role) => (
               <option className="fg-dark" key={role.id} value={role.id}>
                 {role.name}

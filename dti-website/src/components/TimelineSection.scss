@@ -1,21 +1,4 @@
 .timeline-section {
-  .right-col-text {
-    opacity: 0.8;
-    font-size: 1.5rem;
-    font-weight: 600;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: 0.3px;
-    color: #000000;
-    text-align: right;
-
-    @media (max-width: 767px) {
-      font-size: 1rem;
-      text-align: left;
-    }
-  }
-
   .timeline-header {
     margin-bottom: 2.5rem;
   }
