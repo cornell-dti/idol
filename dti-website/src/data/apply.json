@@ -1,21 +1,89 @@
 {
   "applicationsOpen": true,
-  "semester": "Spring 2021",
+  "semester": "Fall 2021",
+  "timelines": [
+    {
+      "name": "Sophomores and Up",
+      "events": [
+        {
+          "label": "Applications Open",
+          "time": "Thursday, 8/26 @ 12am ET"
+        },
+        {
+          "label": "Info Sessions",
+          "time": "Week of 8/30, see below"
+        },
+        {
+          "label": "Applications Close",
+          "time": "Wednesday, 9/8 @ 12am ET"
+        },
+        {
+          "label": "Interviews",
+          "time": "9/12 - 9/19"
+        },
+        {
+          "label": "Offer Rollout Begin",
+          "time": "Wednesday, 9/22 @ 12am ET"
+        },
+        {
+          "label": "Fall Add Deadline",
+          "time": "Friday, 10/1 @ 5pm ET"
+        }
+      ]
+    },
+    {
+      "name": "Freshmen",
+      "events": [
+        {
+          "label": "Applications Open",
+          "time": "TBD"
+        },
+        {
+          "label": "Project Team Fest",
+          "time": "Tuesday, 9/21 @ 4pm - 7pm ET"
+        },
+        {
+          "label": "Info Sessions",
+          "time": "Week of 9/20 or 9/27"
+        },
+        {
+          "label": "Applications Due",
+          "time": "Friday, 10/1 @ 11:59pm ET"
+        },
+        {
+          "label": "Interviews",
+          "time": "Week of 10/4 and/or 10/11"
+        },
+        {
+          "label": "Offer Rollout Begins",
+          "time": "Monday, 10/18 @ 12am ET"
+        }
+      ]
+    }
+  ],
   "infoSessions": [
     {
-      "time": "4:30 PM - 5:30 PM ET • 2/16",
-      "location": "Online",
+      "time": "6:45 PM - 8:15 PM ET • Monday, 8/30",
+      "location": "Information Session",
       "link": {
-        "url": "https://cornell.zoom.us/j/93280933476?pwd=ZVlCaHV3TlIvaVQ0Q09QNFJuQzFFZz09",
-        "text": "Zoom Link"
+        "url": "https://goo.gl/maps/X1ftKXK51TecUpe49",
+        "text": "Goldwin Smith G64"
       }
     },
     {
-      "time": "4:30 PM - 5:30 PM ET • 2/18",
-      "location": "Online",
+      "time": "5:30 PM - 7:00 PM ET • Thursday, 9/2",
+      "location": "Information Session",
       "link": {
-        "url": "https://cornell.zoom.us/j/93280933476?pwd=ZVlCaHV3TlIvaVQ0Q09QNFJuQzFFZz09",
-        "text": "Zoom Link"
+        "url": "https://goo.gl/maps/X1ftKXK51TecUpe49",
+        "text": "Goldwin Smith G64"
+      }
+    },
+    {
+      "time": "4:00 PM - 7:00 PM ET • Tuesday, 9/21",
+      "location": "Project Team Fest",
+      "link": {
+        "url": "https://goo.gl/maps/Tq9MQJaVSNfsRE3BA",
+        "text": "Duffield/MAE Lounge/ELL"
       }
     }
   ],
@@ -24,7 +92,7 @@
       "id": "designer",
       "apply": {
         "header": "Product Design Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
+        "rightHeader": "",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -43,7 +111,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Application Review",
@@ -57,7 +125,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Notification",
@@ -70,7 +138,7 @@
       "id": "developer",
       "apply": {
         "header": "Software Development Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
+        "rightHeader": "",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -89,7 +157,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Application Review",
@@ -103,7 +171,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Notification",
@@ -116,7 +184,7 @@
       "id": "business",
       "apply": {
         "header": "Business Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
+        "rightHeader": "",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -135,7 +203,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Application Review",
@@ -149,7 +217,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Notification",
@@ -162,7 +230,7 @@
       "id": "pm",
       "apply": {
         "header": "Product Management Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
+        "rightHeader": "",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -181,7 +249,7 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Application Review",
@@ -195,7 +263,7 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
+        "rightHeader": "",
         "sections": [
           {
             "header": "Notification",

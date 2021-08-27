@@ -15,9 +15,11 @@ export default function TimelineSection({ header, rightHeader, children }: Props
         <Col className="left-col-text" md="auto" sm="12">
           <div className="container-section-heading">{header}</div>
         </Col>
-        <Col sm="12" md className="right-col-text align-self-end">
-          {rightHeader}
-        </Col>
+        {rightHeader && (
+          <Col sm="12" md className="right-col-text align-self-end">
+            {rightHeader}
+          </Col>
+        )}
       </Row>
       <div className="timeline-content">{children}</div>
     </section>
