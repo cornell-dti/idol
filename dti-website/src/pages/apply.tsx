@@ -16,7 +16,6 @@ import content from '../data/apply.json';
 
 interface ApplyType {
   readonly header: string;
-  readonly rightHeader: string;
   readonly sections: readonly {
     readonly header: string;
     readonly content: string;
@@ -37,8 +36,7 @@ export default function ApplyPage(): JSX.Element {
   const [roleId, setRoleId] = useState<RoleId>('');
 
   const isOpen = content.applicationsOpen;
-  const session1 = content.infoSessions[0];
-  const session2 = content.infoSessions[1];
+  const sessions = content.infoSessions;
 
   const sections = ((): readonly (ApplyType & { id: string })[] => {
     const info = content.applicationInfo.find((a) => a.id === roleId);
@@ -84,6 +82,31 @@ export default function ApplyPage(): JSX.Element {
           </PageSection>
         )}
         {isOpen && (
+          <Row className="justify-content-center timeline">
+            <Col className="text-center timeline-header" sm="12">
+              <div className="header">Timeline</div>
+              <div className="subheader">{content.semester}</div>
+            </Col>
+            {content.timelines.map((timeline) => (
+              <Col key={timeline.name} className="timeline-details" sm="12" md="6" md-offset="1">
+                <Row className="h-100 justify-content-center align-items-center">
+                  <Col className="col-auto">
+                    <div className="timeline h-50">
+                      <div className="title">{timeline.name}</div>
+                      {timeline.events.map((event) => (
+                        <div className="event">
+                          <div className="label">{event.label}</div>
+                          <div className="time">{event.time}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </Col>
+                </Row>
+              </Col>
+            ))}
+          </Row>
+        )}
+        {isOpen && (
           <Row className="justify-content-center info-session-interjection">
             <Col className="info-session-description" sm="12" md="4" md-offset="1">
               <div className="header">Information Sessions!</div>
@@ -97,46 +120,28 @@ export default function ApplyPage(): JSX.Element {
             <Col className="info-session-details" sm="12" md="auto" md-offset="1">
               <Row className="h-100 justify-content-center align-items-center">
                 <Col className="col-auto">
-                  <div className="info-session h-50">
-                    <div className="time">{session1.time}</div>
-                    <div className="location location-desktop">
-                      {`${session1.location}${session1.link && session1.link.url ? ' • ' : ''}`}
-                      {session1.link && session1.link.url && (
-                        <a className="apply-link" href={session1.link.url}>
-                          {session1.link.text}
-                        </a>
-                      )}
+                  {sessions.map((session) => (
+                    <div key={session.time} className="info-session h-50">
+                      <div className="time">{session.time}</div>
+                      <div className="location location-desktop">
+                        {`${session.location}${session.link && session.link.url ? ' • ' : ''}`}
+                        {session.link && session.link.url && (
+                          <a className="apply-link" href={session.link.url}>
+                            {session.link.text}
+                          </a>
+                        )}
+                      </div>
+                      <div className="location location-mobile">
+                        {`${session.location}`}
+                        <br />
+                        {session.link && session.link.url && (
+                          <a className="apply-link" href={session.link.url}>
+                            {session.link.text}
+                          </a>
+                        )}
+                      </div>
                     </div>
-                    <div className="location location-mobile">
-                      {`${session1.location}`}
-                      <br />
-                      {session1.link && session1.link.url && (
-                        <a className="apply-link" href={session1.link.url}>
-                          {session1.link.text}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  <div className="info-session h-50">
-                    <div className="time">{session2.time}</div>
-                    <div className="location location-desktop">
-                      {`${session2.location}${session2.link && session2.link.url ? ' • ' : ''}`}
-                      {session2.link && session2.link.url && (
-                        <a className="apply-link" href={session2.link.url}>
-                          {session2.link.text}
-                        </a>
-                      )}
-                    </div>
-                    <div className="location location-mobile">
-                      {`${session2.location}`}
-                      <br />
-                      {session2.link && session2.link.url && (
-                        <a className="apply-link" href={session2.link.url}>
-                          {session2.link.text}
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                  ))}
                 </Col>
               </Row>
             </Col>
@@ -146,7 +151,7 @@ export default function ApplyPage(): JSX.Element {
           <Row className="justify-content-center coffee-chat">
             <Col className="info-session-description" sm="12" md="4" md-offset="1">
               <div className="header">Coffee Chats</div>
-              <div className="subheader">Spring 2021</div>
+              <div className="subheader">{content.semester}</div>
               <div className="description">
                 Sign up to chat with some members on the team! You can learn more about what we do
                 by sending an email to any of the members on the spreadsheet.
@@ -157,11 +162,11 @@ export default function ApplyPage(): JSX.Element {
                 <Col className="col-auto">
                   <div className="info-session h-50">
                     <div className="time">
-                      Sign up at&nbsp;
+                      Sign up at{' '}
                       <a href="https://docs.google.com/spreadsheets/d/1xvFotNdMkCc4vaBv_LYTA8LHNIQfYlYaMIW3DUZYAvA/edit#gid=0">
                         this link
-                      </a>
-                      &nbsp;to chat!
+                      </a>{' '}
+                      to chat!
                     </div>
                   </div>
                 </Col>
@@ -180,7 +185,7 @@ export default function ApplyPage(): JSX.Element {
             showAll={false}
           />
           {sections.map((info) => (
-            <TimelineSection key={info.id} header={info.header} rightHeader={info.rightHeader}>
+            <TimelineSection key={info.id} header={info.header}>
               {info.sections.map((section) => (
                 <div key={section.header}>
                   <div className="apply-header">{section.header}</div>

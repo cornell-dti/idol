@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 
-import { applicationsOpen } from '../data/apply.json';
+import content from '../data/apply.json';
 import NavItem from './NavItem';
 
 type Props = { readonly light?: boolean };
@@ -13,6 +13,8 @@ const GIVING_DAY = false;
 export default function DtiMainMenu({ light }: Props): JSX.Element {
   const [transparent, setTransparent] = useState(true);
   const [navShown, setNavShown] = useState(false);
+
+  const { applicationsOpen } = content;
 
   const dtiNavBarRef = useRef<HTMLDivElement>(null);
 
