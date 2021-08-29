@@ -20,11 +20,11 @@ interface ApplyType {
     readonly header: string;
     readonly content: string;
   }[];
-  readonly callToActionButton?: {
+  readonly callToActionButtons?: {
     readonly closed: boolean;
     readonly link: string;
-    readonly content: string;
-  };
+    readonly label: string;
+  }[];
 }
 
 const videos = {
@@ -195,18 +195,18 @@ export default function ApplyPage(): JSX.Element {
               <Row className="justify-content-center">
                 <Col className="col-12">
                   <Row>
-                    {info.callToActionButton && info.callToActionButton.link && (
-                      <Col md="auto" sm="12">
+                    {info.callToActionButtons?.map(({ link, label }) => (
+                      <Col key={link} md="auto" sm="12">
                         <Button
-                          href={info.callToActionButton.link}
+                          href={link}
                           size="lg"
                           variant="primary"
                           className="call-to-action-button text-start"
                         >
-                          {info.callToActionButton.content}
+                          {label}
                         </Button>
                       </Col>
-                    )}
+                    ))}
                   </Row>
                 </Col>
               </Row>
