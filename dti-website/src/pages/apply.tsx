@@ -196,7 +196,7 @@ export default function ApplyPage(): JSX.Element {
                 <Col className="col-12">
                   <Row>
                     {info.callToActionButtons?.map(({ link, label }) => (
-                      <Col key={link} md="auto" sm="12">
+                      <Col key={label} md="auto" sm="12">
                         <Button
                           href={link}
                           size="lg"
