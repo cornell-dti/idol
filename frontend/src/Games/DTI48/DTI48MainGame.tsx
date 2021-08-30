@@ -5,17 +5,37 @@ import { useUserEmail } from '../../UserProvider/UserProvider';
 import DTI48GameCard from './DTI48GameCard';
 import styles from './DTI48MainGame.module.css';
 
-type Props = { readonly members: readonly IdolMember[] };
+export interface MembersFromAllSemesters {
+  readonly [semesterName: string]: readonly IdolMember[];
+}
 
-export default function DTI48MainGame({ members }: Props): JSX.Element {
+type Props = { readonly membersFromAllSemesters: MembersFromAllSemesters };
+
+export default function DTI48MainGame({ membersFromAllSemesters }: Props): JSX.Element {
   const userEmail = useUserEmail();
   const netID = userEmail.split('@')[0];
+  const [semester, setSemester] = useState('Current Semester');
   const [changeIndex, setChangeIndex] = useState(0);
   const [playerNetID, setPlayerNetID] = useState(netID);
   const [searchTyping, setSearchTyping] = useState(false);
 
+  const members = membersFromAllSemesters[semester];
+
   return (
     <div key={`${playerNetID}-${changeIndex}`}>
+      <Dropdown
+        placeholder="Select a semester to browse members"
+        className={styles.Dropdown}
+        fluid
+        selection
+        options={Object.keys(membersFromAllSemesters).map((semesterId) => ({
+          key: semesterId,
+          value: semesterId,
+          text: semesterId
+        }))}
+        onChange={(_, data) => setSemester(data.value as string)}
+        value={semester}
+      />
       <Dropdown
         placeholder="Select a DTI member to play as"
         className={styles.Dropdown}
