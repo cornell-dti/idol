@@ -175,6 +175,7 @@ export default function ApplyPage(): JSX.Element {
           </Row>
         )}
         <Container>
+          <Row className="justify-content-center selector-header">Applications 👇</Row>
           <RoleSelector
             roleId={roleId}
             onRoleIdChange={setRoleId}

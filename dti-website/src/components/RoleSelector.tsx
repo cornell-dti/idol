@@ -61,7 +61,6 @@ export default function RoleSelector({
 
   return (
     <div className={clsx('role-selector-component', className)}>
-      <Row className="justify-content-center desktop-selector-header">Applications 👇</Row>
       <Row className="filter-btn-group desktop-selector-container">
         {showAll && (
           <Col
