@@ -1,10 +1,32 @@
+import { readdirSync, readFileSync } from 'fs';
+import { join, basename } from 'path';
+
 import { db, approvedMemberCollection, memberCollection } from '../firebase';
+
+const archievedMembers = (() => {
+  const directoryPath = join(__dirname, '..', '..', 'resources', 'members-archive');
+  return Object.fromEntries(
+    readdirSync(directoryPath)
+      .filter((it) => it.endsWith('.json'))
+      .map((name) => [
+        basename(name, '.json'),
+        JSON.parse(readFileSync(join(directoryPath, name)).toString()).members
+      ])
+  );
+})();
 
 export default class MembersDao {
   static async getAllMembers(fromApproved: boolean): Promise<IdolMember[]> {
     return (fromApproved ? approvedMemberCollection : memberCollection)
       .get()
       .then((vals) => vals.docs.map((it) => it.data()));
+  }
+
+  static async getMembersFromAllSemesters(): Promise<Record<string, readonly IdolMember[]>> {
+    return {
+      'Current Semester': await this.getAllMembers(true),
+      ...archievedMembers
+    };
   }
 
   static async getMember(email: string): Promise<IdolMember | undefined> {

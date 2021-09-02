@@ -115,6 +115,9 @@ router.get('/allApprovedMembers', async (_, res) => {
   const members = await allApprovedMembers();
   res.status(200).json({ members });
 });
+router.get('/membersFromAllSemesters', async (_, res) => {
+  res.status(200).json(await MembersDao.getMembersFromAllSemesters());
+});
 loginCheckedGet('/getMember/:email', async (req, user) => ({
   member: await getMember(req.params.email, user)
 }));
