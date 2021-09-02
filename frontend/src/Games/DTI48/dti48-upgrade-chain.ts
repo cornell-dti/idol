@@ -9,12 +9,11 @@ type DTI48OrganizationTree<M extends SimplifiedMemberForTreeGeneration = IdolMem
   readonly children: readonly DTI48OrganizationTree<M>[];
 };
 
-// TODO: needs to be updated whenever dev lead changes.
-export const OPS_LEAD_NETID = 'ad665';
-export const PRODUCT_LEAD_NETID = 'acb352';
-export const BUSINESS_LEAD_NETID = 'ete26';
-export const DESIGN_LEAD_NETIDS = ['ec592', 'sy629'];
-export const DEV_LEAD_NETIDS = ['cph64', 'jb2375', 'my474'];
+const DESIGN_LEADS_SUBTEAM_TAG = 'design-leads';
+const BUSINESS_LEADS_SUBTEAM_TAG = 'business-leads';
+const PRODUCT_LEADS_SUBTEAM_TAG = 'product-leads';
+const DEV_LEADS_SUBTEAM_TAG = 'dev-leads';
+const OPS_LEADS_SUBTEAM_TAG = 'ops-leads';
 
 function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberForTreeGeneration>(
   member: M,
@@ -43,13 +42,13 @@ function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberFor
       }
       return [allPMs[allPMs.findIndex((pm) => pm.netid === member.netid) - 1]];
     }
-    case 'lead':
+    case 'lead': {
       // Design Leads have no children :(
-      if (DESIGN_LEAD_NETIDS.includes(member.netid)) return [];
-      if (BUSINESS_LEAD_NETID === member.netid) {
+      if (member.subteams.includes(DESIGN_LEADS_SUBTEAM_TAG)) return [];
+      if (member.subteams.includes(BUSINESS_LEADS_SUBTEAM_TAG)) {
         return allMembers.filter((otherMember) => otherMember.role === 'business');
       }
-      if (PRODUCT_LEAD_NETID === member.netid) {
+      if (member.subteams.includes(PRODUCT_LEADS_SUBTEAM_TAG)) {
         return allMembers.filter((pm) => {
           if (pm.role !== 'pm') return false;
           // Only consider last PM on the chain as children.
@@ -61,23 +60,27 @@ function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberFor
           return pm.netid === allPMs[allPMs.length - 1].netid;
         });
       }
+      const devLeadNetIds = allMembers
+        .filter((it) => it.subteams.includes(DEV_LEADS_SUBTEAM_TAG))
+        .map((it) => it.netid);
       // Dev leads form a chain of children
-      if (DEV_LEAD_NETIDS.includes(member.netid)) {
-        const index = DEV_LEAD_NETIDS.findIndex((it) => it === member.netid);
+      if (devLeadNetIds.includes(member.netid)) {
+        const index = devLeadNetIds.findIndex((it) => it === member.netid);
         if (index === 0) {
           return allMembers.filter((otherMember) => otherMember.role === 'tpm');
         }
-        return allMembers.filter((otherMember) => otherMember.netid === DEV_LEAD_NETIDS[index - 1]);
+        return allMembers.filter((otherMember) => otherMember.netid === devLeadNetIds[index - 1]);
       }
-      if (OPS_LEAD_NETID === member.netid) {
+      if (member.subteams.includes(OPS_LEADS_SUBTEAM_TAG)) {
         return allMembers.filter(
           (otherMember) =>
-            ![...DEV_LEAD_NETIDS.slice(0, DEV_LEAD_NETIDS.length - 1), OPS_LEAD_NETID].includes(
+            ![...devLeadNetIds.slice(0, devLeadNetIds.length - 1), member.netid].includes(
               otherMember.netid
             ) && otherMember.role === 'lead'
         );
       }
-      return [];
+      throw new Error(`Unknown lead type: ${member.netid}!`);
+    }
     default:
       return [];
   }
@@ -113,7 +116,7 @@ export default function computeDTI48UpgradeChain<M extends SimplifiedMemberForTr
   targetNetID: string,
   allMembers: readonly M[]
 ): readonly M[] {
-  const start = allMembers.find((it) => it.netid === OPS_LEAD_NETID);
+  const start = allMembers.find((it) => it.subteams.includes(OPS_LEADS_SUBTEAM_TAG));
   if (start == null) throw new Error();
   const chain: M[] = [];
   chain.push(start);
