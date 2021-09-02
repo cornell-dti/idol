@@ -9,6 +9,12 @@ type DTI48OrganizationTree<M extends SimplifiedMemberForTreeGeneration = IdolMem
   readonly children: readonly DTI48OrganizationTree<M>[];
 };
 
+const DESIGN_LEADS_SUBTEAM_TAG = 'design-leads';
+const BUSINESS_LEADS_SUBTEAM_TAG = 'business-leads';
+const PRODUCT_LEADS_SUBTEAM_TAG = 'product-leads';
+const DEV_LEADS_SUBTEAM_TAG = 'dev-leads';
+const OPS_LEADS_SUBTEAM_TAG = 'ops-leads';
+
 function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberForTreeGeneration>(
   member: M,
   allMembers: readonly M[]
@@ -38,11 +44,11 @@ function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberFor
     }
     case 'lead': {
       // Design Leads have no children :(
-      if (member.subteams.includes('design-leads')) return [];
-      if (member.subteams.includes('business-leads')) {
+      if (member.subteams.includes(DESIGN_LEADS_SUBTEAM_TAG)) return [];
+      if (member.subteams.includes(BUSINESS_LEADS_SUBTEAM_TAG)) {
         return allMembers.filter((otherMember) => otherMember.role === 'business');
       }
-      if (member.subteams.includes('product-leads')) {
+      if (member.subteams.includes(PRODUCT_LEADS_SUBTEAM_TAG)) {
         return allMembers.filter((pm) => {
           if (pm.role !== 'pm') return false;
           // Only consider last PM on the chain as children.
@@ -55,7 +61,7 @@ function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberFor
         });
       }
       const devLeadNetIds = allMembers
-        .filter((it) => it.subteams.includes('dev-leads'))
+        .filter((it) => it.subteams.includes(DEV_LEADS_SUBTEAM_TAG))
         .map((it) => it.netid);
       // Dev leads form a chain of children
       if (devLeadNetIds.includes(member.netid)) {
@@ -65,7 +71,7 @@ function getDirectChildrenForDTI48OrganizationTree<M extends SimplifiedMemberFor
         }
         return allMembers.filter((otherMember) => otherMember.netid === devLeadNetIds[index - 1]);
       }
-      if (member.subteams.includes('ops-leads')) {
+      if (member.subteams.includes(OPS_LEADS_SUBTEAM_TAG)) {
         return allMembers.filter(
           (otherMember) =>
             ![...devLeadNetIds.slice(0, devLeadNetIds.length - 1), member.netid].includes(
@@ -110,7 +116,7 @@ export default function computeDTI48UpgradeChain<M extends SimplifiedMemberForTr
   targetNetID: string,
   allMembers: readonly M[]
 ): readonly M[] {
-  const start = allMembers.find((it) => it.subteams.includes('ops-leads'));
+  const start = allMembers.find((it) => it.subteams.includes(OPS_LEADS_SUBTEAM_TAG));
   if (start == null) throw new Error();
   const chain: M[] = [];
   chain.push(start);
