@@ -1,29 +1,30 @@
 import computeDTI48UpgradeChain, {
   treeifyIDOLMembers,
-  SimplifiedMemberForTreeGeneration,
-  OPS_LEAD_NETID,
-  PRODUCT_LEAD_NETID,
-  BUSINESS_LEAD_NETID,
-  DESIGN_LEAD_NETIDS,
-  DEV_LEAD_NETIDS
+  SimplifiedMemberForTreeGeneration
 } from './dti48-upgrade-chain';
+
+const PRODUCT_LEAD_NETID = 'product-lead-id';
+const BUSINESS_LEAD_NETID = 'business-lead-id';
+const DEV_LEAD_NETIDS = ['dev-lead-id-1', 'dev-lead-id-2', 'dev-lead-id-3'];
+const DESIGN_LEAD_NETIDS = ['design-lead-id-1', 'design-lead-id-2'];
+const OPS_LEAD_NETID = 'ops-lead-id';
 
 const opsLead = {
   netid: OPS_LEAD_NETID,
   role: 'lead',
-  subteams: ['leads']
+  subteams: ['leads', 'ops-leads']
 } as const;
 
 const productLead = {
   netid: PRODUCT_LEAD_NETID,
   role: 'lead',
-  subteams: ['leads']
+  subteams: ['leads', 'product-leads']
 } as const;
 
 const businessLead = {
   netid: BUSINESS_LEAD_NETID,
   role: 'lead',
-  subteams: ['leads']
+  subteams: ['leads', 'business-leads']
 } as const;
 
 const designLeads = DESIGN_LEAD_NETIDS.map(
@@ -31,7 +32,7 @@ const designLeads = DESIGN_LEAD_NETIDS.map(
     ({
       netid,
       role: 'lead',
-      subteams: ['leads']
+      subteams: ['leads', 'design-leads']
     } as const)
 );
 
@@ -40,7 +41,7 @@ const devLeads = DEV_LEAD_NETIDS.map(
     ({
       netid,
       role: 'lead',
-      subteams: ['leads']
+      subteams: ['leads', 'dev-leads']
     } as const)
 );
 
@@ -89,10 +90,10 @@ const mockData: readonly SimplifiedMemberForTreeGeneration[] = [
 
 it('treeifyIDOLMembers test', () => {
   expect(treeifyIDOLMembers(opsLead, mockData)).toEqual({
-    member: { netid: 'ad665', role: 'lead', subteams: ['leads'] },
+    member: { netid: OPS_LEAD_NETID, role: 'lead', subteams: ['leads', 'ops-leads'] },
     children: [
       {
-        member: { netid: 'acb352', role: 'lead', subteams: ['leads'] },
+        member: { netid: PRODUCT_LEAD_NETID, role: 'lead', subteams: ['leads', 'product-leads'] },
         children: [
           {
             member: { netid: 'pm1', role: 'pm', subteams: ['t1'] },
@@ -139,7 +140,7 @@ it('treeifyIDOLMembers test', () => {
         ]
       },
       {
-        member: { netid: 'ete26', role: 'lead', subteams: ['leads'] },
+        member: { netid: BUSINESS_LEAD_NETID, role: 'lead', subteams: ['leads', 'business-leads'] },
         children: [
           {
             member: { netid: 'b1', role: 'business', subteams: ['business'] },
@@ -152,21 +153,25 @@ it('treeifyIDOLMembers test', () => {
         ]
       },
       {
-        member: { netid: 'ec592', role: 'lead', subteams: ['leads'] },
+        member: { netid: DESIGN_LEAD_NETIDS[0], role: 'lead', subteams: ['leads', 'design-leads'] },
         children: []
       },
       {
-        member: { netid: 'sy629', role: 'lead', subteams: ['leads'] },
+        member: { netid: DESIGN_LEAD_NETIDS[1], role: 'lead', subteams: ['leads', 'design-leads'] },
         children: []
       },
       {
-        member: { netid: 'my474', role: 'lead', subteams: ['leads'] },
+        member: { netid: DEV_LEAD_NETIDS[2], role: 'lead', subteams: ['leads', 'dev-leads'] },
         children: [
           {
-            member: { netid: 'jb2375', role: 'lead', subteams: ['leads'] },
+            member: { netid: DEV_LEAD_NETIDS[1], role: 'lead', subteams: ['leads', 'dev-leads'] },
             children: [
               {
-                member: { netid: 'cph64', role: 'lead', subteams: ['leads'] },
+                member: {
+                  netid: DEV_LEAD_NETIDS[0],
+                  role: 'lead',
+                  subteams: ['leads', 'dev-leads']
+                },
                 children: [
                   {
                     member: { netid: 'tpm1', role: 'tpm', subteams: ['t1'] },
