@@ -77,7 +77,8 @@
     "hometown": "Great Neck, NY",
     "about": "I feel like these always come off as so generic and cliche. I've wondered what I can do to make them seem less trite. Do people even read these? I'm genuinely curious, so if you're reading this then click http://bit.ly/yes-i-actually-read-the-bio.",
     "subteams": [
-      "leads"
+      "leads",
+      "product-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -94,7 +95,8 @@
     "hometown": "New York, NY",
     "about": "Hi! My name is Ashneel and I'm a CS major + math minor in the College of Engineering. I love using software development to create meaningful impact on the lives of others, and DTI gives me the perfect opportunity to do so. Outside of school, you can find me fueling my addiction to fried chicken and bubble tea. In my free time, I like to explore new music, learn new card games, and catch up on lost sleep.",
     "subteams": [
-      "leads"
+      "leads",
+      "ops-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -135,6 +137,19 @@
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "formerSubteams": []
+  },
+  {
+    "netid": "am2749",
+    "name": "Alyssa Ma",
+    "graduation": "May 2024",
+    "major": "Applied Economics and Management",
+    "hometown": "Silver Spring, MD",
+    "about": "Hi I'm Alyssa! I'm a sophomore at Dyson, planning to concentrate in marketing and international business. Aside from DTI, I am also involved in Cornell University Visitor Relations, Dyson Ambassadors, Grub Ventures, and CSA. Around campus, you can find me studying at the Physical Science Building or trying another bubble tea drink at U Tea. Feel free to reach out and chat!",
+    "subteams": [],
+    "roleId": "lead",
+    "roleDescription": "Lead",
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/alyssa-ma/"
   },
   {
     "netid": "apb235",
@@ -360,12 +375,13 @@
     "hometown": "Staten Island, NY",
     "about": "A software developer, a book lover, and a cat dad. I love solving problems and working with others.",
     "subteams": [
-      "leads"
+      "leads",
+      "dev-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "formerSubteams": [],
-    "website": "https://chriswho.codes",
+    "website": "https://chriscodes.org",
     "linkedin": "https://linkedin.com/in/christopherphansen",
     "github": "https://github.com/chansen424"
   },
@@ -391,7 +407,8 @@
     "hometown": "",
     "about": "",
     "subteams": [
-      "leads"
+      "leads",
+      "design-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -433,9 +450,10 @@
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Sugar Land, TX",
-    "about": "Hi! My name is Ehi and I’m a sophomore studying Information Science in the College of Arts & Sciences. I am passionate about using design across mediums to create technology that is functional, accessible, sustainable, ethical, and makes positive social impact. On campus I'm involved in WICC and I'm a current new member of Tri Delta and Theta Tau. Outside of academic and project team work, you can find me acting in a show, attempting to pick up a new language, listening to music, or reading/writing poetry or prose. Feel free to reach out and start a conversation!",
+    "about": "Hi! My name is Ehi and I’m a junior studying Information Science in the College of Arts & Sciences. I am passionate about using design across mediums to create technology that is functional, accessible, sustainable, ethical, and makes positive social impact. On campus I'm the Allyship Co-Director WICC, the Director of Diversity & Inclusion of Tri Delta, and a member of Theta Tau. Outside of academic and project team work, you can find me acting in a show, attempting to pick up a new language, listening to music, or reading/writing poetry or prose. Feel free to reach out and start a conversation!",
     "subteams": [
-      "leads"
+      "leads",
+      "business-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -599,7 +617,8 @@
     "hometown": "Mooresville, NC",
     "about": "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris.",
     "subteams": [
-      "leads"
+      "leads",
+      "dev-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -988,7 +1007,8 @@
     "hometown": "New York City, NY",
     "about": "Hey! I'm Megan. I'm a CS student at Cornell with a minor in ORIE. I love creating user interfaces, analyzing data, and exploring the bleeding edge of web technologies. When I'm not working on stuff for DTI or trying to keep my GPA afloat, you can probably find me scrolling through tiktok, making memes, or just pondering the meaning of life (no the answer is not 42).",
     "subteams": [
-      "leads"
+      "leads",
+      "dev-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
@@ -1299,7 +1319,8 @@
     "hometown": "Fullerton, CA",
     "about": "Hi! I'm Shane and I like to design. I'm currently a senior studying Information Science and I'm excited to contribute to DTI this semester!",
     "subteams": [
-      "leads"
+      "leads",
+      "design-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
