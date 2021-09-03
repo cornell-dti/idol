@@ -46,7 +46,7 @@ export default class SignInFormDao {
           throw new NotFoundError(`This should be impossible. CODE: DTI-2`);
         const userProms = formData.users.map((u) => {
           const memberID = u.user.id;
-          return MembersDao.getMember(memberID).then((value) => {
+          return MembersDao.getCurrentOrPastMemberByEmail(memberID).then((value) => {
             if (value === undefined)
               throw new NotFoundError(`This should be impossible. CODE: DTI-3`);
             return {

@@ -72,7 +72,7 @@ const loginCheckedHandler =
       res.status(440).json({ error: 'Not logged in!' });
       return;
     }
-    const user = await MembersDao.getMember(userEmail);
+    const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
     if (!user) {
       res.status(401).send({ error: `No user with email: ${userEmail}` });
       return;
