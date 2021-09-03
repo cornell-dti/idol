@@ -145,7 +145,10 @@
     "major": "Applied Economics and Management",
     "hometown": "Silver Spring, MD",
     "about": "Hi I'm Alyssa! I'm a sophomore at Dyson, planning to concentrate in marketing and international business. Aside from DTI, I am also involved in Cornell University Visitor Relations, Dyson Ambassadors, Grub Ventures, and CSA. Around campus, you can find me studying at the Physical Science Building or trying another bubble tea drink at U Tea. Feel free to reach out and chat!",
-    "subteams": [],
+    "subteams": [
+      "leads",
+      "business-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "formerSubteams": [],
