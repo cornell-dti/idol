@@ -1,10 +1,18 @@
 import { db, approvedMemberCollection, memberCollection } from '../firebase';
+import archivedMembers from '../members-archive';
 
 export default class MembersDao {
   static async getAllMembers(fromApproved: boolean): Promise<IdolMember[]> {
     return (fromApproved ? approvedMemberCollection : memberCollection)
       .get()
       .then((vals) => vals.docs.map((it) => it.data()));
+  }
+
+  static async getMembersFromAllSemesters(): Promise<Record<string, readonly IdolMember[]>> {
+    return {
+      'Current Semester': await this.getAllMembers(true),
+      ...archivedMembers
+    };
   }
 
   static async getMember(email: string): Promise<IdolMember | undefined> {

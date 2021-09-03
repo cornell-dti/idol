@@ -11,6 +11,10 @@ type MemberResponseObj = {
 export type Member = IdolMember;
 
 export class MembersAPI {
+  public static async getMembersFromAllSemesters(): Promise<Record<string, readonly IdolMember[]>> {
+    return APIWrapper.get(`${backendURL}/membersFromAllSemesters`).then((res) => res.data);
+  }
+
   public static getAllMembers(approved = false): Promise<Member[]> {
     const funcName = approved ? 'getAllApprovedMembers' : 'getAllMembers';
     if (APICache.has(funcName)) {
