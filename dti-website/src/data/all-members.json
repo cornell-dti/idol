@@ -1423,14 +1423,14 @@
     "hometown": "Shanghai, China",
     "about": "I build compilers.",
     "subteams": [
-      "courseplan"
+      "courseplan",
+      "idol"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Math",
     "formerSubteams": [
-      "samwise",
-      "idol"
+      "samwise"
     ],
     "website": "https://developersam.com",
     "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
