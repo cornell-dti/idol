@@ -1,5 +1,5 @@
 import { db, approvedMemberCollection, memberCollection } from '../firebase';
-import archivedMembers from '../members-archive';
+import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
 
 export default class MembersDao {
   static async getAllMembers(fromApproved: boolean): Promise<IdolMember[]> {
@@ -11,12 +11,16 @@ export default class MembersDao {
   static async getMembersFromAllSemesters(): Promise<Record<string, readonly IdolMember[]>> {
     return {
       'Current Semester': await this.getAllMembers(true),
-      ...archivedMembers
+      ...archivedMembersBySemesters
     };
   }
 
-  static async getMember(email: string): Promise<IdolMember | undefined> {
-    return (await memberCollection.doc(email).get()).data();
+  static async getCurrentOrPastMemberByEmail(email: string): Promise<IdolMember | undefined> {
+    // Although it might require an extra async lookup, this is necessary for correctness,
+    // because we want to get the latest info of the member that are also a member in the past.
+    const currentMember = (await memberCollection.doc(email).get()).data();
+    if (currentMember != null) return currentMember;
+    return archivedMembersByEmail[email];
   }
 
   static async deleteMember(email: string): Promise<void> {

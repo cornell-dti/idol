@@ -53,7 +53,7 @@ export const getMember = async (memberEmail: string, user: IdolMember): Promise<
       `User with email: ${user.email} does not have permission to get members!`
     );
   }
-  const member = await MembersDao.getMember(memberEmail);
+  const member = await MembersDao.getCurrentOrPastMemberByEmail(memberEmail);
   if (member == null) {
     throw new NotFoundError(`Member with email: ${memberEmail} does not exist`);
   }
