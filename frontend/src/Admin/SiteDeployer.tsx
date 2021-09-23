@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardGroup, Loader, Modal } from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
-import { useUserEmail } from '../../UserProvider/UserProvider';
-import { Member, MembersAPI } from '../../API/MembersAPI';
-import Emitters from '../../EventEmitter/constant-emitters';
-import { backendURL } from '../../environment';
+import { useUserEmail } from '../Common/UserProvider';
+import { Member, MembersAPI } from '../API/MembersAPI';
+import Emitters from '../EventEmitter/constant-emitters';
+import { backendURL } from '../environment';
 import styles from './SiteDeployer.module.css';
-import APIWrapper from '../../API/APIWrapper';
-import PermissionsAPI from '../../API/PermissionsAPI';
+import APIWrapper from '../API/APIWrapper';
+import PermissionsAPI from '../API/PermissionsAPI';
 import 'prismjs/themes/prism.css';
 
 require('prismjs');

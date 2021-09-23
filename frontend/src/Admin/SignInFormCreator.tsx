@@ -13,8 +13,8 @@ import {
   Popup,
   SemanticICONS
 } from 'semantic-ui-react';
-import SignInFormAPI from '../../API/SignInFormAPI';
-import Emitters from '../../EventEmitter/constant-emitters';
+import SignInFormAPI from '../API/SignInFormAPI';
+import Emitters from '../EventEmitter/constant-emitters';
 import styles from './SignInFormCreator.module.css';
 
 const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];

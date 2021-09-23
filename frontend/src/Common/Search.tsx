@@ -1,6 +1,5 @@
 import React from 'react';
 import { Search, SearchResultProps } from 'semantic-ui-react';
-import styles from './Search.module.css';
 
 type SearchState<T> = {
   loading: boolean;
@@ -49,7 +48,7 @@ type CustomSearchProps<T> = {
   selectCallback: (selected: T) => void;
 };
 
-function CustomSearch<T>({
+export default function CustomSearch<T>({
   source,
   resultRenderer,
   matchChecker,
@@ -112,7 +111,6 @@ function CustomSearch<T>({
         });
         selectCallback(data.result as T);
       }}
-      className={styles.search}
       onSearchChange={handleSearchChange}
       resultRenderer={resultRenderer}
       results={results}
@@ -120,5 +118,3 @@ function CustomSearch<T>({
     />
   );
 }
-
-export default CustomSearch;

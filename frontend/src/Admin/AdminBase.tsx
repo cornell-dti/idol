@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
-import SiteDeployer from '../DTI-Site-Deployer/SiteDeployer';
-import MemberReview from '../MemberReview/MemberReview';
-import SignInFormCreatorBase from '../SignInFormCreator/SignInFormCreator';
-import AdminShoutouts from '../AdminShoutouts/AdminShoutouts';
+import SiteDeployer from './SiteDeployer';
+import MemberReview from './MemberReview';
+import SignInFormCreatorBase from './SignInFormCreator';
+import AdminShoutouts from './AdminShoutouts';
 import styles from './AdminBase.module.css';
-import AddUser from '../AddUser/AddUser';
-import EditTeam from '../EditTeam/EditTeam';
+import AddUser from './AddUser';
+import EditTeam from './EditTeam';
 
 const AdminBase: React.FC = () => {
   const location = useLocation();

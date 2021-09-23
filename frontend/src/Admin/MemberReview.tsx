@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Loader } from 'semantic-ui-react';
-import APIWrapper from '../../API/APIWrapper';
-import { backendURL } from '../../environment';
+import APIWrapper from '../API/APIWrapper';
+import { backendURL } from '../environment';
 
 import styles from './MemberReview.module.css';
 
