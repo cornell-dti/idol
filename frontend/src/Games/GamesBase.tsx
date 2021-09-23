@@ -1,38 +1,19 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
-import { Card, Button } from 'semantic-ui-react';
-import styles from './GamesBase.module.css';
+import { Route, Switch, BrowserRouter as Router, useLocation } from 'react-router-dom';
 import DTI48 from './DTI48/DTI48';
+import NavigationCard, { NavigationCardItem } from '../Common/NavigationCard';
+
+const navCardItems: readonly NavigationCardItem[] = [
+  { header: 'DTI48', description: 'Keep merging until you get Ashneel.', link: '/games/dti48' }
+];
 
 const GamesBase: React.FC = () => {
   const location = useLocation();
   if (location.pathname === '/games' || location.pathname === '/games/') {
-    return (
-      <div className={styles.GamesBase} data-testid="GamesBase">
-        <div className={styles.content}>
-          <Card.Group>
-            <Card>
-              <Card.Content>
-                <Card.Header>DTI48</Card.Header>
-                <Card.Description>Keep merging until you get Gilly.</Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <div className="ui one buttons">
-                  <Link to="games/dti48">
-                    <Button basic color="blue">
-                      Go To
-                    </Button>
-                  </Link>
-                </div>
-              </Card.Content>
-            </Card>
-          </Card.Group>
-        </div>
-      </div>
-    );
+    return <NavigationCard testID="GamesBase" items={navCardItems} />;
   }
   return (
-    <div className={styles.GamesBase} data-testid="GamesBase">
+    <div data-testid="GamesBase">
       <Router>
         <Switch>
           <Route path="/games/dti48">
