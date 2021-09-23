@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Sidebar, Menu, Icon, Loader } from 'semantic-ui-react';
@@ -15,7 +15,15 @@ import SuccessModal from './Modals/SuccessModal/SuccessModal';
 import FormsBase from './Forms/FormsBase/FormsBase';
 import GamesBase from './Games/GamesBase/GamesBase';
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
+  return (
+    <AppContent>
+      <SwitchImpl />
+    </AppContent>
+  );
+}
+
+function AppContent({ children }: { readonly children: ReactNode }): JSX.Element {
   const user = useUserContext();
   const [navVisible, setNavVisible] = React.useState(false);
   useEffect(() => {
@@ -31,17 +39,11 @@ function App(): JSX.Element {
   if (user === 'INIT') {
     return (
       <div className="App">
-        <Router>
-          <Switch>
-            <Route path="/*">
-              <div style={{ height: '100vh', width: '100vw' }}>
-                <Loader active={true} size="massive">
-                  Signing you in...
-                </Loader>
-              </div>
-            </Route>
-          </Switch>
-        </Router>
+        <div style={{ height: '100vh', width: '100vw' }}>
+          <Loader active={true} size="massive">
+            Signing you in...
+          </Loader>
+        </div>
       </div>
     );
   }
@@ -49,13 +51,7 @@ function App(): JSX.Element {
     return (
       <div className="App">
         <EmailNotFoundErrorModal />
-        <Router>
-          <Switch>
-            <Route path="/*">
-              <SignIn />
-            </Route>
-          </Switch>
-        </Router>
+        <SignIn />
       </div>
     );
   }
@@ -65,78 +61,75 @@ function App(): JSX.Element {
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
       <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
-      <RouterImpl navVisible={navVisible} setNavVisible={setNavVisible} />
+      <Router>
+        <div
+          className="App"
+          style={{
+            minHeight: '100vh',
+            maxHeight: '100vh',
+            minWidth: '100vw',
+            position: 'relative'
+          }}
+        >
+          <SiteHeader />
+          <div
+            style={{
+              position: 'absolute',
+              top: '80px',
+              height: 'calc(100vh - 80px)'
+            }}
+          >
+            <Sidebar
+              as={Menu}
+              animation="overlay"
+              icon="labeled"
+              inverted
+              onHide={() => setNavVisible(false)}
+              vertical
+              visible={navVisible}
+              width="thin"
+              onClick={() => {
+                Emitters.navOpenEmitter.emit(false);
+              }}
+              className="appSidebar"
+            >
+              <MenuContent />
+            </Sidebar>
+            <Sidebar.Pushable>
+              <Sidebar.Pusher dimmed={navVisible}>
+                <div
+                  style={{
+                    width: '100vw',
+                    margin: 0,
+                    padding: 0
+                  }}
+                >
+                  {children}
+                </div>
+              </Sidebar.Pusher>
+            </Sidebar.Pushable>
+          </div>
+        </div>
+      </Router>
     </div>
   );
 }
 
-const RouterImpl: React.FC<{
-  navVisible: boolean;
-  setNavVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ navVisible, setNavVisible }) => (
-  <Router>
-    <div
-      className="App"
-      style={{
-        minHeight: '100vh',
-        maxHeight: '100vh',
-        minWidth: '100vw',
-        position: 'relative'
-      }}
-    >
-      <SiteHeader />
-      <div
-        style={{
-          position: 'absolute',
-          top: '80px',
-          height: 'calc(100vh - 80px)'
-        }}
-      >
-        <Sidebar
-          as={Menu}
-          animation="overlay"
-          icon="labeled"
-          inverted
-          onHide={() => setNavVisible(false)}
-          vertical
-          visible={navVisible}
-          width="thin"
-          onClick={() => {
-            Emitters.navOpenEmitter.emit(false);
-          }}
-          className="appSidebar"
-        >
-          <MenuContent />
-        </Sidebar>
-        <Sidebar.Pushable>
-          <Sidebar.Pusher dimmed={navVisible}>
-            <div
-              style={{
-                width: '100vw',
-                margin: 0,
-                padding: 0
-              }}
-            >
-              <Switch>
-                <Route path="/forms*">
-                  <FormsBase />
-                </Route>
-                <Route path="/admin*">
-                  <AdminBase />
-                </Route>
-                <Route path="/games*">
-                  <GamesBase />
-                </Route>
-                <Route path="/*">
-                  <Homepage />
-                </Route>
-              </Switch>
-            </div>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
-      </div>
-    </div>
-  </Router>
+const SwitchImpl: React.FC = () => (
+  <Switch>
+    <Route path="/forms*">
+      <FormsBase />
+    </Route>
+    <Route path="/admin*">
+      <AdminBase />
+    </Route>
+    <Route path="/games*">
+      <GamesBase />
+    </Route>
+    <Route path="/*">
+      <Homepage />
+    </Route>
+  </Switch>
 );
 
 const MenuContent: React.FC = () => (
@@ -167,5 +160,3 @@ const MenuContent: React.FC = () => (
     </Link>
   </>
 );
-
-export default App;
