@@ -74,7 +74,7 @@ interface SignInForm {
 }
 
 interface TeamEvent {
-  readonly name: string,
-  readonly attendees: IdolMember[],
-  readonly uuid: string
+  readonly name: string;
+  readonly attendees: IdolMember[];
+  readonly uuid: string;
 }
