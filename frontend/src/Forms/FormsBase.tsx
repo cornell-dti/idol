@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
-import ShoutoutsPage from '../ShoutoutsPage/ShoutoutsPage';
-import UserProfile from '../UserProfile/UserProfile';
-import UserProfileImage from '../UserProfile/UserProfileImage/UserProfileImage';
-import SignInForm from '../SignInForm/SignInForm';
+import ShoutoutsPage from './ShoutoutsPage/ShoutoutsPage';
+import UserProfile from './UserProfile/UserProfile';
+import UserProfileImage from './UserProfile/UserProfileImage/UserProfileImage';
+import SignInForm from './SignInForm/SignInForm';
 import styles from './FormsBase.module.css';
 
 const FormsBase: React.FC = () => {

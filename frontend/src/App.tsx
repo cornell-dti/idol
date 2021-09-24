@@ -2,18 +2,17 @@ import React, { ReactNode, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Sidebar, Menu, Icon, Loader } from 'semantic-ui-react';
-import SignIn from './SignIn/SignIn.lazy';
+import SignIn from './Common/SignIn.lazy';
 import Homepage from './Homepage/Homepage.lazy';
-import { useUserContext } from './UserProvider/UserProvider';
-import SiteHeader from './SiteHeader/SiteHeader';
+import { useUserContext } from './Common/UserProvider';
+import SiteHeader from './Common/SiteHeader';
 import Emitters from './EventEmitter/constant-emitters';
-import EmailNotFoundErrorModal from './Modals/EmailNotFoundError/EmailNotFoundErrorModal';
-
-import ErrorModal from './Modals/ErrorModal/ErrorModal';
-import AdminBase from './Admin/AdminBase/AdminBase';
-import SuccessModal from './Modals/SuccessModal/SuccessModal';
-import FormsBase from './Forms/FormsBase/FormsBase';
-import GamesBase from './Games/GamesBase/GamesBase';
+import EmailNotFoundErrorModal from './Modals/EmailNotFoundErrorModal';
+import ErrorModal from './Modals/ErrorModal';
+import SuccessModal from './Modals/SuccessModal';
+import AdminBase from './Admin/AdminBase';
+import FormsBase from './Forms/FormsBase';
+import GamesBase from './Games/GamesBase';
 
 export default function App(): JSX.Element {
   return (

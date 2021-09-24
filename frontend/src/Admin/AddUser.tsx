@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, Loader, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import styles from './AddUser.module.css';
-import { Member, MembersAPI } from '../../API/MembersAPI';
-import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
-import Emitters from '../../EventEmitter/constant-emitters';
-import RolesAPI from '../../API/RolesAPI';
-import APICache from '../../Cache/Cache';
-import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../../utils';
+import { Member, MembersAPI } from '../API/MembersAPI';
+import ErrorModal from '../Modals/ErrorModal';
+import Emitters from '../EventEmitter/constant-emitters';
+import RolesAPI from '../API/RolesAPI';
+import APICache from '../Cache/Cache';
+import { getNetIDFromEmail, getRoleDescriptionFromRoleID } from '../utils';
 
 type AddUserState = {
   currentSelectedMember?: Omit<Member, 'netid' | 'roleDescription'>;

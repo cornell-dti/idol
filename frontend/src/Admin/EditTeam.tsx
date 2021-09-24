@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, Loader, Button, Form, Input, Label, Segment } from 'semantic-ui-react';
 import styles from './EditTeam.module.css';
-import ErrorModal from '../../Modals/ErrorModal/ErrorModal';
-import Emitters from '../../EventEmitter/constant-emitters';
-import APICache from '../../Cache/Cache';
-import { Team, TeamsAPI } from '../../API/TeamsAPI';
-import CustomSearch from '../../Common/Search/Search';
-import { MembersAPI, Member } from '../../API/MembersAPI';
+import ErrorModal from '../Modals/ErrorModal';
+import Emitters from '../EventEmitter/constant-emitters';
+import APICache from '../Cache/Cache';
+import { Team, TeamsAPI } from '../API/TeamsAPI';
+import CustomSearch from '../Common/Search';
+import { MembersAPI, Member } from '../API/MembersAPI';
 
 type EditTeamState = {
   currentSelectedTeam?: Team;

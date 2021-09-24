@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
-import EventEmitter from '../../EventEmitter/event-emitter';
+import EventEmitter from '../EventEmitter/event-emitter';
 
 type SuccessProps = {
   headerMsg: string;

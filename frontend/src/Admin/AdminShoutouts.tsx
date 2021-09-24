@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Card } from 'semantic-ui-react';
-import { ShoutoutsAPI, Shoutout } from '../../API/ShoutoutsAPI';
-import PermissionsAPI from '../../API/PermissionsAPI';
-import Emitters from '../../EventEmitter/constant-emitters';
+import { ShoutoutsAPI, Shoutout } from '../API/ShoutoutsAPI';
+import PermissionsAPI from '../API/PermissionsAPI';
+import Emitters from '../EventEmitter/constant-emitters';
 import styles from './AdminShoutouts.module.css';
 
 const AdminShoutouts: React.FC = () => {

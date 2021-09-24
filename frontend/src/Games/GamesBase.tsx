@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter as Router, Link, useLocation } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './GamesBase.module.css';
-import DTI48 from '../DTI48/DTI48';
+import DTI48 from './DTI48/DTI48';
 
 const GamesBase: React.FC = () => {
   const location = useLocation();

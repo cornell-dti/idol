@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
-import { useUserEmail } from '../../../UserProvider/UserProvider';
-import CustomSearch from '../../../Common/Search/Search';
+import { useUserEmail } from '../../../Common/UserProvider';
+import CustomSearch from '../../../Common/Search';
 import Emitters from '../../../EventEmitter/constant-emitters';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
