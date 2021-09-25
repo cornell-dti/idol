@@ -63,27 +63,19 @@
   ],
   "infoSessions": [
     {
-      "time": "6:45 PM - 8:15 PM ET • Monday 8/30",
+      "time": "5:30 PM - 7:00 PM ET • Monday 9/27",
       "location": "Information Session",
       "link": {
-        "url": "https://cornell.zoom.us/j/97119845470?pwd=QUJ2dUx2UllxOG04NXIzL0xXdnhqdz09",
-        "text": "Zoom Link (Online)"
+        "url": "https://goo.gl/maps/VUtyx291os5Nee7cA",
+        "text": "Phillips 101"
       }
     },
     {
-      "time": "5:30 PM - 7:00 PM ET • Thursday 9/2",
+      "time": "5:30 PM - 7:00 PM ET • Tuesday 9/28",
       "location": "Information Session",
       "link": {
-        "url": "https://cornell.zoom.us/j/96857161616?pwd=TVdOSG9LQnRkbUc5eFpxUWY5L25oQT09",
-        "text": "Zoom Link (Online)"
-      }
-    },
-    {
-      "time": "4:00 PM - 7:00 PM ET • Tuesday 9/21",
-      "location": "Project Team Fest",
-      "link": {
-        "url": "https://goo.gl/maps/Tq9MQJaVSNfsRE3BA",
-        "text": "Duffield/MAE Lounge/ELL"
+        "url": "https://goo.gl/maps/hiRTC6nJrYzjxB2V8",
+        "text": "WSH Memorial Room"
       }
     }
   ],
