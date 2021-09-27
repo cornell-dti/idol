@@ -12,13 +12,13 @@ import PageSection from '../components/PageSection';
 import RoleSelector, { RoleId } from '../components/RoleSelector';
 
 import members from '../data/all-members.json';
-import { diversity } from '../data/sets/diversity.json';
+import diversityJSON from '../data/sets/diversity.json';
 
 export default function TeamPage(): JSX.Element {
   const [roleId, setRoleId] = useState<RoleId>('');
 
-  const malePercentage = 1 - diversity.femalePercentage[roleId];
-  const femalePercentage = diversity.femalePercentage[roleId];
+  const malePercentage = 1 - diversityJSON.diversity.femalePercentage[roleId];
+  const femalePercentage = diversityJSON.diversity.femalePercentage[roleId];
 
   const filterMembers = (role = '', isLead = false): readonly { info: NovaMember; id: string }[] =>
     (members as NovaMember[])
