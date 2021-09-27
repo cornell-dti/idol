@@ -2,6 +2,14 @@
   $primary: #ff324a;
   $secondary: #f6f6f6;
 
+  .h-100 {
+    height: 100%;
+  }
+
+  .percentage-number-donut {
+    font-size: 1.25em;
+  }
+
   .team-hero {
     height: 80vh;
     width: 100vw;
@@ -77,6 +85,7 @@
     color: #ffffff;
 
     .graph-datum-description {
+      text-align: center;
       font-size: 1.5rem;
       font-size: 1.125rem;
       letter-spacing: 0.7px;

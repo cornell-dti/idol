@@ -70,11 +70,15 @@ export default function TeamPage(): JSX.Element {
                         <div className="text-center graph-data h-100">
                           <Row className="h-100 align-items-center">
                             <Col className="col-6 graph-datum">
-                              <h3>{`${Math.round(100 * malePercentage)}%`}</h3>
+                              <h3 className="percentage-number-donut">{`${Math.round(
+                                100 * malePercentage
+                              )}%`}</h3>
                               <p className="graph-datum-description">Male</p>
                             </Col>
                             <Col className="col-6 graph-datum red">
-                              <h3>{`${Math.round(100 * femalePercentage)}%`}</h3>
+                              <h3 className="percentage-number-donut">{`${Math.round(
+                                100 * femalePercentage
+                              )}%`}</h3>
                               <p className="graph-datum-description">Female</p>
                             </Col>
                           </Row>
