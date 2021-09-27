@@ -17,7 +17,7 @@ export default function NavigationCard({ testID, items }: Props): JSX.Element {
       <div className={styles.content}>
         <Card.Group>
           {items.map(({ header, description, link }) => (
-            <Card key="link">
+            <Card key={link}>
               <Card.Content>
                 <Card.Header>{header}</Card.Header>
                 <Card.Description>{description}</Card.Description>
