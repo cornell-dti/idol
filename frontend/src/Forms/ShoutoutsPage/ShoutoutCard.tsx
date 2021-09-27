@@ -1,5 +1,5 @@
 import { Card } from 'semantic-ui-react';
-import { Member } from '../../../API/MembersAPI';
+import { Member } from '../../API/MembersAPI';
 
 type Props =
   | {

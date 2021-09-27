@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter as Router, useLocation } from 'react-router-dom';
 import ShoutoutsPage from './ShoutoutsPage/ShoutoutsPage';
 import UserProfile from './UserProfile/UserProfile';
-import UserProfileImage from './UserProfile/UserProfileImage/UserProfileImage';
+import UserProfileImage from './UserProfile/UserProfileImage';
 import SignInForm from './SignInForm/SignInForm';
 import NavigationCard, { NavigationCardItem } from '../Common/NavigationCard';
 

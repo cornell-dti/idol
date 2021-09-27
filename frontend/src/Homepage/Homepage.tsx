@@ -3,7 +3,7 @@ import { Card } from 'semantic-ui-react';
 import styles from './Homepage.module.css';
 import Spotlight from './Spotlight';
 import Banner from './Banner';
-import ShoutoutForm from '../Forms/ShoutoutsPage/ShoutoutForm/ShoutoutForm';
+import ShoutoutForm from '../Forms/ShoutoutsPage/ShoutoutForm';
 
 const Homepage: React.FC = () => (
   <div className={styles.Homepage} data-testid="Homepage">
