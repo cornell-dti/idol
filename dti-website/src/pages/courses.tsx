@@ -102,7 +102,7 @@ export default function CoursesPage(): JSX.Element {
                   <Button
                     variant="secondary"
                     href={c.courseWebsiteLink}
-                    className="social-button-red social-button-small"
+                    className="social-button-red social-button-small social-button-inline"
                   >
                     <div className="course-website-text">Course Textbook</div>
                   </Button>
