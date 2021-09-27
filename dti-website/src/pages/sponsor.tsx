@@ -193,7 +193,11 @@ export default function SponsorPage(): JSX.Element {
               <h2>Sponsor us to help make community impact!</h2>
             </Row>
             <Row className="justify-content-center sponsor-contact">
-              <Button variant="secondary" href="mailto:hello@cornelldti.org">
+              <Button
+                variant="secondary"
+                href="mailto:hello@cornelldti.org"
+                className="contact-us-btn"
+              >
                 Contact Us
               </Button>
             </Row>
