@@ -1,6 +1,6 @@
 import { Card } from 'semantic-ui-react';
-import ShoutoutCard from '../ShoutoutCard/ShoutoutCard';
-import { Shoutout } from '../../../API/ShoutoutsAPI';
+import ShoutoutCard from './ShoutoutCard';
+import { Shoutout } from '../../API/ShoutoutsAPI';
 
 const ShoutoutList = (props: { shoutouts: Shoutout[] }): JSX.Element => {
   const { shoutouts } = props;

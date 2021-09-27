@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Image, Button, Modal } from 'semantic-ui-react';
 import AvatarEditor from 'react-avatar-editor';
-import ProfileImageEditor from './ProfileImageEditor/ProfileImageEditor';
-import ImagesAPI from '../../../API/ImagesAPI';
+import ProfileImageEditor from './ProfileImageEditor';
+import ImagesAPI from '../../API/ImagesAPI';
 
 const UserProfileImage: React.FC = () => {
   const [open, setOpen] = React.useState(false);
