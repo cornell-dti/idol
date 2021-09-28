@@ -1,0 +1,89 @@
+@import '../../variables.css';
+
+.SiteHeader {
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  height: 80px;
+  width: 100%;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.13);
+  z-index: 999999;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.logo_and_title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu_icon_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.menu_icon {
+  height: 7vh;
+  width: auto;
+}
+
+.title_conainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+  height: 100%;
+}
+
+.title {
+  font-size: 2.1rem;
+  font-weight: bold;
+  font-family: var(--mainFontFamily) !important;
+}
+
+.subtitleOpen {
+  display: inline-flex;
+  font-size: 1.5rem;
+  font-family: var(--mainFontFamily);
+  max-width: 100vw;
+  overflow: hidden;
+  transition: all 1.5s ease-in-out;
+}
+
+.subtitleClosed {
+  display: inline-flex;
+  font-size: 1.5rem;
+  font-family: var(--mainFontFamily);
+  max-width: 0;
+  overflow: hidden;
+  transition: all 1.5s ease-in-out;
+}
+
+.dti_logo {
+  height: 50px;
+  width: auto;
+}
+
+.sign_out_button_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sign_out_button {
+  height: fit-content;
+  width: fit-content;
+}

@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { auth } from '../firebase';
-import { getUserIdToken } from '../Common/UserProvider';
+import { getUserIdToken } from '../components/Common/UserProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type APIProcessedResponse = { data: any };

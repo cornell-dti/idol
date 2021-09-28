@@ -1,7 +1,7 @@
 import { backendURL } from '../environment';
 import { Member } from './MembersAPI';
 import APIWrapper from './APIWrapper';
-import Emitters from '../EventEmitter/constant-emitters';
+import { Emitters } from '../utils';
 
 export type Shoutout = {
   giver: Member;
