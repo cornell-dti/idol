@@ -12,13 +12,13 @@ import PageSection from '../components/PageSection';
 import RoleSelector, { RoleId } from '../components/RoleSelector';
 
 import members from '../data/all-members.json';
-import { diversity } from '../data/sets/diversity.json';
+import diversityJSON from '../data/sets/diversity.json';
 
 export default function TeamPage(): JSX.Element {
   const [roleId, setRoleId] = useState<RoleId>('');
 
-  const malePercentage = 1 - diversity.femalePercentage[roleId];
-  const femalePercentage = diversity.femalePercentage[roleId];
+  const malePercentage = 1 - diversityJSON.diversity.femalePercentage[roleId];
+  const femalePercentage = diversityJSON.diversity.femalePercentage[roleId];
 
   const filterMembers = (role = '', isLead = false): readonly { info: NovaMember; id: string }[] =>
     (members as NovaMember[])
@@ -70,11 +70,15 @@ export default function TeamPage(): JSX.Element {
                         <div className="text-center graph-data h-100">
                           <Row className="h-100 align-items-center">
                             <Col className="col-6 graph-datum">
-                              <h3>{`${Math.round(100 * malePercentage)}%`}</h3>
+                              <h3 className="percentage-number-donut">{`${Math.round(
+                                100 * malePercentage
+                              )}%`}</h3>
                               <p className="graph-datum-description">Male</p>
                             </Col>
                             <Col className="col-6 graph-datum red">
-                              <h3>{`${Math.round(100 * femalePercentage)}%`}</h3>
+                              <h3 className="percentage-number-donut">{`${Math.round(
+                                100 * femalePercentage
+                              )}%`}</h3>
                               <p className="graph-datum-description">Female</p>
                             </Col>
                           </Row>

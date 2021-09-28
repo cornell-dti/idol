@@ -21,6 +21,19 @@
 
 .navbar-dti {
   transition: background-color 500ms linear;
+  padding: 0.5rem 1rem;
+
+  &.fixed-bottom,
+  &.fixed-top {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+  }
+
+  &.bg-transparent {
+    background-color: transparent !important;
+  }
 
   .navbar-toggler {
     outline: none !important;
@@ -31,6 +44,10 @@
 
   &.navbar-dti-light {
     box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .navbar-nav {
+    margin-left: auto;
   }
 
   @media (min-width: 992px) {

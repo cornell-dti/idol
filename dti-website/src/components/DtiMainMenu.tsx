@@ -97,7 +97,7 @@ export default function DtiMainMenu({ light }: Props): JSX.Element {
       </Button>
 
       <Navbar.Collapse id="nav_collapse" style={navShown ? {} : { display: 'none' }}>
-        <ul className="navbar-nav ml-auto">
+        <ul className="navbar-nav">
           <NavItem to="/">Home</NavItem>
           <NavItem to="/team/">Team</NavItem>
           <NavItem to="/projects/">Projects</NavItem>

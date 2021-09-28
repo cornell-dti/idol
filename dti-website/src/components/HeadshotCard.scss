@@ -22,6 +22,17 @@
     height: 6.5rem;
     flex-grow: 1;
 
+    .col {
+      padding: 0 calc(var(--bs-gutter-x) * 0.25);
+    }
+
+    .h-75 {
+      height: 75%;
+    }
+    .h-25 {
+      height: 25%;
+    }
+
     .name {
       font-size: 1.125rem;
       font-weight: 500;
@@ -49,6 +60,10 @@
   .image-row {
     height: 12rem;
     overflow: hidden;
+
+    .col {
+      padding: 0;
+    }
   }
 
   img {

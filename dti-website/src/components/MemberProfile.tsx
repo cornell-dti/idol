@@ -7,7 +7,7 @@ import GitHub from '../assets/social/github.svg';
 import LinkedIn from '../assets/social/linkedin.svg';
 import MissingImage from '../assets/other/missing.svg';
 
-import { teams as teamsJson } from '../data/sets/teams.json';
+import teamsJson from '../data/sets/teams.json';
 
 type Props = {
   readonly profile: { readonly info: NovaMember };
@@ -31,7 +31,7 @@ export default function MemberProfile({ profile, className }: Props): JSX.Elemen
   else allSubteams = [];
 
   const teams = allSubteams
-    .map((team) => teamsJson.find((teamData) => teamData.id === team))
+    .map((team) => teamsJson.teams.find((teamData) => teamData.id === team))
     .filter((d): d is Team => d != null);
 
   return (
