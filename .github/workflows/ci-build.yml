@@ -26,7 +26,7 @@ jobs:
       - name: Format
         run: yarn format:check
       - name: Test
-        run: yarn workspace frontend test
+        run: yarn test
   build:
     runs-on: ubuntu-latest
     steps:
