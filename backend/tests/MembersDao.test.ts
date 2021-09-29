@@ -1,7 +1,7 @@
-const MembersDao = require('../src/dao/MembersDao').default;
-const jaggerData = require('./data/jagger-profile.json');
-const mockUsers = require('./data/mock-users.json');
-const { approvedMemberCollection, memberCollection } = require('../src/firebase');
+import MembersDao from '../src/dao/MembersDao';
+import jaggerData from './data/jagger-profile.json';
+import mockUsers from './data/mock-users.json';
+import { approvedMemberCollection, memberCollection } from '../src/firebase';
 
 /* Cleanup database after running MembersDao tests */
 afterAll(async () =>
@@ -16,7 +16,7 @@ afterAll(async () =>
 );
 
 test('Add new member', () => {
-  const mockUser = mockUsers.mu1;
+  const mockUser = mockUsers.mu1 as IdolMember;
   return MembersDao.setMember(mockUser.email, mockUser).then(() => {
     MembersDao.getCurrentOrPastMemberByEmail(mockUser.email).then((member) => {
       expect(member).toEqual(mockUser);
@@ -30,7 +30,7 @@ test('Get member from past semester', () =>
   ));
 
 test('Approve member information changes', () => {
-  const mockUser = mockUsers.mu2;
+  const mockUser = mockUsers.mu2 as IdolMember;
   return MembersDao.setMember(mockUser.email, mockUser).then(() => {
     MembersDao.approveMemberInformationChanges([mockUser.email]).then(() => {
       MembersDao.getAllMembers(true).then((allApprovedMembers) => {
@@ -41,7 +41,7 @@ test('Approve member information changes', () => {
 });
 
 test('Revert member information changes', async () => {
-  const mockUser = mockUsers.mu3;
+  const mockUser = mockUsers.mu3 as IdolMember;
   const mockUserRef = await MembersDao.setMember(mockUser.email, mockUser).then(() =>
     MembersDao.approveMemberInformationChanges([mockUser.email]).then(() =>
       MembersDao.updateMember(mockUser.email, { ...mockUser, major: 'Information Science' })
