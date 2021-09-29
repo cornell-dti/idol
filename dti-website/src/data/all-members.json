@@ -988,6 +988,32 @@
     "website": "http://menaattia.com"
   },
   {
+    "netid": "mu2",
+    "name": "Mock User",
+    "graduation": "Never",
+    "major": "Computer Science",
+    "hometown": "GitHub",
+    "about": "Hello, I am a mock user",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "dev",
+    "roleDescription": "Developer"
+  },
+  {
+    "netid": "mu3",
+    "name": "Mock User",
+    "graduation": "Never",
+    "major": "Computer Science",
+    "hometown": "GitHub",
+    "about": "Hello, I am a mock user",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "dev",
+    "roleDescription": "Developer"
+  },
+  {
     "netid": "mwy9",
     "name": "Miranda Yu",
     "graduation": "May 2024",
