@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './NavigationCard.module.css';
 
@@ -24,7 +24,7 @@ export default function NavigationCard({ testID, items }: Props): JSX.Element {
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons">
-                  <Link to={link}>
+                  <Link href={link}>
                     <Button basic color="blue">
                       Go To
                     </Button>

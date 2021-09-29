@@ -22,7 +22,7 @@ const SignIn: React.FC = () => {
         <Card.Group>
           <Card>
             <Card.Content>
-              <Image size="medium" src={GoogleLogo} />
+              <Image size="medium" src={GoogleLogo.src} />
               <Card.Header>Google</Card.Header>
               <Card.Description>Sign in using Google OAuth2</Card.Description>
             </Card.Content>
