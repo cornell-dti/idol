@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .circle-progress-indicator {
   $circle-background-color: #ececec;
   $circle-fill-color: #ff324a;
@@ -15,16 +17,16 @@
       width: $inset-size;
       height: $inset-size;
       position: absolute;
-      margin-left: ($circle-size - $inset-size) / 2;
-      margin-top: ($circle-size - $inset-size) / 2;
+      margin-left: math.div($circle-size - $inset-size, 2);
+      margin-top: math.div($circle-size - $inset-size, 2);
 
       overflow: hidden;
       z-index: 10;
 
       .inset-content {
-        padding: $inset-size / 4.5 $inset-size / 18;
+        padding: math.div($inset-size, 4.5) math.div($inset-size, 18);
         overflow: hidden;
-        margin: 0 $inset-size / 18;
+        margin: 0 math.div($inset-size, 18);
         height: $inset-size;
       }
     }
