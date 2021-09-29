@@ -1,4 +1,4 @@
-import APICache from '../Cache/Cache';
+import { APICache } from '../utils';
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 

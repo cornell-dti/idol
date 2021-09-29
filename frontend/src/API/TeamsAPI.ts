@@ -1,7 +1,6 @@
-import APICache from '../Cache/Cache';
+import { APICache, Emitters } from '../utils';
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
-import Emitters from '../EventEmitter/constant-emitters';
 import { Member } from './MembersAPI';
 
 type TeamResponseObj = {
