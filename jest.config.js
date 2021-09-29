@@ -2,6 +2,7 @@ const babelJestPath = require.resolve('babel-jest');
 const identityObjectProxyPath = require.resolve('identity-obj-proxy');
 
 module.exports = {
+  projects: ['<rootDir>/frontend/*', '<rootDir>/backend/*'],
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   testEnvironment: 'jsdom',
   transform: {
