@@ -8,7 +8,7 @@ export default class ImagesAPI {
 
     return responseProm.then((val) => {
       if (val.error) {
-        return HeadshotPlaceholder;
+        return HeadshotPlaceholder.src;
       }
       return val.url;
     });
