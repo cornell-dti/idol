@@ -25,7 +25,7 @@ module.exports = {
       displayName: 'IDOL Backend Tests',
       testMatch: ['<rootDir>/backend/**/*.test.ts'],
       transform: {
-        '^.+\\.(ts|tsx)$': 'ts-jest'
+        '^.+\\.(ts|tsx)$': 'babel-jest'
       },
       rootDir: '<rootDir>/backend/'
     }
