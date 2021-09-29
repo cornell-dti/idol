@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "next",
-    "build": "next build && next export",
+    "build": "next build && next export -o build",
     "tsc": "tsc"
   },
   "proxy": "http://localhost:9000",
