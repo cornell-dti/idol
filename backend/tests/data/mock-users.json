@@ -1,0 +1,41 @@
+{
+  "mu1": {
+    "graduation": "Never",
+    "subteams": ["idol"],
+    "hometown": "GitHub",
+    "roleDescription": "Developer",
+    "firstName": "Mock",
+    "lastName": "User",
+    "email": "mu1@cornell.edu",
+    "major": "Computer Science",
+    "netid": "mu1",
+    "about": "Hello, I am a mock user",
+    "role": "dev"
+  },
+  "mu2": {
+    "graduation": "May 2023",
+    "subteams": ["idol", "carriage"],
+    "hometown": "Zurich",
+    "roleDescription": "Developer",
+    "firstName": "Swiss",
+    "lastName": "Banker",
+    "email": "mu2@cornell.edu",
+    "major": "Linguistics",
+    "netid": "mu2",
+    "about": "Hello I am the swiss banker. I love the UBS, do not talk to me about the goldman sachs.",
+    "role": "dev"
+  },
+  "mu3": {
+    "graduation": "Never",
+    "subteams": ["idol"],
+    "hometown": "GitHub",
+    "roleDescription": "Developer",
+    "firstName": "Mock",
+    "lastName": "User",
+    "email": "mu3@cornell.edu",
+    "major": "Computer Science",
+    "netid": "mu3",
+    "about": "Hello, I am a mock user",
+    "role": "dev"
+  }
+}
