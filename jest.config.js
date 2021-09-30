@@ -23,10 +23,11 @@ module.exports = {
     },
     {
       displayName: 'IDOL Backend Tests',
-      testMatch: ['<rootDir>/backend/**/*.test.ts'],
+      testMatch: ['<rootDir>/**/*.test.ts'],
       transform: {
         '^.+\\.(ts|tsx)$': 'babel-jest'
       },
+      setupFiles: ['backend/tests/setup.ts'],
       rootDir: '<rootDir>/backend/'
     }
   ]
