@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Button, Form, InputOnChangeData, Message } from 'semantic-ui-react';
 import SignInFormAPI from '../../../API/SignInFormAPI';
 import styles from './SignInForm.module.css';
@@ -49,7 +50,7 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link to={`/forms/signin/${inputVal}`}>{signInButton}</Link>
+          <Link href={`/forms/signin/${inputVal}`}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -57,7 +58,7 @@ const CodeForm: React.FC<{
 };
 
 const SignInForm: React.FC = () => {
-  const location = useLocation();
+  const location = useRouter();
 
   if (location.pathname === '/forms/signin' || location.pathname === '/forms/signin/') {
     return (

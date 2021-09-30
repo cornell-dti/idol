@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
   Button,
   Card,
@@ -98,7 +99,7 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link to={`/admin/signin-creator/${inputVal}`}>{signInButton}</Link>
+          <Link href={`/admin/signin-creator/${inputVal}`}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -106,7 +107,7 @@ const CodeForm: React.FC<{
 };
 
 const SignInFormCreator: React.FC = () => {
-  const location = useLocation();
+  const location = useRouter();
 
   if (
     location.pathname === '/admin/signin-creator' ||
