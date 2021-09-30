@@ -28,11 +28,13 @@ export default function ProjectHeader({ project }: Props): JSX.Element {
           </Row>
         </Col>
         <Col className="project-hero-logo col-6">
-          <img
-            className={clsx('product', `product-${project.teamId}`)}
-            src={project.hero.image}
-            alt={project.name}
-          />
+          {project.hero.image && (
+            <img
+              className={clsx('product', `product-${project.teamId}`)}
+              src={project.hero.image}
+              alt={project.name}
+            />
+          )}
         </Col>
       </Row>
     </PageHero>

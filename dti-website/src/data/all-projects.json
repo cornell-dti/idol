@@ -378,5 +378,38 @@
         "description": "One of our biggest requests was a dedicated application page for students applying to our team. We made it easy for all interested applicants to find out about the recruitment process year-round."
       }
     ]
+  },
+  {
+    "name": "Zing",
+    "teamId": "zing",
+    "card": "/static/projects/zing-card.png",
+    "header": "Zing",
+    "subheader": "Study tools to help professors help students.",
+    "hero": {
+      "header": "What We Do",
+      "image": "",
+      "subheader": "Zing is an all-in-one web interface for professors to create optimal groups for class projects based on students’ study preferences. Built with the GroupEng algorithm developed by the Director of Cornell Engineering’s MTEI program, Zing enables professors to customize grouping criteria and easily match studetnts. Our team also supports the Learning Strategies Center’s Study Partner program as a companion tool. Together, Zing helps student succeed inside and outside the classroom."
+    },
+    "github": "https://github.com/cornell-dti/zing",
+    "heroStartingColor": "#1AA9A5",
+    "heroEndingColor": "#92C3E6",
+    "heroUseDarkText": false,
+    "features": [
+      {
+        "title": "Professors create a new class project.",
+        "description": "Title the project and indicate how many students should be in each group.",
+        "image": "/static/projects/zing-feature1.png"
+      },
+      {
+        "title": "Students sign up for the project.",
+        "description": "All multiple-choice questions in 3 minutes so we learn about your study habits and group preferences to match you best.",
+        "image": "/static/projects/zing-feature2.png"
+      },
+      {
+        "title": "Professors match students into groups with one click.",
+        "description": "Specify the sorting criteria for students and let our algorithm take care of the rest. After, you can filter by year, major, gender, and more to see the distribution. Drag and drop to swap students. It’s as easy as 1, 2, 3.",
+        "image": "/static/projects/zing-feature3.png"
+      }
+    ]
   }
 ]
