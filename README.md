@@ -44,10 +44,18 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ## Contributors
 
+### Fall 2021
+
+- **Henry Li** - TPM
+- **Morgan Belous** - Developer
+- **Riya Jaggi** - Developer
+- **Sam Zhou** - Developer
+- **Grace Han** - Developer
+
 ### Spring 2021
 
+- **Henry Li** - TPM
 - **Morgan Belous** - Developer
-- **Henry Li** - Developer
 - **Riya Jaggi** - Developer
 - **Sam Zhou** - Developer
 - **Grace Han** - Developer
