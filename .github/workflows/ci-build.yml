@@ -26,6 +26,10 @@ jobs:
       - name: Format
         run: yarn format:check
       - name: Test
+        env:
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+          USE_PROD_DB: ${{ secrets.USE_PROD_DB }}
         run: yarn test
   build:
     runs-on: ubuntu-latest
