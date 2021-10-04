@@ -62,27 +62,27 @@ export default function DtiFooter({ hideSubfooter = false }: Props): JSX.Element
                 <Row className="social-icons">
                   <Col className="col-auto social-icon-wrapper">
                     <a href="https://www.facebook.com/cornelldti/">
-                      <Facebook className="social-icon social-icon-blank" />
+                      <img src={Facebook.src} className="social-icon" alt="Facebook" />
                     </a>
                   </Col>
                   <Col className="col-auto social-icon-wrapper">
                     <a href="https://github.com/cornell-dti/">
-                      <GitHub className="social-icon social-icon-blank" />
+                      <img src={GitHub.src} className="social-icon" alt="GitHub" />
                     </a>
                   </Col>
                   <Col className="col-auto social-icon-wrapper">
                     <a href="https://play.google.com/store/apps/dev?id=8943927778040647949">
-                      <GooglePlay className="social-icon social-icon-blank" />
+                      <img src={GooglePlay.src} className="social-icon" alt="GooglePlay" />
                     </a>
                   </Col>
                   <Col className="col-auto social-icon-wrapper">
                     <a href="http://appstore.com/cornelldti">
-                      <AppStore className="social-icon social-icon-blank" />
+                      <img src={AppStore.src} className="social-icon" alt="AppStore" />
                     </a>
                   </Col>
                   <Col className="col-auto social-icon-wrapper">
                     <a href="https://medium.com/cornelldti">
-                      <Medium className="social-icon social-icon-blank" />
+                      <img src={Medium.src} className="social-icon" alt="Medium" />
                     </a>
                   </Col>
                 </Row>
@@ -95,8 +95,8 @@ export default function DtiFooter({ hideSubfooter = false }: Props): JSX.Element
               <span className="divider"></span>
               <div className="attribution">
                 {`Made with`}
-                <Heart className="heart-desktop" title="love" />
-                <HeartMobile className="heart-mobile" title="love" />
+                <img src={Heart.src} className="heart-desktop" alt="love" />
+                <img src={HeartMobile.src} className="heart-mobile" alt="love" />
                 {` in Ithaca`}
               </div>
             </Row>
