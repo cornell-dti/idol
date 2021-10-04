@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Button, Form, InputOnChangeData, Message } from 'semantic-ui-react';
+// import {} from 'semantic-ui-calendar';
 import SignInFormAPI from '../../../API/SignInFormAPI';
 import styles from './SignInForm.module.css';
 
@@ -46,6 +47,13 @@ const CodeForm: React.FC<{
           placeholder={
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
+        />
+        <Form.Input
+          value={disabled && inputVal}
+          disabled={disabled}
+          content={defaultValue}
+          onChange={handleCodeChange}
+          label="Code Expiration Time"
         />
         {disabled || inputVal === '' ? (
           signInButton

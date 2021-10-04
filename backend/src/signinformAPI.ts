@@ -10,12 +10,13 @@ export const signInFormExists: (id: string) => Promise<boolean> = checkIfDocExis
 
 export const createSignInForm = async (
   id: string,
+  expireAt: number,
   user: IdolMember
 ): Promise<{ id: string; createdAt: number }> => {
   if (!PermissionsManager.canEditSignIn(user)) {
     throw new PermissionError("You don't have permission to create a sign-in form!");
   }
-  await SignInFormDao.createSignIn(id);
+  await SignInFormDao.createSignIn(id, expireAt);
   return { id, createdAt: Date.now() };
 };
 
