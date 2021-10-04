@@ -48,6 +48,8 @@ const allowedOrigins = allowAllOrigins
   ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
   : [/http:\/\/localhost:3000/];
 
+// test
+
 // Middleware
 app.use(
   cors({
