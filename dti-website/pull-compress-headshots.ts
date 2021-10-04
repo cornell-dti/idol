@@ -9,9 +9,9 @@ import fs from 'fs-extra';
 const HEADSHOT_TEMP = 'headshot_tmp';
 
 async function getMemberImages() {
-  const { images }: { images: readonly ProfileImage[] } = await fetch(
+  const { images } = await fetch(
     'https://idol.cornelldti.org/.netlify/functions/api/allMemberImages'
-  ).then((response) => response.json());
+  ).then((response) => response.json() as Promise<{ images: readonly ProfileImage[] }>);
   return images;
 }
 

@@ -10,9 +10,9 @@ import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
 
 async function getIdolMembers(): Promise<readonly IdolMember[]> {
-  const { members }: { members: readonly IdolMember[] } = await fetch(
+  const { members } = await fetch(
     'https://idol.cornelldti.org/.netlify/functions/api/allApprovedMembers'
-  ).then((response) => response.json());
+  ).then((response) => response.json() as Promise<{ members: readonly IdolMember[] }>);
   return members.filter((it) => it.email.endsWith('@cornell.edu'));
 }
 
