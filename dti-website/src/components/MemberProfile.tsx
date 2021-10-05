@@ -39,7 +39,7 @@ export default function MemberProfile({ profile, className }: Props): JSX.Elemen
       <Col>
         {imageError ? (
           <div className="profile-image rounded-circle mx-auto">
-            <MissingImage className="profile-image-missing" />
+            <img src={MissingImage.src} alt="Missing" className="profile-image-missing" />
           </div>
         ) : (
           <img

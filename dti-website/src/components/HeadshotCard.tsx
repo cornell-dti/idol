@@ -24,7 +24,7 @@ export default function HeadshotCard({ image, name, role = '', onClick }: Props)
                 <img src={image} onError={() => setFoundPic(false)} alt={name} loading="lazy" />
               ) : (
                 <div className="profile-image">
-                  <MissingImage className="profile-image-missing" />
+                  <img src={MissingImage.src} alt="Missing" className="profile-image-missing" />
                 </div>
               )}
             </Col>
