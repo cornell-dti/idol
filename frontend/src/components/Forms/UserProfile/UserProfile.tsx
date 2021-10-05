@@ -7,11 +7,10 @@ import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../..
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
 
-  const getUser = async (email: string): Promise<Member> => MembersAPI.getMember(email);
-
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [pronouns, setPronouns] = useState('');
   const [role, setRole] = useState('' as Role);
   const [graduation, setGraduation] = useState('');
   const [major, setMajor] = useState('');
@@ -27,11 +26,13 @@ const UserProfile: React.FC = () => {
 
   useEffect(() => {
     if (userEmail) {
-      getUser(userEmail)
+      MembersAPI.getMember(userEmail)
         .then((mem) => {
+          console.log(mem);
           setEmail(mem.email);
           setFirstName(mem.firstName);
           setLastName(mem.lastName);
+          setPronouns(mem.pronouns);
           setRole(mem.role);
           setGraduation(mem.graduation);
           setMajor(mem.major);
@@ -73,7 +74,7 @@ const UserProfile: React.FC = () => {
   const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
 
   const saveProfileInfo = () => {
-    const requiredFields = [firstName, lastName, graduation, major, hometown, about];
+    const requiredFields = [firstName, lastName, pronouns, graduation, major, hometown, about];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {
@@ -82,6 +83,7 @@ const UserProfile: React.FC = () => {
         email,
         firstName,
         lastName,
+        pronouns,
         role,
         roleDescription: getRoleDescriptionFromRoleID(role),
         graduation,
@@ -100,38 +102,6 @@ const UserProfile: React.FC = () => {
     }
   };
 
-  let name;
-  if (role === 'lead') {
-    name = (
-      <Form.Group widths="equal">
-        <Form.Input
-          fluid
-          label="First name"
-          value={firstName}
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
-          required
-        />
-        <Form.Input
-          fluid
-          label="Last name"
-          value={lastName}
-          onChange={(event) => {
-            setLastName(event.target.value);
-          }}
-          required
-        />
-      </Form.Group>
-    );
-  } else {
-    name = (
-      <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
-        {firstName} {lastName}
-      </h2>
-    );
-  }
-
   return (
     <Form
       style={{
@@ -141,7 +111,41 @@ const UserProfile: React.FC = () => {
         marginTop: '10vh'
       }}
     >
-      {name}
+      <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
+        {firstName} {lastName} {pronouns}
+      </h2>
+      <Form.Group>
+        <Form.Input
+          fluid
+          width={6}
+          label="First name"
+          value={firstName}
+          onChange={(event) => {
+            setFirstName(event.target.value);
+          }}
+          required
+          disabled={role !== 'lead'}
+        />
+        <Form.Input
+          fluid
+          width={6}
+          label="Last name"
+          value={lastName}
+          onChange={(event) => {
+            setLastName(event.target.value);
+          }}
+          required
+          disabled={role !== 'lead'}
+        />
+
+        <Form.Input
+          fluid
+          width={4}
+          label="Pronouns"
+          value={pronouns}
+          onChange={(e) => setPronouns(e.target.value)}
+        />
+      </Form.Group>
 
       <Form.Group widths="equal">
         <Form.Input

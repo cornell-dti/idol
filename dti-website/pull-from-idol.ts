@@ -21,6 +21,7 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
     netid,
     firstName,
     lastName,
+    pronouns,
     graduation,
     major,
     doubleMajor,
@@ -39,6 +40,7 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
   return {
     netid,
     name: `${firstName} ${lastName}`,
+    pronouns,
     graduation,
     major,
     hometown,
