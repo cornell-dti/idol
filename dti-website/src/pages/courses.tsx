@@ -76,7 +76,7 @@ export default function CoursesPage(): JSX.Element {
                       className="social-button"
                       href={c.buttons.apply.link}
                     >
-                      <ApplyIcon />
+                      <img src={ApplyIcon.src} alt="Apply" />
                       <div className="social-button-text">{c.buttons.apply.title || ''}</div>
                     </Button>
                   </Col>

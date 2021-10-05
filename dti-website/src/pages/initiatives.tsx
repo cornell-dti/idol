@@ -57,7 +57,7 @@ export default function InitiativesPage(): JSX.Element {
                   className="social-button"
                   href="https://medium.com/@alice.pham/5b9033aa7a6e"
                 >
-                  <MediumIcon />
+                  <img src={MediumIcon.src} alt="Medium" />
                   <div className="social-button-text">Read More</div>
                 </Button>
               </Col>
@@ -111,7 +111,7 @@ export default function InitiativesPage(): JSX.Element {
                   className="social-button"
                   href="https://www.facebook.com/cornelldti/events/"
                 >
-                  <FacebookIcon />
+                  <img src={FacebookIcon.src} alt="Facebook" />
                   <div className="social-button-text">See Events</div>
                 </Button>
               </Col>
