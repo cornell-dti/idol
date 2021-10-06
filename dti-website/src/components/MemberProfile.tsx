@@ -55,7 +55,7 @@ export default function MemberProfile({ profile, className }: Props): JSX.Elemen
               <div>
                 {profile.info.name}
                 {profile.info.pronouns && profile.info.pronouns !== ''
-                  ? '(' + profile.info.pronouns + ')'
+                  ? `(${  profile.info.pronouns  })`
                   : ''}
               </div>
             </div>

@@ -28,7 +28,6 @@ const UserProfile: React.FC = () => {
     if (userEmail) {
       MembersAPI.getMember(userEmail)
         .then((mem) => {
-          console.log(mem);
           setEmail(mem.email);
           setFirstName(mem.firstName);
           setLastName(mem.lastName);
