@@ -99,7 +99,9 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={{pathname: `/admin/signin-creator/`, query: {id: inputVal}}}>{signInButton}</Link>
+          <Link href={{ pathname: `/admin/signin-creator/`, query: { id: inputVal } }}>
+            {signInButton}
+          </Link>
         )}
       </Form>
     </div>

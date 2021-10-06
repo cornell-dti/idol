@@ -50,7 +50,7 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={{pathname :`/forms/signin/`, query: {id: inputVal}}}>{signInButton}</Link>
+          <Link href={{ pathname: `/forms/signin/`, query: { id: inputVal } }}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -61,7 +61,7 @@ const SignInForm: React.FC = () => {
   const location = useRouter();
   const code = location.query.id as string;
 
-  if (code===undefined) {
+  if (code === undefined) {
     return (
       <div className={styles.content}>
         <CodeForm />
