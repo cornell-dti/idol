@@ -206,13 +206,13 @@ const TeamEventsCreditForm: React.FC = () => {
           required
         />
         <div style={{ margin: '2rem 0' }}>
+          <label htmlFor="newImage" style={{ fontWeight: 'bold' }}>
+            Upload your event picture here! <span style={{ color: '#db2828' }}>*</span>
+          </label>
           <p style={{ marginBottom: '0' }}>
             Please include a picture of yourself (and others) and/or an email chain only if the
             former is not possible.
           </p>
-          <label htmlFor="newImage" style={{ fontWeight: 'bold' }}>
-            Add File: <span style={{ color: '#db2828' }}>*</span>
-          </label>
           <input
             id="newImage"
             type="file"
