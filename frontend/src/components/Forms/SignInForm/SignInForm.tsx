@@ -50,7 +50,7 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={`/forms/signin/${inputVal}`}>{signInButton}</Link>
+          <Link href={{pathname :`/forms/signin/`, query: {id: inputVal}}}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -59,8 +59,9 @@ const CodeForm: React.FC<{
 
 const SignInForm: React.FC = () => {
   const location = useRouter();
+  const code = location.query.id as string;
 
-  if (location.pathname === '/forms/signin' || location.pathname === '/forms/signin/') {
+  if (code===undefined) {
     return (
       <div className={styles.content}>
         <CodeForm />
@@ -68,9 +69,10 @@ const SignInForm: React.FC = () => {
     );
   }
 
-  if (!location.pathname.toLowerCase().startsWith('/forms/signin/'))
-    throw new Error('This should be unreachable.');
-  const afterPath = location.pathname.slice(14, location.pathname.length);
+  // if (!location.pathname.toLowerCase().startsWith('/forms/signin/'))
+  //   throw new Error('This should be unreachable.');
+
+  const afterPath = code;
 
   return <SignInWithFormID id={afterPath} />;
 };
