@@ -4,6 +4,7 @@ import ShoutoutsPage from './ShoutoutsPage/ShoutoutsPage';
 import UserProfile from './UserProfile/UserProfile';
 import UserProfileImage from './UserProfile/UserProfileImage';
 import SignInForm from './SignInForm/SignInForm';
+import TeamEventCreditsForm from './TeamEventCreditsForm/TeamEventCreditsForm';
 import NavigationCard, { NavigationCardItem } from '../Common/NavigationCard';
 
 const navCardItems: readonly NavigationCardItem[] = [
@@ -22,6 +23,11 @@ const navCardItems: readonly NavigationCardItem[] = [
     header: 'Edit Profile Image',
     description: 'Edit your profile image.',
     link: '/forms/profileImage'
+  },
+  {
+    header: 'Team Event Credits',
+    description: 'Track your team event credits.',
+    link: '/forms/teamEventCredits'
   }
 ];
 
@@ -45,6 +51,9 @@ const FormsBase: React.FC = () => {
           </Route>
           <Route path="/forms/shoutouts">
             <ShoutoutsPage />
+          </Route>
+          <Route path="/forms/teamEventCredits">
+            <TeamEventCreditsForm />
           </Route>
           <Route path="/*"></Route>
         </Switch>
