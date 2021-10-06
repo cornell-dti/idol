@@ -14,9 +14,11 @@ import {
   Popup,
   SemanticICONS
 } from 'semantic-ui-react';
+import DatePicker from "react-datepicker";
 import SignInFormAPI from '../../API/SignInFormAPI';
 import { Emitters } from '../../utils';
 import styles from './SignInFormCreator.module.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];
 
@@ -31,12 +33,15 @@ const CodeForm: React.FC<{
 }> = ({ defaultValue, onClick, disabled, info, error, success, link }) => {
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
+  const [expiryDate, setExpiryDate] = useState(new Date());
+
   const handleCodeChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
   ) => void = (e, { name, value }) => {
     setInputVal(value);
   };
+
   const signInButton = (
     <Button
       disabled={disabled || inputVal === ''}
@@ -96,10 +101,22 @@ const CodeForm: React.FC<{
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
         />
+        {!disabled &&
+          <div>
+            <label>Code Expiry</label>
+            <DatePicker
+              selected={expiryDate}
+              onChange={(date: Date) => setExpiryDate(date)}
+              showTimeSelect
+              minDate={new Date()}
+              dateFormat="MMM d, yyyy h:mm aa"
+            />
+          </div>
+        }
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={`/admin/signin-creator/${inputVal}`}>{signInButton}</Link>
+          <Link href={`/admin/signin-creator/${inputVal}/${expiryDate}`}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -123,11 +140,13 @@ const SignInFormCreator: React.FC = () => {
   if (!location.pathname.toLowerCase().startsWith('/admin/signin-creator/'))
     throw new Error('This should be unreachable.');
   const afterPath = location.pathname.slice(22, location.pathname.length);
+  const id = afterPath.slice(0, afterPath.indexOf('/'))
+  const expiryDate = afterPath.slice(afterPath.indexOf('/'))
 
-  return <SignInWithFormID id={afterPath} />;
+  return <SignInWithFormID id={id} expiryDate={Date.parse(expiryDate)}/>;
 };
 
-const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
+const SignInWithFormID: React.FC<{ id: string, expiryDate: number }> = ({ id, expiryDate }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
@@ -149,12 +168,12 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
 
   useEffect(() => {
     if (!foundForm) {
-      SignInFormAPI.createSignInForm(id).then((resp) => {
+      SignInFormAPI.createSignInForm(id, expiryDate).then((resp) => {
         setCreateAttempted(true);
         Emitters.signInCodeCreated.emit();
       });
     }
-  }, [id, foundForm]);
+  }, [id, foundForm, expiryDate]);
 
   if (loading) {
     return (
@@ -222,6 +241,11 @@ const FormListEntry: React.FC<{
             Created at {new Date(form.createdAt).toLocaleTimeString()} on{' '}
             {new Date(form.createdAt).toLocaleDateString()}
           </List.Description>
+          {form.expireAt &&
+            <List.Description as="a">
+              Expiry at {new Date(form.expireAt).toLocaleTimeString()}
+            </List.Description>
+          }
         </div>
         <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
           <Button

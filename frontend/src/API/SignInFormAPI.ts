@@ -8,13 +8,20 @@ export default class SignInFormAPI {
     }).then((res) => res.data.exists);
   }
 
+  public static checkIfFormExpired(id: string): Promise<boolean> {
+    return APIWrapper.post(`${backendURL}/signinExipred`, {
+      id
+    }).then((res) => res.data.exists);
+  }
+
+
   public static submitSignIn(id: string): Promise<{ signedInAt: number; id: string }> {
     return APIWrapper.post(`${backendURL}/signin`, { id }).then((res) => res.data);
   }
 
-  public static createSignInForm(id: string): Promise<{ id: string; createdAt: number }> {
+  public static createSignInForm(id: string, expireAt: number): Promise<{ id: string; createdAt: number }> {
     return APIWrapper.post(`${backendURL}/signinCreate`, {
-      id
+      id, expireAt
     }).then((res) => res.data);
   }
 

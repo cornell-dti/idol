@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Button, Form, InputOnChangeData, Message } from 'semantic-ui-react';
-// import {} from 'semantic-ui-calendar';
 import SignInFormAPI from '../../../API/SignInFormAPI';
 import styles from './SignInForm.module.css';
 
@@ -48,13 +47,6 @@ const CodeForm: React.FC<{
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
         />
-        <Form.Input
-          value={disabled && inputVal}
-          disabled={disabled}
-          content={defaultValue}
-          onChange={handleCodeChange}
-          label="Code Expiration Time"
-        />
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
@@ -86,11 +78,13 @@ const SignInForm: React.FC = () => {
 const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(false);
+  const [formExpired, setFormExpired] = useState(false);
   const [signInAttempted, setSignInAttempted] = useState(false);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(false);
+    setFormExpired(false);
     setSignInAttempted(false);
   };
 
@@ -105,11 +99,19 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
 
   useEffect(() => {
     if (foundForm) {
+      SignInFormAPI.checkIfFormExpired(id).then((resp) => {
+        setFormExpired(resp);
+      })
+    }
+  }, [id, foundForm]);
+
+  useEffect(() => {
+    if (!formExpired) {
       SignInFormAPI.submitSignIn(id).then((resp) => {
         setSignInAttempted(true);
       });
     }
-  }, [id, foundForm]);
+  }, [id, formExpired])
 
   if (loading) {
     return (
@@ -143,8 +145,21 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     </div>
   );
 
+  const ifFormExpired = formExpired ? (
+    <div className={styles.content}>
+      <CodeForm
+        defaultValue={id}
+        onClick={onResultsScreenResubmit}
+        error={{
+          header: `Form with id: ${id} is closed!`,
+          content: 'Contact a lead if you believe this is an error.'
+        }}
+      />
+    </div>
+  ) : ifSigningIn;
+
   const rendered = foundForm ? (
-    ifSigningIn
+    ifFormExpired
   ) : (
     <div className={styles.content}>
       <CodeForm
