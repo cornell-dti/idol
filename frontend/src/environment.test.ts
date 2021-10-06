@@ -1,3 +1,5 @@
-import { useProdDb } from './environment';
+import { useProdDb, useProdBackendForDev } from './environment';
 
-test('Config test', () => expect(useProdDb).toEqual(true));
+test('useProdDb check', () => expect(useProdDb).toEqual(true));
+
+test('useProdBackendForDev', () => expect(useProdBackendForDev).toEqual(false));
