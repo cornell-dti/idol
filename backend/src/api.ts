@@ -31,7 +31,8 @@ import {
   createSignInForm,
   deleteSignInForm,
   signIn,
-  signInFormExists
+  signInFormExists,
+  signInFormExpired
 } from './signinformAPI';
 
 // Constants and configurations
@@ -186,7 +187,10 @@ loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 loginCheckedPost('/signinExists', async (req, _) => ({
   exists: await signInFormExists(req.body.id)
 }));
-loginCheckedPost('/signinCreate', async (req, user) => createSignInForm(req.body.id, user));
+loginCheckedPost('/signinExpired', async (req, _) => ({
+  expired: await signInFormExpired(req.body.id)
+}));
+loginCheckedPost('/signinCreate', async (req, user) => createSignInForm(req.body.id, req.body.expireAt, user));
 loginCheckedPost('/signinDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};
