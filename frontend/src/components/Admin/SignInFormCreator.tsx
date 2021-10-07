@@ -99,7 +99,9 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={`/admin/signin-creator/${inputVal}`}>{signInButton}</Link>
+          <Link href={{ pathname: `/admin/signin-creator/`, query: { id: inputVal } }}>
+            {signInButton}
+          </Link>
         )}
       </Form>
     </div>
@@ -108,11 +110,9 @@ const CodeForm: React.FC<{
 
 const SignInFormCreator: React.FC = () => {
   const location = useRouter();
+  const code = location.query.id as string;
 
-  if (
-    location.pathname === '/admin/signin-creator' ||
-    location.pathname === '/admin/signin-creator/'
-  ) {
+  if (code === undefined) {
     return (
       <div className={styles.content}>
         <CodeForm />
@@ -120,14 +120,15 @@ const SignInFormCreator: React.FC = () => {
     );
   }
 
-  if (!location.pathname.toLowerCase().startsWith('/admin/signin-creator/'))
-    throw new Error('This should be unreachable.');
-  const afterPath = location.pathname.slice(22, location.pathname.length);
+  // if (!location.pathname.toLowerCase().startsWith('/admin/signin-creator/'))
+  //   throw new Error('This should be unreachable.');
 
-  return <SignInWithFormID id={afterPath} />;
+  const afterPath = code;
+
+  return <CreateSignInForm id={afterPath} />;
 };
 
-const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
+const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
