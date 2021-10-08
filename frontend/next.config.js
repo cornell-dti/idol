@@ -1,5 +1,7 @@
 module.exports = {
   webpack5: true,
+  experimental: { swcLoader: true },
+  typescript: { ignoreBuildErrors: true },
   async rewrites() {
     return [
       {
