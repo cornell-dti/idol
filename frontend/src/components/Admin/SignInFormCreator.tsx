@@ -188,7 +188,7 @@ const CreateSignInForm: React.FC<{ id: string, expiryDate: number }> = ({ id, ex
 
   const ifFormOpen = createAttempted ? (
     <CodeForm
-      link={`${window.location.origin}/forms/signin/${id}`}
+      link={`${window.location.origin}/forms/signin?id=${id}`}
       defaultValue={id}
       onClick={onResultsScreenResubmit}
       success={{
