@@ -103,7 +103,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     if (foundForm) {
       SignInFormAPI.checkIfFormExpired(id).then((resp) => {
         setFormExpired(resp);
-      })
+      });
     }
   }, [id, foundForm]);
 
@@ -113,7 +113,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         setSignInAttempted(true);
       });
     }
-  }, [id, formExpired])
+  }, [id, formExpired]);
 
   if (loading) {
     return (
@@ -158,7 +158,9 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         }}
       />
     </div>
-  ) : ifSigningIn;
+  ) : (
+    ifSigningIn
+  );
 
   const rendered = foundForm ? (
     ifFormExpired

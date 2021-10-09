@@ -8,11 +8,11 @@ const checkIfDocExists = async (id: string): Promise<boolean> =>
 
 export const signInFormExpired = async (id: string): Promise<boolean> => {
   const expireAt = await (await signInFormCollection.doc(id).get()).data()?.expireAt;
-  if (expireAt === undefined) { 
+  if (expireAt === undefined) {
     return false;
   }
-  return (expireAt <= (new Date()).getTime());
-}
+  return expireAt <= new Date().getTime();
+};
 
 export const signInFormExists: (id: string) => Promise<boolean> = checkIfDocExists;
 
@@ -20,12 +20,12 @@ export const createSignInForm = async (
   id: string,
   expireAt: number,
   user: IdolMember
-): Promise<{ id: string; createdAt: number, expireAt: number}> => {
+): Promise<{ id: string; createdAt: number; expireAt: number }> => {
   if (!PermissionsManager.canEditSignIn(user)) {
     throw new PermissionError("You don't have permission to create a sign-in form!");
   }
   await SignInFormDao.createSignIn(id, expireAt);
-  return { id, createdAt: Date.now(), expireAt};
+  return { id, createdAt: Date.now(), expireAt };
 };
 
 export const deleteSignInForm = async (id: string, user: IdolMember): Promise<void> => {

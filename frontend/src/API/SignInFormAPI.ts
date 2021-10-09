@@ -14,14 +14,17 @@ export default class SignInFormAPI {
     }).then((res) => res.data.expired);
   }
 
-
   public static submitSignIn(id: string): Promise<{ signedInAt: number; id: string }> {
     return APIWrapper.post(`${backendURL}/signin`, { id }).then((res) => res.data);
   }
 
-  public static createSignInForm(id: string, expireAt: number): Promise<{ id: string; createdAt: number }> {
+  public static createSignInForm(
+    id: string,
+    expireAt: number
+  ): Promise<{ id: string; createdAt: number }> {
     return APIWrapper.post(`${backendURL}/signinCreate`, {
-      id, expireAt
+      id,
+      expireAt
     }).then((res) => res.data);
   }
 

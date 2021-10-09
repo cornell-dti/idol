@@ -9,9 +9,10 @@ export default class SignInFormDao {
     const formRef = await formDoc.get();
     if (!formRef.exists) throw new NotFoundError(`No form with id '${id}' found.`);
     const form = formRef.data();
-    if (form == null) throw new NotFoundError(`No form content in form with id '${id}' found.`); 
+    if (form == null) throw new NotFoundError(`No form content in form with id '${id}' found.`);
     const signedInAtVal = Date.now();
-    if (form.expireAt <= signedInAtVal) throw new PermissionError(`User is not allowed to sign into expired form with id '${id}.`);
+    if (form.expireAt <= signedInAtVal)
+      throw new PermissionError(`User is not allowed to sign into expired form with id '${id}.`);
     const userDoc = memberCollection.doc(email);
     const userRef = await userDoc.get();
     if (!userRef.exists) throw new NotFoundError(`No user with email '${email}' found.`);
