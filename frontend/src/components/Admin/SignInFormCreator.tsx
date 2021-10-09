@@ -116,7 +116,7 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={{ pathname: `/admin/signin-creator/`, query: { id: inputVal } }}>
+          <Link href={{ pathname: `/admin/signin-creator/`, query: { id: inputVal, expireAt: expiryDate.toISOString()} }}>
             {signInButton}
           </Link>
         )}
@@ -128,8 +128,9 @@ const CodeForm: React.FC<{
 const SignInFormCreator: React.FC = () => {
   const location = useRouter();
   const code = location.query.id as string;
+  const expiryDate = (new Date(location.query.expireAt as string)).getTime();
 
-  if (code === undefined) {
+  if (code === undefined || expiryDate === undefined) {
     return (
       <div className={styles.content}>
         <CodeForm />
@@ -140,12 +141,10 @@ const SignInFormCreator: React.FC = () => {
   // if (!location.pathname.toLowerCase().startsWith('/admin/signin-creator/'))
   //   throw new Error('This should be unreachable.');
 
-  const afterPath = code;
-
-  return <CreateSignInForm id={afterPath} />;
+  return <CreateSignInForm id={code} expiryDate={expiryDate} />;
 };
 
-const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
+const CreateSignInForm: React.FC<{ id: string, expiryDate: number }> = ({ id, expiryDate }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
@@ -242,7 +241,8 @@ const FormListEntry: React.FC<{
           </List.Description>
           {form.expireAt &&
             <List.Description as="a">
-              Expiry at {new Date(form.expireAt).toLocaleTimeString()}
+              Expiry at {new Date(form.expireAt).toLocaleTimeString()} on {' '}
+              {new Date(form.expireAt).toLocaleDateString()}
             </List.Description>
           }
         </div>
