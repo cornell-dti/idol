@@ -153,7 +153,7 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
         defaultValue={id}
         onClick={onResultsScreenResubmit}
         error={{
-          header: `Form with id: ${id} is closed!`,
+          header: `Form with id: ${id} is closed for sign-ins!`,
           content: 'Contact a lead if you believe this is an error.'
         }}
       />

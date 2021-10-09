@@ -9,9 +9,9 @@ export default class SignInFormAPI {
   }
 
   public static checkIfFormExpired(id: string): Promise<boolean> {
-    return APIWrapper.post(`${backendURL}/signinExipred`, {
+    return APIWrapper.post(`${backendURL}/signinExpired`, {
       id
-    }).then((res) => res.data.exists);
+    }).then((res) => res.data.expired);
   }
 
 
