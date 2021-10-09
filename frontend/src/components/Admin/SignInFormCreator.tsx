@@ -103,7 +103,7 @@ const CodeForm: React.FC<{
         />
         {!disabled &&
           <div>
-            <label>Code Expiry</label>
+            <label className={styles.dateLabel}>Code Expiry</label>
             <DatePicker
               selected={expiryDate}
               onChange={(date: Date) => setExpiryDate(date)}
