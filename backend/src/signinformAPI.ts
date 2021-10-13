@@ -25,7 +25,7 @@ export const createSignInForm = async (
     throw new PermissionError("You don't have permission to create a sign-in form!");
   }
   if (expireAt <= Date.now()) {
-    throw new BadRequestError("Invalid Date: Expiry Date cannot be in the past!")
+    throw new BadRequestError('Invalid Date: Expiry Date cannot be in the past!');
   }
   await SignInFormDao.createSignIn(id, expireAt);
   return { id, createdAt: Date.now(), expireAt };

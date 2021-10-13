@@ -153,11 +153,13 @@ const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, ex
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
+  const [attemptFailed, setAttemptFailed] = useState(false);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(true);
     setCreateAttempted(false);
+    setAttemptFailed(false);
   };
 
   useEffect(() => {
@@ -165,6 +167,7 @@ const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, ex
       SignInFormAPI.checkFormExists(id).then((resp) => {
         setLoading(false);
         setFoundForm(resp);
+        setAttemptFailed(resp);
       });
     }
   }, [id, loading]);
@@ -172,8 +175,16 @@ const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, ex
   useEffect(() => {
     if (!foundForm) {
       SignInFormAPI.createSignInForm(id, expiryDate).then((resp) => {
-        setCreateAttempted(true);
-        Emitters.signInCodeCreated.emit();
+        if (resp.error) {
+          setAttemptFailed(true);
+          Emitters.signInCodeError.emit({
+            headerMsg: "Couldn't create sign-in code!",
+            contentMsg: resp.error
+          });
+        } else {
+          setCreateAttempted(true);
+          Emitters.signInCodeCreated.emit();
+        }
       });
     }
   }, [id, foundForm, expiryDate]);
@@ -205,9 +216,7 @@ const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, ex
     <CodeForm disabled info={{ header: 'Creating your form...', content: 'Please stand by!' }} />
   );
 
-  const rendered = !foundForm ? (
-    ifFormOpen
-  ) : (
+  const formNotCreated = foundForm ? (
     <CodeForm
       defaultValue={id}
       onClick={onResultsScreenResubmit}
@@ -216,7 +225,19 @@ const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, ex
         content: 'Choose a different id to continue.'
       }}
     />
+  ) : (
+    <CodeForm
+      defaultValue={id}
+      onClick={onResultsScreenResubmit}
+      error={{
+        header: `The expiry date ${new Date(expiryDate).toLocaleTimeString()} on 
+            ${new Date(expiryDate).toLocaleDateString()} is in the past!`,
+        content: 'Choose a different expiry date to continue.'
+      }}
+    />
   );
+
+  const rendered = !attemptFailed ? ifFormOpen : formNotCreated;
   return rendered;
 };
 

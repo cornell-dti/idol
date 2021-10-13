@@ -94,4 +94,9 @@ export class Emitters {
 
   // Sign-in code
   static signInCodeCreated: EventEmitter<void> = new EventEmitter();
+
+  static signInCodeError: EventEmitter<{
+    headerMsg: string;
+    contentMsg: string;
+  }> = new EventEmitter();
 }
