@@ -2,11 +2,11 @@ import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 
 type SignInFormResponseObj = {
-  form: SignInForm;
+  form: SignInFormObj;
   error?: string;
 };
 
-export type SignInForm = { id: string; createdAt: number; expireAt: number };
+type SignInFormObj = { id: string; createdAt: number; expireAt: number };
 
 export default class SignInFormAPI {
   public static checkFormExists(id: string): Promise<boolean> {
