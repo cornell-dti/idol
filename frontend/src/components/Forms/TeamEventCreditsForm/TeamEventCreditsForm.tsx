@@ -9,6 +9,7 @@ type TeamEvent = {
   name: string;
   date: string;
   numCredits: string;
+  hasHours: boolean;
   membersPending: Member[];
   membersApproved: Member[];
 };
@@ -16,6 +17,7 @@ type TeamEvent = {
 type TeamEventAttendace = {
   memberEmail: string;
   teamEventName: string;
+  hoursAttended?: string;
   image: string;
 };
 
@@ -26,8 +28,8 @@ const TeamEventsCreditForm: React.FC = () => {
   const [name, setName] = useState('');
   const [roleDescription, setRoleDescription] = useState('');
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
-  const [numCredits, setNumCredits] = useState('');
   const [image, setImage] = useState('');
+  const [hours, setHours] = useState('');
 
   useEffect(() => {
     if (userEmail) {
@@ -67,13 +69,23 @@ const TeamEventsCreditForm: React.FC = () => {
         headerMsg: 'No Image Uploaded',
         contentMsg: 'Please upload an image!'
       });
+    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)))) {
+      Emitters.generalError.emit({
+        headerMsg: 'No Hours Entered',
+        contentMsg: 'Please enter your hours!'
+      });
     } else {
       const newTeamEventAttendance: TeamEventAttendace = {
         memberEmail: userEmail,
         teamEventName: teamEvent.name,
+        hoursAttended: hours,
         image
       };
       requestTeamEventCredit(newTeamEventAttendance);
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Team Event Credit submitted!',
+        contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
+      });
     }
   };
 
@@ -82,6 +94,15 @@ const TeamEventsCreditForm: React.FC = () => {
       name: 'Coffee Chat',
       date: 'Sept 3',
       numCredits: '0.5',
+      hasHours: false,
+      membersPending: [],
+      membersApproved: []
+    },
+    {
+      name: 'Club Fest',
+      date: 'Sept 5',
+      numCredits: '0.5',
+      hasHours: true,
       membersPending: [],
       membersApproved: []
     }
@@ -123,7 +144,9 @@ const TeamEventsCreditForm: React.FC = () => {
                 resultRenderer={(event) => (
                   <Segment>
                     <h4>{event.name}</h4>
-                    <Label>{`${event.numCredits} credit(s)`}</Label>
+                    <Label>
+                      {`${event.numCredits} credit(s)`} {event.hasHours ? 'per hour' : ''}
+                    </Label>
                   </Segment>
                 )}
                 matchChecker={(query: string, teamEvent: TeamEvent) => {
@@ -149,6 +172,7 @@ const TeamEventsCreditForm: React.FC = () => {
                   negative
                   onClick={() => {
                     setTeamEvent(undefined);
+                    setHours('0');
                   }}
                 >
                   Clear
@@ -158,19 +182,24 @@ const TeamEventsCreditForm: React.FC = () => {
           </div>
         </div>
 
-        <label style={{ fontWeight: 'bold' }}>
-          How many event credit(s)? <span style={{ color: '#db2828' }}>*</span>
-        </label>
-        <Form.Input
-          fluid
-          type="number"
-          step="0.5"
-          size="large"
-          value={numCredits}
-          onChange={(event) => setNumCredits(event.target.value)}
-          style={{ width: '20%' }}
-          required
-        />
+        {teamEvent?.hasHours ? (
+          <div>
+            <label style={{ fontWeight: 'bold' }}>
+              How many hours did you attend the event? <span style={{ color: '#db2828' }}>*</span>
+            </label>
+            <Form.Input
+              fluid
+              type="number"
+              step="1"
+              size="large"
+              value={hours}
+              onChange={(event) => setHours(event.target.value)}
+              style={{ width: '20%' }}
+              required
+            />
+          </div>
+        ) : undefined}
+
         <div style={{ margin: '2rem 0' }}>
           <label htmlFor="newImage" style={{ fontWeight: 'bold' }}>
             Upload your event picture here! <span style={{ color: '#db2828' }}>*</span>
