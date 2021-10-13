@@ -1,11 +1,12 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { User } from 'firebase/auth';
 import { auth } from '../../firebase';
 
 type UserContextType = { readonly email: string } | 'INIT' | null;
 
 const UserContext = createContext<UserContextType>(null);
 
-const getUserEmail = (user: firebase.User) => {
+const getUserEmail = (user: User) => {
   const { email } = user;
   if (email == null) throw new Error();
   return email;
@@ -19,7 +20,7 @@ export const useUserEmail = (): string => {
   return context.email;
 };
 
-let cachedUser: firebase.User | null = null;
+let cachedUser: User | null = null;
 
 export const getUserIdToken = async (): Promise<string | null> => {
   if (cachedUser == null) return null;
