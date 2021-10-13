@@ -1,6 +1,6 @@
 import { SignInForm } from '../DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
-import { NotFoundError, PermissionError } from '../errors';
+import { NotFoundError, BadRequestError } from '../errors';
 import MembersDao from './MembersDao';
 
 export default class SignInFormDao {
@@ -12,7 +12,7 @@ export default class SignInFormDao {
     if (form == null) throw new NotFoundError(`No form content in form with id '${id}' found.`);
     const signedInAtVal = Date.now();
     if (form.expireAt <= signedInAtVal)
-      throw new PermissionError(`User is not allowed to sign into expired form with id '${id}.`);
+      throw new BadRequestError(`User is not allowed to sign into expired form with id '${id}.`);
     const userDoc = memberCollection.doc(email);
     const userRef = await userDoc.get();
     if (!userRef.exists) throw new NotFoundError(`No user with email '${email}' found.`);
