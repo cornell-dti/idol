@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Radio, Segment, Label, Button } from 'semantic-ui-react';
+import { Form, Segment, Label, Button } from 'semantic-ui-react';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { useUserEmail } from '../../Common/UserProvider';
 import { Emitters } from '../../../utils';
@@ -24,7 +24,7 @@ const TeamEventsCreditForm: React.FC = () => {
   const getUser = async (email: string): Promise<Member> => MembersAPI.getMember(email);
 
   const [name, setName] = useState('');
-  const [role, setRole] = useState('');
+  const [roleDescription, setRoleDescription] = useState('');
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [numCredits, setNumCredits] = useState('');
   const [image, setImage] = useState('');
@@ -34,7 +34,7 @@ const TeamEventsCreditForm: React.FC = () => {
       getUser(userEmail)
         .then((mem) => {
           setName(`${mem.firstName} ${mem.lastName}`);
-          setRole(mem.role);
+          setRoleDescription(mem.roleDescription);
         })
         .catch((error) => {
           Emitters.generalError.emit({
@@ -107,44 +107,10 @@ const TeamEventsCreditForm: React.FC = () => {
           <p>{name}</p>
         </div>
 
-        <label htmlFor="roleRadioGroup" style={{ fontWeight: 'bold' }}>
-          Role:
-        </label>
-        <Form.Field>
-          <Radio
-            label="Dev"
-            name="roleRadioGroup"
-            value="dev"
-            checked={role === 'developer'}
-            style={{ marginTop: '1rem' }}
-            readOnly
-            disabled
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label="Design"
-            name="roleRadioGroup"
-            value="design"
-            checked={role === 'Designer'}
-            readOnly
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label="Business"
-            name="roleRadioGroup"
-            value="business"
-            checked={role === 'business'}
-            readOnly
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio label="PM" name="roleRadioGroup" value="pm" checked={role === 'pm'} readOnly />
-        </Form.Field>
-        <Form.Field>
-          <Radio label="TPM" name="roleRadioGroup" value="tpm" checked={role === 'tpm'} readOnly />
-        </Form.Field>
+        <div style={{ margin: '2rem 0' }}>
+          <label style={{ fontWeight: 'bold' }}>Role:</label>
+          <p>{roleDescription}</p>
+        </div>
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>
