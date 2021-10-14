@@ -164,16 +164,25 @@ const TeamEventsCreditForm: React.FC = () => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  alignItems: 'baseline'
+                  alignItems: 'center'
                 }}
               >
-                <p style={{ paddingRight: '1.5em' }}>{teamEvent?.name}</p>
+                <div>
+                  <Segment>
+                    <h4>{teamEvent.name}</h4>
+                    <Label>
+                      {`${teamEvent.numCredits} credit(s)`} {teamEvent.hasHours ? 'per hour' : ''}
+                    </Label>
+                  </Segment>
+                </div>
+
                 <Button
                   negative
                   onClick={() => {
                     setTeamEvent(undefined);
                     setHours('0');
                   }}
+                  style={{ marginLeft: '1.5em' }}
                 >
                   Clear
                 </Button>
