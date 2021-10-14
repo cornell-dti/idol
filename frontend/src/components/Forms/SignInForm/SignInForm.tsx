@@ -80,11 +80,13 @@ const SignInForm: React.FC = () => {
 const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(false);
+  const [formExpired, setFormExpired] = useState(false);
   const [signInAttempted, setSignInAttempted] = useState(false);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(false);
+    setFormExpired(false);
     setSignInAttempted(false);
   };
 
@@ -99,11 +101,19 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
 
   useEffect(() => {
     if (foundForm) {
+      SignInFormAPI.checkIfFormExpired(id).then((resp) => {
+        setFormExpired(resp);
+      });
+    }
+  }, [id, foundForm]);
+
+  useEffect(() => {
+    if (!formExpired) {
       SignInFormAPI.submitSignIn(id).then((resp) => {
         setSignInAttempted(true);
       });
     }
-  }, [id, foundForm]);
+  }, [id, formExpired]);
 
   if (loading) {
     return (
@@ -137,8 +147,23 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     </div>
   );
 
-  const rendered = foundForm ? (
+  const ifFormExpired = formExpired ? (
+    <div className={styles.content}>
+      <CodeForm
+        defaultValue={id}
+        onClick={onResultsScreenResubmit}
+        error={{
+          header: `Form with id: ${id} is closed for sign-ins!`,
+          content: 'Contact a lead if you believe this is an error.'
+        }}
+      />
+    </div>
+  ) : (
     ifSigningIn
+  );
+
+  const rendered = foundForm ? (
+    ifFormExpired
   ) : (
     <div className={styles.content}>
       <CodeForm

@@ -14,9 +14,11 @@ import {
   Popup,
   SemanticICONS
 } from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import { Emitters } from '../../utils';
 import styles from './SignInFormCreator.module.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];
 
@@ -31,12 +33,15 @@ const CodeForm: React.FC<{
 }> = ({ defaultValue, onClick, disabled, info, error, success, link }) => {
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
+  const [expiryDate, setExpiryDate] = useState(new Date());
+
   const handleCodeChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
   ) => void = (e, { name, value }) => {
     setInputVal(value);
   };
+
   const signInButton = (
     <Button
       disabled={disabled || inputVal === ''}
@@ -96,10 +101,27 @@ const CodeForm: React.FC<{
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
         />
+        {!disabled && (
+          <div>
+            <label className={styles.dateLabel}>Code Expiry</label>
+            <DatePicker
+              selected={expiryDate}
+              onChange={(date: Date) => setExpiryDate(date)}
+              showTimeSelect
+              minDate={new Date()}
+              dateFormat="MMM d, yyyy h:mm aa"
+            />
+          </div>
+        )}
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link href={{ pathname: `/admin/signin-creator/`, query: { id: inputVal } }}>
+          <Link
+            href={{
+              pathname: `/admin/signin-creator/`,
+              query: { id: inputVal, expireAt: expiryDate.toISOString() }
+            }}
+          >
             {signInButton}
           </Link>
         )}
@@ -111,8 +133,9 @@ const CodeForm: React.FC<{
 const SignInFormCreator: React.FC = () => {
   const location = useRouter();
   const code = location.query.id as string;
+  const expiryDate = new Date(location.query.expireAt as string).getTime();
 
-  if (code === undefined) {
+  if (code === undefined || expiryDate === undefined) {
     return (
       <div className={styles.content}>
         <CodeForm />
@@ -123,20 +146,20 @@ const SignInFormCreator: React.FC = () => {
   // if (!location.pathname.toLowerCase().startsWith('/admin/signin-creator/'))
   //   throw new Error('This should be unreachable.');
 
-  const afterPath = code;
-
-  return <CreateSignInForm id={afterPath} />;
+  return <CreateSignInForm id={code} expiryDate={expiryDate} />;
 };
 
-const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
+const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, expiryDate }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(true);
   const [createAttempted, setCreateAttempted] = useState(false);
+  const [attemptFailed, setAttemptFailed] = useState(false);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(true);
     setCreateAttempted(false);
+    setAttemptFailed(false);
   };
 
   useEffect(() => {
@@ -144,18 +167,27 @@ const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
       SignInFormAPI.checkFormExists(id).then((resp) => {
         setLoading(false);
         setFoundForm(resp);
+        setAttemptFailed(resp);
       });
     }
   }, [id, loading]);
 
   useEffect(() => {
     if (!foundForm) {
-      SignInFormAPI.createSignInForm(id).then((resp) => {
-        setCreateAttempted(true);
-        Emitters.signInCodeCreated.emit();
+      SignInFormAPI.createSignInForm(id, expiryDate).then((resp) => {
+        if (resp.error) {
+          setAttemptFailed(true);
+          Emitters.signInCodeError.emit({
+            headerMsg: "Couldn't create sign-in code!",
+            contentMsg: resp.error
+          });
+        } else {
+          setCreateAttempted(true);
+          Emitters.signInCodeCreated.emit();
+        }
       });
     }
-  }, [id, foundForm]);
+  }, [id, foundForm, expiryDate]);
 
   if (loading) {
     return (
@@ -172,7 +204,7 @@ const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
 
   const ifFormOpen = createAttempted ? (
     <CodeForm
-      link={`${window.location.origin}/forms/signin/${id}`}
+      link={`${window.location.origin}/forms/signin?id=${id}`}
       defaultValue={id}
       onClick={onResultsScreenResubmit}
       success={{
@@ -184,9 +216,7 @@ const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
     <CodeForm disabled info={{ header: 'Creating your form...', content: 'Please stand by!' }} />
   );
 
-  const rendered = !foundForm ? (
-    ifFormOpen
-  ) : (
+  const formNotCreated = foundForm ? (
     <CodeForm
       defaultValue={id}
       onClick={onResultsScreenResubmit}
@@ -195,7 +225,19 @@ const CreateSignInForm: React.FC<{ id: string }> = ({ id }) => {
         content: 'Choose a different id to continue.'
       }}
     />
+  ) : (
+    <CodeForm
+      defaultValue={id}
+      onClick={onResultsScreenResubmit}
+      error={{
+        header: `The expiry date ${new Date(expiryDate).toLocaleTimeString()} on 
+            ${new Date(expiryDate).toLocaleDateString()} is in the past!`,
+        content: 'Choose a different expiry date to continue.'
+      }}
+    />
   );
+
+  const rendered = !attemptFailed ? ifFormOpen : formNotCreated;
   return rendered;
 };
 
@@ -223,6 +265,12 @@ const FormListEntry: React.FC<{
             Created at {new Date(form.createdAt).toLocaleTimeString()} on{' '}
             {new Date(form.createdAt).toLocaleDateString()}
           </List.Description>
+          {form.expireAt && (
+            <List.Description as="a">
+              Expiry at {new Date(form.expireAt).toLocaleTimeString()} on{' '}
+              {new Date(form.expireAt).toLocaleDateString()}
+            </List.Description>
+          )}
         </div>
         <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
           <Button
@@ -238,7 +286,7 @@ const FormListEntry: React.FC<{
             size="tiny"
             onClick={(event) => {
               event.stopPropagation();
-              navigator.clipboard.writeText(`${window.location.origin}/forms/signin/${form.id}`);
+              navigator.clipboard.writeText(`${window.location.origin}/forms/signin?=${form.id}`);
             }}
           />
         </div>
