@@ -15,12 +15,24 @@ import {
   SemanticICONS
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import { Emitters } from '../../utils';
 import styles from './SignInFormCreator.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];
+
+const CODE_VALIDATION_RE = '^[a-zA-Z0-9-]+$';
+
+const regexInput = new RegExp(CODE_VALIDATION_RE);
+
+const calculateMinTime = (date: Date) => {
+  if (moment(date).isSame(moment(), 'day')) {
+    return moment().add(0.5, 'hours').toDate();
+  }
+  return moment().startOf('day').toDate();
+};
 
 const CodeForm: React.FC<{
   defaultValue?: string;
@@ -33,18 +45,26 @@ const CodeForm: React.FC<{
 }> = ({ defaultValue, onClick, disabled, info, error, success, link }) => {
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
-  const [expiryDate, setExpiryDate] = useState(new Date());
+  const [expiryDate, setExpiryDate] = useState(moment().add(2, 'hours').toDate());
+  const [validInput, setValidInput] = useState(true);
+  const [minTime, setMinTime] = useState(new Date());
 
   const handleCodeChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
-  ) => void = (e, { name, value }) => {
-    setInputVal(value);
+  ) => void = (e, { _, value }) => {
+    setInputVal(value.trim());
+    setValidInput(regexInput.test(value.trim()));
+  };
+
+  const handleDateChange = (date: Date) => {
+    setExpiryDate(date);
+    setMinTime(calculateMinTime(date));
   };
 
   const signInButton = (
     <Button
-      disabled={disabled || inputVal === ''}
+      disabled={disabled || !validInput}
       onClick={() => {
         setShowCopied(false);
         onClick && onClick();
@@ -54,6 +74,7 @@ const CodeForm: React.FC<{
       Create Code/Link
     </Button>
   );
+
   return (
     <div className={styles.content}>
       {link && (
@@ -100,20 +121,32 @@ const CodeForm: React.FC<{
           placeholder={
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
+          error={
+            !validInput && {
+              content: 'Code should only contain letters, numbers or hyphens (no spaces).',
+              pointing: 'below'
+            }
+          }
         />
         {!disabled && (
           <div>
             <label className={styles.dateLabel}>Code Expiry</label>
             <DatePicker
               selected={expiryDate}
-              onChange={(date: Date) => setExpiryDate(date)}
+              onChange={handleDateChange}
               showTimeSelect
+              disabled={disabled}
               minDate={new Date()}
+              minTime={minTime}
+              maxTime={moment().endOf('day').toDate()}
               dateFormat="MMM d, yyyy h:mm aa"
             />
+            <div>
+              <br />
+            </div>
           </div>
         )}
-        {disabled || inputVal === '' ? (
+        {disabled || inputVal === '' || !validInput ? (
           signInButton
         ) : (
           <Link
@@ -298,12 +331,12 @@ const FormListEntry: React.FC<{
 
 const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({ children, onRefresh }) => (
   <>
+    <Button style={{ margin: 8 }} onClick={onRefresh} icon="refresh" />
     <Card style={{ width: '100%' }}>
       <Card.Content>
         <div className={styles.listContainer}>{children}</div>
       </Card.Content>
     </Card>
-    <Button style={{ margin: 8 }} onClick={onRefresh} icon="refresh" />
   </>
 );
 
