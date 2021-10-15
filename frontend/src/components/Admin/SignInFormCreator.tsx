@@ -64,7 +64,7 @@ const CodeForm: React.FC<{
 
   const signInButton = (
     <Button
-      disabled={disabled || !regexInput.test(inputVal)}
+      disabled={disabled || !validInput}
       onClick={() => {
         setShowCopied(false);
         onClick && onClick();
