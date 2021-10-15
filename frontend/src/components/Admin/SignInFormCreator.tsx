@@ -141,6 +141,7 @@ const CodeForm: React.FC<{
               maxTime={moment().endOf('day').toDate()}
               dateFormat="MMM d, yyyy h:mm aa"
             />
+            <div><br/></div>
           </div>
         )}
         {disabled || inputVal === '' || !validInput ? (
@@ -328,12 +329,12 @@ const FormListEntry: React.FC<{
 
 const ListContainer: React.FC<{ onRefresh: () => unknown }> = ({ children, onRefresh }) => (
   <>
+    <Button style={{ margin: 8 }} onClick={onRefresh} icon="refresh" />
     <Card style={{ width: '100%' }}>
       <Card.Content>
         <div className={styles.listContainer}>{children}</div>
       </Card.Content>
     </Card>
-    <Button style={{ margin: 8 }} onClick={onRefresh} icon="refresh" />
   </>
 );
 
