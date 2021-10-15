@@ -38,7 +38,7 @@ const CodeForm: React.FC<{
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
   const [expiryDate, setExpiryDate] = useState(new Date());
-  const [validInput, setValidInput] = useState(false);
+  const [validInput, setValidInput] = useState(true);
 
   const handleCodeChange: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -111,7 +111,7 @@ const CodeForm: React.FC<{
           placeholder={
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
-          error={!validInput}
+          error={!validInput && { content: 'Code should only contain letters, numbers or hyphens (no spaces).', pointing: 'below' }}
         />
         {!disabled && (
           <div>
