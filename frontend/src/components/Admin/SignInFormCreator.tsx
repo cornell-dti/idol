@@ -32,7 +32,7 @@ const calculateMinTime = (date: Date) => {
     return moment().add(0.5, 'hours').toDate();
   }
   return moment().startOf('day').toDate();
-}
+};
 
 const CodeForm: React.FC<{
   defaultValue?: string;
@@ -60,7 +60,7 @@ const CodeForm: React.FC<{
   const handleDateChange = (date: Date) => {
     setExpiryDate(date);
     setMinTime(calculateMinTime(date));
-  }
+  };
 
   const signInButton = (
     <Button
@@ -141,7 +141,9 @@ const CodeForm: React.FC<{
               maxTime={moment().endOf('day').toDate()}
               dateFormat="MMM d, yyyy h:mm aa"
             />
-            <div><br/></div>
+            <div>
+              <br />
+            </div>
           </div>
         )}
         {disabled || inputVal === '' || !validInput ? (
