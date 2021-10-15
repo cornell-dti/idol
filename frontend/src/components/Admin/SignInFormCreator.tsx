@@ -15,6 +15,7 @@ import {
   SemanticICONS
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import SignInFormAPI from '../../API/SignInFormAPI';
 import { Emitters } from '../../utils';
 import styles from './SignInFormCreator.module.css';
@@ -37,7 +38,7 @@ const CodeForm: React.FC<{
 }> = ({ defaultValue, onClick, disabled, info, error, success, link }) => {
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
-  const [expiryDate, setExpiryDate] = useState(new Date());
+  const [expiryDate, setExpiryDate] = useState(moment().add(2, 'hours').toDate());
   const [validInput, setValidInput] = useState(true);
 
   const handleCodeChange: (
@@ -107,7 +108,12 @@ const CodeForm: React.FC<{
           placeholder={
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
-          error={!validInput && { content: 'Code should only contain letters, numbers or hyphens (no spaces).', pointing: 'below' }}
+          error={
+            !validInput && {
+              content: 'Code should only contain letters, numbers or hyphens (no spaces).',
+              pointing: 'below'
+            }
+          }
         />
         {!disabled && (
           <div>
