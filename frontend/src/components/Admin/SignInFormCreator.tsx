@@ -22,6 +22,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const SIGNIN_CODE_PLACEHOLDERS = ['devsesh-2493', 'dtiah-5-21', '14M3L337', '867-5309'];
 
+const CODE_VALIDATION_RE = '^[a-zA-Z0-9-]+$';
+
+const regexInput = new RegExp(CODE_VALIDATION_RE);
+
 const CodeForm: React.FC<{
   defaultValue?: string;
   onClick?: () => unknown;
@@ -34,17 +38,23 @@ const CodeForm: React.FC<{
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
   const [expiryDate, setExpiryDate] = useState(new Date());
+  const [validInput, setValidInput] = useState(false);
 
   const handleCodeChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
-  ) => void = (e, { name, value }) => {
-    setInputVal(value);
+  ) => void = (e, { _, value }) => {
+    setInputVal(value.trim());
+    if (regexInput.test(value.trim())) {
+      setValidInput(true);
+    } else {
+      setValidInput(false);
+    }
   };
 
   const signInButton = (
     <Button
-      disabled={disabled || inputVal === ''}
+      disabled={disabled || !regexInput.test(inputVal)}
       onClick={() => {
         setShowCopied(false);
         onClick && onClick();
@@ -54,6 +64,7 @@ const CodeForm: React.FC<{
       Create Code/Link
     </Button>
   );
+
   return (
     <div className={styles.content}>
       {link && (
@@ -100,6 +111,7 @@ const CodeForm: React.FC<{
           placeholder={
             SIGNIN_CODE_PLACEHOLDERS[Math.floor(Math.random() * SIGNIN_CODE_PLACEHOLDERS.length)]
           }
+          error={!validInput}
         />
         {!disabled && (
           <div>
@@ -113,7 +125,7 @@ const CodeForm: React.FC<{
             />
           </div>
         )}
-        {disabled || inputVal === '' ? (
+        {disabled || inputVal === '' || !validInput ? (
           signInButton
         ) : (
           <Link
