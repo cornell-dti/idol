@@ -286,7 +286,7 @@ const FormListEntry: React.FC<{
             size="tiny"
             onClick={(event) => {
               event.stopPropagation();
-              navigator.clipboard.writeText(`${window.location.origin}/forms/signin?=${form.id}`);
+              navigator.clipboard.writeText(`${window.location.origin}/forms/signin?id=${form.id}`);
             }}
           />
         </div>
