@@ -3,6 +3,21 @@ import { signInFormCollection, memberCollection } from '../firebase';
 import { NotFoundError, BadRequestError } from '../errors';
 import MembersDao from './MembersDao';
 
+type SignInUser = {
+  signedInAt: number;
+  userDoc: IdolMember;
+};
+
+async function filterSignIns(users, userEmail) {
+  const prevSignIns: SignInUser[] = await Promise.all(
+    users.map(async (obj) => ({
+      signedInAt: obj.signedInAt,
+      userDoc: await obj.user.get().then((doc) => doc.data() as IdolMember)
+    }))
+  ).then((results) => results as SignInUser[]);
+  return users.filter((_, i) => prevSignIns[i].userDoc.email !== userEmail);
+}
+
 export default class SignInFormDao {
   static async signIn(id: string, email: string): Promise<number> {
     const formDoc = signInFormCollection.doc(id);
@@ -16,9 +31,10 @@ export default class SignInFormDao {
     const userDoc = memberCollection.doc(email);
     const userRef = await userDoc.get();
     if (!userRef.exists) throw new NotFoundError(`No user with email '${email}' found.`);
+    const updatedSignIns = await filterSignIns(form.users, email);
     return formDoc
       .update({
-        users: form.users.concat({ signedInAt: signedInAtVal, user: userDoc })
+        users: updatedSignIns.concat({ signedInAt: signedInAtVal, user: userDoc })
       })
       .then((_) => signedInAtVal);
   }
