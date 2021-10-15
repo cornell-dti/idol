@@ -45,11 +45,7 @@ const CodeForm: React.FC<{
     data: InputOnChangeData
   ) => void = (e, { _, value }) => {
     setInputVal(value.trim());
-    if (regexInput.test(value.trim())) {
-      setValidInput(true);
-    } else {
-      setValidInput(false);
-    }
+    setValidInput(regexInput.test(value.trim()));
   };
 
   const signInButton = (
