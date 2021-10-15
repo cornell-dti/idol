@@ -25,16 +25,16 @@ export type DBShoutout = {
 
 export type Shoutout =
   | {
-      giver: IdolMember;
-      receiver: IdolMember;
-      message: string;
-      isAnon: false;
-    }
+    giver: IdolMember;
+    receiver: IdolMember;
+    message: string;
+    isAnon: false;
+  }
   | {
-      receiver: IdolMember;
-      message: string;
-      isAnon: true;
-    };
+    receiver: IdolMember;
+    message: string;
+    isAnon: true;
+  };
 
 export type DBSignInForm = {
   users: { signedInAt: number; user: firestore.DocumentReference }[];
@@ -47,3 +47,15 @@ export type SignInForm = {
   createdAt: number;
   id: string;
 };
+
+export type DBTeamEvent = {
+  name: string;
+  attendees: firestore.DocumentReference[];
+  uuid: string;
+}
+
+export type TeamEvent = {
+  name: string;
+  attendees: IdolMember[];
+  uuid: string;
+}

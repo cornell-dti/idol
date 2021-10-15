@@ -21,7 +21,7 @@ export const createSignInForm = async (
 
 export const deleteSignInForm = async (id: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.canEditSignIn(user)) {
-    throw new PermissionError("You don't have permission to create a sign-in form!");
+    throw new PermissionError("You don't have permission to delete a sign-in form!");
   }
   await SignInFormDao.deleteSignIn(id);
 };
