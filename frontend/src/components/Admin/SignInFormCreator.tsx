@@ -27,6 +27,13 @@ const CODE_VALIDATION_RE = '^[a-zA-Z0-9-]+$';
 
 const regexInput = new RegExp(CODE_VALIDATION_RE);
 
+const calculateMinTime = (date: Date) => {
+  if (moment(date).isSame(moment(), 'day')) {
+    return moment().add(0.5, 'hours').toDate();
+  }
+  return moment().startOf('day').toDate();
+}
+
 const CodeForm: React.FC<{
   defaultValue?: string;
   onClick?: () => unknown;
@@ -40,6 +47,7 @@ const CodeForm: React.FC<{
   const [showCopied, setShowCopied] = useState(false);
   const [expiryDate, setExpiryDate] = useState(moment().add(2, 'hours').toDate());
   const [validInput, setValidInput] = useState(true);
+  const [minTime, setMinTime] = useState(new Date());
 
   const handleCodeChange: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -48,6 +56,11 @@ const CodeForm: React.FC<{
     setInputVal(value.trim());
     setValidInput(regexInput.test(value.trim()));
   };
+
+  const handleDateChange = (date: Date) => {
+    setExpiryDate(date);
+    setMinTime(calculateMinTime(date));
+  }
 
   const signInButton = (
     <Button
@@ -120,9 +133,12 @@ const CodeForm: React.FC<{
             <label className={styles.dateLabel}>Code Expiry</label>
             <DatePicker
               selected={expiryDate}
-              onChange={(date: Date) => setExpiryDate(date)}
+              onChange={handleDateChange}
               showTimeSelect
+              disabled={disabled}
               minDate={new Date()}
+              minTime={minTime}
+              maxTime={moment().endOf('day').toDate()}
               dateFormat="MMM d, yyyy h:mm aa"
             />
           </div>
