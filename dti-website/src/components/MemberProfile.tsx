@@ -53,10 +53,12 @@ export default function MemberProfile({ profile, className }: Props): JSX.Elemen
           <Col className="my-auto">
             <div className="profile-name-header">
               <div>
-                {profile.info.name}
-                {profile.info.pronouns && profile.info.pronouns !== ''
-                  ? `(${profile.info.pronouns})`
-                  : ''}
+                <span>{profile.info.name}</span>
+                <span className="profile-member-pronouns">
+                  {profile.info.pronouns && profile.info.pronouns !== ''
+                    ? profile.info.pronouns
+                    : ''}
+                </span>
               </div>
             </div>
             <div className="profile-role text-dark">
