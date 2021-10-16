@@ -22,7 +22,9 @@ export const useUserEmail = (): string => {
 
 let cachedUser: User | null = null;
 
-let updateCachedUser = async (userAuth: User) => (cachedUser = userAuth);
+const updateCachedUser = async (userAuth: User) => {
+  cachedUser = userAuth;
+};
 
 export const getUserIdToken = async (): Promise<string | null> => {
   if (cachedUser == null) return null;
