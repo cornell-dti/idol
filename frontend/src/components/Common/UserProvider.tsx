@@ -22,6 +22,10 @@ export const useUserEmail = (): string => {
 
 let cachedUser: User | null = null;
 
+const updateCachedUser = async (userAuth: User) => {
+  cachedUser = userAuth;
+};
+
 export const getUserIdToken = async (): Promise<string | null> => {
   if (cachedUser == null) return null;
   return cachedUser.getIdToken();
@@ -29,13 +33,11 @@ export const getUserIdToken = async (): Promise<string | null> => {
 
 export default function UserProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const [user, setUser] = useState<UserContextType>('INIT');
-
   useEffect(
     () =>
       auth.onAuthStateChanged(async (userAuth) => {
         if (userAuth) {
-          setUser({ email: getUserEmail(userAuth) });
-          cachedUser = userAuth;
+          updateCachedUser(userAuth).then(() => setUser({ email: getUserEmail(userAuth) }));
         } else {
           setUser(null);
         }
