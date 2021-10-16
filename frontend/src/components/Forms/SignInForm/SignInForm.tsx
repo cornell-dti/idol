@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Button, Form, InputOnChangeData, Message } from 'semantic-ui-react';
 import SignInFormAPI from '../../../API/SignInFormAPI';
 import styles from './SignInForm.module.css';
@@ -49,7 +50,7 @@ const CodeForm: React.FC<{
         {disabled || inputVal === '' ? (
           signInButton
         ) : (
-          <Link to={`/forms/signin/${inputVal}`}>{signInButton}</Link>
+          <Link href={{ pathname: `/forms/signin/`, query: { id: inputVal } }}>{signInButton}</Link>
         )}
       </Form>
     </div>
@@ -57,9 +58,10 @@ const CodeForm: React.FC<{
 };
 
 const SignInForm: React.FC = () => {
-  const location = useLocation();
+  const location = useRouter();
+  const code = location.query.id as string;
 
-  if (location.pathname === '/forms/signin' || location.pathname === '/forms/signin/') {
+  if (code === undefined) {
     return (
       <div className={styles.content}>
         <CodeForm />
@@ -67,9 +69,10 @@ const SignInForm: React.FC = () => {
     );
   }
 
-  if (!location.pathname.toLowerCase().startsWith('/forms/signin/'))
-    throw new Error('This should be unreachable.');
-  const afterPath = location.pathname.slice(14, location.pathname.length);
+  // if (!location.pathname.toLowerCase().startsWith('/forms/signin/'))
+  //   throw new Error('This should be unreachable.');
+
+  const afterPath = code;
 
   return <SignInWithFormID id={afterPath} />;
 };
@@ -77,11 +80,13 @@ const SignInForm: React.FC = () => {
 const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [foundForm, setFoundForm] = useState(false);
+  const [formExpired, setFormExpired] = useState(false);
   const [signInAttempted, setSignInAttempted] = useState(false);
 
   const onResultsScreenResubmit = () => {
     setLoading(true);
     setFoundForm(false);
+    setFormExpired(false);
     setSignInAttempted(false);
   };
 
@@ -96,11 +101,19 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
 
   useEffect(() => {
     if (foundForm) {
+      SignInFormAPI.checkIfFormExpired(id).then((resp) => {
+        setFormExpired(resp);
+      });
+    }
+  }, [id, foundForm]);
+
+  useEffect(() => {
+    if (!formExpired) {
       SignInFormAPI.submitSignIn(id).then((resp) => {
         setSignInAttempted(true);
       });
     }
-  }, [id, foundForm]);
+  }, [id, formExpired]);
 
   if (loading) {
     return (
@@ -134,8 +147,23 @@ const SignInWithFormID: React.FC<{ id: string }> = ({ id }) => {
     </div>
   );
 
-  const rendered = foundForm ? (
+  const ifFormExpired = formExpired ? (
+    <div className={styles.content}>
+      <CodeForm
+        defaultValue={id}
+        onClick={onResultsScreenResubmit}
+        error={{
+          header: `Form with id: ${id} is closed for sign-ins!`,
+          content: 'Contact a lead if you believe this is an error.'
+        }}
+      />
+    </div>
+  ) : (
     ifSigningIn
+  );
+
+  const rendered = foundForm ? (
+    ifFormExpired
   ) : (
     <div className={styles.content}>
       <CodeForm

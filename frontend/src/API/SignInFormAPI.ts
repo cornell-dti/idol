@@ -1,6 +1,13 @@
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 
+type SignInFormResponseObj = {
+  form: SignInFormObj;
+  error?: string;
+};
+
+type SignInFormObj = { id: string; createdAt: number; expireAt: number };
+
 export default class SignInFormAPI {
   public static checkFormExists(id: string): Promise<boolean> {
     return APIWrapper.post(`${backendURL}/signinExists`, {
@@ -8,13 +15,20 @@ export default class SignInFormAPI {
     }).then((res) => res.data.exists);
   }
 
+  public static checkIfFormExpired(id: string): Promise<boolean> {
+    return APIWrapper.post(`${backendURL}/signinExpired`, {
+      id
+    }).then((res) => res.data.expired);
+  }
+
   public static submitSignIn(id: string): Promise<{ signedInAt: number; id: string }> {
     return APIWrapper.post(`${backendURL}/signin`, { id }).then((res) => res.data);
   }
 
-  public static createSignInForm(id: string): Promise<{ id: string; createdAt: number }> {
+  public static createSignInForm(id: string, expireAt: number): Promise<SignInFormResponseObj> {
     return APIWrapper.post(`${backendURL}/signinCreate`, {
-      id
+      id,
+      expireAt
     }).then((res) => res.data);
   }
 

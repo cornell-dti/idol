@@ -22,7 +22,7 @@ const SiteHeader: React.FC = () => {
           >
             <Icon size="big" className={styles.menu_icon} name="bars" />
           </div>
-          <img className={styles.dti_logo} src={dti_logo} alt="DTI logo" />
+          <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
           <div
             className={styles.title_conainer}
             onMouseEnter={() => setIdolOpen(true)}

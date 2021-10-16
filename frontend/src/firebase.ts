@@ -1,6 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { getApps, initializeApp } from 'firebase/app';
+import { Auth, getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { useProdDb } from './environment';
 
 const firebaseConfig = useProdDb
@@ -24,7 +23,7 @@ const firebaseConfig = useProdDb
       measurementId: 'G-2QB5YJ3CHC'
     };
 
-firebase.initializeApp(firebaseConfig);
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-export const provider = new firebase.auth.GoogleAuthProvider();
+if (!getApps().length) initializeApp(firebaseConfig);
+
+export const auth: Auth = getAuth();
+export const provider: GoogleAuthProvider = new GoogleAuthProvider();
