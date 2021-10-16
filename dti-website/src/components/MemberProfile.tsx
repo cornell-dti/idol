@@ -52,7 +52,14 @@ export default function MemberProfile({ profile, className }: Props): JSX.Elemen
         <Row className="profile-main">
           <Col className="my-auto">
             <div className="profile-name-header">
-              <div>{profile.info.name}</div>
+              <div>
+                <span>{profile.info.name}</span>
+                <span className="profile-member-pronouns">
+                  {profile.info.pronouns && profile.info.pronouns !== ''
+                    ? profile.info.pronouns
+                    : ''}
+                </span>
+              </div>
             </div>
             <div className="profile-role text-dark">
               {profile.info.roleDescription || 'No Profile Available'}
