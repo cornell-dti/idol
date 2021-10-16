@@ -69,7 +69,7 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'No Image Uploaded',
         contentMsg: 'Please upload an image!'
       });
-    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)))) {
+    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)) || Number(hours) < 1)) {
       Emitters.generalError.emit({
         headerMsg: 'No Hours Entered',
         contentMsg: 'Please enter your hours!'
