@@ -21,7 +21,7 @@ type TeamEventAttendace = {
   image: string;
 };
 
-const TeamEventsCreditForm: React.FC = () => {
+const TeamEventCreditForm: React.FC = () => {
   const userEmail = useUserEmail();
   const getUser = async (email: string): Promise<Member> => MembersAPI.getMember(email);
 
@@ -232,4 +232,4 @@ const TeamEventsCreditForm: React.FC = () => {
   );
 };
 
-export default TeamEventsCreditForm;
+export default TeamEventCreditForm;
