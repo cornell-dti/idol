@@ -73,6 +73,7 @@ interface SignInForm {
   }[];
   readonly createdAt: number;
   readonly id: string;
+  readonly expireAt: number;
 }
 
 interface TeamEvent {
