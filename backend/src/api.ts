@@ -33,6 +33,7 @@ import {
   signIn,
   signInFormExists
 } from './signinformAPI';
+import { createTeamEvent } from './team-eventsAPI';
 
 // Constants and configurations
 const app = express();
@@ -195,6 +196,7 @@ loginCheckedPost('/signin', async (req, user) => signIn(req.body.id, user));
 loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
 
 // todo: team events endpoints 
+loginCheckedPost('/teamEventCreate', async (req, user) => createTeamEvent(req.body.id, user));
 
 app.use('/.netlify/functions/api', router);
 
