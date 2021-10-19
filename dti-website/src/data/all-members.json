@@ -1,20 +1,33 @@
 [
   {
+    "netid": "aa2235",
+    "name": "Aira Agrawal ",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "aa753",
     "name": "Akash Aryal",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Manhattan, KS",
     "about": "Hi! I'm a CS and Math double major in the college of A&S. My main interests are in web dev, data science, and AI/ML. I love working on creative products that positively impact people's lives. In my free time I like playing league of legends, watching anime, and hanging out with friends.",
-    "subteams": ["reviews"],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "doubleMajor": "Math",
     "formerSubteams": [],
     "website": "https://akasharyal.herokuapp.com",
     "linkedin": "https://linkedin.com/in/akash-aryal",
-    "github": "https://github.com/AkashAryal",
-    "pronouns": ""
+    "github": "https://github.com/AkashAryal"
   },
   {
     "netid": "abn53",
@@ -23,13 +36,14 @@
     "major": "Computer Science",
     "hometown": "Bethesda, MD",
     "about": "Hey, I'm Alex and I'm a computer science major in the College of Arts and Sciences. I am a web developer and machine learning enthusiast who loves hackathons. Outside of DTI, I like to listen to music, read, play video games, and hike.",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/alexander-nagel-a717201a5/",
-    "github": "https://github.com/abagel21",
-    "pronouns": ""
+    "github": "https://github.com/abagel21"
   },
   {
     "netid": "ac2343",
@@ -38,13 +52,17 @@
     "major": "Economics",
     "hometown": "North Potomac, MD",
     "about": "Hi, I’m Andrea! I’m currently a sophomore studying Economics and Statistics in the College of Arts and Sciences. On campus, I am involved in The Wardrobe and PMC. Outside of school, I enjoy following the Washington Capitals, eating Cava, and hiking.",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "doubleMajor": "Statistics",
     "minor": "Computer Science",
-    "formerSubteams": ["reviews", "business"],
-    "pronouns": ""
+    "formerSubteams": [
+      "reviews",
+      "business"
+    ]
   },
   {
     "netid": "ac2677",
@@ -53,14 +71,15 @@
     "major": "CS",
     "hometown": "Jericho, NY",
     "about": "I am a sophomore majoring in Computer Science and minoring in Entrepreneurship and Innovation. My passion is the intersection of technology, business, and design. Working on CU Reviews has allowed me to practice exactly that! Outside of DTI, I love exploring the outdoors, photography, and making yummy food. My inbox is always open for anyone who wants to grab (virtual) coffee!",
-    "subteams": ["reviews"],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Entrepreneurship and Innovation",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/itsangelachen/",
-    "github": "https://github.com/angelachen19",
-    "pronouns": ""
+    "github": "https://github.com/angelachen19"
   },
   {
     "netid": "acb352",
@@ -69,14 +88,16 @@
     "major": "Computer Science",
     "hometown": "Great Neck, NY",
     "about": "I feel like these always come off as so generic and cliche. I've wondered what I can do to make them seem less trite. Do people even read these? I'm genuinely curious, so if you're reading this then click http://bit.ly/yes-i-actually-read-the-bio.",
-    "subteams": ["leads", "product-leads"],
+    "subteams": [
+      "leads",
+      "product-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "minor": "Philosophy",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/aram-baghdassarian/",
-    "github": "https://github.com/abagh0703",
-    "pronouns": ""
+    "github": "https://github.com/abagh0703"
   },
   {
     "netid": "ad665",
@@ -85,14 +106,16 @@
     "major": "CS",
     "hometown": "New York, NY",
     "about": "Hi! My name is Ashneel and I'm a CS major + math minor in the College of Engineering. I love using software development to create meaningful impact on the lives of others, and DTI gives me the perfect opportunity to do so. Outside of school, you can find me fueling my addiction to fried chicken and bubble tea. In my free time, I like to explore new music, learn new card games, and catch up on lost sleep.",
-    "subteams": ["leads", "ops-leads"],
+    "subteams": [
+      "leads",
+      "ops-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "minor": "Mathematics",
     "formerSubteams": [],
     "linkedin": "https://linkedin.com/in/ashneeldas",
-    "github": "https://github.com/ashneeldas2",
-    "pronouns": ""
+    "github": "https://github.com/ashneeldas2"
   },
   {
     "netid": "ag759",
@@ -101,14 +124,17 @@
     "major": "Computer Science",
     "hometown": "Mumbai",
     "about": "I love developing tools for social impact, and am particularly interested in making sure my apps can reach as many students as possible. Recently, I’ve been looking into EdTech and AR development. I also love playing squash and participating in adventure sports (at least in a non-pandemic era)!",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "website": "https://anshgodha.me",
     "linkedin": "http://linkedin.com/in/ansh-godha-a61936172",
-    "github": "https://github.com/AnshG714",
-    "pronouns": ""
+    "github": "https://github.com/AnshG714"
   },
   {
     "netid": "ajc436",
@@ -117,11 +143,10 @@
     "major": "Policy Analysis and Management",
     "hometown": "Sunnyvale, CA",
     "about": "Hello! My name is Alex and I am a freshman studying Policy Analysis and Management. Aside from DTI, I am involved with Cornell KASA and enjoy exploring Ithaca, watching Netflix shows, and playing around with the stonk market.",
-    "subteams": ["business"],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "am2749",
@@ -130,12 +155,15 @@
     "major": "Applied Economics and Management",
     "hometown": "Silver Spring, MD",
     "about": "Hi I'm Alyssa! I'm a sophomore at Dyson, planning to concentrate in marketing and international business. Aside from DTI, I am also involved in Cornell University Visitor Relations, Dyson Ambassadors, Grub Ventures, and CSA. Around campus, you can find me studying at the Physical Science Building or trying another bubble tea drink at U Tea. Feel free to reach out and chat!",
-    "subteams": ["leads", "business-leads"],
+    "subteams": [
+      "leads",
+      "business-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
+    "minor": "China and Asia-Pacific Studies",
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/alyssa-ma/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/alyssa-ma/"
   },
   {
     "netid": "apb235",
@@ -144,14 +172,15 @@
     "major": "Applied Economics & Management",
     "hometown": "Staten Island, NY",
     "about": "Hi, I'm Althea (Al-thay-uh)! I'm a double major in AEM and IS in the Dyson School. Give me a problem and I'll immediately think about it from different lens! I'm incredibly passionate about the intersection between business, technology, design, and social impact, which I love exploring through innovative projects. On campus, I'm also involved in WICC's Girls Who Code program as a High School Co-Leader teaching Python and project development to highschoolers, SWIB, Smart Woman Securities, and Cornell Filipino Association, and Cornell Kali Club. When I'm not working on academics or project team work, I'm exploring Ithaca and trying new foods (especially sweets), practicing Filipino martial arts, making calligraphy, listening to pop music, and watching cat videos on YouTube.\n\nFeel free to reach out if you'd like to chat or have any questions!",
-    "subteams": ["sjh"],
+    "subteams": [
+      "sjh"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "doubleMajor": "Information Science",
     "formerSubteams": [],
     "linkedin": "http://www.linkedin.com/in/altheaangela-bata",
-    "github": "https://github.com/altheabata",
-    "pronouns": ""
+    "github": "https://github.com/altheabata"
   },
   {
     "netid": "atq2",
@@ -160,11 +189,12 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["roommates"],
+    "subteams": [
+      "roommates"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "az354",
@@ -173,27 +203,31 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "bfs45",
     "name": "Benjamin Shen",
-    "graduation": "May 2022",
+    "graduation": "December 2021",
     "major": "Computer Science",
     "hometown": "Queens, NY",
-    "about": "I am a CS major in the College of Engineering. I'm also interested in game design and data science. Outside of academics, I sing in the Glee Club and the Chordials. I like to cook, hike, and play tennis in my free time. My favorite game is Celeste, my favorite food is egg tart, and my favorite summertime drink is iced tea.",
-    "subteams": ["courseplan"],
+    "about": "I am a CS major in the College of Engineering. I'm am particularly interested in computer graphics and game design. I like to sing and play tennis in my free time. My favorite game is Celeste, my favorite food is egg tart, and my favorite summertime drink is iced tea.",
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "website": "https://benjaminshen.com",
     "linkedin": "https://www.linkedin.com/in/benjaminfshen/",
-    "github": "https://github.com/benjamin-shen",
-    "pronouns": ""
+    "github": "https://github.com/benjamin-shen"
   },
   {
     "netid": "bh456",
@@ -202,13 +236,14 @@
     "major": "CS",
     "hometown": "China",
     "about": "I'm a sophomore CS major. I love to creating social impacts through programming or simply just hack with friends. In my free time I often do hiking, watch movies, and play ukulele.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/bo-becky-hu-443199175/",
-    "github": "https://github.com/Becky-Hu-82",
-    "pronouns": ""
+    "github": "https://github.com/Becky-Hu-82"
   },
   {
     "netid": "bsg68",
@@ -217,12 +252,15 @@
     "major": "Information Science (MPS) ",
     "hometown": "Los Altos, CA",
     "about": "I love working on projects at the intersection of technology and social impact--projects that bring about significant, verifiable positive change for communities typically underserved by modern tech. When I'm not nose-deep in a project you can find me writing my latest short story or covered in chalk on the Lindseth climbing wall.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
-    "formerSubteams": ["reviews"],
-    "linkedin": "https://www.linkedin.com/in/bryangraeser/",
-    "pronouns": ""
+    "formerSubteams": [
+      "reviews"
+    ],
+    "linkedin": "https://www.linkedin.com/in/bryangraeser/"
   },
   {
     "netid": "bt277",
@@ -231,28 +269,33 @@
     "major": "Computer Science",
     "hometown": "Gainesville, FL",
     "about": "Hi! My name is Bahar and I'm a sophomore majoring in computer science and minoring in business. On-campus I'm the assistant musical director of my acapella group The Touchtones and a web dev on The Wardrobe. Outside of all that, you can find me watching documentaries (usually about pyramid schemes), listening to new music, or reading a book and updating my Goodreads.  ",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Business",
-    "formerSubteams": ["clubhub"],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "website": "https://bahartehrani.github.io/",
     "linkedin": "https://www.linkedin.com/in/bahar-tehranipoor-781735182/",
-    "github": "https://github.com/bahartehrani",
-    "pronouns": ""
+    "github": "https://github.com/bahartehrani"
   },
   {
     "netid": "cc2395",
     "name": "Carl Chen",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
-    "subteams": ["carriage"],
+    "graduation": "2024",
+    "major": "Information Science",
+    "hometown": "Calabasas, California",
+    "about": "Interested in sustainability, tech, the outdoors, and writing!",
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "minor": "Creative Writing",
+    "formerSubteams": []
   },
   {
     "netid": "ch746",
@@ -261,13 +304,16 @@
     "major": "Information Science",
     "hometown": "Arcadia, CA",
     "about": "Hey, I'm Cristie! I'm a designer who's passionate about unlocking people's potential through innovative digital experiences. When I'm not pushing pixels, you can catch me thrifting, making niche Spotify playlists, and baking minimalist cakes! ",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": ["queuemein"],
+    "formerSubteams": [
+      "queuemein"
+    ],
     "website": "https://www.cristiehuang.com/",
-    "linkedin": "https://www.linkedin.com/in/cristie-huang/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/cristie-huang/"
   },
   {
     "netid": "cjl334",
@@ -276,13 +322,14 @@
     "major": "Design and Environmental Analysis",
     "hometown": "Seoul, South Korea",
     "about": "Hi, I'm Christine! I am a freshman majoring in DEA and minoring in Information Science. I'm interested in how design and technology affects humans (both psychologically and physically) and the environment. If I am not in the DEA studio, you will find me chilling with my friends or drinking boba. ",
-    "subteams": ["reviews"],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Information Science",
     "formerSubteams": [],
-    "linkedin": "https://linkedin.com/in/christinelee11",
-    "pronouns": ""
+    "linkedin": "https://linkedin.com/in/christinelee11"
   },
   {
     "netid": "cl2264",
@@ -291,14 +338,15 @@
     "major": "Information Science",
     "hometown": "Pennsylvania",
     "about": "Connie is a sophomore who loves the intersections of art, sustainability, and tech!",
-    "subteams": ["sjh"],
+    "subteams": [
+      "sjh"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Computer Science",
     "formerSubteams": [],
     "website": "connie-liu.me",
-    "linkedin": "linkedin.com/in/connieliu23",
-    "pronouns": ""
+    "linkedin": "linkedin.com/in/connieliu23"
   },
   {
     "netid": "cl859",
@@ -307,13 +355,16 @@
     "major": "Computer Science",
     "hometown": "Denver, CO",
     "about": "Hi, I'm Changyuan. Sometimes I like to dual wield two laptops. Btw, I use Arch",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "linkedin": "https://www.linkedin.com/in/coreballium/",
-    "github": "https://github.com/Coreball",
-    "pronouns": ""
+    "github": "https://github.com/Coreball"
   },
   {
     "netid": "cll246",
@@ -322,13 +373,14 @@
     "major": "Information Science",
     "hometown": "Los Angeles",
     "about": "Passionate about design, giant bells, and kombucha.",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": [],
     "website": "https://www.chenchenlu.me/",
-    "linkedin": "https://www.linkedin.com/in/chenchenlu/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/chenchenlu/"
   },
   {
     "netid": "cph64",
@@ -337,14 +389,16 @@
     "major": "Computer Science",
     "hometown": "Staten Island, NY",
     "about": "A software developer, a book lover, and a cat dad. I love solving problems and working with others.",
-    "subteams": ["leads", "dev-leads"],
+    "subteams": [
+      "leads",
+      "dev-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "formerSubteams": [],
     "website": "https://chriscodes.org",
     "linkedin": "https://linkedin.com/in/christopherphansen",
-    "github": "https://github.com/chansen424",
-    "pronouns": ""
+    "github": "https://github.com/chansen424"
   },
   {
     "netid": "ebs98",
@@ -353,11 +407,12 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "ec592",
@@ -366,11 +421,13 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["leads", "design-leads"],
+    "subteams": [
+      "leads",
+      "design-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "ec629",
@@ -379,13 +436,14 @@
     "major": "CS",
     "hometown": "Bellevue, WA",
     "about": "Hi, I’m Ein! 🤠I love working with other CoursePlanners™ on DTI, making silly PowerPoints, and having picnics on the slope",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Info Sci ",
     "formerSubteams": [],
-    "linkedin": "https://linkedin.com/in/ein-chang",
-    "pronouns": ""
+    "linkedin": "https://linkedin.com/in/ein-chang"
   },
   {
     "netid": "esh79",
@@ -394,11 +452,12 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "ete26",
@@ -407,12 +466,16 @@
     "major": "Information Science",
     "hometown": "Sugar Land, TX",
     "about": "Hi! My name is Ehi and I’m a junior studying Information Science in the College of Arts & Sciences. I am passionate about using design across mediums to create technology that is functional, accessible, sustainable, ethical, and makes positive social impact. On campus I'm the Allyship Co-Director WICC, the Director of Diversity & Inclusion of Tri Delta, and a member of Theta Tau. Outside of academic and project team work, you can find me acting in a show, attempting to pick up a new language, listening to music, or reading/writing poetry or prose. Feel free to reach out and start a conversation!",
-    "subteams": ["leads", "business-leads"],
+    "subteams": [
+      "leads",
+      "business-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
-    "formerSubteams": ["business"],
-    "linkedin": "https://www.linkedin.com/in/ehi-esemuze/",
-    "pronouns": ""
+    "formerSubteams": [
+      "business"
+    ],
+    "linkedin": "https://www.linkedin.com/in/ehi-esemuze/"
   },
   {
     "netid": "fl328",
@@ -424,8 +487,7 @@
     "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "gd372",
@@ -434,13 +496,14 @@
     "major": "Electrical & Computer Engineering",
     "hometown": "Brussels, Belgium",
     "about": "Hi! 💬\n\n\nMy name is Guillaume (pronounced Ghee-Ohm) and I'm an aspiring Product Manager. I study ECE and am fascinated by robotics and other technologies that can improve everyday chores such as commute and cooking. I'm super interested in Product Management because I'm obsessed with working smart, not hard: to do so, addressing the root cause of a problem is of critical importance, and this is exactly what PM-ing addresses. Besides these career aspirations, I aim to become a renowned music producer and I love to go windsurfing in my free time!",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "formerSubteams": [],
     "website": "https://guidec.github.io/resume",
-    "linkedin": "https://www.linkedin.com/in/gdecannart/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/gdecannart/"
   },
   {
     "netid": "gsh68",
@@ -449,11 +512,12 @@
     "major": "CS",
     "hometown": "McLean, VA",
     "about": "",
-    "subteams": ["idol"],
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "gw284",
@@ -462,14 +526,15 @@
     "major": "Computer Science",
     "hometown": "Singapore",
     "about": "Hi I'm Guanqun and you can call me Guan. In my spare time, I like playing video games (Fire Emblem :D), eating food or taking photos of chipmunks (when they're out and about on campus). In my time at Cornell I've worked on a lot of random projects, like a pong game controlled by joysticks and a piano game with physical buttons.",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
     "website": "http://guan.ninja/",
     "linkedin": "https://www.linkedin.com/in/wu-g-351b3983/",
-    "github": "https://github.com/abcdefguan",
-    "pronouns": ""
+    "github": "https://github.com/abcdefguan"
   },
   {
     "netid": "hl2334",
@@ -478,12 +543,13 @@
     "major": "Information Science",
     "hometown": "Pittsburgh, PA, NJ",
     "about": "Hi! I am a product/UX designer for QueueMeIn, and currently a sophomore majoring in Information Science with a concentration in UX Design. I have a passion in creating design with community impact. Outside of academics, I enjoy playing the piano, composing, soccer, surfing, and traveling!\n",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/hank-lin-410b8217a/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/hank-lin-410b8217a/"
   },
   {
     "netid": "hl738",
@@ -491,15 +557,16 @@
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Albany, NY",
-    "about": "I drink lots of coffee so I can turn caffeine into code. Please don't add milk to my coffee because dairy is scary. Thanks :) ",
-    "subteams": ["idol"],
+    "about": "I drink lots of coffee so I can turn caffeine into code. Please don't add milk to my coffee because dairy is scary. Thanks :)",
+    "subteams": [
+      "idol"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
-    "minor": "Computer Science ",
+    "minor": "Computer Science",
     "formerSubteams": [],
     "linkedin": "https://linkedin.com/in/henryli6",
-    "github": "https://github.com/henry-li-06",
-    "pronouns": ""
+    "github": "https://github.com/henry-li-06"
   },
   {
     "netid": "hl985",
@@ -508,7 +575,9 @@
     "major": "Computer Science",
     "hometown": "Bristow, VA",
     "about": "As nerdy as it sounds I like to code. Particularly, I like to utilize code to create an impact and help others. I also like making aesthetically pleasing frontend designs come to life. Besides coding, I also enjoy watching movies, playing guitar, attempting to ollie, cuddling my dog, and listening to music with friends.",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "doubleMajor": "Information Science",
@@ -516,8 +585,7 @@
     "formerSubteams": [],
     "website": "http://hahnbeelee.github.io/",
     "linkedin": "https://www.linkedin.com/in/hahnbee-lee/",
-    "github": "https://github.com/hahnbeelee",
-    "pronouns": ""
+    "github": "https://github.com/hahnbeelee"
   },
   {
     "netid": "htl28",
@@ -533,8 +601,7 @@
     "minor": "Business",
     "formerSubteams": [],
     "website": "https://hueyle.com",
-    "linkedin": "https://www.linkedin.com/in/huyletq/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/huyletq/"
   },
   {
     "netid": "hxy2",
@@ -543,14 +610,15 @@
     "major": "Computer Science",
     "hometown": "Ellicott City, MD",
     "about": "Hey, I'm Helen! I'm a sophomore CS major hoping to learn about app+web dev and accessibility. Outside of DTI, I'm also part of Science Olympiad, which I competed in while in high school. When I'm not crying about my code not working, you can find me playing Tetris, binge-watching food videos, or jamming out to music ranging from classical to chiptune!",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
     "website": "https://helenxuyang.github.io/",
     "linkedin": "https://www.linkedin.com/in/helenxuyang/",
-    "github": "https://github.com/helenxuyang/",
-    "pronouns": ""
+    "github": "https://github.com/helenxuyang/"
   },
   {
     "netid": "jb2375",
@@ -559,15 +627,19 @@
     "major": "Computer Science",
     "hometown": "Mooresville, NC",
     "about": "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris.",
-    "subteams": ["leads", "dev-leads"],
+    "subteams": [
+      "leads",
+      "dev-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "doubleMajor": "Economics",
-    "formerSubteams": ["idol"],
+    "formerSubteams": [
+      "idol"
+    ],
     "website": "https://jagger.netlify.app/",
     "linkedin": "https://www.linkedin.com/in/jagger-brulato-896968149/",
-    "github": "https://github.com/JBoss925/",
-    "pronouns": ""
+    "github": "https://github.com/JBoss925/"
   },
   {
     "netid": "jj523",
@@ -576,15 +648,16 @@
     "major": "Mathematics",
     "hometown": "Aurora, IL",
     "about": "I love developing software to help others solve problems! Outside of DTI, I am also the founder of CashPal, a budgeting app on the App Store. In my free time, I enjoy making beats for upcoming rappers :).",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "doubleMajor": "Computer Science",
     "formerSubteams": [],
     "website": "http://tinyurl.com/downloadcashpal",
     "linkedin": "https://www.linkedin.com/in/jeremy-jung-425609167/",
-    "github": "https://github.com/triple-jay",
-    "pronouns": ""
+    "github": "https://github.com/triple-jay"
   },
   {
     "netid": "jj534",
@@ -593,11 +666,12 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "jk2299",
@@ -606,14 +680,29 @@
     "major": "Information Science",
     "hometown": "Seoul",
     "about": "Life is like a box of chocolates. You never know what you're gonna get.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "History of Art",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "linkedin": "https://www.linkedin.com/in/ju-mong-ko-31837b136/",
-    "github": "https://github.com/bungaepyo",
-    "pronouns": ""
+    "github": "https://github.com/bungaepyo"
+  },
+  {
+    "netid": "jks273",
+    "name": "Jackson Staniec ",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
   },
   {
     "netid": "jl2366",
@@ -622,12 +711,13 @@
     "major": "FSAD",
     "hometown": "Seoul, Korea",
     "about": "Hey! My name is Joanne Lee. I am an ex-fashion designer, now a Product Designer. I've had some cool opportunities working with various stakeholders from all around the world- Costa Rica, Albania, and much more. When I design, EDM or House Music really helps me get in the zone. Let’s connect! ",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": [],
-    "website": "https://joannejieunlee.com",
-    "pronouns": ""
+    "website": "https://joannejieunlee.com"
   },
   {
     "netid": "jt568",
@@ -636,14 +726,17 @@
     "major": "CS",
     "hometown": "Bayside, NY",
     "about": "I like to play video games & sleep :~)\n",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["samwise"],
+    "formerSubteams": [
+      "samwise"
+    ],
     "website": "https://jasontung.me/",
     "linkedin": "https://www.linkedin.com/in/jason-tung/",
-    "github": "https://github.com/jason-tung/",
-    "pronouns": ""
+    "github": "https://github.com/jason-tung/"
   },
   {
     "netid": "jw823",
@@ -652,12 +745,13 @@
     "major": "Computer Science",
     "hometown": "Cupertino, CA",
     "about": "Hi, I'm Jessie. I am a sophomore majoring in Computer Science. Aside from DTI, I am also involved in WICC, CTAS, and OASIS. I'm passionate about improving the communities around me, making meaningful connections with others, and achieving financial independence. You can find me on campus curating playlists, jamming out to musicals, and getting takeout at SoPoong :D. Feel free to chat me up if any of this stuff seems of interest to you! ",
-    "subteams": ["business"],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
-    "formerSubteams": ["carriage"],
-    "linkedin": "https://www.linkedin.com/in/jessiewong401/",
-    "pronouns": ""
+    "formerSubteams": [
+      "carriage"
+    ],
+    "linkedin": "https://www.linkedin.com/in/jessiewong401/"
   },
   {
     "netid": "jx295",
@@ -666,14 +760,15 @@
     "major": "Information Science, Systems, and Technology",
     "hometown": "Beijing, China",
     "about": "Passionate about interdisciplinary topics that combine tech, business, psych, and more, I aspire to solve real-world problems using technology as a PM. I’m also a foodie, musician, runner, movie addict, and roller coaster lover.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Business Minor for Engineers",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/jingyi-nina-xie/",
-    "github": "https://github.com/Nina-Xie",
-    "pronouns": ""
+    "github": "https://github.com/Nina-Xie"
   },
   {
     "netid": "jyf5",
@@ -682,13 +777,16 @@
     "major": "Computer Science",
     "hometown": "Fremont, CA",
     "about": "Hi! I’m Jessica, a sophomore studying Computer Science in the College of Engineering. I love exploring creative solutions built with tech and listening to people’s stories and experiences in industry. Outside of DTI, catch me at WICC or LOKO Dance events, strolling around campus, or admiring the sunset on the slope! ",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "linkedin": "https://www.linkedin.com/in/jessica-feng/",
-    "github": "https://github.com/jessfeng",
-    "pronouns": ""
+    "github": "https://github.com/jessfeng"
   },
   {
     "netid": "kg357",
@@ -697,12 +795,13 @@
     "major": "Information Science",
     "hometown": "Beijing, China",
     "about": "Hi, I am Kehui (you can also call me Jasmine~) I am a sophomore majoring in Information Science. I love using design to connect people and technology, solving problems in both the physical and the digital world with engaging user experience. In my free time, I enjoy watching tv dramas, sleeping, playing billiards, and taking pretty pictures of my friends:))",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Design and Environmental Analysis",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "kjj32",
@@ -711,13 +810,16 @@
     "major": "Electrical and Computer Engineering",
     "hometown": "Ledgewood, NJ",
     "about": "I am a senior studying electrical and computer engineering with minors in computer science and biomedical engineering. I really enjoy using the tools given to me in the form of technology to build something worthwhile for the community, and I have experience with low-level software, as well as building mobile and web apps. When I'm not busy juggling Cornell activities, I love to play video games, watch Netflix, listen to pop music, work out, and catch up with friends.\n",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Computer Science and Biomedical Engineering",
-    "formerSubteams": ["carriage"],
-    "linkedin": "https://www.linkedin.com/in/kinjal-jasani-9a3210196/",
-    "pronouns": ""
+    "formerSubteams": [
+      "carriage"
+    ],
+    "linkedin": "https://www.linkedin.com/in/kinjal-jasani-9a3210196/"
   },
   {
     "netid": "ksg73",
@@ -726,15 +828,18 @@
     "major": "Information Science",
     "hometown": "Manila, Philippines",
     "about": "Hi, I’m Katie! I love creating products at the intersection of technology, entrepreneurship, and design to uplift communities I'm part of. On campus I’m involved with Cornell Creatives, Forté, and Cru. I make YouTube videos every week on my channel, alohakatiex, and I also co-host a podcast called The Secret Syllabus. I'm probably eating kimbap right now.",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Creative Writing, Game Design",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "website": "https://youtube.com/alohakatiex",
     "linkedin": "https://www.linkedin.com/in/katie-tracy/",
-    "github": "https://github.com/alohakatiex",
-    "pronouns": ""
+    "github": "https://github.com/alohakatiex"
   },
   {
     "netid": "kw433",
@@ -743,13 +848,16 @@
     "major": "CS",
     "hometown": "Mastic, NY",
     "about": "Hi! I'm a sophomore studying Computer Science. I enjoy making mobile and web apps. I procrastinate by making productivity apps.",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["clubhub"],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "linkedin": "https://www.linkedin.com/in/katrina-k-wang/",
-    "github": "https://github.com/katrina433",
-    "pronouns": ""
+    "github": "https://github.com/katrina433"
   },
   {
     "netid": "lrh74",
@@ -758,14 +866,15 @@
     "major": "Statistics",
     "hometown": "Atlanta, GA",
     "about": "I'm a Sophomore in A&S studying Statistics and Computer Science. I'm fascinated by anything involving computers. When not programming, I like to read about space and history.",
-    "subteams": ["reviews"],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
     "doubleMajor": "CS",
     "formerSubteams": [],
     "website": "https://hoderle.in",
-    "github": "https://github.com/khemritolya",
-    "pronouns": ""
+    "github": "https://github.com/khemritolya"
   },
   {
     "netid": "ls797",
@@ -774,13 +883,14 @@
     "major": "Computer Science",
     "hometown": "Burke, VA",
     "about": "I am a senior studying Computer Science in the College of Engineering and am minoring in Public Policy & Law and Society. I enjoy using technology to cause a positive impact in my community and beyond. In addition to software development and technical project management, I have experience in full-stack development and data analysis. When I'm not coding, I enjoy reading sci-fi and fantasy novels, playing both board and video games, and spending time with friends.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Public Policy & Law and Society",
     "formerSubteams": [],
-    "github": "https://github.com/lsizemore8",
-    "pronouns": ""
+    "github": "https://github.com/lsizemore8"
   },
   {
     "netid": "mc2488",
@@ -788,14 +898,15 @@
     "graduation": "May 2022",
     "major": "Information Science",
     "hometown": "Santa Clarita, CA",
-    "about": "Hey! My name is Megan, and I'm a junior majoring in Information Science. I'm passionate about designing for equity and positive social impact. In my free time you can find me going to the beach, hiking, listening to new music, or looking at clothes on Depop.",
-    "subteams": ["carriage"],
+    "about": "Hey! My name is Megan, and I'm a senior majoring in Information Science. I'm passionate about designing for equity and positive social impact. In my free time you can find me going to the beach, hiking, listening to new music, or looking at clothes on Depop.",
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Business",
     "formerSubteams": [],
-    "website": "https://megan-chang.com",
-    "pronouns": ""
+    "website": "https://megan-chang.com"
   },
   {
     "netid": "mg2239",
@@ -804,14 +915,15 @@
     "major": "Computer Science",
     "hometown": "Ithaca, NY",
     "about": "Hey, I'm Matthew! I'm a junior in A&S studying Computer Science and the TPM for Carriage. Aside from developing, I enjoy listening to and producing music, watching movies, and spending too much money on food.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
     "formerSubteams": [],
     "website": "http://mattguo.xyz/",
     "linkedin": "https://www.linkedin.com/in/mg2239/",
-    "github": "https://github.com/mg2239",
-    "pronouns": ""
+    "github": "https://github.com/mg2239"
   },
   {
     "netid": "mg897",
@@ -820,12 +932,15 @@
     "major": "CS",
     "hometown": "India, Other - India",
     "about": "I am studying Computer Science and Business in the College of Arts and Sciences. I am an iOS developer on the Flux subteam and have been associated with DTI for over a year and a half now. I love being able to work with a group of like minded students to develop technology that would make campus life easier! Outside of DTI, I’m also a Chair for Society of Women Engineers and the Tech Lead for Impact Investing at Cornell and Asha. When I’m not working at Olin, you can find me exploring new places in Ithaca (as and when the weather permits), going on hikes or grabbing boba with friends. Feel free to reach out! ",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Business / AEM",
-    "formerSubteams": ["flux"],
-    "pronouns": ""
+    "formerSubteams": [
+      "flux"
+    ]
   },
   {
     "netid": "mhb224",
@@ -833,16 +948,17 @@
     "graduation": "May 2022",
     "major": "information science",
     "hometown": "Dix Hills, NY",
-    "about": "Hi! I’m a junior majoring in information science and minoring in computer science and business. I’m passionate about development because I love making my ideas come to life and building things that solve real problems. In my spare time, I love to watch broadway bootlegs, re-create TikTok dances, and spend time with friends!",
-    "subteams": ["idol"],
+    "about": "Hi! I’m a senior majoring in information science and minoring in computer science and business. I’m passionate about development because I love making my ideas come to life and building things that solve real problems. In my spare time, I love to watch broadway bootlegs, re-create TikTok dances, and spend time with friends!",
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "computer science and business",
     "formerSubteams": [],
     "website": "http://www.morganbelous.com",
     "linkedin": "https://www.linkedin.com/in/morgan-belous/",
-    "github": "https://github.com/morganbelous",
-    "pronouns": ""
+    "github": "https://github.com/morganbelous"
   },
   {
     "netid": "mks257",
@@ -851,12 +967,13 @@
     "major": "Computer Science",
     "hometown": "Yonkers, NY",
     "about": "Hiiii! I'm Miah and I'm a third year computer science student. I'm really passionate about product thinking and diversity in tech and do a lot of work trying to encourage more Black and Latinx women to get into this field :) I'm also the co-president of the Underrepresented Minorities in Computing at Cornell! In my free time you can catch me editing youtube videos while eating orange chicken burrito bowls at Terrace, feel free to say hi!",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "formerSubteams": [],
-    "linkedin": "https://linkedin.com/in/miahsanchez",
-    "pronouns": ""
+    "linkedin": "https://linkedin.com/in/miahsanchez"
   },
   {
     "netid": "mly32",
@@ -865,11 +982,12 @@
     "major": "CS",
     "hometown": "New York, NY",
     "about": "Hey! I'm Michael and I love learning new things. Outside of school and DTI, you can probably find me playing some board games or working on a side project.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "mma89",
@@ -878,13 +996,14 @@
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
     "about": "Hi, I'm a sophomore majoring in Computer Science with a minor in ORIE. Outside of CS, I love making art, especially acrylic paintings and pointillism portraits, as well as exploring new art media and techniques. I also love shopping for clothes and spend a lot of time thinking and daydreaming.",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "ORIE",
     "formerSubteams": [],
-    "website": "http://menaattia.com",
-    "pronouns": ""
+    "website": "http://menaattia.com"
   },
   {
     "netid": "mwy9",
@@ -897,8 +1016,7 @@
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "doubleMajor": "Computer Science",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "my474",
@@ -907,14 +1025,18 @@
     "major": "Computer Science",
     "hometown": "New York City, NY",
     "about": "Hey! I'm Megan. I'm a CS student at Cornell with a minor in ORIE. I love creating user interfaces, analyzing data, and exploring the bleeding edge of web technologies. When I'm not working on stuff for DTI or trying to keep my GPA afloat, you can probably find me scrolling through tiktok, making memes, or just pondering the meaning of life (no the answer is not 42).",
-    "subteams": ["leads", "dev-leads"],
+    "subteams": [
+      "leads",
+      "dev-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
-    "formerSubteams": ["samwise"],
+    "formerSubteams": [
+      "samwise"
+    ],
     "website": "https://meganyin.com/",
     "linkedin": "https://www.linkedin.com/in/meganyin13/",
-    "github": "https://github.com/meganyin13",
-    "pronouns": ""
+    "github": "https://github.com/meganyin13"
   },
   {
     "netid": "nfg23",
@@ -923,13 +1045,16 @@
     "major": "Informatio Science, UX Design",
     "hometown": "Poolesville, MD",
     "about": "Hi! I'm Buma and I'm a junior ('22) studying information science and an aspiring product designer. I'm really passionate about augumented/virtual reality, tech for social impact and accessible design education. On campus I'm a part of The Wardrobe, Cornell Panhellenic, Medium Design Collective. Outside of school I'm really interested in astrology, fashion and watching funny tiktok threads on youtube!",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": ["flux"],
+    "formerSubteams": [
+      "flux"
+    ],
     "website": "https://www.nahbumagana.me/",
-    "linkedin": "https://www.linkedin.com/in/nahbuma/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/nahbuma/"
   },
   {
     "netid": "nk495",
@@ -938,14 +1063,15 @@
     "major": "Computer Science",
     "hometown": "Sharon, MA",
     "about": "I am a freshman majoring in CS in arts and sciences, but trying to transfer to engineering because strongly dislike the requirements. I am also part of the Wrestling Club, DGA, and the Cornell Hacking Club. I like biking, working out, exploring the outdoors, and eating junk food on weekends. I first got involved with DTI through the Propel program where my team was working on a campus scavenger hunt app called CornellGO! (check it out on the play/app store soon, please, it would help us a lot!). Now, we are working on the app as an unofficial part of DTI and trying to make it one of the main projects!",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Physics",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/nikita-kasumov-660a25180/",
-    "github": "https://github.com/neketka",
-    "pronouns": ""
+    "github": "https://github.com/neketka"
   },
   {
     "netid": "nma46",
@@ -954,12 +1080,13 @@
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
     "about": "Hi, I’m Nada! I’m a sophomore studying computer science. In my free time, I enjoy reading books about tech and psychology. I also love meeting people who have similar interests and passions as me; feel free to reach out if you want to talk :)",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
-    "github": "https://github.com/nada-attia",
-    "pronouns": ""
+    "github": "https://github.com/nada-attia"
   },
   {
     "netid": "ph437",
@@ -968,12 +1095,15 @@
     "major": "Computer Science",
     "hometown": "Dubai, UAE",
     "about": "I am a creator who enjoys building projects across different mediums: programming, digital art, video games, and even food. Presently, I devote my time into being productive, whether it be learning interesting concepts, picking up a new skill, or collaborating with others.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["samwise"],
-    "github": "https://github.com/pihucode",
-    "pronouns": ""
+    "formerSubteams": [
+      "samwise"
+    ],
+    "github": "https://github.com/pihucode"
   },
   {
     "netid": "pk457",
@@ -982,13 +1112,14 @@
     "major": "Computer Science",
     "hometown": "Orlando, FL",
     "about": "Pooja is interested in the intersection of technology and business, and wants to use her skills to aid the underprivileged. Outside of school, Pooja enjoys hanging out with friends and biking.",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Business, Information Science",
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/pooja-kanumalla-70a8b01a4/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/pooja-kanumalla-70a8b01a4/"
   },
   {
     "netid": "plw53",
@@ -997,15 +1128,18 @@
     "major": "Computer Science",
     "hometown": "Princeton, NJ",
     "about": "I'm a sophomore who pretends that I'm from Princeton, but that's not 100% true. If you want to know why and you're still reading this, find me and let's chat!",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
     "minor": "Mathematics",
-    "formerSubteams": ["samwise"],
+    "formerSubteams": [
+      "samwise"
+    ],
     "website": "https://peterlwu.com/",
     "linkedin": "https://www.linkedin.com/in/peterlingwu/",
-    "github": "https://github.com/ptwu",
-    "pronouns": ""
+    "github": "https://github.com/ptwu"
   },
   {
     "netid": "rj356",
@@ -1014,14 +1148,15 @@
     "major": "Computer Science",
     "hometown": "Dubai, UAE",
     "about": "Hi, I’m Riya - a developer, an artist and a photographer who loves to connect people, make social impact, and inspire others to create! I’m always down for a nice cup of coffee and a good conversation : )",
-    "subteams": ["idol"],
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Information Science (UX/UI)",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/riyajaggi/",
-    "github": "https://github.com/riyajaggi",
-    "pronouns": ""
+    "github": "https://github.com/riyajaggi"
   },
   {
     "netid": "rm697",
@@ -1029,14 +1164,15 @@
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Dallas, TX",
-    "about": "I am a freshman at Cornell studying Computer Science with an interest in Fullstack Development. Outside of school, you can find me on the sand in a game of spikeball or immersed in the virtual world of Twitch and gaming.",
-    "subteams": ["dac"],
+    "about": "I am a sophomore at Cornell studying Computer Science with an interest in Fullstack Development. Outside of school, you can find me on the sand in a game of spikeball or immersed in the virtual world of Twitch and gaming!",
+    "subteams": [
+      "dac"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/rohanmaheshwari0/",
-    "github": "https://github.com/rohanmaheshwari430",
-    "pronouns": ""
+    "github": "https://github.com/rohanmaheshwari430"
   },
   {
     "netid": "rmz38",
@@ -1045,15 +1181,18 @@
     "major": "Computer Science",
     "hometown": "Jamesville, NY",
     "about": "Hi! I'm a Computer Science junior minoring in Psychology and Game Design. Aside from my work in DTI, I volunteer at the Association of Computer Science Undergraduates' and Esports at Cornell's events. In every activity I do on campus, I love learning about other people and welcoming new students! When I have free time, I'm playing video games, drawing, and skiing.",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Game Design, Psychology",
-    "formerSubteams": ["courseplan"],
+    "formerSubteams": [
+      "courseplan"
+    ],
     "website": "https://rmz38.github.io/personal-site/",
     "linkedin": "https://www.linkedin.com/in/rose-zhou-752744177/",
-    "github": "https://github.com/rmz38",
-    "pronouns": ""
+    "github": "https://github.com/rmz38"
   },
   {
     "netid": "sc2843",
@@ -1062,13 +1201,13 @@
     "major": "Operations Researxh",
     "hometown": "Scarsdale, NY",
     "about": "Hi! I’m a sophomore majoring in Operations Research and Information Engineering and minoring in business. I’m from Scarsdale, NY  and love to bake and hike. My favorite go to tv show is Brooklyn Nine-Nine because I can always count on it to make me laugh! ",
-    "subteams": ["business"],
     "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "minor": "Business minor for engineers",
-    "formerSubteams": ["reviews"],
-    "pronouns": ""
+    "formerSubteams": [
+      "reviews"
+    ]
   },
   {
     "netid": "sj598",
@@ -1077,13 +1216,14 @@
     "major": "Computer Science",
     "hometown": "Norwood, NJ",
     "about": "Hi! I’m a freshman planning to major in computer science with a business minor in the College of Engineering. I would like to explore different areas within computer science and I am also interested in design and marketing! I’m an addict to bubble tea, strawberry acai lemonade, and hot cheetos. My other interests include watching dog videos, handcrafting, painting, bowling, collecting earrings, and taking photos.",
-    "subteams": ["reviews"],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Business",
     "formerSubteams": [],
-    "github": "https://github.com/juliejeong",
-    "pronouns": ""
+    "github": "https://github.com/juliejeong"
   },
   {
     "netid": "sl2486",
@@ -1092,14 +1232,15 @@
     "major": "CS",
     "hometown": "Albany, NY",
     "about": "Hi, I'm Sam, and I'm a junior studying CS! In freshman year, I made a crazy decision to change my entire career path and pursue my love for tech. You'll definitely find me crying over psets at midnight, but I've never once regretted my choice. Outside of school, I love working on digital art, exploring new places with friends, and continuing to level up my shef skills. ",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
     "website": "http://samliu10.github.io/",
     "linkedin": "https://www.linkedin.com/in/samantha-liu-b3892b187/",
-    "github": "https://github.com/samliu10",
-    "pronouns": ""
+    "github": "https://github.com/samliu10"
   },
   {
     "netid": "sl764",
@@ -1108,14 +1249,15 @@
     "major": "Communication",
     "hometown": "Seoul, Korea",
     "about": "I'm a senior who joined DTI through last fall's Propel project. Tying my interests in product, social justice, and human connection, I hope to continue exploring ways to apply tech for social impact. I'm also the founder of One Love at Cornell and involved in the Callbaxx A Cappella, Social Enterprise Group at Cornell, Sphinx Head, and club ice hockey!",
-    "subteams": ["roommates"],
+    "subteams": [
+      "roommates"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Information Science, Inequality Studies",
     "formerSubteams": [],
     "website": "https://www.miaseungeunlee.com/",
-    "linkedin": "https://www.linkedin.com/in/mia-se-lee/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/mia-se-lee/"
   },
   {
     "netid": "sp2262",
@@ -1124,12 +1266,13 @@
     "major": "Computer Science",
     "hometown": "Watchung, NJ",
     "about": "I am a senior majoring in Computer Science with an external specialization in Entrepreneurship. Outside of DTI, I continue to use my passion for creating socially impactful technology as part of CUSD and Spark Design. My other interests include hiking, traveling, and drinking iced coffee.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/simran-puri/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/simran-puri/"
   },
   {
     "netid": "ss2629",
@@ -1138,14 +1281,18 @@
     "major": "Information Science",
     "hometown": "San Francisco, CA",
     "about": "I'm an aspiring product designer and I hope to make a positive, social impact through the field of design. Besides designing, I love all things music and dance! On campus, I am a member of Cornell Anjali, an Indian classical dance team, and a member of Forté Campus at Cornell, a professional business organization. In my free time, I enjoy exploring new places to eat and drink coffee, finding fun things to take pictures of, and doing yoga.",
-    "subteams": ["roommates"],
+    "subteams": [
+      "roommates"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Business",
-    "formerSubteams": ["nova", "samwise"],
+    "formerSubteams": [
+      "nova",
+      "samwise"
+    ],
     "website": "https://www.sanjanaseshadri.com/",
-    "linkedin": "https://www.linkedin.com/in/sseshadri20/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/sseshadri20/"
   },
   {
     "netid": "sta48",
@@ -1153,13 +1300,17 @@
     "graduation": "May 2022",
     "major": "ISST",
     "hometown": "Edinburg, TX",
-    "about": "Hi, I am Jahin. I am junior studying Data Science and UX Design. I love connecting people to technology in an authentic way. Outside of design I love stand up comedy and chai.",
-    "subteams": ["zing"],
+    "about": "Hi, I am Jahin, a senior studying Data Science and UX Design. I love connecting people to technology in an authentic way. Outside of design I love stand up comedy and chai.",
+    "subteams": [
+      "zing"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": ["carriage"],
-    "website": "http://jahin.design",
-    "pronouns": ""
+    "formerSubteams": [
+      "carriage"
+    ],
+    "website": "https://www.jahinaishee.com/",
+    "linkedin": "https://www.linkedin.com/in/sayeeda-aishee/"
   },
   {
     "netid": "sw754",
@@ -1168,14 +1319,15 @@
     "major": "Computer Science",
     "hometown": "Holmdel, NJ",
     "about": "Hello! I'm a junior studying CS. While my interests are in PL and software development, I am personally fascinated the emerging connections between technology, deep learning, and education. I enjoy developing video games, playing the cello, and playing Planetside 2 in my free time. Come eat Chicken Udon Stir Fry at Okenshields on Tuesdays with me!",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
     "formerSubteams": [],
     "website": "https://www.instagram.com/ngwattcos/",
     "linkedin": "https://www.linkedin.com/in/scott-wang-ngwattcos/",
-    "github": "https://github.com/ngwattcos",
-    "pronouns": ""
+    "github": "https://github.com/ngwattcos"
   },
   {
     "netid": "sy629",
@@ -1184,11 +1336,15 @@
     "major": "Information Science",
     "hometown": "Fullerton, CA",
     "about": "Hi! I'm Shane and I like to design. I'm currently a senior studying Information Science and I'm excited to contribute to DTI this semester!",
-    "subteams": ["leads", "design-leads"],
+    "subteams": [
+      "leads",
+      "design-leads"
+    ],
     "roleId": "lead",
     "roleDescription": "Lead",
-    "formerSubteams": ["courseplan"],
-    "pronouns": ""
+    "formerSubteams": [
+      "courseplan"
+    ]
   },
   {
     "netid": "syg4",
@@ -1197,14 +1353,15 @@
     "major": "Infosci",
     "hometown": "Gaithersburg, MD",
     "about": "Hey! Im an experience designer who dabbles in product, visual, motion and game design. During non-pandemic times, I enjoyed trying new foods and exploring cities by foot. For the time being, I've taken up netflix as a hobby so hmu if you know any good shows👀",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Game design",
     "formerSubteams": [],
     "website": "http://sheriyeonduguo.com",
-    "linkedin": "https://www.linkedin.com/mwlite/in/sheri-yeondu-guo",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/mwlite/in/sheri-yeondu-guo"
   },
   {
     "netid": "sz329",
@@ -1213,14 +1370,17 @@
     "major": "Computer Science",
     "hometown": "Singapore",
     "about": "Hi, I am Shi Chong and I am a junior majoring in Computer Science and minoring in Cognitive Science in CAS. I am also currently the TPM of Zing in DTI. I have been on DTI for four full semesters and I have to say that I love the people and the experience here! Also, I am from Singapore and I greatly miss the food back home.",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
     "minor": "Cognitive Science",
-    "formerSubteams": ["clubhub"],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "linkedin": "https://www.linkedin.com/in/shichong97/",
-    "github": "https://github.com/shichong-97",
-    "pronouns": ""
+    "github": "https://github.com/shichong-97"
   },
   {
     "netid": "tm452",
@@ -1229,11 +1389,12 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["reviews"],
+    "subteams": [
+      "reviews"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "tsc82",
@@ -1242,14 +1403,15 @@
     "major": "Information Science",
     "hometown": "Westchester, NY",
     "about": "Hi there! I'm Theresa, the TPM for CoursePlan. In my free time, I enjoy singing, sharing memes, and watching kdramas and cool movies (the whole range from superhero blockbusters to awesome thrillers like Get Out). Wherever I am and in whatever I do, I hope to bring about a positive change and make some great friends along the way!",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "tpm",
     "roleDescription": "Product Manager",
     "minor": "Computer Science",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/theresa-cho-405226173/",
-    "github": "https://github.com/tcho6319",
-    "pronouns": ""
+    "github": "https://github.com/tcho6319"
   },
   {
     "netid": "txy3",
@@ -1258,14 +1420,15 @@
     "major": "Computer Science",
     "hometown": "New Haven, NY",
     "about": "I'm a sophomore studying CS at Cornell. I enjoy making apps that impact the community.  During my free time I enjoy playing basketball, practicing guitar, and watching kdramas.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Math",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/tyang98/",
-    "github": "https://github.com/tyang98",
-    "pronouns": ""
+    "github": "https://github.com/tyang98"
   },
   {
     "netid": "tz66",
@@ -1274,15 +1437,19 @@
     "major": "Computer Science",
     "hometown": "Shanghai, China",
     "about": "I build compilers.",
-    "subteams": ["courseplan", "idol"],
+    "subteams": [
+      "courseplan",
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Math",
-    "formerSubteams": ["samwise"],
+    "formerSubteams": [
+      "samwise"
+    ],
     "website": "https://developersam.com",
     "linkedin": "https://www.linkedin.com/in/sam-zhou-30b91610b/",
-    "github": "https://github.com/SamChou19815",
-    "pronouns": ""
+    "github": "https://github.com/SamChou19815"
   },
   {
     "netid": "uk44",
@@ -1290,14 +1457,16 @@
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Seoul, South Korea",
-    "about": "I'm a simple person that likes to code stuff! In my free time recently, I have been trying to learn how to draw and play the piano, though I fail miserably most of the time :( I hope someday I get good them. ",
-    "subteams": ["carriage"],
+    "about": "Me like to code. :D",
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
+    "website": "https://uk44.netlify.app/",
     "linkedin": "https://www.linkedin.com/in/aaron-kang-0b7830192/",
-    "github": "https://github.com/aaronkang7",
-    "pronouns": ""
+    "github": "https://github.com/aaronkang7"
   },
   {
     "netid": "vg222",
@@ -1306,13 +1475,16 @@
     "major": "Computer Science",
     "hometown": "New Delhi",
     "about": "Hi, I'm Vaish! I'm a sophomore CS (and maybe math?) major, and I'm especially interested in backend development, as well as using algo/ML to solve interesting problems. Big fan of plants and trains.",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Math",
-    "formerSubteams": ["flux"],
-    "website": "https://vaishnavigupta.com/",
-    "pronouns": ""
+    "formerSubteams": [
+      "flux"
+    ],
+    "website": "https://vaishnavigupta.com/"
   },
   {
     "netid": "vls63",
@@ -1321,14 +1493,17 @@
     "major": "Design & Environmental Analysis",
     "hometown": "Sao Paulo (Brazil)",
     "about": "Hi! My name is Vivian and I'm a senior studying Design and Environmental Analysis. As a Chinese American who grew up in Brazil, I have a passion for design that positively transforms the visual, built, and virtual environment. My blend of cultures offers me a unique, complex perspective that inspires my work. In the past, I have interned as a UX designer for Mastercard. On campus, you can find me doodling, building puzzles, playing the New York Times mini crossword and probably sipping on boba in Mann library.",
-    "subteams": ["queuemein"],
+    "subteams": [
+      "queuemein"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Information Science (UX)",
-    "formerSubteams": ["samwise"],
+    "formerSubteams": [
+      "samwise"
+    ],
     "website": "http://vivianshiu.net",
-    "linkedin": "https://www.linkedin.com/in/vivian-shiu-826181145/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/vivian-shiu-826181145/"
   },
   {
     "netid": "wes229",
@@ -1336,15 +1511,18 @@
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Tysons, VA",
-    "about": "Hey! I'm Will, a junior developer on DTI, and I love to spend my time coding and helping out the community. Besides DTI, I am involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Besides developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
-    "subteams": ["courseplan"],
+    "about": "Hey! I'm Will, a senior and developer on DTI. I love to spend my time coding and helping out the community. Besides DTI, I have been involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Besides developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Public Policy",
-    "formerSubteams": ["nova"],
+    "minor": "Public Policy, Information Science",
+    "formerSubteams": [
+      "nova"
+    ],
     "linkedin": "https://www.linkedin.com/in/willespencer/",
-    "github": "https://github.com/willespencer",
-    "pronouns": ""
+    "github": "https://github.com/willespencer"
   },
   {
     "netid": "wk228",
@@ -1353,14 +1531,17 @@
     "major": "Computer Science",
     "hometown": "Jeju Island, South Korea",
     "about": "Hi! I'm a CS sophomore in the CoE. My primary interests are developing a resilient and scalable backend system and producing & posting quality music on my YouTube channel!",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["clubhub"],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "website": "https://woosang.io",
     "linkedin": "https://www.linkedin.com/in/woosang",
-    "github": "https://github.com/paul-kang-1",
-    "pronouns": ""
+    "github": "https://github.com/paul-kang-1"
   },
   {
     "netid": "xsy3",
@@ -1369,14 +1550,15 @@
     "major": "Computer Science",
     "hometown": "Palo Alto, CA",
     "about": "I code and make music!",
-    "subteams": ["zing"],
+    "subteams": [
+      "zing"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Game Design",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/xiaochenseanyu/",
-    "github": "https://github.com/XiaochenSeanYu",
-    "pronouns": ""
+    "github": "https://github.com/XiaochenSeanYu"
   },
   {
     "netid": "yah8",
@@ -1385,13 +1567,12 @@
     "major": "AEM",
     "hometown": "Tokyo",
     "about": "Hey everyone! My name is Yamato, but my friends call me Yam. I'm a sophomore studying AEM with a minor in Info Sci. I joined DTI because I was interested in the intersection of entrepreneurship and technology, and hope to get inspired from the all the amazing people on the team. Besides that, I'm interested in sports, traveling, bass guitars, exercising, and flying drones over Beebe Lake.",
-    "subteams": ["business"],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "minor": "Info Sci",
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/yamato-hill/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/yamato-hill/"
   },
   {
     "netid": "yc686",
@@ -1400,14 +1581,19 @@
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
     "about": "I love working on problems to make a positive social impact on communities around me. DTI allows me to do this while working with amazing people and developing my skillset as a designer, developer, and product manager. Outside of DTI, I also enjoy dancing on the Assorted Aces Dance Team and organizing events for the Product Management Club. When I need a break from the screens, I'm discovering new music, journaling, and exploring Ithaca with friends!",
-    "subteams": ["sjh"],
+    "subteams": [
+      "sjh"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
     "minor": "Information Science",
-    "formerSubteams": ["reviews", "flux", "nova"],
+    "formerSubteams": [
+      "reviews",
+      "flux",
+      "nova"
+    ],
     "linkedin": "https://www.linkedin.com/in/yvonne-chan-yc/",
-    "github": "http://github.com/ChanYvonne/",
-    "pronouns": ""
+    "github": "http://github.com/ChanYvonne/"
   },
   {
     "netid": "yc728",
@@ -1416,14 +1602,17 @@
     "major": "Computer Science",
     "hometown": "Great Neck, NY",
     "about": "Hey, I'm Enoch! Crazy ideas pop into my mind sometimes, and I love making them a reality. I am passionate about my projects, but otherwise I'm a pretty chill dude. You can catch me listening to music, taking things apart, or contemplating life.",
-    "subteams": ["cuapts"],
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": ["clubhub"],
+    "formerSubteams": [
+      "clubhub"
+    ],
     "website": "https://enochen.me/",
     "linkedin": "https://www.linkedin.com/in/enochen728/",
-    "github": "http://github.com/Enochen/",
-    "pronouns": ""
+    "github": "http://github.com/Enochen/"
   },
   {
     "netid": "yc943",
@@ -1432,13 +1621,14 @@
     "major": "ISST",
     "hometown": "Brooklyn, NY",
     "about": "Hi, I’m Yuxuan! I'm passionate about making innovative social changes through design and building a bridge between people and possibilities. When I'm not designing, I enjoy drawing, taking photos, and petting cats & dogs.",
-    "subteams": ["courseplan"],
+    "subteams": [
+      "courseplan"
+    ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "formerSubteams": [],
     "website": "yuxuanchen.me",
-    "linkedin": "https://www.linkedin.com/in/yuxuanchen12/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/yuxuanchen12/"
   },
   {
     "netid": "yy596",
@@ -1447,12 +1637,15 @@
     "major": "ISST",
     "hometown": "Brooklyn, NY",
     "about": "I’m a sophomore majoring in ISST. As a part of DTI, I want to create new solutions that solve social issues for long-lasting impact. On-campus, I’m also a member of Cornell Cup Robotics, ACSU, and CSA. Outside of school, I love singing, exploring new music, searching for new fashion trends, and photography!",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "pm",
     "roleDescription": "Product Manager",
-    "formerSubteams": ["samwise"],
-    "linkedin": "https://www.linkedin.com/in/ying-yang-8080a0169/",
-    "pronouns": ""
+    "formerSubteams": [
+      "samwise"
+    ],
+    "linkedin": "https://www.linkedin.com/in/ying-yang-8080a0169/"
   },
   {
     "netid": "za44",
@@ -1461,14 +1654,15 @@
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
     "about": "I'm a freshman majoring in Computer Science and Economics. Outside of DTI, I enjoy playing baseball, working on personal programming projects, and reading history books.",
-    "subteams": ["carriage"],
+    "subteams": [
+      "carriage"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "doubleMajor": "Economics",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/zacharyashen/",
-    "github": "https://github.com/zack-ashen",
-    "pronouns": ""
+    "github": "https://github.com/zack-ashen"
   },
   {
     "netid": "zak33",
@@ -1477,10 +1671,11 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": ["dac"],
+    "subteams": [
+      "dac"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   }
 ]
