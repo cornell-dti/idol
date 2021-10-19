@@ -9,8 +9,7 @@
     "subteams": [],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "formerSubteams": []
   },
   {
     "netid": "aa753",
@@ -196,10 +195,10 @@
   {
     "netid": "bfs45",
     "name": "Benjamin Shen",
-    "graduation": "May 2022",
+    "graduation": "December 2021",
     "major": "Computer Science",
     "hometown": "Queens, NY",
-    "about": "I am a CS major in the College of Engineering. I'm also interested in game design and data science. Outside of academics, I sing in the Glee Club and the Chordials. I like to cook, hike, and play tennis in my free time. My favorite game is Celeste, my favorite food is egg tart, and my favorite summertime drink is iced tea.",
+    "about": "I am a CS major in the College of Engineering. I'm am particularly interested in computer graphics and game design. I like to sing and play tennis in my free time. My favorite game is Celeste, my favorite food is egg tart, and my favorite summertime drink is iced tea.",
     "subteams": ["courseplan"],
     "roleId": "developer",
     "roleDescription": "Developer",
@@ -258,15 +257,15 @@
   {
     "netid": "cc2395",
     "name": "Carl Chen",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "graduation": "2024",
+    "major": "Information Science",
+    "hometown": "Calabasas, California",
+    "about": "Interested in sustainability, tech, the outdoors, and writing!",
     "subteams": ["carriage"],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": [],
-    "pronouns": ""
+    "minor": "Creative Writing",
+    "formerSubteams": []
   },
   {
     "netid": "ch746",
@@ -643,6 +642,18 @@
     "pronouns": ""
   },
   {
+    "netid": "jks273",
+    "name": "Jackson Staniec ",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "jl2366",
     "name": "Joanne Lee",
     "graduation": "May 2021",
@@ -815,7 +826,7 @@
     "graduation": "May 2022",
     "major": "Information Science",
     "hometown": "Santa Clarita, CA",
-    "about": "Hey! My name is Megan, and I'm a junior majoring in Information Science. I'm passionate about designing for equity and positive social impact. In my free time you can find me going to the beach, hiking, listening to new music, or looking at clothes on Depop.",
+    "about": "Hey! My name is Megan, and I'm a senior majoring in Information Science. I'm passionate about designing for equity and positive social impact. In my free time you can find me going to the beach, hiking, listening to new music, or looking at clothes on Depop.",
     "subteams": ["carriage"],
     "roleId": "designer",
     "roleDescription": "Designer",
@@ -1185,8 +1196,7 @@
     "roleDescription": "Designer",
     "formerSubteams": ["carriage"],
     "website": "https://www.jahinaishee.com/",
-    "linkedin": "https://www.linkedin.com/in/sayeeda-aishee/",
-    "pronouns": ""
+    "linkedin": "https://www.linkedin.com/in/sayeeda-aishee/"
   },
   {
     "netid": "sw754",
