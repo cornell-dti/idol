@@ -1,17 +1,15 @@
 import TeamEventsDao from "./dao/TeamEventsDao";
 import { TeamEvent } from "./DataTypes";
 import { PermissionError } from "./errors";
-import { teamEventsCollection } from "./firebase";
 import { PermissionsManager } from "./permissions";
 
-const checkIfDocExists = async (id: string): Promise<boolean> =>
-  (await teamEventsCollection.doc(id).get()).exists;
+export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => { 
+  const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
+  if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
+  return TeamEventsDao.getAllTeamEvents();
+}
 
-export const teamEventExists: (id: string) => Promise<boolean> = checkIfDocExists;
-
-export const getAllTeamEvents = (): Promise<TeamEvent[]> => TeamEventsDao.getAllTeamEvents();
-
-export const createTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): TeamEvent {
+export const createTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<TeamEvent> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent) throw new PermissionError('does not have permissions to create team event');
   await TeamEventsDao.createTeamEvent(teamEvent);
@@ -25,6 +23,9 @@ export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): P
   await TeamEventsDao.deleteTeamEvent(teamEvent);
 };
 
-export const updateTeamEvent = async (teamEvemt: TeamEvent, user: IdolMember) {
-
-}
+export const updateTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<void> => {
+  if (!PermissionsManager.canEditTeamEvent(user)) {
+    throw new PermissionError("You don't have permission to update a team event!");
+  }
+  await TeamEventsDao.updateTeamEvent(teamEvent);
+};
