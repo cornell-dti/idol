@@ -26,6 +26,11 @@ const navCardItems: readonly NavigationCardItem[] = [
     header: 'Edit Teams',
     description: 'Create, read, edit, or delete teams in the system.',
     link: '/admin/teams/edit'
+  },
+  {
+    header: 'Edit Team Events',
+    description: 'Create, read, edit, or delete team events in the system.',
+    link: '/admin/team-events'
   }
 ];
 
