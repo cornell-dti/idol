@@ -1,20 +1,24 @@
-import TeamEventsDao from "./dao/TeamEventsDao";
-import { TeamEvent } from "./DataTypes";
-import { PermissionError } from "./errors";
-import { PermissionsManager } from "./permissions";
+import TeamEventsDao from './dao/TeamEventsDao';
+import { TeamEvent } from './DataTypes';
+import { PermissionError } from './errors';
+import { PermissionsManager } from './permissions';
 
-export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => { 
+export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
   return TeamEventsDao.getAllTeamEvents();
-}
+};
 
-export const createTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<TeamEvent> => {
+export const createTeamEvent = async (
+  teamEvent: TeamEvent,
+  user: IdolMember
+): Promise<TeamEvent> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
-  if (!canCreateTeamEvent) throw new PermissionError('does not have permissions to create team event');
+  if (!canCreateTeamEvent)
+    throw new PermissionError('does not have permissions to create team event');
   await TeamEventsDao.createTeamEvent(teamEvent);
   return teamEvent;
-}
+};
 
 export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.canEditTeamEvent(user)) {
