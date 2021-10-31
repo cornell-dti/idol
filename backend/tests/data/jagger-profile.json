@@ -1,8 +1,8 @@
 {
   "graduation": "May 2021",
   "website": "https://jagger.netlify.app/",
-  "subteams": ["leads", "dev-leads"],
-  "formerSubteams": ["idol"],
+  "subteams": ["dev-leads"],
+  "formerSubteams": [],
   "github": "https://github.com/JBoss925/",
   "linkedin": "https://www.linkedin.com/in/jagger-brulato-896968149/",
   "hometown": "Mooresville, NC",
@@ -12,7 +12,7 @@
   "email": "jb2375@cornell.edu",
   "major": "Computer Science",
   "netid": "jb2375",
-  "doubleMajor": "Economics",
+  "doubleMajor": "Economics", 
   "lastName": "Brulato",
   "about": "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris.",
   "role": "lead"
