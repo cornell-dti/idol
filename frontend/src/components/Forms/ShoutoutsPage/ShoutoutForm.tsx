@@ -92,10 +92,11 @@ const ShoutoutForm: React.FC = () => {
                 (member.firstName && member.firstName.toLowerCase().startsWith(queryLower)) ||
                 (member.lastName && member.lastName.toLowerCase().startsWith(queryLower)) ||
                 (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
-                (member.firstName && member.lastName && 
+                ((member.firstName &&
+                  member.lastName &&
                   `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                  queryLower
-                )) as boolean 
+                    queryLower
+                  )) as boolean)
               );
             }}
             selectCallback={(mem: Member) => {
