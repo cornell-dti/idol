@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, Card } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import { Member } from '../../API/MembersAPI';
+import TeamEventDetails from './TeamEventDetails';
 
-// put type in TeamEventsAPI, not created yet
 type TeamEvent = {
   name: string;
   date: string;
@@ -19,11 +19,29 @@ const EditTeamEvents: React.FC = () => {
   const [teamEventCreditNum, setTeamEventCreditNum] = useState('');
   const [teamEventHasHours, setTeamEventHasHours] = useState(false);
 
+  const teamEvents: TeamEvent[] = [
+    {
+      name: 'Coffee Chat',
+      date: 'Sept 3',
+      numCredits: '0.5',
+      hasHours: false,
+      membersPending: [],
+      membersApproved: []
+    },
+    {
+      name: 'Club Fest',
+      date: 'Sept 5',
+      numCredits: '0.5',
+      hasHours: true,
+      membersPending: [],
+      membersApproved: []
+    }
+  ];
+
   const createTeamEvent = (teamEvent: TeamEvent) => {
     // send new event to backend
   };
 
-  // need to fix custom modals with built in messages
   const submitTeamEvent = () => {
     if (!teamEventName) {
       Emitters.generalError.emit({
@@ -102,6 +120,7 @@ const EditTeamEvents: React.FC = () => {
             setTeamEventCreditNum(event.target.value);
           }}
           type="number"
+          step="0.5"
           label={
             <label style={{ fontWeight: 'bold' }}>
               How many credits is this event worth? <span style={{ color: '#db2828' }}>*</span>
@@ -135,6 +154,15 @@ const EditTeamEvents: React.FC = () => {
           Create Event
         </Form.Button>
       </Form>
+
+      <div style={{ width: '60%', margin: 'auto' }}>
+        <h2>View All Team Events</h2>
+        <Card.Group>
+          {teamEvents.map((teamEvent, i) => (
+            <TeamEventDetails teamEvent={teamEvent} key={i} />
+          ))}
+        </Card.Group>
+      </div>
     </div>
   );
 };
