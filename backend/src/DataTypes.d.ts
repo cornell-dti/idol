@@ -41,3 +41,23 @@ export type SignInForm = {
   expireAt: number;
   id: string;
 };
+
+export type DBTeamEvent = {
+  name: string;
+  date: string;
+  numCredits: string;
+  hasHours: boolean;
+  membersPending: firestore.DocumentReference[];
+  membersApproved: firestore.DocumentReference[];
+  uuid: string;
+};
+
+export type TeamEvent = {
+  name: string;
+  date: string;
+  numCredits: string;
+  hasHours: boolean;
+  membersPending: IdolMember[];
+  membersApproved: IdolMember[];
+  uuid: string;
+};

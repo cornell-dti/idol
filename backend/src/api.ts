@@ -34,6 +34,12 @@ import {
   signInFormExists,
   signInFormExpired
 } from './signinformAPI';
+import {
+  createTeamEvent,
+  deleteTeamEvent,
+  getAllTeamEvents,
+  updateTeamEvent
+} from './team-eventsAPI';
 
 // Constants and configurations
 const app = express();
@@ -199,6 +205,14 @@ loginCheckedPost('/signinDelete', async (req, user) => {
 });
 loginCheckedPost('/signin', async (req, user) => signIn(req.body.id, user));
 loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
+
+// Team Events
+loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
+loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: getAllTeamEvents(user) }));
+loginCheckedPost('/updateTeamEvent', async (req, user) => updateTeamEvent(req.body, user));
+loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
+  team: await deleteTeamEvent(req.body, user)
+}));
 
 app.use('/.netlify/functions/api', router);
 
