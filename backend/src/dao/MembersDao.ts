@@ -1,4 +1,5 @@
 import { db, approvedMemberCollection, memberCollection } from '../firebase';
+import { Team } from '../DataTypes';
 import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
 
 export default class MembersDao {
@@ -79,5 +80,57 @@ export default class MembersDao {
       }
     });
     await batch.commit();
+  }
+
+  static async getAllTeams(): Promise<Team[]> {
+    const allMembers = await MembersDao.getAllMembers(false);
+    const teamsMap = new Map<string, Team>();
+
+    function getTeam(name: string) {
+      let team = teamsMap.get(name);
+      if (team != null) return team;
+      team = { uuid: name, name, leaders: [], members: [], formerMembers: [] };
+      teamsMap.set(name, team);
+      return team;
+    }
+
+    allMembers.forEach((member) => {
+      (member.formerSubteams || []).forEach((name) => {
+        getTeam(name).formerMembers.push(member);
+      });
+      (member.subteams || []).forEach((name) => {
+        const team = getTeam(name);
+        if (member.role === 'pm' || member.role === 'tpm') {
+          team.leaders.push(member);
+        } else {
+          team.members.push(member);
+        }
+      });
+    });
+
+    return Array.from(teamsMap.values());
+  }
+
+  static async getTeam(id: string): Promise<Team | null> {
+    const allMembers = await MembersDao.getAllMembers(false);
+    const team: Team = { uuid: id, name: id, leaders: [], members: [], formerMembers: [] };
+
+    allMembers.forEach((member) => {
+      (member.formerSubteams || []).forEach((name) => {
+        if (name !== team.name) return;
+        team.formerMembers.push(member);
+      });
+      (member.subteams || []).forEach((name) => {
+        if (name !== team.name) return;
+        if (member.role === 'pm' || member.role === 'tpm') {
+          team.leaders.push(member);
+        } else {
+          team.members.push(member);
+        }
+      });
+    });
+
+    if (team.leaders.length + team.members.length + team.formerMembers.length === 0) return null;
+    return team;
   }
 }
