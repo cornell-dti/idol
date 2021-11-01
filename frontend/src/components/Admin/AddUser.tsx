@@ -41,6 +41,7 @@ class AddUser extends React.Component<Record<string, unknown>, AddUserState> {
       currentSelectedMember: {
         firstName: '',
         lastName: '',
+        pronouns: '',
         email: '',
         role: '' as Role,
         graduation: '',

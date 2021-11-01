@@ -219,13 +219,17 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                         matchChecker={(query: string, member: Member) => {
                           const queryLower = query.toLowerCase();
                           return (
-                            member.email.toLowerCase().startsWith(queryLower) ||
-                            member.firstName.toLowerCase().startsWith(queryLower) ||
-                            member.lastName.toLowerCase().startsWith(queryLower) ||
-                            member.role.toLowerCase().startsWith(queryLower) ||
-                            `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                              queryLower
-                            )
+                            (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
+                            (member.firstName &&
+                              member.firstName.toLowerCase().startsWith(queryLower)) ||
+                            (member.lastName &&
+                              member.lastName.toLowerCase().startsWith(queryLower)) ||
+                            (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
+                            ((member.firstName &&
+                              member.lastName &&
+                              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
+                                queryLower
+                              )) as boolean)
                           );
                         }}
                         selectCallback={(mem: Member) => {
@@ -290,13 +294,17 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                         matchChecker={(query: string, member: Member) => {
                           const queryLower = query.toLowerCase();
                           return (
-                            member.email.toLowerCase().startsWith(queryLower) ||
-                            member.firstName.toLowerCase().startsWith(queryLower) ||
-                            member.lastName.toLowerCase().startsWith(queryLower) ||
-                            member.role.toLowerCase().startsWith(queryLower) ||
-                            `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                              queryLower
-                            )
+                            (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
+                            (member.firstName &&
+                              member.firstName.toLowerCase().startsWith(queryLower)) ||
+                            (member.lastName &&
+                              member.lastName.toLowerCase().startsWith(queryLower)) ||
+                            (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
+                            ((member.firstName &&
+                              member.lastName &&
+                              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
+                                queryLower
+                              )) as boolean)
                           );
                         }}
                         selectCallback={(mem: Member) => {
@@ -361,13 +369,17 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                         matchChecker={(query: string, member: Member) => {
                           const queryLower = query.toLowerCase();
                           return (
-                            member.email.toLowerCase().startsWith(queryLower) ||
-                            member.firstName.toLowerCase().startsWith(queryLower) ||
-                            member.lastName.toLowerCase().startsWith(queryLower) ||
-                            member.role.toLowerCase().startsWith(queryLower) ||
-                            `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                              queryLower
-                            )
+                            (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
+                            (member.firstName &&
+                              member.firstName.toLowerCase().startsWith(queryLower)) ||
+                            (member.lastName &&
+                              member.lastName.toLowerCase().startsWith(queryLower)) ||
+                            (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
+                            ((member.firstName &&
+                              member.lastName &&
+                              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
+                                queryLower
+                              )) as boolean)
                           );
                         }}
                         selectCallback={(mem: Member) => {

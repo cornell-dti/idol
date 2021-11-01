@@ -1,17 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
-import { teamCollection } from './firebase';
 import { PermissionsManager } from './permissions';
 import { Team } from './DataTypes';
-import TeamsDao from './dao/TeamsDao';
-import { BadRequestError, NotFoundError, PermissionError } from './errors';
+import { BadRequestError, PermissionError } from './errors';
 import MembersDao from './dao/MembersDao';
 
-export const allTeams = (): Promise<readonly Team[]> => TeamsDao.getAllTeams();
+export const allTeams = (): Promise<readonly Team[]> => MembersDao.getAllTeams();
 
 const updateTeamMembers = async (team: Team): Promise<void> => {
   const teamCopy = { ...team };
   teamCopy.uuid = teamCopy.uuid ? teamCopy.uuid : uuidv4();
-  let oldTeam = await TeamsDao.getTeam(team.uuid ? team.uuid : uuidv4());
+  let oldTeam = await MembersDao.getTeam(team.uuid ? team.uuid : uuidv4());
   if (!oldTeam)
     oldTeam = {
       leaders: [],
@@ -21,8 +19,8 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
       formerMembers: []
     };
 
-  updateCurrentMembers(teamCopy, oldTeam);
-  updateFormerMembers(teamCopy, oldTeam);
+  await updateCurrentMembers(teamCopy, oldTeam);
+  await updateFormerMembers(teamCopy, oldTeam);
 };
 
 const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> => {
@@ -31,8 +29,12 @@ const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> =>
 
   const oldTeamMembers = [...oldTeam.leaders, ...oldTeam.members];
   const newTeamMembers = [...team.leaders, ...team.members];
-  newMembers = newTeamMembers.filter((member) => !oldTeamMembers.includes(member));
-  deletedMembers = oldTeamMembers.filter((member) => !newTeamMembers.includes(member));
+  newMembers = newTeamMembers.filter(
+    (member) => !oldTeamMembers.some((m) => member.email === m.email)
+  );
+  deletedMembers = oldTeamMembers.filter(
+    (member) => !newTeamMembers.some((m) => member.email === m.email)
+  );
 
   await Promise.all(
     newMembers.map(async (member) => {
@@ -59,9 +61,11 @@ const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => 
   let newFormerMembers: IdolMember[] = [];
   let removedFormerMembers: IdolMember[] = [];
 
-  newFormerMembers = team.formerMembers.filter((member) => !oldTeam.formerMembers.includes(member));
+  newFormerMembers = team.formerMembers.filter(
+    (member) => !oldTeam.formerMembers.some((m) => member.email === m.email)
+  );
   removedFormerMembers = oldTeam.formerMembers.filter(
-    (member) => !team.formerMembers.includes(member)
+    (member) => !team.formerMembers.some((m) => member.email === m.email)
   );
 
   await Promise.all(
@@ -96,16 +100,13 @@ export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team>
   if (teamBody.members.length > 0 && !teamBody.members[0].email) {
     throw new BadRequestError('Malformed members on POST!');
   }
-  return updateTeamMembers(teamBody).then(() => TeamsDao.setTeam(teamBody));
+  await updateTeamMembers(teamBody);
+  return teamBody;
 };
 
 export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
   if (!teamBody.uuid || teamBody.uuid === '') {
     throw new BadRequestError("Couldn't delete team with undefined uuid!");
-  }
-  const teamSnap = await teamCollection.doc(teamBody.uuid).get();
-  if (!teamSnap.exists) {
-    throw new NotFoundError(`No team with uuid: ${teamBody.uuid}`);
   }
   const canEdit = await PermissionsManager.canEditTeams(member);
   if (!canEdit) {
@@ -113,7 +114,6 @@ export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Te
       `User with email: ${member.email} does not have permission to delete teams!`
     );
   }
-  return updateTeamMembers({ ...teamBody, members: [], leaders: [] }).then(() =>
-    TeamsDao.deleteTeam(teamBody)
-  );
+  await updateTeamMembers({ ...teamBody, members: [], leaders: [], formerMembers: [] });
+  return teamBody;
 };

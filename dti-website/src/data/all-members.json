@@ -1,7 +1,21 @@
 [
   {
+    "netid": "aa2235",
+    "name": "Aira Agrawal ",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "aa753",
     "name": "Akash Aryal",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Manhattan, KS",
@@ -20,6 +34,7 @@
   {
     "netid": "abn53",
     "name": "Alexander Nagel",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Bethesda, MD",
@@ -36,6 +51,7 @@
   {
     "netid": "ac2343",
     "name": "Andrea Chen",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Economics",
     "hometown": "North Potomac, MD",
@@ -55,6 +71,7 @@
   {
     "netid": "ac2677",
     "name": "Angela Chen",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Jericho, NY",
@@ -72,6 +89,7 @@
   {
     "netid": "acb352",
     "name": "Aram Baghdassarian",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Great Neck, NY",
@@ -90,6 +108,7 @@
   {
     "netid": "ad665",
     "name": "Ashneel Das",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "CS",
     "hometown": "New York, NY",
@@ -108,6 +127,7 @@
   {
     "netid": "ag759",
     "name": "Ansh Godha",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Computer Science",
     "hometown": "Mumbai",
@@ -127,13 +147,12 @@
   {
     "netid": "ajc436",
     "name": "Alexander Choi",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Policy Analysis and Management",
     "hometown": "Sunnyvale, CA",
     "about": "Hello! My name is Alex and I am a freshman studying Policy Analysis and Management. Aside from DTI, I am involved with Cornell KASA and enjoy exploring Ithaca, watching Netflix shows, and playing around with the stonk market.",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "formerSubteams": []
@@ -141,6 +160,7 @@
   {
     "netid": "am2749",
     "name": "Alyssa Ma",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Applied Economics and Management",
     "hometown": "Silver Spring, MD",
@@ -151,12 +171,14 @@
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
+    "minor": "China and Asia-Pacific Studies",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/alyssa-ma/"
   },
   {
     "netid": "apb235",
     "name": "Althea Bata",
+    "pronouns": "",
     "graduation": "2024",
     "major": "Applied Economics & Management",
     "hometown": "Staten Island, NY",
@@ -174,6 +196,7 @@
   {
     "netid": "atq2",
     "name": "Amanda Qiu",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -188,6 +211,7 @@
   {
     "netid": "az354",
     "name": "Alyssa Zhang",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -202,10 +226,11 @@
   {
     "netid": "bfs45",
     "name": "Benjamin Shen",
-    "graduation": "May 2022",
+    "pronouns": "",
+    "graduation": "December 2021",
     "major": "Computer Science",
     "hometown": "Queens, NY",
-    "about": "I am a CS major in the College of Engineering. I'm also interested in game design and data science. Outside of academics, I sing in the Glee Club and the Chordials. I like to cook, hike, and play tennis in my free time. My favorite game is Celeste, my favorite food is egg tart, and my favorite summertime drink is iced tea.",
+    "about": "I am a CS major in the College of Engineering. I'm am particularly interested in computer graphics and game design. I like to sing and play tennis in my free time. My favorite game is Celeste, my favorite food is egg tart, and my favorite summertime drink is iced tea.",
     "subteams": [
       "courseplan"
     ],
@@ -221,6 +246,7 @@
   {
     "netid": "bh456",
     "name": "Becky Hu",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "China",
@@ -237,6 +263,7 @@
   {
     "netid": "bsg68",
     "name": "Bryan Graeser",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Information Science (MPS) ",
     "hometown": "Los Altos, CA",
@@ -254,6 +281,7 @@
   {
     "netid": "bt277",
     "name": "Bahar Tehranipoor",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Gainesville, FL",
@@ -274,20 +302,23 @@
   {
     "netid": "cc2395",
     "name": "Carl Chen",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "",
+    "graduation": "2024",
+    "major": "Information Science",
+    "hometown": "Calabasas, California",
+    "about": "Interested in sustainability, tech, the outdoors, and writing!",
     "subteams": [
       "carriage"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
+    "minor": "Creative Writing",
     "formerSubteams": []
   },
   {
     "netid": "ch746",
     "name": "Cristie Huang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Information Science",
     "hometown": "Arcadia, CA",
@@ -306,6 +337,7 @@
   {
     "netid": "cjl334",
     "name": "Christine Lee",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Design and Environmental Analysis",
     "hometown": "Seoul, South Korea",
@@ -322,6 +354,7 @@
   {
     "netid": "cl2264",
     "name": "Connie Liu",
+    "pronouns": "",
     "graduation": "2023",
     "major": "Information Science",
     "hometown": "Pennsylvania",
@@ -339,6 +372,7 @@
   {
     "netid": "cl859",
     "name": "Changyuan Lin",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Denver, CO",
@@ -357,6 +391,7 @@
   {
     "netid": "cll246",
     "name": "Chenchen Lu",
+    "pronouns": "",
     "graduation": "2023",
     "major": "Information Science",
     "hometown": "Los Angeles",
@@ -373,6 +408,7 @@
   {
     "netid": "cph64",
     "name": "Christopher Hansen",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Computer Science",
     "hometown": "Staten Island, NY",
@@ -391,6 +427,7 @@
   {
     "netid": "ebs98",
     "name": "Emma Shen",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -405,6 +442,7 @@
   {
     "netid": "ec592",
     "name": "Emily Chan",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -420,6 +458,7 @@
   {
     "netid": "ec629",
     "name": "Ein Chang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "CS",
     "hometown": "Bellevue, WA",
@@ -436,6 +475,7 @@
   {
     "netid": "esh79",
     "name": "Erika Hauschild",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -450,6 +490,7 @@
   {
     "netid": "ete26",
     "name": "Ehi Esemuze",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Sugar Land, TX",
@@ -468,13 +509,12 @@
   {
     "netid": "fl328",
     "name": "Flora Liang",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "AEM",
     "hometown": "New York City, NY",
     "about": "Hi! I'm Flora and I'm a freshmen majoring in Applied Economics and Management with a possible minor in sustainability and fashion design. Aside from DTI, I am a Cornell Tradition Fellow and a member of Cornell Marketing, SWIB, Cornell Fashion Collective, and Thread Magazine. I am passionate about being environmentally conscious through sewing, embroidering, and upcycling thrifted clothing. Feel free to reach out! ",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "formerSubteams": []
@@ -482,6 +522,7 @@
   {
     "netid": "gd372",
     "name": "Guillaume de Cannart",
+    "pronouns": "",
     "graduation": "Spring 2022",
     "major": "Electrical & Computer Engineering",
     "hometown": "Brussels, Belgium",
@@ -498,6 +539,7 @@
   {
     "netid": "gsh68",
     "name": "Grace Han",
+    "pronouns": "",
     "graduation": "2024",
     "major": "CS",
     "hometown": "McLean, VA",
@@ -512,6 +554,7 @@
   {
     "netid": "gw284",
     "name": "Guanqun Wu",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Singapore",
@@ -529,6 +572,7 @@
   {
     "netid": "hl2334",
     "name": "Hank Lin",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Pittsburgh, PA, NJ",
@@ -544,16 +588,17 @@
   {
     "netid": "hl738",
     "name": "Henry Li",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Albany, NY",
-    "about": "I drink lots of coffee so I can turn caffeine into code. Please don't add milk to my coffee because dairy is scary. Thanks :) ",
+    "about": "I drink lots of coffee so I can turn caffeine into code. Please don't add milk to my coffee because dairy is scary. Thanks :)",
     "subteams": [
       "idol"
     ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
-    "minor": "Computer Science ",
+    "minor": "Computer Science",
     "formerSubteams": [],
     "linkedin": "https://linkedin.com/in/henryli6",
     "github": "https://github.com/henry-li-06"
@@ -561,6 +606,7 @@
   {
     "netid": "hl985",
     "name": "Hahnbee Lee",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Bristow, VA",
@@ -580,13 +626,12 @@
   {
     "netid": "htl28",
     "name": "Huey Le",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Economics",
     "hometown": "Ho Chi Minh City, Vietnam",
     "about": "Hello! I'm a sophomore double majoring in Economics and Information Science in the College of Arts and Sciences. Outside of school, I like to cook, watch sports, and partake in the art of online window shopping. If you're reading this, let's coffee chat!",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "doubleMajor": "Information Science",
@@ -598,6 +643,7 @@
   {
     "netid": "hxy2",
     "name": "Helen Yang",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Ellicott City, MD",
@@ -615,6 +661,7 @@
   {
     "netid": "jb2375",
     "name": "Jagger Brulato",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Mooresville, NC",
@@ -636,6 +683,7 @@
   {
     "netid": "jj523",
     "name": "Jeremy Jung",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Mathematics",
     "hometown": "Aurora, IL",
@@ -654,6 +702,7 @@
   {
     "netid": "jj534",
     "name": "Jaehyung Joo",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -668,6 +717,7 @@
   {
     "netid": "jk2299",
     "name": "Toby Ko",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Information Science",
     "hometown": "Seoul",
@@ -685,8 +735,22 @@
     "github": "https://github.com/bungaepyo"
   },
   {
+    "netid": "jks273",
+    "name": "Jackson Staniec ",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "jl2366",
     "name": "Joanne Lee",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "FSAD",
     "hometown": "Seoul, Korea",
@@ -702,6 +766,7 @@
   {
     "netid": "jt568",
     "name": "Jason Tung",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Bayside, NY",
@@ -721,13 +786,12 @@
   {
     "netid": "jw823",
     "name": "Jessie Wong",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Cupertino, CA",
     "about": "Hi, I'm Jessie. I am a sophomore majoring in Computer Science. Aside from DTI, I am also involved in WICC, CTAS, and OASIS. I'm passionate about improving the communities around me, making meaningful connections with others, and achieving financial independence. You can find me on campus curating playlists, jamming out to musicals, and getting takeout at SoPoong :D. Feel free to chat me up if any of this stuff seems of interest to you! ",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "formerSubteams": [
@@ -738,6 +802,7 @@
   {
     "netid": "jx295",
     "name": "Nina Xie",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Information Science, Systems, and Technology",
     "hometown": "Beijing, China",
@@ -755,6 +820,7 @@
   {
     "netid": "jyf5",
     "name": "Jessica Feng",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Fremont, CA",
@@ -773,6 +839,7 @@
   {
     "netid": "kg357",
     "name": "Kehui Guo",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Beijing, China",
@@ -788,6 +855,7 @@
   {
     "netid": "kjj32",
     "name": "Kinjal Jasani",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Electrical and Computer Engineering",
     "hometown": "Ledgewood, NJ",
@@ -806,6 +874,7 @@
   {
     "netid": "ksg73",
     "name": "Katherine Go",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Information Science",
     "hometown": "Manila, Philippines",
@@ -826,6 +895,7 @@
   {
     "netid": "kw433",
     "name": "Katrina Wang",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Mastic, NY",
@@ -844,6 +914,7 @@
   {
     "netid": "lrh74",
     "name": "Luis Hoderlein",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Statistics",
     "hometown": "Atlanta, GA",
@@ -861,6 +932,7 @@
   {
     "netid": "ls797",
     "name": "Laura Sizemore",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Burke, VA",
@@ -877,10 +949,11 @@
   {
     "netid": "mc2488",
     "name": "Megan Chang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Information Science",
     "hometown": "Santa Clarita, CA",
-    "about": "Hey! My name is Megan, and I'm a junior majoring in Information Science. I'm passionate about designing for equity and positive social impact. In my free time you can find me going to the beach, hiking, listening to new music, or looking at clothes on Depop.",
+    "about": "Hey! My name is Megan, and I'm a senior majoring in Information Science. I'm passionate about designing for equity and positive social impact. In my free time you can find me going to the beach, hiking, listening to new music, or looking at clothes on Depop.",
     "subteams": [
       "carriage"
     ],
@@ -893,6 +966,7 @@
   {
     "netid": "mg2239",
     "name": "Matthew Guo",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Ithaca, NY",
@@ -910,6 +984,7 @@
   {
     "netid": "mg897",
     "name": "Mihikaa Goenka",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "CS",
     "hometown": "India, Other - India",
@@ -927,10 +1002,11 @@
   {
     "netid": "mhb224",
     "name": "Morgan Belous",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "information science",
     "hometown": "Dix Hills, NY",
-    "about": "Hi! I’m a junior majoring in information science and minoring in computer science and business. I’m passionate about development because I love making my ideas come to life and building things that solve real problems. In my spare time, I love to watch broadway bootlegs, re-create TikTok dances, and spend time with friends!",
+    "about": "Hi! I’m a senior majoring in information science and minoring in computer science and business. I’m passionate about development because I love making my ideas come to life and building things that solve real problems. In my spare time, I love to watch broadway bootlegs, re-create TikTok dances, and spend time with friends!",
     "subteams": [
       "idol"
     ],
@@ -945,6 +1021,7 @@
   {
     "netid": "mks257",
     "name": "Miah Sanchez",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Yonkers, NY",
@@ -960,6 +1037,7 @@
   {
     "netid": "mly32",
     "name": "Michael Ye",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "New York, NY",
@@ -974,6 +1052,7 @@
   {
     "netid": "mma89",
     "name": "Mena Attia",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
@@ -990,13 +1069,12 @@
   {
     "netid": "mwy9",
     "name": "Miranda Yu",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Economics",
     "hometown": "Potomac, MD",
     "about": "I'm currently a freshman in CAS studying economics and computer science. Besides DTI, I am also involved in SEGC and IIC. In my free time, I enjoy traveling, cooking, and watching horror movies.",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "doubleMajor": "Computer Science",
@@ -1005,6 +1083,7 @@
   {
     "netid": "my474",
     "name": "Megan Yin",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "New York City, NY",
@@ -1025,6 +1104,7 @@
   {
     "netid": "nfg23",
     "name": "Buma Gana",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Informatio Science, UX Design",
     "hometown": "Poolesville, MD",
@@ -1043,6 +1123,7 @@
   {
     "netid": "nk495",
     "name": "Nikita Kasumov",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Sharon, MA",
@@ -1060,6 +1141,7 @@
   {
     "netid": "nma46",
     "name": "Nada Attia",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
@@ -1075,6 +1157,7 @@
   {
     "netid": "ph437",
     "name": "Pinxuan Huang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Dubai, UAE",
@@ -1092,6 +1175,7 @@
   {
     "netid": "pk457",
     "name": "Pooja Kanumalla",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Orlando, FL",
@@ -1108,6 +1192,7 @@
   {
     "netid": "plw53",
     "name": "Peter Wu",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Princeton, NJ",
@@ -1128,6 +1213,7 @@
   {
     "netid": "rj356",
     "name": "Riya Jaggi",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Dubai, UAE",
@@ -1145,10 +1231,11 @@
   {
     "netid": "rm697",
     "name": "Rohan Maheshwari",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Dallas, TX",
-    "about": "I am a freshman at Cornell studying Computer Science with an interest in Fullstack Development. Outside of school, you can find me on the sand in a game of spikeball or immersed in the virtual world of Twitch and gaming.",
+    "about": "I am a sophomore at Cornell studying Computer Science with an interest in Fullstack Development. Outside of school, you can find me on the sand in a game of spikeball or immersed in the virtual world of Twitch and gaming!",
     "subteams": [
       "dac"
     ],
@@ -1161,6 +1248,7 @@
   {
     "netid": "rmz38",
     "name": "Rose  Zhou",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Jamesville, NY",
@@ -1181,13 +1269,12 @@
   {
     "netid": "sc2843",
     "name": "Sophia Chu",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Operations Researxh",
     "hometown": "Scarsdale, NY",
     "about": "Hi! I’m a sophomore majoring in Operations Research and Information Engineering and minoring in business. I’m from Scarsdale, NY  and love to bake and hike. My favorite go to tv show is Brooklyn Nine-Nine because I can always count on it to make me laugh! ",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "minor": "Business minor for engineers",
@@ -1198,6 +1285,7 @@
   {
     "netid": "sj598",
     "name": "Julie Jeong",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Norwood, NJ",
@@ -1214,6 +1302,7 @@
   {
     "netid": "sl2486",
     "name": "Samantha Liu",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "CS",
     "hometown": "Albany, NY",
@@ -1231,6 +1320,7 @@
   {
     "netid": "sl764",
     "name": "Mia SeungEun Lee",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Communication",
     "hometown": "Seoul, Korea",
@@ -1248,6 +1338,7 @@
   {
     "netid": "sp2262",
     "name": "Simran Puri",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Watchung, NJ",
@@ -1263,6 +1354,7 @@
   {
     "netid": "ss2629",
     "name": "Sanjana Seshadri",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Information Science",
     "hometown": "San Francisco, CA",
@@ -1283,10 +1375,11 @@
   {
     "netid": "sta48",
     "name": "Jahin Aishee",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "ISST",
     "hometown": "Edinburg, TX",
-    "about": "Hi, I am Jahin. I am junior studying Data Science and UX Design. I love connecting people to technology in an authentic way. Outside of design I love stand up comedy and chai.",
+    "about": "Hi, I am Jahin, a senior studying Data Science and UX Design. I love connecting people to technology in an authentic way. Outside of design I love stand up comedy and chai.",
     "subteams": [
       "zing"
     ],
@@ -1295,11 +1388,13 @@
     "formerSubteams": [
       "carriage"
     ],
-    "website": "http://jahin.design"
+    "website": "https://www.jahinaishee.com/",
+    "linkedin": "https://www.linkedin.com/in/sayeeda-aishee/"
   },
   {
     "netid": "sw754",
     "name": "Scott Wang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Holmdel, NJ",
@@ -1317,6 +1412,7 @@
   {
     "netid": "sy629",
     "name": "Shane Yun",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Information Science",
     "hometown": "Fullerton, CA",
@@ -1334,6 +1430,7 @@
   {
     "netid": "syg4",
     "name": "Sheri Guo",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Infosci",
     "hometown": "Gaithersburg, MD",
@@ -1351,6 +1448,7 @@
   {
     "netid": "sz329",
     "name": "Shi Chong Zhao",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Singapore",
@@ -1370,6 +1468,7 @@
   {
     "netid": "tm452",
     "name": "Tanay Menezes",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
@@ -1384,6 +1483,7 @@
   {
     "netid": "tsc82",
     "name": "Theresa Cho",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Information Science",
     "hometown": "Westchester, NY",
@@ -1401,6 +1501,7 @@
   {
     "netid": "txy3",
     "name": "Tony Yang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "New Haven, NY",
@@ -1418,6 +1519,7 @@
   {
     "netid": "tz66",
     "name": "Sam Zhou",
+    "pronouns": "",
     "graduation": "December 2021",
     "major": "Computer Science",
     "hometown": "Shanghai, China",
@@ -1439,22 +1541,25 @@
   {
     "netid": "uk44",
     "name": "Aaron Kang",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Seoul, South Korea",
-    "about": "I'm a simple person that likes to code stuff! In my free time recently, I have been trying to learn how to draw and play the piano, though I fail miserably most of the time :( I hope someday I get good them. ",
+    "about": "Me like to code. :D",
     "subteams": [
       "carriage"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": [],
+    "website": "https://uk44.netlify.app/",
     "linkedin": "https://www.linkedin.com/in/aaron-kang-0b7830192/",
     "github": "https://github.com/aaronkang7"
   },
   {
     "netid": "vg222",
     "name": "Vaishnavi Gupta",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "New Delhi",
@@ -1473,6 +1578,7 @@
   {
     "netid": "vls63",
     "name": "Vivian Shiu",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Design & Environmental Analysis",
     "hometown": "Sao Paulo (Brazil)",
@@ -1492,16 +1598,17 @@
   {
     "netid": "wes229",
     "name": "Will Spencer",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Tysons, VA",
-    "about": "Hey! I'm Will, a junior developer on DTI, and I love to spend my time coding and helping out the community. Besides DTI, I am involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Besides developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
+    "about": "Hey! I'm Will, a senior and developer on DTI. I love to spend my time coding and helping out the community. Besides DTI, I have been involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Besides developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
     "subteams": [
       "courseplan"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Public Policy",
+    "minor": "Public Policy, Information Science",
     "formerSubteams": [
       "nova"
     ],
@@ -1511,6 +1618,7 @@
   {
     "netid": "wk228",
     "name": "Woosang Kang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Jeju Island, South Korea",
@@ -1530,6 +1638,7 @@
   {
     "netid": "xsy3",
     "name": "Sean Yu",
+    "pronouns": "",
     "graduation": "2023",
     "major": "Computer Science",
     "hometown": "Palo Alto, CA",
@@ -1547,13 +1656,12 @@
   {
     "netid": "yah8",
     "name": "Yamato Hill",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "AEM",
     "hometown": "Tokyo",
     "about": "Hey everyone! My name is Yamato, but my friends call me Yam. I'm a sophomore studying AEM with a minor in Info Sci. I joined DTI because I was interested in the intersection of entrepreneurship and technology, and hope to get inspired from the all the amazing people on the team. Besides that, I'm interested in sports, traveling, bass guitars, exercising, and flying drones over Beebe Lake.",
-    "subteams": [
-      "business"
-    ],
+    "subteams": [],
     "roleId": "business",
     "roleDescription": "Business Analyst",
     "minor": "Info Sci",
@@ -1563,6 +1671,7 @@
   {
     "netid": "yc686",
     "name": "Yvonne Chan",
+    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
@@ -1584,6 +1693,7 @@
   {
     "netid": "yc728",
     "name": "Enoch Chen",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Great Neck, NY",
@@ -1603,6 +1713,7 @@
   {
     "netid": "yc943",
     "name": "Yuxuan Chen",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "ISST",
     "hometown": "Brooklyn, NY",
@@ -1619,6 +1730,7 @@
   {
     "netid": "yy596",
     "name": "Ying Yang",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "ISST",
     "hometown": "Brooklyn, NY",
@@ -1636,6 +1748,7 @@
   {
     "netid": "za44",
     "name": "Zachary Ashen",
+    "pronouns": "",
     "graduation": "2024",
     "major": "Computer Science",
     "hometown": "Brooklyn, NY",
@@ -1653,6 +1766,7 @@
   {
     "netid": "zak33",
     "name": "Zak Kent",
+    "pronouns": "",
     "graduation": "",
     "major": "",
     "hometown": "",
