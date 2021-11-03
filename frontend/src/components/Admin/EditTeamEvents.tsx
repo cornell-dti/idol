@@ -3,6 +3,7 @@ import { Form, Radio, Card } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import { Member } from '../../API/MembersAPI';
 import TeamEventDetails from './TeamEventDetails';
+import styles from './EditTeamEvents.module.css';
 
 type TeamEvent = {
   name: string;
@@ -82,21 +83,14 @@ const EditTeamEvents: React.FC = () => {
 
   return (
     <div>
-      <Form
-        style={{
-          width: '60%',
-          alignSelf: 'center',
-          margin: 'auto',
-          padding: '3rem 0 5rem 0'
-        }}
-      >
+      <Form className={styles.form}>
         <h1>Create a Team Event</h1>
         <Form.Input
           value={teamEventName}
           onChange={(event) => setTeamEventName(event.target.value)}
           label={
-            <label style={{ fontWeight: 'bold' }}>
-              Event Name: <span style={{ color: '#db2828' }}>*</span>
+            <label className={styles.label}>
+              Event Name: <span className={styles.required}>*</span>
             </label>
           }
         ></Form.Input>
@@ -108,8 +102,8 @@ const EditTeamEvents: React.FC = () => {
           }}
           type="date"
           label={
-            <label style={{ fontWeight: 'bold' }}>
-              Event Date: <span style={{ color: '#db2828' }}>*</span>
+            <label className={styles.label}>
+              Event Date: <span className={styles.required}>*</span>
             </label>
           }
         ></Form.Input>
@@ -122,14 +116,14 @@ const EditTeamEvents: React.FC = () => {
           type="number"
           step="0.5"
           label={
-            <label style={{ fontWeight: 'bold' }}>
-              How many credits is this event worth? <span style={{ color: '#db2828' }}>*</span>
+            <label className={styles.label}>
+              How many credits is this event worth? <span className={styles.required}>*</span>
             </label>
           }
         ></Form.Input>
 
-        <label htmlFor="radioGroup" style={{ fontWeight: 'bold' }}>
-          Does this event have hours? <span style={{ color: '#db2828' }}>*</span>
+        <label htmlFor="radioGroup" className={styles.label}>
+          Does this event have hours? <span className={styles.required}>*</span>
         </label>
         <Form.Field>
           <Radio
