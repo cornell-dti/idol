@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Sidebar, Menu, Icon, Loader } from 'semantic-ui-react';
 import SignIn from '../components/Common/SignIn.lazy';
 import UserProvider, { useUserContext } from '../components/Common/UserProvider';
+import FirestoreDataProvider from '../components/Common/FirestoreDataProvider';
 import SiteHeader from '../components/Common/SiteHeader';
 import { Emitters } from '../utils';
 import EmailNotFoundErrorModal from '../components/Modals/EmailNotFoundErrorModal';
@@ -32,7 +33,9 @@ export default function AppTemplate(props: AppProps): JSX.Element {
       </Head>
       <UserProvider>
         <AppContent>
-          <Component {...pageProps} />
+          <FirestoreDataProvider>
+            <Component {...pageProps} />
+          </FirestoreDataProvider>
         </AppContent>
       </UserProvider>
     </>
