@@ -43,5 +43,8 @@
     "**/*.{ts,js,tsx,scss,css,html,md}": [
       "yarn prettier --write"
     ]
+  },
+  "dependencies": {
+    "@types/node": "^16.11.4"
   }
 }
