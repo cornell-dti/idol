@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider';
-import CustomSearch from '../../Common/Search';
+import CustomSearch, { MemberSearch } from '../../Common/Search';
 import { Emitters } from '../../../utils';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
@@ -85,18 +85,7 @@ const ShoutoutForm: React.FC = () => {
                 <Label>{mem.email}</Label>
               </Segment>
             )}
-            matchChecker={(query: string, member: Member) => {
-              const queryLower = query.toLowerCase();
-              return (
-                member.email.toLowerCase().startsWith(queryLower) ||
-                member.firstName.toLowerCase().startsWith(queryLower) ||
-                member.lastName.toLowerCase().startsWith(queryLower) ||
-                member.role.toLowerCase().startsWith(queryLower) ||
-                `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                  queryLower
-                )
-              );
-            }}
+            matchChecker={(query: string, member: Member) => MemberSearch(query, member)}
             selectCallback={(mem: Member) => {
               setRecipient(mem);
             }}
