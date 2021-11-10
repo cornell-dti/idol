@@ -14,7 +14,7 @@ type TeamEvent = {
   membersApproved: Member[];
 };
 
-type TeamEventAttendace = {
+type TeamEventAttendance = {
   memberEmail: string;
   teamEventName: string;
   hoursAttended?: string;
@@ -53,7 +53,7 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendace) => {
+  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance) => {
     // add user to pending list of the team event
     // notify leads of request
   };
@@ -75,7 +75,7 @@ const TeamEventCreditForm: React.FC = () => {
         contentMsg: 'Please enter your hours!'
       });
     } else {
-      const newTeamEventAttendance: TeamEventAttendace = {
+      const newTeamEventAttendance: TeamEventAttendance = {
         memberEmail: userEmail,
         teamEventName: teamEvent.name,
         hoursAttended: hours,
