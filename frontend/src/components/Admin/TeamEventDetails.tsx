@@ -30,7 +30,7 @@ const TeamEventDetails: React.FC = () => (
 
   <div className={styles.container}>
     <Link href="/admin/team-events">
-      <p className={styles.arrow}>&#8592;</p>
+      <span className={styles.arrow}>&#8592;</span>
     </Link>
     <h1 className={styles.eventName}>{mockTeamEvent.name}</h1>
     <h2 className={styles.eventDate}>{mockTeamEvent.date}</h2>
