@@ -30,6 +30,7 @@ export const auth: Auth = getAuth(app);
 export const provider: GoogleAuthProvider = new GoogleAuthProvider();
 
 const firestore: Firestore = getFirestore(app);
+export const adminsCollection = collection(firestore, 'admins');
 export const membersCollection = collection(firestore, 'members').withConverter({
   fromFirestore(snapshot): IdolMember {
     return snapshot.data() as IdolMember;

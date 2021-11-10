@@ -5,15 +5,11 @@ import { Emitters } from '../../utils';
 import { backendURL } from '../../environment';
 import styles from './SiteDeployer.module.css';
 import APIWrapper from '../../API/APIWrapper';
-import PermissionsAPI from '../../API/PermissionsAPI';
 import 'prismjs/themes/prism.css';
-import { useSelf } from '../Common/FirestoreDataProvider';
 
 require('prismjs');
 
 const SiteDeployer: React.FC = () => {
-  const selfMember = useSelf();
-
   const [isLoading, setLoading] = useState(true);
   const [pullRequests, setPullRequests] = useState<{ body: string }[]>([]);
 
@@ -30,21 +26,8 @@ const SiteDeployer: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selfMember) {
-      PermissionsAPI.isAdmin()
-        .catch(() => false)
-        .then((isAdmin) => {
-          if (isAdmin || selfMember.role === 'lead') {
-            loadPullRequests();
-          } else {
-            Emitters.generalError.emit({
-              headerMsg: 'Access Denied',
-              contentMsg: `Insufficient permissions.`
-            });
-          }
-        });
-    }
-  }, [selfMember]);
+    loadPullRequests();
+  }, []);
 
   const onClickAccept = () => {
     setLoading(true);
