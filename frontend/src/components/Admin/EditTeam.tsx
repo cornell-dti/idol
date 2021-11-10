@@ -4,7 +4,7 @@ import styles from './EditTeam.module.css';
 import ErrorModal from '../Modals/ErrorModal';
 import { APICache, Emitters } from '../../utils';
 import { Team, TeamsAPI } from '../../API/TeamsAPI';
-import CustomSearch, { MemberSearch } from '../Common/Search';
+import CustomSearch, { memberMatchChecker } from '../Common/Search';
 import { MembersAPI, Member } from '../../API/MembersAPI';
 
 type EditTeamState = {
@@ -216,9 +216,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
-                        matchChecker={(query: string, member: Member) =>
-                          MemberSearch(query, member)
-                        }
+                        matchChecker={memberMatchChecker}
                         selectCallback={(mem: Member) => {
                           if (this.state.currentSelectedTeam) {
                             this.setState({
@@ -278,9 +276,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
-                        matchChecker={(query: string, member: Member) =>
-                          MemberSearch(query, member)
-                        }
+                        matchChecker={memberMatchChecker}
                         selectCallback={(mem: Member) => {
                           if (this.state.currentSelectedTeam) {
                             this.setState({
@@ -340,9 +336,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
-                        matchChecker={(query: string, member: Member) =>
-                          MemberSearch(query, member)
-                        }
+                        matchChecker={memberMatchChecker}
                         selectCallback={(mem: Member) => {
                           if (this.state.currentSelectedTeam) {
                             this.setState({

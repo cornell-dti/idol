@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider';
-import CustomSearch, { MemberSearch } from '../../Common/Search';
+import CustomSearch, { memberMatchChecker } from '../../Common/Search';
 import { Emitters } from '../../../utils';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
@@ -85,7 +85,7 @@ const ShoutoutForm: React.FC = () => {
                 <Label>{mem.email}</Label>
               </Segment>
             )}
-            matchChecker={(query: string, member: Member) => MemberSearch(query, member)}
+            matchChecker={memberMatchChecker}
             selectCallback={(mem: Member) => {
               setRecipient(mem);
             }}

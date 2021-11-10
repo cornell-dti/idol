@@ -49,7 +49,7 @@ type CustomSearchProps<T> = {
   selectCallback: (selected: T) => void;
 };
 
-export function MemberSearch(query: string, member: Member): boolean {
+export function memberMatchChecker(query: string, member: Member): boolean {
   const queryLower = query.toLowerCase();
   return (
     (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
