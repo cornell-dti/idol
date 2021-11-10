@@ -10,7 +10,6 @@ import { useMembers } from '../../Common/FirestoreDataProvider';
 const ShoutoutForm: React.FC = () => {
   const userEmail = useUserEmail();
   const members = useMembers();
-  console.log(members);
   const user = members.find((it) => it.email === userEmail);
   const [recipient, setRecipient] = useState<IdolMember | undefined>(undefined);
   const [message, setMessage] = useState('');
