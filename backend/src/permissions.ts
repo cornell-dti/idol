@@ -36,7 +36,7 @@ export class PermissionsManager {
     return mem.role === 'lead' || member !== undefined;
   }
 
-  public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> { 
-    return mem.role === 'lead' || this.isAdmin(mem) 
+  public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> {
+    return mem.role === 'lead' || this.isAdmin(mem);
   }
 }
