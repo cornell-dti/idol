@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardGroup, Loader, Modal } from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
-import { useUserEmail } from '../Common/UserProvider';
-import { Member, MembersAPI } from '../../API/MembersAPI';
 import { Emitters } from '../../utils';
 import { backendURL } from '../../environment';
 import styles from './SiteDeployer.module.css';
 import APIWrapper from '../../API/APIWrapper';
 import PermissionsAPI from '../../API/PermissionsAPI';
 import 'prismjs/themes/prism.css';
+import { useSelf } from '../Common/FirestoreDataProvider';
 
 require('prismjs');
 
 const SiteDeployer: React.FC = () => {
-  const userEmail = useUserEmail();
-
-  const getUser = async (email: string): Promise<Member> => {
-    const mem = await MembersAPI.getMember(email);
-    return mem;
-  };
+  const selfMember = useSelf();
 
   const [isLoading, setLoading] = useState(true);
   const [pullRequests, setPullRequests] = useState<{ body: string }[]>([]);
@@ -36,26 +30,21 @@ const SiteDeployer: React.FC = () => {
   };
 
   useEffect(() => {
-    if (userEmail) {
-      getUser(userEmail)
-        .then(async (mem) => {
-          if (!((await PermissionsAPI.isAdmin().catch((err) => false)) || mem.role === 'lead')) {
+    if (selfMember) {
+      PermissionsAPI.isAdmin()
+        .catch(() => false)
+        .then((isAdmin) => {
+          if (isAdmin || selfMember.role === 'lead') {
+            loadPullRequests();
+          } else {
             Emitters.generalError.emit({
               headerMsg: 'Access Denied',
               contentMsg: `Insufficient permissions.`
             });
-          } else {
-            loadPullRequests();
           }
-        })
-        .catch((error) => {
-          Emitters.generalError.emit({
-            headerMsg: "Couldn't get member! Refresh the page if you believe this is an error.",
-            contentMsg: `Error was: ${error}`
-          });
         });
     }
-  }, [userEmail]);
+  }, [selfMember]);
 
   const onClickAccept = () => {
     setLoading(true);
