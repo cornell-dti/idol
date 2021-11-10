@@ -20,7 +20,8 @@ const navCardItems: readonly NavigationCardItem[] = [
   {
     header: 'Team Event Credits',
     description: 'Track your team event credits.',
-    link: '/forms/teamEventCredits'
+    link: '/forms/teamEventCredits',
+    unstable: true
   }
 ];
 
