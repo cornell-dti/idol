@@ -106,8 +106,7 @@ const UserProfile: React.FC = () => {
       style={{
         width: '80%',
         alignSelf: 'center',
-        margin: 'auto',
-        marginTop: '10vh'
+        margin: '10vh auto'
       }}
     >
       <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
@@ -216,7 +215,9 @@ const UserProfile: React.FC = () => {
         />
       </Form.Group>
 
-      <Form.Button onClick={saveProfileInfo}>Save</Form.Button>
+      <Form.Button onClick={saveProfileInfo} floated="right">
+        Save
+      </Form.Button>
     </Form>
   );
 };

@@ -28,6 +28,11 @@ const navCardItems: readonly NavigationCardItem[] = [
     link: '/admin/teams/edit'
   },
   {
+    header: 'Edit Team Events',
+    description: 'Create, read, edit, or delete team events in the system.',
+    link: '/admin/team-events'
+  },
+  {
     header: 'Example Unstable Hidden Page',
     description: 'An example page visible to admin only. It can be used to gate unstable features.',
     link: '/admin/hidden',
