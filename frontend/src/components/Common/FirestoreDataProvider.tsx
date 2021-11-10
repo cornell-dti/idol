@@ -36,9 +36,17 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
       };
     }
     const unsubscriberOfMembers = onSnapshot(membersCollection, (snapshot) => {
+      console.log(
+        'members',
+        snapshot.docs.map((it) => it.data())
+      );
       setMembers(snapshot.docs.map((it) => it.data()));
     });
     const unsubscriberOfApprovedMembers = onSnapshot(approvedMembersCollection, (snapshot) => {
+      console.log(
+        'approved-members',
+        snapshot.docs.map((it) => it.data())
+      );
       setApprovedMembers(snapshot.docs.map((it) => it.data()));
     });
     return () => {
