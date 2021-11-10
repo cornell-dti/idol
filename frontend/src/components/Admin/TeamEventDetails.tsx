@@ -1,8 +1,11 @@
 import React from 'react';
-import { Card, Button, Header, Modal, Icon } from 'semantic-ui-react';
+import { Card, Message } from 'semantic-ui-react';
+import Link from 'next/link';
 import { Member } from '../../API/MembersAPI';
+import styles from './TeamEventDetails.module.css';
 
 type TeamEvent = {
+  uuid: string;
   name: string;
   date: string;
   numCredits: string;
@@ -11,71 +14,70 @@ type TeamEvent = {
   membersApproved: Member[];
 };
 
-const TeamEventDetails = (props: { teamEvent: TeamEvent }): JSX.Element => {
-  const { teamEvent } = props;
-  const [firstOpen, setFirstOpen] = React.useState(false);
-  const [secondOpen, setSecondOpen] = React.useState(false);
-
-  return (
-    <>
-      <Card onClick={() => setFirstOpen(true)}>
-        <Card.Content>
-          <Card.Header>{teamEvent.name} </Card.Header>
-          <Card.Meta>{teamEvent.date}</Card.Meta>
-        </Card.Content>
-      </Card>
-
-      <Modal onClose={() => setFirstOpen(false)} onOpen={() => setFirstOpen(true)} open={firstOpen}>
-        <Modal.Header>Team Event Detals</Modal.Header>
-        <Modal.Content>
-          <Modal.Description>
-            <Header>{teamEvent.name}</Header>
-            <p>
-              <strong>Date:</strong> {teamEvent.date}
-            </p>
-            <p>
-              <strong>Credits:</strong> {teamEvent.numCredits}
-            </p>
-            <p>
-              <strong>Has Hours?:</strong> {teamEvent.hasHours ? 'Yes' : 'No'}
-            </p>
-          </Modal.Description>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={() => setSecondOpen(true)}>
-            <Icon name="trash" style={{ margin: 'auto' }}></Icon>
-          </Button>
-
-          <Button content="Close" color="red" onClick={() => setFirstOpen(false)}></Button>
-
-          <Button
-            content="Save"
-            labelPosition="right"
-            icon="checkmark"
-            onClick={() => setFirstOpen(false)}
-            positive
-          />
-        </Modal.Actions>
-
-        <Modal onClose={() => setSecondOpen(false)} open={secondOpen} size="small">
-          <Modal.Header>Delete Team Event</Modal.Header>
-          <Modal.Content>
-            <p>Are you sure that you want to delete this event?</p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button content="Go Back" onClick={() => setSecondOpen(false)}></Button>
-            <Button
-              content="Delete Event"
-              color="red"
-              onClick={() => {
-                setSecondOpen(false);
-                setFirstOpen(false);
-              }}
-            ></Button>
-          </Modal.Actions>
-        </Modal>
-      </Modal>
-    </>
-  );
+const mockTeamEvent: TeamEvent = {
+  name: 'Info Session',
+  date: 'Sept 3',
+  numCredits: '1',
+  hasHours: false,
+  membersPending: [],
+  membersApproved: [],
+  uuid: '1'
 };
+
+const TeamEventDetails: React.FC = () => (
+  // use query.uuid to fetch the team event from firebase
+  // const { query } = useRouter();
+
+  <div className={styles.container}>
+    <Link href="/admin/team-events">
+      <p className={styles.arrow}>&#8592;</p>
+    </Link>
+    <h1 className={styles.eventName}>{mockTeamEvent.name}</h1>
+    <h2 className={styles.eventDate}>{mockTeamEvent.date}</h2>
+
+    <div className={styles.listsContainer}>
+      <div className={styles.listContainer}>
+        <h2 className={styles.memberTitle}>Members Pending</h2>
+
+        {mockTeamEvent.membersPending.length > 0 ? (
+          <Card.Group>
+            {mockTeamEvent.membersPending.map((member) => (
+              <Card key={member.netid}>
+                <Card.Content>
+                  <Card.Header>
+                    {member.firstName} {member.lastName}
+                  </Card.Header>
+                  <Card.Meta>{member.email}</Card.Meta>
+                </Card.Content>
+              </Card>
+            ))}
+          </Card.Group>
+        ) : (
+          <Message>There are currently no pending members for this event.</Message>
+        )}
+      </div>
+
+      <div className={styles.listContainer}>
+        <h2 className={styles.memberTitle}>Members Approved</h2>
+
+        {mockTeamEvent.membersApproved.length > 0 ? (
+          <Card.Group>
+            {mockTeamEvent.membersApproved.map((member) => (
+              <Card key={member.netid}>
+                <Card.Content>
+                  <Card.Header>
+                    {member.firstName} {member.lastName}
+                  </Card.Header>
+                  <Card.Meta>{member.email}</Card.Meta>
+                </Card.Content>
+              </Card>
+            ))}
+          </Card.Group>
+        ) : (
+          <Message>There are currently no approved members for this event.</Message>
+        )}
+      </div>
+    </div>
+  </div>
+);
 export default TeamEventDetails;

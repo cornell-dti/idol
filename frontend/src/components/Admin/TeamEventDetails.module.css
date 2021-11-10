@@ -1,0 +1,34 @@
+.container {
+  width: 90%;
+  margin: 5em auto;
+}
+
+.arrow {
+  font-size: 3em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.eventName,
+.eventDate {
+  text-align: center;
+}
+
+.eventDate {
+  color: gray;
+}
+
+.listsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.listContainer {
+  width: 50%;
+  margin: 0 2em;
+}
+
+.memberTitle {
+  margin: 1em;
+  text-align: center;
+}

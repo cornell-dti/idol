@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Radio, Card } from 'semantic-ui-react';
+import Link from 'next/link';
 import { Emitters } from '../../utils';
 import { Member } from '../../API/MembersAPI';
-import TeamEventDetails from './TeamEventDetails';
 import styles from './EditTeamEvents.module.css';
 
 type TeamEvent = {
@@ -12,6 +12,7 @@ type TeamEvent = {
   hasHours: boolean;
   membersPending: Member[];
   membersApproved: Member[];
+  uuid: string;
 };
 
 const EditTeamEvents: React.FC = () => {
@@ -27,9 +28,11 @@ const EditTeamEvents: React.FC = () => {
       numCredits: '0.5',
       hasHours: false,
       membersPending: [],
-      membersApproved: []
+      membersApproved: [],
+      uuid: '1'
     },
     {
+      uuid: '2',
       name: 'Club Fest',
       date: 'Sept 5',
       numCredits: '0.5',
@@ -65,7 +68,9 @@ const EditTeamEvents: React.FC = () => {
         contentMsg: 'Please enter how many credits the event is worth!'
       });
     } else {
+      // fix
       const newTeamEvent: TeamEvent = {
+        uuid: '',
         name: teamEventName,
         date: teamEventDate,
         numCredits: teamEventCreditNum,
@@ -153,7 +158,14 @@ const EditTeamEvents: React.FC = () => {
         <h2>View All Team Events</h2>
         <Card.Group>
           {teamEvents.map((teamEvent, i) => (
-            <TeamEventDetails teamEvent={teamEvent} key={i} />
+            <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
+              <Card>
+                <Card.Content>
+                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                </Card.Content>
+              </Card>
+            </Link>
           ))}
         </Card.Group>
       </div>
