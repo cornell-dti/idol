@@ -31,8 +31,15 @@ import {
   createSignInForm,
   deleteSignInForm,
   signIn,
-  signInFormExists
+  signInFormExists,
+  signInFormExpired
 } from './signinformAPI';
+import {
+  createTeamEvent,
+  deleteTeamEvent,
+  getAllTeamEvents,
+  updateTeamEvent
+} from './team-eventsAPI';
 
 // Constants and configurations
 const app = express();
@@ -186,13 +193,26 @@ loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 loginCheckedPost('/signinExists', async (req, _) => ({
   exists: await signInFormExists(req.body.id)
 }));
-loginCheckedPost('/signinCreate', async (req, user) => createSignInForm(req.body.id, user));
+loginCheckedPost('/signinExpired', async (req, _) => ({
+  expired: await signInFormExpired(req.body.id)
+}));
+loginCheckedPost('/signinCreate', async (req, user) =>
+  createSignInForm(req.body.id, req.body.expireAt, user)
+);
 loginCheckedPost('/signinDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};
 });
 loginCheckedPost('/signin', async (req, user) => signIn(req.body.id, user));
 loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
+
+// Team Events
+loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
+loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: getAllTeamEvents(user) }));
+loginCheckedPost('/updateTeamEvent', async (req, user) => updateTeamEvent(req.body, user));
+loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
+  team: await deleteTeamEvent(req.body, user)
+}));
 
 app.use('/.netlify/functions/api', router);
 

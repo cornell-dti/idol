@@ -18,6 +18,7 @@ interface IdolMember {
   readonly email: string;
   readonly firstName: string;
   readonly lastName: string;
+  readonly pronouns: string;
   readonly graduation: string;
   readonly major: string;
   readonly doubleMajor?: string | null;
@@ -43,6 +44,7 @@ interface IdolMemberDiff {
 interface NovaMember {
   readonly netid: string;
   readonly name: string;
+  readonly pronouns: string;
   readonly isLead?: boolean;
   readonly graduation: string;
   readonly major: string;
@@ -71,6 +73,7 @@ interface SignInForm {
   }[];
   readonly createdAt: number;
   readonly id: string;
+  readonly expireAt: number;
 }
 
 interface TeamEvent {

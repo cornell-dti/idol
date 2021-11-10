@@ -1,7 +1,22 @@
 import { SignInForm } from '../DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
-import { NotFoundError } from '../errors';
+import { NotFoundError, BadRequestError } from '../errors';
 import MembersDao from './MembersDao';
+
+type SignInUser = {
+  signedInAt: number;
+  userDoc: IdolMember;
+};
+
+async function filterSignIns(users, userEmail) {
+  const prevSignIns: SignInUser[] = await Promise.all(
+    users.map(async (obj) => ({
+      signedInAt: obj.signedInAt,
+      userDoc: await obj.user.get().then((doc) => doc.data() as IdolMember)
+    }))
+  ).then((results) => results as SignInUser[]);
+  return users.filter((_, i) => prevSignIns[i].userDoc.email !== userEmail);
+}
 
 export default class SignInFormDao {
   static async signIn(id: string, email: string): Promise<number> {
@@ -10,22 +25,25 @@ export default class SignInFormDao {
     if (!formRef.exists) throw new NotFoundError(`No form with id '${id}' found.`);
     const form = formRef.data();
     if (form == null) throw new NotFoundError(`No form content in form with id '${id}' found.`);
+    const signedInAtVal = Date.now();
+    if (form.expireAt <= signedInAtVal)
+      throw new BadRequestError(`User is not allowed to sign into expired form with id '${id}.`);
     const userDoc = memberCollection.doc(email);
     const userRef = await userDoc.get();
     if (!userRef.exists) throw new NotFoundError(`No user with email '${email}' found.`);
-    const signedInAtVal = Date.now();
+    const updatedSignIns = await filterSignIns(form.users, email);
     return formDoc
       .update({
-        users: form.users.concat({ signedInAt: signedInAtVal, user: userDoc })
+        users: updatedSignIns.concat({ signedInAt: signedInAtVal, user: userDoc })
       })
       .then((_) => signedInAtVal);
   }
 
-  static async createSignIn(id: string): Promise<void> {
+  static async createSignIn(id: string, expireAt: number): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
     if (formRef.exists) throw new NotFoundError(`A form with id '${id}' already exists!`);
-    await formDoc.set({ createdAt: Date.now(), id, users: [] });
+    await formDoc.set({ createdAt: Date.now(), id, expireAt, users: [] });
   }
 
   static async deleteSignIn(id: string): Promise<void> {

@@ -1,13 +1,5 @@
 import { firestore } from 'firebase-admin';
 
-export type DBTeam = {
-  uuid: string;
-  name: string;
-  leaders: firestore.DocumentReference[];
-  members: firestore.DocumentReference[];
-  formerMembers: firestore.DocumentReference[];
-};
-
 export type Team = {
   uuid: string;
   name: string;
@@ -39,11 +31,33 @@ export type Shoutout =
 export type DBSignInForm = {
   users: { signedInAt: number; user: firestore.DocumentReference }[];
   createdAt: number;
+  expireAt: number;
   id: string;
 };
 
 export type SignInForm = {
   users: { signedInAt: number; user: IdolMember }[];
   createdAt: number;
+  expireAt: number;
   id: string;
+};
+
+export type DBTeamEvent = {
+  name: string;
+  date: string;
+  numCredits: string;
+  hasHours: boolean;
+  membersPending: firestore.DocumentReference[];
+  membersApproved: firestore.DocumentReference[];
+  uuid: string;
+};
+
+export type TeamEvent = {
+  name: string;
+  date: string;
+  numCredits: string;
+  hasHours: boolean;
+  membersPending: IdolMember[];
+  membersApproved: IdolMember[];
+  uuid: string;
 };

@@ -1,6 +1,6 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { getApps, initializeApp } from 'firebase/app';
+import { Auth, getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { Firestore, getFirestore, collection } from 'firebase/firestore';
 import { useProdDb } from './environment';
 
 const firebaseConfig = useProdDb
@@ -24,8 +24,25 @@ const firebaseConfig = useProdDb
       measurementId: 'G-2QB5YJ3CHC'
     };
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-export const provider = new firebase.auth.GoogleAuthProvider();
+export const auth: Auth = getAuth(app);
+export const provider: GoogleAuthProvider = new GoogleAuthProvider();
+
+const firestore: Firestore = getFirestore(app);
+export const membersCollection = collection(firestore, 'members').withConverter({
+  fromFirestore(snapshot): IdolMember {
+    return snapshot.data() as IdolMember;
+  },
+  toFirestore(teamEventData: IdolMember) {
+    return teamEventData;
+  }
+});
+export const approvedMembersCollection = collection(firestore, 'approved-members').withConverter({
+  fromFirestore(snapshot): IdolMember {
+    return snapshot.data() as IdolMember;
+  },
+  toFirestore(teamEventData: IdolMember) {
+    return teamEventData;
+  }
+});

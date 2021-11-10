@@ -43,7 +43,7 @@ function makeReducer<T>() {
 }
 
 type CustomSearchProps<T> = {
-  source: T[];
+  source: readonly T[];
   resultRenderer?: (props: SearchResultProps) => React.ReactElement;
   matchChecker: (input: string, object: T) => boolean;
   selectCallback: (selected: T) => void;

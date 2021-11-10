@@ -1,30 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider';
 import CustomSearch, { memberMatchChecker } from '../../Common/Search';
 import { Emitters } from '../../../utils';
-import { Member, MembersAPI } from '../../../API/MembersAPI';
+import { Member } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
+import { useMembers } from '../../Common/FirestoreDataProvider';
 
 const ShoutoutForm: React.FC = () => {
   const userEmail = useUserEmail();
-  const [members, setMembers] = useState<IdolMember[] | undefined>(undefined);
-  const [user, setUser] = useState<IdolMember | undefined>(undefined);
+  const members = useMembers();
+  const user = members.find((it) => it.email === userEmail);
   const [recipient, setRecipient] = useState<IdolMember | undefined>(undefined);
   const [message, setMessage] = useState('');
   const [isAnon, setIsAnon] = useState(false);
-
-  useEffect(() => {
-    MembersAPI.getAllMembers()
-      .then((mems) => {
-        setMembers(mems);
-      })
-      .then(() => {
-        if (userEmail) {
-          MembersAPI.getMember(userEmail).then((mem) => setUser(mem));
-        }
-      });
-  }, [userEmail]);
 
   const giveShoutout = () => {
     if (!recipient) {
@@ -76,7 +65,7 @@ const ShoutoutForm: React.FC = () => {
       </label>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        {members && !recipient ? (
+        {!recipient ? (
           <CustomSearch
             source={members}
             resultRenderer={(mem) => (
