@@ -35,13 +35,17 @@ export default function UserProvider({ children }: { readonly children: ReactNod
   const [user, setUser] = useState<UserContextType>('INIT');
   useEffect(
     () =>
-      auth.onAuthStateChanged(async (userAuth) => {
-        if (userAuth) {
-          updateCachedUser(userAuth).then(() => setUser({ email: getUserEmail(userAuth) }));
-        } else {
-          setUser(null);
-        }
-      }),
+      process.env.NODE_ENV === 'test'
+        ? () => {
+            // Do not run firebase auth in test environment.
+          }
+        : auth.onAuthStateChanged(async (userAuth) => {
+            if (userAuth) {
+              updateCachedUser(userAuth).then(() => setUser({ email: getUserEmail(userAuth) }));
+            } else {
+              setUser(null);
+            }
+          }),
     []
   );
 
