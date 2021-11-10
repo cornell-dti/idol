@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider';
-import CustomSearch from '../../Common/Search';
+import CustomSearch, { memberMatchChecker } from '../../Common/Search';
 import { Emitters } from '../../../utils';
 import { Member } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
@@ -74,20 +74,7 @@ const ShoutoutForm: React.FC = () => {
                 <Label>{mem.email}</Label>
               </Segment>
             )}
-            matchChecker={(query: string, member: Member) => {
-              const queryLower = query.toLowerCase();
-              return (
-                (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
-                (member.firstName && member.firstName.toLowerCase().startsWith(queryLower)) ||
-                (member.lastName && member.lastName.toLowerCase().startsWith(queryLower)) ||
-                (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
-                ((member.firstName &&
-                  member.lastName &&
-                  `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                    queryLower
-                  )) as boolean)
-              );
-            }}
+            matchChecker={memberMatchChecker}
             selectCallback={(mem: Member) => {
               setRecipient(mem);
             }}

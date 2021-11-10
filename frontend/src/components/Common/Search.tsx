@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, SearchResultProps } from 'semantic-ui-react';
+import { Member } from '../../API/MembersAPI';
 
 type SearchState<T> = {
   loading: boolean;
@@ -47,6 +48,21 @@ type CustomSearchProps<T> = {
   matchChecker: (input: string, object: T) => boolean;
   selectCallback: (selected: T) => void;
 };
+
+export function memberMatchChecker(query: string, member: Member): boolean {
+  const queryLower = query.toLowerCase();
+  return (
+    (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
+    (member.firstName && member.firstName.toLowerCase().startsWith(queryLower)) ||
+    (member.lastName && member.lastName.toLowerCase().startsWith(queryLower)) ||
+    (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
+    ((member.firstName &&
+      member.lastName &&
+      `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
+        queryLower
+      )) as boolean)
+  );
+}
 
 export default function CustomSearch<T>({
   source,

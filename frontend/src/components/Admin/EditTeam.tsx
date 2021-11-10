@@ -4,7 +4,7 @@ import styles from './EditTeam.module.css';
 import ErrorModal from '../Modals/ErrorModal';
 import { APICache, Emitters } from '../../utils';
 import { Team, TeamsAPI } from '../../API/TeamsAPI';
-import CustomSearch from '../Common/Search';
+import CustomSearch, { memberMatchChecker } from '../Common/Search';
 import { MembersAPI, Member } from '../../API/MembersAPI';
 
 type EditTeamState = {
@@ -216,22 +216,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
-                        matchChecker={(query: string, member: Member) => {
-                          const queryLower = query.toLowerCase();
-                          return (
-                            (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
-                            (member.firstName &&
-                              member.firstName.toLowerCase().startsWith(queryLower)) ||
-                            (member.lastName &&
-                              member.lastName.toLowerCase().startsWith(queryLower)) ||
-                            (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
-                            ((member.firstName &&
-                              member.lastName &&
-                              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                                queryLower
-                              )) as boolean)
-                          );
-                        }}
+                        matchChecker={memberMatchChecker}
                         selectCallback={(mem: Member) => {
                           if (this.state.currentSelectedTeam) {
                             this.setState({
@@ -291,22 +276,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
-                        matchChecker={(query: string, member: Member) => {
-                          const queryLower = query.toLowerCase();
-                          return (
-                            (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
-                            (member.firstName &&
-                              member.firstName.toLowerCase().startsWith(queryLower)) ||
-                            (member.lastName &&
-                              member.lastName.toLowerCase().startsWith(queryLower)) ||
-                            (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
-                            ((member.firstName &&
-                              member.lastName &&
-                              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                                queryLower
-                              )) as boolean)
-                          );
-                        }}
+                        matchChecker={memberMatchChecker}
                         selectCallback={(mem: Member) => {
                           if (this.state.currentSelectedTeam) {
                             this.setState({
@@ -366,22 +336,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
                             <Label>{mem.email}</Label>
                           </Segment>
                         )}
-                        matchChecker={(query: string, member: Member) => {
-                          const queryLower = query.toLowerCase();
-                          return (
-                            (member.email && member.email.toLowerCase().startsWith(queryLower)) ||
-                            (member.firstName &&
-                              member.firstName.toLowerCase().startsWith(queryLower)) ||
-                            (member.lastName &&
-                              member.lastName.toLowerCase().startsWith(queryLower)) ||
-                            (member.role && member.role.toLowerCase().startsWith(queryLower)) ||
-                            ((member.firstName &&
-                              member.lastName &&
-                              `${member.firstName.toLowerCase()} ${member.lastName.toLowerCase()}`.startsWith(
-                                queryLower
-                              )) as boolean)
-                          );
-                        }}
+                        matchChecker={memberMatchChecker}
                         selectCallback={(mem: Member) => {
                           if (this.state.currentSelectedTeam) {
                             this.setState({
