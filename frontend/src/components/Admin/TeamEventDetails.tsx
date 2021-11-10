@@ -1,5 +1,4 @@
-import React from 'react';
-import { Card, Message } from 'semantic-ui-react';
+import { Card, Message, Modal, Button } from 'semantic-ui-react';
 import Link from 'next/link';
 import { Member } from '../../API/MembersAPI';
 import styles from './TeamEventDetails.module.css';
@@ -29,9 +28,18 @@ const TeamEventDetails: React.FC = () => (
   // const { query } = useRouter();
 
   <div className={styles.container}>
-    <Link href="/admin/team-events">
-      <span className={styles.arrow}>&#8592;</span>
-    </Link>
+    <div className={styles.arrowAndDelete}>
+      <Link href="/admin/team-events">
+        <span className={styles.arrow}>&#8592;</span>
+      </Link>
+      <Modal
+        trigger={<Button color="red">Delete Event</Button>}
+        header="Delete Team Event"
+        content="Are you sure that you want to delete this event?"
+        actions={['Go Back', { key: 'deleteEvent', content: 'Delete Event', color: 'red' }]}
+      />
+    </div>
+
     <h1 className={styles.eventName}>{mockTeamEvent.name}</h1>
     <h2 className={styles.eventDate}>{mockTeamEvent.date}</h2>
 

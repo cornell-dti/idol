@@ -3,6 +3,11 @@
   margin: 5em auto;
 }
 
+.arrowAndDelete {
+  display: flex;
+  justify-content: space-between;
+}
+
 .arrow {
   font-size: 3em;
   text-decoration: none;
