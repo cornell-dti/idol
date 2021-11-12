@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './NavigationCard.module.css';
-import PermissionsAPI from '../../API/PermissionsAPI';
+import { useHasAdminPermission } from './FirestoreDataProvider';
 
 export type NavigationCardItem = {
   readonly header: string;
   readonly description: string;
   readonly link: string;
-  readonly unstable?: boolean;
+  readonly adminOnly?: boolean;
 };
 
 type Props = { readonly testID?: string; readonly items: readonly NavigationCardItem[] };
 
 export default function NavigationCard({ testID, items }: Props): JSX.Element {
-  const [allowUnstable, setAllowUnstable] = useState(false);
-
-  useEffect(() => {
-    PermissionsAPI.isAdmin().then(({ isAdmin }) => setAllowUnstable(isAdmin));
-  }, []);
+  const hasAdminPermission = useHasAdminPermission();
 
   return (
     <div data-testid={testID}>
       <div className={styles.content}>
         <Card.Group>
           {items.map(
-            ({ header, description, link, unstable }) =>
-              (!unstable || allowUnstable) && (
+            ({ header, description, link, adminOnly }) =>
+              (!adminOnly || hasAdminPermission) && (
                 <Card key={link}>
                   <Card.Content>
                     <Card.Header>{header}</Card.Header>
