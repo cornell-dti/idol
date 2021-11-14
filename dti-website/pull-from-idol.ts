@@ -40,7 +40,7 @@ function convertIdolMemberToNovaMember(idolMember: IdolMember): NovaMember {
   return {
     netid,
     name: `${firstName} ${lastName}`,
-    pronouns,
+    pronouns: pronouns || '',
     graduation,
     major,
     hometown,
