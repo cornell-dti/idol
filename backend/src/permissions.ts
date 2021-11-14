@@ -1,8 +1,6 @@
 import { adminCollection } from './firebase';
 
-export const allRoles: readonly Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer'];
-
-export class PermissionsManager {
+export default class PermissionsManager {
   static async canEditMembers(mem: IdolMember): Promise<boolean> {
     return this.isLeadOrAdmin(mem);
   }
