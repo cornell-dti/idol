@@ -95,7 +95,6 @@
     "hometown": "Great Neck, NY",
     "about": "I feel like these always come off as so generic and cliche. I've wondered what I can do to make them seem less trite. Do people even read these? I'm genuinely curious, so if you're reading this then click http://bit.ly/yes-i-actually-read-the-bio.",
     "subteams": [
-      "leads",
       "product-leads"
     ],
     "roleId": "lead",
@@ -414,7 +413,6 @@
     "hometown": "Staten Island, NY",
     "about": "A software developer, a book lover, and a cat dad. I love solving problems and working with others.",
     "subteams": [
-      "leads",
       "dev-leads"
     ],
     "roleId": "lead",
@@ -496,7 +494,6 @@
     "hometown": "Sugar Land, TX",
     "about": "Hi! My name is Ehi and I’m a junior studying Information Science in the College of Arts & Sciences. I am passionate about using design across mediums to create technology that is functional, accessible, sustainable, ethical, and makes positive social impact. On campus I'm the Allyship Co-Director WICC, the Director of Diversity & Inclusion of Tri Delta, and a member of Theta Tau. Outside of academic and project team work, you can find me acting in a show, attempting to pick up a new language, listening to music, or reading/writing poetry or prose. Feel free to reach out and start a conversation!",
     "subteams": [
-      "leads",
       "business-leads"
     ],
     "roleId": "lead",
@@ -544,9 +541,7 @@
     "major": "CS",
     "hometown": "McLean, VA",
     "about": "",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": [],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": []
@@ -661,21 +656,17 @@
   {
     "netid": "jb2375",
     "name": "Jagger Brulato",
-    "pronouns": "",
     "graduation": "May 2021",
     "major": "Computer Science",
     "hometown": "Mooresville, NC",
     "about": "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris.",
     "subteams": [
-      "leads",
       "dev-leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
     "doubleMajor": "Economics",
-    "formerSubteams": [
-      "idol"
-    ],
+    "formerSubteams": [],
     "website": "https://jagger.netlify.app/",
     "linkedin": "https://www.linkedin.com/in/jagger-brulato-896968149/",
     "github": "https://github.com/JBoss925/"
@@ -1083,13 +1074,11 @@
   {
     "netid": "my474",
     "name": "Megan Yin",
-    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "New York City, NY",
     "about": "Hey! I'm Megan. I'm a CS student at Cornell with a minor in ORIE. I love creating user interfaces, analyzing data, and exploring the bleeding edge of web technologies. When I'm not working on stuff for DTI or trying to keep my GPA afloat, you can probably find me scrolling through tiktok, making memes, or just pondering the meaning of life (no the answer is not 42).",
     "subteams": [
-      "leads",
       "dev-leads"
     ],
     "roleId": "lead",
@@ -1412,13 +1401,11 @@
   {
     "netid": "sy629",
     "name": "Shane Yun",
-    "pronouns": "",
     "graduation": "May 2021",
     "major": "Information Science",
     "hometown": "Fullerton, CA",
     "about": "Hi! I'm Shane and I like to design. I'm currently a senior studying Information Science and I'm excited to contribute to DTI this semester!",
     "subteams": [
-      "leads",
       "design-leads"
     ],
     "roleId": "lead",
