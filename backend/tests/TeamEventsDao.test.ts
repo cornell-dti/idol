@@ -14,11 +14,11 @@ const test_event: TeamEvent = {
 };
 
 /* clean database */
-afterAll(() => TeamEventsDao.deleteTeamEvent(test_event));
+afterAll(async () => TeamEventsDao.deleteTeamEvent(test_event));
 
 /* for /createTeamEvent and /getAllTeamEvents */
-test('Add new event', () => {
-  TeamEventsDao.createTeamEvent(test_event).then(() => {
+test('Add new event', async () => {
+  await TeamEventsDao.createTeamEvent(test_event).then(() => {
     TeamEventsDao.getAllTeamEvents().then((events) => {
       const target_event = events.find((event) => event.name === 'testevent1');
       expect(target_event).toEqual(test_event);
@@ -27,7 +27,7 @@ test('Add new event', () => {
 });
 
 /* for /updateTeamEvent */
-test('Update existing event', () => {
+test('Update existing event', async () => {
   const updated_event: TeamEvent = {
     ...test_event,
     membersPending: [],
@@ -37,7 +37,7 @@ test('Update existing event', () => {
   // make sure event is in db first
   const event_ref = teamEventsCollection.doc('test').get();
 
-  event_ref.then(async (event) => {
+  await event_ref.then(async (event) => {
     if (!event.exists) {
       await TeamEventsDao.createTeamEvent(test_event);
     }
