@@ -80,7 +80,7 @@ export default function RoleSelector({
           <Col
             md={density === 'compact' ? 'auto' : undefined}
             key={role.id}
-            className="text-center"
+            className="col-auto my-auto text-center"
           >
             <div
               className={btnCSS(roleId === role.id, density, bold, dark)}
