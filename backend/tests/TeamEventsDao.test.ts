@@ -1,0 +1,52 @@
+import TeamEventsDao from '../src/dao/TeamEventsDao';
+import jaggerData from './data/jagger-profile.json';
+import { teamEventsCollection } from '../src/firebase';
+import { TeamEvent } from '../src/DataTypes';
+
+const test_event: TeamEvent = {
+  date: 'now',
+  hasHours: true,
+  name: 'testevent1',
+  numCredits: '1',
+  membersApproved: [],
+  membersPending: [jaggerData],
+  uuid: 'test'
+};
+
+/* clean database */
+afterAll(() => TeamEventsDao.deleteTeamEvent(test_event));
+
+/* for /createTeamEvent and /getAllTeamEvents */
+test('Add new event', () => {
+  TeamEventsDao.createTeamEvent(test_event).then(() => {
+    TeamEventsDao.getAllTeamEvents().then((events) => {
+      const target_event = events.find((event) => event.name === 'testevent1');
+      expect(target_event).toEqual(test_event);
+    });
+  });
+});
+
+/* for /updateTeamEvent */
+test('Update existing event', () => {
+  const updated_event: TeamEvent = {
+    ...test_event,
+    membersPending: [],
+    membersApproved: [jaggerData]
+  };
+
+  // make sure event is in db first
+  const event_ref = teamEventsCollection.doc('test').get();
+
+  event_ref.then(async (event) => {
+    if (!event.exists) {
+      await TeamEventsDao.createTeamEvent(test_event);
+    }
+
+    return TeamEventsDao.updateTeamEvent(updated_event).then(() => {
+      TeamEventsDao.getAllTeamEvents().then((events) => {
+        const target_event = events.find((event) => event.name === 'testevent1');
+        expect(target_event).toEqual(updated_event);
+      });
+    });
+  });
+});
