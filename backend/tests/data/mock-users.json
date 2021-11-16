@@ -1,7 +1,7 @@
 {
   "mu1": {
     "graduation": "Never",
-    "subteams": ["idol"],
+    "subteams": ["mockteam1"],
     "hometown": "GitHub",
     "roleDescription": "Developer",
     "firstName": "Mock",
@@ -14,7 +14,7 @@
   },
   "mu2": {
     "graduation": "May 2023",
-    "subteams": ["idol", "carriage"],
+    "subteams": ["mockteam1", "mockteam2"],
     "hometown": "Zurich",
     "roleDescription": "Developer",
     "firstName": "Swiss",
@@ -27,7 +27,7 @@
   },
   "mu3": {
     "graduation": "Never",
-    "subteams": ["idol"],
+    "subteams": ["mockteam1"],
     "hometown": "GitHub",
     "roleDescription": "Developer",
     "firstName": "Mock",

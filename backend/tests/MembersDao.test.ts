@@ -1,6 +1,7 @@
 import MembersDao from '../src/dao/MembersDao';
 import jaggerData from './data/jagger-profile.json';
 import mockUsers from './data/mock-users.json';
+import teamsData from './data/mock-teams.json';
 import { approvedMemberCollection, memberCollection } from '../src/firebase';
 
 /* Cleanup database after running MembersDao tests */
@@ -51,4 +52,10 @@ test('Revert member information changes', async () => {
   );
   const dbMockUser = mockUserRef.data();
   expect(dbMockUser.major).toEqual(mockUser.major);
+});
+
+test('Get teams', async () => {
+  const teamsList = teamsData.mockTeams;
+  const teamsReceived = await MembersDao.getAllTeams().then((teams) => teams.map((t) => t.name));
+  expect(teamsReceived.sort()).toEqual(expect.arrayContaining(teamsList.sort()));
 });

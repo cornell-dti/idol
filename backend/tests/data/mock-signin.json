@@ -1,0 +1,13 @@
+{
+    "allMockIds" : ["open-signin", "expired-signin"],
+    "openSignin": {
+        "users": [],
+        "expireAt": 1762007430000,
+        "id": "open-signin"
+    },
+    "expiredSignin": {
+        "users": [],
+        "expireAt": 1636731000000,
+        "id": "expired-signin"
+    }
+}
