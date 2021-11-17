@@ -1,0 +1,30 @@
+{
+    "users": {
+        "muser1": {
+            "graduation": "Never",
+            "subteams": ["mockteam1"],
+            "hometown": "GitHub",
+            "roleDescription": "Developer",
+            "firstName": "Mock",
+            "lastName": "User",
+            "email": "muser1@cornell.edu",
+            "major": "Computer Science",
+            "netid": "muser1",
+            "about": "Hello, I am a mock user",
+            "role": "dev"
+        },
+        "muser2": {
+            "graduation": "Never",
+            "subteams": ["mockteam1"],
+            "hometown": "GitHub",
+            "roleDescription": "Developer",
+            "firstName": "Mock",
+            "lastName": "User",
+            "email": "muser1@cornell.edu",
+            "major": "Computer Science",
+            "netid": "muser1",
+            "about": "Hello, I am a mock user",
+            "role": "dev"
+        }
+    }
+}
