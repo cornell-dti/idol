@@ -1,6 +1,6 @@
 import MembersDao from '../src/dao/MembersDao';
 import ShoutoutsDao from '../src/dao/ShoutoutsDao';
-import { approvedMemberCollection } from '../src/firebase';
+import { db } from '../src/firebase';
 import shoutoutData from './data/mock-shoutouts.json';
 
 const mockShoutout1 = {
@@ -17,16 +17,20 @@ beforeAll(async () => {
 });
 
 /* Cleanup database after running tests */
-/* TODO: clean shoutout database */
 afterAll(async () => {
   Promise.all(
     Object.keys(shoutoutData.users).map(async (netid) => {
       const mockUser = shoutoutData.users[netid];
       await MembersDao.deleteMember(mockUser.email);
-      await approvedMemberCollection.doc(mockUser.email).delete();
       return mockUser;
     })
   );
+  const mockShoutouts = db.collection('shoutouts').where('message', '==', 'Mock Shoutout');
+  await mockShoutouts.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      doc.ref.delete();
+    });
+  });
 });
 
 test('Send shoutout', async () => {
