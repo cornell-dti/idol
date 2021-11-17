@@ -1,5 +1,5 @@
 import MembersDao from './dao/MembersDao';
-import { PermissionsManager } from './permissions';
+import PermissionsManager from './permissions';
 import { BadRequestError, PermissionError, NotFoundError } from './errors';
 import { bucket } from './firebase';
 import { getNetIDFromEmail, computeMembersDiff } from './util';
@@ -70,7 +70,11 @@ export const deleteMember = async (email: string, user: IdolMember): Promise<voi
   if (!email || email === '') {
     throw new BadRequestError("Couldn't delete member with undefined email!");
   }
-  await MembersDao.deleteMember(email).then(() => deleteImage(email));
+  await MembersDao.deleteMember(email).then(() =>
+    deleteImage(email).catch(() => {
+      /* Ignore the error since the user might not have a profile picture. */
+    })
+  );
 };
 
 export const deleteImage = async (email: string): Promise<void> => {

@@ -23,7 +23,7 @@ import {
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './site-integration';
-import { allRoles, PermissionsManager } from './permissions';
+import PermissionsManager from './permissions';
 import { HandlerError } from './errors';
 import MembersDao from './dao/MembersDao';
 import {
@@ -109,9 +109,6 @@ const loginCheckedDelete = (
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
-
-// Roles
-router.get('/allRoles', (_, res) => res.status(200).json({ roles: allRoles }));
 
 // Members
 router.get('/allMembers', async (_, res) => {
