@@ -12,6 +12,9 @@ const UserProfileImage: React.FC = () => {
   const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
     ImagesAPI.getMemberImage().then((url: string) => {
       setProfilePhoto(url);
     });

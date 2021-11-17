@@ -66,6 +66,10 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
 
   return (
     <FirestoreDataContext.Provider value={{ adminEmails, members, approvedMembers }}>
+      {
+        /* Always render children under test environment */
+        process.env.NODE_ENV === 'test' && children
+      }
       {adminEmails == null || members == null || approvedMembers == null ? (
         <Loader active={true} size="massive" />
       ) : (
