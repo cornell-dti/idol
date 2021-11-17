@@ -25,6 +25,7 @@ class EditTeam extends React.Component<Record<string, unknown>, EditTeamState> {
       teamsLoaded: false,
       isCreatingTeam: false
     };
+    if (process.env.NODE_ENV === 'test') return;
     TeamsAPI.getAllTeams().then((teams) => {
       MembersAPI.getAllMembers().then((mems) => {
         this.setState({

@@ -2,10 +2,15 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import UserProfile from './UserProfile';
+import FirestoreDataProvider from '../../Common/FirestoreDataProvider';
 
 describe('<UserProfile />', () => {
   test('labels', () => {
-    render(<UserProfile />);
+    render(
+      <FirestoreDataProvider>
+        <UserProfile />
+      </FirestoreDataProvider>
+    );
     expect(screen.getByText('Graduation')).toBeInTheDocument();
     expect(screen.getByText('Major')).toBeInTheDocument();
     expect(screen.getByText('Double Major')).toBeInTheDocument();
