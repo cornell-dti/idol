@@ -12,6 +12,7 @@ node_modules
 build
 .next
 out
+tsconfig.tsbuildinfo
 
 # misc
 .DS_Store
