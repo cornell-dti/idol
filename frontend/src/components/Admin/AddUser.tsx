@@ -4,7 +4,7 @@ import ALL_ROLES from 'common-types/constants';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../API/MembersAPI';
 import ErrorModal from '../Modals/ErrorModal';
-import { getNetIDFromEmail, getRoleDescriptionFromRoleID, APICache, Emitters } from '../../utils';
+import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../utils';
 import { useMembers } from '../Common/FirestoreDataProvider';
 
 type CurrentSelectedMember = Omit<Member, 'netid' | 'roleDescription'>;
@@ -58,7 +58,6 @@ export default function AddUser(): JSX.Element {
   }
 
   async function setUser(member: Member): Promise<void> {
-    APICache.invalidate('getAllMembers');
     MembersAPI.setMember(member).then((val) => {
       if (val.error) {
         Emitters.userEditError.emit({
