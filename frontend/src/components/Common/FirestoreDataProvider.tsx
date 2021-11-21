@@ -3,6 +3,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from 'react
 import { onSnapshot } from 'firebase/firestore';
 import { adminsCollection, membersCollection, approvedMembersCollection } from '../../firebase';
 import { useUserEmail } from './UserProvider';
+import { Team } from '../../API/TeamsAPI';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -34,6 +35,35 @@ export const useHasAdminPermission = (): boolean => {
   const self = useSelf();
   const adminEmails = useAdminEmails();
   return self?.role === 'lead' || adminEmails.includes(userEmail);
+};
+
+export const useTeams = (): readonly Team[] => {
+  const allMembers = useMembers();
+  const teamsMap = new Map<string, Team>();
+
+  function getTeam(name: string) {
+    let team = teamsMap.get(name);
+    if (team != null) return team;
+    team = { uuid: name, name, leaders: [], members: [], formerMembers: [] };
+    teamsMap.set(name, team);
+    return team;
+  }
+
+  allMembers.forEach((member) => {
+    (member.formerSubteams || []).forEach((name) => {
+      getTeam(name).formerMembers.push(member);
+    });
+    (member.subteams || []).forEach((name) => {
+      const team = getTeam(name);
+      if (member.role === 'pm' || member.role === 'tpm') {
+        team.leaders.push(member);
+      } else {
+        team.members.push(member);
+      }
+    });
+  });
+
+  return Array.from(teamsMap.values());
 };
 
 type Props = { readonly children: ReactNode };

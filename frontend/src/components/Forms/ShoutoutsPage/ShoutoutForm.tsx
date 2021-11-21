@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Form, TextArea, Segment, Label, Button, Checkbox } from 'semantic-ui-react';
+import { Form, TextArea, Button, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider';
-import CustomSearch, { memberMatchChecker } from '../../Common/Search';
+import { MemberSearch } from '../../Common/Search';
 import { Emitters } from '../../../utils';
-import { Member } from '../../../API/MembersAPI';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 
@@ -65,21 +64,7 @@ const ShoutoutForm: React.FC = () => {
       </label>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        {!recipient ? (
-          <CustomSearch
-            source={members}
-            resultRenderer={(mem) => (
-              <Segment>
-                <h4>{`${mem.firstName} ${mem.lastName}`}</h4>
-                <Label>{mem.email}</Label>
-              </Segment>
-            )}
-            matchChecker={memberMatchChecker}
-            selectCallback={(mem: Member) => {
-              setRecipient(mem);
-            }}
-          ></CustomSearch>
-        ) : undefined}
+        {!recipient ? <MemberSearch onSelect={setRecipient} /> : undefined}
 
         {recipient ? (
           <div

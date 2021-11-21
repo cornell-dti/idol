@@ -14,30 +14,6 @@ export class MembersAPI {
     return APIWrapper.get(`${backendURL}/membersFromAllSemesters`).then((res) => res.data);
   }
 
-  public static getAllMembers(approved = false): Promise<Member[]> {
-    const funcName = approved ? 'getAllApprovedMembers' : 'getAllMembers';
-    if (APICache.has(funcName)) {
-      return Promise.resolve(APICache.retrieve(funcName));
-    }
-
-    const responseProm = APIWrapper.get(
-      `${backendURL}/${approved ? 'allApprovedMembers' : 'allMembers'}`
-    ).then((res) => res.data);
-    return responseProm.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't get all members!",
-          contentMsg: `Error was: ${val.error}`
-        });
-        return [];
-      }
-      let mems = val.members as Member[];
-      mems = mems.sort((a, b) => (a.firstName < b.firstName ? -1 : 1));
-      APICache.cache(funcName, mems);
-      return mems;
-    });
-  }
-
   public static getMember(email: string): Promise<Member> {
     const funcName = `member/${email}`;
     if (APICache.has(funcName)) {
