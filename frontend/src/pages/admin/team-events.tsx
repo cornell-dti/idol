@@ -1,3 +1,3 @@
-import EditTeamEvents from '../../components/Admin/EditTeamEvents';
+import TeamEvents from '../../components/Admin/TeamEvents';
 
-export default EditTeamEvents;
+export default TeamEvents;

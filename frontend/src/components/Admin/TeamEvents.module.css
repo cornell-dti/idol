@@ -1,14 +1,11 @@
-.form {
+.formWrapper {
   width: 60%;
   align-self: center;
   margin: auto;
   padding: 3rem 0 5rem 0;
 }
 
-.label {
-  font-weight: bold;
-}
-
-.required {
-  color: #db2828;
+.eventsWrapper {
+  width: 60%;
+  margin: auto;
 }

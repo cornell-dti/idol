@@ -1,0 +1,12 @@
+.label {
+  font-weight: bold;
+}
+
+.required {
+  color: #db2828;
+}
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: flex-end;
+}

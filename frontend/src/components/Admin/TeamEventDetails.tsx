@@ -1,21 +1,13 @@
+import React from 'react';
 import { Card, Message, Modal, Button } from 'semantic-ui-react';
 import Link from 'next/link';
-import { Member } from '../../API/MembersAPI';
+import EditTeamEvent from './EditTeamEvent';
 import styles from './TeamEventDetails.module.css';
-
-type TeamEvent = {
-  uuid: string;
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  membersPending: Member[];
-  membersApproved: Member[];
-};
+import { TeamEvent } from './TeamEvents';
 
 const mockTeamEvent: TeamEvent = {
   name: 'Info Session',
-  date: 'Sept 3',
+  date: '2021-11-17',
   numCredits: '1',
   hasHours: false,
   membersPending: [],
@@ -28,16 +20,20 @@ const TeamEventDetails: React.FC = () => (
   // const { query } = useRouter();
 
   <div className={styles.container}>
-    <div className={styles.arrowAndDelete}>
+    <div className={styles.arrowAndButtons}>
       <Link href="/admin/team-events">
         <span className={styles.arrow}>&#8592;</span>
       </Link>
-      <Modal
-        trigger={<Button color="red">Delete Event</Button>}
-        header="Delete Team Event"
-        content="Are you sure that you want to delete this event?"
-        actions={['Go Back', { key: 'deleteEvent', content: 'Delete Event', color: 'red' }]}
-      />
+
+      <div>
+        <EditTeamEvent teamEvent={mockTeamEvent}></EditTeamEvent>
+        <Modal
+          trigger={<Button color="red">Delete Event</Button>}
+          header="Delete Team Event"
+          content="Are you sure that you want to delete this event?"
+          actions={['Cancel', { key: 'deleteEvent', content: 'Delete Event', color: 'red' }]}
+        />
+      </div>
     </div>
 
     <h1 className={styles.eventName}>{mockTeamEvent.name}</h1>
