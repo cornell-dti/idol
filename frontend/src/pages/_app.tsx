@@ -2,13 +2,13 @@ import { ReactNode, useState, useEffect } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Sidebar, Menu, Icon, Loader } from 'semantic-ui-react';
-import SignIn from '../components/Common/SignIn.lazy';
-import UserProvider, { useUserContext } from '../components/Common/UserProvider';
-import FirestoreDataProvider from '../components/Common/FirestoreDataProvider';
+import { Sidebar, Menu, Icon } from 'semantic-ui-react';
+import UserProvider from '../components/Common/UserProvider';
+import FirestoreDataProvider, {
+  useHasAdminPermission
+} from '../components/Common/FirestoreDataProvider';
 import SiteHeader from '../components/Common/SiteHeader';
 import { Emitters } from '../utils';
-import EmailNotFoundErrorModal from '../components/Modals/EmailNotFoundErrorModal';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';
 
@@ -32,19 +32,19 @@ export default function AppTemplate(props: AppProps): JSX.Element {
         <title>Cornell DTI IDOL</title>
       </Head>
       <UserProvider>
-        <AppContent>
-          <FirestoreDataProvider>
+        <FirestoreDataProvider>
+          <AppContent>
             <Component {...pageProps} />
-          </FirestoreDataProvider>
-        </AppContent>
+          </AppContent>
+        </FirestoreDataProvider>
       </UserProvider>
     </>
   );
 }
 
 function AppContent({ children }: { readonly children: ReactNode }): JSX.Element {
-  const user = useUserContext();
   const [navVisible, setNavVisible] = useState(false);
+  const hasAdminPermission = useHasAdminPermission();
   useEffect(() => {
     const cb = (isOpen: boolean) => {
       setNavVisible(isOpen);
@@ -54,26 +54,6 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
       Emitters.navOpenEmitter.unsubscribe(cb);
     };
   });
-
-  if (user === 'INIT') {
-    return (
-      <div className="App">
-        <div style={{ height: '100vh', width: '100vw' }}>
-          <Loader active={true} size="massive">
-            Signing you in...
-          </Loader>
-        </div>
-      </div>
-    );
-  }
-  if (user == null) {
-    return (
-      <div className="App">
-        <EmailNotFoundErrorModal />
-        <SignIn />
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -111,7 +91,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
             }}
             className="appSidebar"
           >
-            <MenuContent />
+            <MenuContent hasAdminPermission={hasAdminPermission} />
           </Sidebar>
           <Sidebar.Pushable>
             <Sidebar.Pusher dimmed={navVisible}>
@@ -132,7 +112,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
   );
 }
 
-const MenuContent: React.FC = () => (
+const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermission }) => (
   <>
     <Link href="/">
       <Menu.Item>
@@ -140,12 +120,14 @@ const MenuContent: React.FC = () => (
         Home
       </Menu.Item>
     </Link>
-    <Link href="/admin">
-      <Menu.Item>
-        <Icon name="shield" />
-        Admin
-      </Menu.Item>
-    </Link>
+    {hasAdminPermission && (
+      <Link href="/admin">
+        <Menu.Item>
+          <Icon name="shield" />
+          Admin
+        </Menu.Item>
+      </Link>
+    )}
     <Link href="/forms">
       <Menu.Item>
         <Icon name="file alternate" />

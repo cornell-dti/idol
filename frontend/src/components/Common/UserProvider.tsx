@@ -1,6 +1,9 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { Loader } from 'semantic-ui-react';
 import { User } from 'firebase/auth';
 import { auth } from '../../firebase';
+import SignIn from './SignIn.lazy';
+import EmailNotFoundErrorModal from '../Modals/EmailNotFoundErrorModal';
 
 type UserContextType = { readonly email: string } | 'INIT' | null;
 
@@ -48,6 +51,26 @@ export default function UserProvider({ children }: { readonly children: ReactNod
           }),
     []
   );
+
+  if (user === 'INIT') {
+    return (
+      <div data-testid="UserProvider" className="App">
+        <div style={{ height: '100vh', width: '100vw' }}>
+          <Loader active={true} size="massive">
+            Signing you in...
+          </Loader>
+        </div>
+      </div>
+    );
+  }
+  if (user == null) {
+    return (
+      <div data-testid="UserProvider" className="App">
+        <EmailNotFoundErrorModal />
+        <SignIn />
+      </div>
+    );
+  }
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }

@@ -7,7 +7,30 @@
   padding-top: 5rem;
 }
 
-.cardContent {
+.userSelector {
+  width: 20vw !important;
+  height: calc(100vh - 80px - 7rem);
+}
+
+.userSelectorChoices {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: calc(100% - 2rem);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  padding-left: 1rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+.userEditor {
+  width: calc(80vw - 6rem) !important;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .cardHeader {

@@ -83,29 +83,10 @@ export default function AddUser(): JSX.Element {
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
       <div className={styles.content}>
         <Card.Group>
-          <Card
-            style={{
-              width: '20vw',
-              height: 'calc(100vh - 80px - 7rem)',
-              position: 'relative'
-            }}
-          >
+          <Card className={styles.userSelector}>
             <h2 className={styles.cardHeader}>Select a User</h2>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                height: 'calc(100% - 2rem)',
-                paddingTop: '1rem',
-                paddingBottom: '1rem',
-                width: '100%',
-                paddingLeft: '1rem',
-                overflowY: 'auto',
-                position: 'relative'
-              }}
-            >
-              <Card.Content className={styles.cardContent}>
+            <div className={styles.userSelectorChoices}>
+              <Card.Content>
                 {allMembers.map((mem, ind) => (
                   <Card
                     key={ind}
@@ -158,19 +139,8 @@ export default function AddUser(): JSX.Element {
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (
-            <Card
-              style={{
-                width: 'calc(80vw - 6rem)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                flexWrap: 'wrap',
-                overflowY: 'auto',
-                overflowX: 'auto',
-                position: 'relative'
-              }}
-            >
-              <Card.Content className={styles.cardContent}>
+            <Card className={styles.userEditor}>
+              <Card.Content>
                 <h2 className={styles.cardHeader}>
                   {`${state.currentSelectedMember.firstName} ${state.currentSelectedMember.lastName}`}
                 </h2>
