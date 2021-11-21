@@ -6,8 +6,63 @@ import { Member, MembersAPI } from '../../API/MembersAPI';
 import ErrorModal from '../Modals/ErrorModal';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../utils';
 import { useMembers } from '../Common/FirestoreDataProvider';
+import { TeamSearch } from '../Common/Search';
 
 type CurrentSelectedMember = Omit<Member, 'netid' | 'roleDescription'>;
+
+type MemberSubteamEditorProps = {
+  readonly title: string;
+  readonly subteamKey: 'subteams' | 'formerSubteams';
+  readonly member: CurrentSelectedMember;
+  readonly setMember: (updater: (m: CurrentSelectedMember) => CurrentSelectedMember) => void;
+};
+
+function MemberSubteamEditor({
+  title,
+  subteamKey,
+  member,
+  setMember
+}: MemberSubteamEditorProps): JSX.Element {
+  return (
+    <>
+      <h4>{title}</h4>
+      <TeamSearch
+        onSelect={(team) => {
+          setMember((m) => ({
+            ...m,
+            [subteamKey]: [...(m[subteamKey] ?? []), team]
+          }));
+        }}
+      />
+      <Card.Group style={{ marginTop: '1rem' }}>
+        {(member[subteamKey] ?? []).map((subteam, ind) => (
+          <Card key={ind}>
+            <Card.Content>
+              <Card.Header>{subteam}</Card.Header>
+            </Card.Content>
+            <Card.Content extra>
+              <div className="ui one buttons" style={{ width: '100%' }}>
+                <Button
+                  basic
+                  color="red"
+                  onClick={() => {
+                    setMember((m) => ({
+                      ...m,
+                      [subteamKey]: (m[subteamKey] ?? []).filter((t) => t !== subteam)
+                    }));
+                  }}
+                >
+                  Remove Subteam
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
+      </Card.Group>
+    </>
+  );
+}
+
 type State = {
   readonly currentSelectedMember?: CurrentSelectedMember;
   readonly isCreatingUser: boolean;
@@ -319,6 +374,20 @@ export default function AddUser(): JSX.Element {
                     />
                   </Form.Group>
                 </Form>
+              </Card.Content>
+              <Card.Content>
+                <MemberSubteamEditor
+                  title="Subteams"
+                  subteamKey="subteams"
+                  member={state.currentSelectedMember}
+                  setMember={setCurrentlySelectedMember}
+                />
+                <MemberSubteamEditor
+                  title="Former Subteams"
+                  subteamKey="formerSubteams"
+                  member={state.currentSelectedMember}
+                  setMember={setCurrentlySelectedMember}
+                />
               </Card.Content>
               <Card.Content extra>
                 <div className="ui one buttons" style={{ width: '100%' }}>

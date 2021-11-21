@@ -37,6 +37,15 @@ export const useHasAdminPermission = (): boolean => {
   return self?.role === 'lead' || adminEmails.includes(userEmail);
 };
 
+export const useTeamNames = (): readonly string[] => {
+  const teamsSet = new Set<string>();
+  useMembers().forEach((member) => {
+    member.formerSubteams?.forEach((name) => teamsSet.add(name));
+    member.subteams?.forEach((name) => teamsSet.add(name));
+  });
+  return Array.from(teamsSet);
+};
+
 export const useTeams = (): readonly Team[] => {
   const allMembers = useMembers();
   const teamsMap = new Map<string, Team>();

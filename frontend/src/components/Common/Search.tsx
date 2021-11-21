@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label, Segment, Search, SearchResultProps } from 'semantic-ui-react';
 import { Member } from '../../API/MembersAPI';
-import { useMembers } from './FirestoreDataProvider';
+import { useMembers, useTeamNames } from './FirestoreDataProvider';
 
 type SearchState<T> = {
   loading: boolean;
@@ -149,6 +149,22 @@ export function MemberSearch({ onSelect }: { onSelect: (member: Member) => void 
       )}
       matchChecker={memberMatchChecker}
       selectCallback={onSelect}
+    />
+  );
+}
+
+export function TeamSearch({ onSelect }: { onSelect: (team: string) => void }): JSX.Element {
+  const teams = useTeamNames().map((it) => ({ title: it }));
+  return (
+    <CustomSearch
+      source={teams}
+      resultRenderer={(team) => (
+        <Segment key={team.title}>
+          <h4>{team.title}</h4>
+        </Segment>
+      )}
+      matchChecker={(query, team) => team.title.toLowerCase().includes(query.toLowerCase())}
+      selectCallback={({ title }) => onSelect(title)}
     />
   );
 }
