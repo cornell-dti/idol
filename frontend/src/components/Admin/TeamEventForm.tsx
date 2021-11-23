@@ -1,46 +1,23 @@
 import React, { useState } from 'react';
-import { Form, Radio, Card } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Form, Radio, Button } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
-import { Member } from '../../API/MembersAPI';
-import styles from './EditTeamEvents.module.css';
+import styles from './TeamEventForm.module.css';
+import { TeamEvent } from './TeamEvents';
 
-type TeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  membersPending: Member[];
-  membersApproved: Member[];
-  uuid: string;
+type Props = {
+  formType: string;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  teamEvent?: TeamEvent;
+  editTeamEvent?: (teamEvent: TeamEvent) => void;
 };
 
-const EditTeamEvents: React.FC = () => {
-  const [teamEventName, setTeamEventName] = useState('');
-  const [teamEventDate, setTeamEventDate] = useState('');
-  const [teamEventCreditNum, setTeamEventCreditNum] = useState('');
-  const [teamEventHasHours, setTeamEventHasHours] = useState(false);
+const TeamEventForm = (props: Props): JSX.Element => {
+  const { formType, setOpen, teamEvent, editTeamEvent } = props;
 
-  const teamEvents: TeamEvent[] = [
-    {
-      name: 'Coffee Chat',
-      date: 'Sept 3',
-      numCredits: '0.5',
-      hasHours: false,
-      membersPending: [],
-      membersApproved: [],
-      uuid: '1'
-    },
-    {
-      uuid: '2',
-      name: 'Club Fest',
-      date: 'Sept 5',
-      numCredits: '0.5',
-      hasHours: true,
-      membersPending: [],
-      membersApproved: []
-    }
-  ];
+  const [teamEventName, setTeamEventName] = useState(teamEvent?.name || '');
+  const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
+  const [teamEventCreditNum, setTeamEventCreditNum] = useState(teamEvent?.numCredits || '');
+  const [teamEventHasHours, setTeamEventHasHours] = useState(teamEvent?.hasHours || false);
 
   const createTeamEvent = (teamEvent: TeamEvent) => {
     // send new event to backend
@@ -67,8 +44,20 @@ const EditTeamEvents: React.FC = () => {
         headerMsg: 'No Team Event Credit Amount',
         contentMsg: 'Please enter how many credits the event is worth!'
       });
+    } else if (teamEvent && editTeamEvent) {
+      const editedTeamEvent: TeamEvent = {
+        ...teamEvent,
+        name: teamEventName,
+        date: teamEventDate,
+        numCredits: teamEventCreditNum,
+        hasHours: teamEventHasHours
+      };
+      editTeamEvent(editedTeamEvent);
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Team Event Updated!',
+        contentMsg: 'The team event was successfully updated!'
+      });
     } else {
-      // fix
       const newTeamEvent: TeamEvent = {
         uuid: '',
         name: teamEventName,
@@ -88,8 +77,7 @@ const EditTeamEvents: React.FC = () => {
 
   return (
     <div>
-      <Form className={styles.form}>
-        <h1>Create a Team Event</h1>
+      <Form>
         <Form.Input
           value={teamEventName}
           onChange={(event) => setTeamEventName(event.target.value)}
@@ -149,28 +137,30 @@ const EditTeamEvents: React.FC = () => {
           />
         </Form.Field>
 
-        <Form.Button floated="right" onClick={submitTeamEvent}>
-          Create Event
-        </Form.Button>
-      </Form>
+        {formType === 'create' && (
+          <Form.Button floated="right" onClick={submitTeamEvent}>
+            Create Event
+          </Form.Button>
+        )}
 
-      <div style={{ width: '60%', margin: 'auto' }}>
-        <h2>View All Team Events</h2>
-        <Card.Group>
-          {teamEvents.map((teamEvent, i) => (
-            <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
-              <Card>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                </Card.Content>
-              </Card>
-            </Link>
-          ))}
-        </Card.Group>
-      </div>
+        {formType === 'edit' && setOpen && (
+          <div className={styles.buttonsWrapper}>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button
+              content="Save"
+              labelPosition="right"
+              icon="checkmark"
+              onClick={() => {
+                setOpen(false);
+                submitTeamEvent();
+              }}
+              positive
+            />
+          </div>
+        )}
+      </Form>
     </div>
   );
 };
 
-export default EditTeamEvents;
+export default TeamEventForm;
