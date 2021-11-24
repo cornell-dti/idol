@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Segment, Label, Button } from 'semantic-ui-react';
-import { Member, MembersAPI } from '../../../API/MembersAPI';
-import { useUserEmail } from '../../Common/UserProvider';
+import { Member } from '../../../API/MembersAPI';
 import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
+import { useSelf } from '../../Common/FirestoreDataProvider';
 
 type TeamEvent = {
   name: string;
@@ -22,30 +22,13 @@ type TeamEventAttendance = {
 };
 
 const TeamEventCreditForm: React.FC = () => {
-  const userEmail = useUserEmail();
-  const getUser = async (email: string): Promise<Member> => MembersAPI.getMember(email);
+  // When the user is logged in, `useSelf` always return non-null data.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const userInfo = useSelf()!;
 
-  const [name, setName] = useState('');
-  const [roleDescription, setRoleDescription] = useState('');
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
-
-  useEffect(() => {
-    if (userEmail) {
-      getUser(userEmail)
-        .then((mem) => {
-          setName(`${mem.firstName} ${mem.lastName}`);
-          setRoleDescription(mem.roleDescription);
-        })
-        .catch((error) => {
-          Emitters.generalError.emit({
-            headerMsg: "Couldn't get member!",
-            contentMsg: `Error was: ${error}`
-          });
-        });
-    }
-  }, [userEmail]);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
@@ -76,7 +59,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
-        memberEmail: userEmail,
+        memberEmail: userInfo.email,
         teamEventName: teamEvent.name,
         hoursAttended: hours,
         image
@@ -125,12 +108,14 @@ const TeamEventCreditForm: React.FC = () => {
         </p>
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>Name:</label>
-          <p>{name}</p>
+          <p>
+            {userInfo.firstName} {userInfo.lastName}
+          </p>
         </div>
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>Role:</label>
-          <p>{roleDescription}</p>
+          <p>{userInfo.roleDescription}</p>
         </div>
 
         <div style={{ margin: '2rem 0' }}>

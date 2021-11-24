@@ -1,58 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider';
+import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
 
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
+  const userInfoBeforeEdit = useSelf();
+  const userRole = userInfoBeforeEdit?.role ?? ('' as Role);
+  const isNotLead = userRole !== 'lead';
 
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [pronouns, setPronouns] = useState('');
-  const [role, setRole] = useState('' as Role);
-  const [graduation, setGraduation] = useState('');
-  const [major, setMajor] = useState('');
-  const [doubleMajor, setDoubleMajor] = useState('');
-  const [minor, setMinor] = useState('');
-  const [hometown, setHometown] = useState('');
-  const [about, setAbout] = useState('');
-  const [website, setWebsite] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [github, setGithub] = useState('');
-  const [subteams, setSubteams] = useState<string[]>([]);
-  const [formerSubteams, setFormerSubteams] = useState<readonly string[] | null>(null);
-
-  useEffect(() => {
-    if (userEmail) {
-      MembersAPI.getMember(userEmail)
-        .then((mem) => {
-          setEmail(mem.email);
-          setFirstName(mem.firstName);
-          setLastName(mem.lastName);
-          setPronouns(mem.pronouns);
-          setRole(mem.role);
-          setGraduation(mem.graduation);
-          setMajor(mem.major);
-          setDoubleMajor(mem.doubleMajor || '');
-          setMinor(mem.minor || '');
-          setHometown(mem.hometown);
-          setAbout(mem.about);
-          setWebsite(mem.website || '');
-          setLinkedin(mem.linkedin || '');
-          setGithub(mem.github || '');
-          setSubteams([...mem.subteams]);
-          setFormerSubteams(mem.formerSubteams || null);
-        })
-        .catch((error) => {
-          Emitters.generalError.emit({
-            headerMsg: "Couldn't get member!",
-            contentMsg: `Error was: ${error}`
-          });
-        });
-    }
-  }, [userEmail]);
+  const [firstName, setFirstName] = useState(userInfoBeforeEdit?.firstName ?? '');
+  const [lastName, setLastName] = useState(userInfoBeforeEdit?.lastName ?? '');
+  const [pronouns, setPronouns] = useState(userInfoBeforeEdit?.pronouns ?? '');
+  const [graduation, setGraduation] = useState(userInfoBeforeEdit?.graduation ?? '');
+  const [major, setMajor] = useState(userInfoBeforeEdit?.major ?? '');
+  const [doubleMajor, setDoubleMajor] = useState(userInfoBeforeEdit?.doubleMajor ?? '');
+  const [minor, setMinor] = useState(userInfoBeforeEdit?.minor ?? '');
+  const [hometown, setHometown] = useState(userInfoBeforeEdit?.hometown ?? '');
+  const [about, setAbout] = useState(userInfoBeforeEdit?.about ?? '');
+  const [website, setWebsite] = useState(userInfoBeforeEdit?.website ?? '');
+  const [linkedin, setLinkedin] = useState(userInfoBeforeEdit?.linkedin ?? '');
+  const [github, setGithub] = useState(userInfoBeforeEdit?.github ?? '');
 
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
@@ -78,13 +48,13 @@ const UserProfile: React.FC = () => {
 
     if (isValid) {
       const updatedUser: Member = {
-        netid: getNetIDFromEmail(email),
-        email,
+        netid: getNetIDFromEmail(userEmail),
+        email: userEmail,
         firstName,
         lastName,
         pronouns,
-        role,
-        roleDescription: getRoleDescriptionFromRoleID(role),
+        role: userRole,
+        roleDescription: getRoleDescriptionFromRoleID(userRole),
         graduation,
         major,
         doubleMajor: isFilledOut(doubleMajor) ? doubleMajor : null,
@@ -94,8 +64,8 @@ const UserProfile: React.FC = () => {
         website: isFilledOut(website) ? website : null,
         linkedin: isFilledOut(linkedin) ? linkedin : null,
         github: isFilledOut(github) ? github : null,
-        subteams,
-        formerSubteams
+        subteams: userInfoBeforeEdit?.subteams ?? [],
+        formerSubteams: userInfoBeforeEdit?.formerSubteams ?? []
       };
       updateUser(updatedUser);
     }
@@ -118,22 +88,18 @@ const UserProfile: React.FC = () => {
           width={6}
           label="First name"
           value={firstName}
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
+          onChange={(event) => setFirstName(event.target.value)}
           required
-          disabled={role !== 'lead'}
+          disabled={isNotLead}
         />
         <Form.Input
           fluid
           width={6}
           label="Last name"
           value={lastName}
-          onChange={(event) => {
-            setLastName(event.target.value);
-          }}
+          onChange={(event) => setLastName(event.target.value)}
           required
-          disabled={role !== 'lead'}
+          disabled={isNotLead}
         />
 
         <Form.Input
