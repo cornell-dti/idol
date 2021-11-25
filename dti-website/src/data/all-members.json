@@ -7,7 +7,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": []
@@ -734,7 +736,9 @@
     "major": "",
     "hometown": "",
     "about": "",
-    "subteams": [],
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "formerSubteams": []
@@ -1691,8 +1695,8 @@
     "subteams": [
       "cuapts"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "formerSubteams": [
       "clubhub"
     ],
