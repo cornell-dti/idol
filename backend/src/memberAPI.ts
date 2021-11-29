@@ -1,6 +1,6 @@
 import MembersDao from './dao/MembersDao';
 import PermissionsManager from './permissions';
-import { BadRequestError, PermissionError, NotFoundError } from './errors';
+import { BadRequestError, PermissionError } from './errors';
 import { bucket } from './firebase';
 import { getNetIDFromEmail, computeMembersDiff } from './util';
 
@@ -44,20 +44,6 @@ export const updateMember = async (body: IdolMember, user: IdolMember): Promise<
     );
   }
   return MembersDao.updateMember(body.email, body);
-};
-
-export const getMember = async (memberEmail: string, user: IdolMember): Promise<IdolMember> => {
-  const canEdit: boolean = await PermissionsManager.canEditMembers(user);
-  if (!canEdit && memberEmail !== user.email) {
-    throw new PermissionError(
-      `User with email: ${user.email} does not have permission to get members!`
-    );
-  }
-  const member = await MembersDao.getCurrentOrPastMemberByEmail(memberEmail);
-  if (member == null) {
-    throw new NotFoundError(`Member with email: ${memberEmail} does not exist`);
-  }
-  return member;
 };
 
 export const deleteMember = async (email: string, user: IdolMember): Promise<void> => {

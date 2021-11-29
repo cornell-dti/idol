@@ -7,7 +7,6 @@ import { app as adminApp } from './firebase';
 import {
   allMembers,
   allApprovedMembers,
-  getMember,
   setMember,
   deleteMember,
   updateMember,
@@ -122,9 +121,6 @@ router.get('/allApprovedMembers', async (_, res) => {
 router.get('/membersFromAllSemesters', async (_, res) => {
   res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
-loginCheckedGet('/getMember/:email', async (req, user) => ({
-  member: await getMember(req.params.email, user)
-}));
 loginCheckedPost('/setMember', async (req, user) => ({
   member: await setMember(req.body, user)
 }));
