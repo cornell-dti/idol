@@ -24,7 +24,7 @@ const testTeamEvent = {
 afterAll(async () => deleteTeamEvent(testTeamEvent, adminUser));
 
 test('created team event with permission', async () => {
-  return createTeamEvent(testTeamEvent, adminUser).then((teamEvent) => {
+  await createTeamEvent(testTeamEvent, adminUser).then((teamEvent) => {
     expect(teamEvent.name).toEqual('test');
   });
 });
