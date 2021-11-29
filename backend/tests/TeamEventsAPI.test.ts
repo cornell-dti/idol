@@ -13,7 +13,7 @@ const nonAdminUser = { email: 'aa2235@cornell.edu' } as IdolMember;
 
 const testTeamEvent = {
   name: 'test',
-  date: '11/25/2020',
+  date: '11/26/2020',
   numCredits: '1',
   hasHours: false,
   membersPending: [jaggerData],
@@ -21,7 +21,7 @@ const testTeamEvent = {
   uuid: 'test123'
 };
 
-//afterAll(async () => deleteTeamEvent(testTeamEvent, adminUser));
+afterAll(async () => deleteTeamEvent(testTeamEvent, adminUser));
 
 test('created team event with permission', async () => {
   return createTeamEvent(testTeamEvent, adminUser).then((teamEvent) => {
