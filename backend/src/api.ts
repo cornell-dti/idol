@@ -39,6 +39,13 @@ import {
   getAllTeamEvents,
   updateTeamEvent
 } from './team-eventsAPI';
+import {
+  allProofImagesForMember,
+  deleteProofImage,
+  deleteProofImagesForMember,
+  getProofImage,
+  setProofImage
+} from './team-events-imageAPI';
 
 // Constants and configurations
 const app = express();
@@ -205,6 +212,23 @@ loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: getAllTeamEve
 loginCheckedPost('/updateTeamEvent', async (req, user) => updateTeamEvent(req.body, user));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
   team: await deleteTeamEvent(req.body, user)
+}));
+
+// Team Events Proof Images
+loginCheckedGet('/getEventProofImageSignedURL', async (req, user) => ({
+  url: await setProofImage(user, req.body.name)
+}));
+loginCheckedGet('/getEventProofImage', async (req, user) => ({
+  url: await getProofImage(user, req.body.name)
+}));
+loginCheckedGet('/getAllEventProofsForMember', async (_, user) => ({
+  url: await allProofImagesForMember(user)
+}));
+loginCheckedPost('/deleteEventProofImage', async (req, user) => ({
+  image: await deleteProofImage(user, req.body.name)
+}));
+loginCheckedPost('/deleteAllEventProofsForMember', async (_, user) => ({
+  image: await deleteProofImagesForMember(user)
 }));
 
 app.use('/.netlify/functions/api', router);
