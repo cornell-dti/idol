@@ -24,6 +24,8 @@ const UserProfile: React.FC = () => {
   const [linkedin, setLinkedin] = useState(userInfoBeforeEdit?.linkedin ?? '');
   const [github, setGithub] = useState(userInfoBeforeEdit?.github ?? '');
 
+  const initialPronouns = userInfoBeforeEdit?.pronouns;
+
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
       if (val.error) {
@@ -68,6 +70,11 @@ const UserProfile: React.FC = () => {
         formerSubteams: userInfoBeforeEdit?.formerSubteams ?? []
       };
       updateUser(updatedUser);
+    } else {
+      Emitters.generalError.emit({
+        headerMsg: 'Complete Required Fields',
+        contentMsg: 'Please fill out all required fields!'
+      });
     }
   };
 
@@ -80,7 +87,7 @@ const UserProfile: React.FC = () => {
       }}
     >
       <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
-        {firstName} {lastName} {pronouns}
+        {firstName} {lastName} <span style={{ color: '#808080' }}>({initialPronouns})</span>
       </h2>
       <Form.Group>
         <Form.Input
@@ -108,6 +115,7 @@ const UserProfile: React.FC = () => {
           label="Pronouns"
           value={pronouns}
           onChange={(e) => setPronouns(e.target.value)}
+          required
         />
       </Form.Group>
 
