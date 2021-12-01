@@ -81,3 +81,8 @@ interface TeamEvent {
   readonly attendees: IdolMember[];
   readonly uuid: string;
 }
+
+interface EventProofImage {
+  readonly url: string;
+  readonly fileName: string;
+}
