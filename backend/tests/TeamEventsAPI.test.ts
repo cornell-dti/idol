@@ -32,6 +32,7 @@ test('created team event with permission', async () => {
 test('does not create team event because user does not have permission', async () => {
   try {
     await createTeamEvent(testTeamEvent, nonAdminUser);
+    throw new Error();
   } catch (error) {
     expect(error).toEqual(new PermissionError('does not have permissions to create team event'));
   }
@@ -69,6 +70,7 @@ test('does not update team event because user does not have permission', async (
         expect(event).toEqual(updatedTestTeamEvent);
       });
     });
+    throw new Error();
   } catch (error) {
     expect(error).toEqual(new PermissionError("You don't have permission to update a team event!"));
   }
@@ -79,6 +81,7 @@ test('does not get all team events because user does not have permission', async
     await getAllTeamEvents(nonAdminUser).then((events) => {
       expect(events.pop.name).toEqual('test');
     });
+    throw new Error();
   } catch (error) {
     expect(error).toEqual(new PermissionError('does not have permissions'));
   }
