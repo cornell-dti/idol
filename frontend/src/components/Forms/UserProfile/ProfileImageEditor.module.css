@@ -30,6 +30,10 @@
   margin-left: 1rem;
 }
 
+.inputWithLabel {
+  margin-left: 1rem;
+}
+
 @media only screen and (max-width: 800px) {
   .avatarAndEditorContainer {
     flex-direction: column;

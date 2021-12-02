@@ -3,6 +3,11 @@
   padding-top: 5%;
 }
 
+.noShoutoutsContainer {
+  width: 90% !important;
+  white-space: pre-wrap;
+}
+
 .Wrapper {
   margin-left: 2rem;
   margin-right: 2rem;

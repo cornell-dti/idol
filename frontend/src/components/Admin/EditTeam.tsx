@@ -32,7 +32,7 @@ function TeamMemberEditor({
           }));
         }}
       />
-      <Card.Group style={{ marginTop: '1rem' }}>
+      <Card.Group className={styles.teamMemberEditorCardGroup}>
         {currentSelectedTeam[membersKey].map((member, ind) => (
           <Card key={ind}>
             <Card.Content>
@@ -40,7 +40,7 @@ function TeamMemberEditor({
               <Card.Description>{member.email}</Card.Description>
             </Card.Content>
             <Card.Content extra>
-              <div className="ui one buttons" style={{ width: '100%' }}>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
                   color="red"
@@ -132,17 +132,14 @@ export default function EditTeam(): JSX.Element {
                   <Card
                     key={ind}
                     style={{
-                      marginBottom: '0.25rem',
-                      marginTop: '0.5rem',
-                      width: 'calc(100% - 1rem)',
                       background:
                         team.name === currentSelectedTeam?.name ? 'var(--offWhite)' : undefined
                     }}
                     onClick={() => setCurrentSelectedTeamAllowUndefined(team)}
                   >
                     <Card.Content>
-                      <Card.Header style={{ margin: 0 }}>{team.name}</Card.Header>
-                      <p style={{ margin: 0, color: 'GrayText' }}>
+                      <Card.Header>{team.name}</Card.Header>
+                      <p className={styles.memberCount}>
                         {`${team.leaders.length + team.members.length} members`}
                       </p>
                     </Card.Content>
@@ -151,18 +148,18 @@ export default function EditTeam(): JSX.Element {
               </Card.Content>
             </div>
             <Card.Content extra>
-              <div className="ui one buttons" style={{ width: '100%' }}>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
                   color="red"
-                  style={{ width: '50%' }}
+                  className={styles.halfWidth}
                   onClick={() => {
                     if (currentSelectedTeam) deleteTeam(currentSelectedTeam);
                   }}
                 >
                   Delete Team
                 </Button>
-                <Button basic color="blue" style={{ width: '50%' }} onClick={createNewTeam}>
+                <Button basic color="blue" className={styles.halfWidth} onClick={createNewTeam}>
                   Create Team
                 </Button>
               </div>
@@ -206,7 +203,7 @@ export default function EditTeam(): JSX.Element {
                 />
               </Card.Content>
               <Card.Content extra>
-                <div className="ui one buttons" style={{ width: '100%' }}>
+                <div className={`ui one buttons ${styles.fullWidth}`}>
                   <Button basic color="green" onClick={() => setTeam(currentSelectedTeam)}>
                     Save Team
                   </Button>

@@ -38,15 +38,7 @@ const ShoutoutsPage: React.FC = () => {
 
   return (
     <div>
-      <div
-        style={{
-          width: '50%',
-          alignSelf: 'center',
-          margin: 'auto',
-          paddingTop: '10vh',
-          height: 'calc(100vh - 80px - 25vh)'
-        }}
-      >
+      <div className={styles.shoutoutFormContainer}>
         <ShoutoutForm />
       </div>
 

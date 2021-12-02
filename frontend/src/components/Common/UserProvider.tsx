@@ -5,6 +5,8 @@ import { auth } from '../../firebase';
 import SignIn from './SignIn.lazy';
 import EmailNotFoundErrorModal from '../Modals/EmailNotFoundErrorModal';
 
+import styles from './UserProvider.module.css';
+
 type UserContextType = { readonly email: string } | 'INIT' | null;
 
 const UserContext = createContext<UserContextType>(null);
@@ -55,7 +57,7 @@ export default function UserProvider({ children }: { readonly children: ReactNod
   if (user === 'INIT') {
     return (
       <div data-testid="UserProvider" className="App">
-        <div style={{ height: '100vh', width: '100vw' }}>
+        <div className={styles.LoaderContainer}>
           <Loader active={true} size="massive">
             Signing you in...
           </Loader>

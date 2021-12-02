@@ -1,6 +1,3 @@
-.AddUser {
-}
-
 .content {
   margin-left: 2rem;
   margin-right: 2rem;
@@ -33,7 +30,26 @@
   overflow-x: auto;
 }
 
+.subteamEditorCardGroup {
+  margin-top: 1em !important;
+}
+
 .cardHeader {
   position: fixed;
   top: 2rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.halfWidth {
+  width: 50%;
+}
+
+.userEmail {
+  margin: 0;
+  color: gray;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

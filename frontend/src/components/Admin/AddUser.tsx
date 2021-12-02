@@ -34,14 +34,14 @@ function MemberSubteamEditor({
           }));
         }}
       />
-      <Card.Group style={{ marginTop: '1rem' }}>
+      <Card.Group className={styles.subteamEditorCardGroup}>
         {(member[subteamKey] ?? []).map((subteam, ind) => (
           <Card key={ind}>
             <Card.Content>
               <Card.Header>{subteam}</Card.Header>
             </Card.Content>
             <Card.Content extra>
-              <div className="ui one buttons" style={{ width: '100%' }}>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
                   color="red"
@@ -145,9 +145,6 @@ export default function AddUser(): JSX.Element {
                   <Card
                     key={ind}
                     style={{
-                      marginBottom: '0.25rem',
-                      marginTop: '0.5rem',
-                      width: 'calc(100% - 1rem)',
                       background:
                         mem.email === state.currentSelectedMember?.email
                           ? 'var(--offWhite)'
@@ -156,37 +153,31 @@ export default function AddUser(): JSX.Element {
                     onClick={() => setState({ currentSelectedMember: mem, isCreatingUser: false })}
                   >
                     <Card.Content>
-                      <Card.Header style={{ margin: 0 }}>
-                        {`${mem.firstName} ${mem.lastName}`}
-                      </Card.Header>
-                      <p
-                        style={{
-                          margin: 0,
-                          color: 'GrayText',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        {mem.email}
-                      </p>
+                      <Card.Header>{`${mem.firstName} ${mem.lastName}`}</Card.Header>
+                      <p className={styles.userEmail}>{mem.email}</p>
                     </Card.Content>
                   </Card>
                 ))}
               </Card.Content>
             </div>
             <Card.Content extra>
-              <div className="ui one buttons" style={{ width: '100%' }}>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
                   color="red"
-                  style={{ width: '50%' }}
+                  className={styles.halfWidth}
                   onClick={() => {
                     if (state.currentSelectedMember) deleteUser(state.currentSelectedMember.email);
                   }}
                 >
                   Delete User
                 </Button>
-                <Button basic color="blue" style={{ width: '50%' }} onClick={() => createNewUser()}>
+                <Button
+                  basic
+                  color="blue"
+                  className={styles.halfWidth}
+                  onClick={() => createNewUser()}
+                >
                   Create User
                 </Button>
               </div>
@@ -390,7 +381,7 @@ export default function AddUser(): JSX.Element {
                 />
               </Card.Content>
               <Card.Content extra>
-                <div className="ui one buttons" style={{ width: '100%' }}>
+                <div className={`ui one buttons ${styles.fullWidth}`}>
                   <Button
                     basic
                     color="green"
