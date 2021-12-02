@@ -39,13 +39,6 @@ import {
   getAllTeamEvents,
   updateTeamEvent
 } from './team-eventsAPI';
-import {
-  allProofImagesForMember,
-  deleteProofImage,
-  deleteProofImagesForMember,
-  getProofImage,
-  setProofImage
-} from './team-events-imageAPI';
 
 // Constants and configurations
 const app = express();
