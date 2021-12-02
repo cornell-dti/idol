@@ -3,7 +3,7 @@
   align-self: center;
   margin: auto;
   padding-top: 10vh;
-  height: calc(100vh - 80px - 25vh)
+  height: calc(100vh - 80px - 25vh);
 }
 
 .shoutoutTitle {
