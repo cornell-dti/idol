@@ -60,23 +60,9 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
       <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
-      <div
-        className="App"
-        style={{
-          minHeight: '100vh',
-          maxHeight: '100vh',
-          minWidth: '100vw',
-          position: 'relative'
-        }}
-      >
+      <div className="App">
         <SiteHeader />
-        <div
-          style={{
-            position: 'absolute',
-            top: '80px',
-            height: 'calc(100vh - 80px)'
-          }}
-        >
+        <div className="appSidebarContainer">
           <Sidebar
             as={Menu}
             animation="overlay"
@@ -95,15 +81,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
           </Sidebar>
           <Sidebar.Pushable>
             <Sidebar.Pusher dimmed={navVisible}>
-              <div
-                style={{
-                  width: '100vw',
-                  margin: 0,
-                  padding: 0
-                }}
-              >
-                {children}
-              </div>
+              <div className="appSidebarDimmer">{children}</div>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </div>

@@ -13,7 +13,7 @@ const AdminShoutouts: React.FC = () => {
   return (
     <div className={styles.shoutoutsContainer}>
       {shoutouts.length === 0 ? (
-        <Card style={{ width: '100%', whiteSpace: 'pre-wrap' }}>
+        <Card className={styles.noShoutoutsContainer}>
           <Card.Content>No shoutouts.</Card.Content>
         </Card>
       ) : (

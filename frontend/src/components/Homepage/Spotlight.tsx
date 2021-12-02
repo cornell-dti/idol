@@ -5,7 +5,7 @@ import AramHeadshot from '../../static/images/aram-headshot.jpg';
 
 const Spotlight: React.FC = () => (
   <div className={styles.Spotlight} data-testid="Spotlight">
-    <h2 style={{ textAlign: 'center', fontFamily: 'var(--mainFontFamily)' }}>
+    <h2 className={styles.Header}>
       This Week's Spotlight
       <span role="img" aria-label="Light emoji">
         💡

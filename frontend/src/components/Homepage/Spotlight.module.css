@@ -2,6 +2,11 @@
   width: fit-content;
 }
 
+.Header {
+  text-align: center;
+  font-family: var(--mainFontFamily);
+}
+
 .headshot {
   margin-bottom: 1rem;
   border-radius: 4px 4px 4px 4px;

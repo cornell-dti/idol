@@ -88,7 +88,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
               type="file"
               accept="image/png, image/jpeg"
               onChange={this.handleNewImage}
-              style={{ marginLeft: '1rem' }}
+              className={styles.inputWithLabel}
             />
           </div>
 
@@ -104,7 +104,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
               max="2"
               step="0.01"
               defaultValue="1"
-              style={{ marginLeft: '1rem' }}
+              className={styles.inputWithLabel}
             />
           </div>
 
@@ -112,13 +112,13 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
             <label className={styles.label}>Rotate:</label>
             <Button
               onClick={this.handleRotateLeft}
-              style={{ marginLeft: '1rem' }}
+              className={styles.inputWithLabel}
               content="Left"
               size="mini"
             ></Button>
             <Button
               onClick={this.handleRotateRight}
-              style={{ marginLeft: '1rem' }}
+              className={styles.inputWithLabel}
               content="Right"
               size="mini"
             ></Button>
@@ -135,7 +135,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
               icon="checkmark"
               onClick={this.props.cropAndSubmitImage}
               positive
-              style={{ marginLeft: '1rem' }}
+              className={styles.inputWithLabel}
             />
           </div>
         </div>
