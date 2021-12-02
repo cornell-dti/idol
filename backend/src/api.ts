@@ -214,23 +214,6 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
   team: await deleteTeamEvent(req.body, user)
 }));
 
-// Team Events Proof Images
-loginCheckedGet('/getEventProofImageSignedURL', async (req, user) => ({
-  url: await setProofImage(user, req.body.name)
-}));
-loginCheckedGet('/getEventProofImage', async (req, user) => ({
-  url: await getProofImage(user, req.body.name)
-}));
-loginCheckedGet('/getAllEventProofsForMember', async (_, user) => ({
-  url: await allProofImagesForMember(user)
-}));
-loginCheckedPost('/deleteEventProofImage', async (req, user) => ({
-  image: await deleteProofImage(user, req.body.name)
-}));
-loginCheckedPost('/deleteAllEventProofsForMember', async (_, user) => ({
-  image: await deleteProofImagesForMember(user)
-}));
-
 app.use('/.netlify/functions/api', router);
 
 // Startup local server if not production (prod is serverless)
