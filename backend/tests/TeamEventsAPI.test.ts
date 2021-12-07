@@ -9,7 +9,7 @@ import {
 import jaggerData from './data/jagger-profile.json';
 
 const adminUser = { email: 'hl738@cornell.edu' } as IdolMember;
-const nonAdminUser = { email: 'aa2235@cornell.edu' } as IdolMember;
+const nonAdminUser = { email: 'pk457@cornell.edu' } as IdolMember;
 
 const testTeamEvent = {
   name: 'test',
@@ -30,12 +30,7 @@ test('created team event with permission', async () => {
 });
 
 test('does not create team event because user does not have permission', async () => {
-  try {
-    await createTeamEvent(testTeamEvent, nonAdminUser);
-    throw new Error();
-  } catch (error) {
-    expect(error).toEqual(new PermissionError('does not have permissions to create team event'));
-  }
+  expect(createTeamEvent(testTeamEvent, nonAdminUser)).rejects.toThrow(PermissionError);
 });
 
 const updatedTestTeamEvent = {
@@ -43,6 +38,30 @@ const updatedTestTeamEvent = {
   membersPending: [],
   membersApproved: [jaggerData]
 };
+
+test('does not get all team events because user does not have permission', async () => {
+  expect(
+    getAllTeamEvents(nonAdminUser).then((events) => {
+      expect(events.pop.name).toEqual('test');
+    })
+  ).rejects.toThrow(PermissionError);
+});
+
+test('does not update team event because user does not have permission', async () => {
+  const eventRef = teamEventsCollection.doc('test123').get();
+  try {
+    await eventRef.then(async (event) => {
+      if (!event.exists) {
+        await createTeamEvent(testTeamEvent, nonAdminUser);
+      }
+      return updateTeamEvent(updatedTestTeamEvent, nonAdminUser).then((event) => {
+        expect(event).toEqual(updatedTestTeamEvent);
+      });
+    });
+  } catch (error) {
+    expect(error).rejects.toThrow(PermissionError);
+  }
+});
 
 test('update existing team event with permission', async () => {
   const eventRef = teamEventsCollection.doc('test123').get();
@@ -57,32 +76,4 @@ test('update existing team event with permission', async () => {
       });
     });
   });
-});
-
-test('does not update team event because user does not have permission', async () => {
-  const eventRef = teamEventsCollection.doc('test123').get();
-  try {
-    await eventRef.then(async (event) => {
-      if (!event.exists) {
-        await createTeamEvent(testTeamEvent, nonAdminUser);
-      }
-      return updateTeamEvent(updatedTestTeamEvent, nonAdminUser).then((event) => {
-        expect(event).toEqual(updatedTestTeamEvent);
-      });
-    });
-    throw new Error();
-  } catch (error) {
-    expect(error).toEqual(new PermissionError("You don't have permission to update a team event!"));
-  }
-});
-
-test('does not get all team events because user does not have permission', async () => {
-  try {
-    await getAllTeamEvents(nonAdminUser).then((events) => {
-      expect(events.pop.name).toEqual('test');
-    });
-    throw new Error();
-  } catch (error) {
-    expect(error).toEqual(new PermissionError('does not have permissions'));
-  }
 });
