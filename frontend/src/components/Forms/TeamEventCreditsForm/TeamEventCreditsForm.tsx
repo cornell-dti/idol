@@ -15,6 +15,7 @@ type TeamEvent = {
 };
 
 type TeamEventAttendance = {
+  memberName: string;
   memberEmail: string;
   teamEventName: string;
   hoursAttended?: string;
@@ -59,6 +60,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
+        memberName: `${userInfo.firstName} ${userInfo.lastName}`,
         memberEmail: userInfo.email,
         teamEventName: teamEvent.name,
         hoursAttended: hours,
