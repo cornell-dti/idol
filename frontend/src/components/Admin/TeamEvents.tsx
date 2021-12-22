@@ -40,7 +40,6 @@ const TeamEvents: React.FC = () => {
         <h1>Create a Team Event</h1>
         <TeamEventForm formType={'create'}></TeamEventForm>
       </div>
-
       <div className={styles.wrapper}>
         <h2>View All Team Events</h2>
         <Card.Group>
