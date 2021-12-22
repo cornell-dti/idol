@@ -1,26 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Segment, Label, Button } from 'semantic-ui-react';
-import { Member } from '../../../API/MembersAPI';
 import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
-
-type TeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  membersPending: Member[];
-  membersApproved: Member[];
-};
-
-type TeamEventAttendance = {
-  memberName: string;
-  memberEmail: string;
-  teamEventName: string;
-  hoursAttended?: string;
-  image: string;
-};
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -60,10 +42,8 @@ const TeamEventCreditForm: React.FC = () => {
       });
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
-        memberName: `${userInfo.firstName} ${userInfo.lastName}`,
-        memberEmail: userInfo.email,
-        teamEventName: teamEvent.name,
-        hoursAttended: hours,
+        member: userInfo,
+        hoursAttended: Number(hours),
         image
       };
       requestTeamEventCredit(newTeamEventAttendance);
@@ -80,16 +60,18 @@ const TeamEventCreditForm: React.FC = () => {
       date: 'Sept 3',
       numCredits: '0.5',
       hasHours: false,
-      membersPending: [],
-      membersApproved: []
+      requests: [],
+      attendees: [],
+      uuid: '4'
     },
     {
       name: 'Club Fest',
       date: 'Sept 5',
       numCredits: '0.5',
       hasHours: true,
-      membersPending: [],
-      membersApproved: []
+      requests: [],
+      attendees: [],
+      uuid: '7'
     }
   ];
 

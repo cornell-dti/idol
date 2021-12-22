@@ -3,15 +3,14 @@ import { Card, Message, Modal, Button } from 'semantic-ui-react';
 import Link from 'next/link';
 import EditTeamEvent from './EditTeamEvent';
 import styles from './TeamEventDetails.module.css';
-import { TeamEvent } from './TeamEvents';
 
 const mockTeamEvent: TeamEvent = {
   name: 'Info Session',
   date: '2021-11-17',
   numCredits: '1',
   hasHours: false,
-  membersPending: [],
-  membersApproved: [],
+  requests: [],
+  attendees: [],
   uuid: '1'
 };
 
@@ -43,15 +42,15 @@ const TeamEventDetails: React.FC = () => (
       <div className={styles.listContainer}>
         <h2 className={styles.memberTitle}>Members Pending</h2>
 
-        {mockTeamEvent.membersPending.length > 0 ? (
+        {mockTeamEvent.requests.length > 0 ? (
           <Card.Group>
-            {mockTeamEvent.membersPending.map((member) => (
-              <Card key={member.netid}>
+            {mockTeamEvent.requests.map((req) => (
+              <Card key={req.member.netid}>
                 <Card.Content>
                   <Card.Header>
-                    {member.firstName} {member.lastName}
+                    {req.member.firstName} {req.member.lastName}
                   </Card.Header>
-                  <Card.Meta>{member.email}</Card.Meta>
+                  <Card.Meta>{req.member.email}</Card.Meta>
                 </Card.Content>
               </Card>
             ))}
@@ -64,15 +63,15 @@ const TeamEventDetails: React.FC = () => (
       <div className={styles.listContainer}>
         <h2 className={styles.memberTitle}>Members Approved</h2>
 
-        {mockTeamEvent.membersApproved.length > 0 ? (
+        {mockTeamEvent.attendees.length > 0 ? (
           <Card.Group>
-            {mockTeamEvent.membersApproved.map((member) => (
-              <Card key={member.netid}>
+            {mockTeamEvent.attendees.map((req) => (
+              <Card key={req.member.netid}>
                 <Card.Content>
                   <Card.Header>
-                    {member.firstName} {member.lastName}
+                    {req.member.firstName} {req.member.lastName}
                   </Card.Header>
-                  <Card.Meta>{member.email}</Card.Meta>
+                  <Card.Meta>{req.member.email}</Card.Meta>
                 </Card.Content>
               </Card>
             ))}
