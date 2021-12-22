@@ -76,9 +76,19 @@ interface SignInForm {
   readonly expireAt: number;
 }
 
+interface TeamEventAttendance {
+  member: IdolMember;
+  hoursAttended?: number;
+  image: string;
+}
+
 interface TeamEvent {
-  readonly name: string;
-  readonly attendees: IdolMember[];
+  name: string;
+  date: string;
+  numCredits: string;
+  hasHours: boolean;
+  readonly attendees: TeamEventAttendance[];
+  readonly requests: TeamEventAttendance[];
   readonly uuid: string;
 }
 

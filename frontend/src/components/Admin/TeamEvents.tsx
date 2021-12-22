@@ -2,27 +2,8 @@ import React from 'react';
 import { Card, Button, Message, Image } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
-import { Member } from '../../API/MembersAPI';
 import styles from './TeamEvents.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
-
-export type TeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  membersPending: Member[];
-  membersApproved: Member[];
-  uuid: string;
-};
-
-type TeamEventAttendance = {
-  memberName: string;
-  memberEmail: string;
-  teamEventName: string;
-  hoursAttended?: string;
-  image: string;
-};
 
 const TeamEvents: React.FC = () => {
   const teamEvents: TeamEvent[] = [
@@ -31,8 +12,8 @@ const TeamEvents: React.FC = () => {
       date: '2021-11-17',
       numCredits: '0.5',
       hasHours: false,
-      membersPending: [],
-      membersApproved: [],
+      requests: [],
+      attendees: [],
       uuid: '1'
     },
     {
@@ -41,27 +22,12 @@ const TeamEvents: React.FC = () => {
       date: '2021-11-17',
       numCredits: '0.5',
       hasHours: true,
-      membersPending: [],
-      membersApproved: []
+      requests: [],
+      attendees: []
     }
   ];
 
-  // should requests have ids?
-  const pendingRequests: TeamEventAttendance[] = [
-    {
-      memberName: 'Morgan Belous',
-      memberEmail: 'mhb224@cornell.edu',
-      teamEventName: 'Propel Demo Day',
-      image: ''
-    },
-    {
-      memberName: 'Morgan Belous',
-      memberEmail: 'mhb224@cornell.edu',
-      teamEventName: 'Club Fest',
-      hoursAttended: '2',
-      image: ''
-    }
-  ];
+  const pendingRequests: TeamEventAttendance[] = [];
 
   const handleCreditRequest = () => {
     // if approved, move to approved list of the event
@@ -99,9 +65,10 @@ const TeamEvents: React.FC = () => {
               <Card className={styles.memberCard} key={i}>
                 <Card.Content>
                   <Image size="medium" className={styles.creditImage} src={AramHeadshot.src} />
-                  <Card.Header>{request.memberName} </Card.Header>
-                  <Card.Meta>{request.memberEmail}</Card.Meta>
-                  <Card.Description>{request.teamEventName}</Card.Description>
+                  <Card.Header>
+                    {request.member.firstName} {request.member.lastName}
+                  </Card.Header>
+                  <Card.Meta>{request.member.email}</Card.Meta>
                   {request.hoursAttended && (
                     <Card.Description> Hours Attended: {request.hoursAttended}</Card.Description>
                   )}
