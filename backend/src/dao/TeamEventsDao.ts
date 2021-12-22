@@ -9,18 +9,17 @@ export default class TeamEventsDao {
 
     return Promise.all(
       eventRefs.docs.map(async (eventRef) => {
-        const { name, date, numCredits, hasHours, membersPending, membersApproved, uuid } =
-          eventRef.data();
+        const { name, date, numCredits, hasHours, requests, attendees, uuid } = eventRef.data();
         return {
           name,
           date,
           numCredits,
           hasHours,
-          membersPending: await Promise.all(
-            membersPending.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
+          requests: await Promise.all(
+            requests.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
           ),
-          membersApproved: await Promise.all(
-            membersApproved.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
+          attendees: await Promise.all(
+            attendees.map((ref) => ref.get().then((doc) => doc.data() as IdolMember))
           ),
           uuid
         };
@@ -42,8 +41,8 @@ export default class TeamEventsDao {
       date: event.date,
       numCredits: event.numCredits,
       hasHours: event.hasHours,
-      membersPending: event.membersPending.map((mem) => memberCollection.doc(mem.email)),
-      membersApproved: event.membersApproved.map((mem) => memberCollection.doc(mem.email))
+      requests: event.requests.map((mem) => memberCollection.doc(mem.email)),
+      attendees: event.attendees.map((mem) => memberCollection.doc(mem.email))
     };
 
     await teamEventsCollection.doc(teamEventRef.uuid).set(teamEventRef);
@@ -57,8 +56,8 @@ export default class TeamEventsDao {
 
     const teamEventRef: DBTeamEvent = {
       ...event,
-      membersPending: event.membersPending.map((mem) => memberCollection.doc(mem.email)),
-      membersApproved: event.membersApproved.map((mem) => memberCollection.doc(mem.email))
+      requests: event.requests.map((mem) => memberCollection.doc(mem.email)),
+      attendees: event.attendees.map((mem) => memberCollection.doc(mem.email))
     };
 
     await eventDoc.update(teamEventRef);

@@ -8,8 +8,8 @@ const test_event: TeamEvent = {
   hasHours: true,
   name: 'testevent1',
   numCredits: '1',
-  membersApproved: [],
-  membersPending: [jaggerData],
+  attendees: [],
+  requests: [jaggerData],
   uuid: 'test'
 };
 
@@ -30,8 +30,8 @@ test('Add new event', async () => {
 test('Update existing event', async () => {
   const updated_event: TeamEvent = {
     ...test_event,
-    membersPending: [],
-    membersApproved: [jaggerData]
+    requests: [],
+    attendees: [jaggerData]
   };
 
   // make sure event is in db first
