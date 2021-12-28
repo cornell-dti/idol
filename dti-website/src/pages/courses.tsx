@@ -21,7 +21,7 @@ const courses = [
     buttons: {
       apply: {
         title: 'Apply',
-        link: 'https://bit.ly/web-dev-fa21'
+        link: 'https://bit.ly/web-dev-sp22'
       }
     },
     subDescription1: {
