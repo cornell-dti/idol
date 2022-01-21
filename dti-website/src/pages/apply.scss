@@ -105,11 +105,13 @@
   .timeline {
     overflow: hidden;
     color: #000;
-    margin: 4vw 0;
-    padding: 1rem 4vw;
+    padding: 1rem;
     letter-spacing: 0.3px;
 
     .timeline-header {
+      margin-top: 4vw;
+      margin-bottom: 2vw;
+      padding: 1rem 4vw;
       .header {
         color: #d0021b;
         font-size: 3rem;
@@ -125,11 +127,9 @@
     }
 
     .timeline-details {
-      padding-left: 4vw;
+      padding: 0 2vw;
 
       .timeline {
-        margin-top: 2.5rem;
-        margin-bottom: 2.5rem;
         text-align: center;
 
         .title {
@@ -151,7 +151,7 @@
         }
 
         .event {
-          margin-top: 1.5rem;
+          margin-top: 1rem;
           font-weight: 500;
           font-style: normal;
           font-stretch: normal;

@@ -83,27 +83,31 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center timeline">
-            <Col className="text-center timeline-header" sm="12">
+            <Col className="timeline-header" sm="12" md="11">
               <div className="header">Timeline</div>
               <div className="subheader">{content.semester}</div>
             </Col>
-            {content.timelines.map((timeline) => (
-              <Col key={timeline.name} className="timeline-details" sm="12" md="6" md-offset="1">
-                <Row className="h-100 justify-content-center align-items-center">
-                  <Col className="col-auto">
-                    <div className="timeline h-50">
-                      <div className="title">{timeline.name}</div>
-                      {timeline.events.map((event) => (
-                        <div className="event">
-                          <div className="label">{event.label}</div>
-                          <div className="time">{event.time}</div>
+            <Col sm="12" md="10">
+              <Row>
+                {content.timelines.map((timeline) => (
+                  <Col key={timeline.header} className="timeline-details">
+                    <Row className="justify-content-center align-items-center">
+                      <Col className="col-auto">
+                        <div className="timeline">
+                          <div className="title">{timeline.header}</div>
+                          {timeline.events.map((event) => (
+                            <div className="event">
+                              <div className="label">{event.label}</div>
+                              <div className="time">{event.time}</div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            ))}
+                ))}
+              </Row>
+            </Col>
           </Row>
         )}
         {isOpen && (
