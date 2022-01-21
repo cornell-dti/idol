@@ -153,18 +153,14 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center coffee-chat">
-            <Col className="info-session-description" sm="12" md="4" md-offset="1">
+            <Col className="coffee-chat-header" sm="12" md="11" md-offset="1">
               <div className="header">Coffee Chats</div>
               <div className="subheader">{content.semester}</div>
-              <div className="description">
-                Sign up to chat with some members on the team! You can learn more about what we do
-                by sending an email to any of the members on the spreadsheet.
-              </div>
             </Col>
-            <Col className="info-session-details" sm="12" md="auto" md-offset="1">
+            <Col className="coffee-chat-details" sm="12" md="auto" md-offset="1">
               <Row className="h-100 justify-content-center align-items-center">
                 <Col className="col-auto">
-                  <div className="info-session h-50">
+                  <div className="coffee-chat h-50">
                     <div className="time">
                       Sign up at{' '}
                       <a href="https://docs.google.com/spreadsheets/d/1xvFotNdMkCc4vaBv_LYTA8LHNIQfYlYaMIW3DUZYAvA/edit#gid=0">
@@ -175,6 +171,11 @@ export default function ApplyPage(): JSX.Element {
                   </div>
                 </Col>
               </Row>
+            </Col><Col className="coffee-chat-description" sm="9" md-offset="1">
+              <div className="description">
+                Sign up to chat with some members on the team! You can learn more about what we do
+                by sending an email to any of the members on the spreadsheet.
+              </div>
             </Col>
           </Row>
         )}

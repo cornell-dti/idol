@@ -28,10 +28,9 @@
     margin: 4vw 0;
     padding: 2rem 4vw;
 
-    .info-session-description {
-      padding-right: 4vw;
-
+    .coffee-chat-header {
       .header {
+        color: #d0021b;
         font-size: 3rem;
         font-weight: bold;
         font-style: normal;
@@ -48,9 +47,10 @@
         line-height: 1.4;
         letter-spacing: 0.3px;
       }
+    }
 
+    .coffee-chat-description {
       .description {
-        margin-top: 2.5rem;
         font-size: 20px;
         font-weight: 500;
         font-style: normal;
@@ -60,12 +60,10 @@
       }
     }
 
-    .info-session-details {
-      padding-left: 4vw;
-
-      .info-session {
-        margin-top: 2.5rem;
-        margin-bottom: 2.5rem;
+    .coffee-chat-details {
+      .coffee-chat {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
 
         .time {
           margin-bottom: 0.3125rem;
@@ -112,6 +110,7 @@
       margin-top: 4vw;
       margin-bottom: 2vw;
       padding: 1rem 4vw;
+
       .header {
         color: #d0021b;
         font-size: 3rem;
