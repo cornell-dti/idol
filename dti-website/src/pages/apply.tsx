@@ -125,7 +125,12 @@ export default function ApplyPage(): JSX.Element {
                       <div className="location location-desktop">
                         {`${session.location}${session.link && session.link.url ? ' • ' : ''}`}
                         {session.link && session.link.url && (
-                          <a className="apply-link" href={session.link.url}>
+                          <a
+                            className="apply-link"
+                            href={session.link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             {session.link.text}
                           </a>
                         )}
@@ -165,7 +170,7 @@ export default function ApplyPage(): JSX.Element {
                   <div className="coffee-chat h-50">
                     <div className="time">
                       Sign up at{' '}
-                      <a href="https://docs.google.com/spreadsheets/d/1xvFotNdMkCc4vaBv_LYTA8LHNIQfYlYaMIW3DUZYAvA/edit#gid=0">
+                      <a href={content.coffeeChatLink} target="_blank" rel="noopener noreferrer">
                         this link
                       </a>{' '}
                       to chat!
