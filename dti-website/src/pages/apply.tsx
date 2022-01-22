@@ -83,11 +83,11 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center timeline">
-            <Col className="timeline-header" sm="12" md="11">
+            <Col className="timeline-header" xs="11">
               <div className="header">Timeline</div>
               <div className="subheader">{content.semester}</div>
             </Col>
-            <Col sm="12" md="10">
+            <Col xs="9" md="10">
               <Row>
                 {content.timelines.map((timeline) => (
                   <Col key={timeline.header} className="timeline-details">
@@ -112,7 +112,7 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center info-session-interjection">
-            <Col className="info-session-description" sm="12" md="11">
+            <Col className="info-session-description" xs="11">
               <div className="header">Information Sessions!</div>
               <div className="subheader">{content.semester}</div>
             </Col>
@@ -144,7 +144,7 @@ export default function ApplyPage(): JSX.Element {
                 </Col>
               </Row>
             </Col>
-            <Col className="info-session-description" sm="9" md-offset="1">
+            <Col className="info-session-description" xs="11" sm="9" md-offset="1">
               <div className="description">
                 Come say hello! You'll have the opportunity to learn more about our team, hear from
                 current members about the exciting work they do, and have the opportunity to chat to
@@ -155,7 +155,7 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center coffee-chat">
-            <Col className="coffee-chat-header" sm="12" md="11" md-offset="1">
+            <Col className="coffee-chat-header" xs="11" md-offset="1">
               <div className="header">Coffee Chats</div>
               <div className="subheader">{content.semester}</div>
             </Col>
@@ -174,7 +174,7 @@ export default function ApplyPage(): JSX.Element {
                 </Col>
               </Row>
             </Col>
-            <Col className="coffee-chat-description" sm="9" md-offset="1">
+            <Col className="coffee-chat-description" xs="11" sm="9" md-offset="1">
               <div className="description">
                 Sign up to chat with some members on the team! You can learn more about what we do
                 by sending an email to any of the members on the spreadsheet.
