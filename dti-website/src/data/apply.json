@@ -1,81 +1,70 @@
 {
   "applicationsOpen": true,
-  "semester": "Fall 2021",
+  "semester": "Spring 2022",
   "timelines": [
     {
-      "name": "Sophomores and Up",
+      "header": "1",
       "events": [
         {
           "label": "Applications Open",
-          "time": "Now! See below 👇"
-        },
-        {
-          "label": "Info Sessions",
-          "time": "Week of 8/30, see below"
-        },
-        {
-          "label": "Applications Close",
-          "time": "Wednesday 9/8 @ 11:59pm ET"
-        },
-        {
-          "label": "Interviews",
-          "time": "9/12 - 9/19"
-        },
-        {
-          "label": "Offer Rollout Begin",
-          "time": "Wednesday 9/22 @ 11:59pm ET"
-        },
-        {
-          "label": "Fall Add Deadline",
-          "time": "Friday 10/1 @ 5pm ET"
+          "time": "Now! See bottom of page 👇"
         }
       ]
     },
     {
-      "name": "Freshmen",
+      "header": "2",
       "events": [
         {
-          "label": "Applications Open",
-          "time": "Now! See below 👇"
-        },
-        {
-          "label": "Project Team Fest",
-          "time": "Tuesday 9/21 @ 4pm - 7pm ET"
-        },
-        {
           "label": "Info Sessions",
-          "time": "Week of 9/20 or 9/27"
-        },
+          "time": "Thursday 1/27 & Tuesday 2/1 @ 5pm - 6:30pm ET"
+        }
+      ]
+    },
+    {
+      "header": "3",
+      "events": [
         {
           "label": "Applications Due",
-          "time": "Friday 10/1 @ 11:59pm ET"
-        },
+          "time": "Friday 2/2 @ 11:59pm ET"
+        }
+      ]
+    },
+    {
+      "header": "4",
+      "events": [
+        
         {
           "label": "Interviews",
-          "time": "Week of 10/4 and/or 10/11"
-        },
+          "time": "Friday 2/4 thru Monday 2/14"
+        }
+      ]
+    },
+    {
+      "header": "5",
+      "events": [
         {
           "label": "Offer Rollout Begins",
-          "time": "Monday 10/18 @ 11:59pm ET"
+          "time": "Wednesday 2/16"
         }
       ]
     }
   ],
+  "coffeeChatLink": "https://docs.google.com/spreadsheets/d/1xTms2kj8DKP95izkidEaiEkgDhdUQrwKpZnWeeMUtd8/edit?usp=sharing",
   "infoSessions": [
     {
-      "time": "5:30 PM - 7:00 PM ET • Monday 9/27",
+      "time": "5:00 PM - 6:30 PM ET • Thursday 1/27",
       "location": "Information Session",
       "link": {
-        "url": "https://goo.gl/maps/VUtyx291os5Nee7cA",
-        "text": "Phillips 101"
+        "url": "https://zoom.us",
+        "text": "Zoom (link coming soon!)"
       }
     },
     {
-      "time": "5:30 PM - 7:00 PM ET • Tuesday 9/28",
+      "time": "5:00 PM - 6:30 PM ET • Tuesday 2/1",
       "location": "Information Session",
       "link": {
-        "url": "https://goo.gl/maps/hiRTC6nJrYzjxB2V8",
-        "text": "WSH Memorial Room"
+        "url": "https://zoom.us",
+        "text": "Zoom (link coming soon!)"
       }
     }
   ],
@@ -84,7 +73,6 @@
       "id": "designer",
       "apply": {
         "header": "Product Design Role",
-        "rightHeader": ["S: due 11:59 PM on Friday 2/19"],
         "sections": [
           {
             "header": "What We're Looking For",
@@ -104,13 +92,12 @@
           {
             "closed": false,
             "label": "Product Design Application",
-            "link": "https://forms.gle/HFByFZ6dKmb2kzBb7"
+            "link": "https://forms.gle/zM6sQynq8Udn1VFn9"
           }
         ]
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -124,7 +111,6 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",
@@ -137,7 +123,6 @@
       "id": "developer",
       "apply": {
         "header": "Software Development Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -163,7 +148,6 @@
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -177,7 +161,6 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",
@@ -190,7 +173,6 @@
       "id": "business",
       "apply": {
         "header": "Business Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -210,13 +192,12 @@
           {
             "closed": false,
             "label": "Business Team Application",
-            "link": "https://forms.gle/4FYMi6AvSH37vrGm8"
+            "link": "https://forms.gle/Crq1ybAQ5hT9LnZy5"
           }
         ]
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -230,7 +211,6 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",
@@ -243,7 +223,6 @@
       "id": "pm",
       "apply": {
         "header": "Product Management Role",
-        "rightHeader": "due 11:59 PM on Friday 2/19",
         "sections": [
           {
             "header": "What We're Looking For",
@@ -263,13 +242,12 @@
           {
             "closed": false,
             "label": "Product Management Application",
-            "link": "https://forms.gle/MZjcWnPMLU5JVL2d6"
+            "link": "https://forms.gle/nExgtgg713rP1eZM8"
           }
         ]
       },
       "nextSteps": {
         "header": "Next Steps",
-        "rightHeader": "Saturday 2/20 through Sunday 2/28",
         "sections": [
           {
             "header": "Application Review",
@@ -283,7 +261,6 @@
       },
       "decision": {
         "header": "Decision",
-        "rightHeader": "by 11:59 PM on Friday 3/5",
         "sections": [
           {
             "header": "Notification",

@@ -83,39 +83,38 @@ export default function ApplyPage(): JSX.Element {
         )}
         {isOpen && (
           <Row className="justify-content-center timeline">
-            <Col className="text-center timeline-header" sm="12">
+            <Col className="timeline-header" xs="11">
               <div className="header">Timeline</div>
               <div className="subheader">{content.semester}</div>
             </Col>
-            {content.timelines.map((timeline) => (
-              <Col key={timeline.name} className="timeline-details" sm="12" md="6" md-offset="1">
-                <Row className="h-100 justify-content-center align-items-center">
-                  <Col className="col-auto">
-                    <div className="timeline h-50">
-                      <div className="title">{timeline.name}</div>
-                      {timeline.events.map((event) => (
-                        <div className="event">
-                          <div className="label">{event.label}</div>
-                          <div className="time">{event.time}</div>
+            <Col xs="9" md="10">
+              <Row>
+                {content.timelines.map((timeline) => (
+                  <Col key={timeline.header} className="timeline-details">
+                    <Row className="justify-content-center align-items-center">
+                      <Col className="col-auto">
+                        <div className="timeline">
+                          <div className="title">{timeline.header}</div>
+                          {timeline.events.map((event) => (
+                            <div className="event">
+                              <div className="label">{event.label}</div>
+                              <div className="time">{event.time}</div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            ))}
+                ))}
+              </Row>
+            </Col>
           </Row>
         )}
         {isOpen && (
           <Row className="justify-content-center info-session-interjection">
-            <Col className="info-session-description" sm="12" md="4" md-offset="1">
+            <Col className="info-session-description" xs="11">
               <div className="header">Information Sessions!</div>
               <div className="subheader">{content.semester}</div>
-              <div className="description">
-                Come say hello! You'll have the opportunity to learn more about our team, hear from
-                current members about the exciting work they do, and have the opportunity to chat to
-                people about roles you're interested in!
-              </div>
             </Col>
             <Col className="info-session-details" sm="12" md="auto" md-offset="1">
               <Row className="h-100 justify-content-center align-items-center">
@@ -126,7 +125,12 @@ export default function ApplyPage(): JSX.Element {
                       <div className="location location-desktop">
                         {`${session.location}${session.link && session.link.url ? ' • ' : ''}`}
                         {session.link && session.link.url && (
-                          <a className="apply-link" href={session.link.url}>
+                          <a
+                            className="apply-link"
+                            href={session.link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             {session.link.text}
                           </a>
                         )}
@@ -145,25 +149,28 @@ export default function ApplyPage(): JSX.Element {
                 </Col>
               </Row>
             </Col>
+            <Col className="info-session-description" xs="11" sm="9" md-offset="1">
+              <div className="description">
+                Come say hello! You'll have the opportunity to learn more about our team, hear from
+                current members about the exciting work they do, and have the opportunity to chat to
+                people about roles you're interested in!
+              </div>
+            </Col>
           </Row>
         )}
         {isOpen && (
           <Row className="justify-content-center coffee-chat">
-            <Col className="info-session-description" sm="12" md="4" md-offset="1">
+            <Col className="coffee-chat-header" xs="11" md-offset="1">
               <div className="header">Coffee Chats</div>
               <div className="subheader">{content.semester}</div>
-              <div className="description">
-                Sign up to chat with some members on the team! You can learn more about what we do
-                by sending an email to any of the members on the spreadsheet.
-              </div>
             </Col>
-            <Col className="info-session-details" sm="12" md="auto" md-offset="1">
+            <Col className="coffee-chat-details" sm="12" md="auto" md-offset="1">
               <Row className="h-100 justify-content-center align-items-center">
                 <Col className="col-auto">
-                  <div className="info-session h-50">
+                  <div className="coffee-chat h-50">
                     <div className="time">
                       Sign up at{' '}
-                      <a href="https://docs.google.com/spreadsheets/d/1xvFotNdMkCc4vaBv_LYTA8LHNIQfYlYaMIW3DUZYAvA/edit#gid=0">
+                      <a href={content.coffeeChatLink} target="_blank" rel="noopener noreferrer">
                         this link
                       </a>{' '}
                       to chat!
@@ -171,6 +178,12 @@ export default function ApplyPage(): JSX.Element {
                   </div>
                 </Col>
               </Row>
+            </Col>
+            <Col className="coffee-chat-description" xs="11" sm="9" md-offset="1">
+              <div className="description">
+                Sign up to chat with some members on the team! You can learn more about what we do
+                by sending an email to any of the members on the spreadsheet.
+              </div>
             </Col>
           </Row>
         )}
