@@ -25,7 +25,7 @@
       "events": [
         {
           "label": "Applications Due",
-          "time": "Friday 2/2 @ 11:59pm ET"
+          "time": "Sunday 2/6 @ 11:59pm ET"
         }
       ]
     },
@@ -35,7 +35,7 @@
         
         {
           "label": "Interviews",
-          "time": "Friday 2/4 thru Monday 2/14"
+          "time": "Monday 2/7 thru Monday 2/14"
         }
       ]
     },
@@ -55,16 +55,16 @@
       "time": "5:00 PM - 6:30 PM ET • Thursday 1/27",
       "location": "Information Session",
       "link": {
-        "url": "https://zoom.us",
-        "text": "Zoom (link coming soon!)"
+        "url": "https://cornell.zoom.us/j/98782580758?pwd=N2JZaDlEajRaUFR4RXpIZWtGUDNGUT09",
+        "text": "Zoom link"
       }
     },
     {
       "time": "5:00 PM - 6:30 PM ET • Tuesday 2/1",
       "location": "Information Session",
       "link": {
-        "url": "https://zoom.us",
-        "text": "Zoom (link coming soon!)"
+        "url": "https://cornell.zoom.us/j/99244727907?pwd=T1dhcDM4WlUwYzFLTmhOV1BaaE94UT09",
+        "text": "Zoom link"
       }
     }
   ],
