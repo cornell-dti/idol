@@ -1,3 +1,3 @@
-import AdminCandidateDecider from '../../components/Admin/AdminCandidateDecider';
+import AdminCandidateDeciderBase from '../../components/Admin/AdminCandidateDecider';
 
-export default AdminCandidateDecider;
+export default AdminCandidateDeciderBase;
