@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Loader, Header, Message, Card } from 'semantic-ui-react';
+import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import styles from './AdminCandidateDecider.module.css';
 import csv from 'csvtojson';
 
@@ -9,7 +9,14 @@ const mockInstances = [
     isOpen: true,
     headers: [],
     candidates: [],
-    uuid: 'life'
+    uuid: 'asdfjkl'
+  },
+  {
+    name: 'Developer Fall 2022 Recruitment',
+    isOpen: true,
+    headers: [],
+    candidates: [],
+    uuid: 'hello-world'
   }
 ];
 
@@ -46,11 +53,13 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
 
   const handleSubmit = () => {
     const instance = {
+      uuid: '',
       name,
       headers,
-      candidates: responses,
+      candidates: responses.map((res, i) => ({ id: i, responses: res, comments: [], ratings: [] })),
       isOpen: true
     };
+    setSuccess(true);
     console.log(instance);
     console.log('FORM SUBMITTED');
   };
@@ -84,9 +93,18 @@ const CandidateDeciderInstanceList: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // TODO pull from backend
     setInstances(mockInstances);
     setIsLoading(false);
   }, []);
+
+  const toggleIsOpen = (uuid: string) => {
+    const updatedInstances = instances.map((instance) =>
+      instance.uuid === uuid ? { ...instance, isOpen: !instance.isOpen } : instance
+    );
+    setInstances(updatedInstances);
+    // TODO update in backend
+  };
 
   return (
     <div id={styles.listContainer}>
@@ -99,11 +117,18 @@ const CandidateDeciderInstanceList: React.FC = () => {
             {instances.map((instance) => (
               <Card
                 color={instance.isOpen ? 'green' : 'red'}
-                href={`candidate-decider/${instance.uuid}`}
+                // href={`candidate-decider/${instance.uuid}`}
+                key={instance.uuid}
               >
+                {console.log(instance.isOpen)}
                 <Card.Content>
                   <Card.Header>{instance.name}</Card.Header>
                   <Card.Meta>{instance.isOpen ? 'Open' : 'Closed'}</Card.Meta>
+                  <Checkbox
+                    toggle
+                    defaultChecked={instance.isOpen}
+                    onChange={() => toggleIsOpen(instance.uuid)}
+                  />
                 </Card.Content>
               </Card>
             ))}

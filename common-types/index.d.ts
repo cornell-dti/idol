@@ -87,10 +87,27 @@ interface EventProofImage {
   readonly fileName: string;
 }
 
+interface CandidateDeciderRating {
+  readonly reviewer: IdolMember;
+  readonly rating: number;
+}
+
+interface CandidateDeciderComment {
+  readonly reviewer: IdolMember;
+  readonly comment: string;
+}
+
+interface CandidateDeciderCandidate {
+  readonly responses: any[];
+  readonly id: number;
+  ratings: CandidateDeciderRating[];
+  comments: CandidateDeciderComment[];
+}
+
 interface CandidateDeciderInstance {
   readonly name: string;
   readonly headers: string[];
-  readonly candidates: any[];
+  readonly candidates: CandidateDeciderCandidate[];
   readonly uuid: string;
   isOpen: boolean;
 }
