@@ -86,3 +86,11 @@ interface EventProofImage {
   readonly url: string;
   readonly fileName: string;
 }
+
+interface CandidateDeciderInstance {
+  readonly name: string;
+  readonly headers: string[];
+  readonly candidates: any[];
+  readonly uuid: string;
+  isOpen: boolean;
+}
