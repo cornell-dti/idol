@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
-import styles from './AdminCandidateDecider.module.css';
 import csv from 'csvtojson';
+import styles from './AdminCandidateDecider.module.css';
 
 const mockInstances = [
   {
@@ -20,14 +20,12 @@ const mockInstances = [
   }
 ];
 
-const AdminCandidateDeciderBase: React.FC = () => {
-  return (
-    <div id={styles.adminCandidateDeciderContainer}>
-      <CandidateDeciderInstanceCreator />
-      <CandidateDeciderInstanceList />
-    </div>
-  );
-};
+const AdminCandidateDeciderBase: React.FC = () => (
+  <div id={styles.adminCandidateDeciderContainer}>
+    <CandidateDeciderInstanceCreator />
+    <CandidateDeciderInstanceList />
+  </div>
+);
 
 const CandidateDeciderInstanceCreator: React.FC = () => {
   const [name, setName] = useState<string>('');
