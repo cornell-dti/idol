@@ -4,7 +4,6 @@ import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 const TeamEvents: React.FC = () => {
   const teamEvents: TeamEvent[] = [
