@@ -4,6 +4,7 @@ import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
+import { convertCompilerOptionsFromJson } from 'typescript';
 
 const TeamEvents: React.FC = () => {
   const teamEvents: TeamEvent[] = [
@@ -30,6 +31,7 @@ const TeamEvents: React.FC = () => {
   const pendingRequests: TeamEventAttendance[] = [];
 
   const handleCreditRequest = () => {
+    console.log('handleCreditRequest'); // just want to trigger re-run
     // if approved, move to approved list of the event
     // remove from total pending list and event pending list
   };
