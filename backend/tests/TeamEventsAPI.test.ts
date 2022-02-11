@@ -16,8 +16,8 @@ const testTeamEvent = {
   date: '11/26/2020',
   numCredits: '1',
   hasHours: false,
-  membersPending: [jaggerData],
-  membersApproved: [],
+  requests: [jaggerData],
+  attendees: [],
   uuid: 'test123'
 };
 
@@ -35,8 +35,8 @@ test('does not create team event because user does not have permission', async (
 
 const updatedTestTeamEvent = {
   ...testTeamEvent,
-  membersPending: [],
-  membersApproved: [jaggerData]
+  requests: [],
+  attendees: [jaggerData]
 };
 
 test('does not get all team events because user does not have permission', async () => {

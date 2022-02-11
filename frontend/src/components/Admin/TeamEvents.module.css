@@ -1,11 +1,18 @@
-.formWrapper {
+.wrapper {
   width: 60%;
-  align-self: center;
   margin: auto;
-  padding: 3rem 0 5rem 0;
+  margin-bottom: 4em;
 }
 
-.eventsWrapper {
-  width: 60%;
-  margin: auto;
+.formWrapper {
+  padding-top: 3rem;
+}
+
+.memberCard {
+  align-items: center;
+}
+
+.creditImage {
+  margin-bottom: 1rem;
+  border-radius: 4px 4px 4px 4px;
 }

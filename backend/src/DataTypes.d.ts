@@ -47,8 +47,8 @@ export type DBTeamEvent = {
   date: string;
   numCredits: string;
   hasHours: boolean;
-  membersPending: firestore.DocumentReference[];
-  membersApproved: firestore.DocumentReference[];
+  requests: firestore.DocumentReference[];
+  attendees: firestore.DocumentReference[];
   uuid: string;
 };
 
@@ -57,7 +57,7 @@ export type TeamEvent = {
   date: string;
   numCredits: string;
   hasHours: boolean;
-  membersPending: IdolMember[];
-  membersApproved: IdolMember[];
+  requests: IdolMember[];
+  attendees: IdolMember[];
   uuid: string;
 };
