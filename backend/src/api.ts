@@ -40,6 +40,11 @@ import {
   updateTeamEvent
 } from './team-eventsAPI';
 
+import {
+  getAllCandidateDeciderInstances,
+  createNewCandidateDeciderInstance
+} from './candidateDeciderAPI';
+
 // Constants and configurations
 const app = express();
 const router = express.Router();
@@ -61,7 +66,7 @@ app.use(
     credentials: true
   })
 );
-app.use(bodyParser.json());
+app.use(express.json({ limit: '50mb' }));
 
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
@@ -205,6 +210,14 @@ loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: getAllTeamEve
 loginCheckedPost('/updateTeamEvent', async (req, user) => updateTeamEvent(req.body, user));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
   team: await deleteTeamEvent(req.body, user)
+}));
+
+// Candidate Decider
+loginCheckedGet('/getAllCandidateDeciderInstances', async () => ({
+  instances: await getAllCandidateDeciderInstances()
+}));
+loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
+  instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
 
 app.use('/.netlify/functions/api', router);

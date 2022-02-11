@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { DBShoutout, DBSignInForm, DBTeamEvent } from './DataTypes';
+import { DBShoutout, DBSignInForm, DBTeamEvent, DBCandidateDeciderInstance } from './DataTypes';
 
 require('dotenv').config();
 
@@ -88,6 +88,16 @@ export const teamEventsCollection: admin.firestore.CollectionReference<DBTeamEve
     },
     toFirestore(teamEventData: DBTeamEvent) {
       return teamEventData;
+    }
+  });
+
+export const candidateDeciderCollection: admin.firestore.CollectionReference<DBCandidateDeciderInstance> =
+  db.collection('candidate-decider').withConverter({
+    fromFirestore(snapshot): DBCandidateDeciderInstance {
+      return snapshot.data() as DBCandidateDeciderInstance;
+    },
+    toFirestore(data: DBCandidateDeciderInstance) {
+      return data;
     }
   });
 
