@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Segment, Label, Button } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
@@ -13,6 +13,12 @@ const TeamEventCreditForm: React.FC = () => {
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
+  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+
+  useEffect(() => {
+    TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
+    console.log(teamEvents);
+  }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
@@ -60,27 +66,26 @@ const TeamEventCreditForm: React.FC = () => {
     }
   };
 
-  const teamEvents: TeamEvent[] = [
-    {
-      name: 'Coffee Chat',
-      date: 'Sept 3',
-      numCredits: '0.5',
-      hasHours: false,
-      requests: [],
-      attendees: [],
-      uuid: '4'
-    },
-    {
-      name: 'Club Fest',
-      date: 'Sept 5',
-      numCredits: '0.5',
-      hasHours: true,
-      requests: [],
-      attendees: [],
-      uuid: '7'
-    }
-  ];
-
+  // const teamEvents: TeamEvent[] = [
+  //   {
+  //     name: 'Coffee Chat',
+  //     date: 'Sept 3',
+  //     numCredits: '0.5',
+  //     hasHours: false,
+  //     requests: [],
+  //     attendees: [],
+  //     uuid: '4'
+  //   },
+  //   {
+  //     name: 'Club Fest',
+  //     date: 'Sept 5',
+  //     numCredits: '0.5',
+  //     hasHours: true,
+  //     requests: [],
+  //     attendees: [],
+  //     uuid: '7'
+  //   }
+  // ];
   return (
     <div>
       <Form
