@@ -3,6 +3,7 @@ import { Form, Segment, Label, Button } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -19,9 +20,14 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance) => {
+  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance, teamEvent: TeamEvent) => {
     // add user to pending list of the team event
     // notify leads of request
+    console.log(teamEvent);
+    teamEvent?.requests.push(eventCreditRequest);
+    console.log("after push")
+    console.log(teamEvent);
+    TeamEventsAPI.requestTeamEventCredit(teamEvent);
   };
 
   const submitTeamEventCredit = () => {
@@ -46,7 +52,7 @@ const TeamEventCreditForm: React.FC = () => {
         hoursAttended: Number(hours),
         image
       };
-      requestTeamEventCredit(newTeamEventAttendance);
+      requestTeamEventCredit(newTeamEventAttendance, teamEvent);
       Emitters.generalSuccess.emit({
         headerMsg: 'Team Event Credit submitted!',
         contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
