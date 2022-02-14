@@ -201,8 +201,10 @@ loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
 
 // Team Events
 loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
-loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: getAllTeamEvents(user) }));
-loginCheckedPost('/updateTeamEvent', async (req, user) => updateTeamEvent(req.body, user));
+loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: await getAllTeamEvents(user) }));
+loginCheckedPost('/updateTeamEvent', async (req, user) => ({
+  event: await updateTeamEvent(req.body, user)
+}));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
   team: await deleteTeamEvent(req.body, user)
 }));

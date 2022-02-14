@@ -42,13 +42,25 @@ export type SignInForm = {
   id: string;
 };
 
+export type DBTeamEventAttendance = {
+  member: firestore.DocumentReference;
+  hoursAttended?: number;
+  image: string;
+}
+
+export type TeamEventAttendance = {
+  member: IdolMember;
+  hoursAttended?: number;
+  image: string;
+}
+
 export type DBTeamEvent = {
   name: string;
   date: string;
   numCredits: string;
   hasHours: boolean;
-  requests: firestore.DocumentReference[];
-  attendees: firestore.DocumentReference[];
+  requests: DBTeamEventAttendance[];
+  attendees: DBTeamEventAttendance[];
   uuid: string;
 };
 
@@ -57,7 +69,7 @@ export type TeamEvent = {
   date: string;
   numCredits: string;
   hasHours: boolean;
-  requests: IdolMember[];
-  attendees: IdolMember[];
+  requests: TeamEventAttendance[];
+  attendees: TeamEventAttendance[];
   uuid: string;
 };

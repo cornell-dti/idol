@@ -11,12 +11,18 @@ import jaggerData from './data/jagger-profile.json';
 const adminUser = { email: 'hl738@cornell.edu' } as IdolMember;
 const nonAdminUser = { email: 'pk457@cornell.edu' } as IdolMember;
 
+const testTeamEventAttendence = {
+  member: jaggerData,
+  hoursAttended: 1,
+  image: null
+}
+
 const testTeamEvent = {
   name: 'test',
   date: '11/26/2020',
   numCredits: '1',
   hasHours: false,
-  requests: [jaggerData],
+  requests: [testTeamEventAttendence],
   attendees: [],
   uuid: 'test123'
 };
@@ -36,7 +42,7 @@ test('does not create team event because user does not have permission', async (
 const updatedTestTeamEvent = {
   ...testTeamEvent,
   requests: [],
-  attendees: [jaggerData]
+  attendees: [testTeamEventAttendence]
 };
 
 test('does not get all team events because user does not have permission', async () => {
