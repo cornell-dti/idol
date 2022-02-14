@@ -1,0 +1,14 @@
+#adminCandidateDeciderContainer {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+}
+
+#submitButton {
+  margin-top: 1rem;
+}
+
+#listContainer {
+  margin-top: 3rem;
+}
