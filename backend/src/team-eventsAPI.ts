@@ -31,12 +31,9 @@ export const updateTeamEvent = async (
   teamEvent: TeamEvent,
   user: IdolMember
 ): Promise<TeamEvent> => {
-  console.log("in update");
-  console.log(teamEvent);
   // if (!PermissionsManager.canEditTeamEvent(user)) {
   //   throw new PermissionError("You don't have permission to update a team event!");
   // }
-  console.log("here!!!!");
   await TeamEventsDao.updateTeamEvent(teamEvent);
   return teamEvent;
 };

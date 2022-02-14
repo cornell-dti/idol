@@ -25,9 +25,7 @@ export type TeamEvent = {
 
 export class TeamEventsAPI {
     public static getAllTeamEvents(): Promise<TeamEvent[]> {
-        console.log("get all events")
         const eventsProm = APIWrapper.get(`${backendURL}/getAllTeamEvents`).then((res) => res.data);
-        console.log(eventsProm);
         return eventsProm.then((val) => {
             if (val.error) {
                 Emitters.generalError.emit({
@@ -47,8 +45,6 @@ export class TeamEventsAPI {
 
     public static requestTeamEventCredit(teamEvent: TeamEvent): Promise<TeamEventResponseObj> {
         // need to add image processing
-        console.log("here")
-        console.log(teamEvent);
         return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then((res) => res.data.event);
     }
 }

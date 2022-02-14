@@ -17,7 +17,6 @@ const TeamEventCreditForm: React.FC = () => {
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
-    console.log(teamEvents);
   }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -27,12 +26,7 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance, teamEvent: TeamEvent) => {
-    // add user to pending list of the team event
-    // notify leads of request
-    console.log(teamEvent);
     teamEvent?.requests.push(eventCreditRequest);
-    console.log("after push")
-    console.log(teamEvent);
     TeamEventsAPI.requestTeamEventCredit(teamEvent);
   };
 
@@ -66,26 +60,6 @@ const TeamEventCreditForm: React.FC = () => {
     }
   };
 
-  // const teamEvents: TeamEvent[] = [
-  //   {
-  //     name: 'Coffee Chat',
-  //     date: 'Sept 3',
-  //     numCredits: '0.5',
-  //     hasHours: false,
-  //     requests: [],
-  //     attendees: [],
-  //     uuid: '4'
-  //   },
-  //   {
-  //     name: 'Club Fest',
-  //     date: 'Sept 5',
-  //     numCredits: '0.5',
-  //     hasHours: true,
-  //     requests: [],
-  //     attendees: [],
-  //     uuid: '7'
-  //   }
-  // ];
   return (
     <div>
       <Form

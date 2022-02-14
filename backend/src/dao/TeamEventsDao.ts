@@ -50,12 +50,9 @@ export default class TeamEventsDao {
   }
 
   static async updateTeamEvent(event: TeamEvent): Promise<TeamEvent> {
-    console.log("indside dao");
     const eventDoc = teamEventsCollection.doc(event.uuid);
-    console.log("cat bat");
     const eventRef = await eventDoc.get();
     if (!eventRef.exists) throw new NotFoundError(`No team event '${event.uuid}' exists.`);
-    console.log("indside dao!!!!!");
 
     const teamEventRef: DBTeamEvent = {
       uuid: event.uuid,
@@ -66,10 +63,8 @@ export default class TeamEventsDao {
       requests: event.requests.map((req) => ({ ...req, member: memberCollection.doc(req.member.email)})),
       attendees: event.attendees.map((att) => ({ ...att, member: memberCollection.doc(att.member.email)}))
     };
-    console.log(teamEventRef);
-    console.log("now updating");
+    
     await teamEventsCollection.doc(event.uuid).update(teamEventRef);
-    console.log("end of dao")
     return event;
   }
 }
