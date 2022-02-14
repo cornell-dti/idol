@@ -3,11 +3,10 @@ import { TeamEvent } from './DataTypes';
 import { PermissionError } from './errors';
 import PermissionsManager from './permissions';
 
-export const getAllTeamEvents = (user: IdolMember): Promise<TeamEvent[]> => 
+export const getAllTeamEvents = (user: IdolMember): Promise<TeamEvent[]> =>
   // const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   // if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
-   TeamEventsDao.getAllTeamEvents()
-;
+  TeamEventsDao.getAllTeamEvents();
 
 export const createTeamEvent = async (
   teamEvent: TeamEvent,

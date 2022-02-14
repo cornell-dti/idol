@@ -16,11 +16,17 @@ export default class TeamEventsDao {
           numCredits,
           hasHours,
           requests: await Promise.all(
-            requests.map((ref) => ({...ref, member: (ref.member.get().then((doc) => doc.data()) as unknown as IdolMember)})
-          )),
+            requests.map((ref) => ({
+              ...ref,
+              member: ref.member.get().then((doc) => doc.data()) as unknown as IdolMember
+            }))
+          ),
           attendees: await Promise.all(
-            attendees.map((ref) => ({...ref, member: (ref.member.get().then((doc) => doc.data()) as unknown as IdolMember)})
-          )),
+            attendees.map((ref) => ({
+              ...ref,
+              member: ref.member.get().then((doc) => doc.data()) as unknown as IdolMember
+            }))
+          ),
           uuid
         };
       })
@@ -41,8 +47,14 @@ export default class TeamEventsDao {
       date: event.date,
       numCredits: event.numCredits,
       hasHours: event.hasHours,
-      requests: event.requests.map((req) => ({...req, member: memberCollection.doc(req.member.email)})),
-      attendees: event.attendees.map((att) => ({ ...att, member: memberCollection.doc(att.member.email)}))
+      requests: event.requests.map((req) => ({
+        ...req,
+        member: memberCollection.doc(req.member.email)
+      })),
+      attendees: event.attendees.map((att) => ({
+        ...att,
+        member: memberCollection.doc(att.member.email)
+      }))
     };
 
     await teamEventsCollection.doc(teamEventRef.uuid).set(teamEventRef);
@@ -60,10 +72,16 @@ export default class TeamEventsDao {
       date: event.date,
       numCredits: event.numCredits,
       hasHours: event.hasHours,
-      requests: event.requests.map((req) => ({ ...req, member: memberCollection.doc(req.member.email)})),
-      attendees: event.attendees.map((att) => ({ ...att, member: memberCollection.doc(att.member.email)}))
+      requests: event.requests.map((req) => ({
+        ...req,
+        member: memberCollection.doc(req.member.email)
+      })),
+      attendees: event.attendees.map((att) => ({
+        ...att,
+        member: memberCollection.doc(att.member.email)
+      }))
     };
-    
+
     await teamEventsCollection.doc(event.uuid).update(teamEventRef);
     return event;
   }

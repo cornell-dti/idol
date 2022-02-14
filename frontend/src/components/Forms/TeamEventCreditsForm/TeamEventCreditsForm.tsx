@@ -25,7 +25,10 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance, teamEvent: TeamEvent) => {
+  const requestTeamEventCredit = (
+    eventCreditRequest: TeamEventAttendance,
+    teamEvent: TeamEvent
+  ) => {
     teamEvent?.requests.push(eventCreditRequest);
     TeamEventsAPI.requestTeamEventCredit(teamEvent);
   };
