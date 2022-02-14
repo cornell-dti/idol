@@ -4,6 +4,7 @@ import { onSnapshot } from 'firebase/firestore';
 import { adminsCollection, membersCollection, approvedMembersCollection } from '../../firebase';
 import { useUserEmail } from './UserProvider';
 import { Team } from '../../API/TeamsAPI';
+import { allowAdmin } from '../../environment';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -34,7 +35,7 @@ export const useHasAdminPermission = (): boolean => {
   const userEmail = useUserEmail();
   const self = useSelf();
   const adminEmails = useAdminEmails();
-  return self?.role === 'lead' || adminEmails.includes(userEmail);
+  return allowAdmin && (self?.role === 'lead' || adminEmails.includes(userEmail));
 };
 
 export const useTeamNames = (): readonly string[] => {
