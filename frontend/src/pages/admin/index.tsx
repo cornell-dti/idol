@@ -44,6 +44,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     adminOnly: true
   },
   {
+    header: 'Edit Candidate Decider Instances',
+    description: 'Create, edit, or delete Candidate Decider instances',
+    link: '/admin/candidate-decider',
+    adminOnly: true
+  },
+  {
     header: 'Example Unstable Hidden Page',
     description: 'An example page visible to admin only. It can be used to gate unstable features.',
     link: '/admin/hidden',

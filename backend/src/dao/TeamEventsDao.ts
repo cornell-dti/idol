@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { TeamEvent, DBTeamEvent, TeamEventAttendance } from '../DataTypes';
+import { TeamEvent, DBTeamEvent } from '../DataTypes';
 import { memberCollection, teamEventsCollection } from '../firebase';
 import { NotFoundError } from '../errors';
 
@@ -17,15 +17,15 @@ export default class TeamEventsDao {
           requests: await Promise.all(
             requests.map(async (ref) => ({
               ...ref,
-              member: await ref.member.get().then((doc) => doc.data()) as IdolMember
+              member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
             }))
-          ) as TeamEventAttendance[],
+          ),
           attendees: await Promise.all(
             attendees.map(async (ref) => ({
               ...ref,
-              member: await ref.member.get().then((doc) => doc.data()) as IdolMember
+              member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
             }))
-          ) as TeamEventAttendance[],
+          ),
           uuid
         };
       })

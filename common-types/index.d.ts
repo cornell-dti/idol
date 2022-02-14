@@ -96,3 +96,28 @@ interface EventProofImage {
   readonly url: string;
   readonly fileName: string;
 }
+
+interface CandidateDeciderRating {
+  readonly reviewer: IdolMember;
+  readonly rating: number;
+}
+
+interface CandidateDeciderComment {
+  readonly reviewer: IdolMember;
+  readonly comment: string;
+}
+
+interface CandidateDeciderCandidate {
+  readonly responses: string[];
+  readonly id: number;
+  ratings: CandidateDeciderRating[];
+  comments: CandidateDeciderComment[];
+}
+
+interface CandidateDeciderInstance {
+  readonly name: string;
+  readonly headers: string[];
+  readonly candidates: CandidateDeciderCandidate[];
+  readonly uuid: string;
+  isOpen: boolean;
+}
