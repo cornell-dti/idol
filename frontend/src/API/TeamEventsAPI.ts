@@ -27,13 +27,13 @@ export class TeamEventsAPI {
     });
   }
 
-  public static createTeamEventForm(Event: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/createTeamEvent`, Event).then((res) => res.data);
+  public static createTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEvent).then((res) => res.data);
   }
 
-  public static requestTeamEventCredit(Event: Event): Promise<TeamEventResponseObj> {
+  public static requestTeamEventCredit(teamEvent: Event): Promise<TeamEventResponseObj> {
     // need to add image processing
-    return APIWrapper.post(`${backendURL}/updateTeamEvent`, Event).then(
+    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
       (res) => res.data.event
     );
   }
