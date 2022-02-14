@@ -3,18 +3,33 @@ import jaggerData from './data/jagger-profile.json';
 import { teamEventsCollection } from '../src/firebase';
 import { TeamEvent } from '../src/DataTypes';
 
+const testTeamEventAttendence = {
+  member: jaggerData,
+  hoursAttended: 1,
+  image: null
+};
+
 const test_event: TeamEvent = {
   date: 'now',
   hasHours: true,
   name: 'testevent1',
   numCredits: '1',
   attendees: [],
-  requests: [jaggerData],
+  requests: [testTeamEventAttendence],
   uuid: 'test'
 };
 
 /* clean database */
 afterAll(async () => TeamEventsDao.deleteTeamEvent(test_event));
+
+TeamEventsDao.createTeamEvent(test_event);
+
+test('Add new event', async () => {
+  TeamEventsDao.getAllTeamEvents().then((events) => {
+    const target_event = events.find((event) => event.name === 'testevent1');
+    expect(target_event).toEqual(test_event);
+  });
+});
 
 /* for /createTeamEvent and /getAllTeamEvents */
 test('Add new event', async () => {
@@ -31,7 +46,7 @@ test('Update existing event', async () => {
   const updated_event: TeamEvent = {
     ...test_event,
     requests: [],
-    attendees: [jaggerData]
+    attendees: [testTeamEventAttendence]
   };
 
   // make sure event is in db first
