@@ -46,13 +46,13 @@ export type DBTeamEventAttendance = {
   member: firestore.DocumentReference;
   hoursAttended?: number;
   image: string;
-}
+};
 
 export type TeamEventAttendance = {
   member: IdolMember;
   hoursAttended?: number;
   image: string;
-}
+};
 
 export type DBTeamEvent = {
   name: string;

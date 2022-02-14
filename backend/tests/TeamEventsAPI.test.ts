@@ -15,7 +15,7 @@ const testTeamEventAttendence = {
   member: jaggerData,
   hoursAttended: 1,
   image: null
-}
+};
 
 const testTeamEvent = {
   name: 'test',
