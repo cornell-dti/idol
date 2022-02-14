@@ -98,7 +98,7 @@ interface CandidateDeciderComment {
 }
 
 interface CandidateDeciderCandidate {
-  readonly responses: any[];
+  readonly responses: string[];
   readonly id: number;
   ratings: CandidateDeciderRating[];
   comments: CandidateDeciderComment[];

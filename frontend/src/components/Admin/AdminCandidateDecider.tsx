@@ -60,7 +60,7 @@ const CandidateDeciderInstanceCreator = ({
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const [headers, setHeaders] = useState<string[]>([]);
-  const [responses, setResponses] = useState<any[]>([]);
+  const [responses, setResponses] = useState<string[]>([]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -71,8 +71,11 @@ const CandidateDeciderInstanceCreator = ({
     reader.onload = () => {
       const str = reader.result as string;
       const headers = str.slice(0, str.indexOf('\n')).split(',');
+      const rows = str.slice(str.indexOf('\n') + 1).split('\n');
       setHeaders(headers);
-      csv()
+      csv({
+        noheader: true
+      })
         .fromString(str)
         .then((parsedResponses) => setResponses(parsedResponses));
     };
@@ -139,12 +142,7 @@ const CandidateDeciderInstanceList = ({
         <div id={styles.itemsContainer}>
           <Card.Group>
             {instances.map((instance) => (
-              <Card
-                color={instance.isOpen ? 'green' : 'red'}
-                // href={`candidate-decider/${instance.uuid}`}
-                key={instance.uuid}
-              >
-                {console.log(instance.isOpen)}
+              <Card color={instance.isOpen ? 'green' : 'red'} key={instance.uuid}>
                 <Card.Content>
                   <Card.Header>{instance.name}</Card.Header>
                   <Card.Meta>{instance.isOpen ? 'Open' : 'Closed'}</Card.Meta>
