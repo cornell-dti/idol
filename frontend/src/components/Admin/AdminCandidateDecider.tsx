@@ -113,12 +113,7 @@ const CandidateDeciderInstanceList: React.FC = () => {
         <div id={styles.itemsContainer}>
           <Card.Group>
             {instances.map((instance) => (
-              <Card
-                color={instance.isOpen ? 'green' : 'red'}
-                // href={`candidate-decider/${instance.uuid}`}
-                key={instance.uuid}
-              >
-                {console.log(instance.isOpen)}
+              <Card color={instance.isOpen ? 'green' : 'red'} key={instance.uuid}>
                 <Card.Content>
                   <Card.Header>{instance.name}</Card.Header>
                   <Card.Meta>{instance.isOpen ? 'Open' : 'Closed'}</Card.Meta>
