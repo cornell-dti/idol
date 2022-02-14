@@ -49,11 +49,11 @@ export default class TeamEventsDao {
       hasHours: event.hasHours,
       requests: event.requests.map((ref) => ({
         ...ref,
-        member: memberCollection.doc(ref.member.email)
+        member: teamEventsCollection.doc(ref.member.email)
       })),
       attendees: event.attendees.map((ref) => ({
         ...ref,
-        member: memberCollection.doc(ref.member.email)
+        member: teamEventsCollection.doc(ref.member.email)
       }))
     };
 
@@ -74,11 +74,11 @@ export default class TeamEventsDao {
       hasHours: event.hasHours,
       requests: event.requests.map((ref) => ({
         ...ref,
-        member: memberCollection.doc(ref.member.email)
+        member: teamEventsCollection.doc(ref.member.email)
       })),
       attendees: event.attendees.map((ref) => ({
         ...ref,
-        member: memberCollection.doc(ref.member.email)
+        member: teamEventsCollection.doc(ref.member.email)
       }))
     };
 
@@ -86,4 +86,3 @@ export default class TeamEventsDao {
     return event;
   }
 }
-
