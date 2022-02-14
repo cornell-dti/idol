@@ -16,15 +16,15 @@ export default class TeamEventsDao {
           numCredits,
           hasHours,
           requests: await Promise.all(
-            requests.map((ref) => ({
+            requests.map(async (ref) => ({
               ...ref,
-              member: ref.member.get().then((doc) => doc.data()) as unknown as IdolMember
+              member: await ref.member.get().then((doc) => doc.data()) as IdolMember
             }))
           ),
           attendees: await Promise.all(
-            attendees.map((ref) => ({
+            attendees.map(async (ref) => ({
               ...ref,
-              member: ref.member.get().then((doc) => doc.data()) as unknown as IdolMember
+              member: await ref.member.get().then((doc) => doc.data()) as IdolMember
             }))
           ),
           uuid
