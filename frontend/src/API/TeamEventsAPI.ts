@@ -48,7 +48,7 @@ export class TeamEventsAPI {
     public static requestTeamEventCredit(teamEvent: TeamEvent): Promise<TeamEventResponseObj> {
         // need to add image processing
         console.log("here")
-        console.log(typeof(teamEvent));
-        return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then((res) => res.data);
+        console.log(teamEvent);
+        return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then((res) => res.data.event);
     }
 }

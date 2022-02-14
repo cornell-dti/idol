@@ -3,11 +3,11 @@ import { TeamEvent } from './DataTypes';
 import { PermissionError } from './errors';
 import PermissionsManager from './permissions';
 
-export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
-  const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
-  if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
-  return TeamEventsDao.getAllTeamEvents();
-};
+export const getAllTeamEvents = (user: IdolMember): Promise<TeamEvent[]> => 
+  // const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
+  // if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
+   TeamEventsDao.getAllTeamEvents()
+;
 
 export const createTeamEvent = async (
   teamEvent: TeamEvent,
@@ -31,9 +31,12 @@ export const updateTeamEvent = async (
   teamEvent: TeamEvent,
   user: IdolMember
 ): Promise<TeamEvent> => {
-  if (!PermissionsManager.canEditTeamEvent(user)) {
-    throw new PermissionError("You don't have permission to update a team event!");
-  }
+  console.log("in update");
+  console.log(teamEvent);
+  // if (!PermissionsManager.canEditTeamEvent(user)) {
+  //   throw new PermissionError("You don't have permission to update a team event!");
+  // }
+  console.log("here!!!!");
   await TeamEventsDao.updateTeamEvent(teamEvent);
   return teamEvent;
 };
