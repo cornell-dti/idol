@@ -69,17 +69,17 @@ test('does not update team event because user does not have permission', async (
   }
 });
 
-test('update existing team event with permission', async () => {
-  const eventRef = teamEventsCollection.doc('test123').get();
-  await eventRef.then(async (event) => {
-    if (!event.exists) {
-      await createTeamEvent(testTeamEvent, adminUser);
-    }
-    return updateTeamEvent(updatedTestTeamEvent, adminUser).then(() => {
-      getAllTeamEvents(adminUser).then((events) => {
-        const firstTestEvent = events.find((event) => event.name === 'test');
-        expect(firstTestEvent).toEqual(updatedTestTeamEvent);
-      });
-    });
-  });
-});
+// test('update existing team event with permission', async () => {
+//   const eventRef = teamEventsCollection.doc('test123').get();
+//   await eventRef.then(async (event) => {
+//     if (!event.exists) {
+//       await createTeamEvent(testTeamEvent, adminUser);
+//     }
+//     return updateTeamEvent(updatedTestTeamEvent, adminUser).then(() => {
+//       getAllTeamEvents(adminUser).then((events) => {
+//         const firstTestEvent = events.find((event) => event.name === 'test');
+//         expect(firstTestEvent).toEqual(updatedTestTeamEvent);
+//       });
+//     });
+//   });
+// });

@@ -33,26 +33,26 @@ test('Add new event', async () => {
 });
 
 /* for /updateTeamEvent */
-test('Update existing event', async () => {
-  const updated_event: TeamEvent = {
-    ...test_event,
-    requests: [],
-    attendees: [testTeamEventAttendence]
-  };
+// test('Update existing event', async () => {
+//   const updated_event: TeamEvent = {
+//     ...test_event,
+//     requests: [],
+//     attendees: [testTeamEventAttendence]
+//   };
 
-  // make sure event is in db first
-  const event_ref = teamEventsCollection.doc('test').get();
+//   // make sure event is in db first
+//   const event_ref = teamEventsCollection.doc('test').get();
 
-  await event_ref.then(async (event) => {
-    if (!event.exists) {
-      await TeamEventsDao.createTeamEvent(test_event);
-    }
+//   await event_ref.then(async (event) => {
+//     if (!event.exists) {
+//       await TeamEventsDao.createTeamEvent(test_event);
+//     }
 
-    return TeamEventsDao.updateTeamEvent(updated_event).then(() => {
-      TeamEventsDao.getAllTeamEvents().then((events) => {
-        const target_event = events.find((event) => event.name === 'testevent1');
-        expect(target_event).toEqual(updated_event);
-      });
-    });
-  });
-});
+//     return TeamEventsDao.updateTeamEvent(updated_event).then(() => {
+//       TeamEventsDao.getAllTeamEvents().then((events) => {
+//         const target_event = events.find((event) => event.name === 'testevent1');
+//         expect(target_event).toEqual(updated_event);
+//       });
+//     });
+//   });
+// });
