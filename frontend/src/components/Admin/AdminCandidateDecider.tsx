@@ -31,7 +31,7 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const [headers, setHeaders] = useState<string[]>([]);
-  const [responses, setResponses] = useState<string[]>([]);
+  const [responses, setResponses] = useState<string[][]>([[]]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -42,12 +42,13 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
     reader.onload = () => {
       const str = reader.result as string;
       const headers = str.slice(0, str.indexOf('\n')).split(',');
-      const rows = str.slice(str.indexOf('\n') + 1).split('\n');
+      const rows = str.slice(str.indexOf('\n') + 1);
       setHeaders(headers);
       csv({
-        noheader: true
+        noheader: true,
+        output: 'csv'
       })
-        .fromString(str)
+        .fromString(rows)
         .then((parsedResponses) => setResponses(parsedResponses));
     };
   };
