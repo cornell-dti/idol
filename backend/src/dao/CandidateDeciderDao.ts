@@ -1,37 +1,50 @@
 import { candidateDeciderCollection, memberCollection } from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { DBCandidateDeciderInstance } from '../DataTypes';
-import { reduceEachLeadingCommentRange } from 'typescript';
 
 export default class CandidateDeciderDao {
-  static async getAllInstances(): Promise<CandidateDeciderInstance[]> {
+  static async getAllInstances(): Promise<CandidateDeciderInfo[]> {
     const instanceRefs = await candidateDeciderCollection.get();
 
     return Promise.all(
       instanceRefs.docs.map(async (instanceRefs) => {
-        const dbInstance = instanceRefs.data();
-        return {
-          ...dbInstance,
-          candidates: await Promise.all(
-            dbInstance.candidates.map(async (dbCandidate) => ({
-              ...dbCandidate,
-              ratings: await Promise.all(
-                dbCandidate.ratings.map(async (dbRating) => ({
-                  ...dbRating,
-                  reviewer: (await dbRating.reviewer.get()).data() as IdolMember
-                }))
-              ),
-              comments: await Promise.all(
-                dbCandidate.comments.map(async (dbComment) => ({
-                  ...dbComment,
-                  reviewer: (await dbComment.reviewer.get()).data() as IdolMember
-                }))
-              )
-            }))
-          )
-        };
+        const { name, uuid, isOpen } = instanceRefs.data() as DBCandidateDeciderInstance;
+        return { name, uuid, isOpen };
       })
     );
+  }
+
+  static async getInstance(uuid: string): Promise<CandidateDeciderInstance | undefined> {
+    const doc = await candidateDeciderCollection.doc(uuid).get();
+    if (!doc.exists) return undefined;
+    const dbInstance = doc.data() as DBCandidateDeciderInstance;
+    return {
+      ...dbInstance,
+      candidates: await Promise.all(
+        dbInstance.candidates.map(async (candidate) => ({
+          ...candidate,
+          ratings: await Promise.all(
+            candidate.ratings.map(async (rating) => ({
+              ...rating,
+              reviewer: (await rating.reviewer.get()).data() as IdolMember
+            }))
+          ),
+          comments: await Promise.all(
+            candidate.comments.map(async (comment) => ({
+              ...comment,
+              reviewer: (await comment.reviewer.get()).data() as IdolMember
+            }))
+          )
+        }))
+      )
+    };
+  }
+
+  static async toggleInstance(uuid: string): Promise<void> {
+    const doc = await candidateDeciderCollection.doc(uuid).get();
+    if (!doc.exists) return;
+    const data = doc.data() as DBCandidateDeciderInstance;
+    await candidateDeciderCollection.doc(uuid).update({ isOpen: !data.isOpen });
   }
 
   static async createNewInstance(
@@ -56,5 +69,9 @@ export default class CandidateDeciderDao {
       .doc(candidateDeciderInstanceRef.uuid)
       .set(candidateDeciderInstanceRef);
     return instance;
+  }
+
+  static async deleteInstance(uuid: string): Promise<void> {
+    await candidateDeciderCollection.doc(uuid).delete();
   }
 }

@@ -85,7 +85,7 @@ export type DBCandidateDeciderComment = {
 };
 
 export type DBCandidateDeciderCandidate = {
-  readonly responses: any[];
+  readonly responses: string[];
   readonly id: number;
   ratings: DBCandidateDeciderRating[];
   comments: DBCandidateDeciderComment[];

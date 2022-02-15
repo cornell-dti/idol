@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
+import CandidateDeciderDeleteModal from '../Modals/CandidateDeciderDeleteModal';
 import csv from 'csvtojson';
 import styles from './AdminCandidateDecider.module.css';
 
-const mockInstances = [
-  {
-    name: 'Developer Spring 2022 Recruitment',
-    isOpen: true,
-    headers: [],
-    candidates: [],
-    uuid: 'asdfjkl'
-  },
-  {
-    name: 'Developer Fall 2022 Recruitment',
-    isOpen: true,
-    headers: [],
-    candidates: [],
-    uuid: 'hello-world'
-  }
-];
+type CandidateDeciderInstancelistProps = {
+  instances: CandidateDeciderInfo[];
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  getAllInstances: () => Promise<void>;
+};
 
-const AdminCandidateDeciderBase: React.FC = () => (
-  <div id={styles.adminCandidateDeciderContainer}>
-    <CandidateDeciderInstanceCreator />
-    <CandidateDeciderInstanceList />
-  </div>
-);
+type CandidateDeciderInstanceCreatorProps = {
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
+  getAllInstances: () => Promise<void>;
+};
 
-const CandidateDeciderInstanceCreator: React.FC = () => {
+const AdminCandidateDeciderBase: React.FC = () => {
+  const [instances, setInstances] = useState<CandidateDeciderInfo[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getAllInstances = (): Promise<void> => {
+    return CandidateDeciderAPI.getAllInstances().then((instances) => setInstances(instances));
+  };
+
+  return (
+    <div id={styles.adminCandidateDeciderContainer}>
+      <CandidateDeciderInstanceCreator
+        setInstances={setInstances}
+        getAllInstances={getAllInstances}
+      />
+      <CandidateDeciderInstanceList
+        instances={instances}
+        setInstances={setInstances}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        getAllInstances={getAllInstances}
+      />
+    </div>
+  );
+};
+
+const CandidateDeciderInstanceCreator = ({
+  setInstances,
+  getAllInstances
+}: CandidateDeciderInstanceCreatorProps): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const [headers, setHeaders] = useState<string[]>([]);
@@ -62,9 +80,9 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
       candidates: responses.map((res, i) => ({ id: i, responses: res, comments: [], ratings: [] })),
       isOpen: true
     };
-    setSuccess(true);
-    console.log(instance);
-    console.log('FORM SUBMITTED');
+    CandidateDeciderAPI.createNewInstance(instance)
+      .then(() => getAllInstances())
+      .then(() => setSuccess(true));
   };
 
   return (
@@ -91,23 +109,25 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
   );
 };
 
-const CandidateDeciderInstanceList: React.FC = () => {
-  const [instances, setInstances] = useState<CandidateDeciderInstance[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
+const CandidateDeciderInstanceList = ({
+  instances,
+  setInstances,
+  isLoading,
+  setIsLoading,
+  getAllInstances
+}: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
-    // TODO pull from backend
-    setInstances(mockInstances);
-    setIsLoading(false);
+    getAllInstances().then(() => setIsLoading(false));
   }, []);
 
   const toggleIsOpen = (uuid: string) => {
     const updatedInstances = instances.map((instance) =>
       instance.uuid === uuid ? { ...instance, isOpen: !instance.isOpen } : instance
     );
-    setInstances(updatedInstances);
-    // TODO update in backend
+    CandidateDeciderAPI.toggleInstance(uuid).then(() => setInstances(updatedInstances));
   };
+
+  const handleDelete = (uuid: string) => {};
 
   return (
     <div id={styles.listContainer}>
@@ -122,11 +142,17 @@ const CandidateDeciderInstanceList: React.FC = () => {
                 <Card.Content>
                   <Card.Header>{instance.name}</Card.Header>
                   <Card.Meta>{instance.isOpen ? 'Open' : 'Closed'}</Card.Meta>
-                  <Checkbox
-                    toggle
-                    defaultChecked={instance.isOpen}
-                    onChange={() => toggleIsOpen(instance.uuid)}
-                  />
+                  <div id={styles.cardButtonContainer}>
+                    <Checkbox
+                      toggle
+                      defaultChecked={instance.isOpen}
+                      onChange={() => toggleIsOpen(instance.uuid)}
+                    />
+                    <CandidateDeciderDeleteModal
+                      uuid={instance.uuid}
+                      getAllInstances={getAllInstances}
+                    />
+                  </div>
                 </Card.Content>
               </Card>
             ))}

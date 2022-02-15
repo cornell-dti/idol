@@ -42,7 +42,9 @@ import {
 
 import {
   getAllCandidateDeciderInstances,
-  createNewCandidateDeciderInstance
+  createNewCandidateDeciderInstance,
+  toggleCandidateDeciderInstance,
+  deleteCandidateDeciderInstance
 } from './candidateDeciderAPI';
 
 // Constants and configurations
@@ -221,6 +223,15 @@ loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
 loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
+loginCheckedPost(
+  '/toggleCandidateDeciderInstance',
+  async (req, user) => await toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+);
+
+loginCheckedPost(
+  '/deleteCandidateDeciderInstance',
+  async (req, user) => await deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+);
 
 app.use('/.netlify/functions/api', router);
 

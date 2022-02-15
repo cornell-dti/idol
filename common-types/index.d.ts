@@ -121,3 +121,9 @@ interface CandidateDeciderInstance {
   readonly uuid: string;
   isOpen: boolean;
 }
+
+interface CandidateDeciderInfo {
+  readonly name: string;
+  readonly uuid: string;
+  isOpen: boolean;
+}
