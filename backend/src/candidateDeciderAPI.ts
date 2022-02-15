@@ -2,8 +2,17 @@ import CandidateDeciderDao from './dao/CandidateDeciderDao';
 import { PermissionError } from './errors';
 import PermissionsManager from './permissions';
 
-export const getAllCandidateDeciderInstances = async (): Promise<CandidateDeciderInstance[]> =>
-  await CandidateDeciderDao.getAllInstances();
+export const getAllCandidateDeciderInstances = async (
+  user: IdolMember
+): Promise<CandidateDeciderInstance[]> => {
+  const hasPermission = PermissionsManager.canEditMembers(user);
+  if (!hasPermission) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to Candidate Decider!`
+    );
+  }
+  return await CandidateDeciderDao.getAllInstances();
+};
 
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,

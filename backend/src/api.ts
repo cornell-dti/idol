@@ -213,8 +213,8 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
 }));
 
 // Candidate Decider
-loginCheckedGet('/getAllCandidateDeciderInstances', async () => ({
-  instances: await getAllCandidateDeciderInstances()
+loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
+  instances: await getAllCandidateDeciderInstances(user)
 }));
 loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
