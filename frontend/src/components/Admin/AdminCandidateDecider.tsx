@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
+import csv from 'csvtojson';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../Modals/CandidateDeciderDeleteModal';
-import csv from 'csvtojson';
 import styles from './AdminCandidateDecider.module.css';
 
 type CandidateDeciderInstancelistProps = {
@@ -22,9 +22,8 @@ const AdminCandidateDeciderBase: React.FC = () => {
   const [instances, setInstances] = useState<CandidateDeciderInfo[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const getAllInstances = (): Promise<void> => {
-    return CandidateDeciderAPI.getAllInstances().then((instances) => setInstances(instances));
-  };
+  const getAllInstances = (): Promise<void> =>
+    CandidateDeciderAPI.getAllInstances().then((instances) => setInstances(instances));
 
   return (
     <div id={styles.adminCandidateDeciderContainer}>
@@ -126,8 +125,6 @@ const CandidateDeciderInstanceList = ({
     );
     CandidateDeciderAPI.toggleInstance(uuid).then(() => setInstances(updatedInstances));
   };
-
-  const handleDelete = (uuid: string) => {};
 
   return (
     <div id={styles.listContainer}>

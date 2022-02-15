@@ -11,13 +11,13 @@ export const getAllCandidateDeciderInstances = async (
       `User with email ${user.email} does not have permission to Candidate Decider!`
     );
   }
-  return await CandidateDeciderDao.getAllInstances();
+  return CandidateDeciderDao.getAllInstances();
 };
 
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
   user: IdolMember
-) => {
+): Promise<CandidateDeciderInstance> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'

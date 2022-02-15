@@ -4,9 +4,7 @@ import { backendURL } from '../environment';
 export default class CandidateDeciderAPI {
   static async getAllInstances(): Promise<CandidateDeciderInfo[]> {
     const response = APIWrapper.get(`${backendURL}/getAllCandidateDeciderInstances`);
-    return response.then((val) => {
-      return val.data.instances;
-    });
+    return response.then((val) => val.data.instances);
   }
 
   static async createNewInstance(instance: CandidateDeciderInstance) {

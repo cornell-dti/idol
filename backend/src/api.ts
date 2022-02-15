@@ -1,7 +1,6 @@
 import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import admin from 'firebase-admin';
 import { app as adminApp } from './firebase';
 import {
@@ -223,14 +222,12 @@ loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
 loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
-loginCheckedPost(
-  '/toggleCandidateDeciderInstance',
-  async (req, user) => await toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+loginCheckedPost('/toggleCandidateDeciderInstance', async (req, user) =>
+  toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
 );
 
-loginCheckedPost(
-  '/deleteCandidateDeciderInstance',
-  async (req, user) => await deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+loginCheckedPost('/deleteCandidateDeciderInstance', async (req, user) =>
+  deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);
