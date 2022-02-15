@@ -21,42 +21,14 @@ const mockInstances = [
   }
 ];
 
-type CandidateDeciderInstanceCreatorProps = {
-  // setInstances: (instances: CandidateDeciderInstance[]) => void;
-  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInstance[]>>;
-};
+const AdminCandidateDeciderBase: React.FC = () => (
+  <div id={styles.adminCandidateDeciderContainer}>
+    <CandidateDeciderInstanceCreator />
+    <CandidateDeciderInstanceList />
+  </div>
+);
 
-type CandidateDeciderInstanceListProps = {
-  instances: CandidateDeciderInstance[];
-  setInstances: (instances: CandidateDeciderInstance[]) => void;
-  isLoading: boolean;
-};
-
-const AdminCandidateDeciderBase: React.FC = () => {
-  const [instances, setInstances] = useState<CandidateDeciderInstance[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    CandidateDeciderAPI.getAllInstances()
-      .then((allInstances) => setInstances(allInstances))
-      .then(() => setIsLoading(false));
-  }, []);
-
-  return (
-    <div id={styles.adminCandidateDeciderContainer}>
-      <CandidateDeciderInstanceCreator setInstances={setInstances} />
-      <CandidateDeciderInstanceList
-        isLoading={isLoading}
-        instances={instances}
-        setInstances={setInstances}
-      />
-    </div>
-  );
-};
-
-const CandidateDeciderInstanceCreator = ({
-  setInstances
-}: CandidateDeciderInstanceCreatorProps): JSX.Element => {
+const CandidateDeciderInstanceCreator: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const [headers, setHeaders] = useState<string[]>([]);
@@ -90,9 +62,7 @@ const CandidateDeciderInstanceCreator = ({
       candidates: responses.map((res, i) => ({ id: i, responses: res, comments: [], ratings: [] })),
       isOpen: true
     };
-    CandidateDeciderAPI.createNewInstance(instance)
-      .then(() => setSuccess(true))
-      .then(() => setInstances((prev) => [...prev, instance]));
+    setSuccess(true);
     console.log(instance);
     console.log('FORM SUBMITTED');
   };
@@ -121,11 +91,16 @@ const CandidateDeciderInstanceCreator = ({
   );
 };
 
-const CandidateDeciderInstanceList = ({
-  instances,
-  setInstances,
-  isLoading
-}: CandidateDeciderInstanceListProps): JSX.Element => {
+const CandidateDeciderInstanceList: React.FC = () => {
+  const [instances, setInstances] = useState<CandidateDeciderInstance[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    // TODO pull from backend
+    setInstances(mockInstances);
+    setIsLoading(false);
+  }, []);
+
   const toggleIsOpen = (uuid: string) => {
     const updatedInstances = instances.map((instance) =>
       instance.uuid === uuid ? { ...instance, isOpen: !instance.isOpen } : instance

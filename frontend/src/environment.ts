@@ -6,6 +6,9 @@ export const useProdBackendForDev = false;
 /** Switch to false to use development Firebase instance. Change back to true before committing. */
 export const useProdDb = false;
 
+/** Switch to false to test IDOL as a non-admin user. Change back to true before committing. */
+export const allowAdmin = true;
+
 export const backendURL =
   isProduction || !useProdBackendForDev
     ? '/.netlify/functions/api'

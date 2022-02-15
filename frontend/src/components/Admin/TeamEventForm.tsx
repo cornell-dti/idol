@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Form, Radio, Button } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import styles from './TeamEventForm.module.css';
-import { TeamEvent } from './TeamEvents';
 
 type Props = {
   formType: string;
@@ -64,8 +63,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
-        membersPending: [],
-        membersApproved: []
+        requests: [],
+        attendees: []
       };
       createTeamEvent(newTeamEvent);
       Emitters.generalSuccess.emit({
