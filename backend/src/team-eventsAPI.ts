@@ -7,7 +7,7 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
   return TeamEventsDao.getAllTeamEvents();
-}
+};
 
 export const createTeamEvent = async (
   teamEvent: TeamEvent,
