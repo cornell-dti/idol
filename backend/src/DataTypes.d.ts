@@ -48,7 +48,6 @@ export type DBTeamEventAttendance = {
   image: string;
 };
 
-
 export type DBTeamEvent = {
   name: string;
   date: string;
