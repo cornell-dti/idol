@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './NavigationCard.module.css';
 import { useHasAdminPermission } from './FirestoreDataProvider';
+import { isProduction } from '../../environment';
 
 export type NavigationCardItem = {
   readonly header: string;
@@ -22,7 +23,7 @@ export default function NavigationCard({ testID, items }: Props): JSX.Element {
         <Card.Group>
           {items.map(
             ({ header, description, link, adminOnly }) =>
-              (!adminOnly || hasAdminPermission) && (
+              (!isProduction || !adminOnly || hasAdminPermission) && (
                 <Card key={link}>
                   <Card.Content>
                     <Card.Header>{header}</Card.Header>
