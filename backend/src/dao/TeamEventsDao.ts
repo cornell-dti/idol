@@ -1,12 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { TeamEvent, DBTeamEvent } from '../DataTypes';
-import { teamEventsCollection } from '../firebase';
+import { memberCollection, teamEventsCollection } from '../firebase';
 import { NotFoundError } from '../errors';
 
 export default class TeamEventsDao {
   static async getAllTeamEvents(): Promise<TeamEvent[]> {
     const eventRefs = await teamEventsCollection.get();
-
     return Promise.all(
       eventRefs.docs.map(async (eventRef) => {
         const { name, date, numCredits, hasHours, requests, attendees, uuid } = eventRef.data();
@@ -15,18 +14,18 @@ export default class TeamEventsDao {
           date,
           numCredits,
           hasHours,
-          requests: await Promise.all(
+          requests: (await Promise.all(
             requests.map(async (ref) => ({
               ...ref,
               member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
             }))
-          ),
-          attendees: await Promise.all(
+          )) as TeamEventAttendance[],
+          attendees: (await Promise.all(
             attendees.map(async (ref) => ({
               ...ref,
               member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
             }))
-          ),
+          )) as TeamEventAttendance[],
           uuid
         };
       })
@@ -47,13 +46,13 @@ export default class TeamEventsDao {
       date: event.date,
       numCredits: event.numCredits,
       hasHours: event.hasHours,
-      requests: event.requests.map((ref) => ({
-        ...ref,
-        member: teamEventsCollection.doc(ref.member.email)
+      requests: event.requests.map((req) => ({
+        ...req,
+        member: memberCollection.doc(req.member.email)
       })),
-      attendees: event.attendees.map((ref) => ({
-        ...ref,
-        member: teamEventsCollection.doc(ref.member.email)
+      attendees: event.attendees.map((att) => ({
+        ...att,
+        member: memberCollection.doc(att.member.email)
       }))
     };
 
@@ -65,23 +64,17 @@ export default class TeamEventsDao {
     const eventDoc = teamEventsCollection.doc(event.uuid);
     const eventRef = await eventDoc.get();
     if (!eventRef.exists) throw new NotFoundError(`No team event '${event.uuid}' exists.`);
-
     const teamEventRef: DBTeamEvent = {
-      uuid: event.uuid ? event.uuid : uuidv4(),
-      name: event.name,
-      date: event.date,
-      numCredits: event.numCredits,
-      hasHours: event.hasHours,
-      requests: event.requests.map((ref) => ({
-        ...ref,
-        member: teamEventsCollection.doc(ref.member.email)
+      ...event,
+      requests: event.requests.map((req) => ({
+        ...req,
+        member: memberCollection.doc(req.member.email)
       })),
-      attendees: event.attendees.map((ref) => ({
-        ...ref,
-        member: teamEventsCollection.doc(ref.member.email)
+      attendees: event.attendees.map((att) => ({
+        ...att,
+        member: memberCollection.doc(att.member.email)
       }))
     };
-
     await teamEventsCollection.doc(event.uuid).update(teamEventRef);
     return event;
   }

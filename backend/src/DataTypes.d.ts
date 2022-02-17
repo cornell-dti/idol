@@ -48,12 +48,6 @@ export type DBTeamEventAttendance = {
   image: string;
 };
 
-export type TeamEventAttendance = {
-  member: IdolMember;
-  hoursAttended?: number;
-  image: string;
-};
-
 export type DBTeamEvent = {
   name: string;
   date: string;
@@ -62,6 +56,12 @@ export type DBTeamEvent = {
   requests: DBTeamEventAttendance[];
   attendees: DBTeamEventAttendance[];
   uuid: string;
+};
+
+export type TeamEventAttendance = {
+  member: IdolMember;
+  hoursAttended?: number;
+  image: string;
 };
 
 export type TeamEvent = {

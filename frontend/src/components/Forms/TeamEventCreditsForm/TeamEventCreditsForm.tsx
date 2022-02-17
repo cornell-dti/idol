@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Segment, Label, Button } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -12,6 +13,11 @@ const TeamEventCreditForm: React.FC = () => {
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
+  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+
+  useEffect(() => {
+    TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
+  }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
@@ -19,9 +25,12 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance) => {
-    // add user to pending list of the team event
-    // notify leads of request
+  const requestTeamEventCredit = (
+    eventCreditRequest: TeamEventAttendance,
+    teamEvent: TeamEvent
+  ) => {
+    teamEvent?.requests.push(eventCreditRequest);
+    TeamEventsAPI.requestTeamEventCredit(teamEvent);
   };
 
   const submitTeamEventCredit = () => {
@@ -46,34 +55,13 @@ const TeamEventCreditForm: React.FC = () => {
         hoursAttended: Number(hours),
         image
       };
-      requestTeamEventCredit(newTeamEventAttendance);
+      requestTeamEventCredit(newTeamEventAttendance, teamEvent);
       Emitters.generalSuccess.emit({
         headerMsg: 'Team Event Credit submitted!',
         contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
       });
     }
   };
-
-  const teamEvents: TeamEvent[] = [
-    {
-      name: 'Coffee Chat',
-      date: 'Sept 3',
-      numCredits: '0.5',
-      hasHours: false,
-      requests: [],
-      attendees: [],
-      uuid: '4'
-    },
-    {
-      name: 'Club Fest',
-      date: 'Sept 5',
-      numCredits: '0.5',
-      hasHours: true,
-      requests: [],
-      attendees: [],
-      uuid: '7'
-    }
-  ];
 
   return (
     <div>
