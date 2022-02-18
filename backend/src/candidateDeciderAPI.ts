@@ -4,15 +4,7 @@ import PermissionsManager from './permissions';
 
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
-): Promise<CandidateDeciderInfo[]> => {
-  const hasPermission = PermissionsManager.isAdmin(user);
-  if (!hasPermission) {
-    throw new PermissionError(
-      `User with email ${user.email} does not have permission to Candidate Decider!`
-    );
-  }
-  return CandidateDeciderDao.getAllInstances();
-};
+): Promise<CandidateDeciderInfo[]> => CandidateDeciderDao.getAllInstances();
 
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
