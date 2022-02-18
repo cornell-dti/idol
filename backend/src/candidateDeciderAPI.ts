@@ -1,5 +1,6 @@
+import { assertExportNamedDeclaration } from '@babel/types';
 import CandidateDeciderDao from './dao/CandidateDeciderDao';
-import { PermissionError } from './errors';
+import { NotFoundError, PermissionError } from './errors';
 import PermissionsManager from './permissions';
 
 export const getAllCandidateDeciderInstances = async (
@@ -38,4 +39,26 @@ export const deleteCandidateDeciderInstance = async (
       'User does not have permission to create new Candidate Decider instance'
     );
   await CandidateDeciderDao.deleteInstance(uuid);
+};
+
+export const getCandidateDeciderInstnace = async (
+  uuid: string,
+  user: IdolMember
+): Promise<CandidateDeciderInstance> => {
+  const instance = await CandidateDeciderDao.getInstance(uuid);
+  if (!instance) {
+    throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
+  }
+  if (
+    !(
+      (await PermissionsManager.isAdmin(user)) ||
+      instance.authorizedMembers.includes(user) ||
+      instance.authorizedRoles.includes(user.role)
+    )
+  ) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to access this Candidate Decider instance`
+    );
+  }
+  return instance;
 };
