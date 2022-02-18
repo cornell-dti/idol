@@ -1,4 +1,3 @@
-import { assertExportNamedDeclaration } from '@babel/types';
 import CandidateDeciderDao from './dao/CandidateDeciderDao';
 import { NotFoundError, PermissionError } from './errors';
 import PermissionsManager from './permissions';

@@ -17,7 +17,7 @@ type Action<T> = {
   selection: string;
 };
 
-const allRoleForSearch: { role: Role }[] = ALL_ROLES.map((role) => ({ role: role }));
+const allRoleForSearch: { role: Role }[] = ALL_ROLES.map((role) => ({ role }));
 
 function makeInitialState<T>() {
   const initialState: SearchState<T> = {
