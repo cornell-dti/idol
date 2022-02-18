@@ -7,10 +7,8 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instances);
   }
 
-  static async createNewInstance(instance: CandidateDeciderInstance) {
-    return APIWrapper.post(`${backendURL}/createNewCandidateDeciderInstance`, instance).then(
-      (res) => res.data.instances
-    );
+  static async createNewInstance(instance: CandidateDeciderInstance): Promise<void> {
+    APIWrapper.post(`${backendURL}/createNewCandidateDeciderInstance`, instance);
   }
 
   static async toggleInstance(uuid: string): Promise<void> {
