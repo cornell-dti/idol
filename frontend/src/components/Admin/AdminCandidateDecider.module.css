@@ -18,3 +18,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.fullWidth {
+  width: 100%;
+}

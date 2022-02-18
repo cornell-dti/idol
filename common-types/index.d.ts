@@ -119,6 +119,8 @@ interface CandidateDeciderInstance {
   readonly headers: string[];
   readonly candidates: CandidateDeciderCandidate[];
   readonly uuid: string;
+  readonly authorizedMembers: IdolMember[];
+  readonly authorizedRoles: Role[];
   isOpen: boolean;
 }
 

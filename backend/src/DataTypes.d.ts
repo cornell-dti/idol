@@ -96,5 +96,7 @@ export type DBCandidateDeciderInstance = {
   readonly headers: string[];
   readonly candidates: DBCandidateDeciderCandidate[];
   readonly uuid: string;
+  readonly authorizedMembers: firestore.DocumentReference[];
+  readonly authorizedRoles: Role[];
   isOpen: boolean;
 };

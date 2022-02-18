@@ -20,6 +20,11 @@ export default class CandidateDeciderDao {
     const dbInstance = doc.data() as DBCandidateDeciderInstance;
     return {
       ...dbInstance,
+      authorizedMembers: await Promise.all(
+        dbInstance.authorizedMembers.map(
+          async (member) => (await member.get()).data() as IdolMember
+        )
+      ),
       candidates: await Promise.all(
         dbInstance.candidates.map(async (candidate) => ({
           ...candidate,
@@ -53,6 +58,9 @@ export default class CandidateDeciderDao {
     const candidateDeciderInstanceRef = {
       ...instance,
       uuid: instance.uuid ? instance.uuid : uuidv4(),
+      authorizedMembers: instance.authorizedMembers.map((member) =>
+        memberCollection.doc(member.email)
+      ),
       candidates: instance.candidates.map((candidate) => ({
         ...candidate,
         ratings: candidate.ratings.map((rating) => ({

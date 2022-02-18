@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import csv from 'csvtojson';
+import { MemberSearch, RoleSearch } from '../Common/Search';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
@@ -50,6 +51,8 @@ const CandidateDeciderInstanceCreator = ({
   const [success, setSuccess] = useState<boolean>(false);
   const [headers, setHeaders] = useState<string[]>([]);
   const [responses, setResponses] = useState<string[][]>([[]]);
+  const [authorizedMembers, setAuthorizedMembers] = useState<IdolMember[]>([]);
+  const [authorizedRoles, setAuthorizedRoles] = useState<Role[]>([]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -76,6 +79,8 @@ const CandidateDeciderInstanceCreator = ({
       uuid: '',
       name,
       headers,
+      authorizedMembers,
+      authorizedRoles,
       candidates: responses.map((res, i) => ({ id: i, responses: res, comments: [], ratings: [] })),
       isOpen: true
     };
@@ -90,6 +95,56 @@ const CandidateDeciderInstanceCreator = ({
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="file" accept=".csv" onChange={handleFileUpload} />
+        <Message>
+          All leads and IDOL admins have permission to all Candidate Decider instances
+        </Message>
+        <Header as="h4">Add authorized members</Header>
+        <MemberSearch
+          onSelect={(mem: IdolMember) => setAuthorizedMembers((mems) => [...mems, mem])}
+        />
+        {authorizedMembers.map((member) => (
+          <Card key={member.netid}>
+            <Card.Content>
+              <Card.Header centered>{`${member.firstName} ${member.lastName}`}</Card.Header>
+              <Card.Description>{member.email}</Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
+                <Button
+                  basic
+                  color="red"
+                  onClick={() => {
+                    setAuthorizedMembers((members) =>
+                      members.filter((mem) => mem.email !== member.email)
+                    );
+                  }}
+                >
+                  Remove
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
+        <Header as="h4">Add authorized roles</Header>
+        <RoleSearch onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])} />
+        {authorizedRoles.map((role, i) => (
+          <Card key={i}>
+            <Card.Content>
+              <Card.Header>{role}</Card.Header>
+            </Card.Content>
+            <Card.Content extra>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
+                <Button
+                  basic
+                  color="red"
+                  onClick={() => setAuthorizedRoles((roles) => roles.filter((rl) => rl !== role))}
+                >
+                  Remove
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
         <Message
           success
           header="Form Submitted"
