@@ -4,10 +4,11 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 
 type Props = {
   uuid: string;
-  getAllInstances: () => Promise<void>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
 };
 
-const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, getAllInstances }) => {
+const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, setInstances, setIsLoading }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -29,7 +30,12 @@ const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, getAllInstances })
         <Button
           positive
           onClick={() => {
-            CandidateDeciderAPI.deleteInstance(uuid).then(() => getAllInstances());
+            setIsLoading(true);
+            CandidateDeciderAPI.deleteInstance(uuid).then(() =>
+              setInstances((instances: CandidateDeciderInfo[]) =>
+                instances.filter((inst) => inst.uuid !== uuid)
+              )
+            );
             setIsOpen(false);
           }}
         >

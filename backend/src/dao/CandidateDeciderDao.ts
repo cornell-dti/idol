@@ -54,7 +54,7 @@ export default class CandidateDeciderDao {
 
   static async createNewInstance(
     instance: CandidateDeciderInstance
-  ): Promise<CandidateDeciderInstance> {
+  ): Promise<CandidateDeciderInfo> {
     const candidateDeciderInstanceRef = {
       ...instance,
       uuid: instance.uuid ? instance.uuid : uuidv4(),
@@ -76,7 +76,11 @@ export default class CandidateDeciderDao {
     await candidateDeciderCollection
       .doc(candidateDeciderInstanceRef.uuid)
       .set(candidateDeciderInstanceRef);
-    return instance;
+    return {
+      name: instance.name,
+      isOpen: instance.isOpen,
+      uuid: candidateDeciderInstanceRef.uuid
+    };
   }
 
   static async deleteInstance(uuid: string): Promise<void> {

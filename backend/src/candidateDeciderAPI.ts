@@ -9,13 +9,12 @@ export const getAllCandidateDeciderInstances = async (
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
   user: IdolMember
-): Promise<CandidateDeciderInstance> => {
+): Promise<CandidateDeciderInfo> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
-  await CandidateDeciderDao.createNewInstance(instance);
-  return instance;
+  return CandidateDeciderDao.createNewInstance(instance);
 };
 
 export const toggleCandidateDeciderInstance = async (

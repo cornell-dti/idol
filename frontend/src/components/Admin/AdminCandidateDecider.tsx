@@ -85,7 +85,7 @@ const CandidateDeciderInstanceCreator = ({
       isOpen: true
     };
     CandidateDeciderAPI.createNewInstance(instance)
-      .then(() => getAllInstances())
+      .then((newInstance) => setInstances((instances) => [...instances, newInstance]))
       .then(() => setSuccess(true));
   };
 
@@ -172,7 +172,7 @@ const CandidateDeciderInstanceList = ({
 }: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
     getAllInstances().then(() => setIsLoading(false));
-  }, []);
+  }, [instances]);
 
   const toggleIsOpen = (uuid: string) => {
     const updatedInstances = instances.map((instance) =>
@@ -202,7 +202,8 @@ const CandidateDeciderInstanceList = ({
                     />
                     <CandidateDeciderDeleteModal
                       uuid={instance.uuid}
-                      getAllInstances={getAllInstances}
+                      setInstances={setInstances}
+                      setIsLoading={setIsLoading}
                     />
                   </div>
                 </Card.Content>
