@@ -1,4 +1,5 @@
 import React from 'react';
+import ALL_ROLES from 'common-types/constants';
 import { Label, Segment, Search, SearchResultProps } from 'semantic-ui-react';
 import { Member } from '../../API/MembersAPI';
 import { useMembers, useTeamNames } from './FirestoreDataProvider';
@@ -15,6 +16,8 @@ type Action<T> = {
   results: T[];
   selection: string;
 };
+
+const allRoleForSearch: { role: Role }[] = ALL_ROLES.map((role) => ({ role }));
 
 function makeInitialState<T>() {
   const initialState: SearchState<T> = {
@@ -165,6 +168,25 @@ export function TeamSearch({ onSelect }: { onSelect: (team: string) => void }): 
       )}
       matchChecker={(query, team) => team.title.toLowerCase().includes(query.toLowerCase())}
       selectCallback={({ title }) => onSelect(title)}
+    />
+  );
+}
+
+export function RoleSearch({
+  onSelect
+}: {
+  onSelect: (role: { role: Role }) => void;
+}): JSX.Element {
+  return (
+    <CustomSearch
+      source={allRoleForSearch}
+      resultRenderer={(role) => (
+        <Segment>
+          <h4>{role.role as string}</h4>
+        </Segment>
+      )}
+      matchChecker={(query, role) => role.role.toLowerCase().includes(query)}
+      selectCallback={onSelect}
     />
   );
 }

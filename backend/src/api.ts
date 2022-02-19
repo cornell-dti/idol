@@ -1,7 +1,6 @@
 import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import admin from 'firebase-admin';
 import { app as adminApp } from './firebase';
 import {
@@ -40,6 +39,13 @@ import {
   updateTeamEvent
 } from './team-eventsAPI';
 
+import {
+  getAllCandidateDeciderInstances,
+  createNewCandidateDeciderInstance,
+  toggleCandidateDeciderInstance,
+  deleteCandidateDeciderInstance
+} from './candidateDeciderAPI';
+
 // Constants and configurations
 const app = express();
 const router = express.Router();
@@ -61,7 +67,7 @@ app.use(
     credentials: true
   })
 );
-app.use(bodyParser.json());
+app.use(express.json({ limit: '50mb' }));
 
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
@@ -208,6 +214,21 @@ loginCheckedPost('/updateTeamEvent', async (req, user) => ({
 loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
   team: await deleteTeamEvent(req.body, user)
 }));
+
+// Candidate Decider
+loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
+  instances: await getAllCandidateDeciderInstances(user)
+}));
+loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
+  instance: await createNewCandidateDeciderInstance(req.body, user)
+}));
+loginCheckedPost('/toggleCandidateDeciderInstance', async (req, user) =>
+  toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+);
+
+loginCheckedPost('/deleteCandidateDeciderInstance', async (req, user) =>
+  deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+);
 
 app.use('/.netlify/functions/api', router);
 

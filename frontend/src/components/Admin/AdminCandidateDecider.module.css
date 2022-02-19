@@ -12,3 +12,13 @@
 #listContainer {
   margin-top: 3rem;
 }
+
+#cardButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fullWidth {
+  width: 100%;
+}

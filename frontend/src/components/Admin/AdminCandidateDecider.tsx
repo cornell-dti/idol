@@ -1,37 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import csv from 'csvtojson';
+import { MemberSearch, RoleSearch } from '../Common/Search';
+import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
+import CandidateDeciderDeleteModal from '../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
 
-const mockInstances = [
-  {
-    name: 'Developer Spring 2022 Recruitment',
-    isOpen: true,
-    headers: [],
-    candidates: [],
-    uuid: 'asdfjkl'
-  },
-  {
-    name: 'Developer Fall 2022 Recruitment',
-    isOpen: true,
-    headers: [],
-    candidates: [],
-    uuid: 'hello-world'
-  }
-];
+type CandidateDeciderInstancelistProps = {
+  instances: CandidateDeciderInfo[];
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  getAllInstances: () => Promise<void>;
+};
 
-const AdminCandidateDeciderBase: React.FC = () => (
-  <div id={styles.adminCandidateDeciderContainer}>
-    <CandidateDeciderInstanceCreator />
-    <CandidateDeciderInstanceList />
-  </div>
-);
+type CandidateDeciderInstanceCreatorProps = {
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
+  getAllInstances: () => Promise<void>;
+};
 
-const CandidateDeciderInstanceCreator: React.FC = () => {
+const AdminCandidateDeciderBase: React.FC = () => {
+  const [instances, setInstances] = useState<CandidateDeciderInfo[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getAllInstances = (): Promise<void> =>
+    CandidateDeciderAPI.getAllInstances().then((instances) => setInstances(instances));
+
+  return (
+    <div id={styles.adminCandidateDeciderContainer}>
+      <CandidateDeciderInstanceCreator
+        setInstances={setInstances}
+        getAllInstances={getAllInstances}
+      />
+      <CandidateDeciderInstanceList
+        instances={instances}
+        setInstances={setInstances}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        getAllInstances={getAllInstances}
+      />
+    </div>
+  );
+};
+
+const CandidateDeciderInstanceCreator = ({
+  setInstances,
+  getAllInstances
+}: CandidateDeciderInstanceCreatorProps): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
   const [headers, setHeaders] = useState<string[]>([]);
   const [responses, setResponses] = useState<string[][]>([[]]);
+  const [authorizedMembers, setAuthorizedMembers] = useState<IdolMember[]>([]);
+  const [authorizedRoles, setAuthorizedRoles] = useState<Role[]>([]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -58,12 +79,14 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
       uuid: '',
       name,
       headers,
+      authorizedMembers,
+      authorizedRoles,
       candidates: responses.map((res, i) => ({ id: i, responses: res, comments: [], ratings: [] })),
       isOpen: true
     };
-    setSuccess(true);
-    console.log(instance);
-    console.log('FORM SUBMITTED');
+    CandidateDeciderAPI.createNewInstance(instance)
+      .then((newInstance) => setInstances((instances) => [...instances, newInstance]))
+      .then(() => setSuccess(true));
   };
 
   return (
@@ -72,6 +95,56 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="file" accept=".csv" onChange={handleFileUpload} />
+        <Message>
+          All leads and IDOL admins have permission to all Candidate Decider instances
+        </Message>
+        <Header as="h4">Add authorized members</Header>
+        <MemberSearch
+          onSelect={(mem: IdolMember) => setAuthorizedMembers((mems) => [...mems, mem])}
+        />
+        {authorizedMembers.map((member) => (
+          <Card key={member.netid}>
+            <Card.Content>
+              <Card.Header centered>{`${member.firstName} ${member.lastName}`}</Card.Header>
+              <Card.Description>{member.email}</Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
+                <Button
+                  basic
+                  color="red"
+                  onClick={() => {
+                    setAuthorizedMembers((members) =>
+                      members.filter((mem) => mem.email !== member.email)
+                    );
+                  }}
+                >
+                  Remove
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
+        <Header as="h4">Add authorized roles</Header>
+        <RoleSearch onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])} />
+        {authorizedRoles.map((role, i) => (
+          <Card key={i}>
+            <Card.Content>
+              <Card.Header>{role}</Card.Header>
+            </Card.Content>
+            <Card.Content extra>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
+                <Button
+                  basic
+                  color="red"
+                  onClick={() => setAuthorizedRoles((roles) => roles.filter((rl) => rl !== role))}
+                >
+                  Remove
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
         <Message
           success
           header="Form Submitted"
@@ -90,22 +163,22 @@ const CandidateDeciderInstanceCreator: React.FC = () => {
   );
 };
 
-const CandidateDeciderInstanceList: React.FC = () => {
-  const [instances, setInstances] = useState<CandidateDeciderInstance[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
+const CandidateDeciderInstanceList = ({
+  instances,
+  setInstances,
+  isLoading,
+  setIsLoading,
+  getAllInstances
+}: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
-    // TODO pull from backend
-    setInstances(mockInstances);
-    setIsLoading(false);
-  }, []);
+    getAllInstances().then(() => setIsLoading(false));
+  }, [instances]);
 
   const toggleIsOpen = (uuid: string) => {
     const updatedInstances = instances.map((instance) =>
       instance.uuid === uuid ? { ...instance, isOpen: !instance.isOpen } : instance
     );
-    setInstances(updatedInstances);
-    // TODO update in backend
+    CandidateDeciderAPI.toggleInstance(uuid).then(() => setInstances(updatedInstances));
   };
 
   return (
@@ -121,11 +194,18 @@ const CandidateDeciderInstanceList: React.FC = () => {
                 <Card.Content>
                   <Card.Header>{instance.name}</Card.Header>
                   <Card.Meta>{instance.isOpen ? 'Open' : 'Closed'}</Card.Meta>
-                  <Checkbox
-                    toggle
-                    defaultChecked={instance.isOpen}
-                    onChange={() => toggleIsOpen(instance.uuid)}
-                  />
+                  <div id={styles.cardButtonContainer}>
+                    <Checkbox
+                      toggle
+                      defaultChecked={instance.isOpen}
+                      onChange={() => toggleIsOpen(instance.uuid)}
+                    />
+                    <CandidateDeciderDeleteModal
+                      uuid={instance.uuid}
+                      setInstances={setInstances}
+                      setIsLoading={setIsLoading}
+                    />
+                  </div>
                 </Card.Content>
               </Card>
             ))}
