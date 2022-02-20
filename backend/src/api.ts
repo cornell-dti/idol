@@ -45,6 +45,7 @@ import {
   toggleCandidateDeciderInstance,
   deleteCandidateDeciderInstance
 } from './candidateDeciderAPI';
+import { getEventProofImage, setEventProofImage } from './team-events-imageAPI';
 
 // Constants and configurations
 const app = express();
@@ -213,6 +214,14 @@ loginCheckedPost('/updateTeamEvent', async (req, user) => ({
 }));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
   team: await deleteTeamEvent(req.body, user)
+}));
+
+// Team Events Proof Image
+loginCheckedGet('/getEventProofImageSignedURL', async (req, user) => ({
+  url: await setEventProofImage(req.body, user)
+}));
+loginCheckedGet('/getEventProofImage', async (req, user) => ({
+  url: await getEventProofImage(req.body, user)
 }));
 
 // Candidate Decider
