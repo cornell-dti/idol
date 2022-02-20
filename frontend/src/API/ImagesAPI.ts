@@ -24,4 +24,20 @@ export default class ImagesAPI {
       APIWrapper.put(url, body).then((res) => res.data);
     });
   }
+
+  public static getEventProofImage(): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImage`).then((res) => res.data);
+    return responseProm.then((val) => val.url);
+  }
+
+  private static getEventProofImageSignedURL(): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImageSignedURL`).then((res) => res.data);
+    return responseProm.then((val) => val.url);
+  }
+
+  public static uploadEventProofImage(body: Blob): Promise<void> {
+    return this.getEventProofImageSignedURL().then((url) => {
+      APIWrapper.put(url, body).then((res) => res.data);
+    });
+  }
 }

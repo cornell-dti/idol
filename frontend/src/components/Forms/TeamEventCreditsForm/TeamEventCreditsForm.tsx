@@ -4,11 +4,10 @@ import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 
 const TeamEventCreditForm: React.FC = () => {
-  // When the user is logged in, `useSelf` always return non-null data.
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const userInfo = useSelf()!;
+  const userInfo = useSelf();
 
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
@@ -31,6 +30,13 @@ const TeamEventCreditForm: React.FC = () => {
   ) => {
     teamEvent?.requests.push(eventCreditRequest);
     TeamEventsAPI.requestTeamEventCredit(teamEvent);
+    // upload image
+    fetch(image).then((res) => res.blob()).then((blob) => {
+      const imageURL: string = window.URL.createObjectURL(blob);
+      ImagesAPI.uploadEventProofImage(blob);
+      setImage(imageURL);
+      console.log("inside handle new image");
+    });
   };
 
   const submitTeamEventCredit = () => {
