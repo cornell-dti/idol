@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Radio, Button } from 'semantic-ui-react';
+import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 import { Emitters } from '../../utils';
 import styles from './TeamEventForm.module.css';
 
@@ -17,10 +18,6 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
   const [teamEventCreditNum, setTeamEventCreditNum] = useState(teamEvent?.numCredits || '');
   const [teamEventHasHours, setTeamEventHasHours] = useState(teamEvent?.hasHours || false);
-
-  const createTeamEvent = (teamEvent: TeamEvent) => {
-    // send new event to backend
-  };
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -66,10 +63,18 @@ const TeamEventForm = (props: Props): JSX.Element => {
         requests: [],
         attendees: []
       };
-      createTeamEvent(newTeamEvent);
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Team Event Created!',
-        contentMsg: 'The team event was successfully created!'
+      TeamEventsAPI.createTeamEventForm(newTeamEvent).then((val) => {
+        if (val.error) {
+          Emitters.generalError.emit({
+            headerMsg: "Couldn't create the team event!",
+            contentMsg: val.error
+          });
+        } else {
+          Emitters.generalSuccess.emit({
+            headerMsg: 'Team Event Created!',
+            contentMsg: 'The team event was successfully created!'
+          });
+        }
       });
     }
   };
