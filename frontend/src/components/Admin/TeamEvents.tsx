@@ -1,31 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Message, Image } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
+import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 
 const TeamEvents: React.FC = () => {
-  const teamEvents: TeamEvent[] = [
-    {
-      name: 'Coffee Chat',
-      date: '2021-11-17',
-      numCredits: '0.5',
-      hasHours: false,
-      requests: [],
-      attendees: [],
-      uuid: '1'
-    },
-    {
-      uuid: '2',
-      name: 'Club Fest',
-      date: '2021-11-17',
-      numCredits: '0.5',
-      hasHours: true,
-      requests: [],
-      attendees: []
-    }
-  ];
+  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+
+  useEffect(() => {
+    TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
+  }, []);
 
   const pendingRequests: TeamEventAttendance[] = [];
 
