@@ -31,7 +31,9 @@ export default class ImagesAPI {
   }
 
   private static getEventProofImageSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImageSignedURL`).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImageSignedURL`).then(
+      (res) => res.data
+    );
     return responseProm.then((val) => val.url);
   }
 

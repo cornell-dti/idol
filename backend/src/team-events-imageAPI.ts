@@ -2,7 +2,7 @@ import { bucket } from './firebase';
 import { getNetIDFromEmail } from './util';
 import { NotFoundError } from './errors';
 
-export const setEventProofImage = async (name:string, user: IdolMember): Promise<string> => {
+export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`eventProofs/${netId}/${name}.jpg`);
   const signedURL = await file.getSignedUrl({

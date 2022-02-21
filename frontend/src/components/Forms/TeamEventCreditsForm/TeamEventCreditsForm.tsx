@@ -31,12 +31,14 @@ const TeamEventCreditForm: React.FC = () => {
     teamEvent?.requests.push(eventCreditRequest);
     TeamEventsAPI.requestTeamEventCredit(teamEvent);
     // upload image
-    fetch(image).then((res) => res.blob()).then((blob) => {
-      const imageURL: string = window.URL.createObjectURL(blob);
-      ImagesAPI.uploadEventProofImage(blob);
-      setImage(imageURL);
-      console.log("inside handle new image");
-    });
+    fetch(image)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const imageURL: string = window.URL.createObjectURL(blob);
+        ImagesAPI.uploadEventProofImage(blob);
+        setImage(imageURL);
+        console.log('inside handle new image');
+      });
   };
 
   const submitTeamEventCredit = () => {
