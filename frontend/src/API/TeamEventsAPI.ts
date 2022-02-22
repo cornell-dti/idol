@@ -27,6 +27,14 @@ export class TeamEventsAPI {
     });
   }
 
+  public static getTeamEventForm(uuid: string): Promise<Event> {
+    const eventProm = APIWrapper.get(`${backendURL}/getTeamEvent/${uuid}`).then((res) => res.data);
+    return eventProm.then((val) => {
+      const event = val.event as Event;
+      return event;
+    });
+  }
+
   public static createTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
     return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEvent).then((res) => res.data);
   }
