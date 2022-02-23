@@ -1,22 +1,13 @@
 import TeamEventsDao from '../src/dao/TeamEventsDao';
-import jaggerData from './data/jagger-profile.json';
 import { teamEventsCollection } from '../src/firebase';
 import { TeamEvent } from '../src/DataTypes';
+import { fakeTeamEventAttendance, fakeTeamEvent } from './data/createData';
 
-const testTeamEventAttendence = {
-  member: jaggerData,
-  hoursAttended: 1,
-  image: null
-};
+const testTeamEventAttendence = fakeTeamEventAttendance();
 
 const test_event: TeamEvent = {
-  date: 'now',
-  hasHours: true,
-  name: 'testevent1',
-  numCredits: '1',
-  attendees: [],
-  requests: [testTeamEventAttendence],
-  uuid: 'test'
+  ...fakeTeamEvent(),
+  requests: [testTeamEventAttendence]
 };
 
 /* clean database */
