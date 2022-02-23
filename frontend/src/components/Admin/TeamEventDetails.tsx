@@ -17,7 +17,6 @@ const defaultTeamEvent: TeamEvent = {
 };
 
 const TeamEventDetails: React.FC = () => {
-  // use query.uuid to fetch the team event from firebase
   const location = useRouter();
   const uuid = location.query.uuid as string;
   const [teamEvent, setTeamEvent] = useState<TeamEvent>(defaultTeamEvent);
@@ -44,7 +43,11 @@ const TeamEventDetails: React.FC = () => {
       </div>
 
       <h1 className={styles.eventName}>{teamEvent.name}</h1>
-      <h2 className={styles.eventDate}>{teamEvent.date}</h2>
+      <div className={styles.eventDetailsContainer}>
+        <h3 className={styles.eventDetails}>Date: {teamEvent.date}</h3>
+        <h3 className={styles.eventDetails}>Credits: {teamEvent.numCredits}</h3>
+        <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'yes' : 'no'}</h3>
+      </div>
 
       <div className={styles.listsContainer}>
         <div className={styles.listContainer}>

@@ -14,13 +14,20 @@
   cursor: pointer;
 }
 
-.eventName,
-.eventDate {
+.eventName {
   text-align: center;
 }
 
-.eventDate {
+.eventDetailsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.eventDetails {
   color: gray;
+  border: 1px solid;
 }
 
 .listsContainer {
