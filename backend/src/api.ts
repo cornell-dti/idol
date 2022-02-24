@@ -43,7 +43,8 @@ import {
   getAllCandidateDeciderInstances,
   createNewCandidateDeciderInstance,
   toggleCandidateDeciderInstance,
-  deleteCandidateDeciderInstance
+  deleteCandidateDeciderInstance,
+  getCandidateDeciderInstance
 } from './candidateDeciderAPI';
 
 // Constants and configurations
@@ -219,6 +220,11 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
+loginCheckedGet('/getCandidateDeciderInstance/:uuid', async (req, user) => {
+  const uuid = req.params.uuid;
+  console.log(uuid);
+  return { instance: await getCandidateDeciderInstance(uuid, user) };
+});
 loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));

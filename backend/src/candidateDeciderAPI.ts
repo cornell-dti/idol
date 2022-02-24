@@ -39,11 +39,12 @@ export const deleteCandidateDeciderInstance = async (
   await CandidateDeciderDao.deleteInstance(uuid);
 };
 
-export const getCandidateDeciderInstnace = async (
+export const getCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
 ): Promise<CandidateDeciderInstance> => {
   const instance = await CandidateDeciderDao.getInstance(uuid);
+  console.log(instance);
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
