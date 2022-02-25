@@ -2,17 +2,16 @@
   {
     "netid": "aa2235",
     "name": "Aira Agrawal ",
-    "pronouns": "she/her",
-    "graduation": "2023",
-    "major": "Computer Science",
-    "hometown": "Albany, NY",
-    "about": "Hi! I'm Aira and I'm studying CS in Engineering. In my free time, I like to dance, bake, and travel :)",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
     "subteams": [
       "idol"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Business, Information Science",
     "formerSubteams": []
   },
   {
@@ -426,21 +425,6 @@
     "github": "https://github.com/chansen424"
   },
   {
-    "netid": "dj263",
-    "name": "Daniel Jin",
-    "pronouns": "he/him",
-    "graduation": "May 2025",
-    "major": "Computer Science",
-    "hometown": "Basking Ridge, NJ",
-    "about": ".",
-    "subteams": [
-      "idol"
-    ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
-    "formerSubteams": []
-  },
-  {
     "netid": "ebs98",
     "name": "Emma Shen",
     "pronouns": "",
@@ -601,7 +585,7 @@
   {
     "netid": "hl738",
     "name": "Henry Li",
-    "pronouns": "he/him",
+    "pronouns": "",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Albany, NY",
@@ -1224,7 +1208,7 @@
   {
     "netid": "rj356",
     "name": "Riya Jaggi",
-    "pronouns": "she/her",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Dubai, UAE",
@@ -1296,19 +1280,18 @@
   {
     "netid": "sj598",
     "name": "Julie Jeong",
-    "pronouns": "she/her",
+    "pronouns": "",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Norwood, NJ",
-    "about": "Hi, I’m Julie! I'm a developer with interests in ML/AI fields as well as marketing and design! I love meeting new people and spending time with others! Not a big foodie but I’m addicted to Starbucks strawberry acai lemonade, hot cheetos, and dark chocolate oreo thins. My other interests are dancing, cooking, handcrafting, watching sports (sometimes), and collecting perfumes.",
+    "about": "Hi! I’m a freshman planning to major in computer science with a business minor in the College of Engineering. I would like to explore different areas within computer science and I am also interested in design and marketing! I’m an addict to bubble tea, strawberry acai lemonade, and hot cheetos. My other interests include watching dog videos, handcrafting, painting, bowling, collecting earrings, and taking photos.",
     "subteams": [
       "reviews"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Business / Info Sci",
+    "minor": "Business",
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/julie-sy-jeong/",
     "github": "https://github.com/juliejeong"
   },
   {
@@ -1609,17 +1592,17 @@
   {
     "netid": "wes229",
     "name": "Will Spencer",
-    "pronouns": "he/him",
+    "pronouns": "",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Tysons, VA",
-    "about": "Hey! I'm Will, a senior and developer on DTI. I love to spend my time coding and helping out the community. Besides DTI, I have been involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Outside of developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
+    "about": "Hey! I'm Will, a senior and developer on DTI. I love to spend my time coding and helping out the community. Besides DTI, I have been involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Besides developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
     "subteams": [
       "courseplan"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Public Policy, Information Science, Game Design",
+    "minor": "Public Policy, Information Science",
     "formerSubteams": [
       "nova"
     ],
