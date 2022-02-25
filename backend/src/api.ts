@@ -44,7 +44,9 @@ import {
   createNewCandidateDeciderInstance,
   toggleCandidateDeciderInstance,
   deleteCandidateDeciderInstance,
-  getCandidateDeciderInstance
+  getCandidateDeciderInstance,
+  updateCandidateDeciderRating,
+  updateCandidateDeciderComment
 } from './candidateDeciderAPI';
 
 // Constants and configurations
@@ -220,20 +222,23 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
-loginCheckedGet('/getCandidateDeciderInstance/:uuid', async (req, user) => {
-  const uuid = req.params.uuid;
-  console.log(uuid);
-  return { instance: await getCandidateDeciderInstance(uuid, user) };
-});
+loginCheckedGet('/getCandidateDeciderInstance/:uuid', async (req, user) => ({
+  instance: await getCandidateDeciderInstance(req.params.uuid, user)
+}));
 loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
 loginCheckedPost('/toggleCandidateDeciderInstance', async (req, user) =>
   toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
 );
-
 loginCheckedPost('/deleteCandidateDeciderInstance', async (req, user) =>
   deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+);
+loginCheckedPost('/updateCandidateDeciderRating', (req, user) =>
+  updateCandidateDeciderRating(user, req.body.uuid, req.body.id, req.body.rating).then(() => ({}))
+);
+loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
+  updateCandidateDeciderComment(user, req.body.uuid, req.body.id, req.body.comment).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);

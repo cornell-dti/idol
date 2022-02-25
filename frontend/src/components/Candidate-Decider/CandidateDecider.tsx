@@ -1,38 +1,106 @@
 import { useState, useEffect } from 'react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
-import ResponsesPanel from './ResponsesPanel';
 import { Button, Dropdown, Form, Radio } from 'semantic-ui-react';
+import ResponsesPanel from './ResponsesPanel';
+import { useSelf } from '../Common/FirestoreDataProvider';
 
 type CandidateDeciderProps = {
   uuid: string;
 };
 
-const ratings = [
-  { value: 1, text: 'No', color: 'red' },
-  { value: 2, text: 'Unlikely', color: 'orange' },
-  { value: 3, text: 'Maybe', color: 'yellow' },
-  { value: 4, text: 'Strong Maybe', color: 'green' },
-  { value: 5, text: 'Yes', color: 'green ' },
-  { value: 0, text: 'Undecided', color: 'grey' }
-];
+const blankInstance: CandidateDeciderInstance = {
+  name: '',
+  headers: [],
+  candidates: [],
+  uuid: '',
+  authorizedMembers: [],
+  authorizedRoles: [],
+  isOpen: true
+};
 
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
-  const [candidates, setCandidates] = useState<CandidateDeciderCandidate[]>([]);
-  const [name, setName] = useState<string>('');
-  const [headers, setHeaders] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
+  const [instance, setInstance] = useState<CandidateDeciderInstance>(blankInstance);
+
+  const userInfo = useSelf();
+
+  const getRating = () => {
+    const rating = instance.candidates[currentCandidate].ratings.find(
+      (rt) => rt.reviewer.email === userInfo?.email
+    );
+    if (rating) return rating.rating;
+    return 0;
+  };
+
+  const getComment = () => {
+    const comment = instance.candidates[currentCandidate].comments.find(
+      (cmt) => cmt.reviewer.email === userInfo?.email
+    );
+    if (comment) return comment.comment;
+    console.log('getComment()');
+    console.log(comment);
+    return '';
+  };
+
+  const next = () => {
+    if (currentCandidate === instance.candidates.length - 1) return;
+    setCurrentCandidate((prev) => prev + 1);
+  };
+
+  const previous = () => {
+    if (currentCandidate === 0) return;
+    setCurrentCandidate((prev) => prev - 1);
+  };
+
+  const handleRatingChange = (id: number, rating: number) => {
+    CandidateDeciderAPI.updateRating(instance.uuid, id, rating).then(() => {
+      const updatedInstance: CandidateDeciderInstance = {
+        ...instance,
+        candidates: instance.candidates.map((cd) =>
+          cd.id !== id
+            ? cd
+            : {
+                ...cd,
+                ratings: [
+                  ...cd.ratings.filter((rt) => rt.reviewer.email !== userInfo?.email),
+                  { reviewer: userInfo as IdolMember, rating: rating }
+                ]
+              }
+        )
+      };
+      setInstance(updatedInstance);
+    });
+  };
+
+  const handleCommentChange = (id: number, comment: string) => {
+    CandidateDeciderAPI.updateComment(instance.uuid, id, comment).then(() => {
+      const updatedInstance: CandidateDeciderInstance = {
+        ...instance,
+        candidates: instance.candidates.map((cd) =>
+          cd.id !== id
+            ? cd
+            : {
+                ...cd,
+                comments: [
+                  ...cd.comments.filter((cmt) => cmt.reviewer.email !== userInfo?.email),
+                  { reviewer: userInfo as IdolMember, comment: comment }
+                ]
+              }
+        )
+      };
+      setInstance(updatedInstance);
+    });
+  };
 
   useEffect(() => {
     CandidateDeciderAPI.getInstance(uuid)
       .then((instance) => {
-        console.log(instance);
-        setCandidates(instance.candidates);
-        setName(instance.name);
-        setHeaders(instance.headers);
+        setInstance(instance);
       })
       .then(() => setIsLoading(false));
   }, []);
+  console.log(instance);
   return isLoading ? (
     <div></div>
   ) : (
@@ -42,49 +110,37 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <Dropdown
           value={currentCandidate}
           selection
-          options={candidates.map((candidate) => ({
+          options={instance.candidates.map((candidate) => ({
             value: candidate.id,
             key: candidate.id,
             text: candidate.id
           }))}
           onChange={(_, data) => setCurrentCandidate(data.value as number)}
         />
-        <span>of {candidates.length}</span>
+        <span>of {instance.candidates.length}</span>
         <Button.Group>
-          <Button
-            basic
-            color="blue"
-            disabled={currentCandidate === 0}
-            onClick={() => setCurrentCandidate((prev) => prev - 1)}
-          >
+          <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
             PREVIOUS
           </Button>
           <Button
             basic
             color="blue"
-            disabled={currentCandidate === candidates.length - 1}
-            onClick={() => setCurrentCandidate((prev) => prev + 1)}
+            disabled={currentCandidate === instance.candidates.length - 1}
+            onClick={next}
           >
             NEXT
           </Button>
         </Button.Group>
       </div>
-      <Form inline>
-        <Form.Group inline>
-          {ratings.map((rating) => (
-            <Form.Field>
-              <Radio
-                style={{ color: rating.color }}
-                label={rating.text}
-                name="rating-group"
-                value={rating.value}
-                color={rating.color}
-              />
-            </Form.Field>
-          ))}
-        </Form.Group>
-      </Form>
-      <ResponsesPanel headers={headers} responses={candidates[currentCandidate].responses} />
+      <ResponsesPanel
+        headers={instance.headers}
+        responses={instance.candidates[currentCandidate].responses}
+        handleRatingChange={handleRatingChange}
+        rating={getRating()}
+        currentCandidate={currentCandidate}
+        handleCommentChange={handleCommentChange}
+        comment={getComment()}
+      />
     </div>
   );
 };

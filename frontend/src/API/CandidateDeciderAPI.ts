@@ -26,4 +26,12 @@ export default class CandidateDeciderAPI {
   static async deleteInstance(uuid: string): Promise<void> {
     APIWrapper.post(`${backendURL}/deleteCandidateDeciderInstance`, { uuid });
   }
+
+  static async updateRating(uuid: string, id: number, rating: number) {
+    APIWrapper.post(`${backendURL}/updateCandidateDeciderRating`, { uuid, id, rating });
+  }
+
+  static async updateComment(uuid: string, id: number, comment: string) {
+    APIWrapper.post(`${backendURL}/updateCandidateDeciderComment`, { uuid, id, comment });
+  }
 }

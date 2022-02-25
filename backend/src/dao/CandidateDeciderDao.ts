@@ -86,4 +86,26 @@ export default class CandidateDeciderDao {
   static async deleteInstance(uuid: string): Promise<void> {
     await candidateDeciderCollection.doc(uuid).delete();
   }
+
+  static async updateInstance(updatedInstance: CandidateDeciderInstance) {
+    const dbInstance = {
+      ...updatedInstance,
+      uuid: updatedInstance.uuid ? updatedInstance.uuid : uuidv4(),
+      authorizedMembers: updatedInstance.authorizedMembers.map((member) =>
+        memberCollection.doc(member.email)
+      ),
+      candidates: updatedInstance.candidates.map((candidate) => ({
+        ...candidate,
+        ratings: candidate.ratings.map((rating) => ({
+          ...rating,
+          reviewer: memberCollection.doc(rating.reviewer.email)
+        })),
+        comments: candidate.comments.map((comment) => ({
+          ...comment,
+          reviewer: memberCollection.doc(comment.reviewer.email)
+        }))
+      }))
+    };
+    await candidateDeciderCollection.doc(dbInstance.uuid).update(dbInstance);
+  }
 }
