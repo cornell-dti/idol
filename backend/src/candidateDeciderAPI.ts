@@ -66,7 +66,7 @@ export const updateCandidateDeciderRating = async (
   uuid: string,
   id: number,
   rating: number
-) => {
+): Promise<void> => {
   const instance = await CandidateDeciderDao.getInstance(uuid);
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
@@ -90,7 +90,7 @@ export const updateCandidateDeciderRating = async (
             ...cd,
             ratings: [
               ...cd.ratings.filter((rt) => rt.reviewer.email !== user.email),
-              { reviewer: user, rating: rating }
+              { reviewer: user, rating }
             ]
           }
     )

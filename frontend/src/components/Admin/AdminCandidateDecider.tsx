@@ -172,7 +172,7 @@ const CandidateDeciderInstanceList = ({
 }: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
     getAllInstances().then(() => setIsLoading(false));
-  }, [instances]);
+  }, [instances, getAllInstances, setIsLoading]);
 
   const toggleIsOpen = (uuid: string) => {
     const updatedInstances = instances.map((instance) =>

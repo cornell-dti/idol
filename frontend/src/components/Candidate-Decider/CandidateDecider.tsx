@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Button, Dropdown } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
-import { Button, Dropdown, Form, Radio } from 'semantic-ui-react';
 import ResponsesPanel from './ResponsesPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 
@@ -38,8 +38,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (cmt) => cmt.reviewer.email === userInfo?.email
     );
     if (comment) return comment.comment;
-    console.log('getComment()');
-    console.log(comment);
     return '';
   };
 
@@ -64,7 +62,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 ...cd,
                 ratings: [
                   ...cd.ratings.filter((rt) => rt.reviewer.email !== userInfo?.email),
-                  { reviewer: userInfo as IdolMember, rating: rating }
+                  { reviewer: userInfo as IdolMember, rating }
                 ]
               }
         )
@@ -84,7 +82,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 ...cd,
                 comments: [
                   ...cd.comments.filter((cmt) => cmt.reviewer.email !== userInfo?.email),
-                  { reviewer: userInfo as IdolMember, comment: comment }
+                  { reviewer: userInfo as IdolMember, comment }
                 ]
               }
         )
@@ -99,8 +97,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         setInstance(instance);
       })
       .then(() => setIsLoading(false));
-  }, []);
-  console.log(instance);
+  }, [uuid]);
+
   return isLoading ? (
     <div></div>
   ) : (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Input, Radio } from 'semantic-ui-react';
+import { Form, Radio } from 'semantic-ui-react';
 
 type Props = {
   headers: string[];
@@ -28,40 +28,38 @@ const ResponsesPanel: React.FC<Props> = ({
   currentCandidate,
   handleCommentChange,
   comment
-}) => {
-  return (
-    <div>
-      <Form>
-        <Form.Group inline>
-          {ratings.map((rt) => (
-            <Form.Field key={rt.value}>
-              <Radio
-                style={{ color: rt.color }}
-                label={rt.text}
-                name="rating-group"
-                value={rt.value}
-                color={rt.color}
-                checked={rt.value === rating}
-                onChange={() => handleRatingChange(currentCandidate, rt.value)}
-              />
-            </Form.Field>
-          ))}
-        </Form.Group>
-        <CommentEditor
-          handleCommentChange={handleCommentChange}
-          comment={comment}
-          currentCandidate={currentCandidate}
-        />
-      </Form>
-      {headers.map((header, i) => (
-        <div key={i}>
-          <h4 style={{ margin: '12px 0' }}>{header}</h4>
-          <div>{responses[i]}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
+}) => (
+  <div>
+    <Form>
+      <Form.Group inline>
+        {ratings.map((rt) => (
+          <Form.Field key={rt.value}>
+            <Radio
+              style={{ color: rt.color }}
+              label={rt.text}
+              name="rating-group"
+              value={rt.value}
+              color={rt.color}
+              checked={rt.value === rating}
+              onChange={() => handleRatingChange(currentCandidate, rt.value)}
+            />
+          </Form.Field>
+        ))}
+      </Form.Group>
+      <CommentEditor
+        handleCommentChange={handleCommentChange}
+        comment={comment}
+        currentCandidate={currentCandidate}
+      />
+    </Form>
+    {headers.map((header, i) => (
+      <div key={i}>
+        <h4 style={{ margin: '12px 0' }}>{header}</h4>
+        <div>{responses[i]}</div>
+      </div>
+    ))}
+  </div>
+);
 
 type CommentEditorProps = {
   comment: string;

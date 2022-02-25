@@ -87,7 +87,7 @@ export default class CandidateDeciderDao {
     await candidateDeciderCollection.doc(uuid).delete();
   }
 
-  static async updateInstance(updatedInstance: CandidateDeciderInstance) {
+  static async updateInstance(updatedInstance: CandidateDeciderInstance): Promise<void> {
     const dbInstance = {
       ...updatedInstance,
       uuid: updatedInstance.uuid ? updatedInstance.uuid : uuidv4(),
