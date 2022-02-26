@@ -7,7 +7,7 @@ import styles from './TeamEventDetails.module.css';
 const mockTeamEvent: TeamEvent = {
   name: 'Info Session',
   date: '2021-11-17',
-  numCredits: '1',
+  numCredits: 1,
   hasHours: false,
   requests: [],
   attendees: [],

@@ -10,7 +10,7 @@ const TeamEvents: React.FC = () => {
     {
       name: 'Coffee Chat',
       date: '2021-11-17',
-      numCredits: '0.5',
+      numCredits: 0.5,
       hasHours: false,
       requests: [],
       attendees: [],
@@ -20,7 +20,7 @@ const TeamEvents: React.FC = () => {
       uuid: '2',
       name: 'Club Fest',
       date: '2021-11-17',
-      numCredits: '0.5',
+      numCredits: 0.5,
       hasHours: true,
       requests: [],
       attendees: []

@@ -85,7 +85,7 @@ interface TeamEventAttendance {
 interface TeamEvent {
   name: string;
   date: string;
-  numCredits: string;
+  numCredits: number;
   hasHours: boolean;
   readonly attendees: TeamEventAttendance[];
   readonly requests: TeamEventAttendance[];

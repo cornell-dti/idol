@@ -13,7 +13,7 @@ const test_event: TeamEvent = {
   date: 'now',
   hasHours: true,
   name: 'testevent1',
-  numCredits: '1',
+  numCredits: 1,
   attendees: [],
   requests: [testTeamEventAttendence],
   uuid: 'test'
