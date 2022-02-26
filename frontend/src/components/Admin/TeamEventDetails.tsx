@@ -23,7 +23,8 @@ const TeamEventDetails: React.FC = () => {
 
   useEffect(() => {
     TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
-  });
+    console.log("here");
+  }, []);
 
   return (
     <div className={styles.container}>
