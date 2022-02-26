@@ -20,7 +20,7 @@ const testTeamEventAttendence = {
 const testTeamEvent = {
   name: 'test',
   date: '11/26/2020',
-  numCredits: 1,
+  numCredits: '1',
   hasHours: false,
   requests: [testTeamEventAttendence],
   attendees: [],

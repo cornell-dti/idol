@@ -81,10 +81,10 @@ const TeamEventCreditForm: React.FC = () => {
     for (const currTeamEvent of teamEvents) {
       for (const currApprovedMember of currTeamEvent.attendees) {
         if (currApprovedMember.member.email === userInfo.email) {
-          currMemberTECStatus.countApprovedCredits += currTeamEvent.numCredits * 1;
-          if (currMemberTECStatus.countRemainingCredits - currTeamEvent.numCredits < 0)
+          currMemberTECStatus.countApprovedCredits += Number(currTeamEvent.numCredits);
+          if (currMemberTECStatus.countRemainingCredits - Number(currTeamEvent.numCredits) < 0)
             currMemberTECStatus.countRemainingCredits = 0;
-          else currMemberTECStatus.countRemainingCredits -= currTeamEvent.numCredits;
+          else currMemberTECStatus.countRemainingCredits -= Number(currTeamEvent.numCredits);
           if (currMemberTECStatus.approvedTEC.length === 0)
             currMemberTECStatus.approvedTEC = currTeamEvent.name;
           else

@@ -51,7 +51,7 @@ export type DBTeamEventAttendance = {
 export type DBTeamEvent = {
   name: string;
   date: string;
-  numCredits: number;
+  numCredits: string;
   hasHours: boolean;
   requests: DBTeamEventAttendance[];
   attendees: DBTeamEventAttendance[];
@@ -67,7 +67,7 @@ export type TeamEventAttendance = {
 export type TeamEvent = {
   name: string;
   date: string;
-  numCredits: number;
+  numCredits: string;
   hasHours: boolean;
   requests: TeamEventAttendance[];
   attendees: TeamEventAttendance[];
