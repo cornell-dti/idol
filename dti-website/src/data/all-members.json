@@ -211,6 +211,21 @@
     "formerSubteams": []
   },
   {
+    "netid": "axc2",
+    "name": "Andrew  Chen",
+    "pronouns": "",
+    "graduation": "May 2025",
+    "major": "Computer Science",
+    "hometown": "Boston, MA",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "az354",
     "name": "Alyssa Zhang",
     "pronouns": "",
@@ -832,11 +847,11 @@
   {
     "netid": "jyf5",
     "name": "Jessica Feng",
-    "pronouns": "",
+    "pronouns": "she/her/hers",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Fremont, CA",
-    "about": "Hi! I’m Jessica, a sophomore studying Computer Science in the College of Engineering. I love exploring creative solutions built with tech and listening to people’s stories and experiences in industry. Outside of DTI, catch me at WICC or LOKO Dance events, strolling around campus, or admiring the sunset on the slope! ",
+    "about": "Hi! I’m Jessica, a junior studying Computer Science in the College of Engineering. I love exploring creative solutions built with tech and listening to people’s stories and experiences in industry. Outside of DTI, catch me at WICC or LOKO Dance events, strolling around campus, or admiring the sunset on the slope! ",
     "subteams": [
       "dac"
     ],
@@ -1387,7 +1402,7 @@
   {
     "netid": "sta48",
     "name": "Jahin Aishee",
-    "pronouns": "",
+    "pronouns": "She/Her",
     "graduation": "May 2022",
     "major": "ISST",
     "hometown": "Edinburg, TX",
@@ -1400,7 +1415,7 @@
     "formerSubteams": [
       "carriage"
     ],
-    "website": "https://www.jahinaishee.com/",
+    "website": "https://jahinaishee.com/",
     "linkedin": "https://www.linkedin.com/in/sayeeda-aishee/"
   },
   {
@@ -1709,13 +1724,12 @@
     "major": "Computer Science",
     "hometown": "Great Neck, NY",
     "about": "Hey, I'm Enoch! Crazy ideas pop into my mind sometimes, and I love making them a reality. I am passionate about my projects, but otherwise I'm a pretty chill dude. You can catch me listening to music, taking things apart, or contemplating life.",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": [],
     "roleId": "lead",
     "roleDescription": "Lead",
     "formerSubteams": [
-      "clubhub"
+      "clubhub",
+      "cuapts"
     ],
     "website": "https://enochen.me/",
     "linkedin": "https://www.linkedin.com/in/enochen728/",
