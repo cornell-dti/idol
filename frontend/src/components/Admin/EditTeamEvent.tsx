@@ -17,8 +17,8 @@ const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {
         });
       } else {
         Emitters.generalSuccess.emit({
-          headerMsg: 'Team Event Created!',
-          contentMsg: 'The team event was successfully editted!'
+          headerMsg: 'Team Event Edited!',
+          contentMsg: 'The team event was successfully edited!'
         });
       }
     });

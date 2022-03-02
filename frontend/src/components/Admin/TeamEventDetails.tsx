@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
 import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
+import { Emitters } from '../../utils';
 
 const defaultTeamEvent: TeamEvent = {
   name: '',
@@ -25,6 +26,16 @@ const TeamEventDetails: React.FC = () => {
     TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
   }, []);
 
+  const deleteTeamEvent = () => {
+    TeamEventsAPI.deleteTeamEventForm(teamEvent).then(() => {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Team Event Deleted!',
+          contentMsg: 'The team event was successfully deleted!'
+        });
+    });
+    location.push('/admin/team-events');
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.arrowAndButtons}>
@@ -37,7 +48,7 @@ const TeamEventDetails: React.FC = () => {
             trigger={<Button color="red">Delete Event</Button>}
             header="Delete Team Event"
             content="Are you sure that you want to delete this event?"
-            actions={['Cancel', { key: 'deleteEvent', content: 'Delete Event', color: 'red' }]}
+            actions={['Cancel', { key: 'deleteEvent', content: 'Delete Event', color: 'red', onClick: deleteTeamEvent}]}
           />
         </div>
       </div>

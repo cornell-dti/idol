@@ -46,8 +46,8 @@ export class TeamEventsAPI {
     );
   }
 
-  public static deleteTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent).then((rest) => rest.data.event);
+  public static async deleteTeamEventForm(teamEvent: Event): Promise<void> {
+    await APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent);
   }
 
   public static updateTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {

@@ -215,9 +215,10 @@ loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: await getAllT
 loginCheckedPost('/updateTeamEvent', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
-  event: await deleteTeamEvent(req.body, user)
-}));
+loginCheckedPost('/deleteTeamEvent', async (req, user) => {
+  await deleteTeamEvent(req.body, user);
+  return {};
+});
 
 // Candidate Decider
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
