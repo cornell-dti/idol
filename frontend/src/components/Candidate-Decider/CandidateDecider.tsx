@@ -4,7 +4,6 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
-import { TypeFlags } from 'typescript';
 
 type CandidateDeciderProps = {
   uuid: string;
