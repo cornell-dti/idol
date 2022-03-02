@@ -28,10 +28,10 @@ const TeamEventDetails: React.FC = () => {
 
   const deleteTeamEvent = () => {
     TeamEventsAPI.deleteTeamEventForm(teamEvent).then(() => {
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Team Event Deleted!',
-          contentMsg: 'The team event was successfully deleted!'
-        });
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Team Event Deleted!',
+        contentMsg: 'The team event was successfully deleted!'
+      });
     });
     location.push('/admin/team-events');
   };
@@ -48,7 +48,15 @@ const TeamEventDetails: React.FC = () => {
             trigger={<Button color="red">Delete Event</Button>}
             header="Delete Team Event"
             content="Are you sure that you want to delete this event?"
-            actions={['Cancel', { key: 'deleteEvent', content: 'Delete Event', color: 'red', onClick: deleteTeamEvent}]}
+            actions={[
+              'Cancel',
+              {
+                key: 'deleteEvent',
+                content: 'Delete Event',
+                color: 'red',
+                onClick: deleteTeamEvent
+              }
+            ]}
           />
         </div>
       </div>

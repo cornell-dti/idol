@@ -51,6 +51,8 @@ export class TeamEventsAPI {
   }
 
   public static updateTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then((rest) => rest.data.event);
+    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
+      (rest) => rest.data.event
+    );
   }
 }
