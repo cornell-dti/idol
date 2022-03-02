@@ -3,6 +3,8 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
+import styles from './CandidateDecider.module.css';
+import { TypeFlags } from 'typescript';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -102,8 +104,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   return isLoading ? (
     <div></div>
   ) : (
-    <div style={{ padding: '2%' }}>
-      <div style={{ display: 'flex' }}>
+    <div className={styles.candidateDeciderContainer}>
+      <div className={styles.controlsContainer}>
         <h4>Candidate ID:</h4>
         <Dropdown
           value={currentCandidate}
