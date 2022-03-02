@@ -45,4 +45,12 @@ export class TeamEventsAPI {
       (res) => res.data.event
     );
   }
+
+  public static deleteTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent).then((rest) => rest.data.event);
+  }
+
+  public static updateTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then((rest) => rest.data.event);
+  }
 }

@@ -216,7 +216,7 @@ loginCheckedPost('/updateTeamEvent', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
-  team: await deleteTeamEvent(req.body, user)
+  event: await deleteTeamEvent(req.body, user)
 }));
 
 // Candidate Decider
