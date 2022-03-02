@@ -23,7 +23,6 @@ const TeamEventDetails: React.FC = () => {
 
   useEffect(() => {
     TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
-    console.log("here");
   }, []);
 
   return (
@@ -55,7 +54,7 @@ const TeamEventDetails: React.FC = () => {
           <h2 className={styles.memberTitle}>Members Pending</h2>
 
           {teamEvent.requests.length > 0 ? (
-            <Card.Group>
+            <Card.Group className={styles.memberGroup}>
               {teamEvent.requests.map((req) => (
                 <Card key={req.member.netid}>
                   <Card.Content>
@@ -76,7 +75,7 @@ const TeamEventDetails: React.FC = () => {
           <h2 className={styles.memberTitle}>Members Approved</h2>
 
           {teamEvent.attendees.length > 0 ? (
-            <Card.Group>
+            <Card.Group className={styles.memberGroup}>
               {teamEvent.attendees.map((req) => (
                 <Card key={req.member.netid}>
                   <Card.Content>

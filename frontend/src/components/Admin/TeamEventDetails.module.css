@@ -20,14 +20,15 @@
 
 .eventDetailsContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between; 
-  align-items: center;
+  justify-content: space-between;
+  margin: 1em;
+  align-self: center;
 }
 
 .eventDetails {
   color: gray;
-  border: 1px solid;
+  display: inline-block;
+  margin: auto;
 }
 
 .listsContainer {
@@ -38,6 +39,10 @@
 .listContainer {
   width: 50%;
   margin: 0 2em;
+}
+
+.memberGroup {
+  justify-content: center;
 }
 
 .memberTitle {
