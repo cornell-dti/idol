@@ -29,18 +29,22 @@ const TeamEvents: React.FC = () => {
       </div>
       <div className={styles.wrapper}>
         <h2>View All Team Events</h2>
-        <Card.Group>
-          {teamEvents.map((teamEvent) => (
-            <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
-              <Card>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                </Card.Content>
-              </Card>
-            </Link>
-          ))}
-        </Card.Group>
+        {teamEvents.length !== 0 ? (
+          <Card.Group>
+            {teamEvents.map((teamEvent) => (
+              <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>{teamEvent.name} </Card.Header>
+                    <Card.Meta>{teamEvent.date}</Card.Meta>
+                  </Card.Content>
+                </Card>
+              </Link>
+            ))}
+          </Card.Group>
+        ) : (
+          <Message>There are currently no team event forms.</Message>
+        )}
       </div>
       <div className={styles.wrapper}>
         <h2>Approve Pending Credit Requests</h2>
