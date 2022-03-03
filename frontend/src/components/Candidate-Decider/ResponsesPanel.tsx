@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form, Radio } from 'semantic-ui-react';
+import styles from './ResponsesPanel.module.css';
 
 type Props = {
   headers: string[];
@@ -35,7 +36,6 @@ const ResponsesPanel: React.FC<Props> = ({
         {ratings.map((rt) => (
           <Form.Field key={rt.value}>
             <Radio
-              style={{ color: rt.color }}
               label={rt.text}
               name="rating-group"
               value={rt.value}
@@ -54,7 +54,7 @@ const ResponsesPanel: React.FC<Props> = ({
     </Form>
     {headers.map((header, i) => (
       <div key={i}>
-        <h4 style={{ margin: '12px 0' }}>{header}</h4>
+        <h4 className={styles.questionHeader}>{header}</h4>
         <div>{responses[i]}</div>
       </div>
     ))}
