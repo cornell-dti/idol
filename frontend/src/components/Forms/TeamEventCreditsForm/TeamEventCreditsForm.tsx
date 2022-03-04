@@ -63,46 +63,33 @@ const TeamEventCreditForm: React.FC = () => {
     }
   };
 
-  type MemberTeamEventCreditStatus = {
-    countApprovedCredits: number;
-    countRemainingCredits: number;
-    approvedTEC: string;
-    pendingTEC: string;
-  };
+  const [countApprovedCredits, setCountApprovedCredits] = useState(0);
+  const [countRemainingCredits, setCountRemainingCredits] = useState(3);
+  const [approvedTEC, setApprovedTEC] = useState('');
+  const [pendingTEC, setPendingTEC] = useState('');
 
-  const currMemberTECStatus: MemberTeamEventCreditStatus = {
-    countApprovedCredits: 0,
-    countRemainingCredits: 3,
-    approvedTEC: '',
-    pendingTEC: ''
-  };
-
-  const teamEventCreditStatusLogic = () => {
-    for (const currTeamEvent of teamEvents) {
-      for (const currApprovedMember of currTeamEvent.attendees) {
-        if (currApprovedMember.member.email === userInfo.email) {
-          currMemberTECStatus.countApprovedCredits += Number(currTeamEvent.numCredits);
-          if (currMemberTECStatus.countRemainingCredits - Number(currTeamEvent.numCredits) < 0)
-            currMemberTECStatus.countRemainingCredits = 0;
-          else currMemberTECStatus.countRemainingCredits -= Number(currTeamEvent.numCredits);
-          if (currMemberTECStatus.approvedTEC.length === 0)
-            currMemberTECStatus.approvedTEC = currTeamEvent.name;
-          else
-            currMemberTECStatus.approvedTEC = `${currMemberTECStatus.approvedTEC}, ${currTeamEvent.name}`;
-        }
-      }
-      for (const currApprovedMember of currTeamEvent.requests) {
-        if (currApprovedMember.member.email === userInfo.email) {
-          if (currMemberTECStatus.pendingTEC.length === 0)
-            currMemberTECStatus.pendingTEC = currTeamEvent.name;
-          else
-            currMemberTECStatus.pendingTEC = `${currMemberTECStatus.pendingTEC}, ${currTeamEvent.name}`;
-        }
-      }
+  useEffect(() => {
+    if (teamEvents != null) {
+      teamEvents.forEach((currTeamEvent) => {
+        currTeamEvent.attendees.forEach((currApprovedMember) => {
+          if (currApprovedMember.member.email === userInfo.email) {
+            const currCredits = Number(currTeamEvent.numCredits);
+            setCountApprovedCredits(countApprovedCredits + currCredits);
+            if (countRemainingCredits - currCredits < 0) setCountRemainingCredits(0);
+            else setCountRemainingCredits(countRemainingCredits - currCredits);
+            if (approvedTEC.length === 0) setApprovedTEC(currTeamEvent.name);
+            else setApprovedTEC(`${approvedTEC}, ${currTeamEvent.name}`);
+          }
+        });
+        currTeamEvent.requests.forEach((currApprovedMember) => {
+          if (currApprovedMember.member.email === userInfo.email) {
+            if (pendingTEC.length === 0) setPendingTEC(currTeamEvent.name);
+            else setPendingTEC(`${pendingTEC}, ${currTeamEvent.name}`);
+          }
+        });
+      });
     }
-  };
-
-  if (teamEvents != null) teamEventCreditStatusLogic();
+  }, [teamEvents]);
 
   return (
     <div>
@@ -224,22 +211,22 @@ const TeamEventCreditForm: React.FC = () => {
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>Approved Credits:</label>
-          <p>{currMemberTECStatus.countApprovedCredits}</p>
+          <p>{countApprovedCredits}</p>
         </div>
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>Approved Events:</label>
-          <p>{`[${currMemberTECStatus.approvedTEC}]`}</p>
+          <p>{`[${approvedTEC}]`}</p>
         </div>
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>Remaining Credits Needed:</label>
-          <p>{currMemberTECStatus.countRemainingCredits}</p>
+          <p>{countRemainingCredits}</p>
         </div>
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>Pending Approval For:</label>
-          <p>{`[${currMemberTECStatus.pendingTEC}]`}</p>
+          <p>{`[${pendingTEC}]`}</p>
         </div>
       </Form>
     </div>
