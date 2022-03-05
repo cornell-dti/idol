@@ -21,10 +21,29 @@ const TeamEventDetails: React.FC = () => {
   const location = useRouter();
   const uuid = location.query.uuid as string;
   const [teamEvent, setTeamEvent] = useState<TeamEvent>(defaultTeamEvent);
+  const [isLoading, setLoading] = useState(true);
+
+  const fullReset = () => {
+    setLoading(true);
+    setTeamEvent(defaultTeamEvent);
+  };
 
   useEffect(() => {
-    TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
-  }, []);
+    const cb = () => {
+      fullReset();
+    };
+    Emitters.teamEventsUpdated.subscribe(cb);
+    return () => {
+      Emitters.teamEventsUpdated.unsubscribe(cb);
+    };
+  });
+
+  useEffect(() => {
+    if(isLoading) {
+      TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
+      setLoading(false);
+    }
+  }, [isLoading]);
 
   const deleteTeamEvent = () => {
     TeamEventsAPI.deleteTeamEventForm(teamEvent).then(() => {

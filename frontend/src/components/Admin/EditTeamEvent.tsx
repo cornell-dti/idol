@@ -20,6 +20,7 @@ const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {
           headerMsg: 'Team Event Edited!',
           contentMsg: 'The team event was successfully edited!'
         });
+        Emitters.teamEventsUpdated.emit();
       }
     });
   };
