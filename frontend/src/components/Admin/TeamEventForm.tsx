@@ -74,6 +74,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
             headerMsg: 'Team Event Created!',
             contentMsg: 'The team event was successfully created!'
           });
+          Emitters.teamEventsUpdated.emit();
         }
       });
     }

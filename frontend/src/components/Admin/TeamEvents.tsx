@@ -5,13 +5,35 @@ import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
+import { Emitters } from '../../utils';
 
 const TeamEvents: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+  const [isLoading, setLoading] = useState(true);
+
+  const fullReset = () => {
+    setLoading(true);
+    setTeamEvents([]);
+  };
 
   useEffect(() => {
-    TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
-  }, []);
+    const cb = () => {
+      fullReset();
+    };
+    Emitters.teamEventsUpdated.subscribe(cb);
+    return () => {
+      Emitters.teamEventsUpdated.unsubscribe(cb);
+    };
+  });
+
+  useEffect(() => {
+    if (isLoading) {
+      TeamEventsAPI.getAllTeamEvents().then((teamEvents) => {
+        setTeamEvents(teamEvents);
+        setLoading(false);
+      });
+    }
+  }, [isLoading]);
 
   const pendingRequests: TeamEventAttendance[] = [];
 
