@@ -39,7 +39,7 @@ const TeamEventDetails: React.FC = () => {
   });
 
   useEffect(() => {
-    if(isLoading) {
+    if (isLoading) {
       TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
       setLoading(false);
     }
