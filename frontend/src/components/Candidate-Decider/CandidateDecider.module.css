@@ -4,4 +4,11 @@
 
 .candidateDeciderContainer {
   padding: 2%;
+  display: flex;
+}
+
+.applicationContainer {
+  width: 100%;
+  border-right: solid;
+  border-color: lightgrey;
 }
