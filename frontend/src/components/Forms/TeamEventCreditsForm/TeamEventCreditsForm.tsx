@@ -65,8 +65,8 @@ const TeamEventCreditForm: React.FC = () => {
 
   const [countApprovedCredits, setCountApprovedCredits] = useState(0);
   const [countRemainingCredits, setCountRemainingCredits] = useState(3);
-  const [approvedTEC, setApprovedTEC] = useState('');
-  const [pendingTEC, setPendingTEC] = useState('');
+  const [approvedTEC, setApprovedTEC] = useState('No Events Yet');
+  const [pendingTEC, setPendingTEC] = useState('No Events Yet');
 
   useEffect(() => {
     if (teamEvents != null) {
@@ -77,13 +77,13 @@ const TeamEventCreditForm: React.FC = () => {
             setCountApprovedCredits(countApprovedCredits + currCredits);
             if (countRemainingCredits - currCredits < 0) setCountRemainingCredits(0);
             else setCountRemainingCredits(countRemainingCredits - currCredits);
-            if (approvedTEC.length === 0) setApprovedTEC(currTeamEvent.name);
+            if (approvedTEC === 'No Events Yet') setApprovedTEC(currTeamEvent.name);
             else setApprovedTEC(`${approvedTEC}, ${currTeamEvent.name}`);
           }
         });
         currTeamEvent.requests.forEach((currApprovedMember) => {
           if (currApprovedMember.member.email === userInfo.email) {
-            if (pendingTEC.length === 0) setPendingTEC(currTeamEvent.name);
+            if (pendingTEC === 'No Events Yet') setPendingTEC(currTeamEvent.name);
             else setPendingTEC(`${pendingTEC}, ${currTeamEvent.name}`);
           }
         });
