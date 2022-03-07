@@ -113,9 +113,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           options={instance.candidates.map((candidate) => ({
             value: candidate.id,
             key: candidate.id,
-            text: candidate.id + ' - ' + (candidate.responses[1] != "#N/A"
-              ? candidate.responses[1] + ' ' + candidate.responses[2] + ' (' + candidate.responses[0] + ")"
-              : candidate.responses[0])
+            text: `${candidate.id} - ${candidate.responses[1] !== "#N/A"
+              ? `${candidate.responses[1]} ${candidate.responses[2]} (${candidate.responses[0]})`
+              : candidate.responses[0]}`
           }))}
           onChange={(_, data) => setCurrentCandidate(data.value as number)}
         />
