@@ -1,3 +1,6 @@
 {
-  "mockTeams": ["mockteam1", "mockteam2"]
+    "mockTeams": [
+        "mockteam1",
+        "mockteam2"
+    ]
 }

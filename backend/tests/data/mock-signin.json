@@ -1,28 +1,28 @@
 {
-  "allMockIds": ["open-signin", "expired-signin"],
-  "openSignin": {
-    "users": [],
-    "expireAt": 1762007430000,
-    "id": "open-signin"
-  },
-  "expiredSignin": {
-    "users": [],
-    "expireAt": 1636731000000,
-    "id": "expired-signin"
-  },
-  "users": {
-    "mus1": {
-      "graduation": "Never",
-      "subteams": ["mockteam1"],
-      "hometown": "GitHub",
-      "roleDescription": "Developer",
-      "firstName": "Mock",
-      "lastName": "User",
-      "email": "mus1@cornell.edu",
-      "major": "Computer Science",
-      "netid": "mus1",
-      "about": "Hello, I am a mock user",
-      "role": "dev"
+    "allMockIds" : ["open-signin", "expired-signin"],
+    "openSignin": {
+        "users": [],
+        "expireAt": 1762007430000,
+        "id": "open-signin"
+    },
+    "expiredSignin": {
+        "users": [],
+        "expireAt": 1636731000000,
+        "id": "expired-signin"
+    },
+    "users": {
+        "mus1": {
+            "graduation": "Never",
+            "subteams": ["mockteam1"],
+            "hometown": "GitHub",
+            "roleDescription": "Developer",
+            "firstName": "Mock",
+            "lastName": "User",
+            "email": "mus1@cornell.edu",
+            "major": "Computer Science",
+            "netid": "mus1",
+            "about": "Hello, I am a mock user",
+            "role": "dev"
+        }
     }
-  }
 }
