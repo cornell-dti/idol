@@ -104,7 +104,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div></div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
-      <div className={styles.controlsContainer}>
+      <div>
         <Dropdown
           placeholder="Candidate Search"
           fluid
