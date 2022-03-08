@@ -42,7 +42,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     return '';
   };
 
-  const getHeaderIndex = (_header: String) =>
+  const getHeaderIndex = (_header: string) =>
     instance.headers.findIndex((header, i) => header === _header);
   const netIDIndex = getHeaderIndex('NetID');
   const lastNameIndex = getHeaderIndex('Last Name');
