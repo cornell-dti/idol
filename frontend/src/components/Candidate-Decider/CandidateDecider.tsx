@@ -43,12 +43,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     return '';
   };
 
-  const getHeaderIndex = (_header: string) =>
-    instance.headers.findIndex((header, i) => header === _header);
-  const netIDIndex = getHeaderIndex('NetID');
-  const lastNameIndex = getHeaderIndex('Last Name');
-  const firstNameIndex = getHeaderIndex('First Name');
-
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => prev + 1);
@@ -112,13 +106,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   ) : (
     <div className={styles.candidateDeciderContainer}>
       <div>
-        <SearchBar
-          instance={instance}
-          setCurrentCandidate={setCurrentCandidate}
-          firstNameIndex={firstNameIndex}
-          lastNameIndex={lastNameIndex}
-          netIDIndex={netIDIndex}
-        />
+        <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
       </div>
       <div className={styles.controlsContainer}>
         <h4>Candidate ID:</h4>
