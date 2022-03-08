@@ -42,6 +42,12 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     return '';
   };
 
+  const getHeaderIndex = (_header: String) =>
+    instance.headers.findIndex((header, i) => header === _header);
+  const netIDIndex = getHeaderIndex('NetID');
+  const lastNameIndex = getHeaderIndex('Last Name');
+  const firstNameIndex = getHeaderIndex('First Name');
+
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => prev + 1);
@@ -114,9 +120,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             value: candidate.id,
             key: candidate.id,
             text: `${candidate.id} - ${
-              candidate.responses[1] !== '#N/A'
-                ? `${candidate.responses[1]} ${candidate.responses[2]} (${candidate.responses[0]})`
-                : candidate.responses[0]
+              candidate.responses[firstNameIndex] !== '#N/A' &&
+              candidate.responses[lastNameIndex] !== '#N/A'
+                ? `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]} (${candidate.responses[netIDIndex]})`
+                : candidate.responses[netIDIndex]
             }`
           }))}
           onChange={(_, data) => setCurrentCandidate(data.value as number)}
