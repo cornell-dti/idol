@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Button, Checkbox, Dropdown } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
-import ProgressPanel from './ProgressPanel';
+import LocalProgressPanel from './LocalProgressPanel';
+import GlobalProgressPanel from './GlobalProgressPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 
@@ -150,7 +151,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           comment={getComment()}
         />
       </div>
-      <ProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+      <LocalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+      <GlobalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
     </div>
   );
 };

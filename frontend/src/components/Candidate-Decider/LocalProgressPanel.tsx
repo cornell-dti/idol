@@ -7,7 +7,7 @@ type ProgressPanelProps = {
   candidates: CandidateDeciderCandidate[];
 };
 
-const ProgressPanel: React.FC<ProgressPanelProps> = ({ showOtherVotes, candidates }) => {
+const LocalProgressPanel: React.FC<ProgressPanelProps> = ({ showOtherVotes, candidates }) => {
   const userInfo = useSelf();
 
   const myReviews = candidates.filter((candidate) =>
@@ -17,8 +17,9 @@ const ProgressPanel: React.FC<ProgressPanelProps> = ({ showOtherVotes, candidate
     <div className={styles.progressContainer}>
       <h3>My Progress</h3>
       <Progress value={myReviews.length} total={candidates.length} size="tiny" color="blue" />;
+      <h3>My Rating Statistics</h3>
     </div>
   );
 };
 
-export default ProgressPanel;
+export default LocalProgressPanel;
