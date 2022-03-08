@@ -4,6 +4,7 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
+import SearchBar from './SearchBar';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -104,6 +105,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div></div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
+      <div>
+        <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+      </div>
       <div className={styles.controlsContainer}>
         <h4>Candidate ID:</h4>
         <Dropdown
