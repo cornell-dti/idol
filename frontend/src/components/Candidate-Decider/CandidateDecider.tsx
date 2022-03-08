@@ -60,12 +60,12 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           cd.id !== id
             ? cd
             : {
-              ...cd,
-              ratings: [
-                ...cd.ratings.filter((rt) => rt.reviewer.email !== userInfo?.email),
-                { reviewer: userInfo as IdolMember, rating }
-              ]
-            }
+                ...cd,
+                ratings: [
+                  ...cd.ratings.filter((rt) => rt.reviewer.email !== userInfo?.email),
+                  { reviewer: userInfo as IdolMember, rating }
+                ]
+              }
         )
       };
       setInstance(updatedInstance);
@@ -80,12 +80,12 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           cd.id !== id
             ? cd
             : {
-              ...cd,
-              comments: [
-                ...cd.comments.filter((cmt) => cmt.reviewer.email !== userInfo?.email),
-                { reviewer: userInfo as IdolMember, comment }
-              ]
-            }
+                ...cd,
+                comments: [
+                  ...cd.comments.filter((cmt) => cmt.reviewer.email !== userInfo?.email),
+                  { reviewer: userInfo as IdolMember, comment }
+                ]
+              }
         )
       };
       setInstance(updatedInstance);
@@ -106,16 +106,18 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.controlsContainer}>
         <Dropdown
-          placeholder='Candidate Search'
+          placeholder="Candidate Search"
           fluid
           search
           selection
           options={instance.candidates.map((candidate) => ({
             value: candidate.id,
             key: candidate.id,
-            text: `${candidate.id} - ${candidate.responses[1] !== "#N/A"
-              ? `${candidate.responses[1]} ${candidate.responses[2]} (${candidate.responses[0]})`
-              : candidate.responses[0]}`
+            text: `${candidate.id} - ${
+              candidate.responses[1] !== '#N/A'
+                ? `${candidate.responses[1]} ${candidate.responses[2]} (${candidate.responses[0]})`
+                : candidate.responses[0]
+            }`
           }))}
           onChange={(_, data) => setCurrentCandidate(data.value as number)}
         />
