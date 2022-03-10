@@ -36,6 +36,7 @@ import {
   createTeamEvent,
   deleteTeamEvent,
   getAllTeamEvents,
+  getTeamEvent,
   updateTeamEvent
 } from './team-eventsAPI';
 
@@ -210,13 +211,17 @@ loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
 
 // Team Events
 loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
+loginCheckedGet('/getTeamEvent/:uuid', async (req, user) => ({
+  event: await getTeamEvent(req.params.uuid, user)
+}));
 loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: await getAllTeamEvents(user) }));
 loginCheckedPost('/updateTeamEvent', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
-  team: await deleteTeamEvent(req.body, user)
-}));
+loginCheckedPost('/deleteTeamEvent', async (req, user) => {
+  await deleteTeamEvent(req.body, user);
+  return {};
+});
 
 // Candidate Decider
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({

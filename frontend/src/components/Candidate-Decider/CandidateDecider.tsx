@@ -6,6 +6,7 @@ import LocalProgressPanel from './LocalProgressPanel';
 import GlobalProgressPanel from './GlobalProgressPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
+import SearchBar from './SearchBar';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -108,6 +109,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   ) : (
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
+        <div>
+        <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+      </div>
         <div className={styles.controlsContainer}>
           <h4>Candidate ID:</h4>
           <Dropdown
@@ -149,6 +153,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentCandidate={currentCandidate}
           handleCommentChange={handleCommentChange}
           comment={getComment()}
+
         />
       </div>
       <div className={styles.progressContainer}>
