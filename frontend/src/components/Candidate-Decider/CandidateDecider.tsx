@@ -110,8 +110,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
         <div>
-        <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
-      </div>
+          <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+        </div>
         <div className={styles.controlsContainer}>
           <h4>Candidate ID:</h4>
           <Dropdown
@@ -153,7 +153,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentCandidate={currentCandidate}
           handleCommentChange={handleCommentChange}
           comment={getComment()}
-
         />
       </div>
       <div className={styles.progressContainer}>
