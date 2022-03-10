@@ -55,7 +55,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setCurrentCandidate((prev) => prev - 1);
   };
 
-  const handleRatingChange = (id: number, rating: number) => {
+  const handleRatingChange = (id: number, rating: Rating) => {
     CandidateDeciderAPI.updateRating(instance.uuid, id, rating).then(() => {
       const updatedInstance: CandidateDeciderInstance = {
         ...instance,
@@ -151,8 +151,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           comment={getComment()}
         />
       </div>
-      <LocalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
-      <GlobalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+      <div className={styles.progressContainer}>
+        <LocalProgressPanel
+          showOtherVotes={showOtherVotes}
+          candidates={instance.candidates}
+          currentCandidate={currentCandidate}
+        />
+        <GlobalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+      </div>
     </div>
   );
 };

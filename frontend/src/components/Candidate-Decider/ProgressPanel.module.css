@@ -1,3 +1,12 @@
 .progressContainer {
   width: 100%;
+  padding: 2%;
+}
+
+.percentageBar {
+  flex: 1 1 auto;
+}
+
+.statisticsList {
+  margin: 1em 0;
 }

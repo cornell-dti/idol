@@ -6,7 +6,7 @@ type Props = {
   headers: string[];
   responses: string[];
   rating: number;
-  handleRatingChange: (id: number, rating: number) => void;
+  handleRatingChange: (id: number, rating: Rating) => void;
   comment: string;
   handleCommentChange: (id: number, comment: string) => void;
   currentCandidate: number;
@@ -41,7 +41,7 @@ const ResponsesPanel: React.FC<Props> = ({
               value={rt.value}
               color={rt.color}
               checked={rt.value === rating}
-              onChange={() => handleRatingChange(currentCandidate, rt.value)}
+              onChange={() => handleRatingChange(currentCandidate, rt.value as Rating)}
             />
           </Form.Field>
         ))}
