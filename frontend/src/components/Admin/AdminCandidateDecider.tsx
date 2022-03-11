@@ -62,15 +62,15 @@ const CandidateDeciderInstanceCreator = ({
     reader.readAsText(file);
     reader.onload = () => {
       const str = reader.result as string;
-      const headers = str.slice(0, str.indexOf('\n')).split(',');
-      const rows = str.slice(str.indexOf('\n') + 1);
-      setHeaders(headers);
       csv({
-        noheader: true,
-        output: 'csv'
+        output: 'csv',
+        noheader: true
       })
-        .fromString(rows)
-        .then((parsedResponses) => setResponses(parsedResponses));
+        .fromString(str)
+        .then((parsedRows) => {
+          setResponses(parsedRows.splice(1));
+          setHeaders(parsedRows[0]);
+        });
     };
   };
 

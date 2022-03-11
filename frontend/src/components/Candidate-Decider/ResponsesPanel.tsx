@@ -53,7 +53,7 @@ const ResponsesPanel: React.FC<Props> = ({
       />
     </Form>
     {headers.map((header, i) => (
-      <div key={i}>
+      <div key={i} className={styles.questionResponseContainer}>
         <h4 className={styles.questionHeader}>{header}</h4>
         <div>{responses[i]}</div>
       </div>
