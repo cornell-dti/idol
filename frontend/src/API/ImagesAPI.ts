@@ -21,7 +21,8 @@ export default class ImagesAPI {
 
   public static uploadMemberImage(body: Blob): Promise<void> {
     return this.getSignedURL().then((url) => {
-      APIWrapper.put(url, body).then((res) => res.data);
+      const headers = { "contentType": 'image/jpeg' }
+      APIWrapper.put(url, body, headers).then((res) => res.data);
     });
   }
 
@@ -39,7 +40,8 @@ export default class ImagesAPI {
 
   public static uploadEventProofImage(body: Blob): Promise<void> {
     return this.getEventProofImageSignedURL().then((url) => {
-      APIWrapper.put(url, body).then((res) => res.data);
+      const headers = { "contentType": 'image/jpeg'}
+      APIWrapper.put(url, body, headers).then((res) => res.data);
     });
   }
 }
