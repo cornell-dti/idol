@@ -5,7 +5,6 @@ import ErrorModal from '../Modals/ErrorModal';
 import { Emitters } from '../../utils';
 import { Team, TeamsAPI } from '../../API/TeamsAPI';
 import { MemberSearch } from '../Common/Search';
-import { Member } from '../../API/MembersAPI';
 import { useTeams } from '../Common/FirestoreDataProvider';
 
 type TeamMemberEditorProps = {
@@ -25,7 +24,7 @@ function TeamMemberEditor({
     <>
       <h4>{title}</h4>
       <MemberSearch
-        onSelect={(mem: Member) => {
+        onSelect={(mem: IdolMember) => {
           setCurrentSelectedTeam((team) => ({
             ...team,
             [membersKey]: team[membersKey].concat([mem])

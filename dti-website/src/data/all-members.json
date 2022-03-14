@@ -2,16 +2,17 @@
   {
     "netid": "aa2235",
     "name": "Aira Agrawal ",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "she/her",
+    "graduation": "2023",
+    "major": "Computer Science",
+    "hometown": "Albany, NY",
+    "about": "Hi! I'm Aira and I'm studying CS in Engineering. In my free time, I like to dance, bake, and travel :)",
     "subteams": [
       "idol"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
+    "minor": "Business, Information Science",
     "formerSubteams": []
   },
   {
@@ -207,6 +208,21 @@
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
+    "formerSubteams": []
+  },
+  {
+    "netid": "axc2",
+    "name": "Andrew  Chen",
+    "pronouns": "",
+    "graduation": "May 2025",
+    "major": "Computer Science",
+    "hometown": "Boston, MA",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
     "formerSubteams": []
   },
   {
@@ -425,6 +441,21 @@
     "github": "https://github.com/chansen424"
   },
   {
+    "netid": "dj263",
+    "name": "Daniel Jin",
+    "pronouns": "he/him",
+    "graduation": "May 2025",
+    "major": "Computer Science",
+    "hometown": "Basking Ridge, NJ",
+    "about": ".",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "ebs98",
     "name": "Emma Shen",
     "pronouns": "",
@@ -585,7 +616,7 @@
   {
     "netid": "hl738",
     "name": "Henry Li",
-    "pronouns": "",
+    "pronouns": "he/him",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Albany, NY",
@@ -816,11 +847,11 @@
   {
     "netid": "jyf5",
     "name": "Jessica Feng",
-    "pronouns": "",
+    "pronouns": "she/her/hers",
     "graduation": "May 2023",
     "major": "Computer Science",
     "hometown": "Fremont, CA",
-    "about": "Hi! I’m Jessica, a sophomore studying Computer Science in the College of Engineering. I love exploring creative solutions built with tech and listening to people’s stories and experiences in industry. Outside of DTI, catch me at WICC or LOKO Dance events, strolling around campus, or admiring the sunset on the slope! ",
+    "about": "Hi! I’m Jessica, a junior studying Computer Science in the College of Engineering. I love exploring creative solutions built with tech and listening to people’s stories and experiences in industry. Outside of DTI, catch me at WICC or LOKO Dance events, strolling around campus, or admiring the sunset on the slope! ",
     "subteams": [
       "dac"
     ],
@@ -1208,7 +1239,7 @@
   {
     "netid": "rj356",
     "name": "Riya Jaggi",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Dubai, UAE",
@@ -1280,18 +1311,19 @@
   {
     "netid": "sj598",
     "name": "Julie Jeong",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Norwood, NJ",
-    "about": "Hi! I’m a freshman planning to major in computer science with a business minor in the College of Engineering. I would like to explore different areas within computer science and I am also interested in design and marketing! I’m an addict to bubble tea, strawberry acai lemonade, and hot cheetos. My other interests include watching dog videos, handcrafting, painting, bowling, collecting earrings, and taking photos.",
+    "about": "Hi, I’m Julie! I'm a developer with interests in ML/AI fields as well as marketing and design! I love meeting new people and spending time with others! Not a big foodie but I’m addicted to Starbucks strawberry acai lemonade, hot cheetos, and dark chocolate oreo thins. My other interests are dancing, cooking, handcrafting, watching sports (sometimes), and collecting perfumes.",
     "subteams": [
       "reviews"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Business",
+    "minor": "Business / Info Sci",
     "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/julie-sy-jeong/",
     "github": "https://github.com/juliejeong"
   },
   {
@@ -1370,7 +1402,7 @@
   {
     "netid": "sta48",
     "name": "Jahin Aishee",
-    "pronouns": "",
+    "pronouns": "She/Her",
     "graduation": "May 2022",
     "major": "ISST",
     "hometown": "Edinburg, TX",
@@ -1383,7 +1415,7 @@
     "formerSubteams": [
       "carriage"
     ],
-    "website": "https://www.jahinaishee.com/",
+    "website": "https://jahinaishee.com/",
     "linkedin": "https://www.linkedin.com/in/sayeeda-aishee/"
   },
   {
@@ -1592,17 +1624,17 @@
   {
     "netid": "wes229",
     "name": "Will Spencer",
-    "pronouns": "",
+    "pronouns": "he/him",
     "graduation": "May 2022",
     "major": "Computer Science",
     "hometown": "Tysons, VA",
-    "about": "Hey! I'm Will, a senior and developer on DTI. I love to spend my time coding and helping out the community. Besides DTI, I have been involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Besides developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
+    "about": "Hey! I'm Will, a senior and developer on DTI. I love to spend my time coding and helping out the community. Besides DTI, I have been involved with Girls Who Code on campus, where I help high-school students learn computer science concepts and how to program. Outside of developing, I spend my time gaming and following politics, so I can commonly be found yelling at my computer due to a broken controller or some scandalous news story.",
     "subteams": [
       "courseplan"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Public Policy, Information Science",
+    "minor": "Public Policy, Information Science, Game Design",
     "formerSubteams": [
       "nova"
     ],
@@ -1692,13 +1724,12 @@
     "major": "Computer Science",
     "hometown": "Great Neck, NY",
     "about": "Hey, I'm Enoch! Crazy ideas pop into my mind sometimes, and I love making them a reality. I am passionate about my projects, but otherwise I'm a pretty chill dude. You can catch me listening to music, taking things apart, or contemplating life.",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": [],
     "roleId": "lead",
     "roleDescription": "Lead",
     "formerSubteams": [
-      "clubhub"
+      "clubhub",
+      "cuapts"
     ],
     "website": "https://enochen.me/",
     "linkedin": "https://www.linkedin.com/in/enochen728/",

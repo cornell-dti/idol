@@ -1,0 +1,7 @@
+.controlsContainer {
+  display: flex;
+}
+
+.candidateDeciderContainer {
+  padding: 2%;
+}

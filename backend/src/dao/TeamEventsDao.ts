@@ -32,6 +32,30 @@ export default class TeamEventsDao {
     );
   }
 
+  static async getTeamEvent(uuid: string): Promise<TeamEvent> {
+    const eventDoc = teamEventsCollection.doc(uuid);
+    const eventRef = await eventDoc.get();
+    if (!eventRef.exists) throw new NotFoundError(`No form with uuid '${uuid}' found.`);
+    const eventForm = eventRef.data();
+    if (eventForm == null)
+      throw new NotFoundError(`No form content in form with uuid '${uuid}' found.`);
+    return {
+      ...eventForm,
+      requests: (await Promise.all(
+        eventForm.requests.map(async (ref) => ({
+          ...ref,
+          member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
+        }))
+      )) as TeamEventAttendance[],
+      attendees: (await Promise.all(
+        eventForm.attendees.map(async (ref) => ({
+          ...ref,
+          member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
+        }))
+      )) as TeamEventAttendance[]
+    };
+  }
+
   static async deleteTeamEvent(teamEvent: TeamEvent): Promise<void> {
     const eventDoc = teamEventsCollection.doc(teamEvent.uuid);
     const eventRef = await eventDoc.get();

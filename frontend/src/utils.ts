@@ -77,4 +77,7 @@ export class Emitters {
     headerMsg: string;
     contentMsg: string;
   }> = new EventEmitter();
+
+  // Team Events
+  static teamEventsUpdated: EventEmitter<void> = new EventEmitter();
 }

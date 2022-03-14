@@ -1,31 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Message, Image } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import AramHeadshot from '../../static/images/aram-headshot.jpg';
+import { TeamEventsAPI } from '../../API/TeamEventsAPI';
+import { Emitters } from '../../utils';
 
 const TeamEvents: React.FC = () => {
-  const teamEvents: TeamEvent[] = [
-    {
-      name: 'Coffee Chat',
-      date: '2021-11-17',
-      numCredits: '0.5',
-      hasHours: false,
-      requests: [],
-      attendees: [],
-      uuid: '1'
-    },
-    {
-      uuid: '2',
-      name: 'Club Fest',
-      date: '2021-11-17',
-      numCredits: '0.5',
-      hasHours: true,
-      requests: [],
-      attendees: []
+  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+  const [isLoading, setLoading] = useState(true);
+
+  const fullReset = () => {
+    setLoading(true);
+    setTeamEvents([]);
+  };
+
+  useEffect(() => {
+    const cb = () => {
+      fullReset();
+    };
+    Emitters.teamEventsUpdated.subscribe(cb);
+    return () => {
+      Emitters.teamEventsUpdated.unsubscribe(cb);
+    };
+  });
+
+  useEffect(() => {
+    if (isLoading) {
+      TeamEventsAPI.getAllTeamEvents().then((teamEvents) => {
+        setTeamEvents(teamEvents);
+        setLoading(false);
+      });
     }
-  ];
+  }, [isLoading]);
 
   const pendingRequests: TeamEventAttendance[] = [];
 
@@ -43,18 +51,22 @@ const TeamEvents: React.FC = () => {
       </div>
       <div className={styles.wrapper}>
         <h2>View All Team Events</h2>
-        <Card.Group>
-          {teamEvents.map((teamEvent) => (
-            <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
-              <Card>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                </Card.Content>
-              </Card>
-            </Link>
-          ))}
-        </Card.Group>
+        {teamEvents.length !== 0 ? (
+          <Card.Group>
+            {teamEvents.map((teamEvent) => (
+              <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>{teamEvent.name} </Card.Header>
+                    <Card.Meta>{teamEvent.date}</Card.Meta>
+                  </Card.Content>
+                </Card>
+              </Link>
+            ))}
+          </Card.Group>
+        ) : (
+          <Message>There are currently no team event forms.</Message>
+        )}
       </div>
       <div className={styles.wrapper}>
         <h2>Approve Pending Credit Requests</h2>

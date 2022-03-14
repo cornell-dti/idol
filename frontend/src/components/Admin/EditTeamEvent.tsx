@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
+import { TeamEventsAPI } from '../../API/TeamEventsAPI';
+import { Emitters } from '../../utils';
 import TeamEventForm from './TeamEventForm';
 
 const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {
@@ -7,7 +9,20 @@ const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   const editTeamEvent = (teamEvent: TeamEvent) => {
-    // send edited event to backend
+    TeamEventsAPI.updateTeamEventForm(teamEvent).then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't edit the team event!",
+          contentMsg: val.error
+        });
+      } else {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Team Event Edited!',
+          contentMsg: 'The team event was successfully edited!'
+        });
+        Emitters.teamEventsUpdated.emit();
+      }
+    });
   };
 
   return (

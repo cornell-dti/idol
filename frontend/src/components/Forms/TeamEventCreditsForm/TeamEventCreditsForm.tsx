@@ -62,6 +62,34 @@ const TeamEventCreditForm: React.FC = () => {
     }
   };
 
+  const [countApprovedCredits, setCountApprovedCredits] = useState(0);
+  const [countRemainingCredits, setCountRemainingCredits] = useState(3);
+  const [approvedTEC, setApprovedTEC] = useState('No Events Yet');
+  const [pendingTEC, setPendingTEC] = useState('No Events Yet');
+
+  useEffect(() => {
+    if (teamEvents != null) {
+      teamEvents.forEach((currTeamEvent) => {
+        currTeamEvent.attendees.forEach((currApprovedMember) => {
+          if (currApprovedMember.member.email === userInfo.email) {
+            const currCredits = Number(currTeamEvent.numCredits);
+            setCountApprovedCredits(countApprovedCredits + currCredits);
+            if (countRemainingCredits - currCredits < 0) setCountRemainingCredits(0);
+            else setCountRemainingCredits(countRemainingCredits - currCredits);
+            if (approvedTEC === 'No Events Yet') setApprovedTEC(currTeamEvent.name);
+            else setApprovedTEC(`${approvedTEC}, ${currTeamEvent.name}`);
+          }
+        });
+        currTeamEvent.requests.forEach((currApprovedMember) => {
+          if (currApprovedMember.member.email === userInfo.email) {
+            if (pendingTEC === 'No Events Yet') setPendingTEC(currTeamEvent.name);
+            else setPendingTEC(`${pendingTEC}, ${currTeamEvent.name}`);
+          }
+        });
+      });
+    }
+  }, [teamEvents]);
+
   return (
     <div>
       <Form
@@ -72,22 +100,11 @@ const TeamEventCreditForm: React.FC = () => {
           padding: '3rem 0 5rem 0'
         }}
       >
-        <h1>DTI Team Event Credits</h1>
+        <h1>Submit Team Event Credits</h1>
         <p>
           Earn team event credits for participating in DTI events! Fill out this form every time and
           attach a picture of yourself at the event to receive credit.
         </p>
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>Name:</label>
-          <p>
-            {userInfo.firstName} {userInfo.lastName}
-          </p>
-        </div>
-
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>Role:</label>
-          <p>{userInfo.roleDescription}</p>
-        </div>
 
         <div style={{ margin: '2rem 0' }}>
           <label style={{ fontWeight: 'bold' }}>
@@ -182,6 +199,33 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
+
+        <div style={{ margin: '8rem 0' }}></div>
+        <h1>Check Team Event Credits</h1>
+        <p>
+          Check your team event credit status for this semester here! Every DTI member must complete
+          3 team event credits to fulfill this requirement.
+        </p>
+
+        <div style={{ margin: '2rem 0' }}>
+          <label style={{ fontWeight: 'bold' }}>Approved Credits:</label>
+          <p>{countApprovedCredits}</p>
+        </div>
+
+        <div style={{ margin: '2rem 0' }}>
+          <label style={{ fontWeight: 'bold' }}>Approved Events:</label>
+          <p>{`[${approvedTEC}]`}</p>
+        </div>
+
+        <div style={{ margin: '2rem 0' }}>
+          <label style={{ fontWeight: 'bold' }}>Remaining Credits Needed:</label>
+          <p>{countRemainingCredits}</p>
+        </div>
+
+        <div style={{ margin: '2rem 0' }}>
+          <label style={{ fontWeight: 'bold' }}>Pending Approval For:</label>
+          <p>{`[${pendingTEC}]`}</p>
+        </div>
       </Form>
     </div>
   );
