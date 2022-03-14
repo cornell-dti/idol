@@ -13,18 +13,20 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
   return signedURL[0];
 };
 
-export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
+export const getEventProofImage = async (user: IdolMember): Promise<{signedUrl: string, imageName: string}> => {
   const netId: string = getNetIDFromEmail(user.email);
-  const file = bucket.file(`eventProofs/${netId}/${name}.jpg`);
+  const date: string = (new Date()).toISOString()
+  const file = bucket.file(`eventProofs/${netId}/${date}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
   if (!fileExists) {
-    throw new NotFoundError(`The requested image (${netId}/${name}.jpg) does not exist`);
+    throw new NotFoundError(`The requested image (${netId}/${date}.jpg) does not exist`);
   }
   const signedUrl = await file.getSignedUrl({
     action: 'read',
     expires: Date.now() + 15 * 60000
   });
-  return signedUrl[0];
+  return {
+    signedUrl: signedUrl[0], imageName: `${netId}/${date}`};
 };
 
 export const allEventProofImagesForMember = async (
