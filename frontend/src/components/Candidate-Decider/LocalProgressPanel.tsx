@@ -29,7 +29,13 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
   return (
     <div className={styles.progressContainer}>
       <h3>My Progress</h3>
-      <Progress value={myReviews.length} total={candidates.length} size="tiny" color="blue" />
+      <Progress
+        progress="ratio"
+        value={myReviews.length}
+        total={candidates.length}
+        size="tiny"
+        color="blue"
+      />
       <RatingsDisplay ratings={myRatings} header="My Rating Statistics" />
       {showOtherVotes ? (
         <>
