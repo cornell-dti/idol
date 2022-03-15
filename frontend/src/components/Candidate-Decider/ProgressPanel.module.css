@@ -10,3 +10,16 @@
 .statisticsList {
   margin: 1em 0;
 }
+
+.verticalContentContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.smallVerticalMargin {
+  margin: 0.25em 0;
+}

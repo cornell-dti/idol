@@ -44,18 +44,24 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
             header={`Candidate ${currentCandidate} Global Ratings`}
           />
           <h3>All Votes on Candidate {currentCandidate}</h3>
-          {candidates[currentCandidate].ratings
-            .filter((rating) => rating.rating !== 0)
-            .map((rating) => (
-              <span>{`${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
-                rating.rating
-              )}`}</span>
-            ))}
+          <div className={styles.verticalContentContainer}>
+            {candidates[currentCandidate].ratings
+              .filter((rating) => rating.rating !== 0)
+              .map((rating) => (
+                <span className={`${styles.fullWidth} ${styles.smallVerticalMargin}`}>{`${
+                  rating.reviewer.firstName
+                } ${rating.reviewer.lastName}: ${ratingToString(rating.rating)}`}</span>
+              ))}
+          </div>
           <h3>All Comments on Candidate {currentCandidate}</h3>
-          {candidates[currentCandidate].comments.map((comment) => (
-            <span>{`${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}
+          <div className={styles.verticalContentContainer}>
+            {candidates[currentCandidate].comments.map((comment) => (
+              <span
+                className={`${styles.fullWidth} ${styles.smallVerticalMargin}`}
+              >{`${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}
             `}</span>
-          ))}
+            ))}
+          </div>
         </>
       ) : (
         <></>
