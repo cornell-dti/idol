@@ -23,12 +23,11 @@ const GlobalProgressPanel: React.FC<Props> = ({ showOtherVotes, candidates }) =>
     <div className={styles.progressContainer}>
       <h3>Global Progress</h3>
       <Progress
-        progress="ratio"
         value={totalReviews}
         total={allReviewers.length * candidates.length}
         size="tiny"
         color="blue"
-      />
+      >{`${allRatings.length}/${candidates.length * allReviewers.length}`}</Progress>
       <RatingsDisplay ratings={allRatings} header="Global Rating Statistics" />
       {showOtherVotes ? (
         <>
