@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Dropdown } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
+import { getCandidateDeciderDocumentReference } from '../../firebase';
 import ResponsesPanel from './ResponsesPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
@@ -94,6 +95,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   };
 
   useEffect(() => {
+    setInstance(getCandidateDeciderDocumentReference(`candidate-decider/${uuid}`));
+
     CandidateDeciderAPI.getInstance(uuid)
       .then((instance) => {
         setInstance(instance);

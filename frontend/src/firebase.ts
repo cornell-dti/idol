@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app';
 import { Auth, getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { Firestore, getFirestore, collection } from 'firebase/firestore';
+import { Firestore, getFirestore, collection, doc } from 'firebase/firestore';
 import { useProdDb } from './environment';
 
 const firebaseConfig = useProdDb
@@ -47,3 +47,13 @@ export const approvedMembersCollection = collection(firestore, 'approved-members
     return teamEventData;
   }
 });
+
+export const getCandidateDeciderDocumentReference = (document: string) =>
+  doc(firestore, document).withConverter({
+    fromFirestore(snapshot): CandidateDeciderInstance {
+      return snapshot.data() as CandidateDeciderInstance;
+    },
+    toFirestore(instance) {
+      throw new Error();
+    }
+  });
