@@ -31,8 +31,8 @@ const RatingsDisplay: React.FC<Props> = ({ ratings, header }) => {
     <div className={styles.statisticsList}>
       <h3>{header}</h3>
       {allRatings.map((rating) => (
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <div style={{ margin: '4px 0', flex: '0 0 100px' }}>
+        <div className={styles.ratingProgressContainer}>
+          <div className={styles.ratingProgressLabel}>
             {ratingToString(rating)} ({counts.get(rating) || 0})
           </div>
           <StyledProgressBar

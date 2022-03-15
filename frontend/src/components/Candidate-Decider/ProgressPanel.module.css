@@ -23,3 +23,14 @@
 .smallVerticalMargin {
   margin: 0.25em 0;
 }
+
+.ratingProgressContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ratingProgressLabel {
+  margin: 4px 0;
+  flex: 0 0 100px;
+}
