@@ -61,7 +61,7 @@ const TeamEventCreditForm: React.FC = () => {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
         hoursAttended: Number(hours),
-        image: (new Date()).toISOString()
+        image: new Date().toISOString()
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent);
       Emitters.generalSuccess.emit({

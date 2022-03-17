@@ -4,7 +4,7 @@ import { NotFoundError } from './errors';
 
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
-  console.log(name)
+  console.log(name);
   const file = bucket.file(`eventProofs/${netId}/${name}.jpg`);
   const signedURL = await file.getSignedUrl({
     action: 'write',
