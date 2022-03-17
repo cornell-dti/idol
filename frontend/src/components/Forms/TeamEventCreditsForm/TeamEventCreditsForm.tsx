@@ -7,7 +7,9 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
 
 const TeamEventCreditForm: React.FC = () => {
-  const userInfo = useSelf();
+  // When the user is logged in, `useSelf` always return non-null data.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const userInfo = useSelf()!;
 
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
