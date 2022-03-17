@@ -7,11 +7,10 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
 
 const TeamEventCreditForm: React.FC = () => {
-  const userInfo = useSelf()!;
+  const userInfo = useSelf();
 
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
-  const [imageName, setImageName] = useState('');
   const [hours, setHours] = useState('');
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
 
@@ -29,18 +28,17 @@ const TeamEventCreditForm: React.FC = () => {
     eventCreditRequest: TeamEventAttendance,
     teamEvent: TeamEvent
   ) => {
+    teamEvent?.requests.push(eventCreditRequest);
+    TeamEventsAPI.requestTeamEventCredit(teamEvent);
     // upload image
     fetch(image)
       .then((res) => res.blob())
       .then((blob) => {
         const imageURL: string = window.URL.createObjectURL(blob);
-        ImagesAPI.uploadEventProofImage(blob).then((val) => setImageName(val));
+        ImagesAPI.uploadEventProofImage(blob);
         setImage(imageURL);
         console.log('inside handle new image');
-        console.log(`image name: ${imageName}`)
       });
-    teamEvent?.requests.push({ ...eventCreditRequest, image: imageName });
-    TeamEventsAPI.requestTeamEventCredit(teamEvent);
   };
 
   const submitTeamEventCredit = () => {
