@@ -76,7 +76,7 @@ export type TeamEvent = {
 
 export type DBCandidateDeciderRating = {
   readonly reviewer: firestore.DocumentReference;
-  readonly rating: number;
+  readonly rating: Rating;
 };
 
 export type DBCandidateDeciderComment = {
