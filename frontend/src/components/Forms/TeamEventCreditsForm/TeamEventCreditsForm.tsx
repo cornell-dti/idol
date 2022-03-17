@@ -35,7 +35,7 @@ const TeamEventCreditForm: React.FC = () => {
       .then((res) => res.blob())
       .then((blob) => {
         const imageURL: string = window.URL.createObjectURL(blob);
-        ImagesAPI.uploadEventProofImage(blob);
+        ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image);
         setImage(imageURL);
         console.log('inside handle new image');
       });
@@ -61,7 +61,7 @@ const TeamEventCreditForm: React.FC = () => {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
         hoursAttended: Number(hours),
-        image
+        image: (new Date()).toISOString()
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent);
       Emitters.generalSuccess.emit({

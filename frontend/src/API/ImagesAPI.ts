@@ -31,15 +31,15 @@ export default class ImagesAPI {
     return responseProm.then((val) => val.url);
   }
 
-  private static getEventProofImageSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImageSignedURL`).then(
+  private static getEventProofImageSignedURL(name: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImageSignedURL/${name}`).then(
       (res) => res.data
     );
     return responseProm.then((val) => val.url);
   }
 
-  public static uploadEventProofImage(body: Blob): Promise<void> {
-    return this.getEventProofImageSignedURL().then((url) => {
+  public static uploadEventProofImage(body: Blob, name: string): Promise<void> {
+    return this.getEventProofImageSignedURL(name).then((url) => {
       const headers = { "contentType": 'image/jpeg'}
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
