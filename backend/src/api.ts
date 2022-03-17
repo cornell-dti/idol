@@ -36,6 +36,7 @@ import {
   createTeamEvent,
   deleteTeamEvent,
   getAllTeamEvents,
+  getTeamEvent,
   updateTeamEvent
 } from './team-eventsAPI';
 
@@ -43,7 +44,10 @@ import {
   getAllCandidateDeciderInstances,
   createNewCandidateDeciderInstance,
   toggleCandidateDeciderInstance,
-  deleteCandidateDeciderInstance
+  deleteCandidateDeciderInstance,
+  getCandidateDeciderInstance,
+  updateCandidateDeciderRating,
+  updateCandidateDeciderComment
 } from './candidateDeciderAPI';
 import { getEventProofImage, setEventProofImage } from './team-events-imageAPI';
 
@@ -208,13 +212,17 @@ loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
 
 // Team Events
 loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
+loginCheckedGet('/getTeamEvent/:uuid', async (req, user) => ({
+  event: await getTeamEvent(req.params.uuid, user)
+}));
 loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: await getAllTeamEvents(user) }));
 loginCheckedPost('/updateTeamEvent', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEvent', async (req, user) => ({
-  team: await deleteTeamEvent(req.body, user)
-}));
+loginCheckedPost('/deleteTeamEvent', async (req, user) => {
+  await deleteTeamEvent(req.body, user);
+  return {};
+});
 
 // Team Events Proof Image
 loginCheckedGet('/getEventProofImageSignedURL/:name', async (req, user) => ({
@@ -228,15 +236,23 @@ loginCheckedGet('/getEventProofImage', async (req, user) => ({
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
+loginCheckedGet('/getCandidateDeciderInstance/:uuid', async (req, user) => ({
+  instance: await getCandidateDeciderInstance(req.params.uuid, user)
+}));
 loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
 loginCheckedPost('/toggleCandidateDeciderInstance', async (req, user) =>
   toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
 );
-
 loginCheckedPost('/deleteCandidateDeciderInstance', async (req, user) =>
   deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+);
+loginCheckedPost('/updateCandidateDeciderRating', (req, user) =>
+  updateCandidateDeciderRating(user, req.body.uuid, req.body.id, req.body.rating).then(() => ({}))
+);
+loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
+  updateCandidateDeciderComment(user, req.body.uuid, req.body.id, req.body.comment).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);

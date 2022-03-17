@@ -37,3 +37,6 @@ export const updateTeamEvent = async (
   await TeamEventsDao.updateTeamEvent(teamEvent);
   return teamEvent;
 };
+
+export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> =>
+  TeamEventsDao.getTeamEvent(uuid);

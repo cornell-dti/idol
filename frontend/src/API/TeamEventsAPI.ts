@@ -27,6 +27,14 @@ export class TeamEventsAPI {
     });
   }
 
+  public static getTeamEventForm(uuid: string): Promise<Event> {
+    const eventProm = APIWrapper.get(`${backendURL}/getTeamEvent/${uuid}`).then((res) => res.data);
+    return eventProm.then((val) => {
+      const event = val.event as Event;
+      return event;
+    });
+  }
+
   public static createTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
     return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEvent).then((res) => res.data);
   }
@@ -35,6 +43,16 @@ export class TeamEventsAPI {
     // need to add image processing
     return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
       (res) => res.data.event
+    );
+  }
+
+  public static async deleteTeamEventForm(teamEvent: Event): Promise<void> {
+    await APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent);
+  }
+
+  public static updateTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
+      (rest) => rest.data.event
     );
   }
 }

@@ -39,7 +39,7 @@ export const deleteCandidateDeciderInstance = async (
   await CandidateDeciderDao.deleteInstance(uuid);
 };
 
-export const getCandidateDeciderInstnace = async (
+export const getCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
 ): Promise<CandidateDeciderInstance> => {
@@ -59,4 +59,78 @@ export const getCandidateDeciderInstnace = async (
     );
   }
   return instance;
+};
+
+export const updateCandidateDeciderRating = async (
+  user: IdolMember,
+  uuid: string,
+  id: number,
+  rating: number
+): Promise<void> => {
+  const instance = await CandidateDeciderDao.getInstance(uuid);
+  if (!instance) {
+    throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
+  }
+  if (
+    !(
+      (await PermissionsManager.isAdmin(user)) ||
+      instance.authorizedMembers.includes(user) ||
+      instance.authorizedRoles.includes(user.role)
+    )
+  )
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to access this Candidate Decider instance`
+    );
+  const updatedInstance: CandidateDeciderInstance = {
+    ...instance,
+    candidates: instance.candidates.map((cd) =>
+      cd.id !== id
+        ? cd
+        : {
+            ...cd,
+            ratings: [
+              ...cd.ratings.filter((rt) => rt.reviewer.email !== user.email),
+              { reviewer: user, rating }
+            ]
+          }
+    )
+  };
+  CandidateDeciderDao.updateInstance(updatedInstance);
+};
+
+export const updateCandidateDeciderComment = async (
+  user: IdolMember,
+  uuid: string,
+  id: number,
+  comment: string
+): Promise<void> => {
+  const instance = await CandidateDeciderDao.getInstance(uuid);
+  if (!instance) {
+    throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
+  }
+  if (
+    !(
+      (await PermissionsManager.isAdmin(user)) ||
+      instance.authorizedMembers.includes(user) ||
+      instance.authorizedRoles.includes(user.role)
+    )
+  )
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to access this Candidate Decider instance`
+    );
+  const updatedInstance: CandidateDeciderInstance = {
+    ...instance,
+    candidates: instance.candidates.map((cd) =>
+      cd.id !== id
+        ? cd
+        : {
+            ...cd,
+            comments: [
+              ...cd.comments.filter((cmt) => cmt.reviewer.email !== user.email),
+              { reviewer: user, comment }
+            ]
+          }
+    )
+  };
+  CandidateDeciderDao.updateInstance(updatedInstance);
 };

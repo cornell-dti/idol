@@ -101,7 +101,7 @@ async function main(): Promise<void> {
   const commitMessage = '[bot] Automatically pull latest data from IDOL backend';
   runCommand('git', 'add', '.');
   runCommand('git', 'fetch', '--all');
-  runCommand('git', 'checkout', 'master');
+  runCommand('git', 'checkout', 'main');
   runCommand('git', 'checkout', '-b', gitBranch);
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
     if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
@@ -141,7 +141,7 @@ async function main(): Promise<void> {
       repo: 'idol',
       title: commitMessage,
       body: prBody,
-      base: 'master',
+      base: 'main',
       head: gitBranch
     });
   } else {

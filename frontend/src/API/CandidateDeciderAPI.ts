@@ -7,6 +7,11 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instances);
   }
 
+  static async getInstance(uuid: string): Promise<CandidateDeciderInstance> {
+    const response = APIWrapper.get(`${backendURL}/getCandidateDeciderInstance/${uuid}`);
+    return response.then((val) => val.data.instance);
+  }
+
   static async createNewInstance(
     instance: CandidateDeciderInstance
   ): Promise<CandidateDeciderInfo> {
@@ -20,5 +25,13 @@ export default class CandidateDeciderAPI {
 
   static async deleteInstance(uuid: string): Promise<void> {
     APIWrapper.post(`${backendURL}/deleteCandidateDeciderInstance`, { uuid });
+  }
+
+  static async updateRating(uuid: string, id: number, rating: number): Promise<void> {
+    APIWrapper.post(`${backendURL}/updateCandidateDeciderRating`, { uuid, id, rating });
+  }
+
+  static async updateComment(uuid: string, id: number, comment: string): Promise<void> {
+    APIWrapper.post(`${backendURL}/updateCandidateDeciderComment`, { uuid, id, comment });
   }
 }

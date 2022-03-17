@@ -118,5 +118,11 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
         Games
       </Menu.Item>
     </Link>
+    <Link href="/candidate-decider">
+      <Menu.Item>
+        <Icon name="chart bar outline" />
+        Candidate Decider
+      </Menu.Item>
+    </Link>
   </>
 );
