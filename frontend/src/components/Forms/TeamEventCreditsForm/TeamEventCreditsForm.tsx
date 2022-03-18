@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Segment, Label, Button } from 'semantic-ui-react';
-import { Emitters } from '../../../utils';
+import { Emitters, getNetIDFromEmail } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -39,7 +39,6 @@ const TeamEventCreditForm: React.FC = () => {
         const imageURL: string = window.URL.createObjectURL(blob);
         ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image);
         setImage(imageURL);
-        console.log('inside handle new image');
       });
   };
 
@@ -63,7 +62,7 @@ const TeamEventCreditForm: React.FC = () => {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
         hoursAttended: Number(hours),
-        image: new Date().toISOString()
+        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent);
       Emitters.generalSuccess.emit({

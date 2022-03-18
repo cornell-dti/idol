@@ -3,9 +3,7 @@ import { getNetIDFromEmail } from './util';
 import { NotFoundError } from './errors';
 
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  console.log(name);
-  const file = bucket.file(`eventProofs/${netId}/${name}.jpg`);
+  const file = bucket.file(`${name}`);
   const signedURL = await file.getSignedUrl({
     action: 'write',
     version: 'v4',
@@ -15,11 +13,10 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
 };
 
 export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  const file = bucket.file(`eventProofs/${netId}/${name}.jpg`);
+  const file = bucket.file(`${name}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
   if (!fileExists) {
-    throw new NotFoundError(`The requested image (${netId}/${name}.jpg) does not exist`);
+    throw new NotFoundError(`The requested image (${name}) does not exist`);
   }
   const signedUrl = await file.getSignedUrl({
     action: 'read',
@@ -58,8 +55,7 @@ export const allEventProofImagesForMember = async (
 };
 
 export const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  const imageFile = bucket.file(`eventProofs/${netId}/${name}.jpg`);
+  const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
 

@@ -225,7 +225,7 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => {
 });
 
 // Team Events Proof Image
-loginCheckedGet('/getEventProofImageSignedURL/:name', async (req, user) => ({
+loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
   url: await setEventProofImage(req.params.name, user)
 }));
 loginCheckedGet('/getEventProofImage', async (req, user) => ({
