@@ -49,6 +49,7 @@ import {
   updateCandidateDeciderRating,
   updateCandidateDeciderComment
 } from './candidateDeciderAPI';
+import { getEventProofImage, setEventProofImage } from './team-events-imageAPI';
 
 // Constants and configurations
 const app = express();
@@ -222,6 +223,14 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => {
   await deleteTeamEvent(req.body, user);
   return {};
 });
+
+// Team Events Proof Image
+loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
+  url: await setEventProofImage(req.params.name, user)
+}));
+loginCheckedGet('/getEventProofImage', async (req, user) => ({
+  url: await getEventProofImage(req.body, user)
+}));
 
 // Candidate Decider
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
