@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
-import { Emitters } from '../../../utils';
+import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
@@ -121,23 +121,20 @@ const TeamEventCreditForm: React.FC = () => {
           </label>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {teamEvents && !teamEvent ? (
-
-                  <Dropdown
-                    placeholder='Select a Team Event'
-                    fluid
-                    search
-                    selection
-                    options={
-                      teamEvents.map((event) => ({
-                        key: event.uuid,
-                        text: event.name,
-                        value: event.uuid
-                      }))
-                    } 
-                    onChange={(_, data) => setTeamEvent(teamEvents.find(event => 
-                      event.uuid === data.key))}
-                  />
-             
+              <Dropdown
+                placeholder="Select a Team Event"
+                fluid
+                search
+                selection
+                options={teamEvents.map((event) => ({
+                  key: event.uuid,
+                  text: event.name,
+                  value: event.uuid
+                }))}
+                onChange={(_, data) =>
+                  setTeamEvent(teamEvents.find((event) => event.uuid === data.key))
+                }
+              />
             ) : undefined}
 
             {teamEvent ? (
