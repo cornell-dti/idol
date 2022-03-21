@@ -65,7 +65,7 @@ export const updateCandidateDeciderRating = async (
   user: IdolMember,
   uuid: string,
   id: number,
-  rating: number
+  rating: Rating
 ): Promise<void> => {
   const instance = await CandidateDeciderDao.getInstance(uuid);
   if (!instance) {
