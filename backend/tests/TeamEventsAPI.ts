@@ -6,32 +6,18 @@ import {
   getAllTeamEvents,
   updateTeamEvent
 } from '../src/team-eventsAPI';
-import jaggerData from './data/jagger-profile.json';
+import { fakeTeamEvent, fakeTeamEventAttendance } from './data/createData';
 
 const adminUser = { email: 'hl738@cornell.edu' } as IdolMember;
 const nonAdminUser = { email: 'pk457@cornell.edu' } as IdolMember;
 
-const testTeamEventAttendence = {
-  member: jaggerData,
-  hoursAttended: 1,
-  image: null
-};
-
-const testTeamEvent = {
-  name: 'test',
-  date: '11/26/2020',
-  numCredits: '1',
-  hasHours: false,
-  requests: [testTeamEventAttendence],
-  attendees: [],
-  uuid: 'test123'
-};
+const testTeamEvent = fakeTeamEvent();
 
 afterAll(async () => deleteTeamEvent(testTeamEvent, adminUser));
 
 test('created team event with permission', async () => {
   await createTeamEvent(testTeamEvent, adminUser).then((teamEvent) => {
-    expect(teamEvent.name).toEqual('test');
+    expect(teamEvent.name).toEqual('testteamevent');
   });
 });
 
@@ -42,7 +28,7 @@ test('does not create team event because user does not have permission', async (
 const updatedTestTeamEvent = {
   ...testTeamEvent,
   requests: [],
-  attendees: [testTeamEventAttendence]
+  attendees: [fakeTeamEventAttendance()]
 };
 
 test('does not get all team events because user does not have permission', async () => {
@@ -54,7 +40,7 @@ test('does not get all team events because user does not have permission', async
 });
 
 test('does not update team event because user does not have permission', async () => {
-  const eventRef = teamEventsCollection.doc('test123').get();
+  const eventRef = teamEventsCollection.doc('testteamevent').get();
   try {
     await eventRef.then(async (event) => {
       if (!event.exists) {
