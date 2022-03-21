@@ -1,0 +1,36 @@
+.progressContainer {
+  width: 100%;
+  padding: 2%;
+}
+
+.percentageBar {
+  flex: 1 1 auto;
+}
+
+.statisticsList {
+  margin: 1em 0;
+}
+
+.verticalContentContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.smallVerticalMargin {
+  margin: 0.25em 0;
+}
+
+.ratingProgressContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ratingProgressLabel {
+  margin: 4px 0;
+  flex: 0 0 100px;
+}

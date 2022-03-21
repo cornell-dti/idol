@@ -97,9 +97,11 @@ interface EventProofImage {
   readonly fileName: string;
 }
 
+type Rating = 0 | 1 | 2 | 3 | 4 | 5;
+
 interface CandidateDeciderRating {
   readonly reviewer: IdolMember;
-  readonly rating: number;
+  readonly rating: Rating;
 }
 
 interface CandidateDeciderComment {

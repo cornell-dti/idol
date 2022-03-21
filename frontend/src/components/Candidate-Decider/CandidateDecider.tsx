@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { Button, Checkbox, Dropdown } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
+import LocalProgressPanel from './LocalProgressPanel';
+import GlobalProgressPanel from './GlobalProgressPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
@@ -24,6 +26,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [instance, setInstance] = useState<CandidateDeciderInstance>(blankInstance);
+  const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
 
@@ -53,7 +56,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setCurrentCandidate((prev) => prev - 1);
   };
 
-  const handleRatingChange = (id: number, rating: number) => {
+  const handleRatingChange = (id: number, rating: Rating) => {
     CandidateDeciderAPI.updateRating(instance.uuid, id, rating).then(() => {
       const updatedInstance: CandidateDeciderInstance = {
         ...instance,
@@ -105,45 +108,61 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div></div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
-      <div>
-        <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
-      </div>
-      <div className={styles.controlsContainer}>
-        <h4>Candidate ID:</h4>
-        <Dropdown
-          value={currentCandidate}
-          selection
-          options={instance.candidates.map((candidate) => ({
-            value: candidate.id,
-            key: candidate.id,
-            text: candidate.id
-          }))}
-          onChange={(_, data) => setCurrentCandidate(data.value as number)}
+      <div className={styles.applicationContainer}>
+        <div>
+          <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+        </div>
+        <div className={styles.controlsContainer}>
+          <h4>Candidate ID:</h4>
+          <Dropdown
+            value={currentCandidate}
+            selection
+            options={instance.candidates.map((candidate) => ({
+              value: candidate.id,
+              key: candidate.id,
+              text: candidate.id
+            }))}
+            onChange={(_, data) => setCurrentCandidate(data.value as number)}
+          />
+          <span>of {instance.candidates.length}</span>
+          <Button.Group>
+            <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
+              PREVIOUS
+            </Button>
+            <Button
+              basic
+              color="blue"
+              disabled={currentCandidate === instance.candidates.length - 1}
+              onClick={next}
+            >
+              NEXT
+            </Button>
+          </Button.Group>
+          <Checkbox
+            toggle
+            checked={showOtherVotes}
+            onChange={() => setShowOtherVotes((prev) => !prev)}
+            label="Show other people's votes"
+          />
+        </div>
+        <ResponsesPanel
+          headers={instance.headers}
+          responses={instance.candidates[currentCandidate].responses}
+          handleRatingChange={handleRatingChange}
+          rating={getRating()}
+          currentCandidate={currentCandidate}
+          handleCommentChange={handleCommentChange}
+          comment={getComment()}
         />
-        <span>of {instance.candidates.length}</span>
-        <Button.Group>
-          <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
-            PREVIOUS
-          </Button>
-          <Button
-            basic
-            color="blue"
-            disabled={currentCandidate === instance.candidates.length - 1}
-            onClick={next}
-          >
-            NEXT
-          </Button>
-        </Button.Group>
       </div>
-      <ResponsesPanel
-        headers={instance.headers}
-        responses={instance.candidates[currentCandidate].responses}
-        handleRatingChange={handleRatingChange}
-        rating={getRating()}
-        currentCandidate={currentCandidate}
-        handleCommentChange={handleCommentChange}
-        comment={getComment()}
-      />
+      <div className={styles.progressContainer}>
+        <LocalProgressPanel
+          showOtherVotes={showOtherVotes}
+          candidates={instance.candidates}
+          currentCandidate={currentCandidate}
+        />
+        <GlobalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+      </div>
     </div>
   );
 };

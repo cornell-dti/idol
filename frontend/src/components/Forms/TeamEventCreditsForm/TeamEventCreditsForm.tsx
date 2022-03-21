@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Segment, Label, Button } from 'semantic-ui-react';
-import { Emitters } from '../../../utils';
+import { Emitters, getNetIDFromEmail } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditsDasboard';
 
 const TeamEventCreditForm: React.FC = () => {
@@ -32,6 +33,14 @@ const TeamEventCreditForm: React.FC = () => {
   ) => {
     teamEvent?.requests.push(eventCreditRequest);
     TeamEventsAPI.requestTeamEventCredit(teamEvent);
+    // upload image
+    fetch(image)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const imageURL: string = window.URL.createObjectURL(blob);
+        ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image);
+        setImage(imageURL);
+      });
   };
 
   const submitTeamEventCredit = () => {
@@ -54,7 +63,7 @@ const TeamEventCreditForm: React.FC = () => {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
         hoursAttended: Number(hours),
-        image
+        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent);
       Emitters.generalSuccess.emit({
