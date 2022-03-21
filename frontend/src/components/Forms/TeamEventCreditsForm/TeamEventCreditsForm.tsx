@@ -4,7 +4,8 @@ import { Emitters } from '../../../utils';
 import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import TeamEventCreditDashboard from './TeamEventsCreditsDasboard';
+import TeamEventCreditDashboard from './TeamEventsCreditDasboard';
+import styles from './TeamEventCreditsForm.module.css';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -79,8 +80,8 @@ const TeamEventCreditForm: React.FC = () => {
           Earn team event credits for participating in DTI events! Fill out this form every time and
           attach a picture of yourself at the event to receive credit.
         </p>
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>
+        <div className={styles.inline}>
+          <label className={styles.bold}>
             Select a Team Event: <span style={{ color: '#db2828' }}>*</span>
           </label>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -138,7 +139,7 @@ const TeamEventCreditForm: React.FC = () => {
         </div>
         {teamEvent?.hasHours ? (
           <div>
-            <label style={{ fontWeight: 'bold' }}>
+            <label className={styles.bold}>
               How many hours did you attend the event? <span style={{ color: '#db2828' }}>*</span>
             </label>
             <Form.Input
@@ -153,8 +154,8 @@ const TeamEventCreditForm: React.FC = () => {
             />
           </div>
         ) : undefined}
-        <div style={{ margin: '2rem 0' }}>
-          <label htmlFor="newImage" style={{ fontWeight: 'bold' }}>
+        <div className={styles.inline}>
+          <label htmlFor="newImage" className={styles.bold}>
             Upload your event picture here! <span style={{ color: '#db2828' }}>*</span>
           </label>
           <p style={{ marginBottom: '0' }}>
@@ -171,7 +172,7 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard userInfo={userInfo} />
+        <TeamEventCreditDashboard teamEvents={teamEvents} />
       </Form>
     </div>
   );

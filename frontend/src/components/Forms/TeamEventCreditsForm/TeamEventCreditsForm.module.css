@@ -1,0 +1,13 @@
+.inline {
+  margin: '2rem 0';
+  padding-bottom: 2rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.header {
+  margin: '8rem 0';
+  padding-top: 4rem;
+}

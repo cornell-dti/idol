@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Card, Message } from 'semantic-ui-react';
-import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import { useSelf } from '../../Common/FirestoreDataProvider';
+import styles from './TeamEventCreditsForm.module.css';
 
-const TeamEventCreditDashboard = (props: { userInfo: IdolMember }): JSX.Element => {
+const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Element => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { userInfo } = props;
+  const userInfo = useSelf()!;
+  const { teamEvents } = props;
 
-  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+  // const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
 
-  useEffect(() => {
-    TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
-  }, []);
+  // useEffect(() => {
+  //   TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
+  // }, []);
 
   const [countApprovedCredits, setCountApprovedCredits] = useState(0);
   const [countRemainingCredits, setCountRemainingCredits] = useState(3);
@@ -19,45 +21,43 @@ const TeamEventCreditDashboard = (props: { userInfo: IdolMember }): JSX.Element 
   const [pendingTEC, setPendingTEC] = useState<TeamEvent[]>([]);
 
   useEffect(() => {
-    if (teamEvents != null) {
-      teamEvents.forEach((currTeamEvent) => {
-        currTeamEvent.attendees.forEach((currApprovedMember) => {
-          if (currApprovedMember.member.email === userInfo.email) {
-            const currCredits = Number(currTeamEvent.numCredits);
-            setCountApprovedCredits((countApprovedCredits) => countApprovedCredits + currCredits);
-            setCountRemainingCredits((countRemainingCredits) => {
-              if (countRemainingCredits - currCredits <= 0) return 0;
-              return countRemainingCredits - currCredits;
-            });
-            setApprovedTEC((approvedTEC) => [...approvedTEC, currTeamEvent]);
-          }
-        });
-        currTeamEvent.requests.forEach((currApprovedMember) => {
-          if (currApprovedMember.member.email === userInfo.email) {
-            setPendingTEC((pendingTEC) => [...pendingTEC, currTeamEvent]);
-          }
-        });
+    teamEvents.forEach((currTeamEvent) => {
+      currTeamEvent.attendees.forEach((currApprovedMember) => {
+        if (currApprovedMember.member.email === userInfo.email) {
+          const currCredits = Number(currTeamEvent.numCredits);
+          setCountApprovedCredits((countApprovedCredits) => countApprovedCredits + currCredits);
+          setCountRemainingCredits((countRemainingCredits) => {
+            if (countRemainingCredits - currCredits <= 0) return 0;
+            return countRemainingCredits - currCredits;
+          });
+          setApprovedTEC((approvedTEC) => [...approvedTEC, currTeamEvent]);
+        }
       });
-    }
+      currTeamEvent.requests.forEach((currApprovedMember) => {
+        if (currApprovedMember.member.email === userInfo.email) {
+          setPendingTEC((pendingTEC) => [...pendingTEC, currTeamEvent]);
+        }
+      });
+    });
   }, [teamEvents]);
 
   return (
     <div>
       <Form>
-        <div style={{ margin: '8rem 0' }}></div>
+        <div className={styles.header}></div>
         <h1>Check Team Event Credits</h1>
         <p>
           Check your team event credit status for this semester here! Every DTI member must complete
           3 team event credits to fulfill this requirement.
         </p>
 
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>Approved Credits:</label>
+        <div className={styles.inline}>
+          <label className={styles.bold}>Approved Credits:</label>
           <p>{countApprovedCredits}</p>
         </div>
 
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>Approved Events:</label>
+        <div className={styles.inline}>
+          <label className={styles.bold}>Approved Events:</label>
           {approvedTEC.length !== 0 ? (
             <Card.Group>
               {approvedTEC.map((teamEvent) => (
@@ -75,13 +75,13 @@ const TeamEventCreditDashboard = (props: { userInfo: IdolMember }): JSX.Element 
           )}
         </div>
 
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>Remaining Credits Needed:</label>
+        <div className={styles.inline}>
+          <label className={styles.bold}>Remaining Credits Needed:</label>
           <p>{countRemainingCredits}</p>
         </div>
 
-        <div style={{ margin: '2rem 0' }}>
-          <label style={{ fontWeight: 'bold' }}>Pending Approval For:</label>
+        <div className={styles.inline}>
+          <label className={styles.bold}>Pending Approval For:</label>
           {pendingTEC.length !== 0 ? (
             <Card.Group>
               {pendingTEC.map((teamEvent) => (
