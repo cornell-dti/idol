@@ -71,7 +71,11 @@ const TeamEventDetails: React.FC = () => {
   };
 
   const rejectCreditRequest = (request: TeamEventAttendance) => {
-    console.log('rejectCreditRequest'); 
+    const updatedTeamEvent = {
+      ...teamEvent,
+      requests: teamEvent.requests.filter((i) => i !== request)
+    }
+    updateTeamEvent(updatedTeamEvent);
   };
 
   return (
