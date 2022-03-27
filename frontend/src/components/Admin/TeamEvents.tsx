@@ -3,7 +3,6 @@ import { Card, Button, Message, Image } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
-import AramHeadshot from '../../static/images/aram-headshot.jpg';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 import { Emitters } from '../../utils';
 
@@ -35,14 +34,6 @@ const TeamEvents: React.FC = () => {
     }
   }, [isLoading]);
 
-  const pendingRequests: TeamEventAttendance[] = [];
-
-  const handleCreditRequest = () => {
-    console.log('handleCreditRequest'); // just want to trigger re-run
-    // if approved, move to approved list of the event
-    // remove from total pending list and event pending list
-  };
-
   return (
     <div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
@@ -59,6 +50,7 @@ const TeamEvents: React.FC = () => {
                   <Card.Content>
                     <Card.Header>{teamEvent.name} </Card.Header>
                     <Card.Meta>{teamEvent.date}</Card.Meta>
+                    <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
                   </Card.Content>
                 </Card>
               </Link>
@@ -66,38 +58,6 @@ const TeamEvents: React.FC = () => {
           </Card.Group>
         ) : (
           <Message>There are currently no team event forms.</Message>
-        )}
-      </div>
-      <div className={styles.wrapper}>
-        <h2>Approve Pending Credit Requests</h2>
-
-        {pendingRequests.length !== 0 ? (
-          <Card.Group>
-            {pendingRequests.map((request, i) => (
-              <Card className={styles.memberCard} key={i}>
-                <Card.Content>
-                  <Image size="medium" className={styles.creditImage} src={AramHeadshot.src} />
-                  <Card.Header>
-                    {request.member.firstName} {request.member.lastName}
-                  </Card.Header>
-                  <Card.Meta>{request.member.email}</Card.Meta>
-                  {request.hoursAttended && (
-                    <Card.Description> Hours Attended: {request.hoursAttended}</Card.Description>
-                  )}
-                </Card.Content>
-                <Card.Content extra>
-                  <Button basic color="green" onClick={handleCreditRequest}>
-                    Approve
-                  </Button>
-                  <Button basic color="red" onClick={handleCreditRequest}>
-                    Reject
-                  </Button>
-                </Card.Content>
-              </Card>
-            ))}
-          </Card.Group>
-        ) : (
-          <Message>There are currently no pending credit requests.</Message>
         )}
       </div>
     </div>
