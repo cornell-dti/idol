@@ -55,6 +55,25 @@ const TeamEventDetails: React.FC = () => {
     location.push('/admin/team-events');
   };
 
+  const updateTeamEvent = (updatedTeamEvent: TeamEvent) => {
+    TeamEventsAPI.updateTeamEventForm(updatedTeamEvent).then(() => {
+      Emitters.teamEventsUpdated.emit();
+    });
+  }
+
+  const approveCreditRequest = (request: TeamEventAttendance) => {
+    const updatedTeamEvent = {
+      ...teamEvent,
+      requests: teamEvent.requests.filter((i) => i !== request),
+      attendees: [...teamEvent.attendees, request]
+    }
+    updateTeamEvent(updatedTeamEvent);
+  };
+
+  const rejectCreditRequest = (request: TeamEventAttendance) => {
+    console.log('rejectCreditRequest'); 
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.arrowAndButtons}>
@@ -92,14 +111,25 @@ const TeamEventDetails: React.FC = () => {
           <h2 className={styles.memberTitle}>Members Pending</h2>
 
           {teamEvent.requests.length > 0 ? (
-            <Card.Group className={styles.memberGroup}>
-              {teamEvent.requests.map((req) => (
-                <Card key={req.member.netid}>
+            <Card.Group>
+              {teamEvent.requests.map((request, i) => (
+                <Card className={styles.memberCard} key={i}>
                   <Card.Content>
                     <Card.Header>
-                      {req.member.firstName} {req.member.lastName}
+                      {request.member.firstName} {request.member.lastName}
                     </Card.Header>
-                    <Card.Meta>{req.member.email}</Card.Meta>
+                    <Card.Meta>{request.member.email}</Card.Meta>
+                    {request.hoursAttended && (
+                      <Card.Description> Hours Attended: {request.hoursAttended}</Card.Description>
+                    )}
+                  </Card.Content>
+                  <Card.Content extra>
+                    <Button basic color="green" onClick={() => approveCreditRequest(request)}>
+                      Approve
+                    </Button>
+                    <Button basic color="red" onClick={() => rejectCreditRequest(request)}>
+                      Reject
+                    </Button>
                   </Card.Content>
                 </Card>
               ))}
