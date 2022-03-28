@@ -46,8 +46,17 @@ const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Eleme
         </p>
 
         <div className={styles.inline}>
-          <label className={styles.bold}>Approved Credits:</label>
-          <p>{countApprovedCredits}</p>
+          <label className={styles.bold}>
+            Your Approved Credits:{' '}
+            <span className={styles.dark_grey_color}>{countApprovedCredits}</span>
+          </label>
+        </div>
+
+        <div className={styles.inline}>
+          <label className={styles.bold}>
+            Remaining Credits Needed:{' '}
+            <span className={styles.dark_grey_color}>{countRemainingCredits}</span>
+          </label>
         </div>
 
         <div className={styles.inline}>
@@ -67,11 +76,6 @@ const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Eleme
           ) : (
             <Message>You have not been approved for any team events yet.</Message>
           )}
-        </div>
-
-        <div className={styles.inline}>
-          <label className={styles.bold}>Remaining Credits Needed:</label>
-          <p>{countRemainingCredits}</p>
         </div>
 
         <div className={styles.inline}>

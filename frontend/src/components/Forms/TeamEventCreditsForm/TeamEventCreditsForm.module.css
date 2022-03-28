@@ -14,6 +14,10 @@
   color: red;
 }
 
+.dark_grey_color {
+  color: grey;
+}
+
 .form_style {
   width: 60%;
   align-self: center;
