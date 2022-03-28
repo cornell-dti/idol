@@ -76,14 +76,7 @@ const TeamEventCreditForm: React.FC = () => {
 
   return (
     <div>
-      <Form
-        style={{
-          width: '60%',
-          alignSelf: 'center',
-          margin: 'auto',
-          padding: '3rem 0 5rem 0'
-        }}
-      >
+      <Form className={styles.form_style}>
         <h1>Submit Team Event Credits</h1>
         <p>
           Earn team event credits for participating in DTI events! Fill out this form every time and
@@ -91,9 +84,9 @@ const TeamEventCreditForm: React.FC = () => {
         </p>
         <div className={styles.inline}>
           <label className={styles.bold}>
-            Select a Team Event: <span style={{ color: '#db2828' }}>*</span>
+            Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className={styles.center_and_flex}>
             {teamEvents && !teamEvent ? (
               <CustomSearch
                 source={teamEvents}
@@ -116,13 +109,7 @@ const TeamEventCreditForm: React.FC = () => {
             ) : undefined}
 
             {teamEvent ? (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}
-              >
+              <div className={styles.row_direction}>
                 <div>
                   <Segment>
                     <h4>{teamEvent.name}</h4>
@@ -138,7 +125,7 @@ const TeamEventCreditForm: React.FC = () => {
                     setTeamEvent(undefined);
                     setHours('0');
                   }}
-                  style={{ marginLeft: '1.5em' }}
+                  className={styles.inline}
                 >
                   Clear
                 </Button>
@@ -149,7 +136,7 @@ const TeamEventCreditForm: React.FC = () => {
         {teamEvent?.hasHours ? (
           <div>
             <label className={styles.bold}>
-              How many hours did you attend the event? <span style={{ color: '#db2828' }}>*</span>
+              How many hours did you attend the event? <span className={styles.red_color}>*</span>
             </label>
             <Form.Input
               fluid
@@ -158,16 +145,16 @@ const TeamEventCreditForm: React.FC = () => {
               size="large"
               value={hours}
               onChange={(event) => setHours(event.target.value)}
-              style={{ width: '20%' }}
+              className={styles.width_20}
               required
             />
           </div>
         ) : undefined}
         <div className={styles.inline}>
           <label htmlFor="newImage" className={styles.bold}>
-            Upload your event picture here! <span style={{ color: '#db2828' }}>*</span>
+            Upload your event picture here! <span className={styles.red_color}>*</span>
           </label>
-          <p style={{ marginBottom: '0' }}>
+          <p className={styles.margin_bottom_zero}>
             Please include a picture of yourself (and others) and/or an email chain only if the
             former is not possible.
           </p>

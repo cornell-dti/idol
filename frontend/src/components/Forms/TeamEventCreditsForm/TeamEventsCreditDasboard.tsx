@@ -9,12 +9,6 @@ const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Eleme
   const userInfo = useSelf()!;
   const { teamEvents } = props;
 
-  // const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
-
-  // useEffect(() => {
-  //   TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
-  // }, []);
-
   const [countApprovedCredits, setCountApprovedCredits] = useState(0);
   const [countRemainingCredits, setCountRemainingCredits] = useState(3);
   const [approvedTEC, setApprovedTEC] = useState<TeamEvent[]>([]);

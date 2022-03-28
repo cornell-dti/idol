@@ -1,6 +1,5 @@
 .inline {
-  margin: '2rem 0';
-  padding-bottom: 2rem;
+  margin: 2rem 0;
 }
 
 .bold {
@@ -8,6 +7,35 @@
 }
 
 .header {
-  margin: '8rem 0';
-  padding-top: 4rem;
+  margin: 8rem 0;
+}
+
+.red_color {
+  color: red;
+}
+
+.form_style {
+  width: 60%;
+  align-self: center;
+  margin: auto;
+  padding: 3rem 0 5rem 0;
+}
+
+.width_20 {
+  width: 20%;
+}
+
+.center_and_flex {
+  display: flex;
+  align-items: center;
+}
+
+.row_direction {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.margin_bottom_zero {
+  margin-bottom: 0;
 }
