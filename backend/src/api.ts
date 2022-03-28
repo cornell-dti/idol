@@ -225,11 +225,11 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => {
 });
 
 // Team Events Proof Image
+loginCheckedGet('/getEventProofImage/:name(*)', async (req, user) => ({
+  url: await getEventProofImage(req.params.name, user)
+}));
 loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
   url: await setEventProofImage(req.params.name, user)
-}));
-loginCheckedGet('/getEventProofImage', async (req, user) => ({
-  url: await getEventProofImage(req.body, user)
 }));
 
 // Candidate Decider
