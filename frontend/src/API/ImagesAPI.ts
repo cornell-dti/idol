@@ -28,9 +28,14 @@ export default class ImagesAPI {
   }
 
   // Event proof images
-  public static getEventProofImage(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImage`).then((res) => res.data);
-    return responseProm.then((val) => val.url);
+  public static getEventProofImage(name: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImage/${name}`).then((res) => res.data);
+    return responseProm.then((val) => {
+      if (val.error) {
+        return HeadshotPlaceholder.src;
+      }
+      return val.url;
+    });
   }
 
   private static getEventProofImageSignedURL(name: string): Promise<string> {

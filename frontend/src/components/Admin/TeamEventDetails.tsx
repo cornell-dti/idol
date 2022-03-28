@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Message, Modal, Button } from 'semantic-ui-react';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Card, Message, Modal, Button, Image } from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
 import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
+import ImagesAPI from '../../API/ImagesAPI';
+
 import { Emitters } from '../../utils';
+import AsyncImage from '../Common/AsyncImage';
 
 const defaultTeamEvent: TeamEvent = {
   name: '',
@@ -122,10 +125,12 @@ const TeamEventDetails: React.FC = () => {
                     <Card.Header>
                       {request.member.firstName} {request.member.lastName}
                     </Card.Header>
-                    <Card.Meta>{request.member.email}</Card.Meta>
-                    {request.hoursAttended && (
+                    {teamEvent.hasHours &&
                       <Card.Description> Hours Attended: {request.hoursAttended}</Card.Description>
-                    )}
+                    }
+                    <Suspense fallback={<p>Loading image...</p>}>
+                      <Image src={ImagesAPI.getEventProofImage(request.image).then((url: string) => { console.log(url); return url; })}/>
+                    </Suspense>
                   </Card.Content>
                   <Card.Content extra>
                     <Button basic color="green" onClick={() => approveCreditRequest(request)}>
