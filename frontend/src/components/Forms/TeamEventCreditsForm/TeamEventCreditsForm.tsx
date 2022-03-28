@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Segment, Label, Button } from 'semantic-ui-react';
+import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
-import CustomSearch from '../../Common/Search';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
@@ -10,7 +9,7 @@ const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-
+  console.log(userInfo);
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
@@ -122,24 +121,20 @@ const TeamEventCreditForm: React.FC = () => {
           </label>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {teamEvents && !teamEvent ? (
-              <CustomSearch
-                source={teamEvents}
-                resultRenderer={(event) => (
-                  <Segment>
-                    <h4>{event.name}</h4>
-                    <Label>
-                      {`${event.numCredits} credit(s)`} {event.hasHours ? 'per hour' : ''}
-                    </Label>
-                  </Segment>
-                )}
-                matchChecker={(query: string, teamEvent: TeamEvent) => {
-                  const queryLower = query.toLowerCase();
-                  return teamEvent.name.toLowerCase().startsWith(queryLower);
-                }}
-                selectCallback={(event: TeamEvent) => {
-                  setTeamEvent(event);
-                }}
-              ></CustomSearch>
+              <Dropdown
+                placeholder="Select a Team Event"
+                fluid
+                search
+                selection
+                options={teamEvents.map((event) => ({
+                  key: event.uuid,
+                  text: event.name,
+                  value: event.uuid
+                }))}
+                onChange={(_, data) =>
+                  setTeamEvent(teamEvents.find((event) => event.uuid === data.key))
+                }
+              />
             ) : undefined}
 
             {teamEvent ? (
