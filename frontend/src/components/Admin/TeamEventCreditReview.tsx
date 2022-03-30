@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { Modal, Button, Header } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Modal, Button, Header, Image } from 'semantic-ui-react';
+import ImagesAPI from '../../API/ImagesAPI';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 import { Emitters } from '../../utils';
 
 const TeamEventCreditReview = (props: { teamEvent: TeamEvent, teamEventAttendance: TeamEventAttendance }): JSX.Element => {
     const { teamEvent, teamEventAttendance } = props;
-    // const [ image, setImage ] = useState();
+    const [ image, setImage ] = useState('');
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        ImagesAPI.getEventProofImage(teamEventAttendance.image).then((url: string) => {
+            setImage(url);
+        });
+    }, [teamEventAttendance]);
 
     const updateTeamEvent = (updatedTeamEvent: TeamEvent) => {
         TeamEventsAPI.updateTeamEventForm(updatedTeamEvent).then((val) => {
@@ -61,6 +68,7 @@ const TeamEventCreditReview = (props: { teamEvent: TeamEvent, teamEventAttendanc
                         <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>
                     }
                 </Modal.Description>
+                <Image src={image}/>
             </Modal.Content>
             <Modal.Actions>
                 <Button basic color="green" onClick={() => {approveCreditRequest(); setOpen(false);}}>
