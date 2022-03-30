@@ -3,6 +3,7 @@ import { Card, Message, Modal, Button} from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
+import TeamEventCreditReview from './TeamEventCreditReview';
 import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 import { Emitters } from '../../utils';
@@ -55,29 +56,6 @@ const TeamEventDetails: React.FC = () => {
     location.push('/admin/team-events');
   };
 
-  const updateTeamEvent = (updatedTeamEvent: TeamEvent) => {
-    TeamEventsAPI.updateTeamEventForm(updatedTeamEvent).then(() => {
-      Emitters.teamEventsUpdated.emit();
-    });
-  }
-
-  const approveCreditRequest = (request: TeamEventAttendance) => {
-    const updatedTeamEvent = {
-      ...teamEvent,
-      requests: teamEvent.requests.filter((i) => i !== request),
-      attendees: [...teamEvent.attendees, request]
-    }
-    updateTeamEvent(updatedTeamEvent);
-  };
-
-  const rejectCreditRequest = (request: TeamEventAttendance) => {
-    const updatedTeamEvent = {
-      ...teamEvent,
-      requests: teamEvent.requests.filter((i) => i !== request)
-    }
-    updateTeamEvent(updatedTeamEvent);
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.arrowAndButtons}>
@@ -116,24 +94,17 @@ const TeamEventDetails: React.FC = () => {
 
           {teamEvent.requests.length > 0 ? (
             <Card.Group>
-              {teamEvent.requests.map((request, i) => (
+              {teamEvent.requests.map((req, i) => (
                 <Card className={styles.memberCard} key={i}>
                   <Card.Content>
                     <Card.Header>
-                      {request.member.firstName} {request.member.lastName}
+                      {req.member.firstName} {req.member.lastName}
                     </Card.Header>
-                    {teamEvent.hasHours &&
-                      <Card.Description> Hours Attended: {request.hoursAttended}</Card.Description>
-                    }
+                    <Card.Meta>{req.member.email}</Card.Meta>
                   </Card.Content>
                   <Card.Content extra>
-                    <Button basic color="green" onClick={() => approveCreditRequest(request)}>
-                      Approve
-                    </Button>
-                    <Button basic color="red" onClick={() => rejectCreditRequest(request)}>
-                      Reject
-                    </Button>
-                  </Card.Content>
+                    <TeamEventCreditReview teamEvent={teamEvent} teamEventAttendance={req}></TeamEventCreditReview>
+                  </Card.Content>       
                 </Card>
               ))}
             </Card.Group>
