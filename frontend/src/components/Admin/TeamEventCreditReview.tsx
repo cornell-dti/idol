@@ -46,7 +46,9 @@ const TeamEventCreditReview = (props: { teamEvent: TeamEvent, teamEventAttendanc
             ...teamEvent,
             requests: teamEvent.requests.filter((i) => i !== teamEventAttendance)
         }
-        updateTeamEvent(updatedTeamEvent);
+        ImagesAPI.deleteEventProofImage(teamEventAttendance.image).then((_) => {
+            updateTeamEvent(updatedTeamEvent);
+        }); 
     };
 
     return (

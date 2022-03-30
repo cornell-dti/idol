@@ -56,6 +56,7 @@ const TeamEventDetails: React.FC = () => {
     location.push('/admin/team-events');
   };
 
+
   return (
     <div className={styles.container}>
       <div className={styles.arrowAndButtons}>

@@ -13,10 +13,8 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
 };
 
 export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
-  console.log(name);
   const file = bucket.file(`${name}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
-  console.log(fileExists);
   if (!fileExists) {
     throw new NotFoundError(`The requested image (${name}) does not exist`);
   }

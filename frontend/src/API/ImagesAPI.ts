@@ -51,4 +51,8 @@ export default class ImagesAPI {
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
   }
+
+  public static async deleteEventProofImage(name: string): Promise<void> {
+    await APIWrapper.post(`${backendURL}/deleteEventProofImage`, {name});
+  }
 }
