@@ -29,7 +29,9 @@ export default class ImagesAPI {
 
   // Event proof images
   public static getEventProofImage(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImage/${name}`).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImage/${name}`).then(
+      (res) => res.data
+    );
     return responseProm.then((val) => {
       if (val.error) {
         return HeadshotPlaceholder.src;
@@ -53,6 +55,6 @@ export default class ImagesAPI {
   }
 
   public static async deleteEventProofImage(name: string): Promise<void> {
-    await APIWrapper.post(`${backendURL}/deleteEventProofImage`, {name});
+    await APIWrapper.post(`${backendURL}/deleteEventProofImage`, { name });
   }
 }

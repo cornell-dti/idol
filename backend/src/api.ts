@@ -49,7 +49,11 @@ import {
   updateCandidateDeciderRating,
   updateCandidateDeciderComment
 } from './candidateDeciderAPI';
-import { deleteEventProofImage, getEventProofImage, setEventProofImage } from './team-events-imageAPI';
+import {
+  deleteEventProofImage,
+  getEventProofImage,
+  setEventProofImage
+} from './team-events-imageAPI';
 
 // Constants and configurations
 const app = express();

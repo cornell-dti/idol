@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Modal, Button} from 'semantic-ui-react';
+import { Card, Message, Modal, Button } from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
@@ -56,7 +56,6 @@ const TeamEventDetails: React.FC = () => {
     location.push('/admin/team-events');
   };
 
-
   return (
     <div className={styles.container}>
       <div className={styles.arrowAndButtons}>
@@ -104,8 +103,11 @@ const TeamEventDetails: React.FC = () => {
                     <Card.Meta>{req.member.email}</Card.Meta>
                   </Card.Content>
                   <Card.Content extra>
-                    <TeamEventCreditReview teamEvent={teamEvent} teamEventAttendance={req}></TeamEventCreditReview>
-                  </Card.Content>       
+                    <TeamEventCreditReview
+                      teamEvent={teamEvent}
+                      teamEventAttendance={req}
+                    ></TeamEventCreditReview>
+                  </Card.Content>
                 </Card>
               ))}
             </Card.Group>
