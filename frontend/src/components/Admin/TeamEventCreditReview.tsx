@@ -56,6 +56,7 @@ const TeamEventCreditReview = (props: {
 
   return (
     <Modal
+      closeIcon
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
@@ -70,8 +71,8 @@ const TeamEventCreditReview = (props: {
           <p>Team Event: {teamEvent.name}</p>
           <p>Number of Credits: {teamEvent.numCredits}</p>
           {teamEvent.hasHours && <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>}
+          <Image src={image} />
         </Modal.Description>
-        <Image src={image} />
       </Modal.Content>
       <Modal.Actions>
         <Button
