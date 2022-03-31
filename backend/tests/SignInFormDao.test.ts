@@ -43,12 +43,6 @@ test('Sign in into an open form', async () => {
   expect(userData.users).toContainEqual(expect.objectContaining({ user: users.mu1 }));
 });
 
-test('Sign in attempted for an expired form', async () => {
-  const expiredForm = mockForms.expiredSignin as SignInForm;
-  await SignInFormDao.createSignIn(expiredForm.id, expiredForm.expireAt);
-  await expect(() => SignInFormDao.signIn(expiredForm.id, users.mu1.email)).rejects.toThrow();
-});
-
 test('Sign in attempted for an invalid id', async () => {
   const invalidId = 'invalid-id';
   await expect(() => SignInFormDao.signIn(invalidId, users.mu1.email)).rejects.toThrow();
