@@ -131,3 +131,17 @@ interface CandidateDeciderInfo {
   readonly uuid: string;
   isOpen: boolean;
 }
+
+interface DevPortfolio {
+  name: string;
+  deadline: number;
+  earliestValidDate: number;
+  submissions: DevPortfolioSubmission[];
+}
+
+interface DevPortfolioSubmission {
+  member: IdolMember;
+  openedPRs: string[];
+  reviewedPRs: string[];
+  status: 'valid' | 'invalid' | 'pending';
+}
