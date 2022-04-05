@@ -115,7 +115,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <div className={styles.controlsContainer}>
           <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
           <Dropdown
-            className="ui compact selection dropdown"
+            compact
             value={currentCandidate}
             selection
             options={instance.candidates.map((candidate) => ({
@@ -140,6 +140,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             </Button>
           </Button.Group>
           <Checkbox
+            className={styles.showOtherVotes}
             toggle
             checked={showOtherVotes}
             onChange={() => setShowOtherVotes((prev) => !prev)}
