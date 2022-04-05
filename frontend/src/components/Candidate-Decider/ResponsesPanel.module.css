@@ -5,3 +5,11 @@
 .questionResponseContainer {
   margin-bottom: 1em;
 }
+
+.radioButtons {
+  margin-top: 1%;
+}
+
+.saveCommentButton {
+  flood-color: blue;
+}

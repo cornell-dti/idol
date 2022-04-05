@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, Button } from 'semantic-ui-react';
+import styled from 'styled-components';
 import styles from './ResponsesPanel.module.css';
 
 type Props = {
@@ -12,6 +13,15 @@ type Props = {
   currentCandidate: number;
 };
 
+type RadioButtonProps = {
+  text: string;
+  value: number;
+  color: string;
+  rating: number;
+  handleRatingChange: (id: number, rating: number) => void;
+  currentCandidate: number;
+};
+
 const ratings = [
   { value: 1, text: 'No', color: 'red' },
   { value: 2, text: 'Unlikely', color: 'orange' },
@@ -20,6 +30,29 @@ const ratings = [
   { value: 5, text: 'Yes', color: 'green ' },
   { value: 0, text: 'Undecided', color: 'grey' }
 ];
+
+const RadioButton: React.FC<RadioButtonProps> = ({
+  text,
+  value,
+  color,
+  rating,
+  handleRatingChange,
+  currentCandidate
+}) => (
+  <Radio
+    className={styles.ratingButton}
+    label={text}
+    name="rating-group"
+    value={value}
+    color={color}
+    checked={value === rating}
+    onChange={() => handleRatingChange(currentCandidate, value)}
+  />
+);
+
+// TODO: Implement radio button colors
+const StyledRadioButtons = styled(RadioButton)`
+`;
 
 const ResponsesPanel: React.FC<Props> = ({
   headers,
@@ -31,18 +64,19 @@ const ResponsesPanel: React.FC<Props> = ({
   comment
 }) => (
   <div>
-    <Form>
+    <Form className={styles.radioButtons}>
       <Form.Group inline>
         {ratings.map((rt) => (
           <Form.Field key={rt.value}>
-            <Radio
-              label={rt.text}
-              name="rating-group"
+            <StyledRadioButtons
+              text={rt.text}
               value={rt.value}
               color={rt.color}
-              checked={rt.value === rating}
-              onChange={() => handleRatingChange(currentCandidate, rt.value)}
+              rating={rating}
+              handleRatingChange={() => handleRatingChange(currentCandidate, rt.value)}
+              currentCandidate={currentCandidate}
             />
+           
           </Form.Field>
         ))}
       </Form.Group>
@@ -84,14 +118,14 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
           onChange={(_, data) => setCurrentComment(data.value)}
           value={currentComment}
         />
-        <Form.Button
+        <Button className="ui blue button" 
           onClick={() => {
             handleCommentChange(currentCandidate, currentComment);
             setCurrentComment('');
           }}
         >
           Save
-        </Form.Button>
+        </Button >
       </Form.Group>
     </div>
   );

@@ -1,7 +1,23 @@
 .controlsContainer {
-  display: flex;
+  display: inline;
 }
 
 .candidateDeciderContainer {
   padding: 2%;
+}
+
+.candidateIDTitle {
+  vertical-align: baseline;
+  display: inline-block;
+  margin-right: 0.5%;
+}
+
+.searchBar {
+  margin-bottom: 1%;
+}
+
+.ofNum {
+  vertical-align: baseline;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
 }
