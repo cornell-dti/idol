@@ -51,8 +51,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 );
 
 // TODO: Implement radio button colors
-const StyledRadioButtons = styled(RadioButton)`
-`;
+const StyledRadioButtons = styled(RadioButton)``;
 
 const ResponsesPanel: React.FC<Props> = ({
   headers,
@@ -76,7 +75,6 @@ const ResponsesPanel: React.FC<Props> = ({
               handleRatingChange={() => handleRatingChange(currentCandidate, rt.value)}
               currentCandidate={currentCandidate}
             />
-           
           </Form.Field>
         ))}
       </Form.Group>
@@ -118,14 +116,15 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
           onChange={(_, data) => setCurrentComment(data.value)}
           value={currentComment}
         />
-        <Button className="ui blue button" 
+        <Button
+          className="ui blue button"
           onClick={() => {
             handleCommentChange(currentCandidate, currentComment);
             setCurrentComment('');
           }}
         >
           Save
-        </Button >
+        </Button>
       </Form.Group>
     </div>
   );
