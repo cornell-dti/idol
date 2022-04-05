@@ -7,7 +7,7 @@ type Props = {
   headers: string[];
   responses: string[];
   rating: number;
-  handleRatingChange: (id: number, rating: number) => void;
+  handleRatingChange: (id: number, rating: Rating) => void;
   comment: string;
   handleCommentChange: (id: number, comment: string) => void;
   currentCandidate: number;
