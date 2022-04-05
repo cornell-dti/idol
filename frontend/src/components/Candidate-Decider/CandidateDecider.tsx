@@ -105,7 +105,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   }, [uuid]);
 
   return isLoading ? (
-    <div></div>
+    <div>Loading...</div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
