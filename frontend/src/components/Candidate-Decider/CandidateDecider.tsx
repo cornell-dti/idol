@@ -109,36 +109,36 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   ) : (
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
-      <div className={styles.searchBar}>
-        <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
-      </div>
-      <div className={styles.controlsContainer}>
-        <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
-        <Dropdown
-          className="ui compact selection dropdown"
-          value={currentCandidate}
-          selection
-          options={instance.candidates.map((candidate) => ({
-            value: candidate.id,
-            key: candidate.id,
-            text: candidate.id
-          }))}
-          onChange={(_, data) => setCurrentCandidate(data.value as number)}
-        />
-        <span className={styles.ofNum}>of {instance.candidates.length}</span>
-        <Button.Group>
-          <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
-            PREVIOUS
-          </Button>
-          <Button
-            basic
-            color="blue"
-            disabled={currentCandidate === instance.candidates.length - 1}
-            onClick={next}
-          >
-            NEXT
-          </Button>
-        </Button.Group>
+        <div className={styles.searchBar}>
+          <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+        </div>
+        <div className={styles.controlsContainer}>
+          <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
+          <Dropdown
+            className="ui compact selection dropdown"
+            value={currentCandidate}
+            selection
+            options={instance.candidates.map((candidate) => ({
+              value: candidate.id,
+              key: candidate.id,
+              text: candidate.id
+            }))}
+            onChange={(_, data) => setCurrentCandidate(data.value as number)}
+          />
+          <span className={styles.ofNum}>of {instance.candidates.length}</span>
+          <Button.Group>
+            <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
+              PREVIOUS
+            </Button>
+            <Button
+              basic
+              color="blue"
+              disabled={currentCandidate === instance.candidates.length - 1}
+              onClick={next}
+            >
+              NEXT
+            </Button>
+          </Button.Group>
           <Checkbox
             toggle
             checked={showOtherVotes}
@@ -155,7 +155,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           handleCommentChange={handleCommentChange}
           comment={getComment()}
         />
-    </div>
+      </div>
       <div className={styles.progressContainer}>
         <LocalProgressPanel
           showOtherVotes={showOtherVotes}
