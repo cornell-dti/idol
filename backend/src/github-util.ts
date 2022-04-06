@@ -35,7 +35,7 @@ type ValidationResult = {
 /** Parses GitHub PR `url` for information necessary to make API calls.
  *  Raises an error if URL is malformed.
  */
-const parse_github_url = (url: string): PullRequest => {
+const parseGithubUrl = (url: string): PullRequest => {
   // of the form: https://github.com/cornell-dti/idol/pull/266
   const pattern = /.*github.com\/([_a-zA-Z0-9-]+)\/([_a-zA-Z0-9-]+)\/pull\/([0-9]+)/;
 
@@ -48,7 +48,7 @@ const parse_github_url = (url: string): PullRequest => {
 };
 
 /** Retrieves comments made on `pull_request`. */
-const GetReviewComments = async (pull_request: PullRequest): Promise<ReviewComment[]> => {
+const getReviewComments = async (pull_request: PullRequest): Promise<ReviewComment[]> => {
   const octokit = new Octokit();
 
   return octokit.rest.pulls.listReviewComments(pull_request).then((res) => {
@@ -69,7 +69,7 @@ const GetReviewComments = async (pull_request: PullRequest): Promise<ReviewComme
 /** Returns `comments` created by `username` between `start_time` and `end_time`.
  *  Raises an error if no comment satisfies these conditions.
  */
-const FilterComments = (
+const filterComments = (
   comments: ReviewComment[],
   username: string,
   start_time: number,
@@ -103,12 +103,12 @@ const FilterComments = (
 };
 
 /** Retrieves information about `pull_request` and its review comments. */
-const GetReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => {
+const getReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => {
   const octokit = new Octokit();
 
   // get information about a PR and its review comments
   // cannot get both with a single api call
-  return Promise.all([octokit.rest.pulls.get(pull_request), GetReviewComments(pull_request)]).then(
+  return Promise.all([octokit.rest.pulls.get(pull_request), getReviewComments(pull_request)]).then(
     ([pr, comments]) => ({
       url: pr.data.html_url,
       created_by: pr.data.user?.login || '',
@@ -118,7 +118,7 @@ const GetReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => 
 };
 
 /** Retrieves information about opened PR `pull_request`. */
-const GetOpenedPR = async (pull_request: PullRequest): Promise<OpenedPR> => {
+const getOpenedPR = async (pull_request: PullRequest): Promise<OpenedPR> => {
   const octokit = new Octokit();
 
   return octokit.rest.pulls.get(pull_request).then((res) => {
@@ -163,7 +163,7 @@ const validateReview = async (
 
   return createValidationResult(async () => {
     // get review object
-    const review = await GetReviewedPR(parse_github_url(review_url));
+    const review = await getReviewedPR(parseGithubUrl(review_url));
 
     // cannot review own PR
     if (review.created_by === username) {
@@ -171,7 +171,7 @@ const validateReview = async (
     }
 
     // comments made by user within the date range
-    const eligible_comments = FilterComments(review.comments, username, start, end);
+    const eligible_comments = filterComments(review.comments, username, start, end);
 
     // placeholder logic: valid if at least 10 words total
     const total_word_count = eligible_comments.reduce(
@@ -196,7 +196,7 @@ const validateOpen = async (
 
   return createValidationResult(async () => {
     // get open object
-    const open = await GetOpenedPR(parse_github_url(open_url));
+    const open = await getOpenedPR(parseGithubUrl(open_url));
 
     if (open.created_by !== username) {
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
@@ -222,7 +222,7 @@ const atLeastOneValid = (results: ValidationResult[]) =>
   results.reduce((isValid, result) => isValid || result.status === 'valid', false);
 
 /** Determines whether submission is valid or invalid. */
-const ValidateSubmission = async (
+const validateSubmission = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
@@ -239,4 +239,4 @@ const ValidateSubmission = async (
   return { ...submission, status };
 };
 
-export default ValidateSubmission;
+export default validateSubmission;
