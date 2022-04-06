@@ -66,21 +66,6 @@ const GetReviewComments = async (pull_request: PullRequest): Promise<ReviewComme
   });
 };
 
-/** Retrieves information about `pull_request` and its review comments. */
-const GetReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => {
-  const octokit = new Octokit();
-
-  // get information about a PR and its review comments
-  // cannot get both with a single api call
-  return Promise.all([octokit.rest.pulls.get(pull_request), GetReviewComments(pull_request)]).then(
-    ([pr, comments]) => ({
-      url: pr.data.html_url,
-      created_by: pr.data.user?.login || '',
-      comments
-    })
-  );
-};
-
 /** Returns `comments` created by `username` between `start_time` and `end_time`.
  *  Raises an error if no comment satisfies these conditions.
  */
@@ -117,47 +102,19 @@ const FilterComments = (
   return eligible_comments;
 };
 
-/** Determines whether PR review is valid. */
-const ValidateReview = async (
-  portfolio: DevPortfolio,
-  submission: DevPortfolioSubmission,
-  review_url: string
-): Promise<ValidationResult> => {
-  const start = portfolio.earliestValidDate;
-  const end = portfolio.deadline;
-  const username = submission.member.github || ''; // must be github username
+/** Retrieves information about `pull_request` and its review comments. */
+const GetReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => {
+  const octokit = new Octokit();
 
-  try {
-    // get review object
-    const review = await GetReviewedPR(parse_github_url(review_url));
-
-    // cannot review own PR
-    if (review.created_by === username) {
-      throw new Error(`Cannot use PR ${review.url} opened by user for review requirement.`);
-    }
-
-    // comments made by user within the date range
-    const eligible_comments = FilterComments(review.comments, username, start, end);
-
-    // placeholder logic: valid if at least 10 words total
-    const total_word_count = eligible_comments.reduce(
-      (count, comment) => count + comment.content.split(' ').length,
-      0
-    );
-    if (total_word_count < 10) {
-      throw new Error('Trivial review.');
-    }
-  } catch (err) {
-    if (err instanceof Error) {
-      return {
-        status: 'invalid',
-        reason: err.message
-      };
-    }
-  }
-
-  // if no errors encountered, then valid submission
-  return { status: 'valid' };
+  // get information about a PR and its review comments
+  // cannot get both with a single api call
+  return Promise.all([octokit.rest.pulls.get(pull_request), GetReviewComments(pull_request)]).then(
+    ([pr, comments]) => ({
+      url: pr.data.html_url,
+      created_by: pr.data.user?.login || '',
+      comments
+    })
+  );
 };
 
 /** Retrieves information about opened PR `pull_request`. */
@@ -177,8 +134,58 @@ const GetOpenedPR = async (pull_request: PullRequest): Promise<OpenedPR> => {
   });
 };
 
+/** Creates 'valid' result if no errors are raised, 'invalid' result otherwise.  */
+const createValidationResult = async (validation_function): Promise<ValidationResult> => {
+  try {
+    await validation_function();
+  } catch (err) {
+    if (err instanceof Error) {
+      return {
+        status: 'invalid',
+        reason: err.message
+      };
+    }
+  }
+
+  // if no errors encountered, then valid submission
+  return { status: 'valid' };
+};
+
+/** Determines whether PR review is valid. */
+const validateReview = async (
+  portfolio: DevPortfolio,
+  submission: DevPortfolioSubmission,
+  review_url: string
+): Promise<ValidationResult> => {
+  const start = portfolio.earliestValidDate;
+  const end = portfolio.deadline;
+  const username = submission.member.github || ''; // must be github username
+
+  return createValidationResult(async () => {
+    // get review object
+    const review = await GetReviewedPR(parse_github_url(review_url));
+
+    // cannot review own PR
+    if (review.created_by === username) {
+      throw new Error(`Cannot use PR ${review.url} opened by user for review requirement.`);
+    }
+
+    // comments made by user within the date range
+    const eligible_comments = FilterComments(review.comments, username, start, end);
+
+    // placeholder logic: valid if at least 10 words total
+    const total_word_count = eligible_comments.reduce(
+      (count, comment) => count + comment.content.split(' ').length,
+      0
+    );
+    if (total_word_count < 10) {
+      throw new Error('Trivial review.');
+    }
+  });
+};
+
 /** Determines whether an open PR is valid. */
-const ValidateOpen = async (
+const validateOpen = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission,
   open_url: string
@@ -187,7 +194,7 @@ const ValidateOpen = async (
   const end = portfolio.deadline;
   const username = submission.member.github || ''; // must be github username
 
-  try {
+  return createValidationResult(async () => {
     // get open object
     const open = await GetOpenedPR(parse_github_url(open_url));
 
@@ -207,17 +214,7 @@ const ValidateOpen = async (
     if (open.diff_size < 10) {
       throw new Error('Trivial PR.');
     }
-  } catch (err) {
-    if (err instanceof Error) {
-      return {
-        status: 'invalid',
-        reason: err.message
-      };
-    }
-  }
-
-  // if no errors encountered, then valid submission
-  return { status: 'valid' };
+  });
 };
 
 /** ="at least one of `results` is valid" */
@@ -230,11 +227,11 @@ const ValidateSubmission = async (
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
   const reviewResults = await Promise.all(
-    submission.reviewedPRs.map(async (url) => ValidateReview(portfolio, submission, url))
+    submission.reviewedPRs.map(async (url) => validateReview(portfolio, submission, url))
   );
 
   const openedResults = await Promise.all(
-    submission.openedPRs.map(async (url) => ValidateOpen(portfolio, submission, url))
+    submission.openedPRs.map(async (url) => validateOpen(portfolio, submission, url))
   );
 
   const status =
