@@ -100,3 +100,17 @@ export type DBCandidateDeciderInstance = {
   readonly authorizedRoles: Role[];
   isOpen: boolean;
 };
+
+export type DevPortfolio = {
+  name: string;
+  deadline: number;
+  earliestValidDate: number;
+  submissions: DevPortfolioSubmission[];
+};
+
+export type DevPortfolioSubmission = {
+  member: IdolMember;
+  openedPR: string[];
+  reviewedPR: string[];
+  status: 'valid' | 'invalid' | 'pending';
+};
