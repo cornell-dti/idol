@@ -80,6 +80,7 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
     <div>
       <Form.Group inline>
         <Form.Input
+          className="fifteen wide field"
           placeholder={'Comment...'}
           onChange={(_, data) => setCurrentComment(data.value)}
           value={currentComment}

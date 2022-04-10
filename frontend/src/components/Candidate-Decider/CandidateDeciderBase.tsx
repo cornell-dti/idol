@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
+import styles from './CandidateDeciderBase.module.css';
 
 const CandidateDeciderBase: React.FC = () => {
   const [instances, setInstances] = useState<CandidateDeciderInfo[]>([]);
@@ -14,6 +15,7 @@ const CandidateDeciderBase: React.FC = () => {
   return isLoading ? (
     <div>Loading...</div>
   ) : (
+    <div className={styles.instanceGroup}>
     <Card.Group>
       {instances.map((instance) => (
         <Card href={`/candidate-decider/${instance.uuid}`}>
@@ -23,6 +25,7 @@ const CandidateDeciderBase: React.FC = () => {
         </Card>
       ))}
     </Card.Group>
+    </div>
   );
 };
 
