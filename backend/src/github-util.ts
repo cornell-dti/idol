@@ -3,27 +3,27 @@ import { Octokit } from '@octokit/rest';
 type PullRequest = {
   owner: string;
   repo: string;
-  pull_number: number;
+  pull_number: number; // github API field is snakecase
 };
 
 type ReviewComment = {
-  comment_url: string;
-  created_by: string;
-  created_at: number;
+  commentUrl: string;
+  createdBy: string;
+  createdAt: number;
   content: string;
 };
 
 type ReviewedPR = {
   url: string;
-  created_by: string;
+  createdBy: string;
   comments: ReviewComment[];
 };
 
 type OpenedPR = {
   url: string;
-  created_by: string;
-  created_at: number;
-  diff_size: number;
+  createdBy: string;
+  createdAt: number;
+  diffSize: number;
 };
 
 // useful to see reason why if not valid
@@ -57,9 +57,9 @@ const getReviewComments = async (pull_request: PullRequest): Promise<ReviewComme
     const prs = res.data;
     return prs.map(
       (pr): ReviewComment => ({
-        comment_url: pr.html_url,
-        created_by: pr.user.login,
-        created_at: Date.parse(pr.created_at),
+        commentUrl: pr.html_url,
+        createdBy: pr.user.login,
+        createdAt: Date.parse(pr.created_at),
         content: pr.body
       })
     );
@@ -82,14 +82,14 @@ const filterComments = (
   let eligible_comments: ReviewComment[] = [];
 
   // comments made by user
-  eligible_comments = comments.filter((comment) => comment.created_by === username);
+  eligible_comments = comments.filter((comment) => comment.createdBy === username);
   if (!eligible_comments || !eligible_comments.length) {
     throw new Error(`No review comments made by user ${username} in this PR.`);
   }
 
   // comments made in date range
   eligible_comments = eligible_comments.filter(
-    (comment) => start_time <= comment.created_at && comment.created_at <= end_time
+    (comment) => start_time <= comment.createdAt && comment.createdAt <= end_time
   );
   if (!eligible_comments || !eligible_comments.length) {
     const start_date = new Date(start_time).toDateString();
@@ -111,7 +111,7 @@ const getReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => 
   return Promise.all([octokit.rest.pulls.get(pull_request), getReviewComments(pull_request)]).then(
     ([pr, comments]) => ({
       url: pr.data.html_url,
-      created_by: pr.data.user?.login || '',
+      createdBy: pr.data.user?.login || '',
       comments
     })
   );
@@ -127,9 +127,9 @@ const getOpenedPR = async (pull_request: PullRequest): Promise<OpenedPR> => {
     const pr = res.data;
     return {
       url: pr.html_url,
-      created_by: pr.user?.login || '',
-      created_at: Date.parse(pr.created_at),
-      diff_size: pr.additions + pr.deletions
+      createdBy: pr.user?.login || '',
+      createdAt: Date.parse(pr.created_at),
+      diffSize: pr.additions + pr.deletions
     };
   });
 };
@@ -166,7 +166,7 @@ const validateReview = async (
     const review = await getReviewedPR(parseGithubUrl(review_url));
 
     // cannot review own PR
-    if (review.created_by === username) {
+    if (review.createdBy === username) {
       throw new Error(`Cannot use PR ${review.url} opened by user for review requirement.`);
     }
 
@@ -198,11 +198,11 @@ const validateOpen = async (
     // get open object
     const open = await getOpenedPR(parseGithubUrl(open_url));
 
-    if (open.created_by !== username) {
+    if (open.createdBy !== username) {
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
     }
 
-    if (start >= open.created_at && open.created_at >= end) {
+    if (start >= open.createdAt && open.createdAt >= end) {
       const start_date = new Date(start).toDateString();
       const end_date = new Date(end).toDateString();
       throw new Error(
@@ -211,7 +211,7 @@ const validateOpen = async (
     }
 
     // placeholder logic: valid if at least 10 changes total
-    if (open.diff_size < 10) {
+    if (open.diffSize < 10) {
       throw new Error('Trivial PR.');
     }
   });
