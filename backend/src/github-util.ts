@@ -6,7 +6,7 @@ type PullRequest = {
   pull_number: number; // github API field is snakecase
 };
 
-type ReviewComment = {
+type Comment = {
   commentUrl: string;
   createdBy: string;
   createdAt: number;
@@ -16,7 +16,7 @@ type ReviewComment = {
 type ReviewedPR = {
   url: string;
   createdBy: string;
-  comments: ReviewComment[];
+  comments: Comment[];
 };
 
 type OpenedPR = {
@@ -47,39 +47,59 @@ const parseGithubUrl = (url: string): PullRequest => {
   return { owner: match[1], repo: match[2], pull_number: parseInt(match[3], 10) };
 };
 
-/** Retrieves comments made on `pull_request`. */
-const getReviewComments = async (pull_request: PullRequest): Promise<ReviewComment[]> => {
+/** Retrieves review comments made on `pull_request`. */
+const getReviewComments = async (pull_request: PullRequest): Promise<Comment[]> => {
   const octokit = new Octokit();
 
   return octokit.rest.pulls.listReviewComments(pull_request).then((res) => {
     // handle non 200 response?
 
-    const prs = res.data;
-    return prs.map(
-      (pr): ReviewComment => ({
-        commentUrl: pr.html_url,
-        createdBy: pr.user.login,
-        createdAt: Date.parse(pr.created_at),
-        content: pr.body
+    const comments = res.data;
+    return comments.map(
+      (comment): Comment => ({
+        commentUrl: comment.html_url,
+        createdBy: comment.user.login,
+        createdAt: Date.parse(comment.created_at),
+        content: comment.body
       })
     );
   });
+};
+
+/** Retrieves non-review comments made on `pull_request`. */
+const getNonReviewComments = async (pull_request: PullRequest): Promise<Comment[]> => {
+  const octokit = new Octokit();
+
+  // non-review comments are classified as "issue" comments
+  return octokit.rest.issues
+    .listComments({ ...pull_request, issue_number: pull_request.pull_number })
+    .then((res) => {
+      const comments = res.data;
+      return comments.map(
+        (comment): Comment => ({
+          commentUrl: comment.html_url,
+          createdBy: comment.user?.login || '',
+          createdAt: Date.parse(comment.created_at),
+          content: comment.body || ''
+        })
+      );
+    });
 };
 
 /** Returns `comments` created by `username` between `start_time` and `end_time`.
  *  Raises an error if no comment satisfies these conditions.
  */
 const filterComments = (
-  comments: ReviewComment[],
+  comments: Comment[],
   username: string,
   start_time: number,
   end_time: number
-): ReviewComment[] => {
+): Comment[] => {
   if (!comments || !comments.length) {
     throw new Error(`No review comments in this PR.`);
   }
 
-  let eligible_comments: ReviewComment[] = [];
+  let eligible_comments: Comment[] = [];
 
   // comments made by user
   eligible_comments = comments.filter((comment) => comment.createdBy === username);
@@ -121,15 +141,27 @@ const getReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => 
 const getOpenedPR = async (pull_request: PullRequest): Promise<OpenedPR> => {
   const octokit = new Octokit();
 
-  return octokit.rest.pulls.get(pull_request).then((res) => {
-    // handle non 200 response?
+  return Promise.all([
+    octokit.rest.pulls.get(pull_request),
+    getNonReviewComments(pull_request)
+  ]).then(([pr, comments]) => {
+    // get any comments by dti bot
+    const botComments = filterComments(comments, 'dti-github-bot', 0, Number.MAX_SAFE_INTEGER);
 
-    const pr = res.data;
+    let diffSize = 0;
+    botComments.forEach((comment) => {
+      const match = comment.content.match(/.*\[diff-counting\] Significant lines: ([0-9]+).*/);
+      if (match == null) {
+        throw new Error(`No significant line count by dti-github-bot for PR ${pr.data.url}.`);
+      }
+      diffSize = parseInt(match[1], 10);
+    });
+
     return {
-      url: pr.html_url,
-      createdBy: pr.user?.login || '',
-      createdAt: Date.parse(pr.created_at),
-      diffSize: pr.additions + pr.deletions
+      url: pr.data.html_url,
+      createdBy: pr.data.user?.login || '',
+      createdAt: Date.parse(pr.data.created_at),
+      diffSize
     };
   });
 };
@@ -151,17 +183,35 @@ const createValidationResult = async (validation_function): Promise<ValidationRe
   return { status: 'valid' };
 };
 
+/** Parse information from portfolio and submission. Returns tuple of earliest
+ *  valid time, deadline, and Idol member github username.
+ *  Raises an error if the Idol member from `submission` does not have a github username. */
+const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfolioSubmission) => {
+  const start = portfolio.earliestValidDate;
+  const end = portfolio.deadline;
+  const username = submission.member.github; // must be github username
+
+  // check github user
+  if (!username) {
+    const name = `${submission.member.firstName} ${submission.member.lastName}`;
+    const netid = `${submission.member.netid}`;
+
+    throw new Error(`Idol member ${name} (${netid}) does not have a github username.`);
+  }
+
+  return { start, end, username };
+};
+
 /** Determines whether PR review is valid. */
 const validateReview = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission,
   review_url: string
-): Promise<ValidationResult> => {
-  const start = portfolio.earliestValidDate;
-  const end = portfolio.deadline;
-  const username = submission.member.github || ''; // must be github username
+): Promise<ValidationResult> =>
+  createValidationResult(async () => {
+    // get information from submission
+    const { start, end, username } = parsePortfolioSubmission(portfolio, submission);
 
-  return createValidationResult(async () => {
     // get review object
     const review = await getReviewedPR(parseGithubUrl(review_url));
 
@@ -182,19 +232,17 @@ const validateReview = async (
       throw new Error('Trivial review.');
     }
   });
-};
 
 /** Determines whether an open PR is valid. */
 const validateOpen = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission,
   open_url: string
-): Promise<ValidationResult> => {
-  const start = portfolio.earliestValidDate;
-  const end = portfolio.deadline;
-  const username = submission.member.github || ''; // must be github username
+): Promise<ValidationResult> =>
+  createValidationResult(async () => {
+    // get information from submission
+    const { start, end, username } = parsePortfolioSubmission(portfolio, submission);
 
-  return createValidationResult(async () => {
     // get open object
     const open = await getOpenedPR(parseGithubUrl(open_url));
 
@@ -215,7 +263,6 @@ const validateOpen = async (
       throw new Error('Trivial PR.');
     }
   });
-};
 
 /** ="at least one of `results` is valid" */
 const atLeastOneValid = (results: ValidationResult[]) =>
