@@ -16,15 +16,15 @@ const CandidateDeciderBase: React.FC = () => {
     <div>Loading...</div>
   ) : (
     <div className={styles.instanceGroup}>
-    <Card.Group>
-      {instances.map((instance) => (
-        <Card href={`/candidate-decider/${instance.uuid}`}>
-          <Card.Content>
-            <Card.Header>{instance.name}</Card.Header>
-          </Card.Content>
-        </Card>
-      ))}
-    </Card.Group>
+      <Card.Group>
+        {instances.map((instance) => (
+          <Card href={`/candidate-decider/${instance.uuid}`}>
+            <Card.Content>
+              <Card.Header>{instance.name}</Card.Header>
+            </Card.Content>
+          </Card>
+        ))}
+      </Card.Group>
     </div>
   );
 };
