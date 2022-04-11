@@ -85,18 +85,26 @@ const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfo
 const getReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
   const octokit = new Octokit();
 
-  return octokit.rest.pulls.listReviewComments(pull).then((res) => {
-    // handle non 200 response?
+  return Promise.all([
+    octokit.rest.pulls.listReviewComments(pull),
+    octokit.rest.pulls.listReviews(pull)
+  ]).then(([reviewCommentsRes, approvalCommentsRes]) => {
+    // extract information necessary to make a Comment object
+    // works for both review comments and approval comments
+    const toComment = (data): Comment => ({
+      commentUrl: data.html_url,
+      createdBy: data.user.login,
+      createdAt: Date.parse(data.created_at) || Date.parse(data.submitted_at),
+      content: data.body
+    });
 
-    const comments = res.data;
-    return comments.map(
-      (comment): Comment => ({
-        commentUrl: comment.html_url,
-        createdBy: comment.user.login,
-        createdAt: Date.parse(comment.created_at),
-        content: comment.body
-      })
-    );
+    const reviewComments = reviewCommentsRes.data;
+    const approvalComments = approvalCommentsRes.data.filter((comment) => comment.body !== ''); // most are empty
+
+    // combine comments
+    return reviewComments
+      .map((comment) => toComment(comment))
+      .concat(approvalComments.map((comment) => toComment(comment)));
   });
 };
 
