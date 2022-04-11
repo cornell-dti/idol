@@ -33,8 +33,7 @@ type ValidationResult = {
 };
 
 /** Parses GitHub PR `url` for information necessary to make API calls.
- *  Raises an error if URL is malformed.
- */
+ *  Raises an error if URL is malformed. */
 const parseGithubUrl = (url: string): PullRequest => {
   // of the form: https://github.com/cornell-dti/idol/pull/266
   const pattern = /.*github.com\/([_a-zA-Z0-9-]+)\/([_a-zA-Z0-9-]+)\/pull\/([0-9]+)/;
@@ -45,6 +44,24 @@ const parseGithubUrl = (url: string): PullRequest => {
   }
 
   return { owner: match[1], repo: match[2], pull_number: parseInt(match[3], 10) };
+};
+
+/** Returns tuple of earliest valid time, deadline, and Idol member github username.
+ *  Raises an error if the Idol member from `submission` does not have a github username. */
+const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfolioSubmission) => {
+  const start = portfolio.earliestValidDate;
+  const end = portfolio.deadline;
+  const username = submission.member.github; // must be github username
+
+  // check github user
+  if (!username) {
+    const name = `${submission.member.firstName} ${submission.member.lastName}`;
+    const netid = `${submission.member.netid}`;
+
+    throw new Error(`Idol member ${name} (${netid}) does not have a github username.`);
+  }
+
+  return { start, end, username };
 };
 
 /** Retrieves review comments made on `pull_request`. */
@@ -87,8 +104,7 @@ const getNonReviewComments = async (pull_request: PullRequest): Promise<Comment[
 };
 
 /** Returns `comments` created by `username` between `start_time` and `end_time`.
- *  Raises an error if no comment satisfies these conditions.
- */
+ *  Raises an error if no comment satisfies these conditions. */
 const filterComments = (
   comments: Comment[],
   username: string,
@@ -183,25 +199,6 @@ const createValidationResult = async (validation_function): Promise<ValidationRe
   return { status: 'valid' };
 };
 
-/** Parse information from portfolio and submission. Returns tuple of earliest
- *  valid time, deadline, and Idol member github username.
- *  Raises an error if the Idol member from `submission` does not have a github username. */
-const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfolioSubmission) => {
-  const start = portfolio.earliestValidDate;
-  const end = portfolio.deadline;
-  const username = submission.member.github; // must be github username
-
-  // check github user
-  if (!username) {
-    const name = `${submission.member.firstName} ${submission.member.lastName}`;
-    const netid = `${submission.member.netid}`;
-
-    throw new Error(`Idol member ${name} (${netid}) does not have a github username.`);
-  }
-
-  return { start, end, username };
-};
-
 /** Determines whether PR review is valid. */
 const validateReview = async (
   portfolio: DevPortfolio,
@@ -266,7 +263,7 @@ const validateOpen = async (
 
 /** ="at least one of `results` is valid" */
 const atLeastOneValid = (results: ValidationResult[]) =>
-  results.reduce((isValid, result) => isValid || result.status === 'valid', false);
+  results.some((result) => result.status === 'valid');
 
 /** Determines whether submission is valid or invalid. */
 const validateSubmission = async (
