@@ -161,13 +161,15 @@ const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
 
   // get information about a PR and its review comments
   // cannot get both with a single api call
-  return Promise.all([octokit.rest.pulls.get(pull), getReviewComments(pull)]).then(
-    ([pr, comments]) => ({
-      url: pr.data.html_url,
-      createdBy: pr.data.user?.login || '',
-      comments
-    })
-  );
+  return Promise.all([
+    octokit.rest.pulls.get(pull),
+    getReviewComments(pull),
+    getNonReviewComments(pull) // use "thread" comments in consideration as well
+  ]).then(([pr, reviewComments, nonReviewComments]) => ({
+    url: pr.data.html_url,
+    createdBy: pr.data.user?.login || '',
+    comments: reviewComments.concat(nonReviewComments)
+  }));
 };
 
 /** Retrieves information about opened PR `pull_request`. */
