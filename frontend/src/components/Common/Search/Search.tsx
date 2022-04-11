@@ -1,8 +1,8 @@
 import React from 'react';
 import ALL_ROLES from 'common-types/constants';
 import { Label, Segment, Search, SearchResultProps } from 'semantic-ui-react';
-import { Member } from '../../API/MembersAPI';
-import { useMembers, useTeamNames } from './FirestoreDataProvider';
+import { Member } from '../../../API/MembersAPI';
+import { useMembers, useTeamNames } from '../FirestoreDataProvider';
 
 type SearchState<T> = {
   loading: boolean;

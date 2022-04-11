@@ -6,7 +6,7 @@ import { Member, MembersAPI } from '../../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
 import { useMembers } from '../../Common/FirestoreDataProvider';
-import { TeamSearch } from '../../Common/Search';
+import { TeamSearch } from '../../Common/Search/Search';
 
 type CurrentSelectedMember = Omit<Member, 'netid' | 'roleDescription'>;
 

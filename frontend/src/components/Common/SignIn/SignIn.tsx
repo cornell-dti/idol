@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Card, Image, Divider, Header, Icon } from 'semantic-ui-react';
 import { signInWithPopup } from 'firebase/auth';
 import styles from './SignIn.module.css';
-import GoogleLogo from '../../static/images/google-logo.png';
-import { auth, provider } from '../../firebase';
+import GoogleLogo from '../../../static/images/google-logo.png';
+import { auth, provider } from '../../../firebase';
 
 const SignIn: React.FC = () => {
   const onGoogleSignIn = () => {

@@ -4,7 +4,7 @@ import styles from './EditTeam.module.css';
 import ErrorModal from '../../Modals/ErrorModal';
 import { Emitters } from '../../../utils';
 import { Team, TeamsAPI } from '../../../API/TeamsAPI';
-import { MemberSearch } from '../../Common/Search';
+import { MemberSearch } from '../../Common/Search/Search';
 import { useTeams } from '../../Common/FirestoreDataProvider';
 
 type TeamMemberEditorProps = {

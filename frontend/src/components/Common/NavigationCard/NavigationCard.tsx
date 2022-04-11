@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, Button } from 'semantic-ui-react';
 import styles from './NavigationCard.module.css';
-import { useHasAdminPermission } from './FirestoreDataProvider';
-import { isProduction } from '../../environment';
+import { useHasAdminPermission } from '../FirestoreDataProvider';
+import { isProduction } from '../../../environment';
 
 export type NavigationCardItem = {
   readonly header: string;

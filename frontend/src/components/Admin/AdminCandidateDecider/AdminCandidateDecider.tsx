@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import csv from 'csvtojson';
-import { MemberSearch, RoleSearch } from '../../Common/Search';
+import { MemberSearch, RoleSearch } from '../../Common/Search/Search';
 import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
