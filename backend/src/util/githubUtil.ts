@@ -47,20 +47,36 @@ const parseGithubUrl = (url: string): PullRequest => {
   return { owner: match[1], repo: match[2], pull_number: parseInt(match[3], 10) };
 };
 
+/** Returns GitHub username from profile `url`.
+ *  Raises an error if URL is malformed. */
+const parseGithubUsername = (url: string): string => {
+  // of the form: https://github.com/JacksonStaniec
+  const pattern = /.*github.com\/([_a-zA-Z0-9-]+).*/;
+
+  const match = url.match(pattern);
+  if (match == null) {
+    throw new Error(`Malformed URL ${url}.`);
+  }
+
+  return match[1];
+};
+
 /** Returns tuple of earliest valid time, deadline, and Idol member github username.
  *  Raises an error if the Idol member from `submission` does not have a github username. */
 const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfolioSubmission) => {
   const start = portfolio.earliestValidDate;
   const end = portfolio.deadline;
-  const username = submission.member.github; // must be github username
+  const username_url = submission.member.github;
 
   // check github user
-  if (!username) {
+  if (!username_url) {
     const name = `${submission.member.firstName} ${submission.member.lastName}`;
     const netid = `${submission.member.netid}`;
 
     throw new Error(`Idol member ${name} (${netid}) does not have a github username.`);
   }
+
+  const username = parseGithubUsername(username_url);
 
   return { start, end, username };
 };
