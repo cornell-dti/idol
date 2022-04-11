@@ -1,5 +1,5 @@
 import { bucket } from './firebase';
-import { getNetIDFromEmail } from './util';
+import { getNetIDFromEmail } from './util/util';
 import { NotFoundError } from './errors';
 
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
