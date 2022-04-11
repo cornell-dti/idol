@@ -3,7 +3,7 @@
   "doubleMajor":"Economics",
   "email":"jb2375@cornell.edu",
   "firstName": "Jagger",
-  "formerSubteams": ["idol"],
+  "formerSubteams": [],
   "github": "https://github.com/JBoss925/",
   "graduation":"May 2021",
   "hometown":"Mooresville, NC",
@@ -12,8 +12,9 @@
   "major": "Computer Science",
   "minor": null,
   "netid": "jb2375",
+  "pronouns": "",
   "role":"lead",
   "roleDescription":"Lead",
-  "subteams":["leads","dev-leads"],
+  "subteams":["dev-leads"],
   "website":"https://jagger.netlify.app/"
 }
