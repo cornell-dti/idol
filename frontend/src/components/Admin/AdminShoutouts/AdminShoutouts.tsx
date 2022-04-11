@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Card } from 'semantic-ui-react';
-import { ShoutoutsAPI, Shoutout } from '../../API/ShoutoutsAPI';
+import { ShoutoutsAPI, Shoutout } from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 
 const AdminShoutouts: React.FC = () => {

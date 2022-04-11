@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
 import styles from './AddUser.module.css';
-import { Member, MembersAPI } from '../../API/MembersAPI';
-import ErrorModal from '../Modals/ErrorModal';
-import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../utils';
-import { useMembers } from '../Common/FirestoreDataProvider';
-import { TeamSearch } from '../Common/Search';
+import { Member, MembersAPI } from '../../../API/MembersAPI';
+import ErrorModal from '../../Modals/ErrorModal';
+import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
+import { useMembers } from '../../Common/FirestoreDataProvider';
+import { TeamSearch } from '../../Common/Search';
 
 type CurrentSelectedMember = Omit<Member, 'netid' | 'roleDescription'>;
 

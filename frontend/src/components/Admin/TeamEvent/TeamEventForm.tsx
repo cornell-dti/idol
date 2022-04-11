@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Radio, Button } from 'semantic-ui-react';
-import { TeamEventsAPI } from '../../API/TeamEventsAPI';
-import { Emitters } from '../../utils';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import { Emitters } from '../../../utils';
 import styles from './TeamEventForm.module.css';
 
 type Props = {

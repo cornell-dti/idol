@@ -1,3 +1,3 @@
-import MemberReview from '../../components/Admin/MemberReview';
+import MemberReview from '../../components/Admin/MemberReview/MemberReview';
 
 export default MemberReview;

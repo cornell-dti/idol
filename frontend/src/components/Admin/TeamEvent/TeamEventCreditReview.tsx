@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Header, Image } from 'semantic-ui-react';
-import ImagesAPI from '../../API/ImagesAPI';
-import { TeamEventsAPI } from '../../API/TeamEventsAPI';
-import { Emitters } from '../../utils';
+import ImagesAPI from '../../../API/ImagesAPI';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import { Emitters } from '../../../utils';
 
 const TeamEventCreditReview = (props: {
   teamEvent: TeamEvent;

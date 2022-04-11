@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardGroup, Loader, Modal } from 'semantic-ui-react';
 import ReactMarkdown from 'react-markdown';
-import { Emitters } from '../../utils';
-import { backendURL } from '../../environment';
+import { Emitters } from '../../../utils';
+import { backendURL } from '../../../environment';
 import styles from './SiteDeployer.module.css';
-import APIWrapper from '../../API/APIWrapper';
+import APIWrapper from '../../../API/APIWrapper';
 import 'prismjs/themes/prism.css';
 
 require('prismjs');

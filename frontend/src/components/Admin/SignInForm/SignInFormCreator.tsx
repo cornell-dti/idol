@@ -16,8 +16,8 @@ import {
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import SignInFormAPI from '../../API/SignInFormAPI';
-import { Emitters } from '../../utils';
+import SignInFormAPI from '../../../API/SignInFormAPI';
+import { Emitters } from '../../../utils';
 import styles from './SignInFormCreator.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
