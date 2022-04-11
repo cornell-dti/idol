@@ -1,4 +1,6 @@
-import NavigationCard, { NavigationCardItem } from '../../components/Common/NavigationCard/NavigationCard';
+import NavigationCard, {
+  NavigationCardItem
+} from '../../components/Common/NavigationCard/NavigationCard';
 
 const navCardItems: readonly NavigationCardItem[] = [
   {
