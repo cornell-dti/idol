@@ -110,7 +110,7 @@ export type DevPortfolio = {
 
 export type DevPortfolioSubmission = {
   member: IdolMember;
-  openedPR: string[];
-  reviewedPR: string[];
+  openedPRs: string[];
+  reviewedPRs: string[];
   status: 'valid' | 'invalid' | 'pending';
 };
