@@ -66,22 +66,22 @@ const parseGithubUsername = (url: string): string => {
 const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfolioSubmission) => {
   const start = portfolio.earliestValidDate;
   const end = portfolio.deadline;
-  const username_url = submission.member.github;
+  const usernameUrl = submission.member.github;
 
   // check github user
-  if (!username_url) {
+  if (!usernameUrl) {
     const name = `${submission.member.firstName} ${submission.member.lastName}`;
     const netid = `${submission.member.netid}`;
 
     throw new Error(`Idol member ${name} (${netid}) does not have a github username.`);
   }
 
-  const username = parseGithubUsername(username_url);
+  const username = parseGithubUsername(usernameUrl);
 
   return { start, end, username };
 };
 
-/** Retrieves review comments made on `pull_request`. */
+/** Retrieves review comments made on `pull`. */
 const getReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
   const octokit = new Octokit();
 
@@ -100,7 +100,7 @@ const getReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
   });
 };
 
-/** Retrieves non-review comments made on `pull_request`. */
+/** Retrieves non-review comments made on `pull`. */
 const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
   const octokit = new Octokit();
 
@@ -120,7 +120,7 @@ const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
     });
 };
 
-/** Returns `comments` created by `username` between `start_time` and `end_time`.
+/** Returns `comments` created by `username` between `startTime` and `endTime`.
  *  Raises an error if no comment satisfies these conditions. */
 const filterComments = (
   comments: Comment[],
@@ -155,7 +155,7 @@ const filterComments = (
   return eligibleComments;
 };
 
-/** Retrieves information about `pull_request` and its review comments. */
+/** Retrieves information about `pull` and its review comments. */
 const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
   const octokit = new Octokit();
 
@@ -172,7 +172,7 @@ const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
   }));
 };
 
-/** Retrieves information about opened PR `pull_request`. */
+/** Retrieves information about opened PR `pull`. */
 const getOpenedPR = async (pull: PullRequest): Promise<OpenedPR> => {
   const octokit = new Octokit();
 
