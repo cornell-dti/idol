@@ -65,10 +65,10 @@ const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfo
 };
 
 /** Retrieves review comments made on `pull_request`. */
-const getReviewComments = async (pull_request: PullRequest): Promise<Comment[]> => {
+const getReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
   const octokit = new Octokit();
 
-  return octokit.rest.pulls.listReviewComments(pull_request).then((res) => {
+  return octokit.rest.pulls.listReviewComments(pull).then((res) => {
     // handle non 200 response?
 
     const comments = res.data;
@@ -84,12 +84,12 @@ const getReviewComments = async (pull_request: PullRequest): Promise<Comment[]> 
 };
 
 /** Retrieves non-review comments made on `pull_request`. */
-const getNonReviewComments = async (pull_request: PullRequest): Promise<Comment[]> => {
+const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
   const octokit = new Octokit();
 
   // non-review comments are classified as "issue" comments
   return octokit.rest.issues
-    .listComments({ ...pull_request, issue_number: pull_request.pull_number })
+    .listComments({ ...pull, issue_number: pull.pull_number })
     .then((res) => {
       const comments = res.data;
       return comments.map(
@@ -108,43 +108,43 @@ const getNonReviewComments = async (pull_request: PullRequest): Promise<Comment[
 const filterComments = (
   comments: Comment[],
   username: string,
-  start_time: number,
-  end_time: number
+  startTime: number,
+  endTime: number
 ): Comment[] => {
   if (!comments || !comments.length) {
     throw new Error(`No review comments in this PR.`);
   }
 
-  let eligible_comments: Comment[] = [];
+  let eligibleComments: Comment[] = [];
 
   // comments made by user
-  eligible_comments = comments.filter((comment) => comment.createdBy === username);
-  if (!eligible_comments || !eligible_comments.length) {
+  eligibleComments = comments.filter((comment) => comment.createdBy === username);
+  if (!eligibleComments || !eligibleComments.length) {
     throw new Error(`No review comments made by user ${username} in this PR.`);
   }
 
   // comments made in date range
-  eligible_comments = eligible_comments.filter(
-    (comment) => start_time <= comment.createdAt && comment.createdAt <= end_time
+  eligibleComments = eligibleComments.filter(
+    (comment) => startTime <= comment.createdAt && comment.createdAt <= endTime
   );
-  if (!eligible_comments || !eligible_comments.length) {
-    const start_date = new Date(start_time).toDateString();
-    const end_date = new Date(end_time).toDateString();
+  if (!eligibleComments || !eligibleComments.length) {
+    const startDate = new Date(startTime).toDateString();
+    const endDate = new Date(endTime).toDateString();
     throw new Error(
-      `No review comments made by user ${username} between ${start_date} and ${end_date}.`
+      `No review comments made by user ${username} between ${startDate} and ${endDate}.`
     );
   }
 
-  return eligible_comments;
+  return eligibleComments;
 };
 
 /** Retrieves information about `pull_request` and its review comments. */
-const getReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => {
+const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
   const octokit = new Octokit();
 
   // get information about a PR and its review comments
   // cannot get both with a single api call
-  return Promise.all([octokit.rest.pulls.get(pull_request), getReviewComments(pull_request)]).then(
+  return Promise.all([octokit.rest.pulls.get(pull), getReviewComments(pull)]).then(
     ([pr, comments]) => ({
       url: pr.data.html_url,
       createdBy: pr.data.user?.login || '',
@@ -154,38 +154,37 @@ const getReviewedPR = async (pull_request: PullRequest): Promise<ReviewedPR> => 
 };
 
 /** Retrieves information about opened PR `pull_request`. */
-const getOpenedPR = async (pull_request: PullRequest): Promise<OpenedPR> => {
+const getOpenedPR = async (pull: PullRequest): Promise<OpenedPR> => {
   const octokit = new Octokit();
 
-  return Promise.all([
-    octokit.rest.pulls.get(pull_request),
-    getNonReviewComments(pull_request)
-  ]).then(([pr, comments]) => {
-    // get any comments by dti bot
-    const botComments = filterComments(comments, 'dti-github-bot', 0, Number.MAX_SAFE_INTEGER);
+  return Promise.all([octokit.rest.pulls.get(pull), getNonReviewComments(pull)]).then(
+    ([pr, comments]) => {
+      // get any comments by dti bot
+      const botComments = filterComments(comments, 'dti-github-bot', 0, Number.MAX_SAFE_INTEGER);
 
-    let diffSize = 0;
-    botComments.forEach((comment) => {
-      const match = comment.content.match(/.*\[diff-counting\] Significant lines: ([0-9]+).*/);
-      if (match == null) {
-        throw new Error(`No significant line count by dti-github-bot for PR ${pr.data.url}.`);
-      }
-      diffSize = parseInt(match[1], 10);
-    });
+      let diffSize = 0;
+      botComments.forEach((comment) => {
+        const match = comment.content.match(/.*\[diff-counting\] Significant lines: ([0-9]+).*/);
+        if (match == null) {
+          throw new Error(`No significant line count by dti-github-bot for PR ${pr.data.url}.`);
+        }
+        diffSize = parseInt(match[1], 10);
+      });
 
-    return {
-      url: pr.data.html_url,
-      createdBy: pr.data.user?.login || '',
-      createdAt: Date.parse(pr.data.created_at),
-      diffSize
-    };
-  });
+      return {
+        url: pr.data.html_url,
+        createdBy: pr.data.user?.login || '',
+        createdAt: Date.parse(pr.data.created_at),
+        diffSize
+      };
+    }
+  );
 };
 
 /** Creates 'valid' result if no errors are raised, 'invalid' result otherwise.  */
-const createValidationResult = async (validation_function): Promise<ValidationResult> => {
+const createValidationResult = async (validationFunction): Promise<ValidationResult> => {
   try {
-    await validation_function();
+    await validationFunction();
   } catch (err) {
     if (err instanceof Error) {
       return {
@@ -203,14 +202,14 @@ const createValidationResult = async (validation_function): Promise<ValidationRe
 const validateReview = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission,
-  review_url: string
+  reviewUrl: string
 ): Promise<ValidationResult> =>
   createValidationResult(async () => {
     // get information from submission
     const { start, end, username } = parsePortfolioSubmission(portfolio, submission);
 
     // get review object
-    const review = await getReviewedPR(parseGithubUrl(review_url));
+    const review = await getReviewedPR(parseGithubUrl(reviewUrl));
 
     // cannot review own PR
     if (review.createdBy === username) {
@@ -218,14 +217,14 @@ const validateReview = async (
     }
 
     // comments made by user within the date range
-    const eligible_comments = filterComments(review.comments, username, start, end);
+    const eligibleComments = filterComments(review.comments, username, start, end);
 
     // placeholder logic: valid if at least 10 words total
-    const total_word_count = eligible_comments.reduce(
+    const totalWordCount = eligibleComments.reduce(
       (count, comment) => count + comment.content.split(' ').length,
       0
     );
-    if (total_word_count < 10) {
+    if (totalWordCount < 10) {
       throw new Error('Trivial review.');
     }
   });
@@ -234,25 +233,23 @@ const validateReview = async (
 const validateOpen = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission,
-  open_url: string
+  openUrl: string
 ): Promise<ValidationResult> =>
   createValidationResult(async () => {
     // get information from submission
     const { start, end, username } = parsePortfolioSubmission(portfolio, submission);
 
     // get open object
-    const open = await getOpenedPR(parseGithubUrl(open_url));
+    const open = await getOpenedPR(parseGithubUrl(openUrl));
 
     if (open.createdBy !== username) {
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
     }
 
     if (start >= open.createdAt && open.createdAt >= end) {
-      const start_date = new Date(start).toDateString();
-      const end_date = new Date(end).toDateString();
-      throw new Error(
-        `Pull request ${open.url} was not made between ${start_date} and ${end_date}.`
-      );
+      const startDate = new Date(start).toDateString();
+      const endDate = new Date(end).toDateString();
+      throw new Error(`Pull request ${open.url} was not made between ${startDate} and ${endDate}.`);
     }
 
     // placeholder logic: valid if at least 10 changes total
