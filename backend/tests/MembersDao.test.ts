@@ -32,7 +32,7 @@ test('Add new member', () => {
 
 test('Get member from past semester', () =>
   MembersDao.getCurrentOrPastMemberByEmail(jaggerData.email).then(
-    (pastMember) => expect(pastMember).toEqual(jaggerData) // cannot deprecate jaggerData yet
+    (pastMember) => expect(pastMember.email).toEqual(jaggerData.email) // cannot deprecate jaggerData yet
   ));
 
 test('Approve member information changes', () => {
