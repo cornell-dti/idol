@@ -49,7 +49,11 @@ import {
   updateCandidateDeciderRating,
   updateCandidateDeciderComment
 } from './candidateDeciderAPI';
-import { getEventProofImage, setEventProofImage } from './team-events-imageAPI';
+import {
+  deleteEventProofImage,
+  getEventProofImage,
+  setEventProofImage
+} from './team-events-imageAPI';
 
 // Constants and configurations
 const app = express();
@@ -225,12 +229,16 @@ loginCheckedPost('/deleteTeamEvent', async (req, user) => {
 });
 
 // Team Events Proof Image
+loginCheckedGet('/getEventProofImage/:name(*)', async (req, user) => ({
+  url: await getEventProofImage(req.params.name, user)
+}));
 loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
   url: await setEventProofImage(req.params.name, user)
 }));
-loginCheckedGet('/getEventProofImage', async (req, user) => ({
-  url: await getEventProofImage(req.body, user)
-}));
+loginCheckedPost('/deleteEventProofImage', async (req, user) => {
+  await deleteEventProofImage(req.body.name, user);
+  return {};
+});
 
 // Candidate Decider
 loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({

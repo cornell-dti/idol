@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, Button } from 'semantic-ui-react';
 import styles from './ResponsesPanel.module.css';
 
 type Props = {
@@ -80,18 +80,20 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
     <div>
       <Form.Group inline>
         <Form.Input
+          className="fifteen wide field"
           placeholder={'Comment...'}
           onChange={(_, data) => setCurrentComment(data.value)}
           value={currentComment}
         />
-        <Form.Button
+        <Button
+          className="ui blue button"
           onClick={() => {
             handleCommentChange(currentCandidate, currentComment);
             setCurrentComment('');
           }}
         >
           Save
-        </Form.Button>
+        </Button>
       </Form.Group>
     </div>
   );

@@ -1,6 +1,6 @@
 import { SignInForm } from '../DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
-import { NotFoundError, BadRequestError } from '../errors';
+import { NotFoundError } from '../errors';
 import MembersDao from './MembersDao';
 
 type SignInUser = {
@@ -22,16 +22,13 @@ export default class SignInFormDao {
   static async signIn(id: string, email: string): Promise<number> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
-    if (!formRef.exists) throw new NotFoundError(`No form with id '${id}' found.`);
     const form = formRef.data();
     if (form == null) throw new NotFoundError(`No form content in form with id '${id}' found.`);
+
     const signedInAtVal = Date.now();
-    if (form.expireAt <= signedInAtVal)
-      throw new BadRequestError(`User is not allowed to sign into expired form with id '${id}.`);
     const userDoc = memberCollection.doc(email);
-    const userRef = await userDoc.get();
-    if (!userRef.exists) throw new NotFoundError(`No user with email '${email}' found.`);
     const updatedSignIns = await filterSignIns(form.users, email);
+
     return formDoc
       .update({
         users: updatedSignIns.concat({ signedInAt: signedInAtVal, user: userDoc })
@@ -41,15 +38,11 @@ export default class SignInFormDao {
 
   static async createSignIn(id: string, expireAt: number): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
-    const formRef = await formDoc.get();
-    if (formRef.exists) throw new NotFoundError(`A form with id '${id}' already exists!`);
     await formDoc.set({ createdAt: Date.now(), id, expireAt, users: [] });
   }
 
   static async deleteSignIn(id: string): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
-    const formRef = await formDoc.get();
-    if (!formRef.exists) throw new NotFoundError(`No form with id '${id}' exists!`);
     await formDoc.delete();
   }
 

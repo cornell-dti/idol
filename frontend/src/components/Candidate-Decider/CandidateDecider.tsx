@@ -105,16 +105,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   }, [uuid]);
 
   return isLoading ? (
-    <div></div>
+    <div>Loading...</div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
-        <div>
+        <div className={styles.searchBar}>
           <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
         </div>
         <div className={styles.controlsContainer}>
-          <h4>Candidate ID:</h4>
+          <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
           <Dropdown
+            compact
             value={currentCandidate}
             selection
             options={instance.candidates.map((candidate) => ({
@@ -124,7 +125,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             }))}
             onChange={(_, data) => setCurrentCandidate(data.value as number)}
           />
-          <span>of {instance.candidates.length}</span>
+          <span className={styles.ofNum}>of {instance.candidates.length}</span>
           <Button.Group>
             <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
               PREVIOUS
@@ -139,6 +140,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             </Button>
           </Button.Group>
           <Checkbox
+            className={styles.showOtherVotes}
             toggle
             checked={showOtherVotes}
             onChange={() => setShowOtherVotes((prev) => !prev)}

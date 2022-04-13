@@ -3,6 +3,7 @@ import { Card, Message, Modal, Button } from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
+import TeamEventCreditReview from './TeamEventCreditReview';
 import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 import { Emitters } from '../../utils';
@@ -92,14 +93,20 @@ const TeamEventDetails: React.FC = () => {
           <h2 className={styles.memberTitle}>Members Pending</h2>
 
           {teamEvent.requests.length > 0 ? (
-            <Card.Group className={styles.memberGroup}>
-              {teamEvent.requests.map((req) => (
-                <Card key={req.member.netid}>
+            <Card.Group>
+              {teamEvent.requests.map((req, i) => (
+                <Card className={styles.memberCard} key={i}>
                   <Card.Content>
                     <Card.Header>
                       {req.member.firstName} {req.member.lastName}
                     </Card.Header>
                     <Card.Meta>{req.member.email}</Card.Meta>
+                  </Card.Content>
+                  <Card.Content extra>
+                    <TeamEventCreditReview
+                      teamEvent={teamEvent}
+                      teamEventAttendance={req}
+                    ></TeamEventCreditReview>
                   </Card.Content>
                 </Card>
               ))}
