@@ -3,7 +3,7 @@ import { getNetIDFromEmail } from './util/util';
 import { NotFoundError } from './errors';
 
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
-  const file = bucket.file(`${name}`);
+  const file = bucket.file(`${name}.jpg`);
   const signedURL = await file.getSignedUrl({
     action: 'write',
     version: 'v4',
