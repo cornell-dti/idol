@@ -31,7 +31,7 @@ import {
   signIn,
   signInFormExists,
   signInFormExpired
-} from './signinformAPI';
+} from './signInFormAPI';
 import {
   createTeamEvent,
   deleteTeamEvent,
@@ -198,21 +198,21 @@ loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
 loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 // Sign In Form
-loginCheckedPost('/signinExists', async (req, _) => ({
+loginCheckedPost('/signInExists', async (req, _) => ({
   exists: await signInFormExists(req.body.id)
 }));
-loginCheckedPost('/signinExpired', async (req, _) => ({
+loginCheckedPost('/signInExpired', async (req, _) => ({
   expired: await signInFormExpired(req.body.id)
 }));
-loginCheckedPost('/signinCreate', async (req, user) =>
+loginCheckedPost('/signInCreate', async (req, user) =>
   createSignInForm(req.body.id, req.body.expireAt, user)
 );
-loginCheckedPost('/signinDelete', async (req, user) => {
+loginCheckedPost('/signInDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};
 });
-loginCheckedPost('/signin', async (req, user) => signIn(req.body.id, user));
-loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
+loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, user));
+loginCheckedPost('/signInAll', async (_, user) => allSignInForms(user));
 
 // Team Events
 loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));

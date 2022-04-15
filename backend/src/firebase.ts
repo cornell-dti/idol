@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { DBShoutout, DBSignInForm, DBTeamEvent, DBCandidateDeciderInstance } from './DataTypes';
+import { DBShoutout, DBSignInForm, DBTeamEvent, DBCandidateDeciderInstance } from './dataTypes';
 
 require('dotenv').config();
 

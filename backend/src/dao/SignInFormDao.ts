@@ -1,4 +1,4 @@
-import { SignInForm } from '../DataTypes';
+import { SignInForm } from '../dataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
 import { NotFoundError } from '../errors';
 import MembersDao from './MembersDao';

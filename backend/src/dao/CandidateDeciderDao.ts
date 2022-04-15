@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { candidateDeciderCollection, memberCollection } from '../firebase';
-import { DBCandidateDeciderInstance } from '../DataTypes';
+import { DBCandidateDeciderInstance } from '../dataTypes';
 
 export default class CandidateDeciderDao {
   static async getAllInstances(): Promise<CandidateDeciderInfo[]> {
