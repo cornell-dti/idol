@@ -2,7 +2,7 @@ import MembersDao from './dao/MembersDao';
 import PermissionsManager from './permissions';
 import { BadRequestError, PermissionError } from './errors';
 import { bucket } from './firebase';
-import { getNetIDFromEmail, computeMembersDiff } from './util';
+import { getNetIDFromEmail, computeMembersDiff } from './utils/util';
 
 export const allMembers = (): Promise<readonly IdolMember[]> => MembersDao.getAllMembers(false);
 

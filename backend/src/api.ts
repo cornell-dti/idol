@@ -20,7 +20,7 @@ import {
   getIDOLChangesPR,
   rejectIDOLChanges,
   requestIDOLPullDispatch
-} from './site-integration';
+} from './siteIntegration';
 import PermissionsManager from './permissions';
 import { HandlerError } from './errors';
 import MembersDao from './dao/MembersDao';
@@ -38,7 +38,7 @@ import {
   getAllTeamEvents,
   getTeamEvent,
   updateTeamEvent
-} from './team-eventsAPI';
+} from './teamEventsAPI';
 
 import {
   getAllCandidateDeciderInstances,
@@ -53,7 +53,7 @@ import {
   deleteEventProofImage,
   getEventProofImage,
   setEventProofImage
-} from './team-events-imageAPI';
+} from './teamEventsImageAPI';
 
 // Constants and configurations
 const app = express();
