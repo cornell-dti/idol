@@ -1,5 +1,5 @@
 import { db, approvedMemberCollection, memberCollection } from '../firebase';
-import { Team } from '../dataTypes';
+import { Team } from '../DataTypes';
 import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
 
 export default class MembersDao {

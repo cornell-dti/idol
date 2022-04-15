@@ -1,5 +1,5 @@
 import { memberCollection, shoutoutCollection } from '../firebase';
-import { Shoutout, DBShoutout } from '../dataTypes';
+import { Shoutout, DBShoutout } from '../DataTypes';
 
 export default class ShoutoutsDao {
   static async getAllShoutouts(): Promise<Shoutout[]> {
