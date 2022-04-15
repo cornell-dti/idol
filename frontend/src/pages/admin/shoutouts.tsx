@@ -1,3 +1,3 @@
-import AdminShoutouts from '../../components/Admin/AdminShoutouts';
+import AdminShoutouts from '../../components/Admin/AdminShoutouts/AdminShoutouts';
 
 export default AdminShoutouts;

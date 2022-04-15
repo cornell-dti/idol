@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
 import styles from './Spotlight.module.css';
-import AramHeadshot from '../../static/images/aram-headshot.jpg';
+import AramHeadshot from '../../../static/images/aram-headshot.jpg';
 
 const Spotlight: React.FC = () => (
   <div className={styles.Spotlight} data-testid="Spotlight">

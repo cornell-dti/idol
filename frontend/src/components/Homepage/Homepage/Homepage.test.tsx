@@ -3,8 +3,8 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Homepage from './Homepage';
 
-jest.mock('./Banner', () => () => <div data-testid="banner" />);
-jest.mock('./Spotlight', () => () => <div data-testid="spotlight" />);
+jest.mock('../Banner/Banner', () => () => <div data-testid="banner" />);
+jest.mock('../Spotlight/Spotlight', () => () => <div data-testid="spotlight" />);
 
 test('Homepage renders banner', () => {
   const { getByTestId } = render(<Homepage />);

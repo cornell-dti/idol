@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, TextArea, Button, Checkbox } from 'semantic-ui-react';
-import { useUserEmail } from '../../Common/UserProvider';
-import { MemberSearch } from '../../Common/Search';
+import { useUserEmail } from '../../Common/UserProvider/UserProvider';
+import { MemberSearch } from '../../Common/Search/Search';
 import { Emitters } from '../../../utils';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';

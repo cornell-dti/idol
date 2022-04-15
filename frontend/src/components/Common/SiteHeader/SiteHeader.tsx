@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Header, Icon } from 'semantic-ui-react';
 import styles from './SiteHeader.module.css';
-import { auth } from '../../firebase';
-import dti_logo from '../../static/images/dti-logo.png';
-import { Emitters } from '../../utils';
+import { auth } from '../../../firebase';
+import dti_logo from '../../../static/images/dti-logo.png';
+import { Emitters } from '../../../utils';
 
 const SiteHeader: React.FC = () => {
   const onSignOut = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
-import { TeamEventsAPI } from '../../API/TeamEventsAPI';
-import { Emitters } from '../../utils';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import { Emitters } from '../../../utils';
 import TeamEventForm from './TeamEventForm';
 
 const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
-import { useUserEmail } from '../../Common/UserProvider';
+import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';

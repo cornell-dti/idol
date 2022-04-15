@@ -1,9 +1,9 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
 import { User } from 'firebase/auth';
-import { auth } from '../../firebase';
-import SignIn from './SignIn.lazy';
-import EmailNotFoundErrorModal from '../Modals/EmailNotFoundErrorModal';
+import { auth } from '../../../firebase';
+import SignIn from '../SignIn/SignIn.lazy';
+import EmailNotFoundErrorModal from '../../Modals/EmailNotFoundErrorModal';
 
 import styles from './UserProvider.module.css';
 

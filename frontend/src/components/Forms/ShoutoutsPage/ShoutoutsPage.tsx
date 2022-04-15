@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Message } from 'semantic-ui-react';
-import { useUserEmail } from '../../Common/UserProvider';
+import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { Emitters } from '../../../utils';
 import ShoutoutForm from './ShoutoutForm';
 import ShoutoutList from './ShoutoutList';

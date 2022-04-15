@@ -3,11 +3,11 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Sidebar, Menu, Icon } from 'semantic-ui-react';
-import UserProvider from '../components/Common/UserProvider';
+import UserProvider from '../components/Common/UserProvider/UserProvider';
 import FirestoreDataProvider, {
   useHasAdminPermission
 } from '../components/Common/FirestoreDataProvider';
-import SiteHeader from '../components/Common/SiteHeader';
+import SiteHeader from '../components/Common/SiteHeader/SiteHeader';
 import { Emitters } from '../utils';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';

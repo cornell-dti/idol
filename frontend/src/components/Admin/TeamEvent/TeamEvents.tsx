@@ -3,8 +3,8 @@ import { Card, Message } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
-import { TeamEventsAPI } from '../../API/TeamEventsAPI';
-import { Emitters } from '../../utils';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import { Emitters } from '../../../utils';
 
 const TeamEvents: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);

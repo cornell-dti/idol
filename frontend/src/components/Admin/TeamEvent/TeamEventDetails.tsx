@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
 import TeamEventCreditReview from './TeamEventCreditReview';
 import styles from './TeamEventDetails.module.css';
-import { TeamEventsAPI } from '../../API/TeamEventsAPI';
-import { Emitters } from '../../utils';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import { Emitters } from '../../../utils';
 
 const defaultTeamEvent: TeamEvent = {
   name: '',
