@@ -1,11 +1,11 @@
-import { PermissionError } from '../src/errors';
+import { PermissionError } from '../src/utils/errors';
 import { teamEventsCollection } from '../src/firebase';
 import {
   createTeamEvent,
   deleteTeamEvent,
   getAllTeamEvents,
   updateTeamEvent
-} from '../src/team-eventsAPI';
+} from '../src/API/teamEventsAPI';
 import { fakeTeamEvent, fakeTeamEventAttendance } from './data/createData';
 
 const adminUser = { email: 'hl738@cornell.edu' } as IdolMember;
