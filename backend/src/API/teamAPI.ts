@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import PermissionsManager from './permissions';
-import { Team } from './dataTypes';
-import { BadRequestError, PermissionError } from './errors';
-import MembersDao from './dao/MembersDao';
+import PermissionsManager from '../utils/permissions';
+import { Team } from '../dataTypes';
+import { BadRequestError, PermissionError } from '../utils/errors';
+import MembersDao from '../dao/MembersDao';
 
 export const allTeams = (): Promise<readonly Team[]> => MembersDao.getAllTeams();
 

@@ -1,7 +1,7 @@
-import TeamEventsDao from './dao/TeamEventsDao';
-import { TeamEvent } from './dataTypes';
-import { PermissionError } from './errors';
-import PermissionsManager from './permissions';
+import TeamEventsDao from '../dao/TeamEventsDao';
+import { TeamEvent } from '../dataTypes';
+import { PermissionError } from '../utils/errors';
+import PermissionsManager from '../utils/permissions';
 
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);

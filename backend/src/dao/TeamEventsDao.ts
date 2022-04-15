@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { TeamEvent, DBTeamEvent } from '../dataTypes';
 import { memberCollection, teamEventsCollection } from '../firebase';
-import { NotFoundError } from '../errors';
+import { NotFoundError } from '../utils/errors';
 
 export default class TeamEventsDao {
   static async getAllTeamEvents(): Promise<TeamEvent[]> {

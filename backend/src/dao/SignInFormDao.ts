@@ -1,6 +1,6 @@
 import { SignInForm } from '../dataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
-import { NotFoundError } from '../errors';
+import { NotFoundError } from '../utils/errors';
 import MembersDao from './MembersDao';
 
 type SignInUser = {

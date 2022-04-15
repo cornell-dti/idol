@@ -11,18 +11,18 @@ import {
   updateMember,
   getUserInformationDifference,
   reviewUserInformationChange
-} from './memberAPI';
-import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
-import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { getAllShoutouts, getShoutouts, giveShoutout } from './shoutoutAPI';
+} from './API/memberAPI';
+import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
+import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
+import { getAllShoutouts, getShoutouts, giveShoutout } from './API/shoutoutAPI';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './siteIntegration';
-import PermissionsManager from './permissions';
-import { HandlerError } from './errors';
+import PermissionsManager from './utils/permissions';
+import { HandlerError } from './utils/errors';
 import MembersDao from './dao/MembersDao';
 import {
   allSignInForms,
@@ -31,14 +31,14 @@ import {
   signIn,
   signInFormExists,
   signInFormExpired
-} from './signInFormAPI';
+} from './API/signInFormAPI';
 import {
   createTeamEvent,
   deleteTeamEvent,
   getAllTeamEvents,
   getTeamEvent,
   updateTeamEvent
-} from './teamEventsAPI';
+} from './API/teamEventsAPI';
 
 import {
   getAllCandidateDeciderInstances,
@@ -48,12 +48,12 @@ import {
   getCandidateDeciderInstance,
   updateCandidateDeciderRating,
   updateCandidateDeciderComment
-} from './candidateDeciderAPI';
+} from './API/candidateDeciderAPI';
 import {
   deleteEventProofImage,
   getEventProofImage,
   setEventProofImage
-} from './teamEventsImageAPI';
+} from './API/teamEventsImageAPI';
 
 // Constants and configurations
 const app = express();

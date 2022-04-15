@@ -1,8 +1,8 @@
-import MembersDao from './dao/MembersDao';
-import PermissionsManager from './permissions';
-import { BadRequestError, PermissionError } from './errors';
-import { bucket } from './firebase';
-import { getNetIDFromEmail, computeMembersDiff } from './utils/util';
+import MembersDao from '../dao/MembersDao';
+import PermissionsManager from '../utils/permissions';
+import { BadRequestError, PermissionError } from '../utils/errors';
+import { bucket } from '../firebase';
+import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
 
 export const allMembers = (): Promise<readonly IdolMember[]> => MembersDao.getAllMembers(false);
 

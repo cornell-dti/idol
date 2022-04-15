@@ -1,6 +1,6 @@
-import CandidateDeciderDao from './dao/CandidateDeciderDao';
-import { NotFoundError, PermissionError } from './errors';
-import PermissionsManager from './permissions';
+import CandidateDeciderDao from '../dao/CandidateDeciderDao';
+import { NotFoundError, PermissionError } from '../utils/errors';
+import PermissionsManager from '../utils/permissions';
 
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
