@@ -1,7 +1,7 @@
 import SignInFormDao from '../dao/SignInFormDao';
 import { PermissionError, BadRequestError, NotFoundError } from '../utils/errors';
 import { signInFormCollection, memberCollection } from '../firebase';
-import PermissionsManager from '../utils/permissions';
+import PermissionsManager from '../utils/permissionsManager';
 
 const checkIfDocExists = async (id: string): Promise<boolean> =>
   (await signInFormCollection.doc(id).get()).exists;

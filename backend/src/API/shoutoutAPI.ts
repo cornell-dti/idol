@@ -1,4 +1,4 @@
-import PermissionsManager from '../utils/permissions';
+import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
 import { Shoutout } from '../DataTypes';
 import ShoutoutsDao from '../dao/ShoutoutsDao';

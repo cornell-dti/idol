@@ -1,5 +1,5 @@
 import MembersDao from '../dao/MembersDao';
-import PermissionsManager from '../utils/permissions';
+import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';

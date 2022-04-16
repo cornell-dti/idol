@@ -21,7 +21,7 @@ import {
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './siteIntegration';
-import PermissionsManager from './utils/permissions';
+import PermissionsManager from './utils/permissionsManager';
 import { HandlerError } from './utils/errors';
 import MembersDao from './dao/MembersDao';
 import {
