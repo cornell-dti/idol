@@ -1,4 +1,4 @@
-# IDOL
+# IDOL XD
 
 ![Build Status](https://github.com/cornell-dti/idol/workflows/Build/badge.svg)
 
