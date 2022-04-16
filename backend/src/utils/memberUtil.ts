@@ -36,6 +36,7 @@ export const computeMembersDiff = <M extends SimplifiedMember>(
       })
       .join('\n');
   };
+
   const diff = (oldString: string, newString: string) => {
     const rawDiff = createPatch(
       '',
@@ -64,6 +65,7 @@ export const computeMembersDiff = <M extends SimplifiedMember>(
     // Delete the matched data from map. Therefore, after this pass ends, we know what's unmatched.
     approvedMemberMap.delete(latestData.email);
   });
+
   // Second pass: report missing members from the new data (i.e. deleted since last approve)
   approvedMemberMap.forEach((leftOverApprovedMember) => {
     diffs.push({

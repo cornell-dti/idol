@@ -1,4 +1,4 @@
-import { adminCollection } from './firebase';
+import { adminCollection } from '../firebase';
 
 export default class PermissionsManager {
   static async canEditMembers(mem: IdolMember): Promise<boolean> {

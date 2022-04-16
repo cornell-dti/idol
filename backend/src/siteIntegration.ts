@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest';
 import { PRResponse } from './GithubTypes';
-import PermissionsManager from './permissions';
-import { PermissionError, BadRequestError } from './errors';
+import PermissionsManager from './utils/permissionsManager';
+import { PermissionError, BadRequestError } from './utils/errors';
 
 require('dotenv').config();
 
