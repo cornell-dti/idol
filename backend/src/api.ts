@@ -4,6 +4,15 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import { app as adminApp } from './firebase';
 import {
+  acceptIDOLChanges,
+  getIDOLChangesPR,
+  rejectIDOLChanges,
+  requestIDOLPullDispatch
+} from './siteIntegration';
+import PermissionsManager from './utils/permissionsManager';
+import { HandlerError } from './utils/errors';
+import MembersDao from './dao/MembersDao';
+import {
   allMembers,
   allApprovedMembers,
   setMember,
@@ -15,15 +24,6 @@ import {
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import { getAllShoutouts, getShoutouts, giveShoutout } from './API/shoutoutAPI';
-import {
-  acceptIDOLChanges,
-  getIDOLChangesPR,
-  rejectIDOLChanges,
-  requestIDOLPullDispatch
-} from './siteIntegration';
-import PermissionsManager from './utils/permissionsManager';
-import { HandlerError } from './utils/errors';
-import MembersDao from './dao/MembersDao';
 import {
   allSignInForms,
   createSignInForm,
@@ -39,7 +39,6 @@ import {
   getTeamEvent,
   updateTeamEvent
 } from './API/teamEventsAPI';
-
 import {
   getAllCandidateDeciderInstances,
   createNewCandidateDeciderInstance,
