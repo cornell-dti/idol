@@ -7,7 +7,5 @@
     "tsc": "exit 0",
     "build": "exit 0"
   },
-  "dependencies": {
-    "firebase-admin": "^10.0.2"
-  }
+  "dependencies": {}
 }
