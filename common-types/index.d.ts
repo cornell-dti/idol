@@ -1,5 +1,4 @@
 /** The common types required by more than one workspace. */
-import { firestore } from 'firebase-admin';
 
 /** All possible roles for a DTI member */
 type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
@@ -145,31 +144,4 @@ interface DevPortfolioSubmission {
   openedPRs: string[];
   reviewedPRs: string[];
   status: 'valid' | 'invalid' | 'pending';
-}
-
-interface DBCandidateDeciderRating {
-  readonly reviewer: firestore.DocumentReference;
-  readonly rating: Rating;
-}
-
-interface DBCandidateDeciderComment {
-  readonly reviewer: firestore.DocumentReference;
-  readonly comment: string;
-}
-
-interface DBCandidateDeciderCandidate {
-  readonly responses: string[];
-  readonly id: number;
-  ratings: DBCandidateDeciderRating[];
-  comments: DBCandidateDeciderComment[];
-}
-
-interface DBCandidateDeciderInstance {
-  readonly name: string;
-  readonly headers: string[];
-  readonly candidates: DBCandidateDeciderCandidate[];
-  readonly uuid: string;
-  readonly authorizedMembers: firestore.DocumentReference[];
-  readonly authorizedRoles: Role[];
-  isOpen: boolean;
 }

@@ -1,7 +1,33 @@
 import { useState, useEffect } from 'react';
-import { onSnapshot, doc, collection, getDoc } from 'firebase/firestore';
+import { onSnapshot, doc, collection, getDoc, DocumentReference } from 'firebase/firestore';
 import { db } from '../../firebase';
 
+export type DBCandidateDeciderRating = {
+  readonly reviewer: DocumentReference;
+  readonly rating: Rating;
+};
+
+export type DBCandidateDeciderComment = {
+  readonly reviewer: DocumentReference;
+  readonly comment: string;
+};
+
+export type DBCandidateDeciderCandidate = {
+  readonly responses: string[];
+  readonly id: number;
+  ratings: DBCandidateDeciderRating[];
+  comments: DBCandidateDeciderComment[];
+};
+
+export type DBCandidateDeciderInstance = {
+  readonly name: string;
+  readonly headers: string[];
+  readonly candidates: DBCandidateDeciderCandidate[];
+  readonly uuid: string;
+  readonly authorizedMembers: DocumentReference[];
+  readonly authorizedRoles: Role[];
+  isOpen: boolean;
+};
 const useCandidateDeciderInstance = (uuid: string): CandidateDeciderInstance => {
   const [instance, setInstance] = useState<CandidateDeciderInstance>(blankInstance);
 

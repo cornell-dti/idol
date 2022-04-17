@@ -73,3 +73,30 @@ export type TeamEvent = {
   attendees: TeamEventAttendance[];
   uuid: string;
 };
+
+export type DBCandidateDeciderRating = {
+  readonly reviewer: firestore.DocumentReference;
+  readonly rating: Rating;
+};
+
+export type DBCandidateDeciderComment = {
+  readonly reviewer: firestore.DocumentReference;
+  readonly comment: string;
+};
+
+export type DBCandidateDeciderCandidate = {
+  readonly responses: string[];
+  readonly id: number;
+  ratings: DBCandidateDeciderRating[];
+  comments: DBCandidateDeciderComment[];
+};
+
+export type DBCandidateDeciderInstance = {
+  readonly name: string;
+  readonly headers: string[];
+  readonly candidates: DBCandidateDeciderCandidate[];
+  readonly uuid: string;
+  readonly authorizedMembers: firestore.DocumentReference[];
+  readonly authorizedRoles: Role[];
+  isOpen: boolean;
+};
