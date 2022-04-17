@@ -97,9 +97,11 @@ interface EventProofImage {
   readonly fileName: string;
 }
 
+type Rating = 0 | 1 | 2 | 3 | 4 | 5;
+
 interface CandidateDeciderRating {
   readonly reviewer: IdolMember;
-  readonly rating: number;
+  readonly rating: Rating;
 }
 
 interface CandidateDeciderComment {
@@ -128,4 +130,18 @@ interface CandidateDeciderInfo {
   readonly name: string;
   readonly uuid: string;
   isOpen: boolean;
+}
+
+interface DevPortfolio {
+  name: string;
+  deadline: number;
+  earliestValidDate: number;
+  submissions: DevPortfolioSubmission[];
+}
+
+interface DevPortfolioSubmission {
+  member: IdolMember;
+  openedPRs: string[];
+  reviewedPRs: string[];
+  status: 'valid' | 'invalid' | 'pending';
 }

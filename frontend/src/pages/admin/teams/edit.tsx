@@ -1,3 +1,3 @@
-import EditTeam from '../../../components/Admin/EditTeam';
+import EditTeam from '../../../components/Admin/EditTeam/EditTeam';
 
 export default EditTeam;

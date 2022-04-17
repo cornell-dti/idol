@@ -4,6 +4,15 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import { app as adminApp } from './firebase';
 import {
+  acceptIDOLChanges,
+  getIDOLChangesPR,
+  rejectIDOLChanges,
+  requestIDOLPullDispatch
+} from './siteIntegration';
+import PermissionsManager from './utils/permissionsManager';
+import { HandlerError } from './utils/errors';
+import MembersDao from './dao/MembersDao';
+import {
   allMembers,
   allApprovedMembers,
   setMember,
@@ -11,19 +20,10 @@ import {
   updateMember,
   getUserInformationDifference,
   reviewUserInformationChange
-} from './memberAPI';
-import { getMemberImage, setMemberImage, allMemberImages } from './imageAPI';
-import { allTeams, setTeam, deleteTeam } from './teamAPI';
-import { getAllShoutouts, getShoutouts, giveShoutout } from './shoutoutAPI';
-import {
-  acceptIDOLChanges,
-  getIDOLChangesPR,
-  rejectIDOLChanges,
-  requestIDOLPullDispatch
-} from './site-integration';
-import PermissionsManager from './permissions';
-import { HandlerError } from './errors';
-import MembersDao from './dao/MembersDao';
+} from './API/memberAPI';
+import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
+import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
+import { getAllShoutouts, getShoutouts, giveShoutout } from './API/shoutoutAPI';
 import {
   allSignInForms,
   createSignInForm,
@@ -31,15 +31,14 @@ import {
   signIn,
   signInFormExists,
   signInFormExpired
-} from './signinformAPI';
+} from './API/signInFormAPI';
 import {
   createTeamEvent,
   deleteTeamEvent,
   getAllTeamEvents,
   getTeamEvent,
   updateTeamEvent
-} from './team-eventsAPI';
-
+} from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
   createNewCandidateDeciderInstance,
@@ -48,7 +47,12 @@ import {
   getCandidateDeciderInstance,
   updateCandidateDeciderRating,
   updateCandidateDeciderComment
-} from './candidateDeciderAPI';
+} from './API/candidateDeciderAPI';
+import {
+  deleteEventProofImage,
+  getEventProofImage,
+  setEventProofImage
+} from './API/teamEventsImageAPI';
 
 // Constants and configurations
 const app = express();
@@ -193,21 +197,21 @@ loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
 loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 // Sign In Form
-loginCheckedPost('/signinExists', async (req, _) => ({
+loginCheckedPost('/signInExists', async (req, _) => ({
   exists: await signInFormExists(req.body.id)
 }));
-loginCheckedPost('/signinExpired', async (req, _) => ({
+loginCheckedPost('/signInExpired', async (req, _) => ({
   expired: await signInFormExpired(req.body.id)
 }));
-loginCheckedPost('/signinCreate', async (req, user) =>
+loginCheckedPost('/signInCreate', async (req, user) =>
   createSignInForm(req.body.id, req.body.expireAt, user)
 );
-loginCheckedPost('/signinDelete', async (req, user) => {
+loginCheckedPost('/signInDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};
 });
-loginCheckedPost('/signin', async (req, user) => signIn(req.body.id, user));
-loginCheckedPost('/signinAll', async (_, user) => allSignInForms(user));
+loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, user));
+loginCheckedPost('/signInAll', async (_, user) => allSignInForms(user));
 
 // Team Events
 loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
@@ -220,6 +224,18 @@ loginCheckedPost('/updateTeamEvent', async (req, user) => ({
 }));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => {
   await deleteTeamEvent(req.body, user);
+  return {};
+});
+
+// Team Events Proof Image
+loginCheckedGet('/getEventProofImage/:name(*)', async (req, user) => ({
+  url: await getEventProofImage(req.params.name, user)
+}));
+loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
+  url: await setEventProofImage(req.params.name, user)
+}));
+loginCheckedPost('/deleteEventProofImage', async (req, user) => {
+  await deleteEventProofImage(req.body.name, user);
   return {};
 });
 

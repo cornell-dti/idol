@@ -2,7 +2,7 @@ import { Loader } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
 import { adminsCollection, membersCollection, approvedMembersCollection } from '../../firebase';
-import { useUserEmail } from './UserProvider';
+import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
 import { allowAdmin } from '../../environment';
 

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, Button } from 'semantic-ui-react';
 import styles from './ResponsesPanel.module.css';
 
 type Props = {
   headers: string[];
   responses: string[];
-  rating: number;
-  handleRatingChange: (id: number, rating: number) => void;
+  rating: Rating;
+  handleRatingChange: (id: number, rating: Rating) => void;
   comment: string;
   handleCommentChange: (id: number, comment: string) => void;
   currentCandidate: number;
@@ -41,7 +41,7 @@ const ResponsesPanel: React.FC<Props> = ({
               value={rt.value}
               color={rt.color}
               checked={rt.value === rating}
-              onChange={() => handleRatingChange(currentCandidate, rt.value)}
+              onChange={() => handleRatingChange(currentCandidate, rt.value as Rating)}
             />
           </Form.Field>
         ))}
@@ -80,18 +80,20 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
     <div>
       <Form.Group inline>
         <Form.Input
+          className="fifteen wide field"
           placeholder={'Comment...'}
           onChange={(_, data) => setCurrentComment(data.value)}
           value={currentComment}
         />
-        <Form.Button
+        <Button
+          className="ui blue button"
           onClick={() => {
             handleCommentChange(currentCandidate, currentComment);
             setCurrentComment('');
           }}
         >
           Save
-        </Form.Button>
+        </Button>
       </Form.Group>
     </div>
   );

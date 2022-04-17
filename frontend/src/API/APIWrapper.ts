@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { auth } from '../firebase';
-import { getUserIdToken } from '../components/Common/UserProvider';
+import { getUserIdToken } from '../components/Common/UserProvider/UserProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type APIProcessedResponse = { data: any };
@@ -36,10 +36,10 @@ export default class APIWrapper {
       .then((resOrErr) => this.responseMiddleware(resOrErr));
   }
 
-  public static async put(url: string, body: unknown): Promise<APIProcessedResponse> {
+  public static async put(url: string, body: unknown, config: any): Promise<APIProcessedResponse> {
     const idToken = await getUserIDTokenNonNull();
     return axios
-      .put(url, body, { headers: { 'auth-token': idToken } })
+      .put(url, body, { headers: { ...config, 'auth-token': idToken } })
       .catch((err: AxiosError) => err)
       .then((resOrErr) => this.responseMiddleware(resOrErr));
   }

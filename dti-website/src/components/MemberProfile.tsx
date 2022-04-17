@@ -145,9 +145,9 @@ export default function MemberProfile({ profile, className }: Props): JSX.Elemen
                     Team Work
                   </div>
                   <ul className="team-info-list left-space">
-                    {teams.map((team) => (
-                      <li className="team-info-item my-auto" key={team.id}>
-                        {team.name}
+                    {profile.info.subteams?.map((team) => (
+                      <li className="team-info-item my-auto" key={team}>
+                        {team}
                       </li>
                     ))}
                   </ul>

@@ -1,4 +1,6 @@
-import NavigationCard, { NavigationCardItem } from '../../components/Common/NavigationCard';
+import NavigationCard, {
+  NavigationCardItem
+} from '../../components/Common/NavigationCard/NavigationCard';
 
 const navCardItems: readonly NavigationCardItem[] = [
   { header: 'Sign-In Form', description: 'Sign in to an event!', link: '/forms/signin' },

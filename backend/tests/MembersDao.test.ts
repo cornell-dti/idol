@@ -1,8 +1,13 @@
 import MembersDao from '../src/dao/MembersDao';
-import jaggerData from './data/jagger-profile.json';
-import mockUsers from './data/mock-users.json';
-import teamsData from './data/mock-teams.json';
 import { approvedMemberCollection, memberCollection } from '../src/firebase';
+import { fakeIdolMember } from './data/createData';
+import jaggerData from './data/jagger-profile.json';
+
+const mockUsers = {
+  mu1: fakeIdolMember(),
+  mu2: fakeIdolMember(),
+  mu3: fakeIdolMember()
+};
 
 /* Cleanup database after running MembersDao tests */
 afterAll(async () =>
@@ -26,8 +31,8 @@ test('Add new member', () => {
 });
 
 test('Get member from past semester', () =>
-  MembersDao.getCurrentOrPastMemberByEmail(jaggerData.email).then((pastMember) =>
-    expect(pastMember).toEqual(jaggerData)
+  MembersDao.getCurrentOrPastMemberByEmail(jaggerData.email).then(
+    (pastMember) => expect(pastMember.email).toEqual(jaggerData.email) // cannot deprecate jaggerData yet
   ));
 
 test('Approve member information changes', () => {
@@ -55,7 +60,13 @@ test('Revert member information changes', async () => {
 });
 
 test('Get teams', async () => {
-  const teamsList = teamsData.mockTeams;
+  // all subteams from m1,m2,m3
+  const teamsList = [
+    ...mockUsers.mu1.subteams,
+    ...mockUsers.mu2.subteams,
+    ...mockUsers.mu3.subteams
+  ];
+
   const teamsReceived = await MembersDao.getAllTeams().then((teams) => teams.map((t) => t.name));
   expect(teamsReceived.sort()).toEqual(expect.arrayContaining(teamsList.sort()));
 });
