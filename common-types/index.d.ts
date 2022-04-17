@@ -145,3 +145,30 @@ interface DevPortfolioSubmission {
   reviewedPRs: string[];
   status: 'valid' | 'invalid' | 'pending';
 }
+
+interface DBCandidateDeciderRating {
+  readonly reviewer: firestore.DocumentReference;
+  readonly rating: Rating;
+}
+
+interface DBCandidateDeciderComment {
+  readonly reviewer: firestore.DocumentReference;
+  readonly comment: string;
+}
+
+interface DBCandidateDeciderCandidate {
+  readonly responses: string[];
+  readonly id: number;
+  ratings: DBCandidateDeciderRating[];
+  comments: DBCandidateDeciderComment[];
+}
+
+interface DBCandidateDeciderInstance {
+  readonly name: string;
+  readonly headers: string[];
+  readonly candidates: DBCandidateDeciderCandidate[];
+  readonly uuid: string;
+  readonly authorizedMembers: firestore.DocumentReference[];
+  readonly authorizedRoles: Role[];
+  isOpen: boolean;
+}
