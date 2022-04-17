@@ -16,7 +16,7 @@ const CandidateDeciderBase: React.FC = () => {
   ) : (
     <Card.Group>
       {instances.map((instance) => (
-        <Card href={`/candidate-decider/${instance.uuid}`}>
+        <Card href={`/candidate-decider/${instance.uuid}`} key={instance.uuid}>
           <Card.Content>
             <Card.Header>{instance.name}</Card.Header>
           </Card.Content>

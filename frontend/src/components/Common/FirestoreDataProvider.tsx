@@ -82,7 +82,6 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
   const [adminEmails, setAdminEmails] = useState<readonly string[] | undefined>();
   const [members, setMembers] = useState<readonly IdolMember[] | undefined>();
   const [approvedMembers, setApprovedMembers] = useState<readonly IdolMember[] | undefined>();
-  useState<CandidateDeciderInstance | null>();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {

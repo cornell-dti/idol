@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app';
 import { Auth, getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { Firestore, getFirestore, collection, doc } from 'firebase/firestore';
+import { Firestore, getFirestore, collection } from 'firebase/firestore';
 import { useProdDb } from './environment';
 
 const firebaseConfig = useProdDb
@@ -29,7 +29,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth: Auth = getAuth(app);
 export const provider: GoogleAuthProvider = new GoogleAuthProvider();
 
-const firestore: Firestore = getFirestore(app);
+export const firestore: Firestore = getFirestore(app);
 export const adminsCollection = collection(firestore, 'admins');
 export const membersCollection = collection(firestore, 'members').withConverter({
   fromFirestore(snapshot): IdolMember {
@@ -47,13 +47,3 @@ export const approvedMembersCollection = collection(firestore, 'approved-members
     return teamEventData;
   }
 });
-
-export const getCandidateDeciderDocumentReference = (document: string) =>
-  doc(firestore, document).withConverter({
-    fromFirestore(snapshot): CandidateDeciderInstance {
-      return snapshot.data() as CandidateDeciderInstance;
-    },
-    toFirestore(instance) {
-      throw new Error();
-    }
-  });
