@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { candidateDeciderCollection, memberCollection } from '../firebase';
 import { DBCandidateDeciderInstance } from '../DataTypes';
+import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class CandidateDeciderDao {
   static async getAllInstances(): Promise<CandidateDeciderInfo[]> {
@@ -21,9 +22,7 @@ export default class CandidateDeciderDao {
     return {
       ...dbInstance,
       authorizedMembers: await Promise.all(
-        dbInstance.authorizedMembers.map(
-          async (member) => (await member.get()).data() as IdolMember
-        )
+        dbInstance.authorizedMembers.map(async (member) => getMemberFromDocumentReference(member))
       ),
       candidates: await Promise.all(
         dbInstance.candidates.map(async (candidate) => ({
@@ -31,13 +30,13 @@ export default class CandidateDeciderDao {
           ratings: await Promise.all(
             candidate.ratings.map(async (rating) => ({
               ...rating,
-              reviewer: (await rating.reviewer.get()).data() as IdolMember
+              reviewer: await getMemberFromDocumentReference(rating.reviewer)
             }))
           ),
           comments: await Promise.all(
             candidate.comments.map(async (comment) => ({
               ...comment,
-              reviewer: (await comment.reviewer.get()).data() as IdolMember
+              reviewer: await getMemberFromDocumentReference(comment.reviewer)
             }))
           )
         }))

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { TeamEvent, DBTeamEvent } from '../DataTypes';
 import { memberCollection, teamEventsCollection } from '../firebase';
 import { NotFoundError } from '../utils/errors';
+import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class TeamEventsDao {
   static async getAllTeamEvents(): Promise<TeamEvent[]> {
@@ -17,13 +18,13 @@ export default class TeamEventsDao {
           requests: (await Promise.all(
             requests.map(async (ref) => ({
               ...ref,
-              member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
+              member: await getMemberFromDocumentReference(ref.member)
             }))
           )) as TeamEventAttendance[],
           attendees: (await Promise.all(
             attendees.map(async (ref) => ({
               ...ref,
-              member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
+              member: await getMemberFromDocumentReference(ref.member)
             }))
           )) as TeamEventAttendance[],
           uuid
@@ -44,13 +45,13 @@ export default class TeamEventsDao {
       requests: (await Promise.all(
         eventForm.requests.map(async (ref) => ({
           ...ref,
-          member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
+          member: await getMemberFromDocumentReference(ref.member)
         }))
       )) as TeamEventAttendance[],
       attendees: (await Promise.all(
         eventForm.attendees.map(async (ref) => ({
           ...ref,
-          member: (await ref.member.get().then((doc) => doc.data())) as IdolMember
+          member: await getMemberFromDocumentReference(ref.member)
         }))
       )) as TeamEventAttendance[]
     };
