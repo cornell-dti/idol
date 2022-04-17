@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import computeDTI48UpgradeChain from './dti48-upgrade-chain';
-import { useUserEmail } from '../../Common/UserProvider';
+import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import DTI48GameCard from './DTI48GameCard';
 import styles from './DTI48MainGame.module.css';
 
