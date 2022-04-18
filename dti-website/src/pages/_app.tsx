@@ -81,7 +81,7 @@ const App = (props: AppProps): ReactElement => {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '[Tracking ID]', { page_path: window.location.pathname });
+              gtag('config', 'G-JMY9HNQ6WK', { page_path: window.location.pathname });
             `
           }}
         />
