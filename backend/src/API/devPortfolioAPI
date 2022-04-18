@@ -1,0 +1,24 @@
+import DevPortfolioDao from '../dao/DevPortfolioDao';
+
+export const getAllDevPortfolios = async (): Promise<DevPortfolio[]> => DevPortfolioDao.getAllInstances();
+
+
+export const createNewDevPortfolio = async (
+  instance: DevPortfolio
+): Promise<void> => {
+  await DevPortfolioDao.createNewInstance(instance);
+};
+
+export const deleteDevPortfolio = async (
+  uuid: string
+): Promise<void> => {
+  await DevPortfolioDao.deleteInstance(uuid);
+};
+
+
+export const makeDevPortfolioSubmission = async (
+  uuid: string,
+  submission: DevPortfolioSubmission
+): Promise<void> => {
+  return DevPortfolioDao.makeDevPortfolioSubmission(uuid, submission);
+};

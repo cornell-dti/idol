@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { devPortfolioCollection, memberCollection } from '../firebase';
-import { DBDevPortfolio, DBDevPortfolioSubmission } from '../DataTypes';
+import { devPortfolioCollection } from '../firebase';
+import { DBDevPortfolio } from '../DataTypes';
 
 export default class DevPortfolioDao {
 

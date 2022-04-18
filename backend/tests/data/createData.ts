@@ -85,3 +85,21 @@ export const fakeTeamEvent = (): TeamEvent => {
   };
   return TE;
 };
+
+/** Create a fake Dev Portfolio */
+export const fakeDevPortfolio = (): DevPortfolio => {
+  const member = {
+    netid: 'test123', // to easily be able to find fake members if needed
+    email: faker.internet.email(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    pronouns: faker.hacker.noun(),
+    graduation: fakeYear(),
+    major: faker.lorem.word(),
+    hometown: faker.address.city(),
+    about: faker.lorem.paragraph(),
+    subteams: fakeSubteams(),
+    ...fakeRoleObject()
+  };
+  return member;
+};
