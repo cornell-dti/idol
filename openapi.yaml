@@ -1,0 +1,167 @@
+openapi: '3.0.2'
+info:
+  title: IDOL API
+  description: Internal DTI Organization Logic
+  version: '1.0'
+paths:
+  /allMembers:
+    get:
+      tags: 
+      - 'Members'
+      summary: "Returns all members"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /setMember:
+    post:
+      tags:
+      - 'Members'
+      description: 'Add new member to the member collection'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member: 
+                    $ref: "#/components/schemas/IdolMember"
+  /updateMember:
+    post:
+      tags:
+      - 'Members'
+      description: 'Update existing member information'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member: 
+                    $ref: "#/components/schemas/IdolMember"
+  /deleteMember:
+    delete:
+      tags:
+      - 'Members'
+      description: 'Delete an existing member'
+      parameters:
+      - in: path
+        name: email
+        schema:
+          type: string
+        required: true
+        description: "Email of the member to delete"
+      responses:
+        '200':
+          description: OK
+  /reviewMemberDiffs:
+    get:
+      tags:
+      - 'Members'
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /allApprovedMembers:
+    get:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /membersFromAllSemesters:
+    get:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /memberDiffs:
+    get:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  
+components:
+  schemas:
+    IdolMember:
+      type: object
+      properties:
+        netid:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        pronouns:
+          type: string
+        graduation:
+          type: string
+        major:
+          type: string
+        doubleMajor:
+          type: string
+          nullable: true
+        minor:
+          type: string
+          nullable: true
+        website:
+          type: string
+          nullable: true
+        linkedin:
+          type: string
+          nullable: true
+        github:
+          type: string
+          nullable: true
+        hometown:
+          type: string
+        about:
+          type: string
+        subteams:
+          type: array
+          items:
+            type: string
+        formerSubteams:
+          type: array
+          items:
+            type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        roleDescription:
+          $ref: '#/components/schemas/RoleDescription'
+    Role:
+      type: string
+      enum: [lead, tpm, pm, developer, designer, business]
+    RoleDescription:
+      type: string
+      enum: [Lead, Technical PM, Product Manager, Developer, Designer, Business Analyst]
+
