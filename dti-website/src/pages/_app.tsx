@@ -1,7 +1,8 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import '../scss/index.scss';
 import '../components/CircleProgressIndicator.scss';
@@ -30,8 +31,28 @@ import './projects.scss';
 import './sponsor.scss';
 import './team.scss';
 
+declare global {
+  interface Window {
+    gtag: any;
+  }
+}
+
 const App = (props: AppProps): ReactElement => {
   const { Component, pageProps } = props;
+  const router = useRouter();
+
+  const handleRouteChange = (url: string) => {
+    window.gtag('config', 'G-B49CN5ZE3H', {
+      page_path: url
+    });
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>
@@ -52,6 +73,18 @@ const App = (props: AppProps): ReactElement => {
         <meta name="application-name" content="Cornell DTI" />
         <meta name="msapplication-TileColor" content="#b91d47" />
         <meta name="theme-color" content="#ffffff" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B49CN5ZE3H" />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '[Tracking ID]', { page_path: window.location.pathname });
+            `
+          }}
+        />
       </Head>
       <Component {...pageProps} />
     </>
