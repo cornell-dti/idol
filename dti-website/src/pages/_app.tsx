@@ -42,7 +42,7 @@ const App = (props: AppProps): ReactElement => {
   const router = useRouter();
 
   const handleRouteChange = (url: string) => {
-    window.gtag('config', 'G-B49CN5ZE3H', {
+    window.gtag('config', 'G-JMY9HNQ6WK', {
       page_path: url
     });
   };
@@ -73,7 +73,7 @@ const App = (props: AppProps): ReactElement => {
         <meta name="application-name" content="Cornell DTI" />
         <meta name="msapplication-TileColor" content="#b91d47" />
         <meta name="theme-color" content="#ffffff" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B49CN5ZE3H" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JMY9HNQ6WK" />
 
         <script
           dangerouslySetInnerHTML={{
