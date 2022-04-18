@@ -115,4 +115,3 @@ export type DBDevPortfolioSubmission = {
   reviewedPRs: string[];
   status: 'valid' | 'invalid' | 'pending';
 };
-

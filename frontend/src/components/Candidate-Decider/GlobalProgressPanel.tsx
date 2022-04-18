@@ -33,7 +33,11 @@ const GlobalProgressPanel: React.FC<Props> = ({ showOtherVotes, candidates }) =>
         <>
           <h3>Per-person Ratings</h3>
           {candidates.map((candidate) => (
-            <RatingsDisplay ratings={candidate.ratings} header={`Candidate ${candidate.id}`} />
+            <RatingsDisplay
+              ratings={candidate.ratings}
+              header={`Candidate ${candidate.id}`}
+              key={candidate.id}
+            />
           ))}
         </>
       ) : (

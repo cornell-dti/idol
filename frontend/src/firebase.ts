@@ -29,9 +29,9 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth: Auth = getAuth(app);
 export const provider: GoogleAuthProvider = new GoogleAuthProvider();
 
-const firestore: Firestore = getFirestore(app);
-export const adminsCollection = collection(firestore, 'admins');
-export const membersCollection = collection(firestore, 'members').withConverter({
+export const db: Firestore = getFirestore(app);
+export const adminsCollection = collection(db, 'admins');
+export const membersCollection = collection(db, 'members').withConverter({
   fromFirestore(snapshot): IdolMember {
     return snapshot.data() as IdolMember;
   },
@@ -39,7 +39,7 @@ export const membersCollection = collection(firestore, 'members').withConverter(
     return teamEventData;
   }
 });
-export const approvedMembersCollection = collection(firestore, 'approved-members').withConverter({
+export const approvedMembersCollection = collection(db, 'approved-members').withConverter({
   fromFirestore(snapshot): IdolMember {
     return snapshot.data() as IdolMember;
   },
