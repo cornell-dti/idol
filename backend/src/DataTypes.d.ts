@@ -100,3 +100,19 @@ export type DBCandidateDeciderInstance = {
   readonly authorizedRoles: Role[];
   isOpen: boolean;
 };
+
+export type DBDevPortfolio = {
+  name: string;
+  deadline: number;
+  earliestValidDate: number;
+  submissions: DBDevPortfolioSubmission[];
+  uuid: string;
+};
+
+export type DBDevPortfolioSubmission = {
+  member: firestore.DocumentReference;
+  openedPRs: string[];
+  reviewedPRs: string[];
+  status: 'valid' | 'invalid' | 'pending';
+};
+

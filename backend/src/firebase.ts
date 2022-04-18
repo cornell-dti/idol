@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { DBShoutout, DBSignInForm, DBTeamEvent, DBCandidateDeciderInstance } from './DataTypes';
+import { DBShoutout, DBSignInForm, DBTeamEvent, DBCandidateDeciderInstance, DBDevPortfolio } from './DataTypes';
 
 require('dotenv').config();
 
@@ -101,4 +101,15 @@ export const candidateDeciderCollection: admin.firestore.CollectionReference<DBC
     }
   });
 
+export const devPortfolioCollection: admin.firestore.CollectionReference<DBDevPortfolio> =
+  db.collection('dev-portfolio').withConverter({
+    fromFirestore(snapshot): DBDevPortfolio {
+      return snapshot.data() as DBDevPortfolio;
+    },
+    toFirestore(devPortfolioData: DBDevPortfolio) {
+      return devPortfolioData;
+    }
+  });
+
 export const adminCollection: admin.firestore.CollectionReference = db.collection('admins');
+
