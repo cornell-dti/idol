@@ -73,7 +73,7 @@ const App = (props: AppProps): ReactElement => {
         <meta name="application-name" content="Cornell DTI" />
         <meta name="msapplication-TileColor" content="#b91d47" />
         <meta name="theme-color" content="#ffffff" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JMY9HNQ6WK" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B49CN5ZE3H" />
 
         <script
           dangerouslySetInnerHTML={{
@@ -81,7 +81,7 @@ const App = (props: AppProps): ReactElement => {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-JMY9HNQ6WK', { page_path: window.location.pathname });
+              gtag('config', 'G-B49CN5ZE3H', { page_path: window.location.pathname });
             `
           }}
         />
