@@ -8,7 +8,7 @@ import {
   getIDOLChangesPR,
   rejectIDOLChanges,
   requestIDOLPullDispatch
-} from './siteIntegration';
+} from './API/siteIntegrationAPI';
 import PermissionsManager from './utils/permissionsManager';
 import { HandlerError } from './utils/errors';
 import MembersDao from './dao/MembersDao';
