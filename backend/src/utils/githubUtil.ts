@@ -24,7 +24,6 @@ type OpenedPR = {
   url: string;
   createdBy: string;
   createdAt: number;
-  diffSize: number;
 };
 
 // useful to see reason why if not valid
@@ -184,28 +183,11 @@ const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
 const getOpenedPR = async (pull: PullRequest): Promise<OpenedPR> => {
   const octokit = new Octokit();
 
-  return Promise.all([octokit.rest.pulls.get(pull), getNonReviewComments(pull)]).then(
-    ([pr, comments]) => {
-      // get any comments by dti bot
-      const botComments = filterComments(comments, 'dti-github-bot', 0, Number.MAX_SAFE_INTEGER);
-
-      let diffSize = 0;
-      botComments.forEach((comment) => {
-        const match = comment.content.match(/.*\[diff-counting\] Significant lines: ([0-9]+).*/);
-        if (match == null) {
-          throw new Error(`No significant line count by dti-github-bot for PR ${pr.data.url}.`);
-        }
-        diffSize = parseInt(match[1], 10);
-      });
-
-      return {
-        url: pr.data.html_url,
-        createdBy: pr.data.user?.login || '',
-        createdAt: Date.parse(pr.data.created_at),
-        diffSize
-      };
-    }
-  );
+  return octokit.rest.pulls.get(pull).then((pr) => ({
+    url: pr.data.html_url,
+    createdBy: pr.data.user?.login || '',
+    createdAt: Date.parse(pr.data.created_at)
+  }));
 };
 
 /** Creates 'valid' result if no errors are raised, 'invalid' result otherwise.  */
@@ -246,15 +228,21 @@ const validateReview = async (
     // comments made by user within the date range
     const eligibleComments = filterComments(review.comments, username, start, end);
 
-    // placeholder logic: valid if at least 10 words total
-    const totalWordCount = eligibleComments.reduce(
-      (count, comment) => count + comment.content.split(' ').length,
-      0
-    );
-    if (totalWordCount < 10) {
+    if (reviewIsTrivial(eligibleComments)) {
       throw new Error('Trivial review.');
     }
   });
+
+/** ="this collection of comments constitutes a trivial review" */
+const reviewIsTrivial = (comments: Comment[]): boolean => {
+  const totalWordCount = comments.reduce((count, comment) => {
+    // get alphanumeric words
+    const words = comment.content.split(' ').filter((s) => s.replace(/[\W_-]/g, ''));
+    return count + words.length;
+  }, 0);
+
+  return totalWordCount < 10;
+};
 
 /** Determines whether an open PR is valid. */
 const validateOpen = async (
@@ -273,15 +261,10 @@ const validateOpen = async (
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
     }
 
-    if (start >= open.createdAt && open.createdAt >= end) {
+    if (open.createdAt < start || open.createdAt > end) {
       const startDate = new Date(start).toDateString();
       const endDate = new Date(end).toDateString();
       throw new Error(`Pull request ${open.url} was not made between ${startDate} and ${endDate}.`);
-    }
-
-    // placeholder logic: valid if at least 10 changes total
-    if (open.diffSize < 10) {
-      throw new Error('Trivial PR.');
     }
   });
 
