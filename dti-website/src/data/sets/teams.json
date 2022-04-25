@@ -9,8 +9,8 @@
       "id": "carriage"
     },
     {
-      "name": "ClubHub",
-      "id": "clubhub"
+      "name": "ClubView",
+      "id": "clubview"
     },
     {
       "name": "CoursePlan",
@@ -62,7 +62,11 @@
     },
     {
       "name": "Website",
-      "id": "nova"
+      "id": "novas"
+    },
+    {
+      "name": "CornellGo",
+      "id": "cornellgo"
     }
   ]
 }

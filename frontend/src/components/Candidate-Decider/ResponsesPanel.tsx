@@ -5,7 +5,7 @@ import styles from './ResponsesPanel.module.css';
 type Props = {
   headers: string[];
   responses: string[];
-  rating: number;
+  rating: Rating;
   handleRatingChange: (id: number, rating: Rating) => void;
   comment: string;
   handleCommentChange: (id: number, comment: string) => void;
