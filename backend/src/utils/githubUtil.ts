@@ -233,9 +233,19 @@ const validateReview = async (
     }
   });
 
+/** Returns `comments` with duplicate content from quote replies removed. */
+const removeQuoted = (comments: Comment[]): Comment[] => {
+  // quote replies are of the form "> (original comment)\r\n(new comment)"
+  const quotePattern = />(.*?)\r\n/gs;
+  return comments.map((comment) => ({
+    ...comment,
+    content: comment.content.replace(quotePattern, '').trim()
+  }));
+};
+
 /** ="this collection of comments constitutes a trivial review" */
 const reviewIsTrivial = (comments: Comment[]): boolean => {
-  const totalWordCount = comments.reduce((count, comment) => {
+  const totalWordCount = removeQuoted(comments).reduce((count, comment) => {
     // get alphanumeric words
     const words = comment.content.split(' ').filter((s) => s.replace(/[\W_-]/g, ''));
     return count + words.length;
