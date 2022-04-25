@@ -137,6 +137,7 @@ interface DevPortfolio {
   deadline: number;
   earliestValidDate: number;
   submissions: DevPortfolioSubmission[];
+  readonly uuid: string;
 }
 
 interface DevPortfolioSubmission {

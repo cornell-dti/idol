@@ -3,14 +3,12 @@ import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
-// import { DevPortfolio, DevPortfolioSubmission } from '../../../../../common-types/index';
 import styles from './DevPortfolioForm.module.css';
 
 const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-  console.log(userInfo);
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
@@ -26,14 +24,31 @@ const DevPortfolioForm: React.FC = () => {
     devPortfolio: DevPortfolio
   ) => {
     devPortfolio?.submissions.push(devPortfolioRequest);
-    DevPortfolioAPI.requestDevPortfolio(devPortfolio);
+    DevPortfolioAPI.requestDevPortfolio(devPortfolio).then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't submit dev assignment!",
+          contentMsg: val.error
+        });
+      } else {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Dev Portfolio Assignment submitted!',
+          contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
+        });
+      }
+    });
   };
 
   const submitDevPortfolio = () => {
     if (!devPortfolio) {
       Emitters.generalError.emit({
-        headerMsg: 'No Dev Portfolio Selected',
+        headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
+      });
+    } else if (!openPR || !reviewedPR) {
+      Emitters.generalError.emit({
+        headerMsg: 'No opened or reviewed PR url submitted',
+        contentMsg: 'Please paste a link to a opened or reviewed PR!'
       });
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
@@ -43,10 +58,9 @@ const DevPortfolioForm: React.FC = () => {
         status: 'pending'
       };
       requestDevPortfolio(newDevPortfolioSubmission, devPortfolio);
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Dev Portfolio Assignment submitted!',
-        contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
-      });
+      setDevPortfolio(undefined);
+      setOpenPR('');
+      setReviewedPR('');
     }
   };
 
@@ -67,13 +81,15 @@ const DevPortfolioForm: React.FC = () => {
                 search
                 selection
                 options={devPortfolios.map((assignment) => ({
-                  key: assignment.name,
-                  text: assignment.deadline,
-                  value: assignment.name
+                  key: assignment.uuid,
+                  text: assignment.name,
+                  value: assignment.uuid
                 }))}
-                onChange={(_, data) =>
-                  setDevPortfolio(devPortfolios.find((assignment) => assignment.name === data.key))
-                }
+                onChange={(_, data) => {
+                  setDevPortfolio(
+                    devPortfolios.find((assignment) => assignment.uuid === data.value)
+                  );
+                }}
               />
             ) : undefined}
 
