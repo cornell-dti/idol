@@ -11,6 +11,9 @@ export default class DevPortfolioDao {
     let subs = data.submissions
     subs.push(submission)
     await devPortfolioCollection.doc(uuid).update({ submissions: subs});
+    
+    // do some verification stuff
+
     return submission
   }
 

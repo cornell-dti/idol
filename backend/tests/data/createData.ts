@@ -86,20 +86,25 @@ export const fakeTeamEvent = (): TeamEvent => {
   return TE;
 };
 
+/** Create a fake Dev Submission */
+export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
+  const DPSub = {
+    member: fakeIdolMember(),
+    openedPRs: ["pr1", "pr2", "pr3"],
+    reviewedPRs: ["pr4", "pr5", "pr6"],
+    status: 'pending'
+  };
+  return DPSub;
+};
+
 /** Create a fake Dev Portfolio */
 export const fakeDevPortfolio = (): DevPortfolio => {
-  const member = {
-    netid: 'test123', // to easily be able to find fake members if needed
-    email: faker.internet.email(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    pronouns: faker.hacker.noun(),
-    graduation: fakeYear(),
-    major: faker.lorem.word(),
-    hometown: faker.address.city(),
-    about: faker.lorem.paragraph(),
-    subteams: fakeSubteams(),
-    ...fakeRoleObject()
+  const DP = {
+    name: "testdevportfolio",
+    deadline: "9/9/9999",
+    earliestValidDate: "9/9/9999",
+    submissions: [],
+    uuid: faker.datatype.uuid(),
   };
-  return member;
+  return DP;
 };
