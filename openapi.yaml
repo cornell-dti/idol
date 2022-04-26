@@ -232,7 +232,46 @@ paths:
           description: "BadRequestError: Couldn't delete team with undefined uuid."
         '403':
           description: "PermissionError: User does not have the permission to delete team."
-
+  /getMemberImage:
+    get:
+      tags:
+      - "Images"
+      summary: 'Returns the signed url for existing profile image for a member'
+      responses:
+        '200':
+          description: "Successfully returns the signed ulr for the member's profile image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        '404':
+          description: "NotFoundError: The requested image does not exist."
+  /getImageSignedURL:
+    get:
+      tags:
+        - "Images"
+      summary: 'Returns a signed url for new image'
+      responses:
+        '200':
+          description: "Successfully returns a signed url"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /allMemberImages:
+    get:
+      tags:
+      - "Images"
+      summary: 'Returns all profile images'
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     IdolMember:
@@ -332,7 +371,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IdolMember'
-        
+    ProfileImage:
+      type: object
+      properties:
+        url:
+          type: string
+        fileName:
+          type: string
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
