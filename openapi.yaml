@@ -18,6 +18,35 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/IdolMember"
+  /allApprovedMembers:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns all approved members'
+      responses:
+        '200':
+          description: "Successfully returns all approved members"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /membersFromAllSemesters:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns members from all semesters'
+      parameters: []
+      responses:
+        '200':
+          description: "Successfully returns members from all semesters"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
   /setMember:
     post:
       tags:
@@ -107,21 +136,16 @@ paths:
                     type: 'array'
                     items:
                       $ref: "#/components/schemas/IdolMemberDiff"
-      
-  /allApprovedMembers:
-    get:
-      description: ''
+  /reviewMemberDiffs:
+    post:
+      summary: 'Approves or rejects member information changes'
       parameters: []
       responses:
         '200':
-          description: OK
-  /membersFromAllSemesters:
-    get:
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: OK
+          description: "Successful approves or reverts member information changes."
+        '403':
+          description: "PermissionError: User does not have the permission to review members information diff."
+
 components:
   schemas:
     IdolMember:
@@ -172,6 +196,23 @@ components:
           $ref: '#/components/schemas/Role'
         roleDescription:
           $ref: '#/components/schemas/RoleDescription'
+      example:
+      - netid: "jb2375"
+        email: "jb2375@cornell.edu"
+        firstName: "Jagger"
+        lastName: "Brulato"
+        pronouns: ""
+        graduation: "May 2021"
+        major: "Computer Science"
+        website: "https://jagger.netlify.app/"
+        linkedin: "https://www.linkedin.com/in/jagger-brulato-896968149/"
+        github: "https://github.com/JBoss925/"
+        hometown: "Mooresville, NC"
+        about: "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris."
+        subteams: ["dev-leads"]
+        formerSubteams: []
+        role: "lead"
+        roleDescription: "Lead"
     Role:
       type: string
       enum: [lead, tpm, pm, developer, designer, business]
@@ -188,5 +229,6 @@ components:
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
+
   
 
