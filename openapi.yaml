@@ -138,13 +138,100 @@ paths:
                       $ref: "#/components/schemas/IdolMemberDiff"
   /reviewMemberDiffs:
     post:
+      tags:
+      - "Members"
       summary: 'Approves or rejects member information changes'
-      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: string
+                rejected:
+                  type: string
+                user:
+                  type: object
+                  $ref: '#/components/schemas/IdolMember'
+                  
       responses:
         '200':
           description: "Successful approves or reverts member information changes."
         '403':
           description: "PermissionError: User does not have the permission to review members information diff."
+  /allTeams:
+    get:
+      tags:
+      - "Teams"
+      summary: 'Returns all teams'
+      responses:
+        '200':
+          description: 'Successully returns all teams'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teams:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+  /setTeam:
+    post:
+      tags:
+      - "Teams"
+      summary: 'Adds/updates a team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Team"
+      responses:
+        '200':
+          description: 'Successully add/updates the team'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+        '403':
+          description: "PermissionError: User does not have the permission to edit teams."
+  /deleteTeam:
+    post:
+      tags:
+      - "Teams"
+      summary: 'Deletes the team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Team"
+      responses:
+        '200':
+          description: "Successfuly deletes the team"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+        '400':
+          description: "BadRequestError: Couldn't delete team with undefined uuid."
+        '403':
+          description: "PermissionError: User does not have the permission to delete team."
 
 components:
   schemas:
@@ -226,6 +313,26 @@ components:
           type: string
         diffString:
           type: string
+    Team:
+      type: object
+      properties:
+        uuid:
+          type: string
+        name:
+          type: string
+        leaders:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        formerMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
