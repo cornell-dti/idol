@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsManager from '../utils/permissionsManager';
-import { Team } from '../types/DataTypes';
+import { Team } from '../types/DataTypes.d';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import MembersDao from '../dao/MembersDao';
 
