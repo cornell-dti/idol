@@ -11,7 +11,7 @@ paths:
       summary: "Returns all members"
       responses:
         '200':
-          description: OK
+          description: "Successfully returns all members"
           content:
             application/json:
               schema:
@@ -22,7 +22,7 @@ paths:
     post:
       tags:
       - 'Members'
-      description: 'Add new member to the member collection'
+      summary: 'Add new member to the member collection'
       requestBody:
         required: true
         content:
@@ -32,7 +32,7 @@ paths:
               $ref: "#/components/schemas/IdolMember"
       responses:
         '200':
-          description: OK
+          description: "Successfully adds the new member"
           content:
             application/json:
               schema:
@@ -40,11 +40,16 @@ paths:
                 properties:
                   member: 
                     $ref: "#/components/schemas/IdolMember"
+        '403':
+          description: "PermissionError: User does not have the permission to add new members."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+
   /updateMember:
     post:
       tags:
       - 'Members'
-      description: 'Update existing member information'
+      summary: 'Update existing member information'
       requestBody:
         required: true
         content:
@@ -54,7 +59,7 @@ paths:
               $ref: "#/components/schemas/IdolMember"
       responses:
         '200':
-          description: OK
+          description: "Successfully updates the member's information"
           content:
             application/json:
               schema:
@@ -62,11 +67,15 @@ paths:
                 properties:
                   member: 
                     $ref: "#/components/schemas/IdolMember"
+        '403':
+          description: "PermissionError: User does not have the permission to add update this member or the user does not have the permssion to update name/roles."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
   /deleteMember:
     delete:
       tags:
       - 'Members'
-      description: 'Delete an existing member'
+      summary: 'Delete an existing member'
       parameters:
       - in: path
         name: email
@@ -76,16 +85,29 @@ paths:
         description: "Email of the member to delete"
       responses:
         '200':
-          description: OK
-  /reviewMemberDiffs:
+          description: 'Successfully deletes the member.'
+        '403':
+          description: "PermissionError: User does not have the permission to delete update this member."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+  /memberDiffs:
     get:
       tags:
       - 'Members'
-      description: ''
-      parameters: []
+      summary: 'Returns the users information difference'
       responses:
         '200':
-          description: OK
+          description: "Successfully returns the users information difference."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  diffs:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/IdolMemberDiff"
+      
   /allApprovedMembers:
     get:
       description: ''
@@ -100,14 +122,6 @@ paths:
       responses:
         '200':
           description: OK
-  /memberDiffs:
-    get:
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: OK
-  
 components:
   schemas:
     IdolMember:
@@ -164,4 +178,15 @@ components:
     RoleDescription:
       type: string
       enum: [Lead, Technical PM, Product Manager, Developer, Designer, Business Analyst]
+    IdolMemberDiff:
+      type: object
+      properties:
+        email: 
+          type: string
+        diffString:
+          type: string
+  responses:
+    undefinedEmail:
+      description: "BadRequestError: user with undefined email."
+  
 
