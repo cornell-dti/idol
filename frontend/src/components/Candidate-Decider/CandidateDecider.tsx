@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Button, Checkbox, Dropdown } from 'semantic-ui-react';
+import { useState } from 'react';
+import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -7,28 +7,18 @@ import GlobalProgressPanel from './GlobalProgressPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
+import useCandidateDeciderInstance from './useCandidateDeciderInstance';
 
 type CandidateDeciderProps = {
   uuid: string;
 };
 
-const blankInstance: CandidateDeciderInstance = {
-  name: '',
-  headers: [],
-  candidates: [],
-  uuid: '',
-  authorizedMembers: [],
-  authorizedRoles: [],
-  isOpen: true
-};
-
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
-  const [instance, setInstance] = useState<CandidateDeciderInstance>(blankInstance);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
+  const instance = useCandidateDeciderInstance(uuid);
 
   const getRating = () => {
     const rating = instance.candidates[currentCandidate].ratings.find(
@@ -57,55 +47,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   };
 
   const handleRatingChange = (id: number, rating: Rating) => {
-    CandidateDeciderAPI.updateRating(instance.uuid, id, rating).then(() => {
-      const updatedInstance: CandidateDeciderInstance = {
-        ...instance,
-        candidates: instance.candidates.map((cd) =>
-          cd.id !== id
-            ? cd
-            : {
-                ...cd,
-                ratings: [
-                  ...cd.ratings.filter((rt) => rt.reviewer.email !== userInfo?.email),
-                  { reviewer: userInfo as IdolMember, rating }
-                ]
-              }
-        )
-      };
-      setInstance(updatedInstance);
-    });
+    CandidateDeciderAPI.updateRating(instance.uuid, id, rating);
   };
 
   const handleCommentChange = (id: number, comment: string) => {
-    CandidateDeciderAPI.updateComment(instance.uuid, id, comment).then(() => {
-      const updatedInstance: CandidateDeciderInstance = {
-        ...instance,
-        candidates: instance.candidates.map((cd) =>
-          cd.id !== id
-            ? cd
-            : {
-                ...cd,
-                comments: [
-                  ...cd.comments.filter((cmt) => cmt.reviewer.email !== userInfo?.email),
-                  { reviewer: userInfo as IdolMember, comment }
-                ]
-              }
-        )
-      };
-      setInstance(updatedInstance);
-    });
+    CandidateDeciderAPI.updateComment(instance.uuid, id, comment);
   };
 
-  useEffect(() => {
-    CandidateDeciderAPI.getInstance(uuid)
-      .then((instance) => {
-        setInstance(instance);
-      })
-      .then(() => setIsLoading(false));
-  }, [uuid]);
-
-  return isLoading ? (
-    <div>Loading...</div>
+  return instance.candidates.length === 0 ? (
+    <div></div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>

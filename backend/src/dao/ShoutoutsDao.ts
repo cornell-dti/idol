@@ -1,5 +1,5 @@
 import { memberCollection, shoutoutCollection } from '../firebase';
-import { Shoutout, DBShoutout } from '../DataTypes';
+import { Shoutout, DBShoutout } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class ShoutoutsDao {

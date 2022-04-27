@@ -5,7 +5,6 @@ import styles from './AdminShoutouts.module.css';
 
 const AdminShoutouts: React.FC = () => {
   const [shoutouts, setShoutouts] = useState<Shoutout[]>([]);
-
   useEffect(() => {
     ShoutoutsAPI.getAllShoutouts().then((shoutouts) => setShoutouts(shoutouts));
   }, []);
@@ -22,9 +21,16 @@ const AdminShoutouts: React.FC = () => {
             <Item key={i}>
               <Item.Content>
                 <Item.Header>
-                  {`${shoutout.receiver.firstName} ${shoutout.receiver.lastName}`}
+                  {shoutout.receiver
+                    ? `${shoutout.receiver.firstName} ${shoutout.receiver.lastName}`
+                    : '(Former member)'}
                 </Item.Header>
-                <Item.Meta>{`From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`}</Item.Meta>
+                <Item.Meta>
+                  From:{' '}
+                  {shoutout.giver
+                    ? `${shoutout.giver.firstName} ${shoutout.giver.lastName}`
+                    : '(Former member)'}
+                </Item.Meta>
                 <Item.Description>{shoutout.message}</Item.Description>
               </Item.Content>
             </Item>

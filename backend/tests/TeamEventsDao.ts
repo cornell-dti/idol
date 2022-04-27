@@ -1,6 +1,6 @@
 import TeamEventsDao from '../src/dao/TeamEventsDao';
 import { teamEventsCollection } from '../src/firebase';
-import { TeamEvent } from '../src/DataTypes';
+import { TeamEvent } from '../src/types/DataTypes';
 import { fakeTeamEventAttendance, fakeTeamEvent } from './data/createData';
 
 const testTeamEventAttendence = fakeTeamEventAttendance();
