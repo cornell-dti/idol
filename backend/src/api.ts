@@ -3,14 +3,15 @@ import serverless from 'serverless-http';
 import cors from 'cors';
 import admin from 'firebase-admin';
 import { app as adminApp } from './firebase';
+import PermissionsManager from './utils/permissionsManager';
+import { HandlerError } from './utils/errors';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './API/siteIntegrationAPI';
-import PermissionsManager from './utils/permissionsManager';
-import { HandlerError } from './utils/errors';
+import sendMail from './API/mailAPI';
 import MembersDao from './dao/MembersDao';
 import {
   allMembers,
@@ -123,6 +124,12 @@ const loginCheckedDelete = (
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
 
+// Email notifs
+router.post('/sendMail', async (req, res) => {
+  sendMail(req.body.to, req.body.subject, req.body.text);
+  res.status(200);
+});
+
 // Members
 router.get('/allMembers', async (_, res) => {
   const members = await allMembers();
@@ -173,6 +180,7 @@ router.get('/allMemberImages', async (_, res) => {
   res.status(200).json({ images });
 });
 
+// Shoutouts
 loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
   shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
 }));
