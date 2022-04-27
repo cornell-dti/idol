@@ -3,7 +3,6 @@ import { candidateDeciderCollection, memberCollection } from '../firebase';
 import { DBCandidateDeciderInstance } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
-
 export default class CandidateDeciderDao {
   static async getAllInstances(): Promise<CandidateDeciderInfo[]> {
     const instanceRefs = await candidateDeciderCollection.get();
