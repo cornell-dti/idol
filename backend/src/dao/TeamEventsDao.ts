@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { TeamEvent, DBTeamEvent } from '../DataTypes';
+import { TeamEvent, DBTeamEvent } from '../types/DataTypes';
 import { memberCollection, teamEventsCollection } from '../firebase';
 import { NotFoundError } from '../utils/errors';
 
