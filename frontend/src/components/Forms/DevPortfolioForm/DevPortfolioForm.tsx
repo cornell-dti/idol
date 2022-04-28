@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
+import { Form, Dropdown } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
@@ -13,22 +13,22 @@ const DevPortfolioForm: React.FC = () => {
   const devPortfolios: DevPortfolio[] = [
     {
       name: 'test 1',
-      deadline: 222,
-      earliestValidDate: 111,
+      deadline: '2022-05-06',
+      earliestValidDate: '2022-05-01',
       submissions: [],
       uuid: 'xyz'
     },
     {
       name: 'test 2',
-      deadline: 2,
-      earliestValidDate: 1,
+      deadline: '2022-01-20',
+      earliestValidDate: '2022-01-01',
       submissions: [],
       uuid: 'abc'
     },
     {
       name: 'test abc',
-      deadline: 1,
-      earliestValidDate: 1,
+      deadline: '2022-12-30',
+      earliestValidDate: '2022-11-20',
       submissions: [],
       uuid: '123'
     }
@@ -98,7 +98,7 @@ const DevPortfolioForm: React.FC = () => {
             Select a Dev Portfolio Assignment <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.center_and_flex}>
-            {devPortfolios && !devPortfolio ? (
+            {devPortfolios ? (
               <Dropdown
                 placeholder="Select a Portfolio Assignment: "
                 fluid
@@ -115,27 +115,6 @@ const DevPortfolioForm: React.FC = () => {
                   );
                 }}
               />
-            ) : undefined}
-
-            {devPortfolio ? (
-              <div className={styles.row_direction}>
-                <div>
-                  <Segment>
-                    <h4>{devPortfolio.name}</h4>
-                    <Label>{`deadline: ${devPortfolio.deadline}`}</Label>
-                  </Segment>
-                </div>
-
-                <Button
-                  negative
-                  onClick={() => {
-                    setDevPortfolio(undefined);
-                  }}
-                  className={styles.inline}
-                >
-                  Clear
-                </Button>
-              </div>
             ) : undefined}
           </div>
 
