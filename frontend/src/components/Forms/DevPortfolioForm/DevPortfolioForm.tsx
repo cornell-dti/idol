@@ -10,14 +10,38 @@ const DevPortfolioForm: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
 
+  const devPortfolios: DevPortfolio[] = [
+    {
+      name: 'test 1',
+      deadline: 222,
+      earliestValidDate: 111,
+      submissions: [],
+      uuid: 'xyz'
+    },
+    {
+      name: 'test 2',
+      deadline: 2,
+      earliestValidDate: 1,
+      submissions: [],
+      uuid: 'abc'
+    },
+    {
+      name: 'test abc',
+      deadline: 1,
+      earliestValidDate: 1,
+      submissions: [],
+      uuid: '123'
+    }
+  ];
+
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
-  const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
+  // const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPR, setOpenPR] = useState('');
   const [reviewedPR, setReviewedPR] = useState('');
 
-  useEffect(() => {
-    DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
-  }, []);
+  // useEffect(() => {
+  //   DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
+  // }, []);
 
   const requestDevPortfolio = (
     devPortfolioRequest: DevPortfolioSubmission,
