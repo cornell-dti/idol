@@ -296,6 +296,42 @@ paths:
                 properties:
                   isAdmin:
                     type: boolean
+  /pullIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /getIDOLChangesPR:
+    get:
+      tags:
+      - "IDOL Changes"
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /acceptIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /rejectIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     IdolMember:
