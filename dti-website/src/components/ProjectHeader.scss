@@ -7,6 +7,9 @@
 
   .project-hero-logo {
     height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .project-hero {
@@ -25,7 +28,7 @@
     }
 
     .project-hero-header-left {
-      padding-bottom: 10vh;
+      padding: 10vh 0 5vh 0;
     }
   }
 
@@ -62,7 +65,7 @@
   }
 
   .product {
-    max-width: 75%;
+    max-width: 70%;
     object-fit: contain;
 
     @media (max-width: 767px) {
