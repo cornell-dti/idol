@@ -148,7 +148,7 @@
     "subheader": "Study tools to help professors help students.",
     "hero": {
       "header": "What We Do",
-      "image": "",
+      "image": "/static/projects/zing-header.png",
       "subheader": "Zing is an all-in-one web interface for professors to create optimal groups for class projects based on students’ study preferences. Built with the GroupEng algorithm developed by the Director of Cornell Engineering’s MTEI program, Zing enables professors to customize grouping criteria and easily match students. Our team also supports the Learning Strategies Center’s Study Partner program as a companion tool. Together, Zing helps student succeed inside and outside the classroom."
     },
     "github": "https://github.com/cornell-dti/zing",
