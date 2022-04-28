@@ -106,37 +106,34 @@
     ]
   },
   {
-    "name": "Carriage",
-    "teamId": "carriage",
-    "card": "/static/projects/carriage-card.png",
-    "header": "Carriage",
-    "subheader": "Efficient Transit for Students with Disabilities.",
+    "name": "Design@Cornell",
+    "teamId": "design-at-cornell",
+    "card": "/static/projects/dac-card.png",
+    "header": "Design@Cornell",
+    "subheader": "Our goal for the Design@Cornell website is to design and develop a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
     "hero": {
-      "header": "What We Do",
-      "image": "/static/projects/carriage-header.png",
-      "subheader": "Carriage is dedicated to making Cornell accessible for all students. We work with CULift, Cornell’s paratransit service for students with disabilities, to build mobile and web platforms that improve the experience of scheduling, performing, and monitoring CULift rides for students, drivers, and administrators alike."
+      "header": "What we do",
+      "image": "/static/projects/dac-header.png",
+      "subheader": "Your ultimate resources ofr all things design."
     },
-    "github": "https://github.com/cornell-dti/carriage-web",
-    "driver-github": "https://github.com/cornell-dti/carriage-driver",
-    "rider-github": "https://github.com/cornell-dti/carriage-rider",
-    "heroStartingColor": "#767676",
-    "heroEndingColor": "#F0F0F0",
+    "heroStartingColor": "#FFE606",
+    "heroEndingColor": "#F9F7D5",
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "Admin Web",
-        "description": "CULift riders can schedule and track their rides.",
-        "image": "/static/projects/carriage-feature1.png"
+        "title": "Explore your academic interests.",
+        "description": "Filter through the design-related courses, majors, and minors offered at Cornell, all in one centralized location.",
+        "image": "/static/projects/dac-feature1.png"
       },
       {
-        "title": "Driver Mobile.",
-        "description": "This application facilitates communication between drivers and riders and also condenses drivers' busy schedules in an easy to read format that auto-updates as changes are made.",
-        "image": "/static/projects/carriage-feature2.png"
+        "title": "Grow your passion",
+        "description": "Enrich your design skillset by exploring the various events and student organizations offered at Cornell.",
+        "image": "/static/projects/dac-feature2.png"
       },
       {
-        "title": "Rider Web and Mobile",
-        "description": "Carriage’s rider platform allows riders to easily schedule and track their drivers through a seamless user interface.",
-        "image": "/static/projects/carriage-feature3.png"
+        "title": "Connect with your design community",
+        "description": "Expand your knowledge of design by viewing available resources and connecting with the amazing design faculty at Cornell.",
+        "image": "/static/projects/dac-feature3.png"
       }
     ]
   },
@@ -180,6 +177,41 @@
         "title": "Get notified of study partner matches from LSC!",
         "description": "LSC staff can automatically emails notifying students of pairings. There are also customizable email templates for different stages of the matching process",
         "image": "/static/projects/zing-feature5.png"
+      }
+    ]
+  },
+  {
+    "name": "Carriage",
+    "teamId": "carriage",
+    "card": "/static/projects/carriage-card.png",
+    "header": "Carriage",
+    "subheader": "Efficient Transit for Students with Disabilities.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/carriage-header.png",
+      "subheader": "Carriage is dedicated to making Cornell accessible for all students. We work with CULift, Cornell’s paratransit service for students with disabilities, to build mobile and web platforms that improve the experience of scheduling, performing, and monitoring CULift rides for students, drivers, and administrators alike."
+    },
+    "github": "https://github.com/cornell-dti/carriage-web",
+    "driver-github": "https://github.com/cornell-dti/carriage-driver",
+    "rider-github": "https://github.com/cornell-dti/carriage-rider",
+    "heroStartingColor": "#767676",
+    "heroEndingColor": "#F0F0F0",
+    "heroUseDarkText": true,
+    "features": [
+      {
+        "title": "Admin Web",
+        "description": "CULift riders can schedule and track their rides.",
+        "image": "/static/projects/carriage-feature1.png"
+      },
+      {
+        "title": "Driver Mobile.",
+        "description": "This application facilitates communication between drivers and riders and also condenses drivers' busy schedules in an easy to read format that auto-updates as changes are made.",
+        "image": "/static/projects/carriage-feature2.png"
+      },
+      {
+        "title": "Rider Web and Mobile",
+        "description": "Carriage’s rider platform allows riders to easily schedule and track their drivers through a seamless user interface.",
+        "image": "/static/projects/carriage-feature3.png"
       }
     ]
   },
@@ -241,38 +273,6 @@
         "title": "Register and Edit a Club",
         "description": "Clubs/organizations registered on ClubView are ones that are active. Those who are admins can freely edit key information about your club, add events, and show your club’s status for joining.",
         "image": "/static/projects/clubview-feature3.png"
-      }
-    ]
-  },
-  {
-    "name": "Design@Cornell",
-    "teamId": "design-at-cornell",
-    "card": "/static/projects/dac-card.png",
-    "header": "Design@Cornell",
-    "subheader": "Our goal for the Design@Cornell website is to design and develop a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
-    "hero": {
-      "header": "What we do",
-      "image": "/static/projects/dac-header.png",
-      "subheader": "Your ultimate resources ofr all things design."
-    },
-    "heroStartingColor": "#FFE606",
-    "heroEndingColor": "#F9F7D5",
-    "heroUseDarkText": true,
-    "features": [
-      {
-        "title": "Explore your academic interests.",
-        "description": "Filter through the design-related courses, majors, and minors offered at Cornell, all in one centralized location.",
-        "image": "/static/projects/dac-feature1.png"
-      },
-      {
-        "title": "Grow your passion",
-        "description": "Enrich your design skillset by exploring the various events and student organizations offered at Cornell.",
-        "image": "/static/projects/dac-feature2.png"
-      },
-      {
-        "title": "Connect with your design community",
-        "description": "Expand your knowledge of design by viewing available resources and connecting with the amazing design faculty at Cornell.",
-        "image": "/static/projects/dac-feature3.png"
       }
     ]
   }
