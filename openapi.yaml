@@ -271,7 +271,31 @@ paths:
       summary: 'Returns all profile images'
       responses:
         '200':
-          description: OK
+          description: "Successfully returns profile images for all members"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fileName:
+                    type: string
+                  url:
+                    type: string
+  /isAdmin:
+    get:
+      tags:
+      - "Permissions"
+      summary: 'Returns true if the member is part of the Admin Collection'
+      responses:
+        '200':
+          description: "Successfully returns if the member is an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isAdmin:
+                    type: boolean
 components:
   schemas:
     IdolMember:
