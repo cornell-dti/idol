@@ -53,18 +53,18 @@
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "Queue",
+        "title": "Add Your Question to the Queue.",
         "description": "The queue feature allows students to post their question and TAs to assign themselves to a student in an orderly fashion.",
         "image": "/static/projects/queuemein-feature1.png"
       },
       {
-        "title": "Discussion",
+        "title": "Vote on Questions.",
         "description": "The discussion feature allows students to vote on a question so that the TAs can address the most popular/urgent question.",
         "image": "/static/projects/queuemein-feature2.png"
       },
       {
-        "title": "Dashboard/Analytics",
-        "description": "The analytics feature allows TAs and professors to view statistics about each tags or assignments such as total number of questions asked and the percentage of questions answered.",
+        "title": "Gather Data from Office Hours.",
+        "description": "The analytics feature allows TAs and professors to view statistics about each tag and assignment such as total number of questions asked and the percentage of questions answered.",
         "image": "/static/projects/queuemein-feature3.png"
       }
     ]
@@ -110,28 +110,28 @@
     "teamId": "design-at-cornell",
     "card": "/static/projects/dac-card.png",
     "header": "Design@Cornell",
-    "subheader": "Our goal for the Design@Cornell website is to design and develop a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
+    "subheader": "Your ultimate resource for all things design.",
     "hero": {
       "header": "What we do",
       "image": "/static/projects/dac-header.png",
-      "subheader": "Your ultimate resources ofr all things design."
+      "subheader": "Our goal for the Design@Cornell website is to design and develop a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell."
     },
     "heroStartingColor": "#FFE606",
     "heroEndingColor": "#F9F7D5",
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "Explore your academic interests.",
+        "title": "Explore Your Academic Interests.",
         "description": "Filter through the design-related courses, majors, and minors offered at Cornell, all in one centralized location.",
         "image": "/static/projects/dac-feature1.png"
       },
       {
-        "title": "Grow your passion",
+        "title": "Grow Your Passion",
         "description": "Enrich your design skillset by exploring the various events and student organizations offered at Cornell.",
         "image": "/static/projects/dac-feature2.png"
       },
       {
-        "title": "Connect with your design community",
+        "title": "Connect with Your Design Community",
         "description": "Expand your knowledge of design by viewing available resources and connecting with the amazing design faculty at Cornell.",
         "image": "/static/projects/dac-feature3.png"
       }
@@ -170,12 +170,12 @@
       },
       {
         "title": "Find study partners for classes.",
-        "description": "Students who want an LSC study partner fills out survey to request the class(es) they would like support in. The survey also records their study preferences and other key information to ensure a successful partner match.",
+        "description": "Students who want an LSC study partner fill out a survey to request the class(es) they would like support in. The survey also records their study preferences and other key information to ensure a successful partner match.",
         "image": "/static/projects/zing-feature4.png"
       },
       {
         "title": "Get notified of study partner matches from LSC!",
-        "description": "LSC staff can automatically emails notifying students of pairings. There are also customizable email templates for different stages of the matching process",
+        "description": "LSC staff can automatically email notifying students of pairings. There are also customizable email templates for different stages of the matching process",
         "image": "/static/projects/zing-feature5.png"
       }
     ]
@@ -205,7 +205,7 @@
       },
       {
         "title": "Driver Mobile.",
-        "description": "This application facilitates communication between drivers and riders and also condenses drivers' busy schedules in an easy to read format that auto-updates as changes are made.",
+        "description": "This application facilitates communication between drivers and riders and also condenses drivers' busy schedules in an easy-to-read format that auto-updates as changes are made.",
         "image": "/static/projects/carriage-feature2.png"
       },
       {
@@ -220,7 +220,7 @@
     "teamId": "apartments",
     "card": "/static/projects/apartments-card.png",
     "header": "CU Apartments",
-    "subheader": "Search for off-campus housing, review apartments, and share feedback!",
+    "subheader": "Easy browsing for off-campus housing.",
     "hero": {
       "header": "What we do",
       "image": "/static/projects/apartments-header.png",
@@ -232,12 +232,12 @@
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "35+ landlords, 240+ properties.",
+        "title": "Search for Landlords and Properties",
         "description": "Find what you're looking for using our extensive database.",
         "image": "/static/projects/apartments-feature1.png"
       },
       {
-        "title": "Housing reviews by Cornellians for Cornellians",
+        "title": "Read Housing reviews by Cornellians for Cornellians",
         "description": "No more BS. Read reviews by verified Cornellians.",
         "image": "/static/projects/apartments-feature2.png"
       }
@@ -265,7 +265,7 @@
         "image": "/static/projects/clubview-feature1.png"
       },
       {
-        "title": "Individual Club Page",
+        "title": "Learn About Individual Clubs",
         "description": "Each club registered on ClubView has its own page of key information with a recruitment banner to show your club’s recruitment status and an events section so people can add events to their calendar.",
         "image": "/static/projects/clubview-feature2.png"
       },
