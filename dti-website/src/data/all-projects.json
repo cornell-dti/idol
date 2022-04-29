@@ -18,17 +18,17 @@
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "Plan Your Semesters",
+        "title": "Plan Your Semesters.",
         "description": "Use CoursePlan’s semesterly planner to choose courses well in advance and ensure that you never miss a requirement.",
         "image": "/static/projects/courseplan-feature1.png"
       },
       {
-        "title": "Track Your Requirements",
+        "title": "Track Your Requirements.",
         "description": "Fully personalized to track your requirements. Customizable interface to view your courses. Built-in system to check your progress. Our intuitive interface recommends courses based on unfulfilled requirements and allows you to easily drag and drop them into your planner.",
         "image": "/static/projects/courseplan-feature2.png"
       },
       {
-        "title": "Academic Tools",
+        "title": "Use Our Resources.",
         "description": "CoursePlan provides a collection of useful tools to help you plan your semesters. This includes a dashboard page and semester templates to make planning easier.",
         "image": "/static/projects/courseplan-feature3.png"
       }
@@ -126,12 +126,12 @@
         "image": "/static/projects/dac-feature1.png"
       },
       {
-        "title": "Grow Your Passion",
+        "title": "Grow Your Passion.",
         "description": "Enrich your design skillset by exploring the various events and student organizations offered at Cornell.",
         "image": "/static/projects/dac-feature2.png"
       },
       {
-        "title": "Connect with Your Design Community",
+        "title": "Connect with Your Design Community.",
         "description": "Expand your knowledge of design by viewing available resources and connecting with the amazing design faculty at Cornell.",
         "image": "/static/projects/dac-feature3.png"
       }
@@ -199,7 +199,7 @@
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "Admin Web",
+        "title": "Admin Web.",
         "description": "CULift riders can schedule and track their rides.",
         "image": "/static/projects/carriage-feature1.png"
       },
@@ -209,7 +209,7 @@
         "image": "/static/projects/carriage-feature2.png"
       },
       {
-        "title": "Rider Web and Mobile",
+        "title": "Rider Web and Mobile.",
         "description": "Carriage’s rider platform allows riders to easily schedule and track their drivers through a seamless user interface.",
         "image": "/static/projects/carriage-feature3.png"
       }
@@ -232,12 +232,12 @@
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "Search for Landlords and Properties",
+        "title": "Search for Landlords and Properties.",
         "description": "Find what you're looking for using our extensive database.",
         "image": "/static/projects/apartments-feature1.png"
       },
       {
-        "title": "Read Housing reviews by Cornellians for Cornellians",
+        "title": "Read Housing reviews by Cornellians for Cornellians.",
         "description": "No more BS. Read reviews by verified Cornellians.",
         "image": "/static/projects/apartments-feature2.png"
       }
@@ -260,17 +260,17 @@
     "heroUseDarkText": true,
     "features": [
       {
-        "title": "View, search, and filter clubs",
+        "title": "View, search, and filter clubs.",
         "description": "Find all of the clubs/organizations on ClubView's homepage. Want to narrow your search? Type to find clubs by name or filter by category and keyword.",
         "image": "/static/projects/clubview-feature1.png"
       },
       {
-        "title": "Learn About Individual Clubs",
+        "title": "Learn About Individual Clubs.",
         "description": "Each club registered on ClubView has its own page of key information with a recruitment banner to show your club’s recruitment status and an events section so people can add events to their calendar.",
         "image": "/static/projects/clubview-feature2.png"
       },
       {
-        "title": "Register and Edit a Club",
+        "title": "Register and Edit a Club.",
         "description": "Clubs/organizations registered on ClubView are ones that are active. Those who are admins can freely edit key information about your club, add events, and show your club’s status for joining.",
         "image": "/static/projects/clubview-feature3.png"
       }
