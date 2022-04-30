@@ -1,5 +1,5 @@
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { TeamEvent } from '../DataTypes';
+import { TeamEvent } from '../types/DataTypes';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 

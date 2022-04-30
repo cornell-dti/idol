@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { devPortfolioCollection } from '../firebase';
 import { DBDevPortfolio } from '../DataTypes';
 import { validateSubmission } from '../utils/githubUtil';
+import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class DevPortfolioDao {
 
@@ -15,12 +16,11 @@ export default class DevPortfolioDao {
     {...data,
     submissions: await Promise.all(
       data.submissions.map(
-        async (submission) => ({...submission, member: (await submission.member.get()).data() as IdolMember})
+        async (submission) => ({...submission, member: getMemberFromDocumentReference(submission.member.get())})
       )
     )}
 
-    // validateSubmission(candidateDeciderInstance, submission)
-    submission.status = 'valid'
+    submission = await validateSubmission(candidateDeciderInstance, submission)
 
     let subs = data.submissions
     subs.push(submission)

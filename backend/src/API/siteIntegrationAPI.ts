@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest';
-import { PRResponse } from '../GithubTypes';
+import { PRResponse } from '../types/GithubTypes';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 

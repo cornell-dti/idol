@@ -24,6 +24,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'Track your team event credits.',
     link: '/forms/teamEventCredits',
     adminOnly: true
+  },
+  {
+    header: 'Dev Portfolio Assignments',
+    description: 'Submit opened and reviewed pull requests.',
+    link: '/forms/devPortfolio',
+    adminOnly: true
   }
 ];
 

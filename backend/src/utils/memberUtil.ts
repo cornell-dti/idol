@@ -1,5 +1,7 @@
 // This file contains common operations that will need to be performed often.
 import { createPatch } from 'diff';
+import { firestore } from 'firebase-admin';
+import { archivedMembersByEmail } from '../members-archive';
 
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
@@ -12,6 +14,16 @@ export const filterImagesResponse = (
       ...image,
       fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
     }));
+
+export const getMemberFromDocumentReference = async (
+  docRef: firestore.DocumentReference
+): Promise<IdolMember> => {
+  const snapshot = await docRef.get();
+  if (!snapshot.exists) {
+    return archivedMembersByEmail[docRef.id];
+  }
+  return snapshot.data() as IdolMember;
+};
 
 type SimplifiedMember = { readonly email: string };
 

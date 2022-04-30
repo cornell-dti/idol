@@ -1,5 +1,6 @@
 import { memberCollection, shoutoutCollection } from '../firebase';
-import { Shoutout, DBShoutout } from '../DataTypes';
+import { Shoutout, DBShoutout } from '../types/DataTypes';
+import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class ShoutoutsDao {
   static async getAllShoutouts(): Promise<Shoutout[]> {
@@ -7,10 +8,8 @@ export default class ShoutoutsDao {
       await shoutoutCollection.get().then((shoutoutRefs) =>
         shoutoutRefs.docs.map(async (doc) => {
           const dbShoutout = doc.data() as DBShoutout;
-          const giver = (await dbShoutout.giver.get().then((doc) => doc.data())) as IdolMember;
-          const receiver = (await dbShoutout.receiver
-            .get()
-            .then((doc) => doc.data())) as IdolMember;
+          const giver = await getMemberFromDocumentReference(dbShoutout.giver);
+          const receiver = await getMemberFromDocumentReference(dbShoutout.receiver);
           return {
             ...dbShoutout,
             giver,
@@ -31,13 +30,13 @@ export default class ShoutoutsDao {
         const { giver, receiver, message, isAnon } = shoutoutRef.data();
         return isAnon
           ? {
-              receiver: (await receiver.get().then((doc) => doc.data())) as IdolMember,
+              receiver: await getMemberFromDocumentReference(giver),
               message,
               isAnon
             }
           : {
-              giver: (await giver.get().then((doc) => doc.data())) as IdolMember,
-              receiver: (await receiver.get().then((doc) => doc.data())) as IdolMember,
+              giver: await getMemberFromDocumentReference(giver),
+              receiver: await getMemberFromDocumentReference(receiver),
               message,
               isAnon
             };

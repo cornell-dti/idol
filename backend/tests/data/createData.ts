@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { TeamEventAttendance, TeamEvent } from '../../src/DataTypes';
+import { TeamEventAttendance, TeamEvent } from '../../src/types/DataTypes';
 
 /** Get random number in range [`a`,`b`], inclusive. */
 const getRandomInt = (a, b) => {

@@ -1,6 +1,6 @@
 import MembersDao from '../src/dao/MembersDao';
 import SignInFormDao from '../src/dao/SignInFormDao';
-import { SignInForm } from '../src/DataTypes';
+import { SignInForm } from '../src/types/DataTypes';
 import { approvedMemberCollection } from '../src/firebase';
 import { fakeIdolMember } from './data/createData';
 import mockForms from './data/mock-signin.json';
