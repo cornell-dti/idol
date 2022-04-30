@@ -300,38 +300,55 @@ paths:
     post:
       tags:
       - "IDOL Changes"
-      summary: ''
-      parameters: []
+      summary: 'Dispatches IDOL pull request with changes'
+      description: 'Note: uses Octokit client to access GitHub API'
       responses:
         '200':
-          description: OK
+          description: "Successfully dispatches IDOL pull request with changes"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: boolean
+        '403':
+          $ref: "#/components/responses/deploySite"
   /getIDOLChangesPR:
     get:
       tags:
       - "IDOL Changes"
-      description: ''
-      parameters: []
+      summary: 'Returns the GitHub pull request for IDOL member update'
+      description: 'Note: uses Octokit client to access GitHub API'
       responses:
         '200':
-          description: OK
+          description: "Successfully returns the GitHub pull request for IDOL member update"
+        '403':
+          $ref: "#/components/responses/deploySite"
+        '400':
+          description: "BadRequestError: Unable to find a valid open IDOL member update pull request!"
   /acceptIDOLChanges:
     post:
       tags:
       - "IDOL Changes"
-      description: ''
-      parameters: []
+      summary: 'Approves the IDOL changes pull request on GitHub'
+      description: 'Note: uses Octokit client to access GitHub API'
       responses:
         '200':
-          description: OK
+          description: "Successfuly approves the IDOL changes pull request on GitHub"
+        '403':
+          $ref: "#/components/responses/deploySite"
   /rejectIDOLChanges:
     post:
       tags:
       - "IDOL Changes"
-      description: ''
-      parameters: []
+      summary: 'Rejects the IDOL changes pull request on GitHub'
+      description: 'Note: uses Octokit client to access GitHub API'
       responses:
         '200':
-          description: OK
+          description: "Successfuly rejects the IDOL changes pull request on GitHub"
+        '403':
+          $ref: "#/components/responses/deploySite"
 components:
   schemas:
     IdolMember:
@@ -441,6 +458,8 @@ components:
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
+    deploySite: 
+      description: "PermissionError: User does not have the permission to trigger site deploys."
 
   
 
