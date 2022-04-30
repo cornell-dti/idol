@@ -103,8 +103,8 @@ export type DBCandidateDeciderInstance = {
 
 export type DBDevPortfolio = {
   name: string;
-  deadline: number;
-  earliestValidDate: number;
+  deadline: string;
+  earliestValidDate: string;
   submissions: DBDevPortfolioSubmission[];
   uuid: string;
 };

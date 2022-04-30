@@ -1,18 +1,31 @@
 import { v4 as uuidv4 } from 'uuid';
 import { devPortfolioCollection } from '../firebase';
 import { DBDevPortfolio } from '../DataTypes';
+import { validateSubmission } from '../utils/githubUtil';
 
 export default class DevPortfolioDao {
 
   static async makeDevPortfolioSubmission(uuid: string, submission: DevPortfolioSubmission): Promise<DevPortfolioSubmission> {
     const doc = await devPortfolioCollection.doc(uuid).get();
     if (!doc.exists) return;
+
     const data = doc.data() as DBDevPortfolio;
+
+    const candidateDeciderInstance = 
+    {...data,
+    submissions: await Promise.all(
+      data.submissions.map(
+        async (submission) => ({...submission, member: (await submission.member.get()).data() as IdolMember})
+      )
+    )}
+
+    // validateSubmission(candidateDeciderInstance, submission)
+    submission.status = 'valid'
+
     let subs = data.submissions
     subs.push(submission)
     await devPortfolioCollection.doc(uuid).update({ submissions: subs});
     
-    // do some verification stuff
 
     return submission
   }

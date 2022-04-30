@@ -18,14 +18,17 @@ beforeAll(async () => {
 });
 
 /* Cleanup database after running DevPortfolioDao tests */
-afterAll(async () =>
-      await devPortfolioCollection.doc(mockDP.uuid).delete()
+afterAll(async () => {
+      await devPortfolioCollection.doc(mockDP.uuid).delete();
+      await devPortfolioCollection.doc(mockDP2.uuid).delete();
+      await devPortfolioCollection.doc(mockDP3.uuid).delete();
+}
 );
 
 test('Make new submission', () => {
   const mockDPSubmission = mockDPSubmissions.dp1 as DevPortfolioSubmission;
   return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, mockDPSubmission).then((submission) => {
-      expect(submission.status === 'pending');
+      expect(submission.status !== 'pending');
     });
 });
 
