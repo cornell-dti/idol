@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Header, Icon } from 'semantic-ui-react';
+import Link from 'next/link';
 import styles from './SiteHeader.module.css';
 import { auth } from '../../../firebase';
 import dti_logo from '../../../static/images/dti-logo.png';
@@ -22,7 +23,9 @@ const SiteHeader: React.FC = () => {
           >
             <Icon size="big" className={styles.menu_icon} name="bars" />
           </div>
-          <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
+          <Link href="/">
+            <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
+          </Link>
           <div
             className={styles.title_conainer}
             onMouseEnter={() => setIdolOpen(true)}
