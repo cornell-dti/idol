@@ -101,8 +101,8 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
 export const fakeDevPortfolio = (): DevPortfolio => {
   const DP = {
     name: "testdevportfolio",
-    deadline: "9/9/9999",
-    earliestValidDate: "9/9/9999",
+    deadline: "5/20/2031",
+    earliestValidDate: "4/30/2022",
     submissions: [],
     uuid: faker.datatype.uuid(),
   };

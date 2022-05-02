@@ -25,12 +25,12 @@ afterAll(async () => {
 }
 );
 
-test('Make new submission', () => {
-  const mockDPSubmission = mockDPSubmissions.dp1 as DevPortfolioSubmission;
-  return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, mockDPSubmission).then((submission) => {
-      expect(submission.status !== 'pending');
-    });
-});
+// test('Make new submission', () => {
+//   const mockDPSubmission = mockDPSubmissions.dp1 as DevPortfolioSubmission;
+//   return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, mockDPSubmission).then((submission) => {
+//       expect(submission.status !== 'pending');
+//     });
+// });
 
 test('Create new instances and get all instances', () => {
   DevPortfolioDao.createNewInstance(mockDP)

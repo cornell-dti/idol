@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { devPortfolioCollection } from '../firebase';
 import { DBDevPortfolio } from '../DataTypes';
-import { validateSubmission } from '../utils/githubUtil';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class DevPortfolioDao {
@@ -12,7 +11,21 @@ export default class DevPortfolioDao {
 
     const data = doc.data() as DBDevPortfolio;
 
-    const candidateDeciderInstance = 
+    let subs = data.submissions
+    subs.push(submission)
+    await devPortfolioCollection.doc(uuid).update({ submissions: subs});
+    
+
+    return submission
+  }
+
+  static async getInstance(uuid: string): Promise<DevPortfolio> {
+    const doc = await devPortfolioCollection.doc(uuid).get();
+    if (!doc.exists) return;
+
+    const data = doc.data() as DBDevPortfolio;
+
+    const devPortfolio = 
     {...data,
     submissions: await Promise.all(
       data.submissions.map(
@@ -20,14 +33,7 @@ export default class DevPortfolioDao {
       )
     )}
 
-    submission = await validateSubmission(candidateDeciderInstance, submission)
-
-    let subs = data.submissions
-    subs.push(submission)
-    await devPortfolioCollection.doc(uuid).update({ submissions: subs});
-    
-
-    return submission
+    return devPortfolio
   }
 
   static async getAllInstances(): Promise<DevPortfolio[]> {
@@ -49,6 +55,15 @@ export default class DevPortfolioDao {
     await devPortfolioCollection
       .doc(devPortfolioRef.uuid)
       .set(devPortfolioRef);
+  }
+
+  static async updateInstance(
+    uuid: string,
+    instance: DevPortfolio
+  ): Promise<void> {
+    await devPortfolioCollection
+      .doc(uuid)
+      .set(instance);
   }
 
   static async deleteInstance(uuid: string): Promise<void> {
