@@ -1,5 +1,5 @@
 import DevPortfolioDao from '../src/dao/DevPortfolioDao';
-import { fakeDevPortfolio } from './data/createData';
+import { fakeDevPortfolio, fakeDevPortfolioSubmission } from './data/createData';
 import { devPortfolioCollection } from '../src/firebase';
 
 const mockDP = fakeDevPortfolio();
@@ -19,19 +19,18 @@ afterAll(async () => {
   await devPortfolioCollection.doc(mockDP3.uuid).delete();
 });
 
-// test('Make new submission', () => {
-//   const mockDPSubmission = mockDPSubmissions.dp1 as DevPortfolioSubmission;
-//   return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, mockDPSubmission).then((submission) => {
-//       expect(submission.status !== 'pending');
-//     });
-// });
+test('Make new submission', () => {
+  return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, fakeDevPortfolioSubmission).then(
+    (submission) => {
+      expect(submission.status !== 'pending');
+    }
+  );
+});
 
 test('Create new instances and get all instances', () => {
-  DevPortfolioDao.createNewInstance(mockDP);
-  DevPortfolioDao.createNewInstance(mockDP2);
-  DevPortfolioDao.createNewInstance(mockDP3);
   return DevPortfolioDao.getAllInstances().then((allSubmissions) => {
-    expect(allSubmissions.length === 3);
-    expect(allSubmissions.find((submission) => submission === mockDP));
+    expect(allSubmissions.some((submission) => submission === mockDP));
+    expect(allSubmissions.some((submission) => submission === mockDP2));
+    expect(allSubmissions.some((submission) => submission === mockDP3));
   });
 });
