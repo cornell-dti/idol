@@ -1,0 +1,465 @@
+openapi: '3.0.2'
+info:
+  title: IDOL API
+  description: Internal DTI Organization Logic
+  version: '1.0'
+paths:
+  /allMembers:
+    get:
+      tags: 
+      - 'Members'
+      summary: "Returns all members"
+      responses:
+        '200':
+          description: "Successfully returns all members"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /allApprovedMembers:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns all approved members'
+      responses:
+        '200':
+          description: "Successfully returns all approved members"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /membersFromAllSemesters:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns members from all semesters'
+      parameters: []
+      responses:
+        '200':
+          description: "Successfully returns members from all semesters"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /setMember:
+    post:
+      tags:
+      - 'Members'
+      summary: 'Add new member to the member collection'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully adds the new member"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member: 
+                    $ref: "#/components/schemas/IdolMember"
+        '403':
+          description: "PermissionError: User does not have the permission to add new members."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+
+  /updateMember:
+    post:
+      tags:
+      - 'Members'
+      summary: 'Update existing member information'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully updates the member's information"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member: 
+                    $ref: "#/components/schemas/IdolMember"
+        '403':
+          description: "PermissionError: User does not have the permission to add update this member or the user does not have the permssion to update name/roles."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+  /deleteMember:
+    delete:
+      tags:
+      - 'Members'
+      summary: 'Delete an existing member'
+      parameters:
+      - in: path
+        name: email
+        schema:
+          type: string
+        required: true
+        description: "Email of the member to delete"
+      responses:
+        '200':
+          description: 'Successfully deletes the member.'
+        '403':
+          description: "PermissionError: User does not have the permission to delete update this member."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+  /memberDiffs:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns the users information difference'
+      responses:
+        '200':
+          description: "Successfully returns the users information difference."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  diffs:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/IdolMemberDiff"
+  /reviewMemberDiffs:
+    post:
+      tags:
+      - "Members"
+      summary: 'Approves or rejects member information changes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: string
+                rejected:
+                  type: string
+                user:
+                  type: object
+                  $ref: '#/components/schemas/IdolMember'
+                  
+      responses:
+        '200':
+          description: "Successful approves or reverts member information changes."
+        '403':
+          description: "PermissionError: User does not have the permission to review members information diff."
+  /allTeams:
+    get:
+      tags:
+      - "Teams"
+      summary: 'Returns all teams'
+      responses:
+        '200':
+          description: 'Successully returns all teams'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teams:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+  /setTeam:
+    post:
+      tags:
+      - "Teams"
+      summary: 'Adds/updates a team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Team"
+      responses:
+        '200':
+          description: 'Successully add/updates the team'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+        '403':
+          description: "PermissionError: User does not have the permission to edit teams."
+  /deleteTeam:
+    post:
+      tags:
+      - "Teams"
+      summary: 'Deletes the team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Team"
+      responses:
+        '200':
+          description: "Successfuly deletes the team"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+        '400':
+          description: "BadRequestError: Couldn't delete team with undefined uuid."
+        '403':
+          description: "PermissionError: User does not have the permission to delete team."
+  /getMemberImage:
+    get:
+      tags:
+      - "Images"
+      summary: 'Returns the signed url for existing profile image for a member'
+      responses:
+        '200':
+          description: "Successfully returns the signed ulr for the member's profile image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        '404':
+          description: "NotFoundError: The requested image does not exist."
+  /getImageSignedURL:
+    get:
+      tags:
+        - "Images"
+      summary: 'Returns a signed url for new image'
+      responses:
+        '200':
+          description: "Successfully returns a signed url"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /allMemberImages:
+    get:
+      tags:
+      - "Images"
+      summary: 'Returns all profile images'
+      responses:
+        '200':
+          description: "Successfully returns profile images for all members"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fileName:
+                    type: string
+                  url:
+                    type: string
+  /isAdmin:
+    get:
+      tags:
+      - "Permissions"
+      summary: 'Returns true if the member is part of the Admin Collection'
+      responses:
+        '200':
+          description: "Successfully returns if the member is an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isAdmin:
+                    type: boolean
+  /pullIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: 'Dispatches IDOL pull request with changes'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfully dispatches IDOL pull request with changes"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: boolean
+        '403':
+          $ref: "#/components/responses/deploySite"
+  /getIDOLChangesPR:
+    get:
+      tags:
+      - "IDOL Changes"
+      summary: 'Returns the GitHub pull request for IDOL member update'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfully returns the GitHub pull request for IDOL member update"
+        '403':
+          $ref: "#/components/responses/deploySite"
+        '400':
+          description: "BadRequestError: Unable to find a valid open IDOL member update pull request!"
+  /acceptIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: 'Approves the IDOL changes pull request on GitHub'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfuly approves the IDOL changes pull request on GitHub"
+        '403':
+          $ref: "#/components/responses/deploySite"
+  /rejectIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: 'Rejects the IDOL changes pull request on GitHub'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfuly rejects the IDOL changes pull request on GitHub"
+        '403':
+          $ref: "#/components/responses/deploySite"
+components:
+  schemas:
+    IdolMember:
+      type: object
+      properties:
+        netid:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        pronouns:
+          type: string
+        graduation:
+          type: string
+        major:
+          type: string
+        doubleMajor:
+          type: string
+          nullable: true
+        minor:
+          type: string
+          nullable: true
+        website:
+          type: string
+          nullable: true
+        linkedin:
+          type: string
+          nullable: true
+        github:
+          type: string
+          nullable: true
+        hometown:
+          type: string
+        about:
+          type: string
+        subteams:
+          type: array
+          items:
+            type: string
+        formerSubteams:
+          type: array
+          items:
+            type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        roleDescription:
+          $ref: '#/components/schemas/RoleDescription'
+      example:
+      - netid: "jb2375"
+        email: "jb2375@cornell.edu"
+        firstName: "Jagger"
+        lastName: "Brulato"
+        pronouns: ""
+        graduation: "May 2021"
+        major: "Computer Science"
+        website: "https://jagger.netlify.app/"
+        linkedin: "https://www.linkedin.com/in/jagger-brulato-896968149/"
+        github: "https://github.com/JBoss925/"
+        hometown: "Mooresville, NC"
+        about: "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris."
+        subteams: ["dev-leads"]
+        formerSubteams: []
+        role: "lead"
+        roleDescription: "Lead"
+    Role:
+      type: string
+      enum: [lead, tpm, pm, developer, designer, business]
+    RoleDescription:
+      type: string
+      enum: [Lead, Technical PM, Product Manager, Developer, Designer, Business Analyst]
+    IdolMemberDiff:
+      type: object
+      properties:
+        email: 
+          type: string
+        diffString:
+          type: string
+    Team:
+      type: object
+      properties:
+        uuid:
+          type: string
+        name:
+          type: string
+        leaders:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        formerMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+    ProfileImage:
+      type: object
+      properties:
+        url:
+          type: string
+        fileName:
+          type: string
+  responses:
+    undefinedEmail:
+      description: "BadRequestError: user with undefined email."
+    deploySite: 
+      description: "PermissionError: User does not have the permission to trigger site deploys."
+
+  
+
