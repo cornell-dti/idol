@@ -1,7 +1,6 @@
 name: Update Dev Database
 on:
-  respository_dispatch:
-    types: update-dev-db
+  workflow_dispatch:
   schedule:
     # Runs script at 8AM UTC (3AM or 4AM ET) on the first day of every month
     - cron: '0 8 1 * *'
