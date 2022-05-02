@@ -1,40 +1,5 @@
 [
   {
-    "name": "CoursePlan",
-    "teamId": "courseplan",
-    "card": "/static/projects/courseplan-card.png",
-    "header": "CoursePlan",
-    "subheader": "Don't Wait, Plan Ahead.",
-    "hero": {
-      "header": "What We Do",
-      "image": "/static/projects/courseplan-header.png",
-      "subheader": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements–all in one place. If you see courses you need to take next semester, just drag them into your schedule."
-    },
-    "website": "https://courseplan.io",
-    "website-title": "CoursePlan",
-    "github": "https://github.com/cornell-dti/course-plan",
-    "heroStartingColor": "#4CA7A4",
-    "heroEndingColor": "#C3DEDD",
-    "heroUseDarkText": true,
-    "features": [
-      {
-        "title": "Plan Your Semesters.",
-        "description": "Use CoursePlan’s semesterly planner to choose courses well in advance and ensure that you never miss a requirement.",
-        "image": "/static/projects/courseplan-feature1.png"
-      },
-      {
-        "title": "Track Your Requirements.",
-        "description": "Fully personalized to track your requirements. Customizable interface to view your courses. Built-in system to check your progress. Our intuitive interface recommends courses based on unfulfilled requirements and allows you to easily drag and drop them into your planner.",
-        "image": "/static/projects/courseplan-feature2.png"
-      },
-      {
-        "title": "Use Our Resources.",
-        "description": "CoursePlan provides a collection of useful tools to help you plan your semesters. This includes a dashboard page and semester templates to make planning easier.",
-        "image": "/static/projects/courseplan-feature3.png"
-      }
-    ]
-  },
-  {
     "name": "Queue Me In",
     "teamId": "queuemein",
     "card": "/static/projects/queuemein-card.png",
@@ -66,6 +31,41 @@
         "title": "Gather Data from Office Hours.",
         "description": "The analytics feature allows TAs and professors to view statistics about each tag and assignment such as total number of questions asked and the percentage of questions answered.",
         "image": "/static/projects/queuemein-feature3.png"
+      }
+    ]
+  },
+  {
+    "name": "CoursePlan",
+    "teamId": "courseplan",
+    "card": "/static/projects/courseplan-card.png",
+    "header": "CoursePlan",
+    "subheader": "Don't Wait, Plan Ahead.",
+    "hero": {
+      "header": "What We Do",
+      "image": "/static/projects/courseplan-header.png",
+      "subheader": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements–all in one place. If you see courses you need to take next semester, just drag them into your schedule."
+    },
+    "website": "https://courseplan.io",
+    "website-title": "CoursePlan",
+    "github": "https://github.com/cornell-dti/course-plan",
+    "heroStartingColor": "#4CA7A4",
+    "heroEndingColor": "#C3DEDD",
+    "heroUseDarkText": true,
+    "features": [
+      {
+        "title": "Plan Your Semesters.",
+        "description": "Use CoursePlan’s semesterly planner to choose courses well in advance and ensure that you never miss a requirement.",
+        "image": "/static/projects/courseplan-feature1.png"
+      },
+      {
+        "title": "Track Your Requirements.",
+        "description": "Fully personalized to track your requirements. Customizable interface to view your courses. Built-in system to check your progress. Our intuitive interface recommends courses based on unfulfilled requirements and allows you to easily drag and drop them into your planner.",
+        "image": "/static/projects/courseplan-feature2.png"
+      },
+      {
+        "title": "Use Our Resources.",
+        "description": "CoursePlan provides a collection of useful tools to help you plan your semesters. This includes a dashboard page and semester templates to make planning easier.",
+        "image": "/static/projects/courseplan-feature3.png"
       }
     ]
   },
