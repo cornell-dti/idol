@@ -134,9 +134,10 @@ interface CandidateDeciderInfo {
 
 interface DevPortfolio {
   name: string;
-  deadline: number;
-  earliestValidDate: number;
+  deadline: string;
+  earliestValidDate: string;
   submissions: DevPortfolioSubmission[];
+  readonly uuid: string;
 }
 
 interface DevPortfolioSubmission {

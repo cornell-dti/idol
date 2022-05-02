@@ -1,7 +1,7 @@
-import { SignInForm } from '../DataTypes';
+import { SignInForm } from '../types/DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
 import { NotFoundError } from '../utils/errors';
-import MembersDao from './MembersDao';
+import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 type SignInUser = {
   signedInAt: number;
@@ -55,17 +55,10 @@ export default class SignInFormDao {
         const formData = formRef.data();
         if (formData === undefined)
           throw new NotFoundError(`This should be impossible. CODE: DTI-2`);
-        const userProms = formData.users.map((u) => {
-          const memberID = u.user.id;
-          return MembersDao.getCurrentOrPastMemberByEmail(memberID).then((value) => {
-            if (value === undefined)
-              throw new NotFoundError(`This should be impossible. CODE: DTI-3`);
-            return {
-              signedInAt: u.signedInAt,
-              user: value
-            };
-          });
-        });
+        const userProms = formData.users.map(async (u) => ({
+          ...u,
+          user: await getMemberFromDocumentReference(u.user)
+        }));
         const signIns = await Promise.all(userProms);
         return {
           ...formData,

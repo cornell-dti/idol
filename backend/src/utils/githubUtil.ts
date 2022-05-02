@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest';
-import { DevPortfolio, DevPortfolioSubmission } from '../DataTypes';
+import { DevPortfolio, DevPortfolioSubmission } from '../types/DataTypes';
 
 type PullRequest = {
   owner: string;
