@@ -1,10 +1,9 @@
 import admin from 'firebase-admin';
-import { configureAccount } from '../src/firebase';
+
+require('dotenv').config();
 
 const prodServiceAccount = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
-
-require('dotenv').config();
 
 type DbData = {
   id: string;
@@ -13,6 +12,23 @@ type DbData = {
     data: unknown;
   }[];
 }[];
+
+const configureAccount = (sa: any, isProd: boolean): any => {
+  const configAcc = sa;
+  let parsedPK;
+  try {
+    parsedPK = isProd
+      ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY as string)
+      : JSON.parse(process.env.FIREBASE_DEV_PRIVATE_KEY as string);
+  } catch (err) {
+    parsedPK = isProd ? process.env.FIREBASE_PRIVATE_KEY : process.env.FIREBASE_DEV_PRIVATE_KEY;
+  }
+  configAcc.private_key = parsedPK;
+  configAcc.private_key_id = isProd
+    ? process.env.FIREBASE_PRIVATE_KEY_ID
+    : process.env.FIREBASE_DEV_PRIVATE_KEY_ID;
+  return configAcc;
+};
 
 async function deleteCollection(
   db: FirebaseFirestore.Firestore,
@@ -27,7 +43,11 @@ async function deleteCollection(
   });
 }
 
-async function deleteQueryBatch(db, query, resolve) {
+async function deleteQueryBatch(
+  db: FirebaseFirestore.Firestore,
+  query: FirebaseFirestore.Query,
+  resolve
+) {
   const snapshot = await query.get();
 
   const batchSize = snapshot.size;
@@ -51,7 +71,7 @@ async function deleteQueryBatch(db, query, resolve) {
   });
 }
 
-const readProdData = async (prodDb: FirebaseFirestore.Firestore): Promise<DbData> => {
+const readDbData = async (prodDb: FirebaseFirestore.Firestore): Promise<DbData> => {
   const allCollections = await prodDb.listCollections();
   return Promise.all(
     allCollections.map(async (collection) => {
@@ -65,40 +85,40 @@ const readProdData = async (prodDb: FirebaseFirestore.Firestore): Promise<DbData
   );
 };
 
-const updateDevDb = async (devDb: FirebaseFirestore.Firestore, data: DbData): Promise<void[]> => {
+const rewriteDbData = async (devDb: FirebaseFirestore.Firestore, data: DbData): Promise<void[]> => {
   const allCollections = await devDb
     .listCollections()
     .then((collections) => collections.map((collection) => collection.id));
-  allCollections.forEach((id) => console.log(id));
 
-  // await Promise.all(allCollections.map((collection) => deleteCollection(devDb, collection, 10)));
-  // return data.map((collection) =>
-  //   collection.docs.forEach((doc) => devDb.doc(`${collection.id}/ ${doc.id}`).set(doc.data))
-  // );
+  await Promise.all(allCollections.map((collection) => deleteCollection(devDb, collection, 10)));
+  return data.map((collection) =>
+    collection.docs.forEach((doc) => devDb.doc(`${collection.id}/ ${doc.id}`).set(doc.data))
+  );
 };
 
 const main = async () => {
   const prodApp = admin.initializeApp(
     {
-      credential: admin.credential.cert(configureAccount(prodServiceAccount)),
+      credential: admin.credential.cert(configureAccount(prodServiceAccount, true)),
       databaseURL: 'https://idol-b6c68.firebaseio.com',
-      storageBucket: 'gs://idol-b6c68.appspot.com'
+      storageBucket: 'gs://cornelldti-idol.appspot.com'
     },
     'prod'
   );
-  const prodDb = admin.firestore(prodApp);
-
   const devApp = admin.initializeApp(
     {
-      credential: admin.credential.cert(configureAccount(devServiceAccount)),
+      credential: admin.credential.cert(configureAccount(devServiceAccount, false)),
       databaseURL: 'https://idol-b6c68.firebaseio.com',
       storageBucket: 'gs://cornelldti-idol.appspot.com'
     },
     'dev'
   );
   const devDb = devApp.firestore();
-  const prodData = await readProdData(prodDb);
-  return updateDevDb(devDb, prodData);
+  const prodDb = admin.firestore(prodApp);
+
+  const prodData = await readDbData(prodDb);
+
+  return rewriteDbData(devDb, prodData);
 };
 
 main();

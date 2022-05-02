@@ -15,7 +15,7 @@ const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsd
 
 const serviceAccount = useProdDb ? prodServiceAccount : devServiceAccount;
 
-export const configureAccount = (sa) => {
+const configureAccount = (sa) => {
   const configAcc = sa;
   let parsedPK;
   try {
