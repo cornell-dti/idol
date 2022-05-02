@@ -41,7 +41,6 @@ export const makeDevPortfolioSubmission = async (
       uuid,
       await validateSubmission(devPortfolio, submission)
     );
-  } else {
-    return DevPortfolioDao.makeDevPortfolioSubmission(uuid, { ...submission, status: 'invalid' });
   }
+  return DevPortfolioDao.makeDevPortfolioSubmission(uuid, { ...submission, status: 'invalid' });
 };
