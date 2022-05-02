@@ -1,15 +1,10 @@
 import DevPortfolioDao from '../src/dao/DevPortfolioDao';
-import { fakeDevPortfolio, fakeDevPortfolioSubmission } from './data/createData';
+import { fakeDevPortfolio } from './data/createData';
 import { devPortfolioCollection } from '../src/firebase';
 
 const mockDP = fakeDevPortfolio();
 const mockDP2 = fakeDevPortfolio();
 const mockDP3 = fakeDevPortfolio();
-// const mockDPSubmissions = {
-//   dp1: fakeDevPortfolioSubmission(),
-//   dp2: fakeDevPortfolioSubmission(),
-//   dp3: fakeDevPortfolioSubmission()
-// };
 
 beforeAll(async () => {
   await DevPortfolioDao.createNewInstance(mockDP);
