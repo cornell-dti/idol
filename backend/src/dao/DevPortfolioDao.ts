@@ -41,16 +41,16 @@ export default class DevPortfolioDao {
     const instanceRefs = await devPortfolioCollection.get();
 
     return Promise.all(
-      instanceRefs.docs.map(async (instanceRefs) => {
-        return instanceRefs.data() as DBDevPortfolio;
-      })
+      instanceRefs.docs.map(async (instanceRefs) => instanceRefs.data() as DBDevPortfolio)
     );
   }
+
   static async createNewInstance(instance: DevPortfolio): Promise<void> {
     const devPortfolioRef = {
       ...instance,
       uuid: instance.uuid ? instance.uuid : uuidv4()
     };
+
     await devPortfolioCollection.doc(devPortfolioRef.uuid).set(devPortfolioRef);
   }
 
