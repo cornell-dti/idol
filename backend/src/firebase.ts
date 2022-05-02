@@ -5,7 +5,7 @@ import {
   DBTeamEvent,
   DBCandidateDeciderInstance,
   DBDevPortfolio
-} from './DataTypes';
+} from './types/DataTypes';
 
 require('dotenv').config();
 

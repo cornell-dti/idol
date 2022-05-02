@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { devPortfolioCollection } from '../firebase';
-import { DBDevPortfolio } from '../DataTypes';
+import { DBDevPortfolio } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class DevPortfolioDao {
@@ -9,11 +9,10 @@ export default class DevPortfolioDao {
     submission: DevPortfolioSubmission
   ): Promise<DevPortfolioSubmission> {
     const doc = await devPortfolioCollection.doc(uuid).get();
-    if (!doc.exists) return;
 
     const data = doc.data() as DBDevPortfolio;
 
-    let subs = data.submissions;
+    const subs = data.submissions;
     subs.push(submission);
     await devPortfolioCollection.doc(uuid).update({ submissions: subs });
 
@@ -22,7 +21,6 @@ export default class DevPortfolioDao {
 
   static async getInstance(uuid: string): Promise<DevPortfolio> {
     const doc = await devPortfolioCollection.doc(uuid).get();
-    if (!doc.exists) return;
 
     const data = doc.data() as DBDevPortfolio;
 
