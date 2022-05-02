@@ -18,7 +18,7 @@ function getProjectRows(): {
   let rowIndex = 0;
   for (let i = 0; i < projects.length; i += 1) {
     // eslint-disable-next-line no-continue
-    if (projects[i].active === false) continue;
+    // if (projects[i].active === false) continue;
     row.push(projects[i]);
     if (row.length === 3 || rows.length * 3 === projects.length) {
       rows.push({ index: rowIndex, members: row });
