@@ -90,8 +90,8 @@ export const fakeTeamEvent = (): TeamEvent => {
 export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
   const DPSub = {
     member: fakeIdolMember(),
-    openedPRs: ["pr1", "pr2", "pr3"],
-    reviewedPRs: ["pr4", "pr5", "pr6"],
+    openedPRs: ['pr1', 'pr2', 'pr3'],
+    reviewedPRs: ['pr4', 'pr5', 'pr6'],
     status: 'pending'
   };
   return DPSub;
@@ -100,11 +100,11 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
 /** Create a fake Dev Portfolio */
 export const fakeDevPortfolio = (): DevPortfolio => {
   const DP = {
-    name: "testdevportfolio",
-    deadline: "5/20/2031",
-    earliestValidDate: "4/30/2022",
+    name: 'testdevportfolio',
+    deadline: '5/20/2031',
+    earliestValidDate: '4/30/2022',
     submissions: [],
-    uuid: faker.datatype.uuid(),
+    uuid: faker.datatype.uuid()
   };
   return DP;
 };
