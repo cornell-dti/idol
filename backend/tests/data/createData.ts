@@ -62,6 +62,24 @@ export const fakeIdolMember = (): IdolMember => {
   return member;
 };
 
+/** Create Idol member */
+export const randomIdolMember = (): IdolMember => {
+  const member = {
+    netid: 'axc2', // to easily be able to find fake members if needed
+    email: 'axc2@cornell.edu',
+    firstName: 'Andrew',
+    lastName: 'Chen',
+    pronouns: 'he/him/his',
+    graduation: 2025,
+    major: 'Computer Science',
+    hometown: faker.address.city(),
+    about: faker.lorem.paragraph(),
+    subteams: ['idol'],
+    ...fakeRoleObject()
+  };
+  return member;
+};
+
 /** Create a fake TeamEventAttendace object. */
 export const fakeTeamEventAttendance = (): TeamEventAttendance => {
   const TEA = {
@@ -89,7 +107,7 @@ export const fakeTeamEvent = (): TeamEvent => {
 /** Create a fake Dev Submission */
 export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
   const DPSub = {
-    member: fakeIdolMember(),
+    member: randomIdolMember(),
     openedPRs: ['pr1', 'pr2', 'pr3'],
     reviewedPRs: ['pr4', 'pr5', 'pr6'],
     status: 'pending'

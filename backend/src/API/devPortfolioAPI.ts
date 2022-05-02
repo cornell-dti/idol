@@ -36,7 +36,12 @@ export const makeDevPortfolioSubmission = async (
   const devPortfolio = DevPortfolioDao.getInstance(uuid) as DevPortfolio;
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
-  const newSubmission = await validateSubmission(devPortfolio, submission);
-
-  return DevPortfolioDao.makeDevPortfolioSubmission(uuid, newSubmission);
+  if (devPortfolio.earliestDate <= Date.now() && Date.now() <= devPortfolio.deadline) {
+    return DevPortfolioDao.makeDevPortfolioSubmission(
+      uuid,
+      await validateSubmission(devPortfolio, submission)
+    );
+  } else {
+    return DevPortfolioDao.makeDevPortfolioSubmission(uuid, { ...submission, status: 'invalid' });
+  }
 };
