@@ -19,18 +19,14 @@ afterAll(async () => {
   await devPortfolioCollection.doc(mockDP3.uuid).delete();
 });
 
-test('Make new submission', () => {
-  return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, fakeDevPortfolioSubmission).then(
-    (submission) => {
-      expect(submission.status !== 'pending');
-    }
-  );
-});
+test('Make new submission', () =>
+  DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, fakeDevPortfolioSubmission).then(
+    (submission) => expect(submission.status !== 'pending')
+  ));
 
-test('Create new instances and get all instances', () => {
-  return DevPortfolioDao.getAllInstances().then((allSubmissions) => {
+test('Create new instances and get all instances', () =>
+  DevPortfolioDao.getAllInstances().then((allSubmissions) => {
     expect(allSubmissions.some((submission) => submission === mockDP));
     expect(allSubmissions.some((submission) => submission === mockDP2));
     expect(allSubmissions.some((submission) => submission === mockDP3));
-  });
-});
+  }));
