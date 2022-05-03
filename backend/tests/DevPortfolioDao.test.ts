@@ -20,7 +20,7 @@ afterAll(async () => {
 });
 
 test('Make new submission', () =>
-  DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, fakeDevPortfolioSubmission).then(
+  DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, fakeDevPortfolioSubmission()).then(
     (submission) => expect(submission.status !== 'pending')
   ));
 
