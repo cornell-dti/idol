@@ -1,6 +1,6 @@
 import DevPortfolioDao from '../dao/DevPortfolioDao';
 import PermissionsManager from '../utils/permissionsManager';
-import { PermissionError, BadRequestError } from '../utils/errors';
+import { PermissionError, BadRequestError, UnauthorizedError } from '../utils/errors';
 import validateSubmission from '../utils/githubUtil';
 
 export const getAllDevPortfolios = async (): Promise<DevPortfolio[]> =>
@@ -36,11 +36,11 @@ export const makeDevPortfolioSubmission = async (
   const devPortfolio = DevPortfolioDao.getInstance(uuid) as DevPortfolio;
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
-  if (devPortfolio.earliestDate <= Date.now() && Date.now() <= devPortfolio.deadline) {
-    return DevPortfolioDao.makeDevPortfolioSubmission(
-      uuid,
-      await validateSubmission(devPortfolio, submission)
-    );
+  if (Date.now() > devPortfolio.deadline) {
+    throw new UnauthorizedError('This dev portfolio is past due.');
   }
-  return DevPortfolioDao.makeDevPortfolioSubmission(uuid, { ...submission, status: 'invalid' });
+  return DevPortfolioDao.makeDevPortfolioSubmission(
+    uuid,
+    await validateSubmission(devPortfolio, submission)
+  );
 };
