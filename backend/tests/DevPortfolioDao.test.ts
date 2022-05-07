@@ -24,7 +24,7 @@ test('Make new submission', () =>
     (submission) => expect(submission.status !== 'pending')
   ));
 
-test('Create new instances and get all instances', () =>
+test('Get all instances', () =>
   DevPortfolioDao.getAllInstances().then((allSubmissions) => {
     expect(allSubmissions.some((submission) => submission === mockDP));
     expect(allSubmissions.some((submission) => submission === mockDP2));
