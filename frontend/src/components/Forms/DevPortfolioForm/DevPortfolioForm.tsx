@@ -34,10 +34,11 @@ const DevPortfolioForm: React.FC = () => {
     }
   ];
 
+  // real!!!
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   // const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
-  const [openPR, setOpenPR] = useState('');
-  const [reviewedPR, setReviewedPR] = useState('');
+  const [openPRs, setOpenPRs] = useState(['']);
+  const [reviewPRs, setReviewedPRs] = useState(['']);
 
   // useEffect(() => {
   //   DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
@@ -69,7 +70,7 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (!openPR || !reviewedPR) {
+    } else if (!openPRs[0] || !reviewPRs[0]) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened or reviewed PR!'
@@ -77,14 +78,14 @@ const DevPortfolioForm: React.FC = () => {
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
-        openedPRs: [openPR],
-        reviewedPRs: [reviewedPR],
+        openedPRs: openPRs,
+        reviewedPRs: reviewPRs,
         status: 'pending'
       };
       requestDevPortfolio(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
-      setOpenPR('');
-      setReviewedPR('');
+      setOpenPRs(['']);
+      setReviewedPRs(['']);
     }
   };
 
@@ -119,23 +120,93 @@ const DevPortfolioForm: React.FC = () => {
           </div>
 
           <div className={styles.inline}>
-            <Form.Input
-              fluid
-              label="Opened Pull Request Github Link: "
-              value={openPR}
-              onChange={(assignment) => setOpenPR(assignment.target.value)}
-              required
-            />
+            <label className={styles.bold}>
+              Opened Pull Request Github Link: <span className={styles.red_color}>*</span>
+            </label>
+            {openPRs.map((data, index) => {
+              const openPR = data;
+              return (
+                <div className="box" key={index}>
+                  <input
+                    type="text"
+                    onChange={(evnt) => {
+                      const { value } = evnt.target;
+                      const l = [...openPRs];
+                      l[index] = value;
+                      setOpenPRs(l);
+                    }}
+                    value={openPR}
+                    name="openPR"
+                    placeholder="Opened PR"
+                  />
+                  <div className="btn-box">
+                    {openPRs.length !== 1 ? (
+                      <button
+                        onClick={() => {
+                          const rows = [...openPRs];
+                          rows.splice(index, 1);
+                          setOpenPRs(rows);
+                        }}
+                      >
+                        x
+                      </button>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            <div className="row">
+              <div className="col-sm-12">
+                <button onClick={() => setOpenPRs([...openPRs, ''])}>Add New</button>
+              </div>
+            </div>
           </div>
 
           <div className={styles.inline}>
-            <Form.Input
-              fluid
-              label="Reviewed Pull Request Github Link: "
-              value={reviewedPR}
-              onChange={(assignment) => setReviewedPR(assignment.target.value)}
-              required
-            />
+            <label className={styles.bold}>
+              Reviewed Pull Request Github Link: <span className={styles.red_color}>*</span>
+            </label>
+            {reviewPRs.map((data, index) => {
+              const reviewPR = data;
+              return (
+                <div className="box" key={index}>
+                  <input
+                    type="text"
+                    onChange={(evnt) => {
+                      const { value } = evnt.target;
+                      const l = [...reviewPRs];
+                      l[index] = value;
+                      setReviewedPRs(l);
+                    }}
+                    value={reviewPR}
+                    name="reviewedPR"
+                    placeholder="Reviewed PR"
+                  />
+                  <div className="btn-box">
+                    {reviewPRs.length !== 1 ? (
+                      <button
+                        onClick={() => {
+                          const rows = [...reviewPRs];
+                          rows.splice(index, 1);
+                          setReviewedPRs(rows);
+                        }}
+                      >
+                        x
+                      </button>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            <div className="row">
+              <div className="col-sm-12">
+                <button onClick={() => setReviewedPRs([...reviewPRs, ''])}>Add New</button>
+              </div>
+            </div>
           </div>
         </div>
 
