@@ -37,7 +37,7 @@ export const makeDevPortfolioSubmission = async (
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
   if (Date.now() > devPortfolio.deadline) {
-    throw new UnauthorizedError('This dev portfolio is past due.');
+    throw new BadRequestError('This dev portfolio is past due.');
   }
   return DevPortfolioDao.makeDevPortfolioSubmission(
     uuid,
