@@ -85,3 +85,26 @@ export const fakeTeamEvent = (): TeamEvent => {
   };
   return TE;
 };
+
+/** Create a fake Dev Submission */
+export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
+  const DPSub = {
+    member: fakeIdolMember(),
+    openedPRs: ['pr1', 'pr2', 'pr3'],
+    reviewedPRs: ['pr4', 'pr5', 'pr6'],
+    status: 'pending'
+  };
+  return DPSub;
+};
+
+/** Create a fake Dev Portfolio */
+export const fakeDevPortfolio = (): DevPortfolio => {
+  const DP = {
+    name: 'testdevportfolio',
+    deadline: Date.parse('06 May 2022 00:00:00 GMT'),
+    earliestValidDate: Date.parse('01 May 2022 00:00:00 GMT'),
+    submissions: [],
+    uuid: faker.datatype.uuid()
+  };
+  return DP;
+};
