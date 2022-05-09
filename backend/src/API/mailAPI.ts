@@ -8,7 +8,9 @@ const sendMail = (to: string, subject: string, text: string): void => {
     text
   };
 
-  transporter.sendMail(mailOptions);
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) throw new Error();
+  });
 };
 
 export default sendMail;
