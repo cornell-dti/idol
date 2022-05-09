@@ -126,12 +126,8 @@ const loginCheckedDelete = (
 
 // Email notifs
 router.post('/sendMail', async (req, res) => {
-  try {
-    sendMail(req.body.to, req.body.subject, req.body.text);
-    res.send();
-  } catch {
-    res.status(400).send();
-  }
+  const info = await sendMail(req.body.to, req.body.subject, req.body.text);
+  res.status(200).send(info);
 });
 
 // Members

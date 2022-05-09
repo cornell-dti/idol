@@ -1,6 +1,6 @@
 import transporter from '../nodemailer';
 
-const sendMail = (to: string, subject: string, text: string): void => {
+const sendMail = async (to: string, subject: string, text: string) => {
   const mailOptions = {
     from: process.env.EMAIL,
     to,
@@ -8,9 +8,8 @@ const sendMail = (to: string, subject: string, text: string): void => {
     text
   };
 
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) throw new Error();
-  });
+  const info = await transporter.sendMail(mailOptions);
+  return info;
 };
 
 export default sendMail;
