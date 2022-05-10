@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer, { TransportOptions } from 'nodemailer';
 import { google } from 'googleapis';
 
 const oauth2Client = new google.auth.OAuth2(
@@ -8,8 +8,9 @@ const oauth2Client = new google.auth.OAuth2(
 );
 oauth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
 
-const getEmailTransporter = () =>
-  nodemailer.createTransport({
+const getEmailTransporter = async (): Promise<any> => {
+  const accessToken = await oauth2Client.getAccessToken();
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
     port: 465,
@@ -20,8 +21,10 @@ const getEmailTransporter = () =>
       clientId: process.env.OAUTH_CLIENTID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
       refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-      accessToken: oauth2Client.getAccessToken()
+      accessToken
     }
-  });
+  } as TransportOptions);
+  return transporter;
+};
 
 export default getEmailTransporter;
