@@ -68,6 +68,7 @@ const CodeForm: React.FC<{
       onClick={() => {
         setShowCopied(false);
         onClick && onClick();
+        setInputVal('');
       }}
       type="submit"
     >

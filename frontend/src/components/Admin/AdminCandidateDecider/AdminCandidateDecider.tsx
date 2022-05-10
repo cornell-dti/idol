@@ -53,6 +53,7 @@ const CandidateDeciderInstanceCreator = ({
   const [responses, setResponses] = useState<string[][]>([[]]);
   const [authorizedMembers, setAuthorizedMembers] = useState<IdolMember[]>([]);
   const [authorizedRoles, setAuthorizedRoles] = useState<Role[]>([]);
+  const [, setFileInKey] = useState('0');
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -87,6 +88,12 @@ const CandidateDeciderInstanceCreator = ({
     CandidateDeciderAPI.createNewInstance(instance)
       .then((newInstance) => setInstances((instances) => [...instances, newInstance]))
       .then(() => setSuccess(true));
+    setName('');
+    setHeaders([]);
+    setResponses([[]]);
+    setAuthorizedMembers([]);
+    setAuthorizedRoles([]);
+    setFileInKey(Date.now().toString());
   };
 
   return (
