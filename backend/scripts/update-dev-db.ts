@@ -13,7 +13,7 @@ type DbData = {
   }[];
 }[];
 
-const configureAccount = (sa: any, isProd: boolean): any => {
+const configureAccount = (sa: unknown, isProd: boolean): unknown => {
   const configAcc = sa;
   let parsedPK;
   try {
