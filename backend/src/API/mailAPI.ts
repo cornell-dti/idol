@@ -1,4 +1,4 @@
-import transporter from '../nodemailer';
+import getEmailTransporter from '../nodemailer';
 
 const sendMail = async (to: string, subject: string, text: string) => {
   const mailOptions = {
@@ -7,7 +7,7 @@ const sendMail = async (to: string, subject: string, text: string) => {
     subject: `IDOL notifs: ${subject}`,
     text
   };
-
+  const transporter = getEmailTransporter();
   const info = await transporter.sendMail(mailOptions);
   return info;
 };
