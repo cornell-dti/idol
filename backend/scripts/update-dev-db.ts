@@ -92,7 +92,7 @@ const rewriteDbData = async (devDb: FirebaseFirestore.Firestore, data: DbData): 
 
   await Promise.all(allCollections.map((collection) => deleteCollection(devDb, collection, 10)));
   return data.map((collection) =>
-    collection.docs.forEach((doc) => devDb.doc(`${collection.id}/ ${doc.id}`).set(doc.data))
+    collection.docs.forEach((doc) => devDb.doc(`${collection.id}/${doc.id}`).set(doc.data))
   );
 };
 
@@ -117,7 +117,6 @@ const main = async () => {
   const prodDb = admin.firestore(prodApp);
 
   const prodData = await readDbData(prodDb);
-
   return rewriteDbData(devDb, prodData);
 };
 
