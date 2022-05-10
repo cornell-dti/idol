@@ -53,7 +53,7 @@ const CandidateDeciderInstanceCreator = ({
   const [responses, setResponses] = useState<string[][]>([[]]);
   const [authorizedMembers, setAuthorizedMembers] = useState<IdolMember[]>([]);
   const [authorizedRoles, setAuthorizedRoles] = useState<Role[]>([]);
-  const [, setFileInKey] = useState('0');
+  const [fileInKey, setFileInKey] = useState('0');
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -101,7 +101,7 @@ const CandidateDeciderInstanceCreator = ({
       <Header as="h2">Create a new Candidate Decider instance</Header>
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="file" accept=".csv" onChange={handleFileUpload} />
+        <input type="file" accept=".csv" onChange={handleFileUpload} key={fileInKey || ''} />
         <Message>
           All leads and IDOL admins have permission to all Candidate Decider instances
         </Message>
