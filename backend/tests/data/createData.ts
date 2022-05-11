@@ -86,13 +86,29 @@ export const fakeTeamEvent = (): TeamEvent => {
   return TE;
 };
 
+/** Get list of 1 to 3 fake github links. */
+const fakePRs = (): string[] => {
+  const length = getRandomInt(0, 3);
+  const links = [];
+  /* eslint-disable no-plusplus */
+  for (let i = 0; i < length; i++) {
+    const owner = faker.lorem.word();
+    const repo = faker.lorem.word();
+    const pullNumber = getRandomInt(1, 999);
+    links.push(`https://github.com/${owner}/${repo}/pull/${pullNumber}`);
+  }
+
+  return links;
+};
+
 /** Create a fake Dev Submission */
 export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
   const DPSub = {
     member: fakeIdolMember(),
-    openedPRs: ['pr1', 'pr2', 'pr3'],
-    reviewedPRs: ['pr4', 'pr5', 'pr6'],
-    status: 'pending'
+    openedPRs: fakePRs(),
+    reviewedPRs: fakePRs(),
+    openedResults: [],
+    reviewedResults: []
   };
   return DPSub;
 };
@@ -101,7 +117,7 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
 export const fakeDevPortfolio = (): DevPortfolio => {
   const DP = {
     name: 'testdevportfolio',
-    deadline: Date.parse('06 May 2022 00:00:00 GMT'),
+    deadline: Date.now() + 10 * 86400000, // 10 days in the future
     earliestValidDate: Date.parse('01 May 2022 00:00:00 GMT'),
     submissions: [],
     uuid: faker.datatype.uuid()
