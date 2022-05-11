@@ -1,5 +1,4 @@
 import { Octokit } from '@octokit/rest';
-import { DevPortfolio, DevPortfolioSubmission, ValidationResult } from '../types/DataTypes';
 
 type PullRequest = {
   owner: string;
@@ -121,6 +120,10 @@ const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
     });
 };
 
+/** ="`time` is between the date range `start` to `end`." */
+export const isWithinDates = (time: number, start: number, end: number): boolean =>
+  start <= time && time <= end;
+
 /** Returns `comments` created by `username` between `startTime` and `endTime`.
  *  Raises an error if no comment satisfies these conditions. */
 const filterComments = (
@@ -142,8 +145,8 @@ const filterComments = (
   }
 
   // comments made in date range
-  eligibleComments = eligibleComments.filter(
-    (comment) => startTime <= comment.createdAt && comment.createdAt <= endTime
+  eligibleComments = eligibleComments.filter((comment) =>
+    isWithinDates(comment.createdAt, startTime, endTime)
   );
   if (!eligibleComments || !eligibleComments.length) {
     const startDate = new Date(startTime).toDateString();
@@ -265,7 +268,7 @@ const validateOpen = async (
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
     }
 
-    if (open.createdAt < start || open.createdAt > end) {
+    if (!isWithinDates(open.createdAt, start, end)) {
       const startDate = new Date(start).toDateString();
       const endDate = new Date(end).toDateString();
       throw new Error(`Pull request ${open.url} was not made between ${startDate} and ${endDate}.`);
@@ -293,21 +296,3 @@ export const validateSubmission = async (
 };
 
 export default validateSubmission;
-
-const testSubmission = {
-  member: { github: 'https://github.com/JacksonStaniec' },
-  openedPRs: ['https://github.com/cornell-dti/idol/pull/284'],
-  reviewedPRs: [
-    'https://github.com/cornell-dti/idol/pull/292',
-    'https://github.com/cornell-dti/idol/pull/287'
-  ],
-  openedResults: [],
-  reviewedResults: []
-} as DevPortfolioSubmission;
-
-const testPortfolio = {
-  earliestValidDate: new Date('4-1-2022').getTime(),
-  deadline: Date.now()
-} as DevPortfolio;
-
-validateSubmission(testPortfolio, testSubmission).then((res) => console.log(res));
