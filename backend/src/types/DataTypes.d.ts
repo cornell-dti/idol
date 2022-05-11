@@ -106,15 +106,16 @@ export type ValidationResult = {
   reason?: string;
 };
 
-export type DevPortfolio = {
+export type DBDevPortfolio = {
   name: string;
   deadline: number;
   earliestValidDate: number;
-  submissions: DevPortfolioSubmission[];
+  submissions: DBDevPortfolioSubmission[];
+  readonly uuid: string;
 };
 
-export type DevPortfolioSubmission = {
-  member: IdolMember;
+export type DBDevPortfolioSubmission = {
+  member: firestore.DocumentReference;
   openedPRs: string[];
   reviewedPRs: string[];
   openedResults: ValidationResult[];
