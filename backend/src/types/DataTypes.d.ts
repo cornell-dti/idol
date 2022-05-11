@@ -101,11 +101,6 @@ export type DBCandidateDeciderInstance = {
   isOpen: boolean;
 };
 
-export type ValidationResult = {
-  status: 'valid' | 'invalid' | 'pending';
-  reason?: string;
-};
-
 export type DBDevPortfolio = {
   name: string;
   deadline: number;

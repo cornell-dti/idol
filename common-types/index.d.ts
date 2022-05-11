@@ -132,6 +132,11 @@ interface CandidateDeciderInfo {
   isOpen: boolean;
 }
 
+interface ValidationResult {
+  status: 'valid' | 'invalid' | 'pending';
+  reason?: string;
+}
+
 interface DevPortfolio {
   name: string;
   deadline: number;
@@ -144,5 +149,6 @@ interface DevPortfolioSubmission {
   member: IdolMember;
   openedPRs: string[];
   reviewedPRs: string[];
-  status: 'valid' | 'invalid' | 'pending';
+  openedResults: ValidationResult[];
+  reviewedResults: ValidationResult[];
 }
