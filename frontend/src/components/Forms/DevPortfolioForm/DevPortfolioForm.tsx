@@ -79,7 +79,8 @@ const DevPortfolioForm: React.FC = () => {
         member: userInfo,
         openedPRs: [openPR],
         reviewedPRs: [reviewedPR],
-        status: 'pending'
+        openedResults: [],
+        reviewedResults: []
       };
       requestDevPortfolio(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
