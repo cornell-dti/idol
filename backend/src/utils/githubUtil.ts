@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest';
-import { DevPortfolio, DevPortfolioSubmission } from '../types/DataTypes';
+import { DevPortfolio, DevPortfolioSubmission, ValidationResult } from '../types/DataTypes';
 
 type PullRequest = {
   owner: string;
@@ -24,12 +24,6 @@ type OpenedPR = {
   url: string;
   createdBy: string;
   createdAt: number;
-};
-
-// useful to see reason why if not valid
-type ValidationResult = {
-  status: 'valid' | 'invalid' | 'pending';
-  reason?: string;
 };
 
 /** Parses GitHub PR `url` for information necessary to make API calls.
@@ -279,15 +273,15 @@ const validateOpen = async (
   });
 
 /** ="at least one of `results` is valid" */
-const atLeastOneValid = (results: ValidationResult[]) =>
+export const atLeastOneValid = (results: ValidationResult[]): boolean =>
   results.some((result) => result.status === 'valid');
 
 /** Determines whether submission is valid or invalid. */
-const validateSubmission = async (
+export const validateSubmission = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
-  const reviewResults = await Promise.all(
+  const reviewedResults = await Promise.all(
     submission.reviewedPRs.map(async (url) => validateReview(portfolio, submission, url))
   );
 
@@ -295,9 +289,25 @@ const validateSubmission = async (
     submission.openedPRs.map(async (url) => validateOpen(portfolio, submission, url))
   );
 
-  const status =
-    atLeastOneValid(reviewResults) && atLeastOneValid(openedResults) ? 'valid' : 'invalid';
-  return { ...submission, status };
+  return { ...submission, openedResults, reviewedResults };
 };
 
 export default validateSubmission;
+
+const testSubmission = {
+  member: { github: 'https://github.com/JacksonStaniec' },
+  openedPRs: ['https://github.com/cornell-dti/idol/pull/284'],
+  reviewedPRs: [
+    'https://github.com/cornell-dti/idol/pull/292',
+    'https://github.com/cornell-dti/idol/pull/287'
+  ],
+  openedResults: [],
+  reviewedResults: []
+} as DevPortfolioSubmission;
+
+const testPortfolio = {
+  earliestValidDate: new Date('4-1-2022').getTime(),
+  deadline: Date.now()
+} as DevPortfolio;
+
+validateSubmission(testPortfolio, testSubmission).then((res) => console.log(res));

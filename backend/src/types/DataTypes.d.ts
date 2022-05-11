@@ -101,6 +101,11 @@ export type DBCandidateDeciderInstance = {
   isOpen: boolean;
 };
 
+export type ValidationResult = {
+  status: 'valid' | 'invalid' | 'pending';
+  reason?: string;
+};
+
 export type DevPortfolio = {
   name: string;
   deadline: number;
@@ -112,5 +117,6 @@ export type DevPortfolioSubmission = {
   member: IdolMember;
   openedPRs: string[];
   reviewedPRs: string[];
-  status: 'valid' | 'invalid' | 'pending';
+  openedResults: ValidationResult[];
+  reviewedResults: ValidationResult[];
 };
