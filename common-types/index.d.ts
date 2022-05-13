@@ -132,7 +132,8 @@ interface CandidateDeciderInfo {
   isOpen: boolean;
 }
 
-interface ValidationResult {
+interface PullRequestSubmission {
+  url: string;
   status: 'valid' | 'invalid' | 'pending';
   reason?: string;
 }
@@ -147,8 +148,6 @@ interface DevPortfolio {
 
 interface DevPortfolioSubmission {
   member: IdolMember;
-  openedPRs: string[];
-  reviewedPRs: string[];
-  openedResults: ValidationResult[];
-  reviewedResults: ValidationResult[];
+  openedPRs: PullRequestSubmission[];
+  reviewedPRs: PullRequestSubmission[];
 }

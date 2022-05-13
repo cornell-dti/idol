@@ -25,6 +25,11 @@ type OpenedPR = {
   createdAt: number;
 };
 
+type ValidationResult = {
+  status: 'valid' | 'invalid' | 'pending';
+  reason?: string;
+};
+
 /** Parses GitHub PR `url` for information necessary to make API calls.
  *  Raises an error if URL is malformed. */
 const parseGithubUrl = (url: string): PullRequest => {
@@ -281,14 +286,19 @@ export const validateSubmission = async (
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
   const reviewedResults = await Promise.all(
-    submission.reviewedPRs.map(async (url) => validateReview(portfolio, submission, url))
+    submission.reviewedPRs.map(async (pr) => ({
+      ...pr,
+      ...(await validateReview(portfolio, submission, pr.url))
+    }))
   );
 
   const openedResults = await Promise.all(
-    submission.openedPRs.map(async (url) => validateOpen(portfolio, submission, url))
+    submission.openedPRs.map(async (pr) => ({
+      ...pr,
+      ...(await validateOpen(portfolio, submission, pr.url))
+    }))
   );
-
-  return { ...submission, openedResults, reviewedResults };
+  return { ...submission, openedPRs: openedResults, reviewedPRs: reviewedResults };
 };
 
 export default validateSubmission;
