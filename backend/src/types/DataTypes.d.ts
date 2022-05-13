@@ -111,7 +111,6 @@ export type DBDevPortfolio = {
 
 export type DBDevPortfolioSubmission = {
   member: firestore.DocumentReference;
-  openedPRs: string[];
-  reviewedPRs: string[];
-  status: 'valid' | 'invalid' | 'pending';
+  openedPRs: PullRequestSubmission[];
+  reviewedPRs: PullRequestSubmission[];
 };

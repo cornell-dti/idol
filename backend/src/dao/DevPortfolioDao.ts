@@ -4,21 +4,19 @@ import { DBDevPortfolio } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class DevPortfolioDao {
-  private static async DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): DevPortfolio {
+  private static async DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): Promise<DevPortfolio> {
     return {
       ...data,
       submissions: await Promise.all(
         data.submissions.map(async (submission) => ({
           ...submission,
-          member: getMemberFromDocumentReference(submission.member)
+          member: await getMemberFromDocumentReference(submission.member)
         }))
       )
     };
   }
 
-  private static async DevPortfolioToDBDevPortfolio(
-    instance: DevPortfolio
-  ): Promise<DBDevPortfolio> {
+  private static DevPortfolioToDBDevPortfolio(instance: DevPortfolio): DBDevPortfolio {
     return {
       ...instance,
       uuid: instance.uuid ? instance.uuid : uuidv4(),
