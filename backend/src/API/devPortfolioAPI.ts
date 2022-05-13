@@ -32,8 +32,8 @@ export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promis
 export const makeDevPortfolioSubmission = async (
   uuid: string,
   submission: DevPortfolioSubmission
-): Promise<void> => {
-  const devPortfolio = DevPortfolioDao.getInstance(uuid) as DevPortfolio;
+): Promise<DevPortfolioSubmission> => {
+  const devPortfolio = await DevPortfolioDao.getInstance(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
   if (!isWithinDates(Date.now(), devPortfolio.earliestValidDate, devPortfolio.deadline)) {
