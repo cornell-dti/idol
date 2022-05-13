@@ -87,18 +87,18 @@ export const fakeTeamEvent = (): TeamEvent => {
 };
 
 /** Get list of 1 to 3 fake github links. */
-const fakePRs = (): string[] => {
+const fakePRs = (): PullRequestSubmission[] => {
   const length = getRandomInt(0, 3);
-  const links = [];
+  const prs = [];
   /* eslint-disable no-plusplus */
   for (let i = 0; i < length; i++) {
     const owner = faker.lorem.word();
     const repo = faker.lorem.word();
     const pullNumber = getRandomInt(1, 999);
-    links.push(`https://github.com/${owner}/${repo}/pull/${pullNumber}`);
+    prs.push({ url: `https://github.com/${owner}/${repo}/pull/${pullNumber}`, status: 'pending' });
   }
 
-  return links;
+  return prs;
 };
 
 /** Create a fake Dev Submission */
@@ -106,9 +106,7 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
   const DPSub = {
     member: fakeIdolMember(),
     openedPRs: fakePRs(),
-    reviewedPRs: fakePRs(),
-    openedResults: [],
-    reviewedResults: []
+    reviewedPRs: fakePRs()
   };
   return DPSub;
 };
