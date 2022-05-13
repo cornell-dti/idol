@@ -275,10 +275,6 @@ const validateOpen = async (
     }
   });
 
-/** ="at least one of `results` is valid" */
-export const atLeastOneValid = (results: ValidationResult[]): boolean =>
-  results.some((result) => result.status === 'valid');
-
 /** Determines whether submission is valid or invalid. */
 export const validateSubmission = async (
   portfolio: DevPortfolio,
