@@ -33,7 +33,7 @@ const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Eleme
         }
       });
     });
-  }, [teamEvents]);
+  }, [teamEvents, userInfo.email]);
 
   return (
     <div>
