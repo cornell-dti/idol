@@ -37,7 +37,6 @@ paths:
       tags:
       - 'Members'
       summary: 'Returns members from all semesters'
-      parameters: []
       responses:
         '200':
           description: "Successfully returns members from all semesters"
@@ -349,6 +348,87 @@ paths:
           description: "Successfuly rejects the IDOL changes pull request on GitHub"
         '403':
           $ref: "#/components/responses/deploySite"
+  /getShoutouts:
+    get:
+      tags:
+      - "Shoutouts"
+      summary: 'Returns the shoutouts given or received by a member'
+      parameters:
+      - in: path
+        name: email
+        schema:
+          type: string 
+        required: true
+        description: "Email of the member to get the shououts for"
+      - in: path
+        name: type
+        schema:
+          type: string 
+          enum: [given, received]
+        required: true
+      responses:
+        '200':
+          description: "Successfully returns the shoutouts given or received by the member"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutouts:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Shoutout"
+        '403':
+          description: "PermissionError: User does not have the permission to get shoutouts."
+  /allShoutouts:
+    get:
+      tags:
+      - "Shoutouts"
+      summary: 'Returns all shoutouts'
+      responses:
+        '200':
+          description: "Successfully returns all shoutouts"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutouts:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Shoutout"
+  /giveShoutout:
+    post:
+      tags:
+      - "Shoutouts"
+      summary: 'Sends a shoutout to a member'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                giver:
+                  $ref: "#/components/schemas/IdolMember"
+                receiver:
+                  $ref: "#/components/schemas/IdolMember"
+                message: 
+                  type: string
+                isAnon:
+                  type: boolean
+      responses:
+        '200':
+          description: "Successfully sends a shoutout to the member (receiver)"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutout:
+                      $ref: "#/components/schemas/Shoutout"
+        '403':
+          description: "PermissionError: User does not have the permission to post a shoutout from a different user."
 components:
   schemas:
     IdolMember:
@@ -455,6 +535,33 @@ components:
           type: string
         fileName:
           type: string
+    Shoutout:
+      type: object
+      anyOf:
+      - type: object
+        properties:
+          giver:
+            $ref: '#/components/schemas/IdolMember'
+          receiver:
+            $ref: '#/components/schemas/IdolMember'
+          message:
+            type: string
+          isAnon:
+            type: boolean
+            enum: [false]
+      - type: object
+        properties:
+          receiver:
+            $ref: '#/components/schemas/IdolMember'
+          message:
+            type: string
+          isAnon:
+            type: boolean
+            enum: [true]
+      example:
+      - member: "[IdolMember]"
+        message: "For creating amazing desgins!"
+        isAnon: true
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
