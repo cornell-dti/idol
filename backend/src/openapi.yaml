@@ -429,6 +429,164 @@ paths:
                       $ref: "#/components/schemas/Shoutout"
         '403':
           description: "PermissionError: User does not have the permission to post a shoutout from a different user."
+  /signInExists:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Checks if the sign-in id exists'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfully returns true if the sign-in id exists and false if it doesn't"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exists:
+                    type: boolean
+  /signInExpired:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Checks if the sign-in id is expired'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfully returns true if the sign-in id is expired and false if it isn't"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expired:
+                    type: boolean
+  /signInCreate:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Creates a sign-in form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+                expireAt:
+                  type: number
+                user:
+                  $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully creates a sign-in form"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+                  createdAt:
+                    type: number
+                  expireAt:
+                    type: number
+        '403':
+          description: "PermissionError: The user doesn't have the permission to create a sign-in form!"
+        '400':
+          description: "BadRequestError: Invalid Date. Expiry Date cannot be in the past!"
+        '404':
+          description: "NotFoundError: A form already exists with the same id"
+  /signInDelete:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Deletes a sign-in form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfuly deletes the sign-in form"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: The user doesn't have the permission to delete a sign-in form!"
+        '404':
+          description: "NotFoundError: No form with the id exists"
+  /signIn:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Sign-ins the user to the given sign-in form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfully sign-ins the user to the given sign-in form"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+                  signedInAt:
+                    type: number
+        '404':
+          description: "NotFoundError: No form with the id exists or No user with email found."
+        '400':
+          description: "BadRequestError: User is not allowed to sign into expired form with id."
+  /signInAll:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Returns all the sign-in forms'
+      parameters: []
+      responses:
+        '200':
+          description: "Successfully returns all sign-in forms"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  forms:
+                    type: array
+                    $ref: "#/components/schemas/SignInForm"
 components:
   schemas:
     IdolMember:
@@ -562,6 +720,30 @@ components:
       - member: "[IdolMember]"
         message: "For creating amazing desgins!"
         isAnon: true
+    SignInForm:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            properties:
+              signedInAt:
+                type: number
+              user:
+                $ref: '#/components/schemas/IdolMember'
+        createdAt:
+          type: number
+        expireAt:
+          type: number
+        id:
+          type: string
+      example:
+      - users: 
+          signedInAt: 1634357552095
+          user: "[IdolMember]"
+        createdAt: 1634354763977
+        expiredAt: 1634414400000
+        id: "sesh123"
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
