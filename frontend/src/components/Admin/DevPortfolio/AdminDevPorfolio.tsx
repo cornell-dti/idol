@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Loader, Form } from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 
 const AdminDevPortfolio: React.FC = () => {
@@ -27,10 +28,22 @@ const AdminDevPortfolio: React.FC = () => {
 
 const AdminDevPortfolioForm: React.FC = () => {
   const [name, setName] = useState<string>('');
+  const [deadline, setDeadline] = useState<Date>(new Date());
+  const [earliestDate, setEarliestDate] = useState<Date>(new Date());
+
   return (
     <Form>
-      <Form.Input label="Name" value={name} />
-      <Form.Input />
+      <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+      <DatePicker
+        selected={deadline}
+        dateFormat="MMM d, yyyys"
+        onChange={(date: Date) => setDeadline(date)}
+      />
+      <DatePicker
+        selected={earliestDate}
+        dateFormat="MMM d, yyyy"
+        onChange={(date: Date) => setEarliestDate(date)}
+      />
     </Form>
   );
 };
