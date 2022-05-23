@@ -21,6 +21,7 @@
     "@types/gapi": "^0.0.41",
     "@types/nodemailer": "^6.4.4",
     "@types/uuid": "^8.3.0",
+    "axios": "^0.27.2",
     "body-parser": "^1.19.0",
     "common-types": "1.0.0",
     "cors": "^2.8.5",

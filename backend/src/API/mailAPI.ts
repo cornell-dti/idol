@@ -1,7 +1,13 @@
+import axios from 'axios';
+import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
 // import AdminsDao from '../dao/AdminsDao';
 
-const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
+export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
+  // Don't send email notifications locally
+  if (!process.env.isProd) {
+    return {};
+  }
   const mailOptions = {
     from: process.env.EMAIL,
     to,
@@ -16,20 +22,24 @@ const sendMail = async (to: string, subject: string, text: string): Promise<unkn
   return info;
 };
 
-const emailAdmins = async (subject: string, text: string) => {
+const emailAdmins = async (req: Request, subject: string, text: string) => {
+  const url = 'http://localhost:9000/.netlify/functions/api/sendMail';
   // const adminEmails = await AdminsDao.getAllAdminEmails();
+  const idToken = req.headers['auth-token'] as string;
   const adminEmails = ['hl738@cornell.edu'];
+  const requestBody = {
+    subject,
+    text
+  };
+
   return adminEmails.map(async (email) => {
-    const info = await sendMail(email, subject, text);
-    return info;
+    axios.post(url, { ...requestBody, to: email }, { headers: { 'auth-token': idToken } });
   });
 };
 
-const sendMemberUpdateNotifications = async () => {
+export const sendMemberUpdateNotifications = async (req: Request) => {
   const subject = 'IDOL Member Profile Change';
   const text =
     'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
-  return emailAdmins(subject, text);
+  return emailAdmins(req, subject, text);
 };
-
-export default sendMemberUpdateNotifications;

@@ -1,9 +1,10 @@
+import { Request } from 'express';
 import MembersDao from '../dao/MembersDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
-import sendMemberUpdateNotifications from './mailAPI';
+import { sendMemberUpdateNotifications } from './mailAPI';
 
 export const allMembers = (): Promise<readonly IdolMember[]> => MembersDao.getAllMembers(false);
 
@@ -23,7 +24,11 @@ export const setMember = async (body: IdolMember, user: IdolMember): Promise<Ido
   return MembersDao.setMember(body.email, body);
 };
 
-export const updateMember = async (body: IdolMember, user: IdolMember): Promise<IdolMember> => {
+export const updateMember = async (
+  req: Request,
+  body: IdolMember,
+  user: IdolMember
+): Promise<unknown> => {
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit && user.email !== body.email) {
     // members are able to edit their own information
@@ -46,7 +51,7 @@ export const updateMember = async (body: IdolMember, user: IdolMember): Promise<
   }
 
   return MembersDao.updateMember(body.email, body).then(async (mem) => {
-    await sendMemberUpdateNotifications();
+    sendMemberUpdateNotifications(req);
     return mem;
   });
 };
