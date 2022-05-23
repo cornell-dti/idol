@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
+import { isProd } from '../api';
 // import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   // Don't send email notifications locally
+  console.log('SEND MAIL');
   if (!process.env.isProd) {
     return {};
   }
@@ -22,8 +24,15 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
   return info;
 };
 
+const getSendMailURL = (req: Request): string => {
+  if (isProd) {
+    return `${req.hostname}/.netlify/functions/api/sendMail`;
+  }
+  return 'http://localhost:9000/.netlify/functions/api/sendMail';
+};
+
 const emailAdmins = async (req: Request, subject: string, text: string) => {
-  const url = 'http://localhost:9000/.netlify/functions/api/sendMail';
+  const url = getSendMailURL(req);
   // const adminEmails = await AdminsDao.getAllAdminEmails();
   const idToken = req.headers['auth-token'] as string;
   const adminEmails = ['hl738@cornell.edu'];

@@ -88,6 +88,7 @@ const getUserEmailFromRequest = async (request: Request): Promise<string | undef
 const loginCheckedHandler =
   (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
   async (req: Request, res: Response): Promise<void> => {
+    console.log(req.hostname);
     const userEmail = await getUserEmailFromRequest(req);
     if (userEmail == null) {
       res.status(440).json({ error: 'Not logged in!' });
