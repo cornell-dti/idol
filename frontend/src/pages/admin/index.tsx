@@ -56,13 +56,13 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'Edit and review Dev Portfolio assignments',
     link: '/admin/dev-portfolio',
     adminOnly: true
-  }
+  },
   {
     header: 'Example Unstable Hidden Page',
     description: 'An example page visible to admin only. It can be used to gate unstable features.',
     link: '/admin/hidden',
     adminOnly: true
-  },
+  }
 ];
 
 const AdminIndex = (): JSX.Element => <NavigationCard items={navCardItems} />;
