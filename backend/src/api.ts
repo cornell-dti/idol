@@ -147,6 +147,14 @@ router.get('/allApprovedMembers', async (_, res) => {
 router.get('/membersFromAllSemesters', async (_, res) => {
   res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
+
+router.get('/info', async (req, res) => {
+  res.json({
+    isProd,
+    hostname: req.hostname
+  });
+});
+
 loginCheckedPost('/setMember', async (req, user) => ({
   member: await setMember(req.body, user)
 }));

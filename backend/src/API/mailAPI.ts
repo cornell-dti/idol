@@ -7,9 +7,9 @@ import { isProd } from '../api';
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   // Don't send email notifications locally
   console.log('SEND MAIL');
-  if (!process.env.isProd) {
-    return {};
-  }
+  // if (!process.env.isProd) {
+  //   return {};
+  // }
   const mailOptions = {
     from: process.env.EMAIL,
     to,
