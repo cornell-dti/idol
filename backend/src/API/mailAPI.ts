@@ -1,6 +1,6 @@
 import getEmailTransporter from '../nodemailer';
 
-const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
+const sendMail = async (): Promise<unknown> => {
   const mailOptions = {
     from: process.env.EMAIL,
     to: 'hl738@cornell.edu',
