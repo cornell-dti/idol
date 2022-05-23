@@ -11,7 +11,7 @@ import {
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './API/siteIntegrationAPI';
-import sendMail from './API/mailAPI';
+// import sendMail from './API/mailAPI';
 import MembersDao from './dao/MembersDao';
 import {
   allMembers,
