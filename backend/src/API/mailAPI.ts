@@ -25,10 +25,10 @@ const emailAdmins = async (subject: string, text: string) => {
   });
 };
 
-const sendMemberUpdateNotifications = () => {
+const sendMemberUpdateNotifications = async () => {
   const subject = 'IDOL Member Profile Change';
   const text =
-    'Hey! A DTI has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
+    'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
   return emailAdmins(subject, text);
 };
 
