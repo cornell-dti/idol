@@ -3,6 +3,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
+import sendMemberUpdateNotifications from './mailAPI';
 
 export const allMembers = (): Promise<readonly IdolMember[]> => MembersDao.getAllMembers(false);
 
@@ -43,7 +44,11 @@ export const updateMember = async (body: IdolMember, user: IdolMember): Promise<
       `User with email: ${user.email} does not have permission to edit member name or roles!`
     );
   }
-  return MembersDao.updateMember(body.email, body);
+
+  return MembersDao.updateMember(body.email, body).then(async (mem) => {
+    await sendMemberUpdateNotifications();
+    return mem;
+  });
 };
 
 export const deleteMember = async (email: string, user: IdolMember): Promise<void> => {

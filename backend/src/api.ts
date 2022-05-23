@@ -125,13 +125,14 @@ const loginCheckedDelete = (
 ) => router.delete(path, loginCheckedHandler(handler));
 
 // Email notifs
-router.post('/sendMail', async (req, res) => {
-  const info = await sendMail();
-  res.status(200).send({
-    info,
-    recipient: req.body.to
-  });
-});
+// TODO: delete this comment
+// router.post('/sendMail', async (req, res) => {
+//   const info = await sendMail();
+//   res.status(200).send({
+//     info,
+//     recipient: req.body.to
+//   });
+// });
 
 // Members
 router.get('/allMembers', async (_, res) => {
