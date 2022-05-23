@@ -8,7 +8,10 @@ const sendMail = async (to: string, subject: string, text: string): Promise<unkn
     text
   };
   const transporter = await getEmailTransporter();
-  const info = await transporter.sendMail(mailOptions);
+  const info = await transporter
+    .sendMail(mailOptions)
+    .then((info) => info)
+    .catch(() => ({ error: 'lol there was an error' }));
   return info;
 };
 
