@@ -575,7 +575,6 @@ paths:
       tags:
       - "Sign In"
       summary: 'Returns all the sign-in forms'
-      parameters: []
       responses:
         '200':
           description: "Successfully returns all sign-in forms"
@@ -587,6 +586,118 @@ paths:
                   forms:
                     type: array
                     $ref: "#/components/schemas/SignInForm"
+  /createTeamEvent:
+    post:
+      tags:
+      - "Team Event Credit"
+      summary: 'Creates a team event credit form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamEvent: 
+                  $ref: '#/components/schemas/TeamEvent'
+                user:
+                  $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully creates a team event credit form"
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/TeamEvent'
+        '403':
+          description: "PermissionError: User does not have permissions to create team event."
+  /getTeamEvent:
+    get:
+      tags:
+      - "Team Event Credit"
+      summary: 'Returns the team event credit form'
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string 
+          format: uuid
+        required: true
+        description: "uuid of the team event credit form"
+      responses:
+        '200':
+          description: "Successflly returns the team event credit form"
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    event: 
+                      $ref: '#/components/schemas/TeamEvent'
+        '404':
+          description: "No form with the given uuid found"
+  /getAllTeamEvents:
+    get:
+      tags:
+      - "Team Event Credit"
+      summary: 'Returns all team event credit forms'
+      responses:
+        '200':
+          description: "Successfully returns all team event credit forms"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutouts:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/TeamEvent"
+        '403':
+          description: "PermissionError: User does nto have permission to get team event credits."
+  /updateTeamEvent:
+    post:
+      tags:
+      - "Team Event Credit"
+      summary: 'Updates team event credit form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamEvent: 
+                  $ref: '#/components/schemas/TeamEvent'
+                user:
+                  $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully updates the team event credit form"
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    event: 
+                      $ref: '#/components/schemas/TeamEvent'
+        '404':
+          description: "NotFoundError: No team with uuid exists"
+  /deleteTeamEvent:
+    get:
+      tags:
+      - "Team Event Credit"
+      summary: 'Deletes the team event credit form'
+      responses:
+        '200':
+          description: "Successfully deletes team event credit form"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: User does not have permission to delete a team event."
 components:
   schemas:
     IdolMember:
@@ -744,6 +855,38 @@ components:
         createdAt: 1634354763977
         expiredAt: 1634414400000
         id: "sesh123"
+    TeamEventAttendance:
+      type: object
+      properties:
+        member:
+          $ref: '#/components/schemas/IdolMember'
+        hoursAttended:
+          type: number
+          nullable: true
+        image:
+          type: string
+    TeamEvent:
+      type: object
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+        numCredits:
+          type: string
+        hasHours:
+          type: boolean
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamEventAttendance'
+        attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamEventAttendance'
+        uuid:
+          type: string
+          format: uuid
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
