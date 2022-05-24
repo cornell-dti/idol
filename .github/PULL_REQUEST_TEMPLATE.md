@@ -11,6 +11,7 @@ This pull request is the first step towards implementing feature Foo
 - [ ] fixed Y
 
 <!-- Optional: If adding/updating endpoints, update the backend api specification (openapi.yaml) -->
+
 - [ ] Updated backend api specification
 
 ### Test Plan <!-- Required -->
