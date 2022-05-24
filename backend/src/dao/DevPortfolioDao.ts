@@ -16,9 +16,7 @@ export default class DevPortfolioDao {
     };
   }
 
-  private static async DevPortfolioToDBDevPortfolio(
-    instance: DevPortfolio
-  ): Promise<DBDevPortfolio> {
+  private static DevPortfolioToDBDevPortfolio(instance: DevPortfolio): DBDevPortfolio {
     return {
       ...instance,
       uuid: instance.uuid ? instance.uuid : uuidv4(),
