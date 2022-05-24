@@ -2,14 +2,13 @@ import axios from 'axios';
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
 import { isProd } from '../api';
-// import AdminsDao from '../dao/AdminsDao';
+import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   // Don't send email notifications locally
-  console.log('SEND MAIL');
-  // if (!process.env.isProd) {
-  //   return {};
-  // }
+  if (!process.env.isProd) {
+    return {};
+  }
   const mailOptions = {
     from: process.env.EMAIL,
     to,
@@ -33,9 +32,8 @@ const getSendMailURL = (req: Request): string => {
 
 const emailAdmins = async (req: Request, subject: string, text: string) => {
   const url = getSendMailURL(req);
-  // const adminEmails = await AdminsDao.getAllAdminEmails();
+  const adminEmails = await AdminsDao.getAllAdminEmails();
   const idToken = req.headers['auth-token'] as string;
-  const adminEmails = ['hl738@cornell.edu'];
   const requestBody = {
     subject,
     text

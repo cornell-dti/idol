@@ -125,16 +125,6 @@ const loginCheckedDelete = (
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
 
-// // Email notifs
-// // TODO: delete this comment
-// router.post('/sendMail', async (req, res) => {
-//   const info = await sendMail();
-//   res.status(200).send({
-//     info,
-//     recipient: req.body.to
-//   });
-// });
-
 // Members
 router.get('/allMembers', async (_, res) => {
   const members = await allMembers();
