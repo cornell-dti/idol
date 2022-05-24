@@ -105,7 +105,6 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid }) => {
   // useEffect(() => {
   //   DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
   // }, [uuid]);
-  const num = 1;
   return !portfolio ? (
     <></>
   ) : (
