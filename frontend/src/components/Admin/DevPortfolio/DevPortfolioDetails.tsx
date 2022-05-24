@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Header, Table } from 'semantic-ui-react';
+import { Container, Header, Icon, Table } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './DevPortfolioDetails.module.css';
 
@@ -13,6 +13,27 @@ const portfolio = {
   earliestValidDate: new Date().getTime(),
   deadline: new Date().getTime(),
   submissions: [
+    {
+      member: {
+        firstName: 'Jackson',
+        lastName: 'Staniec',
+        netid: 'jks273'
+      },
+      openedPRs: [
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'invalid',
+          reason: 'hello world'
+        }
+      ],
+      reviewedPRs: [
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'invalid',
+          reason: 'hello world'
+        }
+      ]
+    },
     {
       member: {
         firstName: 'Henry',
@@ -35,27 +56,6 @@ const portfolio = {
         {
           url: 'https://github.com/cornell-dti/idol/pull/288',
           status: 'valid',
-          reason: 'hello world'
-        }
-      ]
-    },
-    {
-      member: {
-        firstName: 'Jackson',
-        lastName: 'Staniec',
-        netid: 'jks273'
-      },
-      openedPRs: [
-        {
-          url: 'https://github.com/cornell-dti/idol/pull/288',
-          status: 'invalid',
-          reason: 'hello world'
-        }
-      ],
-      reviewedPRs: [
-        {
-          url: 'https://github.com/cornell-dti/idol/pull/288',
-          status: 'invalid',
           reason: 'hello world'
         }
       ]
@@ -93,21 +93,27 @@ type DevPortfolioDetailsTableProps = {
   readonly portfolio: DevPortfolio;
 };
 
-const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio }) => (
-  <Table celled>
-    <Table.Header>
-      <Table.HeaderCell rowSpan="2">Name</Table.HeaderCell>
-      <Table.HeaderCell rowSpan="2">Opened PRs</Table.HeaderCell>
-      <Table.HeaderCell rowSpan="2">Reviewed PRs</Table.HeaderCell>
-      <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell>
-    </Table.Header>
-    <Table.Body>
-      {portfolio.submissions.map((submission) => (
-        <SubmissionDetails submission={submission} />
-      ))}
-    </Table.Body>
-  </Table>
-);
+const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio }) => {
+  const sortedSubmissions = [...portfolio.submissions].sort((s1, s2) =>
+    s1.member.netid.localeCompare(s2.member.netid)
+  );
+
+  return (
+    <Table celled>
+      <Table.Header>
+        <Table.HeaderCell rowSpan="2">Name</Table.HeaderCell>
+        <Table.HeaderCell rowSpan="2">Opened PRs</Table.HeaderCell>
+        <Table.HeaderCell rowSpan="2">Reviewed PRs</Table.HeaderCell>
+        <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell>
+      </Table.Header>
+      <Table.Body>
+        {sortedSubmissions.map((submission) => (
+          <SubmissionDetails submission={submission} />
+        ))}
+      </Table.Body>
+    </Table>
+  );
+};
 
 type SubmissionDetailsProps = {
   submission: DevPortfolioSubmission;
@@ -125,10 +131,14 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission }) => 
         rowSpan={`${numRows}`}
       >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
       <Table.Cell>
-        {submission.openedPRs.length > 0 ? submission.openedPRs[0].url : 'hello world'}
+        <PullRequestDisplay
+          prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
+        />
       </Table.Cell>
       <Table.Cell>
-        {submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0].url : 'hello world'}
+        <PullRequestDisplay
+          prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
+        />
       </Table.Cell>
       <Table.Cell rowSpan={`${numRows}`}>{isValid ? 'Valid' : 'Invalid'}</Table.Cell>
     </Table.Row>
@@ -145,8 +155,16 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission }) => 
       : remainingReviewedPRs
   ).map((_, i) => () => (
     <Table.Row positive={isValid} negative={!isValid}>
-      <Table.Cell>{i >= remainingOpenedPRs.length ? '' : remainingOpenedPRs[i].url}</Table.Cell>
-      <Table.Cell>{i >= remainingReviewedPRs.length ? '' : remainingReviewedPRs[i].url}</Table.Cell>
+      <Table.Cell>
+        <PullRequestDisplay
+          prSubmission={i >= remainingOpenedPRs.length ? undefined : remainingOpenedPRs[i]}
+        />
+      </Table.Cell>
+      <Table.Cell>
+        <PullRequestDisplay
+          prSubmission={i >= remainingReviewedPRs.length ? undefined : remainingReviewedPRs[i]}
+        />
+      </Table.Cell>
     </Table.Row>
   ));
 
@@ -156,6 +174,25 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission }) => 
       {remainingRows.map((Row) => (
         <Row />
       ))}
+    </>
+  );
+};
+
+type PullRequestDisplayProps = {
+  prSubmission: PullRequestSubmission | undefined;
+};
+
+const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission }) => {
+  if (prSubmission === undefined) return <></>;
+  return (
+    <>
+      <a href={prSubmission.url}>{prSubmission.url}</a>
+      {
+        <Icon
+          color={prSubmission.status === 'valid' ? 'green' : 'red'}
+          name={prSubmission.status === 'valid' ? 'checkmark' : 'x'}
+        />
+      }
     </>
   );
 };
