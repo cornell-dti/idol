@@ -98,8 +98,7 @@ const TeamEventCreditForm: React.FC = () => {
                 }))}
                 onChange={(_, data) => {
                   setTeamEvent(teamEvents.find((event) => event.uuid === data.value));
-                }
-                }
+                }}
               />
             ) : undefined}
 
