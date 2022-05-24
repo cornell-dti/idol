@@ -6,6 +6,15 @@ import validateSubmission from '../utils/githubUtil';
 export const getAllDevPortfolios = async (): Promise<DevPortfolio[]> =>
   DevPortfolioDao.getAllInstances();
 
+export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
+  const isLeadOrAdmin = PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to view dev portfolios!`
+    );
+  return DevPortfolioDao.getDevPortfolio(uuid);
+};
+
 export const createNewDevPortfolio = async (
   instance: DevPortfolio,
   user: IdolMember

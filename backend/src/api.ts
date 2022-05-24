@@ -57,7 +57,8 @@ import {
   getAllDevPortfolios,
   createNewDevPortfolio,
   deleteDevPortfolio,
-  makeDevPortfolioSubmission
+  makeDevPortfolioSubmission,
+  getDevPortfolio
 } from './API/devPortfolioAPI';
 
 // Constants and configurations
@@ -271,6 +272,9 @@ loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
 // Dev Portfolios
 loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
   portfolios: await getAllDevPortfolios()
+}));
+loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
+  portfolio: await getDevPortfolio(req.params.uuid, user)
 }));
 loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
