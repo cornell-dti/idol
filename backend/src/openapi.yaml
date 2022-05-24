@@ -685,7 +685,7 @@ paths:
         '404':
           description: "NotFoundError: No team with uuid exists"
   /deleteTeamEvent:
-    get:
+    post:
       tags:
       - "Team Event Credit"
       summary: 'Deletes the team event credit form'
@@ -743,7 +743,7 @@ paths:
                   url:
                     type: string
   /deleteEventProofImage:
-    get:
+    post:
       tags:
       - "Team Events Proof Image"
       summary: 'Deletes the event proof image'
@@ -765,6 +765,190 @@ paths:
             application/json:
               schema:
                 type: object
+  /getAllCandidateDeciderInstances:
+    get:
+      tags:
+      - "Candidate Decider"
+      summary: 'Returns all candidate decider instances'
+      responses:
+        '200':
+          description: "Successfully returns all candidate decider instances"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instances:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateDeciderInfo'
+  /getCandidateDeciderInstance:
+    get:
+      tags:
+      - "Candidate Decider"
+      summary: 'Returns the candidate decider instance'
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string 
+          format: uuid
+        required: true
+        description: "uuid of the candidate decider instance"
+      responses:
+        '200':
+          description: "Successfully returns the candidate decider instance"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instance: 
+                    $ref: '#/components/schemas/CandidateDeciderInstance'
+        '404':
+          $ref: '#/components/responses/noInstance'
+        '403':
+          description: "PermissionError: User does not have permission to access this Candidate Decider instance" 
+  /createNewCandidateDeciderInstance:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Creates a new Candidate Decider Instance'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instance: 
+                  $ref: '#/components/schemas/CandidateDeciderInstance'
+                user:
+                  $ref: '#/components/schemas/IdolMember'
+      responses:
+        '200':
+          description: "Successfully creates a new candidate decider instance"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instance: 
+                    $ref: '#/components/schemas/CandidateDeciderInstance'
+        '403':
+          description: "User does not have permission to create new Candidate Decider instance"
+  /toggleCandidateDeciderInstance:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Toggles the candidate decider to make the instance open or closed'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid: 
+                  type: string
+                  format: uuid
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+      responses:
+        '200':
+          description: "Toggles the candidate decider to make the instance open or closed"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: User does not have permission to toggle the candidate decider instance"
+  /deleteCandidateDeciderInstance:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Deletes the candidate decider instance'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid: 
+                  type: string
+                  format: uuid
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+      responses:
+        '200':
+          description: "Successfully deletes the candidate decider instance"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: User does not have permission to delete the candidate decider instance"
+  /updateCandidateDeciderRating:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Updates the rating for a candidate in the Candidate Decider Instance'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+                uuid: 
+                  type: string
+                  format: uuid
+                id:
+                  type: number
+                rating:
+                  $ref: '#/components/schemas/Rating'    
+      responses:
+        '200':
+          description: 'Successfully updates the rating for a candidate in the Candidate Decider Instance'
+          content:
+            application/json:
+              schema:
+                type: object  
+        '404':
+          $ref: '#/components/responses/noInstance'
+        '403':
+          description: "PermissionError: User with email does not have permission to access this Candidate Decider instance"   
+  /updateCandidateDeciderComment:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Updates the comment for a candidate in the Candidate Decider Instance'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+                uuid: 
+                  type: string
+                  format: uuid
+                id:
+                  type: number
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: 'Successfully updates the comment for a candidate in the Candidate Decider Instance'
+          content:
+            application/json:
+              schema:
+                type: object  
+        '404':
+          $ref: '#/components/responses/noInstance' 
+        '403':
+          description: "PermissionError: User with email does not have permission to access this Candidate Decider instance"
 components:
   schemas:
     IdolMember:
@@ -954,11 +1138,83 @@ components:
         uuid:
           type: string
           format: uuid
+    CandidateDeciderInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+        isOpen:
+          type: boolean
+    CandidateDeciderRating: 
+      type: object
+      properties:
+        reviewer: 
+          $ref: '#/components/schemas/IdolMember'
+        comment: 
+          $ref: '#/components/schemas/Rating'
+    CandidateDeciderComment:
+      type: object
+      properties:
+        reviewer: 
+          $ref: '#/components/schemas/IdolMember'
+        comment: 
+          type: string
+    CandidateDeciderCandidate:
+      type: object
+      properties:
+        responses:
+          type: array
+          items:
+            type: string
+        id: 
+          type: number
+        ratings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateDeciderRating'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateDeciderComment'
+    Rating:
+      type: number
+      enum: [0, 1, 2, 3, 4, 5]
+    CandidateDeciderInstance:
+      type: object
+      properties:
+        name:
+          type: string
+        headers:
+          type: array
+          items:
+            type: string
+        candidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateDeciderCandidate'
+        uuid:
+          type: string
+          format: uuid
+        authorizedMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        authorizedRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        isOpen:
+          type: boolean
   responses:
     undefinedEmail:
       description: "BadRequestError: user with undefined email."
     deploySite: 
       description: "PermissionError: User does not have the permission to trigger site deploys."
+    noInstance:
+      description: "NoFoundError: Instance with the uuid does not exist"
 
   
 
