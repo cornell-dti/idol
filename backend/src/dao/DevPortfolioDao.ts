@@ -65,10 +65,14 @@ export default class DevPortfolioDao {
     );
   }
 
-  static async createNewInstance(instance: DevPortfolio): Promise<void> {
-    const devPortfolioRef = await DevPortfolioDao.DevPortfolioToDBDevPortfolio(instance);
-
-    await devPortfolioCollection.doc(devPortfolioRef.uuid).set(devPortfolioRef);
+  static async createNewInstance(instance: DevPortfolio): Promise<DevPortfolio> {
+    const portfolio = {
+      ...instance,
+      submissions: [],
+      uuid: uuidv4()
+    };
+    devPortfolioCollection.doc(portfolio.uuid).set(portfolio);
+    return portfolio;
   }
 
   static async updateInstance(updatedInstance: DevPortfolio): Promise<void> {

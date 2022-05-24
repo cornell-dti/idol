@@ -5,3 +5,8 @@
 #submitButton {
   margin-top: 1em;
 }
+
+.trashIcon {
+  position: absolute;
+  right: 1%;
+}
