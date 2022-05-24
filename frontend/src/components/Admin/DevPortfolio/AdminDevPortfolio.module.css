@@ -10,3 +10,7 @@
   position: absolute;
   right: 1%;
 }
+
+.cardHeader a:hover {
+  text-decoration: underline;
+}

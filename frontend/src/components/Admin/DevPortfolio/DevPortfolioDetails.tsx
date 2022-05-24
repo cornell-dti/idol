@@ -59,6 +59,42 @@ const portfolio = {
           reason: 'hello world'
         }
       ]
+    },
+    {
+      member: {
+        firstName: 'Riya',
+        lastName: 'Jaggi',
+        netid: 'rj356'
+      },
+      openedPRs: [
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'valid',
+          reason: 'hello world'
+        },
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'invalid',
+          reason: 'hello world'
+        },
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'invalid',
+          reason: 'hello world'
+        }
+      ],
+      reviewedPRs: [
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'invalid',
+          reason: 'hello world'
+        },
+        {
+          url: 'https://github.com/cornell-dti/idol/pull/288',
+          status: 'invalid',
+          reason: 'hello world'
+        }
+      ]
     }
   ]
 };

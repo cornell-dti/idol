@@ -68,14 +68,16 @@ const AdminDevPortfolioDashboard: React.FC<AdminDevPortfolioDashboardProps> = ({
       <>
         <Card.Group>
           {devPortfolios.map((portfolio) => (
-            <Card href={`/admin/dev-portfolio/${portfolio.uuid}`}>
+            <Card>
               <Card.Content>
                 <DevPortfolioDeleteModal
                   uuid={portfolio.uuid}
                   name={portfolio.name}
                   setDevPortfolios={setDevPortfolios}
                 />
-                <Card.Header>{portfolio.name}</Card.Header>
+                <Card.Header className={styles.cardHeader}>
+                  <a href={`/admin/dev-portfolio/${portfolio.uuid}`}>{portfolio.name}</a>
+                </Card.Header>
                 <Card.Meta>{portfolio.submissions.length} submissions</Card.Meta>
                 <Card.Description>
                   Due: {new Date(portfolio.deadline).toDateString()}
@@ -107,7 +109,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
       return;
     }
     setNameError(false);
-    if (deadline < earliestDate || deadline < new Date()) {
+    if (deadline > earliestDate || deadline < new Date()) {
       setDateError(true);
       return;
     }
