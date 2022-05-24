@@ -698,6 +698,73 @@ paths:
                 type: object
         '403':
           description: "PermissionError: User does not have permission to delete a team event."
+  /getEventProofImage:
+    get:
+      tags:
+      - "Team Events Proof Image"
+      summary: 'Returns a signed url for the image'
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string 
+        required: true
+        description: "File path for storing the image"
+      responses:
+        '200':
+          description: "Successfully returns a signed url for the image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /getEventProofImageSignedURL:
+    get:
+      tags:
+      - "Team Events Proof Image"
+      summary: 'Returns the signed url of an existing image'
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string 
+        required: true
+        description: "File path where the image is stored"
+      responses:
+        '200':
+          description: "Successfully returns the signed url of the existing image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /deleteEventProofImage:
+    get:
+      tags:
+      - "Team Events Proof Image"
+      summary: 'Deletes the event proof image'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                user:
+                  $ref: '#/components/schemas/TeamEvent'
+      responses:
+        '200':
+          description: "Successfully deletes the event proof image"
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   schemas:
     IdolMember:
