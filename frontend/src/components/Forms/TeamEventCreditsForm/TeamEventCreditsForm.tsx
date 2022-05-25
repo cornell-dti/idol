@@ -11,7 +11,6 @@ const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-  console.log(userInfo);
   const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
@@ -97,9 +96,9 @@ const TeamEventCreditForm: React.FC = () => {
                   text: event.name,
                   value: event.uuid
                 }))}
-                onChange={(_, data) =>
-                  setTeamEvent(teamEvents.find((event) => event.uuid === data.key))
-                }
+                onChange={(_, data) => {
+                  setTeamEvent(teamEvents.find((event) => event.uuid === data.value));
+                }}
               />
             ) : undefined}
 
