@@ -10,6 +10,10 @@ This pull request is the first step towards implementing feature Foo
 - [x] implemented X
 - [ ] fixed Y
 
+<!-- Optional: If adding/updating endpoints, update the backend api specification (openapi.yaml) -->
+
+- [ ] Updated backend api specification
+
 ### Test Plan <!-- Required -->
 
 <!-- Provide screenshots or point out the additional unit tests -->
