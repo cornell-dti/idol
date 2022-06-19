@@ -3,7 +3,7 @@
   margin: auto 70px auto;
 }
 
-.navMenu {  
+.navMenu {
   display: grid;
   grid-template-columns: repeat(6, auto);
   column-gap: 70px;
@@ -22,4 +22,3 @@
   margin: 40px 0 20px;
   justify-self: start;
 }
-
