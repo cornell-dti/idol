@@ -2,7 +2,9 @@ import Layout from '../components/Layout';
 
 const IndexPage = (): JSX.Element => (
   <Layout>
-    <h1>Cornell DTI Website Redesign</h1>
+    <div style={{ backgroundColor: 'lightgray', height: '50vh', textAlign: 'center' }}>
+      <div>Cornell DTI Website Redesign</div>
+    </div>
   </Layout>
 );
 
