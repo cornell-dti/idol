@@ -2,7 +2,8 @@
   "name": "dti-website-redesign",
   "version": "0.1.0",
   "scripts": {
-    "start": "next"
+    "start": "next",
+    "build": "next build && next export"
   },
   "dependencies": {
     "next": "12.1.6",
