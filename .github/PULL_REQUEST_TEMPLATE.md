@@ -14,6 +14,10 @@ This pull request is the first step towards implementing feature Foo
 
 - [ ] Updated backend api specification
 
+### Figma Page <!-- Optional -->
+
+<!-- If the changes have associated Figma design(s), please include the links to the Figma files -->
+
 ### Test Plan <!-- Required -->
 
 <!-- Provide screenshots or point out the additional unit tests -->
