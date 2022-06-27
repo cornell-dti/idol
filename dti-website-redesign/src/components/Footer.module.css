@@ -1,0 +1,17 @@
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin-top: 70px;
+}
+
+.copyrightContainer {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.footer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+}
