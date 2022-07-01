@@ -33,8 +33,8 @@ const Footer: React.FC = () => (
   <div className={styles.footer}>
     <div className={styles.innerFooter}>
       <div className={styles.iconContainer}>
-        {icons.map((icon) => (
-          <a href={icon.link} target="_blank" rel="noreferrer noopener">
+        {icons.map((icon, i) => (
+          <a key={i} href={icon.link} target="_blank" rel="noreferrer noopener">
             <img className={styles.socialIcon} src={icon.src} alt={icon.alt} />
           </a>
         ))}
