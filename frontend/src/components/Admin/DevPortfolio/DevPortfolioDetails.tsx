@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Container, Header, Icon, Table } from 'semantic-ui-react';
-import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
+// import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './DevPortfolioDetails.module.css';
 
 type Props = {
   uuid: string;
 };
 
-const portfolio = {
+const mockPortfolio: DevPortfolio = {
   uuid: 'test test',
   name: 'Dev Portfolio #1',
   earliestValidDate: new Date().getTime(),
@@ -17,7 +17,16 @@ const portfolio = {
       member: {
         firstName: 'Jackson',
         lastName: 'Staniec',
-        netid: 'jks273'
+        netid: 'jks273',
+        email: 'jks273@cornell.edu',
+        pronouns: 'he/him',
+        graduation: 'May 2024',
+        major: 'Computer Science',
+        hometown: 'Arizona',
+        about: 'XD',
+        subteams: ['IDOL'],
+        role: 'tpm',
+        roleDescription: 'Technical PM'
       },
       openedPRs: [
         {
@@ -38,7 +47,16 @@ const portfolio = {
       member: {
         firstName: 'Henry',
         lastName: 'Li',
-        netid: 'hl738'
+        netid: 'hl738',
+        email: 'hl738@cornell.edu',
+        pronouns: 'he/him',
+        graduation: 'May 2023',
+        major: 'Information Science',
+        hometown: 'NY',
+        about: 'XD',
+        subteams: ['IDOL'],
+        role: 'tpm',
+        roleDescription: 'Technical PM'
       },
       openedPRs: [
         {
@@ -64,7 +82,16 @@ const portfolio = {
       member: {
         firstName: 'Riya',
         lastName: 'Jaggi',
-        netid: 'rj356'
+        netid: 'rj356',
+        email: 'rj356@cornell.edu',
+        pronouns: 'she/her',
+        graduation: 'May 2022',
+        major: 'Computer Science',
+        hometown: 'Dubai',
+        about: 'XD',
+        subteams: ['IDOL'],
+        role: 'developer',
+        roleDescription: 'Developer'
       },
       openedPRs: [
         {
@@ -100,11 +127,13 @@ const portfolio = {
 };
 
 const DevPortfolioDetails: React.FC<Props> = ({ uuid }) => {
-  // const [portfolio, setPortfolio] = useState<DevPortfolio | null>(null);
+  const [portfolio, setPortfolio] = useState<DevPortfolio | null>(null);
 
-  // useEffect(() => {
-  //   DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
-  // }, [uuid]);
+  useEffect(() => {
+    // DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
+    setPortfolio(mockPortfolio);
+  }, [uuid]);
+
   return !portfolio ? (
     <></>
   ) : (
