@@ -44,7 +44,7 @@ const TeamEventDetails: React.FC = () => {
       TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
       setLoading(false);
     }
-  }, [isLoading]);
+  }, [isLoading, uuid]);
 
   const deleteTeamEvent = () => {
     TeamEventsAPI.deleteTeamEventForm(teamEvent).then(() => {

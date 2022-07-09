@@ -1,5 +1,4 @@
 import { Octokit } from '@octokit/rest';
-import { DevPortfolio, DevPortfolioSubmission } from '../types/DataTypes';
 
 type PullRequest = {
   owner: string;
@@ -26,7 +25,6 @@ type OpenedPR = {
   createdAt: number;
 };
 
-// useful to see reason why if not valid
 type ValidationResult = {
   status: 'valid' | 'invalid' | 'pending';
   reason?: string;
@@ -127,6 +125,10 @@ const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
     });
 };
 
+/** ="`time` is between the date range `start` to `end`." */
+export const isWithinDates = (time: number, start: number, end: number): boolean =>
+  start <= time && time <= end;
+
 /** Returns `comments` created by `username` between `startTime` and `endTime`.
  *  Raises an error if no comment satisfies these conditions. */
 const filterComments = (
@@ -148,8 +150,8 @@ const filterComments = (
   }
 
   // comments made in date range
-  eligibleComments = eligibleComments.filter(
-    (comment) => startTime <= comment.createdAt && comment.createdAt <= endTime
+  eligibleComments = eligibleComments.filter((comment) =>
+    isWithinDates(comment.createdAt, startTime, endTime)
   );
   if (!eligibleComments || !eligibleComments.length) {
     const startDate = new Date(startTime).toDateString();
@@ -271,33 +273,32 @@ const validateOpen = async (
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
     }
 
-    if (open.createdAt < start || open.createdAt > end) {
+    if (!isWithinDates(open.createdAt, start, end)) {
       const startDate = new Date(start).toDateString();
       const endDate = new Date(end).toDateString();
       throw new Error(`Pull request ${open.url} was not made between ${startDate} and ${endDate}.`);
     }
   });
 
-/** ="at least one of `results` is valid" */
-const atLeastOneValid = (results: ValidationResult[]) =>
-  results.some((result) => result.status === 'valid');
-
 /** Determines whether submission is valid or invalid. */
-const validateSubmission = async (
+export const validateSubmission = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
-  const reviewResults = await Promise.all(
-    submission.reviewedPRs.map(async (url) => validateReview(portfolio, submission, url))
+  const reviewedResults = await Promise.all(
+    submission.reviewedPRs.map(async (pr) => ({
+      ...pr,
+      ...(await validateReview(portfolio, submission, pr.url))
+    }))
   );
 
   const openedResults = await Promise.all(
-    submission.openedPRs.map(async (url) => validateOpen(portfolio, submission, url))
+    submission.openedPRs.map(async (pr) => ({
+      ...pr,
+      ...(await validateOpen(portfolio, submission, pr.url))
+    }))
   );
-
-  const status =
-    atLeastOneValid(reviewResults) && atLeastOneValid(openedResults) ? 'valid' : 'invalid';
-  return { ...submission, status };
+  return { ...submission, openedPRs: openedResults, reviewedPRs: reviewedResults };
 };
 
 export default validateSubmission;

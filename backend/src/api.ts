@@ -173,6 +173,7 @@ router.get('/allMemberImages', async (_, res) => {
   res.status(200).json({ images });
 });
 
+// Shoutouts
 loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
   shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
 }));

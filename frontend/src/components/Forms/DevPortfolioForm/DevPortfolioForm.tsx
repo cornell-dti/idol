@@ -15,22 +15,22 @@ const DevPortfolioForm: React.FC = () => {
   const devPortfolios: DevPortfolio[] = [
     {
       name: 'test 1',
-      deadline: '2022-05-06',
-      earliestValidDate: '2022-05-01',
+      deadline: Date.parse('06 May 2022 00:00:00 GMT'),
+      earliestValidDate: Date.parse('01 May 2022 00:00:00 GMT'),
       submissions: [],
       uuid: 'xyz'
     },
     {
       name: 'test 2',
-      deadline: '2022-01-20',
-      earliestValidDate: '2022-01-01',
+      deadline: Date.parse('20 Jan 2022 00:00:00 GMT'),
+      earliestValidDate: Date.parse('01 Jan 2022 00:00:00 GMT'),
       submissions: [],
       uuid: 'abc'
     },
     {
       name: 'test abc',
-      deadline: '2022-12-30',
-      earliestValidDate: '2022-11-20',
+      deadline: Date.parse('30 Dec 2022 00:00:00 GMT'),
+      earliestValidDate: Date.parse('20 Nov 2022 00:00:00 GMT'),
       submissions: [],
       uuid: '123'
     }

@@ -132,17 +132,22 @@ interface CandidateDeciderInfo {
   isOpen: boolean;
 }
 
+interface PullRequestSubmission {
+  url: string;
+  status: 'valid' | 'invalid' | 'pending';
+  reason?: string;
+}
+
 interface DevPortfolio {
   name: string;
-  deadline: string;
-  earliestValidDate: string;
+  deadline: number;
+  earliestValidDate: number;
   submissions: DevPortfolioSubmission[];
   readonly uuid: string;
 }
 
 interface DevPortfolioSubmission {
   member: IdolMember;
-  openedPRs: string[];
-  reviewedPRs: string[];
-  status: 'valid' | 'invalid' | 'pending';
+  openedPRs: PullRequestSubmission[];
+  reviewedPRs: PullRequestSubmission[];
 }

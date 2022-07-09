@@ -1,0 +1,1220 @@
+openapi: '3.0.2'
+info:
+  title: IDOL API
+  description: Internal DTI Organization Logic
+  version: '1.0'
+paths:
+  /allMembers:
+    get:
+      tags: 
+      - 'Members'
+      summary: "Returns all members"
+      responses:
+        '200':
+          description: "Successfully returns all members"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /allApprovedMembers:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns all approved members'
+      responses:
+        '200':
+          description: "Successfully returns all approved members"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /membersFromAllSemesters:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns members from all semesters'
+      responses:
+        '200':
+          description: "Successfully returns members from all semesters"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IdolMember"
+  /setMember:
+    post:
+      tags:
+      - 'Members'
+      summary: 'Add new member to the member collection'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully adds the new member"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member: 
+                    $ref: "#/components/schemas/IdolMember"
+        '403':
+          description: "PermissionError: User does not have the permission to add new members."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+
+  /updateMember:
+    post:
+      tags:
+      - 'Members'
+      summary: 'Update existing member information'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully updates the member's information"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member: 
+                    $ref: "#/components/schemas/IdolMember"
+        '403':
+          description: "PermissionError: User does not have the permission to add update this member or the user does not have the permssion to update name/roles."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+  /deleteMember:
+    delete:
+      tags:
+      - 'Members'
+      summary: 'Delete an existing member'
+      parameters:
+      - in: path
+        name: email
+        schema:
+          type: string
+        required: true
+        description: "Email of the member to delete"
+      responses:
+        '200':
+          description: 'Successfully deletes the member.'
+        '403':
+          description: "PermissionError: User does not have the permission to delete update this member."
+        '400':
+          $ref: "#/components/responses/undefinedEmail"
+  /memberDiffs:
+    get:
+      tags:
+      - 'Members'
+      summary: 'Returns the users information difference'
+      responses:
+        '200':
+          description: "Successfully returns the users information difference."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  diffs:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/IdolMemberDiff"
+  /reviewMemberDiffs:
+    post:
+      tags:
+      - "Members"
+      summary: 'Approves or rejects member information changes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: string
+                rejected:
+                  type: string
+                user:
+                  type: object
+                  $ref: '#/components/schemas/IdolMember'
+                  
+      responses:
+        '200':
+          description: "Successful approves or reverts member information changes."
+        '403':
+          description: "PermissionError: User does not have the permission to review members information diff."
+  /allTeams:
+    get:
+      tags:
+      - "Teams"
+      summary: 'Returns all teams'
+      responses:
+        '200':
+          description: 'Successully returns all teams'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teams:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+  /setTeam:
+    post:
+      tags:
+      - "Teams"
+      summary: 'Adds/updates a team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Team"
+      responses:
+        '200':
+          description: 'Successully add/updates the team'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+        '403':
+          description: "PermissionError: User does not have the permission to edit teams."
+  /deleteTeam:
+    post:
+      tags:
+      - "Teams"
+      summary: 'Deletes the team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Team"
+      responses:
+        '200':
+          description: "Successfuly deletes the team"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Team"
+        '400':
+          description: "BadRequestError: Couldn't delete team with undefined uuid."
+        '403':
+          description: "PermissionError: User does not have the permission to delete team."
+  /getMemberImage:
+    get:
+      tags:
+      - "Images"
+      summary: 'Returns the signed url for existing profile image for a member'
+      responses:
+        '200':
+          description: "Successfully returns the signed ulr for the member's profile image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        '404':
+          description: "NotFoundError: The requested image does not exist."
+  /getImageSignedURL:
+    get:
+      tags:
+        - "Images"
+      summary: 'Returns a signed url for new image'
+      responses:
+        '200':
+          description: "Successfully returns a signed url"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /allMemberImages:
+    get:
+      tags:
+      - "Images"
+      summary: 'Returns all profile images'
+      responses:
+        '200':
+          description: "Successfully returns profile images for all members"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fileName:
+                    type: string
+                  url:
+                    type: string
+  /isAdmin:
+    get:
+      tags:
+      - "Permissions"
+      summary: 'Returns true if the member is part of the Admin Collection'
+      responses:
+        '200':
+          description: "Successfully returns if the member is an admin"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isAdmin:
+                    type: boolean
+  /pullIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: 'Dispatches IDOL pull request with changes'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfully dispatches IDOL pull request with changes"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: boolean
+        '403':
+          $ref: "#/components/responses/deploySite"
+  /getIDOLChangesPR:
+    get:
+      tags:
+      - "IDOL Changes"
+      summary: 'Returns the GitHub pull request for IDOL member update'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfully returns the GitHub pull request for IDOL member update"
+        '403':
+          $ref: "#/components/responses/deploySite"
+        '400':
+          description: "BadRequestError: Unable to find a valid open IDOL member update pull request!"
+  /acceptIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: 'Approves the IDOL changes pull request on GitHub'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfuly approves the IDOL changes pull request on GitHub"
+        '403':
+          $ref: "#/components/responses/deploySite"
+  /rejectIDOLChanges:
+    post:
+      tags:
+      - "IDOL Changes"
+      summary: 'Rejects the IDOL changes pull request on GitHub'
+      description: 'Note: uses Octokit client to access GitHub API'
+      responses:
+        '200':
+          description: "Successfuly rejects the IDOL changes pull request on GitHub"
+        '403':
+          $ref: "#/components/responses/deploySite"
+  /getShoutouts:
+    get:
+      tags:
+      - "Shoutouts"
+      summary: 'Returns the shoutouts given or received by a member'
+      parameters:
+      - in: path
+        name: email
+        schema:
+          type: string 
+        required: true
+        description: "Email of the member to get the shououts for"
+      - in: path
+        name: type
+        schema:
+          type: string 
+          enum: [given, received]
+        required: true
+      responses:
+        '200':
+          description: "Successfully returns the shoutouts given or received by the member"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutouts:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Shoutout"
+        '403':
+          description: "PermissionError: User does not have the permission to get shoutouts."
+  /allShoutouts:
+    get:
+      tags:
+      - "Shoutouts"
+      summary: 'Returns all shoutouts'
+      responses:
+        '200':
+          description: "Successfully returns all shoutouts"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutouts:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/Shoutout"
+  /giveShoutout:
+    post:
+      tags:
+      - "Shoutouts"
+      summary: 'Sends a shoutout to a member'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                giver:
+                  $ref: "#/components/schemas/IdolMember"
+                receiver:
+                  $ref: "#/components/schemas/IdolMember"
+                message: 
+                  type: string
+                isAnon:
+                  type: boolean
+      responses:
+        '200':
+          description: "Successfully sends a shoutout to the member (receiver)"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutout:
+                      $ref: "#/components/schemas/Shoutout"
+        '403':
+          description: "PermissionError: User does not have the permission to post a shoutout from a different user."
+  /signInExists:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Checks if the sign-in id exists'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfully returns true if the sign-in id exists and false if it doesn't"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exists:
+                    type: boolean
+  /signInExpired:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Checks if the sign-in id is expired'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfully returns true if the sign-in id is expired and false if it isn't"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expired:
+                    type: boolean
+  /signInCreate:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Creates a sign-in form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+                expireAt:
+                  type: number
+                user:
+                  $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully creates a sign-in form"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+                  createdAt:
+                    type: number
+                  expireAt:
+                    type: number
+        '403':
+          description: "PermissionError: The user doesn't have the permission to create a sign-in form!"
+        '400':
+          description: "BadRequestError: Invalid Date. Expiry Date cannot be in the past!"
+        '404':
+          description: "NotFoundError: A form already exists with the same id"
+  /signInDelete:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Deletes a sign-in form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfuly deletes the sign-in form"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: The user doesn't have the permission to delete a sign-in form!"
+        '404':
+          description: "NotFoundError: No form with the id exists"
+  /signIn:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Sign-ins the user to the given sign-in form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: string
+      responses:
+        '200':
+          description: "Successfully sign-ins the user to the given sign-in form"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+                  signedInAt:
+                    type: number
+        '404':
+          description: "NotFoundError: No form with the id exists or No user with email found."
+        '400':
+          description: "BadRequestError: User is not allowed to sign into expired form with id."
+  /signInAll:
+    post:
+      tags:
+      - "Sign In"
+      summary: 'Returns all the sign-in forms'
+      responses:
+        '200':
+          description: "Successfully returns all sign-in forms"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  forms:
+                    type: array
+                    $ref: "#/components/schemas/SignInForm"
+  /createTeamEvent:
+    post:
+      tags:
+      - "Team Event Credit"
+      summary: 'Creates a team event credit form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamEvent: 
+                  $ref: '#/components/schemas/TeamEvent'
+                user:
+                  $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully creates a team event credit form"
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/TeamEvent'
+        '403':
+          description: "PermissionError: User does not have permissions to create team event."
+  /getTeamEvent:
+    get:
+      tags:
+      - "Team Event Credit"
+      summary: 'Returns the team event credit form'
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string 
+          format: uuid
+        required: true
+        description: "uuid of the team event credit form"
+      responses:
+        '200':
+          description: "Successflly returns the team event credit form"
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    event: 
+                      $ref: '#/components/schemas/TeamEvent'
+        '404':
+          description: "No form with the given uuid found"
+  /getAllTeamEvents:
+    get:
+      tags:
+      - "Team Event Credit"
+      summary: 'Returns all team event credit forms'
+      responses:
+        '200':
+          description: "Successfully returns all team event credit forms"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shoutouts:
+                    type: 'array'
+                    items:
+                      $ref: "#/components/schemas/TeamEvent"
+        '403':
+          description: "PermissionError: User does nto have permission to get team event credits."
+  /updateTeamEvent:
+    post:
+      tags:
+      - "Team Event Credit"
+      summary: 'Updates team event credit form'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamEvent: 
+                  $ref: '#/components/schemas/TeamEvent'
+                user:
+                  $ref: "#/components/schemas/IdolMember"
+      responses:
+        '200':
+          description: "Successfully updates the team event credit form"
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    event: 
+                      $ref: '#/components/schemas/TeamEvent'
+        '404':
+          description: "NotFoundError: No team with uuid exists"
+  /deleteTeamEvent:
+    post:
+      tags:
+      - "Team Event Credit"
+      summary: 'Deletes the team event credit form'
+      responses:
+        '200':
+          description: "Successfully deletes team event credit form"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: User does not have permission to delete a team event."
+  /getEventProofImage:
+    get:
+      tags:
+      - "Team Events Proof Image"
+      summary: 'Returns a signed url for the image'
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string 
+        required: true
+        description: "File path for storing the image"
+      responses:
+        '200':
+          description: "Successfully returns a signed url for the image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /getEventProofImageSignedURL:
+    get:
+      tags:
+      - "Team Events Proof Image"
+      summary: 'Returns the signed url of an existing image'
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string 
+        required: true
+        description: "File path where the image is stored"
+      responses:
+        '200':
+          description: "Successfully returns the signed url of the existing image"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+  /deleteEventProofImage:
+    post:
+      tags:
+      - "Team Events Proof Image"
+      summary: 'Deletes the event proof image'
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                user:
+                  $ref: '#/components/schemas/TeamEvent'
+      responses:
+        '200':
+          description: "Successfully deletes the event proof image"
+          content:
+            application/json:
+              schema:
+                type: object
+  /getAllCandidateDeciderInstances:
+    get:
+      tags:
+      - "Candidate Decider"
+      summary: 'Returns all candidate decider instances'
+      responses:
+        '200':
+          description: "Successfully returns all candidate decider instances"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instances:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateDeciderInfo'
+  /getCandidateDeciderInstance:
+    get:
+      tags:
+      - "Candidate Decider"
+      summary: 'Returns the candidate decider instance'
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string 
+          format: uuid
+        required: true
+        description: "uuid of the candidate decider instance"
+      responses:
+        '200':
+          description: "Successfully returns the candidate decider instance"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instance: 
+                    $ref: '#/components/schemas/CandidateDeciderInstance'
+        '404':
+          $ref: '#/components/responses/noInstance'
+        '403':
+          description: "PermissionError: User does not have permission to access this Candidate Decider instance" 
+  /createNewCandidateDeciderInstance:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Creates a new Candidate Decider Instance'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instance: 
+                  $ref: '#/components/schemas/CandidateDeciderInstance'
+                user:
+                  $ref: '#/components/schemas/IdolMember'
+      responses:
+        '200':
+          description: "Successfully creates a new candidate decider instance"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instance: 
+                    $ref: '#/components/schemas/CandidateDeciderInstance'
+        '403':
+          description: "User does not have permission to create new Candidate Decider instance"
+  /toggleCandidateDeciderInstance:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Toggles the candidate decider to make the instance open or closed'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid: 
+                  type: string
+                  format: uuid
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+      responses:
+        '200':
+          description: "Toggles the candidate decider to make the instance open or closed"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: User does not have permission to toggle the candidate decider instance"
+  /deleteCandidateDeciderInstance:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Deletes the candidate decider instance'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid: 
+                  type: string
+                  format: uuid
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+      responses:
+        '200':
+          description: "Successfully deletes the candidate decider instance"
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: "PermissionError: User does not have permission to delete the candidate decider instance"
+  /updateCandidateDeciderRating:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Updates the rating for a candidate in the Candidate Decider Instance'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+                uuid: 
+                  type: string
+                  format: uuid
+                id:
+                  type: number
+                rating:
+                  $ref: '#/components/schemas/Rating'    
+      responses:
+        '200':
+          description: 'Successfully updates the rating for a candidate in the Candidate Decider Instance'
+          content:
+            application/json:
+              schema:
+                type: object  
+        '404':
+          $ref: '#/components/responses/noInstance'
+        '403':
+          description: "PermissionError: User with email does not have permission to access this Candidate Decider instance"   
+  /updateCandidateDeciderComment:
+    post:
+      tags:
+      - "Candidate Decider"
+      summary: 'Updates the comment for a candidate in the Candidate Decider Instance'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user: 
+                  $ref: '#/components/schemas/IdolMember'
+                uuid: 
+                  type: string
+                  format: uuid
+                id:
+                  type: number
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: 'Successfully updates the comment for a candidate in the Candidate Decider Instance'
+          content:
+            application/json:
+              schema:
+                type: object  
+        '404':
+          $ref: '#/components/responses/noInstance' 
+        '403':
+          description: "PermissionError: User with email does not have permission to access this Candidate Decider instance"
+components:
+  schemas:
+    IdolMember:
+      type: object
+      properties:
+        netid:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        pronouns:
+          type: string
+        graduation:
+          type: string
+        major:
+          type: string
+        doubleMajor:
+          type: string
+          nullable: true
+        minor:
+          type: string
+          nullable: true
+        website:
+          type: string
+          nullable: true
+        linkedin:
+          type: string
+          nullable: true
+        github:
+          type: string
+          nullable: true
+        hometown:
+          type: string
+        about:
+          type: string
+        subteams:
+          type: array
+          items:
+            type: string
+        formerSubteams:
+          type: array
+          items:
+            type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        roleDescription:
+          $ref: '#/components/schemas/RoleDescription'
+      example:
+      - netid: "jb2375"
+        email: "jb2375@cornell.edu"
+        firstName: "Jagger"
+        lastName: "Brulato"
+        pronouns: ""
+        graduation: "May 2021"
+        major: "Computer Science"
+        website: "https://jagger.netlify.app/"
+        linkedin: "https://www.linkedin.com/in/jagger-brulato-896968149/"
+        github: "https://github.com/JBoss925/"
+        hometown: "Mooresville, NC"
+        about: "Hey! I'm Jagger. I'm a senior majoring in CS and Economics. I like to make funk-fusion music, and I do a lot of board sports. I also play a lot of chess (d4 > e4, @Fischer) and Tetris."
+        subteams: ["dev-leads"]
+        formerSubteams: []
+        role: "lead"
+        roleDescription: "Lead"
+    Role:
+      type: string
+      enum: [lead, tpm, pm, developer, designer, business]
+    RoleDescription:
+      type: string
+      enum: [Lead, Technical PM, Product Manager, Developer, Designer, Business Analyst]
+    IdolMemberDiff:
+      type: object
+      properties:
+        email: 
+          type: string
+        diffString:
+          type: string
+    Team:
+      type: object
+      properties:
+        uuid:
+          type: string
+        name:
+          type: string
+        leaders:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        formerMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+    ProfileImage:
+      type: object
+      properties:
+        url:
+          type: string
+        fileName:
+          type: string
+    Shoutout:
+      type: object
+      anyOf:
+      - type: object
+        properties:
+          giver:
+            $ref: '#/components/schemas/IdolMember'
+          receiver:
+            $ref: '#/components/schemas/IdolMember'
+          message:
+            type: string
+          isAnon:
+            type: boolean
+            enum: [false]
+      - type: object
+        properties:
+          receiver:
+            $ref: '#/components/schemas/IdolMember'
+          message:
+            type: string
+          isAnon:
+            type: boolean
+            enum: [true]
+      example:
+      - member: "[IdolMember]"
+        message: "For creating amazing desgins!"
+        isAnon: true
+    SignInForm:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            properties:
+              signedInAt:
+                type: number
+              user:
+                $ref: '#/components/schemas/IdolMember'
+        createdAt:
+          type: number
+        expireAt:
+          type: number
+        id:
+          type: string
+      example:
+      - users: 
+          signedInAt: 1634357552095
+          user: "[IdolMember]"
+        createdAt: 1634354763977
+        expiredAt: 1634414400000
+        id: "sesh123"
+    TeamEventAttendance:
+      type: object
+      properties:
+        member:
+          $ref: '#/components/schemas/IdolMember'
+        hoursAttended:
+          type: number
+          nullable: true
+        image:
+          type: string
+    TeamEvent:
+      type: object
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+        numCredits:
+          type: string
+        hasHours:
+          type: boolean
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamEventAttendance'
+        attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamEventAttendance'
+        uuid:
+          type: string
+          format: uuid
+    CandidateDeciderInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+        isOpen:
+          type: boolean
+    CandidateDeciderRating: 
+      type: object
+      properties:
+        reviewer: 
+          $ref: '#/components/schemas/IdolMember'
+        comment: 
+          $ref: '#/components/schemas/Rating'
+    CandidateDeciderComment:
+      type: object
+      properties:
+        reviewer: 
+          $ref: '#/components/schemas/IdolMember'
+        comment: 
+          type: string
+    CandidateDeciderCandidate:
+      type: object
+      properties:
+        responses:
+          type: array
+          items:
+            type: string
+        id: 
+          type: number
+        ratings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateDeciderRating'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateDeciderComment'
+    Rating:
+      type: number
+      enum: [0, 1, 2, 3, 4, 5]
+    CandidateDeciderInstance:
+      type: object
+      properties:
+        name:
+          type: string
+        headers:
+          type: array
+          items:
+            type: string
+        candidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateDeciderCandidate'
+        uuid:
+          type: string
+          format: uuid
+        authorizedMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdolMember'
+        authorizedRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        isOpen:
+          type: boolean
+  responses:
+    undefinedEmail:
+      description: "BadRequestError: user with undefined email."
+    deploySite: 
+      description: "PermissionError: User does not have the permission to trigger site deploys."
+    noInstance:
+      description: "NoFoundError: Instance with the uuid does not exist"
+
+  
+

@@ -101,16 +101,16 @@ export type DBCandidateDeciderInstance = {
   isOpen: boolean;
 };
 
-export type DevPortfolio = {
+export type DBDevPortfolio = {
   name: string;
   deadline: number;
   earliestValidDate: number;
-  submissions: DevPortfolioSubmission[];
+  submissions: DBDevPortfolioSubmission[];
+  readonly uuid: string;
 };
 
-export type DevPortfolioSubmission = {
-  member: IdolMember;
-  openedPRs: string[];
-  reviewedPRs: string[];
-  status: 'valid' | 'invalid' | 'pending';
+export type DBDevPortfolioSubmission = {
+  member: firestore.DocumentReference;
+  openedPRs: PullRequestSubmission[];
+  reviewedPRs: PullRequestSubmission[];
 };

@@ -3,7 +3,8 @@ import {
   DBShoutout,
   DBSignInForm,
   DBTeamEvent,
-  DBCandidateDeciderInstance
+  DBCandidateDeciderInstance,
+  DBDevPortfolio
 } from './types/DataTypes';
 
 require('dotenv').config();
@@ -103,6 +104,17 @@ export const candidateDeciderCollection: admin.firestore.CollectionReference<DBC
     },
     toFirestore(data: DBCandidateDeciderInstance) {
       return data;
+    }
+  });
+
+export const devPortfolioCollection: admin.firestore.CollectionReference<DBDevPortfolio> = db
+  .collection('dev-portfolio')
+  .withConverter({
+    fromFirestore(snapshot): DBDevPortfolio {
+      return snapshot.data() as DBDevPortfolio;
+    },
+    toFirestore(devPortfolioData: DBDevPortfolio) {
+      return devPortfolioData;
     }
   });
 

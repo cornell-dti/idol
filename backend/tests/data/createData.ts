@@ -85,3 +85,40 @@ export const fakeTeamEvent = (): TeamEvent => {
   };
   return TE;
 };
+
+/** Get list of 1 to 3 fake github links. */
+const fakePRs = (): PullRequestSubmission[] => {
+  const length = getRandomInt(0, 3);
+  const prs = [];
+  /* eslint-disable no-plusplus */
+  for (let i = 0; i < length; i++) {
+    const owner = faker.lorem.word();
+    const repo = faker.lorem.word();
+    const pullNumber = getRandomInt(1, 999);
+    prs.push({ url: `https://github.com/${owner}/${repo}/pull/${pullNumber}`, status: 'pending' });
+  }
+
+  return prs;
+};
+
+/** Create a fake Dev Submission */
+export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
+  const DPSub = {
+    member: fakeIdolMember(),
+    openedPRs: fakePRs(),
+    reviewedPRs: fakePRs()
+  };
+  return DPSub;
+};
+
+/** Create a fake Dev Portfolio */
+export const fakeDevPortfolio = (): DevPortfolio => {
+  const DP = {
+    name: 'testdevportfolio',
+    deadline: Date.now() + 10 * 86400000, // 10 days in the future
+    earliestValidDate: Date.parse('01 May 2022 00:00:00 GMT'),
+    submissions: [],
+    uuid: faker.datatype.uuid()
+  };
+  return DP;
+};
