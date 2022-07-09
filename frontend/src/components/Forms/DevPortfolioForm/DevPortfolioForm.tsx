@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Dropdown } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Icon } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
@@ -138,40 +138,39 @@ const DevPortfolioForm: React.FC = () => {
             <label className={styles.bold}>
               Opened Pull Request Github Link: <span className={styles.red_color}>*</span>
             </label>
-            {openPRs.map((data, index) => {
-              const openPR = data;
-              return (
-                <div className="box" key={index}>
-                  <input
-                    type="text"
-                    onChange={(evnt) => {
-                      const { value } = evnt.target;
-                      const l = [...openPRs];
-                      l[index] = value;
-                      setOpenPRs(l);
-                    }}
-                    value={openPR}
-                    name="openPR"
-                    placeholder="Opened PR"
-                  />
-                  <div className="btn-box">
-                    {openPRs.length !== 1 ? (
-                      <button
-                        onClick={() => {
-                          const rows = [...openPRs];
-                          rows.splice(index, 1);
-                          setOpenPRs(rows);
-                        }}
-                      >
-                        x
-                      </button>
-                    ) : (
-                      ''
-                    )}
-                  </div>
+            {openPRs.map((openPR, index) => (
+              <div className={styles.prInputContainer} key={index}>
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setOpenPRs((prs) => {
+                      const newOpenPRs = [...prs];
+                      newOpenPRs[index] = e.target.value;
+                      return newOpenPRs;
+                    });
+                  }}
+                  value={openPR}
+                  name="openPR"
+                  placeholder="Opened PR"
+                />
+                <div className={styles.btnContainer}>
+                  {openPRs.length !== 1 ? (
+                    <Button
+                      icon
+                      onClick={() => {
+                        const rows = [...openPRs];
+                        rows.splice(index, 1);
+                        setOpenPRs(rows);
+                      }}
+                    >
+                      <Icon name="trash alternate" />
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                 </div>
-              );
-            })}
+              </div>
+            ))}
             <div className="row">
               <div className="col-sm-12">
                 <button onClick={() => setOpenPRs([...openPRs, ''])}>Add New</button>
@@ -183,40 +182,39 @@ const DevPortfolioForm: React.FC = () => {
             <label className={styles.bold}>
               Reviewed Pull Request Github Link: <span className={styles.red_color}>*</span>
             </label>
-            {reviewPRs.map((data, index) => {
-              const reviewPR = data;
-              return (
-                <div className="box" key={index}>
-                  <input
-                    type="text"
-                    onChange={(evnt) => {
-                      const { value } = evnt.target;
-                      const l = [...reviewPRs];
-                      l[index] = value;
-                      setReviewedPRs(l);
-                    }}
-                    value={reviewPR}
-                    name="reviewedPR"
-                    placeholder="Reviewed PR"
-                  />
-                  <div className="btn-box">
-                    {reviewPRs.length !== 1 ? (
-                      <button
-                        onClick={() => {
-                          const rows = [...reviewPRs];
-                          rows.splice(index, 1);
-                          setReviewedPRs(rows);
-                        }}
-                      >
-                        x
-                      </button>
-                    ) : (
-                      ''
-                    )}
-                  </div>
+            {reviewPRs.map((reviewPR, index) => (
+              <div className={styles.prInputContainer} key={index}>
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setOpenPRs((prs) => {
+                      const newReviewPRs = [...prs];
+                      newReviewPRs[index] = e.target.value;
+                      return newReviewPRs;
+                    });
+                  }}
+                  value={reviewPR}
+                  name="reviewedPR"
+                  placeholder="Reviewed PR"
+                />
+                <div className={styles.btnContainer}>
+                  {reviewPRs.length !== 1 ? (
+                    <Button
+                      icon
+                      onClick={() => {
+                        const rows = [...reviewPRs];
+                        rows.splice(index, 1);
+                        setReviewedPRs(rows);
+                      }}
+                    >
+                      <Icon name="trash alternate" />
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                 </div>
-              );
-            })}
+              </div>
+            ))}
             <div className="row">
               <div className="col-sm-12">
                 <button onClick={() => setReviewedPRs([...reviewPRs, ''])}>Add New</button>

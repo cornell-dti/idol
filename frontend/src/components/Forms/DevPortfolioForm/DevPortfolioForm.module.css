@@ -43,3 +43,12 @@
 .margin_bottom_zero {
   margin-bottom: 0;
 }
+
+.prInputContainer {
+  display: flex;
+  margin-bottom: 1%;
+}
+
+.btnContainer {
+  margin-left: 1%;
+}
