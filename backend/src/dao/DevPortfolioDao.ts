@@ -39,6 +39,7 @@ export default class DevPortfolioDao {
     const doc = await devPortfolioCollection.doc(uuid).get();
 
     const data = doc.data() as DBDevPortfolio;
+    console.log(data);
 
     const subs = data.submissions;
     subs.push({
@@ -72,7 +73,7 @@ export default class DevPortfolioDao {
     const portfolio = {
       ...instance,
       submissions: [],
-      uuid: uuidv4()
+      uuid: instance.uuid ? instance.uuid : uuidv4()
     };
     devPortfolioCollection.doc(portfolio.uuid).set(portfolio);
     return portfolio;
