@@ -93,9 +93,14 @@ const DevPortfolioForm: React.FC = () => {
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
-        openedPRs: openPRs,
-        reviewedPRs: reviewPRs,
-        status: 'pending'
+        openedPRs: openPRs.map((pr) => ({
+          url: pr,
+          status: 'pending'
+        })),
+        reviewedPRs: reviewPRs.map((pr) => ({
+          url: pr,
+          status: 'pending'
+        }))
       };
       requestDevPortfolio(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
