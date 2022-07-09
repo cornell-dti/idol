@@ -87,13 +87,15 @@ const CandidateDeciderInstanceCreator = ({
     };
     CandidateDeciderAPI.createNewInstance(instance)
       .then((newInstance) => setInstances((instances) => [...instances, newInstance]))
-      .then(() => setSuccess(true));
-    setName('');
-    setHeaders([]);
-    setResponses([[]]);
-    setAuthorizedMembers([]);
-    setAuthorizedRoles([]);
-    setFileInKey(Date.now().toString());
+      .then(() => setSuccess(true))
+      .then(() => {
+        setName('');
+        setHeaders([]);
+        setResponses([[]]);
+        setAuthorizedMembers([]);
+        setAuthorizedRoles([]);
+        setFileInKey(Date.now().toString());
+      });
   };
 
   return (
