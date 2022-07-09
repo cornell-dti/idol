@@ -5,6 +5,8 @@ import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './DevPortfolioForm.module.css';
 
+const GITHUB_PR_REGEX = /.*github.com\/([_a-zA-Z0-9-]+)\/([_a-zA-Z0-9-]+)\/pull\/([0-9]+)/;
+
 const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -70,10 +72,23 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (!openPRs[0] || !reviewPRs[0]) {
+    } else if (
+      !openPRs[0] ||
+      openPRs[0].length === 0 ||
+      !reviewPRs[0] ||
+      reviewPRs[0].length === 0
+    ) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
-        contentMsg: 'Please paste a link to a opened or reviewed PR!'
+        contentMsg: 'Please paste a link to a opened and reviewed PR!'
+      });
+    } else if (
+      openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null) ||
+      reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)
+    ) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid PR link',
+        contentMsg: 'One or more links to PRs are not valid links.'
       });
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
