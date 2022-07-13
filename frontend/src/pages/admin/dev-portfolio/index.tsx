@@ -1,3 +1,3 @@
-import AdminDevPortfolio from '../../../components/Admin/DevPortfolio/AdminDevPorfolio';
+import AdminDevPortfolio from '../../../components/Admin/DevPortfolio/AdminDevPortfolio';
 
 export default AdminDevPortfolio;
