@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Dropdown } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Icon } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './DevPortfolioForm.module.css';
+
+const GITHUB_PR_REGEX = /.*github.com\/([_a-zA-Z0-9-]+)\/([_a-zA-Z0-9-]+)\/pull\/([0-9]+)/;
 
 const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -34,10 +36,11 @@ const DevPortfolioForm: React.FC = () => {
     }
   ];
 
+  // real!!!
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   // const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
-  const [openPR, setOpenPR] = useState('');
-  const [reviewedPR, setReviewedPR] = useState('');
+  const [openPRs, setOpenPRs] = useState(['']);
+  const [reviewPRs, setReviewedPRs] = useState(['']);
 
   // useEffect(() => {
   //   DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
@@ -69,21 +72,40 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (!openPR || !reviewedPR) {
+    } else if (
+      !openPRs[0] ||
+      openPRs[0].length === 0 ||
+      !reviewPRs[0] ||
+      reviewPRs[0].length === 0
+    ) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
-        contentMsg: 'Please paste a link to a opened or reviewed PR!'
+        contentMsg: 'Please paste a link to a opened and reviewed PR!'
+      });
+    } else if (
+      openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null) ||
+      reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)
+    ) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid PR link',
+        contentMsg: 'One or more links to PRs are not valid links.'
       });
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
-        openedPRs: [{ url: openPR, status: 'pending' }],
-        reviewedPRs: [{ url: reviewedPR, status: 'pending' }]
+        openedPRs: openPRs.map((pr) => ({
+          url: pr,
+          status: 'pending'
+        })),
+        reviewedPRs: reviewPRs.map((pr) => ({
+          url: pr,
+          status: 'pending'
+        }))
       };
       requestDevPortfolio(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
-      setOpenPR('');
-      setReviewedPR('');
+      setOpenPRs(['']);
+      setReviewedPRs(['']);
     }
   };
 
@@ -118,23 +140,91 @@ const DevPortfolioForm: React.FC = () => {
           </div>
 
           <div className={styles.inline}>
-            <Form.Input
-              fluid
-              label="Opened Pull Request Github Link: "
-              value={openPR}
-              onChange={(assignment) => setOpenPR(assignment.target.value)}
-              required
-            />
+            <label className={styles.bold}>
+              Opened Pull Request Github Link: <span className={styles.red_color}>*</span>
+            </label>
+            {openPRs.map((openPR, index) => (
+              <div className={styles.prInputContainer} key={index}>
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setOpenPRs((prs) => {
+                      const newOpenPRs = [...prs];
+                      newOpenPRs[index] = e.target.value;
+                      return newOpenPRs;
+                    });
+                  }}
+                  value={openPR}
+                  name="openPR"
+                  placeholder="Opened PR"
+                />
+                <div className={styles.btnContainer}>
+                  {openPRs.length !== 1 ? (
+                    <Button
+                      icon
+                      onClick={() => {
+                        const rows = [...openPRs];
+                        rows.splice(index, 1);
+                        setOpenPRs(rows);
+                      }}
+                    >
+                      <Icon name="trash alternate" />
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </div>
+            ))}
+            <div className="row">
+              <div className="col-sm-12">
+                <button onClick={() => setOpenPRs([...openPRs, ''])}>Add New</button>
+              </div>
+            </div>
           </div>
 
           <div className={styles.inline}>
-            <Form.Input
-              fluid
-              label="Reviewed Pull Request Github Link: "
-              value={reviewedPR}
-              onChange={(assignment) => setReviewedPR(assignment.target.value)}
-              required
-            />
+            <label className={styles.bold}>
+              Reviewed Pull Request Github Link: <span className={styles.red_color}>*</span>
+            </label>
+            {reviewPRs.map((reviewPR, index) => (
+              <div className={styles.prInputContainer} key={index}>
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setOpenPRs((prs) => {
+                      const newReviewPRs = [...prs];
+                      newReviewPRs[index] = e.target.value;
+                      return newReviewPRs;
+                    });
+                  }}
+                  value={reviewPR}
+                  name="reviewedPR"
+                  placeholder="Reviewed PR"
+                />
+                <div className={styles.btnContainer}>
+                  {reviewPRs.length !== 1 ? (
+                    <Button
+                      icon
+                      onClick={() => {
+                        const rows = [...reviewPRs];
+                        rows.splice(index, 1);
+                        setReviewedPRs(rows);
+                      }}
+                    >
+                      <Icon name="trash alternate" />
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </div>
+            ))}
+            <div className="row">
+              <div className="col-sm-12">
+                <button onClick={() => setReviewedPRs([...reviewPRs, ''])}>Add New</button>
+              </div>
+            </div>
           </div>
         </div>
 
