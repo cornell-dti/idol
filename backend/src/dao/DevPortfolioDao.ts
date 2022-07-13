@@ -39,7 +39,6 @@ export default class DevPortfolioDao {
     const doc = await devPortfolioCollection.doc(uuid).get();
 
     const data = doc.data() as DBDevPortfolio;
-    console.log(data);
 
     const subs = data.submissions;
     subs.push({
