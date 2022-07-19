@@ -1,5 +1,5 @@
 import DevPortfolioDao from '../src/dao/DevPortfolioDao';
-import { fakeDevPortfolio, fakeDevPortfolioSubmission } from './data/createData';
+import { fakeDevPortfolio } from './data/createData';
 import { devPortfolioCollection } from '../src/firebase';
 
 const mockDP = fakeDevPortfolio();
@@ -19,12 +19,12 @@ afterAll(async () => {
   await devPortfolioCollection.doc(mockDP3.uuid).delete();
 });
 
-test('Make new submission', () => {
-  const mockSubmission = fakeDevPortfolioSubmission();
-  return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, mockSubmission).then(
-    (submission) => expect(submission === mockSubmission)
-  );
-});
+// test('Make new submission', () => {
+//   const mockSubmission = fakeDevPortfolioSubmission();
+//   return DevPortfolioDao.makeDevPortfolioSubmission(mockDP.uuid, mockSubmission).then(
+//     (submission) => expect(submission === mockSubmission)
+//   );
+// });
 
 test('Get all instances', () =>
   DevPortfolioDao.getAllInstances().then((allSubmissions) => {

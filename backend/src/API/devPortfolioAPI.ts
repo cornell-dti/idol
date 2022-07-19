@@ -6,17 +6,26 @@ import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 export const getAllDevPortfolios = async (): Promise<DevPortfolio[]> =>
   DevPortfolioDao.getAllInstances();
 
+export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
+  const isLeadOrAdmin = PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to view dev portfolios!`
+    );
+  return DevPortfolioDao.getDevPortfolio(uuid);
+};
+
 export const createNewDevPortfolio = async (
   instance: DevPortfolio,
   user: IdolMember
-): Promise<void> => {
+): Promise<DevPortfolio> => {
   const canCreateDevPortfolio = await PermissionsManager.isLeadOrAdmin(user);
   if (!canCreateDevPortfolio) {
     throw new PermissionError(
       `User with email: ${user.email} does not have permission to create dev portfolio!`
     );
   }
-  await DevPortfolioDao.createNewInstance(instance);
+  return DevPortfolioDao.createNewInstance(instance);
 };
 
 export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promise<void> => {

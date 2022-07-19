@@ -18,7 +18,7 @@ const fakeYear = (): string => {
 const fakeSubteams = (): string[] => {
   // 1 to 3 length of random words
   const length = getRandomInt(0, 3);
-  const subteams = [];
+  const subteams: string[] = [];
   /* eslint-disable no-plusplus */
   for (let i = 0; i < length; i++) {
     subteams.push(faker.lorem.word());
@@ -89,7 +89,7 @@ export const fakeTeamEvent = (): TeamEvent => {
 /** Get list of 1 to 3 fake github links. */
 const fakePRs = (): PullRequestSubmission[] => {
   const length = getRandomInt(0, 3);
-  const prs = [];
+  const prs: PullRequestSubmission[] = [];
   /* eslint-disable no-plusplus */
   for (let i = 0; i < length; i++) {
     const owner = faker.lorem.word();

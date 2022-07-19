@@ -53,6 +53,13 @@ import {
   getEventProofImage,
   setEventProofImage
 } from './API/teamEventsImageAPI';
+import {
+  getAllDevPortfolios,
+  createNewDevPortfolio,
+  deleteDevPortfolio,
+  makeDevPortfolioSubmission,
+  getDevPortfolio
+} from './API/devPortfolioAPI';
 
 // Constants and configurations
 const app = express();
@@ -262,6 +269,23 @@ loginCheckedPost('/updateCandidateDeciderRating', (req, user) =>
 loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
   updateCandidateDeciderComment(user, req.body.uuid, req.body.id, req.body.comment).then(() => ({}))
 );
+
+// Dev Portfolios
+loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
+  portfolios: await getAllDevPortfolios()
+}));
+loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
+  portfolio: await getDevPortfolio(req.params.uuid, user)
+}));
+loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
+  portfolio: await createNewDevPortfolio(req.body, user)
+}));
+loginCheckedPost('/deleteDevPortfolio', async (req, user) =>
+  deleteDevPortfolio(req.body.uuid, user).then(() => ({}))
+);
+loginCheckedPost('/makeDevPortfolioSubmission', async (req, user) => ({
+  submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
+}));
 
 app.use('/.netlify/functions/api', router);
 

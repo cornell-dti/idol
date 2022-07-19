@@ -52,6 +52,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     adminOnly: true
   },
   {
+    header: 'Dev Portfolios',
+    description: 'Edit and review Dev Portfolio assignments',
+    link: '/admin/dev-portfolio',
+    adminOnly: true
+  },
+  {
     header: 'Example Unstable Hidden Page',
     description: 'An example page visible to admin only. It can be used to gate unstable features.',
     link: '/admin/hidden',

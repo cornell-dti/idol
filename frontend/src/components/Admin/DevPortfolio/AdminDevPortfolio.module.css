@@ -1,0 +1,16 @@
+.container {
+  padding: 1%;
+}
+
+#submitButton {
+  margin-top: 1em;
+}
+
+.trashIcon {
+  position: absolute;
+  right: 1%;
+}
+
+.cardHeader a:hover {
+  text-decoration: underline;
+}
