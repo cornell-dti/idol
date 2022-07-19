@@ -7,7 +7,8 @@
     "start": "netlify-lambda serve build",
     "dev": "esr src/api.ts",
     "tsc": "tsc",
-    "build": "tsc"
+    "build": "tsc",
+    "update-dev-db": "esr scripts/update-dev-db.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {

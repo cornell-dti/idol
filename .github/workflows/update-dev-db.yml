@@ -1,0 +1,30 @@
+name: Update Dev Database
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs script at 8AM UTC (3AM or 4AM ET) on the first day of every month
+    - cron: '0 8 1 * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+      - uses: actions/setup-node@v2
+      - name: Use Yarn Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: yarn-
+      - name: Install
+        run: yarn
+      - name: Update Dev Database
+        env:
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_DEV_PRIVATE_KEY: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY }}
+          FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+          FIREBASE_DEV_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY_ID }}
+        run: yarn workspace backend update-dev-db
