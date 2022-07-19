@@ -88,7 +88,6 @@ const getUserEmailFromRequest = async (request: Request): Promise<string | undef
 const loginCheckedHandler =
   (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
   async (req: Request, res: Response): Promise<void> => {
-    console.log(req.hostname);
     const userEmail = await getUserEmailFromRequest(req);
     if (userEmail == null) {
       res.status(440).json({ error: 'Not logged in!' });
@@ -152,17 +151,10 @@ loginCheckedDelete('/deleteMember/:email', async (req, user) => {
   await deleteMember(req.params.email, user);
   return {};
 });
+loginCheckedPost('/updateMember', async (req, user) => ({
+  member: await updateMember(req, req.body, user)
+}));
 
-loginCheckedPost('/updateMember', async (req, user) => {
-  const result = await updateMember(req, req.body, user);
-  console.log(result);
-  return new Promise(() => console.log(result)).then(() => ({
-    result
-  }));
-});
-// loginCheckedPost('/updateMember', async (req, user) => ({
-//   member: await updateMember(req.body, user)
-// }));
 loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
 }));
