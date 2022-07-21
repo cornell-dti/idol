@@ -1,7 +1,7 @@
-import styles from './Footer.module.css';
+import React from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import React from 'react';
+import styles from './Footer.module.css';
 
 type Icon = {
   link: string;
