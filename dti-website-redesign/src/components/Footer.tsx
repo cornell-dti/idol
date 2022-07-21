@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import styles from './Footer.module.css';
@@ -28,7 +28,7 @@ const icons: Icon[] = [
 ];
 
 const EmailIcon: React.FC = () => {
-  const [isNotificationVisible, setIsNotificationVisible] = React.useState(false);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   return (
     <OverlayTrigger
       placement={'top'}
