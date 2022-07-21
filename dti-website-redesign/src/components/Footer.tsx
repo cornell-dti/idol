@@ -28,7 +28,7 @@ const icons: Icon[] = [
 ];
 
 const EmailIcon: React.FC = () => {
-  const [isAlertVisible, setIsAlertVisible] = React.useState(false);
+  const [isNotificationVisible, setIsNotificationVisible] = React.useState(false);
   return (
     <OverlayTrigger
       key={'top'}
@@ -36,11 +36,12 @@ const EmailIcon: React.FC = () => {
       show={true}
       overlay={
         <Tooltip id={`tooltip-top`}>
-          {isAlertVisible && (
+          {isNotificationVisible && (
             <img
               className={styles.emailCopyNotification}
               src={'/static/icons/emailCopied.svg'}
               alt={'email copy notif icon'}
+              onAnimationEnd={() => setIsNotificationVisible(false)}
             />
           )}
         </Tooltip>
@@ -52,10 +53,7 @@ const EmailIcon: React.FC = () => {
         alt={'email icon'}
         onClick={() => {
           navigator.clipboard.writeText('hello@cornelldti.org');
-          setIsAlertVisible(true);
-          setTimeout(() => {
-            setIsAlertVisible(false);
-          }, 4000);
+          setIsNotificationVisible(true);
         }}
       />
     </OverlayTrigger>
