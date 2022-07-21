@@ -31,7 +31,6 @@ const EmailIcon: React.FC = () => {
   const [isNotificationVisible, setIsNotificationVisible] = React.useState(false);
   return (
     <OverlayTrigger
-      key={'top'}
       placement={'top'}
       show={true}
       overlay={
