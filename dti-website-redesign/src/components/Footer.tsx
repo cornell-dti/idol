@@ -1,7 +1,5 @@
 import { useRef, useState } from 'react';
 import { Overlay } from 'react-bootstrap';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import styles from './Footer.module.css';
 
 type Icon = {
