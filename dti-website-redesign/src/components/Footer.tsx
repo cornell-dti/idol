@@ -44,14 +44,14 @@ const EmailIcon: React.FC = () => {
         }}
       />
       <Overlay placement={'top'} show={isNotificationVisible} target={target.current}>
-        <Tooltip style={{ position: 'absolute' }} id={`tooltip-top`}>
+        <div style={{ position: 'absolute' }} id={`tooltip-top`}>
           <img
             className={styles.emailCopyNotification}
             src={'/static/icons/emailCopied.svg'}
             alt={'email copy notif icon'}
             onAnimationEnd={() => setIsNotificationVisible(false)}
           />
-        </Tooltip>
+        </div>
       </Overlay>
     </>
   );
