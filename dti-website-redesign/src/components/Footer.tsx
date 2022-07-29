@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Overlay } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import styles from './Footer.module.css';
@@ -29,33 +30,30 @@ const icons: Icon[] = [
 
 const EmailIcon: React.FC = () => {
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const target = useRef(null);
   return (
-    <OverlayTrigger
-      placement={'top'}
-      show={true}
-      overlay={
-        <Tooltip id={`tooltip-top`}>
-          {isNotificationVisible && (
-            <img
-              className={styles.emailCopyNotification}
-              src={'/static/icons/emailCopied.svg'}
-              alt={'email copy notif icon'}
-              onAnimationEnd={() => setIsNotificationVisible(false)}
-            />
-          )}
-        </Tooltip>
-      }
-    >
+    <>
       <img
         className={styles.socialIcon}
         src={'/static/icons/email.svg'}
         alt={'email icon'}
+        ref={target}
         onClick={() => {
           navigator.clipboard.writeText('hello@cornelldti.org');
           setIsNotificationVisible(true);
         }}
       />
-    </OverlayTrigger>
+      <Overlay placement={'top'} show={isNotificationVisible} target={target.current}>
+        <Tooltip style={{ position: 'absolute' }} id={`tooltip-top`}>
+          <img
+            className={styles.emailCopyNotification}
+            src={'/static/icons/emailCopied.svg'}
+            alt={'email copy notif icon'}
+            onAnimationEnd={() => setIsNotificationVisible(false)}
+          />
+        </Tooltip>
+      </Overlay>
+    </>
   );
 };
 
