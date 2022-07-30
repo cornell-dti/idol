@@ -28,7 +28,6 @@
 }
 
 .emailCopyNotification {
-  position: absolute;
   animation: fadeAndBounce 4s 1;
   animation-fill-mode: forwards;
 }
@@ -36,27 +35,27 @@
 @keyframes fadeAndBounce {
   0% {
     opacity: 0;
-    transform: translate(-105px, -50px) scale(0.6);
+    transform: scale(0.6);
   }
 
   5% {
     opacity: 1;
-    transform: translate(-105px, -50px) scale(1);
+    transform: scale(1);
   }
 
   10% {
     opacity: 1;
-    transform: translate(-105px, -50px) scale(0.9);
+    transform: scale(0.9);
   }
 
   15%,
   70% {
     opacity: 1;
-    transform: translate(-105px, -50px) scale(0.95);
+    transform: scale(0.95);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-105px, -50px) scale(0.95);
+    transform: scale(0.95);
   }
 }
