@@ -30,6 +30,7 @@
 .emailCopyNotification {
   position: absolute;
   animation: fadeAndBounce 4s 1;
+  animation-fill-mode: forwards;
 }
 
 @keyframes fadeAndBounce {
