@@ -1,10 +1,9 @@
 import Layout from '../components/Layout';
+import Graph from '../components/Graph';
 
 const IndexPage = (): JSX.Element => (
   <Layout>
-    <div style={{ backgroundColor: 'lightgray', height: '50vh', textAlign: 'center' }}>
-      <div>Cornell DTI Website Redesign</div>
-    </div>
+    <Graph />
   </Layout>
 );
 

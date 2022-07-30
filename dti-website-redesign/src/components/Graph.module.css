@@ -1,0 +1,65 @@
+.graphContainer {
+  display: flex;
+  min-height: 300vh;
+}
+
+.circle {
+  display: flex;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+  vertical-align: center;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.edge {
+  position: absolute;
+  z-index: 0
+}
+
+.centerNode {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 33px;
+  padding: 20px;
+  background: linear-gradient(180deg, #D2848D 0%, #C04E5B 100%);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0px 3.32605px 3.32605px rgba(0, 0, 0, 0.25);
+}
+
+.communityNode,
+.appNode,
+.growthNode {
+  position: absolute;
+  width: 208px;
+  height: 208px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 20px;
+  background: #8D8D8D;
+  text-shadow: 0px 3.32605px 3.32605px rgba(0, 0, 0, 0.25);
+}
+
+.CUReviewsNode,
+.CoursePlanNode,
+.QueueMeNode {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  filter: drop-shadow(0px 3.00664px 3.00664px rgba(0, 0, 0, 0.25));
+  z-index: 999;
+  transition: all .1s ease-in-out;
+}
+
+.grow {
+  transition: all .1s ease-in-out;
+  transform: scale(1.5)
+}
