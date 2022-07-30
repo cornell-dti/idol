@@ -28,6 +28,9 @@
 }
 
 .emailCopyNotification {
+  position: absolute;
+  left: -105px;
+  top: -50px;
   animation: fadeAndBounce 4s 1;
   animation-fill-mode: forwards;
 }
