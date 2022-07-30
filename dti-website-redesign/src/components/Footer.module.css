@@ -24,4 +24,41 @@
 .socialIcon {
   height: 35px;
   width: 35px;
+  cursor: pointer;
+}
+
+.emailCopyNotification {
+  position: absolute;
+  left: -105px;
+  top: -50px;
+  animation: fadeAndBounce 4s 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeAndBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  5% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  10% {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+
+  15%,
+  70% {
+    opacity: 1;
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 }

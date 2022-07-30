@@ -1,3 +1,5 @@
+import { useRef, useState } from 'react';
+import { Overlay } from 'react-bootstrap';
 import styles from './Footer.module.css';
 
 type Icon = {
@@ -7,11 +9,6 @@ type Icon = {
 };
 
 const icons: Icon[] = [
-  {
-    src: '/static/icons/email.svg',
-    link: 'mailto:hello@cornelldti.org',
-    alt: 'email icon'
-  },
   {
     src: '/static/icons/instagram.svg',
     link: 'https://www.instagram.com/cornelldti',
@@ -29,10 +26,40 @@ const icons: Icon[] = [
   }
 ];
 
+const EmailIcon: React.FC = () => {
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const target = useRef(null);
+  return (
+    <>
+      <img
+        className={styles.socialIcon}
+        src={'/static/icons/email.svg'}
+        alt={'email icon'}
+        ref={target}
+        onClick={() => {
+          navigator.clipboard.writeText('hello@cornelldti.org');
+          setIsNotificationVisible(true);
+        }}
+      />
+      <Overlay placement={'top'} show={isNotificationVisible} target={target.current}>
+        <div style={{ position: 'absolute' }}>
+          <img
+            className={styles.emailCopyNotification}
+            src={'/static/icons/emailCopied.svg'}
+            alt={'email copy notif icon'}
+            onAnimationEnd={() => setIsNotificationVisible(false)}
+          />
+        </div>
+      </Overlay>
+    </>
+  );
+};
+
 const Footer: React.FC = () => (
   <div className={styles.footer}>
     <div className={styles.innerFooter}>
       <div className={styles.iconContainer}>
+        <EmailIcon />
         {icons.map((icon, i) => (
           <a key={i} href={icon.link} target="_blank" rel="noreferrer noopener">
             <img className={styles.socialIcon} src={icon.src} alt={icon.alt} />
