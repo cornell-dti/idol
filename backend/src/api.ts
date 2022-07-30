@@ -3,14 +3,15 @@ import serverless from 'serverless-http';
 import cors from 'cors';
 import admin from 'firebase-admin';
 import { app as adminApp } from './firebase';
+import PermissionsManager from './utils/permissionsManager';
+import { HandlerError } from './utils/errors';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './API/siteIntegrationAPI';
-import PermissionsManager from './utils/permissionsManager';
-import { HandlerError } from './utils/errors';
+import { sendMail } from './API/mailAPI';
 import MembersDao from './dao/MembersDao';
 import {
   allMembers,
@@ -65,8 +66,8 @@ import {
 const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 9000;
-const isProd: boolean = JSON.parse(process.env.IS_PROD as string);
 const allowAllOrigins = false;
+export const isProd: boolean = JSON.parse(process.env.IS_PROD as string);
 export const enforceSession = true;
 // eslint-disable-next-line no-nested-ternary
 const allowedOrigins = allowAllOrigins
@@ -142,6 +143,14 @@ router.get('/allApprovedMembers', async (_, res) => {
 router.get('/membersFromAllSemesters', async (_, res) => {
   res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
+
+router.get('/info', async (req, res) => {
+  res.json({
+    isProd,
+    hostname: req.hostname
+  });
+});
+
 loginCheckedPost('/setMember', async (req, user) => ({
   member: await setMember(req.body, user)
 }));
@@ -150,8 +159,9 @@ loginCheckedDelete('/deleteMember/:email', async (req, user) => {
   return {};
 });
 loginCheckedPost('/updateMember', async (req, user) => ({
-  member: await updateMember(req.body, user)
+  member: await updateMember(req, req.body, user)
 }));
+
 loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
 }));
@@ -269,6 +279,9 @@ loginCheckedPost('/updateCandidateDeciderRating', (req, user) =>
 loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
   updateCandidateDeciderComment(user, req.body.uuid, req.body.id, req.body.comment).then(() => ({}))
 );
+loginCheckedPost('/sendMail', async (req, user) => ({
+  info: await sendMail(req.body.to, req.body.subject, req.body.text)
+}));
 
 // Dev Portfolios
 loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({

@@ -28,6 +28,7 @@ const UserProfile: React.FC = () => {
 
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
+      console.log(val);
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't update user!",
