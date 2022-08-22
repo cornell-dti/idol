@@ -1104,17 +1104,18 @@
   {
     "netid": "nk495",
     "name": "Nikita Kasumov",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "he/him",
+    "graduation": "Spring 2024",
+    "major": "Computer Science",
+    "hometown": "Sharon, MA",
+    "about": "CornellGO TPM",
     "subteams": [
       "cornellgo"
     ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "github": "https://github.com/neketka"
   },
   {
     "netid": "nps39",
