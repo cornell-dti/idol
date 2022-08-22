@@ -7,7 +7,8 @@
     "frontend",
     "backend",
     "dti-website",
-    "image-cli"
+    "image-cli",
+    "dti-website-redesign"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts --ext .tsx",
