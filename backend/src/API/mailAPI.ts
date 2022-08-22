@@ -44,7 +44,7 @@ const emailAdmins = async (req: Request, subject: string, text: string) => {
   });
 };
 
-export const sendMemberUpdateNotifications = async (req: Request) => {
+export const sendMemberUpdateNotifications = async (req: Request): Promise<Promise<void>[]> => {
   const subject = 'IDOL Member Profile Change';
   const text =
     'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
