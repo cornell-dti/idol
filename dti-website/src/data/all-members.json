@@ -519,7 +519,7 @@
   {
     "netid": "dlw266",
     "name": "Daniel Wei",
-    "pronouns": "",
+    "pronouns": "he/him",
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Houston, TX",
@@ -530,7 +530,9 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Dyson Business Minor for Engineers; East Asian Studies",
-    "linkedin": "https://www.linkedin.com/in/weidaniel15/"
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/weidaniel15/",
+    "github": "https://github.com/epicdragon44"
   },
   {
     "netid": "ec629",
@@ -564,17 +566,18 @@
   {
     "netid": "feb47",
     "name": "Francis Bahk",
-    "pronouns": "",
+    "pronouns": "He/Him",
     "graduation": "May 2025",
-    "major": "Classics",
+    "major": "Mathematics",
     "hometown": "Rochester, NY",
-    "about": "Hi, I'm Francis! I'm a freshman studying Classics and Math. Apart from DTI, I love producing music (@febtekkers next up), doing two-step verification on Duo Mobile, and staying up late for no reason, causing my sleep schedule to consist of two four-hour periods. I also have an inexplicable love for instant ramen. Contact me - I'd love to meet you!",
+    "about": "Hi, I'm Francis!",
     "subteams": [
       "clubview"
     ],
     "roleId": "business",
     "roleDescription": "Business Analyst",
-    "doubleMajor": "Mathematics",
+    "doubleMajor": "Classics",
+    "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/francis-bahk-4523701b7/"
   },
   {
@@ -778,17 +781,17 @@
   {
     "netid": "jk2338",
     "name": "Justin Kong",
-    "pronouns": "",
+    "pronouns": "he/him",
     "graduation": "May 2025",
-    "major": "ECE",
+    "major": "CS",
     "hometown": "New York, NY",
-    "about": "I'm a freshman in the College of Engineering majoring in ECE with a minor in CS. Other than eating or sleeping sometimes I enjoy watching cute animal compilations, or screaming at the TV while watching basketball. ",
+    "about": "I'm a freshman in the College of Engineering majoring in CS. Other than eating or sleeping sometimes I enjoy watching cute animal compilations, or screaming at the TV while watching basketball. ",
     "subteams": [
       "clubview"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "CS",
+    "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/justkong/"
   },
   {
