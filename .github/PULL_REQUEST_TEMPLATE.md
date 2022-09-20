@@ -14,9 +14,9 @@ This pull request is the first step towards implementing feature Foo
 
 - [ ] Updated backend api specification
 
-### Figma Page <!-- Optional -->
+### Notion/Figma Link <!-- Optional -->
 
-<!-- If the changes have associated Figma design(s), please include the links to the Figma files -->
+<!-- If the changes have associated Notion pages/Figma design(s), please include the links here.-->
 
 ### Test Plan <!-- Required -->
 
