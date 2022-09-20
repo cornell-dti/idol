@@ -16,6 +16,11 @@ import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './AdminDevPortfolio.module.css';
 import DevPortfolioDeleteModal from '../../Modals/DevPortfolioDeleteModal';
 
+const isSameDay = (d1: Date, d2: Date) =>
+  d1.getFullYear() === d2.getFullYear() &&
+  d1.getMonth() === d2.getMonth() &&
+  d1.getDate() === d2.getDate();
+
 const AdminDevPortfolio: React.FC = () => {
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -68,7 +73,7 @@ const AdminDevPortfolioDashboard: React.FC<AdminDevPortfolioDashboardProps> = ({
       <>
         <Card.Group>
           {devPortfolios.map((portfolio) => (
-            <Card>
+            <Card key={portfolio.uuid}>
               <Card.Content>
                 <DevPortfolioDeleteModal
                   uuid={portfolio.uuid}
@@ -99,6 +104,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
   const [name, setName] = useState<string>('');
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
+  const [dateErrorMsg, setDateErrorMsg] = useState<string>('');
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [earliestDate, setEarliestDate] = useState<Date>(new Date());
   const [success, setSuccess] = useState<boolean>(false);
@@ -109,11 +115,18 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
       return;
     }
     setNameError(false);
-    if (deadline > earliestDate || deadline < new Date()) {
+    if (deadline < earliestDate) {
       setDateError(true);
+      setDateErrorMsg('Deadline must be after earliest possible date.');
+      return;
+    }
+    if (deadline < new Date() && !isSameDay(deadline, new Date())) {
+      setDateError(true);
+      setDateErrorMsg('Deadline cannot be before today.');
       return;
     }
     setNameError(false);
+    setDateErrorMsg('');
     const portfolio = {
       name,
       deadline: deadline.getTime(),
@@ -144,7 +157,9 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
         onChange={(date: Date) => setDeadline(date)}
       />
       {dateError ? (
-        <Label pointing>The dates for the deadline and earliest date are invalid.</Label>
+        <Label
+          pointing
+        >{`The dates for the deadline and earliest date are invalid: ${dateErrorMsg}`}</Label>
       ) : undefined}
       <Divider />
       <Button id={styles.submitButton} onClick={() => handleSubmit()}>
