@@ -5,8 +5,13 @@ import { MemberSearch } from '../../Common/Search/Search';
 import { Emitters } from '../../../utils';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
+import styles from './ShoutoutForm.module.css';
 
-const ShoutoutForm: React.FC = () => {
+type ShoutoutFormProps = {
+  getGivenShoutouts: () => void;
+};
+
+const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const userEmail = useUserEmail();
   const members = useMembers();
   const user = members.find((it) => it.email === userEmail);
@@ -45,36 +50,25 @@ const ShoutoutForm: React.FC = () => {
           });
           setRecipient(undefined);
           setMessage('');
+          getGivenShoutouts();
         }
       });
     }
   };
 
   return (
-    <Form
-      style={{
-        width: '100%',
-        alignSelf: 'center',
-        margin: 'auto'
-      }}
-    >
-      <h2 style={{ marginBottom: '2vh' }}>Give someone a shoutout! 📣</h2>
-      <label style={{ fontWeight: 'bold' }}>
+    <Form className={styles.shoutoutForm}>
+      <h2 className={styles.formTitle}>Give someone a shoutout! 📣</h2>
+      <label className={styles.formLabel}>
         Who is awesome? <span style={{ color: '#db2828' }}>*</span>
       </label>
 
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className={styles.formContainer}>
         {!recipient ? <MemberSearch onSelect={setRecipient} /> : undefined}
 
         {recipient ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'baseline'
-            }}
-          >
-            <p style={{ paddingRight: '1.5em' }}>
+          <div className={styles.recipientNameDisplayContainer}>
+            <p className={styles.recipientNameDisplay}>
               {recipient?.firstName} {recipient?.lastName}
             </p>
             <Button
@@ -90,24 +84,23 @@ const ShoutoutForm: React.FC = () => {
 
         <Checkbox
           label={{ children: 'Anonymous?' }}
-          style={{ paddingLeft: '2em' }}
+          className={styles.isAnonCheckbox}
           onChange={() => setIsAnon(!isAnon)}
         />
       </div>
 
-      <div style={{ padding: '0.8em 0' }}>
+      <div className={styles.reasonContainer}>
         <Form.Input
           label="Why are they awesome?"
           name="message"
           value={message}
           control={TextArea}
           onChange={(event) => setMessage(event.target.value)}
-          style={{ minHeight: '25vh' }}
           required
         />
       </div>
 
-      <Form.Button floated="right" onClick={giveShoutout}>
+      <Form.Button floated="right" onClick={giveShoutout} style={{ marginBottom: 0 }}>
         Send
       </Form.Button>
     </Form>
