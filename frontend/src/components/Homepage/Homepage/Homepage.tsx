@@ -17,7 +17,7 @@ const Homepage: React.FC = () => (
         <Spotlight></Spotlight>
         <Card style={{ width: '50%', display: 'flex', justfiyContent: 'center' }} size="medium">
           <Card.Content style={{ height: '100%' }}>
-            <ShoutoutForm></ShoutoutForm>
+            <ShoutoutForm getGivenShoutouts={() => undefined} />
           </Card.Content>
         </Card>
       </div>
