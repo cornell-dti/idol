@@ -109,6 +109,12 @@ const DevPortfolioForm: React.FC = () => {
     }
   };
 
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
     <div>
       <Form className={styles.form_style}>
@@ -146,6 +152,7 @@ const DevPortfolioForm: React.FC = () => {
             {openPRs.map((openPR, index) => (
               <div className={styles.prInputContainer} key={index}>
                 <input
+                  onKeyDown={keyDownHandler}
                   type="text"
                   onChange={(e) => {
                     setOpenPRs((prs) => {
@@ -190,9 +197,10 @@ const DevPortfolioForm: React.FC = () => {
             {reviewPRs.map((reviewPR, index) => (
               <div className={styles.prInputContainer} key={index}>
                 <input
+                  onKeyDown={keyDownHandler}
                   type="text"
                   onChange={(e) => {
-                    setOpenPRs((prs) => {
+                    setReviewedPRs((prs) => {
                       const newReviewPRs = [...prs];
                       newReviewPRs[index] = e.target.value;
                       return newReviewPRs;
