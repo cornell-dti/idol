@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Dropdown, Button, Icon } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
@@ -12,46 +12,20 @@ const DevPortfolioForm: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
 
-  const devPortfolios: DevPortfolio[] = [
-    {
-      name: 'test 1',
-      deadline: Date.parse('06 May 2022 00:00:00 GMT'),
-      earliestValidDate: Date.parse('01 May 2022 00:00:00 GMT'),
-      submissions: [],
-      uuid: 'xyz'
-    },
-    {
-      name: 'test 2',
-      deadline: Date.parse('20 Jan 2022 00:00:00 GMT'),
-      earliestValidDate: Date.parse('01 Jan 2022 00:00:00 GMT'),
-      submissions: [],
-      uuid: 'abc'
-    },
-    {
-      name: 'test abc',
-      deadline: Date.parse('30 Dec 2022 00:00:00 GMT'),
-      earliestValidDate: Date.parse('20 Nov 2022 00:00:00 GMT'),
-      submissions: [],
-      uuid: '123'
-    }
-  ];
-
-  // real!!!
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
-  // const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
+  const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
 
-  // useEffect(() => {
-  //   DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
-  // }, []);
+  useEffect(() => {
+    DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
+  }, []);
 
   const requestDevPortfolio = (
     devPortfolioRequest: DevPortfolioSubmission,
     devPortfolio: DevPortfolio
   ) => {
-    devPortfolio?.submissions.push(devPortfolioRequest);
-    DevPortfolioAPI.requestDevPortfolio(devPortfolio).then((val) => {
+    DevPortfolioAPI.makeDevPortfolioSubmission(devPortfolio.uuid, devPortfolioRequest).then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't submit dev assignment!",
@@ -192,7 +166,7 @@ const DevPortfolioForm: React.FC = () => {
                 <input
                   type="text"
                   onChange={(e) => {
-                    setOpenPRs((prs) => {
+                    setReviewedPRs((prs) => {
                       const newReviewPRs = [...prs];
                       newReviewPRs[index] = e.target.value;
                       return newReviewPRs;
