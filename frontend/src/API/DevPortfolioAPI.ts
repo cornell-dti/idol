@@ -20,11 +20,11 @@ export default class DevPortfolioAPI {
 
   public static async makeDevPortfolioSubmission(
     uuid: string,
-    devPortfolioSubmission: DevPortfolioSubmission
+    submission: DevPortfolioSubmission
   ): Promise<DevPortfolioSubmissionResponseObj> {
     return APIWrapper.post(`${backendURL}/makeDevPortfolioSubmission`, {
       uuid,
-      submission: devPortfolioSubmission
+      submission
     }).then((res) => res.data);
   }
 
