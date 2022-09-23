@@ -79,6 +79,7 @@ const DevPortfolioForm: React.FC = () => {
         }))
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
+      setDevPortfolio(undefined);
       setOpenPRs(['']);
       setReviewedPRs(['']);
     }
