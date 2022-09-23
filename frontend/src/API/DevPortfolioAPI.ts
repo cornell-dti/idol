@@ -18,10 +18,14 @@ export default class DevPortfolioAPI {
     );
   }
 
-  public static async makeDevPortfolioSubmission(uuid: string, devPortfolioSubmission: DevPortfolioSubmission): Promise<DevPortfolioSubmissionResponseObj> {
-    return APIWrapper.post(`${backendURL}/makeDevPortfolioSubmission`, {uuid: uuid, submission: devPortfolioSubmission}).then(
-      (res) => res.data
-    );
+  public static async makeDevPortfolioSubmission(
+    uuid: string,
+    devPortfolioSubmission: DevPortfolioSubmission
+  ): Promise<DevPortfolioSubmissionResponseObj> {
+    return APIWrapper.post(`${backendURL}/makeDevPortfolioSubmission`, {
+      uuid: uuid,
+      submission: devPortfolioSubmission
+    }).then((res) => res.data);
   }
 
   public static async deleteDevPortfolio(uuid: string): Promise<void> {

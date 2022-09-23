@@ -25,19 +25,21 @@ const DevPortfolioForm: React.FC = () => {
     devPortfolioRequest: DevPortfolioSubmission,
     devPortfolio: DevPortfolio
   ) => {
-    DevPortfolioAPI.makeDevPortfolioSubmission(devPortfolio.uuid, devPortfolioRequest).then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't submit dev assignment!",
-          contentMsg: val.error
-        });
-      } else {
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Dev Portfolio Assignment submitted!',
-          contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
-        });
+    DevPortfolioAPI.makeDevPortfolioSubmission(devPortfolio.uuid, devPortfolioRequest).then(
+      (val) => {
+        if (val.error) {
+          Emitters.generalError.emit({
+            headerMsg: "Couldn't submit dev assignment!",
+            contentMsg: val.error
+          });
+        } else {
+          Emitters.generalSuccess.emit({
+            headerMsg: 'Dev Portfolio Assignment submitted!',
+            contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
+          });
+        }
       }
-    });
+    );
   };
 
   const submitDevPortfolio = () => {
