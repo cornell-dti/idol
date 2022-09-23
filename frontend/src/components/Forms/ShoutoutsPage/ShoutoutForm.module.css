@@ -38,3 +38,7 @@
 .reasonInput {
   min-height: 25vh;
 }
+
+.requiredIcon {
+  color: #db2828;
+}

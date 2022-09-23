@@ -60,7 +60,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
     <Form className={styles.shoutoutForm}>
       <h2 className={styles.formTitle}>Give someone a shoutout! 📣</h2>
       <label className={styles.formLabel}>
-        Who is awesome? <span style={{ color: '#db2828' }}>*</span>
+        Who is awesome? <span className={styles.requiredIcon}>*</span>
       </label>
 
       <div className={styles.formContainer}>
@@ -100,7 +100,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         />
       </div>
 
-      <Form.Button floated="right" onClick={giveShoutout} style={{ marginBottom: 0 }}>
+      <Form.Button floated="right" onClick={giveShoutout}>
         Send
       </Form.Button>
     </Form>
