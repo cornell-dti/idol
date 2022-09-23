@@ -1,11 +1,6 @@
 import APIWrapper from './APIWrapper';
 import { backendURL } from '../environment';
 
-type DevPortfolioResponseObj = {
-  devPortfolio: DevPortfolio;
-  error?: string;
-};
-
 type DevPortfolioSubmissionResponseObj = {
   submission?: DevPortfolioSubmission;
   error?: string;
