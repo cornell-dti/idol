@@ -20,7 +20,7 @@ export default function NavigationCard({ testID, items }: Props): JSX.Element {
   return (
     <div data-testid={testID}>
       <div className={styles.content}>
-        <Card.Group>
+        <Card.Group className={styles.cardsContainer}>
           {items.map(
             ({ header, description, link, adminOnly }) =>
               (!isProduction || !adminOnly || hasAdminPermission) && (
