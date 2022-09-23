@@ -183,7 +183,8 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/"
+    "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/",
+    "github": "https://github.com/andrew032011"
   },
   {
     "netid": "az349",
@@ -808,6 +809,23 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "linkedin": "https://www.linkedin.com/in/justin-joonha-kang"
+  },
+  {
+    "netid": "jks273",
+    "name": "Jackson Staniec",
+    "pronouns": "he/him",
+    "graduation": "May 2024",
+    "major": "Computer Science",
+    "hometown": "Phoenix, AZ",
+    "about": ":|",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
+    "formerSubteams": [],
+    "linkedin": "https://linkedin.com/in/jacksonstaniec",
+    "github": "https://github.com/jacksonstaniec"
   },
   {
     "netid": "jlc497",
