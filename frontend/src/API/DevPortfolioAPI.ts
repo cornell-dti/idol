@@ -23,7 +23,7 @@ export default class DevPortfolioAPI {
     devPortfolioSubmission: DevPortfolioSubmission
   ): Promise<DevPortfolioSubmissionResponseObj> {
     return APIWrapper.post(`${backendURL}/makeDevPortfolioSubmission`, {
-      uuid: uuid,
+      uuid,
       submission: devPortfolioSubmission
     }).then((res) => res.data);
   }
