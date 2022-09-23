@@ -21,7 +21,7 @@ const DevPortfolioForm: React.FC = () => {
     DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
   }, []);
 
-  const requestDevPortfolio = (
+  const sendSubmissionRequest = (
     devPortfolioRequest: DevPortfolioSubmission,
     devPortfolio: DevPortfolio
   ) => {
@@ -76,7 +76,7 @@ const DevPortfolioForm: React.FC = () => {
           status: 'pending'
         }))
       };
-      requestDevPortfolio(newDevPortfolioSubmission, devPortfolio);
+      sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
       setOpenPRs(['']);
       setReviewedPRs(['']);
