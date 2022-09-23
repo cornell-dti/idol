@@ -127,6 +127,7 @@ const DevPortfolioForm: React.FC = () => {
           <div className={styles.center_and_flex}>
             {devPortfolios ? (
               <Dropdown
+                onKeyDown={keyDownHandler}
                 placeholder="Select a Portfolio Assignment: "
                 fluid
                 search
