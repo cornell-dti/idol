@@ -1,8 +1,7 @@
 import APIWrapper from './APIWrapper';
 import { backendURL } from '../environment';
 
-type DevPortfolioResponseObj = {
-  devPortfolio: DevPortfolio;
+type DevPortfolioSubmissionResponseObj = {
   error?: string;
 };
 
@@ -12,16 +11,20 @@ export default class DevPortfolioAPI {
     return response.then((val) => val.data.portfolios);
   }
 
-  public static requestDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolioResponseObj> {
-    return APIWrapper.post(`${backendURL}/updateDevPortfolio`, devPortfolio).then(
-      (res) => res.data.event
-    );
-  }
-
   public static async createDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolio> {
     return APIWrapper.post(`${backendURL}/createNewDevPortfolio`, devPortfolio).then(
       (res) => res.data.portfolio
     );
+  }
+
+  public static async makeDevPortfolioSubmission(
+    uuid: string,
+    submission: DevPortfolioSubmission
+  ): Promise<DevPortfolioSubmissionResponseObj> {
+    return APIWrapper.post(`${backendURL}/makeDevPortfolioSubmission`, {
+      uuid,
+      submission
+    }).then((res) => res.data);
   }
 
   public static async deleteDevPortfolio(uuid: string): Promise<void> {
