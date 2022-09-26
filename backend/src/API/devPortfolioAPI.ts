@@ -7,7 +7,7 @@ export const getAllDevPortfolios = async (): Promise<DevPortfolio[]> =>
   DevPortfolioDao.getAllInstances();
 
 export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
-  const isLeadOrAdmin = PermissionsManager.isLeadOrAdmin(user);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
@@ -44,7 +44,6 @@ export const makeDevPortfolioSubmission = async (
 ): Promise<DevPortfolioSubmission> => {
   const devPortfolio = await DevPortfolioDao.getInstance(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
-
   if (!isWithinDates(Date.now(), devPortfolio.earliestValidDate, devPortfolio.deadline)) {
     const startDate = new Date(devPortfolio.earliestValidDate).toDateString();
     const endDate = new Date(devPortfolio.deadline).toDateString();
