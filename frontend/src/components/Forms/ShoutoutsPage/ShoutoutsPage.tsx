@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Message } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { Emitters } from '../../../utils';
@@ -12,18 +12,19 @@ const ShoutoutsPage: React.FC = () => {
   const [givenShoutouts, setGivenShoutouts] = useState<Shoutout[]>([]);
   const [receivedShoutouts, setReceivedShoutouts] = useState<Shoutout[]>([]);
 
-  useEffect(() => {
+  const getGivenShoutouts = useCallback(() => {
     ShoutoutsAPI.getShoutouts(userEmail, 'given')
-      .then((given) => {
-        setGivenShoutouts(given);
-      })
+      .then((given) => setGivenShoutouts(given))
       .catch((error) => {
         Emitters.generalError.emit({
-          headerMsg: `Couldn't get given shoutouts!`,
+          headerMsg: `Couldn't get received shoutouts!`,
           contentMsg: `Error was: ${error}`
         });
       });
+  }, [userEmail]);
 
+  useEffect(() => {
+    getGivenShoutouts();
     ShoutoutsAPI.getShoutouts(userEmail, 'received')
       .then((received) => {
         setReceivedShoutouts(received);
@@ -34,12 +35,12 @@ const ShoutoutsPage: React.FC = () => {
           contentMsg: `Error was: ${error}`
         });
       });
-  }, [userEmail]);
+  }, [userEmail, getGivenShoutouts]);
 
   return (
     <div>
       <div className={styles.shoutoutFormContainer}>
-        <ShoutoutForm />
+        <ShoutoutForm getGivenShoutouts={getGivenShoutouts} />
       </div>
 
       <div className={styles.listsContainer}>

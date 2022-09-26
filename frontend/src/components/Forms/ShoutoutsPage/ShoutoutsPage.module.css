@@ -21,11 +21,18 @@
 }
 
 @media only screen and (max-width: 900px) {
+  .shoutoutFormContainer {
+    width: 90%;
+    height: 100%;
+    margin-bottom: 5%;
+  }
+
   .shoutoutTitle {
-    text-align: left;
+    text-align: center;
   }
 
   .listsContainer {
+    margin-top: 10%;
     flex-direction: column;
   }
 
