@@ -66,6 +66,16 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'Invalid PR link',
         contentMsg: 'One or more links to PRs are not valid links.'
       });
+    } else if (new Date(devPortfolio.deadline) < new Date()) {
+      Emitters.generalError.emit({
+        headerMsg: 'The deadline for this dev portfolio has passed',
+        contentMsg: 'Please select another dev portfolio.'
+      });
+    } else if (new Date(devPortfolio.earliestValidDate) > new Date()) {
+      Emitters.generalError.emit({
+        headerMsg: 'This dev portfolio is not open yet',
+        contentMsg: 'Please select another dev portfolio.'
+      });
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
@@ -110,7 +120,9 @@ const DevPortfolioForm: React.FC = () => {
                 selection
                 options={devPortfolios.map((assignment) => ({
                   key: assignment.uuid,
-                  text: assignment.name,
+                  text: `${assignment.name} (Due:  ${new Date(
+                    assignment.deadline
+                  ).toDateString()})`,
                   value: assignment.uuid
                 }))}
                 onChange={(_, data) => {
