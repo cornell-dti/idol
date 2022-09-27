@@ -44,6 +44,7 @@ export const makeDevPortfolioSubmission = async (
 ): Promise<DevPortfolioSubmission> => {
   const devPortfolio = await DevPortfolioDao.getInstance(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
+
   if (!isWithinDates(Date.now(), devPortfolio.earliestValidDate, devPortfolio.deadline)) {
     const startDate = new Date(devPortfolio.earliestValidDate).toDateString();
     const endDate = new Date(devPortfolio.deadline).toDateString();
