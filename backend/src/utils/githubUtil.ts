@@ -1,6 +1,5 @@
 import { Octokit } from '@octokit/rest';
 
-require('dotenv').config();
 // authenticated with PAT so rate limit increased
 const octokit = new Octokit({
   auth: process.env.GITHUB_VALIDATION_TOKEN
