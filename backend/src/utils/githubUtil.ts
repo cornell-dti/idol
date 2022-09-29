@@ -1,5 +1,11 @@
 import { Octokit } from '@octokit/rest';
 
+require('dotenv').config();
+// authenticated with PAT so rate limit increased
+const octokit = new Octokit({
+  auth: process.env.GITHUB_VALIDATION_TOKEN
+});
+
 type PullRequest = {
   owner: string;
   repo: string;
@@ -79,10 +85,8 @@ const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfo
 };
 
 /** Retrieves review comments made on `pull`. */
-const getReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
-  const octokit = new Octokit();
-
-  return Promise.all([
+const getReviewComments = async (pull: PullRequest): Promise<Comment[]> =>
+  Promise.all([
     octokit.rest.pulls.listReviewComments(pull),
     octokit.rest.pulls.listReviews(pull)
   ]).then(([reviewCommentsRes, approvalCommentsRes]) => {
@@ -103,27 +107,21 @@ const getReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
       .map((comment) => toComment(comment))
       .concat(approvalComments.map((comment) => toComment(comment)));
   });
-};
 
 /** Retrieves non-review comments made on `pull`. */
-const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> => {
-  const octokit = new Octokit();
-
+const getNonReviewComments = async (pull: PullRequest): Promise<Comment[]> =>
   // non-review comments are classified as "issue" comments
-  return octokit.rest.issues
-    .listComments({ ...pull, issue_number: pull.pull_number })
-    .then((res) => {
-      const comments = res.data;
-      return comments.map(
-        (comment): Comment => ({
-          commentUrl: comment.html_url,
-          createdBy: comment.user?.login || '',
-          createdAt: Date.parse(comment.created_at),
-          content: comment.body || ''
-        })
-      );
-    });
-};
+  octokit.rest.issues.listComments({ ...pull, issue_number: pull.pull_number }).then((res) => {
+    const comments = res.data;
+    return comments.map(
+      (comment): Comment => ({
+        commentUrl: comment.html_url,
+        createdBy: comment.user?.login || '',
+        createdAt: Date.parse(comment.created_at),
+        content: comment.body || ''
+      })
+    );
+  });
 
 /** ="`time` is between the date range `start` to `end`." */
 export const isWithinDates = (time: number, start: number, end: number): boolean =>
@@ -167,12 +165,10 @@ const filterComments = (
 };
 
 /** Retrieves information about `pull` and its review comments. */
-const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
-  const octokit = new Octokit();
-
+const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> =>
   // get information about a PR and its review comments
   // cannot get both with a single api call
-  return Promise.all([
+  Promise.all([
     octokit.rest.pulls.get(pull),
     getReviewComments(pull),
     getNonReviewComments(pull) // use "thread" comments in consideration as well
@@ -181,18 +177,14 @@ const getReviewedPR = async (pull: PullRequest): Promise<ReviewedPR> => {
     createdBy: pr.data.user?.login || '',
     comments: reviewComments.concat(nonReviewComments)
   }));
-};
 
 /** Retrieves information about opened PR `pull`. */
-const getOpenedPR = async (pull: PullRequest): Promise<OpenedPR> => {
-  const octokit = new Octokit();
-
-  return octokit.rest.pulls.get(pull).then((pr) => ({
+const getOpenedPR = async (pull: PullRequest): Promise<OpenedPR> =>
+  octokit.rest.pulls.get(pull).then((pr) => ({
     url: pr.data.html_url,
     createdBy: pr.data.user?.login || '',
     createdAt: Date.parse(pr.data.created_at)
   }));
-};
 
 /** Creates 'valid' result if no errors are raised, 'invalid' result otherwise.  */
 const createValidationResult = async (validationFunction): Promise<ValidationResult> => {
