@@ -144,7 +144,9 @@ const filterComments = (
   let eligibleComments: Comment[] = [];
 
   // comments made by user
-  eligibleComments = comments.filter((comment) => comment.createdBy === username);
+  eligibleComments = comments.filter(
+    (comment) => comment.createdBy.toLowerCase() === username.toLowerCase()
+  );
   if (!eligibleComments || !eligibleComments.length) {
     throw new Error(`No review comments made by user ${username} in this PR.`);
   }
@@ -223,7 +225,7 @@ const validateReview = async (
     const review = await getReviewedPR(parseGithubUrl(reviewUrl));
 
     // cannot review own PR
-    if (review.createdBy === username) {
+    if (review.createdBy.toLowerCase() === username.toLowerCase()) {
       throw new Error(`Cannot use PR ${review.url} opened by user for review requirement.`);
     }
 
@@ -269,7 +271,8 @@ const validateOpen = async (
     // get open object
     const open = await getOpenedPR(parseGithubUrl(openUrl));
 
-    if (open.createdBy !== username) {
+    // case-insensitive compare in case URL removes capitalization
+    if (open.createdBy.toLowerCase() !== username.toLowerCase()) {
       throw new Error(`User ${username} did not open the pull request ${open.url}.`);
     }
 
