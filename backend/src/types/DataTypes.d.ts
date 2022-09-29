@@ -114,3 +114,12 @@ export type DBDevPortfolioSubmission = {
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
 };
+
+export type DevPortfolioSubmissionRequestLog = {
+  timestamp: string;
+  email: string;
+  body: {
+    submission: DevPortfolioSubmission;
+    uuid: string;
+  };
+};
