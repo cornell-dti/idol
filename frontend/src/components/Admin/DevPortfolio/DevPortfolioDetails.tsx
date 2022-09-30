@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './DevPortfolioDetails.module.css';
 
@@ -28,6 +28,9 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
+      <Button className={styles.regradeButton} onClick={() => alert('hello world')}>
+        Regrade All
+      </Button>
       <DetailsTable portfolio={portfolio} />
     </Container>
   );

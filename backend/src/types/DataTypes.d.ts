@@ -119,7 +119,7 @@ export type DevPortfolioSubmissionRequestLog = {
   timestamp: string;
   email: string;
   body: {
-    submission: DevPortfolioSubmission;
+    submission: DBDevPortfolioSubmission;
     uuid: string;
   };
 };

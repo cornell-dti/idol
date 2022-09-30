@@ -1,3 +1,8 @@
 .container {
   padding: 1%;
 }
+
+.regradeButton {
+  margin-left: auto;
+  margin-right: auto;
+}
