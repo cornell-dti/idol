@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
+import { Container, Header, Icon, Table } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './DevPortfolioDetails.module.css';
 
