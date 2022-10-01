@@ -28,9 +28,6 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
-      <Button className={styles.regradeButton} onClick={() => alert('hello world')}>
-        Regrade All
-      </Button>
       <DetailsTable portfolio={portfolio} />
     </Container>
   );
