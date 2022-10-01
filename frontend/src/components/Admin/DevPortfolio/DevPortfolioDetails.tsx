@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Container, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
+import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
 
 type Props = {
@@ -29,6 +30,20 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
+      <Button
+        onClick={() => {
+          DevPortfolioAPI.regradeSubmissions(portfolio.uuid)
+            .then((portfolio) => setPortfolio(portfolio))
+            .catch((e) =>
+              Emitters.generalError.emit({
+                headerMsg: 'Failed to regrade all submissions',
+                contentMsg: 'Please try again or contact the IDOL team'
+              })
+            );
+        }}
+      >
+        Regrade Latest Submissions
+      </Button>
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
     </Container>
   );
@@ -53,8 +68,8 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
         {isAdminView ? <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell> : <></>}
       </Table.Header>
       <Table.Body>
-        {sortedSubmissions.map((submission) => (
-          <SubmissionDetails submission={submission} isAdminView={isAdminView} />
+        {sortedSubmissions.map((submission, i) => (
+          <SubmissionDetails submission={submission} isAdminView={isAdminView} key={i} />
         ))}
       </Table.Body>
     </Table>
@@ -107,7 +122,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
       ? remainingOpenedPRs
       : remainingReviewedPRs
   ).map((_, i) => () => (
-    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid}>
+    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid} key={i}>
       <Table.Cell>
         <PullRequestDisplay
           prSubmission={i >= remainingOpenedPRs.length ? undefined : remainingOpenedPRs[i]}
@@ -126,8 +141,8 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
   return (
     <>
       <FirstRow />
-      {remainingRows.map((Row) => (
-        <Row />
+      {remainingRows.map((Row, i) => (
+        <Row key={i} />
       ))}
     </>
   );

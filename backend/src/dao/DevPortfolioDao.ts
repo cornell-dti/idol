@@ -69,8 +69,9 @@ export default class DevPortfolioDao {
     return submission;
   }
 
-  static async getInstance(uuid: string): Promise<DevPortfolio> {
+  static async getInstance(uuid: string): Promise<DevPortfolio | null> {
     const doc = await devPortfolioCollection.doc(uuid).get();
+    if (!doc) return null;
 
     const data = doc.data() as DBDevPortfolio;
 
