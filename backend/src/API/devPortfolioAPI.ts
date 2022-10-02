@@ -5,7 +5,7 @@ import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
 export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> =>{
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  return DevPortfolioDao.getAllInstances(isLeadOrAdmin, user);
+  return DevPortfolioDao.getAllInstances(false, user);
 }
 
 export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {

@@ -28,14 +28,6 @@ describe('User is not lead or admin', () => {
     expect(isLeadOrAdmin).toBeDefined();
   });
 
-  test('getDevPortfolio should throw permission error', async () => {
-    await expect(getDevPortfolio('fake-uuid', user)).rejects.toThrow(
-      new PermissionError(
-        `User with email ${user.email} does not have permission to view dev portfolios!`
-      )
-    );
-  });
-
   test('createDevPortfolio should throw permission error', async () => {
     await expect(createNewDevPortfolio(devPortfolio, user)).rejects.toThrow(
       new PermissionError(
