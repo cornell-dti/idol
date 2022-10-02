@@ -100,8 +100,8 @@ describe('makeDevPortfolioSubmission tests', () => {
   });
 
   it('should throw BadRequestError', async () => {
-    const mockGetInstance = jest.fn().mockResolvedValue(null);
-    DevPortfolioDao.getInstance = mockGetInstance;
+    const mockGetDevPortfolio = jest.fn().mockResolvedValue(null);
+    DevPortfolioDao.getDevPortfolio = mockGetDevPortfolio;
     expect(makeDevPortfolioSubmission(devPortfolio.uuid, dpSubmission)).rejects.toThrow(
       new BadRequestError(`Dev portfolio with uuid ${devPortfolio.uuid} does not exist.`)
     );
@@ -111,8 +111,8 @@ describe('makeDevPortfolioSubmission tests', () => {
     const mockIsWithinDates = jest.spyOn(githubUtils, 'isWithinDates');
 
     beforeAll(() => {
-      const mockGetInstance = jest.fn().mockResolvedValue(devPortfolio);
-      DevPortfolioDao.getInstance = mockGetInstance;
+      const mockGetDevPortfolio = jest.fn().mockResolvedValue(devPortfolio);
+      DevPortfolioDao.getDevPortfolio = mockGetDevPortfolio;
     });
 
     afterEach(() => {
