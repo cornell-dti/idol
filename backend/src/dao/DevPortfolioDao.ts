@@ -1,8 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
 import { devPortfolioCollection, memberCollection } from '../firebase';
-import { DBDevPortfolio } from '../types/DataTypes';
+import { DBDevPortfolio, DBDevPortfolioSubmission } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
+export function devPortfolioSubmissionToDBDevPortfolioSubmission(
+  submission: DevPortfolioSubmission
+): DBDevPortfolioSubmission {
+  return {
+    ...submission,
+    member: memberCollection.doc(submission.member.email)
+  };
+}
 export default class DevPortfolioDao {
   private static async DBDevPortfolioToDevPortfolio(
     data: DBDevPortfolio,
@@ -26,7 +34,7 @@ export default class DevPortfolioDao {
     };
   }
 
-  private static DevPortfolioToDBDevPortfolio(instance: DevPortfolio): DBDevPortfolio {
+  private static devPortfolioToDBDevPortfolio(instance: DevPortfolio): DBDevPortfolio {
     return {
       ...instance,
       uuid: instance.uuid ? instance.uuid : uuidv4(),
@@ -55,10 +63,7 @@ export default class DevPortfolioDao {
     const data = doc.data() as DBDevPortfolio;
 
     const subs = data.submissions;
-    subs.push({
-      ...submission,
-      member: memberCollection.doc(submission.member.email)
-    });
+    subs.push(devPortfolioSubmissionToDBDevPortfolioSubmission(submission));
     await devPortfolioCollection.doc(uuid).update({ submissions: subs });
 
     return submission;
@@ -99,7 +104,7 @@ export default class DevPortfolioDao {
   }
 
   static async updateInstance(updatedInstance: DevPortfolio): Promise<void> {
-    const dbInstance = await DevPortfolioDao.DevPortfolioToDBDevPortfolio(updatedInstance);
+    const dbInstance = this.devPortfolioToDBDevPortfolio(updatedInstance);
 
     await devPortfolioCollection.doc(dbInstance.uuid).set(dbInstance);
   }

@@ -61,6 +61,7 @@ import {
   makeDevPortfolioSubmission,
   getDevPortfolio
 } from './API/devPortfolioAPI';
+import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 
 // Constants and configurations
 const app = express();
@@ -302,9 +303,12 @@ loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
 loginCheckedPost('/deleteDevPortfolio', async (req, user) =>
   deleteDevPortfolio(req.body.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/makeDevPortfolioSubmission', async (req, user) => ({
-  submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
-}));
+loginCheckedPost('/makeDevPortfolioSubmission', async (req, user) => {
+  await DPSubmissionRequestLogDao.logRequest(user.email, req.body.uuid, req.body.submission);
+  return {
+    submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
+  };
+});
 
 app.use('/.netlify/functions/api', router);
 
