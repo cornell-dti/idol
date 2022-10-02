@@ -4,7 +4,8 @@ import {
   DBSignInForm,
   DBTeamEvent,
   DBCandidateDeciderInstance,
-  DBDevPortfolio
+  DBDevPortfolio,
+  DevPortfolioSubmissionRequestLog
 } from './types/DataTypes';
 
 require('dotenv').config();
@@ -115,6 +116,16 @@ export const devPortfolioCollection: admin.firestore.CollectionReference<DBDevPo
     },
     toFirestore(devPortfolioData: DBDevPortfolio) {
       return devPortfolioData;
+    }
+  });
+
+export const devPortfolioSubmissionRequestLogCollection: admin.firestore.CollectionReference<DevPortfolioSubmissionRequestLog> =
+  db.collection('dev-portfolio-submission-request-logs').withConverter({
+    fromFirestore(snapshot): DevPortfolioSubmissionRequestLog {
+      return snapshot.data() as DevPortfolioSubmissionRequestLog;
+    },
+    toFirestore(requestLog: DevPortfolioSubmissionRequestLog) {
+      return requestLog;
     }
   });
 
