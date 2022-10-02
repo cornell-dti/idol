@@ -43,7 +43,7 @@ const AdminDevPortfolio: React.FC = () => {
         <AdminDevPortfolioForm setDevPortfolios={setDevPortfolios} />
       </Container>
       <Divider />
-      <AdminDevPortfolioDashboard
+      <DevPortfolioDashboard
         isLoading={isLoading}
         devPortfolios={devPortfolios}
         setDevPortfolios={setDevPortfolios}
@@ -53,14 +53,14 @@ const AdminDevPortfolio: React.FC = () => {
   );
 };
 
-type AdminDevPortfolioDashboardProps = {
+type DevPortfolioDashboardProps = {
   readonly devPortfolios: DevPortfolio[];
   readonly isLoading: boolean;
   readonly setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   readonly setDevPortfolios: React.Dispatch<React.SetStateAction<DevPortfolio[]>>;
 };
 
-const AdminDevPortfolioDashboard: React.FC<AdminDevPortfolioDashboardProps> = ({
+export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
   devPortfolios,
   setDevPortfolios,
   isLoading,
