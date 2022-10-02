@@ -51,7 +51,7 @@ const DevPortfolioForm: React.FC = () => {
       setIsLoading(false);
       setDevPortfolios(devPortfolios);
     });
-  }
+  };
 
   const submitDevPortfolio = () => {
     if (!devPortfolio) {
