@@ -4,7 +4,7 @@ import DevPortfolioDetails from '../../../components/Admin/DevPortfolio/DevPortf
 const DevPortfolioDetailsPage: React.FC = () => {
   const router = useRouter();
   const { uuid } = router.query;
-  return <DevPortfolioDetails uuid={uuid as string} />;
+  return <DevPortfolioDetails uuid={uuid as string} isAdminView={false} />;
 };
 
 export default DevPortfolioDetailsPage;

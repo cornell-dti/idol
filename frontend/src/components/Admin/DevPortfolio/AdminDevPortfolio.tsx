@@ -27,7 +27,7 @@ const AdminDevPortfolio: React.FC = () => {
 
   const getAllDevPortfolios = () => {
     setIsLoading(true);
-    DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => {
+    DevPortfolioAPI.getAllDevPortfolios(true).then((devPortfolios) => {
       setIsLoading(false);
       setDevPortfolios(devPortfolios);
     });
@@ -48,7 +48,7 @@ const AdminDevPortfolio: React.FC = () => {
         devPortfolios={devPortfolios}
         setDevPortfolios={setDevPortfolios}
         setIsLoading={setIsLoading}
-        isAdmin={true}
+        isAdminView={true}
       />
     </Container>
   );
@@ -59,7 +59,7 @@ type DevPortfolioDashboardProps = {
   readonly isLoading: boolean;
   readonly setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   readonly setDevPortfolios: React.Dispatch<React.SetStateAction<DevPortfolio[]>>;
-  readonly isAdmin: boolean;
+  readonly isAdminView: boolean;
 };
 
 export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
@@ -67,7 +67,7 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
   setDevPortfolios,
   isLoading,
   setIsLoading,
-  isAdmin,
+  isAdminView
 }) => (
   <Container>
     {isLoading ? (
@@ -78,15 +78,23 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
           {devPortfolios.map((portfolio) => (
             <Card key={portfolio.uuid}>
               <Card.Content>
-                
-                {isAdmin ?
-                <DevPortfolioDeleteModal
-                  uuid={portfolio.uuid}
-                  name={portfolio.name}
-                  setDevPortfolios={setDevPortfolios}
-                /> : <></>}
+                {isAdminView ? (
+                  <DevPortfolioDeleteModal
+                    uuid={portfolio.uuid}
+                    name={portfolio.name}
+                    setDevPortfolios={setDevPortfolios}
+                  />
+                ) : (
+                  <></>
+                )}
                 <Card.Header className={styles.cardHeader}>
-                  <a href={`${isAdmin ? `/admin/dev-portfolio/` : `/forms/submissions/`}${portfolio.uuid}`}>{portfolio.name}</a>
+                  <a
+                    href={`${
+                      isAdminView ? `/admin/dev-portfolio/` : `/forms/dev-portfolio-submissions/`
+                    }${portfolio.uuid}`}
+                  >
+                    {portfolio.name}
+                  </a>
                 </Card.Header>
                 <Card.Meta>{portfolio.submissions.length} submissions</Card.Meta>
                 <Card.Description>

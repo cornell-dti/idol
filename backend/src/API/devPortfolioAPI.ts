@@ -3,14 +3,36 @@ import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
-export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> =>{
-  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  return DevPortfolioDao.getAllInstances(false, user);
-}
+export const getAllDevPortfolios = async (
+  user: IdolMember,
+  isAdminRequest
+): Promise<DevPortfolio[]> => {
+  if (!isAdminRequest) {
+    return DevPortfolioDao.getAllInstances(false, user);
+  }
 
-export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  return DevPortfolioDao.getDevPortfolio(uuid, false, user);
+  if (!isLeadOrAdmin)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to view dev portfolios!`
+    );
+  return DevPortfolioDao.getAllInstances(isLeadOrAdmin, user);
+};
+
+export const getDevPortfolio = async (
+  uuid: string,
+  user: IdolMember,
+  isAdminRequest: boolean
+): Promise<DevPortfolio> => {
+  if (!isAdminRequest) {
+    return DevPortfolioDao.getDevPortfolio(uuid, false, user);
+  }
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to view dev portfolios!`
+    );
+  return DevPortfolioDao.getDevPortfolio(uuid, isLeadOrAdmin, user);
 };
 
 export const createNewDevPortfolio = async (

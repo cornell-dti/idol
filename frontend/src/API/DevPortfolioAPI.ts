@@ -6,8 +6,10 @@ type DevPortfolioSubmissionResponseObj = {
 };
 
 export default class DevPortfolioAPI {
-  static async getAllDevPortfolios(): Promise<DevPortfolio[]> {
-    const response = APIWrapper.get(`${backendURL}/getAllDevPortfolios`);
+  static async getAllDevPortfolios(isAdminReq: boolean): Promise<DevPortfolio[]> {
+    const response = APIWrapper.get(
+      `${backendURL}/getAllDevPortfolios${isAdminReq ? '' : 'NonAdmin'}`
+    );
     return response.then((val) => val.data.portfolios);
   }
 
@@ -31,9 +33,9 @@ export default class DevPortfolioAPI {
     APIWrapper.post(`${backendURL}/deleteDevPortfolio`, { uuid });
   }
 
-  public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.get(`${backendURL}/getDevPortfolio/${uuid}`).then(
-      (res) => res.data.portfolio
-    );
+  public static async getDevPortfolio(uuid: string, isAdminReq: boolean): Promise<DevPortfolio> {
+    return APIWrapper.get(
+      `${backendURL}/getDevPortfolio${isAdminReq ? '' : 'NonAdmin'}/${uuid}`
+    ).then((res) => res.data.portfolio);
   }
 }

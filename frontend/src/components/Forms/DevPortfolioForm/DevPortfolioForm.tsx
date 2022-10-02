@@ -21,7 +21,7 @@ const DevPortfolioForm: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => {
+    DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
       setIsLoading(false);
       setDevPortfolios(devPortfolios);
     });
@@ -237,12 +237,12 @@ const DevPortfolioForm: React.FC = () => {
 
         <Divider />
         <DevPortfolioDashboard
-        isLoading={isLoading}
-        devPortfolios={devPortfolios}
-        setDevPortfolios={setDevPortfolios}
-        setIsLoading={setIsLoading}
-        isAdmin={false}
-      />
+          isLoading={isLoading}
+          devPortfolios={devPortfolios}
+          setDevPortfolios={setDevPortfolios}
+          setIsLoading={setIsLoading}
+          isAdminView={false}
+        />
       </Form>
     </div>
   );

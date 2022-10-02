@@ -285,10 +285,16 @@ loginCheckedPost('/sendMail', async (req, user) => ({
 
 // Dev Portfolios
 loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
-  portfolios: await getAllDevPortfolios(user)
+  portfolios: await getAllDevPortfolios(user, true)
 }));
 loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
-  portfolio: await getDevPortfolio(req.params.uuid, user)
+  portfolio: await getDevPortfolio(req.params.uuid, user, true)
+}));
+loginCheckedGet('/getAllDevPortfoliosNonAdmin', async (req, user) => ({
+  portfolios: await getAllDevPortfolios(user, false)
+}));
+loginCheckedGet('/getDevPortfolioNonAdmin/:uuid', async (req, user) => ({
+  portfolio: await getDevPortfolio(req.params.uuid, user, false)
 }));
 loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
