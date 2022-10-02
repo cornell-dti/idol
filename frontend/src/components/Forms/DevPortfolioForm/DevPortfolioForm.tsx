@@ -20,11 +20,7 @@ const DevPortfolioForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
-      setIsLoading(false);
-      setDevPortfolios(devPortfolios);
-    });
+    refreshDevPortfolios();
   }, []);
 
   const sendSubmissionRequest = (
@@ -43,10 +39,19 @@ const DevPortfolioForm: React.FC = () => {
             headerMsg: 'Dev Portfolio Assignment submitted!',
             contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
           });
+          refreshDevPortfolios();
         }
       }
     );
   };
+
+  const refreshDevPortfolios = () => {
+    setIsLoading(true);
+    DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
+      setIsLoading(false);
+      setDevPortfolios(devPortfolios);
+    });
+  }
 
   const submitDevPortfolio = () => {
     if (!devPortfolio) {
