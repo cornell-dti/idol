@@ -48,6 +48,7 @@ const AdminDevPortfolio: React.FC = () => {
         devPortfolios={devPortfolios}
         setDevPortfolios={setDevPortfolios}
         setIsLoading={setIsLoading}
+        isAdmin={true}
       />
     </Container>
   );
@@ -58,13 +59,15 @@ type DevPortfolioDashboardProps = {
   readonly isLoading: boolean;
   readonly setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   readonly setDevPortfolios: React.Dispatch<React.SetStateAction<DevPortfolio[]>>;
+  readonly isAdmin: boolean;
 };
 
 export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
   devPortfolios,
   setDevPortfolios,
   isLoading,
-  setIsLoading
+  setIsLoading,
+  isAdmin,
 }) => (
   <Container>
     {isLoading ? (
@@ -75,13 +78,15 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
           {devPortfolios.map((portfolio) => (
             <Card key={portfolio.uuid}>
               <Card.Content>
+                
+                {isAdmin ?
                 <DevPortfolioDeleteModal
                   uuid={portfolio.uuid}
                   name={portfolio.name}
                   setDevPortfolios={setDevPortfolios}
-                />
+                /> : <></>}
                 <Card.Header className={styles.cardHeader}>
-                  <a href={`/admin/dev-portfolio/${portfolio.uuid}`}>{portfolio.name}</a>
+                  <a href={`${isAdmin ? `/admin/dev-portfolio/` : `/forms/submissions/`}${portfolio.uuid}`}>{portfolio.name}</a>
                 </Card.Header>
                 <Card.Meta>{portfolio.submissions.length} submissions</Card.Meta>
                 <Card.Description>

@@ -285,7 +285,7 @@ loginCheckedPost('/sendMail', async (req, user) => ({
 
 // Dev Portfolios
 loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
-  portfolios: await getAllDevPortfolios()
+  portfolios: await getAllDevPortfolios(user)
 }));
 loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
   portfolio: await getDevPortfolio(req.params.uuid, user)
