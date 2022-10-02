@@ -13,7 +13,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
 
   useEffect(() => {
     DevPortfolioAPI.getDevPortfolio(uuid, isAdminView).then((portfolio) => setPortfolio(portfolio));
-  }, [uuid]);
+  }, [uuid, isAdminView]);
 
   return !portfolio ? (
     <></>

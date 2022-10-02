@@ -68,6 +68,7 @@ export default class DevPortfolioDao {
 
     return submission;
   }
+  
   static async getInstance(uuid: string): Promise<DevPortfolio> {
     const doc = await devPortfolioCollection.doc(uuid).get();
 

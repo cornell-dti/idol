@@ -5,7 +5,7 @@ import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
 export const getAllDevPortfolios = async (
   user: IdolMember,
-  isAdminRequest
+  isAdminRequest: boolean
 ): Promise<DevPortfolio[]> => {
   if (!isAdminRequest) {
     return DevPortfolioDao.getAllInstances(false, user);
