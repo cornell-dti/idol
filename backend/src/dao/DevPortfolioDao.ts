@@ -6,7 +6,7 @@ import { getMemberFromDocumentReference } from '../utils/memberUtil';
 export default class DevPortfolioDao {
   private static async DBDevPortfolioToDevPortfolio(
     data: DBDevPortfolio,
-    isLeadOrAdminOrIgnorePerms: boolean,
+    isAdminReq: boolean,
     user: IdolMember | null
   ): Promise<DevPortfolio> {
     const submissions = await Promise.all(
@@ -18,7 +18,7 @@ export default class DevPortfolioDao {
 
     return {
       ...data,
-      submissions: isLeadOrAdminOrIgnorePerms
+      submissions: isAdminReq
         ? submissions
         : submissions.filter((submission) =>
             user ? submission.member.email === user.email : false
@@ -39,11 +39,11 @@ export default class DevPortfolioDao {
 
   public static async getDevPortfolio(
     uuid: string,
-    isLeadOrAdmin: boolean,
+    isAdminReq: boolean,
     user: IdolMember
   ): Promise<DevPortfolio> {
     const doc = await devPortfolioCollection.doc(uuid).get();
-    return this.DBDevPortfolioToDevPortfolio(doc.data() as DBDevPortfolio, isLeadOrAdmin, user);
+    return this.DBDevPortfolioToDevPortfolio(doc.data() as DBDevPortfolio, isAdminReq, user);
   }
 
   static async makeDevPortfolioSubmission(
@@ -72,7 +72,7 @@ export default class DevPortfolioDao {
   }
 
   static async getAllInstances(
-    isLeadOrAdmin: boolean,
+    isAdminReq: boolean,
     user: IdolMember | null
   ): Promise<DevPortfolio[]> {
     const instanceRefs = await devPortfolioCollection.get();
@@ -81,7 +81,7 @@ export default class DevPortfolioDao {
       instanceRefs.docs.map(async (instanceRefs) =>
         DevPortfolioDao.DBDevPortfolioToDevPortfolio(
           instanceRefs.data() as DBDevPortfolio,
-          isLeadOrAdmin,
+          isAdminReq,
           user
         )
       )
