@@ -49,7 +49,7 @@ const DevPortfolioForm: React.FC = () => {
     setIsLoading(true);
     DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
       setIsLoading(false);
-      setDevPortfolios(devPortfolios.filter((portfolio) => portfolio.submissions.length));
+      setDevPortfolios(devPortfolios);
     });
   };
 
@@ -245,7 +245,7 @@ const DevPortfolioForm: React.FC = () => {
         <Divider />
         <DevPortfolioDashboard
           isLoading={isLoading}
-          devPortfolios={devPortfolios}
+          devPortfolios={devPortfolios.filter((portfolio) => portfolio.submissions.length)}
           setDevPortfolios={setDevPortfolios}
           setIsLoading={setIsLoading}
           isAdminView={false}
