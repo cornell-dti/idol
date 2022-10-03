@@ -29,7 +29,7 @@ describe('User is not lead or admin', () => {
   });
 
   test('getDevPortfolio should throw permission error', async () => {
-    await expect(getDevPortfolio('fake-uuid', user)).rejects.toThrow(
+    await expect(getDevPortfolio('fake-uuid', user, true)).rejects.toThrow(
       new PermissionError(
         `User with email ${user.email} does not have permission to view dev portfolios!`
       )
@@ -71,7 +71,7 @@ describe('User is lead or admin', () => {
   });
 
   test('getDevPortfolio should be successful', async () => {
-    const dp = await getDevPortfolio(devPortfolio.uuid, user);
+    const dp = await getDevPortfolio(devPortfolio.uuid, user, true);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(DevPortfolioDao.getDevPortfolio).toBeCalled();
     expect(dp.uuid).toEqual(devPortfolio.uuid);
@@ -100,8 +100,8 @@ describe('makeDevPortfolioSubmission tests', () => {
   });
 
   it('should throw BadRequestError', async () => {
-    const mockGetInstance = jest.fn().mockResolvedValue(null);
-    DevPortfolioDao.getInstance = mockGetInstance;
+    const mockGetDevPortfolio = jest.fn().mockResolvedValue(null);
+    DevPortfolioDao.getDevPortfolio = mockGetDevPortfolio;
     expect(makeDevPortfolioSubmission(devPortfolio.uuid, dpSubmission)).rejects.toThrow(
       new BadRequestError(`Dev portfolio with uuid ${devPortfolio.uuid} does not exist.`)
     );
@@ -111,8 +111,8 @@ describe('makeDevPortfolioSubmission tests', () => {
     const mockIsWithinDates = jest.spyOn(githubUtils, 'isWithinDates');
 
     beforeAll(() => {
-      const mockGetInstance = jest.fn().mockResolvedValue(devPortfolio);
-      DevPortfolioDao.getInstance = mockGetInstance;
+      const mockGetDevPortfolio = jest.fn().mockResolvedValue(devPortfolio);
+      DevPortfolioDao.getDevPortfolio = mockGetDevPortfolio;
     });
 
     afterEach(() => {

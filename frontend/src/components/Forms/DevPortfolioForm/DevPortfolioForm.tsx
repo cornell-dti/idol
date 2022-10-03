@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown, Button, Icon } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Icon, Divider } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
+import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfolio';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './DevPortfolioForm.module.css';
 
@@ -16,9 +17,10 @@ const DevPortfolioForm: React.FC = () => {
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => setDevPortfolios(devPortfolios));
+    refreshDevPortfolios();
   }, []);
 
   const sendSubmissionRequest = (
@@ -37,9 +39,18 @@ const DevPortfolioForm: React.FC = () => {
             headerMsg: 'Dev Portfolio Assignment submitted!',
             contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
           });
+          refreshDevPortfolios();
         }
       }
     );
+  };
+
+  const refreshDevPortfolios = () => {
+    setIsLoading(true);
+    DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
+      setIsLoading(false);
+      setDevPortfolios(devPortfolios);
+    });
   };
 
   const submitDevPortfolio = () => {
@@ -228,6 +239,15 @@ const DevPortfolioForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitDevPortfolio}>
           Submit
         </Form.Button>
+
+        <Divider />
+        <DevPortfolioDashboard
+          isLoading={isLoading}
+          devPortfolios={devPortfolios}
+          setDevPortfolios={setDevPortfolios}
+          setIsLoading={setIsLoading}
+          isAdminView={false}
+        />
       </Form>
     </div>
   );
