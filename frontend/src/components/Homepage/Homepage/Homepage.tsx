@@ -28,21 +28,23 @@ const devItems: readonly NavigationCardItem[] = [
 ];
 
 const NavCard = ({ header, description, link }: NavigationCardItem): JSX.Element => (
-  <Card key={link}>
-    <Card.Content>
-      <Card.Header>{header}</Card.Header>
-      <Card.Description>{description}</Card.Description>
-    </Card.Content>
-    <Card.Content extra>
-      <div className="ui one buttons">
-        <Link href={link}>
-          <Button basic color="blue">
-            Go To
-          </Button>
-        </Link>
-      </div>
-    </Card.Content>
-  </Card>
+  <div className={styles.card}>
+    <Card key={link}>
+      <Card.Content>
+        <Card.Header>{header}</Card.Header>
+        <Card.Description>{description}</Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <div className="ui one buttons">
+          <Link href={link}>
+            <Button basic color="blue">
+              Go To
+            </Button>
+          </Link>
+        </div>
+      </Card.Content>
+    </Card>
+  </div>
 );
 
 const Homepage: React.FC = () => (
@@ -73,7 +75,7 @@ const Homepage: React.FC = () => (
           </p>
           <Card.Group className={styles.quick}>
             {everyoneItems.map((item) => (
-              <NavCard {...item} />
+              <NavCard key={item.link} {...item} />
             ))}
           </Card.Group>
         </div>
@@ -90,7 +92,7 @@ const Homepage: React.FC = () => (
           </p>
           <Card.Group className={styles.quick}>
             {devItems.map((item) => (
-              <NavCard {...item} />
+              <NavCard key={item.link} {...item} />
             ))}
           </Card.Group>
         </div>
