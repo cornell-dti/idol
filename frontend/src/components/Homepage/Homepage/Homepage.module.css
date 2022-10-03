@@ -4,7 +4,60 @@
 }
 
 .content {
+  margin: 0 6rem 6rem 6rem;
+  padding-top: 4rem;
+}
+
+.intro {
+  margin-bottom: 2rem;
+}
+
+.quickActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  row-gap: 4rem;
+  column-gap: 4rem;
+}
+
+.sectionDescription {
+  min-height: 6rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  display: flex;
+  width: 40%;
   margin-left: 2rem;
-  padding-top: 2rem;
-  margin-right: 2rem;
+  margin-bottom: 2rem;
+}
+
+.devCard {
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .quickActions {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    display: flex;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 0;
+  }
+
+  .sectionDescription {
+    min-height: 0;
+    margin-bottom: 1rem;
+  }
+
+  .quick {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
