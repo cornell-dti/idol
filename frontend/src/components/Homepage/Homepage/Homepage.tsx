@@ -27,8 +27,13 @@ const devItems: readonly NavigationCardItem[] = [
   }
 ];
 
-const NavCard = ({ header, description, link }: NavigationCardItem): JSX.Element => (
-  <div className={styles.card}>
+const NavCard = ({
+  className,
+  header,
+  description,
+  link
+}: NavigationCardItem & { className?: string }): JSX.Element => (
+  <div className={className ? `styles[${className}]` : styles.card}>
     <Card key={link}>
       <Card.Content>
         <Card.Header>{header}</Card.Header>
@@ -92,7 +97,7 @@ const Homepage: React.FC = () => (
           </p>
           <Card.Group className={styles.quick}>
             {devItems.map((item) => (
-              <NavCard key={item.link} {...item} />
+              <NavCard className={styles.devCard} key={item.link} {...item} />
             ))}
           </Card.Group>
         </div>

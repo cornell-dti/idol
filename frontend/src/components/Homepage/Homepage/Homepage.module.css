@@ -21,13 +21,18 @@
 }
 
 .sectionDescription {
-  min-height: 4rem;
+  min-height: 6rem;
   margin-bottom: 1rem;
 }
 
 .card {
   display: flex;
   width: 40%;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+}
+
+.devCard {
   margin-left: 2rem;
   margin-bottom: 2rem;
 }
