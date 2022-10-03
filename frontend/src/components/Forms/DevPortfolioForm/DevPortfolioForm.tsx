@@ -49,7 +49,7 @@ const DevPortfolioForm: React.FC = () => {
     setIsLoading(true);
     DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
       setIsLoading(false);
-      setDevPortfolios(devPortfolios);
+      setDevPortfolios(devPortfolios.filter((portfolio) => portfolio.submissions.length));
     });
   };
 
