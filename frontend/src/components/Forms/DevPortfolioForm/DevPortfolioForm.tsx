@@ -129,13 +129,15 @@ const DevPortfolioForm: React.FC = () => {
                 fluid
                 search
                 selection
-                options={devPortfolios.map((assignment) => ({
-                  key: assignment.uuid,
-                  text: `${assignment.name} (Due:  ${new Date(
-                    assignment.deadline
-                  ).toDateString()})`,
-                  value: assignment.uuid
-                }))}
+                options={devPortfolios
+                  .sort((a, b) => a.deadline - b.deadline)
+                  .map((assignment) => ({
+                    key: assignment.uuid,
+                    text: `${assignment.name} (Due:  ${new Date(
+                      assignment.deadline
+                    ).toDateString()})`,
+                    value: assignment.uuid
+                  }))}
                 onChange={(_, data) => {
                   setDevPortfolio(
                     devPortfolios.find((assignment) => assignment.uuid === data.value)
