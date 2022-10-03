@@ -52,3 +52,11 @@
 .btnContainer {
   margin-left: 1%;
 }
+
+.dashboard {
+  width: 70%;
+  align-self: center;
+  margin: auto;
+  padding: 0 5rem 0;
+  margin-bottom: 4rem;
+}

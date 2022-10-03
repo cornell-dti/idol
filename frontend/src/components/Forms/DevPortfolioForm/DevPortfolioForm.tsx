@@ -239,7 +239,9 @@ const DevPortfolioForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitDevPortfolio}>
           Submit
         </Form.Button>
+      </Form>
 
+      <div className={styles.dashboard}>
         <Divider />
         <DevPortfolioDashboard
           isLoading={isLoading}
@@ -248,7 +250,7 @@ const DevPortfolioForm: React.FC = () => {
           setIsLoading={setIsLoading}
           isAdminView={false}
         />
-      </Form>
+      </div>
     </div>
   );
 };
