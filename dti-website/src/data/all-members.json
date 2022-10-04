@@ -12,7 +12,8 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Business, InfoSci"
+    "minor": "Business, InfoSci",
+    "github": "https://github.com/airaagrawal1"
   },
   {
     "netid": "aa753",
@@ -23,11 +24,14 @@
     "hometown": "Butwal, Nepal",
     "about": "Hi! I'm a CS and Math double major in the college of A&S. My main interests are in web dev, data science, and AI/ML. I love working on creative products that positively impact people's lives. In my free time I like creative writing, playing league of legends, watching anime, and hanging out with friends.",
     "subteams": [
+      "leads"
+    ],
+    "roleId": "lead",
+    "roleDescription": "Lead",
+    "doubleMajor": "Mathematics ",
+    "formerSubteams": [
       "reviews"
     ],
-    "roleId": "tpm",
-    "roleDescription": "Technical PM",
-    "doubleMajor": "Mathematics ",
     "website": "http://akasharyal.herokuapp.com/",
     "linkedin": "linkedin.com/in/akash-aryal"
   },
@@ -825,7 +829,7 @@
     "roleDescription": "Technical PM",
     "formerSubteams": [],
     "linkedin": "https://linkedin.com/in/jacksonstaniec",
-    "github": "https://github.com/JacksonStaniec"
+    "github": "https://github.com/jacksonstaniec"
   },
   {
     "netid": "jlc497",
@@ -972,11 +976,14 @@
     "hometown": "Accra, Ghana",
     "about": "I'm involved in ",
     "subteams": [
+      "leads"
+    ],
+    "roleId": "lead",
+    "roleDescription": "Lead",
+    "minor": "Mathematics ",
+    "formerSubteams": [
       "carriage"
     ],
-    "roleId": "tpm",
-    "roleDescription": "Technical PM",
-    "minor": "Mathematics ",
     "linkedin": "https://www.linkedin.com/in/michael-torku/"
   },
   {
@@ -1299,18 +1306,21 @@
   {
     "netid": "rvv6",
     "name": "Rohit Valiveti",
-    "pronouns": "",
+    "pronouns": "He/Him",
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Franklin, MA",
-    "about": "What's up I'm Rohit! I'm a freshman studying CS. I'm interested in software development and the intersection between CS and astronomy. Outside of the classroom, I'm a big basketball fan, I love to travel, and I like listening to music!",
+    "about": "What's up I'm Rohit! I'm a sophomore studying CS. I'm interested in app development and the intersection between CS and business. Outside of the classroom, I love playing basketball, traveling, and losing money in poker 😭",
     "subteams": [
       "carriage"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
+    "minor": "Business for Engineers",
+    "formerSubteams": [],
     "website": "https://rohitvaliveti.github.io/",
-    "linkedin": "https://www.linkedin.com/in/rohitvaliveti/"
+    "linkedin": "https://www.linkedin.com/in/rohitvaliveti/",
+    "github": "https://github.com/RohitValiveti"
   },
   {
     "netid": "sa2356",
