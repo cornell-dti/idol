@@ -94,6 +94,13 @@ export default class DevPortfolioDao {
     );
   }
 
+  public static async getAllDevPortfolioInfo() {
+    const instanceInfoRefs = await devPortfolioCollection.select('deadline', 'earliestValidDate', 'name', 'uuid').get();
+    return Promise.all(
+      instanceInfoRefs.docs.map(async (instanceRefs) => instanceRefs.data() as DevPortfolio)
+    );
+  }
+
   static async createNewInstance(instance: DevPortfolio): Promise<DevPortfolio> {
     const portfolio = {
       ...instance,

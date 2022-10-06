@@ -59,7 +59,8 @@ import {
   createNewDevPortfolio,
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
-  getDevPortfolio
+  getDevPortfolio,
+  getAllDevPortfolioInfo
 } from './API/devPortfolioAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 
@@ -287,6 +288,9 @@ loginCheckedPost('/sendMail', async (req, user) => ({
 // Dev Portfolios
 loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
   portfolios: await getAllDevPortfolios(user, true)
+}));
+loginCheckedGet('/getAllDevPortfolioInfo', async (req, user) => ({
+  portfolios: await getAllDevPortfolioInfo()
 }));
 loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
   portfolio: await getDevPortfolio(req.params.uuid, user, true)

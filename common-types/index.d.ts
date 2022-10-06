@@ -151,3 +151,10 @@ interface DevPortfolioSubmission {
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
 }
+
+interface DevPortfolioInfo {
+	name: string;
+	deadline: number;
+	earliestValidDate: number;
+	uuid: string;
+}

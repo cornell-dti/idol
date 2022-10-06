@@ -19,6 +19,8 @@ export const getAllDevPortfolios = async (
   return DevPortfolioDao.getAllInstances(isLeadOrAdmin, user);
 };
 
+export const getAllDevPortfolioInfo = async (): Promise<DevPortfolio[]> => DevPortfolioDao.getAllDevPortfolioInfo();
+
 export const getDevPortfolio = async (
   uuid: string,
   user: IdolMember,
