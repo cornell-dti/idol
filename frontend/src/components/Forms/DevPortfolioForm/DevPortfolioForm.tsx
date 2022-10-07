@@ -6,7 +6,7 @@ import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfoli
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './DevPortfolioForm.module.css';
 
-const GITHUB_PR_REGEX = /.*github.com\/([_a-zA-Z0-9-]+)\/([_a-zA-Z0-9-]+)\/pull\/([0-9]+)/;
+const GITHUB_PR_REGEX = /.*github.com\/([._a-zA-Z0-9-]+)\/([._a-zA-Z0-9-]+)\/pull\/([0-9]+).*/;
 
 const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
