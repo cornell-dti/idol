@@ -42,7 +42,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
             );
         }}
       >
-        Regrade Latest Submissions
+        Regrade All Submissions
       </Button>
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
     </Container>
