@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Container, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
+import { ExportToCsv, Options } from 'export-to-csv';
+import { Emitters } from '../../../utils';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './DevPortfolioDetails.module.css';
 
@@ -15,6 +17,40 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
     DevPortfolioAPI.getDevPortfolio(uuid, isAdminView).then((portfolio) => setPortfolio(portfolio));
   }, [uuid, isAdminView]);
 
+  const handleExportToCsv = () => {
+    if (portfolio?.submissions === undefined || portfolio?.submissions.length <= 0) {
+      Emitters.generalError.emit({
+        headerMsg: 'Failed to export Dev Portfolio Submissions to CSV',
+        contentMsg: 'Please make sure there is at least 1 submission in the table.'
+      });
+      return;
+    }
+    const csvData = portfolio?.submissions.map((submission) => ({
+      name: `${submission.member.firstName} ${submission.member.lastName}`,
+      netid: submission.member.netid,
+      opened_score: Number(submission.openedPRs.some((pr) => pr.status === 'valid')),
+      reviewed_score: Number(submission.reviewedPRs.some((pr) => pr.status === 'valid')),
+      total_score:
+        Number(submission.reviewedPRs.some((pr) => pr.status === 'valid')) +
+        Number(submission.openedPRs.some((pr) => pr.status === 'valid'))
+    }));
+
+    const options: Options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `${portfolio?.name}Submissions`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(csvData);
+  };
+
   return !portfolio ? (
     <></>
   ) : (
@@ -29,6 +65,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
+      <Button onClick={() => handleExportToCsv()}>Export to CSV</Button>
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
     </Container>
   );
