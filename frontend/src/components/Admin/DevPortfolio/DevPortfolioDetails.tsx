@@ -58,7 +58,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       decimalSeparator: '.',
       showLabels: true,
       showTitle: true,
-      title: `${portfolio?.name}Submissions`,
+      title: `${portfolio?.name} Submissions`,
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true
