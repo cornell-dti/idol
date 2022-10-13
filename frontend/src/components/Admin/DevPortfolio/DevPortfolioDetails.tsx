@@ -10,6 +10,9 @@ type Props = {
   isAdminView: boolean;
 };
 
+const sortSubmissions = (submissions: DevPortfolioSubmission[]) =>
+  submissions.sort((s1, s2) => s1.member.netid.localeCompare(s2.member.netid));
+
 const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   const [portfolio, setPortfolio] = useState<DevPortfolio | null>(null);
 
@@ -25,7 +28,21 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       });
       return;
     }
-    const csvData = portfolio?.submissions.map((submission) => ({
+
+    const uniqueIds: string[] = [];
+
+    const uniqueSubmissions = portfolio.submissions.filter((submission) => {
+      const isDuplicate = uniqueIds.includes(submission.member.netid);
+      if (!isDuplicate) {
+        uniqueIds.push(submission.member.netid);
+        return true;
+      }
+      return false;
+    });
+
+    const sortedSubmissions = sortSubmissions(uniqueSubmissions);
+
+    const csvData = sortedSubmissions.map((submission) => ({
       name: `${submission.member.firstName} ${submission.member.lastName}`,
       netid: submission.member.netid,
       opened_score: Number(submission.openedPRs.some((pr) => pr.status === 'valid')),
@@ -77,9 +94,7 @@ type DevPortfolioDetailsTableProps = {
 };
 
 const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAdminView }) => {
-  const sortedSubmissions = [...portfolio.submissions].sort((s1, s2) =>
-    s1.member.netid.localeCompare(s2.member.netid)
-  );
+  const sortedSubmissions = sortSubmissions([...portfolio.submissions]);
 
   return (
     <Table celled>
