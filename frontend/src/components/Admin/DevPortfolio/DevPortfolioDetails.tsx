@@ -11,6 +11,7 @@ type Props = {
 
 const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   const [portfolio, setPortfolio] = useState<DevPortfolio | null>(null);
+  const [isRegrading, setIsRegrading] = useState<boolean>(false);
 
   useEffect(() => {
     DevPortfolioAPI.getDevPortfolio(uuid, isAdminView).then((portfolio) => setPortfolio(portfolio));
@@ -32,8 +33,16 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       </Header>
       <Button
         onClick={() => {
+          setIsRegrading(true);
           DevPortfolioAPI.regradeSubmissions(portfolio.uuid)
-            .then((portfolio) => setPortfolio(portfolio))
+            .then((portfolio) => {
+              setPortfolio(portfolio);
+              setIsRegrading(false);
+              Emitters.generalSuccess.emit({
+                headerMsg: 'Success!',
+                contentMsg: 'Submissions successfully regraded.'
+              });
+            })
             .catch((e) =>
               Emitters.generalError.emit({
                 headerMsg: 'Failed to regrade all submissions',
@@ -41,6 +50,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
               })
             );
         }}
+        loading={isRegrading}
       >
         Regrade All Submissions
       </Button>
