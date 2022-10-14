@@ -45,7 +45,15 @@ export const createNewDevPortfolio = async (
       `User with email: ${user.email} does not have permission to create dev portfolio!`
     );
   }
-  return DevPortfolioDao.createNewInstance(instance);
+
+  const updatedDeadline = new Date(instance.deadline);
+  const updatedEarliestValidDate = new Date(instance.earliestValidDate);
+  const modifiedInstance = {
+    ...instance,
+    deadline: updatedDeadline.setHours(23, 59, 59),
+    earliestValidDate: updatedEarliestValidDate.setHours(0, 0, 0)
+  };
+  return DevPortfolioDao.createNewInstance(modifiedInstance);
 };
 
 export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promise<void> => {

@@ -78,9 +78,15 @@ describe('User is lead or admin', () => {
   });
 
   test('createDevPortfolio should be successful', async () => {
+    const expectedDeadline = new Date(devPortfolio.deadline).setHours(23, 59, 59);
+    const expectedEarliestValidDate = new Date(devPortfolio.earliestValidDate).setHours(0, 0, 0);
     await createNewDevPortfolio(devPortfolio, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(DevPortfolioDao.createNewInstance).toBeCalled();
+    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].deadline).toEqual(expectedDeadline);
+    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].earliestValidDate).toEqual(
+      expectedEarliestValidDate
+    );
   });
 
   test('deleteDevPortfolio should be successful', async () => {
