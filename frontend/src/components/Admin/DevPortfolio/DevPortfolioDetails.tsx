@@ -169,16 +169,14 @@ type PullRequestDisplayProps = {
 
 const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, isAdminView }) => {
   if (prSubmission === undefined) return <></>;
+  const isValid = prSubmission.status === 'valid';
   return (
     <>
       <a href={prSubmission.url}>{prSubmission.url}</a>
       {isAdminView ? (
         <>
-          <Icon
-            color={prSubmission.status === 'valid' ? 'green' : 'red'}
-            name={prSubmission.status === 'valid' ? 'checkmark' : 'x'}
-          />
-          <p>{prSubmission.reason ? `(${prSubmission.reason})` : ''}</p>
+          <Icon color={isValid ? 'green' : 'red'} name={isValid ? 'checkmark' : 'x'} />
+          <p>{prSubmission.reason && !isValid ? `(${prSubmission.reason})` : ''}</p>
         </>
       ) : (
         <></>
