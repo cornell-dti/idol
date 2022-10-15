@@ -31,29 +31,33 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
-      <Button
-        onClick={() => {
-          setIsRegrading(true);
-          DevPortfolioAPI.regradeSubmissions(portfolio.uuid)
-            .then((portfolio) => {
-              setPortfolio(portfolio);
-              setIsRegrading(false);
-              Emitters.generalSuccess.emit({
-                headerMsg: 'Success!',
-                contentMsg: 'Submissions successfully regraded.'
-              });
-            })
-            .catch((e) =>
-              Emitters.generalError.emit({
-                headerMsg: 'Failed to regrade all submissions',
-                contentMsg: 'Please try again or contact the IDOL team'
+      {isAdminView ? (
+        <Button
+          onClick={() => {
+            setIsRegrading(true);
+            DevPortfolioAPI.regradeSubmissions(portfolio.uuid)
+              .then((portfolio) => {
+                setPortfolio(portfolio);
+                setIsRegrading(false);
+                Emitters.generalSuccess.emit({
+                  headerMsg: 'Success!',
+                  contentMsg: 'Submissions successfully regraded.'
+                });
               })
-            );
-        }}
-        loading={isRegrading}
-      >
-        Regrade All Submissions
-      </Button>
+              .catch((e) =>
+                Emitters.generalError.emit({
+                  headerMsg: 'Failed to regrade all submissions',
+                  contentMsg: 'Please try again or contact the IDOL team'
+                })
+              );
+          }}
+          loading={isRegrading}
+        >
+          Regrade All Submissions
+        </Button>
+      ) : (
+        <> </>
+      )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
     </Container>
   );
