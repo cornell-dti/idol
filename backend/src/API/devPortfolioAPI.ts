@@ -85,3 +85,25 @@ export const makeDevPortfolioSubmission = async (
     await validateSubmission(devPortfolio, submission)
   );
 };
+
+export const regradeSubmissions = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
+  const canRequestRegrade = await PermissionsManager.isLeadOrAdmin(user);
+  if (!canRequestRegrade)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to regrade dev portfolio submissions`
+    );
+
+  const devPortfolio = await DevPortfolioDao.getInstance(uuid);
+  if (!devPortfolio) {
+    throw new BadRequestError(`Dev portfolio with uuid: ${uuid} does not exist`);
+  }
+
+  const updatedDP = {
+    ...devPortfolio,
+    submissions: await Promise.all(
+      devPortfolio.submissions.map((submission) => validateSubmission(devPortfolio, submission))
+    )
+  };
+  await DevPortfolioDao.updateInstance(updatedDP);
+  return updatedDP;
+};

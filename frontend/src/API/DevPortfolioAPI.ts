@@ -38,4 +38,10 @@ export default class DevPortfolioAPI {
       `${backendURL}/getDevPortfolio${isAdminReq ? '' : 'NonAdmin'}/${uuid}`
     ).then((res) => res.data.portfolio);
   }
+
+  public static async regradeSubmissions(uuid: string): Promise<DevPortfolio> {
+    return APIWrapper.post(`${backendURL}/regradeDevPortfolioSubmissions`, { uuid }).then(
+      (res) => res.data.portfolio
+    );
+  }
 }
