@@ -101,7 +101,14 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
                   {portfolio.submissions.length !== 1 ? 's' : ''}
                 </Card.Meta>
                 <Card.Description>
-                  Due: {new Date(portfolio.deadline).toDateString()}
+                  <Container className={styles.cardDescription}>
+                    <div>Due: {new Date(portfolio.deadline).toDateString()}</div>
+                    <div>
+                      {portfolio.lateDeadline
+                        ? `Late Deadline: ${new Date(portfolio.lateDeadline).toDateString()}`
+                        : ''}
+                    </div>
+                  </Container>
                 </Card.Description>
               </Card.Content>
             </Card>
@@ -123,6 +130,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
   const [dateErrorMsg, setDateErrorMsg] = useState<string>('');
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [earliestDate, setEarliestDate] = useState<Date>(new Date());
+  const [lateDeadline, setLateDeadline] = useState<Date | undefined>(undefined);
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = () => {
@@ -141,12 +149,18 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
       setDateErrorMsg('Deadline cannot be before today.');
       return;
     }
+    if (lateDeadline && deadline > lateDeadline && !isSameDay(deadline, lateDeadline)) {
+      setDateError(true);
+      setDateErrorMsg('Late deadline cannot be before the regular deadline');
+      return;
+    }
     setNameError(false);
     setDateErrorMsg('');
     const portfolio = {
       name,
       deadline: deadline.getTime(),
       earliestValidDate: earliestDate.getTime(),
+      lateDeadline: lateDeadline ? lateDeadline.getTime() : undefined,
       submissions: [],
       uuid: ''
     };
@@ -171,6 +185,12 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
         selected={deadline}
         dateFormat="MMMM do yyyy"
         onChange={(date: Date) => setDeadline(date)}
+      />
+      <Header as="h3">Late Deadline (optional)</Header>
+      <DatePicker
+        selected={lateDeadline}
+        dateFormat="MMMM do yyyy"
+        onChange={(date: Date) => setLateDeadline(date)}
       />
       {dateError ? (
         <Label

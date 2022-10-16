@@ -118,6 +118,9 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         <> </>
       )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
+      <span>
+        <b>* = Late submission</b>
+      </span>
     </Container>
   );
 };
@@ -176,7 +179,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
         />
       </Table.Cell>
       {isAdminView ? (
-        <Table.Cell rowSpan={`${numRows}`}>{isValid ? 'Valid' : 'Invalid'}</Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>
+          {`${isValid ? 'Valid' : 'Invalid'}${submission.isLate ? '*' : ''}`}
+        </Table.Cell>
       ) : (
         <></>
       )}

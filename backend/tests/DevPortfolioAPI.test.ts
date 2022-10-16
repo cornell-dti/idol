@@ -110,12 +110,16 @@ describe('User is lead or admin', () => {
   test('createDevPortfolio should be successful', async () => {
     const expectedDeadline = new Date(devPortfolio.deadline).setHours(23, 59, 59);
     const expectedEarliestValidDate = new Date(devPortfolio.earliestValidDate).setHours(0, 0, 0);
+    const expectedLateDeadline = new Date(devPortfolio.lateDeadline).setHours(23, 59, 59);
     await createNewDevPortfolio(devPortfolio, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(DevPortfolioDao.createNewInstance).toBeCalled();
     expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].deadline).toEqual(expectedDeadline);
     expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].earliestValidDate).toEqual(
       expectedEarliestValidDate
+    );
+    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].lateDeadline).toEqual(
+      expectedLateDeadline
     );
   });
 
@@ -163,7 +167,7 @@ describe('makeDevPortfolioSubmission tests', () => {
       it('should successfully submit', async () => {
         await makeDevPortfolioSubmission(devPortfolio.uuid, dpSubmission);
         expect(mockIsWithinDates.mock.calls[0][1]).toEqual(devPortfolio.earliestValidDate);
-        expect(mockIsWithinDates.mock.calls[0][2]).toEqual(devPortfolio.deadline);
+        expect(mockIsWithinDates.mock.calls[0][2]).toEqual(devPortfolio.lateDeadline);
         expect(DevPortfolioDao.makeDevPortfolioSubmission).toBeCalled();
       });
     });
