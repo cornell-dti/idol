@@ -89,7 +89,7 @@ export const makeDevPortfolioSubmission = async (
   const validatedSubmission = await validateSubmission(devPortfolio, submission);
   return DevPortfolioDao.makeDevPortfolioSubmission(uuid, {
     ...validatedSubmission,
-    isLate: devPortfolio.lateDeadline && Date.now() > devPortfolio.deadline
+    isLate: Boolean(devPortfolio.lateDeadline && Date.now() > devPortfolio.deadline)
   });
 };
 
