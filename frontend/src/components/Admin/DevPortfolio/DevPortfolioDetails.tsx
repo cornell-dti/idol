@@ -176,7 +176,7 @@ const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, i
       {isAdminView ? (
         <>
           <Icon color={isValid ? 'green' : 'red'} name={isValid ? 'checkmark' : 'x'} />
-          <p>{prSubmission.reason && !isValid ? `(${prSubmission.reason})` : ''}</p>
+          <p>{prSubmission.reason ? `(${prSubmission.reason})` : ''}</p>
         </>
       ) : (
         <></>

@@ -199,7 +199,7 @@ const createValidationResult = async (validationFunction): Promise<ValidationRes
   }
 
   // if no errors encountered, then valid submission
-  return { status: 'valid' };
+  return { status: 'valid', reason: undefined };
 };
 
 /** Determines whether PR review is valid. */
