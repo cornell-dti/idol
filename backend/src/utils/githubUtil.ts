@@ -32,7 +32,7 @@ type OpenedPR = {
 
 type ValidationResult = {
   status: 'valid' | 'invalid' | 'pending';
-  reason?: string;
+  reason?: string | null;
 };
 
 /** Parses GitHub PR `url` for information necessary to make API calls.
@@ -199,7 +199,7 @@ const createValidationResult = async (validationFunction): Promise<ValidationRes
   }
 
   // if no errors encountered, then valid submission
-  return { status: 'valid', reason: undefined };
+  return { status: 'valid', reason: null };
 };
 
 /** Determines whether PR review is valid. */
