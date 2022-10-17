@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown, Button, Icon, Divider } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Icon, Divider, TextArea } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfolio';
@@ -18,6 +18,7 @@ const DevPortfolioForm: React.FC = () => {
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [text, setText] = useState<string | null>(null);
 
   useEffect(() => {
     refreshDevPortfolios();
@@ -97,12 +98,14 @@ const DevPortfolioForm: React.FC = () => {
         reviewedPRs: reviewPRs.map((pr) => ({
           url: pr,
           status: 'pending'
-        }))
+        })),
+        ...(text && { text })
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
       setOpenPRs(['']);
       setReviewedPRs(['']);
+      setText(null);
     }
   };
 
@@ -236,6 +239,25 @@ const DevPortfolioForm: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {userInfo.role === 'tpm' ? (
+            <div>
+              <label className={styles.bold}>Paragraph Response:</label>
+              <p>
+                Since you are a technical project manager, you also need to include 1-2 paragraphs
+                with the following information: <br />
+                1. What did you personally do these past two weeks?
+                <br />
+                2. What did the team do the past two weeks?
+              </p>
+              <TextArea
+                value={text || undefined}
+                onInput={(e) => setText(e.currentTarget.value)}
+              ></TextArea>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
 
         <Form.Button floated="right" onClick={submitDevPortfolio}>
