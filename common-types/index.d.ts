@@ -150,4 +150,5 @@ interface DevPortfolioSubmission {
   member: IdolMember;
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
+  text?: string;
 }
