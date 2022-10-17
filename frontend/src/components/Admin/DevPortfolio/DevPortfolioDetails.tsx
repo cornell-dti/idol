@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Table, Modal } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
@@ -80,6 +80,11 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
         <Table.HeaderCell rowSpan="2">Opened PRs</Table.HeaderCell>
         <Table.HeaderCell rowSpan="2">Reviewed PRs</Table.HeaderCell>
         {isAdminView ? <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell> : <></>}
+        {sortedSubmissions.some((submission) => submission.text) ? (
+          <Table.HeaderCell rowSpan="2"></Table.HeaderCell>
+        ) : (
+          <></>
+        )}
       </Table.Header>
       <Table.Body>
         {sortedSubmissions.map((submission, i) => (
@@ -96,6 +101,8 @@ type SubmissionDetailsProps = {
 };
 
 const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdminView }) => {
+  const [viewText, setViewText] = useState(false);
+
   const numRows = Math.max(submission.openedPRs.length, submission.reviewedPRs.length);
   const isValid =
     submission.openedPRs.some((pr) => pr.status === 'valid') &&
@@ -119,9 +126,35 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
         />
       </Table.Cell>
       {isAdminView ? (
-        <Table.Cell rowSpan={`${numRows}`}>{isValid ? 'Valid' : 'Invalid'}</Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>{<div>{isValid ? 'Valid' : 'Invalid'}</div>}</Table.Cell>
       ) : (
         <></>
+      )}
+      {submission.text ? (
+        <Table.Cell rowSpan={`${numRows}`}>
+          <Modal
+            onClose={() => setViewText(false)}
+            onOpen={() => setViewText(true)}
+            open={viewText}
+            trigger={<Button>Show Text</Button>}
+          >
+            <Modal.Header>
+              Paragraph Response for {submission.member.firstName} {submission.member.lastName}
+            </Modal.Header>
+            <Modal.Content image>
+              <Modal.Description>
+                <p>{submission.text}</p>
+              </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button color="red" onClick={() => setViewText(false)}>
+                Close
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        </Table.Cell>
+      ) : (
+        <div></div>
       )}
     </Table.Row>
   );
