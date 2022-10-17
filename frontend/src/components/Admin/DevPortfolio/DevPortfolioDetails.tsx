@@ -30,28 +30,32 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       return;
     }
 
-    const uniqueIds: string[] = [];
+    const reverseSubmissions = portfolio.submissions.reverse();
 
-    const uniqueSubmissions = portfolio.submissions.filter((submission) => {
-      const isDuplicate = uniqueIds.includes(submission.member.netid);
+    const sortedSubmissions = sortSubmissions(reverseSubmissions);
+
+    const uniqueIds = new Set();
+
+    const uniqueSubmissions = sortedSubmissions.filter((submission) => {
+      const isDuplicate = uniqueIds.has(submission.member.netid);
+      uniqueIds.add(submission.member.netid);
       if (!isDuplicate) {
-        uniqueIds.push(submission.member.netid);
         return true;
       }
       return false;
     });
 
-    const sortedSubmissions = sortSubmissions(uniqueSubmissions);
-
-    const csvData = sortedSubmissions.map((submission) => ({
-      name: `${submission.member.firstName} ${submission.member.lastName}`,
-      netid: submission.member.netid,
-      opened_score: Number(submission.openedPRs.some((pr) => pr.status === 'valid')),
-      reviewed_score: Number(submission.reviewedPRs.some((pr) => pr.status === 'valid')),
-      total_score:
-        Number(submission.reviewedPRs.some((pr) => pr.status === 'valid')) +
-        Number(submission.openedPRs.some((pr) => pr.status === 'valid'))
-    }));
+    const csvData = uniqueSubmissions.map((submission) => {
+      const open = Number(submission.openedPRs.some((pr) => pr.status === 'valid'));
+      const review = Number(submission.reviewedPRs.some((pr) => pr.status === 'valid'));
+      return {
+        name: `${submission.member.firstName} ${submission.member.lastName}`,
+        netid: submission.member.netid,
+        opened_score: open,
+        reviewed_score: review,
+        total_score: open + review
+      };
+    });
 
     const options: Options = {
       fieldSeparator: ',',
@@ -83,7 +87,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
-      <Button onClick={() => handleExportToCsv()}>Export to CSV</Button>
+      {isAdminView ? <Button onClick={() => handleExportToCsv()}>Export to CSV</Button> : <></>}
       {isAdminView ? (
         <Button
           onClick={() => {
@@ -105,6 +109,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
               );
           }}
           loading={isRegrading}
+          class="right-button"
         >
           Regrade All Submissions
         </Button>
