@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Container, Header, Icon, Table, Modal } from 'semantic-ui-react';
+import { ExportToCsv, Options } from 'export-to-csv';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
@@ -9,6 +10,9 @@ type Props = {
   isAdminView: boolean;
 };
 
+const sortSubmissions = (submissions: DevPortfolioSubmission[]) =>
+  submissions.sort((s1, s2) => s1.member.netid.localeCompare(s2.member.netid));
+
 const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   const [portfolio, setPortfolio] = useState<DevPortfolio | null>(null);
   const [isRegrading, setIsRegrading] = useState<boolean>(false);
@@ -16,6 +20,59 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   useEffect(() => {
     DevPortfolioAPI.getDevPortfolio(uuid, isAdminView).then((portfolio) => setPortfolio(portfolio));
   }, [uuid, isAdminView]);
+
+  const handleExportToCsv = () => {
+    if (portfolio?.submissions === undefined || portfolio?.submissions.length <= 0) {
+      Emitters.generalError.emit({
+        headerMsg: 'Failed to export Dev Portfolio Submissions to CSV',
+        contentMsg: 'Please make sure there is at least 1 submission in the table.'
+      });
+      return;
+    }
+
+    const reverseSubmissions = portfolio.submissions.reverse();
+
+    const sortedSubmissions = sortSubmissions(reverseSubmissions);
+
+    const uniqueIds = new Set();
+
+    const uniqueSubmissions = sortedSubmissions.filter((submission) => {
+      const isDuplicate = uniqueIds.has(submission.member.netid);
+      uniqueIds.add(submission.member.netid);
+      if (!isDuplicate) {
+        return true;
+      }
+      return false;
+    });
+
+    const csvData = uniqueSubmissions.map((submission) => {
+      const open = Number(submission.openedPRs.some((pr) => pr.status === 'valid'));
+      const review = Number(submission.reviewedPRs.some((pr) => pr.status === 'valid'));
+      return {
+        name: `${submission.member.firstName} ${submission.member.lastName}`,
+        netid: submission.member.netid,
+        opened_score: open,
+        reviewed_score: review,
+        total_score: open + review
+      };
+    });
+
+    const options: Options = {
+      filename: `${portfolio?.name}_Submissions`,
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `${portfolio?.name} Submissions`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(csvData);
+  };
 
   return !portfolio ? (
     <></>
@@ -31,6 +88,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       <Header textAlign="center" as="h3">
         Deadline: {new Date(portfolio.deadline).toDateString()}
       </Header>
+      {isAdminView ? <Button onClick={() => handleExportToCsv()}>Export to CSV</Button> : <></>}
       {isAdminView ? (
         <Button
           onClick={() => {
@@ -52,6 +110,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
               );
           }}
           loading={isRegrading}
+          class="right-button"
         >
           Regrade All Submissions
         </Button>
@@ -69,9 +128,7 @@ type DevPortfolioDetailsTableProps = {
 };
 
 const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAdminView }) => {
-  const sortedSubmissions = [...portfolio.submissions].sort((s1, s2) =>
-    s1.member.netid.localeCompare(s2.member.netid)
-  );
+  const sortedSubmissions = sortSubmissions([...portfolio.submissions]);
 
   return (
     <Table celled>
