@@ -107,9 +107,14 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
   const isValid =
     submission.openedPRs.some((pr) => pr.status === 'valid') &&
     submission.reviewedPRs.some((pr) => pr.status === 'valid');
+  const hasText = Boolean(submission.text);
 
   const FirstRow = () => (
-    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid}>
+    <Table.Row
+      positive={isAdminView && isValid}
+      negative={isAdminView && !isValid}
+      warning={isAdminView && hasText}
+    >
       <Table.Cell
         rowSpan={`${numRows}`}
       >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
@@ -126,7 +131,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
         />
       </Table.Cell>
       {isAdminView ? (
-        <Table.Cell rowSpan={`${numRows}`}>{<div>{isValid ? 'Valid' : 'Invalid'}</div>}</Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>
+          {<div>{(hasText && 'Pending') || (isValid ? 'Valid' : 'Invalid')}</div>}
+        </Table.Cell>
       ) : (
         <></>
       )}
