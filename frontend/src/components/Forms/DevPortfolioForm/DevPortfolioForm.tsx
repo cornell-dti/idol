@@ -82,7 +82,7 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'The deadline for this dev portfolio has passed',
         contentMsg: 'Please select another dev portfolio.'
       });
-    } else if (new Date(devPortfolio.earliestValidDate) > new Date()) {
+    } else if (new Date(latestDeadline) > new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'This dev portfolio is not open yet',
         contentMsg: 'Please select another dev portfolio.'
