@@ -130,7 +130,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
   const [dateErrorMsg, setDateErrorMsg] = useState<string>('');
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [earliestDate, setEarliestDate] = useState<Date>(new Date());
-  const [lateDeadline, setLateDeadline] = useState<Date | undefined>(undefined);
+  const [lateDeadline, setLateDeadline] = useState<Date | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = () => {
@@ -160,7 +160,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
       name,
       deadline: deadline.getTime(),
       earliestValidDate: earliestDate.getTime(),
-      lateDeadline: lateDeadline ? lateDeadline.getTime() : undefined,
+      lateDeadline: lateDeadline ? lateDeadline.getTime() : null,
       submissions: [],
       uuid: ''
     };
