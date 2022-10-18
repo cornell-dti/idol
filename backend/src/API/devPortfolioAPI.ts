@@ -48,16 +48,11 @@ export const createNewDevPortfolio = async (
 
   const updatedDeadline = new Date(instance.deadline);
   const updatedEarliestValidDate = new Date(instance.earliestValidDate);
-<<<<<<< HEAD
   const updatedLateDeadline = instance.lateDeadline ? new Date(instance.lateDeadline) : null;
-=======
-  const updatedLateDeadline = instance.lateDeadline ? new Date(instance.lateDeadline) : undefined;
->>>>>>> 286cb9a (add late deadline support)
   const modifiedInstance = {
     ...instance,
     deadline: updatedDeadline.setHours(23, 59, 59),
-    earliestValidDate: updatedEarliestValidDate.setHours(0, 0, 0),
-    lateDeadline: updatedLateDeadline ? updatedLateDeadline.setHours(23, 59, 59) : undefined
+    earliestValidDate: updatedEarliestValidDate.setHours(0, 0, 0)
   };
   if (updatedLateDeadline) {
     modifiedInstance.lateDeadline = updatedLateDeadline.setHours(23, 59, 59);
