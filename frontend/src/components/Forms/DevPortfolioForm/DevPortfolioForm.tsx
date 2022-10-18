@@ -59,12 +59,12 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (
-      !openPRs[0] ||
-      openPRs[0].length === 0 ||
-      !reviewPRs[0] ||
-      reviewPRs[0].length === 0
-    ) {
+      return;
+    }
+    const latestDeadline = devPortfolio.lateDeadline
+      ? devPortfolio.lateDeadline
+      : devPortfolio?.deadline;
+    if (!openPRs[0] || openPRs[0].length === 0 || !reviewPRs[0] || reviewPRs[0].length === 0) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
@@ -82,7 +82,7 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'The deadline for this dev portfolio has passed',
         contentMsg: 'Please select another dev portfolio.'
       });
-    } else if (new Date(devPortfolio.earliestValidDate) > new Date()) {
+    } else if (new Date(latestDeadline) > new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'This dev portfolio is not open yet',
         contentMsg: 'Please select another dev portfolio.'
