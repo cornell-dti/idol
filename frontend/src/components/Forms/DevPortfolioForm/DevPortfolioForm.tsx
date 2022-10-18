@@ -12,6 +12,7 @@ const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
+  const isTpm = userInfo.role === 'tpm';
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
@@ -61,18 +62,17 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please select a dev portfolio assignment!'
       });
     } else if (
-      !openPRs[0] ||
-      openPRs[0].length === 0 ||
-      !reviewPRs[0] ||
-      reviewPRs[0].length === 0
+      !isTpm &&
+      (!openPRs[0] || openPRs[0].length === 0 || !reviewPRs[0] || reviewPRs[0].length === 0)
     ) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null) ||
-      reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)
+      !isTpm &&
+      (openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null) ||
+        reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
@@ -114,8 +114,6 @@ const DevPortfolioForm: React.FC = () => {
       event.preventDefault();
     }
   };
-
-  const isTpm = userInfo.role === 'tpm';
 
   return (
     <div>
@@ -182,7 +180,8 @@ const DevPortfolioForm: React.FC = () => {
 
           <div className={styles.inline}>
             <label className={styles.bold}>
-              Opened Pull Request Github Link: <span className={styles.red_color}>*</span>
+              Opened Pull Request Github Link:{' '}
+              {!isTpm && <span className={styles.red_color}>*</span>}
             </label>
             {openPRs.map((openPR, index) => (
               <div className={styles.prInputContainer} key={index}>
@@ -227,7 +226,8 @@ const DevPortfolioForm: React.FC = () => {
 
           <div className={styles.inline}>
             <label className={styles.bold}>
-              Reviewed Pull Request Github Link: <span className={styles.red_color}>*</span>
+              Reviewed Pull Request Github Link:{' '}
+              {!isTpm && <span className={styles.red_color}>*</span>}
             </label>
             {reviewPRs.map((reviewPR, index) => (
               <div className={styles.prInputContainer} key={index}>
