@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Button, Container, Header, Icon, Table, Modal } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
+import DevPortfolioTextModal from '../../Modals/DevPortfolioTextModal';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
@@ -158,8 +159,6 @@ type SubmissionDetailsProps = {
 };
 
 const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdminView }) => {
-  const [viewText, setViewText] = useState(false);
-
   const numRows = Math.max(submission.openedPRs.length, submission.reviewedPRs.length);
   const isValid =
     submission.openedPRs.some((pr) => pr.status === 'valid') &&
@@ -196,26 +195,10 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
       )}
       {submission.text ? (
         <Table.Cell rowSpan={`${numRows}`}>
-          <Modal
-            onClose={() => setViewText(false)}
-            onOpen={() => setViewText(true)}
-            open={viewText}
-            trigger={<Button>Show Text</Button>}
-          >
-            <Modal.Header>
-              Paragraph Response for {submission.member.firstName} {submission.member.lastName}
-            </Modal.Header>
-            <Modal.Content image>
-              <Modal.Description>
-                <p>{submission.text}</p>
-              </Modal.Description>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button color="red" onClick={() => setViewText(false)}>
-                Close
-              </Button>
-            </Modal.Actions>
-          </Modal>
+          <DevPortfolioTextModal
+            title={`${submission.member.firstName} ${submission.member.lastName}`}
+            text={submission.text}
+          ></DevPortfolioTextModal>
         </Table.Cell>
       ) : (
         <div></div>
