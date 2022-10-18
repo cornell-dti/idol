@@ -115,6 +115,8 @@ const DevPortfolioForm: React.FC = () => {
     }
   };
 
+  const isTpm = userInfo.role === 'tpm';
+
   return (
     <div>
       <Form className={styles.form_style}>
@@ -149,6 +151,34 @@ const DevPortfolioForm: React.FC = () => {
               />
             ) : undefined}
           </div>
+
+          {isTpm ? (
+            <div className={styles.inline}>
+              <label className={styles.bold}>
+                Paragraph Response: <span className={styles.red_color}>*</span>
+              </label>
+              <p>
+                Since you are a technical project manager, your portfolio needs to include 1-2
+                paragraphs with the following information: <br />
+                1. What did you personally do these past two weeks?
+                <br />
+                2. What did the team do the past two weeks?
+              </p>
+
+              <TextArea
+                value={text || undefined}
+                onInput={(e) => setText(e.currentTarget.value)}
+              ></TextArea>
+
+              <p>
+                In addition, if you have created and/or reviewed pull requests, please include those
+                links. There is no required minimum or maximum but please do include them when you
+                do them.
+              </p>
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className={styles.inline}>
             <label className={styles.bold}>
@@ -239,25 +269,6 @@ const DevPortfolioForm: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {userInfo.role === 'tpm' ? (
-            <div>
-              <label className={styles.bold}>Paragraph Response:</label>
-              <p>
-                Since you are a technical project manager, you also need to include 1-2 paragraphs
-                with the following information: <br />
-                1. What did you personally do these past two weeks?
-                <br />
-                2. What did the team do the past two weeks?
-              </p>
-              <TextArea
-                value={text || undefined}
-                onInput={(e) => setText(e.currentTarget.value)}
-              ></TextArea>
-            </div>
-          ) : (
-            <></>
-          )}
         </div>
 
         <Form.Button floated="right" onClick={submitDevPortfolio}>
