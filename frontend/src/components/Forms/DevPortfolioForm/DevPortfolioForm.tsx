@@ -77,12 +77,12 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'Invalid PR link',
         contentMsg: 'One or more links to PRs are not valid links.'
       });
-    } else if (new Date(devPortfolio.deadline) < new Date()) {
+    } else if (new Date(latestDeadline) < new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'The deadline for this dev portfolio has passed',
         contentMsg: 'Please select another dev portfolio.'
       });
-    } else if (new Date(latestDeadline) > new Date()) {
+    } else if (new Date(devPortfolio.earliestValidDate) > new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'This dev portfolio is not open yet',
         contentMsg: 'Please select another dev portfolio.'
