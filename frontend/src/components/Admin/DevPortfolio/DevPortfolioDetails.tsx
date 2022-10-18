@@ -58,6 +58,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
     });
 
     const options: Options = {
+      filename: `${portfolio?.name}_Submissions`,
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalSeparator: '.',
