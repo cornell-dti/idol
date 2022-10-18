@@ -229,7 +229,9 @@ const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, i
   const isValid = prSubmission.status === 'valid';
   return (
     <>
-      <a href={prSubmission.url}>{prSubmission.url}</a>
+      <a href={prSubmission.url} target="_blank" rel="noreferrer noopener">
+        {prSubmission.url}
+      </a>
       {isAdminView ? (
         <>
           <Icon color={isValid ? 'green' : 'red'} name={isValid ? 'checkmark' : 'x'} />
