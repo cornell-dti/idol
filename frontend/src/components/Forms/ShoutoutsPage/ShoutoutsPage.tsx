@@ -17,7 +17,7 @@ const ShoutoutsPage: React.FC = () => {
       .then((given) => setGivenShoutouts(given))
       .catch((error) => {
         Emitters.generalError.emit({
-          headerMsg: `Couldn't get received shoutouts!`,
+          headerMsg: `Couldn't get given shoutouts!`,
           contentMsg: `Error was: ${error}`
         });
       });

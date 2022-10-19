@@ -27,9 +27,18 @@ const AdminShoutouts: React.FC = () => {
                 </Item.Header>
                 <Item.Meta>
                   From:{' '}
-                  {shoutout.giver
-                    ? `${shoutout.giver.firstName} ${shoutout.giver.lastName}`
-                    : '(Former member)'}
+                  {(() => {
+                    switch (shoutout.isAnon) {
+                      case true:
+                        return 'Anonymous';
+                      case false:
+                        return shoutout.giver
+                          ? `${shoutout.giver.firstName} ${shoutout.giver.lastName}`
+                          : '(Former member)';
+                      default:
+                        return 'Anonymous';
+                    }
+                  })()}
                 </Item.Meta>
                 <Item.Description>{shoutout.message}</Item.Description>
               </Item.Content>
