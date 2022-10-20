@@ -66,9 +66,7 @@ export default class DevPortfolioDao {
     return DevPortfolioDao.DBDevPortfolioToDevPortfolio(data);
   }
 
-  static async getAllInstances(
-    user: IdolMember | null
-  ): Promise<DevPortfolio[]> {
+  static async getAllInstances(): Promise<DevPortfolio[]> {
     const instanceRefs = await devPortfolioCollection.get();
 
     return Promise.all(
@@ -93,8 +91,8 @@ export default class DevPortfolioDao {
 
   public static async getUsersDevPortfolioSubmissions(uuid: string, user: IdolMember): Promise<DevPortfolioSubmission[]> {
     const portfolioData = (await devPortfolioCollection.doc(uuid).get()).data() as DBDevPortfolio;
-    const userDocRef = memberCollection.doc(user.email);
-    const dBSubmissions = portfolioData.submissions.filter((submission) => userDocRef ? submission.member == userDocRef : false)
+    const userRef = memberCollection.doc(user.email);
+    const dBSubmissions = portfolioData.submissions.filter((submission) => userRef ? submission.member == userRef : false)
 
     return dBSubmissions.map((submission) => ({...submission, member: user}));
   }

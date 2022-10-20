@@ -27,7 +27,7 @@ afterAll(async () => {
 // });
 
 test('Get all instances', () =>
-  DevPortfolioDao.getAllInstances(true, null).then((allSubmissions) => {
+  DevPortfolioDao.getAllInstances().then((allSubmissions) => {
     expect(allSubmissions.some((submission) => submission === mockDP));
     expect(allSubmissions.some((submission) => submission === mockDP2));
     expect(allSubmissions.some((submission) => submission === mockDP3));
