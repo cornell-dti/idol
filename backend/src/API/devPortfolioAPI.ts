@@ -4,37 +4,37 @@ import { PermissionError, BadRequestError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
 export const getAllDevPortfolios = async (
-  user: IdolMember,
-  isAdminRequest: boolean
+  user: IdolMember
 ): Promise<DevPortfolio[]> => {
-  if (!isAdminRequest) {
-    return DevPortfolioDao.getAllInstances(false, user);
-  }
-
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getAllInstances(isLeadOrAdmin, user);
+  return DevPortfolioDao.getAllInstances(user);
 };
 
-export const getAllDevPortfolioInfo = async (): Promise<DevPortfolio[]> => DevPortfolioDao.getAllDevPortfolioInfo();
+export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> => DevPortfolioDao.getAllDevPortfolioInfo();
+
+export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInfo> => DevPortfolioDao.getDevPortfolioInfo(uuid);
+
+export const getUsersDevPortfolioSubmissions = async (
+  uuid: string, 
+  user: IdolMember
+  ): Promise<DevPortfolioSubmission[]> => {
+    return DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
+  };
 
 export const getDevPortfolio = async (
   uuid: string,
-  user: IdolMember,
-  isAdminRequest: boolean
+  user: IdolMember
 ): Promise<DevPortfolio> => {
-  if (!isAdminRequest) {
-    return DevPortfolioDao.getDevPortfolio(uuid, false, user);
-  }
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getDevPortfolio(uuid, isLeadOrAdmin, user);
+  return DevPortfolioDao.getDevPortfolio(uuid);
 };
 
 export const createNewDevPortfolio = async (
@@ -64,7 +64,7 @@ export const makeDevPortfolioSubmission = async (
   uuid: string,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
-  const devPortfolio = await DevPortfolioDao.getDevPortfolio(uuid, true, submission.member);
+  const devPortfolio = await DevPortfolioDao.getDevPortfolio(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
   if (!isWithinDates(Date.now(), devPortfolio.earliestValidDate, devPortfolio.deadline)) {
