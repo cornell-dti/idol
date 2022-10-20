@@ -248,7 +248,7 @@ type PullRequestDisplayProps = {
 };
 
 const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, isAdminView }) => {
-  if (prSubmission === undefined) return <></>;
+  if (prSubmission === undefined || !prSubmission.url) return <></>;
   const isValid = prSubmission.status === 'valid';
   return (
     <>
