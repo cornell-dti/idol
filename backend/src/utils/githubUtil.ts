@@ -32,14 +32,14 @@ type OpenedPR = {
 
 type ValidationResult = {
   status: 'valid' | 'invalid' | 'pending';
-  reason?: string;
+  reason?: string | null;
 };
 
 /** Parses GitHub PR `url` for information necessary to make API calls.
  *  Raises an error if URL is malformed. */
 const parseGithubUrl = (url: string): PullRequest => {
   // of the form: https://github.com/cornell-dti/idol/pull/266
-  const pattern = /.*github.com\/([_a-zA-Z0-9-]+)\/([_a-zA-Z0-9-]+)\/pull\/([0-9]+)/;
+  const pattern = /.*github.com\/([._a-zA-Z0-9-]+)\/([._a-zA-Z0-9-]+)\/pull\/([0-9]+).*/;
 
   const match = url.match(pattern);
   if (match == null) {
@@ -53,7 +53,7 @@ const parseGithubUrl = (url: string): PullRequest => {
  *  Raises an error if URL is malformed. */
 const parseGithubUsername = (url: string): string => {
   // of the form: https://github.com/JacksonStaniec
-  const pattern = /.*github.com\/([_a-zA-Z0-9-]+).*/;
+  const pattern = /.*github.com\/([._a-zA-Z0-9-]+).*/;
 
   const match = url.match(pattern);
   if (match == null) {
@@ -199,7 +199,7 @@ const createValidationResult = async (validationFunction): Promise<ValidationRes
   }
 
   // if no errors encountered, then valid submission
-  return { status: 'valid' };
+  return { status: 'valid', reason: null };
 };
 
 /** Determines whether PR review is valid. */

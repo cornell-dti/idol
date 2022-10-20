@@ -135,7 +135,7 @@ interface CandidateDeciderInfo {
 interface PullRequestSubmission {
   url: string;
   status: 'valid' | 'invalid' | 'pending';
-  reason?: string;
+  reason?: string | null;
 }
 
 interface DevPortfolio {

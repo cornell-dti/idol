@@ -5,7 +5,8 @@ import {
   getDevPortfolio,
   deleteDevPortfolio,
   createNewDevPortfolio,
-  makeDevPortfolioSubmission
+  makeDevPortfolioSubmission,
+  regradeSubmissions
 } from '../src/API/devPortfolioAPI';
 import { PermissionError, BadRequestError } from '../src/utils/errors';
 import * as githubUtils from '../src/utils/githubUtil';
@@ -22,11 +23,6 @@ describe('User is not lead or admin', () => {
 
   const user = fakeIdolMember();
   const devPortfolio = fakeDevPortfolio();
-
-  test('test', async () => {
-    const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-    expect(isLeadOrAdmin).toBeDefined();
-  });
 
   test('getDevPortfolio should throw permission error', async () => {
     await expect(getDevPortfolio('fake-uuid', user)).rejects.toThrow(
@@ -51,6 +47,14 @@ describe('User is not lead or admin', () => {
       )
     );
   });
+
+  test('regradeSubmissions should throw permission error', async () => {
+    await expect(regradeSubmissions('<kewl-uuid>', user)).rejects.toThrow(
+      new PermissionError(
+        `User with email ${user.email} does not have permission to regrade dev portfolio submissions`
+      )
+    );
+  });
 });
 
 describe('User is lead or admin', () => {
@@ -70,6 +74,32 @@ describe('User is lead or admin', () => {
     DevPortfolioDao.deleteInstance = mockDeleteInstance;
   });
 
+  describe('regradeSubmissions tests', () => {
+    test("regradeSubmissions should fail if uuid isn't valid", async () => {
+      const mockGetInstance = jest.fn().mockResolvedValue(null);
+      DevPortfolioDao.getInstance = mockGetInstance;
+      expect(regradeSubmissions('<fake-uuid>', user)).rejects.toThrow(
+        new BadRequestError('Dev portfolio with uuid: <kewl-uuid> does not exist')
+      );
+    });
+
+    test('validateSubmission is called for every submission', async () => {
+      const mockValidateSubmission = jest.spyOn(githubUtils, 'validateSubmission');
+      const dp = {
+        ...devPortfolio,
+        submissions: [fakeDevPortfolioSubmission(), fakeDevPortfolioSubmission()]
+      };
+      const mockGetInstance = jest.fn().mockResolvedValue(dp);
+      const mockUpdateInstance = jest.fn();
+      DevPortfolioDao.getInstance = mockGetInstance;
+      DevPortfolioDao.updateInstance = mockUpdateInstance;
+
+      await regradeSubmissions('<kewl-uuid>', user);
+      expect(mockValidateSubmission.mock.calls.length).toBeGreaterThan(1);
+      expect(mockUpdateInstance.mock.calls.length).toEqual(1);
+    });
+  });
+
   test('getDevPortfolio should be successful', async () => {
     const dp = await getDevPortfolio(devPortfolio.uuid, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
@@ -78,9 +108,15 @@ describe('User is lead or admin', () => {
   });
 
   test('createDevPortfolio should be successful', async () => {
+    const expectedDeadline = new Date(devPortfolio.deadline).setHours(23, 59, 59);
+    const expectedEarliestValidDate = new Date(devPortfolio.earliestValidDate).setHours(0, 0, 0);
     await createNewDevPortfolio(devPortfolio, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(DevPortfolioDao.createNewInstance).toBeCalled();
+    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].deadline).toEqual(expectedDeadline);
+    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].earliestValidDate).toEqual(
+      expectedEarliestValidDate
+    );
   });
 
   test('deleteDevPortfolio should be successful', async () => {
