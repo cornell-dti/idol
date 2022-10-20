@@ -292,13 +292,13 @@ loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
   portfolios: await getAllDevPortfolios(user)
 }));
 loginCheckedGet('/getAllDevPortfolioInfo', async (req, user) => ({
-  portfolios: await getAllDevPortfolioInfo()
+  portfolioInfo: await getAllDevPortfolioInfo()
 }));
-loginCheckedGet('/getAllDevPortfolioInfo/:uuid', async (req, user) => ({
-  portfolios: await getDevPortfolioInfo(req.params.uuid)
+loginCheckedGet('/getDevPortfolioInfo/:uuid', async (req, user) => ({
+  portfolioInfo: await getDevPortfolioInfo(req.params.uuid)
 }));
 loginCheckedGet('/getUsersDevPortfolioSubmissions/:uuid', async (req, user) => ({
-  portfolios: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
+  submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
 }));
 loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
   portfolio: await getDevPortfolio(req.params.uuid, user)
