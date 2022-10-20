@@ -56,27 +56,32 @@ const DevPortfolioForm: React.FC = () => {
   };
 
   const submitDevPortfolio = () => {
+    const openedEmpty = !openPRs[0] || openPRs[0].length === 0;
+    const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
+    const textEmpty = !text;
+
     if (!devPortfolio) {
       Emitters.generalError.emit({
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (
-      !isTpm &&
-      (!openPRs[0] || openPRs[0].length === 0 || !reviewPRs[0] || reviewPRs[0].length === 0)
-    ) {
+    } else if (!isTpm && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      !isTpm &&
-      (openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null) ||
-        reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
+      (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
         contentMsg: 'One or more links to PRs are not valid links.'
+      });
+    } else if (isTpm && textEmpty) {
+      Emitters.generalError.emit({
+        headerMsg: 'Paragraph Submission Empty',
+        contentMsg: 'Please write something for the paragraph section of the assignment.'
       });
     } else if (new Date(devPortfolio.deadline) < new Date()) {
       Emitters.generalError.emit({
