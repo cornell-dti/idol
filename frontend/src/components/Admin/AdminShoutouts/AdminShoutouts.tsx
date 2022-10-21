@@ -1,13 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Card } from 'semantic-ui-react';
+import { Member } from '../../../API/MembersAPI';
 import { ShoutoutsAPI, Shoutout } from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
+
+type Props =
+  | {
+      readonly giver: Member;
+      readonly receiver: Member;
+      readonly message: string;
+      readonly isAnon: false;
+    }
+  | {
+      readonly receiver: Member;
+      readonly message: string;
+      readonly isAnon: true;
+    };
 
 const AdminShoutouts: React.FC = () => {
   const [shoutouts, setShoutouts] = useState<Shoutout[]>([]);
   useEffect(() => {
     ShoutoutsAPI.getAllShoutouts().then((shoutouts) => setShoutouts(shoutouts));
   }, []);
+
+  const fromString = (shoutout: Shoutout): string => {
+    if (!shoutout.isAnon) {
+      const { giver } = shoutout;
+      return `From: ${giver?.firstName} ${giver?.lastName} (${giver.email})`;
+    }
+    return 'From: Anonymous';
+  };
 
   return (
     <div className={styles.shoutoutsContainer}>
@@ -25,21 +47,7 @@ const AdminShoutouts: React.FC = () => {
                     ? `${shoutout.receiver.firstName} ${shoutout.receiver.lastName}`
                     : '(Former member)'}
                 </Item.Header>
-                <Item.Meta>
-                  From:{' '}
-                  {(() => {
-                    switch (shoutout.isAnon) {
-                      case true:
-                        return 'Anonymous';
-                      case false:
-                        return shoutout.giver
-                          ? `${shoutout.giver.firstName} ${shoutout.giver.lastName}`
-                          : '(Former member)';
-                      default:
-                        return 'Anonymous';
-                    }
-                  })()}
-                </Item.Meta>
+                <Item.Meta>{fromString(shoutout)}</Item.Meta>
                 <Item.Description>{shoutout.message}</Item.Description>
               </Item.Content>
             </Item>
