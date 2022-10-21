@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Card } from 'semantic-ui-react';
-import { Member } from '../../../API/MembersAPI';
 import { ShoutoutsAPI, Shoutout } from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
-
-type Props =
-  | {
-      readonly giver: Member;
-      readonly receiver: Member;
-      readonly message: string;
-      readonly isAnon: false;
-    }
-  | {
-      readonly receiver: Member;
-      readonly message: string;
-      readonly isAnon: true;
-    };
 
 const AdminShoutouts: React.FC = () => {
   const [shoutouts, setShoutouts] = useState<Shoutout[]>([]);
