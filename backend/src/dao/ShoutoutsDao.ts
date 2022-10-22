@@ -30,7 +30,7 @@ export default class ShoutoutsDao {
         const { giver, receiver, message, isAnon } = shoutoutRef.data();
         return isAnon
           ? {
-              receiver: await getMemberFromDocumentReference(giver),
+              receiver: await getMemberFromDocumentReference(receiver),
               message,
               isAnon
             }

@@ -9,6 +9,14 @@ const AdminShoutouts: React.FC = () => {
     ShoutoutsAPI.getAllShoutouts().then((shoutouts) => setShoutouts(shoutouts));
   }, []);
 
+  const fromString = (shoutout: Shoutout): string => {
+    if (!shoutout.isAnon) {
+      const { giver } = shoutout;
+      return `From: ${giver?.firstName} ${giver?.lastName} (${giver.email})`;
+    }
+    return 'From: Anonymous';
+  };
+
   return (
     <div className={styles.shoutoutsContainer}>
       {shoutouts.length === 0 ? (
@@ -25,12 +33,7 @@ const AdminShoutouts: React.FC = () => {
                     ? `${shoutout.receiver.firstName} ${shoutout.receiver.lastName}`
                     : '(Former member)'}
                 </Item.Header>
-                <Item.Meta>
-                  From:{' '}
-                  {shoutout.giver
-                    ? `${shoutout.giver.firstName} ${shoutout.giver.lastName}`
-                    : '(Former member)'}
-                </Item.Meta>
+                <Item.Meta>{fromString(shoutout)}</Item.Meta>
                 <Item.Description>{shoutout.message}</Item.Description>
               </Item.Content>
             </Item>
