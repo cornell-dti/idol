@@ -4,9 +4,7 @@ import { Shoutout } from '../../../API/ShoutoutsAPI';
 const ShoutoutCard = (props: Shoutout): JSX.Element => {
   const { giver, receiver, message, isAnon } = props;
 
-  let fromString = 'From: Anonymous';
-  if (!isAnon) {
-    fromString = `From: ${giver?.firstName} ${giver?.lastName} (${giver.email})`;
+  const fromString = isAnon ? 'From: Anonymous' :  `From: ${giver?.firstName} ${giver?.lastName} (${giver.email})` ;
   }
 
   return (
