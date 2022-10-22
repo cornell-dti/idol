@@ -98,7 +98,7 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
                 </Card.Header>
                 <Card.Meta>
                   {portfolio.submissions.length} submission
-                  {portfolio.submissions.length > 1 ? 's' : ''}
+                  {portfolio.submissions.length !== 1 ? 's' : ''}
                 </Card.Meta>
                 <Card.Description>
                   Due: {new Date(portfolio.deadline).toDateString()}
