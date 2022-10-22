@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Form, TextArea, Button, Checkbox } from 'semantic-ui-react';
+import { Form, TextArea, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
-import { MemberSearch } from '../../Common/Search/Search';
 import { Emitters } from '../../../utils';
 import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
@@ -15,25 +14,20 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const userEmail = useUserEmail();
   const members = useMembers();
   const user = members.find((it) => it.email === userEmail);
-  const [recipient, setRecipient] = useState<IdolMember | undefined>(undefined);
+  const [receiver, setReceiver] = useState('');
   const [message, setMessage] = useState('');
   const [isAnon, setIsAnon] = useState(false);
 
   const giveShoutout = () => {
-    if (!recipient) {
+    if (!receiver) {
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
         contentMsg: 'Please select a member!'
       });
-    } else if (recipient.email === userEmail) {
-      Emitters.generalError.emit({
-        headerMsg: 'No Self Shoutouts',
-        contentMsg: "You can't give yourself a shoutout, please select a different member!"
-      });
-    } else if (user && recipient && message !== '') {
+    } else if (user && receiver && message !== '') {
       const shoutout: Shoutout = {
         giver: user,
-        receiver: recipient,
+        receiver,
         message,
         isAnon
       };
@@ -46,10 +40,11 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         } else {
           Emitters.generalSuccess.emit({
             headerMsg: 'Shoutout submitted!',
-            contentMsg: `Thank you for recognizing ${recipient.firstName}'s awesomeness! 🙏`
+            contentMsg: `Thank you for recognizing ${receiver}'s awesomeness! 🙏`
           });
-          setRecipient(undefined);
+          setReceiver('');
           setMessage('');
+          setIsAnon(false);
           getGivenShoutouts();
         }
       });
@@ -59,29 +54,15 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   return (
     <Form className={styles.shoutoutForm}>
       <h2 className={styles.formTitle}>Give someone a shoutout! 📣</h2>
-      <label className={styles.formLabel}>
-        Who is awesome? <span className={styles.requiredIcon}>*</span>
-      </label>
-
       <div className={styles.formContainer}>
-        {!recipient ? <MemberSearch onSelect={setRecipient} /> : undefined}
-
-        {recipient ? (
-          <div className={styles.recipientNameDisplayContainer}>
-            <p className={styles.recipientNameDisplay}>
-              {recipient?.firstName} {recipient?.lastName}
-            </p>
-            <Button
-              negative
-              onClick={() => {
-                setRecipient(undefined);
-              }}
-            >
-              Clear
-            </Button>
-          </div>
-        ) : undefined}
-
+        <Form.Input
+          label="Who is awesome?"
+          name="receiver"
+          value={receiver}
+          control={TextArea}
+          onChange={(event) => setReceiver(event.target.value)}
+          required
+        />
         <Checkbox
           label={{ children: 'Anonymous?' }}
           className={styles.isAnonCheckbox}
