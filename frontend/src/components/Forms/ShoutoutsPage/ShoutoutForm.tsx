@@ -57,9 +57,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
       <div className={styles.formContainer}>
         <Form.Input
           label="Who is awesome?"
-          name="receiver"
           value={receiver}
-          control={TextArea}
           onChange={(event) => setReceiver(event.target.value)}
           required
         />
