@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Table, Dropdown } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
@@ -130,6 +130,23 @@ type DevPortfolioDetailsTableProps = {
 const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAdminView }) => {
   const sortedSubmissions = sortSubmissions([...portfolio.submissions]);
 
+  const updateStatus = async (
+    submission: DevPortfolioSubmission,
+    submissionIndex: number,
+    status: 'pending' | 'valid' | 'invalid'
+  ) => {
+    const updatedSubmission: DevPortfolioSubmission = {
+      ...submission,
+      status
+    };
+
+    // update submission
+    const updatedSubmissions = portfolio.submissions;
+    updatedSubmissions[submissionIndex] = updatedSubmission;
+
+    return DevPortfolioAPI.updateSubmissions(portfolio.uuid, updatedSubmissions);
+  };
+
   return (
     <Table celled>
       <Table.Header>
@@ -139,9 +156,17 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
         {isAdminView ? <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell> : <></>}
       </Table.Header>
       <Table.Body>
-        {sortedSubmissions.map((submission, i) => (
-          <SubmissionDetails submission={submission} isAdminView={isAdminView} key={i} />
-        ))}
+        {sortedSubmissions.map((submission, i) => {
+          const index = portfolio.submissions.indexOf(submission);
+          return (
+            <SubmissionDetails
+              submission={submission}
+              updateStatus={(status) => updateStatus(submission, index, status)}
+              isAdminView={isAdminView}
+              key={i}
+            />
+          );
+        })}
       </Table.Body>
     </Table>
   );
@@ -149,39 +174,76 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
 
 type SubmissionDetailsProps = {
   submission: DevPortfolioSubmission;
+  updateStatus: (status: 'pending' | 'valid' | 'invalid') => Promise<DevPortfolio>;
   isAdminView: boolean;
 };
 
-const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdminView }) => {
+const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
+  submission,
+  updateStatus,
+  isAdminView
+}) => {
   const numRows = Math.max(submission.openedPRs.length, submission.reviewedPRs.length);
-  const isValid =
-    submission.openedPRs.some((pr) => pr.status === 'valid') &&
-    submission.reviewedPRs.some((pr) => pr.status === 'valid');
+  const [submissionStatus, setSubmissionStatus] = useState(submission.status);
 
-  const FirstRow = () => (
-    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid}>
-      <Table.Cell
-        rowSpan={`${numRows}`}
-      >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
-      <Table.Cell>
-        <PullRequestDisplay
-          prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
-          isAdminView={isAdminView}
-        />
-      </Table.Cell>
-      <Table.Cell>
-        <PullRequestDisplay
-          prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
-          isAdminView={isAdminView}
-        />
-      </Table.Cell>
-      {isAdminView ? (
-        <Table.Cell rowSpan={`${numRows}`}>{isValid ? 'Valid' : 'Invalid'}</Table.Cell>
-      ) : (
-        <></>
-      )}
-    </Table.Row>
-  );
+  // in case of regrade, need to reinitialize to correct status
+  useEffect(() => {
+    setSubmissionStatus(submission.status);
+  }, [submission]);
+
+  const FirstRow = () => {
+    const statusOptions = ['valid', 'invalid', 'pending'].map((state) => ({
+      key: state,
+      value: state,
+      text: state[0].toUpperCase() + state.slice(1) // uppercase first letter
+    }));
+
+    const [isLoading, setIsLoading] = useState(false);
+    return (
+      <Table.Row
+        positive={isAdminView && submissionStatus === 'valid'}
+        negative={isAdminView && submissionStatus === 'invalid'}
+        warning={isAdminView && submissionStatus === 'pending'}
+      >
+        <Table.Cell
+          rowSpan={`${numRows}`}
+        >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
+        <Table.Cell>
+          <PullRequestDisplay
+            prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
+            isAdminView={isAdminView}
+          />
+        </Table.Cell>
+        <Table.Cell>
+          <PullRequestDisplay
+            prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
+            isAdminView={isAdminView}
+          />
+        </Table.Cell>
+        {isAdminView ? (
+          <Table.Cell rowSpan={`${numRows}`}>
+            <Dropdown
+              options={statusOptions}
+              disabled={isLoading}
+              defaultValue={submissionStatus}
+              fluid
+              className={`ui selection ${isLoading ? 'loading' : ''}`}
+              onChange={(_, d) => {
+                setIsLoading(true);
+                const status = d.value as 'pending' | 'invalid' | 'valid';
+                updateStatus(status).then((_) => {
+                  setIsLoading(false);
+                  setSubmissionStatus(status);
+                });
+              }}
+            />
+          </Table.Cell>
+        ) : (
+          <></>
+        )}
+      </Table.Row>
+    );
+  };
 
   if (numRows <= 1) return <FirstRow />;
 
@@ -193,7 +255,12 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
       ? remainingOpenedPRs
       : remainingReviewedPRs
   ).map((_, i) => () => (
-    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid} key={i}>
+    <Table.Row
+      positive={isAdminView && submissionStatus === 'valid'}
+      negative={isAdminView && submissionStatus === 'invalid'}
+      warning={isAdminView && submissionStatus === 'pending'}
+      key={i}
+    >
       <Table.Cell>
         <PullRequestDisplay
           prSubmission={i >= remainingOpenedPRs.length ? undefined : remainingOpenedPRs[i]}
