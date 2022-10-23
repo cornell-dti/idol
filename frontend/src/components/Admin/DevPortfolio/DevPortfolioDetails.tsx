@@ -163,9 +163,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
 
   const FirstRow = () => (
     <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid}>
-      <Table.Cell
-        rowSpan={`${numRows}`}
-      >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
+      <Table.Cell rowSpan={`${numRows}`}>{`${submission.member.firstName} ${
+        submission.member.lastName
+      } (${submission.member.netid})${submission.isLate ? '*' : ''}`}</Table.Cell>
       <Table.Cell>
         <PullRequestDisplay
           prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
@@ -179,9 +179,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
         />
       </Table.Cell>
       {isAdminView ? (
-        <Table.Cell rowSpan={`${numRows}`}>
-          {`${isValid ? 'Valid' : 'Invalid'}${submission.isLate ? '*' : ''}`}
-        </Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>{`${isValid ? 'Valid' : 'Invalid'}`}</Table.Cell>
       ) : (
         <></>
       )}
