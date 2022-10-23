@@ -60,7 +60,8 @@ import {
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
   getDevPortfolio,
-  regradeSubmissions
+  regradeSubmissions,
+  updateSubmissions
 } from './API/devPortfolioAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 
@@ -312,6 +313,9 @@ loginCheckedPost('/makeDevPortfolioSubmission', async (req, user) => {
 });
 loginCheckedPost('/regradeDevPortfolioSubmissions', async (req, user) => ({
   portfolio: await regradeSubmissions(req.body.uuid, user)
+}));
+loginCheckedPost('/updateDevPortfolioSubmissions', async (req, user) => ({
+  portfolio: await updateSubmissions(req.body.uuid, req.body.updatedSubmissions, user)
 }));
 
 app.use('/.netlify/functions/api', router);
