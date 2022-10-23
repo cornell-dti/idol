@@ -289,6 +289,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
           isAdminView={isAdminView}
         />
       </Table.Cell>
+      {!submission.text ? <div></div> : <></>}
     </Table.Row>
   ));
 
