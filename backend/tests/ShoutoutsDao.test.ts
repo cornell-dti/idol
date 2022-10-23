@@ -4,13 +4,12 @@ import { db } from '../src/firebase';
 import { fakeIdolMember } from './data/createData';
 
 const shoutoutData = {
-  mu1: fakeIdolMember(),
-  mu2: fakeIdolMember()
+  mu1: fakeIdolMember()
 };
 
 const mockShoutout1 = {
   giver: shoutoutData.mu1,
-  receiver: shoutoutData.mu2,
+  receiver: 'Fake Idol Member',
   message: 'Mock Shoutout',
   isAnon: false
 };
@@ -18,7 +17,6 @@ const mockShoutout1 = {
 /* Adding mock users for testing sign-ins */
 beforeAll(async () => {
   await MembersDao.setMember(shoutoutData.mu1.email, shoutoutData.mu1);
-  await MembersDao.setMember(shoutoutData.mu2.email, shoutoutData.mu2);
 });
 
 /* Cleanup database after running tests */
@@ -42,11 +40,6 @@ test('Send shoutout', async () => {
   await ShoutoutsDao.setShoutout(mockShoutout1);
   const allShoutouts = await ShoutoutsDao.getAllShoutouts();
   expect(allShoutouts).toContainEqual(mockShoutout1);
-});
-
-test('Get received shoutouts', async () => {
-  const shoutoutsReceived = await ShoutoutsDao.getShoutouts(shoutoutData.mu2.email, 'received');
-  expect(shoutoutsReceived).toContainEqual(mockShoutout1);
 });
 
 test('Get sent shoutout', async () => {
