@@ -97,7 +97,8 @@ const DevPortfolioForm: React.FC = () => {
         reviewedPRs: reviewPRs.map((pr) => ({
           url: pr,
           status: 'pending'
-        }))
+        })),
+        status: 'pending'
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
