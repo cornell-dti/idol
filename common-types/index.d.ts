@@ -152,4 +152,5 @@ interface DevPortfolioSubmission {
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
   isLate?: boolean;
+  text?: string;
 }
