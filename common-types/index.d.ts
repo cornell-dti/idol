@@ -150,4 +150,6 @@ interface DevPortfolioSubmission {
   member: IdolMember;
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
+  text?: string;
+  status: 'pending' | 'valid' | 'invalid';
 }
