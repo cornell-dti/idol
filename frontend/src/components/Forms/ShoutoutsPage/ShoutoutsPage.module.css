@@ -3,21 +3,14 @@
   align-self: center;
   margin: auto;
   padding-top: 10vh;
-  height: calc(100vh - 80px - 25vh);
+  height: calc(100vh - 150px - 25vh);
 }
 
-.shoutoutTitle {
-  text-align: center;
-}
-
-.listsContainer {
-  min-height: 50vh;
-  display: flex;
-}
-
-.listContainer {
-  padding: 2em;
+.shoutoutListContainer {
   width: 50%;
+  align-self: center;
+  margin: auto;
+  padding-bottom: 10vh;
 }
 
 @media only screen and (max-width: 900px) {
@@ -27,16 +20,9 @@
     margin-bottom: 5%;
   }
 
-  .shoutoutTitle {
-    text-align: center;
-  }
-
-  .listsContainer {
-    margin-top: 10%;
-    flex-direction: column;
-  }
-
-  .listContainer {
-    width: 100%;
+  .shoutoutListContainer {
+    width: 90%;
+    height: 100%;
+    margin-bottom: 5%;
   }
 }

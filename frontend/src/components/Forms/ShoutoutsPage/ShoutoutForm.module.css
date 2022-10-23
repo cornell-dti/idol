@@ -8,35 +8,18 @@
   margin-bottom: 2vh;
 }
 
-.formLabel {
-  font-weight: bold;
-}
-
 .formContainer {
   display: flex;
-  align-items: center;
-}
-
-.recipientNameDisplayContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-.recipientNameDisplay {
-  padding-right: 1.5em;
+  align-items: left;
 }
 
 .isAnonCheckbox {
-  padding-left: 2em;
+  padding-left: 5em;
+  align-self: center;
 }
 
 .reasonContainer {
   padding: 0.8em 0;
-}
-
-.reasonInput {
-  min-height: 25vh;
 }
 
 .requiredIcon {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Container, Header, Icon, Table, Dropdown } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
+import DevPortfolioTextModal from '../../Modals/DevPortfolioTextModal';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
@@ -154,6 +155,11 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
         <Table.HeaderCell rowSpan="2">Opened PRs</Table.HeaderCell>
         <Table.HeaderCell rowSpan="2">Reviewed PRs</Table.HeaderCell>
         {isAdminView ? <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell> : <></>}
+        {sortedSubmissions.some((submission) => submission.text) ? (
+          <Table.HeaderCell rowSpan="2"></Table.HeaderCell>
+        ) : (
+          <></>
+        )}
       </Table.Header>
       <Table.Body>
         {sortedSubmissions.map((submission, i) => {
@@ -241,6 +247,16 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         ) : (
           <></>
         )}
+        {submission.text ? (
+          <Table.Cell rowSpan={`${numRows}`}>
+            <DevPortfolioTextModal
+              title={`${submission.member.firstName} ${submission.member.lastName}`}
+              text={submission.text}
+            ></DevPortfolioTextModal>
+          </Table.Cell>
+        ) : (
+          <div></div>
+        )}
       </Table.Row>
     );
   };
@@ -292,7 +308,7 @@ type PullRequestDisplayProps = {
 };
 
 const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, isAdminView }) => {
-  if (prSubmission === undefined) return <></>;
+  if (prSubmission === undefined || !prSubmission.url) return <></>;
   const isValid = prSubmission.status === 'valid';
   return (
     <>

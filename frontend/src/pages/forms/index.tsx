@@ -6,7 +6,7 @@ const navCardItems: readonly NavigationCardItem[] = [
   { header: 'Sign-In Form', description: 'Sign in to an event!', link: '/forms/signin' },
   {
     header: 'Shoutouts',
-    description: 'Give someone a shoutout or view your past given and received shoutouts.',
+    description: 'Give someone a shoutout or view your past given shoutouts.',
     link: '/forms/shoutouts'
   },
   {

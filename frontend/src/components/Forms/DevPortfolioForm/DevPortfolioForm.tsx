@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown, Button, Icon, Divider } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Icon, Divider, TextArea } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfolio';
@@ -12,12 +12,14 @@ const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
+  const isTpm = userInfo.role === 'tpm';
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [text, setText] = useState<string | null>(null);
 
   useEffect(() => {
     refreshDevPortfolios();
@@ -54,28 +56,32 @@ const DevPortfolioForm: React.FC = () => {
   };
 
   const submitDevPortfolio = () => {
+    const openedEmpty = !openPRs[0] || openPRs[0].length === 0;
+    const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
+    const textEmpty = !text;
+
     if (!devPortfolio) {
       Emitters.generalError.emit({
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (
-      !openPRs[0] ||
-      openPRs[0].length === 0 ||
-      !reviewPRs[0] ||
-      reviewPRs[0].length === 0
-    ) {
+    } else if (!isTpm && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null) ||
-      reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)
+      (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
         contentMsg: 'One or more links to PRs are not valid links.'
+      });
+    } else if (isTpm && textEmpty) {
+      Emitters.generalError.emit({
+        headerMsg: 'Paragraph Submission Empty',
+        contentMsg: 'Please write something for the paragraph section of the assignment.'
       });
     } else if (new Date(devPortfolio.deadline) < new Date()) {
       Emitters.generalError.emit({
@@ -98,12 +104,14 @@ const DevPortfolioForm: React.FC = () => {
           url: pr,
           status: 'pending'
         })),
-        status: 'pending'
+        status: 'pending',
+        ...(text && { text })
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
       setDevPortfolio(undefined);
       setOpenPRs(['']);
       setReviewedPRs(['']);
+      setText(null);
     }
   };
 
@@ -148,9 +156,38 @@ const DevPortfolioForm: React.FC = () => {
             ) : undefined}
           </div>
 
+          {isTpm ? (
+            <div className={styles.inline}>
+              <label className={styles.bold}>
+                Paragraph Response: <span className={styles.red_color}>*</span>
+              </label>
+              <p>
+                Since you are a technical project manager, your portfolio needs to include 1-2
+                paragraphs with the following information: <br />
+                1. What did you personally do these past two weeks?
+                <br />
+                2. What did the team do the past two weeks?
+              </p>
+
+              <TextArea
+                value={text || undefined}
+                onInput={(e) => setText(e.currentTarget.value)}
+              ></TextArea>
+
+              <p>
+                In addition, if you have created and/or reviewed pull requests, please include those
+                links. There is no required minimum or maximum but please do include them when you
+                do them.
+              </p>
+            </div>
+          ) : (
+            <></>
+          )}
+
           <div className={styles.inline}>
             <label className={styles.bold}>
-              Opened Pull Request Github Link: <span className={styles.red_color}>*</span>
+              Opened Pull Request Github Link:{' '}
+              {!isTpm && <span className={styles.red_color}>*</span>}
             </label>
             {openPRs.map((openPR, index) => (
               <div className={styles.prInputContainer} key={index}>
@@ -195,7 +232,8 @@ const DevPortfolioForm: React.FC = () => {
 
           <div className={styles.inline}>
             <label className={styles.bold}>
-              Reviewed Pull Request Github Link: <span className={styles.red_color}>*</span>
+              Reviewed Pull Request Github Link:{' '}
+              {!isTpm && <span className={styles.red_color}>*</span>}
             </label>
             {reviewPRs.map((reviewPR, index) => (
               <div className={styles.prInputContainer} key={index}>

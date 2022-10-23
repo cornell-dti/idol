@@ -9,11 +9,9 @@ export default class ShoutoutsDao {
         shoutoutRefs.docs.map(async (doc) => {
           const dbShoutout = doc.data() as DBShoutout;
           const giver = await getMemberFromDocumentReference(dbShoutout.giver);
-          const receiver = await getMemberFromDocumentReference(dbShoutout.receiver);
           return {
             ...dbShoutout,
-            giver,
-            receiver
+            giver
           };
         })
       )
@@ -28,32 +26,25 @@ export default class ShoutoutsDao {
     return Promise.all(
       shoutoutRefs.docs.map(async (shoutoutRef) => {
         const { giver, receiver, message, isAnon } = shoutoutRef.data();
-        return isAnon
-          ? {
-              receiver: await getMemberFromDocumentReference(receiver),
-              message,
-              isAnon
-            }
-          : {
-              giver: await getMemberFromDocumentReference(giver),
-              receiver: await getMemberFromDocumentReference(receiver),
-              message,
-              isAnon
-            };
+        return {
+          giver: await getMemberFromDocumentReference(giver),
+          receiver,
+          message,
+          isAnon
+        };
       })
     );
   }
 
   static async setShoutout(shoutout: {
     giver: IdolMember;
-    receiver: IdolMember;
+    receiver: string;
     message: string;
     isAnon: boolean;
   }): Promise<Shoutout> {
     const shoutoutRef: DBShoutout = {
       ...shoutout,
-      giver: memberCollection.doc(shoutout.giver.email),
-      receiver: memberCollection.doc(shoutout.receiver.email)
+      giver: memberCollection.doc(shoutout.giver.email)
     };
     await shoutoutCollection.doc().set(shoutoutRef);
     return shoutout;

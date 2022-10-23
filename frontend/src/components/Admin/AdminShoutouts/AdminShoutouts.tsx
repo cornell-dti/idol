@@ -28,11 +28,7 @@ const AdminShoutouts: React.FC = () => {
           {shoutouts.map((shoutout, i) => (
             <Item key={i}>
               <Item.Content>
-                <Item.Header>
-                  {shoutout.receiver
-                    ? `${shoutout.receiver.firstName} ${shoutout.receiver.lastName}`
-                    : '(Former member)'}
-                </Item.Header>
+                <Item.Header>{`To: ${shoutout.receiver}`}</Item.Header>
                 <Item.Meta>{fromString(shoutout)}</Item.Meta>
                 <Item.Description>{shoutout.message}</Item.Description>
               </Item.Content>

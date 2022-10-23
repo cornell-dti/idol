@@ -5,7 +5,7 @@ import { Emitters } from '../utils';
 
 export type Shoutout = {
   giver: Member;
-  receiver: Member;
+  receiver: string;
   message: string;
   isAnon: boolean;
 };
