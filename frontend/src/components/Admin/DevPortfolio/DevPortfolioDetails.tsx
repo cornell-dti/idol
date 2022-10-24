@@ -54,7 +54,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         netid: submission.member.netid,
         opened_score: open,
         reviewed_score: review,
-        total_score: open + review
+        total_score: open + review,
+        late: submission.isLate ? 1 : 0
       };
     });
 
@@ -119,6 +120,9 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         <> </>
       )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
+      <span>
+        <b>* = Late submission</b>
+      </span>
     </Container>
   );
 };
@@ -171,9 +175,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
       negative={isAdminView && !isValid}
       warning={isAdminView && hasText}
     >
-      <Table.Cell
-        rowSpan={`${numRows}`}
-      >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
+      <Table.Cell rowSpan={`${numRows}`}>{`${submission.member.firstName} ${
+        submission.member.lastName
+      } (${submission.member.netid})${submission.isLate ? '*' : ''}`}</Table.Cell>
       <Table.Cell>
         <PullRequestDisplay
           prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}

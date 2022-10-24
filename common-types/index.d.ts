@@ -144,11 +144,13 @@ interface DevPortfolio {
   earliestValidDate: number;
   submissions: DevPortfolioSubmission[];
   readonly uuid: string;
+  lateDeadline: number | null;
 }
 
 interface DevPortfolioSubmission {
   member: IdolMember;
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
+  isLate?: boolean;
   text?: string;
 }

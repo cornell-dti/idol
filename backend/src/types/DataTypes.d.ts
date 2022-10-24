@@ -100,6 +100,7 @@ export type DBDevPortfolio = {
   deadline: number;
   earliestValidDate: number;
   submissions: DBDevPortfolioSubmission[];
+  lateDeadline: number | null;
   readonly uuid: string;
 };
 

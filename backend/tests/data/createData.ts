@@ -115,7 +115,8 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
 export const fakeDevPortfolio = (): DevPortfolio => {
   const DP = {
     name: 'testdevportfolio',
-    deadline: Date.now() + 10 * 86400000, // 10 days in the future
+    deadline: Date.now() + 10 * 86400000,
+    lateDeadline: Date.now() + 15 * 86400000, // 10 days in the future
     earliestValidDate: Date.parse('01 May 2022 00:00:00 GMT'),
     submissions: [],
     uuid: faker.datatype.uuid()
