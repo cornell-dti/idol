@@ -170,7 +170,11 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
   const hasText = Boolean(submission.text);
 
   const FirstRow = () => (
-    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid} warning={isAdminView && hasText}>
+    <Table.Row
+      positive={isAdminView && isValid}
+      negative={isAdminView && !isValid}
+      warning={isAdminView && hasText}
+    >
       <Table.Cell rowSpan={`${numRows}`}>{`${submission.member.firstName} ${
         submission.member.lastName
       } (${submission.member.netid})${submission.isLate ? '*' : ''}`}</Table.Cell>

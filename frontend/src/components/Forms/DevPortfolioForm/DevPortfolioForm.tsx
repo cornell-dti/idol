@@ -70,7 +70,7 @@ const DevPortfolioForm: React.FC = () => {
     const latestDeadline = devPortfolio.lateDeadline
       ? devPortfolio.lateDeadline
       : devPortfolio?.deadline;
-    
+
     if (!isTpm && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
