@@ -54,7 +54,10 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         netid: submission.member.netid,
         opened_score: open,
         reviewed_score: review,
-        total_score: open + review
+        total_score:
+          (submission.status === 'valid' && 2) || // in case admin gave full points
+          (submission.status === 'invalid' && '0') || // in case admin gave zero points
+          open + review
       };
     });
 
