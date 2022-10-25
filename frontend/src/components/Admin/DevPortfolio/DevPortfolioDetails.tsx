@@ -57,7 +57,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         total_score:
           (submission.status === 'valid' && 2) || // in case admin gave full points
           (submission.status === 'invalid' && '0') || // in case admin gave zero points
-          open + review
+          open + review,
+        late: submission.isLate ? 1 : 0
       };
     });
 
@@ -122,6 +123,9 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         <> </>
       )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
+      <span>
+        <b>* = Late submission</b>
+      </span>
     </Container>
   );
 };
@@ -214,9 +218,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         negative={isAdminView && submissionStatus === 'invalid'}
         warning={isAdminView && submissionStatus === 'pending'}
       >
-        <Table.Cell
-          rowSpan={`${numRows}`}
-        >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>{`${submission.member.firstName} ${
+          submission.member.lastName
+        } (${submission.member.netid})${submission.isLate ? '*' : ''}`}</Table.Cell>
         <Table.Cell>
           <PullRequestDisplay
             prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
@@ -229,6 +233,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
             isAdminView={isAdminView}
           />
         </Table.Cell>
+
         {isAdminView ? (
           <Table.Cell rowSpan={`${numRows}`}>
             <Dropdown

@@ -65,7 +65,13 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
-    } else if (!isTpm && (openedEmpty || reviewedEmpty)) {
+      return;
+    }
+    const latestDeadline = devPortfolio.lateDeadline
+      ? devPortfolio.lateDeadline
+      : devPortfolio?.deadline;
+
+    if (!isTpm && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
@@ -83,7 +89,7 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'Paragraph Submission Empty',
         contentMsg: 'Please write something for the paragraph section of the assignment.'
       });
-    } else if (new Date(devPortfolio.deadline) < new Date()) {
+    } else if (new Date(latestDeadline) < new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'The deadline for this dev portfolio has passed',
         contentMsg: 'Please select another dev portfolio.'
@@ -144,7 +150,11 @@ const DevPortfolioForm: React.FC = () => {
                     key: assignment.uuid,
                     text: `${assignment.name} (Due:  ${new Date(
                       assignment.deadline
-                    ).toDateString()})`,
+                    ).toDateString()}) ${
+                      assignment.lateDeadline
+                        ? `(Late Due: ${new Date(assignment.lateDeadline).toDateString()})`
+                        : ''
+                    }`,
                     value: assignment.uuid
                   }))}
                 onChange={(_, data) => {

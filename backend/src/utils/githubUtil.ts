@@ -67,7 +67,7 @@ const parseGithubUsername = (url: string): string => {
  *  Raises an error if the Idol member from `submission` does not have a github username. */
 const parsePortfolioSubmission = (portfolio: DevPortfolio, submission: DevPortfolioSubmission) => {
   const start = portfolio.earliestValidDate;
-  const end = portfolio.deadline;
+  const end = portfolio.lateDeadline ? portfolio.lateDeadline : portfolio.deadline;
   const usernameUrl = submission.member.github;
 
   // check github user
