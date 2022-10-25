@@ -141,7 +141,7 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
   const updateStatus = async (
     submission: DevPortfolioSubmission,
     submissionIndex: number,
-    status: 'pending' | 'valid' | 'invalid'
+    status: SubmissionStatus
   ) => {
     const updatedSubmission: DevPortfolioSubmission = {
       ...submission,
@@ -187,7 +187,7 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
 
 type SubmissionDetailsProps = {
   submission: DevPortfolioSubmission;
-  updateStatus: (status: 'pending' | 'valid' | 'invalid') => Promise<DevPortfolio>;
+  updateStatus: (status: SubmissionStatus) => Promise<DevPortfolio>;
   isAdminView: boolean;
 };
 
@@ -244,7 +244,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
               className={`ui selection ${isLoading ? 'loading' : ''}`}
               onChange={(_, d) => {
                 setIsLoading(true);
-                const status = d.value as 'pending' | 'invalid' | 'valid';
+                const status = d.value as SubmissionStatus;
                 updateStatus(status).then((_) => {
                   setIsLoading(false);
                   setSubmissionStatus(status);

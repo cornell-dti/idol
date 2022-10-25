@@ -31,7 +31,7 @@ type OpenedPR = {
 };
 
 type ValidationResult = {
-  status: 'valid' | 'invalid' | 'pending';
+  status: SubmissionStatus;
   reason?: string | null;
 };
 
@@ -275,9 +275,7 @@ const validateOpen = async (
   });
 
 /** Determines the overall status of the submission. */
-export const getSubmissionStatus = (
-  submission: DevPortfolioSubmission
-): 'pending' | 'valid' | 'invalid' => {
+export const getSubmissionStatus = (submission: DevPortfolioSubmission): SubmissionStatus => {
   // if text area populated, set to pending
   if (submission.text) {
     return 'pending';
