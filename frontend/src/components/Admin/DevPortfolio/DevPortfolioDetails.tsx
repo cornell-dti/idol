@@ -58,6 +58,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
           (submission.status === 'valid' && 2) || // in case admin gave full points
           (submission.status === 'invalid' && '0') || // in case admin gave zero points
           open + review,
+        status: submission.status,
         late: submission.isLate ? 1 : 0
       };
     });
