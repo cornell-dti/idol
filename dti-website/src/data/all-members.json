@@ -2,23 +2,25 @@
   {
     "netid": "aa2235",
     "name": "Aira Agrawal",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2023",
     "major": "CS",
     "hometown": "Albany, NY",
-    "about": "Hi, I'm Aira! I'm a junior in Engineering studying Computer Science with minors in Business and Information Science. Outside of school, I enjoy dancing, baking, and exploring nature. ",
+    "about": "Hi! I'm Aira, a senior studying CS with minors in Business and Information Science in COE. In addition to writing beautiful code, I am passionate about product management and working with customers. Outside of DTI, I enjoy dancing, baking, and traveling. I also love coffee and boba, so feel free to reach out and we can grab some!",
     "subteams": [
       "idol"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Business, InfoSci",
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/airaagrawal/",
     "github": "https://github.com/airaagrawal1"
   },
   {
     "netid": "aa753",
     "name": "Akash Aryal",
-    "pronouns": "",
+    "pronouns": "He/Him",
     "graduation": "May 2023",
     "major": "Computer Science ",
     "hometown": "Butwal, Nepal",
@@ -33,12 +35,13 @@
       "reviews"
     ],
     "website": "http://akasharyal.herokuapp.com/",
-    "linkedin": "linkedin.com/in/akash-aryal"
+    "linkedin": "linkedin.com/in/akash-aryal",
+    "github": "https://github.com/AkashAryal"
   },
   {
     "netid": "abn53",
     "name": "Alex Nagel",
-    "pronouns": "",
+    "pronouns": "he/him",
     "graduation": "May 2024",
     "major": "CS",
     "hometown": "Wilmette, IL",
@@ -49,7 +52,9 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "doubleMajor": "Math",
-    "linkedin": "https://www.linkedin.com/in/alexander-nagel-a717201a5/"
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/alexander-nagel-a717201a5/",
+    "github": "github.com/abagel21"
   },
   {
     "netid": "ac2677",
@@ -240,17 +245,18 @@
   {
     "netid": "bh449",
     "name": "Becky Han",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2023",
     "major": "Information Science",
     "hometown": "Brookville, NY",
-    "about": "Hey, I'm Becky! I'm a product designer passionate about crafting accessible and empowering experiences for people. In my free time, you can find me making new playlists on Spotify or visiting cafes around town! I love meeting new people and hearing new stories, so feel free to reach out to chat about anything 😊",
+    "about": "Hey, I'm Becky! I'm a user-centric designer driven by my passion to craft accessible and empowering experiences for people. I love meeting new people and hearing new stories, so feel free to reach out to chat about anything at all! I'm always just one iced vanilla latte away ☕️",
     "subteams": [
       "zing"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
     "minor": "Asian American Studies",
+    "formerSubteams": [],
     "website": "https://beckyhan.me",
     "linkedin": "https://www.linkedin.com/in/beckyhan01/"
   },
@@ -895,17 +901,19 @@
   {
     "netid": "kg357",
     "name": "Kehui Guo",
-    "pronouns": "",
+    "pronouns": "she/her/hers",
     "graduation": "December 2022",
     "major": "Information Science",
     "hometown": "Beijing, China",
-    "about": "Hi, I am Kehui. I love using design to connect people with ideas and solving problems creatively. When I'm free, I enjoy watching tv dramas, sleeping, playing billiards, and taking pretty pictures of my friends:))",
+    "about": "Hi, I am Kehui. I love using design to connect people with ideas and solve problems creatively.",
     "subteams": [
       "courseplan"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "minor": "Design and Environmental Analysis"
+    "minor": "Design and Environmental Analysis",
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/kehui-guo/"
   },
   {
     "netid": "kw433",
