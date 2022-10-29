@@ -14,7 +14,7 @@ const DevPortfolioForm: React.FC = () => {
   const userInfo = useSelf()!;
   const isTpm = userInfo.role === 'tpm';
 
-  const [selectedDevPortfolio, setSelectedDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
+  const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
@@ -60,16 +60,16 @@ const DevPortfolioForm: React.FC = () => {
     const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
     const textEmpty = !text;
 
-    if (!selectedDevPortfolio) {
+    if (!devPortfolio) {
       Emitters.generalError.emit({
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
       });
       return;
     }
-    const latestDeadline = selectedDevPortfolio.lateDeadline
-      ? selectedDevPortfolio.lateDeadline
-      : selectedDevPortfolio?.deadline;
+    const latestDeadline = devPortfolio.lateDeadline
+      ? devPortfolio.lateDeadline
+      : devPortfolio?.deadline;
 
     if (!isTpm && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
@@ -94,7 +94,7 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'The deadline for this dev portfolio has passed',
         contentMsg: 'Please select another dev portfolio.'
       });
-    } else if (new Date(selectedDevPortfolio.earliestValidDate) > new Date()) {
+    } else if (new Date(devPortfolio.earliestValidDate) > new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'This dev portfolio is not open yet',
         contentMsg: 'Please select another dev portfolio.'
@@ -112,8 +112,8 @@ const DevPortfolioForm: React.FC = () => {
         })),
         ...(text && { text })
       };
-      sendSubmissionRequest(newDevPortfolioSubmission, selectedDevPortfolio);
-      setSelectedDevPortfolio(undefined);
+      sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
+      setDevPortfolio(undefined);
       setOpenPRs(['']);
       setReviewedPRs(['']);
       setText(null);
@@ -153,7 +153,7 @@ const DevPortfolioForm: React.FC = () => {
                     value: assignment.uuid
                   }))}
                 onChange={(_, data) => {
-                  setSelectedDevPortfolio(
+                  setDevPortfolio(
                     devPortfolios.find((assignment) => assignment.uuid === data.value));
                 }}
               />
