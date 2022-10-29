@@ -8,7 +8,7 @@ export const getAllShoutouts = (): Promise<Shoutout[]> => ShoutoutsDao.getAllSho
 export const giveShoutout = async (
   body: {
     giver: IdolMember;
-    receiver: IdolMember;
+    receiver: string;
     message: string;
     isAnon: boolean;
   },

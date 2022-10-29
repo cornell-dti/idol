@@ -50,11 +50,15 @@ export const createNewDevPortfolio = async (
 
   const updatedDeadline = new Date(instance.deadline);
   const updatedEarliestValidDate = new Date(instance.earliestValidDate);
+  const updatedLateDeadline = instance.lateDeadline ? new Date(instance.lateDeadline) : null;
   const modifiedInstance = {
     ...instance,
     deadline: updatedDeadline.setHours(23, 59, 59),
     earliestValidDate: updatedEarliestValidDate.setHours(0, 0, 0)
   };
+  if (updatedLateDeadline) {
+    modifiedInstance.lateDeadline = updatedLateDeadline.setHours(23, 59, 59);
+  }
   return DevPortfolioDao.createNewInstance(modifiedInstance);
 };
 
@@ -75,17 +79,22 @@ export const makeDevPortfolioSubmission = async (
   const devPortfolio = await DevPortfolioDao.getDevPortfolio(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
-  if (!isWithinDates(Date.now(), devPortfolio.earliestValidDate, devPortfolio.deadline)) {
+  const latestDeadline = devPortfolio.lateDeadline
+    ? devPortfolio.lateDeadline
+    : devPortfolio.deadline;
+
+  if (!isWithinDates(Date.now(), devPortfolio.earliestValidDate, latestDeadline)) {
     const startDate = new Date(devPortfolio.earliestValidDate).toDateString();
-    const endDate = new Date(devPortfolio.deadline).toDateString();
+    const endDate = new Date(latestDeadline).toDateString();
     throw new BadRequestError(
       `This dev portfolio must be created between ${startDate} and ${endDate}.`
     );
   }
-  return DevPortfolioDao.makeDevPortfolioSubmission(
-    uuid,
-    await validateSubmission(devPortfolio, submission)
-  );
+  const validatedSubmission = await validateSubmission(devPortfolio, submission);
+  return DevPortfolioDao.makeDevPortfolioSubmission(uuid, {
+    ...validatedSubmission,
+    isLate: Boolean(devPortfolio.lateDeadline && Date.now() > devPortfolio.deadline)
+  });
 };
 
 export const regradeSubmissions = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {

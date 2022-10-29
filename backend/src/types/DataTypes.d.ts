@@ -10,23 +10,17 @@ export type Team = {
 
 export type DBShoutout = {
   giver: firestore.DocumentReference;
-  receiver: firestore.DocumentReference;
+  receiver: string;
   message: string;
   isAnon: boolean;
 };
 
-export type Shoutout =
-  | {
-      giver: IdolMember;
-      receiver: IdolMember;
-      message: string;
-      isAnon: false;
-    }
-  | {
-      receiver: IdolMember;
-      message: string;
-      isAnon: true;
-    };
+export type Shoutout = {
+  giver: IdolMember;
+  receiver: string;
+  message: string;
+  isAnon: boolean;
+};
 
 export type DBSignInForm = {
   users: { signedInAt: number; user: firestore.DocumentReference }[];
@@ -106,6 +100,7 @@ export type DBDevPortfolio = {
   deadline: number;
   earliestValidDate: number;
   submissions: DBDevPortfolioSubmission[];
+  lateDeadline: number | null;
   readonly uuid: string;
 };
 

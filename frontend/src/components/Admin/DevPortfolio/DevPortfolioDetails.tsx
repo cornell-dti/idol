@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Container, Header, Icon, Table } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
+import DevPortfolioTextModal from '../../Modals/DevPortfolioTextModal';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
@@ -63,7 +64,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         netid: submission.member.netid,
         opened_score: open,
         reviewed_score: review,
-        total_score: open + review
+        total_score: open + review,
+        late: submission.isLate ? 1 : 0
       };
     });
 
@@ -128,6 +130,9 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
         <> </>
       )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
+      <span>
+        <b>* = Late submission</b>
+      </span>
     </Container>
   );
 };
@@ -147,6 +152,11 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
         <Table.HeaderCell rowSpan="2">Opened PRs</Table.HeaderCell>
         <Table.HeaderCell rowSpan="2">Reviewed PRs</Table.HeaderCell>
         {isAdminView ? <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell> : <></>}
+        {sortedSubmissions.some((submission) => submission.text) ? (
+          <Table.HeaderCell rowSpan="2"></Table.HeaderCell>
+        ) : (
+          <></>
+        )}
       </Table.Header>
       <Table.Body>
         {sortedSubmissions.map((submission, i) => (
@@ -167,12 +177,17 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
   const isValid =
     submission.openedPRs.some((pr) => pr.status === 'valid') &&
     submission.reviewedPRs.some((pr) => pr.status === 'valid');
+  const hasText = Boolean(submission.text);
 
   const FirstRow = () => (
-    <Table.Row positive={isAdminView && isValid} negative={isAdminView && !isValid}>
-      <Table.Cell
-        rowSpan={`${numRows}`}
-      >{`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}</Table.Cell>
+    <Table.Row
+      positive={isAdminView && isValid}
+      negative={isAdminView && !isValid}
+      warning={isAdminView && hasText}
+    >
+      <Table.Cell rowSpan={`${numRows}`}>{`${submission.member.firstName} ${
+        submission.member.lastName
+      } (${submission.member.netid})${submission.isLate ? '*' : ''}`}</Table.Cell>
       <Table.Cell>
         <PullRequestDisplay
           prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
@@ -186,9 +201,21 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({ submission, isAdm
         />
       </Table.Cell>
       {isAdminView ? (
-        <Table.Cell rowSpan={`${numRows}`}>{isValid ? 'Valid' : 'Invalid'}</Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>
+          {<div>{(hasText && 'Pending') || (isValid ? 'Valid' : 'Invalid')}</div>}
+        </Table.Cell>
       ) : (
         <></>
+      )}
+      {submission.text ? (
+        <Table.Cell rowSpan={`${numRows}`}>
+          <DevPortfolioTextModal
+            title={`${submission.member.firstName} ${submission.member.lastName}`}
+            text={submission.text}
+          ></DevPortfolioTextModal>
+        </Table.Cell>
+      ) : (
+        <div></div>
       )}
     </Table.Row>
   );
@@ -235,7 +262,7 @@ type PullRequestDisplayProps = {
 };
 
 const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, isAdminView }) => {
-  if (prSubmission === undefined) return <></>;
+  if (prSubmission === undefined || !prSubmission.url) return <></>;
   const isValid = prSubmission.status === 'valid';
   return (
     <>
