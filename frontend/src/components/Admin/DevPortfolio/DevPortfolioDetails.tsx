@@ -22,11 +22,11 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
     }
     else {
-      DevPortfolioAPI.getDevPortfolioInfo(uuid).then((portfolioInfo) => setPortfolio(portfolioInfo as DevPortfolio));
-      DevPortfolioAPI.getUsersDevPortfolioSubmissions(uuid).then((portfolioSubmissions) => {
-        if(portfolio) {
-          portfolio.submissions = portfolioSubmissions
-        }
+      DevPortfolioAPI.getDevPortfolioInfo(uuid).then((portfolioInfo) => {
+        const portfolio = portfolioInfo as DevPortfolio;
+        DevPortfolioAPI.getUsersDevPortfolioSubmissions(uuid).then((portfolioSubmissions) => {
+          setPortfolio({...portfolio, submissions: portfolioSubmissions});
+        });
       });
     }
   }, [uuid, isAdminView]);
