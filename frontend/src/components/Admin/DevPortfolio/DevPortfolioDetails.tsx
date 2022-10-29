@@ -18,7 +18,17 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   const [isRegrading, setIsRegrading] = useState<boolean>(false);
 
   useEffect(() => {
-    DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
+    if(isAdminView) {
+      DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
+    }
+    else {
+      DevPortfolioAPI.getDevPortfolioInfo(uuid).then((portfolioInfo) => setPortfolio(portfolioInfo as DevPortfolio));
+      DevPortfolioAPI.getUsersDevPortfolioSubmissions(uuid).then((portfolioSubmissions) => {
+        if(portfolio) {
+          portfolio.submissions = portfolioSubmissions
+        }
+      });
+    }
   }, [uuid, isAdminView]);
 
   const handleExportToCsv = () => {

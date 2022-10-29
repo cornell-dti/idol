@@ -92,8 +92,7 @@ export default class DevPortfolioDao {
 
   public static async getUsersDevPortfolioSubmissions(uuid: string, user: IdolMember): Promise<DevPortfolioSubmission[]> {
     const portfolioData = (await devPortfolioCollection.doc(uuid).get()).data() as DBDevPortfolio;
-    const userRef = memberCollection.doc(user.email);
-    const dBSubmissions = portfolioData.submissions.filter((submission) => userRef ? submission.member == userRef : false)
+    const dBSubmissions = portfolioData.submissions.filter((submission) => submission.member.id === user.email)
 
     return dBSubmissions.map((submission) => ({...submission, member: user}));
   }

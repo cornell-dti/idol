@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Form, Dropdown, Button, Icon, Divider } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
@@ -13,7 +13,7 @@ const DevPortfolioForm: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
 
-  const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
+  const [selectedDevPortfolio, setSelectedDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
@@ -47,14 +47,14 @@ const DevPortfolioForm: React.FC = () => {
 
   const refreshDevPortfolios = () => {
     setIsLoading(true);
-    DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
+    DevPortfolioAPI.getAllDevPortfolioInfo().then((devPortfolioInfo) => {
       setIsLoading(false);
-      setDevPortfolios(devPortfolios);
+      setDevPortfolios(devPortfolioInfo.map(dpInfo => dpInfo as DevPortfolio));
     });
   };
 
   const submitDevPortfolio = () => {
-    if (!devPortfolio) {
+    if (!selectedDevPortfolio) {
       Emitters.generalError.emit({
         headerMsg: 'No Dev Portfolio selected',
         contentMsg: 'Please select a dev portfolio assignment!'
@@ -77,12 +77,12 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'Invalid PR link',
         contentMsg: 'One or more links to PRs are not valid links.'
       });
-    } else if (new Date(devPortfolio.deadline) < new Date()) {
+    } else if (new Date(selectedDevPortfolio.deadline) < new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'The deadline for this dev portfolio has passed',
         contentMsg: 'Please select another dev portfolio.'
       });
-    } else if (new Date(devPortfolio.earliestValidDate) > new Date()) {
+    } else if (new Date(selectedDevPortfolio.earliestValidDate) > new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'This dev portfolio is not open yet',
         contentMsg: 'Please select another dev portfolio.'
@@ -99,8 +99,8 @@ const DevPortfolioForm: React.FC = () => {
           status: 'pending'
         }))
       };
-      sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
-      setDevPortfolio(undefined);
+      sendSubmissionRequest(newDevPortfolioSubmission, selectedDevPortfolio);
+      setSelectedDevPortfolio(undefined);
       setOpenPRs(['']);
       setReviewedPRs(['']);
     }
@@ -139,9 +139,8 @@ const DevPortfolioForm: React.FC = () => {
                     value: assignment.uuid
                   }))}
                 onChange={(_, data) => {
-                  setDevPortfolio(
-                    devPortfolios.find((assignment) => assignment.uuid === data.value)
-                  );
+                  setSelectedDevPortfolio(
+                    devPortfolios.find((assignment) => assignment.uuid === data.value));
                 }}
               />
             ) : undefined}
@@ -247,7 +246,7 @@ const DevPortfolioForm: React.FC = () => {
         <Divider />
         <DevPortfolioDashboard
           isLoading={isLoading}
-          devPortfolios={devPortfolios.filter((portfolio) => portfolio.submissions.length)}
+          devPortfolios={devPortfolios.map(portfolioInfo => portfolioInfo as DevPortfolio)}
           setDevPortfolios={setDevPortfolios}
           setIsLoading={setIsLoading}
           isAdminView={false}

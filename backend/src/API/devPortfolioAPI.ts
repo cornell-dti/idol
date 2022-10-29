@@ -11,7 +11,7 @@ export const getAllDevPortfolios = async (
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getAllInstances(user);
+  return DevPortfolioDao.getAllInstances();
 };
 
 export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> => DevPortfolioDao.getAllDevPortfolioInfo();

@@ -27,7 +27,7 @@ const AdminDevPortfolio: React.FC = () => {
 
   const getAllDevPortfolios = () => {
     setIsLoading(true);
-    DevPortfolioAPI.getAllDevPortfolios(true).then((devPortfolios) => {
+    DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => {
       setIsLoading(false);
       setDevPortfolios(devPortfolios);
     });
@@ -96,10 +96,12 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
                     {portfolio.name}
                   </a>
                 </Card.Header>
-                <Card.Meta>
-                  {portfolio.submissions.length} submission
-                  {portfolio.submissions.length > 1 ? 's' : ''}
-                </Card.Meta>
+                {isAdminView ?
+                  <Card.Meta>
+                    {portfolio.submissions.length} submission
+                    {portfolio.submissions.length > 1 ? 's' : ''}
+                  </Card.Meta>
+                  : <></>}
                 <Card.Description>
                   Due: {new Date(portfolio.deadline).toDateString()}
                 </Card.Description>
