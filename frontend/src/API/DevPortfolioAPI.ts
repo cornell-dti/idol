@@ -55,7 +55,7 @@ export default class DevPortfolioAPI {
       (res) => res.data.submissions
     );
   }
-  
+
   public static async regradeSubmissions(uuid: string): Promise<DevPortfolio> {
     return APIWrapper.post(`${backendURL}/regradeDevPortfolioSubmissions`, { uuid }).then(
       (res) => res.data.portfolio
