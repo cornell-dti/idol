@@ -150,7 +150,8 @@ interface DevPortfolioInfo {
   name: string;
   deadline: number;
   earliestValidDate: number;
-  uuid: string;
+  readonly uuid: string;
+  lateDeadline: number | null;
 }
 
 interface DevPortfolio extends DevPortfolioInfo {
