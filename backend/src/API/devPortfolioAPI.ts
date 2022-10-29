@@ -21,9 +21,7 @@ export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInf
 export const getUsersDevPortfolioSubmissions = async (
   uuid: string,
   user: IdolMember
-): Promise<DevPortfolioSubmission[]> => {
-  return DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
-};
+): Promise<DevPortfolioSubmission[]> => DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
 
 export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
