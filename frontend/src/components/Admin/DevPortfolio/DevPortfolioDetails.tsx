@@ -19,14 +19,13 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   const [isRegrading, setIsRegrading] = useState<boolean>(false);
 
   useEffect(() => {
-    if(isAdminView) {
+    if (isAdminView) {
       DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
-    }
-    else {
+    } else {
       DevPortfolioAPI.getDevPortfolioInfo(uuid).then((portfolioInfo) => {
         const portfolio = portfolioInfo as DevPortfolio;
         DevPortfolioAPI.getUsersDevPortfolioSubmissions(uuid).then((portfolioSubmissions) => {
-          setPortfolio({...portfolio, submissions: portfolioSubmissions});
+          setPortfolio({ ...portfolio, submissions: portfolioSubmissions });
         });
       });
     }

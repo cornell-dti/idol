@@ -7,16 +7,12 @@ type DevPortfolioSubmissionResponseObj = {
 
 export default class DevPortfolioAPI {
   static async getAllDevPortfolios(): Promise<DevPortfolio[]> {
-    const response = APIWrapper.get(
-      `${backendURL}/getAllDevPortfolios`
-    );
+    const response = APIWrapper.get(`${backendURL}/getAllDevPortfolios`);
     return response.then((val) => val.data.portfolios);
   }
 
   static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
-    const response = APIWrapper.get(
-      `${backendURL}/getAllDevPortfolioInfo`
-    );
+    const response = APIWrapper.get(`${backendURL}/getAllDevPortfolioInfo`);
     return response.then((val) => val.data.portfolioInfo);
   }
 
@@ -41,21 +37,23 @@ export default class DevPortfolioAPI {
   }
 
   public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.get(
-      `${backendURL}/getDevPortfolio/${uuid}`
-    ).then((res) => res.data.portfolio);
+    return APIWrapper.get(`${backendURL}/getDevPortfolio/${uuid}`).then(
+      (res) => res.data.portfolio
+    );
   }
 
   public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
-    return APIWrapper.get(
-      `${backendURL}/getDevPortfolioInfo/${uuid}`
-    ).then((res) => res.data.portfolioInfo);
+    return APIWrapper.get(`${backendURL}/getDevPortfolioInfo/${uuid}`).then(
+      (res) => res.data.portfolioInfo
+    );
   }
 
-  public static async getUsersDevPortfolioSubmissions(uuid: string): Promise<DevPortfolioSubmission[]> {
-    return APIWrapper.get(
-      `${backendURL}/getUsersDevPortfolioSubmissions/${uuid}`
-    ).then((res) => res.data.submissions);
+  public static async getUsersDevPortfolioSubmissions(
+    uuid: string
+  ): Promise<DevPortfolioSubmission[]> {
+    return APIWrapper.get(`${backendURL}/getUsersDevPortfolioSubmissions/${uuid}`).then(
+      (res) => res.data.submissions
+    );
   }
   public static async regradeSubmissions(uuid: string): Promise<DevPortfolio> {
     return APIWrapper.post(`${backendURL}/regradeDevPortfolioSubmissions`, { uuid }).then(

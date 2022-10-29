@@ -12,9 +12,7 @@ export function devPortfolioSubmissionToDBDevPortfolioSubmission(
   };
 }
 export default class DevPortfolioDao {
-  private static async DBDevPortfolioToDevPortfolio(
-    data: DBDevPortfolio
-  ): Promise<DevPortfolio> {
+  private static async DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): Promise<DevPortfolio> {
     const submissions = await Promise.all(
       data.submissions.map(async (submission) => ({
         ...submission,
@@ -22,7 +20,7 @@ export default class DevPortfolioDao {
       }))
     );
 
-    return {...data, submissions};
+    return { ...data, submissions };
   }
 
   private static devPortfolioToDBDevPortfolio(instance: DevPortfolio): DBDevPortfolio {
@@ -36,9 +34,7 @@ export default class DevPortfolioDao {
     };
   }
 
-  public static async getDevPortfolio(
-    uuid: string
-  ): Promise<DevPortfolio> {
+  public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
     const doc = await devPortfolioCollection.doc(uuid).get();
     return this.DBDevPortfolioToDevPortfolio(doc.data() as DBDevPortfolio);
   }
@@ -72,14 +68,15 @@ export default class DevPortfolioDao {
 
     return Promise.all(
       instanceRefs.docs.map(async (instanceRefs) =>
-        DevPortfolioDao.DBDevPortfolioToDevPortfolio(
-          instanceRefs.data() as DBDevPortfolio)
+        DevPortfolioDao.DBDevPortfolioToDevPortfolio(instanceRefs.data() as DBDevPortfolio)
       )
     );
   }
 
   public static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
-    const instanceInfoRefs = await devPortfolioCollection.select('deadline', 'earliestValidDate', 'name', 'uuid', 'lateDeadline').get();
+    const instanceInfoRefs = await devPortfolioCollection
+      .select('deadline', 'earliestValidDate', 'name', 'uuid', 'lateDeadline')
+      .get();
     return Promise.all(
       instanceInfoRefs.docs.map(async (instanceRefs) => instanceRefs.data() as DevPortfolioInfo)
     );
@@ -90,11 +87,16 @@ export default class DevPortfolioDao {
     return portfolioRef.data() as DevPortfolioInfo;
   }
 
-  public static async getUsersDevPortfolioSubmissions(uuid: string, user: IdolMember): Promise<DevPortfolioSubmission[]> {
+  public static async getUsersDevPortfolioSubmissions(
+    uuid: string,
+    user: IdolMember
+  ): Promise<DevPortfolioSubmission[]> {
     const portfolioData = (await devPortfolioCollection.doc(uuid).get()).data() as DBDevPortfolio;
-    const dBSubmissions = portfolioData.submissions.filter((submission) => submission.member.id === user.email)
+    const dBSubmissions = portfolioData.submissions.filter(
+      (submission) => submission.member.id === user.email
+    );
 
-    return dBSubmissions.map((submission) => ({...submission, member: user}));
+    return dBSubmissions.map((submission) => ({ ...submission, member: user }));
   }
 
   static async createNewInstance(instance: DevPortfolio): Promise<DevPortfolio> {

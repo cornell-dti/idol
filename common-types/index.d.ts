@@ -156,8 +156,8 @@ interface DevPortfolioSubmission {
 }
 
 interface DevPortfolioInfo {
-	name: string;
-	deadline: number;
-	earliestValidDate: number;
-	uuid: string;
+  name: string;
+  deadline: number;
+  earliestValidDate: number;
+  uuid: string;
 }

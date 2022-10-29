@@ -51,7 +51,7 @@ const DevPortfolioForm: React.FC = () => {
     setIsLoading(true);
     DevPortfolioAPI.getAllDevPortfolioInfo().then((devPortfolioInfo) => {
       setIsLoading(false);
-      setDevPortfolios(devPortfolioInfo.map(dpInfo => dpInfo as DevPortfolio));
+      setDevPortfolios(devPortfolioInfo.map((dpInfo) => dpInfo as DevPortfolio));
     });
   };
 
@@ -154,7 +154,8 @@ const DevPortfolioForm: React.FC = () => {
                   }))}
                 onChange={(_, data) => {
                   setDevPortfolio(
-                    devPortfolios.find((assignment) => assignment.uuid === data.value));
+                    devPortfolios.find((assignment) => assignment.uuid === data.value)
+                  );
                 }}
               />
             ) : undefined}
@@ -290,7 +291,7 @@ const DevPortfolioForm: React.FC = () => {
         <Divider />
         <DevPortfolioDashboard
           isLoading={isLoading}
-          devPortfolios={devPortfolios.map(portfolioInfo => portfolioInfo as DevPortfolio)}
+          devPortfolios={devPortfolios.map((portfolioInfo) => portfolioInfo as DevPortfolio)}
           setDevPortfolios={setDevPortfolios}
           setIsLoading={setIsLoading}
           isAdminView={false}

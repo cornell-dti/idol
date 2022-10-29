@@ -3,9 +3,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
-export const getAllDevPortfolios = async (
-  user: IdolMember
-): Promise<DevPortfolio[]> => {
+export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
@@ -14,21 +12,20 @@ export const getAllDevPortfolios = async (
   return DevPortfolioDao.getAllInstances();
 };
 
-export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> => DevPortfolioDao.getAllDevPortfolioInfo();
+export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> =>
+  DevPortfolioDao.getAllDevPortfolioInfo();
 
-export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInfo> => DevPortfolioDao.getDevPortfolioInfo(uuid);
+export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInfo> =>
+  DevPortfolioDao.getDevPortfolioInfo(uuid);
 
 export const getUsersDevPortfolioSubmissions = async (
-  uuid: string, 
-  user: IdolMember
-  ): Promise<DevPortfolioSubmission[]> => {
-    return DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
-  };
-
-export const getDevPortfolio = async (
   uuid: string,
   user: IdolMember
-): Promise<DevPortfolio> => {
+): Promise<DevPortfolioSubmission[]> => {
+  return DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
+};
+
+export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
