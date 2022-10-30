@@ -17,9 +17,7 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text }) => {
     >
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content image>
-        <Modal.Description>
-          <p>{text}</p>
-        </Modal.Description>
+        <p>{text}</p>
       </Modal.Content>
       <Modal.Actions>
         <Button color="red" onClick={() => setViewText(false)}>
