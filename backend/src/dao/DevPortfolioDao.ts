@@ -78,13 +78,17 @@ export default class DevPortfolioDao {
       .select('deadline', 'earliestValidDate', 'name', 'uuid', 'lateDeadline')
       .get();
     return Promise.all(
-      instanceInfoRefs.docs.map(async (instanceRefs) => instanceRefs.data() as DevPortfolioInfo)
+      instanceInfoRefs.docs.map(async (instanceRefs) => {
+        const { submissions, ...devPortfolioInfo } = instanceRefs.data() as DBDevPortfolio;
+        return devPortfolioInfo;
+      })
     );
   }
 
   public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
     const portfolioRef = await devPortfolioCollection.doc(uuid).get();
-    return portfolioRef.data() as DevPortfolioInfo;
+    const { submissions, ...devPortfolioInfo } = portfolioRef.data() as DBDevPortfolio;
+    return devPortfolioInfo;
   }
 
   public static async getUsersDevPortfolioSubmissions(
