@@ -132,9 +132,11 @@ interface CandidateDeciderInfo {
   isOpen: boolean;
 }
 
+type SubmissionStatus = 'valid' | 'pending' | 'invalid';
+
 interface PullRequestSubmission {
   url: string;
-  status: 'valid' | 'invalid' | 'pending';
+  status: SubmissionStatus;
   reason?: string | null;
 }
 
@@ -153,4 +155,5 @@ interface DevPortfolioSubmission {
   reviewedPRs: PullRequestSubmission[];
   isLate?: boolean;
   text?: string;
+  status: SubmissionStatus;
 }

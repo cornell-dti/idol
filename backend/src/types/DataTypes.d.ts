@@ -108,6 +108,7 @@ export type DBDevPortfolioSubmission = {
   member: firestore.DocumentReference;
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
+  status: SubmissionStatus;
 };
 
 export type DevPortfolioSubmissionRequestLog = {
