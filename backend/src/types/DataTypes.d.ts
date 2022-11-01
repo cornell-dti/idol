@@ -13,6 +13,7 @@ export type DBShoutout = {
   receiver: string;
   message: string;
   isAnon: boolean;
+  timestamp: number;
 };
 
 export type Shoutout = {
@@ -20,6 +21,7 @@ export type Shoutout = {
   receiver: string;
   message: string;
   isAnon: boolean;
+  timestamp: number;
 };
 
 export type DBSignInForm = {

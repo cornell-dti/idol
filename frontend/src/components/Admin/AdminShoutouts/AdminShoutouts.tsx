@@ -10,32 +10,37 @@ const AdminShoutouts: React.FC = () => {
   }, []);
 
   const fromString = (shoutout: Shoutout): string => {
+    const dateString = ` (Date: ${new Date(shoutout.timestamp).toDateString()})`;
     if (!shoutout.isAnon) {
       const { giver } = shoutout;
-      return `From: ${giver?.firstName} ${giver?.lastName} (${giver.email})`;
+      return `From: ${giver?.firstName} ${giver?.lastName} ${dateString}`;
     }
-    return 'From: Anonymous';
+    return `From: Anonymous${dateString}`;
   };
 
   return (
-    <div className={styles.shoutoutsContainer}>
-      {shoutouts.length === 0 ? (
-        <Card className={styles.noShoutoutsContainer}>
-          <Card.Content>No shoutouts.</Card.Content>
-        </Card>
-      ) : (
-        <Item.Group divided>
-          {shoutouts.map((shoutout, i) => (
-            <Item key={i}>
-              <Item.Content>
-                <Item.Header>{`To: ${shoutout.receiver}`}</Item.Header>
-                <Item.Meta>{fromString(shoutout)}</Item.Meta>
-                <Item.Description>{shoutout.message}</Item.Description>
-              </Item.Content>
-            </Item>
-          ))}
-        </Item.Group>
-      )}
+    <div>
+      <div className={styles.shoutoutsListContainer}>
+        {shoutouts.length === 0 ? (
+          <Card className={styles.noShoutoutsContainer}>
+            <Card.Content>No shoutouts.</Card.Content>
+          </Card>
+        ) : (
+          <Item.Group divided>
+            {shoutouts
+              .sort((a, b) => a.timestamp - b.timestamp)
+              .map((shoutout, i) => (
+                <Item key={i}>
+                  <Item.Content>
+                    <Item.Header>{`To: ${shoutout.receiver}`}</Item.Header>
+                    <Item.Meta>{fromString(shoutout)}</Item.Meta>
+                    <Item.Description>{shoutout.message}</Item.Description>
+                  </Item.Content>
+                </Item>
+              ))}
+          </Item.Group>
+        )}
+      </div>
     </div>
   );
 };

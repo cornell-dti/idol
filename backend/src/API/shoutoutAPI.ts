@@ -11,6 +11,7 @@ export const giveShoutout = async (
     receiver: string;
     message: string;
     isAnon: boolean;
+    timestamp: number;
   },
   user: IdolMember
 ): Promise<Shoutout> => {
