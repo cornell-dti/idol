@@ -44,4 +44,14 @@ export default class DevPortfolioAPI {
       (res) => res.data.portfolio
     );
   }
+
+  public static async updateSubmissions(
+    uuid: string,
+    updatedSubmissions: DevPortfolioSubmission[]
+  ): Promise<DevPortfolio> {
+    return APIWrapper.post(`${backendURL}/updateDevPortfolioSubmissions`, {
+      uuid,
+      updatedSubmissions
+    }).then((res) => res.data.portfolio);
+  }
 }

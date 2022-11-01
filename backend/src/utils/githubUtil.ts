@@ -31,7 +31,7 @@ type OpenedPR = {
 };
 
 type ValidationResult = {
-  status: 'valid' | 'invalid' | 'pending';
+  status: SubmissionStatus;
   reason?: string | null;
 };
 
@@ -274,6 +274,21 @@ const validateOpen = async (
     }
   });
 
+/** Determines the overall status of the submission. */
+export const getSubmissionStatus = (submission: DevPortfolioSubmission): SubmissionStatus => {
+  // if text area populated, set to pending
+  if (submission.text) {
+    return 'pending';
+  }
+
+  // otherwise, valid if at least one valid in each category
+  const atLeastOneValid =
+    submission.openedPRs.some((pr) => pr.status === 'valid') &&
+    submission.reviewedPRs.some((pr) => pr.status === 'valid');
+
+  return atLeastOneValid ? 'valid' : 'invalid';
+};
+
 /** Determines whether submission is valid or invalid. */
 export const validateSubmission = async (
   portfolio: DevPortfolio,
@@ -292,7 +307,14 @@ export const validateSubmission = async (
       ...(await validateOpen(portfolio, submission, pr.url))
     }))
   );
-  return { ...submission, openedPRs: openedResults, reviewedPRs: reviewedResults };
+
+  const updatedSubmission = {
+    ...submission,
+    openedPRs: openedResults,
+    reviewedPRs: reviewedResults
+  };
+
+  return { ...updatedSubmission, status: getSubmissionStatus(updatedSubmission) };
 };
 
 export default validateSubmission;

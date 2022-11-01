@@ -13,7 +13,7 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text }) => {
       onClose={() => setViewText(false)}
       onOpen={() => setViewText(true)}
       open={viewText}
-      trigger={<Button>Show Text</Button>}
+      trigger={<Button fluid>Show Text</Button>}
     >
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content image>
