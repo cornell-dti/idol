@@ -112,13 +112,11 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
         Forms
       </Menu.Item>
     </Link>
-    {hasAdminPermission && (
-      <Link href="/candidate-decider">
-        <Menu.Item>
-          <Icon name="chart bar outline" />
-          Candidate Decider
-        </Menu.Item>
-      </Link>
-    )}
+    <Link href="/candidate-decider">
+      <Menu.Item>
+        <Icon name="chart bar outline" />
+        Candidate Decider
+      </Menu.Item>
+    </Link>
   </>
 );
