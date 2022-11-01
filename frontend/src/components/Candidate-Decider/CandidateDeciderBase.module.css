@@ -1,3 +1,7 @@
 .instanceGroup {
   margin: 20px;
 }
+
+.emptyMessage {
+  margin: 5%;
+}
