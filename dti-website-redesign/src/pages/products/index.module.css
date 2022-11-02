@@ -1,11 +1,41 @@
 .productCard {
+  border: none;
   border-radius: 30px;
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
-  width: 30rem;
+  width: 50rem;
   padding: 20px;
+
 }
+
+.year {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 90%;
+  line-height: 122%;
+  color: #C1C1C1;
+}
+
+.productName {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 170%;
+  line-height: 130%;
+  color: #000000;
+}
+
+.productDescription {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 90%;
+  line-height: 122%;
+  color: #000000;
+}
+
 
 .imageAndText {
   display: flex;
@@ -15,6 +45,13 @@
 .productImage {
   margin-top: 5%;
   margin-bottom: 5%;
-  width: 50%;
-  height: 50%
+  width: 60%;
+  height: 60%
 }
+
+.productText {
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
