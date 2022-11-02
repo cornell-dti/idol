@@ -12,8 +12,7 @@
 
 .footer {
   background: linear-gradient(180deg, rgba(237, 237, 237, 0) 0%, #cecece 100%);
-  position: absolute;
-  bottom: 0;
+  position: flex;
   width: 100%;
 }
 
