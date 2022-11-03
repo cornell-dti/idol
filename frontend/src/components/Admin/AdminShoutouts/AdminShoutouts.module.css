@@ -1,11 +1,28 @@
+.shoutoutForm {
+  width: 90% !important;
+  align-self: center;
+  margin: auto;
+  padding-top: 10vh;
+  padding-bottom: 5vh;
+}
+
+.formTitle {
+  margin-bottom: 2vh;
+}
+
+.updateButton {
+  padding-top: 5vh;
+}
+
 .shoutoutsListContainer {
   padding-left: 5%;
   padding-right: 5%;
   padding-top: 5%;
+  padding-bottom: 5%;
 }
 
 .noShoutoutsContainer {
-  width: 90% !important;
+  width: 100% !important;
   white-space: pre-wrap;
 }
 
