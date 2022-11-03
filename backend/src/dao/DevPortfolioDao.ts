@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { devPortfolioCollection, memberCollection } from '../firebase';
 import { DBDevPortfolio, DBDevPortfolioSubmission } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
+import { getSubmissionStatus } from '../utils/githubUtil';
 
 export function devPortfolioSubmissionToDBDevPortfolioSubmission(
   submission: DevPortfolioSubmission
@@ -11,13 +12,22 @@ export function devPortfolioSubmissionToDBDevPortfolioSubmission(
     member: memberCollection.doc(submission.member.email)
   };
 }
+
 export default class DevPortfolioDao {
   private static async DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): Promise<DevPortfolio> {
     const submissions = await Promise.all(
-      data.submissions.map(async (submission) => ({
-        ...submission,
-        member: await getMemberFromDocumentReference(submission.member)
-      }))
+      data.submissions.map(async (submission) => {
+        const fromDb = {
+          ...submission,
+          member: await getMemberFromDocumentReference(submission.member)
+        } as DevPortfolioSubmission;
+
+        // since not all submissions could have this field yet
+        if (!fromDb.status) {
+          return { ...fromDb, status: getSubmissionStatus(fromDb) };
+        }
+        return fromDb;
+      })
     );
 
     return { ...data, submissions };

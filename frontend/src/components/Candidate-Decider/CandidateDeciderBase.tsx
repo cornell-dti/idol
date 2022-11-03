@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'semantic-ui-react';
+import Link from 'next/link';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import styles from './CandidateDeciderBase.module.css';
 
@@ -16,15 +17,23 @@ const CandidateDeciderBase: React.FC = () => {
     <div>Loading...</div>
   ) : (
     <div className={styles.instanceGroup}>
-      <Card.Group>
-        {instances.map((instance) => (
-          <Card href={`/candidate-decider/${instance.uuid}`} key={instance.uuid}>
-            <Card.Content>
-              <Card.Header>{instance.name}</Card.Header>
-            </Card.Content>
-          </Card>
-        ))}
-      </Card.Group>
+      {!instances || instances.length === 0 ? (
+        <h1 className={styles.emptyMessage}>
+          You currently do not have access to any candidate decider instances! Please contact{' '}
+          <Link href="https://cornelldti.slack.com/channels/idol-support">#idol-support</Link> if
+          you think this is a mistake.
+        </h1>
+      ) : (
+        <Card.Group>
+          {instances.map((instance) => (
+            <Card href={`/candidate-decider/${instance.uuid}`} key={instance.uuid}>
+              <Card.Content>
+                <Card.Header>{instance.name}</Card.Header>
+              </Card.Content>
+            </Card>
+          ))}
+        </Card.Group>
+      )}
     </div>
   );
 };

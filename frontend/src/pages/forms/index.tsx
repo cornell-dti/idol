@@ -7,7 +7,8 @@ const navCardItems: readonly NavigationCardItem[] = [
   {
     header: 'Shoutouts',
     description: 'Give someone a shoutout or view your past given shoutouts.',
-    link: '/forms/shoutouts'
+    link: '/forms/shoutouts',
+    adminOnly: true
   },
   {
     header: 'Edit Profile',
@@ -28,8 +29,7 @@ const navCardItems: readonly NavigationCardItem[] = [
   {
     header: 'Dev Portfolio Assignments',
     description: 'Submit opened and reviewed pull requests.',
-    link: '/forms/devPortfolio',
-    adminOnly: true
+    link: '/forms/devPortfolio'
   }
 ];
 

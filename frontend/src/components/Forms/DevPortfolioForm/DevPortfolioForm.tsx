@@ -114,6 +114,7 @@ const DevPortfolioForm: React.FC = () => {
           url: pr,
           status: 'pending'
         })),
+        status: 'pending',
         ...(text && { text })
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
@@ -153,7 +154,11 @@ const DevPortfolioForm: React.FC = () => {
                     key: assignment.uuid,
                     text: `${assignment.name} (Due:  ${new Date(
                       assignment.deadline
-                    ).toDateString()})`,
+                    ).toDateString()}) ${
+                      assignment.lateDeadline
+                        ? `(Late Due: ${new Date(assignment.lateDeadline).toDateString()})`
+                        : ''
+                    }`,
                     value: assignment.uuid
                   }))}
                 onChange={(_, data) => {
