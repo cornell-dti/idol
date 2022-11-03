@@ -10,20 +10,33 @@
   margin-bottom: 2vh;
 }
 
-.updateButton {
-  padding-top: 5vh;
-}
-
 .shoutoutsListContainer {
   padding-left: 5%;
   padding-right: 5%;
-  padding-top: 5%;
   padding-bottom: 5%;
 }
 
 .noShoutoutsContainer {
   width: 100% !important;
   white-space: pre-wrap;
+}
+
+.shoutoutDetails {
+  display: flex;
+  justify-content: space-between !important;
+  margin: 0 !important;
+}
+
+.shoutoutFrom {
+  color: gray;
+  display: inline-block;
+  align-self: left;
+}
+
+.shoutoutDate {
+  color: gray;
+  display: inline-block !important;
+  justify-content: right;
 }
 
 .Wrapper {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Item, Card } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,40 +7,55 @@ import { ShoutoutsAPI, Shoutout } from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 
 const AdminShoutouts: React.FC = () => {
-  const [shoutouts, setShoutouts] = useState<Shoutout[]>([]);
   const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
-  useEffect(() => {
-    ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
-      setShoutouts(shoutouts);
-      setDisplayShoutouts(shoutouts);
-    });
-  }, []);
-  const [earlyDate, setEarlyDate] = useState<Date>(new Date('2022/01/01'));
+  const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 12096e5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
 
+  const updateShoutouts = useCallback(() => {
+    ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
+      if (lastDate < earlyDate) {
+        Emitters.generalError.emit({
+          headerMsg: 'Invalid Date Range',
+          contentMsg:
+            'Please make sure the latest shoutout date is after the earliest shoutout date.'
+        });
+      } else {
+        setDisplayShoutouts(
+          shoutouts.filter((shoutout) => {
+            const shoutoutDate = new Date(shoutout.timestamp);
+            return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
+          })
+        );
+      }
+    });
+  }, [earlyDate, lastDate]);
+
+  useEffect(() => {
+    updateShoutouts();
+  }, [earlyDate, lastDate, updateShoutouts]);
+
   const fromString = (shoutout: Shoutout): string => {
-    const dateString = ` (Date: ${new Date(shoutout.timestamp).toDateString()})`;
     if (!shoutout.isAnon) {
       const { giver } = shoutout;
-      return `From: ${giver?.firstName} ${giver?.lastName} ${dateString}`;
+      return `From: ${giver?.firstName} ${giver?.lastName}`;
     }
-    return `From: Anonymous${dateString}`;
+    return `From: Anonymous`;
   };
+  const dateString = (shoutout: Shoutout): string =>
+    `${new Date(shoutout.timestamp).toDateString()}`;
 
-  const updateShoutouts = () => {
-    if (lastDate < earlyDate) {
-      Emitters.generalError.emit({
-        headerMsg: 'Invalid Date Range',
-        contentMsg: 'Please make sure the latest shoutout date is after the earliest shoutout date.'
-      });
-    } else {
-      setDisplayShoutouts(
-        shoutouts.filter(
-          (shoutout) =>
-            new Date(shoutout.timestamp) >= earlyDate && new Date(shoutout.timestamp) <= lastDate
-        )
-      );
-    }
+  const ChooseDate = (props: {
+    dateField: Date;
+    dateFunction: (value: React.SetStateAction<Date>) => void;
+  }): JSX.Element => {
+    const { dateField, dateFunction } = props;
+    return (
+      <DatePicker
+        selected={dateField}
+        dateFormat="MMMM do yyyy"
+        onChange={(date: Date) => dateFunction(date)}
+      />
+    );
   };
 
   return (
@@ -48,21 +63,9 @@ const AdminShoutouts: React.FC = () => {
       <Form className={styles.shoutoutForm}>
         <h2 className={styles.formTitle}>Select date range to display shoutouts:</h2>
         <Form.Group width="equals">
-          <DatePicker
-            selected={earlyDate}
-            dateFormat="MMMM do yyyy"
-            onChange={(date: Date) => setEarlyDate(date)}
-          />
-          <DatePicker
-            selected={lastDate}
-            dateFormat="MMMM do yyyy"
-            onChange={(date: Date) => setLastDate(date)}
-          />
+          <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
+          <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
         </Form.Group>
-
-        <Form.Button onClick={updateShoutouts} floated="right" className={styles.updateButton}>
-          Update
-        </Form.Button>
       </Form>
 
       <div className={styles.shoutoutsListContainer}>
@@ -79,7 +82,10 @@ const AdminShoutouts: React.FC = () => {
                 <Item key={i}>
                   <Item.Content>
                     <Item.Header>{`To: ${shoutout.receiver}`}</Item.Header>
-                    <Item.Meta>{fromString(shoutout)}</Item.Meta>
+                    <Item.Group widths="equal" className={styles.shoutoutDetails}>
+                      <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
+                      <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
+                    </Item.Group>
                     <Item.Description>{shoutout.message}</Item.Description>
                   </Item.Content>
                 </Item>
