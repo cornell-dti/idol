@@ -25,7 +25,7 @@ describe('User is not lead or admin', () => {
   const devPortfolio = fakeDevPortfolio();
 
   test('getDevPortfolio should throw permission error', async () => {
-    await expect(getDevPortfolio('fake-uuid', user, true)).rejects.toThrow(
+    await expect(getDevPortfolio('fake-uuid', user)).rejects.toThrow(
       new PermissionError(
         `User with email ${user.email} does not have permission to view dev portfolios!`
       )
@@ -101,7 +101,7 @@ describe('User is lead or admin', () => {
   });
 
   test('getDevPortfolio should be successful', async () => {
-    const dp = await getDevPortfolio(devPortfolio.uuid, user, true);
+    const dp = await getDevPortfolio(devPortfolio.uuid, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(DevPortfolioDao.getDevPortfolio).toBeCalled();
     expect(dp.uuid).toEqual(devPortfolio.uuid);

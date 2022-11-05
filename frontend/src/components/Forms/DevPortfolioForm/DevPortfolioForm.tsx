@@ -49,9 +49,13 @@ const DevPortfolioForm: React.FC = () => {
 
   const refreshDevPortfolios = () => {
     setIsLoading(true);
-    DevPortfolioAPI.getAllDevPortfolios(false).then((devPortfolios) => {
+    DevPortfolioAPI.getAllDevPortfolioInfo().then((allDevPortfolioInfo) => {
       setIsLoading(false);
-      setDevPortfolios(devPortfolios);
+      setDevPortfolios(
+        allDevPortfolioInfo
+          .map((devPortfolioInfo) => devPortfolioInfo as DevPortfolio)
+          .filter((devPortfolio) => devPortfolio.earliestValidDate <= Date.now())
+      );
     });
   };
 
@@ -296,7 +300,7 @@ const DevPortfolioForm: React.FC = () => {
         <Divider />
         <DevPortfolioDashboard
           isLoading={isLoading}
-          devPortfolios={devPortfolios.filter((portfolio) => portfolio.submissions.length)}
+          devPortfolios={devPortfolios}
           setDevPortfolios={setDevPortfolios}
           setIsLoading={setIsLoading}
           isAdminView={false}

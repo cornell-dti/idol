@@ -3,36 +3,33 @@ import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
-export const getAllDevPortfolios = async (
-  user: IdolMember,
-  isAdminRequest: boolean
-): Promise<DevPortfolio[]> => {
-  if (!isAdminRequest) {
-    return DevPortfolioDao.getAllInstances(false, user);
-  }
-
+export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getAllInstances(isLeadOrAdmin, user);
+  return DevPortfolioDao.getAllInstances();
 };
 
-export const getDevPortfolio = async (
+export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> =>
+  DevPortfolioDao.getAllDevPortfolioInfo();
+
+export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInfo> =>
+  DevPortfolioDao.getDevPortfolioInfo(uuid);
+
+export const getUsersDevPortfolioSubmissions = async (
   uuid: string,
-  user: IdolMember,
-  isAdminRequest: boolean
-): Promise<DevPortfolio> => {
-  if (!isAdminRequest) {
-    return DevPortfolioDao.getDevPortfolio(uuid, false, user);
-  }
+  user: IdolMember
+): Promise<DevPortfolioSubmission[]> => DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
+
+export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getDevPortfolio(uuid, isLeadOrAdmin, user);
+  return DevPortfolioDao.getDevPortfolio(uuid);
 };
 
 export const createNewDevPortfolio = async (
@@ -74,7 +71,7 @@ export const makeDevPortfolioSubmission = async (
   uuid: string,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
-  const devPortfolio = await DevPortfolioDao.getDevPortfolio(uuid, true, submission.member);
+  const devPortfolio = await DevPortfolioDao.getDevPortfolio(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
   const latestDeadline = devPortfolio.lateDeadline

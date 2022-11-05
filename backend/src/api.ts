@@ -60,6 +60,9 @@ import {
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
   getDevPortfolio,
+  getAllDevPortfolioInfo,
+  getDevPortfolioInfo,
+  getUsersDevPortfolioSubmissions,
   regradeSubmissions,
   updateSubmissions
 } from './API/devPortfolioAPI';
@@ -288,16 +291,19 @@ loginCheckedPost('/sendMail', async (req, user) => ({
 
 // Dev Portfolios
 loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
-  portfolios: await getAllDevPortfolios(user, true)
+  portfolios: await getAllDevPortfolios(user)
+}));
+loginCheckedGet('/getAllDevPortfolioInfo', async (req, user) => ({
+  portfolioInfo: await getAllDevPortfolioInfo()
+}));
+loginCheckedGet('/getDevPortfolioInfo/:uuid', async (req, user) => ({
+  portfolioInfo: await getDevPortfolioInfo(req.params.uuid)
+}));
+loginCheckedGet('/getUsersDevPortfolioSubmissions/:uuid', async (req, user) => ({
+  submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
 }));
 loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
-  portfolio: await getDevPortfolio(req.params.uuid, user, true)
-}));
-loginCheckedGet('/getAllDevPortfoliosNonAdmin', async (req, user) => ({
-  portfolios: await getAllDevPortfolios(user, false)
-}));
-loginCheckedGet('/getDevPortfolioNonAdmin/:uuid', async (req, user) => ({
-  portfolio: await getDevPortfolio(req.params.uuid, user, false)
+  portfolio: await getDevPortfolio(req.params.uuid, user)
 }));
 loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)

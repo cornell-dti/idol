@@ -14,11 +14,7 @@ export function devPortfolioSubmissionToDBDevPortfolioSubmission(
 }
 
 export default class DevPortfolioDao {
-  private static async DBDevPortfolioToDevPortfolio(
-    data: DBDevPortfolio,
-    isAdminReq: boolean,
-    user: IdolMember | null
-  ): Promise<DevPortfolio> {
+  private static async DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): Promise<DevPortfolio> {
     const submissions = await Promise.all(
       data.submissions.map(async (submission) => {
         const fromDb = {
@@ -34,14 +30,7 @@ export default class DevPortfolioDao {
       })
     );
 
-    return {
-      ...data,
-      submissions: isAdminReq
-        ? submissions
-        : submissions.filter((submission) =>
-            user ? submission.member.email === user.email : false
-          )
-    };
+    return { ...data, submissions };
   }
 
   private static devPortfolioToDBDevPortfolio(instance: DevPortfolio): DBDevPortfolio {
@@ -55,13 +44,9 @@ export default class DevPortfolioDao {
     };
   }
 
-  public static async getDevPortfolio(
-    uuid: string,
-    isAdminReq: boolean,
-    user: IdolMember
-  ): Promise<DevPortfolio> {
+  public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
     const doc = await devPortfolioCollection.doc(uuid).get();
-    return this.DBDevPortfolioToDevPortfolio(doc.data() as DBDevPortfolio, isAdminReq, user);
+    return this.DBDevPortfolioToDevPortfolio(doc.data() as DBDevPortfolio);
   }
 
   static async makeDevPortfolioSubmission(
@@ -85,24 +70,47 @@ export default class DevPortfolioDao {
 
     const data = doc.data() as DBDevPortfolio;
 
-    return DevPortfolioDao.DBDevPortfolioToDevPortfolio(data, true, null);
+    return DevPortfolioDao.DBDevPortfolioToDevPortfolio(data);
   }
 
-  static async getAllInstances(
-    isAdminReq: boolean,
-    user: IdolMember | null
-  ): Promise<DevPortfolio[]> {
+  static async getAllInstances(): Promise<DevPortfolio[]> {
     const instanceRefs = await devPortfolioCollection.get();
 
     return Promise.all(
       instanceRefs.docs.map(async (instanceRefs) =>
-        DevPortfolioDao.DBDevPortfolioToDevPortfolio(
-          instanceRefs.data() as DBDevPortfolio,
-          isAdminReq,
-          user
-        )
+        DevPortfolioDao.DBDevPortfolioToDevPortfolio(instanceRefs.data() as DBDevPortfolio)
       )
     );
+  }
+
+  public static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
+    const instanceInfoRefs = await devPortfolioCollection
+      .select('deadline', 'earliestValidDate', 'name', 'uuid', 'lateDeadline')
+      .get();
+    return Promise.all(
+      instanceInfoRefs.docs.map(async (instanceRefs) => {
+        const { submissions, ...devPortfolioInfo } = instanceRefs.data() as DBDevPortfolio;
+        return devPortfolioInfo;
+      })
+    );
+  }
+
+  public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
+    const portfolioRef = await devPortfolioCollection.doc(uuid).get();
+    const { submissions, ...devPortfolioInfo } = portfolioRef.data() as DBDevPortfolio;
+    return devPortfolioInfo;
+  }
+
+  public static async getUsersDevPortfolioSubmissions(
+    uuid: string,
+    user: IdolMember
+  ): Promise<DevPortfolioSubmission[]> {
+    const portfolioData = (await devPortfolioCollection.doc(uuid).get()).data() as DBDevPortfolio;
+    const dBSubmissions = portfolioData.submissions.filter(
+      (submission) => submission.member.id === user.email
+    );
+
+    return dBSubmissions.map((submission) => ({ ...submission, member: user }));
   }
 
   static async createNewInstance(instance: DevPortfolio): Promise<DevPortfolio> {

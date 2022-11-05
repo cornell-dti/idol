@@ -140,15 +140,6 @@ interface PullRequestSubmission {
   reason?: string | null;
 }
 
-interface DevPortfolio {
-  name: string;
-  deadline: number;
-  earliestValidDate: number;
-  submissions: DevPortfolioSubmission[];
-  readonly uuid: string;
-  lateDeadline: number | null;
-}
-
 interface DevPortfolioSubmission {
   member: IdolMember;
   openedPRs: PullRequestSubmission[];
@@ -156,4 +147,16 @@ interface DevPortfolioSubmission {
   isLate?: boolean;
   text?: string;
   status: SubmissionStatus;
+}
+
+interface DevPortfolioInfo {
+  name: string;
+  deadline: number;
+  earliestValidDate: number;
+  readonly uuid: string;
+  lateDeadline: number | null;
+}
+
+interface DevPortfolio extends DevPortfolioInfo {
+  submissions: DevPortfolioSubmission[];
 }
