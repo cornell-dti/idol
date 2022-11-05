@@ -10,11 +10,11 @@ const ShoutoutCard = (props: Shoutout): JSX.Element => {
 
   return (
     <Card className={styles.shoutoutCardContainer}>
-      <Card.Content header={`To: ${receiver}`} />
       <Card.Group widths="equal" className={styles.shoutoutCardDetails}>
-        <Card.Meta className={styles.shoutoutFrom} content={fromString} />
-        <Card.Meta className={styles.shoutoutDate} content={dateString} />
+        <Card.Content header={`To: ${receiver}`} className={styles.shoutoutTo} />
+        <Card.Content className={styles.shoutoutDate} content={dateString} />
       </Card.Group>
+      <Card.Meta className={styles.shoutoutFrom} content={fromString} />
       <Card.Content description={message} />
     </Card>
   );

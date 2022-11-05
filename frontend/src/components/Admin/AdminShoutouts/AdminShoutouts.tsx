@@ -81,11 +81,13 @@ const AdminShoutouts: React.FC = () => {
               .map((shoutout, i) => (
                 <Item key={i}>
                   <Item.Content>
-                    <Item.Header>{`To: ${shoutout.receiver}`}</Item.Header>
                     <Item.Group widths="equal" className={styles.shoutoutDetails}>
-                      <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
+                      <Item.Header
+                        className={styles.shoutoutTo}
+                      >{`To: ${shoutout.receiver}`}</Item.Header>
                       <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
                     </Item.Group>
+                    <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
                     <Item.Description>{shoutout.message}</Item.Description>
                   </Item.Content>
                 </Item>
