@@ -11,7 +11,8 @@ const mockShoutout1 = {
   giver: shoutoutData.mu1,
   receiver: 'Fake Idol Member',
   message: 'Mock Shoutout',
-  isAnon: false
+  isAnon: false,
+  timestamp: Date.now()
 };
 
 /* Adding mock users for testing sign-ins */

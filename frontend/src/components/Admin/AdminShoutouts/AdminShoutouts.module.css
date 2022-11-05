@@ -1,11 +1,48 @@
-.shoutoutsContainer {
+.shoutoutForm {
+  width: 90% !important;
+  align-self: center;
+  margin: auto;
+  padding-top: 10vh;
+  padding-bottom: 5vh;
+}
+
+.formTitle {
+  margin-bottom: 2vh;
+}
+
+.shoutoutsListContainer {
   padding-left: 5%;
-  padding-top: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
 }
 
 .noShoutoutsContainer {
-  width: 90% !important;
+  width: 100% !important;
   white-space: pre-wrap;
+}
+
+.shoutoutDetails {
+  display: flex;
+  justify-content: space-between !important;
+  margin-bottom: 0 !important;
+}
+
+.shoutoutTo {
+  color: black;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.shoutoutDate {
+  color: gray;
+  display: inline-block !important;
+  justify-content: right;
+}
+
+.shoutoutFrom {
+  color: gray;
+  display: inline-block;
+  align-self: left;
 }
 
 .Wrapper {

@@ -25,12 +25,13 @@ export default class ShoutoutsDao {
       .get();
     return Promise.all(
       shoutoutRefs.docs.map(async (shoutoutRef) => {
-        const { giver, receiver, message, isAnon } = shoutoutRef.data();
+        const { giver, receiver, message, isAnon, timestamp } = shoutoutRef.data();
         return {
           giver: await getMemberFromDocumentReference(giver),
           receiver,
           message,
-          isAnon
+          isAnon,
+          timestamp
         };
       })
     );
@@ -41,6 +42,7 @@ export default class ShoutoutsDao {
     receiver: string;
     message: string;
     isAnon: boolean;
+    timestamp: number;
   }): Promise<Shoutout> {
     const shoutoutRef: DBShoutout = {
       ...shoutout,

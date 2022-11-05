@@ -1,0 +1,33 @@
+.shoutoutCardContainer {
+  width: 100% !important;
+}
+
+.shoutoutCardDetails {
+  justify-content: space-between;
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.shoutoutTo {
+  color: black;
+  font-weight: bold;
+  font-size: 15px;
+  padding-bottom: 1rem;
+}
+
+.shoutoutDate {
+  color: gray;
+  flex: 1;
+  text-align: right;
+  padding-right: 1.5rem;
+  display: inline-block !important;
+  padding-bottom: 1rem;
+}
+
+.shoutoutFrom {
+  color: gray;
+  display: inline-block;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+  align-self: left;
+}
