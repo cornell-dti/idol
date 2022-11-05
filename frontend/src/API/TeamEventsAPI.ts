@@ -11,6 +11,11 @@ export type EventAttendance = TeamEventAttendance;
 
 export type Event = TeamEvent;
 
+export type MemberTECRequests = {
+  pending: TeamEventInfo[];
+  approved: TeamEventInfo[];
+};
+
 export class TeamEventsAPI {
   public static getAllTeamEvents(): Promise<Event[]> {
     const eventsProm = APIWrapper.get(`${backendURL}/getAllTeamEvents`).then((res) => res.data);
@@ -27,6 +32,20 @@ export class TeamEventsAPI {
     });
   }
 
+  public static getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
+    const res = APIWrapper.get(`${backendURL}/getAllTeamEventINfo`).then((res) => res.data);
+    return res.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't get all events",
+          contentMsg: `Error was: ${val.err}`
+        });
+        return [];
+      }
+      return val.allTeamEventInfo as TeamEventInfo[];
+    });
+  }
+
   public static getTeamEventForm(uuid: string): Promise<Event> {
     const eventProm = APIWrapper.get(`${backendURL}/getTeamEvent/${uuid}`).then((res) => res.data);
     return eventProm.then((val) => {
@@ -37,13 +56,6 @@ export class TeamEventsAPI {
 
   public static createTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
     return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEvent).then((res) => res.data);
-  }
-
-  public static requestTeamEventCredit(teamEvent: Event): Promise<TeamEventResponseObj> {
-    // need to add image processing
-    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
-      (res) => res.data.event
-    );
   }
 
   public static async deleteTeamEventForm(teamEvent: Event): Promise<void> {
@@ -58,5 +70,16 @@ export class TeamEventsAPI {
 
   public static async clearAllTeamEvents(): Promise<void> {
     await APIWrapper.delete(`${backendURL}/clearAllTeamEvents`);
+  }
+
+  public static async requestTeamEventCredit(
+    uuid: string,
+    request: TeamEventAttendance
+  ): Promise<void> {
+    APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { uuid, request });
+  }
+
+  public static async getAllTeamEventsForMember(): Promise<MemberTECRequests> {
+    return APIWrapper.get(`${backendURL}/getAllTeamEventsForMember`).then((val) => val.data);
   }
 }

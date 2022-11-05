@@ -115,4 +115,33 @@ export default class TeamEventsDao {
     const proofImageFiles = await bucket.getFiles({ prefix: 'eventProofs/' });
     await Promise.all(proofImageFiles[0].map((file) => file.delete()));
   }
+
+  static async getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
+    const docRefs = await teamEventsCollection
+      .select('name', 'date', 'numCredits', 'hasHours', 'uuid')
+      .get();
+    return docRefs.docs.map((doc) => doc.data() as TeamEventInfo);
+  }
+
+  /**
+   * Gets all TEC requests for a member
+   * @param email - email of the user
+   * @param isPending - get pending or approved requests
+   */
+  static async getTeamEventsForMember(email: string, isPending: boolean): Promise<TeamEventInfo[]> {
+    const allTeamEvents = await this.getAllTeamEvents();
+    const memberTeamEventInfoList = allTeamEvents.reduce(
+      (teamEvents: TeamEventInfo[], teamEvent: TeamEvent) => {
+        const attendanceList = isPending ? teamEvent.requests : teamEvent.attendees;
+        const hasMemberRequest = attendanceList.some((val) => val.member.email === email);
+        if (hasMemberRequest) {
+          const { attendees, requests, ...teamEventInfo } = teamEvent;
+          return [...teamEvents, teamEventInfo];
+        }
+        return teamEvents;
+      },
+      []
+    );
+    return memberTeamEventInfoList;
+  }
 }

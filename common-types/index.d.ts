@@ -82,14 +82,17 @@ interface TeamEventAttendance {
   image: string;
 }
 
-interface TeamEvent {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
+interface TeamEventInfo {
+  readonly name: string;
+  readonly date: string;
+  readonly numCredits: string;
+  readonly hasHours: boolean;
+  readonly uuid: string;
+}
+
+interface TeamEvent extends TeamEventInfo {
   readonly attendees: TeamEventAttendance[];
   readonly requests: TeamEventAttendance[];
-  readonly uuid: string;
 }
 
 interface EventProofImage {

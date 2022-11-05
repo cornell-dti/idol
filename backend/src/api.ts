@@ -36,10 +36,13 @@ import {
 import {
   createTeamEvent,
   deleteTeamEvent,
+  getAllTeamEventInfo,
   getAllTeamEvents,
   getTeamEvent,
   updateTeamEvent,
-  clearAllTeamEvents
+  clearAllTeamEvents,
+  requestTeamEventCredit,
+  getAllTeamEventsForMember
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -259,6 +262,17 @@ loginCheckedDelete('/clearAllTeamEvents', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
+loginCheckedGet('/getAllTeamEventInfo', async () => ({
+  allTeamEventInfo: await getAllTeamEventInfo()
+}));
+loginCheckedPost('/requestTeamEventCredit', async (req, _) => {
+  await requestTeamEventCredit(req.body.uuid, req.body.request);
+  return {};
+});
+loginCheckedGet('/getAllTeamEventsForMember', async (_, user) => ({
+  pending: await getAllTeamEventsForMember(user.email, true),
+  approved: await getAllTeamEventsForMember(user.email, false)
+}));
 
 // Team Events Proof Image
 loginCheckedGet('/getEventProofImage/:name(*)', async (req, user) => ({
