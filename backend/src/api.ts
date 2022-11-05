@@ -247,7 +247,7 @@ loginCheckedPost('/updateTeamEvent', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => {
-  await deleteTeamEvent(req.body, user);
+  await deleteTeamEvent(req.body.uuid, user);
   return {};
 });
 

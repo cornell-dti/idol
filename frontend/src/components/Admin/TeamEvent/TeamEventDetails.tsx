@@ -47,7 +47,7 @@ const TeamEventDetails: React.FC = () => {
   }, [isLoading, uuid]);
 
   const deleteTeamEvent = () => {
-    TeamEventsAPI.deleteTeamEventForm(teamEvent).then(() => {
+    TeamEventsAPI.deleteTeamEventForm(teamEvent.uuid).then(() => {
       Emitters.generalSuccess.emit({
         headerMsg: 'Team Event Deleted!',
         contentMsg: 'The team event was successfully deleted!'

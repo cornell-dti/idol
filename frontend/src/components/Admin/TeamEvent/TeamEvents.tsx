@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Message } from 'semantic-ui-react';
-import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
+import TECDeleteModal from '../../Modals/TECDeleteModal';
 
 const TeamEvents: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
@@ -45,15 +45,22 @@ const TeamEvents: React.FC = () => {
         {teamEvents.length !== 0 ? (
           <Card.Group>
             {teamEvents.map((teamEvent) => (
-              <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
-                <Card>
-                  <Card.Content>
-                    <Card.Header>{teamEvent.name} </Card.Header>
-                    <Card.Meta>{teamEvent.date}</Card.Meta>
-                    <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
-                  </Card.Content>
-                </Card>
-              </Link>
+              <Card>
+                <Card.Content>
+                  <TECDeleteModal
+                    uuid={teamEvent.uuid}
+                    name={teamEvent.name}
+                    setTeamEvents={setTeamEvents}
+                  />
+                  <Card.Header>
+                    <a key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
+                      {teamEvent.name}
+                    </a>
+                  </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                  <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
+                </Card.Content>
+              </Card>
             ))}
           </Card.Group>
         ) : (

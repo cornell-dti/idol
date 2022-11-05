@@ -57,10 +57,10 @@ export default class TeamEventsDao {
     };
   }
 
-  static async deleteTeamEvent(teamEvent: TeamEvent): Promise<void> {
-    const eventDoc = teamEventsCollection.doc(teamEvent.uuid);
+  static async deleteTeamEvent(uuid: string): Promise<void> {
+    const eventDoc = teamEventsCollection.doc(uuid);
     const eventRef = await eventDoc.get();
-    if (!eventRef.exists) throw new NotFoundError(`No team event '${teamEvent.uuid}' exists.`);
+    if (!eventRef.exists) throw new NotFoundError(`No team event '${uuid}' exists.`);
     await eventDoc.delete();
   }
 
