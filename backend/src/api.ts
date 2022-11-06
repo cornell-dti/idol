@@ -38,7 +38,8 @@ import {
   deleteTeamEvent,
   getAllTeamEvents,
   getTeamEvent,
-  updateTeamEvent
+  updateTeamEvent,
+  clearAllTeamEvents
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -248,6 +249,10 @@ loginCheckedPost('/updateTeamEvent', async (req, user) => ({
 }));
 loginCheckedPost('/deleteTeamEvent', async (req, user) => {
   await deleteTeamEvent(req.body, user);
+  return {};
+});
+loginCheckedDelete('/clearAllTeamEvents', async (_, user) => {
+  await clearAllTeamEvents(user);
   return {};
 });
 

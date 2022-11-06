@@ -103,4 +103,12 @@ export default class TeamEventsDao {
     await teamEventsCollection.doc(event.uuid).update(teamEventRef);
     return event;
   }
+
+  static async deleteAllTeamEvents(): Promise<void> {
+    const batch = teamEventsCollection.firestore.batch();
+    const coll = await teamEventsCollection.get();
+
+    coll.docs.forEach((doc) => batch.delete(doc.ref));
+    await batch.commit();
+  }
 }

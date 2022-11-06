@@ -55,4 +55,8 @@ export class TeamEventsAPI {
       (rest) => rest.data.event
     );
   }
+
+  public static async clearAllTeamEvents(): Promise<void> {
+    await APIWrapper.delete(`${backendURL}/clearAllTeamEvents`);
+  }
 }
