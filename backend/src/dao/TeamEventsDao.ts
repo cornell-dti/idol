@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { TeamEvent, DBTeamEvent } from '../types/DataTypes';
-import { memberCollection, teamEventsCollection } from '../firebase';
+import { memberCollection, teamEventsCollection, bucket } from '../firebase';
 import { NotFoundError } from '../utils/errors';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
@@ -104,11 +104,15 @@ export default class TeamEventsDao {
     return event;
   }
 
+  /* Deletes all team event documents and proof images */
   static async deleteAllTeamEvents(): Promise<void> {
     const batch = teamEventsCollection.firestore.batch();
     const coll = await teamEventsCollection.get();
 
     coll.docs.forEach((doc) => batch.delete(doc.ref));
     await batch.commit();
+
+    const proofImageFiles = await bucket.getFiles({ prefix: 'eventProofs/' });
+    await Promise.all(proofImageFiles[0].map((file) => file.delete()));
   }
 }
