@@ -33,7 +33,7 @@ export class TeamEventsAPI {
   }
 
   public static getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
-    const res = APIWrapper.get(`${backendURL}/getAllTeamEventINfo`).then((res) => res.data);
+    const res = APIWrapper.get(`${backendURL}/getAllTeamEventInfo`).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
