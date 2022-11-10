@@ -24,7 +24,7 @@ import {
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
-import { getAllShoutouts, getShoutouts, giveShoutout } from './API/shoutoutAPI';
+import { getAllShoutouts, getShoutouts, giveShoutout, hideShoutout } from './API/shoutoutAPI';
 import {
   allSignInForms,
   createSignInForm,
@@ -204,6 +204,10 @@ loginCheckedGet('/allShoutouts', async () => ({
 
 loginCheckedPost('/giveShoutout', async (req, user) => ({
   shoutout: await giveShoutout(req.body, user)
+}));
+
+loginCheckedPost('/hideShoutout', async (req, user) => ({
+  shoutout: await hideShoutout(req.body, user)
 }));
 
 // Permissions

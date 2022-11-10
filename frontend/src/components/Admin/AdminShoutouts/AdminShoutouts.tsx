@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Form, Item, Card } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
@@ -10,6 +10,7 @@ const AdminShoutouts: React.FC = () => {
   const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 12096e5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
+  const [hide, setHide] = useState(false);
 
   const updateShoutouts = useCallback(() => {
     ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
@@ -23,16 +24,17 @@ const AdminShoutouts: React.FC = () => {
         setDisplayShoutouts(
           shoutouts.filter((shoutout) => {
             const shoutoutDate = new Date(shoutout.timestamp);
-            return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
+            return !shoutout.hidden && shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
           })
         );
+        setHide(false);
       }
     });
-  }, [earlyDate, lastDate]);
+  }, [earlyDate, lastDate, setHide]);
 
   useEffect(() => {
     updateShoutouts();
-  }, [earlyDate, lastDate, updateShoutouts]);
+  }, [earlyDate, lastDate, hide, updateShoutouts]);
 
   const fromString = (shoutout: Shoutout): string => {
     if (!shoutout.isAnon) {
@@ -56,6 +58,18 @@ const AdminShoutouts: React.FC = () => {
         onChange={(date: Date) => dateFunction(date)}
       />
     );
+  };
+
+  const onHide = (shoutout: Shoutout) => {
+    if (!shoutout.hidden) {
+      setHide(true);
+      ShoutoutsAPI.hideShoutout({ ...shoutout, hidden: true }).then(() => {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Shoutout Hidden',
+          contentMsg: 'This shoutout was successfully hidden.'
+        });
+      });
+    }
   };
 
   return (
@@ -84,11 +98,30 @@ const AdminShoutouts: React.FC = () => {
                     <Item.Group widths="equal" className={styles.shoutoutDetails}>
                       <Item.Header
                         className={styles.shoutoutTo}
-                      >{`To: ${shoutout.receiver}`}</Item.Header>
+                      >{`${shoutout.receiver}`}</Item.Header>
                       <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
                     </Item.Group>
-                    <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
-                    <Item.Description>{shoutout.message}</Item.Description>
+                    <Item.Group widths="equal" className={styles.shoutoutHide}>
+                      <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
+                      <Modal
+                        trigger={<Button icon="eye" size="tiny" />}
+                        header="Hide Shoutout"
+                        content="Are you sure that you want to hide this shoutout?"
+                        actions={[
+                          'Cancel',
+                          {
+                            key: 'hideShoutout',
+                            content: 'Hide Shoutout',
+                            color: 'red',
+                            onClick: () => onHide(shoutout)
+                          }
+                        ]}
+                      />
+                    </Item.Group>
+                    <Item.Description
+                      className={styles.shoutoutMessage}
+                      content={shoutout.message}
+                    />
                   </Item.Content>
                 </Item>
               ))}

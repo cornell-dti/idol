@@ -42,7 +42,22 @@
 .shoutoutFrom {
   color: gray;
   display: inline-block;
+  margin-top: 0 !important;
   align-self: left;
+}
+
+.shoutoutHide {
+  display: flex;
+  justify-content: space-between !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.shoutoutMessage {
+  color: black;
+  font-weight: bold;
+  margin-top: 0 !important;
+  font-size: 15px !important;
 }
 
 .Wrapper {

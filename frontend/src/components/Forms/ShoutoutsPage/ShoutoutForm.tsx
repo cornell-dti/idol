@@ -30,7 +30,9 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         receiver,
         message,
         isAnon,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        hidden: false,
+        uuid: ''
       };
       ShoutoutsAPI.giveShoutout(shoutout).then((val) => {
         if (val.error) {

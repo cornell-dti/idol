@@ -5,16 +5,7 @@ import ShoutoutsDao from '../dao/ShoutoutsDao';
 
 export const getAllShoutouts = (): Promise<Shoutout[]> => ShoutoutsDao.getAllShoutouts();
 
-export const giveShoutout = async (
-  body: {
-    giver: IdolMember;
-    receiver: string;
-    message: string;
-    isAnon: boolean;
-    timestamp: number;
-  },
-  user: IdolMember
-): Promise<Shoutout> => {
+export const giveShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
   if (body.giver.email !== user.email) {
     throw new PermissionError(
       `User with email: ${user.email} can't post a shoutout from a different user!`
@@ -35,4 +26,15 @@ export const getShoutouts = async (
     );
   }
   return ShoutoutsDao.getShoutouts(memberEmail, type);
+};
+
+export const hideShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
+  const canEdit = await PermissionsManager.canHideShoutouts(user);
+  if (!canEdit) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to hide shoutouts!`
+    );
+  }
+  await ShoutoutsDao.hideShoutout(body);
+  return body;
 };

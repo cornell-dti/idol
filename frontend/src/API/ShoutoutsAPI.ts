@@ -9,6 +9,8 @@ export type Shoutout = {
   message: string;
   isAnon: boolean;
   timestamp: number;
+  hidden: boolean;
+  uuid: string;
 };
 
 type ShoutoutResponseObj = {
@@ -51,5 +53,9 @@ export class ShoutoutsAPI {
 
   public static giveShoutout(shoutout: Shoutout): Promise<ShoutoutResponseObj> {
     return APIWrapper.post(`${backendURL}/giveShoutout`, shoutout).then((res) => res.data);
+  }
+
+  public static hideShoutout(shoutout: Shoutout): Promise<ShoutoutResponseObj> {
+    return APIWrapper.post(`${backendURL}/hideShoutout`, shoutout).then((res) => res.data);
   }
 }

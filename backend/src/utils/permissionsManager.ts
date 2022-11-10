@@ -25,6 +25,10 @@ export default class PermissionsManager {
     return this.isLeadOrAdmin(mem);
   }
 
+  static async canHideShoutouts(mem: IdolMember): Promise<boolean> {
+    return this.isLeadOrAdmin(mem);
+  }
+
   static async canEditTeamEvent(mem: IdolMember): Promise<boolean> {
     return this.isLeadOrAdmin(mem);
   }
