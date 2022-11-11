@@ -58,15 +58,27 @@ export default class ShoutoutsDao {
     return shoutout;
   }
 
+  static async getInstance(uuid: string): Promise<Shoutout> {
+    const doc = shoutoutCollection.doc(uuid);
+    const shoutout = await doc.get();
+    if (!shoutout.exists) throw new NotFoundError(`No shoutout '${uuid}' exists.`);
+
+    const data = shoutout.data() as DBShoutout;
+
+    const shoutoutRef: Shoutout = {
+      ...data,
+      giver: await getMemberFromDocumentReference(data.giver)
+    };
+
+    return shoutoutRef;
+  }
+
   static async hideShoutout(shoutout: Shoutout): Promise<Shoutout> {
-    const shoutoutDoc = shoutoutCollection.doc(shoutout.uuid);
-    const ref = await shoutoutDoc.get();
-    if (!ref.exists) throw new NotFoundError(`No shoutout '${shoutout.uuid}' exists.`);
     const shoutoutRef: DBShoutout = {
       ...shoutout,
       giver: memberCollection.doc(shoutout.giver.email)
     };
-    await shoutoutCollection.doc(shoutout.uuid).update(shoutoutRef);
+    await shoutoutCollection.doc(shoutout.uuid).set(shoutoutRef);
     return shoutout;
   }
 }
