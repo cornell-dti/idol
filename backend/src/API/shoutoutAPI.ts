@@ -28,21 +28,13 @@ export const getShoutouts = async (
   return ShoutoutsDao.getShoutouts(memberEmail, type);
 };
 
-export const hideShoutout = async (body: string, user: IdolMember): Promise<Shoutout> => {
+export const hideShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
   const canEdit = await PermissionsManager.canHideShoutouts(user);
   if (!canEdit) {
     throw new PermissionError(
       `User with email: ${user.email} does not have permission to hide shoutouts!`
     );
   }
-
-  const shoutout = await ShoutoutsDao.getInstance(body);
-
-  const shoutoutRef = {
-    ...shoutout,
-    hidden: true
-  };
-
-  await ShoutoutsDao.hideShoutout(shoutoutRef);
-  return shoutoutRef;
+  await ShoutoutsDao.hideShoutout(body);
+  return body;
 };
