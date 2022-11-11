@@ -4,6 +4,7 @@
   margin: auto;
   padding-top: 10vh;
   height: calc(100vh - 150px - 25vh);
+  margin-bottom: 5%;
 }
 
 .shoutoutListContainer {
