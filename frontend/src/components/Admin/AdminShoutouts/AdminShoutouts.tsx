@@ -63,7 +63,7 @@ const AdminShoutouts: React.FC = () => {
   const onHide = (shoutout: Shoutout) => {
     if (!shoutout.hidden) {
       setHide(true);
-      ShoutoutsAPI.hideShoutout({ ...shoutout, hidden: true }).then(() => {
+      ShoutoutsAPI.updateShoutout({ ...shoutout, hidden: true }).then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Shoutout Hidden',
           contentMsg: 'This shoutout was successfully hidden.'
@@ -110,7 +110,7 @@ const AdminShoutouts: React.FC = () => {
                         actions={[
                           'Cancel',
                           {
-                            key: 'hideShoutout',
+                            key: 'updateShoutout',
                             content: 'Hide Shoutout',
                             color: 'red',
                             onClick: () => onHide(shoutout)

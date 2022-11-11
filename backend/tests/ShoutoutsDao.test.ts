@@ -51,6 +51,6 @@ test('Get sent shoutout', async () => {
 });
 
 test('Hide shoutout', async () => {
-  const hiddenShoutout = await ShoutoutsDao.hideShoutout(mockShoutout1);
+  const hiddenShoutout = await ShoutoutsDao.updateShoutout(mockShoutout1);
   expect(hiddenShoutout.hidden === true);
 });

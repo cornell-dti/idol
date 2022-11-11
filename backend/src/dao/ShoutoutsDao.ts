@@ -58,7 +58,7 @@ export default class ShoutoutsDao {
     return shoutout;
   }
 
-  static async hideShoutout(shoutout: Shoutout): Promise<Shoutout> {
+  static async updateShoutout(shoutout: Shoutout): Promise<Shoutout> {
     const shoutoutDoc = shoutoutCollection.doc(shoutout.uuid);
     const ref = await shoutoutDoc.get();
     if (!ref.exists) throw new NotFoundError(`No shoutout '${shoutout.uuid}' exists.`);
