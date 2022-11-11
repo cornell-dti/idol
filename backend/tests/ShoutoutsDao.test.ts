@@ -12,7 +12,9 @@ const mockShoutout1 = {
   receiver: 'Fake Idol Member',
   message: 'Mock Shoutout',
   isAnon: false,
-  timestamp: Date.now()
+  timestamp: Date.now(),
+  hidden: false,
+  uuid: 'xyz'
 };
 
 /* Adding mock users for testing sign-ins */
@@ -46,4 +48,9 @@ test('Send shoutout', async () => {
 test('Get sent shoutout', async () => {
   const shoutoutsSent = await ShoutoutsDao.getShoutouts(shoutoutData.mu1.email, 'given');
   expect(shoutoutsSent).toContainEqual(mockShoutout1);
+});
+
+test('Hide shoutout', async () => {
+  const hiddenShoutout = await ShoutoutsDao.updateShoutout(mockShoutout1);
+  expect(hiddenShoutout.hidden === true);
 });

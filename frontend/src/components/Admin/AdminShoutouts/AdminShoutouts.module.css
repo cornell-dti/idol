@@ -1,5 +1,5 @@
 .shoutoutForm {
-  width: 90% !important;
+  width: 90%;
   align-self: center;
   margin: auto;
   padding-top: 10vh;
@@ -17,13 +17,13 @@
 }
 
 .noShoutoutsContainer {
-  width: 100% !important;
+  width: 100%;
   white-space: pre-wrap;
 }
 
 .shoutoutDetails {
   display: flex;
-  justify-content: space-between !important;
+  justify-content: space-between;
   margin-bottom: 0 !important;
 }
 
@@ -35,14 +35,29 @@
 
 .shoutoutDate {
   color: gray;
-  display: inline-block !important;
+  display: inline-block;
   justify-content: right;
 }
 
 .shoutoutFrom {
   color: gray;
   display: inline-block;
+  margin-top: 0 !important;
   align-self: left;
+}
+
+.shoutoutHide {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.shoutoutMessage {
+  color: black;
+  font-weight: bold;
+  margin-top: 0 !important;
+  font-size: 15px !important;
 }
 
 .Wrapper {
