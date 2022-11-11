@@ -16,7 +16,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const user = members.find((it) => it.email === userEmail);
   const [receiver, setReceiver] = useState('');
   const [message, setMessage] = useState('');
-  const [isAnon, setIsAnon] = useState(false);
+  const [isAnon, setIsAnon] = useState(true);
 
   const giveShoutout = () => {
     if (!receiver) {
@@ -65,6 +65,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         <Checkbox
           label={{ children: 'Anonymous?' }}
           className={styles.isAnonCheckbox}
+          defaultChecked
           onChange={() => setIsAnon(!isAnon)}
         />
       </div>
