@@ -7,8 +7,7 @@ const navCardItems: readonly NavigationCardItem[] = [
   {
     header: 'Shoutouts',
     description: 'Give someone a shoutout or view your past given shoutouts.',
-    link: '/forms/shoutouts',
-    adminOnly: true
+    link: '/forms/shoutouts'
   },
   {
     header: 'Edit Profile',

@@ -24,7 +24,7 @@ export default function AppTemplate(props: AppProps): JSX.Element {
       <Head>
         <meta charSet="utf-8" />
         <link rel="icon" href="/dti-logo.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="theme-color" content="#FFFFFF" />
         <meta name="description" content="Cornell DTI's Internal DTI Organization Logic (IDOL)" />
         <link rel="apple-touch-icon" href="/dti-logo.png" />
