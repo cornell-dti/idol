@@ -96,7 +96,7 @@ const IndexPage = (): JSX.Element => (
           <a href={productCard.siteURL} className={styles.imageAndText}>
             {i > 0 ? <div className={styles.topPipe}></div> : <></>}
             {i < productCards.length - 1 ? <div className={styles.bottomPipe}></div> : <></>}
-            
+
             <Card.Img
               className={styles.productImage}
               src={productCard.imageURL}
@@ -109,7 +109,6 @@ const IndexPage = (): JSX.Element => (
             </Card.Body>
           </a>
         </Card>
-        
       ))}
     </>
   </Layout>
