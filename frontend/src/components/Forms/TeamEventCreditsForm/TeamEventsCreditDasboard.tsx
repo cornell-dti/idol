@@ -32,7 +32,7 @@ const TeamEventCreditDashboard = (): JSX.Element => {
         <div className={styles.header}></div>
         <h1>Check Team Event Credits</h1>
         <p>
-          Check your team event credit status for this semester here! Every DTI member must complete
+          Check your team event credit status for this semester here! Every DTI member must complete{' '}
           {REQUIRED_TEC_CREDITS} team event credits to fulfill this requirement.
         </p>
 
