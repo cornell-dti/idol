@@ -16,6 +16,32 @@
   background: #ffffff;
 }
 
+.topPipe {
+  position: absolute;
+  top: -15px;
+  left: 277px;
+  background-color: #bcbcbc;
+  height: 350px;
+  width: 0.5%;
+}
+
+.bottomPipe {
+  position: absolute;
+  top: 70px;
+  left: 277px;
+  background-color: #bcbcbc;
+  height: 350px;
+  width: 0.5%;
+}
+
+.productCard:hover .topPipe {
+  z-index: -1;
+}
+
+.productCard:hover .bottomPipe {
+  z-index: -1;
+}
+
 .year {
   font-family: 'Inter';
   font-style: normal;
@@ -69,24 +95,6 @@
   margin-right: 10%;
   font-size: 90%;
   text-align: center;
-}
-
-.topPipe {
-  position: absolute;
-  top: -15px;
-  left: 277px;
-  background-color: #bcbcbc;
-  height: 350px;
-  width: 0.5%;
-}
-
-.bottomPipe {
-  position: absolute;
-  top: 70px;
-  left: 277px;
-  background-color: #bcbcbc;
-  height: 350px;
-  width: 0.5%;
 }
 
 .productText {

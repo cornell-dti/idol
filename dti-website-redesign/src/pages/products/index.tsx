@@ -93,10 +93,10 @@ const IndexPage = (): JSX.Element => (
     <>
       {productCards.map((productCard, i) => (
         <Card key={i} className={styles.productCard}>
-          <a href={productCard.siteURL} className={styles.imageAndText}>
-            {i > 0 ? <div className={styles.topPipe}></div> : <></>}
-            {i < productCards.length - 1 ? <div className={styles.bottomPipe}></div> : <></>}
+          {i > 0 ? <div className={styles.topPipe}></div> : <></>}
+          {i < productCards.length - 1 ? <div className={styles.bottomPipe}></div> : <></>}
 
+          <a href={productCard.siteURL} className={styles.imageAndText}>
             <Card.Img
               className={styles.productImage}
               src={productCard.imageURL}
