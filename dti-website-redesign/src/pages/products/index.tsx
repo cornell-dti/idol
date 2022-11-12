@@ -4,6 +4,7 @@ import styles from './index.module.css';
 
 type ProductCard = {
   imageURL: string;
+  siteURL: string;
   year: string;
   name: string;
   description: string;
@@ -12,6 +13,7 @@ type ProductCard = {
 const productCards: ProductCard[] = [
   {
     imageURL: '/static/products/cureview.png',
+    siteURL: '/products/cureviews',
     year: 'Fall 2017',
     name: 'CU Reviews',
     description:
@@ -19,6 +21,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/queuemein.png',
+    siteURL: '/products/queuemein',
     year: 'Fall 2017',
     name: 'Queue Me In',
     description:
@@ -26,6 +29,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/courseplan.png',
+    siteURL: '/products/courseplan',
     year: 'Fall 2019',
     name: 'CoursePlan',
     description:
@@ -33,6 +37,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/carriage.png',
+    siteURL: '/products/carriage',
     year: 'Fall 2019',
     name: 'Carriage',
     description:
@@ -40,6 +45,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/cuapt.png',
+    siteURL: '/products/cuapt',
     year: 'Fall 2020',
     name: 'CU Apartments',
     description:
@@ -47,6 +53,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/designatcornell.png',
+    siteURL: '/products/designatcornell',
     year: 'Fall 2020',
     name: 'Design @ Cornell',
     description:
@@ -54,6 +61,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/zing.png',
+    siteURL: '/products/zing',
     year: 'Spring 2021',
     name: 'Zing',
     description:
@@ -61,6 +69,7 @@ const productCards: ProductCard[] = [
   },
   {
     imageURL: '/static/products/cornellgo.png',
+    siteURL: '/products/cornellgo',
     year: 'Fall 2021',
     name: 'Cornell Go',
     description:
@@ -84,9 +93,10 @@ const IndexPage = (): JSX.Element => (
     <>
       {productCards.map((productCard, i) => (
         <Card key={i} className={styles.productCard}>
-          <div className={styles.imageAndText}>
+          <a href={productCard.siteURL} className={styles.imageAndText}>
             {i > 0 ? <div className={styles.topPipe}></div> : <></>}
             {i < productCards.length - 1 ? <div className={styles.bottomPipe}></div> : <></>}
+            
             <Card.Img
               className={styles.productImage}
               src={productCard.imageURL}
@@ -97,8 +107,9 @@ const IndexPage = (): JSX.Element => (
               <Card.Title className={styles.productName}>{productCard.name}</Card.Title>
               <Card.Text className={styles.productDescription}>{productCard.description}</Card.Text>
             </Card.Body>
-          </div>
+          </a>
         </Card>
+        
       ))}
     </>
   </Layout>
