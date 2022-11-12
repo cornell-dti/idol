@@ -6,7 +6,6 @@
   justify-content: center;
   width: 50rem;
   padding: 20px;
-
 }
 
 .year {
@@ -15,7 +14,7 @@
   font-weight: 700;
   font-size: 90%;
   line-height: 122%;
-  color: #C1C1C1;
+  color: #c1c1c1;
 }
 
 .productName {
@@ -36,17 +35,50 @@
   color: #000000;
 }
 
-
 .imageAndText {
   display: flex;
   flex-direction: row;
 }
 
 .productImage {
+  position: relative;
   margin-top: 5%;
   margin-bottom: 5%;
-  width: 60%;
-  height: 60%
+  max-width: 60%;
+  height: 60%;
+}
+
+.ourProductsTitle {
+  margin-top: 5%;
+  margin-bottom: 1%;
+  font-size: 250%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.ourProductsDescription {
+  margin-left: 10%;
+  margin-right: 10%;
+  font-size: 90%;
+  text-align: center;
+}
+
+.topPipe {
+  position: absolute;
+  top: -15px;
+  left: 277px;
+  background-color: #bcbcbc;
+  height: 350px;
+  width: 0.5%;
+}
+
+.bottomPipe {
+  position: absolute;
+  top: 70px;
+  left: 277px;
+  background-color: #bcbcbc;
+  height: 350px;
+  width: 0.5%;
 }
 
 .productText {
@@ -55,3 +87,13 @@
   margin-bottom: auto;
 }
 
+.productConnectingBar {
+  position: absolute;
+  width: 4710.28px;
+  height: 0px;
+  left: 531.5px;
+  top: 5920.14px;
+
+  border: 4.50956px solid #bcbcbc;
+  transform: rotate(-90deg);
+}
