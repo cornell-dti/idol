@@ -3,10 +3,12 @@
   border-radius: 30px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 125px;
+  margin-bottom: 125px;
   justify-content: center;
   width: 50rem;
+  max-width: 1200px;
+  max-height: 500px;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -18,19 +20,19 @@
 
 .topPipe {
   position: absolute;
-  top: -15px;
+  top: -65px;
   left: 277px;
   background-color: #bcbcbc;
-  height: 350px;
+  height: 400px;
   width: 0.5%;
 }
 
 .bottomPipe {
   position: absolute;
-  top: 70px;
+  top: 65px;
   left: 277px;
   background-color: #bcbcbc;
-  height: 350px;
+  height: 400px;
   width: 0.5%;
 }
 
@@ -45,7 +47,7 @@
 .year {
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   font-size: 90%;
   line-height: 122%;
   color: #c1c1c1;
@@ -54,8 +56,8 @@
 .productName {
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 700;
-  font-size: 170%;
+  font-weight: bold;
+  font-size: 200%;
   line-height: 130%;
   color: #000000;
 }
@@ -78,7 +80,8 @@
   position: relative;
   margin-top: 5%;
   margin-bottom: 5%;
-  max-width: 60%;
+  width: 60%;
+  max-width: 700px;
   height: 60%;
 }
 
@@ -101,15 +104,4 @@
   justify-content: center;
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.productConnectingBar {
-  position: absolute;
-  width: 4710.28px;
-  height: 0px;
-  left: 531.5px;
-  top: 5920.14px;
-
-  border: 4.50956px solid #bcbcbc;
-  transform: rotate(-90deg);
 }
