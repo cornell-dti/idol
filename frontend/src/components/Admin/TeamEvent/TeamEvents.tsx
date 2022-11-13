@@ -1,11 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message } from 'semantic-ui-react';
+import { Card, Message, Loader } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
+
+type TeamEventsDisplayProps = {
+  isLoading: boolean;
+  teamEvents: TeamEvent[];
+};
+
+const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEvents }) => {
+  if (isLoading) return <Loader active inline />;
+  return (
+    <>
+      {teamEvents && teamEvents.length !== 0 ? (
+        <Card.Group>
+          {teamEvents.map((teamEvent) => (
+            <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
+              <Card>
+                <Card.Content>
+                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                  <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
+                </Card.Content>
+              </Card>
+            </Link>
+          ))}
+        </Card.Group>
+      ) : (
+        <Message>There are currently no team event forms.</Message>
+      )}
+    </>
+  );
+};
 
 const TeamEvents: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
@@ -44,23 +74,7 @@ const TeamEvents: React.FC = () => {
       <div className={styles.wrapper}>
         <div>
           <h2>View All Team Events</h2>
-          {teamEvents.length !== 0 ? (
-            <Card.Group>
-              {teamEvents.map((teamEvent) => (
-                <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
-                  <Card>
-                    <Card.Content>
-                      <Card.Header>{teamEvent.name} </Card.Header>
-                      <Card.Meta>{teamEvent.date}</Card.Meta>
-                      <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
-                    </Card.Content>
-                  </Card>
-                </Link>
-              ))}
-            </Card.Group>
-          ) : (
-            <Message>There are currently no team event forms.</Message>
-          )}
+          <TeamEventsDisplay isLoading={isLoading} teamEvents={teamEvents} />
         </div>
         <div className={styles.resetButtonContainer}>
           <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
