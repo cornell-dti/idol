@@ -50,9 +50,10 @@ const TeamEvents: React.FC = () => {
                 <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
                   <Card>
                     <Card.Content>
-                      <Card.Header>{teamEvent.name} </Card.Header>
-                      <Card.Meta>{teamEvent.date}</Card.Meta>
-                      <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
+                      <Card.Header>Name: {teamEvent.name} </Card.Header>
+                      <Card.Meta>Date: {teamEvent.date}</Card.Meta>
+                      <Card.Meta>Pending Requests: {teamEvent.requests.length}</Card.Meta>
+                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                     </Card.Content>
                   </Card>
                 </Link>

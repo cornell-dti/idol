@@ -1,5 +1,4 @@
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { TeamEvent } from '../types/DataTypes';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
@@ -20,7 +19,7 @@ export const createTeamEvent = async (
   if (!canCreateTeamEvent)
     throw new PermissionError('does not have permissions to create team event');
   await TeamEventsDao.createTeamEvent(teamEvent);
-  return teamEvent;
+  return teamEvent as TeamEvent;
 };
 
 export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<void> => {
