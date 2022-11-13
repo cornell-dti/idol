@@ -1,39 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Card, Message } from 'semantic-ui-react';
-import { useSelf } from '../../Common/FirestoreDataProvider';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import styles from './TeamEventCreditsForm.module.css';
 
-const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Element => {
+const REQUIRED_TEC_CREDITS = 3; // number of required tec credits in a semester
+
+const TeamEventCreditDashboard = (): JSX.Element => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const userInfo = useSelf()!;
-  const { teamEvents } = props;
 
-  const [countApprovedCredits, setCountApprovedCredits] = useState(0);
-  const [countRemainingCredits, setCountRemainingCredits] = useState(3);
-  const [approvedTEC, setApprovedTEC] = useState<TeamEvent[]>([]);
-  const [pendingTEC, setPendingTEC] = useState<TeamEvent[]>([]);
+  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
+  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
 
   useEffect(() => {
-    teamEvents.forEach((currTeamEvent) => {
-      currTeamEvent.attendees.forEach((currApprovedMember) => {
-        if (currApprovedMember.member.email === userInfo.email) {
-          const currCredits = Number(currTeamEvent.numCredits);
-          setCountApprovedCredits((countApprovedCredits) => countApprovedCredits + currCredits);
-          setCountRemainingCredits((countRemainingCredits) => {
-            if (countRemainingCredits - currCredits <= 0) return 0;
-            return countRemainingCredits - currCredits;
-          });
-          setApprovedTEC((approvedTEC) => [...approvedTEC, currTeamEvent]);
-        }
-      });
-      currTeamEvent.requests.forEach((currApprovedMember) => {
-        if (currApprovedMember.member.email === userInfo.email) {
-          setPendingTEC((pendingTEC) => [...pendingTEC, currTeamEvent]);
-        }
-      });
+    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
+      setApprovedTEC(val.approved);
+      setPendingTEC(val.pending);
     });
-  }, [teamEvents, userInfo.email]);
+  }, []);
+
+  const approvedCredits = approvedTEC.reduce(
+    (approved, teamEvent) => approved + Number(teamEvent.numCredits),
+    0
+  );
+  const remainingCredits =
+    REQUIRED_TEC_CREDITS - approvedCredits > 0 ? REQUIRED_TEC_CREDITS - approvedCredits : 0;
 
   return (
     <div>
@@ -41,21 +32,20 @@ const TeamEventCreditDashboard = (props: { teamEvents: TeamEvent[] }): JSX.Eleme
         <div className={styles.header}></div>
         <h1>Check Team Event Credits</h1>
         <p>
-          Check your team event credit status for this semester here! Every DTI member must complete
-          3 team event credits to fulfill this requirement.
+          Check your team event credit status for this semester here! Every DTI member must complete{' '}
+          {REQUIRED_TEC_CREDITS} team event credits to fulfill this requirement.
         </p>
 
         <div className={styles.inline}>
           <label className={styles.bold}>
-            Your Approved Credits:{' '}
-            <span className={styles.dark_grey_color}>{countApprovedCredits}</span>
+            Your Approved Credits: <span className={styles.dark_grey_color}>{approvedCredits}</span>
           </label>
         </div>
 
         <div className={styles.inline}>
           <label className={styles.bold}>
             Remaining Credits Needed:{' '}
-            <span className={styles.dark_grey_color}>{countRemainingCredits}</span>
+            <span className={styles.dark_grey_color}>{remainingCredits}</span>
           </label>
         </div>
 

@@ -11,13 +11,13 @@ const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-  const [teamEvent, setTeamEvent] = useState<TeamEvent | undefined>(undefined);
+  const [teamEvent, setTeamEvent] = useState<TeamEventInfo | undefined>(undefined);
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
-  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+  const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
 
   useEffect(() => {
-    TeamEventsAPI.getAllTeamEvents().then((teamEvents) => setTeamEvents(teamEvents));
+    TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
   }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -26,12 +26,8 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = (
-    eventCreditRequest: TeamEventAttendance,
-    teamEvent: TeamEvent
-  ) => {
-    teamEvent?.requests.push(eventCreditRequest);
-    TeamEventsAPI.requestTeamEventCredit(teamEvent);
+  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance, uuid: string) => {
+    TeamEventsAPI.requestTeamEventCredit(uuid, eventCreditRequest);
     // upload image
     fetch(image)
       .then((res) => res.blob())
@@ -64,7 +60,7 @@ const TeamEventCreditForm: React.FC = () => {
         hoursAttended: Number(hours),
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
       };
-      requestTeamEventCredit(newTeamEventAttendance, teamEvent);
+      requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid);
       Emitters.generalSuccess.emit({
         headerMsg: 'Team Event Credit submitted!',
         contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
@@ -85,19 +81,19 @@ const TeamEventCreditForm: React.FC = () => {
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.center_and_flex}>
-            {teamEvents && !teamEvent ? (
+            {teamEventInfoList && !teamEvent ? (
               <Dropdown
                 placeholder="Select a Team Event"
                 fluid
                 search
                 selection
-                options={teamEvents.map((event) => ({
+                options={teamEventInfoList.map((event) => ({
                   key: event.uuid,
                   text: event.name,
                   value: event.uuid
                 }))}
                 onChange={(_, data) => {
-                  setTeamEvent(teamEvents.find((event) => event.uuid === data.value));
+                  setTeamEvent(teamEventInfoList.find((event) => event.uuid === data.value));
                 }}
               />
             ) : undefined}
@@ -162,7 +158,7 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard teamEvents={teamEvents} />
+        <TeamEventCreditDashboard />
       </Form>
     </div>
   );

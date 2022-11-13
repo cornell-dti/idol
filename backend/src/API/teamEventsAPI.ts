@@ -4,10 +4,13 @@ import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
-  const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
-  if (!canCreateTeamEvent) throw new PermissionError('does not have permissions');
+  const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
+  if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
   return TeamEventsDao.getAllTeamEvents();
 };
+
+export const getAllTeamEventInfo = async (): Promise<TeamEventInfo[]> =>
+  TeamEventsDao.getAllTeamEventInfo();
 
 export const createTeamEvent = async (
   teamEvent: TeamEvent,
@@ -31,15 +34,35 @@ export const updateTeamEvent = async (
   teamEvent: TeamEvent,
   user: IdolMember
 ): Promise<TeamEvent> => {
-  // if (!PermissionsManager.canEditTeamEvent(user)) {
-  //   throw new PermissionError("You don't have permission to update a team event!");
-  // }
+  if (!PermissionsManager.canEditTeamEvent(user)) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permissions to update team events`
+    );
+  }
   await TeamEventsDao.updateTeamEvent(teamEvent);
   return teamEvent;
 };
 
-export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> =>
-  TeamEventsDao.getTeamEvent(uuid);
+export const requestTeamEventCredit = async (
+  uuid: string,
+  request: TeamEventAttendance
+): Promise<void> => {
+  const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
+  const updatedTeamEvent = {
+    ...teamEvent,
+    requests: [...teamEvent.requests, request]
+  };
+  await TeamEventsDao.updateTeamEvent(updatedTeamEvent);
+};
+
+export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
+  const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
+  if (!canEditTeamEvents)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to get full team event`
+    );
+  return TeamEventsDao.getTeamEvent(uuid);
+};
 
 export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -49,3 +72,7 @@ export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
     );
   await TeamEventsDao.deleteAllTeamEvents();
 };
+export const getAllTeamEventsForMember = async (
+  email: string,
+  isPending: boolean
+): Promise<TeamEventInfo[]> => TeamEventsDao.getTeamEventsForMember(email, isPending);
