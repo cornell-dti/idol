@@ -15,7 +15,8 @@ const defaultTeamEvent: TeamEvent = {
   hasHours: false,
   requests: [],
   attendees: [],
-  uuid: ''
+  uuid: '',
+  isCommunity: false
 };
 
 const TeamEventDetails: React.FC = () => {
@@ -86,6 +87,9 @@ const TeamEventDetails: React.FC = () => {
         <h3 className={styles.eventDetails}>Date: {teamEvent.date}</h3>
         <h3 className={styles.eventDetails}>Credits: {teamEvent.numCredits}</h3>
         <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'yes' : 'no'}</h3>
+        <h3 className={styles.eventDetails}>
+          Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}
+        </h3>
       </div>
 
       <div className={styles.listsContainer}>

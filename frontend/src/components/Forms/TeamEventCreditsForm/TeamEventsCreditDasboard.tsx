@@ -23,8 +23,18 @@ const TeamEventCreditDashboard = (): JSX.Element => {
     (approved, teamEvent) => approved + Number(teamEvent.numCredits),
     0
   );
-  const remainingCredits =
-    REQUIRED_TEC_CREDITS - approvedCredits > 0 ? REQUIRED_TEC_CREDITS - approvedCredits : 0;
+  const approvedCommunityCredits = approvedTEC.reduce(
+    (communityCredits, teamEvent) =>
+      teamEvent.isCommunity ? communityCredits + 1 : communityCredits,
+    0
+  );
+
+  // Calculate the remaining credits
+  let remainingCredits;
+  if (REQUIRED_TEC_CREDITS - approvedCredits > 0)
+    remainingCredits = REQUIRED_TEC_CREDITS - approvedCredits;
+  else if (approvedCommunityCredits === 0) remainingCredits = 1;
+  else remainingCredits = 0;
 
   return (
     <div>
@@ -39,6 +49,13 @@ const TeamEventCreditDashboard = (): JSX.Element => {
         <div className={styles.inline}>
           <label className={styles.bold}>
             Your Approved Credits: <span className={styles.dark_grey_color}>{approvedCredits}</span>
+          </label>
+        </div>
+
+        <div className={styles.inline}>
+          <label className={styles.bold}>
+            Your Approved Community Credits:{' '}
+            <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
           </label>
         </div>
 
@@ -59,6 +76,7 @@ const TeamEventCreditDashboard = (): JSX.Element => {
                     <Card.Header>{teamEvent.name} </Card.Header>
                     <Card.Meta>{teamEvent.date}</Card.Meta>
                     <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
+                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                   </Card.Content>
                 </Card>
               ))}

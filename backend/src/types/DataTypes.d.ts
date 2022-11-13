@@ -56,22 +56,7 @@ export type DBTeamEvent = {
   requests: DBTeamEventAttendance[];
   attendees: DBTeamEventAttendance[];
   uuid: string;
-};
-
-export type TeamEventAttendance = {
-  member: IdolMember;
-  hoursAttended?: number;
-  image: string;
-};
-
-export type TeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  requests: TeamEventAttendance[];
-  attendees: TeamEventAttendance[];
-  uuid: string;
+  isCommunity: boolean;
 };
 
 export type DBCandidateDeciderRating = {

@@ -18,6 +18,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
   const [teamEventCreditNum, setTeamEventCreditNum] = useState(teamEvent?.numCredits || '');
   const [teamEventHasHours, setTeamEventHasHours] = useState(teamEvent?.hasHours || false);
+  const [isCommunity, setIsCommunity] = useState<boolean>(false);
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -61,7 +62,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
         requests: [],
-        attendees: []
+        attendees: [],
+        isCommunity
       };
       TeamEventsAPI.createTeamEventForm(newTeamEvent).then((val) => {
         if (val.error) {
@@ -145,7 +147,23 @@ const TeamEventForm = (props: Props): JSX.Element => {
             onChange={() => setTeamEventHasHours(false)}
           />
         </Form.Field>
-
+        <label className={styles.label}>Is this a community event?</label>
+        <Form.Field>
+          <Radio
+            label="Yes"
+            value="Yes"
+            checked={isCommunity}
+            onChange={() => setIsCommunity(true)}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Radio
+            label="No"
+            value="No"
+            checked={!isCommunity}
+            onChange={() => setIsCommunity(false)}
+          />
+        </Form.Field>
         {formType === 'create' && (
           <Form.Button floated="right" onClick={submitTeamEvent}>
             Create Event
