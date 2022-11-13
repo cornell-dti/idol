@@ -40,6 +40,16 @@ export default class ShoutoutsDao {
     );
   }
 
+  static async getShoutout(uuid: string): Promise<Shoutout | undefined> {
+    const doc = await shoutoutCollection.doc(uuid).get();
+    const dbShoutout = doc.data();
+    if (!dbShoutout) return undefined;
+    return {
+      ...dbShoutout,
+      giver: await getMemberFromDocumentReference(dbShoutout.giver)
+    };
+  }
+
   static async setShoutout(shoutout: {
     giver: IdolMember;
     receiver: string;
