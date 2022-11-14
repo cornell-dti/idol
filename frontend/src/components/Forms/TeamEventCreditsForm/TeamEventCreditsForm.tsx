@@ -15,9 +15,15 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
+  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
+  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
+    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
+      setApprovedTEC(val.approved);
+      setPendingTEC(val.pending);
+    });
   }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -26,16 +32,16 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = (eventCreditRequest: TeamEventAttendance, uuid: string) => {
-    TeamEventsAPI.requestTeamEventCredit(uuid, eventCreditRequest);
+  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance, uuid: string) => {
+    await TeamEventsAPI.requestTeamEventCredit(uuid, eventCreditRequest);
     // upload image
-    fetch(image)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const imageURL: string = window.URL.createObjectURL(blob);
-        ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image);
-        setImage(imageURL);
-      });
+
+    const blob = await fetch(image).then((res) => res.blob());
+
+    const imageURL: string = window.URL.createObjectURL(blob);
+    await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
+      setImage(imageURL)
+    );
   };
 
   const submitTeamEventCredit = () => {
@@ -60,10 +66,11 @@ const TeamEventCreditForm: React.FC = () => {
         hoursAttended: Number(hours),
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
       };
-      requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid);
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Team Event Credit submitted!',
-        contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
+      requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Team Event Credit submitted!',
+          contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
+        });
       });
     }
   };
@@ -158,7 +165,7 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard />
+        <TeamEventCreditDashboard pendingTEC={pendingTEC} approvedTEC={approvedTEC} />
       </Form>
     </div>
   );

@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Form, Card, Message } from 'semantic-ui-react';
-import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import styles from './TeamEventCreditsForm.module.css';
 
 const REQUIRED_TEC_CREDITS = 3; // number of required tec credits in a semester
 
-const TeamEventCreditDashboard = (): JSX.Element => {
-  // When the user is logged in, `useSelf` always return non-null data.
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-
-  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
-  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
-
-  useEffect(() => {
-    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
-      setApprovedTEC(val.approved);
-      setPendingTEC(val.pending);
-    });
-  }, []);
+const TeamEventCreditDashboard = (props: {
+  approvedTEC: TeamEventInfo[];
+  pendingTEC: TeamEventInfo[];
+}): JSX.Element => {
+  const { approvedTEC, pendingTEC } = props;
 
   const approvedCredits = approvedTEC.reduce(
     (approved, teamEvent) => approved + Number(teamEvent.numCredits),
