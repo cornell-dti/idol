@@ -13,12 +13,11 @@
 .footer {
   background: linear-gradient(180deg, rgba(237, 237, 237, 0) 0%, #cecece 100%);
   position: absolute;
-  bottom: 0;
   width: 100%;
 }
 
 .innerFooter {
-  margin-bottom: 40px;
+  margin-bottom: 100px;
 }
 
 .socialIcon {
