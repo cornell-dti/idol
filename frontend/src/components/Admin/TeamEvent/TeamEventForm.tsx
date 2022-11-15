@@ -34,7 +34,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
       !teamEventCreditNum ||
       teamEventCreditNum === '' ||
       isNaN(Number(teamEventCreditNum)) ||
-      Number(teamEventCreditNum) < 1
+      Number(teamEventCreditNum) < 0.5
     ) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Credit Amount',
