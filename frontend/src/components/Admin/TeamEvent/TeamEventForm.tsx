@@ -129,41 +129,47 @@ const TeamEventForm = (props: Props): JSX.Element => {
         <label htmlFor="radioGroup" className={styles.label}>
           Does this event have hours? <span className={styles.required}>*</span>
         </label>
-        <Form.Field>
-          <Radio
-            label="Yes"
-            name="radioGroup"
-            value="Yes"
-            checked={teamEventHasHours}
-            onChange={() => setTeamEventHasHours(true)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label="No"
-            name="radioGroup"
-            value="No"
-            checked={!teamEventHasHours}
-            onChange={() => setTeamEventHasHours(false)}
-          />
-        </Form.Field>
+        <Form.Group inline>
+          <Form.Field>
+            <Radio
+              label="Yes"
+              name="radioGroup"
+              value="Yes"
+              checked={teamEventHasHours}
+              onChange={() => setTeamEventHasHours(true)}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Radio
+              label="No"
+              name="radioGroup"
+              value="No"
+              checked={!teamEventHasHours}
+              onChange={() => setTeamEventHasHours(false)}
+            />
+          </Form.Field>
+        </Form.Group>
+
         <label className={styles.label}>Is this a community event?</label>
-        <Form.Field>
-          <Radio
-            label="Yes"
-            value="Yes"
-            checked={isCommunity}
-            onChange={() => setIsCommunity(true)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label="No"
-            value="No"
-            checked={!isCommunity}
-            onChange={() => setIsCommunity(false)}
-          />
-        </Form.Field>
+        <Form.Group inline>
+          <Form.Field>
+            <Radio
+              label="Yes"
+              value="Yes"
+              checked={isCommunity}
+              onChange={() => setIsCommunity(true)}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Radio
+              label="No"
+              value="No"
+              checked={!isCommunity}
+              onChange={() => setIsCommunity(false)}
+            />
+          </Form.Field>
+        </Form.Group>
+
         {formType === 'create' && (
           <Form.Button floated="right" onClick={submitTeamEvent}>
             Create Event
