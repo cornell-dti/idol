@@ -31,7 +31,8 @@ import {
   deleteSignInForm,
   signIn,
   signInFormExists,
-  signInFormExpired
+  signInFormExpired,
+  getSignInPrompt
 } from './API/signInFormAPI';
 import {
   createTeamEvent,
@@ -237,14 +238,17 @@ loginCheckedPost('/signInExpired', async (req, _) => ({
   expired: await signInFormExpired(req.body.id)
 }));
 loginCheckedPost('/signInCreate', async (req, user) =>
-  createSignInForm(req.body.id, req.body.expireAt, user)
+  createSignInForm(req.body.id, req.body.expireAt, req.body.prompt, user)
 );
 loginCheckedPost('/signInDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};
 });
-loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, user));
+loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, req.body.response, user));
 loginCheckedPost('/signInAll', async (_, user) => allSignInForms(user));
+loginCheckedGet('/signInPrompt/:id', async (req, _) => ({
+  prompt: await getSignInPrompt(req.params.id)
+}));
 
 // Team Events
 loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));

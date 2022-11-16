@@ -66,14 +66,18 @@ interface ProfileImage {
   readonly fileName: string;
 }
 
+interface SignInResponse {
+  readonly signedInAt: number;
+  readonly user: IdolMember;
+  readonly response?: string;
+}
+
 interface SignInForm {
-  readonly users: readonly {
-    readonly signedInAt: number;
-    readonly user: IdolMember;
-  }[];
+  readonly users: SignInResponse[];
   readonly createdAt: number;
   readonly id: string;
   readonly expireAt: number;
+  readonly prompt?: string;
 }
 
 interface TeamEventAttendance {

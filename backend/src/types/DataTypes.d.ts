@@ -28,18 +28,18 @@ export type Shoutout = {
   uuid: string;
 };
 
-export type DBSignInForm = {
-  users: { signedInAt: number; user: firestore.DocumentReference }[];
-  createdAt: number;
-  expireAt: number;
-  id: string;
+export type DBSignInFormResponse = {
+  signedInAt: number;
+  user: firestore.DocumentReference;
+  response: string | null;
 };
 
-export type SignInForm = {
-  users: { signedInAt: number; user: IdolMember }[];
+export type DBSignInForm = {
+  users: DBSignInFormResponse[];
   createdAt: number;
   expireAt: number;
   id: string;
+  prompt: string | null;
 };
 
 export type DBTeamEventAttendance = {

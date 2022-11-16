@@ -1,4 +1,3 @@
-import { SignInForm } from '../types/DataTypes';
 import { signInFormCollection, memberCollection } from '../firebase';
 import { NotFoundError } from '../utils/errors';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
@@ -19,7 +18,24 @@ async function filterSignIns(users, userEmail) {
 }
 
 export default class SignInFormDao {
-  static async signIn(id: string, email: string): Promise<number> {
+  static async getSignInForm(id: string): Promise<SignInForm | null> {
+    const doc = await signInFormCollection.doc(id).get();
+    const dbSignInForm = doc.data();
+    if (!dbSignInForm) return null;
+    return {
+      ...dbSignInForm,
+      prompt: dbSignInForm.prompt ? dbSignInForm.prompt : undefined,
+      users: await Promise.all(
+        dbSignInForm?.users.map(async (signInResponse) => ({
+          ...signInResponse,
+          user: await getMemberFromDocumentReference(signInResponse.user),
+          response: signInResponse.response ? signInResponse.response : undefined
+        }))
+      )
+    };
+  }
+
+  static async signIn(id: string, email: string, response?: string): Promise<number> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
     const form = formRef.data();
@@ -31,14 +47,25 @@ export default class SignInFormDao {
 
     return formDoc
       .update({
-        users: updatedSignIns.concat({ signedInAt: signedInAtVal, user: userDoc })
+        users: updatedSignIns.concat({
+          signedInAt: signedInAtVal,
+          user: userDoc,
+          response: response || null
+        })
       })
       .then((_) => signedInAtVal);
   }
 
-  static async createSignIn(id: string, expireAt: number): Promise<void> {
+  static async createSignIn(id: string, expireAt: number, prompt?: string): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
-    await formDoc.set({ createdAt: Date.now(), id, expireAt, users: [] });
+    const signInForm = {
+      createdAt: Date.now(),
+      id,
+      expireAt,
+      users: [],
+      prompt: prompt || null
+    };
+    await formDoc.set(signInForm);
   }
 
   static async deleteSignIn(id: string): Promise<void> {
@@ -57,11 +84,13 @@ export default class SignInFormDao {
           throw new NotFoundError(`This should be impossible. CODE: DTI-2`);
         const userProms = formData.users.map(async (u) => ({
           ...u,
+          response: u.response ? u.response : undefined,
           user: await getMemberFromDocumentReference(u.user)
         }));
         const signIns = await Promise.all(userProms);
         return {
           ...formData,
+          prompt: formData.prompt ? formData.prompt : undefined,
           users: signIns
         };
       });
