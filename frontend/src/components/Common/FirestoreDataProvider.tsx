@@ -1,10 +1,16 @@
-import { Loader } from 'semantic-ui-react';
+import { Loader, Button } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
-import { adminsCollection, membersCollection, approvedMembersCollection } from '../../firebase';
+import {
+  adminsCollection,
+  membersCollection,
+  approvedMembersCollection,
+  auth
+} from '../../firebase';
 import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
 import { allowAdmin } from '../../environment';
+import { MembersAPI } from '../../API/MembersAPI';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -82,6 +88,9 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
   const [adminEmails, setAdminEmails] = useState<readonly string[] | undefined>();
   const [members, setMembers] = useState<readonly IdolMember[] | undefined>();
   const [approvedMembers, setApprovedMembers] = useState<readonly IdolMember[] | undefined>();
+  const [isIDOLMember, setIsIDOLMember] = useState(true);
+
+  const userEmail = useUserEmail();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {
@@ -89,6 +98,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         // Do not run firestore listeners in test environment.
       };
     }
+    MembersAPI.isIDOLMember(userEmail).then((isIDOLMember) => setIsIDOLMember(isIDOLMember));
     const unsubscriberOfAdminEmails = onSnapshot(adminsCollection, (snapshot) => {
       setAdminEmails(snapshot.docs.map((it) => it.id));
     });
@@ -103,7 +113,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
       unsubscriberOfMembers();
       unsubscriberOfApprovedMembers();
     };
-  }, []);
+  }, [userEmail]);
 
   return (
     <FirestoreDataContext.Provider value={{ adminEmails, members, approvedMembers }}>
@@ -112,7 +122,37 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         process.env.NODE_ENV === 'test' && children
       }
       {adminEmails == null || members == null || approvedMembers == null ? (
-        <Loader active={true} size="massive" />
+        <div style={{ marginTop: '45%' }}>
+          <Loader style={{ fontSize: 12 }} active size="massive"></Loader>
+          {!isIDOLMember && (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                padding: '0 15%'
+              }}
+            >
+              You do not appear to be registered as a user within the IDOL system. Only DTI members
+              should have access to this site. If you are a DTI member, please make sure that you
+              are logged in with your @cornell.edu email address. If you are logged in with your
+              @cornell.edu email address and are still seeing this message, please use the
+              #idol-support channel in Slack to get in touch with the IDOL team and receive
+              assistance.
+              <Button
+                style={{
+                  marginTop: '30px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  width: '150px'
+                }}
+                onClick={() => auth.signOut()}
+              >
+                Sign Out
+              </Button>
+            </div>
+          )}
+        </div>
       ) : (
         children
       )}
