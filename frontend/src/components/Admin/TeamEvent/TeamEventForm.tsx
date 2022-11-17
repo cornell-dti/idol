@@ -18,7 +18,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
   const [teamEventCreditNum, setTeamEventCreditNum] = useState(teamEvent?.numCredits || '');
   const [teamEventHasHours, setTeamEventHasHours] = useState(teamEvent?.hasHours || false);
-  const [isCommunity, setIsCommunity] = useState<boolean>(false);
+  const [isCommunity, setIsCommunity] = useState<boolean>(teamEvent?.isCommunity || false);
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -47,7 +47,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         name: teamEventName,
         date: teamEventDate,
         numCredits: teamEventCreditNum,
-        hasHours: teamEventHasHours
+        hasHours: teamEventHasHours,
+        isCommunity
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({

@@ -4,6 +4,7 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import styles from './TeamEventCreditsForm.module.css';
 
 const REQUIRED_TEC_CREDITS = 3; // number of required tec credits in a semester
+const REQUIRED_COMMUNITY_CREDITS = 1;
 
 const TeamEventCreditDashboard = (): JSX.Element => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -25,7 +26,7 @@ const TeamEventCreditDashboard = (): JSX.Element => {
   );
   const approvedCommunityCredits = approvedTEC.reduce(
     (communityCredits, teamEvent) =>
-      teamEvent.isCommunity ? communityCredits + 1 : communityCredits,
+      teamEvent.isCommunity ? communityCredits + Number(teamEvent.numCredits) : communityCredits,
     0
   );
 
@@ -33,7 +34,8 @@ const TeamEventCreditDashboard = (): JSX.Element => {
   let remainingCredits;
   if (REQUIRED_TEC_CREDITS - approvedCredits > 0)
     remainingCredits = REQUIRED_TEC_CREDITS - approvedCredits;
-  else if (approvedCommunityCredits === 0) remainingCredits = 1;
+  else if (approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
+    remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
   else remainingCredits = 0;
 
   return (
@@ -43,7 +45,8 @@ const TeamEventCreditDashboard = (): JSX.Element => {
         <h1>Check Team Event Credits</h1>
         <p>
           Check your team event credit status for this semester here! Every DTI member must complete{' '}
-          {REQUIRED_TEC_CREDITS} team event credits to fulfill this requirement.
+          {REQUIRED_TEC_CREDITS} team event credits and {REQUIRED_COMMUNITY_CREDITS} community team
+          event credits to fulfill this requirement.
         </p>
 
         <div className={styles.inline}>
