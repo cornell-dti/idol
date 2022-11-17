@@ -42,7 +42,15 @@ export const createNewDevPortfolio = async (
       `User with email: ${user.email} does not have permission to create dev portfolio!`
     );
   }
-
+  if (
+    !instance.name ||
+    instance.name.length === 0 ||
+    instance.deadline < instance.earliestValidDate ||
+    (instance.lateDeadline && instance.lateDeadline < instance.deadline)
+  )
+    throw new BadRequestError(
+      `Unable to create the new dev portfolio instance: The provided dev portfolio is invalid.`
+    );
   const updatedDeadline = new Date(instance.deadline);
   const updatedEarliestValidDate = new Date(instance.earliestValidDate);
   const updatedLateDeadline = instance.lateDeadline ? new Date(instance.lateDeadline) : null;
