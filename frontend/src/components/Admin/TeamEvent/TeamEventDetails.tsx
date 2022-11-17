@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Modal, Button } from 'semantic-ui-react';
+import { Card, Message, Modal, Button, Loader } from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
@@ -17,6 +17,46 @@ const defaultTeamEvent: TeamEvent = {
   attendees: [],
   uuid: '',
   isCommunity: false
+};
+
+type AttendanceDisplayProps = {
+  isPending: boolean;
+  teamEvent: TeamEvent;
+};
+
+const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ isPending, teamEvent }) => {
+  const attendance = isPending ? teamEvent.requests : teamEvent.attendees;
+
+  return (
+    <>
+      {attendance && attendance.length !== 0 ? (
+        <Card.Group>
+          {attendance.map((req, i) => (
+            <Card className={styles.memberCard} key={i}>
+              <Card.Content>
+                <Card.Header>
+                  {req.member.firstName} {req.member.lastName}
+                </Card.Header>
+                <Card.Meta>{req.member.email}</Card.Meta>
+              </Card.Content>
+              {isPending && (
+                <Card.Content extra>
+                  <TeamEventCreditReview
+                    teamEvent={teamEvent}
+                    teamEventAttendance={req}
+                  ></TeamEventCreditReview>
+                </Card.Content>
+              )}
+            </Card>
+          ))}
+        </Card.Group>
+      ) : (
+        <Message>
+          There are currently no {isPending ? 'pending' : 'approved'} members for this event.
+        </Message>
+      )}
+    </>
+  );
 };
 
 const TeamEventDetails: React.FC = () => {
@@ -42,8 +82,10 @@ const TeamEventDetails: React.FC = () => {
 
   useEffect(() => {
     if (isLoading) {
-      TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => setTeamEvent(teamEvent));
-      setLoading(false);
+      TeamEventsAPI.getTeamEventForm(uuid).then((teamEvent) => {
+        setTeamEvent(teamEvent);
+        setLoading(false);
+      });
     }
   }, [isLoading, uuid]);
 
@@ -56,6 +98,8 @@ const TeamEventDetails: React.FC = () => {
     });
     location.push('/admin/team-events');
   };
+
+  if (isLoading) return <Loader active />;
 
   return (
     <div className={styles.container}>
@@ -96,49 +140,13 @@ const TeamEventDetails: React.FC = () => {
         <div className={styles.listContainer}>
           <h2 className={styles.memberTitle}>Members Pending</h2>
 
-          {teamEvent.requests.length > 0 ? (
-            <Card.Group>
-              {teamEvent.requests.map((req, i) => (
-                <Card className={styles.memberCard} key={i}>
-                  <Card.Content>
-                    <Card.Header>
-                      {req.member.firstName} {req.member.lastName}
-                    </Card.Header>
-                    <Card.Meta>{req.member.email}</Card.Meta>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <TeamEventCreditReview
-                      teamEvent={teamEvent}
-                      teamEventAttendance={req}
-                    ></TeamEventCreditReview>
-                  </Card.Content>
-                </Card>
-              ))}
-            </Card.Group>
-          ) : (
-            <Message>There are currently no pending members for this event.</Message>
-          )}
+          <AttendanceDisplay isPending={true} teamEvent={teamEvent} />
         </div>
 
         <div className={styles.listContainer}>
           <h2 className={styles.memberTitle}>Members Approved</h2>
 
-          {teamEvent.attendees.length > 0 ? (
-            <Card.Group className={styles.memberGroup}>
-              {teamEvent.attendees.map((req) => (
-                <Card key={req.member.netid}>
-                  <Card.Content>
-                    <Card.Header>
-                      {req.member.firstName} {req.member.lastName}
-                    </Card.Header>
-                    <Card.Meta>{req.member.email}</Card.Meta>
-                  </Card.Content>
-                </Card>
-              ))}
-            </Card.Group>
-          ) : (
-            <Message>There are currently no approved members for this event.</Message>
-          )}
+          <AttendanceDisplay isPending={false} teamEvent={teamEvent} />
         </div>
       </div>
     </div>

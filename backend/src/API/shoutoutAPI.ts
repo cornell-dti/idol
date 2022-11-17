@@ -1,5 +1,5 @@
 import PermissionsManager from '../utils/permissionsManager';
-import { PermissionError } from '../utils/errors';
+import { NotFoundError, PermissionError } from '../utils/errors';
 import { Shoutout } from '../types/DataTypes';
 import ShoutoutsDao from '../dao/ShoutoutsDao';
 
@@ -28,13 +28,14 @@ export const getShoutouts = async (
   return ShoutoutsDao.getShoutouts(memberEmail, type);
 };
 
-export const updateShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
+export const hideShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
   const canEdit = await PermissionsManager.canHideShoutouts(user);
   if (!canEdit) {
     throw new PermissionError(
       `User with email: ${user.email} does not have permission to hide shoutouts!`
     );
   }
-  await ShoutoutsDao.updateShoutout(body);
-  return body;
+  const shoutout = await ShoutoutsDao.getShoutout(uuid);
+  if (!shoutout) throw new NotFoundError(`Shoutout with uuid: ${uuid} does not exist!`);
+  await ShoutoutsDao.updateShoutout({ ...shoutout, hidden: true });
 };
