@@ -67,6 +67,7 @@ const TeamEventCreditForm: React.FC = () => {
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
+        setPendingTEC((pending) => [...pending, teamEvent]);
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Credit submitted!',
           contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
