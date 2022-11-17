@@ -155,9 +155,9 @@ router.get('/membersFromAllSemesters', async (_, res) => {
 });
 router.get('/isIDOLMember/:email', async (req, res) => {
   const members = await allMembers();
-  return {
+  res.status(200).json({
     isIDOLMember: members.find((member) => member.email === req.params.email) !== undefined
-  };
+  });
 });
 
 router.get('/info', async (req, res) => {
