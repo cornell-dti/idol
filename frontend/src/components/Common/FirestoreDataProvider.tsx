@@ -5,6 +5,7 @@ import { adminsCollection, membersCollection, approvedMembersCollection } from '
 import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
 import { allowAdmin } from '../../environment';
+import { MembersAPI } from '../../API/MembersAPI';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -82,6 +83,9 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
   const [adminEmails, setAdminEmails] = useState<readonly string[] | undefined>();
   const [members, setMembers] = useState<readonly IdolMember[] | undefined>();
   const [approvedMembers, setApprovedMembers] = useState<readonly IdolMember[] | undefined>();
+  const [isIDOLMember, setIsIDOLMember] = useState(false);
+
+  const userEmail = useUserEmail();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {
@@ -89,6 +93,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         // Do not run firestore listeners in test environment.
       };
     }
+    MembersAPI.isIDOLMember(userEmail).then((isIDOLMember) => setIsIDOLMember(isIDOLMember));
     const unsubscriberOfAdminEmails = onSnapshot(adminsCollection, (snapshot) => {
       setAdminEmails(snapshot.docs.map((it) => it.id));
     });
@@ -103,7 +108,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
       unsubscriberOfMembers();
       unsubscriberOfApprovedMembers();
     };
-  }, []);
+  }, [userEmail]);
 
   return (
     <FirestoreDataContext.Provider value={{ adminEmails, members, approvedMembers }}>
@@ -112,7 +117,10 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         process.env.NODE_ENV === 'test' && children
       }
       {adminEmails == null || members == null || approvedMembers == null ? (
-        <Loader active={true} size="massive" />
+        <Loader style={{ fontSize: 12 }} active={true} size="massive">
+          {!isIDOLMember &&
+            'You may not be registered as a user within IDOL. Please use #idol-support to get assistance.'}
+        </Loader>
       ) : (
         children
       )}
