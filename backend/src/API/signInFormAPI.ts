@@ -19,6 +19,7 @@ export const signInFormExists: (id: string) => Promise<boolean> = checkIfDocExis
 export const createSignInForm = async (
   id: string,
   expireAt: number,
+  prompt: string | undefined,
   user: IdolMember
 ): Promise<{ id: string; createdAt: number; expireAt: number }> => {
   const canEdit = await PermissionsManager.canEditSignIn(user);
@@ -32,7 +33,7 @@ export const createSignInForm = async (
   if (formExists) {
     throw new NotFoundError(`A form with id '${id}' already exists!`);
   }
-  await SignInFormDao.createSignIn(id, expireAt);
+  await SignInFormDao.createSignIn(id, expireAt, prompt);
   return { id, createdAt: Date.now(), expireAt };
 };
 
@@ -60,15 +61,16 @@ export const allSignInForms = async (
 
 export const signIn = async (
   id: string,
+  response: string | undefined,
   user: IdolMember
 ): Promise<{ signedInAt: number; id: string }> => {
-  const formExists = await signInFormExists(id);
-  if (!formExists) {
-    throw new NotFoundError(`No form with id '${id}' found.`);
-  }
-  const formExpired = await signInFormExpired(id);
-  if (formExpired) {
+  const signInForm = await SignInFormDao.getSignInForm(id);
+  if (!signInForm) throw new NotFoundError(`No form with id '${id}' found.`);
+  if (signInForm.expireAt <= Date.now()) {
     throw new BadRequestError(`User is not allowed to sign into expired form with id '${id}.`);
+  }
+  if (signInForm.prompt && !response) {
+    throw new BadRequestError(`Sign-in request is missing a response to the prompt`);
   }
   const userDoc = memberCollection.doc(user.email);
   const userRef = await userDoc.get();
@@ -76,6 +78,12 @@ export const signIn = async (
     throw new NotFoundError(`No user with email '${user.email}' found.`);
   }
 
-  const signedInAt = await SignInFormDao.signIn(id, user.email);
+  const signedInAt = await SignInFormDao.signIn(id, user.email, response);
   return { id, signedInAt };
+};
+
+export const getSignInPrompt = async (id: string): Promise<string | undefined> => {
+  const signInForm = await SignInFormDao.getSignInForm(id);
+  if (!signInForm) throw new NotFoundError(`Sign-in form with id ${id} does not exist!`);
+  return signInForm.prompt;
 };
