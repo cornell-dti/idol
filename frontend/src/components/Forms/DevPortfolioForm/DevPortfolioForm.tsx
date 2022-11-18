@@ -290,7 +290,7 @@ const DevPortfolioForm: React.FC = () => {
             </div>
           </div>
         </div>
-        <Message>
+        <Message info>
           <Message.Header>Please note</Message.Header>
           Additional submissions to a dev portfolio assignment <b>replace</b> previous submissions
           with respect to grading.
