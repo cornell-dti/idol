@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown, Button, Icon, Divider, TextArea } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Icon, Divider, TextArea, Message } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfolio';
@@ -290,7 +290,11 @@ const DevPortfolioForm: React.FC = () => {
             </div>
           </div>
         </div>
-
+        <Message info>
+          <Message.Header>Please note</Message.Header>
+          Additional submissions to a dev portfolio assignment <b>replace</b> previous submissions
+          with respect to grading.
+        </Message>
         <Form.Button floated="right" onClick={submitDevPortfolio}>
           Submit
         </Form.Button>
