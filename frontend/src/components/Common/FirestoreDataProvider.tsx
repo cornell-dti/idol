@@ -1,4 +1,4 @@
-import { Loader, Button, Modal, Header } from 'semantic-ui-react';
+import { Loader, Modal } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
 import {
