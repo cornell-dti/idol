@@ -1,4 +1,4 @@
-import { Loader, Button } from 'semantic-ui-react';
+import { Loader, Button, Modal, Header } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
 import {
@@ -122,35 +122,20 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         process.env.NODE_ENV === 'test' && children
       }
       {adminEmails == null || members == null || approvedMembers == null ? (
-        <div style={{ marginTop: '45%' }}>
-          <Loader style={{ fontSize: 12 }} active size="massive"></Loader>
+        <div>
+          <Loader active size="massive" />
           {!isIDOLMember && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                padding: '0 15%'
-              }}
-            >
-              You do not appear to be registered as a user within the IDOL system. Only DTI members
-              should have access to this site. If you are a DTI member, please make sure that you
-              are logged in with your @cornell.edu email address. If you are logged in with your
-              @cornell.edu email address and are still seeing this message, please use the
-              #idol-support channel in Slack to get in touch with the IDOL team and receive
-              assistance.
-              <Button
-                style={{
-                  marginTop: '30px',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  width: '150px'
-                }}
-                onClick={() => auth.signOut()}
-              >
-                Sign Out
-              </Button>
-            </div>
+            <Modal
+              basic
+              open={!isIDOLMember}
+              header="Hey there :)"
+              content="You do not appear to be registered as a user within the IDOL system. Only DTI members should
+            have access to this site. If you are a DTI member, please make sure that you are logged in
+            with your @cornell.edu email address. If you are logged in with your @cornell.edu email
+            address and are still seeing this message, please use the #idol-support channel in Slack to
+            get in touch with the IDOL team and receive assistance."
+              actions={[{ key: 'sign-out', content: 'Sign out', onClick: () => auth.signOut() }]}
+            />
           )}
         </div>
       ) : (
