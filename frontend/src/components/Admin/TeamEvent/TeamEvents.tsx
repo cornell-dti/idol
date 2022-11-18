@@ -25,6 +25,7 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
+                  <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                 </Card.Content>
               </Card>
             </Link>

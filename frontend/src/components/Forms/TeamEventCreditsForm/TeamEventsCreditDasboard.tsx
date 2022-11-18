@@ -3,6 +3,7 @@ import { Form, Card, Message } from 'semantic-ui-react';
 import styles from './TeamEventCreditsForm.module.css';
 
 const REQUIRED_TEC_CREDITS = 3; // number of required tec credits in a semester
+const REQUIRED_COMMUNITY_CREDITS = 1;
 
 const TeamEventCreditDashboard = (props: {
   approvedTEC: TeamEventInfo[];
@@ -14,8 +15,19 @@ const TeamEventCreditDashboard = (props: {
     (approved, teamEvent) => approved + Number(teamEvent.numCredits),
     0
   );
-  const remainingCredits =
-    REQUIRED_TEC_CREDITS - approvedCredits > 0 ? REQUIRED_TEC_CREDITS - approvedCredits : 0;
+  const approvedCommunityCredits = approvedTEC.reduce(
+    (communityCredits, teamEvent) =>
+      teamEvent.isCommunity ? communityCredits + Number(teamEvent.numCredits) : communityCredits,
+    0
+  );
+
+  // Calculate the remaining credits
+  let remainingCredits;
+  if (REQUIRED_TEC_CREDITS - approvedCredits > 0)
+    remainingCredits = REQUIRED_TEC_CREDITS - approvedCredits;
+  else if (approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
+    remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
+  else remainingCredits = 0;
 
   return (
     <div>
@@ -24,12 +36,20 @@ const TeamEventCreditDashboard = (props: {
         <h1>Check Team Event Credits</h1>
         <p>
           Check your team event credit status for this semester here! Every DTI member must complete{' '}
-          {REQUIRED_TEC_CREDITS} team event credits to fulfill this requirement.
+          {REQUIRED_TEC_CREDITS} team event credits and {REQUIRED_COMMUNITY_CREDITS} community team
+          event credits to fulfill this requirement.
         </p>
 
         <div className={styles.inline}>
           <label className={styles.bold}>
             Your Approved Credits: <span className={styles.dark_grey_color}>{approvedCredits}</span>
+          </label>
+        </div>
+
+        <div className={styles.inline}>
+          <label className={styles.bold}>
+            Your Approved Community Credits:{' '}
+            <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
           </label>
         </div>
 
@@ -50,6 +70,7 @@ const TeamEventCreditDashboard = (props: {
                     <Card.Header>{teamEvent.name} </Card.Header>
                     <Card.Meta>{teamEvent.date}</Card.Meta>
                     <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
+                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                   </Card.Content>
                 </Card>
               ))}

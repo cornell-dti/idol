@@ -247,7 +247,10 @@ loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, user));
 loginCheckedPost('/signInAll', async (_, user) => allSignInForms(user));
 
 // Team Events
-loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
+loginCheckedPost('/createTeamEvent', async (req, user) => {
+  await createTeamEvent(req.body, user);
+  return {};
+});
 loginCheckedGet('/getTeamEvent/:uuid', async (req, user) => ({
   event: await getTeamEvent(req.params.uuid, user)
 }));
