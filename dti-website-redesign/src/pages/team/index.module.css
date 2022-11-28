@@ -1,0 +1,189 @@
+.leftRedShadow {
+  position: absolute;
+  width: 328px;
+  height: 368px;
+  left: -7.02px;
+  top: 988px;
+
+  background: rgba(173, 54, 54, 0.8);
+  filter: blur(150px);
+}
+
+.rightRedShadow {
+  position: absolute;
+  width: 328px;
+  height: 368px;
+  left: 1339px;
+  top: 1200px;
+
+  background: rgba(173, 54, 54, 0.8);
+  filter: blur(150px);
+}
+
+.workingTogether {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  left: 700px;
+  top: -200px;
+  margin-bottom: 2%;
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 600;
+  font-size: 50px;
+  line-height: 32px;
+  flex-direction: row;
+}
+
+.diversity {
+  position: relative;
+  left: 100px;
+  top: -450px;
+  margin-bottom: 1%;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 50px;
+  line-height: 32px;
+}
+
+.paragraph {
+  position: relative;
+  height: 162px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  text-align: left;
+  line-height: 25px;
+  color: #FFFFFF;
+}
+
+.leftShapes {
+  position: relative;
+  width: 298px;
+  height: 390px;
+  left: -230px;
+  top: -340px;
+}
+
+.middleShapes {
+  position: relative;
+  width: 298px;
+  height: 390px;
+  left: -200px;
+  top: 0px;
+}
+
+.rightShapes {
+  position: relative;
+  width: 298px;
+  height: 390px;
+  left: 673px;
+  top: -600px;
+  
+}
+
+.our {
+  width: 217px;
+  color: #FFFFFF;
+}
+
+.team {
+  width: 295px;
+  color: #FE6D6D;
+}
+
+.ourTeam {
+  position: relative;
+  width: 1000px;
+  left: 300px;
+  height: 121px;
+  top: 130px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 100px;
+  line-height: 121px;
+}
+
+.teamMiddleRight {
+  position: relative;
+  width: 450px;
+  height: 250px;
+  left: 400px;
+  top: 150px;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.teamTopLeft {
+  position: relative;
+  width: 450px;
+  height: 300px;
+  left: -1100px;
+  top: -560px;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.teamBottomLeft {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  left: -415px;
+  top: -200px;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.donutPlaceholder {
+  position: relative;
+  left: 0px;
+  top: 150px;
+}
+
+.statLeftVerticalBar {
+  width: 0px;
+  height: 111px;
+  border: 2px solid #FE6D6D;
+  border-radius: 170px;
+  margin-right: 10px;
+}
+
+.statNum {
+  text-align: left;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 52px;
+  line-height: 32px;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+
+.statData {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 23px;
+  color: #EAEAEA;
+  margin-top: 15px;
+}
+
+.statSubTeamsColor {
+  position: relative;
+  width: 52px;
+  height: 10px;
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 110px;
+}
+
+.statSubTeams {
+  position: relative;
+  margin-left: 20px;
+  top: -16px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  color: #EAEAEA;
+}
