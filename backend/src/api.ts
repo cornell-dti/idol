@@ -214,7 +214,7 @@ loginCheckedPost('/giveShoutout', async (req, user) => ({
 }));
 
 loginCheckedPost('/hideShoutout', async (req, user) => {
-  await hideShoutout(req.body.uuid, user);
+  await hideShoutout(req.body.uuid, req.body.hide, user);
   return {};
 });
 

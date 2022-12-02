@@ -3,11 +3,17 @@
   align-self: center;
   margin: auto;
   padding-top: 10vh;
-  padding-bottom: 5vh;
+  padding-bottom: 3vh;
 }
 
 .formTitle {
   margin-bottom: 2vh;
+  text-decoration-line: underline;
+}
+
+.buttonGroup {
+  padding-left: 5%;
+  padding-bottom: 3vh;
 }
 
 .shoutoutsListContainer {
@@ -17,7 +23,7 @@
 }
 
 .noShoutoutsContainer {
-  width: 100%;
+  width: 100% !important;
   white-space: pre-wrap;
 }
 
@@ -28,9 +34,12 @@
 }
 
 .shoutoutTo {
-  color: black;
   font-weight: bold;
-  font-size: 17px;
+  font-size: 18px !important;
+}
+
+.presentShoutoutTo {
+  font-size: 25px !important;
 }
 
 .shoutoutDate {
@@ -46,11 +55,21 @@
   align-self: left;
 }
 
+.presentShoutoutFrom {
+  margin-top: 0 !important;
+}
+
 .shoutoutHide {
   display: flex;
   justify-content: space-between;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+.presentShoutoutMessage {
+  color: black;
+  margin-top: 0 !important;
+  font-size: 25px !important;
 }
 
 .shoutoutMessage {
