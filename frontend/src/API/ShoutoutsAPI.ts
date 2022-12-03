@@ -55,7 +55,7 @@ export class ShoutoutsAPI {
     return APIWrapper.post(`${backendURL}/giveShoutout`, shoutout).then((res) => res.data);
   }
 
-  public static hideShoutout(uuid: string): Promise<void> {
-    return APIWrapper.post(`${backendURL}/hideShoutout`, { uuid }).then((res) => res.data);
+  public static hideShoutout(uuid: string, hide: boolean): Promise<void> {
+    return APIWrapper.post(`${backendURL}/hideShoutout`, { uuid, hide }).then((res) => res.data);
   }
 }
