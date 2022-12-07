@@ -1,7 +1,7 @@
 import Layout from '../../components/Layout';
 import styles from './index.module.css';
 
-const CollegeStat = ({ num, data }: CollegeStat): JSX.Element => (
+const CollegeStat = ({ num, data }: CollegeStatProp): JSX.Element => (
   <div className={styles.statCollege}>
     <div className={styles.statLeftVerticalBar} />
     <div className={styles.statNumStatData}>
@@ -11,25 +11,25 @@ const CollegeStat = ({ num, data }: CollegeStat): JSX.Element => (
   </div>
 );
 
-const SubTeamStat = ({ stroke, subteam }: SubTeamStat): JSX.Element => (
+const SubTeamStat = ({ stroke, subteam }: SubTeamStatProp): JSX.Element => (
   <div className={styles.statCollege}>
     <div className={styles.statSubTeamsColor} style={{ borderColor: stroke }} />
     <div className={styles.statSubTeams}>{subteam}</div>
   </div>
 );
 
-type CollegeStat = {
+type CollegeStatProp = {
   num: string;
   data: string;
 };
 
-type SubTeamStat = {
+type SubTeamStatProp = {
   stroke: string;
   subteam: string;
   value?: number;
 };
 
-const collegeStats: CollegeStat[] = [
+const collegeStats: CollegeStatProp[] = [
   {
     num: '35%',
     data: 'Underclassmen'
@@ -44,7 +44,7 @@ const collegeStats: CollegeStat[] = [
   }
 ];
 
-const subTeamStats: SubTeamStat[] = [
+const subTeamStats: SubTeamStatProp[] = [
   {
     stroke: '#FFBCBC',
     subteam: 'Design',
@@ -74,15 +74,19 @@ const subTeamStats: SubTeamStat[] = [
 
 const IndexPage = (): JSX.Element => (
   <Layout>
-    <div className={styles.leftRedShadow}></div>
-    <div className={styles.rightRedShadow}></div>
+    <div className={styles.leftRedShadow} />
+    <div className={styles.rightRedShadow} />
     <div className={styles.background}>
       <div>
         <div className={styles.ourTeam}>
           <div className={styles.our}>OUR</div>
           <div className={styles.team}>TEAM</div>
         </div>
-        <img className={styles.teamMiddleRight} src={'/static/team/team_middle_right.svg'}></img>
+        <img
+          className={styles.teamMiddleRight}
+          src={'/static/team/team_middle_right.svg'}
+          alt={'Team Picture'}
+        />
         <div className={styles.workingTogether}>
           <div className={styles.working}>Working</div>
           <div style={{ color: 'white' }}>Together</div>
@@ -92,13 +96,21 @@ const IndexPage = (): JSX.Element => (
           <b>diverse</b> group of students from different colleges and countries striving to make a
           difference in our <b>community</b>.
         </div>
-        <img className={styles.leftShapes} src={'/static/team/left_shapes.svg'}></img>
-        <img className={styles.rightShapes} src={'/static/team/right_shapes.svg'}></img>
-        <img className={styles.teamTopLeft} src={'/static/team/team_top_left.svg'}></img>
+        <img className={styles.leftShapes} src={'/static/team/left_shapes.svg'} alt={'Shapes'} />
+        <img className={styles.rightShapes} src={'/static/team/right_shapes.svg'} alt={'Shapes'} />
+        <img
+          className={styles.teamTopLeft}
+          src={'/static/team/team_top_left.svg'}
+          alt={'Team Picture'}
+        />
       </div>
 
       <div>
-        <img className={styles.teamBottomLeft} src={'/static/team/team_bottom_left.svg'}></img>
+        <img
+          className={styles.teamBottomLeft}
+          src={'/static/team/team_bottom_left.svg'}
+          alt={'Team Picture'}
+        />
         <div className={styles.diversity}>
           <div style={{ color: 'white' }}>Diversity</div>
         </div>
@@ -111,7 +123,11 @@ const IndexPage = (): JSX.Element => (
       </div>
 
       <div className={styles.teamStats}>
-        <img className={styles.donutPlaceholder} src={'/static/team/donut_placeholder.svg'}></img>
+        <img
+          className={styles.donutPlaceholder}
+          src={'/static/team/donut_placeholder.svg'}
+          alt={'Donut Team Stats Chart'}
+        />
         <div className={styles.collegeStats}>
           {collegeStats.map((collegeStat) => (
             <CollegeStat num={collegeStat.num} data={collegeStat.data} />
