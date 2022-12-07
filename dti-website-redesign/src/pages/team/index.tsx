@@ -1,22 +1,21 @@
 import Layout from '../../components/Layout';
 import styles from './index.module.css';
 
-const CollegeStat = ({num, data}: CollegeStat): JSX.Element => (
-  <div style={{display: 'flex', flexDirection: 'row', marginBottom: '30px'}}>
-    <div className={styles.statLeftVerticalBar}/>
-    <div style={{marginLeft: '20px', marginTop: '20px'}}>
+const CollegeStat = ({ num, data }: CollegeStat): JSX.Element => (
+  <div className={styles.statCollege}>
+    <div className={styles.statLeftVerticalBar} />
+    <div className={styles.statNumStatData}>
       <div className={styles.statNum}>{num}</div>
       <div className={styles.statData}>{data}</div>
     </div>
-
   </div>
 );
 
-const SubTeamStat = ({color, subteam}: SubTeamStat): JSX.Element => (
-  <div style={{position: 'relative', display: 'flex', flexDirection: 'row', marginBottom: '20px'}}>
-  <div className={styles.statSubTeamsColor} style={{ borderColor: color}}/>
-  <div className={styles.statSubTeams}>{subteam}</div>
-</div>
+const SubTeamStat = ({ stroke, subteam }: SubTeamStat): JSX.Element => (
+  <div className={styles.statCollege}>
+    <div className={styles.statSubTeamsColor} style={{ borderColor: stroke }} />
+    <div className={styles.statSubTeams}>{subteam}</div>
+  </div>
 );
 
 type CollegeStat = {
@@ -25,8 +24,9 @@ type CollegeStat = {
 };
 
 type SubTeamStat = {
-  color: string;
+  stroke: string;
   subteam: string;
+  value?: number;
 };
 
 const collegeStats: CollegeStat[] = [
@@ -42,36 +42,41 @@ const collegeStats: CollegeStat[] = [
     num: '5',
     data: 'Represented colleges'
   }
-]
+];
 
 const subTeamStats: SubTeamStat[] = [
   {
-    color: '#FFBCBC',
-    subteam: 'Design'
+    stroke: '#FFBCBC',
+    subteam: 'Design',
+    value: 15
   },
   {
-    color: '#FE6D6D',
-    subteam: 'Development'
+    stroke: '#FF4C4C',
+    subteam: 'Development',
+    value: 45
   },
   {
-    color: '#FFFFFF',
-    subteam: 'Product'
+    stroke: '#FFFFFF',
+    subteam: 'Product',
+    value: 22
   },
   {
-    color: '#FE8A89',
-    subteam: 'Business'
+    stroke: '#B7B7B7',
+    subteam: 'Business',
+    value: 6
   },
   {
-    color: '#484848',
-    subteam: 'Leads'
+    stroke: '#484848',
+    subteam: 'Leads',
+    value: 12
   }
-]
+];
 
 const IndexPage = (): JSX.Element => (
   <Layout>
     <div className={styles.leftRedShadow}></div>
     <div className={styles.rightRedShadow}></div>
-    <div style={{ backgroundColor: '#1C1C1C', height: '300vh', textAlign: 'center' }}>
+    <div className={styles.background}>
       <div>
         <div className={styles.ourTeam}>
           <div className={styles.our}>OUR</div>
@@ -79,40 +84,47 @@ const IndexPage = (): JSX.Element => (
         </div>
         <img className={styles.teamMiddleRight} src={'/static/team/team_middle_right.svg'}></img>
         <div className={styles.workingTogether}>
-          <div style={{ color: '#AEAEAE', paddingRight: '15px'}}>Working</div> 
-          <div style={{ color: 'white'}}>Together</div>
+          <div className={styles.working}>Working</div>
+          <div style={{ color: 'white' }}>Together</div>
         </div>
-        <div className={styles.paragraph} style={{left: '700px', top: '-200px', width: '370px'}}>We are Cornell Design & Tech Initiative. But individually, we are a <b>talented</b>, <b>diverse</b> group of students from different colleges and countries striving to make a difference in our <b>community</b>.</div>
+        <div className={styles.paragraph} style={{ left: '700px', top: '-200px', width: '370px' }}>
+          We are Cornell Design & Tech Initiative. But individually, we are a <b>talented</b>,{' '}
+          <b>diverse</b> group of students from different colleges and countries striving to make a
+          difference in our <b>community</b>.
+        </div>
         <img className={styles.leftShapes} src={'/static/team/left_shapes.svg'}></img>
         <img className={styles.rightShapes} src={'/static/team/right_shapes.svg'}></img>
         <img className={styles.teamTopLeft} src={'/static/team/team_top_left.svg'}></img>
       </div>
-      
+
       <div>
         <img className={styles.teamBottomLeft} src={'/static/team/team_bottom_left.svg'}></img>
         <div className={styles.diversity}>
-          <div style={{ color: 'white'}}>Diversity</div>
+          <div style={{ color: 'white' }}>Diversity</div>
         </div>
-        <div className={styles.paragraph} style={{left: '715px', top: '-450px', width: '510px'}}>
-        More than just being inclusive, our team strives to bring as many backgrounds and perspectives together to solve community problems. These statistics come from recruiting across campus and seeking applicants with the best skills and potential for growth on the team. Updated Fall 2022.
+        <div className={styles.paragraph} style={{ left: '715px', top: '-450px', width: '510px' }}>
+          More than just being inclusive, our team strives to bring as many backgrounds and
+          perspectives together to solve community problems. These statistics come from recruiting
+          across campus and seeking applicants with the best skills and potential for growth on the
+          team. Updated Fall 2022.
         </div>
       </div>
- 
-      <div style={{position: 'relative', top: '-500px'}}>
-        <img className={styles.donutPlaceholder} src={'/static/team/donut_placeholder.png'}></img>
-        <div style={{position: 'relative', left: '100px', top: '-250px'}}>
-          {collegeStats.map((collegeStat) =>
-            <CollegeStat num={collegeStat.num} data={collegeStat.data}/>
-          )}
+
+      <div className={styles.teamStats}>
+        <img className={styles.donutPlaceholder} src={'/static/team/donut_placeholder.svg'}></img>
+        <div className={styles.collegeStats}>
+          {collegeStats.map((collegeStat) => (
+            <CollegeStat num={collegeStat.num} data={collegeStat.data} />
+          ))}
         </div>
-        <div style={{position: 'relative', top: '-650px', left: '1100px'}}>
-        {subTeamStats.map((subTeamStat) => 
-          <SubTeamStat color={subTeamStat.color} subteam={subTeamStat.subteam}/>
-          )}
+        <div className={styles.subteamStats}>
+          {subTeamStats.map((subTeamStat) => (
+            <SubTeamStat stroke={subTeamStat.stroke} subteam={subTeamStat.subteam} />
+          ))}
         </div>
       </div>
     </div>
-    </Layout>
+  </Layout>
 );
 
 export default IndexPage;
