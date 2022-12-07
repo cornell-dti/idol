@@ -89,8 +89,7 @@
 
 .team {
   width: 295px;
-  color: #FF4C4C;
-  ;
+  color: #ff4c4c;
 }
 
 .ourTeam {
@@ -142,8 +141,7 @@
 .statLeftVerticalBar {
   width: 0px;
   height: 111px;
-  border: 2px solid #FF4C4C;
-  ;
+  border: 2px solid #ff4c4c;
   border-radius: 170px;
   margin-right: 10px;
 }
@@ -224,13 +222,13 @@
 }
 
 .background {
-  background-color: #1C1C1C;
+  background-color: #1c1c1c;
   height: 2129px;
   text-align: center;
   max-width: 100%;
 }
 
 .working {
-  color: #AEAEAE;
+  color: #aeaeae;
   padding-right: 15px;
 }
