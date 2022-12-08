@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
@@ -12,7 +12,9 @@ const AdminShoutouts: React.FC = () => {
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 12096e5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
-  const [view, setView] = useState('ALL');
+
+  type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
+  const [view, setView] = useState<ViewMode>('ALL');
 
   const updateShoutouts = useCallback(() => {
     ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
@@ -167,12 +169,13 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
-  const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: string }): JSX.Element => {
+  const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
     const { shoutoutList, buttonText } = props;
+    let currColor: SemanticCOLORS = 'grey';
+    if (buttonText === view) currColor = 'blue';
     return (
       <Button
-        basic
-        color="grey"
+        color={currColor}
         onClick={() => {
           setView(buttonText);
           setDisplayShoutouts(shoutoutList);
