@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown, Button, Icon, Divider, TextArea, Message } from 'semantic-ui-react';
+import {
+  Form,
+  Dropdown,
+  Button,
+  Icon,
+  Divider,
+  TextArea,
+  Message,
+  Accordion
+} from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfolio';
@@ -198,6 +207,8 @@ const DevPortfolioForm: React.FC = () => {
             <></>
           )}
 
+          <OtherPRsSection />
+
           <div className={styles.inline}>
             <label className={styles.bold}>
               Opened Pull Request Github Link:{' '}
@@ -311,6 +322,20 @@ const DevPortfolioForm: React.FC = () => {
         />
       </div>
     </div>
+  );
+};
+
+const OtherPRsSection: React.FC = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  return (
+    <Accordion>
+      <Accordion.Title index={0} active={isOpen} onClick={() => setIsOpen((prev) => !prev)}>
+        <Icon name="dropdown" />
+        Other PRs
+      </Accordion.Title>
+      <Accordion.Content active={isOpen}>Hello World!</Accordion.Content>
+    </Accordion>
   );
 };
 
