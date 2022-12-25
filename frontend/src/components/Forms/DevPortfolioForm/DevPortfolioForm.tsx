@@ -197,98 +197,20 @@ const DevPortfolioForm: React.FC = () => {
           ) : (
             <></>
           )}
-
-          <div className={styles.inline}>
-            <label className={styles.bold}>
-              Opened Pull Request Github Link:{' '}
-              {!isTpm && <span className={styles.red_color}>*</span>}
-            </label>
-            {openPRs.map((openPR, index) => (
-              <div className={styles.prInputContainer} key={index}>
-                <input
-                  onKeyDown={keyDownHandler}
-                  type="text"
-                  onChange={(e) => {
-                    setOpenPRs((prs) => {
-                      const newOpenPRs = [...prs];
-                      newOpenPRs[index] = e.target.value;
-                      return newOpenPRs;
-                    });
-                  }}
-                  value={openPR}
-                  name="openPR"
-                  placeholder="Opened PR"
-                />
-                <div className={styles.btnContainer}>
-                  {openPRs.length !== 1 ? (
-                    <Button
-                      icon
-                      onClick={() => {
-                        const rows = [...openPRs];
-                        rows.splice(index, 1);
-                        setOpenPRs(rows);
-                      }}
-                    >
-                      <Icon name="trash alternate" />
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </div>
-            ))}
-            <div className="row">
-              <div className="col-sm-12">
-                <button onClick={() => setOpenPRs([...openPRs, ''])}>Add New</button>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.inline}>
-            <label className={styles.bold}>
-              Reviewed Pull Request Github Link:{' '}
-              {!isTpm && <span className={styles.red_color}>*</span>}
-            </label>
-            {reviewPRs.map((reviewPR, index) => (
-              <div className={styles.prInputContainer} key={index}>
-                <input
-                  onKeyDown={keyDownHandler}
-                  type="text"
-                  onChange={(e) => {
-                    setReviewedPRs((prs) => {
-                      const newReviewPRs = [...prs];
-                      newReviewPRs[index] = e.target.value;
-                      return newReviewPRs;
-                    });
-                  }}
-                  value={reviewPR}
-                  name="reviewedPR"
-                  placeholder="Reviewed PR"
-                />
-                <div className={styles.btnContainer}>
-                  {reviewPRs.length !== 1 ? (
-                    <Button
-                      icon
-                      onClick={() => {
-                        const rows = [...reviewPRs];
-                        rows.splice(index, 1);
-                        setReviewedPRs(rows);
-                      }}
-                    >
-                      <Icon name="trash alternate" />
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </div>
-            ))}
-            <div className="row">
-              <div className="col-sm-12">
-                <button onClick={() => setReviewedPRs([...reviewPRs, ''])}>Add New</button>
-              </div>
-            </div>
-          </div>
+          <PRInputs
+            prs={openPRs}
+            setPRs={setOpenPRs}
+            placeholder="Opened PR"
+            label="Opened Pull Request Github Link:"
+            isTpm={isTpm}
+          />
+          <PRInputs
+            prs={reviewPRs}
+            setPRs={setReviewedPRs}
+            placeholder="Reviewed PR"
+            label="Reviewed Pull Request Github Link:"
+            isTpm={isTpm}
+          />
         </div>
         <Message info>
           <Message.Header>Please note</Message.Header>
@@ -309,6 +231,71 @@ const DevPortfolioForm: React.FC = () => {
           setIsLoading={setIsLoading}
           isAdminView={false}
         />
+      </div>
+    </div>
+  );
+};
+
+const PRInputs = ({
+  prs,
+  setPRs,
+  label,
+  placeholder,
+  isTpm
+}: {
+  prs: string[];
+  setPRs: React.Dispatch<React.SetStateAction<string[]>>;
+  label: string;
+  placeholder: string;
+  isTpm: boolean;
+}) => {
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === 'Enter') {
+      event.preventDefault();
+    }
+  };
+  return (
+    <div className={styles.inline}>
+      <label className={styles.bold}>
+        {label} {!isTpm && <span className={styles.red_color}>*</span>}
+      </label>
+      {prs.map((pr, index) => (
+        <div className={styles.prInputContainer} key={index}>
+          <input
+            onKeyDown={keyDownHandler}
+            type="text"
+            onChange={(e) => {
+              setPRs((prs) => {
+                const newPRs = [...prs];
+                newPRs[index] = e.target.value;
+                return newPRs;
+              });
+            }}
+            value={pr}
+            placeholder={placeholder}
+          />
+          <div className={styles.btnContainer}>
+            {prs.length !== 1 ? (
+              <Button
+                icon
+                onClick={() => {
+                  const rows = [...prs];
+                  rows.splice(index, 1);
+                  setPRs(rows);
+                }}
+              >
+                <Icon name="trash alternate" />
+              </Button>
+            ) : (
+              ''
+            )}
+          </div>
+        </div>
+      ))}
+      <div className="row">
+        <div className="col-sm-12">
+          <button onClick={() => setPRs([...prs, ''])}>Add New</button>
+        </div>
       </div>
     </div>
   );
