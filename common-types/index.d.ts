@@ -168,3 +168,13 @@ interface DevPortfolioInfo {
 interface DevPortfolio extends DevPortfolioInfo {
   submissions: DevPortfolioSubmission[];
 }
+
+interface Shoutout {
+  readonly giver: IdolMember;
+  readonly receiver: string;
+  readonly message: string;
+  readonly isAnon: boolean;
+  readonly timestamp: number;
+  readonly hidden: boolean;
+  readonly uuid: string;
+}

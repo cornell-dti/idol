@@ -18,16 +18,6 @@ export type DBShoutout = {
   uuid: string;
 };
 
-export type Shoutout = {
-  giver: IdolMember;
-  receiver: string;
-  message: string;
-  isAnon: boolean;
-  timestamp: number;
-  hidden: boolean;
-  uuid: string;
-};
-
 export type DBSignInFormResponse = {
   signedInAt: number;
   user: firestore.DocumentReference;

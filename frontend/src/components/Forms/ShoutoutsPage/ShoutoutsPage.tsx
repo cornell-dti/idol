@@ -5,7 +5,7 @@ import { Emitters } from '../../../utils';
 import ShoutoutForm from './ShoutoutForm';
 import ShoutoutList from './ShoutoutList';
 import styles from './ShoutoutsPage.module.css';
-import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
+import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 
 const ShoutoutsPage: React.FC = () => {
   const userEmail = useUserEmail();

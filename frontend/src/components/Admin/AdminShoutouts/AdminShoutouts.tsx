@@ -3,7 +3,7 @@ import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semanti
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
-import { ShoutoutsAPI, Shoutout } from '../../../API/ShoutoutsAPI';
+import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 
 const AdminShoutouts: React.FC = () => {

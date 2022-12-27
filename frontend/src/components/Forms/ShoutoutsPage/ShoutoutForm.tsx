@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, TextArea, Checkbox } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { Emitters } from '../../../utils';
-import { Shoutout, ShoutoutsAPI } from '../../../API/ShoutoutsAPI';
+import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import styles from './ShoutoutForm.module.css';
 

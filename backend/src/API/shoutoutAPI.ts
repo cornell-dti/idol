@@ -1,6 +1,5 @@
 import PermissionsManager from '../utils/permissionsManager';
 import { NotFoundError, PermissionError } from '../utils/errors';
-import { Shoutout } from '../types/DataTypes';
 import ShoutoutsDao from '../dao/ShoutoutsDao';
 
 export const getAllShoutouts = (): Promise<Shoutout[]> => ShoutoutsDao.getAllShoutouts();
