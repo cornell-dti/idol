@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Item,
+  Card,
+  Modal,
+  Header,
+  SemanticCOLORS,
+  Pagination
+} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
@@ -120,25 +129,34 @@ const AdminShoutouts: React.FC = () => {
   };
 
   const DisplayList = (): JSX.Element => {
+    const SHOUTOUTS_PER_PAGE = 10;
+
+    const [activePage, setActivePage] = useState<number>(1);
+
+    const totalPages = Math.ceil(displayShoutouts.length / SHOUTOUTS_PER_PAGE);
+    const displayedShoutouts = displayShoutouts.slice(
+      SHOUTOUTS_PER_PAGE * (activePage - 1),
+      SHOUTOUTS_PER_PAGE * activePage
+    );
+
     if (displayShoutouts.length === 0)
       return (
         <Card className={styles.noShoutoutsContainer}>
           <Card.Content>No shoutouts in this date range.</Card.Content>
         </Card>
       );
+
+    let ShoutoutsDisplay;
     if (view === 'PRESENT')
-      return (
+      ShoutoutsDisplay = (
         <Item.Group divided>
-          {displayShoutouts.map((shoutout, i) => (
+          {displayedShoutouts.map((shoutout, i) => (
             <Item key={i}>
               <Item.Content>
-                <Item.Header
-                  className={styles.presentShoutoutTo}
-                >{`${shoutout.receiver}`}</Item.Header>
-                <Item.Meta
-                  className={styles.presentShoutoutFrom}
-                  content={` ${fromString(shoutout)}`}
-                />
+                <Item.Header className={styles.presentShoutoutTo}>
+                  {`${shoutout.receiver}`}{' '}
+                  <span className={styles.presentShoutoutFrom}>{` ${fromString(shoutout)}`}</span>
+                </Item.Header>
                 <Item.Description
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
@@ -148,24 +166,36 @@ const AdminShoutouts: React.FC = () => {
           ))}
         </Item.Group>
       );
+    else
+      ShoutoutsDisplay = (
+        <Item.Group divided>
+          {displayedShoutouts.map((shoutout, i) => (
+            <Item key={i}>
+              <Item.Content>
+                <Item.Group widths="equal" className={styles.shoutoutDetails}>
+                  <Item.Header className={styles.shoutoutTo}>{`${shoutout.receiver}`}</Item.Header>
+                  <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
+                </Item.Group>
+                <Item.Group widths="equal" className={styles.shoutoutHide}>
+                  <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
+                  <HideModal shoutout={shoutout} />
+                </Item.Group>
+                <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
+              </Item.Content>
+            </Item>
+          ))}
+        </Item.Group>
+      );
+
     return (
-      <Item.Group divided>
-        {displayShoutouts.map((shoutout, i) => (
-          <Item key={i}>
-            <Item.Content>
-              <Item.Group widths="equal" className={styles.shoutoutDetails}>
-                <Item.Header className={styles.shoutoutTo}>{`${shoutout.receiver}`}</Item.Header>
-                <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
-              </Item.Group>
-              <Item.Group widths="equal" className={styles.shoutoutHide}>
-                <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
-                <HideModal shoutout={shoutout} />
-              </Item.Group>
-              <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
-            </Item.Content>
-          </Item>
-        ))}
-      </Item.Group>
+      <div>
+        {ShoutoutsDisplay}
+        <Pagination
+          activePage={activePage}
+          totalPages={totalPages}
+          onPageChange={(e, data) => setActivePage(data.activePage ? Number(data.activePage) : 1)}
+        />
+      </div>
     );
   };
 
