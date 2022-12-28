@@ -106,11 +106,7 @@ const IndexPage = (): JSX.Element => (
             src={'/static/team/right_shapes.svg'}
             alt={'Shapes'}
           />
-          <img
-            className={styles.teamTopLeft}
-            src={'/static/team/team_top_left.svg'}
-            alt={'Team'}
-          />
+          <img className={styles.teamTopLeft} src={'/static/team/team_top_left.svg'} alt={'Team'} />
         </div>
 
         <div>
