@@ -86,23 +86,30 @@ const IndexPage = (): JSX.Element => (
           <img
             className={styles.teamMiddleRight}
             src={'/static/team/team_middle_right.svg'}
-            alt={'Team Picture'}
+            alt={'Team'}
           />
           <div className={styles.workingTogether}>
             <div className={styles.working}>Working</div>
             <div style={{ color: 'white' }}>Together</div>
           </div>
-          <div className={styles.paragraph} style={{ left: '700px', top: '-200px', width: '370px' }}>
+          <div
+            className={styles.paragraph}
+            style={{ left: '700px', top: '-200px', width: '370px' }}
+          >
             We are Cornell Design & Tech Initiative. But individually, we are a <b>talented</b>,{' '}
-            <b>diverse</b> group of students from different colleges and countries striving to make a
-            difference in our <b>community</b>.
+            <b>diverse</b> group of students from different colleges and countries striving to make
+            a difference in our <b>community</b>.
           </div>
           <img className={styles.leftShapes} src={'/static/team/left_shapes.svg'} alt={'Shapes'} />
-          <img className={styles.rightShapes} src={'/static/team/right_shapes.svg'} alt={'Shapes'} />
+          <img
+            className={styles.rightShapes}
+            src={'/static/team/right_shapes.svg'}
+            alt={'Shapes'}
+          />
           <img
             className={styles.teamTopLeft}
             src={'/static/team/team_top_left.svg'}
-            alt={'Team Picture'}
+            alt={'Team'}
           />
         </div>
 
@@ -110,16 +117,19 @@ const IndexPage = (): JSX.Element => (
           <img
             className={styles.teamBottomLeft}
             src={'/static/team/team_bottom_left.svg'}
-            alt={'Team Picture'}
+            alt={'Team'}
           />
           <div className={styles.diversity}>
             <div style={{ color: 'white' }}>Diversity</div>
           </div>
-          <div className={styles.paragraph} style={{ left: '715px', top: '-450px', width: '510px' }}>
+          <div
+            className={styles.paragraph}
+            style={{ left: '715px', top: '-450px', width: '510px' }}
+          >
             More than just being inclusive, our team strives to bring as many backgrounds and
             perspectives together to solve community problems. These statistics come from recruiting
-            across campus and seeking applicants with the best skills and potential for growth on the
-            team. Updated Fall 2022.
+            across campus and seeking applicants with the best skills and potential for growth on
+            the team. Updated Fall 2022.
           </div>
         </div>
 
