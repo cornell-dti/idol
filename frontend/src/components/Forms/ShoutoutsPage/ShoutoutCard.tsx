@@ -1,5 +1,4 @@
 import { Card } from 'semantic-ui-react';
-import { Shoutout } from '../../../API/ShoutoutsAPI';
 import styles from './ShoutoutCard.module.css';
 
 const ShoutoutCard = (props: Shoutout): JSX.Element => {

@@ -1,24 +1,13 @@
 import { backendURL } from '../environment';
-import { Member } from './MembersAPI';
 import APIWrapper from './APIWrapper';
 import { Emitters } from '../utils';
-
-export type Shoutout = {
-  giver: Member;
-  receiver: string;
-  message: string;
-  isAnon: boolean;
-  timestamp: number;
-  hidden: boolean;
-  uuid: string;
-};
 
 type ShoutoutResponseObj = {
   shoutout: Shoutout;
   error?: string;
 };
 
-export class ShoutoutsAPI {
+export default class ShoutoutsAPI {
   public static getAllShoutouts(): Promise<Shoutout[]> {
     const responseProm = APIWrapper.get(`${backendURL}/allShoutouts`).then((res) => res.data);
     return responseProm.then((val) => {

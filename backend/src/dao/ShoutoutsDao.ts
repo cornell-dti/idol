@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { memberCollection, shoutoutCollection } from '../firebase';
-import { Shoutout, DBShoutout } from '../types/DataTypes';
+import { DBShoutout } from '../types/DataTypes';
 import { NotFoundError } from '../utils/errors';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
