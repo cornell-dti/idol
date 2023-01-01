@@ -7,7 +7,8 @@ import {
   Modal,
   Header,
   SemanticCOLORS,
-  Pagination
+  Pagination,
+  Input
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -129,14 +130,13 @@ const AdminShoutouts: React.FC = () => {
   };
 
   const DisplayList = (): JSX.Element => {
-    const SHOUTOUTS_PER_PAGE = 10;
-
+    const [shoutoutsPerPage, setShoutoutsPerPage] = useState<number>(10);
     const [activePage, setActivePage] = useState<number>(1);
 
-    const totalPages = Math.ceil(displayShoutouts.length / SHOUTOUTS_PER_PAGE);
+    const totalPages = Math.ceil(displayShoutouts.length / shoutoutsPerPage);
     const displayedShoutouts = displayShoutouts.slice(
-      SHOUTOUTS_PER_PAGE * (activePage - 1),
-      SHOUTOUTS_PER_PAGE * activePage
+      shoutoutsPerPage * (activePage - 1),
+      shoutoutsPerPage * activePage
     );
 
     if (displayShoutouts.length === 0)
@@ -190,11 +190,20 @@ const AdminShoutouts: React.FC = () => {
     return (
       <div>
         {ShoutoutsDisplay}
-        <Pagination
-          activePage={activePage}
-          totalPages={totalPages}
-          onPageChange={(e, data) => setActivePage(data.activePage ? Number(data.activePage) : 1)}
-        />
+
+        <div className={styles.paginationControlsContainer}>
+          <Pagination
+            activePage={activePage}
+            totalPages={totalPages}
+            onPageChange={(e, data) => setActivePage(data.activePage ? Number(data.activePage) : 1)}
+          />
+          <Input
+            label="Shoutouts per page:"
+            value={shoutoutsPerPage}
+            type="number"
+            onChange={(e) => setShoutoutsPerPage(Math.ceil(Number(e.target.value)))}
+          />
+        </div>
       </div>
     );
   };
