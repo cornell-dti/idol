@@ -27,7 +27,7 @@ const DevPortfolioForm: React.FC = () => {
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
-  // const [otherPRs, setOtherPRs] = useState(['']);
+  const [otherPRs, setOtherPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [text, setText] = useState<string | null>(null);
 
@@ -224,6 +224,14 @@ const DevPortfolioForm: React.FC = () => {
               !isTpm && <span className={styles.red_color}>*</span>
             }`}
           />
+          {!isTpm && (
+            <OtherPRsSection
+              otherPRs={otherPRs}
+              setOtherPRs={setOtherPRs}
+              text={text}
+              setText={setText}
+            />
+          )}
         </div>
         <Message info>
           <Message.Header>Please note</Message.Header>
@@ -310,30 +318,36 @@ const PRInputs = ({
   );
 };
 
-// const OtherPRsSection: React.FC = ({
-//   otherPRs,
-//   setOtherPRs
-// }: {
-//   otherPRs: string[];
-//   setOtherPRs: React.Dispatch<React.SetStateAction<string[]>>;
-// }) => {
-//   const [isOpen, setIsOpen] = useState<boolean>(false);
+const OtherPRsSection = ({
+  otherPRs,
+  setOtherPRs,
+  setText,
+  text
+}: {
+  otherPRs: string[];
+  setOtherPRs: React.Dispatch<React.SetStateAction<string[]>>;
+  setText: React.Dispatch<React.SetStateAction<string | null>>;
+  text: string | null;
+}) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-//   return (
-//     <Accordion>
-//       <Accordion.Title index={0} active={isOpen} onClick={() => setIsOpen((prev) => !prev)}>
-//         <Icon name="dropdown" />
-//         Other PRs
-//       </Accordion.Title>
-//       <Accordion.Content active={isOpen}>
-//         <div>
-//           Pleaes note that this section is only for exceptions. Please confirm with the dev leads
-//           and provide an explanation in the text box.
-//         </div>
-//         <label className={styles.bold}>Other PRs</label>
-//       </Accordion.Content>
-//     </Accordion>
-//   );
-// };
+  return (
+    <Accordion>
+      <Accordion.Title index={0} active={isOpen} onClick={() => setIsOpen((prev) => !prev)}>
+        <Icon name="dropdown" />
+        <span className={styles.bold}>Other PRs</span>
+      </Accordion.Title>
+      <Accordion.Content active={isOpen}>
+        <div>
+          Pleaes note that this section is only for exceptions. Please confirm with the dev leads
+          and provide an explanation in the text box.
+        </div>
+        <PRInputs prs={otherPRs} setPRs={setOtherPRs} label="Other PRs: " placeholder="Other PR" />
+        <label className={styles.bold}>Explanation:</label>
+        <TextArea value={text || undefined} onChange={(e) => setText(e.target.value)} />
+      </Accordion.Content>
+    </Accordion>
+  );
+};
 
 export default DevPortfolioForm;
