@@ -206,9 +206,6 @@ const DevPortfolioForm: React.FC = () => {
           ) : (
             <></>
           )}
-
-          <OtherPRsSection />
-
           <div className={styles.inline}>
             <label className={styles.bold}>
               Opened Pull Request Github Link:{' '}
@@ -300,6 +297,7 @@ const DevPortfolioForm: React.FC = () => {
               </div>
             </div>
           </div>
+          <OtherPRsSection />
         </div>
         <Message info>
           <Message.Header>Please note</Message.Header>
@@ -334,7 +332,13 @@ const OtherPRsSection: React.FC = () => {
         <Icon name="dropdown" />
         Other PRs
       </Accordion.Title>
-      <Accordion.Content active={isOpen}>Hello World!</Accordion.Content>
+      <Accordion.Content active={isOpen}>
+        <div>
+          Pleaes note that this section is only for exceptions. Please confirm with the dev leads
+          and provide an explanation in the text box.
+        </div>
+        <label className={styles.bold}>Other PRs</label>
+      </Accordion.Content>
     </Accordion>
   );
 };
