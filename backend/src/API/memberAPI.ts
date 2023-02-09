@@ -51,7 +51,7 @@ export const updateMember = async (
   }
 
   return MembersDao.updateMember(body.email, body).then(async (mem) => {
-    sendMemberUpdateNotifications(req);
+    await sendMemberUpdateNotifications(req);
     return mem;
   });
 };
