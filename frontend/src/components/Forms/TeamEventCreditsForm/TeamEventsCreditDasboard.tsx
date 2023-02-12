@@ -2,14 +2,16 @@ import React from 'react';
 import { Form, Card, Message } from 'semantic-ui-react';
 import styles from './TeamEventCreditsForm.module.css';
 
-const REQUIRED_TEC_CREDITS = 3; // number of required tec credits in a semester
 const REQUIRED_COMMUNITY_CREDITS = 1;
 
 const TeamEventCreditDashboard = (props: {
   approvedTEC: TeamEventInfo[];
   pendingTEC: TeamEventInfo[];
+  userRole: Role;
 }): JSX.Element => {
-  const { approvedTEC, pendingTEC } = props;
+  const { approvedTEC, pendingTEC, userRole } = props;
+
+  const REQUIRED_TEC_CREDITS = userRole === 'lead' ? 6 : 3; // number of required tec credits in a semester based on user role
 
   const approvedCredits = approvedTEC.reduce(
     (approved, teamEvent) => approved + Number(teamEvent.numCredits),
@@ -29,16 +31,19 @@ const TeamEventCreditDashboard = (props: {
     remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
   else remainingCredits = 0;
 
+  let headerString;
+  if (userRole !== 'lead')
+    headerString = `Check your team event credit status for this semester here! Every DTI member must complete ${REQUIRED_TEC_CREDITS} team event credits and ${REQUIRED_COMMUNITY_CREDITS} community team event credits to fulfill this requirement.`;
+  else
+    headerString =
+      'Since you are a lead, you must complete 6 total team event credits, with 1 of them being community event credits.';
+
   return (
     <div>
       <Form>
         <div className={styles.header}></div>
         <h1>Check Team Event Credits</h1>
-        <p>
-          Check your team event credit status for this semester here! Every DTI member must complete{' '}
-          {REQUIRED_TEC_CREDITS} team event credits and {REQUIRED_COMMUNITY_CREDITS} community team
-          event credits to fulfill this requirement.
-        </p>
+        <p>{headerString}</p>
 
         <div className={styles.inline}>
           <label className={styles.bold}>

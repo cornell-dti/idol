@@ -166,7 +166,11 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard pendingTEC={pendingTEC} approvedTEC={approvedTEC} />
+        <TeamEventCreditDashboard
+          pendingTEC={pendingTEC}
+          approvedTEC={approvedTEC}
+          userRole={userInfo.role}
+        />
       </Form>
     </div>
   );
