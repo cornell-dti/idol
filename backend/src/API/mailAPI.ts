@@ -32,6 +32,7 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
 };
 
 const getSendMailURL = (req: Request): string => {
+  console.log(`DEBUG: getSendMailURL: ${req.hostname}`);
   if (isProd) {
     return `https://${req.hostname}/.netlify/functions/api/sendMail`;
   }
