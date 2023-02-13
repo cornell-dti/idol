@@ -7,6 +7,7 @@ import {
   DBDevPortfolio,
   DevPortfolioSubmissionRequestLog
 } from './types/DataTypes';
+import configureAccount from './utils/firebase-utils';
 
 require('dotenv').config();
 
@@ -17,25 +18,8 @@ const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsd
 
 const serviceAccount = useProdDb ? prodServiceAccount : devServiceAccount;
 
-const configureAccount = (sa) => {
-  const configAcc = sa;
-  let parsedPK;
-  try {
-    parsedPK = useProdDb
-      ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY as string)
-      : JSON.parse(process.env.FIREBASE_DEV_PRIVATE_KEY as string);
-  } catch (err) {
-    parsedPK = useProdDb ? process.env.FIREBASE_PRIVATE_KEY : process.env.FIREBASE_DEV_PRIVATE_KEY;
-  }
-  configAcc.private_key = parsedPK;
-  configAcc.private_key_id = useProdDb
-    ? process.env.FIREBASE_PRIVATE_KEY_ID
-    : process.env.FIREBASE_DEV_PRIVATE_KEY_ID;
-  return configAcc;
-};
-
 export const app = admin.initializeApp({
-  credential: admin.credential.cert(configureAccount(serviceAccount)),
+  credential: admin.credential.cert(configureAccount(serviceAccount, useProdDb)),
   databaseURL: 'https://idol-b6c68.firebaseio.com',
   storageBucket: useProdDb ? 'gs://idol-b6c68.appspot.com' : 'gs://cornelldti-idol.appspot.com'
 });
