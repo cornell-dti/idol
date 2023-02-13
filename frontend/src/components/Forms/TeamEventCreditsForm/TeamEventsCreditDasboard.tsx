@@ -29,6 +29,9 @@ const TeamEventCreditDashboard = (props: {
     remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
   else remainingCredits = 0;
 
+  // remove this variable and usage when community events ready to be released
+  const COMMUNITY_EVENTS = false;
+
   return (
     <div>
       <Form>
@@ -36,8 +39,11 @@ const TeamEventCreditDashboard = (props: {
         <h1>Check Team Event Credits</h1>
         <p>
           Check your team event credit status for this semester here! Every DTI member must complete{' '}
-          {REQUIRED_TEC_CREDITS} team event credits and {REQUIRED_COMMUNITY_CREDITS} community team
-          event credits to fulfill this requirement.
+          {REQUIRED_TEC_CREDITS} team event credits
+          {COMMUNITY_EVENTS &&
+            `and ${REQUIRED_COMMUNITY_CREDITS} community team \
+          event credits`}{' '}
+          to fulfill this requirement.
         </p>
 
         <div className={styles.inline}>
@@ -46,12 +52,14 @@ const TeamEventCreditDashboard = (props: {
           </label>
         </div>
 
-        <div className={styles.inline}>
-          <label className={styles.bold}>
-            Your Approved Community Credits:{' '}
-            <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
-          </label>
-        </div>
+        {COMMUNITY_EVENTS && (
+          <div className={styles.inline}>
+            <label className={styles.bold}>
+              Your Approved Community Credits:{' '}
+              <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
+            </label>
+          </div>
+        )}
 
         <div className={styles.inline}>
           <label className={styles.bold}>
