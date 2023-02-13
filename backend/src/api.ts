@@ -96,6 +96,11 @@ app.use(
 );
 app.use(express.json({ limit: '50mb' }));
 
+app.use('/', (req: Request, res: Response, next) => {
+  console.log(`INFO: ${req.originalUrl}`);
+  next();
+});
+
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
   if (typeof idToken !== 'string') return undefined;

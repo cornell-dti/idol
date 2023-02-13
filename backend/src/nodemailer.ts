@@ -8,7 +8,7 @@ const oauth2Client = new google.auth.OAuth2(
 );
 oauth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
 
-const getEmailTransporter = async (): Promise<nodemailer.Transporter<unknown>> => {
+const getEmailTransporter = async (): Promise<nodemailer.Transporter<unknown> | undefined> => {
   const accessToken = await oauth2Client.getAccessToken();
   const transporter = nodemailer.createTransport({
     service: 'gmail',

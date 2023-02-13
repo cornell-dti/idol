@@ -49,11 +49,8 @@ export const updateMember = async (
       `User with email: ${user.email} does not have permission to edit member name or roles!`
     );
   }
-
-  return MembersDao.updateMember(body.email, body).then(async (mem) => {
-    sendMemberUpdateNotifications(req);
-    return mem;
-  });
+  const mem = await MembersDao.updateMember(body.email, body);
+  return sendMemberUpdateNotifications().then(() => mem);
 };
 
 export const deleteMember = async (email: string, user: IdolMember): Promise<void> => {
