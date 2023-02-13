@@ -15,17 +15,26 @@ const SignIn: React.FC = () => {
     <div data-testid="SignIn">
       <Grid textAlign="center" className={styles.container} verticalAlign="middle">
         <Grid.Column className={styles.column}>
-          <Header inverted as="h1" className={styles.title} textAlign="center">
+          <Header as="h1" className={styles.title} textAlign="center">
             <Image src="/dti-logo.png" />
             IDOL
           </Header>
-          <Segment stacked>
+          <Segment>
             <Button basic color="black" fluid onClick={onGoogleSignIn}>
-              <Image avatar src={GoogleLogo.src} /> Sign in with Google
+              <Image avatar src={GoogleLogo.src} />
+              Sign in with Google
             </Button>
           </Segment>
           <Message>
-            Not registered? <a href="mailto:hello@cornelldti.org">Contact us</a>.
+            Not registered? Contact us @{' '}
+            <a
+              href="https://cornelldti.slack.com/channels/idol-support"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              #idol-support
+            </a>
+            .
           </Message>
         </Grid.Column>
       </Grid>
