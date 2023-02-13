@@ -1,11 +1,15 @@
-.SignIn {
+.title {
+  font-size: 2.1rem;
+  font-weight: bold;
+  font-family: var(--mainFontFamily) !important;
 }
 
-.content {
-  margin-left: 2rem;
-  padding-top: 2rem;
+.container {
+  height: 100vh;
+  background: #27292a;
+  margin: 0 !important;
 }
 
-.header {
-  padding-top: 3rem;
+.column {
+  max-width: 450px;
 }

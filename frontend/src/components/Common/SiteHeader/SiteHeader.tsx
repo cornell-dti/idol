@@ -27,7 +27,7 @@ const SiteHeader: React.FC = () => {
             <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
           </Link>
           <div
-            className={styles.title_conainer}
+            className={styles.title_container}
             onMouseEnter={() => setIdolOpen(true)}
             onMouseLeave={() => setIdolOpen(false)}
           >
