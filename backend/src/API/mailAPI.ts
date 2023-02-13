@@ -6,6 +6,7 @@ import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   // Don't send email notifications locally
+  console.log(`INFO: /sendMail -- to: ${to}; subject: ${subject}; text: ${text}`);
   if (!process.env.isProd) {
     return {};
   }
@@ -15,11 +16,18 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
     subject: `IDOL Notifs: ${subject}`,
     text
   };
+  console.log('INFO: creating transporter');
   const transporter = await getEmailTransporter();
+  console.log('INFO: transporter creator');
+  console.log('INFO: sending email...');
   const info = await transporter
     .sendMail(mailOptions)
     .then((info) => info)
-    .catch((error) => ({ error }));
+    .catch((error) => {
+      console.log(`ERROR: ${error}`);
+      return error;
+    });
+  console.log('INFO: email successfully sent');
   return info;
 };
 
