@@ -29,6 +29,8 @@ export const updateMember = async (
   body: IdolMember,
   user: IdolMember
 ): Promise<unknown> => {
+  console.log('INFO: /updateMember');
+
   const canEdit = await PermissionsManager.canEditMembers(user);
   if (!canEdit && user.email !== body.email) {
     // members are able to edit their own information
