@@ -47,7 +47,7 @@ const emailAdmins = async (req: Request, subject: string, text: string) => {
     subject,
     text
   };
-
+  console.debug('INFO: invoking function calls to email all admins');
   return adminEmails.map(async (email) => {
     axios.post(url, { ...requestBody, to: email }, { headers: { 'auth-token': idToken } });
   });
