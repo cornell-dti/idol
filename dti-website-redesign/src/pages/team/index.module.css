@@ -7,8 +7,8 @@
   position: relative;
   width: 298px;
   height: 390px;
-  left: 676px;
-  top: -600px;
+  left: 673px;
+  top: -570px;
   max-width: 100%;
 }
 .rightRedShadow {
@@ -61,6 +61,7 @@
 
 .paragraph {
   position: relative;
+  display: inline-block;
   height: 162px;
   font-family: 'Inter';
   font-style: normal;
@@ -115,7 +116,7 @@
   width: 450px;
   height: 250px;
   left: 400px;
-  top: 150px;
+  top: 185px;
   transform: matrix(-1, 0, 0, 1, 0, 0);
 }
 
