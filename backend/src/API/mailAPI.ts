@@ -18,13 +18,14 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
   };
   console.log('INFO: creating transporter');
   const transporter = await getEmailTransporter();
-  console.log('INFO: transporter creator');
+  if (!transporter) return {};
+  console.log('INFO: transporter created');
   console.log('INFO: sending email...');
   const info = await transporter
     .sendMail(mailOptions)
     .then((info) => info)
     .catch((error) => {
-      console.log(`ERROR: ${error}`);
+      console.error(`${error}`);
       return error;
     });
   console.log('INFO: email successfully sent');
