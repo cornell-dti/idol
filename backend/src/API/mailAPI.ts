@@ -54,12 +54,12 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
 //   );
 // };
 
-export const sendMemberUpdateNotifications = async (req: Request): Promise<any> => {
+export const sendMemberUpdateNotifications = async (req: Request) => {
   const subject = 'IDOL Member Profile Change';
   const text =
     'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
   // return emailAdmins(req, subject, text);
   // TODO: just try to send the mail from here and check the function logs to see what happens
   const adminEmails = await AdminsDao.getAllAdminEmails();
-  return adminEmails.map((email) => sendMail(email, subject, text));
+  return adminEmails.map(async (email) => sendMail(email, subject, text));
 };

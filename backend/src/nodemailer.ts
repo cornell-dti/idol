@@ -10,6 +10,7 @@ oauth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
 
 const getEmailTransporter = async (): Promise<nodemailer.Transporter<unknown> | undefined> => {
   let transporter: nodemailer.Transporter;
+  console.debug('Creating email transporter...');
   try {
     const accessToken = await oauth2Client.getAccessToken();
     transporter = nodemailer.createTransport({
