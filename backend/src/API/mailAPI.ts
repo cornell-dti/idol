@@ -1,7 +1,7 @@
-import axios from 'axios';
+// import axios, { AxiosResponse } from 'axios';
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
-import { isProd } from '../api';
+// import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
@@ -31,31 +31,34 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
   return info;
 };
 
-const getSendMailURL = (req: Request): string => {
-  console.log(`DEBUG: getSendMailURL: ${req.hostname}`);
-  if (isProd) {
-    return `https://${req.hostname}/.netlify/functions/api/sendMail`;
-  }
-  return 'http://localhost:9000/.netlify/functions/api/sendMail';
-};
+// const getSendMailURL = (req: Request): string => {
+//   console.log(`DEBUG: getSendMailURL: ${req.hostname}`);
+//   if (isProd) {
+//     return `https://${req.hostname}/.netlify/functions/api/sendMail`;
+//   }
+//   return 'http://localhost:9000/.netlify/functions/api/sendMail';
+// };
 
-const emailAdmins = async (req: Request, subject: string, text: string) => {
-  const url = getSendMailURL(req);
-  const adminEmails = await AdminsDao.getAllAdminEmails();
-  const idToken = req.headers['auth-token'] as string;
-  const requestBody = {
-    subject,
-    text
-  };
-  console.debug('INFO: invoking function calls to email all admins');
-  return adminEmails.map(async (email) => {
-    axios.post(url, { ...requestBody, to: email }, { headers: { 'auth-token': idToken } });
-  });
-};
+// const emailAdmins = async (req: Request, subject: string, text: string) => {
+//   const url = getSendMailURL(req);
+//   const adminEmails = await AdminsDao.getAllAdminEmails();
+//   const idToken = req.headers['auth-token'] as string;
+//   const requestBody = {
+//     subject,
+//     text
+//   };
+//   console.debug('INFO: invoking function calls to email all admins');
+//   return adminEmails.map((email) =>
+//     axios.post(url, { ...requestBody, to: email }, { headers: { 'auth-token': idToken } })
+//   );
+// };
 
-export const sendMemberUpdateNotifications = async (req: Request): Promise<Promise<void>[]> => {
+export const sendMemberUpdateNotifications = async (req: Request): Promise<any> => {
   const subject = 'IDOL Member Profile Change';
   const text =
     'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
-  return emailAdmins(req, subject, text);
+  // return emailAdmins(req, subject, text);
+  // TODO: just try to send the mail from here and check the function logs to see what happens
+  const adminEmails = await AdminsDao.getAllAdminEmails();
+  return adminEmails.map((email) => sendMail(email, subject, text));
 };
