@@ -6,7 +6,7 @@ import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   // Don't send email notifications locally
-  console.log(`INFO: /sendMail -- to: ${to}; subject: ${subject}; text: ${text}`);
+  console.log(`sendMail() -- to: ${to}; subject: ${subject}; text: ${text}`);
   if (!process.env.isProd) {
     return {};
   }
