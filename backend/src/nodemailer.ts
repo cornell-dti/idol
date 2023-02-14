@@ -13,6 +13,7 @@ const getEmailTransporter = async (): Promise<nodemailer.Transporter<unknown> | 
   console.debug('Creating email transporter...');
   try {
     const accessToken = await oauth2Client.getAccessToken();
+    console.debug('got access token');
     transporter = nodemailer.createTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',
