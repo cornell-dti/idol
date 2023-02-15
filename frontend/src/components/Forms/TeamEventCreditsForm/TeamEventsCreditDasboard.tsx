@@ -1,15 +1,23 @@
 import React from 'react';
 import { Form, Card, Message } from 'semantic-ui-react';
+import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 
-const REQUIRED_TEC_CREDITS = 3; // number of required tec credits in a semester
 const REQUIRED_COMMUNITY_CREDITS = 1;
+const REQUIRED_MEMBER_TEC_CREDITS = 3;
+const REQUIRED_LEAD_TEC_CREDITS = 6;
 
 const TeamEventCreditDashboard = (props: {
   approvedTEC: TeamEventInfo[];
   pendingTEC: TeamEventInfo[];
 }): JSX.Element => {
   const { approvedTEC, pendingTEC } = props;
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const userRole = useSelf()!.role;
+
+  const requiredCredits =
+    userRole === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
   const approvedCredits = approvedTEC.reduce(
     (approved, teamEvent) => approved + Number(teamEvent.numCredits),
@@ -23,22 +31,23 @@ const TeamEventCreditDashboard = (props: {
 
   // Calculate the remaining credits
   let remainingCredits;
-  if (REQUIRED_TEC_CREDITS - approvedCredits > 0)
-    remainingCredits = REQUIRED_TEC_CREDITS - approvedCredits;
+  if (requiredCredits - approvedCredits > 0) remainingCredits = requiredCredits - approvedCredits;
   else if (approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
     remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
   else remainingCredits = 0;
+
+  let headerString;
+  if (userRole !== 'lead')
+    headerString = `Check your team event credit status for this semester here! Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits and ${REQUIRED_COMMUNITY_CREDITS} community team event credits to fulfill this requirement.`;
+  else
+    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits.`;
 
   return (
     <div>
       <Form>
         <div className={styles.header}></div>
         <h1>Check Team Event Credits</h1>
-        <p>
-          Check your team event credit status for this semester here! Every DTI member must complete{' '}
-          {REQUIRED_TEC_CREDITS} team event credits and {REQUIRED_COMMUNITY_CREDITS} community team
-          event credits to fulfill this requirement.
-        </p>
+        <p>{headerString}</p>
 
         <div className={styles.inline}>
           <label className={styles.bold}>
