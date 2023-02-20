@@ -44,6 +44,10 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ## Contributors
 
+### Spring 2023
+
+- **Oscar Wang** - Developer
+
 ### Fall 2022
 
 - **Alyssa Zhang** - PM
