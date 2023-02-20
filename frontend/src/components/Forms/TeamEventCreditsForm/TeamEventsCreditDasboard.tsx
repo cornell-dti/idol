@@ -8,8 +8,8 @@ const REQUIRED_MEMBER_TEC_CREDITS = 3;
 const REQUIRED_LEAD_TEC_CREDITS = 6;
 
 const TeamEventCreditDashboard = (props: {
-  approvedTEC: TeamEventInfo[];
-  pendingTEC: TeamEventInfo[];
+  approvedTEC: TeamEventHoursInfo[];
+  pendingTEC: TeamEventHoursInfo[];
 }): JSX.Element => {
   const { approvedTEC, pendingTEC } = props;
 
@@ -19,8 +19,15 @@ const TeamEventCreditDashboard = (props: {
   const requiredCredits =
     userRole === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
+  const calculateNumCredits = ({
+    hasHours,
+    hoursAttended,
+    numCredits
+  }: TeamEventHoursInfo): number =>
+    hasHours && hoursAttended ? Number(numCredits) * hoursAttended : Number(numCredits);
+
   const approvedCredits = approvedTEC.reduce(
-    (approved, teamEvent) => approved + Number(teamEvent.numCredits),
+    (approved, teamEvent) => approved + calculateNumCredits(teamEvent),
     0
   );
   const approvedCommunityCredits = approvedTEC.reduce(
@@ -73,12 +80,12 @@ const TeamEventCreditDashboard = (props: {
           <label className={styles.bold}>Approved Events:</label>
           {approvedTEC.length !== 0 ? (
             <Card.Group>
-              {approvedTEC.map((teamEvent) => (
-                <Card>
+              {approvedTEC.map((teamEvent, i) => (
+                <Card key={i}>
                   <Card.Content>
                     <Card.Header>{teamEvent.name} </Card.Header>
                     <Card.Meta>{teamEvent.date}</Card.Meta>
-                    <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
+                    <Card.Meta>{`Number of Credits: ${calculateNumCredits(teamEvent)}`}</Card.Meta>
                     <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                   </Card.Content>
                 </Card>
@@ -93,12 +100,12 @@ const TeamEventCreditDashboard = (props: {
           <label className={styles.bold}>Pending Approval For:</label>
           {pendingTEC.length !== 0 ? (
             <Card.Group>
-              {pendingTEC.map((teamEvent) => (
-                <Card>
+              {pendingTEC.map((teamEvent, i) => (
+                <Card key={i}>
                   <Card.Content>
                     <Card.Header>{teamEvent.name} </Card.Header>
                     <Card.Meta>{teamEvent.date}</Card.Meta>
-                    <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
+                    <Card.Meta>{`Number of Credits: ${calculateNumCredits(teamEvent)}`}</Card.Meta>
                   </Card.Content>
                 </Card>
               ))}

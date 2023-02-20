@@ -131,15 +131,26 @@ export default class TeamEventsDao {
    * @param email - email of the user
    * @param isPending - get pending or approved requests
    */
-  static async getTeamEventsForMember(email: string, isPending: boolean): Promise<TeamEventInfo[]> {
+  static async getTeamEventsForMember(
+    email: string,
+    isPending: boolean
+  ): Promise<TeamEventHoursInfo[]> {
     const allTeamEvents = await this.getAllTeamEvents();
     const memberTeamEventInfoList = allTeamEvents.reduce(
-      (teamEvents: TeamEventInfo[], teamEvent: TeamEvent) => {
+      (teamEvents: TeamEventHoursInfo[], teamEvent: TeamEvent) => {
         const attendanceList = isPending ? teamEvent.requests : teamEvent.attendees;
-        const hasMemberRequest = attendanceList.some((val) => val.member.email === email);
-        if (hasMemberRequest) {
+        let hoursAttended;
+        const hasMemberAttendance = attendanceList.some((val) => {
+          const hasUser = val.member.email === email;
+          if (hasUser && teamEvent.hasHours) {
+            hoursAttended = val.hoursAttended;
+          }
+          return hasUser;
+        });
+
+        if (hasMemberAttendance) {
           const { attendees, requests, ...teamEventInfo } = teamEvent;
-          return [...teamEvents, teamEventInfo];
+          return [...teamEvents, { hoursAttended, ...teamEventInfo }];
         }
         return teamEvents;
       },

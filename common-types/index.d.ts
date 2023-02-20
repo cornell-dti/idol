@@ -95,6 +95,10 @@ interface TeamEventInfo {
   readonly isCommunity: boolean;
 }
 
+interface TeamEventHoursInfo extends TeamEventInfo {
+  readonly hoursAttended?: number;
+}
+
 interface TeamEvent extends TeamEventInfo {
   readonly attendees: TeamEventAttendance[];
   readonly requests: TeamEventAttendance[];

@@ -74,4 +74,4 @@ export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
 export const getAllTeamEventsForMember = async (
   email: string,
   isPending: boolean
-): Promise<TeamEventInfo[]> => TeamEventsDao.getTeamEventsForMember(email, isPending);
+): Promise<TeamEventHoursInfo[]> => TeamEventsDao.getTeamEventsForMember(email, isPending);

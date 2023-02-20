@@ -34,12 +34,16 @@ const TeamEventForm = (props: Props): JSX.Element => {
     } else if (
       !teamEventCreditNum ||
       teamEventCreditNum === '' ||
-      isNaN(Number(teamEventCreditNum)) ||
-      Number(teamEventCreditNum) < 0.5
+      isNaN(Number(teamEventCreditNum))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Credit Amount',
         contentMsg: 'Please enter how many credits the event is worth!'
+      });
+    } else if (Number(teamEventCreditNum) < 0.25) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Team Event Credit Amount',
+        contentMsg: 'The event should be worth 0.25 or more credits.'
       });
     } else if (teamEvent && editTeamEvent) {
       const editedTeamEvent: TeamEvent = {

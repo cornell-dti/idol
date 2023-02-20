@@ -15,8 +15,8 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
-  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
-  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
+  const [approvedTEC, setApprovedTEC] = useState<TeamEventHoursInfo[]>([]);
+  const [pendingTEC, setPendingTEC] = useState<TeamEventHoursInfo[]>([]);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
@@ -55,10 +55,15 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'No Image Uploaded',
         contentMsg: 'Please upload an image!'
       });
-    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)) || Number(hours) < 1)) {
+    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)))) {
       Emitters.generalError.emit({
         headerMsg: 'No Hours Entered',
         contentMsg: 'Please enter your hours!'
+      });
+    } else if (teamEvent.hasHours && Number(hours) <= 0) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Hours Entered',
+        contentMsg: 'Please enter a positive number of hours.'
       });
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
@@ -67,7 +72,7 @@ const TeamEventCreditForm: React.FC = () => {
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
-        setPendingTEC((pending) => [...pending, teamEvent]);
+        setPendingTEC((pending) => [...pending, { ...teamEvent, hoursAttended: Number(hours) }]);
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Credit submitted!',
           contentMsg: `The leads were notified of your submission and your credit will be approved soon!`

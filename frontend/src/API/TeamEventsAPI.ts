@@ -12,8 +12,8 @@ export type EventAttendance = TeamEventAttendance;
 export type Event = TeamEvent;
 
 export type MemberTECRequests = {
-  pending: TeamEventInfo[];
-  approved: TeamEventInfo[];
+  pending: TeamEventHoursInfo[];
+  approved: TeamEventHoursInfo[];
 };
 
 export class TeamEventsAPI {
