@@ -59,6 +59,9 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ isPending, teamEv
   );
 };
 
+// remove this variable and usage when community events ready to be released
+const COMMUNITY_EVENTS = false;
+
 const TeamEventDetails: React.FC = () => {
   const location = useRouter();
   const uuid = location.query.uuid as string;
@@ -131,9 +134,11 @@ const TeamEventDetails: React.FC = () => {
         <h3 className={styles.eventDetails}>Date: {teamEvent.date}</h3>
         <h3 className={styles.eventDetails}>Credits: {teamEvent.numCredits}</h3>
         <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'yes' : 'no'}</h3>
-        <h3 className={styles.eventDetails}>
-          Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}
-        </h3>
+        {COMMUNITY_EVENTS && (
+          <h3 className={styles.eventDetails}>
+            Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}
+          </h3>
+        )}
       </div>
 
       <div className={styles.listsContainer}>
