@@ -43,18 +43,15 @@ const TeamEventCreditDashboard = (props: {
   if (userRole !== 'lead')
     headerString = `Check your team event credit status for this semester here!  
     Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits 
-    ${
-      COMMUNITY_EVENTS
-        ? `and ${REQUIRED_COMMUNITY_CREDITS} community team event credits to fulfill this requirement.`
-        : ''
-    }`;
+    ${COMMUNITY_EVENTS ? `and ${REQUIRED_COMMUNITY_CREDITS} community team event credits` : ''} 
+    to fulfill this requirement.`;
   else
     headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits
     ${
       COMMUNITY_EVENTS
-        ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits.`
+        ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
         : ''
-    }`;
+    }.`;
 
   return (
     <div>
