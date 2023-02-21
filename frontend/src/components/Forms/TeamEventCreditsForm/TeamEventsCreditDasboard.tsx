@@ -43,11 +43,22 @@ const TeamEventCreditDashboard = (props: {
     remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
   else remainingCredits = 0;
 
+  // remove this variable and usage when community events ready to be released
+  const COMMUNITY_EVENTS = false;
+
   let headerString;
   if (userRole !== 'lead')
-    headerString = `Check your team event credit status for this semester here! Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits and ${REQUIRED_COMMUNITY_CREDITS} community team event credits to fulfill this requirement.`;
+    headerString = `Check your team event credit status for this semester here!  
+    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits 
+    ${COMMUNITY_EVENTS ? `and ${REQUIRED_COMMUNITY_CREDITS} community team event credits` : ''} 
+    to fulfill this requirement.`;
   else
-    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits.`;
+    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits
+    ${
+      COMMUNITY_EVENTS
+        ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
+        : ''
+    }.`;
 
   return (
     <div>
@@ -62,12 +73,14 @@ const TeamEventCreditDashboard = (props: {
           </label>
         </div>
 
-        <div className={styles.inline}>
-          <label className={styles.bold}>
-            Your Approved Community Credits:{' '}
-            <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
-          </label>
-        </div>
+        {COMMUNITY_EVENTS && (
+          <div className={styles.inline}>
+            <label className={styles.bold}>
+              Your Approved Community Credits:{' '}
+              <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
+            </label>
+          </div>
+        )}
 
         <div className={styles.inline}>
           <label className={styles.bold}>
@@ -86,7 +99,9 @@ const TeamEventCreditDashboard = (props: {
                     <Card.Header>{teamEvent.name} </Card.Header>
                     <Card.Meta>{teamEvent.date}</Card.Meta>
                     <Card.Meta>{`Number of Credits: ${calculateNumCredits(teamEvent)}`}</Card.Meta>
-                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                    {COMMUNITY_EVENTS && (
+                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                    )}
                   </Card.Content>
                 </Card>
               ))}

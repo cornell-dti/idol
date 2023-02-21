@@ -11,6 +11,9 @@ type Props = {
   editTeamEvent?: (teamEvent: TeamEvent) => void;
 };
 
+// remove this variable and usage when community events ready to be released
+const COMMUNITY_EVENTS = false;
+
 const TeamEventForm = (props: Props): JSX.Element => {
   const { formType, setOpen, teamEvent, editTeamEvent } = props;
 
@@ -155,25 +158,27 @@ const TeamEventForm = (props: Props): JSX.Element => {
           </Form.Field>
         </Form.Group>
 
-        <label className={styles.label}>Is this a community event?</label>
-        <Form.Group inline>
-          <Form.Field>
-            <Radio
-              label="Yes"
-              value="Yes"
-              checked={isCommunity}
-              onChange={() => setIsCommunity(true)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Radio
-              label="No"
-              value="No"
-              checked={!isCommunity}
-              onChange={() => setIsCommunity(false)}
-            />
-          </Form.Field>
-        </Form.Group>
+        {COMMUNITY_EVENTS && <label className={styles.label}>Is this a community event?</label>}
+        {COMMUNITY_EVENTS && (
+          <Form.Group inline>
+            <Form.Field>
+              <Radio
+                label="Yes"
+                value="Yes"
+                checked={isCommunity}
+                onChange={() => setIsCommunity(true)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Radio
+                label="No"
+                value="No"
+                checked={!isCommunity}
+                onChange={() => setIsCommunity(false)}
+              />
+            </Form.Field>
+          </Form.Group>
+        )}
 
         {formType === 'create' && (
           <Form.Button floated="right" onClick={submitTeamEvent}>
