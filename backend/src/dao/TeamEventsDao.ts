@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { TeamEvent, DBTeamEvent } from '../types/DataTypes';
+import { DBTeamEvent } from '../types/DataTypes';
 import { memberCollection, teamEventsCollection, bucket } from '../firebase';
 import { NotFoundError } from '../utils/errors';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
@@ -9,7 +9,8 @@ export default class TeamEventsDao {
     const eventRefs = await teamEventsCollection.get();
     return Promise.all(
       eventRefs.docs.map(async (eventRef) => {
-        const { name, date, numCredits, hasHours, requests, attendees, uuid } = eventRef.data();
+        const { name, date, numCredits, hasHours, requests, attendees, uuid, isCommunity } =
+          eventRef.data();
         return {
           name,
           date,
@@ -27,7 +28,8 @@ export default class TeamEventsDao {
               member: await getMemberFromDocumentReference(ref.member)
             }))
           )) as TeamEventAttendance[],
-          uuid
+          uuid,
+          isCommunity
         };
       })
     );
@@ -71,6 +73,7 @@ export default class TeamEventsDao {
       date: event.date,
       numCredits: event.numCredits,
       hasHours: event.hasHours,
+      isCommunity: event.isCommunity,
       requests: event.requests.map((req) => ({
         ...req,
         member: memberCollection.doc(req.member.email)

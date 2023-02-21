@@ -123,6 +123,38 @@ describe('User is lead or admin', () => {
     );
   });
 
+  describe('test createNewDevPortfolio validation', () => {
+    test('name validation', () => {
+      const dp = fakeDevPortfolio();
+      dp.name = '';
+      expect(createNewDevPortfolio(dp, user)).rejects.toThrow(
+        new BadRequestError(
+          `Unable to create the new dev portfolio instance: The provided dev portfolio is invalid.`
+        )
+      );
+    });
+
+    test('deadline and earliestValidDate validation', () => {
+      const dp = fakeDevPortfolio();
+      dp.earliestValidDate = dp.deadline + 52;
+      expect(createNewDevPortfolio(dp, user)).rejects.toThrow(
+        new BadRequestError(
+          `Unable to create the new dev portfolio instance: The provided dev portfolio is invalid.`
+        )
+      );
+    });
+
+    test('deadline and late deadline validateion', () => {
+      const dp = fakeDevPortfolio();
+      dp.lateDeadline = dp.deadline - 52;
+      expect(createNewDevPortfolio(dp, user)).rejects.toThrow(
+        new BadRequestError(
+          `Unable to create the new dev portfolio instance: The provided dev portfolio is invalid.`
+        )
+      );
+    });
+  });
+
   test('deleteDevPortfolio should be successful', async () => {
     await deleteDevPortfolio(devPortfolio.uuid, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();

@@ -18,28 +18,18 @@ export type DBShoutout = {
   uuid: string;
 };
 
-export type Shoutout = {
-  giver: IdolMember;
-  receiver: string;
-  message: string;
-  isAnon: boolean;
-  timestamp: number;
-  hidden: boolean;
-  uuid: string;
+export type DBSignInFormResponse = {
+  signedInAt: number;
+  user: firestore.DocumentReference;
+  response: string | null;
 };
 
 export type DBSignInForm = {
-  users: { signedInAt: number; user: firestore.DocumentReference }[];
+  users: DBSignInFormResponse[];
   createdAt: number;
   expireAt: number;
   id: string;
-};
-
-export type SignInForm = {
-  users: { signedInAt: number; user: IdolMember }[];
-  createdAt: number;
-  expireAt: number;
-  id: string;
+  prompt: string | null;
 };
 
 export type DBTeamEventAttendance = {
@@ -56,22 +46,7 @@ export type DBTeamEvent = {
   requests: DBTeamEventAttendance[];
   attendees: DBTeamEventAttendance[];
   uuid: string;
-};
-
-export type TeamEventAttendance = {
-  member: IdolMember;
-  hoursAttended?: number;
-  image: string;
-};
-
-export type TeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  requests: TeamEventAttendance[];
-  attendees: TeamEventAttendance[];
-  uuid: string;
+  isCommunity: boolean;
 };
 
 export type DBCandidateDeciderRating = {

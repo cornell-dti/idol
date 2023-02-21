@@ -31,7 +31,8 @@ import {
   deleteSignInForm,
   signIn,
   signInFormExists,
-  signInFormExpired
+  signInFormExpired,
+  getSignInPrompt
 } from './API/signInFormAPI';
 import {
   createTeamEvent,
@@ -153,6 +154,12 @@ router.get('/allApprovedMembers', async (_, res) => {
 router.get('/membersFromAllSemesters', async (_, res) => {
   res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
+router.get('/isIDOLMember/:email', async (req, res) => {
+  const members = await allMembers();
+  res.status(200).json({
+    isIDOLMember: members.find((member) => member.email === req.params.email) !== undefined
+  });
+});
 
 router.get('/info', async (req, res) => {
   res.json({
@@ -214,7 +221,7 @@ loginCheckedPost('/giveShoutout', async (req, user) => ({
 }));
 
 loginCheckedPost('/hideShoutout', async (req, user) => {
-  await hideShoutout(req.body.uuid, user);
+  await hideShoutout(req.body.uuid, req.body.hide, user);
   return {};
 });
 
@@ -237,17 +244,23 @@ loginCheckedPost('/signInExpired', async (req, _) => ({
   expired: await signInFormExpired(req.body.id)
 }));
 loginCheckedPost('/signInCreate', async (req, user) =>
-  createSignInForm(req.body.id, req.body.expireAt, user)
+  createSignInForm(req.body.id, req.body.expireAt, req.body.prompt, user)
 );
 loginCheckedPost('/signInDelete', async (req, user) => {
   await deleteSignInForm(req.body.id, user);
   return {};
 });
-loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, user));
+loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, req.body.response, user));
 loginCheckedPost('/signInAll', async (_, user) => allSignInForms(user));
+loginCheckedGet('/signInPrompt/:id', async (req, _) => ({
+  prompt: await getSignInPrompt(req.params.id)
+}));
 
 // Team Events
-loginCheckedPost('/createTeamEvent', async (req, user) => createTeamEvent(req.body, user));
+loginCheckedPost('/createTeamEvent', async (req, user) => {
+  await createTeamEvent(req.body, user);
+  return {};
+});
 loginCheckedGet('/getTeamEvent/:uuid', async (req, user) => ({
   event: await getTeamEvent(req.params.uuid, user)
 }));
