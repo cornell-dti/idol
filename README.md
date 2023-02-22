@@ -52,7 +52,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 - **Andrew Chen** - Developer
 - **Henry Li** - Developer
 - **Michael Ye** - Developer
-- **Samuel Yeboah** - Developer
+- **Samuel  Yeboah** - Developer
 
 ### Fall 2022
 
