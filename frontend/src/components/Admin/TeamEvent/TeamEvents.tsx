@@ -12,6 +12,9 @@ type TeamEventsDisplayProps = {
   teamEvents: TeamEvent[];
 };
 
+// remove this variable and usage when community events ready to be released
+const COMMUNITY_EVENTS = false;
+
 const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEvents }) => {
   if (isLoading) return <Loader active inline />;
   return (
@@ -25,7 +28,9 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
-                  <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                  {COMMUNITY_EVENTS && (
+                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                  )}
                 </Card.Content>
               </Card>
             </Link>
