@@ -47,4 +47,8 @@ export default class ShoutoutsAPI {
   public static hideShoutout(uuid: string, hide: boolean): Promise<void> {
     return APIWrapper.post(`${backendURL}/hideShoutout`, { uuid, hide }).then((res) => res.data);
   }
+
+  public static async deleteShoutout(uuid: string): Promise<void> {
+    await APIWrapper.post(`${backendURL}/deleteShoutout`, { uuid });
+  }
 }
