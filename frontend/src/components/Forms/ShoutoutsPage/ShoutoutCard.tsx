@@ -1,7 +1,5 @@
 import { Card } from 'semantic-ui-react';
 import ShoutoutDeleteModal from '../../Modals/ShoutoutDeleteModal';
-// import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
-// import { Emitters } from '../../../utils';
 import styles from './ShoutoutCard.module.css';
 
 const ShoutoutCard = (props: {
@@ -14,35 +12,6 @@ const ShoutoutCard = (props: {
     ? 'From: Anonymous'
     : `From: ${shoutout.giver?.firstName} ${shoutout.giver?.lastName}`;
   const dateString = `${new Date(shoutout.timestamp).toDateString()}`;
-
-  // const onDelete = (shoutout: Shoutout) => {
-  //   ShoutoutsAPI.deleteShoutout(shoutout.uuid).then(() => {
-  //     Emitters.generalSuccess.emit({
-  //       headerMsg: 'Shoutout Deleted',
-  //       contentMsg: 'This shoutout was successfully deleted.'
-  //     });
-  //   });
-  // };
-
-  // const DeleteModal = (props: { shoutout: Shoutout }): JSX.Element => {
-  //   const { shoutout } = props;
-  //   return (
-  //     <Modal
-  //       trigger={<Button icon="trash" size="tiny" />}
-  //       header="Delete Shoutout"
-  //       content="Are you sure that you want to delete this shoutout?"
-  //       actions={[
-  //         'Cancel',
-  //         {
-  //           key: 'deleteShoutouts',
-  //           content: 'Delete Shoutout',
-  //           color: 'red',
-  //           onClick: () => onDelete(shoutout)
-  //         }
-  //       ]}
-  //     />
-  //   );
-  // };
 
   return (
     <Card className={styles.shoutoutCardContainer}>
