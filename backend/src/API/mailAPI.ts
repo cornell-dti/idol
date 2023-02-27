@@ -62,5 +62,5 @@ export const sendMemberUpdateNotifications = async (req: Request) => {
   // TODO: just try to send the mail from here and check the function logs to see what happens
   // const adminEmails = await AdminsDao.getAllAdminEmails();
   const adminEmails = ['hl738@cornell.edu'];
-  return adminEmails.map(async (email) => sendMail(email, subject, text));
+  return Promise.all(adminEmails.map((email) => sendMail(email, subject, text)));
 };
