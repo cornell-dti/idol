@@ -2,7 +2,7 @@
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
 // import { isProd } from '../api';
-import AdminsDao from '../dao/AdminsDao';
+// import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   // Don't send email notifications locally
@@ -60,6 +60,7 @@ export const sendMemberUpdateNotifications = async (req: Request) => {
     'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
   // return emailAdmins(req, subject, text);
   // TODO: just try to send the mail from here and check the function logs to see what happens
-  const adminEmails = await AdminsDao.getAllAdminEmails();
+  // const adminEmails = await AdminsDao.getAllAdminEmails();
+  const adminEmails = ['hl738@cornell.edu'];
   return adminEmails.map(async (email) => sendMail(email, subject, text));
 };
