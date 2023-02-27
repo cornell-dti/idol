@@ -50,7 +50,7 @@ export const updateMember = async (
     );
   }
   const mem = await MembersDao.updateMember(body.email, body);
-  return sendMemberUpdateNotifications(req).then(() => mem);
+  return sendMemberUpdateNotifications().then(() => mem);
 };
 
 export const deleteMember = async (email: string, user: IdolMember): Promise<void> => {

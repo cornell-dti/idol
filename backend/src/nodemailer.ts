@@ -9,30 +9,22 @@ const oauth2Client = new google.auth.OAuth2(
 oauth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
 
 const getEmailTransporter = async (): Promise<nodemailer.Transporter<unknown> | undefined> => {
-  let transporter: nodemailer.Transporter;
-  console.debug('Creating email transporter...');
-  try {
-    const accessToken = await oauth2Client.getAccessToken();
-    console.debug('got access token');
-    transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        type: 'OAuth2',
-        user: 'dti.idol.github.bot@gmail.com',
-        clientId: process.env.OAUTH_CLIENTID,
-        clientSecret: process.env.OAUTH_CLIENT_SECRET,
-        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-        accessToken
-      }
-    } as TransportOptions);
-    return transporter;
-  } catch (e) {
-    console.error(e);
-  }
-  return undefined;
+  const accessToken = await oauth2Client.getAccessToken();
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      type: 'OAuth2',
+      user: 'dti.idol.github.bot@gmail.com',
+      clientId: process.env.OAUTH_CLIENTID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+      accessToken
+    }
+  } as TransportOptions);
+  return transporter;
 };
 
 export default getEmailTransporter;
