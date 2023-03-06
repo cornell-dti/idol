@@ -17,7 +17,7 @@ const TeamEventCreditForm: React.FC = () => {
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
   const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
   const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
-  
+
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
     TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
@@ -75,7 +75,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
     }
   };
-  
+
   return (
     <div>
       <Form className={styles.form_style}>
@@ -96,13 +96,17 @@ const TeamEventCreditForm: React.FC = () => {
                 search
                 selection
                 options={teamEventInfoList
-                  .sort((e1,e2)=> new Date(e2.date).getTime() - new Date(e1.date).getTime())
+                  .sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime())
                   .map((event) => ({
-                  key: event.uuid,
-                  text: `${event.name} on: ${new Date(event.date).toLocaleDateString('en-us', 
-                  {weekday:"long", year:"numeric", month:"short", day:"numeric"})}`,
-                  value: event.uuid
-                }))}
+                    key: event.uuid,
+                    text: `${event.name} on: ${new Date(event.date).toLocaleDateString('en-us', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}`,
+                    value: event.uuid
+                  }))}
                 onChange={(_, data) => {
                   setTeamEvent(teamEventInfoList.find((event) => event.uuid === data.value));
                 }}
