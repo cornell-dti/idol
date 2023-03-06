@@ -17,7 +17,7 @@ const TeamEventCreditForm: React.FC = () => {
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
   const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
   const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
-
+  
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
     TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
@@ -75,7 +75,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
     }
   };
-
+  
   return (
     <div>
       <Form className={styles.form_style}>
@@ -95,9 +95,12 @@ const TeamEventCreditForm: React.FC = () => {
                 fluid
                 search
                 selection
-                options={teamEventInfoList.map((event) => ({
+                options={teamEventInfoList
+                  .sort((e1,e2)=> new Date(e2.date).getTime() - new Date(e1.date).getTime())
+                  .map((event) => ({
                   key: event.uuid,
-                  text: event.name,
+                  text: `${event.name} on: ${new Date(event.date).toLocaleDateString('en-us', 
+                  {weekday:"long", year:"numeric", month:"short", day:"numeric"})}`,
                   value: event.uuid
                 }))}
                 onChange={(_, data) => {
