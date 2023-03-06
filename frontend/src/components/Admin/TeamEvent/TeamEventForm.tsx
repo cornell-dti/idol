@@ -45,7 +45,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
       });
     } else if (Number(teamEventCreditNum) < 0.25) {
       Emitters.generalError.emit({
-        headerMsg: 'Credit Minimun Exceeded',
+        headerMsg: 'Minumum Credits Exceeded',
         contentMsg: 'Team events must be worth a minimum of 0.25 credits!'
       });
     } else if (teamEvent && editTeamEvent) {
