@@ -2,6 +2,8 @@ import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
 import admin from 'firebase-admin';
+import * as winston from 'winston';
+import * as expressWinston from 'express-winston';
 import { app as adminApp } from './firebase';
 import PermissionsManager from './utils/permissionsManager';
 import { HandlerError } from './utils/errors';
@@ -95,6 +97,29 @@ app.use(
   })
 );
 app.use(express.json({ limit: '50mb' }));
+
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.timestamp(),
+      winston.format.align(),
+      winston.format.printf(
+        (info) =>
+          `${info.timestamp} ${info.level} - ${info.meta.req.method} ${info.meta.req.originalUrl} ${
+            info.meta.res.statusCode
+          } -- ${JSON.stringify(info.meta.req.body)}`
+      )
+    ),
+    requestWhitelist: ['body', 'method', 'originalUrl'],
+    responseWhitelist: ['body', 'statusCode']
+  })
+);
+
+router.get('/error', () => {
+  throw new Error();
+});
 
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
