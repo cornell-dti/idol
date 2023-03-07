@@ -133,7 +133,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
               );
           }}
           loading={isRegrading}
-          class="right-button"
+          className="right-button"
         >
           Regrade All Submissions
         </Button>
