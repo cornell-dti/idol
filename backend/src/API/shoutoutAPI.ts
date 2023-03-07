@@ -49,9 +49,9 @@ export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<vo
     throw new NotFoundError(`No shoutout with id '${uuid}' found.`);
   }
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin || shoutout.giver.email !== user.email) {
+  if (!isLeadOrAdmin && shoutout.giver.email !== user.email) {
     throw new PermissionError(
-      `User with email: ${user.email} can't delete a shoutout from a different user!`
+      `You are not a lead or admin, so you can't delete a shoutout from a different user!`
     );
   }
   await ShoutoutsDao.deleteShoutout(uuid);
