@@ -85,3 +85,8 @@
   margin-right: 2rem;
   padding-top: 2rem;
 }
+
+.paginationControlsContainer {
+  display: flex;
+  gap: 15px;
+}
