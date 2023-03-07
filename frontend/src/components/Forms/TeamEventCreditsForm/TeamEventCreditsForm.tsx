@@ -55,10 +55,15 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'No Image Uploaded',
         contentMsg: 'Please upload an image!'
       });
-    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)) || Number(hours) < 1)) {
+    } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)))) {
       Emitters.generalError.emit({
         headerMsg: 'No Hours Entered',
         contentMsg: 'Please enter your hours!'
+      });
+    } else if (Number(hours) < 0.5) {
+      Emitters.generalError.emit({
+        headerMsg: 'Minimum Hours Violated',
+        contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
