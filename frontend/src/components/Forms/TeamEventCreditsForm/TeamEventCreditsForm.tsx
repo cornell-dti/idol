@@ -62,7 +62,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
     } else if (Number(hours) < 0.5) {
       Emitters.generalError.emit({
-        headerMsg: 'Minimum Hours Exceeded',
+        headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
