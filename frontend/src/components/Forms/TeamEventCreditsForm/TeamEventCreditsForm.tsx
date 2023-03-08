@@ -106,8 +106,6 @@ const TeamEventCreditForm: React.FC = () => {
                       empty: false,
                       circular: false,
                       content: new Date(event.date).toLocaleDateString('en-us', {
-                        weekday: 'long',
-                        year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })
