@@ -99,13 +99,20 @@ const TeamEventCreditForm: React.FC = () => {
                   .sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime())
                   .map((event) => ({
                     key: event.uuid,
-                    text: `${event.name} on: ${new Date(event.date).toLocaleDateString('en-us', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    })}`,
-                    value: event.uuid
+                    text: event.name,
+                    label:{
+                      color: 'transparent',
+                      size: 'small',
+                      empty: false,
+                      circular: false,
+                      content: new Date(event.date).toLocaleDateString('en-us', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      }),
+                    },
+                    value: event.uuid,
                   }))}
                 onChange={(_, data) => {
                   setTeamEvent(teamEventInfoList.find((event) => event.uuid === data.value));
