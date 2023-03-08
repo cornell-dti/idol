@@ -100,7 +100,7 @@ const TeamEventCreditForm: React.FC = () => {
                   .map((event) => ({
                     key: event.uuid,
                     text: event.name,
-                    label:{
+                    label: {
                       color: 'transparent',
                       size: 'small',
                       empty: false,
@@ -110,9 +110,9 @@ const TeamEventCreditForm: React.FC = () => {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
-                      }),
+                      })
                     },
-                    value: event.uuid,
+                    value: event.uuid
                   }))}
                 onChange={(_, data) => {
                   setTeamEvent(teamEventInfoList.find((event) => event.uuid === data.value));
