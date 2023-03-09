@@ -42,3 +42,17 @@ export const hideShoutout = async (
   if (!shoutout) throw new NotFoundError(`Shoutout with uuid: ${uuid} does not exist!`);
   await ShoutoutsDao.updateShoutout({ ...shoutout, hidden: hide });
 };
+
+export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
+  const shoutout = await ShoutoutsDao.getShoutout(uuid);
+  if (!shoutout) {
+    throw new NotFoundError(`No shoutout with id '${uuid}' found.`);
+  }
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin && shoutout.giver.email !== user.email) {
+    throw new PermissionError(
+      `You are not a lead or admin, so you can't delete a shoutout from a different user!`
+    );
+  }
+  await ShoutoutsDao.deleteShoutout(uuid);
+};
