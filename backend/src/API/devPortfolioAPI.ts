@@ -68,7 +68,7 @@ export const createNewDevPortfolio = async (
     ...instance,
     deadline: updatedDeadline.valueOf(),
     earliestValidDate: updatedEarliestValidDate.valueOf(),
-    lateDeadline: updatedLateDeadline ? updatedDeadline.valueOf() : null
+    lateDeadline: updatedLateDeadline ? updatedLateDeadline.valueOf() : null
   };
 
   return DevPortfolioDao.createNewInstance(modifiedInstance);
