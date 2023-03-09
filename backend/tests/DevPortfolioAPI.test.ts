@@ -1,12 +1,10 @@
-import { DateTime } from 'luxon';
 import DevPortfolioDao from '../src/dao/DevPortfolioDao'; // eslint-disable-line  @typescript-eslint/no-unused-vars
 import PermissionsManager from '../src/utils/permissionsManager';
 import {
   fakeIdolMember,
   fakeDevPortfolio,
   fakeDevPortfolioSubmission,
-  fakeCreateDevPortfolio,
-  fakeCreateDevPortfolioResult
+  fakeCreateDevPortfolio
 } from './data/createData';
 import {
   getDevPortfolio,
