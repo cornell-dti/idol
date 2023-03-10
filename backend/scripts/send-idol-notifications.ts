@@ -59,7 +59,12 @@ const main = async () => {
 
   if (JSON.stringify(latestMembers) !== JSON.stringify(approvedMembers)) {
     console.log('Profile updates detected. Sending email notificatiosn to IDOL admins...');
-    await sendMemberUpdateNotifications();
+    try {
+      await sendMemberUpdateNotifications();
+    } catch (e) {
+      console.error(`Failed to send email notifications: ${e}`);
+      process.exit(1);
+    }
     console.log('Emails finished sending.');
   } else {
     console.log('No profile updates detected.');
