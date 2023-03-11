@@ -34,7 +34,7 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
   return info;
 };
 
-export const sendMemberUpdateNotifications = async () => {
+export const sendMemberUpdateNotifications = async (): Promise<unknown[]> => {
   const subject = 'IDOL Member Profile Change';
   const text =
     "Hey! You are receiving this email because you're an IDOL admin.\n\nThere are DTI members who have updated their profile and are requesting your approval. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.";
