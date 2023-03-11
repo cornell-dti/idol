@@ -17,30 +17,31 @@ const AdminShoutouts: React.FC = () => {
   const [view, setView] = useState<ViewMode>('ALL');
 
   const updateShoutouts = useCallback(() => {
-    ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
-      if (lastDate < earlyDate) {
-        Emitters.generalError.emit({
-          headerMsg: 'Invalid Date Range',
-          contentMsg:
-            'Please make sure the latest shoutout date is after the earliest shoutout date.'
-        });
-      } else {
-        const filteredShoutouts = shoutouts
-          .filter((shoutout) => {
-            const shoutoutDate = new Date(shoutout.timestamp);
-            return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
-          })
-          .sort((a, b) => a.timestamp - b.timestamp);
-        setAllShoutouts(filteredShoutouts);
-        if (view === 'PRESENT')
-          setDisplayShoutouts(filteredShoutouts.filter((shoutout) => !shoutout.hidden));
-        else if (view === 'HIDDEN')
-          setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
-        else setDisplayShoutouts(filteredShoutouts);
-        setHide(false);
-      }
-    });
-  }, [earlyDate, lastDate, setHide, view]);
+    if (lastDate < earlyDate) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Date Range',
+        contentMsg: 'Please make sure the latest shoutout date is after the earliest shoutout date.'
+      });
+    }
+    if (allShoutouts.length === 0) {
+      ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
+        setAllShoutouts(shoutouts);
+      });
+    } else {
+      const filteredShoutouts = allShoutouts
+        .filter((shoutout) => {
+          const shoutoutDate = new Date(shoutout.timestamp);
+          return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
+        })
+        .sort((a, b) => a.timestamp - b.timestamp);
+      if (view === 'PRESENT')
+        setDisplayShoutouts(filteredShoutouts.filter((shoutout) => !shoutout.hidden));
+      else if (view === 'HIDDEN')
+        setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
+      else setDisplayShoutouts(filteredShoutouts);
+      setHide(false);
+    }
+  }, [allShoutouts, earlyDate, lastDate, view]);
 
   useEffect(() => {
     updateShoutouts();
