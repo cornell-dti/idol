@@ -93,23 +93,33 @@ const TeamEventCreditForm: React.FC = () => {
               <Dropdown
                 placeholder="Select a Team Event"
                 fluid
-                search
+                search={(options, query) =>
+                  options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
+                }
                 selection
                 options={teamEventInfoList
                   .sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime())
                   .map((event) => ({
-                    key: event.uuid,
-                    text: event.name,
-                    label: {
-                      color: 'transparent',
-                      size: 'small',
-                      empty: false,
-                      circular: false,
-                      content: new Date(event.date).toLocaleDateString('en-us', {
-                        month: 'short',
-                        day: 'numeric'
-                      })
-                    },
+                    key: event.name,
+                    label: (
+                      <div className={styles.flex_space_center}>
+                        <div className={styles.flex_start}>{event.name}</div>
+                        <div className={styles.flex_end}>
+                          <Label
+                            content={`${new Date(event.date).toLocaleDateString('en-us', {
+                              month: 'short',
+                              day: 'numeric'
+                            })}`}
+                          ></Label>
+
+                          <Label
+                            content={`${event.numCredits} credit(s) ${
+                              event.hasHours ? 'per hour' : ''
+                            }`}
+                          ></Label>
+                        </div>
+                      </div>
+                    ),
                     value: event.uuid
                   }))}
                 onChange={(_, data) => {
