@@ -44,7 +44,7 @@
   margin-bottom: 0;
 }
 
-.flex-space-center {
+.flex_space_center {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,7 +53,6 @@
 .flex_start {
   justify-content: flex-start;
 }
-
 .flex_end {
   display: flex;
   justify-content: flex-end;
