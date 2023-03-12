@@ -61,10 +61,10 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 - **Alyssa Zhang** - PM
 - **Jackson Staniec** - TPM
-- **Tracy Wei** - Design
+- **Tracy Wei** - Designer
+- **Clara Lee** - Designer
 - **Aira Agrawal** - Developer
 - **Andrew Chen** - Developer
-- **Daniel Jin** - Developer
 - **Henry Li** - Developer
 
 ### Spring 2022
