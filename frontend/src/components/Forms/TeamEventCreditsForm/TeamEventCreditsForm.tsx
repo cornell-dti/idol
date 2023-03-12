@@ -113,9 +113,9 @@ const TeamEventCreditForm: React.FC = () => {
                           ></Label>
 
                           <Label
-                            content={`${event.numCredits} credit(s) ${
-                              event.hasHours ? 'per hour' : ''
-                            }`}
+                            content={`${event.numCredits} ${
+                              Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                            } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>
                       </div>
