@@ -69,7 +69,10 @@ const TeamEventCreditForm: React.FC = () => {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
         hoursAttended: Number(hours),
-        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
+        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
+        eventUuid: teamEvent.uuid,
+        pending: true,
+        uuid: ''
       };
       requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
         setPendingTEC((pending) => [...pending, teamEvent]);
