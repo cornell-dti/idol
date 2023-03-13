@@ -64,12 +64,13 @@
     "major": "CS",
     "hometown": "Jericho, NY",
     "about": "Hello! When I'm not coding, I love rock climbing, cooking, and spending time in the outdoors. I'm also a huge coffee addict so feel free to reach out!",
-    "subteams": [
+    "subteams": [],
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "minor": "entrepreneurship",
+    "formerSubteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
-    "minor": "entrepreneurship",
     "linkedin": "https://www.linkedin.com/in/itsangelachen/"
   },
   {
@@ -196,6 +197,19 @@
     "github": "https://github.com/AnkitLakkapragada"
   },
   {
+    "netid": "atq2",
+    "name": "Amanda Qiu",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
+  },
+  {
     "netid": "axc2",
     "name": "Andrew Chen",
     "pronouns": "he/him/his",
@@ -211,6 +225,19 @@
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/",
     "github": "https://github.com/andrew032011"
+  },
+  {
+    "netid": "ay394",
+    "name": "Aryan Yadav",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
   },
   {
     "netid": "az349",
@@ -527,7 +554,7 @@
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Rockville, MD",
-    "about": "Hi! I'm Colin. I'm a freshman in A&S majoring in CS. In my free time, I enjoy collecting excessive amounts of free stuff.",
+    "about": "Hi! I'm Colin. I'm a sophomore in A&S majoring in CS. In my free time, I enjoy collecting excessive amounts of free stuff.",
     "subteams": [
       "zing"
     ],
@@ -535,6 +562,7 @@
     "roleDescription": "Developer",
     "formerSubteams": [],
     "website": "https://colinwu.rocks",
+    "linkedin": "https://www.linkedin.com/in/colin-wu-906426220/",
     "github": "https://github.com/CollinWoo"
   },
   {
@@ -573,17 +601,19 @@
   {
     "netid": "dka34",
     "name": "Desmond Atikpui",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "He/Him",
+    "graduation": "December 2025",
+    "major": "Computer Science",
+    "hometown": "Ghana",
+    "about": "👋🏽 Hi, my name is Desmond\n\n🎓 Sophomore at Cornell University majoring in Computer Science (2025)\n\n💻 Software engineer specializing in scalable, reliable, and secure solutions. Strong background in \n multiple programming languages and experience in both front-end and back-end development. \n Committed to delivering top-quality software and staying up-to-date with industry trends",
     "subteams": [
       "carriage"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/desmond-atikpui-3003/",
+    "github": "https://github.com/Atikpui007"
   },
   {
     "netid": "dlw266",
