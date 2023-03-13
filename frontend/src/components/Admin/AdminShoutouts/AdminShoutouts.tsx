@@ -127,19 +127,17 @@ const AdminShoutouts: React.FC = () => {
           <Card.Content>No shoutouts in this date range.</Card.Content>
         </Card>
       );
+
     if (view === 'PRESENT')
       return (
         <Item.Group divided>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
               <Item.Content>
-                <Item.Header
-                  className={styles.presentShoutoutTo}
-                >{`${shoutout.receiver}`}</Item.Header>
-                <Item.Meta
-                  className={styles.presentShoutoutFrom}
-                  content={` ${fromString(shoutout)}`}
-                />
+                <Item.Header className={styles.presentShoutoutTo}>
+                  {`${shoutout.receiver}`}{' '}
+                  <span className={styles.presentShoutoutFrom}>{` ${fromString(shoutout)}`}</span>
+                </Item.Header>
                 <Item.Description
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
@@ -149,6 +147,7 @@ const AdminShoutouts: React.FC = () => {
           ))}
         </Item.Group>
       );
+
     return (
       <Item.Group divided>
         {displayShoutouts.map((shoutout, i) => (
