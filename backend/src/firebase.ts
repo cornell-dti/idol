@@ -5,7 +5,8 @@ import {
   DBTeamEvent,
   DBCandidateDeciderInstance,
   DBDevPortfolio,
-  DevPortfolioSubmissionRequestLog
+  DevPortfolioSubmissionRequestLog,
+  DBTeamEventAttendance
 } from './types/DataTypes';
 import configureAccount from './utils/firebase-utils';
 
@@ -68,6 +69,16 @@ export const signInFormCollection: admin.firestore.CollectionReference<DBSignInF
     },
     toFirestore(signInData: DBSignInForm) {
       return signInData;
+    }
+  });
+
+export const teamEventAttendanceCollection: admin.firestore.CollectionReference<DBTeamEventAttendance> =
+  db.collection('team-event-attendance').withConverter({
+    fromFirestore(snapshot): DBTeamEventAttendance {
+      return snapshot.data() as DBTeamEventAttendance;
+    },
+    toFirestore(teamEventAttendanceData: DBTeamEventAttendance) {
+      return teamEventAttendanceData;
     }
   });
 

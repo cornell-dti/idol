@@ -36,6 +36,9 @@ export type DBTeamEventAttendance = {
   member: firestore.DocumentReference;
   hoursAttended?: number;
   image: string;
+  eventUuid: string;
+  pending: boolean;
+  uuid: string;
 };
 
 export type DBTeamEvent = {
