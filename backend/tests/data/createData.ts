@@ -67,7 +67,10 @@ export const fakeTeamEventAttendance = (): TeamEventAttendance => {
   const TEA = {
     member: fakeIdolMember(),
     hoursAttended: getRandomInt(1, 5),
-    image: null
+    image: null,
+    eventUuid: faker.datatype.uuid(),
+    pending: true,
+    uuid: faker.datatype.uuid()
   };
   return TEA;
 };
