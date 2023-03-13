@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import admin from 'firebase-admin';
+import isEqual from 'lodash.isequal';
 
 require('dotenv').config();
 
@@ -18,7 +19,7 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
+const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
   const mailOptions = {
     from: 'dti.idol.github.bot@gmail.com',
     to,
@@ -34,7 +35,7 @@ export const sendMail = async (to: string, subject: string, text: string): Promi
   return info;
 };
 
-export const sendMemberUpdateNotifications = async (): Promise<unknown[]> => {
+const sendMemberUpdateNotifications = async (): Promise<unknown[]> => {
   const subject = 'IDOL Member Profile Change';
   const text =
     "Hey! You are receiving this email because you're an IDOL admin.\n\nThere are DTI members who have updated their profile and are requesting your approval. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.";
@@ -57,8 +58,8 @@ const main = async () => {
     .get()
     .then((vals) => vals.docs.map((doc) => doc.data()));
 
-  if (JSON.stringify(latestMembers) !== JSON.stringify(approvedMembers)) {
-    console.log('Profile updates detected. Sending email notificatiosn to IDOL admins...');
+  if (!isEqual(latestMembers, approvedMembers)) {
+    console.log('Profile updates detected. Sending email notifications to IDOL admins...');
     try {
       await sendMemberUpdateNotifications();
     } catch (e) {
