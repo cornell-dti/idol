@@ -29,3 +29,6 @@ next-env.d.ts
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# just for staging branch
+environment.ts
