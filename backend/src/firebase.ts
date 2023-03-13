@@ -72,9 +72,8 @@ export const signInFormCollection: admin.firestore.CollectionReference<DBSignInF
     }
   });
 
-export const teamEventAttendanceCollection: admin.firestore.CollectionReference<DBTeamEventAttendance> = db
-  .collection('team-event-attendance')
-  .withConverter({
+export const teamEventAttendanceCollection: admin.firestore.CollectionReference<DBTeamEventAttendance> =
+  db.collection('team-event-attendance').withConverter({
     fromFirestore(snapshot): DBTeamEventAttendance {
       return snapshot.data() as DBTeamEventAttendance;
     },

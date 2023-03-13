@@ -1,3 +1,1 @@
-export default class TeamEventAttendanceDao {
-
-}
+export default class TeamEventAttendanceDao {}

@@ -37,8 +37,8 @@ export type DBTeamEventAttendance = {
   hoursAttended?: number;
   image: string;
   eventUuid: string;
-	pending: boolean;
-	uuid: string;
+  pending: boolean;
+  uuid: string;
 };
 
 export type DBTeamEvent = {
