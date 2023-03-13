@@ -35,7 +35,10 @@ const ShoutoutsPage: React.FC = () => {
       <div className={styles.shoutoutListContainer}>
         <h2>Given Shoutouts</h2>
         {givenShoutouts.length > 0 ? (
-          <ShoutoutList shoutouts={givenShoutouts.sort((a, b) => a.timestamp - b.timestamp)} />
+          <ShoutoutList
+            shoutouts={givenShoutouts.sort((a, b) => a.timestamp - b.timestamp)}
+            setGivenShoutouts={setGivenShoutouts}
+          />
         ) : (
           <Message>Give someone a shoutout!</Message>
         )}

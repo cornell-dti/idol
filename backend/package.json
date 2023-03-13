@@ -8,7 +8,8 @@
     "dev": "esr src/api.ts",
     "tsc": "tsc",
     "build": "tsc",
-    "update-dev-db": "esr scripts/update-dev-db.ts"
+    "update-dev-db": "esr scripts/update-dev-db.ts",
+    "send-idol-notifications": "esr scripts/send-idol-notifications.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {
@@ -33,6 +34,7 @@
     "firebase-admin": "^9.12.0",
     "googleapis": "^100.0.0",
     "luxon": "^3.3.0",
+    "lodash.isequal": "^4.5.0",
     "netlify-lambda": "^2.0.14",
     "nodemailer": "^6.7.3",
     "serverless-http": "^2.5.0",

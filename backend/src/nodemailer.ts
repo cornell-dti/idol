@@ -1,6 +1,8 @@
 import nodemailer, { TransportOptions } from 'nodemailer';
 import { google } from 'googleapis';
 
+require('dotenv').config();
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.OAUTH_CLIENTID,
   process.env.OAUTH_CLIENT_SECRET,

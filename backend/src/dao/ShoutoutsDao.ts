@@ -79,4 +79,8 @@ export default class ShoutoutsDao {
     await shoutoutCollection.doc(shoutout.uuid).update(shoutoutRef);
     return shoutout;
   }
+
+  static async deleteShoutout(uuid: string): Promise<void> {
+    await shoutoutCollection.doc(uuid).delete();
+  }
 }

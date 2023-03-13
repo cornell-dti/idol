@@ -28,8 +28,8 @@
     "subteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
+    "roleId": "developer",
+    "roleDescription": "Developer",
     "doubleMajor": "Mathematics ",
     "formerSubteams": [
       "reviews"
@@ -49,8 +49,8 @@
     "subteams": [
       "queuemein"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
     "doubleMajor": "Math",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/alexander-nagel-a717201a5/",
@@ -64,12 +64,13 @@
     "major": "CS",
     "hometown": "Jericho, NY",
     "about": "Hello! When I'm not coding, I love rock climbing, cooking, and spending time in the outdoors. I'm also a huge coffee addict so feel free to reach out!",
-    "subteams": [
+    "subteams": [],
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "minor": "entrepreneurship",
+    "formerSubteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
-    "minor": "entrepreneurship",
     "linkedin": "https://www.linkedin.com/in/itsangelachen/"
   },
   {
@@ -135,6 +136,19 @@
     "minor": "Dyson Business Minor for Engineers"
   },
   {
+    "netid": "am2749",
+    "name": "Alyssa Ma",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "business",
+    "roleDescription": "Business Analyst",
+    "formerSubteams": []
+  },
+  {
     "netid": "apb235",
     "name": "Althea Bata",
     "pronouns": "",
@@ -161,9 +175,10 @@
     "subteams": [
       "carriage"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
-    "linkedin": "https://www.linkedin.com/in/andrewshchoi"
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "linkedin": "https://www.linkedin.com/in/andrewshchoi",
+    "github": "https://github.com/andrewschoi"
   },
   {
     "netid": "asl256",
@@ -180,6 +195,19 @@
     "roleDescription": "Developer",
     "linkedin": "https://www.linkedin.com/in/ankit-lakkapragada-01bb9917b/",
     "github": "https://github.com/AnkitLakkapragada"
+  },
+  {
+    "netid": "atq2",
+    "name": "Amanda Qiu",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
   },
   {
     "netid": "axc2",
@@ -199,6 +227,19 @@
     "github": "https://github.com/andrew032011"
   },
   {
+    "netid": "ay394",
+    "name": "Aryan Yadav",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "az349",
     "name": "Annie  Zhou",
     "pronouns": "",
@@ -209,8 +250,8 @@
     "subteams": [
       "zing"
     ],
-    "roleId": "pm",
-    "roleDescription": "Product manager",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "linkedin": "https://www.linkedin.com/in/annie-zhouuuu"
   },
   {
@@ -288,8 +329,8 @@
     "subteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
+    "roleId": "developer",
+    "roleDescription": "Developer",
     "minor": "Art History",
     "linkedin": "https://www.linkedin.com/in/bahar-tehranipoor-781735182/"
   },
@@ -370,8 +411,8 @@
     "subteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
+    "roleId": "designer",
+    "roleDescription": "Designer",
     "website": "https://www.cristiehuang.com/",
     "linkedin": "https://www.linkedin.com/in/cristie-huang/"
   },
@@ -437,8 +478,8 @@
     "subteams": [
       "reviews"
     ],
-    "roleId": "business",
-    "roleDescription": "Business Analyst",
+    "roleId": "designer",
+    "roleDescription": "Designer",
     "linkedin": "https://www.linkedin.com/in/clara-lee-7nj"
   },
   {
@@ -453,7 +494,8 @@
       "cornellgo"
     ],
     "roleId": "developer",
-    "roleDescription": "Developer"
+    "roleDescription": "Developer",
+    "github": "https://github.com/cathli66"
   },
   {
     "netid": "cll246",
@@ -490,18 +532,18 @@
   {
     "netid": "cri23",
     "name": "Cyrus Irani",
-    "pronouns": "",
+    "pronouns": "he/him",
     "graduation": "May 2025",
     "major": "Information Science",
     "hometown": "Albany, NY",
-    "about": "Hi! I'm Cyrus, and I'm a freshman studying Information Science! I enjoy making apps that impact the community in an inclusive and accessible way. During my free time I love eating, working out, and creating videos. I like talking to new people so let's chat!",
+    "about": "Hi! I'm Cyrus, and I'm a sophomore studying Information Science! I enjoy making apps that impact the community in an inclusive and accessible way. During my free time I love eating, working out, and creating videos. I like talking to new people so let's chat!",
     "subteams": [
       "cuapts"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Computer Science, Game Design",
-    "website": "https://pages.github.coecis.cornell.edu/info1300-2021fa/cri23-project3/",
+    "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/cyrus14",
     "github": "https://github.com/cyrus14"
   },
@@ -512,7 +554,7 @@
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Rockville, MD",
-    "about": "Hi! I'm Colin. I'm a freshman in A&S majoring in CS. In my free time, I enjoy collecting excessive amounts of free stuff.",
+    "about": "Hi! I'm Colin. I'm a sophomore in A&S majoring in CS. In my free time, I enjoy collecting excessive amounts of free stuff.",
     "subteams": [
       "zing"
     ],
@@ -520,6 +562,7 @@
     "roleDescription": "Developer",
     "formerSubteams": [],
     "website": "https://colinwu.rocks",
+    "linkedin": "https://www.linkedin.com/in/colin-wu-906426220/",
     "github": "https://github.com/CollinWoo"
   },
   {
@@ -556,6 +599,23 @@
     "github": "https://github.com/danakim21"
   },
   {
+    "netid": "dka34",
+    "name": "Desmond Atikpui",
+    "pronouns": "He/Him",
+    "graduation": "December 2025",
+    "major": "Computer Science",
+    "hometown": "Ghana",
+    "about": "👋🏽 Hi, my name is Desmond\n\n🎓 Sophomore at Cornell University majoring in Computer Science (2025)\n\n💻 Software engineer specializing in scalable, reliable, and secure solutions. Strong background in \n multiple programming languages and experience in both front-end and back-end development. \n Committed to delivering top-quality software and staying up-to-date with industry trends",
+    "subteams": [
+      "carriage"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/desmond-atikpui-3003/",
+    "github": "https://github.com/Atikpui007"
+  },
+  {
     "netid": "dlw266",
     "name": "Daniel Wei",
     "pronouns": "he/him",
@@ -564,10 +624,11 @@
     "hometown": "Houston, TX",
     "about": "Hi! I'm an intended CS major in the College of Arts and Sciences, pursuing a double minor in Business and East Asian Studies. I love work on front-ends and web design, as well as some more niche interests like Linux and Networking. Apart from DTI, I'm also a member of the Chinese Students Association. In my free time, I mostly watch an ungodly number of Chinese and Korean dramas.",
     "subteams": [
-      "clubview"
+      "clubview",
+      "leads"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Dyson Business Minor for Engineers; East Asian Studies",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/weidaniel15/",
@@ -586,6 +647,21 @@
     ],
     "roleId": "pm",
     "roleDescription": "Product manager"
+  },
+  {
+    "netid": "et362",
+    "name": "Elizabeth Tang",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "courseplan"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
   },
   {
     "netid": "ezx2",
@@ -651,6 +727,23 @@
     "roleDescription": "Developer",
     "doubleMajor": "Mathematics",
     "website": "https://fengyuli.com"
+  },
+  {
+    "netid": "gs622",
+    "name": "Grace Sawatyanon",
+    "pronouns": "she/her",
+    "graduation": "Spring 2026",
+    "major": "Computer Science",
+    "hometown": "Bangkok, Thailand",
+    "about": "CUApts Dev :)",
+    "subteams": [
+      "cuapts"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/gunyasorn-sawatyanon-86610825b/",
+    "github": "https://github.com/ggsawatyanon"
   },
   {
     "netid": "gsh68",
@@ -779,6 +872,32 @@
     "roleDescription": "Developer"
   },
   {
+    "netid": "jc2755",
+    "name": "Jesse Cheng",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "formerSubteams": []
+  },
+  {
+    "netid": "jcm533",
+    "name": "Jonathan Mak",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "business",
+    "roleDescription": "Business Analyst",
+    "formerSubteams": []
+  },
+  {
     "netid": "jg844",
     "name": "Jiayuan Gu",
     "pronouns": "",
@@ -789,9 +908,24 @@
     "subteams": [
       "cuapts"
     ],
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
+    "github": "https://github.com/jiayuangu762943"
+  },
+  {
+    "netid": "jh2228",
+    "name": "Jessica Han",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "cuapts"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "github": "https://github.com/jiayuangu762943"
+    "formerSubteams": []
   },
   {
     "netid": "jj523",
@@ -810,6 +944,19 @@
     "website": "https://www.whoisjeremy.com"
   },
   {
+    "netid": "jjm493",
+    "name": "Jason Mun",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "formerSubteams": []
+  },
+  {
     "netid": "jjw255",
     "name": "Jessica Wang",
     "pronouns": "",
@@ -823,6 +970,19 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "github": "https://github.com/jewang25"
+  },
+  {
+    "netid": "jjz62",
+    "name": "Jennifer Zhang",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
   },
   {
     "netid": "jk2338",
@@ -884,8 +1044,8 @@
     "subteams": [
       "zing"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Business, Information Science"
   },
   {
@@ -915,8 +1075,8 @@
     "subteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
+    "roleId": "developer",
+    "roleDescription": "Developer",
     "linkedin": "https://www.linkedin.com/in/jessiewong401/"
   },
   {
@@ -950,6 +1110,58 @@
     "minor": "Design and Environmental Analysis",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/kehui-guo/"
+  },
+  {
+    "netid": "kjc249",
+    "name": "Katherine Chang",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
+  },
+  {
+    "netid": "kl628",
+    "name": "Kevin Lin",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "business",
+    "roleDescription": "Business Analyst",
+    "formerSubteams": []
+  },
+  {
+    "netid": "km653",
+    "name": "Kevin Mei",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "business",
+    "roleDescription": "Business Analyst",
+    "formerSubteams": []
+  },
+  {
+    "netid": "kmc362",
+    "name": "Kaylin Chan",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "formerSubteams": []
   },
   {
     "netid": "kw433",
@@ -1023,8 +1235,8 @@
     "subteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
+    "roleId": "developer",
+    "roleDescription": "Developer",
     "minor": "Mathematics ",
     "formerSubteams": [
       "carriage"
@@ -1091,13 +1303,28 @@
     "subteams": [
       "carriage"
     ],
+    "roleId": "pm",
+    "roleDescription": "Product Manager"
+  },
+  {
+    "netid": "mly32",
+    "name": "Michael Ye",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
-    "roleDescription": "Developer"
+    "roleDescription": "Developer",
+    "formerSubteams": []
   },
   {
     "netid": "mml267",
     "name": "Miranda Luo",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Montvale, NJ",
@@ -1105,9 +1332,10 @@
     "subteams": [
       "zing"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
     "doubleMajor": "Biological Sciences",
+    "formerSubteams": [],
     "website": "https://mluo24.github.io/",
     "linkedin": "https://www.linkedin.com/in/miranda-luo/",
     "github": "https://github.com/mluo24"
@@ -1121,10 +1349,13 @@
     "hometown": "Toronto, Canada",
     "about": "Hi! I'm Michael! I love being a part of CoursePlan, but when I am not working you can usually find me at Lynah! I love going to the hockey games and I am the producer of Big Red HockeyCast!",
     "subteams": [
+      "leads"
+    ],
+    "roleId": "lead",
+    "roleDescription": "Lead",
+    "formerSubteams": [
       "courseplan"
     ],
-    "roleId": "pm",
-    "roleDescription": "Product manager",
     "linkedin": "www.linkedin.com/in/michael-farkouh-223765194"
   },
   {
@@ -1147,7 +1378,7 @@
   {
     "netid": "mwy9",
     "name": "Miranda Yu",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2024",
     "major": "Computer Science ",
     "hometown": "Potomac, MD",
@@ -1155,9 +1386,11 @@
     "subteams": [
       "courseplan"
     ],
-    "roleId": "business",
-    "roleDescription": "Business Analyst",
-    "doubleMajor": "Economics"
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "doubleMajor": "Economics",
+    "formerSubteams": [],
+    "github": "https://github.com/mirandayu131"
   },
   {
     "netid": "myl39",
@@ -1168,12 +1401,14 @@
     "hometown": "North Potomac, Maryland",
     "about": "Hey! My name is Michelle and I'm a Computer Science major in the College of Engineering with a minor in Information Science. My main interests lie within web development and data science. I love working on creative products that I know will positively impact the greater community around me. In my free time I like watching anime, long boarding. and hanging out with friends.",
     "subteams": [
-      "reviews"
+      "reviews",
+      "leads"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Information Science",
-    "linkedin": "https://www.linkedin.com/mwlite/in/michelleli0"
+    "linkedin": "https://www.linkedin.com/mwlite/in/michelleli0",
+    "github": "https://github.com/michelleli01"
   },
   {
     "netid": "nk495",
@@ -1198,12 +1433,13 @@
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Potomac, MD",
-    "about": "Hey! My name is Noah, and I'm a freshman computer science major in the College of Engineering. I'm interested in many aspects of STEM, but, in general, I want to figure out how things work and how to make them work! Outside of Cornell and DTI, I'm a big Washington, D.C. sports fan, and I love playing volleyball.",
+    "about": "Hey! My name is Noah, and I'm a CS major in the College of Engineering. I'm the Product Manager and a dev on CoursePlan, and I'm also the Project Lead for CMSX for Bowers CIS. Outside of Cornell and DTI, I'm a big Washington, D.C. sports fan, and I love playing volleyball.",
     "subteams": [
       "courseplan"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "minor": "Math & ORIE",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/noahschiff/",
     "github": "https://github.com/noschiff"
@@ -1237,9 +1473,22 @@
     "subteams": [
       "dac"
     ],
-    "roleId": "designer",
-    "roleDescription": "Designer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Business "
+  },
+  {
+    "netid": "ow39",
+    "name": "Oscar Wang",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
   },
   {
     "netid": "pak226",
@@ -1252,8 +1501,8 @@
     "subteams": [
       "zing"
     ],
-    "roleId": "designer",
-    "roleDescription": "Designer"
+    "roleId": "pm",
+    "roleDescription": "Product Manager"
   },
   {
     "netid": "pg342",
@@ -1288,20 +1537,40 @@
     "linkedin": "https://www.linkedin.com/in/pk1/"
   },
   {
-    "netid": "ps2245",
-    "name": "Pratyush Sudhakar",
-    "pronouns": "he/him/his",
-    "graduation": "May 2024",
-    "major": "Computer Science",
-    "hometown": "India",
-    "about": "Hey, I'm Pratyush! I'm a freshman studying computer science and mathematics. I am interested in software development, artificial intelligence, and machine learning. Outside of DTI, I'm also a member of Cornell Wushu Club, NCPA Paintball Team, MMA Club, and Undergraduate Math Club.hey",
+    "netid": "pr428",
+    "name": "Pablo Raigoza",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
     "subteams": [
-      "dac"
+      "courseplan"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
+    "netid": "ps2245",
+    "name": "Pratyush Sudhakar",
+    "pronouns": "he/him/his",
+    "graduation": "December 2024",
+    "major": "Computer Science, Mathematics",
+    "hometown": "India",
+    "about": "Hey, I'm Pratyush! I'm a sophomore studying computer science and mathematics. I am interested in software development, artificial intelligence, and machine learning. Outside of DTI, I'm also a member of Cornell Wushu Club, NCPA Paintball Team, MMA Club, and Undergraduate Math Club.",
+    "subteams": [
+      "quemein",
+      "courseplan",
+      "carriage"
+    ],
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
     "doubleMajor": "Mathematics",
-    "formerSubteams": [],
+    "formerSubteams": [
+      "dac"
+    ],
+    "website": "https://pratyushsudhakar.com/",
     "linkedin": "https://www.linkedin.com/in/pratyushsudhakar/",
     "github": "https://github.com/pratyush1712"
   },
@@ -1394,6 +1663,19 @@
     "linkedin": "https://www.linkedin.com/in/robin-ahn-869b081bb/details/experience/"
   },
   {
+    "netid": "sc2548",
+    "name": "Stephy Chen",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "business",
+    "roleDescription": "Business Analyst",
+    "formerSubteams": []
+  },
+  {
     "netid": "sc2843",
     "name": "Sophia Chu",
     "pronouns": "",
@@ -1411,7 +1693,7 @@
   {
     "netid": "sdt35",
     "name": "Sydney Tran",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Andover ",
@@ -1421,7 +1703,25 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "linkedin": "https://www.linkedin.com/in/sydneydtran/"
+    "formerSubteams": [],
+    "website": "https://sydneytran.netlify.app/",
+    "linkedin": "https://www.linkedin.com/in/sydneydtran/",
+    "github": "https://github.com/Sydney-tran"
+  },
+  {
+    "netid": "sg2265",
+    "name": "Stuti Gupta",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "carriage"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
   },
   {
     "netid": "sj598",
@@ -1434,8 +1734,8 @@
     "subteams": [
       "reviews"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Business ",
     "github": "https://github.com/juliejeong"
   },
@@ -1498,8 +1798,8 @@
     "subteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
+    "roleId": "developer",
+    "roleDescription": "Developer",
     "linkedin": "https://www.linkedin.com/in/scott-wang-ngwattcos/"
   },
   {
@@ -1513,14 +1813,30 @@
     "subteams": [
       "dac"
     ],
+    "roleId": "pm",
+    "roleDescription": "Product Manager",
+    "linkedin": "https://www.linkedin.com/in/sarahyoung212/",
+    "github": "https://github.com/syoung212"
+  },
+  {
+    "netid": "sy433",
+    "name": "Samuel Yeboah",
+    "pronouns": "He/Him",
+    "graduation": "2025",
+    "major": "Computer Science",
+    "hometown": "Bronx,NY",
+    "about": "I like to play basketball : ) ",
+    "subteams": [
+      "idol"
+    ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "linkedin": "https://www.linkedin.com/in/sarahyoung212/"
+    "formerSubteams": []
   },
   {
     "netid": "sz266",
     "name": "Sophie Zhao",
-    "pronouns": "",
+    "pronouns": "she/her",
     "graduation": "May 2025",
     "major": "Operations Research",
     "hometown": "Vancouver, Canada",
@@ -1528,8 +1844,10 @@
     "subteams": [
       "business"
     ],
-    "roleId": "business",
-    "roleDescription": "Business Analyst"
+    "roleId": "lead",
+    "roleDescription": "Lead",
+    "minor": "CS",
+    "formerSubteams": []
   },
   {
     "netid": "to98",
@@ -1574,8 +1892,8 @@
     "subteams": [
       "cuapts"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
     "minor": "Business",
     "linkedin": "https://www.linkedin.com/in/sophiappt",
     "github": "https://github.com/thuypham03"
@@ -1607,10 +1925,11 @@
     "subteams": [
       "carriage"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
     "minor": "Business",
-    "linkedin": "https://www.linkedin.com/in/tuckerstanley"
+    "linkedin": "https://www.linkedin.com/in/tuckerstanley",
+    "github": "https://github.com/tuckerstanley"
   },
   {
     "netid": "txy3",
@@ -1647,6 +1966,32 @@
     "linkedin": "https://www.linkedin.com/in/aaron-kang-0b7830192/"
   },
   {
+    "netid": "vg222",
+    "name": "Vaishnavi Gupta",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
+    "netid": "vkw7",
+    "name": "Valerie Wong",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
+  },
+  {
     "netid": "wes229",
     "name": "Will Spencer",
     "pronouns": "",
@@ -1673,10 +2018,11 @@
     "subteams": [
       "zing"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "tpm",
+    "roleDescription": "Technical PM",
     "website": "https://notwz.com",
-    "linkedin": "https://www.linkedin.com/in/notwz/"
+    "linkedin": "https://www.linkedin.com/in/notwz/",
+    "github": "https://github.com/notwz"
   },
   {
     "netid": "xsy3",
@@ -1719,11 +2065,13 @@
     "hometown": "Great Neck, NY",
     "about": "Hey, I'm Enoch! Crazy ideas pop into my mind sometimes, and I love making them a reality. I am passionate about my projects, but otherwise I'm a pretty chill dude. You can catch me listening to music, taking things apart, or contemplating life.",
     "subteams": [
+      "carriage"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": [
       "leads"
     ],
-    "roleId": "lead",
-    "roleDescription": "Lead",
-    "formerSubteams": [],
     "website": "https://enochen.me",
     "linkedin": "https://www.linkedin.com/in/enochen728",
     "github": "https://github.com/Enochen"
@@ -1743,6 +2091,19 @@
     "roleDescription": "Designer",
     "website": "https://yuxuanchen.me",
     "linkedin": "https://www.linkedin.com/in/yuxuanchen12/"
+  },
+  {
+    "netid": "yl3262",
+    "name": "Happy Li",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
   },
   {
     "netid": "yw853",
@@ -1773,8 +2134,8 @@
     "subteams": [
       "clubview"
     ],
-    "roleId": "business",
-    "roleDescription": "Business Analyst",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Information Science & Real Estate",
     "linkedin": "https://www.linkedin.com/in/nancyzhang20/"
   },
