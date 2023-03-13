@@ -89,7 +89,6 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
     csvExporter.generateCsv(csvData);
   };
 
-  // console.log(new Date(portfolio?.lateDeadline));
   const timeLabel = (isoDate: number) => new Date(isoDate).toLocaleString();
 
   return !portfolio ? (
@@ -148,7 +147,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
       <span>
-        <b>* = Late submission</b>
+        <Icon name="exclamation circle" color="red" />
+        <b>= Late submission</b>
       </span>
     </Container>
   );
@@ -244,7 +244,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
       >
         <Table.Cell rowSpan={`${numRows}`}>
           {`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}
-          {submission.isLate && <Icon name="exclamation circle" />}`
+          {submission.isLate && <Icon name="exclamation circle" color="red" />}
         </Table.Cell>
         <Table.Cell>
           <PullRequestDisplay

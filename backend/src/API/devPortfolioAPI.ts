@@ -4,9 +4,8 @@ import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
 
-function zonedTime(timestamp: number, ianatz = 'America/New_York') {
-  return DateTime.fromMillis(timestamp, { zone: ianatz });
-}
+const zonedTime = (timestamp: number, ianatz = 'America/New_York') =>
+  DateTime.fromMillis(timestamp, { zone: ianatz });
 
 export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
