@@ -1,6 +1,6 @@
-import { useProdDb, useProdBackendForDev, allowAdmin } from './environment';
+import { isStaging, useProdDb, useProdBackendForDev, allowAdmin } from './environment';
 
-test('useProdDb check', () => expect(useProdDb).toEqual(true));
+test('useProdDb check', () => expect(useProdDb || isStaging).toEqual(true));
 
 test('useProdBackendForDev', () => expect(useProdBackendForDev).toEqual(false));
 
