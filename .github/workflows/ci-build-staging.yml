@@ -32,7 +32,7 @@ jobs:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
           USE_PROD_DB: false
-          NEXT_PUBLIC_IS_STAGING: ${{ secrets.IS_STAGING }}
+          NEXT_PUBLIC_IS_STAGING: true
   build:
     runs-on: ubuntu-latest
     steps:
