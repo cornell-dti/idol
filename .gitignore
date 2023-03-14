@@ -17,7 +17,7 @@ tsconfig.tsbuildinfo
 # misc
 .DS_Store
 .env
-!frontend/.env
+frontend/.env
 .env.local
 .env.development.local
 .env.test.local
@@ -29,6 +29,3 @@ next-env.d.ts
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# just for staging branch
-environment.ts

@@ -1,13 +1,17 @@
 export const isProduction = process.env.NODE_ENV === 'production';
 
-/** Switch to true when using prod API for dev. Remember to change it back before commit. */
-export const useProdBackendForDev = false;
+export const isStaging: boolean = JSON.parse(process.env.NEXT_PUBLIC_IS_STAGING as string);
 
-/** Switch to false to use development Firebase instance. Change back to true before committing. */
-export const useProdDb = false;
+/** Switch to true when using prod API for dev. */
+export const useProdBackendForDev: boolean = JSON.parse(
+  process.env.NEXT_PUBLIC_USE_PROD_BACKEND_FOR_DEV as string
+);
 
-/** Switch to false to test IDOL as a non-admin user. Change back to true before committing. */
-export const allowAdmin = true;
+/** Switch to false to use development Firebase instance. */
+export const useProdDb: boolean = JSON.parse(process.env.NEXT_PUBLIC_USE_PROD_DB as string);
+
+/** Switch to false to test IDOL as a non-admin user. */
+export const allowAdmin: boolean = JSON.parse(process.env.NEXT_PUBLIC_ALLOW_ADMIN as string);
 
 export const backendURL =
   isProduction || !useProdBackendForDev
