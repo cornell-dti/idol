@@ -34,7 +34,7 @@ export type DBSignInForm = {
 
 export type DBTeamEventAttendance = {
   member: firestore.DocumentReference;
-  hoursAttended?: number;
+  hoursAttended: number | null;
   image: string;
   eventUuid: string;
   pending: boolean;

@@ -82,7 +82,7 @@ interface SignInForm {
 
 interface TeamEventAttendance {
   member: IdolMember;
-  hoursAttended?: number;
+  hoursAttended: number | null;
   image: string;
   readonly eventUuid: string;
   readonly pending: boolean;
