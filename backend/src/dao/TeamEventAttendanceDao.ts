@@ -2,13 +2,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { memberCollection, teamEventAttendanceCollection } from '../firebase';
 import { DBTeamEventAttendance } from '../types/DataTypes';
 
-/**
- * Creates a new TEC Attendance for member for a given team event
- * @param teamEventAttendance - Newly created TeamEventAttendance object.
- * If provided, the object uuid will be used. If not, a new one will be generated.
- * The pending field will be set to true by default.
- */
 export default class TeamEventAttendanceDao {
+  /**
+   * Creates a new TEC Attendance for member for a given team event
+   * @param teamEventAttendance - Newly created TeamEventAttendance object.
+   * If provided, the object uuid will be used. If not, a new one will be generated.
+   * The pending field will be set to true by default.
+   */
   static async createTeamEventAttendance(
     teamEventAttendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
