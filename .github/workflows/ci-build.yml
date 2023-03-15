@@ -40,6 +40,10 @@ jobs:
         if: startsWith(github.base_ref, 'staging')
       - name: see what base_ref is
         run: echo ${{ github.base_ref }}
+      - name: see what env vars are set to
+        run: |
+        echo ${{ env.USE_PROD_DB }}
+        echo ${{ env.NEXT_PUBLIC_IS_STAGING }}
       - name: Test
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
