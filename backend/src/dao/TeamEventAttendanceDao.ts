@@ -1,3 +1,4 @@
+import * as admin from 'firebase-admin';
 import { v4 as uuidv4 } from 'uuid';
 import { memberCollection, teamEventAttendanceCollection } from '../firebase';
 import { DBTeamEventAttendance } from '../types/DataTypes';
@@ -7,12 +8,11 @@ export default class TeamEventAttendanceDao {
     teamEventAttendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
     const teamAttendanceRef: DBTeamEventAttendance = {
+      ...teamEventAttendance,
       member: memberCollection.doc(teamEventAttendance.member.email),
       ...(typeof teamEventAttendance.hoursAttended === 'number'
         ? { hoursAttended: teamEventAttendance.hoursAttended }
         : {}),
-      image: teamEventAttendance.image,
-      eventUuid: teamEventAttendance.eventUuid,
       pending: true,
       uuid: teamEventAttendance.uuid ? teamEventAttendance.uuid : uuidv4()
     };
@@ -24,21 +24,30 @@ export default class TeamEventAttendanceDao {
     attendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
     const teamAttendanceRef: DBTeamEventAttendance = {
-      member: memberCollection.doc(attendance.member.email),
-      ...(typeof attendance.hoursAttended === 'number'
-        ? { hoursAttended: attendance.hoursAttended }
-        : {}),
-      image: attendance.image,
-      eventUuid: attendance.eventUuid,
-      pending: attendance.pending,
-      uuid: attendance.uuid
+      ...attendance,
+      member: memberCollection.doc(attendance.member.email)
     };
-    await teamEventAttendanceCollection.doc(teamAttendanceRef.uuid).update(teamAttendanceRef);
+
+    const docRef = await teamEventAttendanceCollection.doc(teamAttendanceRef.uuid);
+    const currentDoc = await docRef.get();
+    const currentAttendance = currentDoc.data() as DBTeamEventAttendance;
+
+    if (
+      teamAttendanceRef.hoursAttended === undefined &&
+      currentAttendance.hoursAttended !== undefined
+    ) {
+      await docRef.update(
+        new admin.firestore.FieldPath('hoursAttended'),
+        admin.firestore.FieldValue.delete()
+      );
+    }
+    await docRef.update(teamAttendanceRef);
+
     return attendance;
   }
 
   static async deleteTeamEventAttendance(uuid: string): Promise<void> {
     const docRef = teamEventAttendanceCollection.doc(uuid);
-    docRef.delete();
+    await docRef.delete();
   }
 }
