@@ -50,6 +50,8 @@ jobs:
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
           FIREBASE_DEV_PRIVATE_KEY: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY}}
           FIREBASE_DEV_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY_ID }}
+          USE_PROD_DB: ${{ env.USE_PROD_DB }}
+          NEXT_PUBLIC_IS_STAGING: ${{ env.NEXT_PUBLIC_IS_STAGING }}
 
         run: yarn test
   build:
