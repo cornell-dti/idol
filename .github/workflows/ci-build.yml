@@ -42,8 +42,8 @@ jobs:
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
-          USE_PROD_DB: "$USE_PROD_DB"
-          NEXT_PUBLIC_IS_STAGING: "$NEXT_PUBLIC_IS_STAGING"
+          USE_PROD_DB: $USE_PROD_DB
+          NEXT_PUBLIC_IS_STAGING: $NEXT_PUBLIC_IS_STAGING
 
         run: yarn test
   build:
