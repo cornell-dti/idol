@@ -123,10 +123,6 @@ app.use(
   })
 );
 
-router.get('/error', () => {
-  throw new Error();
-});
-
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
   if (typeof idToken !== 'string') return undefined;
