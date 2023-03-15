@@ -44,8 +44,8 @@ export default class TeamEventAttendanceDao {
   }
 
   /**
-   * Updates a TEC Attendance
-   * @param teamEventAttendance - updated TeamEventAttendance object
+   * Deletes a TEC Attendance
+   * @param uuid - DB uuid of TeamEventAttendance
    */
   static async deleteTeamEventAttendance(uuid: string): Promise<void> {
     const docRef = teamEventAttendanceCollection.doc(uuid);
