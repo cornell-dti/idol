@@ -2,8 +2,9 @@ name: Build
 on:
   push:
     branches:
-      - main
   pull_request:
+      - staging
+      - main
 
 jobs:
   check:
@@ -31,7 +32,9 @@ jobs:
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
-          USE_PROD_DB: ${{ secrets.USE_PROD_DB }}
+          USE_PROD_DB: "${{ github.base_ref == 'main' && true || false }}"
+          NEXT_PUBLIC_IS_STAGING: true "${{ github.base_ref == 'staging' && true || false }}"
+
         run: yarn test
   build:
     runs-on: ubuntu-latest
