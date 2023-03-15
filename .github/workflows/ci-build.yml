@@ -48,6 +48,8 @@ jobs:
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+          FIREBASE_DEV_PRIVATE_KEY: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY}}
+          FIREBASE_DEV_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY_ID }}
 
         run: yarn test
   build:
