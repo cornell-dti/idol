@@ -29,21 +29,21 @@ jobs:
         run: yarn format:check
       - name: Set env var if base is main
         run: |
-          echo 'true' >> $USE_PROD_DB
-          echo 'false' >> $NEXT_PUBLIC_IS_STAGING
+          echo "USE_PROD_DB=true" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_IS_STAGING=false" >> $GITHUB_ENV
         if: startsWith(github.base_ref, 'refs/heads/main')
 
       - name: Set env var if base is staging
         run: |
-          echo 'false' >> $USE_PROD_DB
-          echo 'true' >> $NEXT_PUBLIC_IS_STAGING
+          echo "USE_PROD_DB=false" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_IS_STAGING=true" >> $GITHUB_ENV
         if: startsWith(github.base_ref, 'refs/heads/staging')
       - name: Test
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
-          USE_PROD_DB: ${{ echo env.USE_PROD_DB }}
-          NEXT_PUBLIC_IS_STAGING: ${{ echo env.NEXT_PUBLIC_IS_STAGING }}
+          USE_PROD_DB: ${{ env.USE_PROD_DB }}
+          NEXT_PUBLIC_IS_STAGING: ${{ env.NEXT_PUBLIC_IS_STAGING }}
 
         run: yarn test
   build:
