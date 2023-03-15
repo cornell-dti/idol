@@ -1,8 +1,6 @@
 export const isProduction = process.env.NODE_ENV === 'production';
 
-export const isStaging: boolean = process.env.NEXT_PUBLIC_IS_STAGING
-  ? JSON.parse(process.env.NEXT_PUBLIC_IS_STAGING as string)
-  : false;
+export const environment: string | undefined = process.env.NEXT_PUBLIC_ENV;
 
 /** Switch to true when using prod API for dev. */
 export const useProdBackendForDev: boolean = process.env.NEXT_PUBLIC_USE_PROD_BACKEND_FOR_DEV
