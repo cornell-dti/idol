@@ -31,13 +31,13 @@ jobs:
         run: |
           echo "USE_PROD_DB=true" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_IS_STAGING=false" >> $GITHUB_ENV
-        if: startsWith(github.base_ref, 'refs/heads/main')
+        if: startsWith(github.base_ref, 'main')
 
       - name: Set env var if base is staging
         run: |
           echo "USE_PROD_DB=false" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_IS_STAGING=true" >> $GITHUB_ENV
-        if: startsWith(github.base_ref, 'refs/heads/staging')
+        if: startsWith(github.base_ref, 'staging')
       - name: see what base_ref is
         run: echo ${{ github.base_ref }}
       - name: Test
