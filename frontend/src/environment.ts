@@ -8,10 +8,12 @@ export const useProdBackendForDev: boolean = process.env.NEXT_PUBLIC_USE_PROD_BA
   : false;
 
 /** Switch to false to use development Firebase instance. */
+// only a local thing now
 export const useProdDb: boolean = process.env.NEXT_PUBLIC_USE_PROD_DB
   ? JSON.parse(process.env.NEXT_PUBLIC_USE_PROD_DB as string)
   : true;
 
+// only a local thing now
 /** Switch to false to test IDOL as a non-admin user. */
 export const allowAdmin: boolean = process.env.NEXT_PUBLIC_ALLOW_ADMIN
   ? JSON.parse(process.env.NEXT_PUBLIC_ALLOW_ADMIN as string)
