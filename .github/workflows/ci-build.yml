@@ -38,6 +38,8 @@ jobs:
           echo "USE_PROD_DB=false" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_IS_STAGING=true" >> $GITHUB_ENV
         if: startsWith(github.base_ref, 'refs/heads/staging')
+      - name: see what base_ref is
+        run: echo $ {{ github.base_ref }}
       - name: Test
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
