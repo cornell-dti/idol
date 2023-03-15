@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "next",
-    "build": "next build && next export -o build",
+    "build": "export NEXT_PUBLIC_ENV=$ENV && next build && next export -o build",
     "tsc": "tsc"
   },
   "proxy": "http://localhost:9000",

@@ -29,10 +29,10 @@ jobs:
       - name: Format
         run: yarn format:check
       - name: Configure environment for prod
-        run: echo "NEXT_PUBLIC_ENV=prod" >> $GITHUB_ENV
+        run: echo "ENV=prod" >> $GITHUB_ENV
         if: startsWith(github.base_ref, 'main')
       - name: Configure environment for staging
-        run: echo "NEXT_PUBLIC_ENV=staging" >> $GITHUB_ENV
+        run: echo "ENV=staging" >> $GITHUB_ENV
         if: startsWith(github.base_ref, 'staging')
       - name: Test
         env:
@@ -40,7 +40,7 @@ jobs:
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
           FIREBASE_DEV_PRIVATE_KEY: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY}}
           FIREBASE_DEV_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY_ID }}
-          NEXT_PUBLIC_ENV: ${{ env.NEXT_PUBLIC_ENV }}
+          ENV: ${{ env.ENV }}
         run: yarn test
   build:
     runs-on: ubuntu-latest
