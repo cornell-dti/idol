@@ -33,6 +33,7 @@
     "express-winston": "^4.2.0",
     "firebase-admin": "^9.12.0",
     "googleapis": "^100.0.0",
+    "luxon": "^3.3.0",
     "lodash.isequal": "^4.5.0",
     "netlify-lambda": "^2.0.14",
     "nodemailer": "^6.7.3",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@types/diff": "^5.0.1",
+    "@types/luxon": "^3.2.0",
     "esbuild": "^0.13.3",
     "esbuild-runner": "^2.2.1"
   }

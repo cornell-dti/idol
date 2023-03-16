@@ -1,7 +1,11 @@
+import { DateTime } from 'luxon';
 import DevPortfolioDao from '../dao/DevPortfolioDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
+
+const zonedTime = (timestamp: number, ianatz = 'America/New_York') =>
+  DateTime.fromMillis(timestamp, { zone: ianatz });
 
 export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -47,21 +51,25 @@ export const createNewDevPortfolio = async (
     instance.name.length === 0 ||
     instance.deadline < instance.earliestValidDate ||
     (instance.lateDeadline && instance.lateDeadline < instance.deadline)
-  )
+  ) {
     throw new BadRequestError(
       `Unable to create the new dev portfolio instance: The provided dev portfolio is invalid.`
     );
-  const updatedDeadline = new Date(instance.deadline);
-  const updatedEarliestValidDate = new Date(instance.earliestValidDate);
-  const updatedLateDeadline = instance.lateDeadline ? new Date(instance.lateDeadline) : null;
-  const modifiedInstance = {
-    ...instance,
-    deadline: updatedDeadline.setHours(23, 59, 59),
-    earliestValidDate: updatedEarliestValidDate.setHours(0, 0, 0)
-  };
-  if (updatedLateDeadline) {
-    modifiedInstance.lateDeadline = updatedLateDeadline.setHours(23, 59, 59);
   }
+
+  const updatedDeadline = zonedTime(instance.deadline).endOf('day');
+  const updatedEarliestValidDate = zonedTime(instance.earliestValidDate).startOf('day');
+  const updatedLateDeadline = instance.lateDeadline
+    ? zonedTime(instance.lateDeadline).endOf('day')
+    : null;
+
+  const modifiedInstance: DevPortfolio = {
+    ...instance,
+    deadline: updatedDeadline.valueOf(),
+    earliestValidDate: updatedEarliestValidDate.valueOf(),
+    lateDeadline: updatedLateDeadline ? updatedLateDeadline.valueOf() : null
+  };
+
   return DevPortfolioDao.createNewInstance(modifiedInstance);
 };
 

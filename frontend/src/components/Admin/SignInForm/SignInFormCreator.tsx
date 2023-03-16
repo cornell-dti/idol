@@ -15,7 +15,7 @@ import {
   SemanticICONS
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import SignInFormAPI from '../../../API/SignInFormAPI';
 import { Emitters } from '../../../utils';
 import styles from './SignInFormCreator.module.css';
@@ -28,10 +28,10 @@ const CODE_VALIDATION_RE = '^[a-zA-Z0-9-]+$';
 const regexInput = new RegExp(CODE_VALIDATION_RE);
 
 const calculateMinTime = (date: Date) => {
-  if (moment(date).isSame(moment(), 'day')) {
-    return moment().add(0.5, 'hours').toDate();
+  if (DateTime.fromJSDate(date).hasSame(DateTime.now(), 'day')) {
+    return DateTime.now().plus({ minutes: 30 }).toJSDate();
   }
-  return moment().startOf('day').toDate();
+  return DateTime.now().startOf('day').toJSDate();
 };
 
 const CodeForm: React.FC<{
@@ -45,7 +45,7 @@ const CodeForm: React.FC<{
 }> = ({ defaultValue, onClick, disabled, info, error, success, link }) => {
   const [inputVal, setInputVal] = useState(defaultValue || '');
   const [showCopied, setShowCopied] = useState(false);
-  const [expiryDate, setExpiryDate] = useState(moment().add(2, 'hours').toDate());
+  const [expiryDate, setExpiryDate] = useState(DateTime.now().plus({ hours: 2 }).toJSDate());
   const [validInput, setValidInput] = useState(true);
   const [minTime, setMinTime] = useState(new Date());
 
@@ -133,13 +133,21 @@ const CodeForm: React.FC<{
           <div>
             <label className={styles.dateLabel}>Code Expiry</label>
             <DatePicker
+              popperModifiers={[
+                {
+                  name: 'arrow',
+                  options: {
+                    padding: { right: 25 }
+                  }
+                }
+              ]}
               selected={expiryDate}
               onChange={handleDateChange}
               showTimeSelect
               disabled={disabled}
               minDate={new Date()}
               minTime={minTime}
-              maxTime={moment().endOf('day').toDate()}
+              maxTime={DateTime.now().endOf('day').toJSDate()}
               dateFormat="MMM d, yyyy h:mm aa"
             />
             <div>
@@ -264,7 +272,7 @@ const CreateSignInForm: React.FC<{ id: string; expiryDate: number }> = ({ id, ex
       defaultValue={id}
       onClick={onResultsScreenResubmit}
       error={{
-        header: `The expiry date ${new Date(expiryDate).toLocaleTimeString()} on 
+        header: `The expiry date ${new Date(expiryDate).toLocaleTimeString()} on
             ${new Date(expiryDate).toLocaleDateString()} is in the past!`,
         content: 'Choose a different expiry date to continue.'
       }}

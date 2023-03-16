@@ -1,6 +1,11 @@
 import DevPortfolioDao from '../src/dao/DevPortfolioDao'; // eslint-disable-line  @typescript-eslint/no-unused-vars
 import PermissionsManager from '../src/utils/permissionsManager';
-import { fakeIdolMember, fakeDevPortfolio, fakeDevPortfolioSubmission } from './data/createData';
+import {
+  fakeIdolMember,
+  fakeDevPortfolio,
+  fakeDevPortfolioSubmission,
+  fakeCreateDevPortfolio
+} from './data/createData';
 import {
   getDevPortfolio,
   deleteDevPortfolio,
@@ -108,19 +113,11 @@ describe('User is lead or admin', () => {
   });
 
   test('createDevPortfolio should be successful', async () => {
-    const expectedDeadline = new Date(devPortfolio.deadline).setHours(23, 59, 59);
-    const expectedEarliestValidDate = new Date(devPortfolio.earliestValidDate).setHours(0, 0, 0);
-    const expectedLateDeadline = new Date(devPortfolio.lateDeadline).setHours(23, 59, 59);
-    await createNewDevPortfolio(devPortfolio, user);
+    const [input, output] = fakeCreateDevPortfolio();
+    await createNewDevPortfolio(input, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(DevPortfolioDao.createNewInstance).toBeCalled();
-    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].deadline).toEqual(expectedDeadline);
-    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].earliestValidDate).toEqual(
-      expectedEarliestValidDate
-    );
-    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0].lateDeadline).toEqual(
-      expectedLateDeadline
-    );
+    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0]).toEqual(output);
   });
 
   describe('test createNewDevPortfolio validation', () => {

@@ -89,6 +89,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
     csvExporter.generateCsv(csvData);
   };
 
+  const timeLabel = (isoDate: number) => new Date(isoDate).toLocaleString();
+
   return !portfolio ? (
     <></>
   ) : (
@@ -98,14 +100,14 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       </Header>
 
       <Header as="h3" textAlign="center">
-        Earliest Valid Date: {new Date(portfolio.earliestValidDate).toDateString()}
+        Earliest Valid Date: {timeLabel(portfolio.earliestValidDate)}
       </Header>
       <Header textAlign="center" as="h3">
-        Deadline: {new Date(portfolio.deadline).toDateString()}
+        Deadline: {timeLabel(portfolio.deadline)}
       </Header>
       {portfolio.lateDeadline && (
         <Header textAlign="center" as="h3">
-          Late Deadline: {new Date(portfolio.lateDeadline).toDateString()}
+          Late Deadline: {timeLabel(portfolio.lateDeadline)}
         </Header>
       )}
       {isAdminView ? <Button onClick={() => handleExportToCsv()}>Export to CSV</Button> : <></>}
@@ -130,7 +132,7 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
               );
           }}
           loading={isRegrading}
-          class="right-button"
+          className="right-button"
         >
           Regrade All Submissions
         </Button>
@@ -145,7 +147,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
       )}
       <DetailsTable portfolio={portfolio} isAdminView={isAdminView} />
       <span>
-        <b>* = Late submission</b>
+        <Icon name="exclamation circle" color="red" />
+        <b>= Late submission</b>
       </span>
     </Container>
   );
@@ -177,17 +180,17 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
   };
 
   return (
-    <Table celled>
+    <Table celled unstackable>
       <Table.Header>
-        <Table.HeaderCell rowSpan="2">Name</Table.HeaderCell>
-        <Table.HeaderCell rowSpan="2">Opened PRs</Table.HeaderCell>
-        <Table.HeaderCell rowSpan="2">Reviewed PRs</Table.HeaderCell>
-        <Table.HeaderCell rowSpan="2">Status</Table.HeaderCell>
-        {sortedSubmissions.some((submission) => submission.text) ? (
-          <Table.HeaderCell rowSpan="2"></Table.HeaderCell>
-        ) : (
-          <></>
-        )}
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Opened PRs</Table.HeaderCell>
+          <Table.HeaderCell>Reviewed PRs</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          {sortedSubmissions.some((submission) => submission.text) && (
+            <Table.HeaderCell></Table.HeaderCell>
+          )}
+        </Table.Row>
       </Table.Header>
       <Table.Body>
         {sortedSubmissions.map((submission, i) => {
@@ -239,9 +242,10 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         negative={submissionStatus === 'invalid'}
         warning={submissionStatus === 'pending'}
       >
-        <Table.Cell rowSpan={`${numRows}`}>{`${submission.member.firstName} ${
-          submission.member.lastName
-        } (${submission.member.netid})${submission.isLate ? '*' : ''}`}</Table.Cell>
+        <Table.Cell rowSpan={`${numRows}`}>
+          {`${submission.member.firstName} ${submission.member.lastName} (${submission.member.netid})`}
+          {submission.isLate && <Icon name="exclamation circle" color="red" />}
+        </Table.Cell>
         <Table.Cell>
           <PullRequestDisplay
             prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
