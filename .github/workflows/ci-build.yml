@@ -4,6 +4,7 @@ on:
     branches:
       - main
   pull_request:
+    branches: [main, staging]
 
 jobs:
   check:
@@ -27,11 +28,19 @@ jobs:
         run: yarn type-check
       - name: Format
         run: yarn format:check
+      - name: Configure environment for prod
+        run: echo "ENV=prod" >> $GITHUB_ENV
+        if: startsWith(github.base_ref, 'main')
+      - name: Configure environment for staging
+        run: echo "ENV=staging" >> $GITHUB_ENV
+        if: startsWith(github.base_ref, 'staging')
       - name: Test
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
-          USE_PROD_DB: ${{ secrets.USE_PROD_DB }}
+          FIREBASE_DEV_PRIVATE_KEY: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY}}
+          FIREBASE_DEV_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_DEV_PRIVATE_KEY_ID }}
+          ENV: ${{ env.ENV }}
         run: yarn test
   build:
     runs-on: ubuntu-latest
