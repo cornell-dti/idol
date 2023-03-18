@@ -9,5 +9,5 @@
     "target": "ES5",
     "lib": ["ESNext", "DOM"]
   },
-  "include": ["src/*"]
+  "include": ["src/**/*"]
 }
