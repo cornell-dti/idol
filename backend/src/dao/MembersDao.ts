@@ -1,8 +1,17 @@
 import { db, approvedMemberCollection, memberCollection } from '../firebase';
 import { Team } from '../types/DataTypes';
 import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
+import BaseDao from './BaseDao';
 
-export default class MembersDao {
+export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
+  constructor() {
+    super(
+      memberCollection,
+      async (member) => member,
+      async (member) => member
+    );
+  }
+
   static async getAllMembers(fromApproved: boolean): Promise<IdolMember[]> {
     return (fromApproved ? approvedMemberCollection : memberCollection)
       .get()
@@ -24,18 +33,16 @@ export default class MembersDao {
     return archivedMembersByEmail[email];
   }
 
-  static async deleteMember(email: string): Promise<void> {
-    await memberCollection.doc(email).delete();
+  async deleteMember(email: string): Promise<void> {
+    await this.deleteDocument(email);
   }
 
-  static async setMember(email: string, member: IdolMember): Promise<IdolMember> {
-    await memberCollection.doc(email).set(member);
-    return member;
+  async setMember(email: string, member: IdolMember): Promise<IdolMember> {
+    return this.createDocument(email, member);
   }
 
-  static async updateMember(email: string, member: IdolMember): Promise<IdolMember> {
-    await memberCollection.doc(email).update(member);
-    return member;
+  async updateMember(email: string, member: IdolMember): Promise<IdolMember> {
+    return this.updateDocument(email, member);
   }
 
   /**

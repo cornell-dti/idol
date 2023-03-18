@@ -1,7 +1,9 @@
 import DevPortfolioDao from '../dao/DevPortfolioDao';
 import PermissionsManager from '../utils/permissionsManager';
-import { PermissionError, BadRequestError } from '../utils/errors';
+import { PermissionError, BadRequestError, NotFoundError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
+
+export const devPortfolioDao = new DevPortfolioDao();
 
 export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -9,7 +11,7 @@ export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfoli
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getAllInstances();
+  return devPortfolioDao.getAllInstances();
 };
 
 export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> =>
@@ -29,7 +31,9 @@ export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<D
     throw new PermissionError(
       `User with email ${user.email} does not have permission to view dev portfolios!`
     );
-  return DevPortfolioDao.getDevPortfolio(uuid);
+  const devPortfolio = await devPortfolioDao.getInstance(uuid);
+  if (!devPortfolio) throw new NotFoundError(`Dev portfolio with uuid: ${uuid} does not exist!`);
+  return devPortfolio;
 };
 
 export const createNewDevPortfolio = async (
@@ -62,7 +66,7 @@ export const createNewDevPortfolio = async (
   if (updatedLateDeadline) {
     modifiedInstance.lateDeadline = updatedLateDeadline.setHours(23, 59, 59);
   }
-  return DevPortfolioDao.createNewInstance(modifiedInstance);
+  return devPortfolioDao.createNewInstance(modifiedInstance);
 };
 
 export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promise<void> => {
@@ -72,14 +76,14 @@ export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promis
       `User with email: ${user.email} does not have permission to delete dev portfolio!`
     );
   }
-  await DevPortfolioDao.deleteInstance(uuid);
+  await devPortfolioDao.deleteInstance(uuid);
 };
 
 export const makeDevPortfolioSubmission = async (
   uuid: string,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
-  const devPortfolio = await DevPortfolioDao.getDevPortfolio(uuid);
+  const devPortfolio = await devPortfolioDao.getInstance(uuid);
   if (!devPortfolio) throw new BadRequestError(`Dev portfolio with uuid ${uuid} does not exist.`);
 
   const latestDeadline = devPortfolio.lateDeadline
@@ -113,7 +117,7 @@ export const updateSubmissions = async (
     );
   }
 
-  const devPortfolio = await DevPortfolioDao.getInstance(uuid);
+  const devPortfolio = await devPortfolioDao.getInstance(uuid);
   if (!devPortfolio) {
     throw new BadRequestError(`Dev portfolio with uuid: ${uuid} does not exist`);
   }
@@ -122,7 +126,7 @@ export const updateSubmissions = async (
     ...devPortfolio,
     submissions: updatedSubmissions
   };
-  await DevPortfolioDao.updateInstance(updatedDP);
+  await devPortfolioDao.updateInstance(updatedDP);
   return updatedDP;
 };
 
@@ -133,7 +137,7 @@ export const regradeSubmissions = async (uuid: string, user: IdolMember): Promis
       `User with email ${user.email} does not have permission to regrade dev portfolio submissions`
     );
 
-  const devPortfolio = await DevPortfolioDao.getInstance(uuid);
+  const devPortfolio = await devPortfolioDao.getInstance(uuid);
   if (!devPortfolio) {
     throw new BadRequestError(`Dev portfolio with uuid: ${uuid} does not exist`);
   }
@@ -144,6 +148,6 @@ export const regradeSubmissions = async (uuid: string, user: IdolMember): Promis
       devPortfolio.submissions.map((submission) => validateSubmission(devPortfolio, submission))
     )
   };
-  await DevPortfolioDao.updateInstance(updatedDP);
+  await devPortfolioDao.updateInstance(updatedDP);
   return updatedDP;
 };

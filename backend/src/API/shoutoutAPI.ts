@@ -2,7 +2,9 @@ import PermissionsManager from '../utils/permissionsManager';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import ShoutoutsDao from '../dao/ShoutoutsDao';
 
-export const getAllShoutouts = (): Promise<Shoutout[]> => ShoutoutsDao.getAllShoutouts();
+const shoutoutsDao = new ShoutoutsDao();
+
+export const getAllShoutouts = (): Promise<Shoutout[]> => shoutoutsDao.getAllShoutouts();
 
 export const giveShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
   if (body.giver.email !== user.email) {
@@ -10,7 +12,7 @@ export const giveShoutout = async (body: Shoutout, user: IdolMember): Promise<Sh
       `User with email: ${user.email} can't post a shoutout from a different user!`
     );
   }
-  return ShoutoutsDao.setShoutout(body);
+  return shoutoutsDao.createShoutout(body);
 };
 
 export const getShoutouts = async (
@@ -38,13 +40,13 @@ export const hideShoutout = async (
       `User with email: ${user.email} does not have permission to hide shoutouts!`
     );
   }
-  const shoutout = await ShoutoutsDao.getShoutout(uuid);
+  const shoutout = await shoutoutsDao.getShoutout(uuid);
   if (!shoutout) throw new NotFoundError(`Shoutout with uuid: ${uuid} does not exist!`);
-  await ShoutoutsDao.updateShoutout({ ...shoutout, hidden: hide });
+  await shoutoutsDao.updateShoutout({ ...shoutout, hidden: hide });
 };
 
 export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
-  const shoutout = await ShoutoutsDao.getShoutout(uuid);
+  const shoutout = await shoutoutsDao.getShoutout(uuid);
   if (!shoutout) {
     throw new NotFoundError(`No shoutout with id '${uuid}' found.`);
   }
@@ -54,5 +56,5 @@ export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<vo
       `You are not a lead or admin, so you can't delete a shoutout from a different user!`
     );
   }
-  await ShoutoutsDao.deleteShoutout(uuid);
+  await shoutoutsDao.deleteShoutout(uuid);
 };

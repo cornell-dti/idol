@@ -2,6 +2,8 @@ import CandidateDeciderDao from '../dao/CandidateDeciderDao';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
+const candidateDeciderDao = new CandidateDeciderDao();
+
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
 ): Promise<CandidateDeciderInfo[]> => CandidateDeciderDao.getAllInstances();
@@ -14,7 +16,7 @@ export const createNewCandidateDeciderInstance = async (
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
-  return CandidateDeciderDao.createNewInstance(instance);
+  return candidateDeciderDao.createNewInstance(instance);
 };
 
 export const toggleCandidateDeciderInstance = async (
@@ -25,7 +27,13 @@ export const toggleCandidateDeciderInstance = async (
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
-  await CandidateDeciderDao.toggleInstance(uuid);
+  const instance = await candidateDeciderDao.getInstance(uuid);
+  if (!instance)
+    throw new NotFoundError(`Candidate decider instance with uuid ${uuid} does not exist!`);
+  await candidateDeciderDao.updateInstance({
+    ...instance,
+    isOpen: !instance.isOpen
+  });
 };
 
 export const deleteCandidateDeciderInstance = async (
@@ -36,14 +44,14 @@ export const deleteCandidateDeciderInstance = async (
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
-  await CandidateDeciderDao.deleteInstance(uuid);
+  await candidateDeciderDao.deleteInstance(uuid);
 };
 
 export const getCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
 ): Promise<CandidateDeciderInstance> => {
-  const instance = await CandidateDeciderDao.getInstance(uuid);
+  const instance = await candidateDeciderDao.getInstance(uuid);
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
@@ -67,7 +75,7 @@ export const updateCandidateDeciderRating = async (
   id: number,
   rating: Rating
 ): Promise<void> => {
-  const instance = await CandidateDeciderDao.getInstance(uuid);
+  const instance = await candidateDeciderDao.getInstance(uuid);
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
@@ -95,7 +103,7 @@ export const updateCandidateDeciderRating = async (
           }
     )
   };
-  CandidateDeciderDao.updateInstance(updatedInstance);
+  candidateDeciderDao.updateInstance(updatedInstance);
 };
 
 export const updateCandidateDeciderComment = async (
@@ -104,7 +112,7 @@ export const updateCandidateDeciderComment = async (
   id: number,
   comment: string
 ): Promise<void> => {
-  const instance = await CandidateDeciderDao.getInstance(uuid);
+  const instance = await candidateDeciderDao.getInstance(uuid);
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
@@ -132,5 +140,5 @@ export const updateCandidateDeciderComment = async (
           }
     )
   };
-  CandidateDeciderDao.updateInstance(updatedInstance);
+  candidateDeciderDao.updateInstance(updatedInstance);
 };
