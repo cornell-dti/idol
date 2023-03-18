@@ -86,7 +86,8 @@ const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 9000;
 const allowAllOrigins = false;
-export const isProd: boolean = JSON.parse(process.env.IS_PROD as string);
+export const isProd: boolean = process.env.ENV === 'staging' || process.env.ENV === 'prod';
+
 export const enforceSession = true;
 // eslint-disable-next-line no-nested-ternary
 const allowedOrigins = allowAllOrigins
