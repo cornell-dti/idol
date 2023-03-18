@@ -12,21 +12,29 @@ import configureAccount from './utils/firebase-utils';
 
 require('dotenv').config();
 
-const useProdDb: boolean = JSON.parse(process.env.USE_PROD_DB as string);
+const useProdDb: boolean = process.env.USE_PROD_DB
+  ? JSON.parse(process.env.USE_PROD_DB as string)
+  : true;
+const env: string | undefined = process.env.ENV;
+
+const useProdFirebaseConfig = !(env === 'prod' || env === 'staging') ? useProdDb : env === 'prod';
 
 const prodServiceAccount = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
 
-const serviceAccount = useProdDb ? prodServiceAccount : devServiceAccount;
+const serviceAccount = useProdFirebaseConfig ? prodServiceAccount : devServiceAccount;
 
 export const app = admin.initializeApp({
-  credential: admin.credential.cert(configureAccount(serviceAccount, useProdDb)),
+  credential: admin.credential.cert(configureAccount(serviceAccount, useProdFirebaseConfig)),
   databaseURL: 'https://idol-b6c68.firebaseio.com',
-  storageBucket: useProdDb ? 'gs://idol-b6c68.appspot.com' : 'gs://cornelldti-idol.appspot.com'
+  storageBucket: useProdFirebaseConfig
+    ? 'gs://idol-b6c68.appspot.com'
+    : 'gs://cornelldti-idol.appspot.com'
 });
 
 export const bucket = admin.storage().bucket();
 export const db = admin.firestore();
+db.settings({ ignoreUndefinedProperties: true });
 
 export const memberCollection: admin.firestore.CollectionReference<IdolMember> = db
   .collection('members')
