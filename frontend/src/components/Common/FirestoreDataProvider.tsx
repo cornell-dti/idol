@@ -9,7 +9,7 @@ import {
 } from '../../firebase';
 import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
-import { allowAdmin } from '../../environment';
+import { isProduction, allowAdmin } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
 
 type ListenedFirestoreData = {
@@ -41,7 +41,7 @@ export const useHasAdminPermission = (): boolean => {
   const userEmail = useUserEmail();
   const self = useSelf();
   const adminEmails = useAdminEmails();
-  return allowAdmin && (self?.role === 'lead' || adminEmails.includes(userEmail));
+  return (isProduction || allowAdmin) && (self?.role === 'lead' || adminEmails.includes(userEmail));
 };
 
 export const useTeamNames = (): readonly string[] => {
