@@ -1,6 +1,6 @@
 import { firestore } from 'firebase-admin';
 
-export default class BaseDao<E, D> {
+export default abstract class BaseDao<E, D> {
   readonly collection: firestore.CollectionReference<D>;
 
   readonly materializeData: (d: D) => Promise<E>;
