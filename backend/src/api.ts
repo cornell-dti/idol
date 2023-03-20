@@ -4,7 +4,7 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
-import { app as adminApp } from './firebase';
+import { app as adminApp, env } from './firebase';
 import PermissionsManager from './utils/permissionsManager';
 import { HandlerError } from './utils/errors';
 import {
@@ -86,7 +86,7 @@ const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 9000;
 const allowAllOrigins = false;
-export const isProd: boolean = process.env.ENV === 'staging' || process.env.ENV === 'prod';
+export const isProd: boolean = env === 'staging' || env === 'prod';
 
 export const enforceSession = true;
 // eslint-disable-next-line no-nested-ternary
@@ -147,6 +147,9 @@ const loginCheckedHandler =
     if (!user) {
       res.status(401).send({ error: `No user with email: ${userEmail}` });
       return;
+    }
+    if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
+      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
     }
     try {
       res.status(200).send(await handler(req, user));

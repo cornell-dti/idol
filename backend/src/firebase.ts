@@ -15,7 +15,8 @@ require('dotenv').config();
 const useProdDb: boolean = process.env.USE_PROD_DB
   ? JSON.parse(process.env.USE_PROD_DB as string)
   : true;
-const env: string | undefined = process.env.ENV;
+
+export const env: string | undefined = process.env.ENV;
 
 const useProdFirebaseConfig = !(env === 'prod' || env === 'staging') ? useProdDb : env === 'prod';
 
