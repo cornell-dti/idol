@@ -4,14 +4,14 @@ import { DBShoutout } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
 
-async function shoutoutToDBShoutout(shoutout: Shoutout): Promise<DBShoutout> {
+async function serializeShoutout(shoutout: Shoutout): Promise<DBShoutout> {
   return {
     ...shoutout,
     giver: memberCollection.doc(shoutout.giver.email)
   };
 }
 
-async function dbShoutoutToShoutout(dbShoutout: DBShoutout): Promise<Shoutout> {
+async function materializeShoutout(dbShoutout: DBShoutout): Promise<Shoutout> {
   return {
     ...dbShoutout,
     giver: await getMemberFromDocumentReference(dbShoutout.giver)
@@ -20,7 +20,7 @@ async function dbShoutoutToShoutout(dbShoutout: DBShoutout): Promise<Shoutout> {
 
 export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
   constructor() {
-    super(shoutoutCollection, dbShoutoutToShoutout, shoutoutToDBShoutout);
+    super(shoutoutCollection, materializeShoutout, serializeShoutout);
   }
 
   async getAllShoutouts(): Promise<Shoutout[]> {
@@ -33,7 +33,7 @@ export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
       .where(givenOrReceived, '==', memberCollection.doc(email))
       .get();
     return Promise.all(
-      shoutoutRefs.docs.map(async (shoutoutRef) => dbShoutoutToShoutout(shoutoutRef.data()))
+      shoutoutRefs.docs.map(async (shoutoutRef) => materializeShoutout(shoutoutRef.data()))
     );
   }
 

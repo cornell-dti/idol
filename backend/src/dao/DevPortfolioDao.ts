@@ -14,7 +14,7 @@ export function devPortfolioSubmissionToDBDevPortfolioSubmission(
   };
 }
 
-async function DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): Promise<DevPortfolio> {
+async function materializeDevPortfolio(data: DBDevPortfolio): Promise<DevPortfolio> {
   const submissions = await Promise.all(
     data.submissions.map(async (submission) => {
       const fromDb = {
@@ -33,7 +33,7 @@ async function DBDevPortfolioToDevPortfolio(data: DBDevPortfolio): Promise<DevPo
   return { ...data, submissions };
 }
 
-async function devPortfolioToDBDevPortfolio(instance: DevPortfolio): Promise<DBDevPortfolio> {
+async function serializeDevPortfolio(instance: DevPortfolio): Promise<DBDevPortfolio> {
   return {
     ...instance,
     uuid: instance.uuid ? instance.uuid : uuidv4(),
@@ -46,7 +46,7 @@ async function devPortfolioToDBDevPortfolio(instance: DevPortfolio): Promise<DBD
 
 export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfolio> {
   constructor() {
-    super(devPortfolioCollection, DBDevPortfolioToDevPortfolio, devPortfolioToDBDevPortfolio);
+    super(devPortfolioCollection, materializeDevPortfolio, serializeDevPortfolio);
   }
 
   static async makeDevPortfolioSubmission(
