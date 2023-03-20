@@ -49,7 +49,7 @@ test('Send shoutout', async () => {
 });
 
 test('Get sent shoutout', async () => {
-  const shoutoutsSent = await ShoutoutsDao.getShoutouts(shoutoutData.mu1.email, 'given');
+  const shoutoutsSent = await shoutoutsDao.getShoutouts(shoutoutData.mu1.email, 'given');
   expect(shoutoutsSent).toContainEqual(mockShoutout1);
 });
 

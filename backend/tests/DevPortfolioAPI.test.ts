@@ -169,7 +169,7 @@ describe('makeDevPortfolioSubmission tests', () => {
 
   beforeAll(() => {
     const mockMakeDevPortfolioSubmission = jest.fn().mockResolvedValue(dpSubmission);
-    DevPortfolioDao.makeDevPortfolioSubmission = mockMakeDevPortfolioSubmission;
+    devPortfolioDao.makeDevPortfolioSubmission = mockMakeDevPortfolioSubmission;
   });
 
   it('should throw BadRequestError', async () => {
@@ -201,7 +201,7 @@ describe('makeDevPortfolioSubmission tests', () => {
         await makeDevPortfolioSubmission(devPortfolio.uuid, dpSubmission);
         expect(mockIsWithinDates.mock.calls[0][1]).toEqual(devPortfolio.earliestValidDate);
         expect(mockIsWithinDates.mock.calls[0][2]).toEqual(devPortfolio.lateDeadline);
-        expect(DevPortfolioDao.makeDevPortfolioSubmission).toBeCalled();
+        expect(devPortfolioDao.makeDevPortfolioSubmission).toBeCalled();
       });
     });
 
@@ -218,7 +218,7 @@ describe('makeDevPortfolioSubmission tests', () => {
             ).toDateString()} and ${new Date(devPortfolio.deadline).toDateString()}.`
           )
         );
-        expect(DevPortfolioDao.makeDevPortfolioSubmission).not.toBeCalled();
+        expect(devPortfolioDao.makeDevPortfolioSubmission).not.toBeCalled();
       });
     });
   });
