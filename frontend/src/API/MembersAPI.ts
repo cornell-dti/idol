@@ -25,8 +25,8 @@ export class MembersAPI {
     return APIWrapper.post(`${backendURL}/updateMember`, member).then((res) => res.data);
   }
 
-  public static isIDOLMember(email: string): Promise<boolean> {
-    return APIWrapper.get(`${backendURL}/isIDOLMember/${email}`).then(
+  public static hasIDOLAccess(email: string): Promise<boolean> {
+    return APIWrapper.get(`${backendURL}/hasIDOLAccess/${email}`).then(
       (res) => res.data.isIDOLMember
     );
   }

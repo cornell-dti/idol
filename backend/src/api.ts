@@ -80,6 +80,7 @@ import {
   updateSubmissions
 } from './API/devPortfolioAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
+import AdminsDao from './dao/AdminsDao';
 
 // Constants and configurations
 const app = express();
@@ -189,10 +190,15 @@ router.get('/allApprovedMembers', async (_, res) => {
 router.get('/membersFromAllSemesters', async (_, res) => {
   res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
-router.get('/isIDOLMember/:email', async (req, res) => {
+router.get('/hasIDOLAccess/:email', async (req, res) => {
   const members = await allMembers();
+  const adminEmails = await AdminsDao.getAllAdminEmails();
+
+  if (env === 'staging' && !adminEmails.includes(req.params.email)) {
+    res.status(200).json({ hasIDOLAccess: false });
+  }
   res.status(200).json({
-    isIDOLMember: members.find((member) => member.email === req.params.email) !== undefined
+    hasIDOLAccess: members.find((member) => member.email === req.params.email) !== undefined
   });
 });
 
