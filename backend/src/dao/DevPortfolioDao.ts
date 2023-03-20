@@ -49,7 +49,7 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     super(devPortfolioCollection, materializeDevPortfolio, serializeDevPortfolio);
   }
 
-  static async makeDevPortfolioSubmission(
+  async makeDevPortfolioSubmission(
     uuid: string,
     submission: DevPortfolioSubmission
   ): Promise<DevPortfolioSubmission> {
@@ -59,7 +59,7 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
 
     const subs = data.submissions;
     subs.push(devPortfolioSubmissionToDBDevPortfolioSubmission(submission));
-    await devPortfolioCollection.doc(uuid).update({ submissions: subs });
+    await this.collection.doc(uuid).update({ submissions: subs });
 
     return submission;
   }
@@ -72,8 +72,8 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     return this.getAllDocuments();
   }
 
-  public static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
-    const instanceInfoRefs = await devPortfolioCollection
+  async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
+    const instanceInfoRefs = await this.collection
       .select('deadline', 'earliestValidDate', 'name', 'uuid', 'lateDeadline')
       .get();
     return Promise.all(
@@ -84,17 +84,17 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     );
   }
 
-  public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
-    const portfolioRef = await devPortfolioCollection.doc(uuid).get();
+  async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
+    const portfolioRef = await this.collection.doc(uuid).get();
     const { submissions, ...devPortfolioInfo } = portfolioRef.data() as DBDevPortfolio;
     return devPortfolioInfo;
   }
 
-  public static async getUsersDevPortfolioSubmissions(
+  async getUsersDevPortfolioSubmissions(
     uuid: string,
     user: IdolMember
   ): Promise<DevPortfolioSubmission[]> {
-    const portfolioData = (await devPortfolioCollection.doc(uuid).get()).data() as DBDevPortfolio;
+    const portfolioData = (await this.collection.doc(uuid).get()).data() as DBDevPortfolio;
     const dBSubmissions = portfolioData.submissions.filter(
       (submission) => submission.member.id === user.email
     );

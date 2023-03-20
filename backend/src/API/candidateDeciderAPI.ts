@@ -6,7 +6,7 @@ const candidateDeciderDao = new CandidateDeciderDao();
 
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
-): Promise<CandidateDeciderInfo[]> => CandidateDeciderDao.getAllInstances();
+): Promise<CandidateDeciderInfo[]> => candidateDeciderDao.getAllInstances();
 
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,

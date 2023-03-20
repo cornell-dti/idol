@@ -15,15 +15,15 @@ export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfoli
 };
 
 export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> =>
-  DevPortfolioDao.getAllDevPortfolioInfo();
+  devPortfolioDao.getAllDevPortfolioInfo();
 
 export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInfo> =>
-  DevPortfolioDao.getDevPortfolioInfo(uuid);
+  devPortfolioDao.getDevPortfolioInfo(uuid);
 
 export const getUsersDevPortfolioSubmissions = async (
   uuid: string,
   user: IdolMember
-): Promise<DevPortfolioSubmission[]> => DevPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
+): Promise<DevPortfolioSubmission[]> => devPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
 
 export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -98,7 +98,7 @@ export const makeDevPortfolioSubmission = async (
     );
   }
   const validatedSubmission = await validateSubmission(devPortfolio, submission);
-  return DevPortfolioDao.makeDevPortfolioSubmission(uuid, {
+  return devPortfolioDao.makeDevPortfolioSubmission(uuid, {
     ...validatedSubmission,
     isLate: Boolean(devPortfolio.lateDeadline && Date.now() > devPortfolio.deadline)
   });

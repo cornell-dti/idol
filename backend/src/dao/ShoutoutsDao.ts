@@ -27,9 +27,9 @@ export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
     return this.getAllDocuments();
   }
 
-  static async getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
+  async getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
     const givenOrReceived = type === 'given' ? 'giver' : 'receiver';
-    const shoutoutRefs = await shoutoutCollection
+    const shoutoutRefs = await this.collection
       .where(givenOrReceived, '==', memberCollection.doc(email))
       .get();
     return Promise.all(

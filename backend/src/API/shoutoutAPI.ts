@@ -26,7 +26,7 @@ export const getShoutouts = async (
       `User with email: ${user.email} does not have permission to get shoutouts!`
     );
   }
-  return ShoutoutsDao.getShoutouts(memberEmail, type);
+  return shoutoutsDao.getShoutouts(memberEmail, type);
 };
 
 export const hideShoutout = async (
