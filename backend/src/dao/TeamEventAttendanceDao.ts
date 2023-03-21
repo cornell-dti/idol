@@ -61,15 +61,14 @@ export default class TeamEventAttendanceDao {
     const coll = await teamEventAttendanceCollection.get();
 
     coll.docs.forEach((doc) => batch.delete(doc.ref));
-    await batch.commit;
+    await batch.commit();
   }
 
   /**
-   * Updates a TEC Attendance
-   * @param teamEventAttendance - updated TeamEventAttendance object
-   *  If hoursAttended is originally defined, it cannot be overwritten afterwards
+   * Gets all TEC Attendance for a user
+   * @param user - user whose attendance should be fetched
    */
-  static async getAllUsersTeamEventAttendance(user: IdolMember): Promise<TeamEventAttendance[]> {
+  static async getTeamEventAttendanceByUser(user: IdolMember): Promise<TeamEventAttendance[]> {
     const memberRef = memberCollection.doc(user.email);
     const refs = await teamEventAttendanceCollection.where('member', '==', memberRef).get();
     const attendance = refs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
@@ -82,10 +81,10 @@ export default class TeamEventAttendanceDao {
   }
 
   /**
-   * Deletes a TEC Attendance
-   * @param uuid - DB uuid of TeamEventAttendance
+   * Gets all TEC Attendance for a given team event
+   * @param uuid - DB uuid of team event
    */
-  static async getTeamEventAttendance(uuid: string): Promise<TeamEventAttendance[]> {
+  static async getTeamEventAttendanceByEventId(uuid: string): Promise<TeamEventAttendance[]> {
     const refs = await teamEventAttendanceCollection.where('eventUuid', '==', uuid).get();
     const attendance = refs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
     return Promise.all(
@@ -102,17 +101,10 @@ export default class TeamEventAttendanceDao {
   static async getAllTeamEventAttendance(): Promise<TeamEventAttendance[]> {
     const attendanceRefs = await teamEventAttendanceCollection.get();
     return Promise.all(
-      attendanceRefs.docs.map(async (doc) => {
-        const { eventUuid, hoursAttended, image, member, pending, uuid } = doc.data();
-        return {
-          eventUuid,
-          hoursAttended,
-          image,
-          member: await getMemberFromDocumentReference(member),
-          pending,
-          uuid
-        };
-      })
+      attendanceRefs.docs.map(async (doc) => ({
+        ...doc.data(),
+        member: await getMemberFromDocumentReference(doc.get('member'))
+      }))
     );
   }
 }
