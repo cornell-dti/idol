@@ -102,10 +102,11 @@ export default class TeamEventAttendanceDao {
    */
   static async getAllTeamEventAttendance(): Promise<TeamEventAttendance[]> {
     const attendanceRefs = await teamEventAttendanceCollection.get();
+    const attendance = attendanceRefs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
     return Promise.all(
-      attendanceRefs.docs.map(async (doc) => ({
-        ...doc.data(),
-        member: await getMemberFromDocumentReference(doc.get('member'))
+      attendance.map(async (att) => ({
+        ...att,
+        member: await getMemberFromDocumentReference(att.member)
       }))
     );
   }
