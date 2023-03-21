@@ -58,9 +58,9 @@ export default class TeamEventAttendanceDao {
    */
   static async deleteAllTeamEventAttendance(): Promise<void> {
     const batch = teamEventAttendanceCollection.firestore.batch();
-    const coll = await teamEventAttendanceCollection.get();
+    const attendanceRefs = await teamEventAttendanceCollection.get();
 
-    coll.docs.forEach((doc) => batch.delete(doc.ref));
+    attendanceRefs.docs.forEach((doc) => batch.delete(doc.ref));
     await batch.commit();
   }
 
@@ -70,8 +70,10 @@ export default class TeamEventAttendanceDao {
    */
   static async getTeamEventAttendanceByUser(user: IdolMember): Promise<TeamEventAttendance[]> {
     const memberRef = memberCollection.doc(user.email);
-    const refs = await teamEventAttendanceCollection.where('member', '==', memberRef).get();
-    const attendance = refs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
+    const attendanceRefs = await teamEventAttendanceCollection
+      .where('member', '==', memberRef)
+      .get();
+    const attendance = attendanceRefs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
     return Promise.all(
       attendance.map(async (att) => ({
         ...att,
@@ -85,8 +87,8 @@ export default class TeamEventAttendanceDao {
    * @param uuid - DB uuid of team event
    */
   static async getTeamEventAttendanceByEventId(uuid: string): Promise<TeamEventAttendance[]> {
-    const refs = await teamEventAttendanceCollection.where('eventUuid', '==', uuid).get();
-    const attendance = refs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
+    const attendanceRefs = await teamEventAttendanceCollection.where('eventUuid', '==', uuid).get();
+    const attendance = attendanceRefs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
     return Promise.all(
       attendance.map(async (att) => ({
         ...att,
