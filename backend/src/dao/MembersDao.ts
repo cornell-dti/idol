@@ -16,6 +16,13 @@ export default class MembersDao {
     };
   }
 
+  static async getMember(email: string): Promise<IdolMember | undefined> {
+    return memberCollection
+      .doc(email)
+      .get()
+      .then((docRef) => docRef.data());
+  }
+
   static async getCurrentOrPastMemberByEmail(email: string): Promise<IdolMember | undefined> {
     // Although it might require an extra async lookup, this is necessary for correctness,
     // because we want to get the latest info of the member that are also a member in the past.
