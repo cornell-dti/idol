@@ -22,8 +22,7 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange,
-  getMember
+  reviewUserInformationChange
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
