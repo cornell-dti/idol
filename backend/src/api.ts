@@ -22,7 +22,8 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange
+  reviewUserInformationChange,
+  getMember
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -125,10 +126,6 @@ app.use(
   })
 );
 
-router.get('/error', () => {
-  throw new Error();
-});
-
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
   if (typeof idToken !== 'string') return undefined;
@@ -199,6 +196,7 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
   }
   res.status(200).json({
     hasIDOLAccess: members.find((member) => member.email === req.params.email) !== undefined
+
   });
 });
 
