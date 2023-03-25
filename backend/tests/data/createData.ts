@@ -68,7 +68,7 @@ export const fakeTeamEventAttendance = (): TeamEventAttendance => {
   const TEA = {
     member: fakeIdolMember(),
     hoursAttended: getRandomInt(1, 5),
-    image: null,
+    image: '',
     eventUuid: faker.datatype.uuid(),
     pending: true,
     uuid: faker.datatype.uuid()
@@ -108,7 +108,7 @@ const fakePRs = (): PullRequestSubmission[] => {
 
 /** Create a fake Dev Submission */
 export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
-  const DPSub = {
+  const DPSub: DevPortfolioSubmission = {
     member: fakeIdolMember(),
     openedPRs: fakePRs(),
     reviewedPRs: fakePRs(),
