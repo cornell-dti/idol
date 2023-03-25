@@ -195,7 +195,6 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
   }
   res.status(200).json({
     hasIDOLAccess: members.find((member) => member.email === req.params.email) !== undefined
-
   });
 });
 
