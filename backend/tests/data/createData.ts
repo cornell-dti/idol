@@ -9,7 +9,7 @@ const getRandomInt = (a, b) => {
 
 const getRandomBoolean = () => {
   return getRandomInt(0, 1) === 0;
-}
+};
 
 /** Get year string. Ex. "2023" */
 const fakeYear = (): string => {
@@ -88,7 +88,7 @@ export const fakeTeamEvent = (): TeamEvent => {
     requests: [fakeTeamEventAttendance()],
     attendees: [],
     uuid: faker.datatype.uuid(),
-    isCommunity: getRandomBoolean(),
+    isCommunity: getRandomBoolean()
   };
   return TE;
 };
