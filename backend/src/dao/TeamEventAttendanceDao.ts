@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { memberCollection, teamEventAttendanceCollection } from '../firebase';
+import { db, memberCollection, teamEventAttendanceCollection } from '../firebase';
 import { DBTeamEventAttendance } from '../types/DataTypes';
+import { deleteCollection } from '../utils/firebase-utils';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class TeamEventAttendanceDao {
@@ -58,24 +59,10 @@ export default class TeamEventAttendanceDao {
    */
   static async deleteAllTeamEventAttendance(): Promise<void> {
     const snapshot = await teamEventAttendanceCollection.get();
-    await this.deleteAllTeamEventAttendanceHelper();
+    await deleteCollection(db, 'team-event-attendance', 500);
     if (snapshot.size !== 0) {
       await this.deleteAllTeamEventAttendance();
     }
-  }
-
-  /**
-   * Helper function for deleting all TEC Attendance
-   * Deletes 500 documents at a time
-   */
-  private static async deleteAllTeamEventAttendanceHelper(): Promise<void> {
-    const snapshot = await teamEventAttendanceCollection.limit(500).get();
-    const batch = teamEventAttendanceCollection.firestore.batch();
-
-    snapshot.docs.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
-    await batch.commit();
   }
 
   /**
