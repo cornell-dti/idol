@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import { TeamEventAttendance, TeamEvent } from '../../src/types/DataTypes';
 
 /** Get random number in range [`a`,`b`], inclusive. */
 const getRandomInt = (a, b) => {
@@ -7,6 +6,10 @@ const getRandomInt = (a, b) => {
   const max = Math.floor(b);
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+const getRandomBoolean = () => {
+  return getRandomInt(0, 1) === 0;
+}
 
 /** Get year string. Ex. "2023" */
 const fakeYear = (): string => {
@@ -81,10 +84,11 @@ export const fakeTeamEvent = (): TeamEvent => {
     name: 'testteamevent', // to easily be able to tell fake TeamEvents if needed
     date: faker.date.past().toLocaleDateString(),
     numCredits: getRandomInt(1, 3).toString(),
-    hasHours: getRandomInt(0, 1) === 0,
+    hasHours: getRandomBoolean(),
     requests: [fakeTeamEventAttendance()],
     attendees: [],
-    uuid: faker.datatype.uuid()
+    uuid: faker.datatype.uuid(),
+    isCommunity: getRandomBoolean(),
   };
   return TE;
 };
@@ -109,7 +113,8 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
   const DPSub = {
     member: fakeIdolMember(),
     openedPRs: fakePRs(),
-    reviewedPRs: fakePRs()
+    reviewedPRs: fakePRs(),
+    status: 'pending'
   };
   return DPSub;
 };
