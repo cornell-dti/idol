@@ -7,9 +7,7 @@ const getRandomInt = (a, b) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const getRandomBoolean = () => {
-  return getRandomInt(0, 1) === 0;
-};
+const getRandomBoolean = () => getRandomInt(0, 1) === 0;
 
 /** Get year string. Ex. "2023" */
 const fakeYear = (): string => {
