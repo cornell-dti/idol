@@ -78,7 +78,7 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'No Hours Entered',
         contentMsg: 'Please enter your hours!'
       });
-    } else if (Number(hours) < 0.5) {
+    } else if (teamEvent.hasHours && Number(hours) < 0.5) {
       Emitters.generalError.emit({
         headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
@@ -86,7 +86,7 @@ const TeamEventCreditForm: React.FC = () => {
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
-        hoursAttended: Number(hours),
+        hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
         eventUuid: teamEvent.uuid,
         pending: true,

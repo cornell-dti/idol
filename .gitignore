@@ -17,7 +17,7 @@ tsconfig.tsbuildinfo
 # misc
 .DS_Store
 .env
-!frontend/.env
+frontend/.env
 .env.local
 .env.development.local
 .env.test.local
