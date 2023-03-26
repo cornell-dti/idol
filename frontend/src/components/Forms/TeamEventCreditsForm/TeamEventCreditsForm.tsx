@@ -15,6 +15,18 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
+
+  // const [approvedAttendance, setApprovedAttendance] = useState<TeamEventInfo[]>([]);
+  // const [pendingAttendance, setPendingAttendance] = useState<TeamEventInfo[]>([]);
+
+  // useEffect(() => {
+  //   TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
+  //   TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
+  //     setApprovedAttendance(val.approved);
+  //     setPendingAttendance(val.pending);
+  //   });
+  // }, [userInfo]);
+
   const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
 
@@ -80,6 +92,7 @@ const TeamEventCreditForm: React.FC = () => {
         pending: true,
         uuid: ''
       };
+
       requestTeamEventCredit(newTeamEventAttendance).then(() => {
         setPendingAttendance((pending) => [...pending, newTeamEventAttendance]);
         Emitters.generalSuccess.emit({
