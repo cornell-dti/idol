@@ -398,7 +398,8 @@
     "roleId": "developer",
     "roleDescription": "Developer",
     "minor": "Applied Economics",
-    "linkedin": "https://www.linkedin.com/in/erichuang27"
+    "linkedin": "https://www.linkedin.com/in/erichuang27",
+    "github": "https://github.com/erichuang27"
   },
   {
     "netid": "ch746",
@@ -661,7 +662,8 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "github": "https://github.com/elizabeth-tang"
   },
   {
     "netid": "ezx2",
@@ -925,7 +927,8 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "github": "https://github.com/jesshan700"
   },
   {
     "netid": "jj523",
@@ -1549,7 +1552,8 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "github": "https://github.com/PabloRaigoza"
   },
   {
     "netid": "ps2245",
@@ -1721,7 +1725,8 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "github": "https://github.com/SGupta101"
   },
   {
     "netid": "sj598",
@@ -1981,11 +1986,11 @@
   {
     "netid": "vkw7",
     "name": "Valerie Wong",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "she/her",
+    "graduation": "May 2026",
+    "major": "Information Science ",
+    "hometown": "San Francisco ",
+    "about": "newbie designer @ cornellGO",
     "subteams": [],
     "roleId": "designer",
     "roleDescription": "Designer",
