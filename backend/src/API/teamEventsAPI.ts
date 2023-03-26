@@ -90,9 +90,6 @@ export const updateTeamEventAttendance = async (
   return teamEventAttendance;
 };
 
-/**
- * TODO: delete when build passes
- */
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.isLeadOrAdmin(user)) {
     throw new PermissionError(
