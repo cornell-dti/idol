@@ -11,7 +11,8 @@ import {
   deleteDevPortfolio,
   createNewDevPortfolio,
   makeDevPortfolioSubmission,
-  regradeSubmissions
+  regradeSubmissions,
+  devPortfolioDao
 } from '../src/API/devPortfolioAPI';
 import { PermissionError, BadRequestError } from '../src/utils/errors';
 import * as githubUtils from '../src/utils/githubUtil';
@@ -74,15 +75,15 @@ describe('User is lead or admin', () => {
     const mockDeleteInstance = jest.fn().mockResolvedValue(undefined);
 
     PermissionsManager.isLeadOrAdmin = mockIsLeadOrAdmin;
-    DevPortfolioDao.createNewInstance = mockCreateInstance;
-    DevPortfolioDao.getDevPortfolio = mockGetInstance;
-    DevPortfolioDao.deleteInstance = mockDeleteInstance;
+    devPortfolioDao.createNewInstance = mockCreateInstance;
+    devPortfolioDao.getInstance = mockGetInstance;
+    devPortfolioDao.deleteInstance = mockDeleteInstance;
   });
 
   describe('regradeSubmissions tests', () => {
     test("regradeSubmissions should fail if uuid isn't valid", async () => {
       const mockGetInstance = jest.fn().mockResolvedValue(null);
-      DevPortfolioDao.getInstance = mockGetInstance;
+      devPortfolioDao.getInstance = mockGetInstance;
       expect(regradeSubmissions('<fake-uuid>', user)).rejects.toThrow(
         new BadRequestError('Dev portfolio with uuid: <kewl-uuid> does not exist')
       );
@@ -96,8 +97,8 @@ describe('User is lead or admin', () => {
       };
       const mockGetInstance = jest.fn().mockResolvedValue(dp);
       const mockUpdateInstance = jest.fn();
-      DevPortfolioDao.getInstance = mockGetInstance;
-      DevPortfolioDao.updateInstance = mockUpdateInstance;
+      devPortfolioDao.getInstance = mockGetInstance;
+      devPortfolioDao.updateInstance = mockUpdateInstance;
 
       await regradeSubmissions('<kewl-uuid>', user);
       expect(mockValidateSubmission.mock.calls.length).toBeGreaterThan(1);
@@ -108,7 +109,7 @@ describe('User is lead or admin', () => {
   test('getDevPortfolio should be successful', async () => {
     const dp = await getDevPortfolio(devPortfolio.uuid, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
-    expect(DevPortfolioDao.getDevPortfolio).toBeCalled();
+    expect(devPortfolioDao.getInstance).toBeCalled();
     expect(dp.uuid).toEqual(devPortfolio.uuid);
   });
 
@@ -155,7 +156,7 @@ describe('User is lead or admin', () => {
   test('deleteDevPortfolio should be successful', async () => {
     await deleteDevPortfolio(devPortfolio.uuid, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
-    expect(DevPortfolioDao.deleteInstance).toBeCalled();
+    expect(devPortfolioDao.deleteInstance).toBeCalled();
   });
 });
 
@@ -165,12 +166,12 @@ describe('makeDevPortfolioSubmission tests', () => {
 
   beforeAll(() => {
     const mockMakeDevPortfolioSubmission = jest.fn().mockResolvedValue(dpSubmission);
-    DevPortfolioDao.makeDevPortfolioSubmission = mockMakeDevPortfolioSubmission;
+    devPortfolioDao.makeDevPortfolioSubmission = mockMakeDevPortfolioSubmission;
   });
 
   it('should throw BadRequestError', async () => {
     const mockGetDevPortfolio = jest.fn().mockResolvedValue(null);
-    DevPortfolioDao.getDevPortfolio = mockGetDevPortfolio;
+    devPortfolioDao.getInstance = mockGetDevPortfolio;
     expect(makeDevPortfolioSubmission(devPortfolio.uuid, dpSubmission)).rejects.toThrow(
       new BadRequestError(`Dev portfolio with uuid ${devPortfolio.uuid} does not exist.`)
     );
@@ -181,7 +182,7 @@ describe('makeDevPortfolioSubmission tests', () => {
 
     beforeAll(() => {
       const mockGetDevPortfolio = jest.fn().mockResolvedValue(devPortfolio);
-      DevPortfolioDao.getDevPortfolio = mockGetDevPortfolio;
+      devPortfolioDao.getInstance = mockGetDevPortfolio;
     });
 
     afterEach(() => {
@@ -197,7 +198,7 @@ describe('makeDevPortfolioSubmission tests', () => {
         await makeDevPortfolioSubmission(devPortfolio.uuid, dpSubmission);
         expect(mockIsWithinDates.mock.calls[0][1]).toEqual(devPortfolio.earliestValidDate);
         expect(mockIsWithinDates.mock.calls[0][2]).toEqual(devPortfolio.lateDeadline);
-        expect(DevPortfolioDao.makeDevPortfolioSubmission).toBeCalled();
+        expect(devPortfolioDao.makeDevPortfolioSubmission).toBeCalled();
       });
     });
 
@@ -214,7 +215,7 @@ describe('makeDevPortfolioSubmission tests', () => {
             ).toDateString()} and ${new Date(devPortfolio.deadline).toDateString()}.`
           )
         );
-        expect(DevPortfolioDao.makeDevPortfolioSubmission).not.toBeCalled();
+        expect(devPortfolioDao.makeDevPortfolioSubmission).not.toBeCalled();
       });
     });
   });

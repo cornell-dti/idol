@@ -1,6 +1,5 @@
 import MembersDao from '../src/dao/MembersDao';
 import SignInFormDao from '../src/dao/SignInFormDao';
-import { SignInForm } from '../src/types/DataTypes';
 import { approvedMemberCollection } from '../src/firebase';
 import { fakeIdolMember } from './data/createData';
 import mockForms from './data/mock-signin.json';
@@ -9,10 +8,12 @@ const users = {
   mu1: fakeIdolMember()
 };
 
+const membersDao = new MembersDao();
+
 /* Adding mock user for testing sign-ins */
 beforeAll(async () => {
   const mockUser = users.mu1 as IdolMember;
-  await MembersDao.setMember(mockUser.email, mockUser);
+  await membersDao.setMember(mockUser.email, mockUser);
 });
 
 /* Cleanup database after running SignInFormDao tests */
@@ -22,7 +23,7 @@ afterAll(async () => {
       await SignInFormDao.deleteSignIn(id);
     })
   );
-  await MembersDao.deleteMember(users.mu1.email);
+  await membersDao.deleteMember(users.mu1.email);
   await approvedMemberCollection.doc(users.mu1.email).delete();
 });
 
