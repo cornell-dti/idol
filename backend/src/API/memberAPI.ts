@@ -6,6 +6,8 @@ import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
 import { sendMemberUpdateNotifications } from './mailAPI';
 
+const membersDao = new MembersDao();
+
 export const allMembers = (): Promise<readonly IdolMember[]> => MembersDao.getAllMembers(false);
 
 export const allApprovedMembers = (): Promise<readonly IdolMember[]> =>
@@ -21,7 +23,7 @@ export const setMember = async (body: IdolMember, user: IdolMember): Promise<Ido
   if (!body.email || body.email === '') {
     throw new BadRequestError("Couldn't edit member with undefined email!");
   }
-  return MembersDao.setMember(body.email, body);
+  return membersDao.setMember(body.email, body);
 };
 
 export const getMember = async (email: string): Promise<IdolMember | undefined> =>
@@ -53,7 +55,7 @@ export const updateMember = async (
     );
   }
 
-  return MembersDao.updateMember(body.email, body).then(async (mem) => {
+  return membersDao.updateMember(body.email, body).then(async (mem) => {
     sendMemberUpdateNotifications(req);
     return mem;
   });
@@ -69,7 +71,7 @@ export const deleteMember = async (email: string, user: IdolMember): Promise<voi
   if (!email || email === '') {
     throw new BadRequestError("Couldn't delete member with undefined email!");
   }
-  await MembersDao.deleteMember(email).then(() =>
+  await membersDao.deleteMember(email).then(() =>
     deleteImage(email).catch(() => {
       /* Ignore the error since the user might not have a profile picture. */
     })
