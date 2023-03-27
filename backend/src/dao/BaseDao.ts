@@ -1,5 +1,11 @@
 import { firestore } from 'firebase-admin';
 
+/**
+ * Interface representing Firestore query filters.
+ * field -- the field to filter by (e.g. user)
+ * comparisonOperator -- the comparison operator to use for comparison/filtering
+ * value -- the value to compare the field to
+ */
 interface FirestoreFilter {
   field: string;
   comparisonOperator: FirebaseFirestore.WhereFilterOp;
@@ -37,7 +43,10 @@ export default abstract class BaseDao<E, D> {
   }
 
   /**
-   * @returns All documents in the collection
+   * Gets documents from the Firestore collection
+   * @param filters -- list of filters to filter documents by
+   * @returns Documents in the collection that satifsy the filters.
+   *          Returns all documents if no filters are provided.
    */
   protected async getDocuments(filters: FirestoreFilter[] = []): Promise<E[]> {
     const query = this.collection as firestore.Query<D>;
