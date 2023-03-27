@@ -58,11 +58,7 @@ export default class TeamEventAttendanceDao {
    * Deletes all TEC Attendance
    */
   static async deleteAllTeamEventAttendance(): Promise<void> {
-    const snapshot = await teamEventAttendanceCollection.get();
     await deleteCollection(db, 'team-event-attendance', 500);
-    if (snapshot.size !== 0) {
-      await this.deleteAllTeamEventAttendance();
-    }
   }
 
   /**
