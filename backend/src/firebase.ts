@@ -8,7 +8,7 @@ import {
   DevPortfolioSubmissionRequestLog,
   DBTeamEventAttendance
 } from './types/DataTypes';
-import configureAccount from './utils/firebase-utils';
+import { configureAccount } from './utils/firebase-utils';
 
 require('dotenv').config();
 
