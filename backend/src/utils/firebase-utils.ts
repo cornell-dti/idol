@@ -57,5 +57,3 @@ export async function deleteQueryBatch(
     deleteQueryBatch(db, query, resolve);
   });
 }
-
-export default configureAccount;
