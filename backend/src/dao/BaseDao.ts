@@ -1,5 +1,12 @@
 import { firestore } from 'firebase-admin';
 
+interface FirestoreFilter {
+  field: string;
+  comparisonOperator: FirebaseFirestore.WhereFilterOp;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+}
+
 export default abstract class BaseDao<E, D> {
   readonly collection: firestore.CollectionReference<D>;
 
@@ -32,8 +39,13 @@ export default abstract class BaseDao<E, D> {
   /**
    * @returns All documents in the collection
    */
-  protected async getAllDocuments(): Promise<E[]> {
-    const docRefs = await this.collection.get();
+  protected async getDocuments(filters: FirestoreFilter[] = []): Promise<E[]> {
+    const query = this.collection as firestore.Query<D>;
+    const filteredQuery = filters.reduce(
+      (query, filter) => query.where(filter.field, filter.comparisonOperator, filter.value),
+      query
+    );
+    const docRefs = await filteredQuery.get();
     return Promise.all(docRefs.docs.map((doc) => this.materializeData(doc.data())));
   }
 
