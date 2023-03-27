@@ -79,11 +79,4 @@ export const getAllTeamEventsForMember = async (
 
 export const getTeamEventAttendanceByUser = async (
   user: IdolMember
-): Promise<TeamEventAttendance[]> => {
-  const canEditTeamEvent = await PermissionsManager.canEditTeamEvent(user);
-  if (!canEditTeamEvent)
-    throw new PermissionError(
-      `User with email ${user.email} does not have sufficient permissions to get all team event attendance by user.`
-    );
-  return TeamEventAttendanceDao.getTeamEventAttendanceByUser(user);
-};
+): Promise<TeamEventAttendance[]> => TeamEventAttendanceDao.getTeamEventAttendanceByUser(user);
