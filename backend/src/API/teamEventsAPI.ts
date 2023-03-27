@@ -81,7 +81,8 @@ export const updateTeamEventAttendance = async (
   teamEventAttendance: TeamEventAttendance,
   user: IdolMember
 ): Promise<TeamEventAttendance> => {
-  if (!PermissionsManager.canEditTeamEvent(user)) {
+  const canEditTeamEvent = await PermissionsManager.canEditTeamEvent(user);
+  if (!canEditTeamEvent) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to update team events attendance`
     );
@@ -91,7 +92,8 @@ export const updateTeamEventAttendance = async (
 };
 
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
-  if (!PermissionsManager.isLeadOrAdmin(user)) {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete team events attendance`
     );
