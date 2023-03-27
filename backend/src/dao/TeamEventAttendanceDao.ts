@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { memberCollection, teamEventAttendanceCollection } from '../firebase';
+import { db, memberCollection, teamEventAttendanceCollection } from '../firebase';
 import { DBTeamEventAttendance } from '../types/DataTypes';
+import { deleteCollection } from '../utils/firebase-utils';
+import { getMemberFromDocumentReference } from '../utils/memberUtil';
 
 export default class TeamEventAttendanceDao {
   /**
@@ -50,5 +52,59 @@ export default class TeamEventAttendanceDao {
   static async deleteTeamEventAttendance(uuid: string): Promise<void> {
     const docRef = teamEventAttendanceCollection.doc(uuid);
     await docRef.delete();
+  }
+
+  /**
+   * Deletes all TEC Attendance
+   */
+  static async deleteAllTeamEventAttendance(): Promise<void> {
+    await deleteCollection(db, 'team-event-attendance', 500);
+  }
+
+  /**
+   * Gets all TEC Attendance for a user
+   * @param user - user whose attendance should be fetched
+   */
+  static async getTeamEventAttendanceByUser(user: IdolMember): Promise<TeamEventAttendance[]> {
+    const memberRef = memberCollection.doc(user.email);
+    const attendanceRefs = await teamEventAttendanceCollection
+      .where('member', '==', memberRef)
+      .get();
+    const attendance = attendanceRefs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
+    return Promise.all(
+      attendance.map(async (att) => ({
+        ...att,
+        member: await getMemberFromDocumentReference(att.member)
+      }))
+    );
+  }
+
+  /**
+   * Gets all TEC Attendance for a given team event
+   * @param uuid - DB uuid of team event
+   */
+  static async getTeamEventAttendanceByEventId(uuid: string): Promise<TeamEventAttendance[]> {
+    const attendanceRefs = await teamEventAttendanceCollection.where('eventUuid', '==', uuid).get();
+    const attendance = attendanceRefs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
+    return Promise.all(
+      attendance.map(async (att) => ({
+        ...att,
+        member: await getMemberFromDocumentReference(att.member)
+      }))
+    );
+  }
+
+  /**
+   * Gets all TEC Attendance for all events
+   */
+  static async getAllTeamEventAttendance(): Promise<TeamEventAttendance[]> {
+    const attendanceRefs = await teamEventAttendanceCollection.get();
+    const attendance = attendanceRefs.docs.map((doc) => doc.data() as DBTeamEventAttendance);
+    return Promise.all(
+      attendance.map(async (att) => ({
+        ...att,
+        member: await getMemberFromDocumentReference(att.member)
+      }))
+    );
   }
 }
