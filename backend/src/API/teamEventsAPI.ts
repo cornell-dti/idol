@@ -1,3 +1,4 @@
+import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
@@ -75,3 +76,14 @@ export const getAllTeamEventsForMember = async (
   email: string,
   isPending: boolean
 ): Promise<TeamEventInfo[]> => TeamEventsDao.getTeamEventsForMember(email, isPending);
+
+export const getTeamEventAttendanceByUser = async (
+  user: IdolMember
+): Promise<TeamEventAttendance[]> => {
+  const canEditTeamEvent = await PermissionsManager.canEditTeamEvent(user);
+  if (!canEditTeamEvent)
+    throw new PermissionError(
+      `User with email ${user.email} does not have sufficient permissions to get all team event attendance by user.`
+    );
+  return TeamEventAttendanceDao.getTeamEventAttendanceByUser(user);
+};
