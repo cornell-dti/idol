@@ -3,7 +3,7 @@ import { firestore } from 'firebase-admin';
 /**
  * Interface representing Firestore query filters.
  * field -- the field to filter by (e.g. user)
- * comparisonOperator -- the comparison operator to use for comparison/filtering
+ * comparisonOperator -- the comparison operator to use for comparison/filtering (https://cloud.google.com/firestore/docs/query-data/queries)
  * value -- the value to compare the field to
  */
 interface FirestoreFilter {
