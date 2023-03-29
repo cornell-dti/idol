@@ -16,32 +16,15 @@ const TeamEventCreditForm: React.FC = () => {
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
 
-  // const [approvedAttendance, setApprovedAttendance] = useState<TeamEventInfo[]>([]);
-  // const [pendingAttendance, setPendingAttendance] = useState<TeamEventInfo[]>([]);
-
-  // useEffect(() => {
-  //   TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-  //   TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
-  //     setApprovedAttendance(val.approved);
-  //     setPendingAttendance(val.pending);
-  //   });
-  // }, [userInfo]);
-
   const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getTeamEventAttendanceByUser(userInfo).then(
-      (attendance: TeamEventAttendance[]) => {
-        setApprovedAttendance(
-          attendance.filter((attendee: TeamEventAttendance) => attendee.pending === false)
-        );
-        setPendingAttendance(
-          attendance.filter((attendee: TeamEventAttendance) => attendee.pending === true)
-        );
-      }
-    );
+    TeamEventsAPI.getTeamEventAttendanceByUser(userInfo).then((attendance) => {
+      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
+      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
+    });
   }, [userInfo]);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {

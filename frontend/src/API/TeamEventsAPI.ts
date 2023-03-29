@@ -105,8 +105,8 @@ export class TeamEventsAPI {
       member: mockMember,
       hoursAttended: 1,
       image: '',
-      eventUuid: 'updateTeamEventAttendance',
-      pending: true,
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: false,
       uuid: 'attendance1'
     };
     return mockAttendance;
@@ -147,7 +147,7 @@ export class TeamEventsAPI {
       member: mockMember,
       hoursAttended: 1,
       image: '',
-      eventUuid: 'deleteTeamEventAttendance',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
       pending: true,
       uuid: 'attendance1'
     };

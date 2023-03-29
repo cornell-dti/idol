@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Card, Message } from 'semantic-ui-react';
+import { Card, Message } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 
@@ -55,74 +55,72 @@ const TeamEventCreditDashboard = (props: {
 
   return (
     <div>
-      <Form>
-        <div className={styles.header}></div>
-        <h1>Check Team Event Credits</h1>
-        <p>{headerString}</p>
+      <div className={styles.header}></div>
+      <h1>Check Team Event Credits</h1>
+      <p>{headerString}</p>
 
+      <div className={styles.inline}>
+        <label className={styles.bold}>
+          Your Approved Credits: <span className={styles.dark_grey_color}>{approvedCredits}</span>
+        </label>
+      </div>
+
+      {COMMUNITY_EVENTS && (
         <div className={styles.inline}>
           <label className={styles.bold}>
-            Your Approved Credits: <span className={styles.dark_grey_color}>{approvedCredits}</span>
+            Your Approved Community Credits:{' '}
+            <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
           </label>
         </div>
+      )}
 
-        {COMMUNITY_EVENTS && (
-          <div className={styles.inline}>
-            <label className={styles.bold}>
-              Your Approved Community Credits:{' '}
-              <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
-            </label>
-          </div>
+      <div className={styles.inline}>
+        <label className={styles.bold}>
+          Remaining Credits Needed:{' '}
+          <span className={styles.dark_grey_color}>{remainingCredits}</span>
+        </label>
+      </div>
+
+      <div className={styles.inline}>
+        <label className={styles.bold}>Approved Events:</label>
+        {approvedTEC.length !== 0 ? (
+          <Card.Group>
+            {approvedTEC.map((teamEvent) => (
+              <Card>
+                <Card.Content>
+                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                  <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
+                  {COMMUNITY_EVENTS && (
+                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                  )}
+                </Card.Content>
+              </Card>
+            ))}
+          </Card.Group>
+        ) : (
+          <Message>You have not been approved for any team events yet.</Message>
         )}
+      </div>
 
-        <div className={styles.inline}>
-          <label className={styles.bold}>
-            Remaining Credits Needed:{' '}
-            <span className={styles.dark_grey_color}>{remainingCredits}</span>
-          </label>
-        </div>
-
-        <div className={styles.inline}>
-          <label className={styles.bold}>Approved Events:</label>
-          {approvedTEC.length !== 0 ? (
-            <Card.Group>
-              {approvedTEC.map((teamEvent) => (
-                <Card>
-                  <Card.Content>
-                    <Card.Header>{teamEvent.name} </Card.Header>
-                    <Card.Meta>{teamEvent.date}</Card.Meta>
-                    <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
-                    {COMMUNITY_EVENTS && (
-                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
-                    )}
-                  </Card.Content>
-                </Card>
-              ))}
-            </Card.Group>
-          ) : (
-            <Message>You have not been approved for any team events yet.</Message>
-          )}
-        </div>
-
-        <div className={styles.inline}>
-          <label className={styles.bold}>Pending Approval For:</label>
-          {pendingTEC.length !== 0 ? (
-            <Card.Group>
-              {pendingTEC.map((teamEvent) => (
-                <Card>
-                  <Card.Content>
-                    <Card.Header>{teamEvent.name} </Card.Header>
-                    <Card.Meta>{teamEvent.date}</Card.Meta>
-                    <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
-                  </Card.Content>
-                </Card>
-              ))}
-            </Card.Group>
-          ) : (
-            <Message>You are not currently pending approval for any team events.</Message>
-          )}
-        </div>
-      </Form>
+      <div className={styles.inline}>
+        <label className={styles.bold}>Pending Approval For:</label>
+        {pendingTEC.length !== 0 ? (
+          <Card.Group>
+            {pendingTEC.map((teamEvent) => (
+              <Card>
+                <Card.Content>
+                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                  <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
+                </Card.Content>
+              </Card>
+            ))}
+          </Card.Group>
+        ) : (
+          <Message>You are not currently pending approval for any team events.</Message>
+        )}
+      </div>
     </div>
   );
 };
