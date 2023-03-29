@@ -6,10 +6,12 @@ const mockDP = fakeDevPortfolio();
 const mockDP2 = fakeDevPortfolio();
 const mockDP3 = fakeDevPortfolio();
 
+const devPortfolioDao = new DevPortfolioDao();
+
 beforeAll(async () => {
-  await DevPortfolioDao.createNewInstance(mockDP);
-  await DevPortfolioDao.createNewInstance(mockDP2);
-  await DevPortfolioDao.createNewInstance(mockDP3);
+  await devPortfolioDao.createNewInstance(mockDP);
+  await devPortfolioDao.createNewInstance(mockDP2);
+  await devPortfolioDao.createNewInstance(mockDP3);
 });
 
 /* Cleanup database after running DevPortfolioDao tests */
@@ -27,7 +29,7 @@ afterAll(async () => {
 // });
 
 test('Get all instances', () =>
-  DevPortfolioDao.getAllInstances().then((allSubmissions) => {
+  devPortfolioDao.getAllInstances().then((allSubmissions) => {
     expect(allSubmissions.some((submission) => submission === mockDP));
     expect(allSubmissions.some((submission) => submission === mockDP2));
     expect(allSubmissions.some((submission) => submission === mockDP3));
