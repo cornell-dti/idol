@@ -1,5 +1,5 @@
-import TeamEventsDao from '../dao/TeamEventsDao';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
+import TeamEventsDao from '../dao/TeamEventsDao';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
@@ -76,6 +76,10 @@ export const getAllTeamEventsForMember = async (
   email: string,
   isPending: boolean
 ): Promise<TeamEventInfo[]> => TeamEventsDao.getTeamEventsForMember(email, isPending);
+
+export const getTeamEventAttendanceByUser = async (
+  user: IdolMember
+): Promise<TeamEventAttendance[]> => TeamEventAttendanceDao.getTeamEventAttendanceByUser(user);
 
 export const updateTeamEventAttendance = async (
   teamEventAttendance: TeamEventAttendance,
