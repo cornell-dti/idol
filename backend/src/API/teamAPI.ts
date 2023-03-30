@@ -4,6 +4,8 @@ import { Team } from '../types/DataTypes';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import MembersDao from '../dao/MembersDao';
 
+const membersDao = new MembersDao();
+
 export const allTeams = (): Promise<readonly Team[]> => MembersDao.getAllTeams();
 
 const updateTeamMembers = async (team: Team): Promise<void> => {
@@ -42,7 +44,7 @@ const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> =>
         ...member,
         subteams: [...member.subteams, team.name]
       };
-      await MembersDao.setMember(updatedMember.email, updatedMember);
+      await membersDao.setMember(updatedMember.email, updatedMember);
     })
   );
 
@@ -52,7 +54,7 @@ const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> =>
         ...member,
         subteams: member.subteams.filter((subteam) => subteam !== team.name)
       };
-      MembersDao.setMember(updatedMember.email, updatedMember);
+      membersDao.setMember(updatedMember.email, updatedMember);
     })
   );
 };
@@ -74,7 +76,7 @@ const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => 
         ...member,
         formerSubteams: member.formerSubteams ? [...member.formerSubteams, team.name] : [team.name]
       };
-      await MembersDao.setMember(updatedMember.email, updatedMember);
+      await membersDao.setMember(updatedMember.email, updatedMember);
     })
   );
   await Promise.all(
@@ -85,7 +87,7 @@ const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => 
           ? member.formerSubteams.filter((subteam) => subteam !== team.name)
           : []
       };
-      await MembersDao.setMember(updatedMember.email, updatedMember);
+      await membersDao.setMember(updatedMember.email, updatedMember);
     })
   );
 };
