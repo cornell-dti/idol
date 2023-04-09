@@ -1,5 +1,18 @@
 import { firestore } from 'firebase-admin';
 
+/**
+ * Interface representing Firestore query filters.
+ * field -- the field to filter by (e.g. user)
+ * comparisonOperator -- the comparison operator to use for comparison/filtering (https://cloud.google.com/firestore/docs/query-data/queries)
+ * value -- the value to compare the field to
+ */
+interface FirestoreFilter {
+  field: string;
+  comparisonOperator: FirebaseFirestore.WhereFilterOp;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+}
+
 export default abstract class BaseDao<E, D> {
   readonly collection: firestore.CollectionReference<D>;
 
@@ -30,10 +43,18 @@ export default abstract class BaseDao<E, D> {
   }
 
   /**
-   * @returns All documents in the collection
+   * Gets documents from the Firestore collection
+   * @param filters -- list of filters to filter documents by
+   * @returns Documents in the collection that satifsy the filters.
+   *          Returns all documents if no filters are provided.
    */
-  protected async getAllDocuments(): Promise<E[]> {
-    const docRefs = await this.collection.get();
+  protected async getDocuments(filters: FirestoreFilter[] = []): Promise<E[]> {
+    const query = this.collection as firestore.Query<D>;
+    const filteredQuery = filters.reduce(
+      (query, filter) => query.where(filter.field, filter.comparisonOperator, filter.value),
+      query
+    );
+    const docRefs = await filteredQuery.get();
     return Promise.all(docRefs.docs.map((doc) => this.materializeData(doc.data())));
   }
 
