@@ -24,7 +24,7 @@ export const createTeamEvent = async (
 };
 
 export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<void> => {
-  const canEditTeamEvent = PermissionsManager.canEditTeamEvent(user);
+  const canEditTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvent) {
     throw new PermissionError("You don't have permission to delete a team event!");
   }
