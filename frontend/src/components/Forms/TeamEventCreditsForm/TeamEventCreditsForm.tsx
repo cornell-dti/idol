@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDasboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
+import LabeledDropdown from '../../Common/LabeledDropdown';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -94,68 +95,34 @@ const TeamEventCreditForm: React.FC = () => {
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.center_and_flex}>
-            {teamEventInfoList && !teamEvent ? (
-              <Dropdown
+            {teamEventInfoList && (
+              <LabeledDropdown
                 placeholder="Select a Team Event"
                 fluid
-                search={(options, query) =>
-                  options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
-                }
+                clearable
                 selection
-                options={teamEventInfoList
+                data={teamEventInfoList
                   .sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime())
                   .map((event) => ({
-                    key: event.name,
-                    label: (
-                      <div className={styles.flex_space_center}>
-                        <div className={styles.flex_start}>{event.name}</div>
-                        <div className={styles.flex_end}>
-                          <Label
-                            content={`${new Date(event.date).toLocaleDateString('en-us', {
-                              month: 'short',
-                              day: 'numeric'
-                            })}`}
-                          ></Label>
-
-                          <Label
-                            content={`${event.numCredits} ${
-                              Number(event.numCredits) === 1 ? 'credit' : 'credits'
-                            } ${event.hasHours ? 'per hour' : ''}`}
-                          ></Label>
-                        </div>
-                      </div>
-                    ),
+                    key: event.uuid,
+                    label: event.name,
+                    info: [
+                      `${new Date(event.date).toLocaleDateString('en-us', {
+                        month: 'short',
+                        day: 'numeric'
+                      })}`,
+                      `${event.numCredits} ${
+                        Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                      } ${event.hasHours ? 'per hour' : ''}`
+                    ],
                     value: event.uuid
                   }))}
+                value={teamEvent?.uuid}
                 onChange={(_, data) => {
                   setTeamEvent(teamEventInfoList.find((event) => event.uuid === data.value));
                 }}
               />
-            ) : undefined}
-
-            {teamEvent ? (
-              <div className={styles.row_direction}>
-                <div>
-                  <Segment>
-                    <h4>{teamEvent.name}</h4>
-                    <Label>
-                      {`${teamEvent.numCredits} credit(s)`} {teamEvent.hasHours ? 'per hour' : ''}
-                    </Label>
-                  </Segment>
-                </div>
-
-                <Button
-                  negative
-                  onClick={() => {
-                    setTeamEvent(undefined);
-                    setHours('0');
-                  }}
-                  className={styles.inline}
-                >
-                  Clear
-                </Button>
-              </div>
-            ) : undefined}
+            )}
           </div>
         </div>
         {teamEvent?.hasHours ? (

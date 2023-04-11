@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown, Button, Icon, Divider, TextArea, Message } from 'semantic-ui-react';
+import { Form, Button, Icon, Divider, TextArea, Message } from 'semantic-ui-react';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import { DevPortfolioDashboard } from '../../Admin/DevPortfolio/AdminDevPortfolio';
 import { useSelf } from '../../Common/FirestoreDataProvider';
+import LabeledDropdown from '../../Common/LabeledDropdown';
 import styles from './DevPortfolioForm.module.css';
 
 const GITHUB_PR_REGEX = /.*github.com\/([._a-zA-Z0-9-]+)\/([._a-zA-Z0-9-]+)\/pull\/([0-9]+).*/;
@@ -131,6 +132,12 @@ const DevPortfolioForm: React.FC = () => {
     }
   };
 
+  const dateLabel = (date: Date) =>
+    date.toLocaleDateString('en-us', {
+      month: 'short',
+      day: 'numeric'
+    });
+
   return (
     <div>
       <Form className={styles.form_style}>
@@ -141,33 +148,33 @@ const DevPortfolioForm: React.FC = () => {
             Select a Dev Portfolio Assignment <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.center_and_flex}>
-            {devPortfolios ? (
-              <Dropdown
+            {devPortfolios && (
+              <LabeledDropdown
                 onKeyDown={keyDownHandler}
                 placeholder="Select a Portfolio Assignment: "
                 fluid
-                search
+                clearable
                 selection
-                options={devPortfolios
+                data={devPortfolios
                   .sort((a, b) => a.deadline - b.deadline)
-                  .map((assignment) => ({
-                    key: assignment.uuid,
-                    text: `${assignment.name} (Due:  ${new Date(
-                      assignment.deadline
-                    ).toDateString()}) ${
-                      assignment.lateDeadline
-                        ? `(Late Due: ${new Date(assignment.lateDeadline).toDateString()})`
-                        : ''
-                    }`,
-                    value: assignment.uuid
+                  .map((a) => ({
+                    key: a.uuid,
+                    label: a.name,
+                    info: [
+                      `Due: ${dateLabel(new Date(a.deadline))}`,
+                      a.lateDeadline
+                        ? `Late due: ${dateLabel(new Date(a.lateDeadline))}`
+                        : undefined
+                    ]
                   }))}
+                value={devPortfolio?.uuid}
                 onChange={(_, data) => {
                   setDevPortfolio(
                     devPortfolios.find((assignment) => assignment.uuid === data.value)
                   );
                 }}
               />
-            ) : undefined}
+            )}
           </div>
 
           {isTpm ? (
