@@ -143,7 +143,7 @@ export class TeamEventsAPI {
       role: 'developer',
       roleDescription: 'Developer'
     };
-    const mockAttendance = {
+    const mockAttendance1 = {
       member: mockMember,
       hoursAttended: 1,
       image: '',
@@ -151,6 +151,22 @@ export class TeamEventsAPI {
       pending: true,
       uuid: 'attendance1'
     };
-    return [mockAttendance];
+    const mockAttendance2 = {
+      member: mockMember,
+      hoursAttended: 1,
+      image: '',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: false,
+      uuid: 'attendance2'
+    };
+    const mockAttendance3 = {
+      member: mockMember,
+      hoursAttended: 2,
+      image: '',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: false,
+      uuid: 'attendance3'
+    };
+    return [mockAttendance1, mockAttendance2, mockAttendance3];
   }
 }

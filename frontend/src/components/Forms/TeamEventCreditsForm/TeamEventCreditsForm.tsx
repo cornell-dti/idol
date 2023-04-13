@@ -3,7 +3,7 @@ import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import TeamEventCreditDashboard from './TeamEventsCreditDasboard';
+import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 
@@ -84,15 +84,6 @@ const TeamEventCreditForm: React.FC = () => {
         });
       });
     }
-  };
-
-  const mapAttendancetoTEC = (attendanceList: TeamEventAttendance[]): TeamEventInfo[] => {
-    const tec: TeamEventInfo[] = [];
-    attendanceList.forEach((attendance) => {
-      const event = teamEventInfoList.find((tec) => tec.uuid === attendance.eventUuid);
-      if (event !== undefined) tec.push(event);
-    });
-    return tec;
   };
 
   return (
@@ -208,8 +199,9 @@ const TeamEventCreditForm: React.FC = () => {
           Submit
         </Form.Button>
         <TeamEventCreditDashboard
-          pendingTEC={mapAttendancetoTEC(pendingAttendance)}
-          approvedTEC={mapAttendancetoTEC(approvedAttendance)}
+          allTEC={teamEventInfoList}
+          approvedAttendance={approvedAttendance}
+          pendingAttendance={pendingAttendance}
         />
       </Form>
     </div>

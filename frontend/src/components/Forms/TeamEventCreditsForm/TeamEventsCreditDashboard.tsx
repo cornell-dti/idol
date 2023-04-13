@@ -8,10 +8,11 @@ const REQUIRED_MEMBER_TEC_CREDITS = 3;
 const REQUIRED_LEAD_TEC_CREDITS = 6;
 
 const TeamEventCreditDashboard = (props: {
-  approvedTEC: TeamEventInfo[];
-  pendingTEC: TeamEventInfo[];
+  allTEC: TeamEventInfo[];
+  approvedAttendance: TeamEventAttendance[];
+  pendingAttendance: TeamEventAttendance[];
 }): JSX.Element => {
-  const { approvedTEC, pendingTEC } = props;
+  const { allTEC, approvedAttendance, pendingAttendance } = props;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -19,15 +20,18 @@ const TeamEventCreditDashboard = (props: {
   const requiredCredits =
     userRole === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
-  const approvedCredits = approvedTEC.reduce(
-    (approved, teamEvent) => approved + Number(teamEvent.numCredits),
-    0
-  );
-  const approvedCommunityCredits = approvedTEC.reduce(
-    (communityCredits, teamEvent) =>
-      teamEvent.isCommunity ? communityCredits + Number(teamEvent.numCredits) : communityCredits,
-    0
-  );
+  let approvedCredits = 0;
+  let approvedCommunityCredits = 0;
+  approvedAttendance.forEach(async (attendance) => {
+    const event = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
+    if (event !== undefined) {
+      const currCredits = attendance.hoursAttended
+        ? Number(event.numCredits) * attendance.hoursAttended
+        : Number(event.numCredits);
+      approvedCredits += currCredits;
+      approvedCommunityCredits += event.isCommunity ? currCredits : 0;
+    }
+  });
 
   // Calculate the remaining credits
   let remainingCredits;
@@ -52,6 +56,48 @@ const TeamEventCreditDashboard = (props: {
         ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
         : ''
     }.`;
+
+  const getHoursAttended = (attendance: TeamEventAttendance): number => {
+    const hours = attendance.hoursAttended;
+    if (hours !== undefined) return hours;
+    return 1;
+  };
+
+  const TecDetailsDisplay = (props: { attendanceList: TeamEventAttendance[] }): JSX.Element => {
+    const { attendanceList } = props;
+    return (
+      <Card.Group>
+        {attendanceList.map((attendance) => {
+          const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
+          if (teamEvent !== undefined) {
+            return (
+              <Card>
+                <Card.Content>
+                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                  <Card.Meta>
+                    {`Number of Credits: ${
+                      teamEvent.hasHours
+                        ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
+                        : teamEvent.numCredits
+                    }`}
+                  </Card.Meta>
+                  {COMMUNITY_EVENTS && (
+                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                  )}
+                </Card.Content>
+              </Card>
+            );
+          }
+          return (
+            <Message>
+              The team event for attendance {attendance.uuid} cannot be found. Contact leads.
+            </Message>
+          );
+        })}
+      </Card.Group>
+    );
+  };
 
   return (
     <div>
@@ -83,21 +129,8 @@ const TeamEventCreditDashboard = (props: {
 
       <div className={styles.inline}>
         <label className={styles.bold}>Approved Events:</label>
-        {approvedTEC.length !== 0 ? (
-          <Card.Group>
-            {approvedTEC.map((teamEvent) => (
-              <Card>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                  <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
-                  {COMMUNITY_EVENTS && (
-                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
-                  )}
-                </Card.Content>
-              </Card>
-            ))}
-          </Card.Group>
+        {approvedAttendance.length !== 0 ? (
+          <TecDetailsDisplay attendanceList={approvedAttendance} />
         ) : (
           <Message>You have not been approved for any team events yet.</Message>
         )}
@@ -105,18 +138,8 @@ const TeamEventCreditDashboard = (props: {
 
       <div className={styles.inline}>
         <label className={styles.bold}>Pending Approval For:</label>
-        {pendingTEC.length !== 0 ? (
-          <Card.Group>
-            {pendingTEC.map((teamEvent) => (
-              <Card>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                  <Card.Meta>{`Number of Credits: ${teamEvent.numCredits}`}</Card.Meta>
-                </Card.Content>
-              </Card>
-            ))}
-          </Card.Group>
+        {pendingAttendance.length !== 0 ? (
+          <TecDetailsDisplay attendanceList={pendingAttendance} />
         ) : (
           <Message>You are not currently pending approval for any team events.</Message>
         )}
