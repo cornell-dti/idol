@@ -2,10 +2,11 @@ import React from 'react';
 import { Form, Card, Message } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
-
-const REQUIRED_COMMUNITY_CREDITS = 1;
-const REQUIRED_MEMBER_TEC_CREDITS = 3;
-const REQUIRED_LEAD_TEC_CREDITS = 6;
+import {
+  REQUIRED_COMMUNITY_CREDITS,
+  REQUIRED_LEAD_TEC_CREDITS,
+  REQUIRED_MEMBER_TEC_CREDITS
+} from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
   approvedTEC: TeamEventInfo[];

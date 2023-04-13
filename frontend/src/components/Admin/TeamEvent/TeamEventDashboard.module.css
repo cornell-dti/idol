@@ -1,0 +1,27 @@
+.dashboardContainer {
+  margin: 3%;
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.tableContainer {
+  max-width: 95%;
+  overflow-y: auto;
+}
+
+.eventCell {
+  min-width: 50px;
+}
+
+.nameCell {
+  position: sticky;
+  left: 0;
+  display: block;
+  background-color: white;
+  min-width: 250px
+}
+
+.nameHeaderCell {
+  position: sticky;
+  left: 0;
+}
