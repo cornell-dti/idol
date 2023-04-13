@@ -10,7 +10,7 @@
 }
 
 .eventCell {
-  min-width: 50px;
+  min-width: 200px;
 }
 
 .nameCell {
@@ -18,7 +18,7 @@
   left: 0;
   display: block;
   background-color: white;
-  min-width: 250px
+  min-width: 250px;
 }
 
 .nameHeaderCell {
