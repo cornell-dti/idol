@@ -19,17 +19,17 @@ const DevPortfolioForm: React.FC = () => {
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [text, setText] = useState<string | null>(null);
+  const [text, setText] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     refreshDevPortfolios();
   }, []);
 
-  const sendSubmissionRequest = (
+  const sendSubmissionRequest = async (
     devPortfolioRequest: DevPortfolioSubmission,
     devPortfolio: DevPortfolio
   ) => {
-    DevPortfolioAPI.makeDevPortfolioSubmission(devPortfolio.uuid, devPortfolioRequest).then(
+    await DevPortfolioAPI.makeDevPortfolioSubmission(devPortfolio.uuid, devPortfolioRequest).then(
       (val) => {
         if (val.error) {
           Emitters.generalError.emit({
@@ -118,10 +118,6 @@ const DevPortfolioForm: React.FC = () => {
         ...(text && { text })
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
-      setDevPortfolio(undefined);
-      setOpenPRs(['']);
-      setReviewedPRs(['']);
-      setText(null);
     }
   };
 
@@ -148,6 +144,7 @@ const DevPortfolioForm: React.FC = () => {
                 fluid
                 search
                 selection
+                value={devPortfolio?.uuid}
                 options={devPortfolios
                   .sort((a, b) => a.deadline - b.deadline)
                   .map((assignment) => ({
@@ -183,10 +180,7 @@ const DevPortfolioForm: React.FC = () => {
                 2. What did the team do the past two weeks?
               </p>
 
-              <TextArea
-                value={text || undefined}
-                onInput={(e) => setText(e.currentTarget.value)}
-              ></TextArea>
+              <TextArea value={text} onChange={(e) => setText(e.target.value)}></TextArea>
 
               <p>
                 In addition, if you have created and/or reviewed pull requests, please include those
