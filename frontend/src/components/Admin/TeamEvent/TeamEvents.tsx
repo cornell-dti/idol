@@ -88,7 +88,6 @@ const TeamEvents: React.FC = () => {
           </Button>
           <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
         </div>
-        <div></div>
       </div>
     </div>
   );
