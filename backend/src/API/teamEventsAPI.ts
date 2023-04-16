@@ -3,6 +3,8 @@ import TeamEventsDao from '../dao/TeamEventsDao';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
+const teamEventAttendanceDao = new TeamEventAttendanceDao();
+
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
@@ -79,7 +81,7 @@ export const getAllTeamEventsForMember = async (
 
 export const getTeamEventAttendanceByUser = async (
   user: IdolMember
-): Promise<TeamEventAttendance[]> => TeamEventAttendanceDao.getTeamEventAttendanceByUser(user);
+): Promise<TeamEventAttendance[]> => teamEventAttendanceDao.getTeamEventAttendanceByUser(user);
 
 export const updateTeamEventAttendance = async (
   teamEventAttendance: TeamEventAttendance,
@@ -91,7 +93,7 @@ export const updateTeamEventAttendance = async (
       `User with email ${user.email} does not have permissions to update team events attendance`
     );
   }
-  await TeamEventAttendanceDao.updateTeamEventAttendance(teamEventAttendance);
+  await teamEventAttendanceDao.updateTeamEventAttendance(teamEventAttendance);
   return teamEventAttendance;
 };
 
@@ -102,5 +104,5 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
       `User with email ${user.email} does not have sufficient permissions to delete team events attendance`
     );
   }
-  await TeamEventAttendanceDao.deleteTeamEventAttendance(uuid);
+  await teamEventAttendanceDao.deleteTeamEventAttendance(uuid);
 };
