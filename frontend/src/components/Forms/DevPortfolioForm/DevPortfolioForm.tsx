@@ -117,12 +117,7 @@ const DevPortfolioForm: React.FC = () => {
         status: 'pending',
         ...(text && { text })
       };
-      sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio).then(() => {
-        setDevPortfolio(undefined);
-        setOpenPRs(['']);
-        setReviewedPRs(['']);
-        setText('');
-      });
+      sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
     }
   };
 
@@ -149,7 +144,7 @@ const DevPortfolioForm: React.FC = () => {
                 fluid
                 search
                 selection
-                value={devPortfolio?.name}
+                value={devPortfolio?.uuid}
                 options={devPortfolios
                   .sort((a, b) => a.deadline - b.deadline)
                   .map((assignment) => ({
