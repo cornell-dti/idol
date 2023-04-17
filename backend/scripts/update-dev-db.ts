@@ -34,8 +34,14 @@ const rewriteDbData = async (devDb: FirebaseFirestore.Firestore, data: DbData): 
     .then((collections) => collections.map((collection) => collection.id));
 
   await Promise.all(allCollections.map((collection) => deleteCollection(devDb, collection, 10)));
-  return data.map((collection) =>
-    collection.docs.forEach((doc) => devDb.doc(`${collection.id}/${doc.id}`).set(doc.data))
+  return Promise.all(
+    data.map(async (collection) => {
+      await Promise.all(
+        collection.docs.map(async (doc) => {
+          await devDb.doc(`${collection.id}/${doc.id}`).set(doc.data);
+        })
+      );
+    })
   );
 };
 
