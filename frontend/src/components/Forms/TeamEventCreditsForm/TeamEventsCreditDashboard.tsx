@@ -20,13 +20,19 @@ const TeamEventCreditDashboard = (props: {
   const requiredCredits =
     userRole === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
+  const getHoursAttended = (attendance: TeamEventAttendance): number => {
+    const hours = attendance.hoursAttended;
+    if (hours !== undefined) return hours;
+    return 1;
+  };
+
   let approvedCredits = 0;
   let approvedCommunityCredits = 0;
   approvedAttendance.forEach(async (attendance) => {
     const event = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
     if (event !== undefined) {
-      const currCredits = attendance.hoursAttended
-        ? Number(event.numCredits) * attendance.hoursAttended
+      const currCredits = event.hasHours
+        ? Number(event.numCredits) * getHoursAttended(attendance)
         : Number(event.numCredits);
       approvedCredits += currCredits;
       approvedCommunityCredits += event.isCommunity ? currCredits : 0;
@@ -57,12 +63,6 @@ const TeamEventCreditDashboard = (props: {
         : ''
     }.`;
 
-  const getHoursAttended = (attendance: TeamEventAttendance): number => {
-    const hours = attendance.hoursAttended;
-    if (hours !== undefined) return hours;
-    return 1;
-  };
-
   const TecDetailsDisplay = (props: { attendanceList: TeamEventAttendance[] }): JSX.Element => {
     const { attendanceList } = props;
     return (
@@ -91,7 +91,8 @@ const TeamEventCreditDashboard = (props: {
           }
           return (
             <Message>
-              The team event for attendance {attendance.uuid} cannot be found. Contact leads.
+              The team event for attendance {attendance.uuid} cannot be found. Contact
+              #idol-support.
             </Message>
           );
         })}
