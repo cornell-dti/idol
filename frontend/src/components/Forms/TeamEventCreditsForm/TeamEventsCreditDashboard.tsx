@@ -76,7 +76,7 @@ const TeamEventCreditDashboard = (props: {
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>
-                    {`Number of Credits: ${
+                    {`Total Credits: ${
                       teamEvent.hasHours
                         ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
                         : teamEvent.numCredits
