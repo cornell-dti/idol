@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { RequestHandler, Request, Response } from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
