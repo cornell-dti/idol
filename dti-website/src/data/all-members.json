@@ -874,6 +874,19 @@
     "roleDescription": "Developer"
   },
   {
+    "netid": "hyz2",
+    "name": "Hope Zheng",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
+  },
+  {
     "netid": "jc2755",
     "name": "Jesse Cheng",
     "pronouns": "",
@@ -1491,7 +1504,8 @@
     "subteams": [],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "github": "https://github.com/oscarwang20"
   },
   {
     "netid": "pak226",
