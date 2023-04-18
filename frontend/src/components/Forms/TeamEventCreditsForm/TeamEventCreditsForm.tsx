@@ -15,16 +15,16 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
-  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
-  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
+  const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
+  const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
-      setApprovedTEC(val.approved);
-      setPendingTEC(val.pending);
+    TeamEventsAPI.getTeamEventAttendanceByUser(userInfo).then((attendance) => {
+      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
+      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
     });
-  }, []);
+  }, [userInfo]);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
@@ -32,8 +32,8 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance, uuid: string) => {
-    await TeamEventsAPI.requestTeamEventCredit(uuid, eventCreditRequest);
+  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
+    await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
     // upload image
 
     const blob = await fetch(image).then((res) => res.blob());
@@ -74,8 +74,8 @@ const TeamEventCreditForm: React.FC = () => {
         pending: true,
         uuid: ''
       };
-      requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
-        setPendingTEC((pending) => [...pending, teamEvent]);
+      requestTeamEventCredit(newTeamEventAttendance).then(() => {
+        setPendingAttendance((pending) => [...pending, newTeamEventAttendance]);
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Credit submitted!',
           contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
@@ -196,7 +196,11 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard pendingTEC={pendingTEC} approvedTEC={approvedTEC} />
+        <TeamEventCreditDashboard
+          allTEC={teamEventInfoList}
+          approvedAttendance={approvedAttendance}
+          pendingAttendance={pendingAttendance}
+        />
       </Form>
     </div>
   );
