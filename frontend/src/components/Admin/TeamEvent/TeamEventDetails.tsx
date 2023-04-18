@@ -144,11 +144,13 @@ const TeamEventDetails: React.FC = () => {
       <div className={styles.listsContainer}>
         <div className={styles.listContainer}>
           <h2 className={styles.memberTitle}>Members Pending</h2>
+
           <AttendanceDisplay isPending={true} teamEvent={teamEvent} />
         </div>
 
         <div className={styles.listContainer}>
           <h2 className={styles.memberTitle}>Members Approved</h2>
+
           <AttendanceDisplay isPending={false} teamEvent={teamEvent} />
         </div>
       </div>

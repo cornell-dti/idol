@@ -17,6 +17,8 @@
   border-radius: 4px 4px 4px 4px;
 }
 
-.resetButtonContainer {
+.buttonContainer {
   margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
