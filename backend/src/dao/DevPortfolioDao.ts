@@ -69,7 +69,7 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
   }
 
   async getAllInstances(): Promise<DevPortfolio[]> {
-    return this.getDocuments();
+    return this.getAllDocuments();
   }
 
   async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {

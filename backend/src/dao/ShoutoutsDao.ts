@@ -24,18 +24,17 @@ export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
   }
 
   async getAllShoutouts(): Promise<Shoutout[]> {
-    return this.getDocuments();
+    return this.getAllDocuments();
   }
 
   async getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
     const givenOrReceived = type === 'given' ? 'giver' : 'receiver';
-    return this.getDocuments([
-      {
-        field: givenOrReceived,
-        comparisonOperator: '==',
-        value: memberCollection.doc(email)
-      }
-    ]);
+    const shoutoutRefs = await this.collection
+      .where(givenOrReceived, '==', memberCollection.doc(email))
+      .get();
+    return Promise.all(
+      shoutoutRefs.docs.map(async (shoutoutRef) => materializeShoutout(shoutoutRef.data()))
+    );
   }
 
   async getShoutout(uuid: string): Promise<Shoutout | null> {

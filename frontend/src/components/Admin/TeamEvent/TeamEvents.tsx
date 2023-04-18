@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Loader, Button } from 'semantic-ui-react';
+import { Card, Message, Loader } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
@@ -82,10 +82,7 @@ const TeamEvents: React.FC = () => {
           <h2>View All Team Events</h2>
           <TeamEventsDisplay isLoading={isLoading} teamEvents={teamEvents} />
         </div>
-        <div className={styles.buttonContainer}>
-          <Button>
-            <Link href="/admin/team-events/dashboard">View Team Events Dashboard</Link>
-          </Button>
+        <div className={styles.resetButtonContainer}>
           <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
         </div>
       </div>
