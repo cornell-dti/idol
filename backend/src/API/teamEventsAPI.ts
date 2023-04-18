@@ -3,57 +3,70 @@ import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
+
+
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
+  const acc: TeamEvent[] = [];
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
-  return TeamEventsDao.getAllTeamEvents();
+  const teamEvents = await TeamEventsDao.getAllTeamEvents();
+  const attendancePromises = teamEvents.map((teamEvent) =>
+    TeamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
+  );
+  const attendanceResults = await Promise.all(attendancePromises);
+  teamEvents.forEach((teamEvent, index) => {
+    acc.push({
+      ...teamEvent,
+      attendees: attendanceResults[index],
+      requests: []
+    });
+  });
+  return acc;
 };
+
 
 export const getAllTeamEventInfo = async (): Promise<TeamEventInfo[]> =>
   TeamEventsDao.getAllTeamEventInfo();
 
 export const createTeamEvent = async (
-  teamEvent: TeamEvent,
+  teamEventInfo: TeamEventInfo,
   user: IdolMember
-): Promise<TeamEvent> => {
+): Promise<TeamEventInfo> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent)
     throw new PermissionError('does not have permissions to create team event');
-  await TeamEventsDao.createTeamEvent(teamEvent);
-  return teamEvent;
+  await TeamEventsDao.createTeamEvent(teamEventInfo);
+  return teamEventInfo;
 };
 
 export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.canEditTeamEvent(user)) {
     throw new PermissionError("You don't have permission to delete a team event!");
   }
+  await TeamEventAttendanceDao.deleteTeamEventAttendance(teamEvent.uuid)
   await TeamEventsDao.deleteTeamEvent(teamEvent);
 };
 
 export const updateTeamEvent = async (
-  teamEvent: TeamEvent,
+  teamEventInfo: TeamEventInfo,
   user: IdolMember
-): Promise<TeamEvent> => {
+): Promise<TeamEventInfo > => {
   if (!PermissionsManager.canEditTeamEvent(user)) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to update team events`
     );
   }
-  await TeamEventsDao.updateTeamEvent(teamEvent);
-  return teamEvent;
+  const updatedTeamEvent = await TeamEventsDao.updateTeamEvent(teamEventInfo);
+  return updatedTeamEvent;
 };
 
 export const requestTeamEventCredit = async (
-  uuid: string,
   request: TeamEventAttendance
 ): Promise<void> => {
-  const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
-  const updatedTeamEvent = {
-    ...teamEvent,
-    requests: [...teamEvent.requests, request]
-  };
-  await TeamEventsDao.updateTeamEvent(updatedTeamEvent);
-};
+  const updatedteamEvent = {...request, pending:true};
+   await TeamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
+  
+}
 
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
@@ -61,7 +74,10 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
     throw new PermissionError(
       `User with email ${user.email} does not have permission to get full team event`
     );
-  return TeamEventsDao.getTeamEvent(uuid);
+
+  const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
+  return {...teamEvent, attendees: await TeamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid),requests:[]};
+ 
 };
 
 export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
@@ -70,12 +86,9 @@ export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete all team events.`
     );
+  await TeamEventAttendanceDao.deleteAllTeamEventAttendance();
   await TeamEventsDao.deleteAllTeamEvents();
 };
-export const getAllTeamEventsForMember = async (
-  email: string,
-  isPending: boolean
-): Promise<TeamEventInfo[]> => TeamEventsDao.getTeamEventsForMember(email, isPending);
 
 export const updateTeamEventAttendance = async (
   teamEventAttendance: TeamEventAttendance,
