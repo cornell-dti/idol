@@ -3,7 +3,7 @@ import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import TeamEventCreditDashboard from './TeamEventsCreditDasboard';
+import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 
