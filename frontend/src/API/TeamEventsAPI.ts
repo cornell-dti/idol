@@ -54,16 +54,16 @@ export class TeamEventsAPI {
     });
   }
 
-  public static createTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEvent).then((res) => res.data);
+  public static createTeamEventForm(teamEventInfo: TeamEventInfo): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEventInfo).then((res) => res.data);
   }
 
   public static async deleteTeamEventForm(teamEvent: Event): Promise<void> {
     await APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent);
   }
 
-  public static updateTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
+  public static updateTeamEventForm(teamEventInfo: TeamEventInfo): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEventInfo).then(
       (rest) => rest.data.event
     );
   }
@@ -72,14 +72,101 @@ export class TeamEventsAPI {
     await APIWrapper.delete(`${backendURL}/clearAllTeamEvents`);
   }
 
-  public static async requestTeamEventCredit(
-    uuid: string,
-    request: TeamEventAttendance
-  ): Promise<void> {
-    APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { uuid, request });
+  public static async requestTeamEventCredit(request: TeamEventAttendance): Promise<void> {
+    // APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { request });
   }
 
-  public static async getAllTeamEventsForMember(): Promise<MemberTECRequests> {
-    return APIWrapper.get(`${backendURL}/getAllTeamEventsForMember`).then((val) => val.data);
+  public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
+    // await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, uuid);
+  }
+
+  public static async updateTeamEventAttendance(
+    teamEventAttendance: TeamEventAttendance
+  ): Promise<TeamEventAttendance> {
+    // return APIWrapper.post(`${backendURL}/updateTeamEventAttendance`, teamEventAttendance).then(
+    //   (rest) => rest.data.event
+    // );
+
+    const mockMember: IdolMember = {
+      netid: 'aa2235',
+      email: 'aa2235@cornell.edu',
+      firstName: 'Aira',
+      lastName: 'Agrawal',
+      pronouns: 'she/her',
+      graduation: '2023',
+      major: 'CS',
+      hometown: 'Albany',
+      about: 'idk',
+      subteams: ['Idol'],
+      role: 'developer',
+      roleDescription: 'Developer'
+    };
+    const mockAttendance = {
+      member: mockMember,
+      hoursAttended: 1,
+      image: '',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: false,
+      uuid: 'attendance1'
+    };
+    return mockAttendance;
+  }
+
+  public static async getTeamEventAttendanceByUser(
+    user: IdolMember
+  ): Promise<TeamEventAttendance[]> {
+    // const res = APIWrapper.get(`${backendURL}/getTeamEventAttendanceByUser`).then(
+    //   (res) => res.data
+    // );
+    // return res.then((val) => {
+    //   if (val.error) {
+    //     Emitters.generalError.emit({
+    //       headerMsg: "Couldn't get all team event attendance for this user",
+    //       contentMsg: `Error was: ${val.err}`
+    //     });
+    //     return [];
+    //   }
+    //   const attendance = val.attendance as TeamEventAttendance[];
+    //   return attendance;
+    // });
+    const mockMember: IdolMember = {
+      netid: 'aa2235',
+      email: 'aa2235@cornell.edu',
+      firstName: 'Aira',
+      lastName: 'Agrawal',
+      pronouns: 'she/her',
+      graduation: '2023',
+      major: 'CS',
+      hometown: 'Albany',
+      about: 'idk',
+      subteams: ['Idol'],
+      role: 'developer',
+      roleDescription: 'Developer'
+    };
+    const mockAttendance1 = {
+      member: mockMember,
+      hoursAttended: 1,
+      image: '',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: true,
+      uuid: 'attendance1'
+    };
+    const mockAttendance2 = {
+      member: mockMember,
+      hoursAttended: 1,
+      image: '',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: false,
+      uuid: 'attendance2'
+    };
+    const mockAttendance3 = {
+      member: mockMember,
+      hoursAttended: 2,
+      image: '',
+      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
+      pending: false,
+      uuid: 'attendance3'
+    };
+    return [mockAttendance1, mockAttendance2, mockAttendance3];
   }
 }
