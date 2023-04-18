@@ -202,6 +202,13 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
   });
 });
 
+router.get('/info', async (req, res) => {
+  res.json({
+    isProd,
+    hostname: req.hostname
+  });
+});
+
 loginCheckedPost('/setMember', async (req, user) => ({
   member: await setMember(req.body, user)
 }));
