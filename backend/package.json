@@ -33,8 +33,11 @@
     "express-winston": "^4.2.0",
     "firebase-admin": "^9.12.0",
     "googleapis": "^100.0.0",
+<<<<<<< HEAD
     "luxon": "^3.3.0",
     "lodash.isequal": "^4.5.0",
+=======
+>>>>>>> 501fc1d (Revert "Update TEC member and admin forms to integrate with new TeamEventAPI endpoints (#437)" (#449))
     "netlify-lambda": "^2.0.14",
     "nodemailer": "^6.7.3",
     "serverless-http": "^2.5.0",

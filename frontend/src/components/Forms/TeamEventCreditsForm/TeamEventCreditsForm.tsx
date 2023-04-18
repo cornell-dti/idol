@@ -3,7 +3,7 @@ import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
+import TeamEventCreditDashboard from './TeamEventsCreditDasboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 
@@ -15,17 +15,16 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
-
-  const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
-  const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
+  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
+  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getTeamEventAttendanceByUser(userInfo).then((attendance) => {
-      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
-      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
+    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
+      setApprovedTEC(val.approved);
+      setPendingTEC(val.pending);
     });
-  }, [userInfo]);
+  }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
@@ -33,8 +32,8 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
-    await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
+  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance, uuid: string) => {
+    await TeamEventsAPI.requestTeamEventCredit(uuid, eventCreditRequest);
     // upload image
 
     const blob = await fetch(image).then((res) => res.blob());
@@ -75,9 +74,8 @@ const TeamEventCreditForm: React.FC = () => {
         pending: true,
         uuid: ''
       };
-
-      requestTeamEventCredit(newTeamEventAttendance).then(() => {
-        setPendingAttendance((pending) => [...pending, newTeamEventAttendance]);
+      requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
+        setPendingTEC((pending) => [...pending, teamEvent]);
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Credit submitted!',
           contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
@@ -198,11 +196,7 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard
-          allTEC={teamEventInfoList}
-          approvedAttendance={approvedAttendance}
-          pendingAttendance={pendingAttendance}
-        />
+        <TeamEventCreditDashboard pendingTEC={pendingTEC} approvedTEC={approvedTEC} />
       </Form>
     </div>
   );

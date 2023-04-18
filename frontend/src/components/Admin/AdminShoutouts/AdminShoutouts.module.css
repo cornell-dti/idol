@@ -56,8 +56,7 @@
 }
 
 .presentShoutoutFrom {
-  font-size: 18px;
-  color: grey;
+  margin-top: 0 !important;
 }
 
 .shoutoutHide {

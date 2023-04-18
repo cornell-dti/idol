@@ -63,15 +63,17 @@ const TeamEventForm = (props: Props): JSX.Element => {
         contentMsg: 'The team event was successfully updated!'
       });
     } else {
-      const newTeamEventInfo: TeamEventInfo = {
+      const newTeamEvent: TeamEvent = {
         uuid: '',
         name: teamEventName,
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
+        requests: [],
+        attendees: [],
         isCommunity
       };
-      TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
+      TeamEventsAPI.createTeamEventForm(newTeamEvent).then((val) => {
         if (val.error) {
           Emitters.generalError.emit({
             headerMsg: "Couldn't create the team event!",
