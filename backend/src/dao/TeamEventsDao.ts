@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import {  teamEventsCollection, bucket } from '../firebase';
+import { teamEventsCollection, bucket } from '../firebase';
 import { NotFoundError } from '../utils/errors';
 
 export default class TeamEventsDao {
@@ -7,8 +7,7 @@ export default class TeamEventsDao {
     const eventRefs = await teamEventsCollection.get();
     return Promise.all(
       eventRefs.docs.map(async (eventRef) => {
-        const { name, date, numCredits, hasHours, uuid, isCommunity } =
-          eventRef.data();
+        const { name, date, numCredits, hasHours, uuid, isCommunity } = eventRef.data();
         return {
           name,
           date,
@@ -29,7 +28,7 @@ export default class TeamEventsDao {
     if (eventForm == null)
       throw new NotFoundError(`No form content in form with uuid '${uuid}' found.`);
     return {
-      ...eventForm,
+      ...eventForm
     };
   }
 
@@ -48,7 +47,6 @@ export default class TeamEventsDao {
       numCredits: event.numCredits,
       hasHours: event.hasHours,
       isCommunity: event.isCommunity
-      
     };
 
     await teamEventsCollection.doc(teamEventRef.uuid).set(teamEventRef);
@@ -84,6 +82,4 @@ export default class TeamEventsDao {
       .get();
     return docRefs.docs.map((doc) => doc.data() as TeamEventInfo);
   }
-
-  
 }
