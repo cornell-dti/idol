@@ -6,22 +6,18 @@ import PermissionsManager from '../utils/permissionsManager';
 
 
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
-  const acc: TeamEvent[] = [];
+
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
   const teamEvents = await TeamEventsDao.getAllTeamEvents();
-  const attendancePromises = teamEvents.map((teamEvent) =>
-    TeamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
-  );
-  const attendanceResults = await Promise.all(attendancePromises);
-  teamEvents.forEach((teamEvent, index) => {
-    acc.push({
-      ...teamEvent,
-      attendees: attendanceResults[index],
+  return Promise.all(
+    teamEvents.map(async (event) => ({
+      ...event,
+      attendees: await TeamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid),
       requests: []
-    });
-  });
-  return acc;
+    }))
+  );
+  
 };
 
 
