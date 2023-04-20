@@ -12,7 +12,7 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
   return Promise.all(
     teamEvents.map(async (event) => ({
       ...event,
-      attendees: await TeamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid),
+      attendees: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid),
       requests: []
     }))
   );
@@ -36,7 +36,7 @@ export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): P
   if (!PermissionsManager.canEditTeamEvent(user)) {
     throw new PermissionError("You don't have permission to delete a team event!");
   }
-  await TeamEventAttendanceDao.deleteTeamEventAttendance(teamEvent.uuid);
+  await teamEventAttendanceDao.deleteTeamEventAttendance(teamEvent.uuid);
   await TeamEventsDao.deleteTeamEvent(teamEvent);
 };
 
@@ -55,7 +55,7 @@ export const updateTeamEvent = async (
 
 export const requestTeamEventCredit = async (request: TeamEventAttendance): Promise<void> => {
   const updatedteamEvent = { ...request, pending: true };
-  await TeamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
+  await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
 };
 
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
@@ -68,7 +68,7 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
   const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   return {
     ...teamEvent,
-    attendees: await TeamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid),
+    attendees: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid),
     requests: []
   };
 };
