@@ -5,19 +5,7 @@ import { NotFoundError } from '../utils/errors';
 export default class TeamEventsDao {
   static async getAllTeamEvents(): Promise<TeamEventInfo[]> {
     const eventRefs = await teamEventsCollection.get();
-    return Promise.all(
-      eventRefs.docs.map(async (eventRef) => {
-        const { name, date, numCredits, hasHours, uuid, isCommunity } = eventRef.data();
-        return {
-          name,
-          date,
-          numCredits,
-          hasHours,
-          uuid,
-          isCommunity
-        };
-      })
-    );
+    return Promise.all(eventRefs.docs.map(async (eventRef) => eventRef.data()));
   }
 
   static async getTeamEvent(uuid: string): Promise<TeamEventInfo> {
@@ -27,9 +15,7 @@ export default class TeamEventsDao {
     const eventForm = eventRef.data();
     if (eventForm == null)
       throw new NotFoundError(`No form content in form with uuid '${uuid}' found.`);
-    return {
-      ...eventForm
-    };
+    return eventForm;
   }
 
   static async deleteTeamEvent(teamEvent: TeamEventInfo): Promise<void> {
@@ -41,12 +27,8 @@ export default class TeamEventsDao {
 
   static async createTeamEvent(event: TeamEventInfo): Promise<TeamEventInfo> {
     const teamEventRef: TeamEventInfo = {
-      uuid: event.uuid ? event.uuid : uuidv4(),
-      name: event.name,
-      date: event.date,
-      numCredits: event.numCredits,
-      hasHours: event.hasHours,
-      isCommunity: event.isCommunity
+      ...event,
+      uuid: event.uuid ? event.uuid : uuidv4()
     };
 
     await teamEventsCollection.doc(teamEventRef.uuid).set(teamEventRef);
@@ -57,10 +39,8 @@ export default class TeamEventsDao {
     const eventDoc = teamEventsCollection.doc(event.uuid);
     const eventRef = await eventDoc.get();
     if (!eventRef.exists) throw new NotFoundError(`No team event '${event.uuid}' exists.`);
-    const teamEventRef: TeamEventInfo = {
-      ...event
-    };
-    await teamEventsCollection.doc(event.uuid).update(teamEventRef);
+
+    await teamEventsCollection.doc(event.uuid).update(event);
     return event;
   }
 

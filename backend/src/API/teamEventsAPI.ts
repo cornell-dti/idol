@@ -13,10 +13,10 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
     teamEvents.map(async (event) => ({
       ...event,
       attendees: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => attendance.pending === false
+        (attendance) => !attendance.pending
       ),
       requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => attendance.pending === true
+        (attendance) => attendance.pending
       )
     }))
   );
@@ -40,9 +40,10 @@ export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): P
   if (!PermissionsManager.canEditTeamEvent(user)) {
     throw new PermissionError("You don't have permission to delete a team event!");
   }
-  const attendances = teamEvent.attendees;
+  const allAttendances = teamEvent.attendees.concat(teamEvent.requests);
+
   await Promise.all(
-    attendances.map((attendance) =>
+    allAttendances.map((attendance) =>
       teamEventAttendanceDao.deleteTeamEventAttendance(attendance.uuid)
     )
   );
@@ -68,7 +69,7 @@ export const requestTeamEventCredit = async (
 ): Promise<void> => {
   if (user.email !== request.member.email) {
     throw new PermissionError(
-      `User with email ${user.email} does not have permissions to request this team event credit`
+      `User with email ${user.email} cannot request team event credit for another member, ${request.member.email}.`
     );
   }
   const updatedteamEvent = { ...request, pending: true };
