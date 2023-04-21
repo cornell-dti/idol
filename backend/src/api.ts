@@ -317,8 +317,8 @@ loginCheckedDelete('/clearAllTeamEvents', async (_, user) => {
 loginCheckedGet('/getAllTeamEventInfo', async () => ({
   allTeamEventInfo: await getAllTeamEventInfo()
 }));
-loginCheckedPost('/requestTeamEventCredit', async (req, _) => {
-  await requestTeamEventCredit(req.body.uuid);
+loginCheckedPost('/requestTeamEventCredit', async (req, user) => {
+  await requestTeamEventCredit(req.body.uuid, user);
   return {};
 });
 

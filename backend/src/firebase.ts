@@ -91,7 +91,7 @@ export const teamEventAttendanceCollection: admin.firestore.CollectionReference<
   });
 
 export const teamEventsCollection: admin.firestore.CollectionReference<TeamEventInfo> = db
-  .collection('team-events') // if deleting this, then what should the new stuff be names*/
+  .collection('team-events')
   .withConverter({
     fromFirestore(snapshot): TeamEventInfo {
       return snapshot.data() as TeamEventInfo;
