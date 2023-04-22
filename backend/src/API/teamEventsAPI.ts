@@ -88,9 +88,9 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
     ...teamEvent,
     attendees: (
       await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
-    ).filter((attendance) => attendance.pending === false),
+    ).filter((attendance) => !attendance.pending),
     requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)).filter(
-      (attendance) => attendance.pending === true
+      (attendance) => attendance.pending
     )
   };
 };
