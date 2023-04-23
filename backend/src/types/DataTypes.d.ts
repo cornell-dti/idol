@@ -41,17 +41,6 @@ export type DBTeamEventAttendance = {
   uuid: string;
 };
 
-export type DBTeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  requests: DBTeamEventAttendance[];
-  attendees: DBTeamEventAttendance[];
-  uuid: string;
-  isCommunity: boolean;
-};
-
 export type DBCandidateDeciderRating = {
   readonly reviewer: firestore.DocumentReference;
   readonly rating: Rating;
