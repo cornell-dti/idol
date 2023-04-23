@@ -9,7 +9,7 @@ import styles from './AdminShoutouts.module.css';
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
   const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
-  const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 12096e5));
+  const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
 
