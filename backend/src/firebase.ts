@@ -2,7 +2,6 @@ import admin from 'firebase-admin';
 import {
   DBShoutout,
   DBSignInForm,
-  DBTeamEvent,
   DBCandidateDeciderInstance,
   DBDevPortfolio,
   DevPortfolioSubmissionRequestLog,
@@ -91,13 +90,13 @@ export const teamEventAttendanceCollection: admin.firestore.CollectionReference<
     }
   });
 
-export const teamEventsCollection: admin.firestore.CollectionReference<DBTeamEvent> = db
+export const teamEventsCollection: admin.firestore.CollectionReference<TeamEventInfo> = db
   .collection('team-events')
   .withConverter({
-    fromFirestore(snapshot): DBTeamEvent {
-      return snapshot.data() as DBTeamEvent;
+    fromFirestore(snapshot): TeamEventInfo {
+      return snapshot.data() as TeamEventInfo;
     },
-    toFirestore(teamEventData: DBTeamEvent) {
+    toFirestore(teamEventData: TeamEventInfo) {
       return teamEventData;
     }
   });
