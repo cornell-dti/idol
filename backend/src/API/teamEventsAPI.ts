@@ -54,7 +54,7 @@ export const deleteTeamEvent = async (teamEvent: TeamEvent, user: IdolMember): P
 export const updateTeamEvent = async (
   teamEventInfo: TeamEventInfo,
   user: IdolMember
-): Promise<TeamEvent> => {
+): Promise<TeamEventInfo> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvents) {
     throw new PermissionError(
