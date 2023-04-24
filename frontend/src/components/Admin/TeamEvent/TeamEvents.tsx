@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Loader } from 'semantic-ui-react';
+import { Card, Message, Loader, Button } from 'semantic-ui-react';
 import Link from 'next/link';
+import { ExportToCsv, Options } from 'export-to-csv';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -71,6 +72,71 @@ const TeamEvents: React.FC = () => {
     }
   }, [isLoading]);
 
+  const handleExportToCsv = () => {
+    if (isLoading) {
+      return;
+    }
+
+    const csvData = teamEvents
+      .map((event) => {
+        const { attendees, requests, ...info } = event;
+        const infoArray = [
+          info.name,
+          info.date,
+          info.numCredits,
+          info.hasHours,
+          info.uuid,
+          info.isCommunity
+        ];
+        return attendees
+          .map(({ member: { netid }, hoursAttended, image }) => [
+            ...infoArray,
+            netid,
+            hoursAttended || 0,
+            image,
+            true
+          ])
+          .concat(
+            requests.map(({ member: { netid }, hoursAttended, image }) => [
+              ...infoArray,
+              netid,
+              hoursAttended || 0,
+              image,
+              false
+            ])
+          );
+      })
+      .flat();
+
+    const header = [
+      'name',
+      'date',
+      'numCredits',
+      'hasHours',
+      'uuid',
+      'isCommunity',
+      'netid',
+      'hoursAttended',
+      'image',
+      'attendee'
+    ];
+
+    const options: Options = {
+      filename: `Team_Events`,
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `Team Events`,
+      useTextFile: false,
+      useBom: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter?.generateCsv([header, ...csvData]);
+  };
+
   return (
     <div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
@@ -83,6 +149,7 @@ const TeamEvents: React.FC = () => {
           <TeamEventsDisplay isLoading={isLoading} teamEvents={teamEvents} />
         </div>
         <div className={styles.resetButtonContainer}>
+          <Button onClick={() => handleExportToCsv()}>Export to CSV</Button>
           <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
         </div>
       </div>
