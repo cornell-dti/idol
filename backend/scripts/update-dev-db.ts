@@ -38,9 +38,9 @@ const rewriteDbData = async (devDb: FirebaseFirestore.Firestore, data: DbData): 
     data.map(async (collection) => {
       await Promise.all(
         collection.docs.map(async (doc) => {
-          if (doc.data) {
-            await devDb.doc(`${collection.id}/${doc.id}`).set(doc.data);
-          }
+          await devDb
+            .doc(`${collection.id}/${doc.id}`)
+            .set(doc.data as FirebaseFirestore.DocumentData);
         })
       );
     })
