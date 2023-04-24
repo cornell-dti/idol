@@ -11,6 +11,10 @@
   text-decoration-line: underline;
 }
 
+.shoutoutsCount {
+  margin-left: 500px;
+}
+
 .buttonGroup {
   padding-left: 5%;
   padding-bottom: 3vh;

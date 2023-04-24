@@ -49,9 +49,18 @@ const AdminShoutouts: React.FC = () => {
 
   const ListTitle = (): JSX.Element => {
     let title = 'All Shoutouts';
+    let count = `Showing ${displayShoutouts.length} of ${allShoutouts.length} shoutouts`;
     if (view === 'HIDDEN') title = 'Hidden Shoutouts';
-    if (view === 'PRESENT') title = '';
-    return <Header className={styles.formTitle} content={title}></Header>;
+    if (view === 'PRESENT') {
+      title = '';
+      count = '';
+    }
+    return (
+      <div className={styles.formHeader}>
+        <Header className={styles.formTitle} content={title}></Header>
+        <Header className={styles.shoutoutsCount} content={count}></Header>
+      </div>
+    );
   };
 
   const fromString = (shoutout: Shoutout): string => {
