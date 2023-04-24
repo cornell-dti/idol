@@ -1,3 +1,14 @@
 .placeholder {
   color: rgba(191, 191, 191, 0.87);
 }
+
+.itemContainer {
+  display: flex;
+  align-items: center;
+  min-height: 26;
+  flex-direction: row;
+}
+
+.flex {
+  flex: 1;
+}

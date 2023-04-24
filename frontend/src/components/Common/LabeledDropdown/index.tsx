@@ -12,12 +12,12 @@ export interface LabeledDropdownProps extends DropdownProps {
 }
 
 const Item = ({ label, info = [] }: Data): JSX.Element => (
-  <div style={{ display: 'flex', alignItems: 'center', minHeight: 26 }}>
-    <div style={{ flex: 1 }}>{label}</div>
+  <div className={styles.itemContainer}>
+    <div className={styles.flex}>{label}</div>
     {info
-      .filter((x) => x !== undefined)
-      .map((x, i) => (
-        <Label key={i} content={x} />
+      .filter((infoLabel) => infoLabel !== undefined)
+      .map((infoLabel, i) => (
+        <Label key={i} content={infoLabel} />
       ))}
   </div>
 );

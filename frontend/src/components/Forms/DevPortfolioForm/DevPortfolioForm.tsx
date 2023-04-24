@@ -157,14 +157,12 @@ const DevPortfolioForm: React.FC = () => {
                 selection
                 data={devPortfolios
                   .sort((a, b) => a.deadline - b.deadline)
-                  .map((a) => ({
-                    key: a.uuid,
-                    label: a.name,
+                  .map(({ uuid, name, deadline, lateDeadline }) => ({
+                    key: uuid,
+                    label: name,
                     info: [
-                      `Due: ${dateLabel(new Date(a.deadline))}`,
-                      a.lateDeadline
-                        ? `Late due: ${dateLabel(new Date(a.lateDeadline))}`
-                        : undefined
+                      `Due: ${dateLabel(new Date(deadline))}`,
+                      lateDeadline ? `Late due: ${dateLabel(new Date(lateDeadline))}` : undefined
                     ]
                   }))}
                 value={devPortfolio?.uuid}
