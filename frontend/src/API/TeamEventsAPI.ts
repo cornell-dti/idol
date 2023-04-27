@@ -78,7 +78,7 @@ export class TeamEventsAPI {
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
-    await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, uuid);
+    await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, { uuid });
   }
 
   public static async updateTeamEventAttendance(
