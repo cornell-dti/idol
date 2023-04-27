@@ -330,7 +330,7 @@ loginCheckedGet('/getTeamEventAttendanceByUser', async (_, user) => ({
 loginCheckedPost('/updateTeamEventAttendance', async (req, user) => ({
   teamEventAttendance: await updateTeamEventAttendance(req.body, user)
 }));
-loginCheckedDelete('/deleteTeamEventAttendance', async (req, user) => {
+loginCheckedPost('/deleteTeamEventAttendance', async (req, user) => {
   await deleteTeamEventAttendance(req.body.uuid, user);
   return {};
 });
