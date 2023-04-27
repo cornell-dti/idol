@@ -60,6 +60,6 @@ export default class TeamEventsDao {
     const docRefs = await teamEventsCollection
       .select('name', 'date', 'numCredits', 'hasHours', 'uuid')
       .get();
-    return docRefs.docs.map((doc) => doc.data() as TeamEventInfo);
+    return Promise.all(docRefs.docs.map(async (doc) => doc.data() as TeamEventInfo));
   }
 }

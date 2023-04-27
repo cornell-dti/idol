@@ -72,8 +72,7 @@ export const requestTeamEventCredit = async (
       `User with email ${user.email} cannot request team event credit for another member, ${request.member.email}.`
     );
   }
-  const updatedteamEvent = { ...request, pending: true };
-  await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
+  await teamEventAttendanceDao.createTeamEventAttendance(request);
 };
 
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {

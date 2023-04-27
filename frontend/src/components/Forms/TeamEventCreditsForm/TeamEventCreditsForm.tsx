@@ -20,11 +20,11 @@ const TeamEventCreditForm: React.FC = () => {
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getTeamEventAttendanceByUser(userInfo).then((attendance) => {
+    TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
       setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
       setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
     });
-  }, [userInfo]);
+  }, []);
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
@@ -34,10 +34,9 @@ const TeamEventCreditForm: React.FC = () => {
 
   const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
     await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
+
     // upload image
-
     const blob = await fetch(image).then((res) => res.blob());
-
     const imageURL: string = window.URL.createObjectURL(blob);
     await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
       setImage(imageURL)

@@ -46,7 +46,6 @@ export default class TeamEventAttendanceDao extends BaseDao<
   ): Promise<TeamEventAttendance> {
     const teamEventAttendanceWithUUID = {
       ...teamEventAttendance,
-      pending: true,
       uuid: teamEventAttendance.uuid ? teamEventAttendance.uuid : uuidv4()
     };
     return this.createDocument(teamEventAttendanceWithUUID.uuid, teamEventAttendanceWithUUID);
