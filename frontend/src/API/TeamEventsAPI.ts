@@ -101,8 +101,7 @@ export class TeamEventsAPI {
         });
         return [];
       }
-      const attendance = val.teamEventAttendance as TeamEventAttendance[];
-      return attendance;
+      return val.teamEventAttendance as TeamEventAttendance[];
     });
   }
 }

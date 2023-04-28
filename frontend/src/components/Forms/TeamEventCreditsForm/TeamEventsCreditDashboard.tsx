@@ -68,11 +68,11 @@ const TeamEventCreditDashboard = (props: {
     const { attendanceList } = props;
     return (
       <Card.Group>
-        {attendanceList.map((attendance, i) => {
+        {attendanceList.map((attendance) => {
           const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
           if (teamEvent !== undefined) {
             return (
-              <Card key={i}>
+              <Card key={attendance.uuid}>
                 <Card.Content>
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
