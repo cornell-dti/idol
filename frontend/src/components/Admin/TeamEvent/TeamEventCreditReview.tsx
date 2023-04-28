@@ -39,21 +39,20 @@ const TeamEventCreditReview = (props: {
   };
 
   const rejectCreditRequest = () => {
-    ImagesAPI.deleteEventProofImage(teamEventAttendance.image).then((_) => {
-      TeamEventsAPI.deleteTeamEventAttendance(teamEventAttendance.uuid)
-        .then(() => {
-          Emitters.generalSuccess.emit({
-            headerMsg: 'Team Event Attendance Rejected!',
-            contentMsg: 'The team event attendance was successfully rejected!'
-          });
-        })
-        .catch((error) => {
-          Emitters.generalError.emit({
-            headerMsg: "Couldn't reject the team event attendance!",
-            contentMsg: error
-          });
+    TeamEventsAPI.deleteTeamEventAttendance(teamEventAttendance.uuid)
+      .then(() => {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Team Event Attendance Rejected!',
+          contentMsg: 'The team event attendance was successfully rejected!'
         });
-    });
+        ImagesAPI.deleteEventProofImage(teamEventAttendance.image);
+      })
+      .catch((error) => {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't reject the team event attendance!",
+          contentMsg: error
+        });
+      });
   };
 
   return (
