@@ -51,7 +51,10 @@ import {
   getTeamEvent,
   updateTeamEvent,
   clearAllTeamEvents,
-  requestTeamEventCredit
+  requestTeamEventCredit,
+  getTeamEventAttendanceByUser,
+  updateTeamEventAttendance,
+  deleteTeamEventAttendance
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -322,7 +325,17 @@ loginCheckedGet('/getAllTeamEventInfo', async () => ({
   allTeamEventInfo: await getAllTeamEventInfo()
 }));
 loginCheckedPost('/requestTeamEventCredit', async (req, user) => {
-  await requestTeamEventCredit(req.body.uuid, user);
+  await requestTeamEventCredit(req.body.request, user);
+  return {};
+});
+loginCheckedGet('/getTeamEventAttendanceByUser', async (_, user) => ({
+  teamEventAttendance: await getTeamEventAttendanceByUser(user)
+}));
+loginCheckedPost('/updateTeamEventAttendance', async (req, user) => ({
+  teamEventAttendance: await updateTeamEventAttendance(req.body, user)
+}));
+loginCheckedPost('/deleteTeamEventAttendance', async (req, user) => {
+  await deleteTeamEventAttendance(req.body.uuid, user);
   return {};
 });
 
