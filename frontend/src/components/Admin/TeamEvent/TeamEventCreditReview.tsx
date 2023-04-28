@@ -39,13 +39,13 @@ const TeamEventCreditReview = (props: {
   };
 
   const rejectCreditRequest = () => {
-    ImagesAPI.deleteEventProofImage(teamEventAttendance.image);
     TeamEventsAPI.deleteTeamEventAttendance(teamEventAttendance.uuid)
       .then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Rejected!',
           contentMsg: 'The team event attendance was successfully rejected!'
         });
+        ImagesAPI.deleteEventProofImage(teamEventAttendance.image);
       })
       .catch((error) => {
         Emitters.generalError.emit({
