@@ -42,7 +42,8 @@ export class TeamEventsAPI {
         });
         return [];
       }
-      return val.allTeamEventInfo as TeamEventInfo[];
+      const events = val.allTeamEventInfo as TeamEventInfo[];
+      return events;
     });
   }
 
@@ -73,100 +74,34 @@ export class TeamEventsAPI {
   }
 
   public static async requestTeamEventCredit(request: TeamEventAttendance): Promise<void> {
-    // APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { request });
+    APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { request });
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
-    // await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, uuid);
+    await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, { uuid });
   }
 
   public static async updateTeamEventAttendance(
     teamEventAttendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
-    // return APIWrapper.post(`${backendURL}/updateTeamEventAttendance`, teamEventAttendance).then(
-    //   (rest) => rest.data.event
-    // );
-
-    const mockMember: IdolMember = {
-      netid: 'aa2235',
-      email: 'aa2235@cornell.edu',
-      firstName: 'Aira',
-      lastName: 'Agrawal',
-      pronouns: 'she/her',
-      graduation: '2023',
-      major: 'CS',
-      hometown: 'Albany',
-      about: 'idk',
-      subteams: ['Idol'],
-      role: 'developer',
-      roleDescription: 'Developer'
-    };
-    const mockAttendance = {
-      member: mockMember,
-      hoursAttended: 1,
-      image: '',
-      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
-      pending: false,
-      uuid: 'attendance1'
-    };
-    return mockAttendance;
+    return APIWrapper.post(`${backendURL}/updateTeamEventAttendance`, teamEventAttendance).then(
+      (res) => res.data
+    );
   }
 
-  public static async getTeamEventAttendanceByUser(
-    user: IdolMember
-  ): Promise<TeamEventAttendance[]> {
-    // const res = APIWrapper.get(`${backendURL}/getTeamEventAttendanceByUser`).then(
-    //   (res) => res.data
-    // );
-    // return res.then((val) => {
-    //   if (val.error) {
-    //     Emitters.generalError.emit({
-    //       headerMsg: "Couldn't get all team event attendance for this user",
-    //       contentMsg: `Error was: ${val.err}`
-    //     });
-    //     return [];
-    //   }
-    //   const attendance = val.attendance as TeamEventAttendance[];
-    //   return attendance;
-    // });
-    const mockMember: IdolMember = {
-      netid: 'aa2235',
-      email: 'aa2235@cornell.edu',
-      firstName: 'Aira',
-      lastName: 'Agrawal',
-      pronouns: 'she/her',
-      graduation: '2023',
-      major: 'CS',
-      hometown: 'Albany',
-      about: 'idk',
-      subteams: ['Idol'],
-      role: 'developer',
-      roleDescription: 'Developer'
-    };
-    const mockAttendance1 = {
-      member: mockMember,
-      hoursAttended: 1,
-      image: '',
-      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
-      pending: true,
-      uuid: 'attendance1'
-    };
-    const mockAttendance2 = {
-      member: mockMember,
-      hoursAttended: 1,
-      image: '',
-      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
-      pending: false,
-      uuid: 'attendance2'
-    };
-    const mockAttendance3 = {
-      member: mockMember,
-      hoursAttended: 2,
-      image: '',
-      eventUuid: '32286f81-ebaf-45f2-87a0-036801028a37',
-      pending: false,
-      uuid: 'attendance3'
-    };
-    return [mockAttendance1, mockAttendance2, mockAttendance3];
+  public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
+    const res = APIWrapper.get(`${backendURL}/getTeamEventAttendanceByUser`).then(
+      (res) => res.data
+    );
+    return res.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't get all team event attendance for this user",
+          contentMsg: `Error was: ${val.err}`
+        });
+        return [];
+      }
+      return val.teamEventAttendance as TeamEventAttendance[];
+    });
   }
 }

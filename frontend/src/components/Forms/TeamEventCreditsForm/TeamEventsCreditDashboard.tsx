@@ -72,7 +72,7 @@ const TeamEventCreditDashboard = (props: {
           const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
           if (teamEvent !== undefined) {
             return (
-              <Card>
+              <Card key={attendance.uuid}>
                 <Card.Content>
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
