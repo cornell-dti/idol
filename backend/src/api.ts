@@ -22,7 +22,8 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange
+  reviewUserInformationChange,
+  getMember
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -127,10 +128,6 @@ app.use(
   })
 );
 
-router.get('/error', () => {
-  throw new Error();
-});
-
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
   const idToken = request.headers['auth-token'];
   if (typeof idToken !== 'string') return undefined;
@@ -195,6 +192,12 @@ router.get('/membersFromAllSemesters', async (_, res) => {
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const members = await allMembers();
   const adminEmails = await AdminsDao.getAllAdminEmails();
+  router.get('/isIDOLMember/:email', async (req, res) => {
+    const member = await getMember(req.params.email);
+    res.status(200).json({
+      isIDOLMember: member !== undefined
+    });
+  });
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
     res.status(200).json({ hasIDOLAccess: false });

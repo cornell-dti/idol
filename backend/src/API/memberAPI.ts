@@ -26,6 +26,9 @@ export const setMember = async (body: IdolMember, user: IdolMember): Promise<Ido
   return membersDao.setMember(body.email, body);
 };
 
+export const getMember = async (email: string): Promise<IdolMember | undefined> =>
+  MembersDao.getMember(email);
+
 export const updateMember = async (
   req: Request,
   body: IdolMember,
