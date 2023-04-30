@@ -117,15 +117,8 @@ describe('User is lead or admin', () => {
     await createNewDevPortfolio(input, user);
     expect(PermissionsManager.isLeadOrAdmin).toBeCalled();
     expect(devPortfolioDao.createNewInstance).toBeCalled();
-    expect(devPortfolioDao.createNewInstance.mock.calls[0][0].deadline).toEqual(expectedDeadline);
-    expect(devPortfolioDao.createNewInstance.mock.calls[0][0].earliestValidDate).toEqual(
-      expectedEarliestValidDate
-    );
-    expect(devPortfolioDao.createNewInstance.mock.calls[0][0].lateDeadline).toEqual(
-      expectedLateDeadline
-    );
-    expect(DevPortfolioDao.createNewInstance).toBeCalled();
-    expect(DevPortfolioDao.createNewInstance.mock.calls[0][0]).toEqual(output);
+    expect(devPortfolioDao.createNewInstance).toBeCalled();
+    expect(devPortfolioDao.createNewInstance.mock.calls[0][0]).toEqual(output);
   });
 
   describe('test createNewDevPortfolio validation', () => {
