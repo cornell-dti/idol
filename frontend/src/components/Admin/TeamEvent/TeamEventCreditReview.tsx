@@ -79,7 +79,8 @@ const TeamEventCreditReview = (props: {
           basic
           color="green"
           onClick={() => {
-            approveCreditRequest();
+            Emitters.teamEventsUpdated.emit();
+            approveCreditRequest(teamEventAttendance);
             setOpen(false);
           }}
         >
@@ -89,6 +90,7 @@ const TeamEventCreditReview = (props: {
           basic
           color="red"
           onClick={() => {
+            Emitters.teamEventsUpdated.emit();
             rejectCreditRequest();
             setOpen(false);
           }}

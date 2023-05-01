@@ -15,14 +15,16 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
-  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
-  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
+  const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
+  const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
+  const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
-      setApprovedTEC(val.approved);
-      setPendingTEC(val.pending);
+    TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
+      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
+      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
+      setIsAttendanceLoading(false);
     });
   }, []);
 
@@ -193,7 +195,12 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard pendingTEC={pendingTEC} approvedTEC={approvedTEC} />
+        <TeamEventCreditDashboard
+          allTEC={teamEventInfoList}
+          approvedAttendance={approvedAttendance}
+          pendingAttendance={pendingAttendance}
+          isAttendanceLoading={isAttendanceLoading}
+        />
       </Form>
     </div>
   );
