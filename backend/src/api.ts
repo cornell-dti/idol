@@ -190,14 +190,14 @@ router.get('/membersFromAllSemesters', async (_, res) => {
   res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
-  const members = await allMembers();
+  const member = await getMember(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
     res.status(200).json({ hasIDOLAccess: false });
   }
   res.status(200).json({
-    hasIDOLAccess: members.find((member) => member.email === req.params.email) !== undefined
+    hasIDOLAccess: member !== undefined
   });
 });
 
