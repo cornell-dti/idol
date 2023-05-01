@@ -12,8 +12,7 @@ export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
   user: IdolMember
 ): Promise<CandidateDeciderInfo> => {
-  const isAdmin = await PermissionsManager.isAdmin(user);
-  if (!isAdmin)
+  if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
@@ -24,8 +23,7 @@ export const toggleCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
 ): Promise<void> => {
-  const isAdmin = await PermissionsManager.isAdmin(user);
-  if (!isAdmin)
+  if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
