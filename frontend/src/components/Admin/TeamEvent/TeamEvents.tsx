@@ -29,7 +29,9 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>
                     {teamEvent.requests.length > 0 ? (
-                      <b>{teamEvent.requests.length} pending requests</b>
+                      <p className={styles.alertPendingRequests}>
+                        {teamEvent.requests.length} pending requests
+                      </p>
                     ) : (
                       `${teamEvent.requests.length} pending requests`
                     )}
