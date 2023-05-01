@@ -29,6 +29,7 @@ const TeamEventCreditReview = (props: {
           headerMsg: 'Team Event Attendance Approved!',
           contentMsg: 'The team event attendance was successfully approved!'
         });
+        Emitters.teamEventsUpdated.emit();
       })
       .catch((error) => {
         Emitters.generalError.emit({
@@ -46,6 +47,7 @@ const TeamEventCreditReview = (props: {
           contentMsg: 'The team event attendance was successfully rejected!'
         });
         ImagesAPI.deleteEventProofImage(teamEventAttendance.image);
+        Emitters.teamEventsUpdated.emit();
       })
       .catch((error) => {
         Emitters.generalError.emit({
