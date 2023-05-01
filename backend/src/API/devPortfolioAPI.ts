@@ -73,9 +73,7 @@ export const createNewDevPortfolio = async (
     earliestValidDate: updatedEarliestValidDate.valueOf(),
     lateDeadline: updatedLateDeadline ? updatedLateDeadline.valueOf() : null
   };
-  if (updatedLateDeadline) {
-    modifiedInstance.lateDeadline = updatedLateDeadline.setHours(23, 59, 59);
-  }
+
   return devPortfolioDao.createNewInstance(modifiedInstance);
 };
 
