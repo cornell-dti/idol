@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Message } from 'semantic-ui-react';
+import { Card, Loader, Message } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 import {
@@ -12,8 +12,9 @@ const TeamEventCreditDashboard = (props: {
   allTEC: TeamEventInfo[];
   approvedAttendance: TeamEventAttendance[];
   pendingAttendance: TeamEventAttendance[];
+  isAttendanceLoading: boolean;
 }): JSX.Element => {
-  const { allTEC, approvedAttendance, pendingAttendance } = props;
+  const { allTEC, approvedAttendance, pendingAttendance, isAttendanceLoading } = props;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -40,15 +41,15 @@ const TeamEventCreditDashboard = (props: {
     }
   });
 
+  // remove this variable and usage when community events ready to be released
+  const COMMUNITY_EVENTS = false;
+
   // Calculate the remaining credits
   let remainingCredits;
   if (requiredCredits - approvedCredits > 0) remainingCredits = requiredCredits - approvedCredits;
-  else if (approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
+  else if (COMMUNITY_EVENTS && approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
     remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
   else remainingCredits = 0;
-
-  // remove this variable and usage when community events ready to be released
-  const COMMUNITY_EVENTS = false;
 
   let headerString;
   if (userRole !== 'lead')
@@ -107,45 +108,52 @@ const TeamEventCreditDashboard = (props: {
       <h1>Check Team Event Credits</h1>
       <p>{headerString}</p>
 
-      <div className={styles.inline}>
-        <label className={styles.bold}>
-          Your Approved Credits: <span className={styles.dark_grey_color}>{approvedCredits}</span>
-        </label>
-      </div>
+      {isAttendanceLoading ? (
+        <Loader active inline />
+      ) : (
+        <div>
+          <div className={styles.inline}>
+            <label className={styles.bold}>
+              Your Approved Credits:{' '}
+              <span className={styles.dark_grey_color}>{approvedCredits}</span>
+            </label>
+          </div>
 
-      {COMMUNITY_EVENTS && (
-        <div className={styles.inline}>
-          <label className={styles.bold}>
-            Your Approved Community Credits:{' '}
-            <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
-          </label>
+          {COMMUNITY_EVENTS && (
+            <div className={styles.inline}>
+              <label className={styles.bold}>
+                Your Approved Community Credits:{' '}
+                <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
+              </label>
+            </div>
+          )}
+
+          <div className={styles.inline}>
+            <label className={styles.bold}>
+              Remaining Credits Needed:{' '}
+              <span className={styles.dark_grey_color}>{remainingCredits}</span>
+            </label>
+          </div>
+
+          <div className={styles.inline}>
+            <label className={styles.bold}>Approved Events:</label>
+            {approvedAttendance.length !== 0 ? (
+              <TecDetailsDisplay attendanceList={approvedAttendance} />
+            ) : (
+              <Message>You have not been approved for any team events yet.</Message>
+            )}
+          </div>
+
+          <div className={styles.inline}>
+            <label className={styles.bold}>Pending Approval For:</label>
+            {pendingAttendance.length !== 0 ? (
+              <TecDetailsDisplay attendanceList={pendingAttendance} />
+            ) : (
+              <Message>You are not currently pending approval for any team events.</Message>
+            )}
+          </div>
         </div>
       )}
-
-      <div className={styles.inline}>
-        <label className={styles.bold}>
-          Remaining Credits Needed:{' '}
-          <span className={styles.dark_grey_color}>{remainingCredits}</span>
-        </label>
-      </div>
-
-      <div className={styles.inline}>
-        <label className={styles.bold}>Approved Events:</label>
-        {approvedAttendance.length !== 0 ? (
-          <TecDetailsDisplay attendanceList={approvedAttendance} />
-        ) : (
-          <Message>You have not been approved for any team events yet.</Message>
-        )}
-      </div>
-
-      <div className={styles.inline}>
-        <label className={styles.bold}>Pending Approval For:</label>
-        {pendingAttendance.length !== 0 ? (
-          <TecDetailsDisplay attendanceList={pendingAttendance} />
-        ) : (
-          <Message>You are not currently pending approval for any team events.</Message>
-        )}
-      </div>
     </div>
   );
 };

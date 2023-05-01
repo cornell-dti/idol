@@ -22,3 +22,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.alertPendingRequests {
+  font-weight: bold;
+  color: green;
+}
