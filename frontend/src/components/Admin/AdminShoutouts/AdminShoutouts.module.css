@@ -70,6 +70,13 @@
   color: grey;
 }
 
+.presentCount {
+  font-size: 45px;
+  color: black;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
 .shoutoutHide {
   display: flex;
   justify-content: space-between;

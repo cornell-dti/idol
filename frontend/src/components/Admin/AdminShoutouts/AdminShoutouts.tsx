@@ -48,17 +48,14 @@ const AdminShoutouts: React.FC = () => {
   }, [earlyDate, lastDate, hide, updateShoutouts]);
 
   const ListTitle = (): JSX.Element => {
-    let title = 'All Shoutouts';
-    let count = `Showing ${displayShoutouts.length} of ${allShoutouts.length} shoutouts`;
-    if (view === 'HIDDEN') title = 'Hidden Shoutouts';
+    let title = `Showing ${displayShoutouts.length} of ${allShoutouts.length} shoutouts`;
+    if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
     if (view === 'PRESENT') {
       title = '';
-      count = '';
     }
     return (
       <div className={styles.formHeader}>
         <Header className={styles.formTitle} content={title}></Header>
-        <Header className={styles.shoutoutsCount} content={count}></Header>
       </div>
     );
   };
@@ -140,6 +137,21 @@ const AdminShoutouts: React.FC = () => {
     if (view === 'PRESENT')
       return (
         <Item.Group divided>
+          <header className={styles.presentCount}>
+            <img
+              src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
+              width="40"
+              height="40"
+              alt="loading"
+            />
+            {`${displayShoutouts.length} Shoutouts`}
+            <img
+              src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
+              width="40"
+              height="40"
+              alt="loading"
+            />
+          </header>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
               <div className={styles.displayCount}>
