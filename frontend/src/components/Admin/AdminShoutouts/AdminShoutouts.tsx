@@ -143,7 +143,7 @@ const AdminShoutouts: React.FC = () => {
               className={styles.presentCountImg}
               alt="loading"
             />
-            {`${displayShoutouts.length} Shoutouts`}
+            {` ${displayShoutouts.length} Shoutouts `}
             <img
               src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
               className={styles.presentCountImg}
