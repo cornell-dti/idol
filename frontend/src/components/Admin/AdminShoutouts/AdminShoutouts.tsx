@@ -140,15 +140,13 @@ const AdminShoutouts: React.FC = () => {
           <header className={styles.presentCount}>
             <img
               src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
-              width="40"
-              height="40"
+              className={styles.presentCountImg}
               alt="loading"
             />
             {`${displayShoutouts.length} Shoutouts`}
             <img
               src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
-              width="40"
-              height="40"
+              className={styles.presentCountImg}
               alt="loading"
             />
           </header>
