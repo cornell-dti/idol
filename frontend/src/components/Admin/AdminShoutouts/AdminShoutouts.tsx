@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
+import catEmoji from '../../../static/images/meow_attention.gif';
 
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
@@ -50,12 +51,10 @@ const AdminShoutouts: React.FC = () => {
   const ListTitle = (): JSX.Element => {
     let title = `Showing ${displayShoutouts.length} of ${allShoutouts.length} shoutouts`;
     if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
-    if (view === 'PRESENT') {
-      title = '';
-    }
+    if (view === 'PRESENT') title = '';
     return (
       <div className={styles.formHeader}>
-        <Header className={styles.formTitle} content={title}></Header>
+        <Header className={styles.formTitle} content={title} />
       </div>
     );
   };
@@ -137,19 +136,11 @@ const AdminShoutouts: React.FC = () => {
     if (view === 'PRESENT')
       return (
         <Item.Group divided>
-          <header className={styles.presentCount}>
-            <img
-              src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
-              className={styles.presentCountImg}
-              alt="loading"
-            />
+          <Header className={styles.presentCount}>
+            <Image src={catEmoji} alt="loading" />
             {` ${displayShoutouts.length} Shoutouts `}
-            <img
-              src="https://emojis.slackmojis.com/emojis/images/1660853767/60881/meow_attention.gif?1660853767"
-              className={styles.presentCountImg}
-              alt="loading"
-            />
-          </header>
+            <Image src={catEmoji} alt="loading" />
+          </Header>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
               <div className={styles.displayCount}>
