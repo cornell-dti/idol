@@ -137,9 +137,9 @@ const AdminShoutouts: React.FC = () => {
       return (
         <Item.Group divided>
           <Header className={styles.presentCount}>
-            <Image className={styles.presentCountImg} src={catEmoji.src} alt="loading" />
+            <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
             {` ${displayShoutouts.length} Shoutouts `}
-            <Image className={styles.presentCountImg} src={catEmoji.src} alt="loading" />
+            <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
           </Header>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
