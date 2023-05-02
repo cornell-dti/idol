@@ -49,7 +49,7 @@ const AdminShoutouts: React.FC = () => {
   }, [earlyDate, lastDate, hide, updateShoutouts]);
 
   const ListTitle = (): JSX.Element => {
-    let title = `Showing ${displayShoutouts.length} of ${allShoutouts.length} shoutouts`;
+    let title = `All shoutouts (${displayShoutouts.length})`;
     if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
     if (view === 'PRESENT') title = '';
     return (
@@ -137,9 +137,9 @@ const AdminShoutouts: React.FC = () => {
       return (
         <Item.Group divided>
           <Header className={styles.presentCount}>
-            <Image src={catEmoji} alt="loading" />
+            <Image src={catEmoji.src} alt="loading" />
             {` ${displayShoutouts.length} Shoutouts `}
-            <Image src={catEmoji} alt="loading" />
+            <Image src={catEmoji.src} alt="loading" />
           </Header>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
