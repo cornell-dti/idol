@@ -142,6 +142,9 @@ const AdminShoutouts: React.FC = () => {
         <Item.Group divided>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
+              <div className={styles.displayCount}>
+                <p>{i + 1}</p>
+              </div>
               <Item.Content>
                 <Item.Header className={styles.presentShoutoutTo}>
                   {`${shoutout.receiver}`}{' '}

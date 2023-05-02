@@ -20,6 +20,12 @@
   padding-bottom: 3vh;
 }
 
+.displayCount {
+  width: 30px;
+  height: fit-content;
+  padding-right: 35px;
+}
+
 .shoutoutsListContainer {
   padding-left: 5%;
   padding-right: 5%;
