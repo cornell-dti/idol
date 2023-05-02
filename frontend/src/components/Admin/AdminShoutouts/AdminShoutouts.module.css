@@ -72,10 +72,17 @@
 }
 
 .presentCount {
-  font-size: 45px;
+  font-size: 40px !important;
   color: black;
-  padding-bottom: 40px;
+  margin-bottom: 20px !important;
   text-align: center;
+}
+
+.presentCountImg {
+  width: 45px !important;
+  height: 40px !important;
+  margin-top: 0 !important;
+  margin-bottom: 10px;
 }
 
 .shoutoutHide {
