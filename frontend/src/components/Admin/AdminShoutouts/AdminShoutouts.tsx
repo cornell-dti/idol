@@ -49,7 +49,7 @@ const AdminShoutouts: React.FC = () => {
   }, [earlyDate, lastDate, hide, updateShoutouts]);
 
   const ListTitle = (): JSX.Element => {
-    let title = `All shoutouts (${displayShoutouts.length})`;
+    let title = `All Shoutouts (${displayShoutouts.length})`;
     if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
     if (view === 'PRESENT') title = '';
     return (
@@ -143,9 +143,7 @@ const AdminShoutouts: React.FC = () => {
           </Header>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
-              <div className={styles.displayCount}>
-                <p>{i + 1}</p>
-              </div>
+              <div className={styles.displayCount}>{i + 1}</div>
               <Item.Content>
                 <Item.Header className={styles.presentShoutoutTo}>
                   {`${shoutout.receiver}`}{' '}
