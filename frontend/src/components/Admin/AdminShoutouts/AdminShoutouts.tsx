@@ -218,13 +218,13 @@ const AdminShoutouts: React.FC = () => {
           <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
           <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
           <Button.Group className={styles.buttonGroup}>
-            <ButtonPiece shoutoutList={allShoutouts} buttonText={'ALL'} />
+            <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
             <ButtonPiece
-              shoutoutList={allShoutouts.filter((shoutout) => shoutout.hidden)}
+              shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
               buttonText={'HIDDEN'}
             />
             <ButtonPiece
-              shoutoutList={allShoutouts.filter((shoutout) => !shoutout.hidden)}
+              shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
               buttonText={'PRESENT'}
             />
           </Button.Group>
