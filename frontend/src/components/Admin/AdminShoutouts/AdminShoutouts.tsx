@@ -133,7 +133,7 @@ const AdminShoutouts: React.FC = () => {
           const docContent = doc.data() as Shoutout;
           updatedShoutouts.push(docContent);
      });
-     setDisplayShoutouts(updatedShoutouts);
+     setAllShoutouts(updatedShoutouts);
 
       });
       return () => {
