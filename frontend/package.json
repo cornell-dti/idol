@@ -19,7 +19,7 @@
     "dotenv": "^16.0.3",
     "export-to-csv": "^0.2.1",
     "firebase": "^9.1.1",
-    "moment": "^2.29.1",
+    "luxon": "^3.3.0",
     "next": "^12.0.1",
     "prismjs": "^1.25.0",
     "react": "^17.0.2",
@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/luxon": "^3.2.0",
     "@types/styled-components": "^5.1.24"
   }
 }

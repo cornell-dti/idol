@@ -8,7 +8,9 @@ import { auth, provider } from '../../../firebase';
 
 const SignIn: React.FC = () => {
   const onGoogleSignIn = () => {
-    signInWithPopup(auth, provider);
+    signInWithPopup(auth, provider).catch((err) => {
+      /* pop-up cancelled */
+    });
   };
 
   return (

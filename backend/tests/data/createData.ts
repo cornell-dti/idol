@@ -129,3 +129,25 @@ export const fakeDevPortfolio = (): DevPortfolio => {
   };
   return DP;
 };
+
+/** Create fake Dev Portfolios for portfolio creation test */
+export const fakeCreateDevPortfolio = (): [DevPortfolio, DevPortfolio] => {
+  const uuid = faker.datatype.uuid();
+  const input = {
+    name: 'testdevportfolio',
+    deadline: 1679260752410, // 2023-03-19T21:19:12.410Z
+    lateDeadline: 1679692752410, // 2023-03-24T21:19:12.410Z
+    earliestValidDate: 1651363200020, // 2022-05-01T00:00:00.020Z
+    submissions: [],
+    uuid
+  };
+  const output = {
+    name: 'testdevportfolio',
+    deadline: 1679284799999, // 2023-03-20T03:59:59.999Z (11:59:59 EST)
+    lateDeadline: 1679716799999, // 2023-03-25T03:59:59.999Z (11:59:59 EST)
+    earliestValidDate: 1651291200000, // 2022-04-30T04:00:00.000Z
+    submissions: [],
+    uuid
+  };
+  return [input, output];
+};
