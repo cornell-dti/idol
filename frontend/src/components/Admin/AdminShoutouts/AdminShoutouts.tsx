@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import {   onSnapshot } from 'firebase/firestore';
 import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
+import { shoutoutCollection } from '../../../firebase';
+
+
 
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
@@ -121,6 +125,22 @@ const AdminShoutouts: React.FC = () => {
   };
 
   const DisplayList = (): JSX.Element => {
+
+    useEffect(() => {
+      const unsubscribe = onSnapshot(shoutoutCollection ,  (snapshot) =>{
+        const updatedShoutouts: Shoutout[] = [];
+          snapshot.forEach((doc) => {
+          const docContent = doc.data() as Shoutout;
+          updatedShoutouts.push(docContent);
+     });
+     setDisplayShoutouts(updatedShoutouts);
+
+      });
+      return () => {
+        unsubscribe();
+      };
+    }, [] );
+
     if (displayShoutouts.length === 0)
       return (
         <Card className={styles.noShoutoutsContainer}>
