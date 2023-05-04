@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {   onSnapshot } from 'firebase/firestore';
+import {  collection, onSnapshot } from 'firebase/firestore';
 import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
-import { shoutoutCollection } from '../../../firebase';
+import { db } from '../../../firebase';
 
 
 
@@ -127,13 +127,23 @@ const AdminShoutouts: React.FC = () => {
   const DisplayList = (): JSX.Element => {
 
     useEffect(() => {
+      const shoutoutCollection = collection(db, 'shoutouts')
       const unsubscribe = onSnapshot(shoutoutCollection ,  (snapshot) =>{
-        const updatedShoutouts: Shoutout[] = [];
-          snapshot.forEach((doc) => {
-          const docContent = doc.data() as Shoutout;
-          updatedShoutouts.push(docContent);
+          snapshot.docChanges().forEach((document) => {
+            if (document.type === "added"){
+            const newShoutout = document.doc.data() as Shoutout;
+            setAllShoutouts((oldShoutouts) => [...oldShoutouts,newShoutout]);
+
+        }
+            if (document.type ===  "removed") {
+              const removedShoutout = document.doc.data() as Shoutout;
+              const updatedList = allShoutouts.filter(x=> (x !== removedShoutout))
+              setAllShoutouts(updatedList);
+
+
+            } 
      });
-     setAllShoutouts(updatedShoutouts);
+     updateShoutouts();
 
       });
       return () => {
