@@ -5,6 +5,7 @@ module.exports = {
       testMatch: ['<rootDir>/frontend/**/*.test.(ts|tsx)'],
       testPathIgnorePatterns: ['/node_modules/', '/.next/'],
       testEnvironment: 'jsdom',
+      setupFiles: ['frontend/src/setup.ts'],
       transform: {
         '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest'
       },

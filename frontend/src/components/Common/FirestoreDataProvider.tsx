@@ -9,7 +9,7 @@ import {
 } from '../../firebase';
 import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
-import { allowAdmin } from '../../environment';
+import { isProduction, allowAdmin, environment } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
 
 type ListenedFirestoreData = {
@@ -41,7 +41,7 @@ export const useHasAdminPermission = (): boolean => {
   const userEmail = useUserEmail();
   const self = useSelf();
   const adminEmails = useAdminEmails();
-  return allowAdmin && (self?.role === 'lead' || adminEmails.includes(userEmail));
+  return (isProduction || allowAdmin) && (self?.role === 'lead' || adminEmails.includes(userEmail));
 };
 
 export const useTeamNames = (): readonly string[] => {
@@ -88,7 +88,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
   const [adminEmails, setAdminEmails] = useState<readonly string[] | undefined>();
   const [members, setMembers] = useState<readonly IdolMember[] | undefined>();
   const [approvedMembers, setApprovedMembers] = useState<readonly IdolMember[] | undefined>();
-  const [isIDOLMember, setIsIDOLMember] = useState(true);
+  const [hasIDOLAccess, setHasIDOLAccess] = useState(true);
 
   const userEmail = useUserEmail();
 
@@ -98,7 +98,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         // Do not run firestore listeners in test environment.
       };
     }
-    MembersAPI.isIDOLMember(userEmail).then((isIDOLMember) => setIsIDOLMember(isIDOLMember));
+    MembersAPI.hasIDOLAccess(userEmail).then((hasIDOLAccess) => setHasIDOLAccess(hasIDOLAccess));
     const unsubscriberOfAdminEmails = onSnapshot(adminsCollection, (snapshot) => {
       setAdminEmails(snapshot.docs.map((it) => it.id));
     });
@@ -115,6 +115,11 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
     };
   }, [userEmail]);
 
+  const errorMessage =
+    environment === 'staging'
+      ? "It looks like you've found IDOL's staging site by accident. Unless you're an IDOL admin, you don't have access to the staging site. Please visit https://idol.cornelldti.org to access IDOL's live site."
+      : 'You do not appear to be registered as a user within the IDOL system. Only DTI members should have access to this site. If you are a DTI member, please make sure that you are logged in with your @cornell.edu email address. If you are logged in with your @cornell.edu email address and are still seeing this message, please use the #idol-support channel in Slack to get in touch with the IDOL team and receive assistance.';
+
   return (
     <FirestoreDataContext.Provider value={{ adminEmails, members, approvedMembers }}>
       {
@@ -124,16 +129,12 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
       {adminEmails == null || members == null || approvedMembers == null ? (
         <div>
           <Loader active size="massive" />
-          {!isIDOLMember && (
+          {!hasIDOLAccess && (
             <Modal
               basic
-              open={!isIDOLMember}
+              open={!hasIDOLAccess}
               header="Hey there :)"
-              content="You do not appear to be registered as a user within the IDOL system. Only DTI members should
-            have access to this site. If you are a DTI member, please make sure that you are logged in
-            with your @cornell.edu email address. If you are logged in with your @cornell.edu email
-            address and are still seeing this message, please use the #idol-support channel in Slack to
-            get in touch with the IDOL team and receive assistance."
+              content={errorMessage}
               actions={[{ key: 'sign-out', content: 'Sign out', onClick: () => auth.signOut() }]}
             />
           )}

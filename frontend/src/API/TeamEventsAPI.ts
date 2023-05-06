@@ -42,7 +42,8 @@ export class TeamEventsAPI {
         });
         return [];
       }
-      return val.allTeamEventInfo as TeamEventInfo[];
+      const events = val.allTeamEventInfo as TeamEventInfo[];
+      return events;
     });
   }
 
@@ -54,16 +55,16 @@ export class TeamEventsAPI {
     });
   }
 
-  public static createTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEvent).then((res) => res.data);
+  public static createTeamEventForm(teamEventInfo: TeamEventInfo): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEventInfo).then((res) => res.data);
   }
 
   public static async deleteTeamEventForm(teamEvent: Event): Promise<void> {
     await APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent);
   }
 
-  public static updateTeamEventForm(teamEvent: Event): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEvent).then(
+  public static updateTeamEventForm(teamEventInfo: TeamEventInfo): Promise<TeamEventResponseObj> {
+    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEventInfo).then(
       (rest) => rest.data.event
     );
   }
@@ -72,14 +73,35 @@ export class TeamEventsAPI {
     await APIWrapper.delete(`${backendURL}/clearAllTeamEvents`);
   }
 
-  public static async requestTeamEventCredit(
-    uuid: string,
-    request: TeamEventAttendance
-  ): Promise<void> {
-    APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { uuid, request });
+  public static async requestTeamEventCredit(request: TeamEventAttendance): Promise<void> {
+    APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { request });
   }
 
-  public static async getAllTeamEventsForMember(): Promise<MemberTECRequests> {
-    return APIWrapper.get(`${backendURL}/getAllTeamEventsForMember`).then((val) => val.data);
+  public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
+    await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, { uuid });
+  }
+
+  public static async updateTeamEventAttendance(
+    teamEventAttendance: TeamEventAttendance
+  ): Promise<TeamEventAttendance> {
+    return APIWrapper.post(`${backendURL}/updateTeamEventAttendance`, teamEventAttendance).then(
+      (res) => res.data
+    );
+  }
+
+  public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
+    const res = APIWrapper.get(`${backendURL}/getTeamEventAttendanceByUser`).then(
+      (res) => res.data
+    );
+    return res.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't get all team event attendance for this user",
+          contentMsg: `Error was: ${val.err}`
+        });
+        return [];
+      }
+      return val.teamEventAttendance as TeamEventAttendance[];
+    });
   }
 }

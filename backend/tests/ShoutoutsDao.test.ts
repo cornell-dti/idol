@@ -17,9 +17,12 @@ const mockShoutout1 = {
   uuid: 'xyz'
 };
 
+const membersDao = new MembersDao();
+const shoutoutsDao = new ShoutoutsDao();
+
 /* Adding mock users for testing sign-ins */
 beforeAll(async () => {
-  await MembersDao.setMember(shoutoutData.mu1.email, shoutoutData.mu1);
+  await membersDao.setMember(shoutoutData.mu1.email, shoutoutData.mu1);
 });
 
 /* Cleanup database after running tests */
@@ -27,7 +30,7 @@ afterAll(async () => {
   Promise.all(
     Object.keys(shoutoutData).map(async (netid) => {
       const mockUser = shoutoutData[netid];
-      await MembersDao.deleteMember(mockUser.email);
+      await membersDao.deleteMember(mockUser.email);
       return mockUser;
     })
   );
@@ -40,17 +43,17 @@ afterAll(async () => {
 });
 
 test('Send shoutout', async () => {
-  await ShoutoutsDao.setShoutout(mockShoutout1);
-  const allShoutouts = await ShoutoutsDao.getAllShoutouts();
+  await shoutoutsDao.createShoutout(mockShoutout1);
+  const allShoutouts = await shoutoutsDao.getAllShoutouts();
   expect(allShoutouts).toContainEqual(mockShoutout1);
 });
 
 test('Get sent shoutout', async () => {
-  const shoutoutsSent = await ShoutoutsDao.getShoutouts(shoutoutData.mu1.email, 'given');
+  const shoutoutsSent = await shoutoutsDao.getShoutouts(shoutoutData.mu1.email, 'given');
   expect(shoutoutsSent).toContainEqual(mockShoutout1);
 });
 
 test('Hide shoutout', async () => {
-  const hiddenShoutout = await ShoutoutsDao.updateShoutout(mockShoutout1);
+  const hiddenShoutout = await shoutoutsDao.updateShoutout(mockShoutout1);
   expect(hiddenShoutout.hidden === true);
 });
