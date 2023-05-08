@@ -3,7 +3,7 @@ import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import TeamEventCreditDashboard from './TeamEventsCreditDasboard';
+import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 
@@ -15,14 +15,16 @@ const TeamEventCreditForm: React.FC = () => {
   const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
-  const [approvedTEC, setApprovedTEC] = useState<TeamEventInfo[]>([]);
-  const [pendingTEC, setPendingTEC] = useState<TeamEventInfo[]>([]);
+  const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
+  const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
+  const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getAllTeamEventsForMember().then((val) => {
-      setApprovedTEC(val.approved);
-      setPendingTEC(val.pending);
+    TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
+      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
+      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
+      setIsAttendanceLoading(false);
     });
   }, []);
 
@@ -32,12 +34,11 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
   };
 
-  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance, uuid: string) => {
-    await TeamEventsAPI.requestTeamEventCredit(uuid, eventCreditRequest);
+  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
+    await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
+
     // upload image
-
     const blob = await fetch(image).then((res) => res.blob());
-
     const imageURL: string = window.URL.createObjectURL(blob);
     await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
       setImage(imageURL)
@@ -60,7 +61,7 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'No Hours Entered',
         contentMsg: 'Please enter your hours!'
       });
-    } else if (Number(hours) < 0.5) {
+    } else if (teamEvent.hasHours && Number(hours) < 0.5) {
       Emitters.generalError.emit({
         headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
@@ -68,11 +69,14 @@ const TeamEventCreditForm: React.FC = () => {
     } else {
       const newTeamEventAttendance: TeamEventAttendance = {
         member: userInfo,
-        hoursAttended: Number(hours),
-        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`
+        hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
+        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
+        eventUuid: teamEvent.uuid,
+        pending: true,
+        uuid: ''
       };
-      requestTeamEventCredit(newTeamEventAttendance, teamEvent.uuid).then(() => {
-        setPendingTEC((pending) => [...pending, teamEvent]);
+      requestTeamEventCredit(newTeamEventAttendance).then(() => {
+        setPendingAttendance((pending) => [...pending, newTeamEventAttendance]);
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Credit submitted!',
           contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
@@ -193,7 +197,12 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
-        <TeamEventCreditDashboard pendingTEC={pendingTEC} approvedTEC={approvedTEC} />
+        <TeamEventCreditDashboard
+          allTEC={teamEventInfoList}
+          approvedAttendance={approvedAttendance}
+          pendingAttendance={pendingAttendance}
+          isAttendanceLoading={isAttendanceLoading}
+        />
       </Form>
     </div>
   );

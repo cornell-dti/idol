@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Loader } from 'semantic-ui-react';
+import { Card, Message, Loader, Button } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
@@ -27,7 +27,15 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
                 <Card.Content>
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
-                  <Card.Meta>{teamEvent.requests.length} pending requests</Card.Meta>
+                  <Card.Meta>
+                    {teamEvent.requests.length > 0 ? (
+                      <p className={styles.alertPendingRequests}>
+                        {teamEvent.requests.length} pending requests
+                      </p>
+                    ) : (
+                      `${teamEvent.requests.length} pending requests`
+                    )}
+                  </Card.Meta>
                   {COMMUNITY_EVENTS && (
                     <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                   )}
@@ -82,7 +90,10 @@ const TeamEvents: React.FC = () => {
           <h2>View All Team Events</h2>
           <TeamEventsDisplay isLoading={isLoading} teamEvents={teamEvents} />
         </div>
-        <div className={styles.resetButtonContainer}>
+        <div className={styles.buttonContainer}>
+          <Button>
+            <Link href="/admin/team-events/dashboard">View Team Events Dashboard</Link>
+          </Button>
           <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
         </div>
       </div>

@@ -36,17 +36,9 @@ export type DBTeamEventAttendance = {
   member: firestore.DocumentReference;
   hoursAttended?: number;
   image: string;
-};
-
-export type DBTeamEvent = {
-  name: string;
-  date: string;
-  numCredits: string;
-  hasHours: boolean;
-  requests: DBTeamEventAttendance[];
-  attendees: DBTeamEventAttendance[];
+  eventUuid: string;
+  pending: boolean;
   uuid: string;
-  isCommunity: boolean;
 };
 
 export type DBCandidateDeciderRating = {
