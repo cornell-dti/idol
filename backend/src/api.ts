@@ -177,6 +177,8 @@ const loginCheckedDelete = (
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
 
+router.get('/test/nest', (req, res) => res.send('Hello world! :D'));
+
 // Members
 router.get('/allMembers', async (_, res) => {
   const members = await allMembers();
