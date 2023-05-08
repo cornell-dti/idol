@@ -61,3 +61,11 @@
     align-items: center;
   }
 }
+
+.copyrightContainer {
+  text-align: center;
+  color: black;
+  margin-top: 150px;
+  margin-bottom: 50px;
+}
+
