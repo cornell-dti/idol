@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
+import catEmoji from '../../../static/images/meow_attention.gif';
 
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
@@ -48,10 +49,14 @@ const AdminShoutouts: React.FC = () => {
   }, [earlyDate, lastDate, hide, updateShoutouts]);
 
   const ListTitle = (): JSX.Element => {
-    let title = 'All Shoutouts';
-    if (view === 'HIDDEN') title = 'Hidden Shoutouts';
+    let title = `All Shoutouts (${displayShoutouts.length})`;
+    if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
     if (view === 'PRESENT') title = '';
-    return <Header className={styles.formTitle} content={title}></Header>;
+    return (
+      <div className={styles.formHeader}>
+        <Header className={styles.formTitle} content={title} />
+      </div>
+    );
   };
 
   const fromString = (shoutout: Shoutout): string => {
@@ -131,8 +136,14 @@ const AdminShoutouts: React.FC = () => {
     if (view === 'PRESENT')
       return (
         <Item.Group divided>
+          <Header className={styles.presentCount}>
+            <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
+            {` ${displayShoutouts.length} Shoutouts `}
+            <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
+          </Header>
           {displayShoutouts.map((shoutout, i) => (
             <Item key={i}>
+              <div className={styles.displayCount}>{i + 1}</div>
               <Item.Content>
                 <Item.Header className={styles.presentShoutoutTo}>
                   {`${shoutout.receiver}`}{' '}
@@ -207,13 +218,13 @@ const AdminShoutouts: React.FC = () => {
           <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
           <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
           <Button.Group className={styles.buttonGroup}>
-            <ButtonPiece shoutoutList={allShoutouts} buttonText={'ALL'} />
+            <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
             <ButtonPiece
-              shoutoutList={allShoutouts.filter((shoutout) => shoutout.hidden)}
+              shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
               buttonText={'HIDDEN'}
             />
             <ButtonPiece
-              shoutoutList={allShoutouts.filter((shoutout) => !shoutout.hidden)}
+              shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
               buttonText={'PRESENT'}
             />
           </Button.Group>
