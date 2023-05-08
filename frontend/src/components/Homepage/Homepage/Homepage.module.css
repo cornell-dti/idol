@@ -61,3 +61,12 @@
     align-items: center;
   }
 }
+
+.copyrightContainer {
+  position: absolute;
+  text-align: center;
+  color: black;
+  width: 100%;
+  margin-left: auto;
+  bottom: 2.5%;
+}
