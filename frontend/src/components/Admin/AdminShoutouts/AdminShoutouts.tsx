@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { Button, Form, Item, Card, Modal, Header } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal, Header, Loader } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import { db } from '../../../firebase';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -33,7 +33,7 @@ const getListTitle = (view: ViewMode): string => {
 
 const HideModal = (props: {
   shoutout: Shoutout;
-  setAllShoutouts: React.Dispatch<React.SetStateAction<Shoutout[]>>;
+  setAllShoutouts: React.Dispatch<React.SetStateAction<Shoutout[] | undefined>>;
 }): JSX.Element => {
   const { shoutout, setAllShoutouts } = props;
 
@@ -41,7 +41,7 @@ const HideModal = (props: {
     const oppHide = !shoutout.hidden;
     ShoutoutsAPI.hideShoutout(shoutout.uuid, oppHide).then(() => {
       setAllShoutouts((shoutouts) =>
-        shoutouts.map((s) => (s.uuid === shoutout.uuid ? { ...s, hidden: oppHide } : s))
+        shoutouts?.map((s) => (s.uuid === shoutout.uuid ? { ...s, hidden: oppHide } : s))
       );
       if (oppHide) {
         Emitters.generalSuccess.emit({
@@ -97,11 +97,14 @@ const DisplayList = ({
   view,
   setAllShoutouts
 }: {
-  displayShoutouts: Shoutout[];
+  displayShoutouts: Shoutout[] | undefined;
   view: ViewMode;
-  setAllShoutouts: React.Dispatch<React.SetStateAction<Shoutout[]>>;
+  setAllShoutouts: React.Dispatch<React.SetStateAction<Shoutout[] | undefined>>;
 }): JSX.Element => {
-  if (displayShoutouts.length === 0)
+  if (displayShoutouts === undefined) {
+    return <Loader active size="big" content="Loading..." />;
+  }
+  if (displayShoutouts?.length === 0)
     return (
       <Card className={styles.noShoutoutsContainer}>
         <Card.Content>No shoutouts in this date range.</Card.Content>
@@ -110,7 +113,7 @@ const DisplayList = ({
   if (view === 'PRESENT')
     return (
       <Item.Group divided>
-        {displayShoutouts.map((shoutout, i) => (
+        {displayShoutouts?.map((shoutout, i) => (
           <Item key={i}>
             <Item.Content>
               <Item.Header
@@ -131,7 +134,7 @@ const DisplayList = ({
     );
   return (
     <Item.Group divided>
-      {displayShoutouts.map((shoutout, i) => (
+      {displayShoutouts?.map((shoutout, i) => (
         <Item key={i}>
           <Item.Content>
             <Item.Group widths="equal" className={styles.shoutoutDetails}>
