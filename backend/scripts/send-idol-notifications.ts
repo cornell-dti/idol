@@ -7,7 +7,7 @@ require('dotenv').config();
 // eslint-disable-next-line import/first
 import getEmailTransporter from '../src/nodemailer';
 // eslint-disable-next-line import/first
-import configureAccount from '../src/utils/firebase-utils';
+import { configureAccount } from '../src/utils/firebase-utils';
 
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
