@@ -7,17 +7,17 @@ type DevPortfolioSubmissionResponseObj = {
 
 export default class DevPortfolioAPI {
   static async getAllDevPortfolios(): Promise<DevPortfolio[]> {
-    const response = APIWrapper.get(`${backendURL}/getAllDevPortfolios`);
+    const response = APIWrapper.get(`${backendURL}/dev-portfolio`);
     return response.then((val) => val.data.portfolios);
   }
 
   static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
-    const response = APIWrapper.get(`${backendURL}/getAllDevPortfolioInfo`);
+    const response = APIWrapper.get(`${backendURL}/dev-portfolio?meta_only=true`);
     return response.then((val) => val.data.portfolioInfo);
   }
 
   public static async createDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolio> {
-    return APIWrapper.post(`${backendURL}/createNewDevPortfolio`, devPortfolio).then(
+    return APIWrapper.post(`${backendURL}/dev-portfolio`, devPortfolio).then(
       (res) => res.data.portfolio
     );
   }
@@ -26,38 +26,37 @@ export default class DevPortfolioAPI {
     uuid: string,
     submission: DevPortfolioSubmission
   ): Promise<DevPortfolioSubmissionResponseObj> {
-    return APIWrapper.post(`${backendURL}/makeDevPortfolioSubmission`, {
+    return APIWrapper.post(`${backendURL}/dev-portfolio/submission`, {
       uuid,
       submission
     }).then((res) => res.data);
   }
 
   public static async deleteDevPortfolio(uuid: string): Promise<void> {
-    APIWrapper.post(`${backendURL}/deleteDevPortfolio`, { uuid });
+    APIWrapper.delete(`${backendURL}/deleteDevPortfolio/${uuid}`);
   }
 
   public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.get(`${backendURL}/getDevPortfolio/${uuid}`).then(
-      (res) => res.data.portfolio
-    );
+    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}`).then((res) => res.data.portfolio);
   }
 
   public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
-    return APIWrapper.get(`${backendURL}/getDevPortfolioInfo/${uuid}`).then(
+    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}?meta_only=true`).then(
       (res) => res.data.portfolioInfo
     );
   }
 
   public static async getUsersDevPortfolioSubmissions(
-    uuid: string
+    uuid: string,
+    email: string
   ): Promise<DevPortfolioSubmission[]> {
-    return APIWrapper.get(`${backendURL}/getUsersDevPortfolioSubmissions/${uuid}`).then(
+    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}/submission/${email}`).then(
       (res) => res.data.submissions
     );
   }
 
   public static async regradeSubmissions(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.post(`${backendURL}/regradeDevPortfolioSubmissions`, { uuid }).then(
+    return APIWrapper.put(`${backendURL}/dev-portfolio/${uuid}/submission/regrade`, {}).then(
       (res) => res.data.portfolio
     );
   }
@@ -66,7 +65,7 @@ export default class DevPortfolioAPI {
     uuid: string,
     updatedSubmissions: DevPortfolioSubmission[]
   ): Promise<DevPortfolio> {
-    return APIWrapper.post(`${backendURL}/updateDevPortfolioSubmissions`, {
+    return APIWrapper.post(`${backendURL}/dev-portfolio/${uuid}/submission`, {
       uuid,
       updatedSubmissions
     }).then((res) => res.data.portfolio);

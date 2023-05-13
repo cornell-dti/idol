@@ -13,7 +13,6 @@ import {
   rejectIDOLChanges,
   requestIDOLPullDispatch
 } from './API/siteIntegrationAPI';
-import { sendMail } from './API/mailAPI';
 import MembersDao from './dao/MembersDao';
 import {
   allMembers,
@@ -177,17 +176,26 @@ const loginCheckedDelete = (
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.delete(path, loginCheckedHandler(handler));
 
+const loginCheckedPut = (
+  path: string,
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
+) => router.put(path, loginCheckedHandler(handler));
+
 // Members
-router.get('/allMembers', async (_, res) => {
-  const members = await allMembers();
+router.get('/member', async (req, res) => {
+  const type = req.query.type as string | undefined;
+  let members;
+  switch (type) {
+    case 'all-semesters':
+      members = await MembersDao.getMembersFromAllSemesters();
+      break;
+    case 'approved':
+      members = await allApprovedMembers();
+      break;
+    default:
+      members = await allMembers();
+  }
   res.status(200).json({ members });
-});
-router.get('/allApprovedMembers', async (_, res) => {
-  const members = await allApprovedMembers();
-  res.status(200).json({ members });
-});
-router.get('/membersFromAllSemesters', async (_, res) => {
-  res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const member = await getMember(req.params.email);
@@ -201,72 +209,68 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
   });
 });
 
-loginCheckedPost('/setMember', async (req, user) => ({
+loginCheckedPost('/member', async (req, user) => ({
   member: await setMember(req.body, user)
 }));
-loginCheckedDelete('/deleteMember/:email', async (req, user) => {
+loginCheckedDelete('/member/:email', async (req, user) => {
   await deleteMember(req.params.email, user);
   return {};
 });
-loginCheckedPost('/updateMember', async (req, user) => ({
+loginCheckedPut('/member', async (req, user) => ({
   member: await updateMember(req, req.body, user)
 }));
 
 loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
 }));
-loginCheckedPost('/reviewMemberDiffs', async (req, user) => ({
+loginCheckedPut('/memberDiffs', async (req, user) => ({
   member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
 }));
 
 // Teams
-loginCheckedGet('/allTeams', async () => ({ teams: await allTeams() }));
-loginCheckedPost('/setTeam', async (req, user) => ({
+loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
+loginCheckedPut('/team', async (req, user) => ({
   team: await setTeam(req.body, user)
 }));
-loginCheckedPost('/deleteTeam', async (req, user) => ({
+// should eventually make DELETE
+loginCheckedPost('/team', async (req, user) => ({
   team: await deleteTeam(req.body, user)
 }));
 
 // Images
-loginCheckedGet('/getMemberImage', async (_, user) => ({
+loginCheckedGet('/member-image/:email', async (_, user) => ({
   url: await getMemberImage(user)
 }));
-loginCheckedGet('/getImageSignedURL', async (_, user) => ({
+loginCheckedGet('/member-image/signedURL', async (_, user) => ({
   url: await setMemberImage(user)
 }));
-router.get('/allMemberImages', async (_, res) => {
+router.get('/member-image', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
 
 // Shoutouts
-loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
-  shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
+loginCheckedGet('/shoutout/:email', async (req, user) => ({
+  shoutouts: await getShoutouts(req.params.email, req.query.type as 'given' | 'received', user)
 }));
 
-loginCheckedGet('/allShoutouts', async () => ({
+loginCheckedGet('/shoutout', async () => ({
   shoutouts: await getAllShoutouts()
 }));
 
-loginCheckedPost('/giveShoutout', async (req, user) => ({
+loginCheckedPost('/shoutout', async (req, user) => ({
   shoutout: await giveShoutout(req.body, user)
 }));
 
-loginCheckedPost('/hideShoutout', async (req, user) => {
+loginCheckedPut('/shoutout', async (req, user) => {
   await hideShoutout(req.body.uuid, req.body.hide, user);
   return {};
 });
 
-loginCheckedPost('/deleteShoutout', async (req, user) => {
-  await deleteShoutout(req.body.uuid, user);
+loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
+  await deleteShoutout(req.params.uuid, user);
   return {};
 });
-
-// Permissions
-loginCheckedGet('/isAdmin', async (_, user) => ({
-  isAdmin: await PermissionsManager.isAdmin(user)
-}));
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
@@ -295,114 +299,110 @@ loginCheckedGet('/signInPrompt/:id', async (req, _) => ({
 }));
 
 // Team Events
-loginCheckedPost('/createTeamEvent', async (req, user) => {
+loginCheckedPost('/team-event', async (req, user) => {
   await createTeamEvent(req.body, user);
   return {};
 });
-loginCheckedGet('/getTeamEvent/:uuid', async (req, user) => ({
+loginCheckedGet('/team-event/:uuid', async (req, user) => ({
   event: await getTeamEvent(req.params.uuid, user)
 }));
-loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: await getAllTeamEvents(user) }));
-loginCheckedPost('/updateTeamEvent', async (req, user) => ({
+loginCheckedGet('/team-event', async (req, user) => ({
+  events: !req.query.meta_only ? await getAllTeamEvents(user) : await getAllTeamEventInfo()
+}));
+loginCheckedPut('/team-event', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEvent', async (req, user) => {
+loginCheckedDelete('/team-event/:uuid', async (req, user) => {
   await deleteTeamEvent(req.body, user);
   return {};
 });
-loginCheckedDelete('/clearAllTeamEvents', async (_, user) => {
+loginCheckedDelete('/team-event', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
-loginCheckedGet('/getAllTeamEventInfo', async () => ({
-  allTeamEventInfo: await getAllTeamEventInfo()
-}));
-loginCheckedPost('/requestTeamEventCredit', async (req, user) => {
+loginCheckedPost('/team-event/attendance', async (req, user) => {
   await requestTeamEventCredit(req.body.request, user);
   return {};
 });
-loginCheckedGet('/getTeamEventAttendanceByUser', async (_, user) => ({
+loginCheckedGet('/team-event/attendance/:email', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
-loginCheckedPost('/updateTeamEventAttendance', async (req, user) => ({
+loginCheckedPut('/team-event/attendance', async (req, user) => ({
   teamEventAttendance: await updateTeamEventAttendance(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEventAttendance', async (req, user) => {
-  await deleteTeamEventAttendance(req.body.uuid, user);
+loginCheckedDelete('/team-event/attendance/:uuid', async (req, user) => {
+  await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
 
 // Team Events Proof Image
-loginCheckedGet('/getEventProofImage/:name(*)', async (req, user) => ({
+loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
   url: await getEventProofImage(req.params.name, user)
 }));
-loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
+loginCheckedGet('/event-proof-image/:name(*)/signed-url', async (req, user) => ({
   url: await setEventProofImage(req.params.name, user)
 }));
-loginCheckedPost('/deleteEventProofImage', async (req, user) => {
-  await deleteEventProofImage(req.body.name, user);
+loginCheckedDelete('/event-proof-image/:name(*)', async (req, user) => {
+  await deleteEventProofImage(req.params.name, user);
   return {};
 });
 
 // Candidate Decider
-loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
+loginCheckedGet('/candidate-decider', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
-loginCheckedGet('/getCandidateDeciderInstance/:uuid', async (req, user) => ({
+loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
 }));
-loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
+loginCheckedPost('/candider-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
-loginCheckedPost('/toggleCandidateDeciderInstance', async (req, user) =>
-  toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+loginCheckedPut('/candidate-decider/:uuid', async (req, user) =>
+  toggleCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/deleteCandidateDeciderInstance', async (req, user) =>
-  deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+loginCheckedDelete('/candidate-decider/:uuid', async (req, user) =>
+  deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/updateCandidateDeciderRating', (req, user) =>
-  updateCandidateDeciderRating(user, req.body.uuid, req.body.id, req.body.rating).then(() => ({}))
+loginCheckedPut('/candidate-decider/:uuid/rating', (req, user) =>
+  updateCandidateDeciderRating(user, req.params.uuid, req.body.id, req.body.rating).then(() => ({}))
 );
-loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
-  updateCandidateDeciderComment(user, req.body.uuid, req.body.id, req.body.comment).then(() => ({}))
+loginCheckedPost('/candidate-decider/:uuid/comment', (req, user) =>
+  updateCandidateDeciderComment(user, req.params.uuid, req.body.id, req.body.comment).then(
+    () => ({})
+  )
 );
-loginCheckedPost('/sendMail', async (req, user) => ({
-  info: await sendMail(req.body.to, req.body.subject, req.body.text)
-}));
 
 // Dev Portfolios
-loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
-  portfolios: await getAllDevPortfolios(user)
+loginCheckedGet('/dev-portfolio', async (req, user) => ({
+  portfolios: !req.query.meta_only
+    ? await getAllDevPortfolios(user)
+    : await getAllDevPortfolioInfo()
 }));
-loginCheckedGet('/getAllDevPortfolioInfo', async (req, user) => ({
-  portfolioInfo: await getAllDevPortfolioInfo()
+loginCheckedGet('/dev-portfolio/:uuid', async (req, user) => ({
+  portfolioInfo: !req.query.meta_only
+    ? await getDevPortfolio(req.params.uuid, user)
+    : await getDevPortfolioInfo(req.params.uuid)
 }));
-loginCheckedGet('/getDevPortfolioInfo/:uuid', async (req, user) => ({
-  portfolioInfo: await getDevPortfolioInfo(req.params.uuid)
-}));
-loginCheckedGet('/getUsersDevPortfolioSubmissions/:uuid', async (req, user) => ({
+loginCheckedGet('/dev-portfolio/:uuid/submission/:email', async (req, user) => ({
   submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
 }));
-loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
-  portfolio: await getDevPortfolio(req.params.uuid, user)
-}));
-loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
+loginCheckedPost('/dev-portfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
 }));
-loginCheckedPost('/deleteDevPortfolio', async (req, user) =>
-  deleteDevPortfolio(req.body.uuid, user).then(() => ({}))
+loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
+  deleteDevPortfolio(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/makeDevPortfolioSubmission', async (req, user) => {
+loginCheckedPost('/dev-portfolio/submission', async (req, user) => {
   await DPSubmissionRequestLogDao.logRequest(user.email, req.body.uuid, req.body.submission);
   return {
     submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
   };
 });
-loginCheckedPost('/regradeDevPortfolioSubmissions', async (req, user) => ({
+loginCheckedPut('/dev-portfolio/:uuid/submission/regrade', async (req, user) => ({
   portfolio: await regradeSubmissions(req.body.uuid, user)
 }));
-loginCheckedPost('/updateDevPortfolioSubmissions', async (req, user) => ({
-  portfolio: await updateSubmissions(req.body.uuid, req.body.updatedSubmissions, user)
+loginCheckedPut('/dev-portfolio/:uuid/submission', async (req, user) => ({
+  portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
 }));
 
 app.use('/.netlify/functions/api', router);

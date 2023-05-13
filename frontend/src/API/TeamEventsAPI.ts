@@ -18,7 +18,7 @@ export type MemberTECRequests = {
 
 export class TeamEventsAPI {
   public static getAllTeamEvents(): Promise<Event[]> {
-    const eventsProm = APIWrapper.get(`${backendURL}/getAllTeamEvents`).then((res) => res.data);
+    const eventsProm = APIWrapper.get(`${backendURL}/team-event`).then((res) => res.data);
     return eventsProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -33,7 +33,7 @@ export class TeamEventsAPI {
   }
 
   public static getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
-    const res = APIWrapper.get(`${backendURL}/getAllTeamEventInfo`).then((res) => res.data);
+    const res = APIWrapper.get(`${backendURL}/team-event?meta_only=true`).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -48,7 +48,7 @@ export class TeamEventsAPI {
   }
 
   public static getTeamEventForm(uuid: string): Promise<Event> {
-    const eventProm = APIWrapper.get(`${backendURL}/getTeamEvent/${uuid}`).then((res) => res.data);
+    const eventProm = APIWrapper.get(`${backendURL}/team-event/${uuid}`).then((res) => res.data);
     return eventProm.then((val) => {
       const event = val.event as Event;
       return event;
@@ -56,41 +56,41 @@ export class TeamEventsAPI {
   }
 
   public static createTeamEventForm(teamEventInfo: TeamEventInfo): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/createTeamEvent`, teamEventInfo).then((res) => res.data);
+    return APIWrapper.post(`${backendURL}/team-event`, teamEventInfo).then((res) => res.data);
   }
 
   public static async deleteTeamEventForm(teamEvent: Event): Promise<void> {
-    await APIWrapper.post(`${backendURL}/deleteTeamEvent`, teamEvent);
+    await APIWrapper.delete(`${backendURL}/team-event/${teamEvent.uuid}`);
   }
 
   public static updateTeamEventForm(teamEventInfo: TeamEventInfo): Promise<TeamEventResponseObj> {
-    return APIWrapper.post(`${backendURL}/updateTeamEvent`, teamEventInfo).then(
+    return APIWrapper.put(`${backendURL}/team-event`, teamEventInfo).then(
       (rest) => rest.data.event
     );
   }
 
   public static async clearAllTeamEvents(): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/clearAllTeamEvents`);
+    await APIWrapper.delete(`${backendURL}/team-event`);
   }
 
   public static async requestTeamEventCredit(request: TeamEventAttendance): Promise<void> {
-    APIWrapper.post(`${backendURL}/requestTeamEventCredit`, { request });
+    APIWrapper.post(`${backendURL}/team-event/attendance`, { request });
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
-    await APIWrapper.post(`${backendURL}/deleteTeamEventAttendance`, { uuid });
+    await APIWrapper.post(`${backendURL}/team-event/attendance/${uuid}`, { uuid });
   }
 
   public static async updateTeamEventAttendance(
     teamEventAttendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
-    return APIWrapper.post(`${backendURL}/updateTeamEventAttendance`, teamEventAttendance).then(
+    return APIWrapper.put(`${backendURL}/team-event/attendance`, teamEventAttendance).then(
       (res) => res.data
     );
   }
 
-  public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
-    const res = APIWrapper.get(`${backendURL}/getTeamEventAttendanceByUser`).then(
+  public static async getTeamEventAttendanceByUser(email: string): Promise<TeamEventAttendance[]> {
+    const res = APIWrapper.get(`${backendURL}/team-event/attendance/${email}`).then(
       (res) => res.data
     );
     return res.then((val) => {
