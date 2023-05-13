@@ -183,16 +183,20 @@ const loginCheckedPut = (
 ) => router.put(path, loginCheckedHandler(handler));
 
 // Members
-router.get('/allMembers', async (_, res) => {
-  const members = await allMembers();
+router.get('/member', async (req, res) => {
+  const type = req.query.type as string | undefined;
+  let members;
+  switch (type) {
+    case 'all-semesters':
+      members = await MembersDao.getMembersFromAllSemesters();
+      break;
+    case 'approved':
+      members = await allApprovedMembers();
+      break;
+    default:
+      members = await allMembers();
+  }
   res.status(200).json({ members });
-});
-router.get('/allApprovedMembers', async (_, res) => {
-  const members = await allApprovedMembers();
-  res.status(200).json({ members });
-});
-router.get('/membersFromAllSemesters', async (_, res) => {
-  res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const member = await getMember(req.params.email);
@@ -206,21 +210,21 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
   });
 });
 
-loginCheckedPost('/setMember', async (req, user) => ({
+loginCheckedPost('/member', async (req, user) => ({
   member: await setMember(req.body, user)
 }));
-loginCheckedDelete('/deleteMember/:email', async (req, user) => {
+loginCheckedDelete('/member/:email', async (req, user) => {
   await deleteMember(req.params.email, user);
   return {};
 });
-loginCheckedPost('/updateMember', async (req, user) => ({
+loginCheckedPut('/updateMember', async (req, user) => ({
   member: await updateMember(req, req.body, user)
 }));
 
 loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
 }));
-loginCheckedPost('/reviewMemberDiffs', async (req, user) => ({
+loginCheckedPut('/memberDiffs', async (req, user) => ({
   member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
 }));
 
