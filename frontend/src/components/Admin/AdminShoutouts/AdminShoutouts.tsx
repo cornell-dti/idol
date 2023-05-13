@@ -178,22 +178,14 @@ const AdminShoutouts: React.FC = () => {
 
     const shoutoutCollection = collection(db, 'shoutouts');
     const unsubscribe = onSnapshot(shoutoutCollection, (snapshot) => {
-      snapshot.docChanges().forEach((document) => {
-        if (document.type === 'added') {
-          const newShoutout = document.doc.data() as Shoutout;
-          setAllShoutouts((oldShoutouts = []) => [...oldShoutouts, newShoutout]);
-        }
-        if (document.type === 'removed') {
-          const removedShoutout = document.doc.data() as Shoutout;
-          setAllShoutouts((updatedList = []) =>
-            updatedList.filter((x) => x.uuid !== removedShoutout.uuid)
-          );
-        }
+      const newShoutouts = snapshot.docs.map((docSnapshot) => {
+        const data = docSnapshot.data() as Shoutout;
+        return data;
       });
+
+      setAllShoutouts(newShoutouts);
     });
-    return () => {
-      unsubscribe();
-    };
+    return unsubscribe;
   }, [setAllShoutouts]);
 
   if (lastDate < earlyDate) {
@@ -203,18 +195,24 @@ const AdminShoutouts: React.FC = () => {
     });
   }
 
-  // const displayShoutouts = allShoutouts
-  // ?.filter((shoutout) => {
-  //   const shoutoutDate = new Date(shoutout.timestamp);
-  //   return (
-  //     (view === 'ALL' ||
-  //       (view === 'PRESENT' && !shoutout.hidden) ||
-  //       (view === 'HIDDEN' && shoutout.hidden)) &&
-  //     shoutoutDate >= earlyDate &&
-  //     shoutoutDate <= lastDate
-  //   );
-  // })
-  // .sort((a, b) => a.timestamp - b.timestamp);
+  const displayShoutouts = allShoutouts
+    ?.filter((shoutout) => {
+      const shoutoutDate = new Date(shoutout.timestamp);
+      const currentDate = new Date();
+      const timeZone = 'America/New_York';
+
+      const shoutoutDateString = shoutoutDate.toLocaleDateString('en-US', { timeZone });
+      const currentDateString = currentDate.toLocaleDateString('en-US', { timeZone });
+
+      return (
+        (view === 'ALL' ||
+          (view === 'PRESENT' && !shoutout.hidden) ||
+          (view === 'HIDDEN' && shoutout.hidden)) &&
+        (shoutoutDate >= earlyDate || shoutoutDateString === currentDateString) &&
+        shoutoutDate <= lastDate
+      );
+    })
+    .sort((a, b) => a.timestamp - b.timestamp);
 
   return (
     <div>
@@ -239,13 +237,9 @@ const AdminShoutouts: React.FC = () => {
       <div className={styles.shoutoutsListContainer}>
         <Header className={styles.formTitle} content={getListTitle(view)}></Header>
         <DisplayList
-          displayShoutouts={allShoutouts?.length ? allShoutouts : []}
+          displayShoutouts={displayShoutouts}
           view={view}
-          setAllShoutouts={(shoutouts) => {
-            if (shoutouts) {
-              setAllShoutouts((shoutouts = []) => shoutouts);
-            }
-          }}
+          setAllShoutouts={setAllShoutouts}
         />
       </div>
     </div>
