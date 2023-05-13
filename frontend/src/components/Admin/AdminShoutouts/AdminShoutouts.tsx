@@ -198,17 +198,11 @@ const AdminShoutouts: React.FC = () => {
   const displayShoutouts = allShoutouts
     ?.filter((shoutout) => {
       const shoutoutDate = new Date(shoutout.timestamp);
-      const currentDate = new Date();
-      const timeZone = 'America/New_York';
-
-      const shoutoutDateString = shoutoutDate.toLocaleDateString('en-US', { timeZone });
-      const currentDateString = currentDate.toLocaleDateString('en-US', { timeZone });
-
       return (
         (view === 'ALL' ||
           (view === 'PRESENT' && !shoutout.hidden) ||
           (view === 'HIDDEN' && shoutout.hidden)) &&
-        (shoutoutDate >= earlyDate || shoutoutDateString === currentDateString) &&
+        shoutoutDate >= earlyDate &&
         shoutoutDate <= lastDate
       );
     })
