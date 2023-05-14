@@ -4,8 +4,10 @@ import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
 export default class ImagesAPI {
   // member images
-  public static getMemberImage(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getMemberImage`).then((res) => res.data);
+  public static getMemberImage(email: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/memberImage/${email}`).then(
+      (res) => res.data
+    );
 
     return responseProm.then((val) => {
       if (val.error) {
@@ -16,7 +18,9 @@ export default class ImagesAPI {
   }
 
   private static getSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getImageSignedURL`).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/memberImage/signedURL`).then(
+      (res) => res.data
+    );
     return responseProm.then((val) => val.url);
   }
 

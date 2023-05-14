@@ -233,7 +233,8 @@ loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
 loginCheckedPut('/team', async (req, user) => ({
   team: await setTeam(req.body, user)
 }));
-loginCheckedDelete('/team/:uuid', async (req, user) => ({
+// TODO: should eventually make this a delete request
+loginCheckedPost('/team', async (req, user) => ({
   team: await deleteTeam(req.body, user)
 }));
 
