@@ -9,7 +9,7 @@ type ShoutoutResponseObj = {
 
 export default class ShoutoutsAPI {
   public static getAllShoutouts(): Promise<Shoutout[]> {
-    const responseProm = APIWrapper.get(`${backendURL}/allShoutouts`).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/shoutout`).then((res) => res.data);
     return responseProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -24,7 +24,7 @@ export default class ShoutoutsAPI {
   }
 
   public static getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
-    const responseProm = APIWrapper.get(`${backendURL}/getShoutouts/${email}/${type}`).then(
+    const responseProm = APIWrapper.get(`${backendURL}/shoutout/${email}/${type}`).then(
       (res) => res.data
     );
     return responseProm.then((val) => {
@@ -41,14 +41,14 @@ export default class ShoutoutsAPI {
   }
 
   public static giveShoutout(shoutout: Shoutout): Promise<ShoutoutResponseObj> {
-    return APIWrapper.post(`${backendURL}/giveShoutout`, shoutout).then((res) => res.data);
+    return APIWrapper.post(`${backendURL}/shoutout`, shoutout).then((res) => res.data);
   }
 
   public static hideShoutout(uuid: string, hide: boolean): Promise<void> {
-    return APIWrapper.post(`${backendURL}/hideShoutout`, { uuid, hide }).then((res) => res.data);
+    return APIWrapper.put(`${backendURL}/shoutout`, { uuid, hide }).then((res) => res.data);
   }
 
   public static async deleteShoutout(uuid: string): Promise<void> {
-    await APIWrapper.post(`${backendURL}/deleteShoutout`, { uuid });
+    await APIWrapper.delete(`${backendURL}/deleteShoutout/${uuid}`);
   }
 }

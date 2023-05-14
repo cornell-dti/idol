@@ -217,7 +217,7 @@ loginCheckedDelete('/member/:email', async (req, user) => {
   await deleteMember(req.params.email, user);
   return {};
 });
-loginCheckedPut('/updateMember', async (req, user) => ({
+loginCheckedPut('/member', async (req, user) => ({
   member: await updateMember(req, req.body, user)
 }));
 
@@ -251,25 +251,25 @@ router.get('/memberImage', async (_, res) => {
 });
 
 // Shoutouts
-loginCheckedGet('/getShoutouts/:email/:type', async (req, user) => ({
+loginCheckedGet('/shoutout/:email/:type', async (req, user) => ({
   shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
 }));
 
-loginCheckedGet('/allShoutouts', async () => ({
+loginCheckedGet('/shoutout', async () => ({
   shoutouts: await getAllShoutouts()
 }));
 
-loginCheckedPost('/giveShoutout', async (req, user) => ({
+loginCheckedPost('/shoutout', async (req, user) => ({
   shoutout: await giveShoutout(req.body, user)
 }));
 
-loginCheckedPost('/hideShoutout', async (req, user) => {
+loginCheckedPut('/shoutout', async (req, user) => {
   await hideShoutout(req.body.uuid, req.body.hide, user);
   return {};
 });
 
-loginCheckedPost('/deleteShoutout', async (req, user) => {
-  await deleteShoutout(req.body.uuid, user);
+loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
+  await deleteShoutout(req.params.uuid, user);
   return {};
 });
 
