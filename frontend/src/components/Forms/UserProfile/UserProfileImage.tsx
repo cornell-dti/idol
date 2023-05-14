@@ -12,18 +12,16 @@ const UserProfileImage: React.FC = () => {
   const [editor, setEditor] = useState<null | AvatarEditor>(null);
   const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
 
-  // When the user is logged in, `useSelf` always return non-null data.
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const userInfo = useSelf()!;
+  const userInfo = useSelf();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {
       return;
     }
-    ImagesAPI.getMemberImage(userInfo.email).then((url: string) => {
+    ImagesAPI.getMemberImage(userInfo ? userInfo.email : '').then((url: string) => {
       setProfilePhoto(url);
     });
-  }, [userInfo.email]);
+  }, [userInfo]);
 
   const cropAndSubmitImage = () => {
     if (editor !== null) {
