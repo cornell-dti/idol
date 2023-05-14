@@ -238,13 +238,13 @@ loginCheckedDelete('/team/:uuid', async (req, user) => ({
 }));
 
 // Images
-loginCheckedGet('/getMemberImage', async (_, user) => ({
+loginCheckedGet('/memberImage/:email', async (_, user) => ({
   url: await getMemberImage(user)
 }));
-loginCheckedGet('/getImageSignedURL', async (_, user) => ({
+loginCheckedGet('/memberImage/signedURL', async (_, user) => ({
   url: await setMemberImage(user)
 }));
-router.get('/allMemberImages', async (_, res) => {
+router.get('/memberImage', async (_, res) => {
   const images = await allMemberImages();
   res.status(200).json({ images });
 });
