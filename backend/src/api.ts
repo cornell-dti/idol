@@ -273,11 +273,6 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   return {};
 });
 
-// Permissions
-loginCheckedGet('/isAdmin', async (_, user) => ({
-  isAdmin: await PermissionsManager.isAdmin(user)
-}));
-
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
 loginCheckedGet('/getIDOLChangesPR', (_, user) => getIDOLChangesPR(user));
