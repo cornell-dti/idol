@@ -229,11 +229,11 @@ loginCheckedPut('/memberDiffs', async (req, user) => ({
 }));
 
 // Teams
-loginCheckedGet('/allTeams', async () => ({ teams: await allTeams() }));
-loginCheckedPost('/setTeam', async (req, user) => ({
+loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
+loginCheckedPut('/team', async (req, user) => ({
   team: await setTeam(req.body, user)
 }));
-loginCheckedPost('/deleteTeam', async (req, user) => ({
+loginCheckedDelete('/team/:uuid', async (req, user) => ({
   team: await deleteTeam(req.body, user)
 }));
 
