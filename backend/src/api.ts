@@ -349,26 +349,28 @@ loginCheckedPost('/deleteEventProofImage', async (req, user) => {
 });
 
 // Candidate Decider
-loginCheckedGet('/getAllCandidateDeciderInstances', async (_, user) => ({
+loginCheckedGet('/candidate-decider', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
-loginCheckedGet('/getCandidateDeciderInstance/:uuid', async (req, user) => ({
+loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
 }));
-loginCheckedPost('/createNewCandidateDeciderInstance', async (req, user) => ({
+loginCheckedPost('/candider-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
-loginCheckedPost('/toggleCandidateDeciderInstance', async (req, user) =>
-  toggleCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+loginCheckedPut('/candidate-decider/:uuid', async (req, user) =>
+  toggleCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/deleteCandidateDeciderInstance', async (req, user) =>
-  deleteCandidateDeciderInstance(req.body.uuid, user).then(() => ({}))
+loginCheckedDelete('/candidate-decider/:uuid', async (req, user) =>
+  deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/updateCandidateDeciderRating', (req, user) =>
-  updateCandidateDeciderRating(user, req.body.uuid, req.body.id, req.body.rating).then(() => ({}))
+loginCheckedPut('/candidate-decider/:uuid/rating', (req, user) =>
+  updateCandidateDeciderRating(user, req.params.uuid, req.body.id, req.body.rating).then(() => ({}))
 );
-loginCheckedPost('/updateCandidateDeciderComment', (req, user) =>
-  updateCandidateDeciderComment(user, req.body.uuid, req.body.id, req.body.comment).then(() => ({}))
+loginCheckedPost('/candidate-decider/:uuid/comment', (req, user) =>
+  updateCandidateDeciderComment(user, req.params.uuid, req.body.id, req.body.comment).then(
+    () => ({})
+  )
 );
 loginCheckedPost('/sendMail', async (req, user) => ({
   info: await sendMail(req.body.to, req.body.subject, req.body.text)
