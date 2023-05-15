@@ -5,6 +5,7 @@ import DevPortfolioTextModal from '../../Modals/DevPortfolioTextModal';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 import styles from './DevPortfolioDetails.module.css';
+import { useSelf } from '../../Common/FirestoreDataProvider';
 
 type Props = {
   uuid: string;
@@ -18,18 +19,23 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
   const [portfolio, setPortfolio] = useState<DevPortfolio | null>(null);
   const [isRegrading, setIsRegrading] = useState<boolean>(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const userInfo = useSelf()!;
+
   useEffect(() => {
     if (isAdminView) {
       DevPortfolioAPI.getDevPortfolio(uuid).then((portfolio) => setPortfolio(portfolio));
     } else {
       DevPortfolioAPI.getDevPortfolioInfo(uuid).then((portfolioInfo) => {
         const portfolio = portfolioInfo as DevPortfolio;
-        DevPortfolioAPI.getUsersDevPortfolioSubmissions(uuid).then((portfolioSubmissions) => {
-          setPortfolio({ ...portfolio, submissions: portfolioSubmissions });
-        });
+        DevPortfolioAPI.getUsersDevPortfolioSubmissions(uuid, userInfo.email).then(
+          (portfolioSubmissions) => {
+            setPortfolio({ ...portfolio, submissions: portfolioSubmissions });
+          }
+        );
       });
     }
-  }, [uuid, isAdminView]);
+  }, [uuid, isAdminView, userInfo.email]);
 
   const handleExportToCsv = () => {
     if (portfolio?.submissions === undefined || portfolio?.submissions.length <= 0) {
