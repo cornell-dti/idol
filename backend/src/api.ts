@@ -300,40 +300,39 @@ loginCheckedGet('/signInPrompt/:id', async (req, _) => ({
 }));
 
 // Team Events
-loginCheckedPost('/createTeamEvent', async (req, user) => {
+loginCheckedPost('/team-event', async (req, user) => {
   await createTeamEvent(req.body, user);
   return {};
 });
-loginCheckedGet('/getTeamEvent/:uuid', async (req, user) => ({
+loginCheckedGet('/team-event/:uuid', async (req, user) => ({
   event: await getTeamEvent(req.params.uuid, user)
 }));
-loginCheckedGet('/getAllTeamEvents', async (_, user) => ({ events: await getAllTeamEvents(user) }));
-loginCheckedPost('/updateTeamEvent', async (req, user) => ({
+loginCheckedGet('/team-event', async (req, user) => ({
+  events: !req.query.meta_only ? await getAllTeamEvents(user) : await getAllTeamEventInfo()
+}));
+loginCheckedPut('/team-event', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEvent', async (req, user) => {
+loginCheckedDelete('/team-event/:uuid', async (req, user) => {
   await deleteTeamEvent(req.body, user);
   return {};
 });
-loginCheckedDelete('/clearAllTeamEvents', async (_, user) => {
+loginCheckedDelete('/team-event', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
-loginCheckedGet('/getAllTeamEventInfo', async () => ({
-  allTeamEventInfo: await getAllTeamEventInfo()
-}));
-loginCheckedPost('/requestTeamEventCredit', async (req, user) => {
+loginCheckedPost('/team-event/attendance', async (req, user) => {
   await requestTeamEventCredit(req.body.request, user);
   return {};
 });
-loginCheckedGet('/getTeamEventAttendanceByUser', async (_, user) => ({
+loginCheckedGet('/team-event/attendance/:email', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
-loginCheckedPost('/updateTeamEventAttendance', async (req, user) => ({
+loginCheckedPut('/team-event/attendance', async (req, user) => ({
   teamEventAttendance: await updateTeamEventAttendance(req.body, user)
 }));
-loginCheckedPost('/deleteTeamEventAttendance', async (req, user) => {
-  await deleteTeamEventAttendance(req.body.uuid, user);
+loginCheckedDelete('/team-event/attendance/:uuid', async (req, user) => {
+  await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
 
