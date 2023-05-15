@@ -1,10 +1,16 @@
-import { Request } from 'express';
+import { Request, Router } from 'express';
 import MembersDao from '../dao/MembersDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
 import { sendMemberUpdateNotifications } from './mailAPI';
+import {
+  loginCheckedDelete,
+  loginCheckedGet,
+  loginCheckedPost,
+  loginCheckedPut
+} from '../utils/auth';
 
 const membersDao = new MembersDao();
 
@@ -119,3 +125,40 @@ export const reviewUserInformationChange = async (
     MembersDao.revertMemberInformationChanges(rejected)
   ]);
 };
+
+export const memberRouter = Router();
+export const memberDiffRouter = Router();
+
+memberRouter.get('/', async (req, res) => {
+  const type = req.query.type as string | undefined;
+  let members;
+  switch (type) {
+    case 'all-semesters':
+      members = await MembersDao.getMembersFromAllSemesters();
+      break;
+    case 'approved':
+      members = await allApprovedMembers();
+      break;
+    default:
+      members = await allMembers();
+  }
+  res.status(200).json({ members });
+});
+
+loginCheckedPost(memberRouter, '/', async (req, user) => ({
+  member: await setMember(req.body, user)
+}));
+loginCheckedDelete(memberRouter, '/:email', async (req, user) => {
+  await deleteMember(req.params.email, user);
+  return {};
+});
+loginCheckedPut(memberRouter, '/', async (req, user) => ({
+  member: await updateMember(req, req.body, user)
+}));
+
+loginCheckedGet(memberDiffRouter, '/', async (_, user) => ({
+  diffs: await getUserInformationDifference(user)
+}));
+loginCheckedPut(memberDiffRouter, '/', async (req, user) => ({
+  member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
+}));
