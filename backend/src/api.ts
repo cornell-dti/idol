@@ -1,12 +1,9 @@
-import express, { RequestHandler, Request, Response } from 'express';
+import express from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
-import admin from 'firebase-admin';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
-import { app as adminApp, env } from './firebase';
-import PermissionsManager from './utils/permissionsManager';
-import { HandlerError } from './utils/errors';
+import { env } from './firebase';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
@@ -15,16 +12,7 @@ import {
 } from './API/siteIntegrationAPI';
 import { sendMail } from './API/mailAPI';
 import MembersDao from './dao/MembersDao';
-import {
-  allMembers,
-  allApprovedMembers,
-  setMember,
-  deleteMember,
-  updateMember,
-  getUserInformationDifference,
-  reviewUserInformationChange,
-  getMember
-} from './API/memberAPI';
+import { memberRouter, memberDiffRouter, getMember } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import {
@@ -128,76 +116,7 @@ app.use(
   })
 );
 
-const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
-  const idToken = request.headers['auth-token'];
-  if (typeof idToken !== 'string') return undefined;
-  const decodedToken = await admin.auth(adminApp).verifyIdToken(idToken);
-  return decodedToken.email;
-};
-
-const loginCheckedHandler =
-  (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
-  async (req: Request, res: Response): Promise<void> => {
-    const userEmail = await getUserEmailFromRequest(req);
-    if (userEmail == null) {
-      res.status(440).json({ error: 'Not logged in!' });
-      return;
-    }
-    const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
-    if (!user) {
-      res.status(401).send({ error: `No user with email: ${userEmail}` });
-      return;
-    }
-    if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
-    }
-    try {
-      res.status(200).send(await handler(req, user));
-    } catch (error) {
-      if (error instanceof HandlerError) {
-        res.status(error.errorCode).send({ error: error.reason });
-        return;
-      }
-      res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
-    }
-  };
-
-const loginCheckedGet = (
-  path: string,
-  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
-) => router.get(path, loginCheckedHandler(handler));
-
-const loginCheckedPost = (
-  path: string,
-  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
-) => router.post(path, loginCheckedHandler(handler));
-
-const loginCheckedDelete = (
-  path: string,
-  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
-) => router.delete(path, loginCheckedHandler(handler));
-
-const loginCheckedPut = (
-  path: string,
-  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
-) => router.put(path, loginCheckedHandler(handler));
-
 // Members
-router.get('/member', async (req, res) => {
-  const type = req.query.type as string | undefined;
-  let members;
-  switch (type) {
-    case 'all-semesters':
-      members = await MembersDao.getMembersFromAllSemesters();
-      break;
-    case 'approved':
-      members = await allApprovedMembers();
-      break;
-    default:
-      members = await allMembers();
-  }
-  res.status(200).json({ members });
-});
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const member = await getMember(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
@@ -210,23 +129,8 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
   });
 });
 
-loginCheckedPost('/member', async (req, user) => ({
-  member: await setMember(req.body, user)
-}));
-loginCheckedDelete('/member/:email', async (req, user) => {
-  await deleteMember(req.params.email, user);
-  return {};
-});
-loginCheckedPut('/member', async (req, user) => ({
-  member: await updateMember(req, req.body, user)
-}));
-
-loginCheckedGet('/memberDiffs', async (_, user) => ({
-  diffs: await getUserInformationDifference(user)
-}));
-loginCheckedPut('/memberDiffs', async (req, user) => ({
-  member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
-}));
+router.use('/member', memberRouter);
+router.use('/memberDiffs', memberDiffRouter);
 
 // Teams
 loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
