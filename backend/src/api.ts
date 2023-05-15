@@ -375,38 +375,36 @@ loginCheckedPost('/sendMail', async (req, user) => ({
 }));
 
 // Dev Portfolios
-loginCheckedGet('/getAllDevPortfolios', async (req, user) => ({
-  portfolios: await getAllDevPortfolios(user)
+loginCheckedGet('/dev-portfolio', async (req, user) => ({
+  portfolios: !req.query.meta_only
+    ? await getAllDevPortfolios(user)
+    : await getAllDevPortfolioInfo()
 }));
-loginCheckedGet('/getAllDevPortfolioInfo', async (req, user) => ({
-  portfolioInfo: await getAllDevPortfolioInfo()
+loginCheckedGet('/dev-portfolio/:uuid', async (req, user) => ({
+  portfolioInfo: !req.query.meta_only
+    ? await getDevPortfolio(req.params.uuid, user)
+    : await getDevPortfolioInfo(req.params.uuid)
 }));
-loginCheckedGet('/getDevPortfolioInfo/:uuid', async (req, user) => ({
-  portfolioInfo: await getDevPortfolioInfo(req.params.uuid)
-}));
-loginCheckedGet('/getUsersDevPortfolioSubmissions/:uuid', async (req, user) => ({
+loginCheckedGet('/dev-portfolio/:uuid/submission/:email', async (req, user) => ({
   submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
 }));
-loginCheckedGet('/getDevPortfolio/:uuid', async (req, user) => ({
-  portfolio: await getDevPortfolio(req.params.uuid, user)
-}));
-loginCheckedPost('/createNewDevPortfolio', async (req, user) => ({
+loginCheckedPost('/dev-portfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
 }));
-loginCheckedPost('/deleteDevPortfolio', async (req, user) =>
-  deleteDevPortfolio(req.body.uuid, user).then(() => ({}))
+loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
+  deleteDevPortfolio(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost('/makeDevPortfolioSubmission', async (req, user) => {
+loginCheckedPost('/dev-portfolio/submission', async (req, user) => {
   await DPSubmissionRequestLogDao.logRequest(user.email, req.body.uuid, req.body.submission);
   return {
     submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
   };
 });
-loginCheckedPost('/regradeDevPortfolioSubmissions', async (req, user) => ({
+loginCheckedPut('/dev-portfolio/submission', async (req, user) => ({
   portfolio: await regradeSubmissions(req.body.uuid, user)
 }));
-loginCheckedPost('/updateDevPortfolioSubmissions', async (req, user) => ({
-  portfolio: await updateSubmissions(req.body.uuid, req.body.updatedSubmissions, user)
+loginCheckedPut('/dev-portfolio/submission/:uuid', async (req, user) => ({
+  portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
 }));
 
 app.use('/.netlify/functions/api', router);
