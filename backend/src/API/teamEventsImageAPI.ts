@@ -1,6 +1,8 @@
+import { Router } from 'express';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
+import { loginCheckedGet, loginCheckedDelete } from '../utils/auth';
 
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
@@ -68,3 +70,16 @@ export const deleteEventProofImagesForMember = async (user: IdolMember): Promise
     })
   );
 };
+
+export const eventProofImageRouter = Router();
+
+loginCheckedGet(eventProofImageRouter, '/:name(*)', async (req, user) => ({
+  url: await getEventProofImage(req.params.name, user)
+}));
+loginCheckedGet(eventProofImageRouter, '/:name(*)', async (req, user) => ({
+  url: await setEventProofImage(req.params.name, user)
+}));
+loginCheckedDelete(eventProofImageRouter, '/:name', async (req, user) => {
+  await deleteEventProofImage(req.params.name, user);
+  return {};
+});

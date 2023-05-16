@@ -4,46 +4,15 @@ import cors from 'cors';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import { env } from './firebase';
-import {
-  acceptIDOLChanges,
-  getIDOLChangesPR,
-  rejectIDOLChanges,
-  requestIDOLPullDispatch
-} from './API/siteIntegrationAPI';
+import { siteIntegrationRouter } from './API/siteIntegrationAPI';
 import { sendMail } from './API/mailAPI';
 import MembersDao from './dao/MembersDao';
 import { memberRouter, memberDiffRouter, getMember } from './API/memberAPI';
-import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
-import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
-import {
-  getAllShoutouts,
-  getShoutouts,
-  giveShoutout,
-  hideShoutout,
-  deleteShoutout
-} from './API/shoutoutAPI';
-import {
-  allSignInForms,
-  createSignInForm,
-  deleteSignInForm,
-  signIn,
-  signInFormExists,
-  signInFormExpired,
-  getSignInPrompt
-} from './API/signInFormAPI';
-import {
-  createTeamEvent,
-  deleteTeamEvent,
-  getAllTeamEventInfo,
-  getAllTeamEvents,
-  getTeamEvent,
-  updateTeamEvent,
-  clearAllTeamEvents,
-  requestTeamEventCredit,
-  getTeamEventAttendanceByUser,
-  updateTeamEventAttendance,
-  deleteTeamEventAttendance
-} from './API/teamEventsAPI';
+import { memberImageRouter } from './API/imageAPI';
+import { teamRouter } from './API/teamAPI';
+import { shoutoutRouter } from './API/shoutoutAPI';
+import { signInRouter } from './API/signInFormAPI';
+import { teamEventRouter } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
   createNewCandidateDeciderInstance,
@@ -53,11 +22,7 @@ import {
   updateCandidateDeciderRating,
   updateCandidateDeciderComment
 } from './API/candidateDeciderAPI';
-import {
-  deleteEventProofImage,
-  getEventProofImage,
-  setEventProofImage
-} from './API/teamEventsImageAPI';
+import { eventProofImageRouter } from './API/teamEventsImageAPI';
 import {
   getAllDevPortfolios,
   createNewDevPortfolio,
@@ -131,126 +96,21 @@ router.get('/hasIDOLAccess/:email', async (req, res) => {
 
 router.use('/member', memberRouter);
 router.use('/memberDiffs', memberDiffRouter);
-
-// Teams
-loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
-loginCheckedPut('/team', async (req, user) => ({
-  team: await setTeam(req.body, user)
-}));
-// TODO: should eventually make this a delete request
-loginCheckedPost('/team', async (req, user) => ({
-  team: await deleteTeam(req.body, user)
-}));
-
-// Images
-loginCheckedGet('/memberImage/:email', async (_, user) => ({
-  url: await getMemberImage(user)
-}));
-loginCheckedGet('/memberImage/signedURL', async (_, user) => ({
-  url: await setMemberImage(user)
-}));
-router.get('/memberImage', async (_, res) => {
-  const images = await allMemberImages();
-  res.status(200).json({ images });
-});
-
-// Shoutouts
-loginCheckedGet('/shoutout/:email/:type', async (req, user) => ({
-  shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
-}));
-
-loginCheckedGet('/shoutout', async () => ({
-  shoutouts: await getAllShoutouts()
-}));
-
-loginCheckedPost('/shoutout', async (req, user) => ({
-  shoutout: await giveShoutout(req.body, user)
-}));
-
-loginCheckedPut('/shoutout', async (req, user) => {
-  await hideShoutout(req.body.uuid, req.body.hide, user);
-  return {};
-});
-
-loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
-  await deleteShoutout(req.params.uuid, user);
-  return {};
-});
+router.use('/team', teamRouter);
+router.use('/memberImage', memberImageRouter);
+router.use('/shoutout', shoutoutRouter);
+router.use('/', siteIntegrationRouter);
+router.use('/', signInRouter);
+router.use('/team-event', teamEventRouter);
+router.use('/event-proof-image'); // TODO: have to update frontend endpoints
 
 // Pull from IDOL
-loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
-loginCheckedGet('/getIDOLChangesPR', (_, user) => getIDOLChangesPR(user));
-loginCheckedPost('/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
-loginCheckedPost('/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));
 
 // Sign In Form
-loginCheckedPost('/signInExists', async (req, _) => ({
-  exists: await signInFormExists(req.body.id)
-}));
-loginCheckedPost('/signInExpired', async (req, _) => ({
-  expired: await signInFormExpired(req.body.id)
-}));
-loginCheckedPost('/signInCreate', async (req, user) =>
-  createSignInForm(req.body.id, req.body.expireAt, req.body.prompt, user)
-);
-loginCheckedPost('/signInDelete', async (req, user) => {
-  await deleteSignInForm(req.body.id, user);
-  return {};
-});
-loginCheckedPost('/signIn', async (req, user) => signIn(req.body.id, req.body.response, user));
-loginCheckedPost('/signInAll', async (_, user) => allSignInForms(user));
-loginCheckedGet('/signInPrompt/:id', async (req, _) => ({
-  prompt: await getSignInPrompt(req.params.id)
-}));
 
 // Team Events
-loginCheckedPost('/team-event', async (req, user) => {
-  await createTeamEvent(req.body, user);
-  return {};
-});
-loginCheckedGet('/team-event/:uuid', async (req, user) => ({
-  event: await getTeamEvent(req.params.uuid, user)
-}));
-loginCheckedGet('/team-event', async (req, user) => ({
-  events: !req.query.meta_only ? await getAllTeamEvents(user) : await getAllTeamEventInfo()
-}));
-loginCheckedPut('/team-event', async (req, user) => ({
-  event: await updateTeamEvent(req.body, user)
-}));
-loginCheckedDelete('/team-event/:uuid', async (req, user) => {
-  await deleteTeamEvent(req.body, user);
-  return {};
-});
-loginCheckedDelete('/team-event', async (_, user) => {
-  await clearAllTeamEvents(user);
-  return {};
-});
-loginCheckedPost('/team-event/attendance', async (req, user) => {
-  await requestTeamEventCredit(req.body.request, user);
-  return {};
-});
-loginCheckedGet('/team-event/attendance/:email', async (_, user) => ({
-  teamEventAttendance: await getTeamEventAttendanceByUser(user)
-}));
-loginCheckedPut('/team-event/attendance', async (req, user) => ({
-  teamEventAttendance: await updateTeamEventAttendance(req.body, user)
-}));
-loginCheckedDelete('/team-event/attendance/:uuid', async (req, user) => {
-  await deleteTeamEventAttendance(req.params.uuid, user);
-  return {};
-});
 
 // Team Events Proof Image
-loginCheckedGet('/getEventProofImage/:name(*)', async (req, user) => ({
-  url: await getEventProofImage(req.params.name, user)
-}));
-loginCheckedGet('/getEventProofImageSignedURL/:name(*)', async (req, user) => ({
-  url: await setEventProofImage(req.params.name, user)
-}));
-loginCheckedPost('/deleteEventProofImage', async (req, user) => {
-  await deleteEventProofImage(req.body.name, user);
-  return {};
-});
 
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({

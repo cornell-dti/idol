@@ -1,7 +1,14 @@
+import { Router } from 'express';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
 import { PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
+import {
+  loginCheckedDelete,
+  loginCheckedPost,
+  loginCheckedGet,
+  loginCheckedPut
+} from '../utils/auth';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
@@ -135,3 +142,41 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
   }
   await teamEventAttendanceDao.deleteTeamEventAttendance(uuid);
 };
+
+export const teamEventRouter = Router();
+
+loginCheckedPost(teamEventRouter, '/', async (req, user) => {
+  await createTeamEvent(req.body, user);
+  return {};
+});
+loginCheckedGet(teamEventRouter, '/:uuid', async (req, user) => ({
+  event: await getTeamEvent(req.params.uuid, user)
+}));
+loginCheckedGet(teamEventRouter, '/', async (req, user) => ({
+  events: !req.query.meta_only ? await getAllTeamEvents(user) : await getAllTeamEventInfo()
+}));
+loginCheckedPut(teamEventRouter, '/', async (req, user) => ({
+  event: await updateTeamEvent(req.body, user)
+}));
+loginCheckedDelete(teamEventRouter, '/:uuid', async (req, user) => {
+  await deleteTeamEvent(req.body, user);
+  return {};
+});
+loginCheckedDelete(teamEventRouter, '/', async (_, user) => {
+  await clearAllTeamEvents(user);
+  return {};
+});
+loginCheckedPost(teamEventRouter, '/attendance', async (req, user) => {
+  await requestTeamEventCredit(req.body.request, user);
+  return {};
+});
+loginCheckedGet(teamEventRouter, '/attendance/:email', async (_, user) => ({
+  teamEventAttendance: await getTeamEventAttendanceByUser(user)
+}));
+loginCheckedPut(teamEventRouter, '/attendance', async (req, user) => ({
+  teamEventAttendance: await updateTeamEventAttendance(req.body, user)
+}));
+loginCheckedDelete(teamEventRouter, '/attendance/:uuid', async (req, user) => {
+  await deleteTeamEventAttendance(req.params.uuid, user);
+  return {};
+});
