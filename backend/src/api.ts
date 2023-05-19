@@ -13,15 +13,7 @@ import { teamRouter } from './API/teamAPI';
 import { shoutoutRouter } from './API/shoutoutAPI';
 import { signInRouter } from './API/signInFormAPI';
 import { teamEventRouter } from './API/teamEventsAPI';
-import {
-  getAllCandidateDeciderInstances,
-  createNewCandidateDeciderInstance,
-  toggleCandidateDeciderInstance,
-  deleteCandidateDeciderInstance,
-  getCandidateDeciderInstance,
-  updateCandidateDeciderRating,
-  updateCandidateDeciderComment
-} from './API/candidateDeciderAPI';
+import { candidateDeciderRouter } from './API/candidateDeciderAPI';
 import { eventProofImageRouter } from './API/teamEventsImageAPI';
 import {
   getAllDevPortfolios,
@@ -103,42 +95,7 @@ router.use('/', siteIntegrationRouter);
 router.use('/', signInRouter);
 router.use('/team-event', teamEventRouter);
 router.use('/event-proof-image'); // TODO: have to update frontend endpoints
-
-// Pull from IDOL
-
-// Sign In Form
-
-// Team Events
-
-// Team Events Proof Image
-
-// Candidate Decider
-loginCheckedGet('/candidate-decider', async (_, user) => ({
-  instances: await getAllCandidateDeciderInstances(user)
-}));
-loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
-  instance: await getCandidateDeciderInstance(req.params.uuid, user)
-}));
-loginCheckedPost('/candider-decider', async (req, user) => ({
-  instance: await createNewCandidateDeciderInstance(req.body, user)
-}));
-loginCheckedPut('/candidate-decider/:uuid', async (req, user) =>
-  toggleCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
-);
-loginCheckedDelete('/candidate-decider/:uuid', async (req, user) =>
-  deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
-);
-loginCheckedPut('/candidate-decider/:uuid/rating', (req, user) =>
-  updateCandidateDeciderRating(user, req.params.uuid, req.body.id, req.body.rating).then(() => ({}))
-);
-loginCheckedPost('/candidate-decider/:uuid/comment', (req, user) =>
-  updateCandidateDeciderComment(user, req.params.uuid, req.body.id, req.body.comment).then(
-    () => ({})
-  )
-);
-loginCheckedPost('/sendMail', async (req, user) => ({
-  info: await sendMail(req.body.to, req.body.subject, req.body.text)
-}));
+router.use('/candidate-decider', candidateDeciderRouter);
 
 // Dev Portfolios
 loginCheckedGet('/dev-portfolio', async (req, user) => ({
