@@ -150,7 +150,7 @@ export const updateCandidateDeciderComment = async (
   candidateDeciderDao.updateInstance(updatedInstance);
 };
 
-const candidateDeciderRouter = Router();
+export const candidateDeciderRouter = Router();
 
 loginCheckedGet(candidateDeciderRouter, '/', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)

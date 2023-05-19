@@ -5,8 +5,6 @@ import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import { env } from './firebase';
 import { siteIntegrationRouter } from './API/siteIntegrationAPI';
-import { sendMail } from './API/mailAPI';
-import MembersDao from './dao/MembersDao';
 import { memberRouter, memberDiffRouter, getMember } from './API/memberAPI';
 import { memberImageRouter } from './API/imageAPI';
 import { teamRouter } from './API/teamAPI';
@@ -14,20 +12,8 @@ import { shoutoutRouter } from './API/shoutoutAPI';
 import { signInRouter } from './API/signInFormAPI';
 import { teamEventRouter } from './API/teamEventsAPI';
 import { candidateDeciderRouter } from './API/candidateDeciderAPI';
-import { eventProofImageRouter } from './API/teamEventsImageAPI';
-import {
-  getAllDevPortfolios,
-  createNewDevPortfolio,
-  deleteDevPortfolio,
-  makeDevPortfolioSubmission,
-  getDevPortfolio,
-  getAllDevPortfolioInfo,
-  getDevPortfolioInfo,
-  getUsersDevPortfolioSubmissions,
-  regradeSubmissions,
-  updateSubmissions
-} from './API/devPortfolioAPI';
-import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
+import eventProofImageRouter from './API/teamEventsImageAPI';
+import { devPortfolioRouter } from './API/devPortfolioAPI';
 import AdminsDao from './dao/AdminsDao';
 
 // Constants and configurations
@@ -94,41 +80,11 @@ router.use('/shoutout', shoutoutRouter);
 router.use('/', siteIntegrationRouter);
 router.use('/', signInRouter);
 router.use('/team-event', teamEventRouter);
-router.use('/event-proof-image'); // TODO: have to update frontend endpoints
+router.use('/event-proof-image', eventProofImageRouter);
 router.use('/candidate-decider', candidateDeciderRouter);
+router.use('/dev-portfolio', devPortfolioRouter);
 
 // Dev Portfolios
-loginCheckedGet('/dev-portfolio', async (req, user) => ({
-  portfolios: !req.query.meta_only
-    ? await getAllDevPortfolios(user)
-    : await getAllDevPortfolioInfo()
-}));
-loginCheckedGet('/dev-portfolio/:uuid', async (req, user) => ({
-  portfolioInfo: !req.query.meta_only
-    ? await getDevPortfolio(req.params.uuid, user)
-    : await getDevPortfolioInfo(req.params.uuid)
-}));
-loginCheckedGet('/dev-portfolio/:uuid/submission/:email', async (req, user) => ({
-  submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
-}));
-loginCheckedPost('/dev-portfolio', async (req, user) => ({
-  portfolio: await createNewDevPortfolio(req.body, user)
-}));
-loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
-  deleteDevPortfolio(req.params.uuid, user).then(() => ({}))
-);
-loginCheckedPost('/dev-portfolio/submission', async (req, user) => {
-  await DPSubmissionRequestLogDao.logRequest(user.email, req.body.uuid, req.body.submission);
-  return {
-    submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
-  };
-});
-loginCheckedPut('/dev-portfolio/submission', async (req, user) => ({
-  portfolio: await regradeSubmissions(req.body.uuid, user)
-}));
-loginCheckedPut('/dev-portfolio/submission/:uuid', async (req, user) => ({
-  portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
-}));
 
 app.use('/.netlify/functions/api', router);
 

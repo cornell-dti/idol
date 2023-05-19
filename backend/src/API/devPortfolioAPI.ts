@@ -1,8 +1,16 @@
+import { Router } from 'express';
 import { DateTime } from 'luxon';
 import DevPortfolioDao from '../dao/DevPortfolioDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError, NotFoundError } from '../utils/errors';
 import { validateSubmission, isWithinDates } from '../utils/githubUtil';
+import {
+  loginCheckedDelete,
+  loginCheckedGet,
+  loginCheckedPost,
+  loginCheckedPut
+} from '../utils/auth';
+import DPSubmissionRequestLogDao from '../dao/DPSubmissionRequestLogDao';
 
 const zonedTime = (timestamp: number, ianatz = 'America/New_York') =>
   DateTime.fromMillis(timestamp, { zone: ianatz });
@@ -158,3 +166,41 @@ export const regradeSubmissions = async (uuid: string, user: IdolMember): Promis
   await devPortfolioDao.updateInstance(updatedDP);
   return updatedDP;
 };
+
+export const devPortfolioRouter = Router();
+
+loginCheckedGet(devPortfolioRouter, '/dev-portfolio', async (req, user) => ({
+  portfolios: !req.query.meta_only
+    ? await getAllDevPortfolios(user)
+    : await getAllDevPortfolioInfo()
+}));
+loginCheckedGet(devPortfolioRouter, '/dev-portfolio/:uuid', async (req, user) => ({
+  portfolioInfo: !req.query.meta_only
+    ? await getDevPortfolio(req.params.uuid, user)
+    : await getDevPortfolioInfo(req.params.uuid)
+}));
+loginCheckedGet(
+  devPortfolioRouter,
+  '/dev-portfolio/:uuid/submission/:email',
+  async (req, user) => ({
+    submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
+  })
+);
+loginCheckedPost(devPortfolioRouter, '/dev-portfolio', async (req, user) => ({
+  portfolio: await createNewDevPortfolio(req.body, user)
+}));
+loginCheckedDelete(devPortfolioRouter, '/dev-portfolio/:uuid', async (req, user) =>
+  deleteDevPortfolio(req.params.uuid, user).then(() => ({}))
+);
+loginCheckedPost(devPortfolioRouter, '/dev-portfolio/submission', async (req, user) => {
+  await DPSubmissionRequestLogDao.logRequest(user.email, req.body.uuid, req.body.submission);
+  return {
+    submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
+  };
+});
+loginCheckedPut(devPortfolioRouter, '/dev-portfolio/submission', async (req, user) => ({
+  portfolio: await regradeSubmissions(req.body.uuid, user)
+}));
+loginCheckedPut(devPortfolioRouter, '/dev-portfolio/submission/:uuid', async (req, user) => ({
+  portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
+}));
