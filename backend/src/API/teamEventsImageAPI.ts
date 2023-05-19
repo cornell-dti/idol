@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { bucket } from '../firebase';
-import { getNetIDFromEmail } from '../utils/memberUtil';
+// import { getNetIDFromEmail } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
 import { loginCheckedGet, loginCheckedDelete } from '../utils/auth';
 
@@ -84,4 +84,4 @@ loginCheckedDelete(eventProofImageRouter, '/:name', async (req, user) => {
   return {};
 });
 
-export default eventProofsImage;
+export default eventProofImageRouter;
