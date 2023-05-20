@@ -13,7 +13,7 @@ export default class DevPortfolioAPI {
 
   static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
     const response = APIWrapper.get(`${backendURL}/dev-portfolio?meta_only=true`);
-    return response.then((val) => val.data.portfolioInfo);
+    return response.then((val) => val.data.portfolios);
   }
 
   public static async createDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolio> {
@@ -26,14 +26,14 @@ export default class DevPortfolioAPI {
     uuid: string,
     submission: DevPortfolioSubmission
   ): Promise<DevPortfolioSubmissionResponseObj> {
-    return APIWrapper.post(`${backendURL}/dev-portfolio/submission`, {
+    return APIWrapper.post(`${backendURL}/dev-portfolio/${uuid}/submission`, {
       uuid,
       submission
     }).then((res) => res.data);
   }
 
   public static async deleteDevPortfolio(uuid: string): Promise<void> {
-    APIWrapper.delete(`${backendURL}/deleteDevPortfolio/${uuid}`);
+    APIWrapper.delete(`${backendURL}/dev-portfolio/${uuid}`);
   }
 
   public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
@@ -42,7 +42,7 @@ export default class DevPortfolioAPI {
 
   public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
     return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}?meta_only=true`).then(
-      (res) => res.data.portfolioInfo
+      (res) => res.data.portfolio
     );
   }
 
@@ -56,7 +56,7 @@ export default class DevPortfolioAPI {
   }
 
   public static async regradeSubmissions(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.put(`${backendURL}/dev-portfolio/submission`, { uuid }).then(
+    return APIWrapper.put(`${backendURL}/dev-portfolio/${uuid}/submission/regrade`, { uuid }).then(
       (res) => res.data.portfolio
     );
   }
@@ -65,7 +65,7 @@ export default class DevPortfolioAPI {
     uuid: string,
     updatedSubmissions: DevPortfolioSubmission[]
   ): Promise<DevPortfolio> {
-    return APIWrapper.post(`${backendURL}/dev-portfolio/submission/${uuid}`, {
+    return APIWrapper.put(`${backendURL}/dev-portfolio/${uuid}/submission`, {
       uuid,
       updatedSubmissions
     }).then((res) => res.data.portfolio);

@@ -35,7 +35,10 @@ export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInf
 export const getUsersDevPortfolioSubmissions = async (
   uuid: string,
   user: IdolMember
-): Promise<DevPortfolioSubmission[]> => devPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
+): Promise<DevPortfolioSubmission[]> => {
+  console.log(`UUID: ${uuid}`);
+  return devPortfolioDao.getUsersDevPortfolioSubmissions(uuid, user);
+};
 
 export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -168,35 +171,43 @@ export const regradeSubmissions = async (uuid: string, user: IdolMember): Promis
 };
 
 export const devPortfolioRouter = Router();
+const devPortfolioSubmissionRouter = Router({ mergeParams: true });
+devPortfolioRouter.use('/:uuid/submission', devPortfolioSubmissionRouter);
 
+// /dev-portfolio
 loginCheckedGet(devPortfolioRouter, '/', async (req, user) => ({
   portfolios: !req.query.meta_only
     ? await getAllDevPortfolios(user)
     : await getAllDevPortfolioInfo()
 }));
 loginCheckedGet(devPortfolioRouter, '/:uuid', async (req, user) => ({
-  portfolioInfo: !req.query.meta_only
+  portfolio: !req.query.meta_only
     ? await getDevPortfolio(req.params.uuid, user)
     : await getDevPortfolioInfo(req.params.uuid)
 }));
-loginCheckedGet(devPortfolioRouter, '/:uuid/submission/:email', async (req, user) => ({
-  submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
-}));
+
 loginCheckedPost(devPortfolioRouter, '/', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
 }));
 loginCheckedDelete(devPortfolioRouter, '/:uuid', async (req, user) =>
   deleteDevPortfolio(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPost(devPortfolioRouter, '/submission', async (req, user) => {
+
+// devPortfolioSubmissionRouter: /dev-portfolio/:uuid/submission
+loginCheckedPost(devPortfolioSubmissionRouter, '/', async (req, user) => {
   await DPSubmissionRequestLogDao.logRequest(user.email, req.body.uuid, req.body.submission);
   return {
     submission: await makeDevPortfolioSubmission(req.body.uuid, req.body.submission)
   };
 });
-loginCheckedPut(devPortfolioRouter, '/submission', async (req, user) => ({
+// this is asking for the data to be changed on the server
+loginCheckedPut(devPortfolioSubmissionRouter, '/regrade', async (req, user) => ({
   portfolio: await regradeSubmissions(req.body.uuid, user)
 }));
-loginCheckedPut(devPortfolioRouter, '/submission/:uuid', async (req, user) => ({
+// this is providing data from the client to be changed
+loginCheckedPut(devPortfolioSubmissionRouter, '/', async (req, user) => ({
   portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
+}));
+loginCheckedGet(devPortfolioSubmissionRouter, '/:email', async (req, user) => ({
+  submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
 }));
