@@ -1,0 +1,14 @@
+{
+  "resources": {
+    "dev-portfolio": {
+      "attributes": ["meta_only"],
+      "read_only": ["lead"],
+      "read_and_write": ["dev_lead"]
+    },
+    "dev-portfolio-submission": {
+      "attributes": ["email"],
+      "read_only": ["lead"],
+      "read_and_write": ["dev_lead"]
+    }
+  }
+}
