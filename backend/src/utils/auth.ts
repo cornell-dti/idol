@@ -23,19 +23,7 @@ const getUserRole = async (user: IdolMember): Promise<AuthRole | undefined> => {
 const loginCheckedHandler =
   (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
   async (req: Request, res: Response): Promise<void> => {
-    const userEmail = await getUserEmailFromRequest(req);
-    if (userEmail == null) {
-      res.status(440).json({ error: 'Not logged in!' });
-      return;
-    }
-    const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
-    if (!user) {
-      res.status(401).send({ error: `No user with email: ${userEmail}` });
-      return;
-    }
-    if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
-    }
+    const { user } = res.locals;
     try {
       res.status(200).send(await handler(req, user));
     } catch (error) {
@@ -74,9 +62,10 @@ const isAuthorized = async (
   return false;
 };
 
-const getRBACMiddleware =
-  (resource?: string | undefined): RequestHandler =>
+const getAuthMiddleware =
+  (resource?: string): RequestHandler =>
   async (req: Request, res: Response, next: NextFunction) => {
+    // authentication
     const userEmail = await getUserEmailFromRequest(req);
     if (userEmail == null) {
       res.status(440).json({ error: 'Not logged in!' });
@@ -87,6 +76,10 @@ const getRBACMiddleware =
       res.status(401).send({ error: `No user with email: ${userEmail}` });
       return;
     }
+    if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
+      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
+    }
+    // RBAC
     if (
       resource &&
       resource in Object.keys(rbacConfig.resources) &&
@@ -96,6 +89,7 @@ const getRBACMiddleware =
         error: `User with email ${user.email} does not have read and/or write access to the requested resource.`
       });
     }
+    res.locals.user = user;
     next();
   };
 
@@ -104,25 +98,25 @@ export const loginCheckedGet = (
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
   resource?: string
-): RequestHandler => router.get(path, getRBACMiddleware(resource), loginCheckedHandler(handler));
+): RequestHandler => router.get(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
 
 export const loginCheckedPost = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
   resource?: string
-): RequestHandler => router.post(path, getRBACMiddleware(resource), loginCheckedHandler(handler));
+): RequestHandler => router.post(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
 
 export const loginCheckedDelete = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
   resource?: string
-): RequestHandler => router.delete(path, getRBACMiddleware(resource), loginCheckedHandler(handler));
+): RequestHandler => router.delete(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
 
 export const loginCheckedPut = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
   resource?: string
-): RequestHandler => router.put(path, getRBACMiddleware(resource), loginCheckedHandler(handler));
+): RequestHandler => router.put(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
