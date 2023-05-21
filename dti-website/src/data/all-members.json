@@ -1012,8 +1012,8 @@
     "subteams": [
       "clubview"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/justkong/",
     "github": "https://github.com/JustKong13"
