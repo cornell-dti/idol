@@ -5,9 +5,9 @@ import {
   DBCandidateDeciderInstance,
   DBDevPortfolio,
   DevPortfolioSubmissionRequestLog,
-  DBTeamEventAttendance,
-  AuthRoleDoc
+  DBTeamEventAttendance
 } from './types/DataTypes';
+import { AuthRoleDoc } from './types/AuthTypes';
 import { configureAccount } from './utils/firebase-utils';
 
 require('dotenv').config();
