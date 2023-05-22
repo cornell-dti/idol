@@ -103,7 +103,7 @@ type AuthLead =
   | 'ci_lead'
   | 'pm_lead';
 
-export type AuthRole = 'admin' | 'dev' | 'tpm' | 'pm' | 'designer' | AuthLead;
+export type AuthRole = 'admin' | 'dev' | 'tpm' | 'pm' | 'designer' | 'business' | AuthLead;
 
 export interface AuthRoleDoc {
   role: AuthRole;

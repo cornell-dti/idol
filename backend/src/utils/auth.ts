@@ -39,7 +39,7 @@ const isAuthorized = async (
   req: Request,
   resource: string,
   user: IdolMember,
-  rbacConfig: any
+  rbacConfig: any // TODO: create type for rbacconfig
 ): Promise<boolean> => {
   const userRole = await getUserRole(user);
   const resourceRBACConfig = rbacConfig.resources[resource];
