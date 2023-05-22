@@ -14,7 +14,7 @@ export class MembersAPI {
   }
 
   public static setMember(member: Member): Promise<MemberResponseObj> {
-    return APIWrapper.post(`${backendURL}/member`, member).then((res) => res.data);
+    return APIWrapper.post(`${backendURL}/member/${member.email}`, member).then((res) => res.data);
   }
 
   public static deleteMember(memberEmail: string): Promise<{ status: number; error?: string }> {
@@ -22,7 +22,7 @@ export class MembersAPI {
   }
 
   public static updateMember(member: Member): Promise<MemberResponseObj> {
-    return APIWrapper.put(`${backendURL}/member`, member).then((res) => res.data);
+    return APIWrapper.put(`${backendURL}/member/${member.email}`, member).then((res) => res.data);
   }
 
   public static hasIDOLAccess(email: string): Promise<boolean> {

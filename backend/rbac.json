@@ -17,6 +17,18 @@
       "read_and_write": ["lead"],
       "has_metadata": false,
       "has_owner": true
+    },
+    "member": {
+      "read_only": [],
+      "read_and_write": ["lead"],
+      "has_metadata": false,
+      "has_owner": true
+    },
+    "member-diff": {
+      "read_only": [],
+      "read_and_write": ["lead"],
+      "has_metadata": false,
+      "has_owner": false
     }
   }
 }
