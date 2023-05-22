@@ -31,7 +31,7 @@ export const createTeamEvent = async (
 };
 
 export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<void> => {
-  const teamEvent = await TeamEventsDao.getTeamEvent(uuid); // TODO: need to make a dao method for getting full team event
+  const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   if (!teamEvent) return;
 
   const allAttendances = await teamEventAttendanceDao.getTeamEventAttendanceByEventId(uuid);
