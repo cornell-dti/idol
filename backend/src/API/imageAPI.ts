@@ -1,8 +1,6 @@
-import { Router } from 'express';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, filterImagesResponse } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
-import { loginCheckedGet } from '../utils/auth';
 
 export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   const files = await bucket.getFiles({ prefix: 'images/' });
@@ -46,28 +44,3 @@ export const getMemberImage = async (user: IdolMember): Promise<string> => {
   });
   return signedUrl[0];
 };
-
-export const memberImageRouter = Router();
-
-loginCheckedGet(
-  memberImageRouter,
-  '/:email',
-  async (_, user) => ({
-    url: await getMemberImage(user)
-  }),
-  'profile-image'
-);
-
-loginCheckedGet(
-  memberImageRouter,
-  '/:email/signed-url',
-  async (_, user) => ({
-    url: await setMemberImage(user)
-  }),
-  'profile-image'
-);
-
-memberImageRouter.get('/', async (_, res) => {
-  const images = await allMemberImages();
-  res.status(200).json({ images });
-});

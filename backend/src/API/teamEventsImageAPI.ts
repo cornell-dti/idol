@@ -1,10 +1,7 @@
-import { Router } from 'express';
 import { bucket } from '../firebase';
-// import { getNetIDFromEmail } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
-import { loginCheckedGet, loginCheckedDelete } from '../utils/auth';
 
-const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
+export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
   const signedURL = await file.getSignedUrl({
     action: 'write',
@@ -14,7 +11,7 @@ const setEventProofImage = async (name: string, user: IdolMember): Promise<strin
   return signedURL[0];
 };
 
-const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
+export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
   if (!fileExists) {
@@ -56,7 +53,7 @@ const getEventProofImage = async (name: string, user: IdolMember): Promise<strin
 //   return images;
 // };
 
-const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
+export const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
   const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
@@ -70,18 +67,3 @@ const deleteEventProofImage = async (name: string, user: IdolMember): Promise<vo
 //     })
 //   );
 // };
-
-const eventProofImageRouter = Router();
-
-loginCheckedGet(eventProofImageRouter, '/:name(*)', async (req, user) => ({
-  url: await getEventProofImage(req.params.name, user)
-}));
-loginCheckedGet(eventProofImageRouter, '/:name(*)/signed-url', async (req, user) => ({
-  url: await setEventProofImage(req.params.name, user)
-}));
-loginCheckedDelete(eventProofImageRouter, '/:name', async (req, user) => {
-  await deleteEventProofImage(req.params.name, user);
-  return {};
-});
-
-export default eventProofImageRouter;

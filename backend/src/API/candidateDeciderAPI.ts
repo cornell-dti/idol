@@ -1,13 +1,6 @@
-import { Router } from 'express';
 import CandidateDeciderDao from '../dao/CandidateDeciderDao';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
-import {
-  loginCheckedDelete,
-  loginCheckedGet,
-  loginCheckedPost,
-  loginCheckedPut
-} from '../utils/auth';
 
 const candidateDeciderDao = new CandidateDeciderDao();
 
@@ -149,29 +142,3 @@ export const updateCandidateDeciderComment = async (
   };
   candidateDeciderDao.updateInstance(updatedInstance);
 };
-
-export const candidateDeciderRouter = Router();
-
-loginCheckedGet(candidateDeciderRouter, '/', async (_, user) => ({
-  instances: await getAllCandidateDeciderInstances(user)
-}));
-loginCheckedGet(candidateDeciderRouter, '/:uuid', async (req, user) => ({
-  instance: await getCandidateDeciderInstance(req.params.uuid, user)
-}));
-loginCheckedPost(candidateDeciderRouter, '/', async (req, user) => ({
-  instance: await createNewCandidateDeciderInstance(req.body, user)
-}));
-loginCheckedPut(candidateDeciderRouter, '/:uuid', async (req, user) =>
-  toggleCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
-);
-loginCheckedDelete(candidateDeciderRouter, '/:uuid', async (req, user) =>
-  deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
-);
-loginCheckedPut(candidateDeciderRouter, '/:uuid/rating', (req, user) =>
-  updateCandidateDeciderRating(user, req.params.uuid, req.body.id, req.body.rating).then(() => ({}))
-);
-loginCheckedPost(candidateDeciderRouter, '/:uuid/comment', (req, user) =>
-  updateCandidateDeciderComment(user, req.params.uuid, req.body.id, req.body.comment).then(
-    () => ({})
-  )
-);

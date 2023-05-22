@@ -1,9 +1,7 @@
-import { Router } from 'express';
 import { Octokit } from '@octokit/rest';
 import { PRResponse } from '../types/GithubTypes';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
-import { loginCheckedGet, loginCheckedPost } from '../utils/auth';
 
 require('dotenv').config();
 
@@ -110,15 +108,3 @@ const checkPermissions = async (user: IdolMember): Promise<void> => {
     );
   }
 };
-
-export const siteIntegrationRouter = Router();
-
-loginCheckedPost(siteIntegrationRouter, '/pullIDOLChanges', (_, user) =>
-  requestIDOLPullDispatch(user)
-);
-
-loginCheckedGet(siteIntegrationRouter, '/getIDOLChangesPR', (_, user) => getIDOLChangesPR(user));
-
-loginCheckedPost(siteIntegrationRouter, '/acceptIDOLChanges', (_, user) => acceptIDOLChanges(user));
-
-loginCheckedPost(siteIntegrationRouter, '/rejectIDOLChanges', (_, user) => rejectIDOLChanges(user));

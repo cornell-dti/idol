@@ -4,17 +4,18 @@ import cors from 'cors';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import { env } from './firebase';
-import { siteIntegrationRouter } from './API/siteIntegrationAPI';
-import { memberRouter, memberDiffRouter, getMember } from './API/memberAPI';
-import { memberImageRouter } from './API/imageAPI';
-import { teamRouter } from './API/teamAPI';
-import { shoutoutRouter } from './API/shoutoutAPI';
-import { signInRouter } from './API/signInFormAPI';
-import { teamEventRouter } from './API/teamEventsAPI';
-import { candidateDeciderRouter } from './API/candidateDeciderAPI';
-import eventProofImageRouter from './API/teamEventsImageAPI';
-import { devPortfolioRouter } from './API/devPortfolioAPI';
 import AdminsDao from './dao/AdminsDao';
+import { getMember } from './API/memberAPI';
+import { teamRouter } from './API/teamAPI';
+import candidateDeciderRouter from './routers/candidateDeciderRouter';
+import devPortfolioRouter from './routers/devPortfolioRouter';
+import memberImageRouter from './routers/imageRouter';
+import { memberRouter, memberDiffRouter } from './routers/memberRouter';
+import shoutoutRouter from './routers/shoutoutRouter';
+import signInRouter from './routers/signInRouter';
+import siteIntegrationRouter from './routers/siteIntegrationRouter';
+import teamEventRouter from './routers/teamEventRouter';
+import eventProofImageRouter from './routers/teamEventsImageRouter';
 
 // Constants and configurations
 const app = express();

@@ -1,9 +1,7 @@
-import { Router } from 'express';
 import SignInFormDao from '../dao/SignInFormDao';
 import { PermissionError, BadRequestError, NotFoundError } from '../utils/errors';
 import { signInFormCollection, memberCollection } from '../firebase';
 import PermissionsManager from '../utils/permissionsManager';
-import { loginCheckedGet, loginCheckedPost } from '../utils/auth';
 
 const checkIfDocExists = async (id: string): Promise<boolean> =>
   (await signInFormCollection.doc(id).get()).exists;
@@ -89,25 +87,3 @@ export const getSignInPrompt = async (id: string): Promise<string | undefined> =
   if (!signInForm) throw new NotFoundError(`Sign-in form with id ${id} does not exist!`);
   return signInForm.prompt;
 };
-
-export const signInRouter = Router();
-loginCheckedPost(signInRouter, '/signInExists', async (req, _) => ({
-  exists: await signInFormExists(req.body.id)
-}));
-loginCheckedPost(signInRouter, '/signInExpired', async (req, _) => ({
-  expired: await signInFormExpired(req.body.id)
-}));
-loginCheckedPost(signInRouter, '/signInCreate', async (req, user) =>
-  createSignInForm(req.body.id, req.body.expireAt, req.body.prompt, user)
-);
-loginCheckedPost(signInRouter, '/signInDelete', async (req, user) => {
-  await deleteSignInForm(req.body.id, user);
-  return {};
-});
-loginCheckedPost(signInRouter, '/signIn', async (req, user) =>
-  signIn(req.body.id, req.body.response, user)
-);
-loginCheckedPost(signInRouter, '/signInAll', async (_, user) => allSignInForms(user));
-loginCheckedGet(signInRouter, '/signInPrompt/:id', async (req, _) => ({
-  prompt: await getSignInPrompt(req.params.id)
-}));
