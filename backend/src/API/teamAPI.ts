@@ -124,13 +124,23 @@ export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Te
 
 export const teamRouter = Router();
 
-loginCheckedGet(teamRouter, '/', async () => ({ teams: await allTeams() }));
+loginCheckedGet(teamRouter, '/', async () => ({ teams: await allTeams() }), 'team');
 
-loginCheckedPut(teamRouter, '/', async (req, user) => ({
-  team: await setTeam(req.body, user)
-}));
+loginCheckedPut(
+  teamRouter,
+  '/',
+  async (req, user) => ({
+    team: await setTeam(req.body, user)
+  }),
+  'team'
+);
 
 // TODO: should eventually make this a delete request
-loginCheckedPost(teamRouter, '/', async (req, user) => ({
-  team: await deleteTeam(req.body, user)
-}));
+loginCheckedPost(
+  teamRouter,
+  '/',
+  async (req, user) => ({
+    team: await deleteTeam(req.body, user)
+  }),
+  'team'
+);
