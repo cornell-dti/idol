@@ -47,13 +47,13 @@ const isAuthorized = async (
   if (userRole === 'admin') return true;
 
   if (req.method === 'GET') {
-    if (resourceRBACConfig.attributes.includes('meta_only') && req.query.meta_only) return true;
+    if (resourceRBACConfig.has_metadata && req.query.meta_only) return true;
     const canReadRoles = resourceRBACConfig.read_only.push(...resourceRBACConfig.read_and_write);
     if (canReadRoles.includes(userRole)) return true;
   }
 
   const canWriteRoles = resourceRBACConfig.read_and_write;
-  if (resourceRBACConfig.attributes.includes('email') && req.params.email) {
+  if (resourceRBACConfig.has_owner && req.params.email) {
     if (req.params.email === user.email) return true;
   }
 
