@@ -1,5 +1,4 @@
-type AuthLead =
-  | 'lead'
+type AuthLeadTypes =
   | 'dev_lead'
   | 'ops_lead'
   | 'lead'
@@ -16,10 +15,12 @@ export type AuthRole =
   | 'pm'
   | 'designer'
   | 'business'
-  | AuthLead;
+  | 'lead'
+  | AuthLeadTypes;
 
 export interface AuthRoleDoc {
   role: AuthRole;
+  leadType?: AuthLeadTypes;
 }
 
 export interface RBACConfig {

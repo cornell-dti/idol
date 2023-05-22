@@ -5,7 +5,7 @@ import PermissionsManager from './permissionsManager';
 import { app as adminApp, env } from '../firebase';
 import MembersDao from '../dao/MembersDao';
 import rbacConfig from '../../rbac.json';
-import { AuthRole, RBACConfig } from '../types/AuthTypes';
+import { AuthRole, AuthRoleDoc, RBACConfig } from '../types/AuthTypes';
 import AuthRoleDao from '../dao/AuthRoleDao';
 
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
@@ -15,7 +15,7 @@ const getUserEmailFromRequest = async (request: Request): Promise<string | undef
   return decodedToken.email;
 };
 
-const getUserRole = async (user: IdolMember): Promise<AuthRole | undefined> => {
+const getUserRole = async (user: IdolMember): Promise<AuthRoleDoc | undefined> => {
   const authRoleDao = new AuthRoleDao();
   return authRoleDao.getAuthRole(user);
 };
@@ -41,7 +41,8 @@ const isAuthorized = async (
   user: IdolMember,
   rbacConfig: RBACConfig
 ): Promise<boolean> => {
-  const userRole = await getUserRole(user);
+  const roleData = await getUserRole(user);
+  const userRole = roleData?.role;
   const resourceRBACConfig = rbacConfig.resources[resource];
 
   if (userRole === 'admin') return true;
@@ -53,7 +54,11 @@ const isAuthorized = async (
       ...resourceRBACConfig.read_and_write
     ];
 
-    if (canReadRoles.includes(userRole)) return true;
+    if (
+      canReadRoles.includes(userRole) ||
+      (userRole === 'lead' && canReadRoles.includes(roleData?.leadType))
+    )
+      return true;
   }
 
   const canWriteRoles = resourceRBACConfig.read_and_write;
@@ -61,7 +66,11 @@ const isAuthorized = async (
     if (req.params.email === user.email) return true;
   }
 
-  if (canWriteRoles.includes(userRole)) return true;
+  if (
+    canWriteRoles.includes(userRole) ||
+    (userRole === 'lead' && canWriteRoles.includes(roleData?.leadType))
+  )
+    return true;
 
   return false;
 };

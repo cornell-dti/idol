@@ -1,6 +1,6 @@
 import BaseDao from './BaseDao';
 import { authRoleCollection } from '../firebase';
-import { AuthRoleDoc, AuthRole } from '../types/DataTypes';
+import { AuthRoleDoc } from '../types/AuthTypes';
 
 export default class AuthRoleDao extends BaseDao<AuthRoleDoc, AuthRoleDoc> {
   constructor() {
@@ -11,8 +11,8 @@ export default class AuthRoleDao extends BaseDao<AuthRoleDoc, AuthRoleDoc> {
     );
   }
 
-  async getAuthRole(user: IdolMember): Promise<AuthRole | undefined> {
+  async getAuthRole(user: IdolMember): Promise<AuthRoleDoc | undefined> {
     const authRoleData = await this.getDocument(user.email);
-    return authRoleData?.role;
+    return authRoleData || undefined;
   }
 }
