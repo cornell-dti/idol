@@ -170,7 +170,7 @@ loginCheckedDelete(candidateDeciderRouter, '/:uuid', async (req, user) =>
 loginCheckedPut(candidateDeciderRouter, '/:uuid/rating', (req, user) =>
   updateCandidateDeciderRating(user, req.params.uuid, req.body.id, req.body.rating).then(() => ({}))
 );
-loginCheckedPost(candidateDeciderRouter, '/decider/:uuid/comment', (req, user) =>
+loginCheckedPost(candidateDeciderRouter, '/:uuid/comment', (req, user) =>
   updateCandidateDeciderComment(user, req.params.uuid, req.body.id, req.body.comment).then(
     () => ({})
   )

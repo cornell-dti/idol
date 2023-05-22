@@ -3,14 +3,20 @@
     "dev-portfolio": {
       "read_only": ["lead"],
       "read_and_write": ["dev_lead"],
-      "has_metdata": true,
+      "has_metadata": true,
       "has_owner": false
     },
     "dev-portfolio-submission": {
       "read_only": ["lead"],
       "read_and_write": ["dev_lead"],
-      "has_metdata": true,
+      "has_metadata": true,
       "has_owner": false
+    },
+    "profile-image": {
+      "read_only": [],
+      "read_and_write": ["lead"],
+      "has_metadata": false,
+      "has_owner": true
     }
   }
 }

@@ -17,15 +17,15 @@ export default class ImagesAPI {
     });
   }
 
-  private static getSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/memberImage/signedURL`).then(
+  private static getSignedURL(email: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/memberImage/${email}/signed-url`).then(
       (res) => res.data
     );
     return responseProm.then((val) => val.url);
   }
 
-  public static uploadMemberImage(body: Blob): Promise<void> {
-    return this.getSignedURL().then((url) => {
+  public static uploadMemberImage(body: Blob, email: string): Promise<void> {
+    return this.getSignedURL(email).then((url) => {
       const headers = { 'content-type': 'image/jpeg' };
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });

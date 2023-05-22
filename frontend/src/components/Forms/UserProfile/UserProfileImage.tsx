@@ -31,7 +31,7 @@ const UserProfileImage: React.FC = () => {
         .then((res) => res.blob())
         .then((blob) => {
           imageURL = window.URL.createObjectURL(blob);
-          ImagesAPI.uploadMemberImage(blob);
+          ImagesAPI.uploadMemberImage(blob, userInfo?.email || '');
           setProfilePhoto(imageURL);
         });
     }

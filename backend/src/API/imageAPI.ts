@@ -49,13 +49,23 @@ export const getMemberImage = async (user: IdolMember): Promise<string> => {
 
 export const memberImageRouter = Router();
 
-loginCheckedGet(memberImageRouter, '/:email', async (_, user) => ({
-  url: await getMemberImage(user)
-}));
+loginCheckedGet(
+  memberImageRouter,
+  '/:email',
+  async (_, user) => ({
+    url: await getMemberImage(user)
+  }),
+  'profile-image'
+);
 
-loginCheckedGet(memberImageRouter, '/signedURL', async (_, user) => ({
-  url: await setMemberImage(user)
-}));
+loginCheckedGet(
+  memberImageRouter,
+  '/:email/signed-url',
+  async (_, user) => ({
+    url: await setMemberImage(user)
+  }),
+  'profile-image'
+);
 
 memberImageRouter.get('/', async (_, res) => {
   const images = await allMemberImages();
