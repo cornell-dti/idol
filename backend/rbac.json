@@ -41,6 +41,18 @@
       "read_and_write": ["lead"],
       "has_metadata": false,
       "has_owner": false
+    },
+    "team-event": {
+      "read_only": ["lead"],
+      "read_and_write": ["ci_lead"],
+      "has_metadata": true,
+      "has_owner": false
+    },
+    "team-event-attendance": {
+      "read_only": ["lead"],
+      "read_and_write": ["ci_lead"],
+      "has_metadata": false,
+      "has_owner": true
     }
   }
 }
