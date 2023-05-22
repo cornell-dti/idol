@@ -29,6 +29,12 @@
       "read_and_write": ["lead"],
       "has_metadata": false,
       "has_owner": false
+    },
+    "shoutout": {
+      "read_only": [],
+      "read_and_write": ["lead"],
+      "has_metadata": false,
+      "has_owner": true
     }
   }
 }
