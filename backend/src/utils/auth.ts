@@ -5,7 +5,7 @@ import PermissionsManager from './permissionsManager';
 import { app as adminApp, env } from '../firebase';
 import MembersDao from '../dao/MembersDao';
 import rbacConfig from '../../rbac.json';
-import { AuthRole } from '../types/DataTypes';
+import { AuthRole, RBACConfig } from '../types/AuthTypes';
 import AuthRoleDao from '../dao/AuthRoleDao';
 
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
@@ -39,7 +39,7 @@ const isAuthorized = async (
   req: Request,
   resource: string,
   user: IdolMember,
-  rbacConfig: any // TODO: create type for rbacconfig
+  rbacConfig: RBACConfig
 ): Promise<boolean> => {
   const userRole = await getUserRole(user);
   const resourceRBACConfig = rbacConfig.resources[resource];
@@ -48,7 +48,11 @@ const isAuthorized = async (
 
   if (req.method === 'GET') {
     if (resourceRBACConfig.has_metadata && req.query.meta_only) return true;
-    const canReadRoles = resourceRBACConfig.read_only.push(...resourceRBACConfig.read_and_write);
+    const canReadRoles: AuthRole[] = [
+      ...resourceRBACConfig.read_only,
+      ...resourceRBACConfig.read_and_write
+    ];
+
     if (canReadRoles.includes(userRole)) return true;
   }
 
@@ -57,7 +61,7 @@ const isAuthorized = async (
     if (req.params.email === user.email) return true;
   }
 
-  if (canWriteRoles.includes('userRole')) return true;
+  if (canWriteRoles.includes(userRole)) return true;
 
   return false;
 };
@@ -83,7 +87,7 @@ const getAuthMiddleware =
     if (
       resource &&
       resource in Object.keys(rbacConfig.resources) &&
-      !(await isAuthorized(req, resource, user, rbacConfig))
+      !(await isAuthorized(req, resource, user, rbacConfig as RBACConfig))
     ) {
       res.status(401).send({
         error: `User with email ${user.email} does not have read and/or write access to the requested resource.`

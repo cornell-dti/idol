@@ -92,19 +92,3 @@ export type DevPortfolioSubmissionRequestLog = {
     uuid: string;
   };
 };
-
-type AuthLead =
-  | 'lead'
-  | 'dev_lead'
-  | 'ops_lead'
-  | 'lead'
-  | 'design_lead'
-  | 'business_lead'
-  | 'ci_lead'
-  | 'pm_lead';
-
-export type AuthRole = 'admin' | 'dev' | 'tpm' | 'pm' | 'designer' | 'business' | AuthLead;
-
-export interface AuthRoleDoc {
-  role: AuthRole;
-}
