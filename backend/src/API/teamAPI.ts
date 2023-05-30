@@ -1,9 +1,7 @@
-import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { Team } from '../types/DataTypes';
 import { BadRequestError } from '../utils/errors';
 import MembersDao from '../dao/MembersDao';
-import { loginCheckedGet, loginCheckedPost, loginCheckedPut } from '../utils/auth';
 
 const membersDao = new MembersDao();
 
@@ -108,26 +106,3 @@ export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Te
   await updateTeamMembers({ ...teamBody, members: [], leaders: [], formerMembers: [] });
   return teamBody;
 };
-
-export const teamRouter = Router();
-
-loginCheckedGet(teamRouter, '/', async () => ({ teams: await allTeams() }), 'team');
-
-loginCheckedPut(
-  teamRouter,
-  '/',
-  async (req, user) => ({
-    team: await setTeam(req.body, user)
-  }),
-  'team'
-);
-
-// TODO: should eventually make this a delete request
-loginCheckedPost(
-  teamRouter,
-  '/',
-  async (req, user) => ({
-    team: await deleteTeam(req.body, user)
-  }),
-  'team'
-);

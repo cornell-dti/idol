@@ -6,7 +6,7 @@ import * as expressWinston from 'express-winston';
 import { env } from './firebase';
 import AdminsDao from './dao/AdminsDao';
 import { getMember } from './API/memberAPI';
-import { teamRouter } from './API/teamAPI';
+import teamRouter from './routers/teamRouter';
 import candidateDeciderRouter from './routers/candidateDeciderRouter';
 import devPortfolioRouter from './routers/devPortfolioRouter';
 import memberImageRouter from './routers/imageRouter';
