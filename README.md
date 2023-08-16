@@ -104,7 +104,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ## DTI
 
-We are a team within the **Cornell Design & Tech Initiative**. For more information, see
+We are a team within **Cornell Digital Technology & Innovation**. For more information, see
 [our website](https://cornelldti.org/).
 
 [![Cornell DTI](https://raw.githubusercontent.com/cornell-dti/design/master/Branding/Wordmark/Dark%20Text/Transparent/Wordmark-Dark%20Text-Transparent%403x.png)](https://cornelldti.org/)

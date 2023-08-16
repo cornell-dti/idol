@@ -95,7 +95,7 @@ const IndexPage = (): JSX.Element => (
               className={styles.paragraph}
               style={{ left: '-365px', top: '60px', width: '370px' }}
             >
-              We are Cornell Design & Tech Initiative. But individually, we are a <b>talented</b>,{' '}
+              We are Cornell Digital Technology and Innovation. But individually, we are a <b>talented</b>,{' '}
               <b>diverse</b> group of students from different colleges and countries striving to
               make a difference in our <b>community</b>.
             </div>
