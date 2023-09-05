@@ -1575,9 +1575,9 @@
     "name": "Pratyush Sudhakar",
     "pronouns": "he/him/his",
     "graduation": "December 2024",
-    "major": "Computer Science, Mathematics",
+    "major": "Computer Science",
     "hometown": "India",
-    "about": "Hey, I'm Pratyush! I'm a sophomore studying computer science and mathematics. I am interested in software development, artificial intelligence, and machine learning. Outside of DTI, I'm also a member of Cornell Wushu Club, NCPA Paintball Team, MMA Club, and Undergraduate Math Club.",
+    "about": "Hello! I'm a junior majoring in computer science and mathematics. I have a keen interest in software development, technical product management, and AI/ML. When I'm not glued to my laptop, you can find me practicing Wushu (a form of martial arts), rock climbing, biking, or catching a nap somewhere in the engineering quad. :D",
     "subteams": [
       "quemein",
       "courseplan",
@@ -1640,8 +1640,8 @@
     "subteams": [
       "dac"
     ],
-    "roleId": "developer",
-    "roleDescription": "Developer",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "minor": "Information Science",
     "linkedin": "https://www.linkedin.com/in/rohanmaheshwari0/"
   },
@@ -1831,10 +1831,11 @@
     "hometown": "Philadelphia, PA",
     "about": "I'm a freshman majoring in CS. I want to create solutions to real-world problems, producing long-lasting impact on communities. Outside of DTI, I like to binge Netflix shows, learn new dances, and try new foods! ",
     "subteams": [
-      "dac"
+      "dac",
+      "leads"
     ],
-    "roleId": "pm",
-    "roleDescription": "Product Manager",
+    "roleId": "lead",
+    "roleDescription": "Lead",
     "linkedin": "https://www.linkedin.com/in/sarahyoung212/",
     "github": "https://github.com/syoung212"
   },
