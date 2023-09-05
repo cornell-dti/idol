@@ -44,6 +44,5 @@
     "**/*.{ts,js,tsx,scss,css,html,md}": [
       "yarn prettier --write"
     ]
-  },
-  "dependencies": {}
+  }
 }
