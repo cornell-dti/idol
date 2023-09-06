@@ -1638,7 +1638,8 @@
     "hometown": "Dallas, TX",
     "about": "Hi! I'm a sophomore at Cornell studying CS :)\n\nSuper passionate about convenient software, and trying to explore it through UX and Fullstack development!\n\nOutside of school, you can find me on the sand in a game of spikeball or immersed in the virtual world of Twitch and gaming.",
     "subteams": [
-      "dac"
+      "dac",
+      "leads"
     ],
     "roleId": "lead",
     "roleDescription": "Lead",
