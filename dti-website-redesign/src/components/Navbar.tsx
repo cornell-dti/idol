@@ -24,7 +24,7 @@ const Navbar = ({ hidden }: Props): JSX.Element =>
         <Link href="/">
           {/* eslint-disable jsx-a11y/anchor-is-valid */}
           <a className={styles.navLogo}>
-            <img src="/branding/wordmark.svg" alt="wordmark" />
+            <img src="/branding/wordmark.svg" className={styles.navLogoImage} alt="wordmark" />
           </a>
         </Link>
 
