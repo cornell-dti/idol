@@ -83,6 +83,7 @@ import {
 } from './API/devPortfolioAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
+import { sendMail } from './API/mailAPI';
 
 // Constants and configurations
 const app = express();
@@ -241,7 +242,7 @@ loginCheckedPost('/team', async (req, user) => ({
 loginCheckedGet('/member-image/:email', async (_, user) => ({
   url: await getMemberImage(user)
 }));
-loginCheckedGet('/member-image/signedURL', async (_, user) => ({
+loginCheckedGet('/member-image-signedURL', async (_, user) => ({
   url: await setMemberImage(user)
 }));
 router.get('/member-image', async (_, res) => {
@@ -313,7 +314,7 @@ loginCheckedPut('/team-event', async (req, user) => ({
   event: await updateTeamEvent(req.body, user)
 }));
 loginCheckedDelete('/team-event/:uuid', async (req, user) => {
-  await deleteTeamEvent(req.body, user);
+  await deleteTeamEvent(req.params.uuid, user);
   return {};
 });
 loginCheckedDelete('/team-event', async (_, user) => {
@@ -324,7 +325,7 @@ loginCheckedPost('/team-event/attendance', async (req, user) => {
   await requestTeamEventCredit(req.body.request, user);
   return {};
 });
-loginCheckedGet('/team-event/attendance/:email', async (_, user) => ({
+loginCheckedGet('/team-event/attendance', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
 loginCheckedPut('/team-event/attendance', async (req, user) => ({
@@ -354,7 +355,7 @@ loginCheckedGet('/candidate-decider', async (_, user) => ({
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
 }));
-loginCheckedPost('/candider-decider', async (req, user) => ({
+loginCheckedPost('/candidate-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
 loginCheckedPut('/candidate-decider/:uuid', async (req, user) =>
@@ -372,6 +373,10 @@ loginCheckedPost('/candidate-decider/:uuid/comment', (req, user) =>
   )
 );
 
+loginCheckedPost('/sendMail', async (req, user) => ({
+  info: await sendMail(req.body.to, req.body.subject, req.body.text)
+}));
+
 // Dev Portfolios
 loginCheckedGet('/dev-portfolio', async (req, user) => ({
   portfolios: !req.query.meta_only
@@ -383,7 +388,7 @@ loginCheckedGet('/dev-portfolio/:uuid', async (req, user) => ({
     ? await getDevPortfolio(req.params.uuid, user)
     : await getDevPortfolioInfo(req.params.uuid)
 }));
-loginCheckedGet('/dev-portfolio/:uuid/submission/:email', async (req, user) => ({
+loginCheckedGet('/dev-portfolio/:uuid/submission', async (req, user) => ({
   submissions: await getUsersDevPortfolioSubmissions(req.params.uuid, user)
 }));
 loginCheckedPost('/dev-portfolio', async (req, user) => ({
@@ -399,7 +404,7 @@ loginCheckedPost('/dev-portfolio/submission', async (req, user) => {
   };
 });
 loginCheckedPut('/dev-portfolio/:uuid/submission/regrade', async (req, user) => ({
-  portfolio: await regradeSubmissions(req.body.uuid, user)
+  portfolio: await regradeSubmissions(req.params.uuid, user)
 }));
 loginCheckedPut('/dev-portfolio/:uuid/submission', async (req, user) => ({
   portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)

@@ -78,7 +78,7 @@ export class TeamEventsAPI {
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
-    await APIWrapper.post(`${backendURL}/team-event/attendance/${uuid}`, { uuid });
+    await APIWrapper.delete(`${backendURL}/team-event/attendance/${uuid}`);
   }
 
   public static async updateTeamEventAttendance(
@@ -89,8 +89,8 @@ export class TeamEventsAPI {
     );
   }
 
-  public static async getTeamEventAttendanceByUser(email: string): Promise<TeamEventAttendance[]> {
-    const res = APIWrapper.get(`${backendURL}/team-event/attendance/${email}`).then(
+  public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
+    const res = APIWrapper.get(`${backendURL}/team-event/attendance`).then(
       (res) => res.data
     );
     return res.then((val) => {

@@ -21,7 +21,7 @@ const TeamEventCreditForm: React.FC = () => {
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
-    TeamEventsAPI.getTeamEventAttendanceByUser(userInfo.email).then((attendance) => {
+    TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
       setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
       setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
       setIsAttendanceLoading(false);

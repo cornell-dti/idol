@@ -37,7 +37,7 @@ export default class DevPortfolioAPI {
   }
 
   public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}`).then((res) => res.data.portfolio);
+    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}`).then((res) => res.data.portfolioInfo);
   }
 
   public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
@@ -47,10 +47,9 @@ export default class DevPortfolioAPI {
   }
 
   public static async getUsersDevPortfolioSubmissions(
-    uuid: string,
-    email: string
+    uuid: string
   ): Promise<DevPortfolioSubmission[]> {
-    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}/submission/${email}`).then(
+    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}/submission`).then(
       (res) => res.data.submissions
     );
   }
@@ -65,7 +64,7 @@ export default class DevPortfolioAPI {
     uuid: string,
     updatedSubmissions: DevPortfolioSubmission[]
   ): Promise<DevPortfolio> {
-    return APIWrapper.post(`${backendURL}/dev-portfolio/${uuid}/submission`, {
+    return APIWrapper.put(`${backendURL}/dev-portfolio/${uuid}/submission`, {
       uuid,
       updatedSubmissions
     }).then((res) => res.data.portfolio);

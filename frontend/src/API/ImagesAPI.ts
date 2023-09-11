@@ -18,7 +18,7 @@ export default class ImagesAPI {
   }
 
   private static getSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/member-image/signedURL`).then(
+    const responseProm = APIWrapper.get(`${backendURL}/member-image-signedURL`).then(
       (res) => res.data
     );
     return responseProm.then((val) => val.url);
@@ -45,7 +45,7 @@ export default class ImagesAPI {
   }
 
   private static getEventProofImageSignedURL(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/event-proof-image/${name}`).then(
+    const responseProm = APIWrapper.get(`${backendURL}/event-proof-image/${name}/signed-url`).then(
       (res) => res.data
     );
     return responseProm.then((val) => val.url);
