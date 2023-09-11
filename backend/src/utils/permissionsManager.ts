@@ -39,7 +39,7 @@ export default class PermissionsManager {
   }
 
   public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> {
-    const isAdmin = this.isAdmin(mem);
+    const isAdmin = await this.isAdmin(mem);
     return mem.role === 'lead' || isAdmin;
   }
 }

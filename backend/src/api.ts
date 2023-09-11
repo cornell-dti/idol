@@ -188,8 +188,7 @@ router.get('/allApprovedMembers', async (_, res) => {
   res.status(200).json({ members });
 });
 router.get('/membersFromAllSemesters', async (_, res) => {
-  const members = await MembersDao.getMembersFromAllSemesters();
-  res.status(200).json({ members });
+  res.status(200).json(await MembersDao.getMembersFromAllSemesters());
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const members = await allMembers();

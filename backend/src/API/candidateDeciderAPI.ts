@@ -40,8 +40,7 @@ export const deleteCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
 ): Promise<void> => {
-  const isAdmin = await PermissionsManager.isAdmin(user);
-  if (!isAdmin)
+  if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instance'
     );
@@ -81,10 +80,9 @@ export const updateCandidateDeciderRating = async (
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
-  const isAdmin = await PermissionsManager.isAdmin(user);
   if (
     !(
-      isAdmin ||
+      (await PermissionsManager.isAdmin(user)) ||
       instance.authorizedMembers.includes(user) ||
       instance.authorizedRoles.includes(user.role)
     )
