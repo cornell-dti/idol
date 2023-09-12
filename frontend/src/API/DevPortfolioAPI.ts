@@ -13,7 +13,7 @@ export default class DevPortfolioAPI {
 
   static async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
     const response = APIWrapper.get(`${backendURL}/dev-portfolio?meta_only=true`);
-    return response.then((val) => val.data.portfolioInfo);
+    return response.then((val) => val.data.portfolios);
   }
 
   public static async createDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolio> {
@@ -33,7 +33,7 @@ export default class DevPortfolioAPI {
   }
 
   public static async deleteDevPortfolio(uuid: string): Promise<void> {
-    APIWrapper.delete(`${backendURL}/deleteDevPortfolio/${uuid}`);
+    APIWrapper.delete(`${backendURL}/dev-portfolio/${uuid}`);
   }
 
   public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
