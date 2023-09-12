@@ -242,6 +242,7 @@ loginCheckedPost('/team', async (req, user) => ({
 loginCheckedGet('/member-image/:email', async (_, user) => ({
   url: await getMemberImage(user)
 }));
+// TODO: Modify this endpoint to /member-image/* to be more RESTful
 loginCheckedGet('/member-image-signedURL', async (_, user) => ({
   url: await setMemberImage(user)
 }));
@@ -340,6 +341,8 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
   url: await getEventProofImage(req.params.name, user)
 }));
+
+// TODO: Modify this endpoint to /event-proof-image/* to be more RESTful
 loginCheckedGet('/event-proof-image-signed-url/:name(*)', async (req, user) => ({
   url: await setEventProofImage(req.params.name, user)
 }));
