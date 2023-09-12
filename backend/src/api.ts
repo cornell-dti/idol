@@ -340,8 +340,8 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
   url: await getEventProofImage(req.params.name, user)
 }));
-loginCheckedGet('/event-proof-image/:name(*)/signed-url', async (req, user) => ({
-  url: await setEventProofImage(req.params.name, user)
+loginCheckedPost('/event-proof-image/signed-url', async (req, user) => ({
+  url: await setEventProofImage(req.body.name, user)
 }));
 loginCheckedDelete('/event-proof-image/:name(*)', async (req, user) => {
   await deleteEventProofImage(req.params.name, user);
