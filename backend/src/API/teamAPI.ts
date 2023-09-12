@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import PermissionsManager from '../utils/permissionsManager';
 import { Team } from '../types/DataTypes';
-import { BadRequestError, PermissionError } from '../utils/errors';
+import { BadRequestError } from '../utils/errors';
 import MembersDao from '../dao/MembersDao';
 
 const membersDao = new MembersDao();
@@ -93,12 +92,6 @@ const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => 
 };
 
 export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
-  const canEdit = await PermissionsManager.canEditTeams(member);
-  if (!canEdit) {
-    throw new PermissionError(
-      `User with email: ${member.email} does not have permission to edit teams!`
-    );
-  }
   if (teamBody.members.length > 0 && !teamBody.members[0].email) {
     throw new BadRequestError('Malformed members on POST!');
   }
@@ -109,12 +102,6 @@ export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team>
 export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
   if (!teamBody.uuid || teamBody.uuid === '') {
     throw new BadRequestError("Couldn't delete team with undefined uuid!");
-  }
-  const canEdit = await PermissionsManager.canEditTeams(member);
-  if (!canEdit) {
-    throw new PermissionError(
-      `User with email: ${member.email} does not have permission to delete teams!`
-    );
   }
   await updateTeamMembers({ ...teamBody, members: [], leaders: [], formerMembers: [] });
   return teamBody;

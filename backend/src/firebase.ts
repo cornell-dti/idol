@@ -7,6 +7,7 @@ import {
   DevPortfolioSubmissionRequestLog,
   DBTeamEventAttendance
 } from './types/DataTypes';
+import { AuthRoleDoc } from './types/AuthTypes';
 import { configureAccount } from './utils/firebase-utils';
 
 require('dotenv').config();
@@ -133,3 +134,14 @@ export const devPortfolioSubmissionRequestLogCollection: admin.firestore.Collect
   });
 
 export const adminCollection: admin.firestore.CollectionReference = db.collection('admins');
+
+export const authRoleCollection: admin.firestore.CollectionReference<AuthRoleDoc> = db
+  .collection('auth-role')
+  .withConverter({
+    fromFirestore(snapshot): AuthRoleDoc {
+      return snapshot.data() as AuthRoleDoc;
+    },
+    toFirestore(authRoleDoc: AuthRoleDoc) {
+      return authRoleDoc;
+    }
+  });

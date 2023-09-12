@@ -1,5 +1,4 @@
 import { bucket } from '../firebase';
-import { getNetIDFromEmail } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
 
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
@@ -25,46 +24,46 @@ export const getEventProofImage = async (name: string, user: IdolMember): Promis
   return signedUrl[0];
 };
 
-export const allEventProofImagesForMember = async (
-  user: IdolMember
-): Promise<readonly EventProofImage[]> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  const files = await bucket.getFiles({ prefix: `eventProofs/${netId}` });
-  const images = await Promise.all(
-    files[0].map(async (file) => {
-      const signedURL = await file.getSignedUrl({
-        action: 'read',
-        expires: Date.now() + 15 * 60000 // 15 min
-      });
-      const fileName = await file.getMetadata().then((data) => data[1].body.name);
-      return {
-        fileName,
-        url: signedURL[0]
-      };
-    })
-  );
+// export const allEventProofImagesForMember = async (
+//   user: IdolMember
+// ): Promise<readonly EventProofImage[]> => {
+//   const netId: string = getNetIDFromEmail(user.email);
+//   const files = await bucket.getFiles({ prefix: `eventProofs/${netId}` });
+//   const images = await Promise.all(
+//     files[0].map(async (file) => {
+//       const signedURL = await file.getSignedUrl({
+//         action: 'read',
+//         expires: Date.now() + 15 * 60000 // 15 min
+//       });
+//       const fileName = await file.getMetadata().then((data) => data[1].body.name);
+//       return {
+//         fileName,
+//         url: signedURL[0]
+//       };
+//     })
+//   );
 
-  images
-    .filter((image) => image.fileName.length > 'eventProofs/'.length)
-    .map((image) => ({
-      ...image,
-      fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
-    }));
+//   images
+//     .filter((image) => image.fileName.length > 'eventProofs/'.length)
+//     .map((image) => ({
+//       ...image,
+//       fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
+//     }));
 
-  return images;
-};
+//   return images;
+// };
 
 export const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
   const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
 
-export const deleteEventProofImagesForMember = async (user: IdolMember): Promise<void> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  const files = await bucket.getFiles({ prefix: `eventProofs/${netId}` });
-  Promise.all(
-    files[0].map(async (file) => {
-      file.delete();
-    })
-  );
-};
+// const deleteEventProofImagesForMember = async (user: IdolMember): Promise<void> => {
+//   const netId: string = getNetIDFromEmail(user.email);
+//   const files = await bucket.getFiles({ prefix: `eventProofs/${netId}` });
+//   Promise.all(
+//     files[0].map(async (file) => {
+//       file.delete();
+//     })
+//   );
+// };

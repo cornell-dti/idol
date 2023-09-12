@@ -4,8 +4,10 @@ import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
 export default class ImagesAPI {
   // member images
-  public static getMemberImage(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getMemberImage`).then((res) => res.data);
+  public static getMemberImage(email: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/memberImage/${email}`).then(
+      (res) => res.data
+    );
 
     return responseProm.then((val) => {
       if (val.error) {
@@ -15,13 +17,15 @@ export default class ImagesAPI {
     });
   }
 
-  private static getSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getImageSignedURL`).then((res) => res.data);
+  private static getSignedURL(email: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/memberImage/${email}/signed-url`).then(
+      (res) => res.data
+    );
     return responseProm.then((val) => val.url);
   }
 
-  public static uploadMemberImage(body: Blob): Promise<void> {
-    return this.getSignedURL().then((url) => {
+  public static uploadMemberImage(body: Blob, email: string): Promise<void> {
+    return this.getSignedURL(email).then((url) => {
       const headers = { 'content-type': 'image/jpeg' };
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
@@ -29,7 +33,7 @@ export default class ImagesAPI {
 
   // Event proof images
   public static getEventProofImage(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImage/${name}`).then(
+    const responseProm = APIWrapper.get(`${backendURL}/event-proof-image/${name}`).then(
       (res) => res.data
     );
     return responseProm.then((val) => {
@@ -41,7 +45,7 @@ export default class ImagesAPI {
   }
 
   private static getEventProofImageSignedURL(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/getEventProofImageSignedURL/${name}`).then(
+    const responseProm = APIWrapper.get(`${backendURL}/event-proof-image/${name}/signed-url`).then(
       (res) => res.data
     );
     return responseProm.then((val) => val.url);
@@ -55,6 +59,6 @@ export default class ImagesAPI {
   }
 
   public static async deleteEventProofImage(name: string): Promise<void> {
-    await APIWrapper.post(`${backendURL}/deleteEventProofImage`, { name });
+    await APIWrapper.post(`${backendURL}/event-proof-image/${name}`, { name });
   }
 }

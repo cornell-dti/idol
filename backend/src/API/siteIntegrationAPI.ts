@@ -1,12 +1,10 @@
 import { Octokit } from '@octokit/rest';
 import { PRResponse } from '../types/GithubTypes';
-import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError, BadRequestError } from '../utils/errors';
 
 require('dotenv').config();
 
 export const requestIDOLPullDispatch = async (user: IdolMember): Promise<{ updated: boolean }> => {
-  await checkPermissions(user);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
@@ -20,7 +18,6 @@ export const requestIDOLPullDispatch = async (user: IdolMember): Promise<{ updat
 };
 
 export const getIDOLChangesPR = async (user: IdolMember): Promise<{ pr: PRResponse }> => {
-  await checkPermissions(user);
   const foundPR = await findBotPR();
   return { pr: foundPR };
 };
@@ -28,7 +25,6 @@ export const getIDOLChangesPR = async (user: IdolMember): Promise<{ pr: PRRespon
 export const acceptIDOLChanges = async (
   user: IdolMember
 ): Promise<{ pr: PRResponse; merged: boolean }> => {
-  await checkPermissions(user);
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/idol-backend'
@@ -62,7 +58,6 @@ export const acceptIDOLChanges = async (
 export const rejectIDOLChanges = async (
   user: IdolMember
 ): Promise<{ pr: PRResponse; closed: boolean }> => {
-  await checkPermissions(user);
   const foundPR = await findBotPR();
   const octokit2 = new Octokit({
     auth: `token ${process.env.BOT_2_TOKEN}`,
@@ -98,13 +93,4 @@ const findBotPR = async (): Promise<PRResponse> => {
     throw new BadRequestError('Unable to find a valid open IDOL member update pull request!');
   }
   return foundPR;
-};
-
-const checkPermissions = async (user: IdolMember): Promise<void> => {
-  const canEdit = await PermissionsManager.canDeploySite(user);
-  if (!canEdit) {
-    throw new PermissionError(
-      `User with email: ${user.email} does not have permission to trigger site deploys!`
-    );
-  }
 };

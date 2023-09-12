@@ -65,7 +65,7 @@ const MemberReview: React.FC = () => {
     .map((it) => it.email);
 
   const sendReviewRequest = async () => {
-    await APIWrapper.post(`${backendURL}/reviewMemberDiffs`, {
+    await APIWrapper.put(`${backendURL}/memberDiffs`, {
       approved: approvedEmails,
       rejected: rejectedEmails
     });
