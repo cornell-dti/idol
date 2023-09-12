@@ -92,7 +92,6 @@ export class TeamEventsAPI {
   public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
     const res = APIWrapper.get(`${backendURL}/team-event-attendance`).then((res) => res.data);
     return res.then((val) => {
-      console.log(val.teamEventAttendance);
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all team event attendance for this user",
