@@ -42,7 +42,7 @@ export class TeamEventsAPI {
         });
         return [];
       }
-      const events = val.allTeamEventInfo as TeamEventInfo[];
+      const events = val.events as TeamEventInfo[];
       return events;
     });
   }
@@ -74,24 +74,25 @@ export class TeamEventsAPI {
   }
 
   public static async requestTeamEventCredit(request: TeamEventAttendance): Promise<void> {
-    APIWrapper.post(`${backendURL}/team-event/attendance`, { request });
+    APIWrapper.post(`${backendURL}/team-event-attendance`, { request });
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/team-event/attendance/${uuid}`);
+    await APIWrapper.delete(`${backendURL}/team-event-attendance/${uuid}`);
   }
 
   public static async updateTeamEventAttendance(
     teamEventAttendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
-    return APIWrapper.put(`${backendURL}/team-event/attendance`, teamEventAttendance).then(
+    return APIWrapper.put(`${backendURL}/team-event-attendance`, teamEventAttendance).then(
       (res) => res.data
     );
   }
 
   public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
-    const res = APIWrapper.get(`${backendURL}/team-event/attendance`).then((res) => res.data);
+    const res = APIWrapper.get(`${backendURL}/team-event-attendance`).then((res) => res.data);
     return res.then((val) => {
+      console.log(val.teamEventAttendance)
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all team event attendance for this user",

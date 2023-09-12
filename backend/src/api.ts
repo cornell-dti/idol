@@ -321,17 +321,17 @@ loginCheckedDelete('/team-event', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
-loginCheckedPost('/team-event/attendance', async (req, user) => {
+loginCheckedPost('/team-event-attendance', async (req, user) => {
   await requestTeamEventCredit(req.body.request, user);
   return {};
 });
-loginCheckedGet('/team-event/attendance', async (_, user) => ({
+loginCheckedGet('/team-event-attendance', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
-loginCheckedPut('/team-event/attendance', async (req, user) => ({
+loginCheckedPut('/team-event-attendance', async (req, user) => ({
   teamEventAttendance: await updateTeamEventAttendance(req.body, user)
 }));
-loginCheckedDelete('/team-event/attendance/:uuid', async (req, user) => {
+loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
