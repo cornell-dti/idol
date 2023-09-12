@@ -90,9 +90,7 @@ export class TeamEventsAPI {
   }
 
   public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
-    const res = APIWrapper.get(`${backendURL}/team-event/attendance`).then(
-      (res) => res.data
-    );
+    const res = APIWrapper.get(`${backendURL}/team-event/attendance`).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({

@@ -37,7 +37,9 @@ export default class DevPortfolioAPI {
   }
 
   public static async getDevPortfolio(uuid: string): Promise<DevPortfolio> {
-    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}`).then((res) => res.data.portfolioInfo);
+    return APIWrapper.get(`${backendURL}/dev-portfolio/${uuid}`).then(
+      (res) => res.data.portfolioInfo
+    );
   }
 
   public static async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
