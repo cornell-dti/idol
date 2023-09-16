@@ -10,7 +10,7 @@ const HEADSHOT_TEMP = 'headshot_tmp';
 
 async function getMemberImages() {
   const { images } = await fetch(
-    'https://idol.cornelldti.org/.netlify/functions/api/allMemberImages'
+    'https://idol.cornelldti.org/.netlify/functions/api/member-image'
   ).then((response) => response.json() as Promise<{ images: readonly ProfileImage[] }>);
   return images;
 }
