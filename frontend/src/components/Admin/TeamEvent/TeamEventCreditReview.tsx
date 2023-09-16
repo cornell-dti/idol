@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Header, Image } from 'semantic-ui-react';
+import { Modal, Button, Header, Image, Loader } from 'semantic-ui-react';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
@@ -11,12 +11,19 @@ const TeamEventCreditReview = (props: {
   const { teamEvent, teamEventAttendance } = props;
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
+    setLoading(true);
     ImagesAPI.getEventProofImage(teamEventAttendance.image).then((url: string) => {
       setImage(url);
+      setLoading(false);
     });
   }, [teamEventAttendance]);
+
+
 
   const approveCreditRequest = (teamEventAttendance: TeamEventAttendance) => {
     const updatedTeamEventAttendance = {
@@ -74,7 +81,11 @@ const TeamEventCreditReview = (props: {
           <p>Team Event: {teamEvent.name}</p>
           <p>Number of Credits: {teamEvent.numCredits}</p>
           {teamEvent.hasHours && <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>}
-          <Image src={image} />
+          {isLoading ? (
+            <Loader active />
+          ) : (
+            <Image src={image} />
+          )}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
