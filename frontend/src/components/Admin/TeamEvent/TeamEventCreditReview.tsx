@@ -13,8 +13,6 @@ const TeamEventCreditReview = (props: {
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
-
-
   useEffect(() => {
     setLoading(true);
     ImagesAPI.getEventProofImage(teamEventAttendance.image).then((url: string) => {
@@ -22,8 +20,6 @@ const TeamEventCreditReview = (props: {
       setLoading(false);
     });
   }, [teamEventAttendance]);
-
-
 
   const approveCreditRequest = (teamEventAttendance: TeamEventAttendance) => {
     const updatedTeamEventAttendance = {
