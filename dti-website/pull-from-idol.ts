@@ -11,7 +11,7 @@ import fetch from 'node-fetch';
 
 async function getIdolMembers(): Promise<readonly IdolMember[]> {
   const { members } = await fetch(
-    'https://idol.cornelldti.org/.netlify/functions/api/allApprovedMembers'
+    'https://idol.cornelldti.org/.netlify/functions/api/member?type=approved'
   ).then((response) => response.json() as Promise<{ members: readonly IdolMember[] }>);
   return members.filter((it) => it.email.endsWith('@cornell.edu'));
 }
