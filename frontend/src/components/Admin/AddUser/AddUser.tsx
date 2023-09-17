@@ -153,7 +153,14 @@ export default function AddUser(): JSX.Element {
     if (csvFile === undefined) return;
     const csv = await csvFile.text();
     const json = await csvtojson().fromString(csv);
-    console.log(json);
+    const members = json.map((m) => ({
+      ...m,
+      netid: getNetIDFromEmail(m.email),
+      roleDescription: getRoleDescriptionFromRoleID(m.role)
+    }));
+    members.forEach((m) => {
+      allMembers.includes(m) ? MembersAPI.updateMember(m) : MembersAPI.setMember(m);
+    });
   }
 
   function setCurrentlySelectedMember(setter: (m: CurrentSelectedMember) => CurrentSelectedMember) {
@@ -221,10 +228,10 @@ export default function AddUser(): JSX.Element {
                   className={styles.fullWidth}
                   onClick={() => uploadUsersCsv(csvFile)}
                 >
-                  Upload CSV
+                  Upload Users CSV
                 </Button>
               </div>
-              <div className={styles.dropZone}>
+              <div>
                 <DropZone />
               </div>
             </Card.Content>
