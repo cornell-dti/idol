@@ -53,13 +53,3 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.dropZone {
-  border: 1px dashed gray;
-  padding: 1rem;
-  height: 5rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

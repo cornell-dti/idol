@@ -206,17 +206,12 @@ export default function AddUser(): JSX.Element {
                   className={styles.fullWidth}
                   onClick={() => uploadUsersCsv(csvFile)}
                 >
-                  Upload Users CSV
+                  {csvFile ? `Upload ${csvFile.name}` : 'Choose a file below'}
                 </Button>
               </div>
             </Card.Content>
             <Card.Content extra>
-              <input
-                className={styles.csvUpload}
-                type="file"
-                accept=".csv"
-                onChange={(e) => setCsvFile(e.target.files?.[0])}
-              />
+              <input type="file" accept=".csv" onChange={(e) => setCsvFile(e.target.files?.[0])} />
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (
