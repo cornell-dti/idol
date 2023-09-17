@@ -128,17 +128,23 @@ export default function AddUser(): JSX.Element {
   }
 
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
-    if (csvFile === undefined) return;
-    const csv = await csvFile.text();
-    const json = await csvtojson().fromString(csv);
-    const members = json.map((m) => ({
-      ...m,
-      netid: getNetIDFromEmail(m.email),
-      roleDescription: getRoleDescriptionFromRoleID(m.role)
-    }));
-    members.forEach((m) => {
-      allMembers.includes(m) ? MembersAPI.updateMember(m) : MembersAPI.setMember(m);
-    });
+    if (csvFile) {
+      const csv = await csvFile.text();
+      const json = await csvtojson().fromString(csv);
+      const members = json.map((m) => ({
+        ...m,
+        netid: getNetIDFromEmail(m.email),
+        roleDescription: getRoleDescriptionFromRoleID(m.role)
+      }));
+      members.forEach((m) => {
+        allMembers.includes(m) ? MembersAPI.updateMember(m) : MembersAPI.setMember(m);
+      });
+    } else {
+      Emitters.userEditError.emit({
+        headerMsg: "Couldn't upload CSV!",
+        contentMsg: 'No CSV file selected.'
+      });
+    }
   }
 
   function setCurrentlySelectedMember(setter: (m: CurrentSelectedMember) => CurrentSelectedMember) {
@@ -204,9 +210,11 @@ export default function AddUser(): JSX.Element {
                   basic
                   color="green"
                   className={styles.fullWidth}
-                  onClick={() => uploadUsersCsv(csvFile)}
+                  onClick={() => {
+                    uploadUsersCsv(csvFile);
+                  }}
                 >
-                  {csvFile ? `Upload ${csvFile.name}` : 'Choose a file below'}
+                  {csvFile ? `Upload ${csvFile.name}` : 'Choose a CSV file'}
                 </Button>
               </div>
             </Card.Content>
