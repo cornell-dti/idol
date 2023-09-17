@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
 import csvtojson from 'csvtojson';
-import { useDropzone } from 'react-dropzone';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal';
@@ -100,27 +99,6 @@ export default function AddUser(): JSX.Element {
       },
       isCreatingUser: true
     });
-  }
-
-  function DropZone(): JSX.Element {
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-      accept: { 'text/csv': ['.csv'] },
-      maxFiles: 1,
-      onDrop: (acceptedFiles) => {
-        setCsvFile(acceptedFiles[0]);
-      }
-    });
-
-    return (
-      <div {...getRootProps()} className={styles.dropZone}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        )}
-      </div>
-    );
   }
 
   async function deleteUser(memberEmail: string): Promise<void> {
@@ -231,9 +209,14 @@ export default function AddUser(): JSX.Element {
                   Upload Users CSV
                 </Button>
               </div>
-              <div>
-                <DropZone />
-              </div>
+            </Card.Content>
+            <Card.Content extra>
+              <input
+                className={styles.csvUpload}
+                type="file"
+                accept=".csv"
+                onChange={(e) => setCsvFile(e.target.files?.[0])}
+              />
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (

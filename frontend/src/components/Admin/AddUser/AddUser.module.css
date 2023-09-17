@@ -55,10 +55,9 @@
 }
 
 .dropZone {
-  margin-top: 1rem;
-  padding: 3rem;
   border: 1px dashed gray;
-  height: 75%;
+  padding: 1rem;
+  height: 5rem;
   width: 100%;
   display: flex;
   justify-content: center;
