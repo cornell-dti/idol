@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
+import csvtojson from 'csvtojson';
+import { useDropzone } from 'react-dropzone';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal';
@@ -74,6 +76,7 @@ export default function AddUser(): JSX.Element {
     currentSelectedMember: allMembers[0],
     isCreatingUser: false
   });
+  const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
 
   function createNewUser(): void {
     setState({
@@ -97,6 +100,27 @@ export default function AddUser(): JSX.Element {
       },
       isCreatingUser: true
     });
+  }
+
+  function DropZone(): JSX.Element {
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      accept: { 'text/csv': ['.csv'] },
+      maxFiles: 1,
+      onDrop: (acceptedFiles) => {
+        setCsvFile(acceptedFiles[0]);
+      }
+    });
+
+    return (
+      <div {...getRootProps()} className={styles.dropZone}>
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the files here ...</p>
+        ) : (
+          <p>Drag 'n' drop some files here, or click to select files</p>
+        )}
+      </div>
+    );
   }
 
   async function deleteUser(memberEmail: string): Promise<void> {
@@ -123,6 +147,13 @@ export default function AddUser(): JSX.Element {
         setState((s) => ({ ...s, isCreatingUser: false }));
       }
     });
+  }
+
+  async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
+    if (csvFile === undefined) return;
+    const csv = await csvFile.text();
+    const json = await csvtojson().fromString(csv);
+    console.log(json);
   }
 
   function setCurrentlySelectedMember(setter: (m: CurrentSelectedMember) => CurrentSelectedMember) {
@@ -180,6 +211,21 @@ export default function AddUser(): JSX.Element {
                 >
                   Create User
                 </Button>
+              </div>
+            </Card.Content>
+            <Card.Content extra>
+              <div className={`ui one buttons ${styles.fullWidth}`}>
+                <Button
+                  basic
+                  color="green"
+                  className={styles.fullWidth}
+                  onClick={() => uploadUsersCsv(csvFile)}
+                >
+                  Upload CSV
+                </Button>
+              </div>
+              <div className={styles.dropZone}>
+                <DropZone />
               </div>
             </Card.Content>
           </Card>
