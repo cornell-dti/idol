@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
+import { Card, Button, Form, Input, Select, TextArea, CardContent } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
 import csvtojson from 'csvtojson';
 import styles from './AddUser.module.css';
@@ -76,6 +76,7 @@ export default function AddUser(): JSX.Element {
     isCreatingUser: false
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
+  const [uploadStatus, setUploadStatus] = useState<string>('');
 
   function createNewUser(): void {
     setState({
@@ -131,19 +132,18 @@ export default function AddUser(): JSX.Element {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
-      const members = json.map((m) => ({
-        ...m,
-        netid: getNetIDFromEmail(m.email),
-        roleDescription: getRoleDescriptionFromRoleID(m.role)
-      }));
+      const members = json.map(
+        (m) =>
+          ({
+            ...m,
+            netid: getNetIDFromEmail(m.email),
+            roleDescription: getRoleDescriptionFromRoleID(m.role)
+          } as Member)
+      );
       members.forEach((m) => {
         allMembers.includes(m) ? MembersAPI.updateMember(m) : MembersAPI.setMember(m);
       });
-    } else {
-      Emitters.userEditError.emit({
-        headerMsg: "Couldn't upload CSV!",
-        contentMsg: 'No CSV file selected.'
-      });
+      setUploadStatus(`Uploaded ${members.length} members`);
     }
   }
 
@@ -182,7 +182,7 @@ export default function AddUser(): JSX.Element {
                 ))}
               </Card.Content>
             </div>
-            <Card.Content extra>
+            <Card.Content>
               <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
@@ -204,7 +204,7 @@ export default function AddUser(): JSX.Element {
                 </Button>
               </div>
             </Card.Content>
-            <Card.Content extra>
+            <Card.Content>
               <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
@@ -217,9 +217,13 @@ export default function AddUser(): JSX.Element {
                   {csvFile ? `Upload ${csvFile.name}` : 'Choose a CSV file'}
                 </Button>
               </div>
-            </Card.Content>
-            <Card.Content extra>
-              <input type="file" accept=".csv" onChange={(e) => setCsvFile(e.target.files?.[0])} />
+              <input
+                className={styles.fileUpload}
+                type="file"
+                accept=".csv"
+                onChange={(e) => setCsvFile(e.target.files?.[0])}
+              />
+              {uploadStatus ? <p className={styles.successMsg}>{uploadStatus}</p> : undefined}
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (
