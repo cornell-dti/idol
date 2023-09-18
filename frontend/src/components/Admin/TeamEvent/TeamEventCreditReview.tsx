@@ -17,7 +17,7 @@ const TeamEventCreditReview = (props: {
     setLoading(true);
     ImagesAPI.getEventProofImage(teamEventAttendance.image).then((url: string) => {
       setImage(url);
-      // setLoading(false);
+      setLoading(false);
     });
   }, [teamEventAttendance]);
 
