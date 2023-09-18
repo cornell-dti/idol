@@ -26,10 +26,10 @@
 /* Workaround for an unfixed bug with Loaders not showing up properly in Modals
  * https://github.com/Semantic-Org/Semantic-UI-React/issues/3133 
  */
-.ui.dimmer .ui.workaround.loader:before {
+.ui.dimmer .ui.modalLoader.loader:before {
   border-color: rgba(0, 0, 0, 0.1);
 }
 
-.ui.dimmer .ui.workaround.loader:after {
+.ui.dimmer .ui.modalLoader.loader:after {
   border-color: #767676 transparent transparent;
 }
