@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Form, Input, Select, TextArea, CardContent } from 'semantic-ui-react';
+import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
 import csvtojson from 'csvtojson';
 import styles from './AddUser.module.css';
