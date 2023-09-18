@@ -77,11 +77,7 @@ const TeamEventCreditReview = (props: {
           <p>Team Event: {teamEvent.name}</p>
           <p>Number of Credits: {teamEvent.numCredits}</p>
           {teamEvent.hasHours && <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>}
-          {isLoading ? (
-            <Loader active />
-          ) : (
-            <Image src={image} />
-          )}
+          {isLoading ? <Loader active /> : <Image src={image} />}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
