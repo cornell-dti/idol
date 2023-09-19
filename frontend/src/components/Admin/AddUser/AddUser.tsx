@@ -76,7 +76,7 @@ export default function AddUser(): JSX.Element {
     isCreatingUser: false
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
-  const [uploadStatus, setUploadStatus] = useState<string>('');
+  const [uploadStatus, setUploadStatus] = useState<{ status: 'error' | 'success'; msg: string }>();
   const EMPTY_MEMBER = {
     firstName: '',
     lastName: '',
@@ -177,12 +177,10 @@ export default function AddUser(): JSX.Element {
             MembersAPI.setMember(m);
           }
         });
-        setUploadStatus(`Uploaded ${members.length} members`);
+        setUploadStatus({ status: 'success', msg: `Uploaded ${members.length} members` });
       } else {
-        setUploadStatus('Error: No email field!');
+        setUploadStatus({ status: 'error', msg: 'Error: No email field!' });
       }
-    } else {
-      setUploadStatus('Error: No file selected!');
     }
   }
 
@@ -191,6 +189,19 @@ export default function AddUser(): JSX.Element {
       if (!s.currentSelectedMember) return s;
       return { ...s, currentSelectedMember: setter(s.currentSelectedMember) };
     });
+  }
+
+  function RenderUploadStatus(): JSX.Element {
+    if (uploadStatus) {
+      switch (uploadStatus.status) {
+        case 'error':
+          return <p className={styles.errorMessage}>{`${uploadStatus.msg}`}</p>;
+        case 'success':
+          return <p className={styles.successMessage}>{`${uploadStatus.msg}`}</p>;
+      }
+    } else {
+      return <></>;
+    }
   }
 
   return (
@@ -258,13 +269,13 @@ export default function AddUser(): JSX.Element {
                   </Button>
                 </div>
               ) : undefined}
+              <RenderUploadStatus />
               <input
                 className={styles.fileUpload}
                 type="file"
                 accept=".csv"
                 onChange={(e) => setCsvFile(e.target.files?.[0])}
               />
-              {uploadStatus ? <p className={styles.errorMessage}>{uploadStatus}</p> : undefined}
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (

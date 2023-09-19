@@ -54,10 +54,10 @@
   text-overflow: ellipsis;
 }
 
-.fileUpload {
-  margin-top: 1rem;
-}
-
 .errorMessage {
   color: red;
+}
+
+.successMessage {
+  color: green;
 }
