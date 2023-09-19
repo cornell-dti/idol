@@ -28,7 +28,7 @@ export default class CandidateDeciderAPI {
   }
 
   static async updateRating(uuid: string, id: number, rating: number): Promise<void> {
-    APIWrapper.post(`${backendURL}/candidate-decider/${uuid}/rating`, { uuid, id, rating });
+    APIWrapper.put(`${backendURL}/candidate-decider/${uuid}/rating`, { uuid, id, rating });
   }
 
   static async updateComment(uuid: string, id: number, comment: string): Promise<void> {
