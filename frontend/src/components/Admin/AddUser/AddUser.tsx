@@ -132,18 +132,45 @@ export default function AddUser(): JSX.Element {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
-      const members = json.map(
-        (m) =>
-          ({
-            ...m,
+      const allNetIds = allMembers.map((m) => m.netid);
+      const members: IdolMember[] = [];
+      if (json[0].email) {
+        json.forEach((m) => {
+          const currMember = allMembers.find((mem) => mem.netid === getNetIDFromEmail(m.email));
+          members.push({
             netid: getNetIDFromEmail(m.email),
+            email: m.email,
+            firstName: m.firstName || currMember?.firstName,
+            lastName: m.lastName || currMember?.lastName,
+            pronouns: m.pronouns || currMember?.pronouns,
+            graduation: m.graduation || currMember?.graduation,
+            major: m.major || currMember?.major,
+            doubleMajor: m.doubleMajor || currMember?.doubleMajor,
+            minor: m.minor || currMember?.minor,
+            website: m.website || currMember?.website,
+            linkedin: m.linkedin || currMember?.linkedin,
+            github: m.github || currMember?.github,
+            hometown: m.hometown || currMember?.hometown,
+            about: m.about || currMember?.about,
+            subteams: [m.subteam] || currMember?.subteams,
+            formerSubteams: m.formerSubteams || currMember?.formerSubteams,
+            role: m.role || currMember?.role,
             roleDescription: getRoleDescriptionFromRoleID(m.role)
-          } as Member)
-      );
-      members.forEach((m) => {
-        allMembers.includes(m) ? MembersAPI.updateMember(m) : MembersAPI.setMember(m);
-      });
-      setUploadStatus(`Uploaded ${members.length} members`);
+          } as IdolMember);
+        });
+        members.forEach((m) => {
+          if (allNetIds.includes(m.netid)) {
+            MembersAPI.updateMember(m);
+          } else {
+            MembersAPI.setMember(m);
+          }
+        });
+        setUploadStatus(`Uploaded ${members.length} members`);
+      } else {
+        setUploadStatus('Error: No email field!');
+      }
+    } else {
+      setUploadStatus('Error: No file selected!');
     }
   }
 
@@ -223,7 +250,7 @@ export default function AddUser(): JSX.Element {
                 accept=".csv"
                 onChange={(e) => setCsvFile(e.target.files?.[0])}
               />
-              {uploadStatus ? <p className={styles.successMsg}>{uploadStatus}</p> : undefined}
+              {uploadStatus ? <p>{uploadStatus}</p> : undefined}
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (
