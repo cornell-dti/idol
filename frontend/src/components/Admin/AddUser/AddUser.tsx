@@ -150,8 +150,6 @@ export default function AddUser(): JSX.Element {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
-      const allNetIds = allMembers.map((m) => m.netid);
-      const members: IdolMember[] = [];
       if (json[0].email && json[0].role) {
         json.forEach((m) => {
           const netId = getNetIDFromEmail(m.email);
@@ -161,23 +159,16 @@ export default function AddUser(): JSX.Element {
             Object.keys(EMPTY_MEMBER).forEach((field) => {
               member[field] = m[field] ?? currMember[field];
             });
-            members.push(member);
+            MembersAPI.updateMember(m);
           } else {
             const member = { ...EMPTY_MEMBER };
             Object.keys(EMPTY_MEMBER).forEach((field) => {
               if (m[field]) member[field] = m[field];
             });
-            members.push(member);
-          }
-        });
-        members.forEach((m) => {
-          if (allNetIds.includes(m.netid)) {
-            MembersAPI.updateMember(m);
-          } else {
             MembersAPI.setMember(m);
           }
         });
-        setUploadStatus({ status: 'success', msg: `Uploaded ${members.length} members` });
+        setUploadStatus({ status: 'success', msg: `Uploaded ${json.length} members` });
       } else {
         setUploadStatus({ status: 'error', msg: 'Error: No email field!' });
       }
