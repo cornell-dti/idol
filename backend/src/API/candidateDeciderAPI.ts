@@ -20,20 +20,21 @@ export const createNewCandidateDeciderInstance = async (
 };
 
 export const updateCandidateDeciderInstance = async (
-  updatedInstance: CandidateDeciderInstance,
+  instanceEdit: CandidateDeciderEdit,
   user: IdolMember
-): Promise<void> => {
+): Promise<CandidateDeciderInstance> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
       'User does not have permission to toggle new Candidate Decider instance'
     );
-  const instance = await candidateDeciderDao.getInstance(updatedInstance.uuid);
+  const instance = await candidateDeciderDao.getInstance(instanceEdit.uuid);
   if (!instance)
-    throw new NotFoundError(`Candidate decider instance with uuid ${updatedInstance.uuid} does not exist!`);
-  await candidateDeciderDao.updateInstance({
+    throw new NotFoundError(`Candidate decider instance with uuid ${instanceEdit.uuid} does not exist!`);
+  const updatedInstance = await candidateDeciderDao.updateInstance({
     ...instance,
-    ...updatedInstance
+    ...instanceEdit
   });
+  return updatedInstance;
 };
 
 export const deleteCandidateDeciderInstance = async (

@@ -143,8 +143,8 @@ interface CandidateDeciderInfo {
 interface CandidateDeciderEdit {
   name?: string;
   readonly uuid: string;
-  additionalAuthorizedMembers?: IdolMember[];
-  additionalAuthorizedRoles?: Role[];
+  authorizedMembers?: IdolMember[];
+  authorizedRoles?: Role[];
   isOpen?: boolean;
 }
 

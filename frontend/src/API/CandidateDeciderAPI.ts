@@ -19,8 +19,8 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instance);
   }
 
-  static async updateInstance(instance: CandidateDeciderEdit): Promise<void> {
-    APIWrapper.put(`${backendURL}/candidate-decider`, instance);
+  static async updateInstance(instance: CandidateDeciderEdit): Promise<CandidateDeciderInstance> {
+    return APIWrapper.put(`${backendURL}/candidate-decider`, instance).then((val) => val.data.instance);
   }
 
   static async deleteInstance(uuid: string): Promise<void> {
@@ -28,7 +28,7 @@ export default class CandidateDeciderAPI {
   }
 
   static async updateRating(uuid: string, id: number, rating: number): Promise<void> {
-    APIWrapper.post(`${backendURL}/candidate-decider/${uuid}/rating`, { uuid, id, rating });
+    APIWrapper.put(`${backendURL}/candidate-decider/${uuid}/rating`, { uuid, id, rating });
   }
 
   static async updateComment(uuid: string, id: number, comment: string): Promise<void> {

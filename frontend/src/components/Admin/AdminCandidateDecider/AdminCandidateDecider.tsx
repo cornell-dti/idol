@@ -5,6 +5,7 @@ import { MemberSearch, RoleSearch } from '../../Common/Search/Search';
 import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
+import CandidateDeciderEditModal from '../../Modals/CandidateDeciderEditModal';
 
 type CandidateDeciderInstancelistProps = {
   instances: CandidateDeciderInfo[];
@@ -178,7 +179,7 @@ const CandidateDeciderInstanceList = ({
 }: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
     getAllInstances().then(() => setIsLoading(false));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleIsOpen = async (uuid: string) => {
@@ -214,11 +215,16 @@ const CandidateDeciderInstanceList = ({
                       defaultChecked={instance.isOpen}
                       onChange={() => toggleIsOpen(instance.uuid)}
                     />
+                    <div>
+                    <CandidateDeciderEditModal
+                      uuid={instance.uuid}
+                      setInstances={setInstances}
+                    />
                     <CandidateDeciderDeleteModal
                       uuid={instance.uuid}
                       setInstances={setInstances}
-                      setIsLoading={setIsLoading}
                     />
+                    </div>
                   </div>
                 </Card.Content>
               </Card>

@@ -361,9 +361,9 @@ loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
 loginCheckedPost('/candidate-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)
 }));
-loginCheckedPut('/candidate-decider', async (req, user) =>
-  updateCandidateDeciderInstance(req.body, user).then(() => ({}))
-);
+loginCheckedPut('/candidate-decider', async (req, user) => ({
+  instance: await updateCandidateDeciderInstance(req.body, user)
+}));
 loginCheckedDelete('/candidate-decider/:uuid', async (req, user) =>
   deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
