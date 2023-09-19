@@ -191,19 +191,6 @@ export default function AddUser(): JSX.Element {
     });
   }
 
-  function RenderUploadStatus(): JSX.Element {
-    if (uploadStatus) {
-      switch (uploadStatus.status) {
-        case 'error':
-          return <p className={styles.errorMessage}>{`${uploadStatus.msg}`}</p>;
-        case 'success':
-          return <p className={styles.successMessage}>{`${uploadStatus.msg}`}</p>;
-      }
-    } else {
-      return <></>;
-    }
-  }
-
   return (
     <div className={styles.AddUser} data-testid="AddUser">
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
@@ -269,7 +256,13 @@ export default function AddUser(): JSX.Element {
                   </Button>
                 </div>
               ) : undefined}
-              <RenderUploadStatus />
+              {uploadStatus ? (
+                <p
+                  className={
+                    uploadStatus.status === 'error' ? styles.errorMessage : styles.successMessage
+                  }
+                >{`${uploadStatus.msg}`}</p>
+              ) : undefined}
               <input
                 className={styles.fileUpload}
                 type="file"
