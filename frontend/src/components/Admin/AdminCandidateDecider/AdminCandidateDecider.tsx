@@ -181,7 +181,8 @@ const CandidateDeciderInstanceList = ({
 }: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
     getAllInstances().then(() => setIsLoading(false));
-  }, [instances, getAllInstances, setIsLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggleIsOpen = (uuid: string) => {
     const updatedInstances = instances.map((instance) =>
