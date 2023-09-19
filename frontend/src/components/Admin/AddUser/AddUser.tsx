@@ -137,26 +137,49 @@ export default function AddUser(): JSX.Element {
       if (json[0].email) {
         json.forEach((m) => {
           const currMember = allMembers.find((mem) => mem.netid === getNetIDFromEmail(m.email));
-          members.push({
-            netid: getNetIDFromEmail(m.email),
-            email: m.email,
-            firstName: m.firstName || currMember?.firstName,
-            lastName: m.lastName || currMember?.lastName,
-            pronouns: m.pronouns || currMember?.pronouns,
-            graduation: m.graduation || currMember?.graduation,
-            major: m.major || currMember?.major,
-            doubleMajor: m.doubleMajor || currMember?.doubleMajor,
-            minor: m.minor || currMember?.minor,
-            website: m.website || currMember?.website,
-            linkedin: m.linkedin || currMember?.linkedin,
-            github: m.github || currMember?.github,
-            hometown: m.hometown || currMember?.hometown,
-            about: m.about || currMember?.about,
-            subteams: [m.subteam] || currMember?.subteams,
-            formerSubteams: m.formerSubteams || currMember?.formerSubteams,
-            role: m.role || currMember?.role,
-            roleDescription: getRoleDescriptionFromRoleID(m.role)
-          } as IdolMember);
+          if (currMember) {
+            members.push({
+              netid: getNetIDFromEmail(m.email),
+              email: m.email,
+              firstName: m.firstName || currMember?.firstName,
+              lastName: m.lastName || currMember?.lastName,
+              pronouns: m.pronouns || currMember?.pronouns,
+              graduation: m.graduation || currMember?.graduation,
+              major: m.major || currMember?.major,
+              doubleMajor: m.doubleMajor || currMember?.doubleMajor,
+              minor: m.minor || currMember?.minor,
+              website: m.website || currMember?.website,
+              linkedin: m.linkedin || currMember?.linkedin,
+              github: m.github || currMember?.github,
+              hometown: m.hometown || currMember?.hometown,
+              about: m.about || currMember?.about,
+              subteams: [m.subteam] || currMember?.subteams,
+              formerSubteams: m.formerSubteams || currMember?.formerSubteams,
+              role: m.role || currMember?.role,
+              roleDescription: getRoleDescriptionFromRoleID(m.role)
+            } as IdolMember);
+          } else {
+            members.push({
+              netid: getNetIDFromEmail(m.email),
+              email: m.email,
+              firstName: m.firstName || '',
+              lastName: m.lastName || '',
+              pronouns: m.pronouns || '',
+              graduation: m.graduation || '',
+              major: m.major || '',
+              doubleMajor: m.doubleMajor || '',
+              minor: m.minor || '',
+              website: m.website || '',
+              linkedin: m.linkedin || '',
+              github: m.github || '',
+              hometown: m.hometown || '',
+              about: m.about || '',
+              subteams: [m.subteam] || [],
+              formerSubteams: m.formerSubteams || [],
+              role: m.role || ('' as Role),
+              roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
+            } as IdolMember);
+          }
         });
         members.forEach((m) => {
           if (allNetIds.includes(m.netid)) {
