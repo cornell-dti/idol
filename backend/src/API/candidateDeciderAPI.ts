@@ -14,25 +14,25 @@ export const createNewCandidateDeciderInstance = async (
 ): Promise<CandidateDeciderInfo> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
-      'User does not have permission to create new Candidate Decider instance'
+      'User does not have permission to create new Candidate Decider instances.'
     );
   return candidateDeciderDao.createNewInstance(instance);
 };
 
-export const toggleCandidateDeciderInstance = async (
-  uuid: string,
+export const updateCandidateDeciderInstance = async (
+  updatedInstance: CandidateDeciderInstance,
   user: IdolMember
 ): Promise<void> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
-      'User does not have permission to create new Candidate Decider instance'
+      'User does not have permission to toggle new Candidate Decider instance'
     );
-  const instance = await candidateDeciderDao.getInstance(uuid);
+  const instance = await candidateDeciderDao.getInstance(updatedInstance.uuid);
   if (!instance)
-    throw new NotFoundError(`Candidate decider instance with uuid ${uuid} does not exist!`);
+    throw new NotFoundError(`Candidate decider instance with uuid ${updatedInstance.uuid} does not exist!`);
   await candidateDeciderDao.updateInstance({
     ...instance,
-    isOpen: !instance.isOpen
+    ...updatedInstance
   });
 };
 
@@ -42,7 +42,7 @@ export const deleteCandidateDeciderInstance = async (
 ): Promise<void> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
-      'User does not have permission to create new Candidate Decider instance'
+      'User does not have permission to delete new Candidate Decider instance'
     );
   await candidateDeciderDao.deleteInstance(uuid);
 };

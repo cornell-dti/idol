@@ -15,8 +15,7 @@ type CandidateDeciderInstancelistProps = {
 };
 
 type CandidateDeciderInstanceCreatorProps = {
-  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
-  getAllInstances: () => Promise<void>;
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>
 };
 
 const AdminCandidateDeciderBase: React.FC = () => {
@@ -30,7 +29,6 @@ const AdminCandidateDeciderBase: React.FC = () => {
     <div id={styles.adminCandidateDeciderContainer}>
       <CandidateDeciderInstanceCreator
         setInstances={setInstances}
-        getAllInstances={getAllInstances}
       />
       <CandidateDeciderInstanceList
         instances={instances}
@@ -44,8 +42,7 @@ const AdminCandidateDeciderBase: React.FC = () => {
 };
 
 const CandidateDeciderInstanceCreator = ({
-  setInstances,
-  getAllInstances
+  setInstances
 }: CandidateDeciderInstanceCreatorProps): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
@@ -181,13 +178,21 @@ const CandidateDeciderInstanceList = ({
 }: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
     getAllInstances().then(() => setIsLoading(false));
-  }, [instances, getAllInstances, setIsLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const toggleIsOpen = (uuid: string) => {
-    const updatedInstances = instances.map((instance) =>
-      instance.uuid === uuid ? { ...instance, isOpen: !instance.isOpen } : instance
-    );
-    CandidateDeciderAPI.toggleInstance(uuid).then(() => setInstances(updatedInstances));
+  const toggleIsOpen = async (uuid: string) => {
+    const newInstances = await Promise.all(instances.map(async (instance) => {
+      if(instance.uuid === uuid) {
+        await CandidateDeciderAPI.updateInstance({
+          isOpen: !instance.isOpen,
+          uuid: instance.uuid
+        });
+        return {...instance, isOpen: !instance.isOpen};
+      }
+      return instance;
+    }))
+    setInstances(newInstances);
   };
 
   return (
