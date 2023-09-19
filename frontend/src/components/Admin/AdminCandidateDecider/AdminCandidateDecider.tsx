@@ -16,7 +16,7 @@ type CandidateDeciderInstancelistProps = {
 };
 
 type CandidateDeciderInstanceCreatorProps = {
-  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>
+  setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
 };
 
 const AdminCandidateDeciderBase: React.FC = () => {
@@ -28,9 +28,7 @@ const AdminCandidateDeciderBase: React.FC = () => {
 
   return (
     <div id={styles.adminCandidateDeciderContainer}>
-      <CandidateDeciderInstanceCreator
-        setInstances={setInstances}
-      />
+      <CandidateDeciderInstanceCreator setInstances={setInstances} />
       <CandidateDeciderInstanceList
         instances={instances}
         setInstances={setInstances}
@@ -183,16 +181,18 @@ const CandidateDeciderInstanceList = ({
   }, []);
 
   const toggleIsOpen = async (uuid: string) => {
-    const newInstances = await Promise.all(instances.map(async (instance) => {
-      if(instance.uuid === uuid) {
-        await CandidateDeciderAPI.updateInstance({
-          isOpen: !instance.isOpen,
-          uuid: instance.uuid
-        });
-        return {...instance, isOpen: !instance.isOpen};
-      }
-      return instance;
-    }))
+    const newInstances = await Promise.all(
+      instances.map(async (instance) => {
+        if (instance.uuid === uuid) {
+          await CandidateDeciderAPI.updateInstance({
+            isOpen: !instance.isOpen,
+            uuid: instance.uuid
+          });
+          return { ...instance, isOpen: !instance.isOpen };
+        }
+        return instance;
+      })
+    );
     setInstances(newInstances);
   };
 
@@ -216,14 +216,11 @@ const CandidateDeciderInstanceList = ({
                       onChange={() => toggleIsOpen(instance.uuid)}
                     />
                     <div>
-                    <CandidateDeciderEditModal
-                      uuid={instance.uuid}
-                      setInstances={setInstances}
-                    />
-                    <CandidateDeciderDeleteModal
-                      uuid={instance.uuid}
-                      setInstances={setInstances}
-                    />
+                      <CandidateDeciderEditModal uuid={instance.uuid} setInstances={setInstances} />
+                      <CandidateDeciderDeleteModal
+                        uuid={instance.uuid}
+                        setInstances={setInstances}
+                      />
                     </div>
                   </div>
                 </Card.Content>
