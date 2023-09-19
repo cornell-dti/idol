@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
@@ -150,24 +151,27 @@ export default function AddUser(): JSX.Element {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
-      if (json[0].email && json[0].role) {
-        json.forEach((m) => {
-          const netId = getNetIDFromEmail(m.email);
-          const currMember = allMembers.find((mem) => mem.netid === netId);
-          if (currMember) {
-            const member = {};
-            Object.keys(EMPTY_MEMBER).forEach((field) => {
-              member[field] = m[field] ?? currMember[field];
-            });
-            MembersAPI.updateMember(m);
-          } else {
-            const member = { ...EMPTY_MEMBER };
-            Object.keys(EMPTY_MEMBER).forEach((field) => {
-              if (m[field]) member[field] = m[field];
-            });
-            MembersAPI.setMember(m);
-          }
-        });
+      if (json[0].email) {
+        if (json[0].role) {
+          json.forEach((m) => {
+            const netId = getNetIDFromEmail(m.email);
+            const currMember = allMembers.find((mem) => mem.netid === netId);
+            if (currMember) {
+              const member = currMember;
+              Object.keys(EMPTY_MEMBER).forEach((field) => {
+                member[field] = m[field] ?? currMember[field];
+              });
+              MembersAPI.updateMember(m);
+            } else {
+              const member = { ...EMPTY_MEMBER };
+              Object.keys(EMPTY_MEMBER).forEach((field) => {
+                if (m[field]) member[field] = m[field];
+              });
+              MembersAPI.setMember(m);
+            }
+          });
+        }
+
         setUploadStatus({ status: 'success', msg: `Uploaded ${json.length} members` });
       } else {
         setUploadStatus({ status: 'error', msg: 'Error: No email field!' });
