@@ -77,6 +77,24 @@ export default function AddUser(): JSX.Element {
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<string>('');
+  const EMPTY_MEMBER = {
+    firstName: '',
+    lastName: '',
+    pronouns: '',
+    email: '',
+    role: '' as Role,
+    graduation: '',
+    major: '',
+    doubleMajor: '',
+    minor: '',
+    website: '',
+    linkedin: '',
+    github: '',
+    hometown: '',
+    about: '',
+    subteams: [],
+    formerSubteams: []
+  };
 
   function createNewUser(): void {
     setState({
@@ -134,51 +152,22 @@ export default function AddUser(): JSX.Element {
       const json = await csvtojson().fromString(csv);
       const allNetIds = allMembers.map((m) => m.netid);
       const members: IdolMember[] = [];
-      if (json[0].email) {
+      if (json[0].email && json[0].role) {
         json.forEach((m) => {
-          const currMember = allMembers.find((mem) => mem.netid === getNetIDFromEmail(m.email));
+          const netId = getNetIDFromEmail(m.email);
+          const currMember = allMembers.find((mem) => mem.netid === netId);
           if (currMember) {
-            members.push({
-              netid: getNetIDFromEmail(m.email),
-              email: m.email,
-              firstName: m.firstName || currMember.firstName,
-              lastName: m.lastName || currMember.lastName,
-              pronouns: m.pronouns || currMember.pronouns,
-              graduation: m.graduation || currMember.graduation,
-              major: m.major || currMember.major,
-              doubleMajor: m.doubleMajor || currMember.doubleMajor,
-              minor: m.minor || currMember.minor,
-              website: m.website || currMember.website,
-              linkedin: m.linkedin || currMember.linkedin,
-              github: m.github || currMember.github,
-              hometown: m.hometown || currMember.hometown,
-              about: m.about || currMember.about,
-              subteams: [m.subteam] || currMember.subteams,
-              formerSubteams: m.formerSubteams || currMember.formerSubteams,
-              role: m.role || currMember.role,
-              roleDescription: getRoleDescriptionFromRoleID(m.role)
-            } as IdolMember);
+            const member = {};
+            Object.keys(EMPTY_MEMBER).forEach((field) => {
+              member[field] = m[field] ?? currMember[field];
+            });
+            members.push(member);
           } else {
-            members.push({
-              netid: getNetIDFromEmail(m.email),
-              email: m.email,
-              firstName: m.firstName || '',
-              lastName: m.lastName || '',
-              pronouns: m.pronouns || '',
-              graduation: m.graduation || '',
-              major: m.major || '',
-              doubleMajor: m.doubleMajor || '',
-              minor: m.minor || '',
-              website: m.website || '',
-              linkedin: m.linkedin || '',
-              github: m.github || '',
-              hometown: m.hometown || '',
-              about: m.about || '',
-              subteams: [m.subteam] || [],
-              formerSubteams: m.formerSubteams || [],
-              role: m.role || ('' as Role),
-              roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
-            } as IdolMember);
+            const member = { ...EMPTY_MEMBER };
+            Object.keys(EMPTY_MEMBER).forEach((field) => {
+              if (m[field]) member[field] = m[field];
+            });
+            members.push(member);
           }
         });
         members.forEach((m) => {
@@ -255,25 +244,27 @@ export default function AddUser(): JSX.Element {
               </div>
             </Card.Content>
             <Card.Content>
-              <div className={`ui one buttons ${styles.fullWidth}`}>
-                <Button
-                  basic
-                  color="green"
-                  className={styles.fullWidth}
-                  onClick={() => {
-                    uploadUsersCsv(csvFile);
-                  }}
-                >
-                  {csvFile ? `Upload ${csvFile.name}` : 'Choose a CSV file'}
-                </Button>
-              </div>
+              {csvFile ? (
+                <div className={`ui one buttons ${styles.fullWidth}`}>
+                  <Button
+                    basic
+                    color="green"
+                    className={styles.fullWidth}
+                    onClick={() => {
+                      uploadUsersCsv(csvFile);
+                    }}
+                  >
+                    {`Upload ${csvFile.name}`}
+                  </Button>
+                </div>
+              ) : undefined}
               <input
                 className={styles.fileUpload}
                 type="file"
                 accept=".csv"
                 onChange={(e) => setCsvFile(e.target.files?.[0])}
               />
-              {uploadStatus ? <p>{uploadStatus}</p> : undefined}
+              {uploadStatus ? <p className={styles.errorMessage}>{uploadStatus}</p> : undefined}
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (
