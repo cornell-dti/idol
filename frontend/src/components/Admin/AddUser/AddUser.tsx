@@ -78,24 +78,6 @@ export default function AddUser(): JSX.Element {
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<{ status: 'error' | 'success'; msg: string }>();
-  const EMPTY_MEMBER = {
-    firstName: '',
-    lastName: '',
-    pronouns: '',
-    email: '',
-    role: '' as Role,
-    graduation: '',
-    major: '',
-    doubleMajor: '',
-    minor: '',
-    website: '',
-    linkedin: '',
-    github: '',
-    hometown: '',
-    about: '',
-    subteams: [],
-    formerSubteams: []
-  };
 
   function createNewUser(): void {
     setState({
@@ -147,32 +129,69 @@ export default function AddUser(): JSX.Element {
     });
   }
 
+  async function processJson(json: any[]): Promise<void> {
+    json.forEach((m) => {
+      const netId = getNetIDFromEmail(m.email);
+      const currMember = allMembers.find((mem) => mem.netid === netId);
+      if (currMember) {
+        const updatedMember = {
+          netid: netId,
+          email: m.email,
+          firstName: m.firstName || currMember.firstName,
+          lastName: m.lastName || currMember.lastName,
+          pronouns: m.pronouns || currMember.pronouns,
+          graduation: m.graduation || currMember.graduation,
+          major: m.major || currMember.major,
+          doubleMajor: m.doubleMajor || currMember.doubleMajor,
+          minor: m.minor || currMember.minor,
+          website: m.website || currMember.website,
+          linkedin: m.linkedin || currMember.linkedin,
+          github: m.github || currMember.github,
+          hometown: m.hometown || currMember.hometown,
+          about: m.about || currMember.about,
+          subteams: [m.subteam] || currMember.subteams,
+          formerSubteams: m.formerSubteams || currMember.formerSubteams,
+          role: m.role || currMember.role,
+          roleDescription: getRoleDescriptionFromRoleID(m.role)
+        } as IdolMember;
+        MembersAPI.updateMember(updatedMember);
+      } else {
+        const updatedMember = {
+          netid: getNetIDFromEmail(m.email),
+          email: m.email,
+          firstName: m.firstName || '',
+          lastName: m.lastName || '',
+          pronouns: m.pronouns || '',
+          graduation: m.graduation || '',
+          major: m.major || '',
+          doubleMajor: m.doubleMajor || '',
+          minor: m.minor || '',
+          website: m.website || '',
+          linkedin: m.linkedin || '',
+          github: m.github || '',
+          hometown: m.hometown || '',
+          about: m.about || '',
+          subteams: [m.subteam] || [],
+          formerSubteams: m.formerSubteams || [],
+          role: m.role || ('' as Role),
+          roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
+        } as IdolMember;
+        MembersAPI.setMember(updatedMember);
+      }
+    });
+  }
+
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
       if (json[0].email) {
         if (json[0].role) {
-          json.forEach((m) => {
-            const netId = getNetIDFromEmail(m.email);
-            const currMember = allMembers.find((mem) => mem.netid === netId);
-            if (currMember) {
-              const member = currMember;
-              Object.keys(EMPTY_MEMBER).forEach((field) => {
-                member[field] = m[field] ?? currMember[field];
-              });
-              MembersAPI.updateMember(m);
-            } else {
-              const member = { ...EMPTY_MEMBER };
-              Object.keys(EMPTY_MEMBER).forEach((field) => {
-                if (m[field]) member[field] = m[field];
-              });
-              MembersAPI.setMember(m);
-            }
-          });
+          processJson(json);
+          setUploadStatus({ status: 'success', msg: `Uploaded ${json.length} members` });
+        } else {
+          setUploadStatus({ status: 'error', msg: 'Error: No role field!' });
         }
-
-        setUploadStatus({ status: 'success', msg: `Uploaded ${json.length} members` });
       } else {
         setUploadStatus({ status: 'error', msg: 'Error: No email field!' });
       }
