@@ -2,8 +2,8 @@
   {
     "netid": "ajx8",
     "name": "Andrew Xu",
-    "pronouns": "",
-    "graduation": "December 2023",
+    "pronouns": "He/Him",
+    "graduation": "May 2024",
     "major": "CS",
     "hometown": "Fremont, CA",
     "about": "Hi! I'm Andrew and I'm a dev on CoursePlan. I really enjoy web app development and am pursuing a minor in robotics as well. Outside of class, I enjoy running, rock climbing, playing the piano, and writing. ",
@@ -12,8 +12,7 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "minor": "Robotics",
-    "website": "https://thearborlife.com",
+    "formerSubteams": [],
     "github": "https://github.com/andxu282"
   },
   {
@@ -203,7 +202,7 @@
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Rockville, MD",
-    "about": "Hi! I'm Colin. I'm a sophomore in A&S majoring in CS. In my free time, I enjoy collecting excessive amounts of free stuff.",
+    "about": "Hi! I'm Colin. I'm a Junior in A&S majoring in CS. In my free time, I enjoy collecting excessive amounts of free stuff.",
     "subteams": [
       "zing"
     ],
@@ -253,17 +252,19 @@
   {
     "netid": "et362",
     "name": "Elizabeth Tang",
-    "pronouns": "",
+    "pronouns": "She/her/hers",
     "graduation": "Spring 2025",
     "major": "Computer Science",
-    "hometown": "",
+    "hometown": "Queens, NY",
     "about": "TBD",
     "subteams": [
       "courseplan"
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": []
+    "minor": "Business, Data Science",
+    "formerSubteams": [],
+    "github": "https://github.com/elizabeth-tang"
   },
   {
     "netid": "ezx2",
@@ -306,7 +307,7 @@
     "graduation": "May 2024",
     "major": "Computer Science",
     "hometown": "Manhasset, NY",
-    "about": "Hey! I'm Harrison, and I'm a junior majoring in computer science. Outside of DTI, I'm a member of the club volleyball team. I'm super interested in mobile and web development. I also love hiking, cooking, and would play volleyball 24/7 if I could. ",
+    "about": "Hey! I'm Harrison, and I'm a senior majoring in computer science. Outside of DTI, I'm a member of the club volleyball team. I'm super interested in mobile and web development. I also love hiking, cooking, and would play volleyball 24/7 if I could. ",
     "subteams": [
       "reviews"
     ],
@@ -921,7 +922,7 @@
   {
     "netid": "tpp38",
     "name": "Thuy (Sophia) Pham",
-    "pronouns": "",
+    "pronouns": "She/her",
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Ho Chi Minh, Vietnam",
@@ -931,8 +932,9 @@
     ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
-    "minor": "Business",
-    "linkedin": "https://www.linkedin.com/in/sophiappt",
+    "minor": "Entrepreneur",
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/thuypham03/",
     "github": "https://github.com/thuypham03"
   },
   {
@@ -1004,7 +1006,7 @@
   {
     "netid": "wz282",
     "name": "Will Zhang",
-    "pronouns": "",
+    "pronouns": "he him",
     "graduation": "May 2025",
     "major": "Computer Science",
     "hometown": "Bel Air, Maryland",
@@ -1014,9 +1016,12 @@
     ],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
-    "website": "https://notwz.com",
+    "doubleMajor": "Econ",
+    "minor": "Business",
+    "formerSubteams": [],
+    "website": "https://wizhaa.com/",
     "linkedin": "https://www.linkedin.com/in/notwz/",
-    "github": "https://github.com/notwz"
+    "github": "https://github.com/wizhaaa"
   },
   {
     "netid": "yc728",
