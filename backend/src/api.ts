@@ -252,9 +252,13 @@ router.get('/member-image', async (_, res) => {
 });
 
 // Shoutouts
-loginCheckedGet('/shoutout/:email', async (req, user) => ({
+loginCheckedGet('/shoutout/:email', async (req, user) => {
+  console.log(req.query.type)
+  console.log(req.query)
+  return ({
   shoutouts: await getShoutouts(req.params.email, req.query.type as 'given' | 'received', user)
-}));
+})}
+);
 
 loginCheckedGet('/shoutout', async () => ({
   shoutouts: await getAllShoutouts()

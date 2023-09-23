@@ -24,7 +24,7 @@ export default class ShoutoutsAPI {
   }
 
   public static getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
-    const responseProm = APIWrapper.get(`${backendURL}/shoutout/${email}?type=${type}}`).then(
+    const responseProm = APIWrapper.get(`${backendURL}/shoutout/${email}?type=${type}`).then(
       (res) => res.data
     );
     return responseProm.then((val) => {
