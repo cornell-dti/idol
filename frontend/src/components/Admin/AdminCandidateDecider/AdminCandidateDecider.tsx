@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import csv from 'csvtojson';
+import ALL_ROLES from 'common-types/constants';
 import { MemberSearch, RoleSearch } from '../../Common/Search/Search';
 import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
 import CandidateDeciderEditModal from '../../Modals/CandidateDeciderEditModal';
+
+const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
+  (role) => ({ role })
+);
 
 type CandidateDeciderInstancelistProps = {
   instances: CandidateDeciderInfo[];
@@ -131,7 +136,10 @@ const CandidateDeciderInstanceCreator = ({
           </Card>
         ))}
         <Header as="h4">Add authorized roles</Header>
-        <RoleSearch onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])} />
+        <RoleSearch
+          roles={allNonleadRoles}
+          onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])}
+        />
         {authorizedRoles.map((role, i) => (
           <Card key={i}>
             <Card.Content>

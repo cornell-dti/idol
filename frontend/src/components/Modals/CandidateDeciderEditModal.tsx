@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Modal, Button, Card, Header, Form, Message } from 'semantic-ui-react';
+import ALL_ROLES from 'common-types/constants';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import { MemberSearch, RoleSearch } from '../Common/Search/Search';
 import styles from './CandidateDeciderEditModal.module.css';
+
+const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
+  (role) => ({ role })
+);
 
 type Props = {
   uuid: string;
@@ -90,7 +95,10 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
               </Card>
             ))}
             <Header as="h4">Add authorized roles</Header>
-            <RoleSearch onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])} />
+            <RoleSearch
+              roles={allNonleadRoles}
+              onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])}
+            />
             {authorizedRoles.map((role, i) => (
               <Card key={i}>
                 <Card.Content>
