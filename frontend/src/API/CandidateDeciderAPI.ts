@@ -19,8 +19,10 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instance);
   }
 
-  static async toggleInstance(uuid: string): Promise<void> {
-    APIWrapper.put(`${backendURL}/candidate-decider/${uuid}`, {});
+  static async updateInstance(instance: CandidateDeciderEdit): Promise<CandidateDeciderInstance> {
+    return APIWrapper.put(`${backendURL}/candidate-decider`, instance).then(
+      (val) => val.data.instance
+    );
   }
 
   static async deleteInstance(uuid: string): Promise<void> {

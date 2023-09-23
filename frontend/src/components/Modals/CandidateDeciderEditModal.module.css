@@ -1,0 +1,11 @@
+#submitButton {
+  margin-top: 1rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.modalContent {
+  max-height: 60vh !important;
+}

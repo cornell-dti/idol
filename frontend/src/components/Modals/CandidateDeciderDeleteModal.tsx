@@ -4,11 +4,10 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 
 type Props = {
   uuid: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
 };
 
-const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, setInstances, setIsLoading }) => {
+const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -19,10 +18,10 @@ const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, setInstances, setI
       trigger={<Button negative>Delete</Button>}
     >
       <Modal.Header>Are you sure you want to delete this Candidate Decider Instance?</Modal.Header>
-      <Modal.Description>
+      <Modal.Content>
         Deleting this instance will delete all candidate data as well as the associated ratings and
         comments
-      </Modal.Description>
+      </Modal.Content>
       <Modal.Actions>
         <Button negative onClick={() => setIsOpen(false)}>
           No
@@ -30,7 +29,6 @@ const CandidateDeciderDeleteModal: React.FC<Props> = ({ uuid, setInstances, setI
         <Button
           positive
           onClick={() => {
-            setIsLoading(true);
             CandidateDeciderAPI.deleteInstance(uuid).then(() =>
               setInstances((instances: CandidateDeciderInfo[]) =>
                 instances.filter((inst) => inst.uuid !== uuid)
