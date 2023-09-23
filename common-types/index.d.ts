@@ -127,20 +127,25 @@ interface CandidateDeciderCandidate {
   comments: CandidateDeciderComment[];
 }
 
-interface CandidateDeciderInstance {
-  readonly name: string;
+interface CandidateDeciderInstance extends CandidateDeciderInfo {
   readonly headers: string[];
   readonly candidates: CandidateDeciderCandidate[];
-  readonly uuid: string;
   readonly authorizedMembers: IdolMember[];
   readonly authorizedRoles: Role[];
-  isOpen: boolean;
 }
 
 interface CandidateDeciderInfo {
   readonly name: string;
   readonly uuid: string;
   isOpen: boolean;
+}
+
+interface CandidateDeciderEdit {
+  name?: string;
+  readonly uuid: string;
+  authorizedMembers?: IdolMember[];
+  authorizedRoles?: Role[];
+  isOpen?: boolean;
 }
 
 type SubmissionStatus = 'valid' | 'pending' | 'invalid';
