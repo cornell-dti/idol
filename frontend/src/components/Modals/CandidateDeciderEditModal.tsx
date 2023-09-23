@@ -60,7 +60,7 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
       trigger={<Button>Edit</Button>}
     >
       <Modal.Header>{instance ? `Edit ${instance.name}` : ''}</Modal.Header>
-      <Modal.Content>
+      <Modal.Content className={styles.modalContent} scrolling>
         {instance ? (
           <Form>
             <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
