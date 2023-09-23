@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
@@ -18,7 +18,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
-  const instance = useCandidateDeciderInstance(uuid);
+  const [instance, setInstance] = useState<CandidateDeciderInstance>(
+    useCandidateDeciderInstance(uuid)
+  );
+
+  useEffect(() => {
+    // setInstance(useCandidateDeciderInstance(uuid));
+  }, []);
 
   const getRating = () => {
     const rating = instance.candidates[currentCandidate].ratings.find(
@@ -48,6 +54,18 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   const handleRatingChange = (id: number, rating: Rating) => {
     CandidateDeciderAPI.updateRating(instance.uuid, id, rating);
+    if (userInfo)
+      setInstance((instance) => ({
+        ...instance,
+        candidates: instance.candidates.map((candidate) =>
+          candidate.id === id
+            ? {
+                ...candidate,
+                ratings: [...candidate.ratings, { rating, reviewer: userInfo }]
+              }
+            : candidate
+        )
+      }));
   };
 
   const handleCommentChange = (id: number, comment: string) => {
