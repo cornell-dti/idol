@@ -7,7 +7,7 @@ import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
-import { useMembers } from '../../Common/FirestoreDataProvider';
+import { useMembers, useTeams } from '../../Common/FirestoreDataProvider';
 import { TeamSearch } from '../../Common/Search/Search';
 
 type CurrentSelectedMember = Omit<Member, 'netid' | 'roleDescription'>;
@@ -78,6 +78,7 @@ export default function AddUser(): JSX.Element {
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<{ status: 'error' | 'success'; msg: string }>();
+  const validSubteams = useTeams().map((t) => t.name);
 
   function createNewUser(): void {
     setState({
@@ -129,8 +130,9 @@ export default function AddUser(): JSX.Element {
     });
   }
 
-  async function processJson(json: any[]): Promise<void> {
-    json.forEach((m) => {
+  function processJson(json: any[]): Member[] {
+    const members: Member[] = [];
+    for (const m of json) {
       const netId = getNetIDFromEmail(m.email);
       const currMember = allMembers.find((mem) => mem.netid === netId);
       if (currMember) {
@@ -154,7 +156,7 @@ export default function AddUser(): JSX.Element {
           role: m.role || currMember.role,
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
-        MembersAPI.updateMember(updatedMember);
+        members.push(updatedMember);
       } else {
         const updatedMember = {
           netid: getNetIDFromEmail(m.email),
@@ -176,24 +178,24 @@ export default function AddUser(): JSX.Element {
           role: m.role || ('' as Role),
           roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
         } as IdolMember;
-        MembersAPI.setMember(updatedMember);
+        members.push(updatedMember);
       }
-    });
+    }
+    return members;
   }
 
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
-      if (json[0].email) {
-        if (json[0].role) {
-          processJson(json);
-          setUploadStatus({ status: 'success', msg: `Uploaded ${json.length} members` });
-        } else {
-          setUploadStatus({ status: 'error', msg: 'Error: No role field!' });
-        }
+      const members = processJson(json);
+      if (uploadStatus?.status === 'error') {
+        console.log('error');
       } else {
-        setUploadStatus({ status: 'error', msg: 'Error: No email field!' });
+        setUploadStatus({
+          status: 'success',
+          msg: `Successfully uploaded ${members.length} users!`
+        });
       }
     }
   }
