@@ -18,13 +18,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
-  const [instance, setInstance] = useState<CandidateDeciderInstance>(
-    useCandidateDeciderInstance(uuid)
-  );
-
-  useEffect(() => {
-    // setInstance(useCandidateDeciderInstance(uuid));
-  }, []);
+  const [instance, setInstance] = useCandidateDeciderInstance(uuid);
 
   const getRating = () => {
     const rating = instance.candidates[currentCandidate].ratings.find(
@@ -54,18 +48,27 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   const handleRatingChange = (id: number, rating: Rating) => {
     CandidateDeciderAPI.updateRating(instance.uuid, id, rating);
-    if (userInfo)
+    if (userInfo) {
       setInstance((instance) => ({
         ...instance,
         candidates: instance.candidates.map((candidate) =>
           candidate.id === id
             ? {
                 ...candidate,
-                ratings: [...candidate.ratings, { rating, reviewer: userInfo }]
+                ratings: candidate.ratings.find(
+                  (currRating) => currRating.reviewer.email === userInfo.email
+                )
+                  ? candidate.ratings.map((currRating) =>
+                      currRating.reviewer.email === userInfo.email
+                        ? { rating, reviewer: userInfo }
+                        : currRating
+                    )
+                  : [...candidate.ratings, { rating, reviewer: userInfo }]
               }
             : candidate
         )
       }));
+    }
   };
 
   const handleCommentChange = (id: number, comment: string) => {
