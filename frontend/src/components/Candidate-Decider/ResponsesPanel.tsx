@@ -29,37 +29,49 @@ const ResponsesPanel: React.FC<Props> = ({
   currentCandidate,
   handleCommentChange,
   comment
-}) => (
-  <div>
-    <Form>
-      <Form.Group inline>
-        {ratings.map((rt) => (
-          <Form.Field key={rt.value}>
-            <Radio
-              label={rt.text}
-              name="rating-group"
-              value={rt.value}
-              color={rt.color}
-              checked={rt.value === rating}
-              onChange={() => handleRatingChange(currentCandidate, rt.value as Rating)}
-            />
-          </Form.Field>
-        ))}
-      </Form.Group>
-      <CommentEditor
-        handleCommentChange={handleCommentChange}
-        comment={comment}
-        currentCandidate={currentCandidate}
-      />
-    </Form>
-    {headers.map((header, i) => (
-      <div key={i} className={styles.questionResponseContainer}>
-        <h4 className={styles.questionHeader}>{header}</h4>
-        <div>{responses[i]}</div>
-      </div>
-    ))}
-  </div>
-);
+}) => {
+  const [currentRating, setCurrentRating] = useState<Rating>(rating);
+  useEffect(() => {
+    setCurrentRating(rating);
+  }, [rating]);
+  return (
+    <div>
+      <Form>
+        <Form.Group inline>
+          {ratings.map((rt) => (
+            <Form.Field key={rt.value}>
+              <Radio
+                label={rt.text}
+                name="rating-group"
+                value={rt.value}
+                color={rt.color}
+                checked={rt.value === currentRating}
+                onClick={() => setCurrentRating(rt.value as Rating)}
+              />
+            </Form.Field>
+          ))}
+          <Button
+            className="ui blue button"
+            onClick={() => handleRatingChange(currentCandidate, currentRating)}
+          >
+            Save
+          </Button>
+        </Form.Group>
+        <CommentEditor
+          handleCommentChange={handleCommentChange}
+          comment={comment}
+          currentCandidate={currentCandidate}
+        />
+      </Form>
+      {headers.map((header, i) => (
+        <div key={i} className={styles.questionResponseContainer}>
+          <h4 className={styles.questionHeader}>{header}</h4>
+          <div>{responses[i]}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 type CommentEditorProps = {
   comment: string;
@@ -87,10 +99,7 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
         />
         <Button
           className="ui blue button"
-          onClick={() => {
-            handleCommentChange(currentCandidate, currentComment);
-            setCurrentComment('');
-          }}
+          onClick={() => handleCommentChange(currentCandidate, currentComment)}
         >
           Save
         </Button>
