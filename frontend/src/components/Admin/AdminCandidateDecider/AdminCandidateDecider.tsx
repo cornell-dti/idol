@@ -105,13 +105,7 @@ const CandidateDeciderInstanceCreator = ({
       <Header as="h2">Create a new Candidate Decider instance</Header>
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input
-          type="file"
-          name="hello"
-          accept=".csv"
-          onChange={handleFileUpload}
-          key={fileInKey || ''}
-        />
+        <input type="file" accept=".csv" onChange={handleFileUpload} key={fileInKey || ''} />
         <label>
           {' '}
           Format: .csv with at least a "NetID", "First Name", and "Last Name" column.{' '}
