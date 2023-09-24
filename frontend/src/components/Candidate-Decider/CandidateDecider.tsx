@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
