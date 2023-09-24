@@ -7,6 +7,7 @@ import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
 import CandidateDeciderEditModal from '../../Modals/CandidateDeciderEditModal';
+import Link from 'next/link';
 
 const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
   (role) => ({ role })
@@ -104,7 +105,8 @@ const CandidateDeciderInstanceCreator = ({
       <Header as="h2">Create a new Candidate Decider instance</Header>
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="file" accept=".csv" onChange={handleFileUpload} key={fileInKey || ''} />
+        <input type="file" name="hello" accept=".csv" onChange={handleFileUpload} key={fileInKey || ''} />
+        <label> Format: .csv with at least a "NetID", "First Name", and "Last Name" column. <a href="/sample_candidate_decider_input.csv">Download sample file here.</a></label>
         <Message>
           All leads and IDOL admins have permission to all Candidate Decider instances
         </Message>
