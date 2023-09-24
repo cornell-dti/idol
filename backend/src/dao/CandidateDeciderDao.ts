@@ -66,15 +66,8 @@ export default class CandidateDeciderDao extends BaseDao<
     );
   }
 
-  async getAllInstances(): Promise<CandidateDeciderInfo[]> {
-    const instanceRefs = await this.collection.get();
-
-    return Promise.all(
-      instanceRefs.docs.map(async (instanceRefs) => {
-        const { name, uuid, isOpen } = instanceRefs.data() as DBCandidateDeciderInstance;
-        return { name, uuid, isOpen };
-      })
-    );
+  async getAllInstances(): Promise<CandidateDeciderInstance[]> {
+    return this.getDocuments();
   }
 
   async getInstance(uuid: string): Promise<CandidateDeciderInstance | null> {
