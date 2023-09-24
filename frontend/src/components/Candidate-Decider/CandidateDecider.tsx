@@ -73,6 +73,27 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   const handleCommentChange = (id: number, comment: string) => {
     CandidateDeciderAPI.updateComment(instance.uuid, id, comment);
+    if (userInfo) {
+      setInstance((instance) => ({
+        ...instance,
+        candidates: instance.candidates.map((candidate) =>
+          candidate.id === id
+            ? {
+                ...candidate,
+                comments: candidate.comments.find(
+                  (currComment) => currComment.reviewer.email === userInfo.email
+                )
+                  ? candidate.comments.map((currComment) =>
+                      currComment.reviewer.email === userInfo.email
+                        ? { comment, reviewer: userInfo }
+                        : currComment
+                    )
+                  : [...candidate.comments, { comment, reviewer: userInfo }]
+              }
+            : candidate
+        )
+      }));
+    }
   };
 
   return instance.candidates.length === 0 ? (
