@@ -7,7 +7,6 @@ import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
 import CandidateDeciderEditModal from '../../Modals/CandidateDeciderEditModal';
-import Link from 'next/link';
 
 const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
   (role) => ({ role })
