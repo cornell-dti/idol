@@ -491,6 +491,22 @@
     "formerSubteams": []
   },
   {
+    "netid": "kmr232",
+    "name": "Kevin Ram",
+    "pronouns": "",
+    "graduation": "2026",
+    "major": "Computer Science",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": [],
+    "github": "https://github.com/kevinmram"
+  },
+  {
     "netid": "kyr5",
     "name": "Kelly Ryoo",
     "pronouns": "",
@@ -718,6 +734,22 @@
     "roleDescription": "Lead",
     "minor": "Business",
     "linkedin": "https://www.linkedin.com/in/pranavi-gupta-585049230/"
+  },
+  {
+    "netid": "ph444",
+    "name": "Patricia Huang",
+    "pronouns": "",
+    "graduation": "",
+    "major": "Computer Science",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": [],
+    "github": "https://github.com/patriciaahuang"
   },
   {
     "netid": "pr428",
@@ -1002,6 +1034,36 @@
     "formerSubteams": [],
     "website": "valeriewong.space",
     "linkedin": "https://www.linkedin.com/in/valeriekristenwong"
+  },
+  {
+    "netid": "vw77",
+    "name": "Vannessa Wong",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
+  },
+  {
+    "netid": "vw92",
+    "name": "Vicky Wang",
+    "pronouns": "",
+    "graduation": "",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "roleId": "designer",
+    "roleDescription": "Designer",
+    "formerSubteams": []
   },
   {
     "netid": "wz282",
