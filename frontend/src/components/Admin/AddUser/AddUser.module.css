@@ -68,7 +68,7 @@
 .successMessage {
   color: green;
   margin-top: 1rem;
-  height: 8rem;
+  max-height: 8rem;
   overflow: scroll;
 }
 

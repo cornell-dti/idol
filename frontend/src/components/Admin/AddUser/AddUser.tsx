@@ -79,7 +79,6 @@ type UploadStatus = {
 export default function AddUser(): JSX.Element {
   const allMembers = useMembers();
   const validSubteams = useTeams().map((t) => t.name);
-  console.log(validSubteams);
   const [state, setState] = useState<State>({
     currentSelectedMember: allMembers[0],
     isCreatingUser: false
@@ -162,7 +161,9 @@ export default function AddUser(): JSX.Element {
             ? m.formerSubteams.split(', ')
             : currMember.formerSubteams,
           role: m.role || currMember.role,
-          roleDescription: getRoleDescriptionFromRoleID(m.role)
+          roleDescription: m.role
+            ? getRoleDescriptionFromRoleID(m.role)
+            : currMember.roleDescription
         } as IdolMember;
         MembersAPI.updateMember(updatedMember);
       } else {
@@ -239,14 +240,14 @@ export default function AddUser(): JSX.Element {
       if (errors.length > 0) {
         setUploadStatus({
           status: 'error',
-          msg: `Error: ${errors.length} ${errors.length === 1 ? 'row is' : 'rows are'} invalid`,
+          msg: `Error: ${errors.length} ${errors.length === 1 ? 'row is' : 'rows are'} invalid!`,
           errs: errors
         });
       } else {
         processJson(json);
         setUploadStatus({
           status: 'success',
-          msg: `Successfully uploaded ${json.length} members.`
+          msg: `Successfully uploaded ${json.length} members!`
         });
       }
     }
