@@ -51,6 +51,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 - **Hope Zheng** - Designer
 - **Oscar Wang** - Developer
 - **Alyssa Zhang** - Developer
+- **Patricia Huang** - Developer
 
 ### Spring 2023
 
