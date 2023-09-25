@@ -41,10 +41,14 @@
 
 .fullWidth {
   width: 100%;
+  word-wrap: break-word;
+  flex: inherit;
 }
 
 .halfWidth {
   width: 50%;
+  word-wrap: break-word;
+  flex: inherit;
 }
 
 .userEmail {
@@ -52,4 +56,23 @@
   color: gray;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 1rem;
+  height: 8rem;
+  overflow: scroll;
+}
+
+.successMessage {
+  color: green;
+  margin-top: 1rem;
+  max-height: 8rem;
+  overflow: scroll;
+}
+
+.wrap {
+  word-wrap: break-word;
+  flex: inherit;
 }
