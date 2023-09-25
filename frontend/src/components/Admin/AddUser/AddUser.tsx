@@ -227,11 +227,9 @@ export default function AddUser(): JSX.Element {
             err.push('invalid subteam');
           }
           if (formerSubteams.some((t) => !validSubteams.includes(t))) {
-            console.log(formerSubteams);
             err.push('invalid former subteam');
           }
           if (formerSubteams.includes(subteam)) {
-            console.log(formerSubteams);
             err.push('subteam cannot be in former subteams');
           }
           return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
