@@ -157,7 +157,9 @@ export default function AddUser(): JSX.Element {
           hometown: m.hometown || currMember.hometown,
           about: m.about || currMember.about,
           subteams: m.subteam ? [m.subteam] : currMember.subteams,
-          formerSubteams: m.formerSubteams || currMember.formerSubteams,
+          formerSubteams: m.formerSubteams
+            ? m.formerSubteams.split(', ')
+            : currMember.formerSubteams,
           role: m.role || currMember.role,
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
@@ -179,7 +181,7 @@ export default function AddUser(): JSX.Element {
           hometown: m.hometown || '',
           about: m.about || '',
           subteams: m.subteam ? [m.subteam] : [],
-          formerSubteams: m.formerSubteams || [],
+          formerSubteams: m.formerSubteams ? m.formerSubteams.split(', ') : [],
           role: m.role || ('' as Role),
           roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
         } as IdolMember;
@@ -209,12 +211,8 @@ export default function AddUser(): JSX.Element {
       const json = await csvtojson().fromString(csv);
       const errors = json
         .map((m) => {
-          const [email, role, subteam, formerSubteams] = [
-            m.email,
-            m.role,
-            m.subteam,
-            m.formerSubteams
-          ];
+          const [email, role, subteam] = [m.email, m.role, m.subteam];
+          const formerSubteams: string[] = m.formerSubteams.split(', ');
           const err = [];
           if (!email) {
             err.push('missing email');
@@ -227,6 +225,10 @@ export default function AddUser(): JSX.Element {
           }
           if (subteam && !validSubteams.includes(subteam)) {
             err.push('invalid subteam');
+          }
+          if (formerSubteams.some((t) => !validSubteams.includes(t))) {
+            console.log(formerSubteams);
+            err.push('invalid former subteam');
           }
           if (formerSubteams.includes(subteam)) {
             err.push('subteam cannot be in former subteams');
