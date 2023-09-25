@@ -212,7 +212,7 @@ export default function AddUser(): JSX.Element {
       const errors = json
         .map((m) => {
           const [email, role, subteam] = [m.email, m.role, m.subteam];
-          const formerSubteams: string[] = m.formerSubteams.split(', ');
+          const formerSubteams: string[] = m.formerSubteams ? m.formerSubteams.split(', ') : [];
           const err = [];
           if (!email) {
             err.push('missing email');
@@ -227,9 +227,11 @@ export default function AddUser(): JSX.Element {
             err.push('invalid subteam');
           }
           if (formerSubteams.some((t) => !validSubteams.includes(t))) {
+            console.log(formerSubteams);
             err.push('invalid former subteam');
           }
           if (formerSubteams.includes(subteam)) {
+            console.log(formerSubteams);
             err.push('subteam cannot be in former subteams');
           }
           return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
