@@ -79,6 +79,7 @@ type UploadStatus = {
 export default function AddUser(): JSX.Element {
   const allMembers = useMembers();
   const validSubteams = useTeams().map((t) => t.name);
+  console.log(validSubteams);
   const [state, setState] = useState<State>({
     currentSelectedMember: allMembers[0],
     isCreatingUser: false
@@ -220,14 +221,14 @@ export default function AddUser(): JSX.Element {
           if (!role) {
             err.push('missing role');
           }
-          if (!ALL_ROLES.includes(role as Role)) {
+          if (role && !ALL_ROLES.includes(role as Role)) {
             err.push('invalid role');
           }
           if (subteam && !validSubteams.includes(subteam)) {
             err.push('invalid subteam');
           }
           if (formerSubteams.some((t) => !validSubteams.includes(t))) {
-            err.push('invalid former subteam');
+            err.push('at least one invalid former subteam');
           }
           if (formerSubteams.includes(subteam)) {
             err.push('subteam cannot be in former subteams');
@@ -324,11 +325,12 @@ export default function AddUser(): JSX.Element {
                 </div>
               ) : undefined}
               <input
-                className={styles.fileUpload}
+                className={styles.wrap}
                 type="file"
                 accept=".csv"
                 onChange={(e) => setCsvFile(e.target.files?.[0])}
               />
+              <a href="/sample_csv.zip">Download sample .csv file</a>
               {uploadStatus ? (
                 <div
                   className={
