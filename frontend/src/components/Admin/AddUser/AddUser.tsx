@@ -73,6 +73,7 @@ type State = {
 type UploadStatus = {
   readonly status: 'success' | 'error';
   readonly msg: string;
+  readonly errs?: string[];
 };
 
 export default function AddUser(): JSX.Element {
@@ -190,18 +191,45 @@ export default function AddUser(): JSX.Element {
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
     if (csvFile) {
       const csv = await csvFile.text();
+      const columnHeaders = csv.split('\n')[0].split(', ');
+      if (!columnHeaders.includes('email')) {
+        setUploadStatus({
+          status: 'error',
+          msg: 'Error: CSV must contain an email column'
+        });
+        return;
+      }
+      if (!columnHeaders.includes('role')) {
+        setUploadStatus({
+          status: 'error',
+          msg: 'Error: CSV must contain a role column'
+        });
+        return;
+      }
       const json = await csvtojson().fromString(csv);
-      const errors = json.filter(
-        (m) =>
-          !m.email ||
-          !m.role ||
-          !ALL_ROLES.includes(m.role as Role) ||
-          !validSubteams.includes(m.subteam)
-      );
+      const errors = json
+        .map((m) => {
+          const err = [];
+          if (!m.email) {
+            err.push('missing email');
+          }
+          if (!m.role) {
+            err.push('missing role');
+          }
+          if (!ALL_ROLES.includes(m.role as Role)) {
+            err.push('invalid role');
+          }
+          if (m.subteam && !validSubteams.includes(m.subteam)) {
+            err.push('invalid subteam');
+          }
+          return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
+        })
+        .filter((err) => err.length > 0);
       if (errors.length > 0) {
         setUploadStatus({
           status: 'error',
-          msg: `Error: ${errors.length} rows in CSV file are invalid.`
+          msg: `Error: ${errors.length} ${errors.length === 1 ? 'row is' : 'rows are'} invalid`,
+          errs: errors
         });
       } else {
         processJson(json);
@@ -285,19 +313,28 @@ export default function AddUser(): JSX.Element {
                   </Button>
                 </div>
               ) : undefined}
-              {uploadStatus ? (
-                <p
-                  className={
-                    uploadStatus.status === 'error' ? styles.errorMessage : styles.successMessage
-                  }
-                >{`${uploadStatus.msg}`}</p>
-              ) : undefined}
               <input
                 className={styles.fileUpload}
                 type="file"
                 accept=".csv"
                 onChange={(e) => setCsvFile(e.target.files?.[0])}
               />
+              {uploadStatus ? (
+                <div
+                  className={
+                    uploadStatus.status === 'error' ? styles.errorMessage : styles.successMessage
+                  }
+                >
+                  <p>{`${uploadStatus.msg}`}</p>
+                  {uploadStatus.errs ? (
+                    <div>
+                      {uploadStatus.errs.map((err) => (
+                        <p>{err}</p>
+                      ))}
+                    </div>
+                  ) : undefined}
+                </div>
+              ) : undefined}
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (

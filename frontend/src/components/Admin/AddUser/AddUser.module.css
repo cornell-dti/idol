@@ -60,10 +60,16 @@
 
 .errorMessage {
   color: red;
+  margin-top: 1rem;
+  height: 8rem;
+  overflow: scroll;
 }
 
 .successMessage {
   color: green;
+  margin-top: 1rem;
+  height: 8rem;
+  overflow: scroll;
 }
 
 .wrap {
