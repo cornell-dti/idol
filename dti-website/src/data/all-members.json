@@ -321,6 +321,21 @@
     "github": "https://github.com/harrisonchin2523"
   },
   {
+    "netid": "hl883",
+    "name": "Helen Lei",
+    "pronouns": "",
+    "graduation": "2026",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "reviews"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "hyz2",
     "name": "Hope Zheng",
     "pronouns": "",
@@ -454,14 +469,15 @@
   {
     "netid": "kl628",
     "name": "Kevin Lin",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "He/Him",
+    "graduation": "2025",
+    "major": "Computer Science",
+    "hometown": "Syosset",
+    "about": "Hi! ",
     "subteams": [],
     "roleId": "developer",
     "roleDescription": "Developer",
+    "minor": "Business",
     "formerSubteams": []
   },
   {
@@ -495,7 +511,7 @@
     "name": "Kevin Ram",
     "pronouns": "",
     "graduation": "2026",
-    "major": "Computer Science",
+    "major": "",
     "hometown": "",
     "about": "",
     "subteams": [
@@ -503,8 +519,7 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "github": "https://github.com/kevinmram"
+    "formerSubteams": []
   },
   {
     "netid": "kyr5",
@@ -691,6 +706,21 @@
     "github": "https://github.com/neketka"
   },
   {
+    "netid": "nm549",
+    "name": "Nidhi Mylavarapuru",
+    "pronouns": "",
+    "graduation": "2026",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "courseplan"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "nu44",
     "name": "Noorejehan Umar",
     "pronouns": "",
@@ -739,8 +769,8 @@
     "netid": "ph444",
     "name": "Patricia Huang",
     "pronouns": "",
-    "graduation": "",
-    "major": "Computer Science",
+    "graduation": "2026",
+    "major": "",
     "hometown": "",
     "about": "",
     "subteams": [
@@ -748,8 +778,7 @@
     ],
     "roleId": "developer",
     "roleDescription": "Developer",
-    "formerSubteams": [],
-    "github": "https://github.com/patriciaahuang"
+    "formerSubteams": []
   },
   {
     "netid": "pr428",
@@ -920,6 +949,21 @@
     "formerSubteams": []
   },
   {
+    "netid": "szw3",
+    "name": "Sophie Wang",
+    "pronouns": "",
+    "graduation": "2026",
+    "major": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "queuemein"
+    ],
+    "roleId": "developer",
+    "roleDescription": "Developer",
+    "formerSubteams": []
+  },
+  {
     "netid": "to98",
     "name": "Tina Ou",
     "pronouns": "",
@@ -1053,17 +1097,19 @@
   {
     "netid": "vw92",
     "name": "Vicky Wang",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "she/her",
+    "graduation": "2026",
+    "major": "Computer Science",
+    "hometown": "Long Island, New York",
+    "about": "Helloo~ I'm Vicky Wang, a current sophomore studying Computer Science with a passion for Product Design :) Excited to join the DTI community!",
     "subteams": [
       "idol"
     ],
     "roleId": "designer",
     "roleDescription": "Designer",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "website": "https://vickyxwang.notion.site/hi-it-s-Vicky-7a9d7a06cbd04fac9a919d7f1bbb717e?pvs=4",
+    "linkedin": "www.linkedin.com/in/vicky-wang-5b875b219"
   },
   {
     "netid": "wz282",
@@ -1157,15 +1203,15 @@
   {
     "netid": "zak33",
     "name": "Zak Kent",
-    "pronouns": "",
-    "graduation": "",
-    "major": "",
-    "hometown": "",
-    "about": "",
+    "pronouns": "he/him",
+    "graduation": "May 2024",
+    "major": "Computer Science",
+    "hometown": "Washington, D.C.",
+    "about": "TPM @ CoursePlan",
     "subteams": [],
     "roleId": "tpm",
     "roleDescription": "Technical PM",
     "formerSubteams": [],
-    "github": "https://github.com/zachary0kent"
+    "github": "https://github.com/zachary-kent"
   }
 ]
