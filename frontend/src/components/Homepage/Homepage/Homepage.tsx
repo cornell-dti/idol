@@ -16,7 +16,11 @@ const everyoneItems: readonly NavigationCardItem[] = [
     description: 'Edit your profile image.',
     link: '/forms/profileImage'
   },
-  { header: 'Sign-In Form', description: 'Sign in to an event.', link: '/forms/signin' },
+  { 
+    header: 'Sign-In Form', 
+    description: 'Sign in to an event.', 
+    link: '/forms/signin' 
+  },
   {
     header: 'Shoutouts',
     description: 'Give someone a shoutout or view your past given shoutouts.',
