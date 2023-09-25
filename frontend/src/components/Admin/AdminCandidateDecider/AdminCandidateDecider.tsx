@@ -105,6 +105,11 @@ const CandidateDeciderInstanceCreator = ({
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="file" accept=".csv" onChange={handleFileUpload} key={fileInKey || ''} />
+        <label>
+          {' '}
+          Format: .csv with at least a "NetID", "First Name", and "Last Name" column.{' '}
+          <a href="/sample_candidate_decider_input.csv">Download sample file here.</a>
+        </label>
         <Message>
           All leads and IDOL admins have permission to all Candidate Decider instances
         </Message>
