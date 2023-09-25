@@ -161,9 +161,7 @@ export default function AddUser(): JSX.Element {
             ? m.formerSubteams.split(', ')
             : currMember.formerSubteams,
           role: m.role || currMember.role,
-          roleDescription: m.role
-            ? getRoleDescriptionFromRoleID(m.role)
-            : currMember.roleDescription
+          roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
         MembersAPI.updateMember(updatedMember);
       } else {
@@ -185,7 +183,7 @@ export default function AddUser(): JSX.Element {
           subteams: m.subteam ? [m.subteam] : [],
           formerSubteams: m.formerSubteams ? m.formerSubteams.split(', ') : [],
           role: m.role || ('' as Role),
-          roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
+          roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
         MembersAPI.setMember(updatedMember);
       }
