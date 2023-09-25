@@ -70,15 +70,20 @@ type State = {
   readonly isCreatingUser: boolean;
 };
 
+type UploadStatus = {
+  readonly status: 'success' | 'error';
+  readonly msg: string;
+};
+
 export default function AddUser(): JSX.Element {
   const allMembers = useMembers();
+  const validSubteams = useTeams().map((t) => t.name);
   const [state, setState] = useState<State>({
     currentSelectedMember: allMembers[0],
     isCreatingUser: false
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
-  const [uploadStatus, setUploadStatus] = useState<{ status: 'error' | 'success'; msg: string }>();
-  const validSubteams = useTeams().map((t) => t.name);
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus>();
 
   function createNewUser(): void {
     setState({
@@ -130,8 +135,7 @@ export default function AddUser(): JSX.Element {
     });
   }
 
-  function processJson(json: any[]): Member[] {
-    const members: Member[] = [];
+  function processJson(json: any[]): void {
     for (const m of json) {
       const netId = getNetIDFromEmail(m.email);
       const currMember = allMembers.find((mem) => mem.netid === netId);
@@ -151,15 +155,15 @@ export default function AddUser(): JSX.Element {
           github: m.github || currMember.github,
           hometown: m.hometown || currMember.hometown,
           about: m.about || currMember.about,
-          subteams: [m.subteam] || currMember.subteams,
+          subteams: m.subteam ? [m.subteam] : currMember.subteams,
           formerSubteams: m.formerSubteams || currMember.formerSubteams,
           role: m.role || currMember.role,
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
-        members.push(updatedMember);
+        MembersAPI.updateMember(updatedMember);
       } else {
         const updatedMember = {
-          netid: getNetIDFromEmail(m.email),
+          netid: netId,
           email: m.email,
           firstName: m.firstName || '',
           lastName: m.lastName || '',
@@ -173,28 +177,37 @@ export default function AddUser(): JSX.Element {
           github: m.github || '',
           hometown: m.hometown || '',
           about: m.about || '',
-          subteams: [m.subteam] || [],
+          subteams: m.subteam ? [m.subteam] : [],
           formerSubteams: m.formerSubteams || [],
           role: m.role || ('' as Role),
           roleDescription: m.role ? getRoleDescriptionFromRoleID(m.role) : ''
         } as IdolMember;
-        members.push(updatedMember);
+        MembersAPI.setMember(updatedMember);
       }
     }
-    return members;
   }
 
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
     if (csvFile) {
       const csv = await csvFile.text();
       const json = await csvtojson().fromString(csv);
-      const members = processJson(json);
-      if (uploadStatus?.status === 'error') {
-        console.log('error');
+      const errors = json.filter(
+        (m) =>
+          !m.email ||
+          !m.role ||
+          !ALL_ROLES.includes(m.role as Role) ||
+          !validSubteams.includes(m.subteam)
+      );
+      if (errors.length > 0) {
+        setUploadStatus({
+          status: 'error',
+          msg: `Error: ${errors.length} rows in CSV file are invalid.`
+        });
       } else {
+        processJson(json);
         setUploadStatus({
           status: 'success',
-          msg: `Successfully uploaded ${members.length} users!`
+          msg: `Successfully uploaded ${json.length} members.`
         });
       }
     }
