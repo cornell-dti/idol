@@ -209,18 +209,27 @@ export default function AddUser(): JSX.Element {
       const json = await csvtojson().fromString(csv);
       const errors = json
         .map((m) => {
+          const [email, role, subteam, formerSubteams] = [
+            m.email,
+            m.role,
+            m.subteam,
+            m.formerSubteams
+          ];
           const err = [];
-          if (!m.email) {
+          if (!email) {
             err.push('missing email');
           }
-          if (!m.role) {
+          if (!role) {
             err.push('missing role');
           }
-          if (!ALL_ROLES.includes(m.role as Role)) {
+          if (!ALL_ROLES.includes(role as Role)) {
             err.push('invalid role');
           }
-          if (m.subteam && !validSubteams.includes(m.subteam)) {
+          if (subteam && !validSubteams.includes(subteam)) {
             err.push('invalid subteam');
+          }
+          if (formerSubteams.includes(subteam)) {
+            err.push('subteam cannot be in former subteams');
           }
           return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
         })
