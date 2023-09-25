@@ -21,11 +21,10 @@ export const getAllCandidateDeciderInstances = async (
     );
   }
 
-  const instanceInfo = filteredInstances.map((instance) => {
+  return filteredInstances.map((instance) => {
     const { name, uuid, isOpen } = instance;
     return { name, uuid, isOpen };
   });
-  return instanceInfo;
 };
 
 export const createNewCandidateDeciderInstance = async (
