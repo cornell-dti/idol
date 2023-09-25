@@ -193,7 +193,7 @@ export default function AddUser(): JSX.Element {
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
     if (csvFile) {
       const csv = await csvFile.text();
-      const columnHeaders = csv.split('\n')[0].split(', ');
+      const columnHeaders = csv.split('\n')[0].split(',');
       if (!columnHeaders.includes('email')) {
         setUploadStatus({
           status: 'error',
