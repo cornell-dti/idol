@@ -252,7 +252,12 @@ const DocumentationInput = ({
     <label className={styles.bold}>
       Documentation: <span className={styles.red_color}>*</span>
     </label>
-    <p>Please provide a link to at least one piece of documentation you added/updated.</p>
+    <p>
+      Please provide a link to at least one piece of documentation you added/updated. If it's
+      included in the PRs you added above, you may simply write "Documentation located in PR (insert
+      PR number here)". If you made a separate PR updating documentation in the codebase, please
+      link that PR here.
+    </p>
     <TextArea value={documentationText} onChange={(e) => setDocumentationText(e.target.value)} />
   </div>
 );
