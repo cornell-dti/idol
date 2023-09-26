@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
@@ -35,6 +35,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (comment) return comment.comment;
     return '';
   };
+
+  const [currentRating, setCurrentRating] = useState<Rating>(0);
+  const [currentComment, setCurrentComment] = useState<string>('');
+
+  useEffect(() => {
+    if (instance.candidates[currentCandidate]) {
+      setCurrentRating(getRating());
+      setCurrentComment(getComment());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCandidate, instance.candidates]);
 
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
@@ -118,7 +129,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             onChange={(_, data) => setCurrentCandidate(data.value as number)}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
-          <Button.Group>
+          <Button.Group className={styles.previousNextButtonContainer}>
             <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
               PREVIOUS
             </Button>
@@ -131,6 +142,16 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               NEXT
             </Button>
           </Button.Group>
+          <Button
+            className="ui blue button"
+            disabled={currentComment === getComment() && currentRating === getRating()}
+            onClick={() => {
+              handleRatingChange(currentCandidate, currentRating);
+              handleCommentChange(currentCandidate, currentComment);
+            }}
+          >
+            Save
+          </Button>
           <Checkbox
             className={styles.showOtherVotes}
             toggle
@@ -142,11 +163,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
-          handleRatingChange={handleRatingChange}
-          rating={getRating()}
-          currentCandidate={currentCandidate}
-          handleCommentChange={handleCommentChange}
-          comment={getComment()}
+          currentComment={currentComment}
+          setCurrentComment={setCurrentComment}
+          currentRating={currentRating}
+          setCurrentRating={setCurrentRating}
         />
       </div>
       <div className={styles.progressContainer}>

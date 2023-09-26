@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Form, Radio, Button } from 'semantic-ui-react';
+import { Dispatch, SetStateAction } from 'react';
+import { Form, Radio } from 'semantic-ui-react';
 import styles from './ResponsesPanel.module.css';
 
 type Props = {
   headers: string[];
   responses: string[];
-  rating: Rating;
-  handleRatingChange: (id: number, rating: Rating) => void;
-  comment: string;
-  handleCommentChange: (id: number, comment: string) => void;
-  currentCandidate: number;
+  currentRating: Rating;
+  setCurrentRating: Dispatch<SetStateAction<Rating>>;
+  currentComment: string;
+  setCurrentComment: Dispatch<SetStateAction<string>>;
 };
 
 const ratings = [
@@ -24,87 +23,53 @@ const ratings = [
 const ResponsesPanel: React.FC<Props> = ({
   headers,
   responses,
-  rating,
-  handleRatingChange,
-  currentCandidate,
-  handleCommentChange,
-  comment
-}) => {
-  const [currentRating, setCurrentRating] = useState<Rating>(rating);
-  useEffect(() => {
-    setCurrentRating(rating);
-  }, [rating]);
-  return (
-    <div>
-      <Form>
-        <Form.Group inline>
-          {ratings.map((rt) => (
-            <Form.Field key={rt.value}>
-              <Radio
-                label={rt.text}
-                name="rating-group"
-                value={rt.value}
-                color={rt.color}
-                checked={rt.value === currentRating}
-                onClick={() => setCurrentRating(rt.value as Rating)}
-              />
-            </Form.Field>
-          ))}
-          <Button
-            className="ui blue button"
-            onClick={() => handleRatingChange(currentCandidate, currentRating)}
-          >
-            Save
-          </Button>
-        </Form.Group>
-        <CommentEditor
-          handleCommentChange={handleCommentChange}
-          comment={comment}
-          currentCandidate={currentCandidate}
-        />
-      </Form>
-      {headers.map((header, i) => (
-        <div key={i} className={styles.questionResponseContainer}>
-          <h4 className={styles.questionHeader}>{header}</h4>
-          <div>{responses[i]}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
+  currentRating,
+  setCurrentRating,
+  currentComment,
+  setCurrentComment
+}) => (
+  <div>
+    <Form>
+      <Form.Group inline>
+        {ratings.map((rt) => (
+          <Form.Field key={rt.value}>
+            <Radio
+              label={rt.text}
+              name="rating-group"
+              value={rt.value}
+              color={rt.color}
+              checked={rt.value === currentRating}
+              onClick={() => setCurrentRating(rt.value as Rating)}
+            />
+          </Form.Field>
+        ))}
+      </Form.Group>
+      <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
+    </Form>
+    {headers.map((header, i) => (
+      <div key={i} className={styles.questionResponseContainer}>
+        <h4 className={styles.questionHeader}>{header}</h4>
+        <div>{responses[i]}</div>
+      </div>
+    ))}
+  </div>
+);
 
 type CommentEditorProps = {
-  comment: string;
-  handleCommentChange: (id: number, comment: string) => void;
-  currentCandidate: number;
+  currentComment: string;
+  setCurrentComment: Dispatch<SetStateAction<string>>;
 };
 
-const CommentEditor: React.FC<CommentEditorProps> = ({
-  handleCommentChange,
-  comment,
-  currentCandidate
-}) => {
-  const [currentComment, setCurrentComment] = useState<string>(comment);
-
-  useEffect(() => setCurrentComment(comment), [comment]);
-
-  return (
-    <div>
-      <Form.Group inline>
-        <Form.Input
-          className="fifteen wide field"
-          placeholder={'Comment...'}
-          onChange={(_, data) => setCurrentComment(data.value)}
-          value={currentComment}
-        />
-        <Button
-          className="ui blue button"
-          onClick={() => handleCommentChange(currentCandidate, currentComment)}
-        >
-          Save
-        </Button>
-      </Form.Group>
-    </div>
-  );
-};
+const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
+  <div>
+    <Form.Group inline>
+      <Form.Input
+        className="fifteen wide field"
+        placeholder={'Comment...'}
+        onChange={(_, data) => setCurrentComment(data.value)}
+        value={currentComment}
+      />
+    </Form.Group>
+  </div>
+);
 export default ResponsesPanel;
