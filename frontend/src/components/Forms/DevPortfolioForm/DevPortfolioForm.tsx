@@ -12,7 +12,7 @@ const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-  const isTpm = userInfo.role === 'tpm';
+  const isTpm = false;
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
@@ -20,7 +20,7 @@ const DevPortfolioForm: React.FC = () => {
   const [reviewPRs, setReviewedPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [text, setText] = useState<string | undefined>(undefined);
-  const [documentationText, setDocumentationText] = useState<string | undefined>(undefined);
+  const [documentationText, setDocumentationText] = useState<string>('');
 
   useEffect(() => {
     refreshDevPortfolios();
@@ -198,12 +198,6 @@ const DevPortfolioForm: React.FC = () => {
           ) : (
             <></>
           )}
-          <br />
-          <label className={styles.bold}>
-            Documentation: <span className={styles.red_color}>*</span>
-          </label>
-          <p>Please provide a link to at least one piece of documentation you added/updated.</p>
-          <TextArea value={text} onChange={(e) => setDocumentationText(e.target.value)} />
           <PRInputs
             prs={openPRs}
             setPRs={setOpenPRs}
@@ -217,6 +211,10 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Reviewed PR"
             label="Reviewed Pull Request Github Link:"
             isTpm={isTpm}
+          />
+          <DocumentationInput
+            setDocumentationText={setDocumentationText}
+            documentationText={documentationText}
           />
         </div>
         <Message info>
@@ -242,6 +240,22 @@ const DevPortfolioForm: React.FC = () => {
     </div>
   );
 };
+
+const DocumentationInput = ({
+  documentationText,
+  setDocumentationText
+}: {
+  documentationText: string;
+  setDocumentationText: React.Dispatch<React.SetStateAction<string>>;
+}) => (
+  <div>
+    <label className={styles.bold}>
+      Documentation: <span className={styles.red_color}>*</span>
+    </label>
+    <p>Please provide a link to at least one piece of documentation you added/updated.</p>
+    <TextArea value={documentationText} onChange={(e) => setDocumentationText(e.target.value)} />
+  </div>
+);
 
 const PRInputs = ({
   prs,
