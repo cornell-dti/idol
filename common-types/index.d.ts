@@ -162,6 +162,7 @@ interface DevPortfolioSubmission {
   reviewedPRs: PullRequestSubmission[];
   isLate?: boolean;
   text?: string;
+  documentationText?: string;
   status: SubmissionStatus;
 }
 
