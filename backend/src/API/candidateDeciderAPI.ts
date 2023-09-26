@@ -6,7 +6,26 @@ const candidateDeciderDao = new CandidateDeciderDao();
 
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
-): Promise<CandidateDeciderInfo[]> => candidateDeciderDao.getAllInstances();
+): Promise<CandidateDeciderInfo[]> => {
+  const instances = await candidateDeciderDao.getAllInstances();
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+
+  let filteredInstances;
+  if (isLeadOrAdmin) {
+    filteredInstances = instances;
+  } else {
+    filteredInstances = instances.filter(
+      (instance) =>
+        instance.authorizedRoles.includes(user.role) ||
+        instance.authorizedMembers.some((member) => member.email === user.email)
+    );
+  }
+
+  return filteredInstances.map((instance) => {
+    const { name, uuid, isOpen } = instance;
+    return { name, uuid, isOpen };
+  });
+};
 
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
