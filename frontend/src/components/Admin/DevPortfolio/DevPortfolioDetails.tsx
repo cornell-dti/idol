@@ -186,6 +186,7 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
           <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Opened PRs</Table.HeaderCell>
           <Table.HeaderCell>Reviewed PRs</Table.HeaderCell>
+          <Table.HeaderCell>Documentation</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
           {sortedSubmissions.some((submission) => submission.text) && (
             <Table.HeaderCell></Table.HeaderCell>
@@ -256,6 +257,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
             prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
           />
         </Table.Cell>
+        <Table.Cell>
+          {submission.documentationText ?? ""}
+        </Table.Cell>
 
         {isAdminView ? (
           <Table.Cell rowSpan={`${numRows}`}>
@@ -320,6 +324,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
           prSubmission={i >= remainingReviewedPRs.length ? undefined : remainingReviewedPRs[i]}
         />
       </Table.Cell>
+      <Table.Cell />
       {!submission.text ? <div></div> : <></>}
     </Table.Row>
   ));
