@@ -257,9 +257,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
             prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
           />
         </Table.Cell>
-        <Table.Cell>
-          {submission.documentationText ?? ""}
-        </Table.Cell>
+        <Table.Cell>{submission.documentationText ?? ''}</Table.Cell>
 
         {isAdminView ? (
           <Table.Cell rowSpan={`${numRows}`}>

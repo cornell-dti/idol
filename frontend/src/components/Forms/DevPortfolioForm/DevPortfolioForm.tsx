@@ -199,12 +199,10 @@ const DevPortfolioForm: React.FC = () => {
             <></>
           )}
           <br />
-                        <label className={styles.bold}>
-                Documentation: <span className={styles.red_color}>*</span>
-              </label>
-              <p>
-                Please provide a link to at least one piece of documentation you added/updated.
-              </p>
+          <label className={styles.bold}>
+            Documentation: <span className={styles.red_color}>*</span>
+          </label>
+          <p>Please provide a link to at least one piece of documentation you added/updated.</p>
           <TextArea value={text} onChange={(e) => setDocumentationText(e.target.value)} />
           <PRInputs
             prs={openPRs}
