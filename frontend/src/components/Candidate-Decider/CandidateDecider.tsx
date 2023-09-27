@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
@@ -18,7 +18,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
-  const instance = useCandidateDeciderInstance(uuid);
+  const [instance, setInstance] = useCandidateDeciderInstance(uuid);
 
   const getRating = () => {
     const rating = instance.candidates[currentCandidate].ratings.find(
@@ -36,6 +36,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     return '';
   };
 
+  const [currentRating, setCurrentRating] = useState<Rating>(0);
+  const [currentComment, setCurrentComment] = useState<string>('');
+
+  useEffect(() => {
+    if (instance.candidates[currentCandidate]) {
+      setCurrentRating(getRating());
+      setCurrentComment(getComment());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCandidate, instance.candidates]);
+
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => prev + 1);
@@ -48,10 +59,52 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   const handleRatingChange = (id: number, rating: Rating) => {
     CandidateDeciderAPI.updateRating(instance.uuid, id, rating);
+    if (userInfo) {
+      setInstance((instance) => ({
+        ...instance,
+        candidates: instance.candidates.map((candidate) =>
+          candidate.id === id
+            ? {
+                ...candidate,
+                ratings: candidate.ratings.find(
+                  (currRating) => currRating.reviewer.email === userInfo.email
+                )
+                  ? candidate.ratings.map((currRating) =>
+                      currRating.reviewer.email === userInfo.email
+                        ? { rating, reviewer: userInfo }
+                        : currRating
+                    )
+                  : [...candidate.ratings, { rating, reviewer: userInfo }]
+              }
+            : candidate
+        )
+      }));
+    }
   };
 
   const handleCommentChange = (id: number, comment: string) => {
     CandidateDeciderAPI.updateComment(instance.uuid, id, comment);
+    if (userInfo) {
+      setInstance((instance) => ({
+        ...instance,
+        candidates: instance.candidates.map((candidate) =>
+          candidate.id === id
+            ? {
+                ...candidate,
+                comments: candidate.comments.find(
+                  (currComment) => currComment.reviewer.email === userInfo.email
+                )
+                  ? candidate.comments.map((currComment) =>
+                      currComment.reviewer.email === userInfo.email
+                        ? { comment, reviewer: userInfo }
+                        : currComment
+                    )
+                  : [...candidate.comments, { comment, reviewer: userInfo }]
+              }
+            : candidate
+        )
+      }));
+    }
   };
 
   return instance.candidates.length === 0 ? (
@@ -76,7 +129,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             onChange={(_, data) => setCurrentCandidate(data.value as number)}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
-          <Button.Group>
+          <Button.Group className={styles.previousNextButtonContainer}>
             <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
               PREVIOUS
             </Button>
@@ -89,6 +142,16 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               NEXT
             </Button>
           </Button.Group>
+          <Button
+            className="ui blue button"
+            disabled={currentComment === getComment() && currentRating === getRating()}
+            onClick={() => {
+              handleRatingChange(currentCandidate, currentRating);
+              handleCommentChange(currentCandidate, currentComment);
+            }}
+          >
+            Save
+          </Button>
           <Checkbox
             className={styles.showOtherVotes}
             toggle
@@ -100,11 +163,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
-          handleRatingChange={handleRatingChange}
-          rating={getRating()}
-          currentCandidate={currentCandidate}
-          handleCommentChange={handleCommentChange}
-          comment={getComment()}
+          currentComment={currentComment}
+          setCurrentComment={setCurrentComment}
+          currentRating={currentRating}
+          setCurrentRating={setCurrentRating}
         />
       </div>
       <div className={styles.progressContainer}>
