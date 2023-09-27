@@ -4,6 +4,8 @@
 
 ## About
 
+IDOL (Internal DTI Organization Logic) is an internal tools platform for DTI, a project team/web development club at Cornell University. The platform automates all the operations of the organization and has been used extensively by over 100+ members at a time.
+
 ```text
 IDOL = Internal DTI Organization Logic
 ```
