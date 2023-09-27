@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, TextArea, Checkbox } from 'semantic-ui-react';
+import { Form, TextArea, Checkbox, Loader } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
@@ -17,8 +17,10 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const [receiver, setReceiver] = useState('');
   const [message, setMessage] = useState('');
   const [isAnon, setIsAnon] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const giveShoutout = () => {
+    setIsSubmitting(true);
     if (!receiver) {
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
@@ -35,6 +37,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         uuid: ''
       };
       ShoutoutsAPI.giveShoutout(shoutout).then((val) => {
+        setIsSubmitting(false);
         if (val.error) {
           Emitters.generalError.emit({
             headerMsg: "Couldn't send shoutout!",
@@ -83,8 +86,8 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         />
       </div>
 
-      <Form.Button floated="right" onClick={giveShoutout}>
-        Send
+      <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting}>
+        {isSubmitting ? <Loader active inline size='small' /> : 'Send'} 
       </Form.Button>
     </Form>
   );
