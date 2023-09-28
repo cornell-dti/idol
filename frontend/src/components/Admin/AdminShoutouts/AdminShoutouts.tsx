@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image, Loader } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
@@ -13,21 +13,27 @@ const AdminShoutouts: React.FC = () => {
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
 
   const updateShoutouts = useCallback(() => {
+    setLoading(true);
     if (lastDate < earlyDate) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid Date Range',
         contentMsg: 'Please make sure the latest shoutout date is after the earliest shoutout date.'
       });
+      setLoading(false);
+      return; 
     }
     if (allShoutouts.length === 0) {
       ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
         setAllShoutouts(shoutouts);
-      });
+        setLoading(false);
+      }).catch(() => setLoading(false));
     } else {
       const filteredShoutouts = allShoutouts
         .filter((shoutout) => {
@@ -35,12 +41,15 @@ const AdminShoutouts: React.FC = () => {
           return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
         })
         .sort((a, b) => a.timestamp - b.timestamp);
+  
       if (view === 'PRESENT')
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => !shoutout.hidden));
       else if (view === 'HIDDEN')
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
       else setDisplayShoutouts(filteredShoutouts);
+  
       setHide(false);
+      setLoading(false);
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
@@ -212,29 +221,35 @@ const AdminShoutouts: React.FC = () => {
 
   return (
     <div>
-      <Form className={styles.shoutoutForm}>
-        <h2>Filter shoutouts:</h2>
-        <Form.Group width="equals">
-          <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
-          <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
-          <Button.Group className={styles.buttonGroup}>
-            <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
-              buttonText={'HIDDEN'}
-            />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
-              buttonText={'PRESENT'}
-            />
-          </Button.Group>
-        </Form.Group>
-      </Form>
-      <div className={styles.shoutoutsListContainer}>
-        <ListTitle />
-        <DisplayList />
+      {loading ? (
+        <Loader active inline='centered' />
+      ) : (
+      <div>
+        <Form className={styles.shoutoutForm}>
+          <h2>Filter shoutouts:</h2>
+          <Form.Group width="equals">
+            <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
+            <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
+            <Button.Group className={styles.buttonGroup}>
+              <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
+              <ButtonPiece
+                shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
+                buttonText={'HIDDEN'}
+              />
+              <ButtonPiece
+                shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
+                buttonText={'PRESENT'}
+              />
+            </Button.Group>
+          </Form.Group>
+        </Form>
+        <div className={styles.shoutoutsListContainer}>
+          <ListTitle />
+          <DisplayList />
+        </div>
       </div>
-    </div>
+      )}
+  </div>
   );
 };
 
