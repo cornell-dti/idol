@@ -87,7 +87,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
       </div>
 
       <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting}>
-        {isSubmitting ? <Loader active inline size='small' /> : 'Send'} 
+        {isSubmitting ? <Loader active inline size="small" /> : 'Send'}
       </Form.Button>
     </Form>
   );
