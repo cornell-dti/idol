@@ -49,6 +49,6 @@ export default class ShoutoutsAPI {
   }
 
   public static async deleteShoutout(uuid: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/deleteShoutout/${uuid}`);
+    await APIWrapper.delete(`${backendURL}/shoutout/${uuid}`);
   }
 }
