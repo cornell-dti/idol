@@ -3,11 +3,17 @@ import { teamEventsCollection, bucket } from '../firebase';
 import { NotFoundError } from '../utils/errors';
 
 export default class TeamEventsDao {
+  /* Gets all TeamEventInfo objects which represent the details of all team events */
   static async getAllTeamEvents(): Promise<TeamEventInfo[]> {
     const eventRefs = await teamEventsCollection.get();
     return Promise.all(eventRefs.docs.map(async (eventRef) => eventRef.data()));
   }
 
+  /**
+   * Gets the team event information 
+   * @param uuid - unique identifer corresponding to a team event
+   * If team event is not found, throw a Not Found Error'
+   */
   static async getTeamEvent(uuid: string): Promise<TeamEventInfo> {
     const eventDoc = teamEventsCollection.doc(uuid);
     const eventRef = await eventDoc.get();
@@ -18,6 +24,11 @@ export default class TeamEventsDao {
     return eventForm;
   }
 
+  /**
+  * Deletes a team event 
+  * @param teamEvent - team event that is to be deleted
+  * If team event does not exist, throw a Not Found Error'
+  */
   static async deleteTeamEvent(teamEvent: TeamEventInfo): Promise<void> {
     const eventDoc = teamEventsCollection.doc(teamEvent.uuid);
     const eventRef = await eventDoc.get();
@@ -25,6 +36,10 @@ export default class TeamEventsDao {
     await eventDoc.delete();
   }
 
+  /**
+  * Creates a team event 
+  * @param event - newly created TeamEvent object that represent the details of the event
+  */
   static async createTeamEvent(event: TeamEventInfo): Promise<TeamEventInfo> {
     const teamEventRef: TeamEventInfo = {
       ...event,
@@ -35,6 +50,11 @@ export default class TeamEventsDao {
     return event;
   }
 
+  /**
+  * Updates a team event
+  * @param event - team event that is to be updated
+  * If team event does not exist, throw a Not Found Error'
+  */
   static async updateTeamEvent(event: TeamEventInfo): Promise<TeamEventInfo> {
     const eventDoc = teamEventsCollection.doc(event.uuid);
     const eventRef = await eventDoc.get();
@@ -56,6 +76,7 @@ export default class TeamEventsDao {
     await Promise.all(proofImageFiles[0].map((file) => file.delete()));
   }
 
+  /* Returns all team event information details through 'TeamEventInfo' objects */
   static async getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
     const docRefs = await teamEventsCollection
       .select('name', 'date', 'numCredits', 'hasHours', 'uuid')
