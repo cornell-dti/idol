@@ -49,6 +49,12 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     super(devPortfolioCollection, materializeDevPortfolio, serializeDevPortfolio);
   }
 
+  /**
+   * Creates a new Dev Portfolio submission for a member
+   * @param uuid - DB uuid of DevPortfolio.
+   * @param submission - Newly created DevPortfolioSubmission object.
+   * The given submission will be updated in the Dev Portfolio Submissions database.
+   */
   async makeDevPortfolioSubmission(
     uuid: string,
     submission: DevPortfolioSubmission
@@ -64,14 +70,25 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     return submission;
   }
 
+  /**
+   * Gets the a specific user's Dev Portfolio.
+   * @param uuid - DB uuid of DevPortfolio.
+   */
   async getInstance(uuid: string): Promise<DevPortfolio | null> {
     return this.getDocument(uuid);
   }
 
+  /**
+   * Gets all Dev Portfolios.
+   */
   async getAllInstances(): Promise<DevPortfolio[]> {
     return this.getDocuments();
   }
 
+  /**
+   * Gets the deadline, earliest valid date, name, uuid, and late deadline 
+   * from all Dev Portfolios.
+   */
   async getAllDevPortfolioInfo(): Promise<DevPortfolioInfo[]> {
     const instanceInfoRefs = await this.collection
       .select('deadline', 'earliestValidDate', 'name', 'uuid', 'lateDeadline')
@@ -84,12 +101,20 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     );
   }
 
+  /**
+   * Gets the portfolio information of a specific user.
+   */
   async getDevPortfolioInfo(uuid: string): Promise<DevPortfolioInfo> {
     const portfolioRef = await this.collection.doc(uuid).get();
     const { submissions, ...devPortfolioInfo } = portfolioRef.data() as DBDevPortfolio;
     return devPortfolioInfo;
   }
 
+  /**
+   * Gets all the user's portfolio submissions.
+   * @param uuid - DB uuid of DevPortfolio.
+   * @param user - The user whos portfolios submissions should be fetched.
+   */
   async getUsersDevPortfolioSubmissions(
     uuid: string,
     user: IdolMember
@@ -102,6 +127,11 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     return dBSubmissions.map((submission) => ({ ...submission, member: user }));
   }
 
+  /**
+   * Creates a new Dev Portfolio.
+   * @param instance - Newly created DevPortfolio object.
+   * If provided, the object uuid will be used. If not, a new one will be generated.
+   */
   async createNewInstance(instance: DevPortfolio): Promise<DevPortfolio> {
     const instanceWithUUID = {
       ...instance,
@@ -110,10 +140,18 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
     return this.createDocument(instanceWithUUID.uuid, instanceWithUUID);
   }
 
+  /**
+   * Updates a Dev Portfolio.
+   * @param updatedInstance - updated DevPortfolio object
+   */
   async updateInstance(updatedInstance: DevPortfolio): Promise<DevPortfolio> {
     return this.updateDocument(updatedInstance.uuid, updatedInstance);
   }
 
+  /**
+   * Deletes a Dev Portfolio.
+   * @param uuid - DB uuid of DevPortfolio
+   */
   async deleteInstance(uuid: string): Promise<void> {
     await this.deleteDocument(uuid);
   }
