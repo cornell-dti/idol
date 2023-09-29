@@ -10,7 +10,7 @@ export default class TeamEventsDao {
   }
 
   /**
-   * Gets the team event information 
+   * Gets the team event information
    * @param uuid - unique identifer corresponding to a team event
    * If team event is not found, throw a Not Found Error'
    */
@@ -25,10 +25,10 @@ export default class TeamEventsDao {
   }
 
   /**
-  * Deletes a team event 
-  * @param teamEvent - team event that is to be deleted
-  * If team event does not exist, throw a Not Found Error'
-  */
+   * Deletes a team event
+   * @param teamEvent - team event that is to be deleted
+   * If team event does not exist, throw a Not Found Error'
+   */
   static async deleteTeamEvent(teamEvent: TeamEventInfo): Promise<void> {
     const eventDoc = teamEventsCollection.doc(teamEvent.uuid);
     const eventRef = await eventDoc.get();
@@ -37,9 +37,9 @@ export default class TeamEventsDao {
   }
 
   /**
-  * Creates a team event 
-  * @param event - newly created TeamEvent object that represent the details of the event
-  */
+   * Creates a team event
+   * @param event - newly created TeamEvent object that represent the details of the event
+   */
   static async createTeamEvent(event: TeamEventInfo): Promise<TeamEventInfo> {
     const teamEventRef: TeamEventInfo = {
       ...event,
@@ -51,10 +51,10 @@ export default class TeamEventsDao {
   }
 
   /**
-  * Updates a team event
-  * @param event - team event that is to be updated
-  * If team event does not exist, throw a Not Found Error'
-  */
+   * Updates a team event
+   * @param event - team event that is to be updated
+   * If team event does not exist, throw a Not Found Error'
+   */
   static async updateTeamEvent(event: TeamEventInfo): Promise<TeamEventInfo> {
     const eventDoc = teamEventsCollection.doc(event.uuid);
     const eventRef = await eventDoc.get();
