@@ -53,7 +53,6 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
    * Creates a new Dev Portfolio submission
    * @param uuid - DB uuid of DevPortfolioSubmission
    * @param submission - Newly created DevPortfolioSubmission object
-   * Updates the submissions data in the Dev Portfolio DB
    */
   async makeDevPortfolioSubmission(
     uuid: string,
@@ -112,10 +111,10 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
   }
 
   /**
-   * Gets a specific member's Dev Portfolio
+   * Gets a specific member's Dev Portfolio by checking if the member id of a submission 
+   * is the user's email
    * @param uuid - DB uuid of DevPortfolio
    * @param user - the member we are getting a portfolio from
-   * Checks if the member id of a submission is the user's email
    */
   async getUsersDevPortfolioSubmissions(
     uuid: string,
@@ -131,8 +130,8 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
 
   /**
    * Creates a new Dev Portfolio
-   * @param instance - Newly created DevPortfolio object
    * A new uuid is created if the instance does not have an existing uuid
+   * @param instance - Newly created DevPortfolio object
    */
   async createNewInstance(instance: DevPortfolio): Promise<DevPortfolio> {
     const instanceWithUUID = {
