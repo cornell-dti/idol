@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image, Loader } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Item,
+  Card,
+  Modal,
+  Header,
+  SemanticCOLORS,
+  Image,
+  Loader
+} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
@@ -13,7 +23,7 @@ const AdminShoutouts: React.FC = () => {
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
@@ -236,7 +246,7 @@ const AdminShoutouts: React.FC = () => {
       </Form>
       <div className={styles.shoutoutsListContainer}>
         {loading ? (
-          <Loader active inline='centered' />
+          <Loader active inline="centered" />
         ) : (
           <>
             <ListTitle />
