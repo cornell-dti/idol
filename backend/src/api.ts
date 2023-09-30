@@ -60,8 +60,7 @@ import {
   createNewCandidateDeciderInstance,
   deleteCandidateDeciderInstance,
   getCandidateDeciderInstance,
-  updateCandidateDeciderRating,
-  updateCandidateDeciderComment,
+  updateCandidateDeciderRatingAndComment,
   updateCandidateDeciderInstance
 } from './API/candidateDeciderAPI';
 import {
@@ -367,13 +366,14 @@ loginCheckedPut('/candidate-decider', async (req, user) => ({
 loginCheckedDelete('/candidate-decider/:uuid', async (req, user) =>
   deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPut('/candidate-decider/:uuid/rating', (req, user) =>
-  updateCandidateDeciderRating(user, req.params.uuid, req.body.id, req.body.rating).then(() => ({}))
-);
-loginCheckedPost('/candidate-decider/:uuid/comment', (req, user) =>
-  updateCandidateDeciderComment(user, req.params.uuid, req.body.id, req.body.comment).then(
-    () => ({})
-  )
+loginCheckedPut('/candidate-decider/:uuid', (req, user) =>
+  updateCandidateDeciderRatingAndComment(
+    user,
+    req.params.uuid,
+    req.body.id,
+    req.body.rating,
+    req.body.comment
+  ).then(() => ({}))
 );
 
 loginCheckedPost('/sendMail', async (req, user) => ({

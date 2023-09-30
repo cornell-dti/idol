@@ -57,8 +57,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setCurrentCandidate((prev) => prev - 1);
   };
 
-  const handleRatingChange = (id: number, rating: Rating) => {
-    CandidateDeciderAPI.updateRating(instance.uuid, id, rating);
+  const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
+    CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
     if (userInfo) {
       setInstance((instance) => ({
         ...instance,
@@ -74,23 +74,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                         ? { rating, reviewer: userInfo }
                         : currRating
                     )
-                  : [...candidate.ratings, { rating, reviewer: userInfo }]
-              }
-            : candidate
-        )
-      }));
-    }
-  };
-
-  const handleCommentChange = (id: number, comment: string) => {
-    CandidateDeciderAPI.updateComment(instance.uuid, id, comment);
-    if (userInfo) {
-      setInstance((instance) => ({
-        ...instance,
-        candidates: instance.candidates.map((candidate) =>
-          candidate.id === id
-            ? {
-                ...candidate,
+                  : [...candidate.ratings, { rating, reviewer: userInfo }],
                 comments: candidate.comments.find(
                   (currComment) => currComment.reviewer.email === userInfo.email
                 )
@@ -146,8 +130,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             className="ui blue button"
             disabled={currentComment === getComment() && currentRating === getRating()}
             onClick={() => {
-              handleRatingChange(currentCandidate, currentRating);
-              handleCommentChange(currentCandidate, currentComment);
+              handleRatingAndCommentChange(currentCandidate, currentRating, currentComment);
             }}
           >
             Save
