@@ -111,7 +111,7 @@ export default class DevPortfolioDao extends BaseDao<DevPortfolio, DBDevPortfoli
   }
 
   /**
-   * Gets a specific member's Dev Portfolio by checking if the member id of a submission 
+   * Gets a specific member's Dev Portfolio by checking if the member id of a submission
    * is the user's email
    * @param uuid - DB uuid of DevPortfolio
    * @param user - the member we are getting a portfolio from
