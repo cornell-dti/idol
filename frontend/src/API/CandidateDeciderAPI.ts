@@ -29,11 +29,17 @@ export default class CandidateDeciderAPI {
     APIWrapper.delete(`${backendURL}/candidate-decider/${uuid}`);
   }
 
-  static async updateRating(uuid: string, id: number, rating: number): Promise<void> {
-    APIWrapper.put(`${backendURL}/candidate-decider/${uuid}/rating`, { uuid, id, rating });
-  }
-
-  static async updateComment(uuid: string, id: number, comment: string): Promise<void> {
-    APIWrapper.post(`${backendURL}/candidate-decider/${uuid}/comment`, { uuid, id, comment });
+  static async updateRatingAndComment(
+    uuid: string,
+    id: number,
+    rating: number,
+    comment: string
+  ): Promise<void> {
+    APIWrapper.put(`${backendURL}/candidate-decider/rating-and-comment`, {
+      uuid,
+      id,
+      rating,
+      comment
+    });
   }
 }
