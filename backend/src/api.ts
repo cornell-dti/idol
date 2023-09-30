@@ -366,10 +366,10 @@ loginCheckedPut('/candidate-decider', async (req, user) => ({
 loginCheckedDelete('/candidate-decider/:uuid', async (req, user) =>
   deleteCandidateDeciderInstance(req.params.uuid, user).then(() => ({}))
 );
-loginCheckedPut('/candidate-decider/:uuid', (req, user) =>
+loginCheckedPut('/candidate-decider/rating-and-comment', (req, user) =>
   updateCandidateDeciderRatingAndComment(
     user,
-    req.params.uuid,
+    req.body.uuid,
     req.body.id,
     req.body.rating,
     req.body.comment
