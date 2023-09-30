@@ -35,6 +35,11 @@ export default class CandidateDeciderAPI {
     rating: number,
     comment: string
   ): Promise<void> {
-    APIWrapper.put(`${backendURL}/candidate-decider/rating-and-comment`, { uuid, id, rating, comment });
+    APIWrapper.put(`${backendURL}/candidate-decider/rating-and-comment`, {
+      uuid,
+      id,
+      rating,
+      comment
+    });
   }
 }
