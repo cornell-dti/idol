@@ -38,6 +38,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   const [currentRating, setCurrentRating] = useState<Rating>();
   const [currentComment, setCurrentComment] = useState<string>();
+  const [defaultCurrentRating, setDefaultCurrentRating] = useState<Rating>();
+  const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
   useEffect(() => {
     // Only set the currentRating and currentComment once when the instance first loads in
@@ -46,8 +48,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       currentRating === undefined &&
       currentComment === undefined
     ) {
-      setCurrentRating(getRating(currentCandidate));
-      setCurrentComment(getComment(currentCandidate));
+      const rating = getRating(currentCandidate);
+      const comment = getComment(currentCandidate);
+
+      setCurrentRating(rating);
+      setCurrentComment(comment);
+      setDefaultCurrentRating(rating);
+      setDefaultCurrentComment(comment);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates]);
@@ -56,8 +63,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => {
       const nextCandidate = prev + 1;
-      setCurrentRating(getRating(nextCandidate));
-      setCurrentComment(getComment(nextCandidate));
+      const rating = getRating(nextCandidate);
+      const comment = getComment(nextCandidate);
+
+      setCurrentRating(rating);
+      setCurrentComment(comment);
+      setDefaultCurrentRating(rating);
+      setDefaultCurrentComment(comment);
       return nextCandidate;
     });
   };
@@ -66,8 +78,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (currentCandidate === 0) return;
     setCurrentCandidate((prev) => {
       const prevCandidate = prev - 1;
-      setCurrentRating(getRating(prevCandidate));
-      setCurrentComment(getComment(prevCandidate));
+      const rating = getRating(prevCandidate);
+      const comment = getComment(prevCandidate);
+
+      setCurrentRating(rating);
+      setCurrentComment(comment);
+      setDefaultCurrentRating(rating);
+      setDefaultCurrentComment(comment);
       return prevCandidate;
     });
   };
@@ -75,6 +92,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
     CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
     if (userInfo) {
+      setDefaultCurrentRating(rating);
+      setDefaultCurrentComment(comment);
       setInstance((instance) => ({
         ...instance,
         candidates: instance.candidates.map((candidate) =>
@@ -144,8 +163,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <Button
             className="ui blue button"
             disabled={
-              currentComment === getComment(currentCandidate) &&
-              currentRating === getRating(currentCandidate)
+              currentComment === defaultCurrentComment && currentRating === defaultCurrentRating
             }
             onClick={() => {
               handleRatingAndCommentChange(
