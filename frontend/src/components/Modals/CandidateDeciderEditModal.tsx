@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Modal, Button, Card, Header, Form, Message } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
+import { ExportToCsv, Options } from 'export-to-csv';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import { MemberSearch, RoleSearch } from '../Common/Search/Search';
 import styles from './CandidateDeciderEditModal.module.css';
 import { Emitters } from '../../utils';
-import { ExportToCsv, Options } from 'export-to-csv';
 
 const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
   (role) => ({ role })
@@ -75,14 +75,14 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
         (acc, comment) =>
           comment.comment === ''
             ? ''
-            : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment} `,
+            : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
         ''
       ),
       ratings: candidate.ratings.reduce(
         (acc, rating) =>
           rating.rating === 0
             ? ''
-            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${rating.rating} `,
+            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${rating.rating}\n`,
         ''
       )
     }));
