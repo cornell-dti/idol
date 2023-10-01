@@ -6,6 +6,7 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import { MemberSearch, RoleSearch } from '../Common/Search/Search';
 import styles from './CandidateDeciderEditModal.module.css';
 import { Emitters } from '../../utils';
+import { ratingToString } from '../Candidate-Decider/ratings-utils';
 
 const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
   (role) => ({ role })
@@ -82,7 +83,9 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
         (acc, rating) =>
           rating.rating === 0
             ? ''
-            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${rating.rating}\n`,
+            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
+                rating.rating
+              )}\n`,
         ''
       )
     }));
