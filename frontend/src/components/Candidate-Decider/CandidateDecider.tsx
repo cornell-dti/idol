@@ -20,41 +20,53 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const userInfo = useSelf();
   const [instance, setInstance] = useCandidateDeciderInstance(uuid);
 
-  const getRating = () => {
-    const rating = instance.candidates[currentCandidate].ratings.find(
+  const getRating = (candidate: number) => {
+    const rating = instance.candidates[candidate].ratings.find(
       (rt) => rt.reviewer.email === userInfo?.email
     );
     if (rating) return rating.rating;
     return 0;
   };
 
-  const getComment = () => {
-    const comment = instance.candidates[currentCandidate].comments.find(
+  const getComment = (candidate: number) => {
+    const comment = instance.candidates[candidate].comments.find(
       (cmt) => cmt.reviewer.email === userInfo?.email
     );
     if (comment) return comment.comment;
     return '';
   };
 
-  const [currentRating, setCurrentRating] = useState<Rating>(0);
-  const [currentComment, setCurrentComment] = useState<string>('');
+  const [currentRating, setCurrentRating] = useState<Rating>();
+  const [currentComment, setCurrentComment] = useState<string>();
 
   useEffect(() => {
-    if (instance.candidates[currentCandidate]) {
-      setCurrentRating(getRating());
-      setCurrentComment(getComment());
+    // Only set the currentRating and currentComment once when the instance first loads in
+    if (instance.candidates[currentCandidate] && currentRating === undefined && currentComment === undefined) {
+      setCurrentRating(getRating(currentCandidate));
+      setCurrentComment(getComment(currentCandidate));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates]);
 
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
-    setCurrentCandidate((prev) => prev + 1);
+    setCurrentCandidate((prev) => {
+      const nextCandidate = prev + 1;
+      setCurrentRating(getRating(nextCandidate));
+      setCurrentComment(getComment(nextCandidate));
+      return nextCandidate;
+    });
+    
   };
 
   const previous = () => {
     if (currentCandidate === 0) return;
-    setCurrentCandidate((prev) => prev - 1);
+    setCurrentCandidate((prev) => {
+      const prevCandidate = prev - 1;
+      setCurrentRating(getRating(prevCandidate));
+      setCurrentComment(getComment(prevCandidate));
+      return prevCandidate;
+    });
   };
 
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
@@ -128,9 +140,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           </Button.Group>
           <Button
             className="ui blue button"
-            disabled={currentComment === getComment() && currentRating === getRating()}
+            disabled={currentComment === getComment(currentCandidate) && currentRating === getRating(currentCandidate)}
             onClick={() => {
-              handleRatingAndCommentChange(currentCandidate, currentRating, currentComment);
+              handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
             }}
           >
             Save
@@ -146,9 +158,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
-          currentComment={currentComment}
+          currentComment={currentComment ?? ''}
           setCurrentComment={setCurrentComment}
-          currentRating={currentRating}
+          currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
         />
       </div>
