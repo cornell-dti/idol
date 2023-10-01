@@ -129,9 +129,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <Button
             className="ui blue button"
             disabled={currentComment === getComment() && currentRating === getRating()}
-            onClick={() =>
-              handleRatingAndCommentChange(currentCandidate, currentRating, currentComment)
-            }
+            onClick={() => {
+              handleRatingAndCommentChange(currentCandidate, currentRating, currentComment);
+            }}
           >
             Save
           </Button>
