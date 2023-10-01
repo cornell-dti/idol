@@ -21,8 +21,7 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange,
-  getMember
+  reviewUserInformationChange
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -198,7 +197,7 @@ router.get('/member', async (req, res) => {
   res.status(200).json({ members });
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
-  const member = await getMember(req.params.email);
+  const member = await MembersDao.getCurrentOrPastMemberByEmail(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
