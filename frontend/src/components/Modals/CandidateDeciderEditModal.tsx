@@ -63,16 +63,28 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
       return;
     }
     const getHeaderIndex = (_header: string) =>
-    instance.headers.findIndex((header, i) => header === _header);
+      instance.headers.findIndex((header, i) => header === _header);
     const netIDIndex = getHeaderIndex('NetID');
     const lastNameIndex = getHeaderIndex('Last Name');
     const firstNameIndex = getHeaderIndex('First Name');
 
     const csvData = instance.candidates.map((candidate) => ({
-        name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
-        netid: candidate.responses[netIDIndex],
-        comments: candidate.comments.reduce((acc, comment) =>  comment.comment === "" ? "" : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment} `, ""),
-        ratings: candidate.ratings.reduce((acc, rating) =>  rating.rating === 0 ? "" : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${rating.rating} `, ""),
+      name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
+      netid: candidate.responses[netIDIndex],
+      comments: candidate.comments.reduce(
+        (acc, comment) =>
+          comment.comment === ''
+            ? ''
+            : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment} `,
+        ''
+      ),
+      ratings: candidate.ratings.reduce(
+        (acc, rating) =>
+          rating.rating === 0
+            ? ''
+            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${rating.rating} `,
+        ''
+      )
     }));
 
     const options: Options = {
