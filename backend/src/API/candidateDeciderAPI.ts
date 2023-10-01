@@ -110,23 +110,6 @@ export const updateCandidateDeciderRatingAndComment = async (
     throw new PermissionError(
       `User with email ${user.email} does not have permission to access this Candidate Decider instance`
     );
-  const updatedInstance: CandidateDeciderInstance = {
-    ...instance,
-    candidates: instance.candidates.map((cd) =>
-      cd.id !== id
-        ? cd
-        : {
-            ...cd,
-            ratings: [
-              ...cd.ratings.filter((rt) => rt.reviewer.email !== user.email),
-              { reviewer: user, rating }
-            ],
-            comments: [
-              ...cd.comments.filter((cmt) => cmt.reviewer.email !== user.email),
-              { reviewer: user, comment }
-            ]
-          }
-    )
-  };
-  candidateDeciderDao.updateInstance(updatedInstance);
+
+  await candidateDeciderDao.updateInstanceWithTransaction(instance, user, id, rating, comment);
 };
