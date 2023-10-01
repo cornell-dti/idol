@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { candidateDeciderCollection, memberCollection } from '../firebase';
+import { candidateDeciderCollection, db, memberCollection } from '../firebase';
 import { DBCandidateDeciderInstance } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
@@ -93,5 +93,56 @@ export default class CandidateDeciderDao extends BaseDao<
 
   async updateInstance(instance: CandidateDeciderInstance): Promise<CandidateDeciderInstance> {
     return this.updateDocument(instance.uuid, instance);
+  }
+
+  async updateInstanceWithTransaction(
+    instance: CandidateDeciderInstance,
+    user: IdolMember,
+    id: number,
+    rating: Rating,
+    comment: string
+  ): Promise<CandidateDeciderInstance> {
+    const candidateDeciderRef = this.collection.doc(instance.uuid);
+    await db.runTransaction(async (t) => {
+      const doc = await t.get(candidateDeciderRef);
+
+      const dbCandidateDeciderInstance = doc.data() as DBCandidateDeciderInstance;
+      const candidateDeciderInstance = await materializeCandidateDeciderInstance(
+        dbCandidateDeciderInstance
+      );
+      t.update(candidateDeciderRef, {
+        candidates: candidateDeciderInstance.candidates
+          .map((cd) =>
+            cd.id !== id
+              ? cd
+              : {
+                  ...cd,
+                  ratings: [
+                    ...cd.ratings.filter((rt) => rt.reviewer.email !== user.email),
+                    { reviewer: user, rating }
+                  ],
+                  comments: [
+                    ...cd.comments.filter((cmt) => cmt.reviewer.email !== user.email),
+                    { reviewer: user, comment }
+                  ]
+                }
+          )
+          .map((candidate) => ({
+            ...candidate,
+            ratings: candidate.ratings.map((rating) => ({
+              ...rating,
+              reviewer: memberCollection.doc(rating.reviewer.email)
+            })),
+            comments: candidate.comments.map((comment) => ({
+              ...comment,
+              reviewer: memberCollection.doc(comment.reviewer.email)
+            }))
+          }))
+      });
+    });
+
+    const newInstance = await this.getInstance(instance.uuid);
+    if (newInstance == null) throw new Error();
+    return newInstance;
   }
 }
