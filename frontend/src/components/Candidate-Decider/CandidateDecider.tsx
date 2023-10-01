@@ -41,7 +41,11 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   useEffect(() => {
     // Only set the currentRating and currentComment once when the instance first loads in
-    if (instance.candidates[currentCandidate] && currentRating === undefined && currentComment === undefined) {
+    if (
+      instance.candidates[currentCandidate] &&
+      currentRating === undefined &&
+      currentComment === undefined
+    ) {
       setCurrentRating(getRating(currentCandidate));
       setCurrentComment(getComment(currentCandidate));
     }
@@ -56,7 +60,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       setCurrentComment(getComment(nextCandidate));
       return nextCandidate;
     });
-    
   };
 
   const previous = () => {
@@ -140,9 +143,16 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           </Button.Group>
           <Button
             className="ui blue button"
-            disabled={currentComment === getComment(currentCandidate) && currentRating === getRating(currentCandidate)}
+            disabled={
+              currentComment === getComment(currentCandidate) &&
+              currentRating === getRating(currentCandidate)
+            }
             onClick={() => {
-              handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
+              handleRatingAndCommentChange(
+                currentCandidate,
+                currentRating ?? 0,
+                currentComment ?? ''
+              );
             }}
           >
             Save
