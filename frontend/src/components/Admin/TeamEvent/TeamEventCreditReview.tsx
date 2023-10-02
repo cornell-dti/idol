@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Header, Image, Loader } from 'semantic-ui-react';
+import { Modal, Button, Header, Image, Loader, Input } from 'semantic-ui-react';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
@@ -12,6 +12,7 @@ const TeamEventCreditReview = (props: {
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [reason, setReason] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -94,6 +95,7 @@ const TeamEventCreditReview = (props: {
         <Button
           basic
           color="red"
+          disabled={reason === ''}
           onClick={() => {
             rejectCreditRequest();
             setOpen(false);
@@ -101,6 +103,11 @@ const TeamEventCreditReview = (props: {
         >
           Reject
         </Button>
+        <Input
+          type="text"
+          placeholder="Reason for reject"
+          onChange={(e) => setReason(e.target.value)}
+        />
       </Modal.Actions>
     </Modal>
   );
