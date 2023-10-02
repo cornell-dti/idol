@@ -118,6 +118,17 @@ export default class CandidateDeciderDao extends BaseDao<
     return this.updateDocument(instance.uuid, instance);
   }
 
+  /**
+   * Updates a specific CandidateDecider instance in the database with a rating
+   * and comment. This implementation uses a transaction in order to prevent
+   * race conditions from multiple users making multiple rating/comment updates.
+   * @param instance - CandidateDeciderInstance object containing the updated data.
+   * @param user - user who created the review
+   * @param id - id associated with the candidate
+   * @param rating - rating submitted by the user
+   * @param comment - comment submitted by the user
+   * @returns The updated CandidateDeciderInstance object.
+   */
   async updateInstanceWithTransaction(
     instance: CandidateDeciderInstance,
     user: IdolMember,
