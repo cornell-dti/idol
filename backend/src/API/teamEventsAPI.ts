@@ -5,6 +5,13 @@ import PermissionsManager from '../utils/permissionsManager';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
+/**
+ * Returns a list of all team events along with their approved and pending
+ * attendance. If the user does not have permissions to view team events,
+ * an error will be thrown.
+ * @param user the IdolMember object of the user making the request
+ * @returns all team events
+ */
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
@@ -22,9 +29,21 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
   );
 };
 
+/**
+ * Gets all team events and their information
+ * @returns all list of TeamEventInfo objects with the name, date, numCredits,
+ * hasHours, and uuid of each team event
+ */
 export const getAllTeamEventInfo = async (): Promise<TeamEventInfo[]> =>
   TeamEventsDao.getAllTeamEventInfo();
 
+/**
+ * Creates a team event with the given information. If the user does not have
+ * permissions to create team events, an error will be thrown.
+ * @param teamEventInfo the team event to be created
+ * @param user the user making the request
+ * @returns the team event that was created
+ */
 export const createTeamEvent = async (
   teamEventInfo: TeamEventInfo,
   user: IdolMember
@@ -36,6 +55,12 @@ export const createTeamEvent = async (
   return teamEventInfo;
 };
 
+/**
+ * Deletes a team event with the given uuid. If the user does not have
+ * permissions to delete team events, an error will be thrown.
+ * @param uuid the uuid of the team event to be deleted
+ * @param user the user making the request
+ */
 export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.canEditTeamEvent(user)) {
     throw new PermissionError("You don't have permission to delete a team event!");
@@ -53,6 +78,13 @@ export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<v
   await TeamEventsDao.deleteTeamEvent(teamEvent);
 };
 
+/**
+ * Updates the given team event with new information. If the user does not have
+ * permissions to update team events, an error will be thrown.
+ * @param teamEventInfo the updated team event object
+ * @param user the user making the request
+ * @returns the updated team event
+ */
 export const updateTeamEvent = async (
   teamEventInfo: TeamEventInfo,
   user: IdolMember
@@ -66,6 +98,12 @@ export const updateTeamEvent = async (
   return updatedTeamEvent;
 };
 
+/**
+ * Creates a team event attendance request for the given user. Throws an error
+ * if the user requests team event credit for another user.
+ * @param request the team event attendance request
+ * @param user the user making the request
+ */
 export const requestTeamEventCredit = async (
   request: TeamEventAttendance,
   user: IdolMember
@@ -79,6 +117,13 @@ export const requestTeamEventCredit = async (
   await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
 };
 
+/**
+ * Gets the team event with the given uuid. If the user does not have
+ * permissions to view team events, an error will be thrown.
+ * @param uuid the uuid of the team event to be fetched
+ * @param user the user making the request
+ * @returns the team event with the given uuid
+ */
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
   if (!canEditTeamEvents)
@@ -98,6 +143,11 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
   };
 };
 
+/**
+ * Deletes all team events and their attendance. If the user does not have
+ * permissions to delete team events, an error will be thrown.
+ * @param user the user making the request
+ */
 export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
@@ -108,10 +158,23 @@ export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
   await TeamEventsDao.deleteAllTeamEvents();
 };
 
+/**
+ * Gets a list of all team event attendance for the given user. If the user
+ * does not have permissions to view team events, an error will be thrown.
+ * @param user the user making the request
+ * @returns the list of team event attendance for the given user
+ */
 export const getTeamEventAttendanceByUser = async (
   user: IdolMember
 ): Promise<TeamEventAttendance[]> => teamEventAttendanceDao.getTeamEventAttendanceByUser(user);
 
+/**
+ * Updates the given team event attendance. If the user does not have
+ * permissions to update team events, an error will be thrown.
+ * @param teamEventAttendance the team event attendance to be updated
+ * @param user the user making the request
+ * @returns the updated team event attendance
+ */
 export const updateTeamEventAttendance = async (
   teamEventAttendance: TeamEventAttendance,
   user: IdolMember
@@ -126,6 +189,12 @@ export const updateTeamEventAttendance = async (
   return teamEventAttendance;
 };
 
+/**
+ * Deletes the team event attendance with the given uuid. If the user does not
+ * have permissions to delete team events, an error will be thrown.
+ * @param uuid the uuid of the team event attendance to be deleted
+ * @param user the user making the request
+ */
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin) {
