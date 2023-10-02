@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
+import { db } from '../../../firebase';
 
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
@@ -47,6 +49,19 @@ const AdminShoutouts: React.FC = () => {
   useEffect(() => {
     updateShoutouts();
   }, [earlyDate, lastDate, hide, updateShoutouts]);
+
+  useEffect(() => {
+    const shoutoutCollection = collection(db, 'shoutouts');
+    const unsubscribe = onSnapshot(shoutoutCollection, (snapshot) => {
+      const newShoutouts = snapshot.docs.map((docSnapshot) => {
+        const data = docSnapshot.data() as Shoutout;
+        return data;
+      });
+
+      setAllShoutouts(newShoutouts);
+    });
+    return unsubscribe;
+  }, [setAllShoutouts]);
 
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
