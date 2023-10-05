@@ -1,7 +1,12 @@
-import React from 'react';
-import { Card, Loader, Message } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Card, Loader, Message, Button } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
+import { Emitters } from '../../../utils';
+
+
 import {
   REQUIRED_COMMUNITY_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
@@ -13,9 +18,12 @@ const TeamEventCreditDashboard = (props: {
   approvedAttendance: TeamEventAttendance[];
   pendingAttendance: TeamEventAttendance[];
   isAttendanceLoading: boolean;
+
+  // teamEventAttendance: TeamEventAttendance;
 }): JSX.Element => {
   const { allTEC, approvedAttendance, pendingAttendance, isAttendanceLoading } = props;
 
+  const [attendanceList, setAttendanceList] = useState<TeamEventAttendance[]>(approvedAttendance);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
 
@@ -27,6 +35,39 @@ const TeamEventCreditDashboard = (props: {
     if (hours !== undefined) return hours;
     return 1;
   };
+
+  const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
+    // const deleteTECAttendanceRequest = () => {
+
+
+    TeamEventsAPI.deleteTeamEventAttendance(attendance.uuid)
+      .then(() => {
+        setShowComponent(false);
+
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Team Event Attendance Deleted!',
+          contentMsg: 'Your team event attendance was successfully deleted!'
+        });
+        ImagesAPI.deleteEventProofImage(attendance.image);
+        Emitters.teamEventsUpdated.emit();
+
+
+      })
+      .catch((error) => {
+
+        Emitters.generalError.emit({
+          headerMsg: "You are not allowed to delete this team event attendance!",
+          contentMsg: error
+        });
+      });
+  };
+
+  const [showComponent, setShowComponent] = useState(true);
+
+  const handleRemoveComponent = (attendance: TeamEventAttendance) => {
+    setShowComponent(false);
+  };
+
 
   let approvedCredits = 0;
   let approvedCommunityCredits = 0;
@@ -59,17 +100,17 @@ const TeamEventCreditDashboard = (props: {
     to fulfill this requirement.`;
   else
     headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits
-    ${
-      COMMUNITY_EVENTS
+    ${COMMUNITY_EVENTS
         ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
         : ''
-    }.`;
+      }.`;
 
   const TecDetailsDisplay = (props: { attendanceList: TeamEventAttendance[] }): JSX.Element => {
     const { attendanceList } = props;
     return (
       <Card.Group>
-        {attendanceList.map((attendance) => {
+
+        {attendanceList && attendanceList.map((attendance) => {
           const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
           if (teamEvent !== undefined) {
             return (
@@ -78,11 +119,25 @@ const TeamEventCreditDashboard = (props: {
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>
-                    {`Total Credits: ${
-                      teamEvent.hasHours
-                        ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
-                        : teamEvent.numCredits
-                    }`}
+                    {`Total Credits: ${teamEvent.hasHours
+                      ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
+                      : teamEvent.numCredits
+                      }`}
+                  </Card.Meta>
+                  <Card.Meta>
+                    {attendance.pending && showComponent && (
+                      <Button
+                        basic
+                        color="red"
+                        onClick={() => {
+                          deleteTECAttendanceRequest(attendance);
+                          handleRemoveComponent(attendance);
+                        }}
+                      >
+                        Delete
+                      </Button>
+
+                    )}
                   </Card.Meta>
                   {COMMUNITY_EVENTS && (
                     <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
@@ -98,7 +153,7 @@ const TeamEventCreditDashboard = (props: {
             </Message>
           );
         })}
-      </Card.Group>
+      </Card.Group >
     );
   };
 

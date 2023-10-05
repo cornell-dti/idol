@@ -128,7 +128,11 @@ export const updateTeamEventAttendance = async (
 
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin) {
+  const attendance = await teamEventAttendanceDao.getTeamEventAttendance(uuid);
+
+  if (!attendance) return;
+
+  if (!isLeadOrAdmin && attendance.member.email !== user.email) {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete team events attendance`
     );
