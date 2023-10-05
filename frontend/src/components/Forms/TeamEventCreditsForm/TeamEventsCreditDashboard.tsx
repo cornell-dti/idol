@@ -6,7 +6,6 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { Emitters } from '../../../utils';
 
-
 import {
   REQUIRED_COMMUNITY_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
@@ -39,7 +38,6 @@ const TeamEventCreditDashboard = (props: {
   const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
     // const deleteTECAttendanceRequest = () => {
 
-
     TeamEventsAPI.deleteTeamEventAttendance(attendance.uuid)
       .then(() => {
         setShowComponent(false);
@@ -50,13 +48,10 @@ const TeamEventCreditDashboard = (props: {
         });
         ImagesAPI.deleteEventProofImage(attendance.image);
         Emitters.teamEventsUpdated.emit();
-
-
       })
       .catch((error) => {
-
         Emitters.generalError.emit({
-          headerMsg: "You are not allowed to delete this team event attendance!",
+          headerMsg: 'You are not allowed to delete this team event attendance!',
           contentMsg: error
         });
       });
@@ -67,7 +62,6 @@ const TeamEventCreditDashboard = (props: {
   const handleRemoveComponent = (attendance: TeamEventAttendance) => {
     setShowComponent(false);
   };
-
 
   let approvedCredits = 0;
   let approvedCommunityCredits = 0;
@@ -100,60 +94,61 @@ const TeamEventCreditDashboard = (props: {
     to fulfill this requirement.`;
   else
     headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits
-    ${COMMUNITY_EVENTS
+    ${
+      COMMUNITY_EVENTS
         ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
         : ''
-      }.`;
+    }.`;
 
   const TecDetailsDisplay = (props: { attendanceList: TeamEventAttendance[] }): JSX.Element => {
     const { attendanceList } = props;
     return (
       <Card.Group>
-
-        {attendanceList && attendanceList.map((attendance) => {
-          const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
-          if (teamEvent !== undefined) {
-            return (
-              <Card key={attendance.uuid}>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                  <Card.Meta>
-                    {`Total Credits: ${teamEvent.hasHours
-                      ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
-                      : teamEvent.numCredits
+        {attendanceList &&
+          attendanceList.map((attendance) => {
+            const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
+            if (teamEvent !== undefined) {
+              return (
+                <Card key={attendance.uuid}>
+                  <Card.Content>
+                    <Card.Header>{teamEvent.name} </Card.Header>
+                    <Card.Meta>{teamEvent.date}</Card.Meta>
+                    <Card.Meta>
+                      {`Total Credits: ${
+                        teamEvent.hasHours
+                          ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
+                          : teamEvent.numCredits
                       }`}
-                  </Card.Meta>
-                  <Card.Meta>
-                    {attendance.pending && showComponent && (
-                      <Button
-                        basic
-                        color="red"
-                        onClick={() => {
-                          deleteTECAttendanceRequest(attendance);
-                          handleRemoveComponent(attendance);
-                        }}
-                      >
-                        Delete
-                      </Button>
-
+                    </Card.Meta>
+                    <Card.Meta>
+                      {attendance.pending && showComponent && (
+                        <Button
+                          basic
+                          color="red"
+                          onClick={() => {
+                            deleteTECAttendanceRequest(attendance);
+                            handleRemoveComponent(attendance);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      )}
+                    </Card.Meta>
+                    {COMMUNITY_EVENTS && (
+                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                     )}
-                  </Card.Meta>
-                  {COMMUNITY_EVENTS && (
-                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
-                  )}
-                </Card.Content>
-              </Card>
+                  </Card.Content>
+                </Card>
+              );
+            }
+            return (
+              <Message>
+                The team event for attendance {attendance.uuid} cannot be found. Contact
+                #idol-support.
+              </Message>
             );
-          }
-          return (
-            <Message>
-              The team event for attendance {attendance.uuid} cannot be found. Contact
-              #idol-support.
-            </Message>
-          );
-        })}
-      </Card.Group >
+          })}
+      </Card.Group>
     );
   };
 

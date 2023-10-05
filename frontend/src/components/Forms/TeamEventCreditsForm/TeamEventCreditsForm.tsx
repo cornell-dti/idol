@@ -127,8 +127,9 @@ const TeamEventCreditForm: React.FC = () => {
                           ></Label>
 
                           <Label
-                            content={`${event.numCredits} ${Number(event.numCredits) === 1 ? 'credit' : 'credits'
-                              } ${event.hasHours ? 'per hour' : ''}`}
+                            content={`${event.numCredits} ${
+                              Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                            } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>
                       </div>
@@ -206,7 +207,7 @@ const TeamEventCreditForm: React.FC = () => {
           approvedAttendance={approvedAttendance}
           pendingAttendance={pendingAttendance}
           isAttendanceLoading={isAttendanceLoading}
-        // teamEventAttendance={teamEventAttendance}
+          // teamEventAttendance={teamEventAttendance}
         />
       </Form>
     </div>
