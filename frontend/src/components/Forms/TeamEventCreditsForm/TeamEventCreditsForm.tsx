@@ -17,13 +17,15 @@ const TeamEventCreditForm: React.FC = () => {
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
   const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
+  const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
     TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
-      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
-      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
+      setApprovedAttendance(attendance.filter((attendee) => attendee.status === 'approved'));
+      setPendingAttendance(attendance.filter((attendee) => attendee.status === 'pending'));
+      setRejectedAttendance(attendance.filter((attendee) => attendee.status === 'rejected'));
       setIsAttendanceLoading(false);
     });
   }, []);
@@ -201,6 +203,7 @@ const TeamEventCreditForm: React.FC = () => {
           allTEC={teamEventInfoList}
           approvedAttendance={approvedAttendance}
           pendingAttendance={pendingAttendance}
+          rejectedAttendance={rejectedAttendance}
           isAttendanceLoading={isAttendanceLoading}
         />
       </Form>

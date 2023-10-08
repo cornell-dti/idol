@@ -12,9 +12,11 @@ const TeamEventCreditDashboard = (props: {
   allTEC: TeamEventInfo[];
   approvedAttendance: TeamEventAttendance[];
   pendingAttendance: TeamEventAttendance[];
+  rejectedAttendance: TeamEventAttendance[];
   isAttendanceLoading: boolean;
 }): JSX.Element => {
-  const { allTEC, approvedAttendance, pendingAttendance, isAttendanceLoading } = props;
+  const { allTEC, approvedAttendance, pendingAttendance, rejectedAttendance, isAttendanceLoading } =
+    props;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -153,14 +155,14 @@ const TeamEventCreditDashboard = (props: {
             )}
           </div>
 
-          {/* <div className={styles.inline}>
+          <div className={styles.inline}>
             <label className={styles.bold}>Rejected Events:</label>
             {rejectedAttendance.length !== 0 ? (
               <TecDetailsDisplay attendanceList={rejectedAttendance} />
             ) : (
               <Message>You have not been rejected for any team events.</Message>
             )}
-          </div> */}
+          </div>
         </div>
       )}
     </div>
