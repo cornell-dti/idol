@@ -44,7 +44,13 @@ const TeamEventCreditReview = (props: {
   };
 
   const rejectCreditRequest = () => {
-    TeamEventsAPI.deleteTeamEventAttendance(teamEventAttendance.uuid)
+    const updatedTeamEventAttendance = {
+      ...teamEventAttendance,
+      pending: false,
+      status: 'rejected' as Status,
+      reason
+    };
+    TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
       .then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Rejected!',
@@ -59,6 +65,21 @@ const TeamEventCreditReview = (props: {
           contentMsg: error
         });
       });
+    // TeamEventsAPI.deleteTeamEventAttendance(teamEventAttendance.uuid)
+    //   .then(() => {
+    //     Emitters.generalSuccess.emit({
+    //       headerMsg: 'Team Event Attendance Rejected!',
+    //       contentMsg: 'The team event attendance was successfully rejected!'
+    //     });
+    //     ImagesAPI.deleteEventProofImage(teamEventAttendance.image);
+    //     Emitters.teamEventsUpdated.emit();
+    //   })
+    //   .catch((error) => {
+    //     Emitters.generalError.emit({
+    //       headerMsg: "Couldn't reject the team event attendance!",
+    //       contentMsg: error
+    //     });
+    //   });
   };
 
   return (
