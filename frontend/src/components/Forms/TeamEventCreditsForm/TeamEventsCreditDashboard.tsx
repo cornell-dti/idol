@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Card, Loader, Message, Button } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
@@ -17,12 +17,16 @@ const TeamEventCreditDashboard = (props: {
   approvedAttendance: TeamEventAttendance[];
   pendingAttendance: TeamEventAttendance[];
   isAttendanceLoading: boolean;
-
-  // teamEventAttendance: TeamEventAttendance;
+  setPendingAttendance: Dispatch<SetStateAction<TeamEventAttendance[]>>;
 }): JSX.Element => {
-  const { allTEC, approvedAttendance, pendingAttendance, isAttendanceLoading } = props;
+  const {
+    allTEC,
+    approvedAttendance,
+    pendingAttendance,
+    isAttendanceLoading,
+    setPendingAttendance
+  } = props;
 
-  const [attendanceList, setAttendanceList] = useState<TeamEventAttendance[]>(approvedAttendance);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
 
@@ -36,12 +40,11 @@ const TeamEventCreditDashboard = (props: {
   };
 
   const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
-    // const deleteTECAttendanceRequest = () => {
-
     TeamEventsAPI.deleteTeamEventAttendance(attendance.uuid)
       .then(() => {
-        setShowComponent(false);
-
+        setPendingAttendance(
+          pendingAttendance.filter((currAttendance) => currAttendance.uuid !== attendance.uuid)
+        );
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Deleted!',
           contentMsg: 'Your team event attendance was successfully deleted!'
@@ -55,12 +58,7 @@ const TeamEventCreditDashboard = (props: {
           contentMsg: error
         });
       });
-  };
-
-  const [showComponent, setShowComponent] = useState(true);
-
-  const handleRemoveComponent = (attendance: TeamEventAttendance) => {
-    setShowComponent(false);
+    console.log(pendingAttendance);
   };
 
   let approvedCredits = 0;
@@ -104,50 +102,48 @@ const TeamEventCreditDashboard = (props: {
     const { attendanceList } = props;
     return (
       <Card.Group>
-        {attendanceList &&
-          attendanceList.map((attendance) => {
-            const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
-            if (teamEvent !== undefined) {
-              return (
-                <Card key={attendance.uuid}>
-                  <Card.Content>
-                    <Card.Header>{teamEvent.name} </Card.Header>
-                    <Card.Meta>{teamEvent.date}</Card.Meta>
-                    <Card.Meta>
-                      {`Total Credits: ${
-                        teamEvent.hasHours
-                          ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
-                          : teamEvent.numCredits
-                      }`}
-                    </Card.Meta>
-                    <Card.Meta>
-                      {attendance.pending && showComponent && (
-                        <Button
-                          basic
-                          color="red"
-                          onClick={() => {
-                            deleteTECAttendanceRequest(attendance);
-                            handleRemoveComponent(attendance);
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      )}
-                    </Card.Meta>
-                    {COMMUNITY_EVENTS && (
-                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
-                    )}
-                  </Card.Content>
-                </Card>
-              );
-            }
+        {attendanceList.map((attendance) => {
+          const teamEvent = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
+          if (teamEvent !== undefined) {
             return (
-              <Message>
-                The team event for attendance {attendance.uuid} cannot be found. Contact
-                #idol-support.
-              </Message>
+              <Card key={attendance.uuid}>
+                <Card.Content>
+                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Meta>{teamEvent.date}</Card.Meta>
+                  <Card.Meta>
+                    {`Total Credits: ${
+                      teamEvent.hasHours
+                        ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
+                        : teamEvent.numCredits
+                    }`}
+                  </Card.Meta>
+                  <Card.Meta>
+                    {attendance.pending && (
+                      <Button
+                        basic
+                        color="red"
+                        onClick={() => {
+                          deleteTECAttendanceRequest(attendance);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    )}
+                  </Card.Meta>
+                  {COMMUNITY_EVENTS && (
+                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                  )}
+                </Card.Content>
+              </Card>
             );
-          })}
+          }
+          return (
+            <Message>
+              The team event for attendance {attendance.uuid} cannot be found. Contact
+              #idol-support.
+            </Message>
+          );
+        })}
       </Card.Group>
     );
   };

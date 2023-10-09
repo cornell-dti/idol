@@ -18,17 +18,12 @@ const TeamEventCreditForm: React.FC = () => {
   const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
-  // const [teamEventAttendance, setTeamEventAttendance] = useState<TeamEventAttendance>();
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
     TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
-      if (attendance) {
-        setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
-        setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
-        // setIsAttendanceLoading(false);
-      }
-      // setTeamEventAttendance({});
+      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
+      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
       setIsAttendanceLoading(false);
     });
   }, []);
@@ -207,7 +202,7 @@ const TeamEventCreditForm: React.FC = () => {
           approvedAttendance={approvedAttendance}
           pendingAttendance={pendingAttendance}
           isAttendanceLoading={isAttendanceLoading}
-          // teamEventAttendance={teamEventAttendance}
+          setPendingAttendance={setPendingAttendance}
         />
       </Form>
     </div>

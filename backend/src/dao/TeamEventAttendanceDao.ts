@@ -107,8 +107,8 @@ export default class TeamEventAttendanceDao extends BaseDao<
   }
 
   /**
-   * Gets the TEC Attendance object
-   * @param uuid - DB uuid of team event
+   * Gets the TEC Attendance
+   * @param uuid - DB uuid of TEC Attendance
    */
   async getTeamEventAttendance(uuid: string): Promise<TeamEventAttendance | null> {
     return this.getDocument(uuid);
