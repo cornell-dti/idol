@@ -10,6 +10,7 @@ async function materializeTeamEventAttendance(
 ): Promise<TeamEventAttendance> {
   return {
     ...dbTeamEventAttendance,
+    status: dbTeamEventAttendance.status as Status,
     member: await getMemberFromDocumentReference(dbTeamEventAttendance.member)
   };
 }
@@ -19,6 +20,7 @@ async function serializeTeamEventAttendance(
 ): Promise<DBTeamEventAttendance> {
   return {
     ...teamEventAttendance,
+    status: teamEventAttendance.status as string,
     member: memberCollection.doc(teamEventAttendance.member.email)
   };
 }
@@ -46,7 +48,7 @@ export default class TeamEventAttendanceDao extends BaseDao<
   ): Promise<TeamEventAttendance> {
     const teamEventAttendanceWithUUID = {
       ...teamEventAttendance,
-      pending: true,
+      status: 'pending' as Status,
       uuid: teamEventAttendance.uuid ? teamEventAttendance.uuid : uuidv4()
     };
     return this.createDocument(teamEventAttendanceWithUUID.uuid, teamEventAttendanceWithUUID);

@@ -20,10 +20,10 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
     teamEvents.map(async (event) => ({
       ...event,
       attendees: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => !attendance.pending
+        (attendance) => !(attendance.status === 'pending')
       ),
       requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => attendance.pending
+        (attendance) => attendance.status === 'pending'
       )
     }))
   );
@@ -113,7 +113,7 @@ export const requestTeamEventCredit = async (
       `User with email ${user.email} cannot request team event credit for another member, ${request.member.email}.`
     );
   }
-  const updatedteamEvent = { ...request, pending: true };
+  const updatedteamEvent = { ...request, status: 'pending' as Status };
   await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
 };
 
@@ -136,9 +136,9 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
     ...teamEvent,
     attendees: (
       await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
-    ).filter((attendance) => !attendance.pending),
+    ).filter((attendance) => !(attendance.status === 'pending')),
     requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)).filter(
-      (attendance) => attendance.pending
+      (attendance) => attendance.status === 'pending'
     )
   };
 };
@@ -204,3 +204,20 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
   }
   await teamEventAttendanceDao.deleteTeamEventAttendance(uuid);
 };
+
+// export const createStatusFromPending = async () => {
+//   const allRequests = await teamEventAttendanceDao.getAllTeamEventAttendance();
+//   allRequests.forEach(async (request) => {
+//     if (request.pending) {
+//       await teamEventAttendanceDao.updateTeamEventAttendance({
+//         ...request,
+//         status: 'pending'
+//       });
+//     } else {
+//       await teamEventAttendanceDao.updateTeamEventAttendance({
+//         ...request,
+//         status: 'approved'
+//       });
+//     }
+//   });
+// };
