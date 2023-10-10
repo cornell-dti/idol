@@ -25,7 +25,6 @@ const TeamEventCreditReview = (props: {
   const approveCreditRequest = (teamEventAttendance: TeamEventAttendance) => {
     const updatedTeamEventAttendance = {
       ...teamEventAttendance,
-      pending: false,
       status: 'approved' as Status
     };
     TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
@@ -47,7 +46,6 @@ const TeamEventCreditReview = (props: {
   const rejectCreditRequest = () => {
     const updatedTeamEventAttendance = {
       ...teamEventAttendance,
-      pending: false,
       status: 'rejected' as Status,
       reason
     };
