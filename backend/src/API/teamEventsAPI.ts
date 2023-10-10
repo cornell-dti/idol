@@ -20,10 +20,10 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
     teamEvents.map(async (event) => ({
       ...event,
       attendees: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => !(attendance.status === 'pending')
+        (attendance) => !attendance.pending
       ),
       requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => !(attendance.status === 'pending')
+        (attendance) => attendance.pending
       )
     }))
   );
@@ -113,7 +113,7 @@ export const requestTeamEventCredit = async (
       `User with email ${user.email} cannot request team event credit for another member, ${request.member.email}.`
     );
   }
-  const updatedteamEvent = { ...request, status: 'pending' as Status };
+  const updatedteamEvent = { ...request, pending: true };
   await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
 };
 
@@ -136,9 +136,9 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
     ...teamEvent,
     attendees: (
       await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
-    ).filter((attendance) => !!(attendance.status === 'pending')),
+    ).filter((attendance) => !attendance.pending),
     requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)).filter(
-      (attendance) => !(attendance.status === 'pending')
+      (attendance) => attendance.pending
     )
   };
 };

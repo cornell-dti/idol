@@ -39,14 +39,14 @@ export default class TeamEventAttendanceDao extends BaseDao<
    * Creates a new TEC Attendance for member for a given team event
    * @param teamEventAttendance - Newly created TeamEventAttendance object.
    * If provided, the object uuid will be used. If not, a new one will be generated.
-   * The status field will be set to 'pending' by default.
+   * The pending field will be set to true by default.
    */
   async createTeamEventAttendance(
     teamEventAttendance: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
     const teamEventAttendanceWithUUID = {
       ...teamEventAttendance,
-      status: 'pending' as Status,
+      pending: true,
       uuid: teamEventAttendance.uuid ? teamEventAttendance.uuid : uuidv4()
     };
     return this.createDocument(teamEventAttendanceWithUUID.uuid, teamEventAttendanceWithUUID);

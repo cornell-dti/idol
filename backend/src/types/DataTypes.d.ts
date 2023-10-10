@@ -32,15 +32,12 @@ export type DBSignInForm = {
   prompt: string | null;
 };
 
-type Status = 'pending' | 'approved' | 'rejected';
-
 export type DBTeamEventAttendance = {
   member: firestore.DocumentReference;
   hoursAttended?: number;
   image: string;
   eventUuid: string;
-  status: Status;
-  reason?: string;
+  pending: boolean;
   uuid: string;
 };
 
