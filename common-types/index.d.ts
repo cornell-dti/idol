@@ -87,9 +87,8 @@ interface TeamEventAttendance {
   hoursAttended?: number;
   image: string;
   readonly eventUuid: string;
-  readonly pending: boolean;
-  readonly status?: Status;
-  readonly reason?: string;
+  readonly status: Status;
+  readonly reason: string;
   readonly uuid: string;
 }
 
