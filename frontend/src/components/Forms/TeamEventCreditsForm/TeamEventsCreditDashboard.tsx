@@ -86,6 +86,7 @@ const TeamEventCreditDashboard = (props: {
                         : teamEvent.numCredits
                     }`}
                   </Card.Meta>
+                  {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
                   {COMMUNITY_EVENTS && (
                     <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                   )}
