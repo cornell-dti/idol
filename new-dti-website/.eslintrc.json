@@ -1,3 +1,36 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "extends": ["airbnb-base", "plugin:@typescript-eslint/recommended", "prettier", "react-app"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "camelcase": "off",
+    "no-alert": "off",
+    "no-console": "warn",
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".mjs", ".js", ".json", ".ts", ".d.ts", ".tsx"],
+        "paths": ["src"]
+      }
+    }
+  }
 }

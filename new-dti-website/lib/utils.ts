@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export function cn(...inputs: ClassValue[]) {
+// eslint-disable-next-line import/prefer-default-export
+export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
