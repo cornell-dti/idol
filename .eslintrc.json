@@ -29,7 +29,7 @@
     "import/resolver": {
       "node": {
         "extensions": [".mjs", ".js", ".json", ".ts", ".d.ts", ".tsx"],
-        "paths": ["src", "components", "lib"]
+        "paths": ["src"]
       }
     }
   }
