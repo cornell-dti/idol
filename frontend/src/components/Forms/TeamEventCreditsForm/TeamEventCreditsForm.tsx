@@ -77,18 +77,15 @@ const TeamEventCreditForm: React.FC = () => {
         uuid: ''
       };
 
-      requestTeamEventCredit(newTeamEventAttendance).then(() => {
-        TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
-          const createdAttendance = attendance.find((att) => att.eventUuid === teamEvent.uuid);
-          if (createdAttendance) {
-            const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
-            setPendingAttendance((pending) => [...pending, updatedAttendance]);
-            Emitters.generalSuccess.emit({
-              headerMsg: 'Team Event Credit submitted!',
-              contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
-            });
-          }
-        });
+      requestTeamEventCredit(newTeamEventAttendance).then((createdAttendance) => {
+        if (createdAttendance) {
+          const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
+          setPendingAttendance((pending) => [...pending, updatedAttendance]);
+          Emitters.generalSuccess.emit({
+            headerMsg: 'Team Event Credit submitted!',
+            contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
+          });
+        }
       });
     }
   };
