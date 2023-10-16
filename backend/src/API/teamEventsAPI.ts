@@ -69,14 +69,17 @@ export const updateTeamEvent = async (
 export const requestTeamEventCredit = async (
   request: TeamEventAttendance,
   user: IdolMember
-): Promise<void> => {
+): Promise<TeamEventAttendance> => {
   if (user.email !== request.member.email) {
     throw new PermissionError(
       `User with email ${user.email} cannot request team event credit for another member, ${request.member.email}.`
     );
   }
   const updatedteamEvent = { ...request, pending: true };
-  await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
+  const teamEventAttendance = await teamEventAttendanceDao.createTeamEventAttendance(
+    updatedteamEvent
+  );
+  return teamEventAttendance;
 };
 
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
@@ -128,7 +131,11 @@ export const updateTeamEventAttendance = async (
 
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin) {
+  const attendance = await teamEventAttendanceDao.getTeamEventAttendance(uuid);
+
+  if (!attendance) return;
+
+  if (!isLeadOrAdmin && attendance.member.email !== user.email) {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete team events attendance`
     );

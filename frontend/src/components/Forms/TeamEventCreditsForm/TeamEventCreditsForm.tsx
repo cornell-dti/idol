@@ -35,7 +35,7 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
-    await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
+    const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
 
     // upload image
     const blob = await fetch(image).then((res) => res.blob());
@@ -43,6 +43,7 @@ const TeamEventCreditForm: React.FC = () => {
     await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
       setImage(imageURL)
     );
+    return createdAttendance;
   };
 
   const submitTeamEventCredit = () => {
@@ -75,12 +76,16 @@ const TeamEventCreditForm: React.FC = () => {
         pending: true,
         uuid: ''
       };
-      requestTeamEventCredit(newTeamEventAttendance).then(() => {
-        setPendingAttendance((pending) => [...pending, newTeamEventAttendance]);
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Team Event Credit submitted!',
-          contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
-        });
+
+      requestTeamEventCredit(newTeamEventAttendance).then((createdAttendance) => {
+        if (createdAttendance) {
+          const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
+          setPendingAttendance((pending) => [...pending, updatedAttendance]);
+          Emitters.generalSuccess.emit({
+            headerMsg: 'Team Event Credit submitted!',
+            contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
+          });
+        }
       });
     }
   };
@@ -202,6 +207,7 @@ const TeamEventCreditForm: React.FC = () => {
           approvedAttendance={approvedAttendance}
           pendingAttendance={pendingAttendance}
           isAttendanceLoading={isAttendanceLoading}
+          setPendingAttendance={setPendingAttendance}
         />
       </Form>
     </div>
