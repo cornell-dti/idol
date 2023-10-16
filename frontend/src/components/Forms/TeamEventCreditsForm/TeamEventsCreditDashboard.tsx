@@ -58,7 +58,6 @@ const TeamEventCreditDashboard = (props: {
           contentMsg: error
         });
       });
-    console.log(pendingAttendance);
   };
 
   let approvedCredits = 0;
