@@ -126,7 +126,7 @@ const TeamEventCreditDashboard = (props: {
                           deleteTECAttendanceRequest(attendance);
                         }}
                       >
-                        Delete
+                        Cancel
                       </Button>
                     )}
                   </Card.Meta>

@@ -323,8 +323,8 @@ loginCheckedDelete('/team-event', async (_, user) => {
   return {};
 });
 loginCheckedPost('/team-event-attendance', async (req, user) => {
-  await requestTeamEventCredit(req.body.request, user);
-  return {};
+  const createdAttendance = await requestTeamEventCredit(req.body.request, user);
+  return { attendance: createdAttendance };
 });
 loginCheckedGet('/team-event-attendance', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
