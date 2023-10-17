@@ -320,10 +320,10 @@ loginCheckedDelete('/team-event', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
-loginCheckedPost('/team-event-attendance', async (req, user) => {
-  await requestTeamEventCredit(req.body.request, user);
-  return {};
-});
+loginCheckedPost('/team-event-attendance', async (req, user) => ({
+  teamEventAttendance: await requestTeamEventCredit(req.body.request, user)
+}));
+
 loginCheckedGet('/team-event-attendance', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
