@@ -19,12 +19,7 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
   return Promise.all(
     teamEvents.map(async (event) => ({
       ...event,
-      attendees: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => !(attendance.status === 'pending')
-      ),
-      requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)).filter(
-        (attendance) => attendance.status === 'pending'
-      )
+      requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
     }))
   );
 };
@@ -134,12 +129,7 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
   const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   return {
     ...teamEvent,
-    attendees: (
-      await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
-    ).filter((attendance) => !(attendance.status === 'pending')),
-    requests: (await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)).filter(
-      (attendance) => attendance.status === 'pending'
-    )
+    requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(teamEvent.uuid)
   };
 };
 

@@ -20,6 +20,6 @@ const setReason = async () => {
   });
 };
 
-deletePending();
+// deletePending();
 setReason();
 // createStatusFromPending();
