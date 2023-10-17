@@ -1,0 +1,9 @@
+.hero-section {
+    background-color: black;
+    background-image: url('./background/hero_bg.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+  
