@@ -194,20 +194,3 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
   }
   await teamEventAttendanceDao.deleteTeamEventAttendance(uuid);
 };
-
-// export const createStatusFromPending = async () => {
-//   const allRequests = await teamEventAttendanceDao.getAllTeamEventAttendance();
-//   allRequests.forEach(async (request) => {
-//     if (request.pending) {
-//       await teamEventAttendanceDao.updateTeamEventAttendance({
-//         ...request,
-//         status: 'pending'
-//       });
-//     } else {
-//       await teamEventAttendanceDao.updateTeamEventAttendance({
-//         ...request,
-//         status: 'approved'
-//       });
-//     }
-//   });
-// };
