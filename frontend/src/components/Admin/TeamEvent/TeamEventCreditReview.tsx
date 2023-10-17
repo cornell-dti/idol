@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Header, Image, Loader, Input } from 'semantic-ui-react';
+import styles from './TeamEventCreditReview.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
@@ -76,7 +77,7 @@ const TeamEventCreditReview = (props: {
       trigger={<Button>Review request</Button>}
     >
       <Modal.Header>Team Event Credit Review</Modal.Header>
-      <Modal.Content>
+      <Modal.Content className={styles.modalContent} scrolling>
         <Modal.Description>
           <Header>
             {teamEventAttendance.member.firstName} {teamEventAttendance.member.lastName}

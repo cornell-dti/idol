@@ -6,9 +6,8 @@ import PermissionsManager from '../utils/permissionsManager';
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
 /**
- * Returns a list of all team events along with their approved and pending
- * attendance. If the user does not have permissions to view team events,
- * an error will be thrown.
+ * Returns a list of all team events along with their requests. If the user does
+ * not have permissions to view team events, an error will be thrown.
  * @param user the IdolMember object of the user making the request
  * @returns all team events
  */

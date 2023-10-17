@@ -20,8 +20,14 @@ const TeamEventCreditDashboard = (props: {
   isAttendanceLoading: boolean;
   setPendingAttendance: Dispatch<SetStateAction<TeamEventAttendance[]>>;
 }): JSX.Element => {
-  const { allTEC, approvedAttendance, pendingAttendance, rejectedAttendance, isAttendanceLoading } =
-    props;
+  const {
+    allTEC,
+    approvedAttendance,
+    pendingAttendance,
+    rejectedAttendance,
+    isAttendanceLoading,
+    setPendingAttendance
+  } = props;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -114,7 +120,7 @@ const TeamEventCreditDashboard = (props: {
                   </Card.Meta>
                   {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
                   <Card.Meta>
-                    {attendance.pending && (
+                    {attendance.status === 'pending' && (
                       <Button
                         basic
                         color="red"
