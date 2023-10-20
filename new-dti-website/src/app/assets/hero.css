@@ -1,110 +1,110 @@
 .hero-section {
-    background-color: black;
-    background-image: url('./background/hero_bg.png');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
+  background-color: black;
+  background-image: url('./background/hero_bg.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
 }
 
 .icon-container {
-    /* margin: 0 10px;  */
-    width: 80px;
-    height: 80px;
-    background-size: contain; /* adjusted from cover to contain */
-    background-position: center; /* center the background */
-    background-repeat: no-repeat; /* ensure the image doesn't repeat */
-    cursor: pointer;
-    border: none; /* in case there's a default border */
-    outline: none; /* to prevent default browser focus styles */
-    padding: 0; /* remove any padding */
-    user-select: none; /* to prevent selection on click */
-    -webkit-tap-highlight-color: transparent; /* for mobile browsers */
+  /* margin: 0 10px;  */
+  width: 80px;
+  height: 80px;
+  background-size: contain; /* adjusted from cover to contain */
+  background-position: center; /* center the background */
+  background-repeat: no-repeat; /* ensure the image doesn't repeat */
+  cursor: pointer;
+  border: none; /* in case there's a default border */
+  outline: none; /* to prevent default browser focus styles */
+  padding: 0; /* remove any padding */
+  user-select: none; /* to prevent selection on click */
+  -webkit-tap-highlight-color: transparent; /* for mobile browsers */
 }
 
-  /* DTI */
-  .icon-container.dti {
-    background-image: url('./icons/DTI_notsel.png');
-  }
-  
-  .icon-container.dti:hover {
-    background-image: url('./icons/DTI_hover.png');
-  }
-  
-  .icon-container.dti:active {
-    background-image: url('./icons/DTI_current.png');
-  }
-  
-  /* Family */
-  .icon-container.family {
-    background-image: url('./icons/Family_notsel.png');
-  }
-  
-  .icon-container.family:hover {
-    background-image: url('./icons/Family_hover.png');
-  }
-  
-  .icon-container.family:active {
-    background-image: url('./icons/Family_current.png');
-  }
-  
-  /* Collaboration */
-  .icon-container.collaboration {
-    background-image: url('./icons/Collaboration_notsel.png');
-  }
-  
-  .icon-container.collaboration:hover {
-    background-image: url('./icons/Collaboration_hover.png');
-  }
-  
-  .icon-container.collaboration:active {
-    background-image: url('./icons/Collaboration_current.png');
-  }
-  
-  /* Events */
-  .icon-container.events {
-    background-image: url('./icons/Events_notsel.png');
-  }
-  
-  .icon-container.events:hover {
-    background-image: url('./icons/Events_hover.png');
-  }
-  
-  .icon-container.events:active {
-    background-image: url('./icons/Events_current.png');
-  }
-  
-  /* Initiatives */
-  .icon-container.initiatives {
-    background-image: url('./icons/Initiatives_notsel.png');
-  }
-  
-  .icon-container.initiatives:hover {
-    background-image: url('./icons/Initiatives_hover.png');
-  }
-  
-  .icon-container.initiatives:active {
-    background-image: url('./icons/Initiatives_current.png');
-  }
+/* DTI */
+.icon-container.dti {
+  background-image: url('./icons/DTI_notsel.png');
+}
 
-  .slideshow-container {
-    position: relative;
-    width: 600px;  /* Increase the width for a larger slideshow */
-    height: 400px; /* Set a fixed height to ensure images don't push content */
-    display: flex;
-    align-items: center; /* Vertically center the images */
+.icon-container.dti:hover {
+  background-image: url('./icons/DTI_hover.png');
+}
+
+.icon-container.dti:active {
+  background-image: url('./icons/DTI_current.png');
+}
+
+/* Family */
+.icon-container.family {
+  background-image: url('./icons/Family_notsel.png');
+}
+
+.icon-container.family:hover {
+  background-image: url('./icons/Family_hover.png');
+}
+
+.icon-container.family:active {
+  background-image: url('./icons/Family_current.png');
+}
+
+/* Collaboration */
+.icon-container.collaboration {
+  background-image: url('./icons/Collaboration_notsel.png');
+}
+
+.icon-container.collaboration:hover {
+  background-image: url('./icons/Collaboration_hover.png');
+}
+
+.icon-container.collaboration:active {
+  background-image: url('./icons/Collaboration_current.png');
+}
+
+/* Events */
+.icon-container.events {
+  background-image: url('./icons/Events_notsel.png');
+}
+
+.icon-container.events:hover {
+  background-image: url('./icons/Events_hover.png');
+}
+
+.icon-container.events:active {
+  background-image: url('./icons/Events_current.png');
+}
+
+/* Initiatives */
+.icon-container.initiatives {
+  background-image: url('./icons/Initiatives_notsel.png');
+}
+
+.icon-container.initiatives:hover {
+  background-image: url('./icons/Initiatives_hover.png');
+}
+
+.icon-container.initiatives:active {
+  background-image: url('./icons/Initiatives_current.png');
+}
+
+.slideshow-container {
+  position: relative;
+  width: 600px; /* Increase the width for a larger slideshow */
+  height: 400px; /* Set a fixed height to ensure images don't push content */
+  display: flex;
+  align-items: center; /* Vertically center the images */
 }
 
 .slide-image {
-    position: absolute;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the image */
-    max-width: 100%; /* Ensure the image does not overflow the container */
-    max-height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the image */
+  max-width: 100%; /* Ensure the image does not overflow the container */
+  max-height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
-  
+
 .slide-image.default {
   opacity: 1;
 }
@@ -133,5 +133,3 @@
 .slideshow-container .slide-image.active {
   display: block;
 }
-
-

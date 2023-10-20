@@ -8,9 +8,9 @@ interface IconProps {
 }
 
 const Icons: React.FC<IconProps> = ({ defaultClass, altText, dataIndex, onClick }) => (
-  <div 
+  <div
     className={`icon-container ${defaultClass}`}
-    aria-label={altText} 
+    aria-label={altText}
     role="img"
     data-index={dataIndex}
     onClick={onClick}
