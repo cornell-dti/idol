@@ -1,15 +1,15 @@
 import React from 'react';
-import { Button } from '../../components/ui/button';
 import './assets/hero.css';
+import Icons from '../../components/icons';
 
-const Home = (): JSX.Element => (
-    <div className="home-container">
-        <div className="hero-section">
-            <Button>This is a ShadCN Button.</Button>
-            {}
-        </div>
-    </div>
+const Home: React.FC = () => (
+  <div className="hero-section" style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', paddingLeft: '20%' }}>
+    <Icons defaultClass="dti" altText="DTI" />
+    <Icons defaultClass="family" altText="Family" />
+    <Icons defaultClass="collaboration" altText="Collaboration" />
+    <Icons defaultClass="events" altText="Events" />
+    <Icons defaultClass="initiatives" altText="Initiatives" />
+  </div>
 );
 
 export default Home;
-
