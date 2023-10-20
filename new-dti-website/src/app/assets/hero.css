@@ -85,5 +85,50 @@
   .icon-container.initiatives:active {
     background-image: url('./icons/Initiatives_current.png');
   }
+
+  .slideshow-container {
+    position: relative;
+    width: 400px;
+    height: auto;
+  }
   
+  .slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
   
+.slide-image.default {
+  opacity: 0;
+}
+
+/* Hide all images when any icon is focused */
+.icon-container:focus ~ .slideshow-container .slide-image {
+  opacity: 0;
+}
+
+.icon-container[data-index="0"]:focus ~ .slideshow-container .slide-image.default {
+  opacity: 1;
+}
+
+.icon-container[data-index="1"]:focus ~ .slideshow-container .slide-image.family {
+  opacity: 1;
+}
+
+.icon-container[data-index="2"]:focus ~ .slideshow-container .slide-image.collaboration {
+  opacity: 1;
+}
+
+.icon-container[data-index="3"]:focus ~ .slideshow-container .slide-image.events {
+  opacity: 1;
+}
+
+.icon-container[data-index="4"]:focus ~ .slideshow-container .slide-image.initiatives {
+  opacity: 1;
+}
+
+
