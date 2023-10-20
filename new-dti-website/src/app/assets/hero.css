@@ -88,47 +88,50 @@
 
   .slideshow-container {
     position: relative;
-    width: 400px;
-    height: auto;
-  }
-  
-  .slide-image {
+    width: 600px;  /* Increase the width for a larger slideshow */
+    height: 400px; /* Set a fixed height to ensure images don't push content */
+    display: flex;
+    align-items: center; /* Vertically center the images */
+}
+
+.slide-image {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the image */
+    max-width: 100%; /* Ensure the image does not overflow the container */
+    max-height: 100%;
     opacity: 0;
     transition: opacity 0.3s;
-  }
+}
   
 .slide-image.default {
-  opacity: 0;
-}
-
-/* Hide all images when any icon is focused */
-.icon-container:focus ~ .slideshow-container .slide-image {
-  opacity: 0;
-}
-
-.icon-container[data-index="0"]:focus ~ .slideshow-container .slide-image.default {
   opacity: 1;
 }
 
-.icon-container[data-index="1"]:focus ~ .slideshow-container .slide-image.family {
+.slide-image.family {
   opacity: 1;
 }
 
-.icon-container[data-index="2"]:focus ~ .slideshow-container .slide-image.collaboration {
+.slide-image.collaboration {
   opacity: 1;
 }
 
-.icon-container[data-index="3"]:focus ~ .slideshow-container .slide-image.events {
+.slide-image.events {
   opacity: 1;
 }
 
-.icon-container[data-index="4"]:focus ~ .slideshow-container .slide-image.initiatives {
+.slide-image.initiatives {
   opacity: 1;
+}
+
+/* hide all images when any icon is focused */
+.slideshow-container .slide-image {
+  display: none;
+}
+
+.slideshow-container .slide-image.active {
+  display: block;
 }
 
 
