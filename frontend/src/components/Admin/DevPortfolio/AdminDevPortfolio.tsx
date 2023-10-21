@@ -30,9 +30,9 @@ const AdminDevPortfolio: React.FC = () => {
   };
 
   useEffect(() => {
-    Emitters.devPortfolioUpdated.subscribe(() => fullReset());
+    Emitters.devPortfolioUpdated.subscribe(fullReset);
     return () => {
-      Emitters.devPortfolioUpdated.unsubscribe(() => fullReset());
+      Emitters.devPortfolioUpdated.unsubscribe(fullReset);
     };
   });
 
