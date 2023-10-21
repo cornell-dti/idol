@@ -7,7 +7,7 @@ type DevPortfolioSubmissionResponseObj = {
 
 type DevPortfolioResponseObj = {
   error?: string;
-}
+};
 
 export default class DevPortfolioAPI {
   static async getAllDevPortfolios(): Promise<DevPortfolio[]> {
@@ -27,9 +27,7 @@ export default class DevPortfolioAPI {
   }
 
   public static updateDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolioResponseObj> {
-    return APIWrapper.put(`${backendURL}/dev-portfolio`, devPortfolio).then(
-      (res) => res.data
-    );
+    return APIWrapper.put(`${backendURL}/dev-portfolio`, devPortfolio).then((res) => res.data);
   }
 
   public static async makeDevPortfolioSubmission(

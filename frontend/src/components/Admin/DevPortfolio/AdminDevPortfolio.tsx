@@ -93,13 +93,13 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
                 {isAdminView ? (
                   <>
                     <EditDevPortfolio
-                      devPortfolio={portfolio} 
+                      devPortfolio={portfolio}
                       setDevPortfolios={setDevPortfolios}
                     />
                     <DevPortfolioDeleteModal
                       uuid={portfolio.uuid}
                       name={portfolio.name}
-                      setDevPortfolios={setDevPortfolios} 
+                      setDevPortfolios={setDevPortfolios}
                     />
                   </>
                 ) : (

@@ -18,7 +18,13 @@ type AdminDevPortfolioFormProps = {
   editDevPortfolio?: (portfolio: DevPortfolio) => void;
 };
 
-const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPortfolios, formType, setOpen, editDevPortfolio, devPortfolio }) => {
+const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({
+  setDevPortfolios,
+  formType,
+  setOpen,
+  editDevPortfolio,
+  devPortfolio
+}) => {
   const [name, setName] = useState(devPortfolio?.name || '');
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
@@ -28,10 +34,10 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
   let earliestValidDate = new Date();
   let lateDeadlineDate = null;
   if (devPortfolio) {
-    deadlineDate = new Date(devPortfolio.deadline as number)
-    earliestValidDate = new Date(devPortfolio.earliestValidDate as number)
+    deadlineDate = new Date(devPortfolio.deadline as number);
+    earliestValidDate = new Date(devPortfolio.earliestValidDate as number);
     if (devPortfolio.lateDeadline) {
-      lateDeadlineDate = new Date(devPortfolio.lateDeadline as number)
+      lateDeadlineDate = new Date(devPortfolio.lateDeadline as number);
     }
   }
   const [deadline, setDeadline] = useState<Date>(deadlineDate);
@@ -70,9 +76,9 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
         lateDeadline: lateDeadline ? lateDeadline.getTime() : null,
         submissions: devPortfolio.submissions
       };
-      editDevPortfolio(editedDevPortfolio)
-      setSuccess(true)
-      setOpen(false)
+      editDevPortfolio(editedDevPortfolio);
+      setSuccess(true);
+      setOpen(false);
     } else {
       const newPortfolio = {
         name,
@@ -82,7 +88,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
         submissions: [],
         uuid: ''
       };
-        DevPortfolioAPI.createDevPortfolio(newPortfolio).then((portfolio) => {
+      DevPortfolioAPI.createDevPortfolio(newPortfolio).then((portfolio) => {
         setDevPortfolios((portfolios) => [...portfolios, portfolio]);
         setSuccess(true);
       });
@@ -114,9 +120,8 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({ setDevPor
         onChange={(date: Date) => setLateDeadline(date)}
       />
       {dateError ? (
-        <Label
-          pointing
-        >{`The dates for the deadline and earliest date are invalid: ${dateErrorMsg}`}
+        <Label pointing>
+          {`The dates for the deadline and earliest date are invalid: ${dateErrorMsg}`}
         </Label>
       ) : undefined}
       <Divider />

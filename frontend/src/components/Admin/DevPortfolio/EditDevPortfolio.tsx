@@ -5,7 +5,10 @@ import styles from './EditDevPortfolio.module.css';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import { Emitters } from '../../../utils';
 
-const EditDevPortfolio = (props: { devPortfolio: DevPortfolio, setDevPortfolios: React.Dispatch<React.SetStateAction<DevPortfolio[]>> }): JSX.Element => {
+const EditDevPortfolio = (props: {
+  devPortfolio: DevPortfolio;
+  setDevPortfolios: React.Dispatch<React.SetStateAction<DevPortfolio[]>>;
+}): JSX.Element => {
   const { devPortfolio, setDevPortfolios } = props;
   const [open, setOpen] = useState(false);
 
