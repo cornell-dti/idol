@@ -5,6 +5,10 @@ type DevPortfolioSubmissionResponseObj = {
   error?: string;
 };
 
+type DevPortfolioResponseObj = {
+  error?: string;
+}
+
 export default class DevPortfolioAPI {
   static async getAllDevPortfolios(): Promise<DevPortfolio[]> {
     const response = APIWrapper.get(`${backendURL}/dev-portfolio`);
@@ -19,6 +23,12 @@ export default class DevPortfolioAPI {
   public static async createDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolio> {
     return APIWrapper.post(`${backendURL}/dev-portfolio`, devPortfolio).then(
       (res) => res.data.portfolio
+    );
+  }
+
+  public static updateDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolioResponseObj> {
+    return APIWrapper.put(`${backendURL}/dev-portfolio`, devPortfolio).then(
+      (res) => res.data
     );
   }
 
