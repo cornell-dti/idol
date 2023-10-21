@@ -13,7 +13,7 @@ export const devPortfolioDao = new DevPortfolioDao();
  * Gets all Dev Portfolios
  * @param user - The user that is requesting to get all portfolios
  * @returns - All Dev Portfolios (if the user is a lead or admin)
-*/
+ */
 export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfolio[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
@@ -25,14 +25,14 @@ export const getAllDevPortfolios = async (user: IdolMember): Promise<DevPortfoli
 
 /**
  * Gets all Dev Portfolios without the submissions field
-*/
+ */
 export const getAllDevPortfolioInfo = async (): Promise<DevPortfolioInfo[]> =>
   devPortfolioDao.getAllDevPortfolioInfo();
 
 /**
  * Gets a specific dev portfolio without submissions
  * @param uuid - DB uuid of the portfolio we want to get information from
-*/
+ */
 export const getDevPortfolioInfo = async (uuid: string): Promise<DevPortfolioInfo> =>
   devPortfolioDao.getDevPortfolioInfo(uuid);
 
@@ -52,7 +52,7 @@ export const getUsersDevPortfolioSubmissions = async (
  * @param user - The user that is requesting to get all portfolios
  * @param uuid - DB uuid of DevPortfolio
  * @returns - The specific Dev Portfolio (if the user is a lead or admin)
-*/
+ */
 export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
@@ -69,7 +69,7 @@ export const getDevPortfolio = async (uuid: string, user: IdolMember): Promise<D
  * @param instance - The new Dev Portfolio instance
  * @param user - The user that is requesting to create a dev portfolio
  * @returns - The new Dev Portfolio (if successfully created)
-*/
+ */
 export const createNewDevPortfolio = async (
   instance: DevPortfolio,
   user: IdolMember
@@ -111,7 +111,7 @@ export const createNewDevPortfolio = async (
  * @param devPortfolio - The modified Dev Portfolio instance
  * @param user - The user that is requesting to modify a dev portfolio
  * @returns - The updated Dev Portfolio (if successfully modified)
-*/
+ */
 export const updateDevPortfolio = async (
   devPortfolio: DevPortfolio,
   user: IdolMember
@@ -129,7 +129,7 @@ export const updateDevPortfolio = async (
  * Deletes new Dev Portfolio (if the user has permission)
  * @param uuid - DB uuid of DevPortfolio
  * @param user - The user that is requesting to delete a dev portfolio
-*/
+ */
 export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promise<void> => {
   const canDeleteDevPortfolio = await PermissionsManager.isLeadOrAdmin(user);
   if (!canDeleteDevPortfolio) {
@@ -145,7 +145,7 @@ export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promis
  * @param uuid - DB uuid of DevPortfolio
  * @param submission - The submission that is being made
  * @returns - The Dev Portfolio submission (if successfully made)
-*/
+ */
 export const makeDevPortfolioSubmission = async (
   uuid: string,
   submission: DevPortfolioSubmission
@@ -177,7 +177,7 @@ export const makeDevPortfolioSubmission = async (
  * @param updatedSubmissions - The updated Dev Portfolio submissions
  * @param user - The user that is requesting to modify submissions
  * @returns - The updated Dev Portfolio (if the submissions are successfully modified)
-*/
+ */
 export const updateSubmissions = async (
   uuid: string,
   updatedSubmissions: DevPortfolioSubmission[],
@@ -209,7 +209,7 @@ export const updateSubmissions = async (
  * @param uuid - DB uuid of DevPortfolio
  * @param user - The user that is requesting to regrade submissions
  * @returns - The updated Dev Portfolio (if the submissions are successfully regraded)
-*/
+ */
 export const regradeSubmissions = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
   const canRequestRegrade = await PermissionsManager.isLeadOrAdmin(user);
   if (!canRequestRegrade)
