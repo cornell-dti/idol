@@ -8,7 +8,7 @@ import closeMenuIcon from '../src/app/assets/icons/close_icon.svg';
 
 // TODO: navbar page state changes
 // TODO: responsive sizing
-// TODO: remove red border and todos when done
+// TODO: remove red and todos when done
 // TODO: hamburger menu animation
 // TODO: image size transition lg-md? md-sm
 interface NavbarProps {
@@ -47,30 +47,29 @@ const Navbar: React.FC<NavbarProps> = ({ selectedPage }) => {
 
   return (
     <div>
-      <div className="border border-red-500 w-full lg:p-12 md:p-6 sm:p-4 inline-flex justify-between flex-row">
-        <div className="border border-red-500 w-fit">
-          <Image
-            className="lg:w-72 md:w-60 sm:w-42"
-            src={dtiLogo.src}
-            width={284}
-            height={62}
-            alt="DTI Logo"
-          />
+      <div className="w-full lg:p-12 md:p-6 sm:p-4 inline-flex justify-between flex-row">
+        <div className="w-fit">
+          <a href="#">
+            <Image
+              className="lg:w-72 md:w-60 sm:w-42"
+              src={dtiLogo.src}
+              width={284}
+              height={62}
+              alt="DTI Logo"
+            />
+          </a>
         </div>
-        <div className="border border-red-500 hidden justify-self-end w-fit lg:inline-flex lg:flex-row gap-x-5">
+        <div className="hidden justify-self-end w-fit lg:inline-flex lg:flex-row gap-x-1">
           {navbarItems.map((item) => (
             <a
-              className="hover:underline text-white lg:m-5 underline-offset-8 decoration-red-500"
+              className="hover:underline text-white lg:m-5 underline-offset-8 decoration-2 decoration-red-500"
               href={item.url}
             >
               {item.name}
             </a>
           ))}
         </div>
-        <div
-          className="flex border border-red-500 lg:hidden w-fit"
-          onClick={(e) => setIsMenuOpen(!isMenuOpen)}
-        >
+        <div className="flex lg:hidden w-fit" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? (
             <Image
               className="md:w-12"
@@ -92,12 +91,12 @@ const Navbar: React.FC<NavbarProps> = ({ selectedPage }) => {
       </div>
       {isMenuOpen && (
         <div>
-          <div className="border-2 border-red-500 z-90 fixed w-screen h-screen bg-stone-950 bg-blend-overlay blur-md lg:hidden"></div>
+          <div className="z-90 fixed w-screen h-screen bg-stone-950 bg-blend-overlay blur-md opacity-75 lg:hidden"></div>
           <div className="flex flex-row fixed w-screen h-screen justify-end">
-            <div className="border-2 z-0 border-red-500 m-5 p-4 flex flex-col gap-y-5 text-right">
+            <div className="z-0 m-5 p-4 flex flex-col gap-y-5 text-right">
               {navbarItems.map((item) => (
                 <a
-                  className="hover:underline text-white lg:m-5 underline-offset-8 decoration-red-500"
+                  className="hover:underline text-white lg:m-5 text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
                   href={item.url}
                 >
                   {item.name}
