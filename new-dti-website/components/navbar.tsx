@@ -10,6 +10,7 @@ import closeMenuIcon from '../src/app/assets/icons/close_icon.svg';
 // TODO: responsive sizing
 // TODO: remove red border and todos when done
 // TODO: hamburger menu animation
+// TODO: image size transition lg-md? md-sm
 interface NavbarProps {
   selectedPage: string;
 }
