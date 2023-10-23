@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Icon from '@/components/icons';
-import Slideshow from '@/components/slideshow';
+import Icon from '../../components/icons';
+import Slideshow from '../../components/slideshow';
 
 import heroBackground from './assets/background/hero_bg.png';
 
