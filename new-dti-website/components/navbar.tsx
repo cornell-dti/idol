@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
+// TODO: phone horizontal orientation hamburger menu resizing
 const navbarItems = [
   {
     name: 'Team',
