@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-// TODO: phone horizontal orientation hamburger menu resizing
+// TODO: scale down to account for vertical space taken up by browser
 const navbarItems = [
   {
     name: 'Team',
@@ -36,11 +36,11 @@ const Navbar: React.FC = () => {
 
   return (
     <div>
-      <div className="w-full px-5 py-7 md:p-10 lg:pl-15 lg:py-13 lg:pr-10 inline-flex justify-between flex-row">
+      <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 inline-flex justify-between flex-row">
         <div className="w-fit flex flex-col justify-center">
           <a href="/">
             <Image
-              className="lg:h-15 md:h-12 h-8 w-auto"
+              className="lg:h-12 md:h-12 h-8 w-auto"
               src="/dti_logo.svg"
               width={280}
               height={62}
@@ -48,10 +48,10 @@ const Navbar: React.FC = () => {
             />
           </a>
         </div>
-        <div className="hidden justify-self-end w-fit lg:inline-flex flex-row gap-x-1">
+        <div className="hidden justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
             <a
-              className="hover:underline text-white p-5 underline-offset-8 decoration-2 decoration-red-500"
+              className="hover:underline text-white p-4 underline-offset-8 decoration-2 decoration-red-500"
               href={item.url}
             >
               {item.name}
