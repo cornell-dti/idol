@@ -117,8 +117,9 @@ export const requestTeamEventCredit = async (
     );
   }
   const updatedteamEvent = { ...request, pending: true };
-  const teamEventAttendance =
-    await teamEventAttendanceDao.createTeamEventAttendance(updatedteamEvent);
+  const teamEventAttendance = await teamEventAttendanceDao.createTeamEventAttendance(
+    updatedteamEvent
+  );
   return teamEventAttendance;
 };
 
