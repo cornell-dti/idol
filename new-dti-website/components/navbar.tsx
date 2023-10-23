@@ -6,9 +6,6 @@ import dtiLogo from '../src/app/assets/images/dti_logo.svg';
 import hamburgerMenuIcon from '../src/app/assets/icons/hamburger_icon.svg';
 import closeMenuIcon from '../src/app/assets/icons/close_icon.svg';
 
-// TODO: navbar page state changes
-// TODO: hamburger menu animation
-
 const navbarItems = [
   {
     name: 'Team',
@@ -84,7 +81,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div>
+        <div className="lg:hidden">
           <div className="z-90 fixed w-screen h-screen bg-stone-950 bg-blend-overlay blur-md opacity-75 lg:hidden"></div>
           <div className="flex flex-row fixed w-screen h-screen justify-end">
             <div className="z-0 px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 text-right">
