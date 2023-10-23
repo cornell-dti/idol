@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
         <div className="w-fit flex flex-col justify-center">
           <a href="/">
             <Image
-              className="lg:h-12 md:h-12 h-8 w-auto"
+              className="md:h-12 h-8 w-auto"
               src="/dti_logo.svg"
               width={280}
               height={62}
@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
         <div className="hidden justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
             <a
-              className="hover:underline text-white p-4 underline-offset-8 decoration-2 decoration-red-500"
+              className="hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-red-500"
               href={item.url}
             >
               {item.name}
@@ -88,10 +88,10 @@ const Navbar: React.FC = () => {
         <div className="lg:hidden absolute w-screen h-full">
           <div className="z-90 absolute w-screen h-full bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-5 opacity-90 lg:hidden"></div>
           <div className="flex flex-row fixed w-screen h-screen justify-end">
-            <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 landscape:gap-y-2 text-right">
+            <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
               {navbarItems.map((item) => (
                 <a
-                  className="hover:underline text-white landscape:text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
+                  className="hover:underline cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
                   href={item.url}
                 >
                   {item.name}
