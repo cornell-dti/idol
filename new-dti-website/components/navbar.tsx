@@ -2,9 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import dtiLogo from '../src/app/assets/images/dti_logo.svg';
-import hamburgerMenuIcon from '../src/app/assets/icons/hamburger_icon.svg';
-import closeMenuIcon from '../src/app/assets/icons/close_icon.svg';
 
 const navbarItems = [
   {
@@ -40,10 +37,10 @@ const Navbar: React.FC = () => {
     <div>
       <div className="w-full px-5 py-7 md:p-10 lg:pl-15 lg:py-13 lg:pr-10 inline-flex justify-between flex-row">
         <div className="w-fit flex flex-col justify-center">
-          <a href="#">
+          <a href="/">
             <Image
               className="lg:h-15 md:h-12 h-8 w-auto"
-              src={dtiLogo.src}
+              src="/dti_logo.svg"
               width={280}
               height={62}
               alt="DTI Logo"
@@ -64,7 +61,7 @@ const Navbar: React.FC = () => {
           {isMenuOpen ? (
             <Image
               className="h-12 w-auto md:h-14"
-              src={closeMenuIcon.src}
+              src="/close_menu_icon.svg"
               width={56.5}
               height={56.5}
               alt="Close Menu Icon"
@@ -72,7 +69,7 @@ const Navbar: React.FC = () => {
           ) : (
             <Image
               className="h-12 w-auto md:h-14"
-              src={hamburgerMenuIcon.src}
+              src="/hamburger_menu_icon.svg"
               width={56.5}
               height={56.5}
               alt="Hamburger Menu Icom"
