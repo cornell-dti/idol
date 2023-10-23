@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
-import Icon from '@/components/icons'; 
+import Icon from '@/components/icons';
 import Slideshow from '@/components/slideshow';
 
 import heroBackground from './assets/background/hero_bg.png';
@@ -31,23 +31,35 @@ const Home: React.FC = () => {
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   const icons = [
-    { default: dtiNotSel, hover: dtiHover, active: dtiActive, altText: "DTI" },
-    { default: familyNotSel, hover: familyHover, active: familyActive, altText: "Family" },
-    { default: collaborationNotSel, hover: collaborationHover, active: collaborationActive, altText: "Collaboration" },
-    { default: eventsNotSel, hover: eventsHover, active: eventsActive, altText: "Events" },
-    { default: initiativesNotSel, hover: initiativesHover, active: initiativesActive, altText: "Initiatives" }
+    { default: dtiNotSel, hover: dtiHover, active: dtiActive, altText: 'DTI' },
+    { default: familyNotSel, hover: familyHover, active: familyActive, altText: 'Family' },
+    {
+      default: collaborationNotSel,
+      hover: collaborationHover,
+      active: collaborationActive,
+      altText: 'Collaboration'
+    },
+    { default: eventsNotSel, hover: eventsHover, active: eventsActive, altText: 'Events' },
+    {
+      default: initiativesNotSel,
+      hover: initiativesHover,
+      active: initiativesActive,
+      altText: 'Initiatives'
+    }
   ];
 
   useEffect(() => {
     if (timer) clearTimeout(timer);
 
-    setTimer(setTimeout(() => {
-      if (selectedIcon === null || selectedIcon >= icons.length - 1) {
-        setSelectedIcon(0);
-      } else {
-        setSelectedIcon(selectedIcon + 1);
-      }
-    }, 3000));
+    setTimer(
+      setTimeout(() => {
+        if (selectedIcon === null || selectedIcon >= icons.length - 1) {
+          setSelectedIcon(0);
+        } else {
+          setSelectedIcon(selectedIcon + 1);
+        }
+      }, 3000)
+    );
 
     return () => {
       if (timer) clearTimeout(timer);
@@ -55,9 +67,10 @@ const Home: React.FC = () => {
   }, [selectedIcon]);
 
   return (
-    <div className="flex items-center justify-start pl-[20%] bg-black bg-cover bg-center h-screen"
-      style={{ backgroundImage: `url(${heroBackground.src})` }}>
-      
+    <div
+      className="flex items-center justify-start pl-[20%] bg-black bg-cover bg-center h-screen"
+      style={{ backgroundImage: `url(${heroBackground.src})` }}
+    >
       {/* container for text and icons */}
       <div className="flex flex-col items-start mr-12">
         <h2 className="text-white mb-5 text-6xl">
