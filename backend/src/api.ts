@@ -422,4 +422,17 @@ if (!isProd) {
   });
 }
 
+// router.put('/shoutout/:uuid', async (req, res) => {
+//   try {
+//     const { uuid } = req.params;
+//     const { body: shoutoutData } = req;
+//     shoutoutData.uuid = uuid; // ensure the UUID is attached to the shoutout data
+//     const updatedShoutout = await updateShoutout(shoutoutData, req.user); // assuming user is available in req
+//     res.json(updatedShoutout);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// });
+
+
 export const handler = serverless(app);

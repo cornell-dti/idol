@@ -45,6 +45,21 @@ export const hideShoutout = async (
   await shoutoutsDao.updateShoutout({ ...shoutout, hidden: hide });
 };
 
+export const updateShoutout = async (shoutout: Shoutout, user: IdolMember): Promise<Shoutout> => {
+  if (shoutout.giver.email !== user.email) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to edit this shoutout!`
+    );
+  }
+
+  const existingShoutout = await shoutoutsDao.getShoutout(shoutout.uuid);
+  if (!existingShoutout) {
+    throw new NotFoundError(`Shoutout with uuid: ${shoutout.uuid} does not exist!`);
+  }
+
+  return shoutoutsDao.updateShoutout(shoutout);
+};
+
 export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
   const shoutout = await shoutoutsDao.getShoutout(uuid);
   if (!shoutout) {

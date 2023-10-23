@@ -1,4 +1,6 @@
 import { Card } from 'semantic-ui-react';
+import { useState } from 'react';
+import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import ShoutoutDeleteModal from '../../Modals/ShoutoutDeleteModal';
 import styles from './ShoutoutCard.module.css';
 
@@ -13,6 +15,23 @@ const ShoutoutCard = (props: {
     : `From: ${shoutout.giver?.firstName} ${shoutout.giver?.lastName}`;
   const dateString = `${new Date(shoutout.timestamp).toDateString()}`;
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedMessage, setEditedMessage] = useState(shoutout.message);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const updatedShoutout = { ...shoutout, message: editedMessage };
+      await ShoutoutsAPI.updateShoutout(updatedShoutout);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Could not update shoutout:", error);
+    }
+  };
+
   return (
     <Card className={styles.shoutoutCardContainer}>
       <Card.Group widths="equal" className={styles.shoutoutCardDetails}>
@@ -24,6 +43,14 @@ const ShoutoutCard = (props: {
         <ShoutoutDeleteModal uuid={shoutout.uuid} setGivenShoutouts={setGivenShoutouts} />
       </Card.Group>
       <Card.Content description={shoutout.message} />
+        {isEditing ? (
+          <div>
+            <textarea value={editedMessage} onChange={(e) => setEditedMessage(e.target.value)} />
+            <button onClick={handleSaveClick}>Save</button>
+          </div>
+        ) : (
+          <button onClick={handleEditClick}>Edit</button>
+        )}
     </Card>
   );
 };
