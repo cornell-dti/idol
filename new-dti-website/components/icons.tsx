@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface IconProps {
-  defaultClass: string;
+  icon: string;
+  hoverIcon: string;
+  activeIcon: string;
   altText: string;
-  dataIndex: number;
+  isActive: boolean;
   onClick: () => void;
 }
 
-const Icons: React.FC<IconProps> = ({ defaultClass, altText, dataIndex, onClick }) => (
-  <div
-    className={`icon-container ${defaultClass}`}
-    aria-label={altText}
-    role="img"
-    data-index={dataIndex}
-    onClick={onClick}
-  ></div>
-);
+const Icon: React.FC<IconProps> = ({ icon, hoverIcon, activeIcon, altText, isActive, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-export default Icons;
+  let currentIcon = icon;
+
+  if (isActive) {
+    currentIcon = activeIcon;
+  } else if (isHovered) {
+    currentIcon = hoverIcon;
+  }
+
+  return (
+    <img
+      src={currentIcon}
+      alt={altText}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
+      className="cursor-pointer"
+    />
+  );
+};
+
+export default Icon;

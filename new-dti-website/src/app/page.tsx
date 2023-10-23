@@ -1,88 +1,86 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import './assets/hero.css';
-import Icons from '../../components/icons';
-import Slideshow from '../../components/slideshow';
+import React, { useEffect, useState } from 'react';
+import Icon from '@/components/icons'; 
+import Slideshow from '@/components/slideshow';
+
+import heroBackground from './assets/background/hero_bg.png';
+
+import dtiNotSel from './assets/icons/DTI_notsel.png';
+import dtiHover from './assets/icons/DTI_hover.png';
+import dtiActive from './assets/icons/DTI_current.png';
+
+import familyNotSel from './assets/icons/Family_notsel.png';
+import familyHover from './assets/icons/Family_hover.png';
+import familyActive from './assets/icons/Family_current.png';
+
+import collaborationNotSel from './assets/icons/Collaboration_notsel.png';
+import collaborationHover from './assets/icons/Collaboration_hover.png';
+import collaborationActive from './assets/icons/Collaboration_current.png';
+
+import eventsNotSel from './assets/icons/Events_notsel.png';
+import eventsHover from './assets/icons/Events_hover.png';
+import eventsActive from './assets/icons/Events_current.png';
+
+import initiativesNotSel from './assets/icons/Initiatives_notsel.png';
+import initiativesHover from './assets/icons/Initiatives_hover.png';
+import initiativesActive from './assets/icons/Initiatives_current.png';
 
 const Home: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [selectedIcon, setSelectedIcon] = useState<number | null>(null);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const nextImage = () => {
-    setSelectedImage((prevImage) => (prevImage + 1) % 5); // adjust '5' for a different number of images
-  };
-
-  const handleIconClick = (index: number) => {
-    setSelectedImage(index);
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(nextImage, 3000);
-  };
-
-  const intervalRef = React.useRef<NodeJS.Timeout>();
+  const icons = [
+    { default: dtiNotSel, hover: dtiHover, active: dtiActive, altText: "DTI" },
+    { default: familyNotSel, hover: familyHover, active: familyActive, altText: "Family" },
+    { default: collaborationNotSel, hover: collaborationHover, active: collaborationActive, altText: "Collaboration" },
+    { default: eventsNotSel, hover: eventsHover, active: eventsActive, altText: "Events" },
+    { default: initiativesNotSel, hover: initiativesHover, active: initiativesActive, altText: "Initiatives" }
+  ];
 
   useEffect(() => {
-    intervalRef.current = setInterval(nextImage, 3000);
+    if (timer) clearTimeout(timer);
+
+    setTimer(setTimeout(() => {
+      if (selectedIcon === null || selectedIcon >= icons.length - 1) {
+        setSelectedIcon(0);
+      } else {
+        setSelectedIcon(selectedIcon + 1);
+      }
+    }, 3000));
 
     return () => {
-      clearInterval(intervalRef.current);
+      if (timer) clearTimeout(timer);
     };
-  }, []);
+  }, [selectedIcon]);
 
   return (
-    <div
-      className="hero-section"
-      style={{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingLeft: '20%'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          marginRight: '50px'
-        }}
-      >
-        <h2 style={{ color: 'white', marginBottom: '20px', fontSize: '36px' }}>
-          Cornell Digital <br></br> Tech & Innovation
+    <div className="flex items-center justify-start pl-[20%] bg-black bg-cover bg-center h-screen"
+      style={{ backgroundImage: `url(${heroBackground.src})` }}>
+      
+      {/* container for text and icons */}
+      <div className="flex flex-col items-start mr-12">
+        <h2 className="text-white mb-5 text-6xl">
+          Cornell Digital <br /> Tech & Innovation
         </h2>
-        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-          <Icons
-            defaultClass="dti"
-            altText="DTI"
-            dataIndex={0}
-            onClick={() => handleIconClick(0)}
-          />
-          <Icons
-            defaultClass="family"
-            altText="Family"
-            dataIndex={1}
-            onClick={() => handleIconClick(1)}
-          />
-          <Icons
-            defaultClass="collaboration"
-            altText="Collaboration"
-            dataIndex={2}
-            onClick={() => handleIconClick(2)}
-          />
-          <Icons
-            defaultClass="events"
-            altText="Events"
-            dataIndex={3}
-            onClick={() => handleIconClick(3)}
-          />
-          <Icons
-            defaultClass="initiatives"
-            altText="Initiatives"
-            dataIndex={4}
-            onClick={() => handleIconClick(4)}
-          />
+        <div className="flex items-center space-x-2">
+          {icons.map((icon, index) => (
+            <Icon
+              key={index}
+              icon={icon.default.src}
+              hoverIcon={icon.hover.src}
+              activeIcon={icon.active.src}
+              altText={icon.altText}
+              isActive={selectedIcon === index}
+              onClick={() => {
+                setSelectedIcon(index);
+                if (timer) clearTimeout(timer); // stop auto-changing when an icon is clicked
+              }}
+            />
+          ))}
         </div>
       </div>
-      <Slideshow selectedImage={selectedImage} />
+      <Slideshow selectedImage={selectedIcon} />
     </div>
   );
 };
