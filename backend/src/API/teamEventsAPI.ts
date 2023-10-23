@@ -13,7 +13,8 @@ const teamEventAttendanceDao = new TeamEventAttendanceDao();
  */
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
-  if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
+  if (!canEditTeamEvents)
+    throw new PermissionError(`User with email ${user.email} cannot get all team events`);
   const teamEvents = await TeamEventsDao.getAllTeamEvents();
   return Promise.all(
     teamEvents.map(async (event) => ({
@@ -49,7 +50,7 @@ export const createTeamEvent = async (
 ): Promise<TeamEventInfo> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent)
-    throw new PermissionError('does not have permissions to create team event');
+    throw new PermissionError(`User with email ${user.email} cannot create team events`);
   await TeamEventsDao.createTeamEvent(teamEventInfo);
   return teamEventInfo;
 };
@@ -63,7 +64,7 @@ export const createTeamEvent = async (
  */
 export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.canEditTeamEvent(user)) {
-    throw new PermissionError("You don't have permission to delete a team event!");
+    throw new PermissionError(`User with email ${user.email} cannot delete team events`);
   }
   const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   if (!teamEvent) return;
