@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
         <div className="hidden justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
             <a
-              className="hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-red-500"
+              className="hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white"
               href={item.url}
             >
               {item.name}
@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
             <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
               {navbarItems.map((item) => (
                 <a
-                  className="hover:underline cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
+                  className="hover:underline hover:transition-colors cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-white"
                   href={item.url}
                 >
                   {item.name}
