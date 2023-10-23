@@ -57,7 +57,13 @@ const Navbar: React.FC = () => {
             </a>
           ))}
         </div>
-        <div className="flex lg:hidden w-fit" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
+        <div
+          className="flex lg:hidden w-fit"
+          onClick={(e) => {
+            document.body.classList.toggle('overflow-hidden');
+            setIsMenuOpen(!isMenuOpen);
+          }}
+        >
           {isMenuOpen ? (
             <Image
               className="h-12 w-auto md:h-14"
@@ -78,8 +84,8 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="border-2 border-red-500 lg:hidden absolute w-screen h-full">
-          <div className="border-2 border-red-500 z-90 absolute w-screen h-full bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-5 opacity-90 lg:hidden"></div>
+        <div className="lg:hidden absolute w-screen h-full">
+          <div className="z-90 absolute w-screen h-full bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-5 opacity-90 lg:hidden"></div>
           <div className="flex flex-row fixed w-screen h-screen justify-end">
             <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 text-right">
               {navbarItems.map((item) => (
