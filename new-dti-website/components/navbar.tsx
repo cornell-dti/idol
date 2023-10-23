@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
           {isMenuOpen ? (
             <Image
               className="h-12 w-auto md:h-14"
-              src="/close_menu_icon.svg"
+              src="/close_icon.svg"
               width={56.5}
               height={56.5}
               alt="Close Menu Icon"
@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
           ) : (
             <Image
               className="h-12 w-auto md:h-14"
-              src="/hamburger_menu_icon.svg"
+              src="/hamburger_icon.svg"
               width={56.5}
               height={56.5}
               alt="Hamburger Menu Icom"
