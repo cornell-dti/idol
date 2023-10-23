@@ -78,10 +78,10 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="lg:hidden">
-          <div className="z-90 fixed w-screen h-screen bg-stone-950 bg-blend-overlay blur-md opacity-75 lg:hidden"></div>
+        <div className="border-2 border-red-500 lg:hidden absolute w-screen h-full">
+          <div className="border-2 border-red-500 z-90 absolute w-screen h-full bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-5 opacity-90 lg:hidden"></div>
           <div className="flex flex-row fixed w-screen h-screen justify-end">
-            <div className="z-0 px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 text-right">
+            <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 text-right">
               {navbarItems.map((item) => (
                 <a
                   className="hover:underline text-white md:text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
