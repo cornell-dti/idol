@@ -16,6 +16,11 @@ const Home = (): JSX.Element => (
         alt="A cute cat."
         className="w-screen"
       />
+      <img
+        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.tenor.com%2F7t63GFnoIPUAAAAd%2Fhuh-cat-huh-m4rtin.gif&f=1&nofb=1&ipt=b3787e00d10b1997812af5a006e4302a9c3b3a7760bb6424cdfe2dfd77b0d91e&ipo=images"
+        alt="A cute cat."
+        className="w-screen"
+      />
     </div>
   </div>
 );

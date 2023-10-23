@@ -88,10 +88,10 @@ const Navbar: React.FC = () => {
         <div className="lg:hidden absolute w-screen h-full">
           <div className="z-90 absolute w-screen h-full bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-5 opacity-90 lg:hidden"></div>
           <div className="flex flex-row fixed w-screen h-screen justify-end">
-            <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 text-right">
+            <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 landscape:gap-y-2 text-right">
               {navbarItems.map((item) => (
                 <a
-                  className="hover:underline text-white md:text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
+                  className="hover:underline text-white landscape:text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-red-500"
                   href={item.url}
                 >
                   {item.name}
