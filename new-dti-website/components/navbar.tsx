@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-// TODO: scale down to account for vertical space taken up by browser
 const navbarItems = [
   {
     name: 'Team',
