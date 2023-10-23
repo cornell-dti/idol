@@ -23,7 +23,9 @@ export default class DevPortfolioAPI {
   }
 
   public static updateDevPortfolio(devPortfolio: DevPortfolio): Promise<DevPortfolio> {
-    return APIWrapper.put(`${backendURL}/dev-portfolio`, devPortfolio).then((res) => res.data.portfolio);
+    return APIWrapper.put(`${backendURL}/dev-portfolio`, devPortfolio).then(
+      (res) => res.data.portfolio
+    );
   }
 
   public static async makeDevPortfolioSubmission(

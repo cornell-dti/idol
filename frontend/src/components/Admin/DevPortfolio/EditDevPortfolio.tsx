@@ -14,11 +14,11 @@ const EditDevPortfolio = (props: {
 
   const editDevPortfolio = (portfolio: DevPortfolio) => {
     DevPortfolioAPI.updateDevPortfolio(portfolio).then((val) => {
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Dev Portfolio Edited!',
-          contentMsg: 'The dev portfolio was successfully edited!'
-        });
-        Emitters.devPortfolioUpdated.emit();
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Dev Portfolio Edited!',
+        contentMsg: 'The dev portfolio was successfully edited!'
+      });
+      Emitters.devPortfolioUpdated.emit();
     });
   };
 
