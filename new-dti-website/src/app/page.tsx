@@ -3,7 +3,7 @@ import Navbar from '../../components/navbar';
 
 const Home = (): JSX.Element => (
   <div className="bg-black">
-    <Navbar selectedPage="" />
+    <Navbar />
     <Button>This is a ShadCN Button.</Button>
   </div>
 );
