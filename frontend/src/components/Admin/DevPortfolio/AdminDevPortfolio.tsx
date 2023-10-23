@@ -37,6 +37,27 @@ const AdminDevPortfolio: React.FC = () => {
     getAllDevPortfolios();
   }, []);
 
+  const fullReset = () => {
+    setIsLoading(true);
+    setDevPortfolios([]);
+  };
+
+  useEffect(() => {
+    Emitters.devPortfolioUpdated.subscribe(() => fullReset());
+    return () => {
+      Emitters.devPortfolioUpdated.unsubscribe(() => fullReset());
+    };
+  });
+
+  useEffect(() => {
+    if (isLoading) {
+      DevPortfolioAPI.getAllDevPortfolios().then((devPortfolios) => {
+        setDevPortfolios(devPortfolios);
+        setIsLoading(false);
+      });
+    }
+  }, [isLoading]);
+
   return (
     <Container className={styles.container}>
       <Container>
