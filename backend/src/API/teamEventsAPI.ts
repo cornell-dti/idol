@@ -65,7 +65,7 @@ export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<v
   if (!PermissionsManager.canEditTeamEvent(user)) {
     throw new PermissionError("You don't have permission to delete a team event!");
   }
-  const teamEvent = await TeamEventsDao.getTeamEvent(uuid); // TODO: need to make a dao method for getting full team event
+  const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   if (!teamEvent) return;
 
   const allAttendances = await teamEventAttendanceDao.getTeamEventAttendanceByEventId(uuid);
@@ -126,7 +126,7 @@ export const requestTeamEventCredit = async (
  * given its uuid.
  * @param uuid - the uuid of the team event
  * @param user - the user submitting the request
- *
+ * @throws PermissionError if the user does not have permissions to get full team events
  * @returns the team event
  */
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
