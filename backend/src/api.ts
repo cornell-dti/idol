@@ -70,6 +70,7 @@ import {
 import {
   getAllDevPortfolios,
   createNewDevPortfolio,
+  updateDevPortfolio,
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
   getDevPortfolio,
@@ -395,6 +396,9 @@ loginCheckedGet('/dev-portfolio/:uuid/submission', async (req, user) => ({
 }));
 loginCheckedPost('/dev-portfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
+}));
+loginCheckedPut('/dev-portfolio', async (req, user) => ({
+  portfolio: await updateDevPortfolio(req.body, user)
 }));
 loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
   deleteDevPortfolio(req.params.uuid, user).then(() => ({}))
