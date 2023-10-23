@@ -8,7 +8,7 @@ const teamEventAttendanceDao = new TeamEventAttendanceDao();
 /**
  * Gets all team events and their attendees and requests. If the user is not a
  * lead or admin, then an error is thrown.
- * @param user - the user submitting the request -
+ * @param user
  * @returns a list of the current team events
  */
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
@@ -38,8 +38,8 @@ export const getAllTeamEventInfo = async (): Promise<TeamEventInfo[]> =>
 /**
  * Creates a team event from a TeamEventInfo object which contains the name,
  * date, credits, hours, and whether it is a community event or not.
- * @param teamEventInfo - the information about the team event
- * @param user - the user creating the team event
+ * @param teamEventInfo the information about the team event
+ * @param user the user creating the team event
  * @returns the created team event
  */
 export const createTeamEvent = async (
@@ -56,8 +56,8 @@ export const createTeamEvent = async (
 /**
  * Deletes a team event and all of its attendees and requests. If the user is
  * not a lead or admin, then an error is thrown.
- * @param uuid - the uuid of the team event to delete
- * @param user - the user deleting the team event
+ * @param uuid the uuid of the team event to delete
+ * @param user the user deleting the team event
  * @returns the deleted team event
  */
 export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<void> => {
@@ -80,8 +80,8 @@ export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<v
 /**
  * Updates a team event using a TeamEventInfo object. If the user is not a lead
  * or admin, then an error is thrown.
- * @param teamEventInfo - the information about the team event
- * @param user - the user updating the team event
+ * @param teamEventInfo the information about the team event
+ * @param user the user updating the team event
  * @returns the updated team event
  */
 export const updateTeamEvent = async (
@@ -101,8 +101,8 @@ export const updateTeamEvent = async (
  * Submits a team event attendance request for a user given a TeamEventAttendance
  * object. If the user is not the same as the member in the request, then an
  * error is thrown.
- * @param request - the TeamEventAttendance object
- * @param user - the user submitting the request
+ * @param request the TeamEventAttendance object
+ * @param user the user submitting the request
  * @returns the created team event attendance
  */
 export const requestTeamEventCredit = async (
@@ -123,8 +123,8 @@ export const requestTeamEventCredit = async (
 /**
  * Gets a team event's informaiton, along with its pending and accepted requests
  * given its uuid. If the user is not a lead or admin, then an error is thrown.
- * @param uuid - the uuid of the team event
- * @param user - the user submitting the request
+ * @param uuid the uuid of the team event
+ * @param user the user submitting the request
  * @returns the team event
  */
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
@@ -149,7 +149,7 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
 /**
  * Deletes all team events and their attendees and requests. If the user is not
  * a lead or admin, then an error is thrown.
- * @param user - the user submitting the request
+ * @param user the user submitting the request
  */
 export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -182,8 +182,8 @@ export const updateTeamEventAttendance = async (
 /**
  * Deletes a team event attendance request given its uuid. If the user is not a
  * lead or admin, then an error is thrown.
- * @param uuid - the uuid of the team event attendance to delete
- * @param user - the user deleting the team event attendance
+ * @param uuid the uuid of the team event attendance to delete
+ * @param user the user deleting the team event attendance
  * @returns the deleted team event attendance
  */
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
