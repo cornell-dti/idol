@@ -4,7 +4,7 @@ import { configureAccount, readDbData, rewriteDbData } from '../src/utils/fireba
 require('dotenv').config();
 
 const prodServiceAccount = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
-const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+const backupServiceAccount = require('../resources/cornelldti-idol-backup-9d909d7b0efc.json');
 
 const main = async () => {
   const prodApp = admin.initializeApp(
@@ -15,19 +15,19 @@ const main = async () => {
     },
     'prod'
   );
-  const devApp = admin.initializeApp(
+  const backupApp = admin.initializeApp(
     {
-      credential: admin.credential.cert(configureAccount(devServiceAccount, 'dev')),
+      credential: admin.credential.cert(configureAccount(backupServiceAccount, 'backup')),
       databaseURL: 'https://idol-b6c68.firebaseio.com',
       storageBucket: 'gs://cornelldti-idol.appspot.com'
     },
-    'dev'
+    'backup'
   );
-  const devDb = devApp.firestore();
+  const backupDb = backupApp.firestore();
   const prodDb = admin.firestore(prodApp);
 
   const prodData = await readDbData(prodDb);
-  return rewriteDbData(devDb, prodData);
+  return rewriteDbData(backupDb, prodData);
 };
 
 main();
