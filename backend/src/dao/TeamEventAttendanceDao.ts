@@ -10,7 +10,6 @@ async function materializeTeamEventAttendance(
 ): Promise<TeamEventAttendance> {
   return {
     ...dbTeamEventAttendance,
-    status: dbTeamEventAttendance.status as Status,
     member: await getMemberFromDocumentReference(dbTeamEventAttendance.member)
   };
 }
@@ -20,7 +19,6 @@ async function serializeTeamEventAttendance(
 ): Promise<DBTeamEventAttendance> {
   return {
     ...teamEventAttendance,
-    status: teamEventAttendance.status as string,
     member: memberCollection.doc(teamEventAttendance.member.email)
   };
 }
