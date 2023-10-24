@@ -6,14 +6,15 @@ import PermissionsManager from '../utils/permissionsManager';
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
 /**
- * Returns a list of all team events along with their requests. If the user does
- * not have permissions to view team events, an error will be thrown.
- * @param user the IdolMember object of the user making the request
- * @returns all team events
+ * Gets all team events and their attendees and requests.
+ * @param user - the user submitting the request
+ * @throws PermissionError if the user does not have permissions to get all team events
+ * @returns a list of the current team events
  */
 export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
-  if (!canEditTeamEvents) throw new PermissionError('does not have permissions');
+  if (!canEditTeamEvents)
+    throw new PermissionError(`User with email ${user.email} cannot get all team events`);
   const teamEvents = await TeamEventsDao.getAllTeamEvents();
   return Promise.all(
     teamEvents.map(async (event) => ({
@@ -24,19 +25,19 @@ export const getAllTeamEvents = async (user: IdolMember): Promise<TeamEvent[]> =
 };
 
 /**
- * Gets all team events and their information
- * @returns all list of TeamEventInfo objects with the name, date, numCredits,
- * hasHours, and uuid of each team event
+ * Gets all team events and their relevant information.
+ * @returns a list of the current team events
  */
 export const getAllTeamEventInfo = async (): Promise<TeamEventInfo[]> =>
   TeamEventsDao.getAllTeamEventInfo();
 
 /**
- * Creates a team event with the given information. If the user does not have
- * permissions to create team events, an error will be thrown.
- * @param teamEventInfo the team event to be created
- * @param user the user making the request
- * @returns the team event that was created
+ * Creates a team event from a TeamEventInfo object which contains the name,
+ * date, credits, hours, and whether it is a community event or not.
+ * @param teamEventInfo - the information about the team event
+ * @param user - the user creating the team event
+ * @throws PermissionError if the user does not have permissions to create team events
+ * @returns the created team event
  */
 export const createTeamEvent = async (
   teamEventInfo: TeamEventInfo,
@@ -44,22 +45,23 @@ export const createTeamEvent = async (
 ): Promise<TeamEventInfo> => {
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent)
-    throw new PermissionError('does not have permissions to create team event');
+    throw new PermissionError(`User with email ${user.email} cannot create team events`);
   await TeamEventsDao.createTeamEvent(teamEventInfo);
   return teamEventInfo;
 };
 
 /**
- * Deletes a team event with the given uuid. If the user does not have
- * permissions to delete team events, an error will be thrown.
- * @param uuid the uuid of the team event to be deleted
- * @param user the user making the request
+ * Deletes a team event and all of its attendees and requests.
+ * @param uuid - the uuid of the team event to delete
+ * @param user - the user deleting the team event
+ * @throws PermissionError if the user does not have permissions to delete team events
+ * @returns the deleted team event
  */
 export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.canEditTeamEvent(user)) {
-    throw new PermissionError("You don't have permission to delete a team event!");
+    throw new PermissionError(`User with email ${user.email} cannot delete team events`);
   }
-  const teamEvent = await TeamEventsDao.getTeamEvent(uuid); // TODO: need to make a dao method for getting full team event
+  const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   if (!teamEvent) return;
 
   const allAttendances = await teamEventAttendanceDao.getTeamEventAttendanceByEventId(uuid);
@@ -73,10 +75,10 @@ export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<v
 };
 
 /**
- * Updates the given team event with new information. If the user does not have
- * permissions to update team events, an error will be thrown.
- * @param teamEventInfo the updated team event object
- * @param user the user making the request
+ * Updates a team event using a TeamEventInfo object.
+ * @param teamEventInfo - the information about the team event
+ * @param user - the user updating the team event
+ * @throws PermissionError if the user does not have permissions to update team events
  * @returns the updated team event
  */
 export const updateTeamEvent = async (
@@ -93,10 +95,12 @@ export const updateTeamEvent = async (
 };
 
 /**
- * Creates a team event attendance request for the given user. Throws an error
- * if the user requests team event credit for another user.
- * @param request the team event attendance request
- * @param user the user making the request
+ * Submits a team event attendance request for a user given a TeamEventAttendance
+ * object.
+ * @param request - the TeamEventAttendance object
+ * @param user - the user submitting the request
+ * @throws PermissionError if the user's email does not match the member's email in the request
+ * @returns the created team event attendance
  */
 export const requestTeamEventCredit = async (
   request: TeamEventAttendance,
@@ -115,11 +119,12 @@ export const requestTeamEventCredit = async (
 };
 
 /**
- * Gets the team event with the given uuid. If the user does not have
- * permissions to view team events, an error will be thrown.
- * @param uuid the uuid of the team event to be fetched
- * @param user the user making the request
- * @returns the team event with the given uuid
+ * Gets a team event's informaiton, along with its pending and accepted requests
+ * given its uuid.
+ * @param uuid - the uuid of the team event
+ * @param user - the user submitting the request
+ * @throws PermissionError if the user does not have permissions to get full team events
+ * @returns the team event
  */
 export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<TeamEvent> => {
   const canEditTeamEvents = await PermissionsManager.canEditTeamEvent(user);
@@ -136,9 +141,9 @@ export const getTeamEvent = async (uuid: string, user: IdolMember): Promise<Team
 };
 
 /**
- * Deletes all team events and their attendance. If the user does not have
- * permissions to delete team events, an error will be thrown.
- * @param user the user making the request
+ * Deletes all team events and their attendees and requests.
+ * @param user - the user submitting the request
+ * @throws PermissionError if the user does not have permissions to delete all team events
  */
 export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -151,20 +156,19 @@ export const clearAllTeamEvents = async (user: IdolMember): Promise<void> => {
 };
 
 /**
- * Gets a list of all team event attendance for the given user. If the user
- * does not have permissions to view team events, an error will be thrown.
- * @param user the user making the request
- * @returns the list of team event attendance for the given user
+ * Gets all the team event attendance requests for a user.
+ * @param user - the user submitting the request
+ * @returns the team event attendance requests submitted by the user
  */
 export const getTeamEventAttendanceByUser = async (
   user: IdolMember
 ): Promise<TeamEventAttendance[]> => teamEventAttendanceDao.getTeamEventAttendanceByUser(user);
 
 /**
- * Updates the given team event attendance. If the user does not have
- * permissions to update team events, an error will be thrown.
- * @param teamEventAttendance the team event attendance to be updated
- * @param user the user making the request
+ * Updates a team event attendance request given a TeamEventAttendance object.
+ * @param teamEventAttendance - the TeamEventAttendance object
+ * @param user - the user submitting the request
+ * @throws PermissionError if the user does not have permissions to update team events attendance
  * @returns the updated team event attendance
  */
 export const updateTeamEventAttendance = async (
@@ -182,10 +186,11 @@ export const updateTeamEventAttendance = async (
 };
 
 /**
- * Deletes the team event attendance with the given uuid. If the user does not
- * have permissions to delete team events, an error will be thrown.
- * @param uuid the uuid of the team event attendance to be deleted
- * @param user the user making the request
+ * Deletes a team event attendance request given its uuid.
+ * @param uuid - the uuid of the team event attendance to delete
+ * @param user - the user deleting the team event attendance
+ * @throws PermissionError if the user does not have permissions to delete team events attendance
+ * @returns the deleted team event attendance
  */
 export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
