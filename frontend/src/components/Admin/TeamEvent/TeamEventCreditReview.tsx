@@ -26,6 +26,7 @@ const TeamEventCreditReview = (props: {
   const approveCreditRequest = (teamEventAttendance: TeamEventAttendance) => {
     const updatedTeamEventAttendance = {
       ...teamEventAttendance,
+      pending: false,
       status: 'approved' as Status,
       reason
     };
