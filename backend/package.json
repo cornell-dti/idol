@@ -9,6 +9,7 @@
     "tsc": "tsc",
     "build": "tsc",
     "update-dev-db": "esr scripts/update-dev-db.ts",
+    "backup-prod-db": "esr scripts/backup-prod-db.ts",
     "send-idol-notifications": "esr scripts/send-idol-notifications.ts"
   },
   "license": "AGPL-3.0",
