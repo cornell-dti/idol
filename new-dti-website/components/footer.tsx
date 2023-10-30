@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-// import { ibm_plex_mono } from '/app/layout.tsx';
+
+import styles from './Header.module.css';
 
 type Icon = {
   src: string;
@@ -37,11 +38,11 @@ const socialIcons: Icon[] = [
 ];
 
 const Footer: React.FC = () => (
-  <div className="w-full h-[146px] px-[60px] fixed inset-x-0 bottom-0 bg-stone-950 inline-flex justify-between items-center sm:flex-row flex-col sm:inline-flex">
-    <div className="text-neutral-50 text-sm h-screen flex items-center justify-center font-medium font-['IBM Plex Mono'] md:text-xl">
-      © 2023 Cornell Digital Tech & Innovation
+  <div className="w-full h-[146px] fixed inset-x-0 bottom-0 md:px-[30px] lg:px-[60px] bg-stone-950 inline-flex justify-between items-center md:flex-row flex-col">
+    <div className="text-neutral-50 text-sm h-screen md:text-lg font-medium flex items-center justify-center ">
+      © 2023 Cornell Digital Tech & Innovation Project Team
     </div>
-    <div className="flex gap-4 lg:h-fit sm: h-screen sm:flex-row">
+    <div className="flex gap-4 md:h-fit h-screen">
       {socialIcons.map((icon, index) => (
         <a
           key={index}
@@ -54,7 +55,6 @@ const Footer: React.FC = () => (
         </a>
       ))}
     </div>
-    {/* </div> */}
   </div>
 );
 
