@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface IconProps {
   icon: string;
@@ -21,7 +24,8 @@ const Icon: React.FC<IconProps> = ({ icon, hoverIcon, activeIcon, altText, isAct
   }
 
   return (
-    <img
+    <Image
+      fill={true}
       src={currentIcon}
       alt={altText}
       onMouseEnter={() => setIsHovered(true)}
