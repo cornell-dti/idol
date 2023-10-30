@@ -46,7 +46,7 @@ describe('User is not lead or admin', () => {
     );
   });
 
-  test('deleteDevPortfolio shoudl throw permission error', async () => {
+  test('deleteDevPortfolio should throw permission error', async () => {
     await expect(deleteDevPortfolio('fake-uuid', user)).rejects.toThrow(
       new PermissionError(
         `User with email: ${user.email} does not have permission to delete dev portfolio!`
