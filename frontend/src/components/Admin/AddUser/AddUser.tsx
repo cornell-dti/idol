@@ -156,11 +156,11 @@ export default function AddUser(): JSX.Element {
           github: m.github || currMember.github,
           hometown: m.hometown || currMember.hometown,
           about: m.about || currMember.about,
-          subteams: m.subteam ? [m.subteam] : currMember.subteams,
+          subteams: m.subteam ? [m.subteam.toLowerCase()] : currMember.subteams,
           formerSubteams: m.formerSubteams
             ? m.formerSubteams.split(', ')
             : currMember.formerSubteams,
-          role: m.role || currMember.role,
+          role: m.role.toLowerCase() || currMember.role,
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
         MembersAPI.updateMember(updatedMember);
@@ -180,9 +180,9 @@ export default function AddUser(): JSX.Element {
           github: m.github || '',
           hometown: m.hometown || '',
           about: m.about || '',
-          subteams: m.subteam ? [m.subteam] : [],
+          subteams: m.subteam ? [m.subteam.toLowerCase()] : [],
           formerSubteams: m.formerSubteams ? m.formerSubteams.split(', ') : [],
-          role: m.role || ('' as Role),
+          role: m.role.toLowerCase() || ('' as Role),
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
         MembersAPI.setMember(updatedMember);
@@ -192,7 +192,7 @@ export default function AddUser(): JSX.Element {
 
   async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
     if (csvFile) {
-      const csv = (await csvFile.text()).toLowerCase();
+      const csv = await csvFile.text();
       const columnHeaders = csv.split('\n')[0].split(',');
       if (!columnHeaders.includes('email')) {
         setUploadStatus({
