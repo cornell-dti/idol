@@ -4,47 +4,50 @@ import React, { useEffect, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 
-import heroBackground from './assets/background/hero_bg.png';
-
-import dtiNotSel from './assets/icons/DTI_notsel.png';
-import dtiHover from './assets/icons/DTI_hover.png';
-import dtiActive from './assets/icons/DTI_current.png';
-
-import familyNotSel from './assets/icons/Family_notsel.png';
-import familyHover from './assets/icons/Family_hover.png';
-import familyActive from './assets/icons/Family_current.png';
-
-import collaborationNotSel from './assets/icons/Collaboration_notsel.png';
-import collaborationHover from './assets/icons/Collaboration_hover.png';
-import collaborationActive from './assets/icons/Collaboration_current.png';
-
-import eventsNotSel from './assets/icons/Events_notsel.png';
-import eventsHover from './assets/icons/Events_hover.png';
-import eventsActive from './assets/icons/Events_current.png';
-
-import initiativesNotSel from './assets/icons/Initiatives_notsel.png';
-import initiativesHover from './assets/icons/Initiatives_hover.png';
-import initiativesActive from './assets/icons/Initiatives_current.png';
-
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(null);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   const icons = [
-    { default: dtiNotSel, hover: dtiHover, active: dtiActive, altText: 'DTI' },
-    { default: familyNotSel, hover: familyHover, active: familyActive, altText: 'Family' },
     {
-      default: collaborationNotSel,
-      hover: collaborationHover,
-      active: collaborationActive,
-      altText: 'Collaboration'
+      src: '/images/DTI_notsel.png',
+      hover: '/images/DTI_hover.png',
+      active: '/images/DTI_current.png',
+      altText: 'DTI',
+      width: 80,
+      height: 80
     },
-    { default: eventsNotSel, hover: eventsHover, active: eventsActive, altText: 'Events' },
     {
-      default: initiativesNotSel,
-      hover: initiativesHover,
-      active: initiativesActive,
-      altText: 'Initiatives'
+      src: '/images/Family_notsel.png',
+      hover: '/images/Family_hover.png',
+      active: '/images/Family_current.png',
+      altText: 'Family',
+      width: 80,
+      height: 80
+    },
+    {
+      src: '/images/Collaboration_notsel.png',
+      hover: '/images/Collaboration_hover.png',
+      active: '/images/Collaboration_current.png',
+      altText: 'Collaboration',
+      width: 100,
+      height: 80
+    },
+    {
+      src: '/images/Events_notsel.png',
+      hover: '/images/Events_hover.png',
+      active: '/images/Events_current.png',
+      altText: 'Events',
+      width: 90,
+      height: 90
+    },
+    {
+      src: '/images/Initiatives_notsel.png',
+      hover: '/images/Initiatives_hover.png',
+      active: '/images/Initiatives_current.png',
+      altText: 'Initiatives',
+      width: 80,
+      height: 80
     }
   ];
 
@@ -69,26 +72,29 @@ const Home: React.FC = () => {
   return (
     <div
       className="flex items-center justify-start pl-[20%] bg-black bg-cover bg-center h-screen"
-      style={{ backgroundImage: `url(${heroBackground.src})` }}
+      style={{ backgroundImage: "url('/images/hero_bg.png')" }}
     >
-      {/* container for text and icons */}
       <div className="flex flex-col items-start mr-12">
-        <h2 className="text-white mb-5 text-6xl">
-          Cornell Digital <br /> Tech & Innovation
-        </h2>
+        <div>
+          <h2 className="text-white mb-5 text-6xl">
+            Cornell Digital <br /> Tech & Innovation
+          </h2>
+        </div>
         <div className="flex items-center space-x-2">
           {icons.map((icon, index) => (
             <Icon
               key={index}
-              icon={icon.default.src}
-              hoverIcon={icon.hover.src}
-              activeIcon={icon.active.src}
+              icon={icon.src}
+              hoverIcon={icon.hover}
+              activeIcon={icon.active}
               altText={icon.altText}
               isActive={selectedIcon === index}
               onClick={() => {
                 setSelectedIcon(index);
-                if (timer) clearTimeout(timer); // stop auto-changing when an icon is clicked
+                if (timer) clearTimeout(timer);
               }}
+              width={icon.width}
+              height={icon.height}
             />
           ))}
         </div>

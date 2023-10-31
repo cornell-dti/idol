@@ -10,9 +10,20 @@ interface IconProps {
   altText: string;
   isActive: boolean;
   onClick: () => void;
+  width: number;
+  height: number;
 }
 
-const Icon: React.FC<IconProps> = ({ icon, hoverIcon, activeIcon, altText, isActive, onClick }) => {
+const Icon: React.FC<IconProps> = ({
+  icon,
+  hoverIcon,
+  activeIcon,
+  altText,
+  isActive,
+  onClick,
+  width,
+  height
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   let currentIcon = icon;
@@ -25,9 +36,10 @@ const Icon: React.FC<IconProps> = ({ icon, hoverIcon, activeIcon, altText, isAct
 
   return (
     <Image
-      fill={true}
       src={currentIcon}
       alt={altText}
+      width={width}
+      height={height}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}

@@ -20,8 +20,8 @@ const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
       }`}
     />
     <Image
-    width={600}
-    height={400}
+      width={600}
+      height={400}
       src="/images/family.png"
       alt="Family"
       className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border border-white rounded ${
@@ -29,8 +29,8 @@ const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
       }`}
     />
     <Image
-    width={600}
-    height={400}
+      width={600}
+      height={400}
       src="/images/collaboration.png"
       alt="Collaboration"
       className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border border-white rounded ${
@@ -38,8 +38,8 @@ const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
       }`}
     />
     <Image
-    width={600}
-    height={400}
+      width={600}
+      height={400}
       src="/images/event.png"
       alt="Events"
       className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border border-white rounded ${
@@ -47,8 +47,8 @@ const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
       }`}
     />
     <Image
-    width={600}
-    height={400}
+      width={600}
+      height={400}
       src="/images/initiative.png"
       alt="Initiatives"
       className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border border-white rounded ${
