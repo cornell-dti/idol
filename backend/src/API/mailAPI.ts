@@ -5,10 +5,6 @@ import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 
 export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
-  // Don't send email notifications locally
-  if (!process.env.isProd) {
-    return {};
-  }
   const mailOptions = {
     from: process.env.EMAIL,
     to,
