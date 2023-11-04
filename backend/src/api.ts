@@ -377,7 +377,7 @@ loginCheckedPut('/candidate-decider/rating-and-comment', (req, user) =>
 );
 
 loginCheckedPost('/sendMail', async (req, user) => ({
-  info: await sendMail(req.body.to, req.body.subject, req.body.text)
+  info: await sendMail(req.body.to, req.body.subject, req.body.text, user)
 }));
 
 // Dev Portfolios
