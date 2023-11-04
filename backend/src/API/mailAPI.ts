@@ -58,7 +58,11 @@ const emailMember = async (req: Request, member: IdolMember, subject: string, te
     text
   };
 
-  return axios.post(url, { ...requestBody, to: member.email }, { headers: { 'auth-token': idToken } });
+  return axios.post(
+    url,
+    { ...requestBody, to: member.email },
+    { headers: { 'auth-token': idToken } }
+  );
 };
 
 export const sendMemberUpdateNotifications = async (req: Request): Promise<Promise<void>[]> => {
@@ -71,6 +75,6 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
   const text =
-    "Hey! You currently do not have enough team events credits this semester. This is a reminder to get at least 3 team events credits by the end of the semester.";
+    'Hey! You currently do not have enough team events credits this semester. This is a reminder to get at least 3 team events credits by the end of the semester.';
   return emailMember(req, member, subject, text);
 };

@@ -62,17 +62,26 @@ const TeamEventDashboard: React.FC = () => {
           <Table.Header>
             <Table.HeaderCell className={styles.nameCell}>
               Name
-              <NotifyMemberModal 
-                all={true} 
-                trigger={<Button className={styles.remindButton} size="small" color="red">Remind All</Button>} 
+              <NotifyMemberModal
+                all={true}
+                trigger={
+                  <Button className={styles.remindButton} size="small" color="red">
+                    Remind All
+                  </Button>
+                }
                 members={allMembers.filter((member) => {
                   const totalCredits = teamEvents.reduce(
                     (val, event) => val + calculateTotalCreditsForEvent(member, event),
                     0
                   );
-                  return totalCredits < (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
-                  }
-              )} />
+                  return (
+                    totalCredits <
+                    (member.role === 'lead'
+                      ? REQUIRED_LEAD_TEC_CREDITS
+                      : REQUIRED_MEMBER_TEC_CREDITS)
+                  );
+                })}
+              />
             </Table.HeaderCell>
             <Table.HeaderCell>Total</Table.HeaderCell>
             {COMMUNITY_EVENTS && <Table.HeaderCell>Total Community Credits</Table.HeaderCell>}
@@ -98,8 +107,14 @@ const TeamEventDashboard: React.FC = () => {
               return (
                 <Table.Row>
                   <Table.Cell positive={totalCreditsMet} className={styles.nameCell}>
-                    {member.firstName} {member.lastName} ({member.netid}) 
-                    {!totalCreditsMet && <NotifyMemberModal all={false} trigger={<Icon className={styles.notify} name="exclamation" color="red" />} member={member}/>}
+                    {member.firstName} {member.lastName} ({member.netid})
+                    {!totalCreditsMet && (
+                      <NotifyMemberModal
+                        all={false}
+                        trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
+                        member={member}
+                      />
+                    )}
                   </Table.Cell>
                   <Table.Cell positive={totalCreditsMet}>{totalCredits}</Table.Cell>
                   {COMMUNITY_EVENTS && (
