@@ -20,6 +20,7 @@ import {
   setMember,
   deleteMember,
   updateMember,
+  notifyMember,
   getUserInformationDifference,
   reviewUserInformationChange
 } from './API/memberAPI';
@@ -148,7 +149,7 @@ const loginCheckedHandler =
       return;
     }
     if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
+      res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
     }
     try {
       res.status(200).send(await handler(req, user));
@@ -218,6 +219,9 @@ loginCheckedDelete('/member/:email', async (req, user) => {
 });
 loginCheckedPut('/member', async (req, user) => ({
   member: await updateMember(req, req.body, user)
+}));
+loginCheckedPost('/notifyMember', async (req, user) => ({
+  member: await notifyMember(req, req.body, user)
 }));
 
 loginCheckedGet('/memberDiffs', async (_, user) => ({

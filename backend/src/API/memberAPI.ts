@@ -4,6 +4,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
+import { sendTECReminder } from './mailAPI';
 
 const membersDao = new MembersDao();
 
@@ -72,6 +73,25 @@ export const deleteMember = async (email: string, user: IdolMember): Promise<voi
       /* Ignore the error since the user might not have a profile picture. */
     })
   );
+};
+
+export const notifyMember = async (
+  req: Request,
+  body: IdolMember,
+  user: IdolMember
+): Promise<unknown> => {
+  const canNotify = await PermissionsManager.canNotifyMembers(user);
+  if (!canNotify) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to notify members!`
+    );
+  }
+  if (!body.email || body.email === '') {
+    throw new BadRequestError("Couldn't notify member with undefined email!");
+  }
+
+  sendTECReminder(req, body);
+  return body;
 };
 
 export const deleteImage = async (email: string): Promise<void> => {

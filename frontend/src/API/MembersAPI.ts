@@ -30,4 +30,8 @@ export class MembersAPI {
       (res) => res.data.isIDOLMember
     );
   }
+
+  public static notifyMember(member: Member): Promise<MemberResponseObj> {
+    return APIWrapper.post(`${backendURL}/notifyMember`, member).then((res) => res.data);
+  }
 }

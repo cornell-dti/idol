@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
 import { isProd } from '../api';
@@ -50,9 +50,27 @@ const emailAdmins = async (req: Request, subject: string, text: string) => {
   });
 };
 
+const emailMember = async (req: Request, member: IdolMember, subject: string, text: string) => {
+  const url = getSendMailURL(req);
+  const idToken = req.headers['auth-token'] as string;
+  const requestBody = {
+    subject,
+    text
+  };
+
+  return axios.post(url, { ...requestBody, to: member.email }, { headers: { 'auth-token': idToken } });
+};
+
 export const sendMemberUpdateNotifications = async (req: Request): Promise<Promise<void>[]> => {
   const subject = 'IDOL Member Profile Change';
   const text =
     'Hey! A DTI member has updated their profile on IDOL. Please visit https://idol.cornelldti.org/admin/member-review to review the changes.';
   return emailAdmins(req, subject, text);
+};
+
+export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
+  const subject = 'TEC Reminder';
+  const text =
+    "Hey! You currently do not have enough team events credits this semester. This is a reminder to get at least 3 team events credits by the end of the semester.";
+  return emailMember(req, member, subject, text);
 };

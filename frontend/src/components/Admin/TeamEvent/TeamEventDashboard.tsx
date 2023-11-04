@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Header, Loader } from 'semantic-ui-react';
+import { Table, Header, Loader, Button, Icon } from 'semantic-ui-react';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
@@ -8,6 +8,7 @@ import {
   REQUIRED_COMMUNITY_CREDITS
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
+import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 
 // remove this and its usage if/when community events are released
 const COMMUNITY_EVENTS = false;
@@ -57,9 +58,22 @@ const TeamEventDashboard: React.FC = () => {
         Team Event Dashboard
       </Header>
       <div className={styles.tableContainer}>
-        <Table celled selectable striped classname={styles.dashboardTable}>
+        <Table celled selectable striped className={styles.dashboardTable}>
           <Table.Header>
-            <Table.HeaderCell className={styles.nameCell}>Name</Table.HeaderCell>
+            <Table.HeaderCell className={styles.nameCell}>
+              Name
+              <NotifyMemberModal 
+                all={true} 
+                trigger={<Button className={styles.remindButton} size="small" color="red">Remind All</Button>} 
+                members={allMembers.filter((member) => {
+                  const totalCredits = teamEvents.reduce(
+                    (val, event) => val + calculateTotalCreditsForEvent(member, event),
+                    0
+                  );
+                  return totalCredits < (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
+                  }
+              )} />
+            </Table.HeaderCell>
             <Table.HeaderCell>Total</Table.HeaderCell>
             {COMMUNITY_EVENTS && <Table.HeaderCell>Total Community Credits</Table.HeaderCell>}
             {teamEvents.map((event) => (
@@ -84,7 +98,8 @@ const TeamEventDashboard: React.FC = () => {
               return (
                 <Table.Row>
                   <Table.Cell positive={totalCreditsMet} className={styles.nameCell}>
-                    {member.firstName} {member.lastName} ({member.netid})
+                    {member.firstName} {member.lastName} ({member.netid}) 
+                    {!totalCreditsMet && <NotifyMemberModal all={false} trigger={<Icon className={styles.notify} name="exclamation" color="red" />} member={member}/>}
                   </Table.Cell>
                   <Table.Cell positive={totalCreditsMet}>{totalCredits}</Table.Cell>
                   {COMMUNITY_EVENTS && (
