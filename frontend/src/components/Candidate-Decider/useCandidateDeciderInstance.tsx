@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { onSnapshot, doc, collection, getDoc, DocumentReference } from 'firebase/firestore';
 import { db } from '../../firebase';
 
@@ -28,7 +28,9 @@ export type DBCandidateDeciderInstance = {
   readonly authorizedRoles: Role[];
   isOpen: boolean;
 };
-const useCandidateDeciderInstance = (uuid: string): CandidateDeciderInstance => {
+const useCandidateDeciderInstance = (
+  uuid: string
+): [CandidateDeciderInstance, Dispatch<SetStateAction<CandidateDeciderInstance>>] => {
   const [instance, setInstance] = useState<CandidateDeciderInstance>(blankInstance);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const useCandidateDeciderInstance = (uuid: string): CandidateDeciderInstance => 
     return unsubscribe;
   }, [uuid]);
 
-  return instance;
+  return [instance, setInstance];
 };
 
 const blankInstance: CandidateDeciderInstance = {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Header, Image } from 'semantic-ui-react';
+import { Modal, Button, Header, Image, Loader, Input } from 'semantic-ui-react';
+import styles from './TeamEventCreditReview.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
@@ -11,17 +12,23 @@ const TeamEventCreditReview = (props: {
   const { teamEvent, teamEventAttendance } = props;
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [reason, setReason] = useState('');
 
   useEffect(() => {
+    setLoading(true);
     ImagesAPI.getEventProofImage(teamEventAttendance.image).then((url: string) => {
       setImage(url);
+      setLoading(false);
     });
   }, [teamEventAttendance]);
 
   const approveCreditRequest = (teamEventAttendance: TeamEventAttendance) => {
     const updatedTeamEventAttendance = {
       ...teamEventAttendance,
-      pending: false
+      pending: false,
+      status: 'approved' as Status,
+      reason
     };
     TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
       .then(() => {
@@ -40,7 +47,12 @@ const TeamEventCreditReview = (props: {
   };
 
   const rejectCreditRequest = () => {
-    TeamEventsAPI.deleteTeamEventAttendance(teamEventAttendance.uuid)
+    const updatedTeamEventAttendance = {
+      ...teamEventAttendance,
+      status: 'rejected' as Status,
+      reason
+    };
+    TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
       .then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Rejected!',
@@ -66,7 +78,7 @@ const TeamEventCreditReview = (props: {
       trigger={<Button>Review request</Button>}
     >
       <Modal.Header>Team Event Credit Review</Modal.Header>
-      <Modal.Content>
+      <Modal.Content className={styles.modalContent} scrolling>
         <Modal.Description>
           <Header>
             {teamEventAttendance.member.firstName} {teamEventAttendance.member.lastName}
@@ -74,7 +86,7 @@ const TeamEventCreditReview = (props: {
           <p>Team Event: {teamEvent.name}</p>
           <p>Number of Credits: {teamEvent.numCredits}</p>
           {teamEvent.hasHours && <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>}
-          <Image src={image} />
+          {isLoading ? <Loader className="modalLoader" active inline /> : <Image src={image} />}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
@@ -91,6 +103,7 @@ const TeamEventCreditReview = (props: {
         <Button
           basic
           color="red"
+          disabled={reason === ''}
           onClick={() => {
             rejectCreditRequest();
             setOpen(false);
@@ -98,6 +111,11 @@ const TeamEventCreditReview = (props: {
         >
           Reject
         </Button>
+        <Input
+          type="text"
+          placeholder="Reason for reject"
+          onChange={(e) => setReason(e.target.value)}
+        />
       </Modal.Actions>
     </Modal>
   );

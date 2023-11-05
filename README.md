@@ -4,6 +4,8 @@
 
 ## About
 
+IDOL (Internal DTI Organization Logic) is an internal tools platform for DTI, a project team/web development club at Cornell University. The platform automates all the operations of the organization and has been used extensively by over 100+ members at a time.
+
 ```text
 IDOL = Internal DTI Organization Logic
 ```
@@ -43,6 +45,18 @@ and easier for everyone.
 All the common types used by the packages are defined [here](./common-types/index.d.ts).
 
 ## Contributors
+
+### Fall 2023
+
+- **Jason Mun** - PM
+- **Andrew Chen** - TPM
+- **Hope Zheng** - Designer
+- **Vicky Wang** - Designer
+- **Vannessa Wong** - Designer
+- **Oscar Wang** - Developer
+- **Alyssa Zhang** - Developer
+- **Patricia Huang** - Developer
+- **Kevin Ram** - Developer
 
 ### Spring 2023
 
@@ -104,7 +118,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ## DTI
 
-We are a team within the **Cornell Design & Tech Initiative**. For more information, see
+We are a team within **Cornell Digital Technology & Innovation**. For more information, see
 [our website](https://cornelldti.org/).
 
 [![Cornell DTI](https://raw.githubusercontent.com/cornell-dti/design/master/Branding/Wordmark/Dark%20Text/Transparent/Wordmark-Dark%20Text-Transparent%403x.png)](https://cornelldti.org/)

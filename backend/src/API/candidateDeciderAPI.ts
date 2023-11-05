@@ -6,7 +6,26 @@ const candidateDeciderDao = new CandidateDeciderDao();
 
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
-): Promise<CandidateDeciderInfo[]> => candidateDeciderDao.getAllInstances();
+): Promise<CandidateDeciderInfo[]> => {
+  const instances = await candidateDeciderDao.getAllInstances();
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+
+  let filteredInstances;
+  if (isLeadOrAdmin) {
+    filteredInstances = instances;
+  } else {
+    filteredInstances = instances.filter(
+      (instance) =>
+        instance.authorizedRoles.includes(user.role) ||
+        instance.authorizedMembers.some((member) => member.email === user.email)
+    );
+  }
+
+  return filteredInstances.map((instance) => {
+    const { name, uuid, isOpen } = instance;
+    return { name, uuid, isOpen };
+  });
+};
 
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
@@ -14,26 +33,27 @@ export const createNewCandidateDeciderInstance = async (
 ): Promise<CandidateDeciderInfo> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
-      'User does not have permission to create new Candidate Decider instance'
+      'User does not have permission to create new Candidate Decider instances.'
     );
   return candidateDeciderDao.createNewInstance(instance);
 };
 
-export const toggleCandidateDeciderInstance = async (
-  uuid: string,
+export const updateCandidateDeciderInstance = async (
+  instanceEdit: CandidateDeciderEdit,
   user: IdolMember
-): Promise<void> => {
+): Promise<CandidateDeciderInstance> => {
   if (!(await PermissionsManager.isAdmin(user)))
-    throw new PermissionError(
-      'User does not have permission to create new Candidate Decider instance'
-    );
-  const instance = await candidateDeciderDao.getInstance(uuid);
+    throw new PermissionError('User does not have permission to update Candidate Decider instance');
+  const instance = await candidateDeciderDao.getInstance(instanceEdit.uuid);
   if (!instance)
-    throw new NotFoundError(`Candidate decider instance with uuid ${uuid} does not exist!`);
-  await candidateDeciderDao.updateInstance({
+    throw new NotFoundError(
+      `Candidate decider instance with uuid ${instanceEdit.uuid} does not exist!`
+    );
+  const updatedInstance = await candidateDeciderDao.updateInstance({
     ...instance,
-    isOpen: !instance.isOpen
+    ...instanceEdit
   });
+  return updatedInstance;
 };
 
 export const deleteCandidateDeciderInstance = async (
@@ -42,7 +62,7 @@ export const deleteCandidateDeciderInstance = async (
 ): Promise<void> => {
   if (!(await PermissionsManager.isAdmin(user)))
     throw new PermissionError(
-      'User does not have permission to create new Candidate Decider instance'
+      'User does not have permission to delete new Candidate Decider instance'
     );
   await candidateDeciderDao.deleteInstance(uuid);
 };
@@ -69,47 +89,11 @@ export const getCandidateDeciderInstance = async (
   return instance;
 };
 
-export const updateCandidateDeciderRating = async (
+export const updateCandidateDeciderRatingAndComment = async (
   user: IdolMember,
   uuid: string,
   id: number,
-  rating: Rating
-): Promise<void> => {
-  const instance = await candidateDeciderDao.getInstance(uuid);
-  if (!instance) {
-    throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
-  }
-  if (
-    !(
-      (await PermissionsManager.isAdmin(user)) ||
-      instance.authorizedMembers.includes(user) ||
-      instance.authorizedRoles.includes(user.role)
-    )
-  )
-    throw new PermissionError(
-      `User with email ${user.email} does not have permission to access this Candidate Decider instance`
-    );
-  const updatedInstance: CandidateDeciderInstance = {
-    ...instance,
-    candidates: instance.candidates.map((cd) =>
-      cd.id !== id
-        ? cd
-        : {
-            ...cd,
-            ratings: [
-              ...cd.ratings.filter((rt) => rt.reviewer.email !== user.email),
-              { reviewer: user, rating }
-            ]
-          }
-    )
-  };
-  candidateDeciderDao.updateInstance(updatedInstance);
-};
-
-export const updateCandidateDeciderComment = async (
-  user: IdolMember,
-  uuid: string,
-  id: number,
+  rating: Rating,
   comment: string
 ): Promise<void> => {
   const instance = await candidateDeciderDao.getInstance(uuid);
@@ -126,19 +110,6 @@ export const updateCandidateDeciderComment = async (
     throw new PermissionError(
       `User with email ${user.email} does not have permission to access this Candidate Decider instance`
     );
-  const updatedInstance: CandidateDeciderInstance = {
-    ...instance,
-    candidates: instance.candidates.map((cd) =>
-      cd.id !== id
-        ? cd
-        : {
-            ...cd,
-            comments: [
-              ...cd.comments.filter((cmt) => cmt.reviewer.email !== user.email),
-              { reviewer: user, comment }
-            ]
-          }
-    )
-  };
-  candidateDeciderDao.updateInstance(updatedInstance);
+
+  await candidateDeciderDao.updateInstanceWithTransaction(instance, user, id, rating, comment);
 };

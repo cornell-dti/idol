@@ -3,6 +3,7 @@ import { Card, Image, Button, Modal } from 'semantic-ui-react';
 import AvatarEditor from 'react-avatar-editor';
 import ProfileImageEditor from './ProfileImageEditor';
 import ImagesAPI from '../../../API/ImagesAPI';
+import { useSelf } from '../../Common/FirestoreDataProvider';
 
 const UserProfileImage: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -11,14 +12,16 @@ const UserProfileImage: React.FC = () => {
   const [editor, setEditor] = useState<null | AvatarEditor>(null);
   const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
 
+  const userInfo = useSelf();
+
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {
       return;
     }
-    ImagesAPI.getMemberImage().then((url: string) => {
+    ImagesAPI.getMemberImage(userInfo ? userInfo.email : '').then((url: string) => {
       setProfilePhoto(url);
     });
-  }, []);
+  }, [userInfo]);
 
   const cropAndSubmitImage = () => {
     if (editor !== null) {

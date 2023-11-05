@@ -66,7 +66,9 @@ const Footer: React.FC = () => (
           </a>
         ))}
       </div>
-      <div className={styles.copyrightContainer}>Cornell Design & Tech Initiative &copy; 2022</div>
+      <div className={styles.copyrightContainer}>
+        Cornell Digital Technology & Innovation &copy; 2023
+      </div>
     </div>
   </div>
 );

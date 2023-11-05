@@ -17,10 +17,10 @@ export type Team = {
 
 export class TeamsAPI {
   public static setTeam(team: Team): Promise<TeamResponseObj> {
-    return APIWrapper.post(`${backendURL}/setTeam`, team).then((res) => res.data);
+    return APIWrapper.put(`${backendURL}/team`, team).then((res) => res.data);
   }
 
   public static deleteTeam(team: Team): Promise<TeamResponseObj> {
-    return APIWrapper.post(`${backendURL}/deleteTeam`, team).then((res) => res.data);
+    return APIWrapper.post(`${backendURL}/team`, team).then((res) => res.data);
   }
 }

@@ -173,13 +173,15 @@ export function TeamSearch({ onSelect }: { onSelect: (team: string) => void }): 
 }
 
 export function RoleSearch({
-  onSelect
+  onSelect,
+  roles
 }: {
   onSelect: (role: { role: Role }) => void;
+  roles?: { role: Role }[];
 }): JSX.Element {
   return (
     <CustomSearch
-      source={allRoleForSearch}
+      source={roles ?? allRoleForSearch}
       resultRenderer={(role) => (
         <Segment>
           <h4>{role.role as string}</h4>
