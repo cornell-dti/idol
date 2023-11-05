@@ -4,7 +4,6 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
-import { sendMemberUpdateNotifications } from './mailAPI';
 
 const membersDao = new MembersDao();
 
@@ -55,10 +54,7 @@ export const updateMember = async (
     );
   }
 
-  return membersDao.updateMember(body.email, body).then(async (mem) => {
-    sendMemberUpdateNotifications(req);
-    return mem;
-  });
+  return membersDao.updateMember(body.email, body);
 };
 
 export const deleteMember = async (email: string, user: IdolMember): Promise<void> => {
