@@ -14,24 +14,23 @@ const defaultTeamEvent: TeamEvent = {
   numCredits: '',
   hasHours: false,
   requests: [],
-  attendees: [],
   uuid: '',
   isCommunity: false
 };
 
 type AttendanceDisplayProps = {
-  isPending: boolean;
+  status: Status;
   teamEvent: TeamEvent;
 };
 
-const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ isPending, teamEvent }) => {
-  const attendance = isPending ? teamEvent.requests : teamEvent.attendees;
+const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent }) => {
+  const newAttendance = teamEvent.requests.filter((res) => res.status === status);
 
   return (
     <>
-      {attendance && attendance.length !== 0 ? (
+      {newAttendance && newAttendance.length !== 0 ? (
         <Card.Group>
-          {attendance.map((req, i) => (
+          {newAttendance.map((req, i) => (
             <Card className={styles.memberCard} key={i}>
               <Card.Content>
                 <Card.Header>
@@ -39,7 +38,7 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ isPending, teamEv
                 </Card.Header>
                 <Card.Meta>{req.member.email}</Card.Meta>
               </Card.Content>
-              {isPending && (
+              {status === 'pending' && (
                 <Card.Content extra>
                   <TeamEventCreditReview
                     teamEvent={teamEvent}
@@ -51,9 +50,7 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ isPending, teamEv
           ))}
         </Card.Group>
       ) : (
-        <Message>
-          There are currently no {isPending ? 'pending' : 'approved'} members for this event.
-        </Message>
+        <Message>There are currently no {status} members for this event.</Message>
       )}
     </>
   );
@@ -144,12 +141,14 @@ const TeamEventDetails: React.FC = () => {
       <div className={styles.listsContainer}>
         <div className={styles.listContainer}>
           <h2 className={styles.memberTitle}>Members Pending</h2>
-          <AttendanceDisplay isPending={true} teamEvent={teamEvent} />
+          <AttendanceDisplay status={'pending' as Status} teamEvent={teamEvent} />
         </div>
 
         <div className={styles.listContainer}>
           <h2 className={styles.memberTitle}>Members Approved</h2>
-          <AttendanceDisplay isPending={false} teamEvent={teamEvent} />
+          <AttendanceDisplay status={'approved' as Status} teamEvent={teamEvent} />
+          <h2 className={styles.memberTitle}>Members Rejected</h2>
+          <AttendanceDisplay status={'rejected' as Status} teamEvent={teamEvent} />
         </div>
       </div>
     </div>

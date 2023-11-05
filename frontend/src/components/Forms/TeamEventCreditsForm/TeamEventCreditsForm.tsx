@@ -17,13 +17,15 @@ const TeamEventCreditForm: React.FC = () => {
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
   const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
+  const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
     TeamEventsAPI.getTeamEventAttendanceByUser().then((attendance) => {
-      setApprovedAttendance(attendance.filter((attendee) => attendee.pending === false));
-      setPendingAttendance(attendance.filter((attendee) => attendee.pending === true));
+      setApprovedAttendance(attendance.filter((attendee) => attendee.status === 'approved'));
+      setPendingAttendance(attendance.filter((attendee) => attendee.status === 'pending'));
+      setRejectedAttendance(attendance.filter((attendee) => attendee.status === 'rejected'));
       setIsAttendanceLoading(false);
     });
   }, []);
@@ -35,7 +37,7 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
-    await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
+    const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
 
     // upload image
     const blob = await fetch(image).then((res) => res.blob());
@@ -43,6 +45,7 @@ const TeamEventCreditForm: React.FC = () => {
     await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
       setImage(imageURL)
     );
+    return createdAttendance;
   };
 
   const submitTeamEventCredit = () => {
@@ -73,14 +76,20 @@ const TeamEventCreditForm: React.FC = () => {
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
         eventUuid: teamEvent.uuid,
         pending: true,
+        status: 'pending' as Status,
+        reason: '',
         uuid: ''
       };
-      requestTeamEventCredit(newTeamEventAttendance).then(() => {
-        setPendingAttendance((pending) => [...pending, newTeamEventAttendance]);
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Team Event Credit submitted!',
-          contentMsg: `The leads were notified of your submission and your credit will be approved soon!`
-        });
+
+      requestTeamEventCredit(newTeamEventAttendance).then((createdAttendance) => {
+        if (createdAttendance) {
+          const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
+          setPendingAttendance((pending) => [...pending, updatedAttendance]);
+          Emitters.generalSuccess.emit({
+            headerMsg: 'Team Event Credit submitted!',
+            contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
+          });
+        }
       });
     }
   };
@@ -201,7 +210,9 @@ const TeamEventCreditForm: React.FC = () => {
           allTEC={teamEventInfoList}
           approvedAttendance={approvedAttendance}
           pendingAttendance={pendingAttendance}
+          rejectedAttendance={rejectedAttendance}
           isAttendanceLoading={isAttendanceLoading}
+          setPendingAttendance={setPendingAttendance}
         />
       </Form>
     </div>

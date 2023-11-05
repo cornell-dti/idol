@@ -80,4 +80,7 @@ export class Emitters {
 
   // Team Events
   static teamEventsUpdated: EventEmitter<void> = new EventEmitter();
+
+  // Dev Portfolio
+  static devPortfolioUpdated: EventEmitter<void> = new EventEmitter();
 }

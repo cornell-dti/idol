@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Item,
+  Card,
+  Modal,
+  Header,
+  SemanticCOLORS,
+  Image,
+  Loader
+} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -15,11 +25,13 @@ const AdminShoutouts: React.FC = () => {
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
 
   const updateShoutouts = useCallback(() => {
+    setLoading(true);
     if (lastDate < earlyDate) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid Date Range',
@@ -29,6 +41,7 @@ const AdminShoutouts: React.FC = () => {
     if (allShoutouts.length === 0) {
       ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
         setAllShoutouts(shoutouts);
+        setLoading(false);
       });
     } else {
       const filteredShoutouts = allShoutouts
@@ -43,6 +56,7 @@ const AdminShoutouts: React.FC = () => {
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
       else setDisplayShoutouts(filteredShoutouts);
       setHide(false);
+      setLoading(false);
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
@@ -246,8 +260,14 @@ const AdminShoutouts: React.FC = () => {
         </Form.Group>
       </Form>
       <div className={styles.shoutoutsListContainer}>
-        <ListTitle />
-        <DisplayList />
+        {loading ? (
+          <Loader active inline="centered" />
+        ) : (
+          <>
+            <ListTitle />
+            <DisplayList />
+          </>
+        )}
       </div>
     </div>
   );

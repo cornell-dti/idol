@@ -21,8 +21,7 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange,
-  getMember
+  reviewUserInformationChange
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -71,6 +70,7 @@ import {
 import {
   getAllDevPortfolios,
   createNewDevPortfolio,
+  updateDevPortfolio,
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
   getDevPortfolio,
@@ -198,7 +198,7 @@ router.get('/member', async (req, res) => {
   res.status(200).json({ members });
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
-  const member = await getMember(req.params.email);
+  const member = await MembersDao.getCurrentOrPastMemberByEmail(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
@@ -321,10 +321,10 @@ loginCheckedDelete('/team-event', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
-loginCheckedPost('/team-event-attendance', async (req, user) => {
-  await requestTeamEventCredit(req.body.request, user);
-  return {};
-});
+loginCheckedPost('/team-event-attendance', async (req, user) => ({
+  teamEventAttendance: await requestTeamEventCredit(req.body.request, user)
+}));
+
 loginCheckedGet('/team-event-attendance', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
@@ -377,7 +377,7 @@ loginCheckedPut('/candidate-decider/rating-and-comment', (req, user) =>
 );
 
 loginCheckedPost('/sendMail', async (req, user) => ({
-  info: await sendMail(req.body.to, req.body.subject, req.body.text)
+  info: await sendMail(req.body.to, req.body.subject, req.body.text, user)
 }));
 
 // Dev Portfolios
@@ -396,6 +396,9 @@ loginCheckedGet('/dev-portfolio/:uuid/submission', async (req, user) => ({
 }));
 loginCheckedPost('/dev-portfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
+}));
+loginCheckedPut('/dev-portfolio', async (req, user) => ({
+  portfolio: await updateDevPortfolio(req.body, user)
 }));
 loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
   deleteDevPortfolio(req.params.uuid, user).then(() => ({}))

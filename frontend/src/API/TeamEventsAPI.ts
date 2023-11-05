@@ -73,8 +73,12 @@ export class TeamEventsAPI {
     await APIWrapper.delete(`${backendURL}/team-event`);
   }
 
-  public static async requestTeamEventCredit(request: TeamEventAttendance): Promise<void> {
-    APIWrapper.post(`${backendURL}/team-event-attendance`, { request });
+  public static async requestTeamEventCredit(
+    request: TeamEventAttendance
+  ): Promise<TeamEventAttendance> {
+    return APIWrapper.post(`${backendURL}/team-event-attendance`, { request }).then(
+      (res) => res.data.teamEventAttendance
+    );
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
