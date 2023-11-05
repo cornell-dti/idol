@@ -67,6 +67,7 @@ const Home: React.FC = () => {
     return () => {
       if (timer) clearTimeout(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIcon]);
 
   return (
