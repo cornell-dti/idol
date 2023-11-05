@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
+import Line from '../../components/line';
+import Focus from '../../components/focus';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(null);
