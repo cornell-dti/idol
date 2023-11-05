@@ -71,31 +71,32 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className="flex items-center justify-start pl-[20%] bg-black bg-cover bg-center h-screen"
+      className="flex items-center justify-start pl-[15%] bg-black bg-cover bg-center h-screen"
       style={{ backgroundImage: "url('/images/hero_bg.png')" }}
     >
       <div className="flex flex-col items-start mr-12">
-        <div>
-          <h2 className="text-white mb-5 text-6xl">
+        <div className="mb-5">
+          <h2 className="text-white text-6xl">
             Cornell Digital <br /> Tech & Innovation
           </h2>
         </div>
         <div className="flex items-center space-x-2">
           {icons.map((icon, index) => (
-            <Icon
-              key={index}
-              icon={icon.src}
-              hoverIcon={icon.hover}
-              activeIcon={icon.active}
-              altText={icon.altText}
-              isActive={selectedIcon === index}
-              onClick={() => {
-                setSelectedIcon(index);
-                if (timer) clearTimeout(timer);
-              }}
-              width={icon.width}
-              height={icon.height}
-            />
+            <div key={index} className="flex items-center justify-center h-[90px]">
+              <Icon
+                icon={icon.src}
+                hoverIcon={icon.hover}
+                activeIcon={icon.active}
+                altText={icon.altText}
+                isActive={selectedIcon === index}
+                onClick={() => {
+                  setSelectedIcon(index);
+                  if (timer) clearTimeout(timer);
+                }}
+                width={icon.width}
+                height={icon.height}
+              />
+            </div>
           ))}
         </div>
       </div>
