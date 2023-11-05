@@ -2,7 +2,6 @@
 import admin from 'firebase-admin';
 import sendMail from './utils';
 import { configureAccount } from '../src/utils/firebase-utils';
-import { teamEventAdminCollection } from '../src/firebase';
 
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
@@ -24,12 +23,14 @@ const main = async () => {
     await db.collection('team-event-attendance').where('status', '==', 'pending').get()
   ).docs.length;
 
-  const teamEventAdminEmails = (await teamEventAdminCollection.get()).docs.map((doc) => doc.id);
+  const teamEventAdminEmails = (await db.collection('team-event-admins').get()).docs.map(
+    (doc) => doc.id
+  );
 
   if (numPendingRequests === 0) {
     console.log('No pending requests.');
   } else {
-    console.log('Pending requests detected, sending email notification...');
+    console.log(`${numPendingRequests} pending requests detected, sending email notification...`);
     try {
       await Promise.all(
         teamEventAdminEmails.map((email) => sendMail(email, EMAIL_SUBJECT, EMAIL_BODY))
