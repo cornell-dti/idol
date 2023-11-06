@@ -14,6 +14,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element =>
   <html lang="en">
     <div className={inter.className}>
       {' '}
+      {children}
+
       <Navbar />{' '}
     </div>
     <div className={ibm_plex_mono.className}>

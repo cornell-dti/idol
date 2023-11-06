@@ -16,6 +16,7 @@ const TeamEventCreditDashboard = (props: {
   allTEC: TeamEventInfo[];
   approvedAttendance: TeamEventAttendance[];
   pendingAttendance: TeamEventAttendance[];
+  rejectedAttendance: TeamEventAttendance[];
   isAttendanceLoading: boolean;
   setPendingAttendance: Dispatch<SetStateAction<TeamEventAttendance[]>>;
 }): JSX.Element => {
@@ -23,6 +24,7 @@ const TeamEventCreditDashboard = (props: {
     allTEC,
     approvedAttendance,
     pendingAttendance,
+    rejectedAttendance,
     isAttendanceLoading,
     setPendingAttendance
   } = props;
@@ -116,8 +118,9 @@ const TeamEventCreditDashboard = (props: {
                         : teamEvent.numCredits
                     }`}
                   </Card.Meta>
+                  {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
                   <Card.Meta>
-                    {attendance.pending && (
+                    {attendance.status === 'pending' && (
                       <Button
                         basic
                         color="red"
@@ -195,6 +198,15 @@ const TeamEventCreditDashboard = (props: {
               <TecDetailsDisplay attendanceList={pendingAttendance} />
             ) : (
               <Message>You are not currently pending approval for any team events.</Message>
+            )}
+          </div>
+
+          <div className={styles.inline}>
+            <label className={styles.bold}>Rejected Events:</label>
+            {rejectedAttendance.length !== 0 ? (
+              <TecDetailsDisplay attendanceList={rejectedAttendance} />
+            ) : (
+              <Message>You have not been rejected for any team events.</Message>
             )}
           </div>
         </div>
