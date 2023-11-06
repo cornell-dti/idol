@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 
@@ -50,6 +50,18 @@ const Home: React.FC = () => {
       height: 80
     }
   ];
+
+  const scrollRef = useRef(null);
+
+  const scrollToContent = () => {
+    if (scrollRef.current) {
+      const topPosition = (scrollRef.current as HTMLDivElement).offsetTop;
+      window.scrollTo({
+        top: topPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   useEffect(() => {
     if (timer) clearTimeout(timer);
@@ -102,6 +114,18 @@ const Home: React.FC = () => {
         </div>
       </div>
       <Slideshow selectedImage={selectedIcon} />
+      <div className="fixed inset-x-0 bottom-5 flex justify-center">
+        <button
+          onClick={scrollToContent}
+          className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center"
+          style={{ transition: 'all 0.3s ease' }}
+        >
+          LEARN MORE
+          <img src="/images/arrow.png" alt="Learn more" className="mt-2 w-auto h-6" />
+        </button>
+      </div>
+        <div ref={scrollRef} className="h-screen">
+        </div>
     </div>
   );
 };

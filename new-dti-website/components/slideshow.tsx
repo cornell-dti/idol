@@ -7,54 +7,39 @@ interface SlideshowProps {
   selectedImage: number | null;
 }
 
+const imageNames = ['dti.png', 'family.png', 'collaboration.png', 'event.png', 'initiative.png'];
+
+const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({ imageName, isVisible }) => (
+  <div
+    className={`absolute top-0 left-0 w-full p-4 bg-white bg-opacity-100 flex items-center rounded-lg transition-opacity ${
+      isVisible ? 'opacity-100' : 'opacity-0'
+    }`}
+    style={{ zIndex: isVisible ? 1 : -1 }}
+  >
+    <img src="/images/folder_icon.png" alt="Folder" className="h-6 mr-2" />
+    <span className="font-medium">cornell-dti/{imageName}</span>
+    <span className="ml-auto font-medium">{imageName}</span>
+  </div>
+);
+
 const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
-  <div className="relative w-[600px] h-[400px] flex items-center">
-    {/* images are absolutely positioned within the relative container and transition opacity changes */}
-    <Image
-      width={600}
-      height={400}
-      src="/images/dti.png"
-      alt="DTI"
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
-        selectedImage === 0 ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
-    <Image
-      width={600}
-      height={400}
-      src="/images/family.png"
-      alt="Family"
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
-        selectedImage === 1 ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
-    <Image
-      width={600}
-      height={400}
-      src="/images/collaboration.png"
-      alt="Collaboration"
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
-        selectedImage === 2 ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
-    <Image
-      width={600}
-      height={400}
-      src="/images/event.png"
-      alt="Events"
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
-        selectedImage === 3 ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
-    <Image
-      width={600}
-      height={400}
-      src="/images/initiative.png"
-      alt="Initiatives"
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
-        selectedImage === 4 ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
+  <div className="relative w-[600px] h-[500px] flex items-center overflow-hidden">
+    {imageNames.map((imageName, index) => (
+      <div key={imageName} className="absolute top-0 left-0 w-full h-full">
+        <ImageHeader imageName={imageName} isVisible={selectedImage === index} />
+        <div className="relative top-12 w-full h-[400px]"> 
+          <Image
+            width={600}
+            height={400}
+            src={`/images/${imageName}`}
+            alt={imageName.split('.')[0]}
+            className={`absolute top-0 left-1/2 transform -translate-x-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
+              selectedImage === index ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        </div>
+      </div>
+    ))}
   </div>
 );
 
