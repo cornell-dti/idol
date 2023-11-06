@@ -11,7 +11,7 @@ const imageNames = ['dti.png', 'family.png', 'collaboration.png', 'event.png', '
 
 const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({ imageName, isVisible }) => (
   <div
-    className={`absolute top-0 left-0 w-full p-4 bg-white bg-opacity-100 flex items-center rounded-lg transition-opacity ${
+    className={`absolute top-0 left-0 w-full p-4 bg-white bg-opacity-100 flex items-center rounded-lg ${
       isVisible ? 'opacity-100' : 'opacity-0'
     }`}
     style={{ zIndex: isVisible ? 1 : -1 }}
