@@ -39,3 +39,7 @@
 .showOtherVotes {
   margin-left: 1%;
 }
+
+.previousNextButtonContainer {
+  margin-right: 0.5% !important;
+}

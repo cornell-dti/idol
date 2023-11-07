@@ -33,6 +33,10 @@ export default class PermissionsManager {
     return this.isLeadOrAdmin(mem);
   }
 
+  static async canEditDevPortfolio(mem: IdolMember): Promise<boolean> {
+    return this.isLeadOrAdmin(mem);
+  }
+
   public static async isAdmin(mem: IdolMember): Promise<boolean> {
     const member = (await adminCollection.doc(mem.email).get()).data();
     return mem.role === 'lead' || member !== undefined;

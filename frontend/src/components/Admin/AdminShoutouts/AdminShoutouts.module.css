@@ -16,6 +16,12 @@
   padding-bottom: 3vh;
 }
 
+.displayCount {
+  width: 30px;
+  height: fit-content;
+  padding-right: 35px;
+}
+
 .shoutoutsListContainer {
   padding-left: 5%;
   padding-right: 5%;
@@ -56,7 +62,22 @@
 }
 
 .presentShoutoutFrom {
+  font-size: 18px;
+  color: grey;
+}
+
+.presentCount {
+  font-size: 40px !important;
+  color: black;
+  margin-bottom: 20px !important;
+  text-align: center;
+}
+
+.presentCountImg {
+  width: 45px !important;
+  height: 40px !important;
   margin-top: 0 !important;
+  margin-bottom: 10px;
 }
 
 .shoutoutHide {

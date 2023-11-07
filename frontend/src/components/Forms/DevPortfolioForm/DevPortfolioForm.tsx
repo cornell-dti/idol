@@ -20,6 +20,7 @@ const DevPortfolioForm: React.FC = () => {
   const [reviewPRs, setReviewedPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [text, setText] = useState<string | undefined>(undefined);
+  const [documentationText, setDocumentationText] = useState<string>('');
 
   useEffect(() => {
     refreshDevPortfolios();
@@ -93,6 +94,11 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'Paragraph Submission Empty',
         contentMsg: 'Please write something for the paragraph section of the assignment.'
       });
+    } else if (!documentationText) {
+      Emitters.generalError.emit({
+        headerMsg: 'Documentation Empty',
+        contentMsg: 'Please write something for the documentation section of the assignment.'
+      });
     } else if (new Date(latestDeadline) < new Date()) {
       Emitters.generalError.emit({
         headerMsg: 'The deadline for this dev portfolio has passed',
@@ -115,6 +121,7 @@ const DevPortfolioForm: React.FC = () => {
           status: 'pending'
         })),
         status: 'pending',
+        documentationText,
         ...(text && { text })
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
@@ -180,7 +187,7 @@ const DevPortfolioForm: React.FC = () => {
                 2. What did the team do the past two weeks?
               </p>
 
-              <TextArea value={text} onChange={(e) => setText(e.target.value)}></TextArea>
+              <TextArea value={text} onChange={(e) => setText(e.target.value)} />
 
               <p>
                 In addition, if you have created and/or reviewed pull requests, please include those
@@ -204,6 +211,10 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Reviewed PR"
             label="Reviewed Pull Request Github Link:"
             isTpm={isTpm}
+          />
+          <DocumentationInput
+            setDocumentationText={setDocumentationText}
+            documentationText={documentationText}
           />
         </div>
         <Message info>
@@ -229,6 +240,27 @@ const DevPortfolioForm: React.FC = () => {
     </div>
   );
 };
+
+const DocumentationInput = ({
+  documentationText,
+  setDocumentationText
+}: {
+  documentationText: string;
+  setDocumentationText: React.Dispatch<React.SetStateAction<string>>;
+}) => (
+  <div>
+    <label className={styles.bold}>
+      Documentation: <span className={styles.red_color}>*</span>
+    </label>
+    <p>
+      Please provide a link to at least one piece of documentation you added/updated. If it's
+      included in the PRs you added above, you may simply write "Documentation located in PR (insert
+      PR number here)". If you made a separate PR updating documentation in the codebase, please
+      link that PR here.
+    </p>
+    <TextArea value={documentationText} onChange={(e) => setDocumentationText(e.target.value)} />
+  </div>
+);
 
 const PRInputs = ({
   prs,

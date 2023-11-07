@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import csv from 'csvtojson';
+import ALL_ROLES from 'common-types/constants';
 import { MemberSearch, RoleSearch } from '../../Common/Search/Search';
 import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
+import CandidateDeciderEditModal from '../../Modals/CandidateDeciderEditModal';
+
+const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
+  (role) => ({ role })
+);
 
 type CandidateDeciderInstancelistProps = {
   instances: CandidateDeciderInfo[];
@@ -16,7 +22,6 @@ type CandidateDeciderInstancelistProps = {
 
 type CandidateDeciderInstanceCreatorProps = {
   setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
-  getAllInstances: () => Promise<void>;
 };
 
 const AdminCandidateDeciderBase: React.FC = () => {
@@ -28,10 +33,7 @@ const AdminCandidateDeciderBase: React.FC = () => {
 
   return (
     <div id={styles.adminCandidateDeciderContainer}>
-      <CandidateDeciderInstanceCreator
-        setInstances={setInstances}
-        getAllInstances={getAllInstances}
-      />
+      <CandidateDeciderInstanceCreator setInstances={setInstances} />
       <CandidateDeciderInstanceList
         instances={instances}
         setInstances={setInstances}
@@ -44,8 +46,7 @@ const AdminCandidateDeciderBase: React.FC = () => {
 };
 
 const CandidateDeciderInstanceCreator = ({
-  setInstances,
-  getAllInstances
+  setInstances
 }: CandidateDeciderInstanceCreatorProps): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
@@ -104,6 +105,11 @@ const CandidateDeciderInstanceCreator = ({
       <Form success={success}>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="file" accept=".csv" onChange={handleFileUpload} key={fileInKey || ''} />
+        <label>
+          {' '}
+          Format: .csv with at least a "NetID", "First Name", and "Last Name" column.{' '}
+          <a href="/sample_candidate_decider_input.csv">Download sample file here.</a>
+        </label>
         <Message>
           All leads and IDOL admins have permission to all Candidate Decider instances
         </Message>
@@ -135,7 +141,10 @@ const CandidateDeciderInstanceCreator = ({
           </Card>
         ))}
         <Header as="h4">Add authorized roles</Header>
-        <RoleSearch onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])} />
+        <RoleSearch
+          roles={allNonleadRoles}
+          onSelect={(role) => setAuthorizedRoles((roles) => [...roles, role.role])}
+        />
         {authorizedRoles.map((role, i) => (
           <Card key={i}>
             <Card.Content>
@@ -181,13 +190,23 @@ const CandidateDeciderInstanceList = ({
 }: CandidateDeciderInstancelistProps): JSX.Element => {
   useEffect(() => {
     getAllInstances().then(() => setIsLoading(false));
-  }, [instances, getAllInstances, setIsLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const toggleIsOpen = (uuid: string) => {
-    const updatedInstances = instances.map((instance) =>
-      instance.uuid === uuid ? { ...instance, isOpen: !instance.isOpen } : instance
+  const toggleIsOpen = async (uuid: string) => {
+    const newInstances = await Promise.all(
+      instances.map(async (instance) => {
+        if (instance.uuid === uuid) {
+          await CandidateDeciderAPI.updateInstance({
+            isOpen: !instance.isOpen,
+            uuid: instance.uuid
+          });
+          return { ...instance, isOpen: !instance.isOpen };
+        }
+        return instance;
+      })
     );
-    CandidateDeciderAPI.toggleInstance(uuid).then(() => setInstances(updatedInstances));
+    setInstances(newInstances);
   };
 
   return (
@@ -209,11 +228,13 @@ const CandidateDeciderInstanceList = ({
                       defaultChecked={instance.isOpen}
                       onChange={() => toggleIsOpen(instance.uuid)}
                     />
-                    <CandidateDeciderDeleteModal
-                      uuid={instance.uuid}
-                      setInstances={setInstances}
-                      setIsLoading={setIsLoading}
-                    />
+                    <div>
+                      <CandidateDeciderEditModal uuid={instance.uuid} setInstances={setInstances} />
+                      <CandidateDeciderDeleteModal
+                        uuid={instance.uuid}
+                        setInstances={setInstances}
+                      />
+                    </div>
                   </div>
                 </Card.Content>
               </Card>

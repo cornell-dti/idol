@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Item, Card, Modal, Header, Loader } from 'semantic-ui-react';
+import { Button, Form, Item, Card, Modal, Header, Image, Loader } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
+import catEmoji from '../../../static/images/meow_attention.gif';
 
 type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
 
@@ -18,12 +19,12 @@ const fromString = (shoutout: Shoutout): string => {
 
 const dateString = (shoutout: Shoutout): string => `${new Date(shoutout.timestamp).toDateString()}`;
 
-const getListTitle = (view: ViewMode): string => {
+const getListTitle = (view: ViewMode, shoutoutCount: number): string => {
   switch (view) {
     case 'ALL':
-      return 'All Shoutouts';
+      return `All Shoutouts (${shoutoutCount})`;
     case 'HIDDEN':
-      return 'Hidden Shoutouts';
+      return `Hidden Shoutouts (${shoutoutCount})`;
     default:
       return '';
   }
@@ -113,6 +114,7 @@ const DisplayList = ({
       <Item.Group divided>
         {displayShoutouts.map((shoutout, i) => (
           <Item key={i}>
+            <div className={styles.displayCount}>{i + 1}</div>
             <Item.Content>
               <Item.Header
                 className={styles.presentShoutoutTo}
@@ -132,6 +134,11 @@ const DisplayList = ({
     );
   return (
     <Item.Group divided>
+      <Header className={styles.presentCount}>
+        <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
+        {` ${displayShoutouts.length} Shoutouts `}
+        <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
+      </Header>
       {displayShoutouts.map((shoutout, i) => (
         <Item key={i}>
           <Item.Content>
@@ -216,7 +223,7 @@ const AdminShoutouts: React.FC = () => {
         </Form.Group>
       </Form>
       <div className={styles.shoutoutsListContainer}>
-        <Header className={styles.formTitle} content={getListTitle(view)}></Header>
+        <Header className={styles.formTitle} content={getListTitle(view, displayShoutouts ? displayShoutouts.length : 0)} />
         <DisplayList
           displayShoutouts={displayShoutouts}
           view={view}

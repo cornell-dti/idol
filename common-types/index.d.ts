@@ -80,12 +80,16 @@ interface SignInForm {
   readonly prompt?: string;
 }
 
+type Status = 'pending' | 'approved' | 'rejected';
+
 interface TeamEventAttendance {
   member: IdolMember;
   hoursAttended?: number;
   image: string;
   readonly eventUuid: string;
   readonly pending: boolean;
+  readonly status: Status;
+  readonly reason: string;
   readonly uuid: string;
 }
 
@@ -99,7 +103,6 @@ interface TeamEventInfo {
 }
 
 interface TeamEvent extends TeamEventInfo {
-  readonly attendees: TeamEventAttendance[];
   readonly requests: TeamEventAttendance[];
 }
 
@@ -127,20 +130,25 @@ interface CandidateDeciderCandidate {
   comments: CandidateDeciderComment[];
 }
 
-interface CandidateDeciderInstance {
-  readonly name: string;
+interface CandidateDeciderInstance extends CandidateDeciderInfo {
   readonly headers: string[];
   readonly candidates: CandidateDeciderCandidate[];
-  readonly uuid: string;
   readonly authorizedMembers: IdolMember[];
   readonly authorizedRoles: Role[];
-  isOpen: boolean;
 }
 
 interface CandidateDeciderInfo {
   readonly name: string;
   readonly uuid: string;
   isOpen: boolean;
+}
+
+interface CandidateDeciderEdit {
+  name?: string;
+  readonly uuid: string;
+  authorizedMembers?: IdolMember[];
+  authorizedRoles?: Role[];
+  isOpen?: boolean;
 }
 
 type SubmissionStatus = 'valid' | 'pending' | 'invalid';
@@ -157,6 +165,7 @@ interface DevPortfolioSubmission {
   reviewedPRs: PullRequestSubmission[];
   isLate?: boolean;
   text?: string;
+  documentationText?: string;
   status: SubmissionStatus;
 }
 

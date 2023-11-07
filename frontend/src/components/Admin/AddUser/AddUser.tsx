@@ -1,11 +1,13 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
+import csvtojson from 'csvtojson';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import ErrorModal from '../../Modals/ErrorModal';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
-import { useMembers } from '../../Common/FirestoreDataProvider';
+import { useMembers, useTeams } from '../../Common/FirestoreDataProvider';
 import { TeamSearch } from '../../Common/Search/Search';
 
 type CurrentSelectedMember = Omit<Member, 'netid' | 'roleDescription'>;
@@ -68,12 +70,21 @@ type State = {
   readonly isCreatingUser: boolean;
 };
 
+type UploadStatus = {
+  readonly status: 'success' | 'error';
+  readonly msg: string;
+  readonly errs?: string[];
+};
+
 export default function AddUser(): JSX.Element {
   const allMembers = useMembers();
+  const validSubteams = useTeams().map((t) => t.name);
   const [state, setState] = useState<State>({
     currentSelectedMember: allMembers[0],
     isCreatingUser: false
   });
+  const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus>();
 
   function createNewUser(): void {
     setState({
@@ -125,6 +136,121 @@ export default function AddUser(): JSX.Element {
     });
   }
 
+  function processJson(json: any[]): void {
+    for (const m of json) {
+      const netId = getNetIDFromEmail(m.email);
+      const currMember = allMembers.find((mem) => mem.netid === netId);
+      if (currMember) {
+        const updatedMember = {
+          netid: netId,
+          email: m.email,
+          firstName: m.firstName || currMember.firstName,
+          lastName: m.lastName || currMember.lastName,
+          pronouns: m.pronouns || currMember.pronouns,
+          graduation: m.graduation || currMember.graduation,
+          major: m.major || currMember.major,
+          doubleMajor: m.doubleMajor || currMember.doubleMajor,
+          minor: m.minor || currMember.minor,
+          website: m.website || currMember.website,
+          linkedin: m.linkedin || currMember.linkedin,
+          github: m.github || currMember.github,
+          hometown: m.hometown || currMember.hometown,
+          about: m.about || currMember.about,
+          subteams: m.subteam ? [m.subteam] : currMember.subteams,
+          formerSubteams: m.formerSubteams
+            ? m.formerSubteams.split(', ')
+            : currMember.formerSubteams,
+          role: m.role || currMember.role,
+          roleDescription: getRoleDescriptionFromRoleID(m.role)
+        } as IdolMember;
+        MembersAPI.updateMember(updatedMember);
+      } else {
+        const updatedMember = {
+          netid: netId,
+          email: m.email,
+          firstName: m.firstName || '',
+          lastName: m.lastName || '',
+          pronouns: m.pronouns || '',
+          graduation: m.graduation || '',
+          major: m.major || '',
+          doubleMajor: m.doubleMajor || '',
+          minor: m.minor || '',
+          website: m.website || '',
+          linkedin: m.linkedin || '',
+          github: m.github || '',
+          hometown: m.hometown || '',
+          about: m.about || '',
+          subteams: m.subteam ? [m.subteam] : [],
+          formerSubteams: m.formerSubteams ? m.formerSubteams.split(', ') : [],
+          role: m.role || ('' as Role),
+          roleDescription: getRoleDescriptionFromRoleID(m.role)
+        } as IdolMember;
+        MembersAPI.setMember(updatedMember);
+      }
+    }
+  }
+
+  async function uploadUsersCsv(csvFile: File | undefined): Promise<void> {
+    if (csvFile) {
+      const csv = await csvFile.text();
+      const columnHeaders = csv.split('\n')[0].split(',');
+      if (!columnHeaders.includes('email')) {
+        setUploadStatus({
+          status: 'error',
+          msg: 'Error: CSV must contain an email column'
+        });
+        return;
+      }
+      if (!columnHeaders.includes('role')) {
+        setUploadStatus({
+          status: 'error',
+          msg: 'Error: CSV must contain a role column'
+        });
+        return;
+      }
+      const json = await csvtojson().fromString(csv);
+      const errors = json
+        .map((m) => {
+          const [email, role, subteam] = [m.email, m.role, m.subteam];
+          const formerSubteams: string[] = m.formerSubteams ? m.formerSubteams.split(', ') : [];
+          const err = [];
+          if (!email) {
+            err.push('missing email');
+          }
+          if (!role) {
+            err.push('missing role');
+          }
+          if (role && !ALL_ROLES.includes(role as Role)) {
+            err.push('invalid role');
+          }
+          if (subteam && !validSubteams.includes(subteam)) {
+            err.push('invalid subteam');
+          }
+          if (formerSubteams.some((t) => !validSubteams.includes(t))) {
+            err.push('at least one invalid former subteam');
+          }
+          if (formerSubteams.includes(subteam)) {
+            err.push('subteam cannot be in former subteams');
+          }
+          return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
+        })
+        .filter((err) => err.length > 0);
+      if (errors.length > 0) {
+        setUploadStatus({
+          status: 'error',
+          msg: `Error: ${errors.length} ${errors.length === 1 ? 'row is' : 'rows are'} invalid!`,
+          errs: errors
+        });
+      } else {
+        processJson(json);
+        setUploadStatus({
+          status: 'success',
+          msg: `Successfully uploaded ${json.length} members!`
+        });
+      }
+    }
+  }
+
   function setCurrentlySelectedMember(setter: (m: CurrentSelectedMember) => CurrentSelectedMember) {
     setState((s) => {
       if (!s.currentSelectedMember) return s;
@@ -160,7 +286,7 @@ export default function AddUser(): JSX.Element {
                 ))}
               </Card.Content>
             </div>
-            <Card.Content extra>
+            <Card.Content>
               <div className={`ui one buttons ${styles.fullWidth}`}>
                 <Button
                   basic
@@ -181,6 +307,45 @@ export default function AddUser(): JSX.Element {
                   Create User
                 </Button>
               </div>
+            </Card.Content>
+            <Card.Content>
+              {csvFile ? (
+                <div className={`ui one buttons ${styles.fullWidth}`}>
+                  <Button
+                    basic
+                    color="green"
+                    className={styles.fullWidth}
+                    onClick={() => {
+                      uploadUsersCsv(csvFile);
+                    }}
+                  >
+                    {`Upload ${csvFile.name}`}
+                  </Button>
+                </div>
+              ) : undefined}
+              <input
+                className={styles.wrap}
+                type="file"
+                accept=".csv"
+                onChange={(e) => setCsvFile(e.target.files?.[0])}
+              />
+              <a href="/sample_csv.zip">Download sample .csv file</a>
+              {uploadStatus ? (
+                <div
+                  className={
+                    uploadStatus.status === 'error' ? styles.errorMessage : styles.successMessage
+                  }
+                >
+                  <p>{`${uploadStatus.msg}`}</p>
+                  {uploadStatus.errs ? (
+                    <div>
+                      {uploadStatus.errs.map((err) => (
+                        <p>{err}</p>
+                      ))}
+                    </div>
+                  ) : undefined}
+                </div>
+              ) : undefined}
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (

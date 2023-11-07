@@ -21,6 +21,11 @@ const everyoneItems: readonly NavigationCardItem[] = [
     header: 'Shoutouts',
     description: 'Give someone a shoutout or view your past given shoutouts.',
     link: '/forms/shoutouts'
+  },
+  {
+    header: 'Team Event Credits',
+    description: 'Track your team event credits.',
+    link: '/forms/teamEventCredits'
   }
 ];
 
