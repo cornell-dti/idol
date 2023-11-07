@@ -223,7 +223,10 @@ const AdminShoutouts: React.FC = () => {
         </Form.Group>
       </Form>
       <div className={styles.shoutoutsListContainer}>
-        <Header className={styles.formTitle} content={getListTitle(view, displayShoutouts ? displayShoutouts.length : 0)} />
+        <Header
+          className={styles.formTitle}
+          content={getListTitle(view, displayShoutouts ? displayShoutouts.length : 0)}
+        />
         <DisplayList
           displayShoutouts={displayShoutouts}
           view={view}
