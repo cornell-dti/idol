@@ -5,6 +5,7 @@ import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
+import { getAllTeamEvents, getTeamEventAttendanceByUser } from './teamEventsAPI';
 
 export const sendMail = async (
   to: string,
@@ -74,7 +75,41 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 
 export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
+  const allEvents = getAllTeamEvents(req.body);
+  const futureEvents = (await allEvents).filter((event) => {
+    const eventDate = new Date(event.date);
+    const todayDate = new Date();
+    return eventDate >= todayDate;
+  });
+  const memberEvents = getTeamEventAttendanceByUser(member);
+  let approvedCount = 0;
+  let pendingCount = 0;
+  (await memberEvents).map((event) => {
+    if (event.status === 'approved') {
+      approvedCount += 1;
+    }
+    if (event.pending) {
+      pendingCount += 1;
+    }
+  });
+
   const text =
-    'Hey! You currently do not have enough team events credits this semester. This is a reminder to get at least 3 team events credits by the end of the semester.';
+    `Hey! You currently have ${approvedCount} team event credits approved and ${pendingCount} team event credits pending this semester. ` +
+    `This is a reminder to get at least ${
+      member.role === 'lead' ? '6' : '3'
+    } team events credits by the end of the semester.\n` +
+    `\n${
+      futureEvents.length === 0
+        ? 'There are currently no upcoming team events, but check IDOL soon for updates.'
+        : 'Here is a list of upcoming team events you can participate in:'
+    } \n` +
+    `${(await futureEvents)
+      .map(
+        (event) =>
+          `${event.name} on ${event.date} (${event.numCredits} ${
+            Number(event.numCredits) !== 1 ? 'credits' : 'credit'
+          })\n`
+      )
+      .join('')}`;
   return emailMember(req, member, subject, text);
 };

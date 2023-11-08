@@ -32,6 +32,6 @@ export class MembersAPI {
   }
 
   public static notifyMember(member: Member): Promise<MemberResponseObj> {
-    return APIWrapper.post(`${backendURL}/notifyMember`, member).then((res) => res.data);
+    return APIWrapper.post(`${backendURL}/team-event-reminder`, member).then((res) => res.data);
   }
 }

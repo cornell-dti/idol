@@ -20,7 +20,6 @@ import {
   setMember,
   deleteMember,
   updateMember,
-  notifyMember,
   getUserInformationDifference,
   reviewUserInformationChange
 } from './API/memberAPI';
@@ -53,7 +52,8 @@ import {
   requestTeamEventCredit,
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
-  deleteTeamEventAttendance
+  deleteTeamEventAttendance,
+  notifyMember
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -220,9 +220,6 @@ loginCheckedDelete('/member/:email', async (req, user) => {
 loginCheckedPut('/member', async (req, user) => ({
   member: await updateMember(req, req.body, user)
 }));
-loginCheckedPost('/notifyMember', async (req, user) => ({
-  member: await notifyMember(req, req.body, user)
-}));
 
 loginCheckedGet('/memberDiffs', async (_, user) => ({
   diffs: await getUserInformationDifference(user)
@@ -339,6 +336,9 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
+loginCheckedPost('/team-event-reminder', async (req, user) => ({
+  member: await notifyMember(req, req.body, user)
+}));
 
 // Team Events Proof Image
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
