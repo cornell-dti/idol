@@ -25,8 +25,8 @@ const NotifyMemberModal = (props: {
     }
 
     if (all && members) {
-      members.map((member) => {
-        MembersAPI.notifyMember(member);
+      members.forEach(async (member) => {
+        await MembersAPI.notifyMember(member);
       });
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',

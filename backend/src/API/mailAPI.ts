@@ -84,11 +84,11 @@ export const sendTECReminder = async (req: Request, member: IdolMember): Promise
   const memberEvents = getTeamEventAttendanceByUser(member);
   let approvedCount = 0;
   let pendingCount = 0;
-  (await memberEvents).map((event) => {
+  (await memberEvents).forEach((event) => {
     if (event.status === 'approved') {
       approvedCount += 1;
     }
-    if (event.pending) {
+    if (event.status === 'pending') {
       pendingCount += 1;
     }
   });
