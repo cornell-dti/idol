@@ -20,8 +20,8 @@ const EMAIL_BODY =
 const main = async () => {
   console.log('Reading all team event credit requests...');
   const numPendingRequests = (
-    await db.collection('team-event-attendance').where('status', '==', 'pending').get()
-  ).docs.length;
+    await db.collection('team-event-attendance').where('status', '==', 'pending').count().get()
+  ).data().count;
 
   const teamEventAdminEmails = (await db.collection('team-event-admins').get()).docs.map(
     (doc) => doc.id
