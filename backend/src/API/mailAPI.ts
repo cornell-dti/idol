@@ -21,6 +21,16 @@ export const sendMail = async (
     subject: `IDOL Notifs: ${subject}`,
     text
   };
+
+  if (!isProd) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
+      mailOptions
+    );
+    return {};
+  }
+
   const transporter = await getEmailTransporter();
   const info = await transporter
     .sendMail(mailOptions)
