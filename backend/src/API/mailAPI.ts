@@ -75,32 +75,39 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 
 export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
-  const allEvents = getAllTeamEvents(req.body);
-  const futureEvents = (await allEvents).filter((event) => {
+  const allEvents = await getAllTeamEvents(req.body);
+  const futureEvents = allEvents.filter((event) => {
     const eventDate = new Date(event.date);
     const todayDate = new Date();
     return eventDate >= todayDate;
   });
-  const memberEvents = getTeamEventAttendanceByUser(member);
+  const memberEventAttendance = await getTeamEventAttendanceByUser(member);
   let approvedCount = 0;
   let pendingCount = 0;
-  (await memberEvents).forEach((event) => {
-    if (event.status === 'approved') {
-      approvedCount += 1;
+  memberEventAttendance.forEach((eventAttendance) => {
+    const eventCredit = Number(
+      allEvents.find((event) => event.uuid === eventAttendance.eventUuid)?.numCredits ?? 0
+    );
+    if (eventAttendance.status === 'approved') {
+      approvedCount += eventCredit;
     }
-    if (event.status === 'pending') {
-      pendingCount += 1;
+    if (eventAttendance.status === 'pending') {
+      pendingCount += eventCredit;
     }
   });
 
   const text =
-    `Hey! You currently have ${approvedCount} team event credits approved and ${pendingCount} team event credits pending this semester. ` +
+    `Hey! You currently have ${approvedCount} team event ${
+      approvedCount !== 1 ? 'credits' : 'credit'
+    } approved and ${pendingCount} team event ${
+      pendingCount !== 1 ? 'credits' : 'credit'
+    } pending this semester. ` +
     `This is a reminder to get at least ${
       member.role === 'lead' ? '6' : '3'
-    } team events credits by the end of the semester.\n` +
+    } team event credits by the end of the semester.\n` +
     `\n${
       futureEvents.length === 0
-        ? 'There are currently no upcoming team events, but check IDOL soon for updates.'
+        ? 'There are currently no upcoming team events listed on IDOL, but check the #team-events channel for upcoming team events.'
         : 'Here is a list of upcoming team events you can participate in:'
     } \n` +
     `${(await futureEvents)
@@ -110,6 +117,7 @@ export const sendTECReminder = async (req: Request, member: IdolMember): Promise
             Number(event.numCredits) !== 1 ? 'credits' : 'credit'
           })\n`
       )
-      .join('')}`;
+      .join('')}` +
+    '\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.';
   return emailMember(req, member, subject, text);
 };

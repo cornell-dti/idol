@@ -211,13 +211,14 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
 /**
  * Reminds a member about completing enough TECs this semester.
  * @param req - the post request being made by the user
- * @param user - the user trying to notify member(s)
+ * @param member - the member being notified
+ * @param user - the user trying to notify the member
  * @throws PermissionError if the user does not have permissions to notify members
  * @returns the body of the request, which contains details about the member being notified
  */
 export const notifyMember = async (
   req: Request,
-  body: IdolMember,
+  member: IdolMember,
   user: IdolMember
 ): Promise<unknown> => {
   const canNotify = await PermissionsManager.canNotifyMembers(user);
@@ -226,10 +227,10 @@ export const notifyMember = async (
       `User with email: ${user.email} does not have permission to notify members!`
     );
   }
-  if (!body.email || body.email === '') {
+  if (!member.email || member.email === '') {
     throw new BadRequestError("Couldn't notify member with undefined email!");
   }
 
-  sendTECReminder(req, body);
-  return body;
+  sendTECReminder(req, member);
+  return member;
 };
