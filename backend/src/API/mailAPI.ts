@@ -5,6 +5,7 @@ import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
+import { env } from '../firebase';
 
 export const sendMail = async (
   to: string,
@@ -22,7 +23,8 @@ export const sendMail = async (
     text
   };
 
-  if (!isProd) {
+  // Only sent emails in prod, otherwise, send to stdout.
+  if (env !== 'prod') {
     // eslint-disable-next-line no-console
     console.log(
       `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
