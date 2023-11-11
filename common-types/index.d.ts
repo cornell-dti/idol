@@ -80,12 +80,16 @@ interface SignInForm {
   readonly prompt?: string;
 }
 
+type Status = 'pending' | 'approved' | 'rejected';
+
 interface TeamEventAttendance {
   member: IdolMember;
   hoursAttended?: number;
   image: string;
   readonly eventUuid: string;
   readonly pending: boolean;
+  readonly status: Status;
+  readonly reason: string;
   readonly uuid: string;
 }
 
@@ -99,7 +103,6 @@ interface TeamEventInfo {
 }
 
 interface TeamEvent extends TeamEventInfo {
-  readonly attendees: TeamEventAttendance[];
   readonly requests: TeamEventAttendance[];
 }
 

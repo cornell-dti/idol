@@ -70,6 +70,7 @@ import {
 import {
   getAllDevPortfolios,
   createNewDevPortfolio,
+  updateDevPortfolio,
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
   getDevPortfolio,
@@ -376,7 +377,7 @@ loginCheckedPut('/candidate-decider/rating-and-comment', (req, user) =>
 );
 
 loginCheckedPost('/sendMail', async (req, user) => ({
-  info: await sendMail(req.body.to, req.body.subject, req.body.text)
+  info: await sendMail(req.body.to, req.body.subject, req.body.text, user)
 }));
 
 // Dev Portfolios
@@ -395,6 +396,9 @@ loginCheckedGet('/dev-portfolio/:uuid/submission', async (req, user) => ({
 }));
 loginCheckedPost('/dev-portfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
+}));
+loginCheckedPut('/dev-portfolio', async (req, user) => ({
+  portfolio: await updateDevPortfolio(req.body, user)
 }));
 loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
   deleteDevPortfolio(req.params.uuid, user).then(() => ({}))

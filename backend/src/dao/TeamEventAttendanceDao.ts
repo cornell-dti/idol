@@ -47,6 +47,7 @@ export default class TeamEventAttendanceDao extends BaseDao<
     const teamEventAttendanceWithUUID = {
       ...teamEventAttendance,
       pending: true,
+      status: 'pending' as Status,
       uuid: teamEventAttendance.uuid ? teamEventAttendance.uuid : uuidv4()
     };
     return this.createDocument(teamEventAttendanceWithUUID.uuid, teamEventAttendanceWithUUID);

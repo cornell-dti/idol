@@ -3,18 +3,34 @@ import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
 import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
+import PermissionsManager from '../utils/permissionsManager';
+import { PermissionError } from '../utils/errors';
 
-export const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
-  // Don't send email notifications locally
-  if (!process.env.isProd) {
-    return {};
-  }
+export const sendMail = async (
+  to: string,
+  subject: string,
+  text: string,
+  user: IdolMember
+): Promise<unknown> => {
+  if (!(await PermissionsManager.isAdmin(user)))
+    throw new PermissionError('User does not have permission to send automated emails.');
+
   const mailOptions = {
-    from: process.env.EMAIL,
+    from: 'dti.idol.github.bot@gmail.com',
     to,
     subject: `IDOL Notifs: ${subject}`,
     text
   };
+
+  if (!isProd) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
+      mailOptions
+    );
+    return {};
+  }
+
   const transporter = await getEmailTransporter();
   const info = await transporter
     .sendMail(mailOptions)

@@ -21,28 +21,33 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
     <>
       {teamEvents && teamEvents.length !== 0 ? (
         <Card.Group>
-          {teamEvents.map((teamEvent) => (
-            <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
-              <Card>
-                <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
-                  <Card.Meta>{teamEvent.date}</Card.Meta>
-                  <Card.Meta>
-                    {teamEvent.requests.length > 0 ? (
-                      <p className={styles.alertPendingRequests}>
-                        {teamEvent.requests.length} pending requests
-                      </p>
-                    ) : (
-                      `${teamEvent.requests.length} pending requests`
+          {teamEvents.map((teamEvent) => {
+            const countPendingRequests = teamEvent.requests.filter(
+              (req) => req.status === 'pending'
+            ).length;
+            return (
+              <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>{teamEvent.name} </Card.Header>
+                    <Card.Meta>{teamEvent.date}</Card.Meta>
+                    <Card.Meta>
+                      {countPendingRequests > 0 ? (
+                        <p className={styles.alertPendingRequests}>
+                          {countPendingRequests} pending requests
+                        </p>
+                      ) : (
+                        `0 pending requests`
+                      )}
+                    </Card.Meta>
+                    {COMMUNITY_EVENTS && (
+                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                     )}
-                  </Card.Meta>
-                  {COMMUNITY_EVENTS && (
-                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
-                  )}
-                </Card.Content>
-              </Card>
-            </Link>
-          ))}
+                  </Card.Content>
+                </Card>
+              </Link>
+            );
+          })}
         </Card.Group>
       ) : (
         <Message>There are currently no team event forms.</Message>

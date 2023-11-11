@@ -19,14 +19,16 @@ const calculateMemberCreditsForEvent = (
 ): number =>
   isCommunity && !event.isCommunity
     ? 0
-    : event.attendees.reduce((val: number, attendee) => {
-        if (attendee.member.email !== member.email) {
-          return val;
-        }
-        if (event.hasHours && attendee.hoursAttended)
-          return val + Number(event.numCredits) * attendee.hoursAttended;
-        return val + Number(event.numCredits);
-      }, 0);
+    : event.requests
+        .filter((req) => req.status === 'approved')
+        .reduce((val: number, attendee) => {
+          if (attendee.member.email !== member.email) {
+            return val;
+          }
+          if (event.hasHours && attendee.hoursAttended)
+            return val + Number(event.numCredits) * attendee.hoursAttended;
+          return val + Number(event.numCredits);
+        }, 0);
 
 const calculateTotalCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, false);
