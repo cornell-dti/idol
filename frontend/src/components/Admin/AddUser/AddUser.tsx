@@ -109,6 +109,7 @@ export default function AddUser(): JSX.Element {
       isCreatingUser: true
     });
   }
+
   async function deleteUser(memberEmail: string): Promise<void> {
     MembersAPI.deleteMember(memberEmail).then((val) => {
       if (val.error) {

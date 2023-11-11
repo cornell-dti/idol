@@ -61,12 +61,14 @@ export const allEventProofImagesForMember = async (
       };
     })
   );
+
   images
     .filter((image) => image.fileName.length > 'eventProofs/'.length)
     .map((image) => ({
       ...image,
       fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
     }));
+
   return images;
 };
 
