@@ -13,7 +13,6 @@ export const ibm_plex_mono = IBM_Plex_Mono({
 const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => (
   <html lang="en">
     <div className={inter.className}>
-      {' '}
       {children}
       <Navbar />{' '}
     </div>
