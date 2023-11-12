@@ -51,7 +51,7 @@ export const sendMail = async (
 };
 
 /**
- * Determines which URL to use to send an email, depending on if the production 
+ * Determines which URL to use to send an email, depending on if the production
  * environment is used
  * @param req - The request made by the user
  * @returns - The URL to use to send an email
