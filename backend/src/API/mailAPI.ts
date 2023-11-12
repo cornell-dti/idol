@@ -6,6 +6,7 @@ import AdminsDao from '../dao/AdminsDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
 import { getAllTeamEvents, getTeamEventAttendanceByUser } from './teamEventsAPI';
+import { env } from '../firebase';
 
 export const sendMail = async (
   to: string,
@@ -22,6 +23,17 @@ export const sendMail = async (
     subject: `IDOL Notifs: ${subject}`,
     text
   };
+
+  // Only sent emails in prod, otherwise, send to stdout.
+  if (env !== 'prod') {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
+      mailOptions
+    );
+    return {};
+  }
+
   const transporter = await getEmailTransporter();
   const info = await transporter
     .sendMail(mailOptions)
