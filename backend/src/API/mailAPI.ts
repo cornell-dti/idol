@@ -90,7 +90,7 @@ const emailAdmins = async (req: Request, subject: string, text: string) => {
  * @param member - The member being sent the email
  * @param subject - The subject of the email
  * @param text - The body of the email
- * @returns - The information of the member being sent the email
+ * @returns - The response body containing information of the member being sent the email
  */
 const emailMember = async (req: Request, member: IdolMember, subject: string, text: string) => {
   const url = getSendMailURL(req);
@@ -110,7 +110,7 @@ const emailMember = async (req: Request, member: IdolMember, subject: string, te
 /**
  * Send an email about a member updating their notifications
  * @param req - The request made when sending the email
- * @returns - The information of the admins being sent the emails
+ * @returns - The response body containing information of the admins being sent the emails
  */
 export const sendMemberUpdateNotifications = async (req: Request): Promise<Promise<void>[]> => {
   const subject = 'IDOL Member Profile Change';
@@ -123,7 +123,7 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
  * Send an email reminder to members who do not have enough TEC credits
  * @param req - The request made when sending the email
  * @param member - The member being sent the email
- * @returns - The information of the member being sent the email
+ * @returns - The response body containing information of the member being sent the email
  */
 export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
