@@ -135,9 +135,13 @@ export const rewriteDbData = async (
     .then((collections) => collections.map((collection) => collection.id));
 
   await Promise.all(allCollections.map((collection) => deleteCollection(db, collection, 10)));
-  return data.map((collection) =>
-    collection.docs.forEach((doc) =>
-      db.doc(`${collection.id}/${doc.id}`).set(doc.data as FirebaseFirestore.DocumentData)
-    )
+  return Promise.all(
+    data.map(async (collection) => {
+      await Promise.all(
+        collection.docs.map((doc) =>
+          db.doc(`${collection.id}/${doc.id}`).set(doc.data as FirebaseFirestore.DocumentData)
+        )
+      );
+    })
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Loader, Divider, Card } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
+import Link from 'next/link';
 import DevPortfolioAPI from '../../../API/DevPortfolioAPI';
 import styles from './AdminDevPortfolio.module.css';
 import DevPortfolioDeleteModal from '../../Modals/DevPortfolioDeleteModal';
@@ -103,13 +104,13 @@ export const DevPortfolioDashboard: React.FC<DevPortfolioDashboardProps> = ({
                   <></>
                 )}
                 <Card.Header className={styles.cardHeader}>
-                  <a
+                  <Link
                     href={`${
                       isAdminView ? `/admin/dev-portfolio/` : `/forms/dev-portfolio-submissions/`
                     }${portfolio.uuid}`}
                   >
                     {portfolio.name}
-                  </a>
+                  </Link>
                 </Card.Header>
                 {isAdminView ? (
                   <Card.Meta>

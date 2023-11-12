@@ -75,9 +75,10 @@ export const getCandidateDeciderInstance = async (
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
+  const isAdmin = await PermissionsManager.isAdmin(user);
   if (
     !(
-      (await PermissionsManager.isAdmin(user)) ||
+      isAdmin ||
       instance.authorizedMembers.includes(user) ||
       instance.authorizedRoles.includes(user.role)
     )
@@ -100,9 +101,10 @@ export const updateCandidateDeciderRatingAndComment = async (
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
+  const isAdmin = await PermissionsManager.isAdmin(user);
   if (
     !(
-      (await PermissionsManager.isAdmin(user)) ||
+      isAdmin ||
       instance.authorizedMembers.includes(user) ||
       instance.authorizedRoles.includes(user.role)
     )

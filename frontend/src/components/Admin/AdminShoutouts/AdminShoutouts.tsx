@@ -1,15 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import {
-  Button,
-  Form,
-  Item,
-  Card,
-  Modal,
-  Header,
-  SemanticCOLORS,
-  Image,
-  Loader
-} from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Item, Card, Modal, Header, Image, Loader } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Emitters } from '../../../utils';
@@ -17,77 +7,41 @@ import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
 
-const AdminShoutouts: React.FC = () => {
-  const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
-  const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
-  const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
-  const [lastDate, setLastDate] = useState<Date>(new Date());
-  const [hide, setHide] = useState(false);
-  const [loading, setLoading] = useState(false);
+type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
 
-  type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
-  const [view, setView] = useState<ViewMode>('ALL');
+const fromString = (shoutout: Shoutout): string => {
+  if (!shoutout.isAnon) {
+    const { giver } = shoutout;
+    return ` (From: ${giver?.firstName} ${giver?.lastName})`;
+  }
+  return ` (From: Anonymous)`;
+};
 
-  const updateShoutouts = useCallback(() => {
-    setLoading(true);
-    if (lastDate < earlyDate) {
-      Emitters.generalError.emit({
-        headerMsg: 'Invalid Date Range',
-        contentMsg: 'Please make sure the latest shoutout date is after the earliest shoutout date.'
-      });
-    }
-    if (allShoutouts.length === 0) {
-      ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
-        setAllShoutouts(shoutouts);
-        setLoading(false);
-      });
-    } else {
-      const filteredShoutouts = allShoutouts
-        .filter((shoutout) => {
-          const shoutoutDate = new Date(shoutout.timestamp);
-          return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
-        })
-        .sort((a, b) => a.timestamp - b.timestamp);
-      if (view === 'PRESENT')
-        setDisplayShoutouts(filteredShoutouts.filter((shoutout) => !shoutout.hidden));
-      else if (view === 'HIDDEN')
-        setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
-      else setDisplayShoutouts(filteredShoutouts);
-      setHide(false);
-      setLoading(false);
-    }
-  }, [allShoutouts, earlyDate, lastDate, view]);
+const dateString = (shoutout: Shoutout): string => `${new Date(shoutout.timestamp).toDateString()}`;
 
-  useEffect(() => {
-    updateShoutouts();
-  }, [earlyDate, lastDate, hide, updateShoutouts]);
+const getListTitle = (view: ViewMode, shoutoutCount: number): string => {
+  switch (view) {
+    case 'ALL':
+      return `All Shoutouts (${shoutoutCount})`;
+    case 'HIDDEN':
+      return `Hidden Shoutouts (${shoutoutCount})`;
+    default:
+      return '';
+  }
+};
 
-  const ListTitle = (): JSX.Element => {
-    let title = `All Shoutouts (${displayShoutouts.length})`;
-    if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
-    if (view === 'PRESENT') title = '';
-    return (
-      <div className={styles.formHeader}>
-        <Header className={styles.formTitle} content={title} />
-      </div>
-    );
-  };
-
-  const fromString = (shoutout: Shoutout): string => {
-    if (!shoutout.isAnon) {
-      const { giver } = shoutout;
-      return ` (From: ${giver?.firstName} ${giver?.lastName})`;
-    }
-    return ` (From: Anonymous)`;
-  };
-
-  const dateString = (shoutout: Shoutout): string =>
-    `${new Date(shoutout.timestamp).toDateString()}`;
+const HideModal = (props: {
+  shoutout: Shoutout;
+  setAllShoutouts: React.Dispatch<React.SetStateAction<Shoutout[] | undefined>>;
+}): JSX.Element => {
+  const { shoutout, setAllShoutouts } = props;
 
   const onHide = (shoutout: Shoutout) => {
-    setHide(true);
     const oppHide = !shoutout.hidden;
     ShoutoutsAPI.hideShoutout(shoutout.uuid, oppHide).then(() => {
+      setAllShoutouts((shoutouts) =>
+        shoutouts?.map((s) => (s.uuid === shoutout.uuid ? { ...s, hidden: oppHide } : s))
+      );
       if (oppHide) {
         Emitters.generalSuccess.emit({
           headerMsg: 'Shoutout Hidden',
@@ -102,127 +56,151 @@ const AdminShoutouts: React.FC = () => {
     });
   };
 
-  const HideModal = (props: { shoutout: Shoutout }): JSX.Element => {
-    const { shoutout } = props;
-    if (!shoutout.hidden)
-      return (
-        <Modal
-          trigger={<Button icon="eye" size="tiny" />}
-          header="Hide Shoutout"
-          content="Are you sure that you want to hide this shoutout?"
-          actions={[
-            'Cancel',
-            {
-              key: 'hideShoutouts',
-              content: 'Hide Shoutout',
-              color: 'red',
-              onClick: () => onHide(shoutout)
-            }
-          ]}
-        />
-      );
+  if (!shoutout.hidden)
     return (
       <Modal
-        trigger={<Button icon="eye slash" size="tiny" />}
-        header="Unhide Shoutout"
-        content="Are you sure that you want to show this shoutout?"
+        trigger={<Button icon="eye" size="tiny" />}
+        header="Hide Shoutout"
+        content="Are you sure that you want to hide this shoutout?"
         actions={[
           'Cancel',
           {
-            key: 'unhideShoutouts',
-            content: 'Unhide Shoutout',
+            key: 'hideShoutouts',
+            content: 'Hide Shoutout',
             color: 'red',
             onClick: () => onHide(shoutout)
           }
         ]}
       />
     );
-  };
+  return (
+    <Modal
+      trigger={<Button icon="eye slash" size="tiny" />}
+      header="Unhide Shoutout"
+      content="Are you sure that you want to show this shoutout?"
+      actions={[
+        'Cancel',
+        {
+          key: 'unhideShoutouts',
+          content: 'Unhide Shoutout',
+          color: 'red',
+          onClick: () => onHide(shoutout)
+        }
+      ]}
+    />
+  );
+};
 
-  const DisplayList = (): JSX.Element => {
-    if (displayShoutouts.length === 0)
-      return (
-        <Card className={styles.noShoutoutsContainer}>
-          <Card.Content>No shoutouts in this date range.</Card.Content>
-        </Card>
-      );
-
-    if (view === 'PRESENT')
-      return (
-        <Item.Group divided>
-          <Header className={styles.presentCount}>
-            <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
-            {` ${displayShoutouts.length} Shoutouts `}
-            <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
-          </Header>
-          {displayShoutouts.map((shoutout, i) => (
-            <Item key={i}>
-              <div className={styles.displayCount}>{i + 1}</div>
-              <Item.Content>
-                <Item.Header className={styles.presentShoutoutTo}>
-                  {`${shoutout.receiver}`}{' '}
-                  <span className={styles.presentShoutoutFrom}>{` ${fromString(shoutout)}`}</span>
-                </Item.Header>
-                <Item.Description
-                  className={styles.presentShoutoutMessage}
-                  content={shoutout.message}
-                />
-              </Item.Content>
-            </Item>
-          ))}
-        </Item.Group>
-      );
-
+const DisplayList = ({
+  displayShoutouts,
+  view,
+  setAllShoutouts
+}: {
+  displayShoutouts: Shoutout[] | undefined;
+  view: ViewMode;
+  setAllShoutouts: React.Dispatch<React.SetStateAction<Shoutout[] | undefined>>;
+}): JSX.Element => {
+  if (displayShoutouts === undefined) {
+    return <Loader active size="big" content="Loading..." />;
+  }
+  if (displayShoutouts.length === 0)
+    return (
+      <Card className={styles.noShoutoutsContainer}>
+        <Card.Content>No shoutouts in this date range.</Card.Content>
+      </Card>
+    );
+  if (view === 'PRESENT')
     return (
       <Item.Group divided>
         {displayShoutouts.map((shoutout, i) => (
           <Item key={i}>
+            <div className={styles.displayCount}>{i + 1}</div>
             <Item.Content>
-              <Item.Group widths="equal" className={styles.shoutoutDetails}>
-                <Item.Header className={styles.shoutoutTo}>{`${shoutout.receiver}`}</Item.Header>
-                <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
-              </Item.Group>
-              <Item.Group widths="equal" className={styles.shoutoutHide}>
-                <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
-                <HideModal shoutout={shoutout} />
-              </Item.Group>
-              <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
+              <Item.Header
+                className={styles.presentShoutoutTo}
+              >{`${shoutout.receiver}`}</Item.Header>
+              <Item.Meta
+                className={styles.presentShoutoutFrom}
+                content={` ${fromString(shoutout)}`}
+              />
+              <Item.Description
+                className={styles.presentShoutoutMessage}
+                content={shoutout.message}
+              />
             </Item.Content>
           </Item>
         ))}
       </Item.Group>
     );
-  };
+  return (
+    <Item.Group divided>
+      <Header className={styles.presentCount}>
+        <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
+        {` ${displayShoutouts.length} Shoutouts `}
+        <Image className={styles.presentCountImg} src={catEmoji.src} alt="cat gif" />
+      </Header>
+      {displayShoutouts.map((shoutout, i) => (
+        <Item key={i}>
+          <Item.Content>
+            <Item.Group widths="equal" className={styles.shoutoutDetails}>
+              <Item.Header className={styles.shoutoutTo}>{`${shoutout.receiver}`}</Item.Header>
+              <Item.Meta className={styles.shoutoutDate} content={dateString(shoutout)} />
+            </Item.Group>
+            <Item.Group widths="equal" className={styles.shoutoutHide}>
+              <Item.Meta className={styles.shoutoutFrom} content={fromString(shoutout)} />
+              <HideModal shoutout={shoutout} setAllShoutouts={setAllShoutouts} />
+            </Item.Group>
+            <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
+          </Item.Content>
+        </Item>
+      ))}
+    </Item.Group>
+  );
+};
 
-  const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
-    const { shoutoutList, buttonText } = props;
-    let currColor: SemanticCOLORS = 'grey';
-    if (buttonText === view) currColor = 'blue';
-    return (
-      <Button
-        color={currColor}
-        onClick={() => {
-          setView(buttonText);
-          setDisplayShoutouts(shoutoutList);
-        }}
-        content={buttonText}
-      />
-    );
-  };
+const ChooseDate = (props: {
+  dateField: Date;
+  dateFunction: (value: React.SetStateAction<Date>) => void;
+}): JSX.Element => {
+  const { dateField, dateFunction } = props;
+  return (
+    <DatePicker
+      selected={dateField}
+      dateFormat="MMMM do yyyy"
+      onChange={(date: Date) => dateFunction(date)}
+    />
+  );
+};
 
-  const ChooseDate = (props: {
-    dateField: Date;
-    dateFunction: (value: React.SetStateAction<Date>) => void;
-  }): JSX.Element => {
-    const { dateField, dateFunction } = props;
-    return (
-      <DatePicker
-        selected={dateField}
-        dateFormat="MMMM do yyyy"
-        onChange={(date: Date) => dateFunction(date)}
-      />
-    );
-  };
+const AdminShoutouts: React.FC = () => {
+  const [allShoutouts, setAllShoutouts] = useState<Shoutout[] | undefined>(undefined);
+  const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
+  const [lastDate, setLastDate] = useState<Date>(new Date());
+  const [view, setView] = useState<ViewMode>('ALL');
+
+  useEffect(() => {
+    ShoutoutsAPI.getAllShoutouts().then((shoutouts) => setAllShoutouts(shoutouts));
+  }, []);
+
+  if (lastDate < earlyDate) {
+    Emitters.generalError.emit({
+      headerMsg: 'Invalid Date Range',
+      contentMsg: 'Please make sure the latest shoutout date is after the earliest shoutout date.'
+    });
+  }
+
+  const displayShoutouts = allShoutouts
+    ?.filter((shoutout) => {
+      const shoutoutDate = new Date(shoutout.timestamp);
+      return (
+        (view === 'ALL' ||
+          (view === 'PRESENT' && !shoutout.hidden) ||
+          (view === 'HIDDEN' && shoutout.hidden)) &&
+        shoutoutDate >= earlyDate &&
+        shoutoutDate <= lastDate
+      );
+    })
+    .sort((a, b) => a.timestamp - b.timestamp);
 
   return (
     <div>
@@ -232,27 +210,28 @@ const AdminShoutouts: React.FC = () => {
           <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
           <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
           <Button.Group className={styles.buttonGroup}>
-            <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
-              buttonText={'HIDDEN'}
-            />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
-              buttonText={'PRESENT'}
-            />
+            <Button color={view === 'ALL' ? 'blue' : 'grey'} onClick={() => setView('ALL')}>
+              ALL
+            </Button>
+            <Button color={view === 'HIDDEN' ? 'blue' : 'grey'} onClick={() => setView('HIDDEN')}>
+              HIDDEN
+            </Button>
+            <Button color={view === 'PRESENT' ? 'blue' : 'grey'} onClick={() => setView('PRESENT')}>
+              PRESENT
+            </Button>
           </Button.Group>
         </Form.Group>
       </Form>
       <div className={styles.shoutoutsListContainer}>
-        {loading ? (
-          <Loader active inline="centered" />
-        ) : (
-          <>
-            <ListTitle />
-            <DisplayList />
-          </>
-        )}
+        <Header
+          className={styles.formTitle}
+          content={getListTitle(view, displayShoutouts ? displayShoutouts.length : 0)}
+        />
+        <DisplayList
+          displayShoutouts={displayShoutouts}
+          view={view}
+          setAllShoutouts={setAllShoutouts}
+        />
       </div>
     </div>
   );

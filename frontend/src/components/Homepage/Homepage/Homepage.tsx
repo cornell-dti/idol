@@ -62,6 +62,14 @@ const NavCard = ({
   </div>
 );
 
+const Footer: React.FC = () => (
+  <Link href="/hall-of-fame">
+    <div className={styles.copyrightContainer}>
+      Cornell Design & Tech Initiative &copy; 2023 | Made with {'<3'} by IDOL
+    </div>
+  </Link>
+);
+
 const Homepage: React.FC = () => (
   <div className={styles.Homepage} data-testid="Homepage">
     <div className={styles.content}>
@@ -113,6 +121,7 @@ const Homepage: React.FC = () => (
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 );
 

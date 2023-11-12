@@ -74,8 +74,8 @@ export const createNewDevPortfolio = async (
   instance: DevPortfolio,
   user: IdolMember
 ): Promise<DevPortfolio> => {
-  const canCreateDevPortfolio = await PermissionsManager.isLeadOrAdmin(user);
-  if (!canCreateDevPortfolio) {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
     throw new PermissionError(
       `User with email: ${user.email} does not have permission to create dev portfolio!`
     );
@@ -116,7 +116,8 @@ export const updateDevPortfolio = async (
   devPortfolio: DevPortfolio,
   user: IdolMember
 ): Promise<DevPortfolioInfo> => {
-  if (!PermissionsManager.canEditDevPortfolio(user)) {
+  const canEditDevPortfolio = await PermissionsManager.canEditDevPortfolio(user);
+  if (!canEditDevPortfolio) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to update dev portfolios`
     );
@@ -131,8 +132,8 @@ export const updateDevPortfolio = async (
  * @param user - The user that is requesting to delete a dev portfolio
  */
 export const deleteDevPortfolio = async (uuid: string, user: IdolMember): Promise<void> => {
-  const canDeleteDevPortfolio = await PermissionsManager.isLeadOrAdmin(user);
-  if (!canDeleteDevPortfolio) {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
     throw new PermissionError(
       `User with email: ${user.email} does not have permission to delete dev portfolio!`
     );
@@ -183,9 +184,9 @@ export const updateSubmissions = async (
   updatedSubmissions: DevPortfolioSubmission[],
   user: IdolMember
 ): Promise<DevPortfolio> => {
-  const canChangeSubmission = await PermissionsManager.isLeadOrAdmin(user);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
 
-  if (!canChangeSubmission) {
+  if (!isLeadOrAdmin) {
     throw new PermissionError(
       `User with email ${user.email} does not have permission to update dev portfolio submissions`
     );
@@ -211,8 +212,8 @@ export const updateSubmissions = async (
  * @returns - The updated Dev Portfolio (if the submissions are successfully regraded)
  */
 export const regradeSubmissions = async (uuid: string, user: IdolMember): Promise<DevPortfolio> => {
-  const canRequestRegrade = await PermissionsManager.isLeadOrAdmin(user);
-  if (!canRequestRegrade)
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError(
       `User with email ${user.email} does not have permission to regrade dev portfolio submissions`
     );
