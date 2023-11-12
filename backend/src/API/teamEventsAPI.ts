@@ -1,7 +1,9 @@
+import { Request } from 'express';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { PermissionError } from '../utils/errors';
+import { BadRequestError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
+import { sendTECReminder } from './mailAPI';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
@@ -204,4 +206,31 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
     );
   }
   await teamEventAttendanceDao.deleteTeamEventAttendance(uuid);
+};
+
+/**
+ * Reminds a member about completing enough TECs this semester.
+ * @param req - the post request being made by the user
+ * @param member - the member being notified
+ * @param user - the user trying to notify the member
+ * @throws PermissionError if the user does not have permissions to notify members
+ * @returns the body of the request, which contains details about the member being notified
+ */
+export const notifyMember = async (
+  req: Request,
+  member: IdolMember,
+  user: IdolMember
+): Promise<unknown> => {
+  const canNotify = await PermissionsManager.canNotifyMembers(user);
+  if (!canNotify) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to notify members!`
+    );
+  }
+  if (!member.email || member.email === '') {
+    throw new BadRequestError("Couldn't notify member with undefined email!");
+  }
+
+  sendTECReminder(req, member);
+  return member;
 };
