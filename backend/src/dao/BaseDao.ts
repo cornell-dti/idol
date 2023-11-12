@@ -86,7 +86,7 @@ export default abstract class BaseDao<E, D> {
    */
   protected async updateDocument(docID: string, data: E): Promise<E> {
     const doc = await this.serializeData(data);
-    await this.collection.doc(docID).update(doc as firestore.UpdateData);
+    await this.collection.doc(docID).update(doc as firestore.UpdateData<D>);
     return data;
   }
 }

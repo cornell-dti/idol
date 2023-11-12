@@ -9,8 +9,9 @@
     "tsc": "tsc",
     "build": "tsc",
     "update-dev-db": "esr scripts/update-dev-db.ts",
-    "backup-prod-db": "esr scripts/backup-prod-db.ts",
-    "send-idol-notifications": "esr scripts/send-idol-notifications.ts"
+    "send-profile-update-notifications": "esr scripts/send-profile-update-notifications.ts",
+    "send-tec-notifications": "esr scripts/send-tec-notifications.ts",
+    "backup-prod-db": "esr scripts/backup-prod-db.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {
@@ -32,10 +33,10 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-winston": "^4.2.0",
-    "firebase-admin": "^10.0.0",
+    "firebase-admin": "^11.8.0",
     "googleapis": "^100.0.0",
-    "luxon": "^3.3.0",
     "lodash.isequal": "^4.5.0",
+    "luxon": "^3.3.0",
     "netlify-lambda": "^2.0.14",
     "nodemailer": "^6.7.3",
     "serverless-http": "^2.5.0",
