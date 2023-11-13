@@ -124,8 +124,7 @@ const Home: React.FC = () => {
           <img src="/images/arrow.png" alt="Learn more" className="mt-2 w-auto h-6" />
         </button>
       </div>
-        <div ref={scrollRef} className="h-screen">
-        </div>
+      <div ref={scrollRef} className="h-screen"></div>
     </div>
   );
 };

@@ -9,7 +9,10 @@ interface SlideshowProps {
 
 const imageNames = ['dti.png', 'family.png', 'collaboration.png', 'event.png', 'initiative.png'];
 
-const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({ imageName, isVisible }) => (
+const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({
+  imageName,
+  isVisible
+}) => (
   <div
     className={`absolute top-0 left-0 w-full p-4 bg-white bg-opacity-100 flex items-center rounded-lg ${
       isVisible ? 'opacity-100' : 'opacity-0'
@@ -27,7 +30,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
     {imageNames.map((imageName, index) => (
       <div key={imageName} className="absolute top-0 left-0 w-full h-full">
         <ImageHeader imageName={imageName} isVisible={selectedImage === index} />
-        <div className="relative top-12 w-full h-[400px]"> 
+        <div className="relative top-12 w-full h-[400px]">
           <Image
             width={600}
             height={400}

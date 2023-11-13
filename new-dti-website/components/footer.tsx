@@ -36,7 +36,7 @@ const socialIcons: Icon[] = [
 ];
 
 const Footer: React.FC = () => (
-  <div className="w-full h-[146px] fixed inset-x-0 bottom-0 md:px-[30px] lg:px-[60px] bg-stone-950 inline-flex justify-between items-center md:flex-row flex-col">
+  <div className="w-full h-[146px] inset-x-0 bottom-0 md:px-[30px] lg:px-[60px] bg-stone-950 inline-flex justify-between items-center md:flex-row flex-col">
     <div className="text-neutral-50 text-sm h-screen md:text-lg font-medium flex items-center justify-center ">
       © 2023 Cornell Digital Tech & Innovation Project Team
     </div>
