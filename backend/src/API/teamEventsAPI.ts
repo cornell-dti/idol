@@ -230,7 +230,7 @@ export const notifyMember = async (
   if (!member.email || member.email === '') {
     throw new BadRequestError("Couldn't notify member with undefined email!");
   }
-
-  sendTECReminder(req, member);
-  return member;
+  const responseData = (await sendTECReminder(req, member)).data;
+  console.log(responseData);
+  return responseData;
 };

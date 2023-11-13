@@ -24,22 +24,23 @@ export const sendMail = async (
     text
   };
 
-  // Only sent emails in prod, otherwise, send to stdout.
-  if (env !== 'prod') {
-    // eslint-disable-next-line no-console
-    console.log(
-      `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
-      mailOptions
-    );
-    return {};
-  }
+  // // Only sent emails in prod, otherwise, send to stdout.
+  // if (env !== 'prod') {
+  //   // eslint-disable-next-line no-console
+  //   console.log(
+  //     `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
+  //     mailOptions
+  //   );
+  //   return {};
+  // }
 
   const transporter = await getEmailTransporter();
+  let transportError;
   const info = await transporter
     .sendMail(mailOptions)
     .then((info) => info)
-    .catch((error) => (console.log(error)));
-  return info;
+    .catch((error) => {transportError = error});
+  return { info, error: transportError ?? "None" };
 };
 
 const getSendMailURL = (req: Request): string => {
