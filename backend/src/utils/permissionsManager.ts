@@ -5,6 +5,10 @@ export default class PermissionsManager {
     return this.isLeadOrAdmin(mem);
   }
 
+  static async canNotifyMembers(mem: IdolMember): Promise<boolean> {
+    return this.isLeadOrAdmin(mem);
+  }
+
   static async canDeploySite(mem: IdolMember): Promise<boolean> {
     return this.isLeadOrAdmin(mem);
   }

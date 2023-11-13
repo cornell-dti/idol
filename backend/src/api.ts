@@ -52,7 +52,8 @@ import {
   requestTeamEventCredit,
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
-  deleteTeamEventAttendance
+  deleteTeamEventAttendance,
+  notifyMember
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -148,7 +149,7 @@ const loginCheckedHandler =
       return;
     }
     if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
+      res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
     }
     try {
       res.status(200).send(await handler(req, user));
@@ -335,6 +336,9 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
+loginCheckedPost('/team-event-reminder', async (req, user) => ({
+  info: await notifyMember(req, req.body, user)
+}));
 
 // Team Events Proof Image
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({

@@ -25,3 +25,13 @@
   position: sticky;
   left: 0;
 }
+
+.remindButton {
+  position: sticky;
+  left: 35%;
+}
+
+.notify {
+  position: absolute;
+  right: 1%;
+}
