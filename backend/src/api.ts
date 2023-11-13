@@ -218,7 +218,7 @@ loginCheckedDelete('/member/:email', async (req, user) => {
   return {};
 });
 loginCheckedPut('/member', async (req, user) => ({
-  member: await updateMember(req, req.body, user)
+  member: await updateMember(req.body, user)
 }));
 
 loginCheckedGet('/memberDiffs', async (_, user) => ({
