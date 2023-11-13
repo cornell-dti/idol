@@ -337,7 +337,7 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   return {};
 });
 loginCheckedPost('/team-event-reminder', async (req, user) => ({
-  member: await notifyMember(req, req.body, user)
+  info: await notifyMember(req, req.body, user)
 }));
 
 // Team Events Proof Image
