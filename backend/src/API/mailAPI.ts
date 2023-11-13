@@ -35,12 +35,11 @@ export const sendMail = async (
   }
 
   const transporter = await getEmailTransporter();
-  let transportError;
   const info = await transporter
     .sendMail(mailOptions)
     .then((info) => info)
-    .catch((error) => {transportError = error});
-  return { info, error: transportError ?? "None", env };
+    .catch((error) => ({ error }));
+  return { info, env };
 };
 
 const getSendMailURL = (req: Request): string => {
