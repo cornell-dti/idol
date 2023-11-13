@@ -26,12 +26,10 @@ export const sendMail = async (
 
   // Only send emails in prod, otherwise, send to stdout.
   if (env !== 'prod') {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
     // eslint-disable-next-line no-console
-    console.log(
-      `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
-      mailOptions
-    );
-    return { env };
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
   }
 
   const transporter = await getEmailTransporter();
@@ -39,7 +37,7 @@ export const sendMail = async (
     .sendMail(mailOptions)
     .then((info) => info)
     .catch((error) => ({ error }));
-  return { info, env };
+  return info;
 };
 
 const getSendMailURL = (req: Request): string => {
