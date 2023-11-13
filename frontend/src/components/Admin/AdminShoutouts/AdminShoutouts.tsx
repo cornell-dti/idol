@@ -59,7 +59,13 @@ const AdminShoutouts: React.FC = () => {
           const shoutoutDate = new Date(shoutout.timestamp);
           // Set time to be 4:59:59AM UTC/11:59PM EST/12:59AM EDT
           const lastDateAdjusted = new Date(
-            new Date(lastDate).setUTCHours(4, 59, 59, 59) + 60 * 60 * 24 * 1000
+            new Date(lastDate.getTime() - lastDate.getTimezoneOffset() * 60 * 1000).setUTCHours(
+              4,
+              59,
+              59,
+              59
+            ) +
+              60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
