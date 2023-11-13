@@ -58,10 +58,18 @@ const AdminShoutouts: React.FC = () => {
         .filter((shoutout) => {
           const shoutoutDate = new Date(shoutout.timestamp);
           // Set time to be 4:59:59AM UTC/11:59PM EST/12:59AM EDT
-          const lastDateAdjusted = new Date(lastDate.setUTCHours(4, 59, 59, 59));
+          const lastDateAdjusted = new Date(
+            new Date(lastDate.getTime() - lastDate.getTimezoneOffset() * 60 * 1000).setUTCHours(
+              4,
+              59,
+              59,
+              59
+            ) +
+              60 * 60 * 1000 * 24
+          );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
-          const earlyDateAdjusted = new Date(earlyDate.setUTCHours(5, 0, 0, 0));
+          const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
           return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
         })
         .sort((a, b) => a.timestamp - b.timestamp);
