@@ -24,15 +24,15 @@ export const sendMail = async (
     text
   };
 
-  // // Only sent emails in prod, otherwise, send to stdout.
-  // if (env !== 'prod') {
-  //   // eslint-disable-next-line no-console
-  //   console.log(
-  //     `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
-  //     mailOptions
-  //   );
-  //   return {};
-  // }
+  // Only send emails in prod, otherwise, send to stdout.
+  if (env !== 'prod') {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Emails are not sent in non-production envs. Here's what would have been sent:\n`,
+      mailOptions
+    );
+    return { env };
+  }
 
   const transporter = await getEmailTransporter();
   let transportError;
@@ -40,7 +40,7 @@ export const sendMail = async (
     .sendMail(mailOptions)
     .then((info) => info)
     .catch((error) => {transportError = error});
-  return { info, error: transportError ?? "None" };
+  return { info, error: transportError ?? "None", env };
 };
 
 const getSendMailURL = (req: Request): string => {
