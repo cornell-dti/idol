@@ -5,8 +5,11 @@ import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
-import { getAllTeamEvents, getTeamEventAttendanceByUser } from './teamEventsAPI';
 import { env } from '../firebase';
+import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
+import TeamEventsDao from '../dao/TeamEventsDao';
+
+const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
 export const sendMail = async (
   to: string,
@@ -85,13 +88,19 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 
 export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
-  const allEvents = await getAllTeamEvents(req.body);
+  const allEvents = await Promise.all(
+    (await TeamEventsDao.getAllTeamEvents()).map(async (event) => ({
+      ...event,
+      requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
+    }))
+  );
+
   const futureEvents = allEvents.filter((event) => {
     const eventDate = new Date(event.date);
     const todayDate = new Date();
     return eventDate >= todayDate;
   });
-  const memberEventAttendance = await getTeamEventAttendanceByUser(member);
+  const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
   let approvedCount = 0;
   let pendingCount = 0;
   memberEventAttendance.forEach((eventAttendance) => {
