@@ -89,7 +89,9 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
   const allEvents = await Promise.all(
-    (await TeamEventsDao.getAllTeamEvents()).map(async (event) => ({
+    (
+      await TeamEventsDao.getAllTeamEvents()
+    ).map(async (event) => ({
       ...event,
       requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
     }))
