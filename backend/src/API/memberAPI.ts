@@ -24,7 +24,7 @@ export const allApprovedMembers = (): Promise<readonly IdolMember[]> =>
  * @param member - the new `IdolMember` to create.
  * @param user - the `IdolMember` making the request.
  * @throws `PermissionError` if `user` does not have permission to edit members.
- * @throws `badRequestError` if the email of the new `IdolMember` is undefined.
+ * @throws `BadRequestError` if the email of the new `IdolMember` is undefined.
  * @returns the newly created `IdolMember`.
  */
 export const setMember = async (member: IdolMember, user: IdolMember): Promise<IdolMember> => {
