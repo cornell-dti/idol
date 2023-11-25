@@ -4,10 +4,19 @@ import { Modal, Button } from 'semantic-ui-react';
 type Props = {
   title: string;
   text: string;
+  member: IdolMember;
+  otherPRs: PullRequestSubmission[] | undefined;
 };
 
-const DevPortfolioTextModal: React.FC<Props> = ({ title, text }) => {
+type TextProps = {
+  text: string;
+  member: IdolMember;
+  otherPRs: PullRequestSubmission[] | undefined;
+};
+
+const DevPortfolioTextModal: React.FC<Props> = ({ title, text, member, otherPRs }) => {
   const [viewText, setViewText] = useState(false);
+
   return (
     <Modal
       onClose={() => setViewText(false)}
@@ -17,7 +26,9 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text }) => {
     >
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content image>
-        <p>{text}</p>
+        <Modal.Description>
+          <Text text={text} member={member} otherPRs={otherPRs} />
+        </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
         <Button color="red" onClick={() => setViewText(false)}>
@@ -25,6 +36,33 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text }) => {
         </Button>
       </Modal.Actions>
     </Modal>
+  );
+};
+
+const Text: React.FC<TextProps> = ({ text, member, otherPRs }) => {
+  if (member.role === 'tpm') {
+    return <p>{text}</p>;
+  }
+  return (
+    <p>
+      <div>
+        {member.firstName} {member.lastName} has requested an exception to the normal dev portfolio
+        PR requirements. <br />
+        These are the PRs submitted for their exception:
+      </div>{' '}
+      <br />
+      {otherPRs ? (
+        otherPRs.map((pr) => (
+          <div>
+            {pr.url} <br />
+          </div>
+        ))
+      ) : (
+        <div>No PRs submitted.</div>
+      )}
+      <br />
+      <div>Explanation: {text}</div>
+    </p>
   );
 };
 

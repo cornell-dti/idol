@@ -18,9 +18,11 @@ const DevPortfolioForm: React.FC = () => {
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
   const [openPRs, setOpenPRs] = useState(['']);
   const [reviewPRs, setReviewedPRs] = useState(['']);
+  const [otherPRs, setOtherPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [text, setText] = useState<string | undefined>(undefined);
   const [documentationText, setDocumentationText] = useState<string>('');
+  const [openOther, setOpenOther] = useState(false);
 
   useEffect(() => {
     refreshDevPortfolios();
@@ -63,6 +65,7 @@ const DevPortfolioForm: React.FC = () => {
   const submitDevPortfolio = () => {
     const openedEmpty = !openPRs[0] || openPRs[0].length === 0;
     const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
+    const otherEmpty = !otherPRs[0] || otherPRs[0].length === 0;
     const textEmpty = !text;
 
     if (!devPortfolio) {
@@ -76,14 +79,17 @@ const DevPortfolioForm: React.FC = () => {
       ? devPortfolio.lateDeadline
       : devPortfolio?.deadline;
 
-    if (!isTpm && (openedEmpty || reviewedEmpty)) {
-      Emitters.generalError.emit({
-        headerMsg: 'No opened or reviewed PR url submitted',
-        contentMsg: 'Please paste a link to a opened and reviewed PR!'
-      });
+    if (!isTpm && otherEmpty) {
+      if (openedEmpty || reviewedEmpty) {
+        Emitters.generalError.emit({
+          headerMsg: 'No opened or reviewed PR url submitted',
+          contentMsg: 'Please paste a link to a opened and reviewed PR!'
+        });
+      }
     } else if (
       (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
+      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!otherEmpty && otherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
@@ -98,6 +104,11 @@ const DevPortfolioForm: React.FC = () => {
       Emitters.generalError.emit({
         headerMsg: 'Documentation Empty',
         contentMsg: 'Please write something for the documentation section of the assignment.'
+      });
+    } else if (!isTpm && !otherEmpty && textEmpty) {
+      Emitters.generalError.emit({
+        headerMsg: 'Explanation Empty',
+        contentMsg: 'Please write an explanation for your other PR submission.'
       });
     } else if (new Date(latestDeadline) < new Date()) {
       Emitters.generalError.emit({
@@ -117,6 +128,10 @@ const DevPortfolioForm: React.FC = () => {
           status: 'pending'
         })),
         reviewedPRs: reviewPRs.map((pr) => ({
+          url: pr,
+          status: 'pending'
+        })),
+        otherPRs: otherPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
@@ -204,12 +219,23 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Opened PR"
             label="Opened Pull Request Github Link:"
             isTpm={isTpm}
+            openOther={openOther}
           />
           <PRInputs
             prs={reviewPRs}
             setPRs={setReviewedPRs}
             placeholder="Reviewed PR"
             label="Reviewed Pull Request Github Link:"
+            isTpm={isTpm}
+            openOther={openOther}
+          />
+          <OtherPRInputs
+            otherPRs={otherPRs}
+            setOtherPRs={setOtherPRs}
+            openOther={openOther}
+            setOpenOther={setOpenOther}
+            explanationText={text}
+            setExplanationText={setText}
             isTpm={isTpm}
           />
           <DocumentationInput
@@ -267,13 +293,15 @@ const PRInputs = ({
   setPRs,
   label,
   placeholder,
-  isTpm
+  isTpm,
+  openOther
 }: {
   prs: string[];
   setPRs: React.Dispatch<React.SetStateAction<string[]>>;
   label: string;
   placeholder: string;
   isTpm: boolean;
+  openOther: boolean;
 }) => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === 'Enter') {
@@ -283,7 +311,7 @@ const PRInputs = ({
   return (
     <div className={styles.inline}>
       <label className={styles.bold}>
-        {label} {!isTpm && <span className={styles.red_color}>*</span>}
+        {label} {!isTpm && !openOther && <span className={styles.red_color}>*</span>}
       </label>
       {prs.map((pr, index) => (
         <div className={styles.prInputContainer} key={index}>
@@ -323,6 +351,113 @@ const PRInputs = ({
           <button onClick={() => setPRs([...prs, ''])}>Add New</button>
         </div>
       </div>
+    </div>
+  );
+};
+
+const OtherPRInputs = ({
+  otherPRs,
+  setOtherPRs,
+  openOther,
+  setOpenOther,
+  explanationText,
+  setExplanationText,
+  isTpm
+}: {
+  otherPRs: string[];
+  setOtherPRs: React.Dispatch<React.SetStateAction<string[]>>;
+  openOther: boolean;
+  setOpenOther: React.Dispatch<React.SetStateAction<boolean>>;
+  explanationText: string | undefined;
+  setExplanationText: React.Dispatch<React.SetStateAction<string | undefined>>;
+  isTpm?: boolean;
+}) => {
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === 'Enter') {
+      event.preventDefault();
+    }
+  };
+  return (
+    <div className={styles.inline}>
+      <Icon
+        className={styles.btnContainer}
+        name={openOther ? 'angle down' : 'angle right'}
+        onClick={() => setOpenOther(!openOther)}
+      />
+      <span className={styles.bold}>Other PRs</span>
+      {openOther ? (
+        <div className={styles.center_and_flex}>
+          {' '}
+          This section is only for submitting PR links when you believe you have an exception for
+          one of the above requirements. Please submit the PR links, as well as an explanation for
+          what the links are for and why you have this exception.{' '}
+        </div>
+      ) : (
+        ''
+      )}
+      <br />
+      {openOther ? (
+        <label className={styles.bold}>
+          Other Pull Request Github Link: {!isTpm && <span className={styles.red_color}>*</span>}
+        </label>
+      ) : (
+        ''
+      )}
+      {openOther
+        ? otherPRs.map((pr, index) => (
+            <div className={styles.prInputContainer} key={index}>
+              <input
+                onKeyDown={keyDownHandler}
+                type="text"
+                onChange={(e) => {
+                  setOtherPRs((prs) => {
+                    const newPRs = [...prs];
+                    newPRs[index] = e.target.value;
+                    return newPRs;
+                  });
+                }}
+                value={pr}
+                placeholder={'Other PR'}
+              />
+              <div className={styles.btnContainer}>
+                {otherPRs.length !== 1 ? (
+                  <Button
+                    icon
+                    onClick={() => {
+                      const rows = [...otherPRs];
+                      rows.splice(index, 1);
+                      setOtherPRs(rows);
+                    }}
+                  >
+                    <Icon name="trash alternate" />
+                  </Button>
+                ) : (
+                  ''
+                )}
+              </div>
+            </div>
+          ))
+        : ''}
+      {openOther ? (
+        <div className="row">
+          <div className="col-sm-12">
+            <button onClick={() => setOtherPRs([...otherPRs, ''])}>Add New</button>
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
+      {openOther ? (
+        <div>
+          <br />
+          <label className={styles.bold}>
+            Explanation: {!isTpm && <span className={styles.red_color}>*</span>}
+          </label>
+          <TextArea value={explanationText} onChange={(e) => setExplanationText(e.target.value)} />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

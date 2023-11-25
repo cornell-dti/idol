@@ -56,8 +56,12 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
     });
 
     const csvData = uniqueSubmissions.map((submission) => {
-      const open = Number(submission.openedPRs.some((pr) => pr.status === 'valid'));
-      const review = Number(submission.reviewedPRs.some((pr) => pr.status === 'valid'));
+      const open = Number(
+        submission.openedPRs && submission.openedPRs.some((pr) => pr.status === 'valid')
+      );
+      const review = Number(
+        submission.reviewedPRs && submission.reviewedPRs.some((pr) => pr.status === 'valid')
+      );
       return {
         name: `${submission.member.firstName} ${submission.member.lastName}`,
         netid: submission.member.netid,
@@ -221,7 +225,10 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
   updateStatus,
   isAdminView
 }) => {
-  const numRows = Math.max(submission.openedPRs.length, submission.reviewedPRs.length);
+  const numRows = Math.max(
+    submission.openedPRs ? submission.openedPRs.length : 0,
+    submission.reviewedPRs ? submission.reviewedPRs.length : 0
+  );
   const [submissionStatus, setSubmissionStatus] = useState(submission.status);
 
   // in case of regrade, need to reinitialize to correct status
@@ -249,12 +256,20 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         </Table.Cell>
         <Table.Cell>
           <PullRequestDisplay
-            prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
+            prSubmission={
+              submission.openedPRs && submission.openedPRs.length > 0
+                ? submission.openedPRs[0]
+                : undefined
+            }
           />
         </Table.Cell>
         <Table.Cell>
           <PullRequestDisplay
-            prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
+            prSubmission={
+              submission.reviewedPRs && submission.reviewedPRs.length > 0
+                ? submission.reviewedPRs[0]
+                : undefined
+            }
           />
         </Table.Cell>
         <Table.Cell>{submission.documentationText}</Table.Cell>
@@ -287,6 +302,8 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
             <DevPortfolioTextModal
               title={`${submission.member.firstName} ${submission.member.lastName}`}
               text={submission.text}
+              member={submission.member}
+              otherPRs={submission.otherPRs}
             ></DevPortfolioTextModal>
           </Table.Cell>
         ) : (
@@ -298,9 +315,12 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
 
   if (numRows <= 1) return <FirstRow />;
 
-  const remainingOpenedPRs = submission.openedPRs.length > 1 ? submission.openedPRs.slice(1) : [];
+  const remainingOpenedPRs =
+    submission.openedPRs && submission.openedPRs.length > 1 ? submission.openedPRs.slice(1) : [];
   const remainingReviewedPRs =
-    submission.reviewedPRs.length > 1 ? submission.reviewedPRs.slice(1) : [];
+    submission.reviewedPRs && submission.reviewedPRs.length > 1
+      ? submission.reviewedPRs.slice(1)
+      : [];
   const remainingRows = (
     remainingOpenedPRs.length > remainingReviewedPRs.length
       ? remainingOpenedPRs
