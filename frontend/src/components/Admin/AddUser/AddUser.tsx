@@ -126,11 +126,8 @@ export default function AddUser(): JSX.Element {
   async function setUser(member?: CurrentSelectedMember): Promise<void> {
     if (!member) return;
 
-    // Get role description (error-safe)
-    let roleDescription;
-    try {
-      roleDescription = getRoleDescriptionFromRoleID(member.role);
-    } catch (e) {
+    // Check that role is selected
+    if (!member.role) {
       Emitters.generalError.emit({
         headerMsg: 'Role not selected!',
         contentMsg: 'Please select a role from the dropdown.'
@@ -151,7 +148,7 @@ export default function AddUser(): JSX.Element {
     MembersAPI.setMember({
       ...member,
       netid: getNetIDFromEmail(member.email),
-      roleDescription
+      roleDescription: getRoleDescriptionFromRoleID(member.role)
     }).then((val) => {
       if (val.error) {
         Emitters.userEditError.emit({
