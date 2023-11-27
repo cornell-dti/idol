@@ -113,6 +113,7 @@ export default function AddUser(): JSX.Element {
       contentMsg: 'You are creating a new user!'
     });
   }
+
   async function deleteUser(memberEmail: string): Promise<void> {
     MembersAPI.deleteMember(memberEmail).then((val) => {
       if (val.error) {
