@@ -33,6 +33,11 @@ const navbarItems = [
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleMenuClick = () => {
+    document.body.classList.toggle('overflow-hidden');
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
       <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row ">
@@ -57,13 +62,7 @@ const Navbar: React.FC = () => {
             </a>
           ))}
         </div>
-        <div
-          className="flex lg:hidden w-fit"
-          onClick={(e) => {
-            document.body.classList.toggle('overflow-hidden');
-            setIsMenuOpen(!isMenuOpen);
-          }}
-        >
+        <div className="flex lg:hidden w-fit" onClick={(e) => handleMenuClick()}>
           {isMenuOpen ? (
             <Image
               className="h-12 w-auto md:h-14"
