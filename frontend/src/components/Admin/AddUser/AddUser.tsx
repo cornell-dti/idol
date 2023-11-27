@@ -132,7 +132,7 @@ export default function AddUser(): JSX.Element {
       roleDescription = getRoleDescriptionFromRoleID(member.role);
     }
     catch (e) {
-      Emitters.userEditError.emit({
+      Emitters.generalError.emit({
         headerMsg: "Role not selected!",
         contentMsg: "Please select a role from the dropdown."
       });
@@ -141,9 +141,9 @@ export default function AddUser(): JSX.Element {
 
     // Check that member email is Cornell email
     if(!member.email.includes("@cornell.edu")) {
-      Emitters.userEditError.emit({
-        headerMsg: "Invalid email!",
-        contentMsg: "Please enter a valid Cornell email (abc123@cornell.edu) in the email field."
+      Emitters.generalError.emit({
+        headerMsg: "Invalid Cornell email!",
+        contentMsg: "Please enter a valid Cornell email (i.e. abc123@cornell.edu) in the email field."
       });
       return;
     }
