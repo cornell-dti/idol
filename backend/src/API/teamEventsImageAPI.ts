@@ -22,7 +22,7 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
  * Gets TEC proof image for member
  * @param name - the name of the image
  * @param user - the member who made the request
- * @throws NotFoundError if the request image does not exist
+ * @throws NotFoundError if the requested image does not exist
  * @returns a Promise to the signed URL to the image file
  */
 export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
