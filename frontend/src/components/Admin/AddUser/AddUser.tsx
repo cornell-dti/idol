@@ -124,26 +124,26 @@ export default function AddUser(): JSX.Element {
   }
 
   async function setUser(member?: CurrentSelectedMember): Promise<void> {
-    if(!member) return;
+    if (!member) return;
 
     // Get role description (error-safe)
     let roleDescription;
     try {
       roleDescription = getRoleDescriptionFromRoleID(member.role);
-    }
-    catch (e) {
+    } catch (e) {
       Emitters.generalError.emit({
-        headerMsg: "Role not selected!",
-        contentMsg: "Please select a role from the dropdown."
+        headerMsg: 'Role not selected!',
+        contentMsg: 'Please select a role from the dropdown.'
       });
       return;
     }
 
     // Check that member email is Cornell email
-    if(!member.email.includes("@cornell.edu")) {
+    if (!member.email.includes('@cornell.edu')) {
       Emitters.generalError.emit({
-        headerMsg: "Invalid Cornell email!",
-        contentMsg: "Please enter a valid Cornell email (i.e. abc123@cornell.edu) in the email field."
+        headerMsg: 'Invalid Cornell email!',
+        contentMsg:
+          'Please enter a valid Cornell email (i.e. abc123@cornell.edu) in the email field.'
       });
       return;
     }
@@ -575,11 +575,7 @@ export default function AddUser(): JSX.Element {
               </Card.Content>
               <Card.Content extra>
                 <div className={`ui one buttons ${styles.fullWidth}`}>
-                  <Button
-                    basic
-                    color="green"
-                    onClick={() => setUser(state.currentSelectedMember)}
-                  >
+                  <Button basic color="green" onClick={() => setUser(state.currentSelectedMember)}>
                     Save User
                   </Button>
                 </div>
