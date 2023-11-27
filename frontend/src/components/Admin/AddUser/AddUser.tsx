@@ -108,8 +108,11 @@ export default function AddUser(): JSX.Element {
       },
       isCreatingUser: true
     });
+    Emitters.generalSuccess.emit({
+      headerMsg: 'Creating User',
+      contentMsg: 'You are creating a new user!'
+    });
   }
-
   async function deleteUser(memberEmail: string): Promise<void> {
     MembersAPI.deleteMember(memberEmail).then((val) => {
       if (val.error) {
@@ -119,6 +122,10 @@ export default function AddUser(): JSX.Element {
         });
       } else {
         setState({ currentSelectedMember: undefined, isCreatingUser: false });
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Deleting User',
+          contentMsg: `You have successfully deleted user with email ` + memberEmail + ' .'
+        });
       }
     });
   }
@@ -132,6 +139,11 @@ export default function AddUser(): JSX.Element {
         });
       } else {
         setState((s) => ({ ...s, isCreatingUser: false }));
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Saving User',
+          contentMsg:
+            `You have successfully saved ` + member.firstName + ' ' + member.lastName + '.'
+        });
       }
     });
   }
