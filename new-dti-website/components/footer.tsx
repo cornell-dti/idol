@@ -10,7 +10,7 @@ type Icon = {
 const socialIcons: Icon[] = [
   {
     src: '/email.svg',
-    link: 'hello@cornelldti.org', //placeholder for now
+    link: 'mailto:hello@cornelldti.org',
     alt: 'Cornell DTI Email'
   },
   {
