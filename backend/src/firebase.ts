@@ -135,3 +135,6 @@ export const devPortfolioSubmissionRequestLogCollection: admin.firestore.Collect
   });
 
 export const adminCollection: admin.firestore.CollectionReference = db.collection('admins');
+
+export const teamEventAdminCollection: admin.firestore.CollectionReference =
+  db.collection('team-event-admins');

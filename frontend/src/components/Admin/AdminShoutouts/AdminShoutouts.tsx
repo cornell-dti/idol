@@ -12,10 +12,22 @@ import {
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { DocumentReference, collection, getDoc, onSnapshot } from 'firebase/firestore';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
+import { db } from '../../../firebase';
+
+type DBShoutout = {
+  giver: DocumentReference;
+  receiver: string;
+  message: string;
+  isAnon: boolean;
+  timestamp: number;
+  hidden: boolean;
+  uuid: string;
+};
 
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
@@ -45,7 +57,20 @@ const AdminShoutouts: React.FC = () => {
       const filteredShoutouts = allShoutouts
         .filter((shoutout) => {
           const shoutoutDate = new Date(shoutout.timestamp);
-          return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
+          // Set time to be 4:59:59AM UTC/11:59PM EST/12:59AM EDT
+          const lastDateAdjusted = new Date(
+            new Date(lastDate.getTime() - lastDate.getTimezoneOffset() * 60 * 1000).setUTCHours(
+              4,
+              59,
+              59,
+              59
+            ) +
+              60 * 60 * 1000 * 24
+          );
+
+          // Set time to be 5AM UTC/12AM EST/1AM EDT
+          const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
+          return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
         })
         .sort((a, b) => a.timestamp - b.timestamp);
       if (view === 'PRESENT')
@@ -61,6 +86,23 @@ const AdminShoutouts: React.FC = () => {
   useEffect(() => {
     updateShoutouts();
   }, [earlyDate, lastDate, hide, updateShoutouts]);
+
+  useEffect(() => {
+    const shoutoutCollection = collection(db, 'shoutouts');
+    const unsubscribe = onSnapshot(shoutoutCollection, async (snapshot) => {
+      const newShoutouts = await Promise.all(
+        snapshot.docs.map(async (docSnapshot) => {
+          const data = docSnapshot.data() as DBShoutout;
+          return {
+            ...data,
+            giver: (await getDoc(data.giver)).data() as IdolMember
+          };
+        })
+      );
+      setAllShoutouts(newShoutouts);
+    });
+    return unsubscribe;
+  }, [setAllShoutouts]);
 
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
