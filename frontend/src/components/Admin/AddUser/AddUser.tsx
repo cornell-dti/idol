@@ -123,8 +123,33 @@ export default function AddUser(): JSX.Element {
     });
   }
 
-  async function setUser(member: Member): Promise<void> {
-    MembersAPI.setMember(member).then((val) => {
+  async function setUser(member?: CurrentSelectedMember): Promise<void> {
+    if (!member) return;
+
+    // Check that role is selected
+    if (!member.role) {
+      Emitters.generalError.emit({
+        headerMsg: 'Role not selected!',
+        contentMsg: 'Please select a role from the dropdown.'
+      });
+      return;
+    }
+
+    // Check that member email is Cornell email
+    if (!member.email.includes('@cornell.edu')) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Cornell email!',
+        contentMsg:
+          'Please enter a valid Cornell email (i.e. abc123@cornell.edu) in the email field.'
+      });
+      return;
+    }
+
+    MembersAPI.setMember({
+      ...member,
+      netid: getNetIDFromEmail(member.email),
+      roleDescription: getRoleDescriptionFromRoleID(member.role)
+    }).then((val) => {
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't save user!",
@@ -547,20 +572,7 @@ export default function AddUser(): JSX.Element {
               </Card.Content>
               <Card.Content extra>
                 <div className={`ui one buttons ${styles.fullWidth}`}>
-                  <Button
-                    basic
-                    color="green"
-                    onClick={() => {
-                      if (state.currentSelectedMember) {
-                        const partialMember = state.currentSelectedMember;
-                        setUser({
-                          ...partialMember,
-                          netid: getNetIDFromEmail(partialMember.email),
-                          roleDescription: getRoleDescriptionFromRoleID(partialMember.role)
-                        });
-                      }
-                    }}
-                  >
+                  <Button basic color="green" onClick={() => setUser(state.currentSelectedMember)}>
                     Save User
                   </Button>
                 </div>
