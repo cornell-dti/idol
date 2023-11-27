@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
+import Bottom from '../../components/bottom';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(null);
@@ -83,48 +84,51 @@ const Home: React.FC = () => {
   }, [selectedIcon]);
 
   return (
-    <div
-      className="flex items-center justify-start pl-[15%] bg-black bg-cover bg-center h-screen"
-      style={{ backgroundImage: "url('/images/hero_bg.png')" }}
-    >
-      <div className="flex flex-col items-start mr-12">
-        <div className="mb-5">
-          <h2 className="text-white text-6xl">
-            Cornell Digital <br /> Tech & Innovation
-          </h2>
+    <div>
+      <div
+        className="flex items-center justify-start pl-[15%] bg-black bg-cover bg-center h-screen"
+        style={{ backgroundImage: "url('/images/hero_bg.png')" }}
+      >
+        <div className="flex flex-col items-start mr-12">
+          <div className="mb-5">
+            <h2 className="text-white text-6xl">
+              Cornell Digital <br /> Tech & Innovation
+            </h2>
+          </div>
+          <div className="flex items-center space-x-2">
+            {icons.map((icon, index) => (
+              <div key={index} className="flex items-center justify-center h-[90px]">
+                <Icon
+                  icon={icon.src}
+                  hoverIcon={icon.hover}
+                  activeIcon={icon.active}
+                  altText={icon.altText}
+                  isActive={selectedIcon === index}
+                  onClick={() => {
+                    setSelectedIcon(index);
+                    if (timer) clearTimeout(timer);
+                  }}
+                  width={icon.width}
+                  height={icon.height}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          {icons.map((icon, index) => (
-            <div key={index} className="flex items-center justify-center h-[90px]">
-              <Icon
-                icon={icon.src}
-                hoverIcon={icon.hover}
-                activeIcon={icon.active}
-                altText={icon.altText}
-                isActive={selectedIcon === index}
-                onClick={() => {
-                  setSelectedIcon(index);
-                  if (timer) clearTimeout(timer);
-                }}
-                width={icon.width}
-                height={icon.height}
-              />
-            </div>
-          ))}
+        <Slideshow selectedImage={selectedIcon} />
+        <div className="fixed inset-x-0 bottom-5 flex justify-center">
+          <button
+            onClick={scrollToContent}
+            className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center"
+            style={{ transition: 'all 0.3s ease' }}
+          >
+            LEARN MORE
+            <img src="/images/arrow.png" alt="Learn more" className="mt-2 w-auto h-6" />
+          </button>
         </div>
+        <div ref={scrollRef} className="h-screen"></div>
       </div>
-      <Slideshow selectedImage={selectedIcon} />
-      <div className="fixed inset-x-0 bottom-5 flex justify-center">
-        <button
-          onClick={scrollToContent}
-          className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center"
-          style={{ transition: 'all 0.3s ease' }}
-        >
-          LEARN MORE
-          <img src="/images/arrow.png" alt="Learn more" className="mt-2 w-auto h-6" />
-        </button>
-      </div>
-      <div ref={scrollRef} className="h-screen"></div>
+      <Bottom />
     </div>
   );
 };

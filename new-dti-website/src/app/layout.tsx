@@ -12,7 +12,7 @@ export const ibm_plex_mono = IBM_Plex_Mono({
 
 const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => (
   <html lang="en">
-    <body className={inter.className}>
+    <body className={`${inter.className} bg-black`}>
       <Navbar />
       {children}
       <Footer />
