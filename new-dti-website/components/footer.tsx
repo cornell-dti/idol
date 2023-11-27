@@ -9,6 +9,11 @@ type Icon = {
 
 const socialIcons: Icon[] = [
   {
+    src: '/email.svg',
+    link: 'mailto:hello@cornelldti.org',
+    alt: 'Cornell DTI Email'
+  },
+  {
     src: '/github.svg',
     link: 'https://www.github.com/cornell-dti',
     alt: 'Cornell DTI Github'
@@ -36,11 +41,11 @@ const socialIcons: Icon[] = [
 ];
 
 const Footer: React.FC = () => (
-  <div className="w-full h-[146px] inset-x-0 bottom-0 md:px-[30px] lg:px-[60px] bg-stone-950 inline-flex justify-between items-center md:flex-row flex-col">
-    <div className="text-neutral-50 text-sm h-screen md:text-lg font-medium flex items-center justify-center ">
+  <div className="w-full h-[146px] inset-x-0 bottom-0 md:px-[40px] lg:px-[60px] bg-stone-950 inline-flex justify-between items-center md:flex-row flex-col">
+    <div className=" sm: w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-neutral-50 text-sm h-screen font-medium flex items-center ">
       © 2023 Cornell Digital Tech & Innovation Project Team
     </div>
-    <div className="flex gap-4 md:h-fit h-screen">
+    <div className="flex gap-5 md:h-fit h-screen">
       {socialIcons.map((icon, index) => (
         <a
           key={index}
