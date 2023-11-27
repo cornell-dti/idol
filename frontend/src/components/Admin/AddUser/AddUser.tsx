@@ -123,8 +123,36 @@ export default function AddUser(): JSX.Element {
     });
   }
 
-  async function setUser(member: Member): Promise<void> {
-    MembersAPI.setMember(member).then((val) => {
+  async function setUser(member?: CurrentSelectedMember): Promise<void> {
+    if(!member) return;
+
+    // Get role description (error-safe)
+    let roleDescription;
+    try {
+      roleDescription = getRoleDescriptionFromRoleID(member.role);
+    }
+    catch (e) {
+      Emitters.userEditError.emit({
+        headerMsg: "Role not selected!",
+        contentMsg: "Please select a role from the dropdown."
+      });
+      return;
+    }
+
+    // Check that member email is Cornell email
+    if(!member.email.includes("@cornell.edu")) {
+      Emitters.userEditError.emit({
+        headerMsg: "Invalid email!",
+        contentMsg: "Please enter a valid Cornell email (abc123@cornell.edu) in the email field."
+      });
+      return;
+    }
+
+    MembersAPI.setMember({
+      ...member,
+      netid: getNetIDFromEmail(member.email),
+      roleDescription
+    }).then((val) => {
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't save user!",
@@ -550,16 +578,7 @@ export default function AddUser(): JSX.Element {
                   <Button
                     basic
                     color="green"
-                    onClick={() => {
-                      if (state.currentSelectedMember) {
-                        const partialMember = state.currentSelectedMember;
-                        setUser({
-                          ...partialMember,
-                          netid: getNetIDFromEmail(partialMember.email),
-                          roleDescription: getRoleDescriptionFromRoleID(partialMember.role)
-                        });
-                      }
-                    }}
+                    onClick={() => setUser(state.currentSelectedMember)}
                   >
                     Save User
                   </Button>
