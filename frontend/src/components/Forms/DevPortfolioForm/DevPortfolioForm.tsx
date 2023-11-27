@@ -218,7 +218,6 @@ const DevPortfolioForm: React.FC = () => {
             setPRs={setOpenPRs}
             placeholder="Opened PR"
             label="Opened Pull Request Github Link:"
-            isTpm={isTpm}
             openOther={openOther}
           />
           <PRInputs
@@ -226,7 +225,6 @@ const DevPortfolioForm: React.FC = () => {
             setPRs={setReviewedPRs}
             placeholder="Reviewed PR"
             label="Reviewed Pull Request Github Link:"
-            isTpm={isTpm}
             openOther={openOther}
           />
           <OtherPRInputs
@@ -236,7 +234,6 @@ const DevPortfolioForm: React.FC = () => {
             setOpenOther={setOpenOther}
             explanationText={text}
             setExplanationText={setText}
-            isTpm={isTpm}
           />
           <DocumentationInput
             setDocumentationText={setDocumentationText}
@@ -293,14 +290,12 @@ const PRInputs = ({
   setPRs,
   label,
   placeholder,
-  isTpm,
   openOther
 }: {
   prs: string[];
   setPRs: React.Dispatch<React.SetStateAction<string[]>>;
   label: string;
   placeholder: string;
-  isTpm: boolean;
   openOther: boolean;
 }) => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -311,7 +306,7 @@ const PRInputs = ({
   return (
     <div className={styles.inline}>
       <label className={styles.bold}>
-        {label} {!isTpm && !openOther && <span className={styles.red_color}>*</span>}
+        {label} {!openOther && <span className={styles.red_color}>*</span>}
       </label>
       {prs.map((pr, index) => (
         <div className={styles.prInputContainer} key={index}>
@@ -341,7 +336,7 @@ const PRInputs = ({
                 <Icon name="trash alternate" />
               </Button>
             ) : (
-              ''
+              <></>
             )}
           </div>
         </div>
@@ -361,8 +356,7 @@ const OtherPRInputs = ({
   openOther,
   setOpenOther,
   explanationText,
-  setExplanationText,
-  isTpm
+  setExplanationText
 }: {
   otherPRs: string[];
   setOtherPRs: React.Dispatch<React.SetStateAction<string[]>>;
@@ -370,7 +364,6 @@ const OtherPRInputs = ({
   setOpenOther: React.Dispatch<React.SetStateAction<boolean>>;
   explanationText: string | undefined;
   setExplanationText: React.Dispatch<React.SetStateAction<string | undefined>>;
-  isTpm?: boolean;
 }) => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === 'Enter') {
@@ -386,25 +379,18 @@ const OtherPRInputs = ({
       />
       <span className={styles.bold}>Other PRs</span>
       {openOther ? (
-        <div className={styles.center_and_flex}>
-          {' '}
-          This section is only for submitting PR links when you believe you have an exception for
-          one of the above requirements. Please submit the PR links, as well as an explanation for
-          what the links are for and why you have this exception.{' '}
-        </div>
-      ) : (
-        ''
-      )}
-      <br />
-      {openOther ? (
-        <label className={styles.bold}>
-          Other Pull Request Github Link: {!isTpm && <span className={styles.red_color}>*</span>}
-        </label>
-      ) : (
-        ''
-      )}
-      {openOther
-        ? otherPRs.map((pr, index) => (
+        <>
+          <div className={styles.center_and_flex}>
+            {' '}
+            This section is only for submitting PR links when you believe you have an exception for
+            one of the above requirements. Please submit the PR links, as well as an explanation for
+            what the links are for and why you have this exception.{' '}
+          </div>
+          <br />
+          <label className={styles.bold}>
+            Other Pull Request Github Link: {<span className={styles.red_color}>*</span>}
+          </label>
+          {otherPRs.map((pr, index) => (
             <div className={styles.prInputContainer} key={index}>
               <input
                 onKeyDown={keyDownHandler}
@@ -432,31 +418,29 @@ const OtherPRInputs = ({
                     <Icon name="trash alternate" />
                   </Button>
                 ) : (
-                  ''
+                  <></>
                 )}
               </div>
             </div>
-          ))
-        : ''}
-      {openOther ? (
-        <div className="row">
-          <div className="col-sm-12">
-            <button onClick={() => setOtherPRs([...otherPRs, ''])}>Add New</button>
+          ))}
+          <div className="row">
+            <div className="col-sm-12">
+              <button onClick={() => setOtherPRs([...otherPRs, ''])}>Add New</button>
+            </div>
           </div>
-        </div>
+          <div>
+            <br />
+            <label className={styles.bold}>
+              Explanation: {<span className={styles.red_color}>*</span>}
+            </label>
+            <TextArea
+              value={explanationText}
+              onChange={(e) => setExplanationText(e.target.value)}
+            />
+          </div>
+        </>
       ) : (
-        ''
-      )}
-      {openOther ? (
-        <div>
-          <br />
-          <label className={styles.bold}>
-            Explanation: {!isTpm && <span className={styles.red_color}>*</span>}
-          </label>
-          <TextArea value={explanationText} onChange={(e) => setExplanationText(e.target.value)} />
-        </div>
-      ) : (
-        ''
+        <></>
       )}
     </div>
   );
