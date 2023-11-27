@@ -2,6 +2,12 @@ import { bucket } from '../firebase';
 import { getNetIDFromEmail } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
 
+/**
+ * Sets TEC proof image for member
+ * @param name - the name of the image
+ * @param user - the member who made the request
+ * @returns a Promise to the signed URL to the image file
+ */
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
   const signedURL = await file.getSignedUrl({
@@ -12,6 +18,13 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
   return signedURL[0];
 };
 
+/**
+ * Gets TEC proof image for member
+ * @param name - the name of the image
+ * @param user - the member who made the request
+ * @throws NotFoundError if the requested image does not exist
+ * @returns a Promise to the signed URL to the image file
+ */
 export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
@@ -25,6 +38,11 @@ export const getEventProofImage = async (name: string, user: IdolMember): Promis
   return signedUrl[0];
 };
 
+/**
+ * Gets all TEC proof images associated with the IdolMember
+ * @param user - the member who made the request
+ * @returns a Promise which results in an array of EventProofImage with file name and signed URL
+ */
 export const allEventProofImagesForMember = async (
   user: IdolMember
 ): Promise<readonly EventProofImage[]> => {
@@ -54,11 +72,20 @@ export const allEventProofImagesForMember = async (
   return images;
 };
 
+/**
+ * Deletes TEC proof image for member
+ * @param name - the name of the image
+ * @param user - the member who made the request
+ */
 export const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
   const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
 
+/**
+ * Deletes all TEC proof images for given member
+ * @param user - the member who made the request
+ */
 export const deleteEventProofImagesForMember = async (user: IdolMember): Promise<void> => {
   const netId: string = getNetIDFromEmail(user.email);
   const files = await bucket.getFiles({ prefix: `eventProofs/${netId}` });
