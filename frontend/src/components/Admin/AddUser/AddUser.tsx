@@ -108,10 +108,6 @@ export default function AddUser(): JSX.Element {
       },
       isCreatingUser: true
     });
-    Emitters.generalSuccess.emit({
-      headerMsg: 'Creating User',
-      contentMsg: 'You are creating a new user!'
-    });
   }
 
   async function deleteUser(memberEmail: string): Promise<void> {
@@ -125,7 +121,7 @@ export default function AddUser(): JSX.Element {
         setState({ currentSelectedMember: undefined, isCreatingUser: false });
         Emitters.generalSuccess.emit({
           headerMsg: 'Deleting User',
-          contentMsg: `You have successfully deleted user with email ${memberEmail} .`
+          contentMsg: `You have successfully deleted user with email ${memberEmail}`
         });
       }
     });
