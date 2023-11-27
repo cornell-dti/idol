@@ -219,6 +219,7 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Opened PR"
             label="Opened Pull Request Github Link:"
             openOther={openOther}
+            isTpm={isTpm}
           />
           <PRInputs
             prs={reviewPRs}
@@ -226,15 +227,20 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Reviewed PR"
             label="Reviewed Pull Request Github Link:"
             openOther={openOther}
+            isTpm={isTpm}
           />
-          <OtherPRInputs
-            otherPRs={otherPRs}
-            setOtherPRs={setOtherPRs}
-            openOther={openOther}
-            setOpenOther={setOpenOther}
-            explanationText={text}
-            setExplanationText={setText}
-          />
+          {isTpm ? (
+            <></>
+          ) : (
+            <OtherPRInputs
+              otherPRs={otherPRs}
+              setOtherPRs={setOtherPRs}
+              openOther={openOther}
+              setOpenOther={setOpenOther}
+              explanationText={text}
+              setExplanationText={setText}
+            />
+          )}
           <DocumentationInput
             setDocumentationText={setDocumentationText}
             documentationText={documentationText}
@@ -290,13 +296,15 @@ const PRInputs = ({
   setPRs,
   label,
   placeholder,
-  openOther
+  openOther,
+  isTpm
 }: {
   prs: string[];
   setPRs: React.Dispatch<React.SetStateAction<string[]>>;
   label: string;
   placeholder: string;
   openOther: boolean;
+  isTpm: boolean;
 }) => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === 'Enter') {
@@ -306,7 +314,7 @@ const PRInputs = ({
   return (
     <div className={styles.inline}>
       <label className={styles.bold}>
-        {label} {!openOther && <span className={styles.red_color}>*</span>}
+        {label} {!isTpm && !openOther && <span className={styles.red_color}>*</span>}
       </label>
       {prs.map((pr, index) => (
         <div className={styles.prInputContainer} key={index}>
