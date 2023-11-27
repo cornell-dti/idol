@@ -2,11 +2,6 @@ import { bucket } from '../firebase';
 import { getNetIDFromEmail, filterImagesResponse } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
 
-/**
- * Determines which URL to use to send an email, depending on if the production
- * environment is used
- * @returns - The URL to use to send an email
- */
 export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   const files = await bucket.getFiles({ prefix: 'images/' });
   const images = await Promise.all(
@@ -25,12 +20,6 @@ export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   return filterImagesResponse(images);
 };
 
-/**
- * Determines which URL to use to send an email, depending on if the production
- * environment is used
- * @param user - the member who made the request
- * @returns - The URL to use to send an email
- */
 export const setMemberImage = async (user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
@@ -42,12 +31,6 @@ export const setMemberImage = async (user: IdolMember): Promise<string> => {
   return signedURL[0];
 };
 
-/**
- * Determines which URL to use to send an email, depending on if the production
- * environment is used
- * @param user - the member who made the request
- * @returns - The URL to use to send an email
- */
 export const getMemberImage = async (user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
