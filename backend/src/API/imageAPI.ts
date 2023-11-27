@@ -2,6 +2,10 @@ import { bucket } from '../firebase';
 import { getNetIDFromEmail, filterImagesResponse } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
 
+/**
+ * Gets all profile images for members
+ * @returns - an array of ProfileImage objects which includes file name and URL
+ */
 export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   const files = await bucket.getFiles({ prefix: 'images/' });
   const images = await Promise.all(
@@ -20,6 +24,11 @@ export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
   return filterImagesResponse(images);
 };
 
+/**
+ * Sets member image
+ * @param user - the member whose image will be set
+ * @returns - a Promise that represents the signedURL
+ */
 export const setMemberImage = async (user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
@@ -31,6 +40,12 @@ export const setMemberImage = async (user: IdolMember): Promise<string> => {
   return signedURL[0];
 };
 
+/**
+ * Gets member image
+ * @param user - the requested member
+ * @returns - a Promise that represents signedURL which can be used to get the image file
+ * @throws NotFoundError if the requested image does not exist
+ */
 export const getMemberImage = async (user: IdolMember): Promise<string> => {
   const netId: string = getNetIDFromEmail(user.email);
   const file = bucket.file(`images/${netId}.jpg`);
