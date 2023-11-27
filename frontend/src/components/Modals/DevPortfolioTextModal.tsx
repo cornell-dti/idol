@@ -53,9 +53,9 @@ const Text: React.FC<TextProps> = ({ text, member, otherPRs }) => {
       <br />
       {otherPRs ? (
         otherPRs.map((pr) => (
-          <div>
+          <a>
             {pr.url} <br />
-          </div>
+          </a>
         ))
       ) : (
         <div>No PRs submitted.</div>
