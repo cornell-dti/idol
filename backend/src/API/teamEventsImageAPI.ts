@@ -5,7 +5,7 @@ import { NotFoundError } from '../utils/errors';
 /**
  * Sets TEC proof image for member
  * @param name - the name of the image
- * @param user - an IdolMember object
+ * @param user - the member who made the request
  * @returns a Promise to the signed URL to the image file
  */
 export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
@@ -21,7 +21,7 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
 /**
  * Gets TEC proof image for member
  * @param name - the name of the image
- * @param user - an IdolMember object
+ * @param user - the member who made the request
  * @throws NotFoundError if the request image does not exist
  * @returns a Promise to the signed URL to the image file
  */
@@ -40,7 +40,7 @@ export const getEventProofImage = async (name: string, user: IdolMember): Promis
 
 /**
  * Gets all TEC proof images associated with the IdolMember
- * @param user - an IdolMember object
+ * @param user - the member who made the request
  * @returns a Promise which results in an array of EventProofImage with file name and signed URL
  */
 export const allEventProofImagesForMember = async (
@@ -75,7 +75,7 @@ export const allEventProofImagesForMember = async (
 /**
  * Deletes TEC proof image for member
  * @param name - the name of the image
- * @param user - an IdolMember object
+ * @param user - the member who made the request
  */
 export const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
   const imageFile = bucket.file(`${name}.jpg`);
@@ -84,7 +84,7 @@ export const deleteEventProofImage = async (name: string, user: IdolMember): Pro
 
 /**
  * Deletes all TEC proof images for given member
- * @param user - an IdolMember object
+ * @param user - the member who made the request
  */
 export const deleteEventProofImagesForMember = async (user: IdolMember): Promise<void> => {
   const netId: string = getNetIDFromEmail(user.email);
