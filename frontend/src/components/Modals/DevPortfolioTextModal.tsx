@@ -8,7 +8,7 @@ type Props = {
   otherPRs: PullRequestSubmission[] | undefined;
 };
 
-type TextProps = {
+type DevPortfolioTextProps = {
   text: string;
   member: IdolMember;
   otherPRs: PullRequestSubmission[] | undefined;
@@ -27,7 +27,7 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text, member, otherPRs 
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content image>
         <Modal.Description>
-          <Text text={text} member={member} otherPRs={otherPRs} />
+          <DevPortfolioText text={text} member={member} otherPRs={otherPRs} />
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
@@ -39,7 +39,7 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text, member, otherPRs 
   );
 };
 
-const Text: React.FC<TextProps> = ({ text, member, otherPRs }) => {
+const DevPortfolioText: React.FC<DevPortfolioTextProps> = ({ text, member, otherPRs }) => {
   if (member.role === 'tpm') {
     return <p>{text}</p>;
   }

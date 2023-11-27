@@ -79,13 +79,11 @@ const DevPortfolioForm: React.FC = () => {
       ? devPortfolio.lateDeadline
       : devPortfolio?.deadline;
 
-    if (!isTpm && otherEmpty) {
-      if (openedEmpty || reviewedEmpty) {
-        Emitters.generalError.emit({
-          headerMsg: 'No opened or reviewed PR url submitted',
-          contentMsg: 'Please paste a link to a opened and reviewed PR!'
-        });
-      }
+    if (!isTpm && otherEmpty && (openedEmpty || reviewedEmpty)) {
+      Emitters.generalError.emit({
+        headerMsg: 'No opened or reviewed PR url submitted',
+        contentMsg: 'Please paste a link to a opened and reviewed PR!'
+      });
     } else if (
       (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
       (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
