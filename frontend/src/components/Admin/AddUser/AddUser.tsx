@@ -125,7 +125,7 @@ export default function AddUser(): JSX.Element {
         setState({ currentSelectedMember: undefined, isCreatingUser: false });
         Emitters.generalSuccess.emit({
           headerMsg: 'Deleting User',
-          contentMsg: `You have successfully deleted user with email ${  memberEmail  } .`
+          contentMsg: `You have successfully deleted user with email ${memberEmail} .`
         });
       }
     });
@@ -142,8 +142,7 @@ export default function AddUser(): JSX.Element {
         setState((s) => ({ ...s, isCreatingUser: false }));
         Emitters.generalSuccess.emit({
           headerMsg: 'Saving User',
-          contentMsg:
-            `You have successfully saved ${  member.firstName  } ${  member.lastName  }.`
+          contentMsg: `You have successfully saved ${member.firstName} ${member.lastName}.`
         });
       }
     });
