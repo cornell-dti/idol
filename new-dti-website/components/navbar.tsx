@@ -33,10 +33,15 @@ const navbarItems = [
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleMenuClick = () => {
+    document.body.classList.toggle('overflow-hidden');
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
-      <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 inline-flex justify-between flex-row">
-        <div className="w-fit flex flex-col justify-center">
+      <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row ">
+        <div className="w-fit flex flex-col !justify-center">
           <a href="/">
             <Image
               className="md:h-12 h-8 w-auto"
@@ -47,7 +52,7 @@ const Navbar: React.FC = () => {
             />
           </a>
         </div>
-        <div className="hidden justify-self-end w-fit lg:inline-flex flex-row">
+        <div className="hidden !justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
             <a
               className="hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white"
@@ -57,17 +62,11 @@ const Navbar: React.FC = () => {
             </a>
           ))}
         </div>
-        <div
-          className="flex lg:hidden w-fit"
-          onClick={(e) => {
-            document.body.classList.toggle('overflow-hidden');
-            setIsMenuOpen(!isMenuOpen);
-          }}
-        >
+        <div className="flex lg:hidden w-fit" onClick={(e) => handleMenuClick()}>
           {isMenuOpen ? (
             <Image
               className="h-12 w-auto md:h-14"
-              src="/close_icon.svg"
+              src="/icons/close_icon.svg"
               width={56.5}
               height={56.5}
               alt="Close Menu Icon"
@@ -75,7 +74,7 @@ const Navbar: React.FC = () => {
           ) : (
             <Image
               className="h-12 w-auto md:h-14"
-              src="/hamburger_icon.svg"
+              src="/icons/hamburger_icon.svg"
               width={56.5}
               height={56.5}
               alt="Hamburger Menu Icom"
