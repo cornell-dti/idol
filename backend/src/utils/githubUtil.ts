@@ -294,23 +294,19 @@ export const validateSubmission = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission
 ): Promise<DevPortfolioSubmission> => {
-  const reviewedResults = submission.reviewedPRs
-    ? await Promise.all(
-        submission.reviewedPRs.map(async (pr) => ({
-          ...pr,
-          ...(await validateReview(portfolio, submission, pr.url))
-        }))
-      )
-    : [];
+  const reviewedResults = await Promise.all(
+    submission.reviewedPRs.map(async (pr) => ({
+      ...pr,
+      ...(await validateReview(portfolio, submission, pr.url))
+    }))
+  );
 
-  const openedResults = submission.openedPRs
-    ? await Promise.all(
-        submission.openedPRs.map(async (pr) => ({
-          ...pr,
-          ...(await validateOpen(portfolio, submission, pr.url))
-        }))
-      )
-    : [];
+  const openedResults = await Promise.all(
+    submission.openedPRs.map(async (pr) => ({
+      ...pr,
+      ...(await validateOpen(portfolio, submission, pr.url))
+    }))
+  );
 
   const updatedSubmission = {
     ...submission,

@@ -53,7 +53,7 @@ const DevPortfolioText: React.FC<DevPortfolioTextProps> = ({ text, member, other
       <br />
       {otherPRs ? (
         otherPRs.map((pr) => (
-          <a>
+          <a href={pr.url} target="_blank" rel="noreferrer noopener">
             {pr.url} <br />
           </a>
         ))
