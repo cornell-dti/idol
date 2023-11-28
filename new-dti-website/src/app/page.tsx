@@ -85,20 +85,17 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div
-        className="flex items-center justify-start pl-[15%] bg-black bg-cover bg-center h-screen"
-        style={{ backgroundImage: "url('/images/hero_bg.png')" }}
-      >
-        <div className="flex flex-col items-start mr-12">
-          <div className="mb-5">
+      <div className="flex flex-col bg-black bg-cover bg-center h-screen"
+           style={{ backgroundImage: "url('/images/hero_bg.png')" }}>
+        <div className="flex flex-row justify-between items-center pl-[15%] pt-20 w-full">
+          <div className="flex flex-col mr-20">
             <h2 className="text-white text-6xl">
               Cornell Digital <br /> Tech & Innovation
             </h2>
-          </div>
-          <div className="flex items-center space-x-2">
-            {icons.map((icon, index) => (
-              <div key={index} className="flex items-center justify-center h-[90px]">
+            <div className="flex items-center space-x-2 mt-5">
+              {icons.map((icon, index) => (
                 <Icon
+                  key={index}
                   icon={icon.src}
                   hoverIcon={icon.hover}
                   activeIcon={icon.active}
@@ -111,23 +108,25 @@ const Home: React.FC = () => {
                   width={icon.width}
                   height={icon.height}
                 />
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div className="flex-grow">
+            <Slideshow selectedImage={selectedIcon} />
           </div>
         </div>
-        <Slideshow selectedImage={selectedIcon} />
-        <div className="fixed inset-x-0 bottom-5 flex justify-center">
+        <div className="flex justify-center self-center w-full mt-10 mb-10">
           <button
             onClick={scrollToContent}
             className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center"
-            style={{ transition: 'all 0.3s ease' }}
+            style={{ transition: 'all 0.3s ease', marginTop: '2rem' }}
           >
             LEARN MORE
-            <img src="/images/arrow.png" alt="Learn more" className="mt-2 w-auto h-6" />
+            <img src="/images/arrow.png" alt="Learn more" className="mt-3 w-auto h-6" />
           </button>
         </div>
-        <div ref={scrollRef} className="h-screen"></div>
       </div>
+      <div ref={scrollRef} className="min-h-[10vh]"></div>
       <Bottom />
     </div>
   );
