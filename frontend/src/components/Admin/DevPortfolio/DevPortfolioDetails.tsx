@@ -56,12 +56,8 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
     });
 
     const csvData = uniqueSubmissions.map((submission) => {
-      const open = Number(
-        submission.openedPRs.some((pr) => pr.status === 'valid')
-      );
-      const review = Number(
-        submission.reviewedPRs.some((pr) => pr.status === 'valid')
-      );
+      const open = Number(submission.openedPRs.some((pr) => pr.status === 'valid'));
+      const review = Number(submission.reviewedPRs.some((pr) => pr.status === 'valid'));
       return {
         name: `${submission.member.firstName} ${submission.member.lastName}`,
         netid: submission.member.netid,
@@ -256,20 +252,12 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         </Table.Cell>
         <Table.Cell>
           <PullRequestDisplay
-            prSubmission={
-              submission.openedPRs.length > 0
-                ? submission.openedPRs[0]
-                : undefined
-            }
+            prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
           />
         </Table.Cell>
         <Table.Cell>
           <PullRequestDisplay
-            prSubmission={
-              submission.reviewedPRs.length > 0
-                ? submission.reviewedPRs[0]
-                : undefined
-            }
+            prSubmission={submission.reviewedPRs.length > 0 ? submission.reviewedPRs[0] : undefined}
           />
         </Table.Cell>
         <Table.Cell>{submission.documentationText}</Table.Cell>
@@ -315,12 +303,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
 
   if (numRows <= 1) return <FirstRow />;
 
-  const remainingOpenedPRs =
-    submission.openedPRs.length > 1 ? submission.openedPRs.slice(1) : [];
+  const remainingOpenedPRs = submission.openedPRs.length > 1 ? submission.openedPRs.slice(1) : [];
   const remainingReviewedPRs =
-    submission.reviewedPRs.length > 1
-      ? submission.reviewedPRs.slice(1)
-      : [];
+    submission.reviewedPRs.length > 1 ? submission.reviewedPRs.slice(1) : [];
   const remainingRows = (
     remainingOpenedPRs.length > remainingReviewedPRs.length
       ? remainingOpenedPRs
