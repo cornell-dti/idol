@@ -11,7 +11,8 @@
     "update-dev-db": "esr scripts/update-dev-db.ts",
     "send-profile-update-notifications": "esr scripts/send-profile-update-notifications.ts",
     "send-tec-notifications": "esr scripts/send-tec-notifications.ts",
-    "backup-prod-db": "esr scripts/backup-prod-db.ts"
+    "backup-prod-db": "esr scripts/backup-prod-db.ts",
+    "restore-from-backup": "esr scripts/restore-from-backup.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {
