@@ -62,34 +62,37 @@ const Navbar: React.FC = () => {
             </a>
           ))}
         </div>
-        <div className="flex lg:hidden w-fit" onClick={(e) => handleMenuClick()}>
-          {isMenuOpen ? (
-            <Image
-              className="h-12 w-auto md:h-14"
-              src="/icons/close_icon.svg"
-              width={56.5}
-              height={56.5}
-              alt="Close Menu Icon"
-            />
-          ) : (
+        <div className={`flex lg:hidden w-fit ${isMenuOpen ? 'z-50' : 'z-10'}`}>
+          {!isMenuOpen && (
             <Image
               className="h-12 w-auto md:h-14"
               src="/icons/hamburger_icon.svg"
               width={56.5}
               height={56.5}
-              alt="Hamburger Menu Icom"
+              alt="Hamburger Menu Icon"
+              onClick={(e) => handleMenuClick()}
             />
           )}
         </div>
       </div>
       {isMenuOpen && (
-        <div className="lg:hidden absolute w-screen h-full">
-          <div className="z-90 absolute w-screen h-full bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-5 opacity-90 lg:hidden"></div>
-          <div className="flex flex-row fixed w-screen h-screen justify-end">
-            <div className="px-8 py-4 md:px-14 md:py-4 h-fit w-auto flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
+        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm z-40 lg:hidden">
+          <div className="w-full h-full flex flex-col items-end">
+            <div className="p-4">
+              <Image
+                className="h-12 w-auto md:h-14"
+                src="/icons/close_icon.svg"
+                width={56.5}
+                height={56.5}
+                alt="Close Menu Icon"
+                onClick={(e) => handleMenuClick()}
+              />
+            </div>
+            <div className="w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-95">
               {navbarItems.map((item) => (
                 <a
-                  className="hover:underline hover:transition-colors cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-white"
+                  key={item.name}
+                  className="hover:underline cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-white"
                   href={item.url}
                 >
                   {item.name}
