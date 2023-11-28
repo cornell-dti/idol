@@ -283,9 +283,7 @@ export const getSubmissionStatus = (submission: DevPortfolioSubmission): Submiss
 
   // otherwise, valid if at least one valid in each category
   const atLeastOneValid =
-    submission.openedPRs &&
     submission.openedPRs.some((pr) => pr.status === 'valid') &&
-    submission.reviewedPRs &&
     submission.reviewedPRs.some((pr) => pr.status === 'valid');
 
   return atLeastOneValid ? 'valid' : 'invalid';

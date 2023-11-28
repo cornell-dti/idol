@@ -5,13 +5,13 @@ type Props = {
   title: string;
   text: string;
   member: IdolMember;
-  otherPRs: PullRequestSubmission[] | undefined;
+  otherPRs: PullRequestSubmission[];
 };
 
 type DevPortfolioTextProps = {
   text: string;
   member: IdolMember;
-  otherPRs: PullRequestSubmission[] | undefined;
+  otherPRs: PullRequestSubmission[];
 };
 
 const DevPortfolioTextModal: React.FC<Props> = ({ title, text, member, otherPRs }) => {

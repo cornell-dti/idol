@@ -161,9 +161,9 @@ interface PullRequestSubmission {
 
 interface DevPortfolioSubmission {
   member: IdolMember;
-  openedPRs?: PullRequestSubmission[];
-  reviewedPRs?: PullRequestSubmission[];
-  otherPRs?: PullRequestSubmission[];
+  openedPRs: PullRequestSubmission[];
+  reviewedPRs: PullRequestSubmission[];
+  otherPRs: PullRequestSubmission[];
   isLate?: boolean;
   text?: string;
   documentationText?: string;

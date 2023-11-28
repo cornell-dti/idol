@@ -57,10 +57,10 @@ const DevPortfolioDetails: React.FC<Props> = ({ uuid, isAdminView }) => {
 
     const csvData = uniqueSubmissions.map((submission) => {
       const open = Number(
-        submission.openedPRs && submission.openedPRs.some((pr) => pr.status === 'valid')
+        submission.openedPRs.some((pr) => pr.status === 'valid')
       );
       const review = Number(
-        submission.reviewedPRs && submission.reviewedPRs.some((pr) => pr.status === 'valid')
+        submission.reviewedPRs.some((pr) => pr.status === 'valid')
       );
       return {
         name: `${submission.member.firstName} ${submission.member.lastName}`,
@@ -257,7 +257,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         <Table.Cell>
           <PullRequestDisplay
             prSubmission={
-              submission.openedPRs && submission.openedPRs.length > 0
+              submission.openedPRs.length > 0
                 ? submission.openedPRs[0]
                 : undefined
             }
@@ -266,7 +266,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         <Table.Cell>
           <PullRequestDisplay
             prSubmission={
-              submission.reviewedPRs && submission.reviewedPRs.length > 0
+              submission.reviewedPRs.length > 0
                 ? submission.reviewedPRs[0]
                 : undefined
             }
@@ -316,9 +316,9 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
   if (numRows <= 1) return <FirstRow />;
 
   const remainingOpenedPRs =
-    submission.openedPRs && submission.openedPRs.length > 1 ? submission.openedPRs.slice(1) : [];
+    submission.openedPRs.length > 1 ? submission.openedPRs.slice(1) : [];
   const remainingReviewedPRs =
-    submission.reviewedPRs && submission.reviewedPRs.length > 1
+    submission.reviewedPRs.length > 1
       ? submission.reviewedPRs.slice(1)
       : [];
   const remainingRows = (
