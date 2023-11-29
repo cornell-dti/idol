@@ -40,7 +40,9 @@ const DevPortfolioTextModal: React.FC<Props> = ({ title, text, member, otherPRs 
 };
 
 const DevPortfolioText: React.FC<DevPortfolioTextProps> = ({ text, member, otherPRs }) => {
-  if (member.role === 'tpm') {
+  // The other PR's field defines this as a Dev Portfolio, not a TPM portfolio.
+  // This check, compared to a member.role check, is more resilient towards mid-semester role changes.
+  if (!otherPRs) {
     return <p>{text}</p>;
   }
   return (
