@@ -85,16 +85,13 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div
-        className="flex flex-col bg-black bg-cover bg-center h-screen"
-        style={{ backgroundImage: "url('/images/hero_bg.png')" }}
-      >
+      <div className="flex flex-col bg-black bg-cover bg-center h-screen" style={{ backgroundImage: "url('/images/hero_bg.png')" }}>
         <div className="flex flex-row justify-between items-center pl-[15%] pt-20 w-full">
           <div className="flex flex-col mr-20">
             <h2 className="text-white text-6xl">
               Cornell Digital <br /> Tech & Innovation
             </h2>
-            <div className="flex items-center space-x-2 mt-5">
+            <div className="flex items-center space-x-2 mt-5 h-28">
               {icons.map((icon, index) => (
                 <Icon
                   key={index}
