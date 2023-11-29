@@ -42,6 +42,11 @@ const DevPortfolioForm: React.FC = () => {
             headerMsg: 'Dev Portfolio Assignment submitted!',
             contentMsg: `The leads were notified of your submission and your submission will be graded soon!`
           });
+          setDevPortfolio(undefined);
+          setOpenPRs(['']);
+          setReviewedPRs(['']);
+          setText(undefined);
+          setDocumentationText('');
           refreshDevPortfolios();
         }
       }
@@ -151,7 +156,7 @@ const DevPortfolioForm: React.FC = () => {
                 fluid
                 search
                 selection
-                value={devPortfolio?.uuid}
+                value={devPortfolio?.uuid ?? ''}
                 options={devPortfolios
                   .sort((a, b) => a.deadline - b.deadline)
                   .map((assignment) => ({

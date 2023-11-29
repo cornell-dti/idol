@@ -33,6 +33,7 @@ const TeamEventCreditForm: React.FC = () => {
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
     const newImage = URL.createObjectURL(e.target.files[0]);
+    console.log(newImage);
     setImage(newImage);
   };
 
@@ -89,6 +90,9 @@ const TeamEventCreditForm: React.FC = () => {
             headerMsg: 'Team Event Credit submitted!',
             contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
           });
+          setTeamEvent(undefined);
+          setHours('0');
+          setImage('');
         }
       });
     }
@@ -200,6 +204,8 @@ const TeamEventCreditForm: React.FC = () => {
             id="newImage"
             type="file"
             accept="image/png, image/jpeg"
+            defaultValue=""
+            value={image ? undefined : ''}
             onChange={handleNewImage}
           />
         </div>
