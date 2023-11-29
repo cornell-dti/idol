@@ -33,7 +33,6 @@ const TeamEventCreditForm: React.FC = () => {
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
     const newImage = URL.createObjectURL(e.target.files[0]);
-    console.log(newImage);
     setImage(newImage);
   };
 
