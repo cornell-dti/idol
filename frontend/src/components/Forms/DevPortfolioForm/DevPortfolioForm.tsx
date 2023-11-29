@@ -47,8 +47,10 @@ const DevPortfolioForm: React.FC = () => {
           setDevPortfolio(undefined);
           setOpenPRs(['']);
           setReviewedPRs(['']);
-          setText(undefined);
+          setOtherPRs(['']);
+          setText('');
           setDocumentationText('');
+          setOpenOther(false);
           refreshDevPortfolios();
         }
       }
