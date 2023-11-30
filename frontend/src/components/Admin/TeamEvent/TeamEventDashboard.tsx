@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Header, Loader, Button, Icon } from 'semantic-ui-react';
+import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
@@ -40,6 +40,7 @@ const calculateCommunityCreditsForEvent = (member: IdolMember, event: TeamEvent)
 const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [endOfSemesterReminder, setEndOfSemesterReminder] = useState(false);
 
   const allMembers = useMembers();
 
@@ -81,6 +82,16 @@ const TeamEventDashboard: React.FC = () => {
                       : REQUIRED_MEMBER_TEC_CREDITS)
                   );
                 })}
+                endOfSemesterReminder={endOfSemesterReminder}
+              />
+              <Checkbox
+                className={styles.endOfSemesterCheckbox}
+                label={{ children: 'End of Semester?' }}
+                checked={endOfSemesterReminder}
+                onChange={() => {
+                  console.log('helo');
+                  setEndOfSemesterReminder((endOfSemesterReminder) => !endOfSemesterReminder);
+                }}
               />
             </Table.HeaderCell>
             <Table.HeaderCell>Total</Table.HeaderCell>
@@ -113,6 +124,7 @@ const TeamEventDashboard: React.FC = () => {
                         all={false}
                         trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
                         member={member}
+                        endOfSemesterReminder={endOfSemesterReminder}
                       />
                     )}
                   </Table.Cell>

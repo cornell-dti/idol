@@ -9,14 +9,15 @@ const NotifyMemberModal = (props: {
   member?: Member;
   members?: Member[];
   trigger: JSX.Element;
+  endOfSemesterReminder: boolean;
 }): JSX.Element => {
-  const { member, members, all, trigger } = props;
+  const { member, members, all, trigger, endOfSemesterReminder } = props;
   const [open, setOpen] = useState(false);
   const subject = !all && member ? `${member.firstName} ${member.lastName}` : 'everyone';
 
   const handleSubmit = () => {
     if (!all && member) {
-      MembersAPI.notifyMember(member).then((val) => {
+      MembersAPI.notifyMember(member, endOfSemesterReminder).then((val) => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Reminder sent!',
           contentMsg: `An email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
@@ -26,7 +27,7 @@ const NotifyMemberModal = (props: {
 
     if (all && members) {
       members.forEach(async (member) => {
-        await MembersAPI.notifyMember(member);
+        await MembersAPI.notifyMember(member, endOfSemesterReminder);
       });
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
