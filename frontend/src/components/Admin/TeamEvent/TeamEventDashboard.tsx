@@ -86,7 +86,7 @@ const TeamEventDashboard: React.FC = () => {
               />
               <Checkbox
                 className={styles.endOfSemesterCheckbox}
-                label={{ children: 'End of Semester?' }}
+                label={{ children: 'End of Semester Reminder?' }}
                 checked={endOfSemesterReminder}
                 onChange={() =>
                   setEndOfSemesterReminder((endOfSemesterReminder) => !endOfSemesterReminder)
