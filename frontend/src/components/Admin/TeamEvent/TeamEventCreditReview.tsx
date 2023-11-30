@@ -74,6 +74,7 @@ const TeamEventCreditReview = (props: {
     return (
       <>
         <Input
+          className={styles.rejectText}
           type="text"
           placeholder="Reason for reject"
           onChange={(e) => setReason(e.target.value)}
