@@ -8,8 +8,9 @@ import { Emitters } from '../../../utils';
 const TeamEventCreditReview = (props: {
   teamEvent: TeamEvent;
   teamEventAttendance: TeamEventAttendance;
+  currentStatus: Status;
 }): JSX.Element => {
-  const { teamEvent, teamEventAttendance } = props;
+  const { teamEvent, teamEventAttendance, currentStatus } = props;
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -69,6 +70,41 @@ const TeamEventCreditReview = (props: {
       });
   };
 
+  if (currentStatus === 'approved') {
+    return (
+      <>
+        <Input
+          className={styles.rejectText}
+          type="text"
+          placeholder="Reason for reject"
+          onChange={(e) => setReason(e.target.value)}
+        />
+        <Button
+          basic
+          color="red"
+          disabled={reason === ''}
+          onClick={() => {
+            rejectCreditRequest();
+          }}
+        >
+          Set to Rejected
+        </Button>
+      </>
+    );
+  }
+  if (currentStatus === 'rejected') {
+    return (
+      <Button
+        basic
+        color="green"
+        onClick={() => {
+          approveCreditRequest(teamEventAttendance);
+        }}
+      >
+        Set to Approved
+      </Button>
+    );
+  }
   return (
     <Modal
       closeIcon

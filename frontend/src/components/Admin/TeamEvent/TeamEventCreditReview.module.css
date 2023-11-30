@@ -1,3 +1,7 @@
 .modalContent {
   max-height: 60vh !important;
 }
+
+.rejectText {
+  padding-bottom: 6px;
+}
