@@ -1,7 +1,11 @@
-import React from 'react';
-import { Card, Loader, Message } from 'semantic-ui-react';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Card, Loader, Message, Button } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
+import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
+import { Emitters } from '../../../utils';
+
 import {
   REQUIRED_COMMUNITY_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
@@ -12,9 +16,18 @@ const TeamEventCreditDashboard = (props: {
   allTEC: TeamEventInfo[];
   approvedAttendance: TeamEventAttendance[];
   pendingAttendance: TeamEventAttendance[];
+  rejectedAttendance: TeamEventAttendance[];
   isAttendanceLoading: boolean;
+  setPendingAttendance: Dispatch<SetStateAction<TeamEventAttendance[]>>;
 }): JSX.Element => {
-  const { allTEC, approvedAttendance, pendingAttendance, isAttendanceLoading } = props;
+  const {
+    allTEC,
+    approvedAttendance,
+    pendingAttendance,
+    rejectedAttendance,
+    isAttendanceLoading,
+    setPendingAttendance
+  } = props;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -26,6 +39,27 @@ const TeamEventCreditDashboard = (props: {
     const hours = attendance.hoursAttended;
     if (hours !== undefined) return hours;
     return 1;
+  };
+
+  const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
+    TeamEventsAPI.deleteTeamEventAttendance(attendance.uuid)
+      .then(() => {
+        setPendingAttendance(
+          pendingAttendance.filter((currAttendance) => currAttendance.uuid !== attendance.uuid)
+        );
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Team Event Attendance Deleted!',
+          contentMsg: 'Your team event attendance was successfully deleted!'
+        });
+        ImagesAPI.deleteEventProofImage(attendance.image);
+        Emitters.teamEventsUpdated.emit();
+      })
+      .catch((error) => {
+        Emitters.generalError.emit({
+          headerMsg: 'You are not allowed to delete this team event attendance!',
+          contentMsg: error
+        });
+      });
   };
 
   let approvedCredits = 0;
@@ -83,6 +117,20 @@ const TeamEventCreditDashboard = (props: {
                         ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
                         : teamEvent.numCredits
                     }`}
+                  </Card.Meta>
+                  {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
+                  <Card.Meta>
+                    {attendance.status === 'pending' && (
+                      <Button
+                        basic
+                        color="red"
+                        onClick={() => {
+                          deleteTECAttendanceRequest(attendance);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    )}
                   </Card.Meta>
                   {COMMUNITY_EVENTS && (
                     <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
@@ -150,6 +198,15 @@ const TeamEventCreditDashboard = (props: {
               <TecDetailsDisplay attendanceList={pendingAttendance} />
             ) : (
               <Message>You are not currently pending approval for any team events.</Message>
+            )}
+          </div>
+
+          <div className={styles.inline}>
+            <label className={styles.bold}>Rejected Events:</label>
+            {rejectedAttendance.length !== 0 ? (
+              <TecDetailsDisplay attendanceList={rejectedAttendance} />
+            ) : (
+              <Message>You have not been rejected for any team events.</Message>
             )}
           </div>
         </div>

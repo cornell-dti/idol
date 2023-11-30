@@ -6,9 +6,9 @@ type Props = {
   headers: string[];
   responses: string[];
   currentRating: Rating;
-  setCurrentRating: Dispatch<SetStateAction<Rating>>;
+  setCurrentRating: Dispatch<SetStateAction<Rating | undefined>>;
   currentComment: string;
-  setCurrentComment: Dispatch<SetStateAction<string>>;
+  setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const ratings = [
@@ -57,7 +57,7 @@ const ResponsesPanel: React.FC<Props> = ({
 
 type CommentEditorProps = {
   currentComment: string;
-  setCurrentComment: Dispatch<SetStateAction<string>>;
+  setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (

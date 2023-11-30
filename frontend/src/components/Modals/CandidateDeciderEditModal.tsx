@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Modal, Button, Card, Header, Form, Message } from 'semantic-ui-react';
 import ALL_ROLES from 'common-types/constants';
+import { ExportToCsv, Options } from 'export-to-csv';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import { MemberSearch, RoleSearch } from '../Common/Search/Search';
 import styles from './CandidateDeciderEditModal.module.css';
+import { Emitters } from '../../utils';
+import { ratingToString } from '../Candidate-Decider/ratings-utils';
 
 const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
   (role) => ({ role })
@@ -50,6 +53,58 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
       );
       setIsOpen(false);
     }
+  };
+
+  const handleExportToCsv = () => {
+    if (instance === undefined || instance.candidates.length <= 0) {
+      Emitters.generalError.emit({
+        headerMsg: 'Failed to export Candidate Decider Instance to CSV',
+        contentMsg: 'Please make sure there is at least 1 candidate.'
+      });
+      return;
+    }
+    const getHeaderIndex = (_header: string) =>
+      instance.headers.findIndex((header, i) => header === _header);
+    const netIDIndex = getHeaderIndex('NetID');
+    const lastNameIndex = getHeaderIndex('Last Name');
+    const firstNameIndex = getHeaderIndex('First Name');
+
+    const csvData = instance.candidates.map((candidate) => ({
+      name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
+      netid: candidate.responses[netIDIndex],
+      comments: candidate.comments.reduce(
+        (acc, comment) =>
+          comment.comment === ''
+            ? ''
+            : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
+        ''
+      ),
+      ratings: candidate.ratings.reduce(
+        (acc, rating) =>
+          rating.rating === 0
+            ? ''
+            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
+                rating.rating
+              )}\n`,
+        ''
+      )
+    }));
+
+    const options: Options = {
+      filename: `${instance.name}_Ratings`,
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `${instance.name} Ratings`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(csvData);
   };
 
   return (
@@ -126,6 +181,7 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
       </Modal.Content>
 
       <Modal.Actions>
+        <Button onClick={handleExportToCsv}>Export to CSV</Button>
         <Button negative onClick={() => setIsOpen(false)}>
           Cancel
         </Button>

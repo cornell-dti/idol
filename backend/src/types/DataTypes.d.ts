@@ -38,6 +38,8 @@ export type DBTeamEventAttendance = {
   image: string;
   eventUuid: string;
   pending: boolean;
+  status: Status;
+  reason: string;
   uuid: string;
 };
 
@@ -81,6 +83,7 @@ export type DBDevPortfolioSubmission = {
   member: firestore.DocumentReference;
   openedPRs: PullRequestSubmission[];
   reviewedPRs: PullRequestSubmission[];
+  otherPRs: PullRequestSubmission[];
   isLate?: boolean;
   text?: string;
   documentationText?: string;

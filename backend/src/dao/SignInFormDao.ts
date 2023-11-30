@@ -7,6 +7,12 @@ type SignInUser = {
   userDoc: IdolMember;
 };
 
+/**
+ * Filters out sign-ins from users with the specified email.
+ * @param users - An array of users who have signed in.
+ * @param userEmail - The email address to filter out.
+ * @returns An array of SignInUser objects excluding users with the specified email.
+ */
 async function filterSignIns(users, userEmail) {
   const prevSignIns: SignInUser[] = await Promise.all(
     users.map(async (obj) => ({
@@ -18,6 +24,11 @@ async function filterSignIns(users, userEmail) {
 }
 
 export default class SignInFormDao {
+  /**
+   * Retrieves a sign-in form with the specified ID.
+   * @param id - The unique identifier for the sign-in form.
+   * @returns The SignInForm object if found; otherwise, null.
+   */
   static async getSignInForm(id: string): Promise<SignInForm | null> {
     const doc = await signInFormCollection.doc(id).get();
     const dbSignInForm = doc.data();
@@ -35,6 +46,14 @@ export default class SignInFormDao {
     };
   }
 
+  /**
+   * Signs in a user to the specified form using their email.
+   * @param id - The unique identifier for the sign-in form.
+   * @param email - The email of the user signing in.
+   * @param response - Optional response the user provides upon signing in.
+   * @returns The timestamp indicating when the user signed in.
+   * @throws {NotFoundError} If the sign-in form does not exist.
+   */
   static async signIn(id: string, email: string, response?: string): Promise<number> {
     const formDoc = signInFormCollection.doc(id);
     const formRef = await formDoc.get();
@@ -56,6 +75,13 @@ export default class SignInFormDao {
       .then((_) => signedInAtVal);
   }
 
+  /**
+   * Creates a new sign-in form with the specified parameters.
+   * @param id - The unique identifier for the new sign-in form.
+   * @param expireAt - The timestamp indicating when the form expires.
+   * @param prompt - An optional prompt for users signing into the form.
+   * @returns Promise that resolves when the sign-in form is created.
+   */
   static async createSignIn(id: string, expireAt: number, prompt?: string): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
     const signInForm = {
@@ -68,11 +94,21 @@ export default class SignInFormDao {
     await formDoc.set(signInForm);
   }
 
+  /**
+   * Deletes a sign-in form with the specified ID.
+   * @param id - The unique identifier for the sign-in form to be deleted.
+   * @returns Promise that resolves when the sign-in form is deleted.
+   */
   static async deleteSignIn(id: string): Promise<void> {
     const formDoc = signInFormCollection.doc(id);
     await formDoc.delete();
   }
 
+  /**
+   * Retrieves all sign-in forms.
+   * @returns An array of SignInForm objects.
+   * @throws {NotFoundError} If a form reference is invalid or the form data is undefined.
+   */
   static async allSignInForms(): Promise<SignInForm[]> {
     const docsRefs = signInFormCollection.listDocuments();
     return docsRefs.then((v) => {

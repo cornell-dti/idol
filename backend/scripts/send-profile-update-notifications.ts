@@ -1,39 +1,22 @@
 /* eslint-disable no-console */
 import admin from 'firebase-admin';
 import isEqual from 'lodash.isequal';
+import sendMail from './utils';
 
 require('dotenv').config();
 
-// eslint-disable-next-line import/first
-import getEmailTransporter from '../src/nodemailer';
 // eslint-disable-next-line import/first
 import { configureAccount } from '../src/utils/firebase-utils';
 
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(configureAccount(serviceAcc, true)),
+  credential: admin.credential.cert(configureAccount(serviceAcc, 'prod')),
   databaseURL: 'https://idol-b6c68.firebaseio.com',
   storageBucket: 'gs://cornelldti-idol.appspot.com'
 });
 
 const db = admin.firestore();
-
-const sendMail = async (to: string, subject: string, text: string): Promise<unknown> => {
-  const mailOptions = {
-    from: 'dti.idol.github.bot@gmail.com',
-    to,
-    subject: `IDOL Notifs: ${subject}`,
-    text
-  };
-  const transporter = await getEmailTransporter();
-  if (!transporter) return {};
-  const info = await transporter
-    .sendMail(mailOptions)
-    .then((info) => info)
-    .catch((error) => error);
-  return info;
-};
 
 const sendMemberUpdateNotifications = async (): Promise<unknown[]> => {
   const subject = 'IDOL Member Profile Change';

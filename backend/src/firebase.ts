@@ -25,7 +25,9 @@ const devServiceAccount = require('../resources/cornelldti-idol-firebase-adminsd
 const serviceAccount = useProdFirebaseConfig ? prodServiceAccount : devServiceAccount;
 
 export const app = admin.initializeApp({
-  credential: admin.credential.cert(configureAccount(serviceAccount, useProdFirebaseConfig)),
+  credential: admin.credential.cert(
+    configureAccount(serviceAccount, useProdFirebaseConfig ? 'prod' : 'dev')
+  ),
   databaseURL: 'https://idol-b6c68.firebaseio.com',
   storageBucket: useProdFirebaseConfig
     ? 'gs://idol-b6c68.appspot.com'
@@ -133,3 +135,6 @@ export const devPortfolioSubmissionRequestLogCollection: admin.firestore.Collect
   });
 
 export const adminCollection: admin.firestore.CollectionReference = db.collection('admins');
+
+export const teamEventAdminCollection: admin.firestore.CollectionReference =
+  db.collection('team-event-admins');

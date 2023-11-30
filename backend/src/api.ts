@@ -21,8 +21,7 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange,
-  getMember
+  reviewUserInformationChange
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -53,7 +52,8 @@ import {
   requestTeamEventCredit,
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
-  deleteTeamEventAttendance
+  deleteTeamEventAttendance,
+  notifyMember
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -71,6 +71,7 @@ import {
 import {
   getAllDevPortfolios,
   createNewDevPortfolio,
+  updateDevPortfolio,
   deleteDevPortfolio,
   makeDevPortfolioSubmission,
   getDevPortfolio,
@@ -148,7 +149,7 @@ const loginCheckedHandler =
       return;
     }
     if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
+      res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
     }
     try {
       res.status(200).send(await handler(req, user));
@@ -198,7 +199,7 @@ router.get('/member', async (req, res) => {
   res.status(200).json({ members });
 });
 router.get('/hasIDOLAccess/:email', async (req, res) => {
-  const member = await getMember(req.params.email);
+  const member = await MembersDao.getCurrentOrPastMemberByEmail(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
@@ -217,7 +218,7 @@ loginCheckedDelete('/member/:email', async (req, user) => {
   return {};
 });
 loginCheckedPut('/member', async (req, user) => ({
-  member: await updateMember(req, req.body, user)
+  member: await updateMember(req.body, user)
 }));
 
 loginCheckedGet('/memberDiffs', async (_, user) => ({
@@ -321,10 +322,10 @@ loginCheckedDelete('/team-event', async (_, user) => {
   await clearAllTeamEvents(user);
   return {};
 });
-loginCheckedPost('/team-event-attendance', async (req, user) => {
-  await requestTeamEventCredit(req.body.request, user);
-  return {};
-});
+loginCheckedPost('/team-event-attendance', async (req, user) => ({
+  teamEventAttendance: await requestTeamEventCredit(req.body.request, user)
+}));
+
 loginCheckedGet('/team-event-attendance', async (_, user) => ({
   teamEventAttendance: await getTeamEventAttendanceByUser(user)
 }));
@@ -335,6 +336,9 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
+loginCheckedPost('/team-event-reminder', async (req, user) => ({
+  info: await notifyMember(req, req.body, user)
+}));
 
 // Team Events Proof Image
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
@@ -377,7 +381,7 @@ loginCheckedPut('/candidate-decider/rating-and-comment', (req, user) =>
 );
 
 loginCheckedPost('/sendMail', async (req, user) => ({
-  info: await sendMail(req.body.to, req.body.subject, req.body.text)
+  info: await sendMail(req.body.to, req.body.subject, req.body.text, user)
 }));
 
 // Dev Portfolios
@@ -396,6 +400,9 @@ loginCheckedGet('/dev-portfolio/:uuid/submission', async (req, user) => ({
 }));
 loginCheckedPost('/dev-portfolio', async (req, user) => ({
   portfolio: await createNewDevPortfolio(req.body, user)
+}));
+loginCheckedPut('/dev-portfolio', async (req, user) => ({
+  portfolio: await updateDevPortfolio(req.body, user)
 }));
 loginCheckedDelete('/dev-portfolio/:uuid', async (req, user) =>
   deleteDevPortfolio(req.params.uuid, user).then(() => ({}))

@@ -1,11 +1,33 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Form, Item, Card, Modal, Header, SemanticCOLORS, Image } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Item,
+  Card,
+  Modal,
+  Header,
+  SemanticCOLORS,
+  Image,
+  Loader
+} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { DocumentReference, collection, getDoc, onSnapshot } from 'firebase/firestore';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
+import { db } from '../../../firebase';
+
+type DBShoutout = {
+  giver: DocumentReference;
+  receiver: string;
+  message: string;
+  isAnon: boolean;
+  timestamp: number;
+  hidden: boolean;
+  uuid: string;
+};
 
 const AdminShoutouts: React.FC = () => {
   const [allShoutouts, setAllShoutouts] = useState<Shoutout[]>([]);
@@ -13,11 +35,13 @@ const AdminShoutouts: React.FC = () => {
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
 
   const updateShoutouts = useCallback(() => {
+    setLoading(true);
     if (lastDate < earlyDate) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid Date Range',
@@ -27,12 +51,26 @@ const AdminShoutouts: React.FC = () => {
     if (allShoutouts.length === 0) {
       ShoutoutsAPI.getAllShoutouts().then((shoutouts) => {
         setAllShoutouts(shoutouts);
+        setLoading(false);
       });
     } else {
       const filteredShoutouts = allShoutouts
         .filter((shoutout) => {
           const shoutoutDate = new Date(shoutout.timestamp);
-          return shoutoutDate >= earlyDate && shoutoutDate <= lastDate;
+          // Set time to be 4:59:59AM UTC/11:59PM EST/12:59AM EDT
+          const lastDateAdjusted = new Date(
+            new Date(lastDate.getTime() - lastDate.getTimezoneOffset() * 60 * 1000).setUTCHours(
+              4,
+              59,
+              59,
+              59
+            ) +
+              60 * 60 * 1000 * 24
+          );
+
+          // Set time to be 5AM UTC/12AM EST/1AM EDT
+          const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
+          return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
         })
         .sort((a, b) => a.timestamp - b.timestamp);
       if (view === 'PRESENT')
@@ -41,12 +79,30 @@ const AdminShoutouts: React.FC = () => {
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
       else setDisplayShoutouts(filteredShoutouts);
       setHide(false);
+      setLoading(false);
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
   useEffect(() => {
     updateShoutouts();
   }, [earlyDate, lastDate, hide, updateShoutouts]);
+
+  useEffect(() => {
+    const shoutoutCollection = collection(db, 'shoutouts');
+    const unsubscribe = onSnapshot(shoutoutCollection, async (snapshot) => {
+      const newShoutouts = await Promise.all(
+        snapshot.docs.map(async (docSnapshot) => {
+          const data = docSnapshot.data() as DBShoutout;
+          return {
+            ...data,
+            giver: (await getDoc(data.giver)).data() as IdolMember
+          };
+        })
+      );
+      setAllShoutouts(newShoutouts);
+    });
+    return unsubscribe;
+  }, [setAllShoutouts]);
 
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
@@ -231,8 +287,14 @@ const AdminShoutouts: React.FC = () => {
         </Form.Group>
       </Form>
       <div className={styles.shoutoutsListContainer}>
-        <ListTitle />
-        <DisplayList />
+        {loading ? (
+          <Loader active inline="centered" />
+        ) : (
+          <>
+            <ListTitle />
+            <DisplayList />
+          </>
+        )}
       </div>
     </div>
   );

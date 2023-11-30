@@ -287,6 +287,8 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
             <DevPortfolioTextModal
               title={`${submission.member.firstName} ${submission.member.lastName}`}
               text={submission.text}
+              member={submission.member}
+              otherPRs={submission.otherPRs}
             ></DevPortfolioTextModal>
           </Table.Cell>
         ) : (
