@@ -165,7 +165,9 @@ export const sendTECReminder = async (
   let reminder;
 
   if (endOfSemesterReminder) {
-    reminder = 'This is a reminder to submit all your TEC requests by the end of the semester!';
+    reminder = `This is a reminder to submit all your TEC requests to fulfill your ${
+      member.role === 'lead' ? '6' : '3'
+    } team event credits requirement by the end of the semester!`;
   } else {
     reminder =
       `This is a reminder to get at least ${
