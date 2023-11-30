@@ -66,14 +66,26 @@ export default class CandidateDeciderDao extends BaseDao<
     );
   }
 
+  /**
+   * Gets all candidate decider instances.
+   */
   async getAllInstances(): Promise<CandidateDeciderInstance[]> {
     return this.getDocuments();
   }
 
+  /**
+   * Gets a specific candidate decider instance.
+   * @param uuid - DB uuid of CandidateDeciderInstance.
+   */
   async getInstance(uuid: string): Promise<CandidateDeciderInstance | null> {
     return this.getDocument(uuid);
   }
 
+  /**
+   * Creates a new Candidate Decider instance.
+   * The given instance will be updated in the Candidate Decider database.
+   * @param instance - Newly created CandidateDeciderInstance object.
+   */
   async createNewInstance(instance: CandidateDeciderInstance): Promise<CandidateDeciderInfo> {
     const instanceWithUUID = {
       ...instance,
@@ -87,10 +99,19 @@ export default class CandidateDeciderDao extends BaseDao<
     };
   }
 
+  /**
+   * Deletes a specific candidate decider instance.
+   * @param uuid - DB uuid of CandidateDeciderInstance.
+   */
   async deleteInstance(uuid: string): Promise<void> {
     await this.deleteDocument(uuid);
   }
 
+  /**
+   * Updates a specific candidate decider instance.
+   * The given instance will be updated in the Candidate Decider database.
+   * @param instance - CandidateDeciderInstance object.
+   */
   async updateInstance(instance: CandidateDeciderInstance): Promise<CandidateDeciderInstance> {
     return this.updateDocument(instance.uuid, instance);
   }
