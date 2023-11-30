@@ -38,14 +38,13 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent
                 </Card.Header>
                 <Card.Meta>{req.member.email}</Card.Meta>
               </Card.Content>
-              {status === 'pending' && (
-                <Card.Content extra>
-                  <TeamEventCreditReview
-                    teamEvent={teamEvent}
-                    teamEventAttendance={req}
-                  ></TeamEventCreditReview>
-                </Card.Content>
-              )}
+              <Card.Content extra>
+                <TeamEventCreditReview
+                  teamEvent={teamEvent}
+                  teamEventAttendance={req}
+                  currentStatus={status}
+                ></TeamEventCreditReview>
+              </Card.Content>
             </Card>
           ))}
         </Card.Group>
