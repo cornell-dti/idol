@@ -123,10 +123,15 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 /**
  * Send an email reminder to members who do not have enough TEC credits
  * @param req - The request made when sending the email
+ * @param endOfSemesterReminder - If set to true, sends a generic reminder email to submit all TEC (typically sent at end of semester when there are no more TEC's).
  * @param member - The member being sent the email
  * @returns - The response body containing information of the member being sent the email
  */
-export const sendTECReminder = async (req: Request, member: IdolMember): Promise<AxiosResponse> => {
+export const sendTECReminder = async (
+  req: Request,
+  endOfSemesterReminder: boolean,
+  member: IdolMember
+): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
   const allEvents = await Promise.all(
     (
@@ -157,28 +162,36 @@ export const sendTECReminder = async (req: Request, member: IdolMember): Promise
     }
   });
 
-  const text =
-    `Hey! You currently have ${approvedCount} team event ${
-      approvedCount !== 1 ? 'credits' : 'credit'
-    } approved and ${pendingCount} team event ${
-      pendingCount !== 1 ? 'credits' : 'credit'
-    } pending this semester. ` +
-    `This is a reminder to get at least ${
+  let reminder;
+
+  if (endOfSemesterReminder) {
+    reminder = `This is a reminder to submit all your TEC requests to fulfill your ${
       member.role === 'lead' ? '6' : '3'
-    } team event credits by the end of the semester.\n` +
-    `\n${
-      futureEvents.length === 0
-        ? 'There are currently no upcoming team events listed on IDOL, but check the #team-events channel for upcoming team events.'
-        : 'Here is a list of upcoming team events you can participate in:'
-    } \n` +
-    `${(await futureEvents)
-      .map(
-        (event) =>
-          `${event.name} on ${event.date} (${event.numCredits} ${
-            Number(event.numCredits) !== 1 ? 'credits' : 'credit'
-          })\n`
-      )
-      .join('')}` +
-    '\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.';
+    } team event credits requirement by the end of the semester!`;
+  } else {
+    reminder =
+      `This is a reminder to get at least ${
+        member.role === 'lead' ? '6' : '3'
+      } team event credits by the end of the semester.\n` +
+      `\n${
+        futureEvents.length === 0
+          ? 'There are currently no upcoming team events listed on IDOL, but check the #team-events channel for upcoming team events.'
+          : 'Here is a list of upcoming team events you can participate in:'
+      } \n` +
+      `${(await futureEvents)
+        .map(
+          (event) =>
+            `${event.name} on ${event.date} (${event.numCredits} ${
+              Number(event.numCredits) !== 1 ? 'credits' : 'credit'
+            })\n`
+        )
+        .join('')}`;
+  }
+
+  const text = `Hey! You currently have ${approvedCount} team event ${
+    approvedCount !== 1 ? 'credits' : 'credit'
+  } approved and ${pendingCount} team event ${
+    pendingCount !== 1 ? 'credits' : 'credit'
+  } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
   return emailMember(req, member, subject, text);
 };
