@@ -4,6 +4,11 @@ import PermissionsManager from '../utils/permissionsManager';
 
 const candidateDeciderDao = new CandidateDeciderDao();
 
+/**
+ * Retrieves all Candidate Decider instances, filtering based on the user's role and permissions.
+ * @param {IdolMember} user - The user requesting the instances.
+ * @returns {Promise<CandidateDeciderInfo[]>} - A promise that resolves to an array of CandidateDeciderInfo objects.
+ */
 export const getAllCandidateDeciderInstances = async (
   user: IdolMember
 ): Promise<CandidateDeciderInfo[]> => {
@@ -27,6 +32,13 @@ export const getAllCandidateDeciderInstances = async (
   });
 };
 
+/**
+ * Creates a new Candidate Decider instance.
+ * @param {CandidateDeciderInstance} instance - The instance details to be created.
+ * @param {IdolMember} user - The user creating the instance.
+ * @returns {Promise<CandidateDeciderInfo>} - A promise that resolves to the created CandidateDeciderInfo.
+ * @throws {PermissionError} - If the user lacks admin permissions.
+ */
 export const createNewCandidateDeciderInstance = async (
   instance: CandidateDeciderInstance,
   user: IdolMember
@@ -38,6 +50,14 @@ export const createNewCandidateDeciderInstance = async (
   return candidateDeciderDao.createNewInstance(instance);
 };
 
+/**
+ * Updates an existing Candidate Decider instance.
+ * @param {CandidateDeciderEdit} instanceEdit - The edits to be applied to the instance.
+ * @param {IdolMember} user - The user performing the update.
+ * @returns {Promise<CandidateDeciderInstance>} - A promise that resolves to the updated CandidateDeciderInstance.
+ * @throws {PermissionError} - If the user lacks admin permissions.
+ * @throws {NotFoundError} - If the instance does not exist.
+ */
 export const updateCandidateDeciderInstance = async (
   instanceEdit: CandidateDeciderEdit,
   user: IdolMember
@@ -56,6 +76,13 @@ export const updateCandidateDeciderInstance = async (
   return updatedInstance;
 };
 
+/**
+ * Deletes a Candidate Decider instance.
+ * @param {string} uuid - The unique identifier of the instance to be deleted.
+ * @param {IdolMember} user - The user attempting to delete the instance.
+ * @returns {Promise<void>} - A promise that resolves to void.
+ * @throws {PermissionError} - If the user lacks admin permissions.
+ */
 export const deleteCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
@@ -67,6 +94,14 @@ export const deleteCandidateDeciderInstance = async (
   await candidateDeciderDao.deleteInstance(uuid);
 };
 
+/**
+ * Retrieves a specific Candidate Decider instance.
+ * @param {string} uuid - The unique identifier of the instance.
+ * @param {IdolMember} user - The user requesting the instance.
+ * @returns {Promise<CandidateDeciderInstance>} - A promise that resolves to the CandidateDeciderInstance.
+ * @throws {NotFoundError} - If the instance does not exist.
+ * @throws {PermissionError} - If the user lacks the necessary permissions.
+ */
 export const getCandidateDeciderInstance = async (
   uuid: string,
   user: IdolMember
@@ -89,6 +124,17 @@ export const getCandidateDeciderInstance = async (
   return instance;
 };
 
+/**
+ * Updates the rating and comment for a Candidate Decider instance.
+ * @param {IdolMember} user - The user updating the rating and comment.
+ * @param {string} uuid - The unique identifier of the instance.
+ * @param {number} id - The identifier of the specific candidate.
+ * @param {Rating} rating - The new rating.
+ * @param {string} comment - The new comment.
+ * @returns {Promise<void>} - A promise that resolves to void.
+ * @throws {NotFoundError} - If the instance does not exist.
+ * @throws {PermissionError} - If the user lacks the necessary permissions.
+ */
 export const updateCandidateDeciderRatingAndComment = async (
   user: IdolMember,
   uuid: string,
