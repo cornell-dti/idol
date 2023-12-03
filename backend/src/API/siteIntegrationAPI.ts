@@ -5,6 +5,12 @@ import { PermissionError, BadRequestError } from '../utils/errors';
 
 require('dotenv').config();
 
+/**
+ * Triggers a dispatch event to pull changes from the IDOL backend.
+ * @param {IdolMember} user - The user requesting the pull dispatch.
+ * @returns {Promise<{updated: boolean}>} - A promise that resolves to an object indicating if the update was successful.
+ * @throws {PermissionError} - If the user lacks permission to trigger the dispatch.
+ */
 export const requestIDOLPullDispatch = async (user: IdolMember): Promise<{ updated: boolean }> => {
   await checkPermissions(user);
   const octokit = new Octokit({
@@ -19,12 +25,24 @@ export const requestIDOLPullDispatch = async (user: IdolMember): Promise<{ updat
   return { updated: result.status === 204 };
 };
 
+/**
+ * Retrieves the latest Pull Request with changes from the IDOL backend.
+ * @param {IdolMember} user - The user requesting the pull request details.
+ * @returns {Promise<{pr: PRResponse}>} - A promise that resolves to an object containing the pull request details.
+ * @throws {PermissionError} - If the user lacks permission to access the pull request.
+ */
 export const getIDOLChangesPR = async (user: IdolMember): Promise<{ pr: PRResponse }> => {
   await checkPermissions(user);
   const foundPR = await findBotPR();
   return { pr: foundPR };
 };
 
+/**
+ * Accepts and merges the IDOL backend changes pull request.
+ * @param {IdolMember} user - The user attempting to accept the changes.
+ * @returns {Promise<{pr: PRResponse; merged: boolean}>} - A promise that resolves to an object containing the pull request details and a boolean indicating if the merge was successful.
+ * @throws {PermissionError} - If the user lacks permission to merge the pull request.
+ */
 export const acceptIDOLChanges = async (
   user: IdolMember
 ): Promise<{ pr: PRResponse; merged: boolean }> => {
@@ -80,6 +98,11 @@ export const rejectIDOLChanges = async (
   return { pr: foundPR, closed: closedReview.data.state === 'closed' };
 };
 
+/**
+ * Finds an open pull request created by a bot for updating IDOL backend data.
+ * @returns {Promise<PRResponse>} - A promise that resolves to the found pull request details.
+ * @throws {BadRequestError} - If no valid open pull request is found.
+ */
 const findBotPR = async (): Promise<PRResponse> => {
   const octokit = new Octokit({
     auth: `token ${process.env.BOT_TOKEN}`,
@@ -100,6 +123,12 @@ const findBotPR = async (): Promise<PRResponse> => {
   return foundPR;
 };
 
+/**
+ * Checks if the user has permission to deploy the site.
+ * @param {IdolMember} user - The user whose permissions are being checked.
+ * @returns {Promise<void>} - A promise that resolves to void.
+ * @throws {PermissionError} - If the user does not have permission to deploy the site.
+ */
 const checkPermissions = async (user: IdolMember): Promise<void> => {
   const canEdit = await PermissionsManager.canDeploySite(user);
   if (!canEdit) {
