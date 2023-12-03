@@ -77,6 +77,12 @@ export const acceptIDOLChanges = async (
   return { pr: foundPR, merged: acceptedPR.data.merged };
 };
 
+/**
+ * Rejects and closes the IDOL backend changes pull request.
+ * @param {IdolMember} user - The user attempting to reject the changes.
+ * @returns {Promise<{pr: PRResponse; closed: boolean}>} - A promise that resolves to an object containing the pull request details and a boolean indicating if the rejection was successful.
+ * @throws {PermissionError} - If the user lacks permission to reject the pull request.
+ */
 export const rejectIDOLChanges = async (
   user: IdolMember
 ): Promise<{ pr: PRResponse; closed: boolean }> => {
