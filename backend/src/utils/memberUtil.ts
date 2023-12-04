@@ -3,8 +3,19 @@ import { createPatch } from 'diff';
 import { firestore } from 'firebase-admin';
 import { archivedMembersByEmail } from '../members-archive';
 
+/**
+ * Get the netID of a member from their Cornell email.
+ * @param email - the email of the member.
+ * @returns the netID of the member.
+ */
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
+/**
+ * Filters the response from Google Cloud Storage to only include the filename
+ * of the image.
+ * @param images - a list of image filenmaes and their URLs.
+ * @returns a list of profile images.
+ */
 export const filterImagesResponse = (
   images: readonly { readonly fileName: string; readonly url: string }[]
 ): ProfileImage[] =>
@@ -15,6 +26,11 @@ export const filterImagesResponse = (
       fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
     }));
 
+/**
+ * Serialize an `IdolMember` from a Firestore document reference.
+ * @param docRef - the Firestore document reference.
+ * @returns an `IdolMember` object of the member.
+ */
 export const getMemberFromDocumentReference = async (
   docRef: firestore.DocumentReference
 ): Promise<IdolMember> => {
@@ -27,6 +43,14 @@ export const getMemberFromDocumentReference = async (
 
 type SimplifiedMember = { readonly email: string };
 
+/**
+ * Computes the differences between the currently approved members and the
+ * members who've submitted changes to their profiles.
+ * @param allApprovedMembersList - the list of all approved members.
+ * @param allLatestMembersList - the list of all members who've submitted changes.
+ * @returns a list of `IdolMemberDiff` objects that contain all the differences
+ * to each members' profiles.
+ */
 export const computeMembersDiff = <M extends SimplifiedMember>(
   allApprovedMembersList: readonly M[],
   allLatestMembersList: readonly M[]
