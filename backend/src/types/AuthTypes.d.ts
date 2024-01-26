@@ -26,10 +26,8 @@ export interface AuthRoleDoc {
 export interface RBACConfig {
   resources: {
     [resourceName: string]: {
-      read_only: AuthRole[];
-      read_and_write: AuthRole[];
-      has_metadata: boolean;
-      has_owner: boolean;
+      read: AuthRole[];
+      write: AuthRole[];
     };
   };
 }

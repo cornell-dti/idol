@@ -5,7 +5,7 @@ import PermissionsManager from './permissionsManager';
 import { app as adminApp, env } from '../firebase';
 import MembersDao from '../dao/MembersDao';
 import rbacConfig from '../../rbac.json';
-import { AuthRole, AuthRoleDoc, RBACConfig } from '../types/AuthTypes';
+import { AuthRoleDoc, RBACConfig } from '../types/AuthTypes';
 import AuthRoleDao from '../dao/AuthRoleDao';
 
 const getUserEmailFromRequest = async (request: Request): Promise<string | undefined> => {
@@ -35,48 +35,30 @@ const loginCheckedHandler =
     }
   };
 
-const isAuthorized = async (
-  req: Request,
-  resource: string,
+const hasRbacPerm = async (
   user: IdolMember,
-  rbacConfig: RBACConfig
+  rbacConfig: RBACConfig,
+  resource?: string,
+  action?: string
 ): Promise<boolean> => {
-  const roleData = await getUserRole(user);
-  const userRole = roleData?.role;
-  const resourceRBACConfig = rbacConfig.resources[resource];
+  if (resource && action) {
+    const roleData = await getUserRole(user);
+    const userRole = roleData?.role;
+    const resourceRBACConfig = rbacConfig.resources[resource];
 
-  if (userRole === 'admin') return true;
-
-  if (req.method === 'GET') {
-    if (resourceRBACConfig.has_metadata && req.query.meta_only) return true;
-    const canReadRoles: AuthRole[] = [
-      ...resourceRBACConfig.read_only,
-      ...resourceRBACConfig.read_and_write
-    ];
-
-    if (
-      canReadRoles.includes(userRole) ||
-      (userRole === 'lead' && canReadRoles.includes(roleData?.leadType))
-    )
-      return true;
+    if (resourceRBACConfig) {
+      return resourceRBACConfig[action].includes(userRole);
+    }
   }
-
-  const canWriteRoles = resourceRBACConfig.read_and_write;
-  if (resourceRBACConfig.has_owner && req.params.email) {
-    if (req.params.email === user.email) return true;
-  }
-
-  if (
-    canWriteRoles.includes(userRole) ||
-    (userRole === 'lead' && canWriteRoles.includes(roleData?.leadType))
-  )
-    return true;
-
-  return false;
+  return true;
 };
 
 const getAuthMiddleware =
-  (resource?: string): RequestHandler =>
+  (
+    resource?: string,
+    action?: string,
+    userHasAccess: (req: Request, user: IdolMember) => Promise<boolean> = async () => true
+  ): RequestHandler =>
   async (req: Request, res: Response, next: NextFunction) => {
     // authentication
     const userEmail = await getUserEmailFromRequest(req);
@@ -93,11 +75,8 @@ const getAuthMiddleware =
       res.status(401).json({ error: 'Only admins users have permismsions to the staging API!' });
     }
     // RBAC
-    if (
-      resource &&
-      resource in Object.keys(rbacConfig.resources) &&
-      !(await isAuthorized(req, resource, user, rbacConfig as RBACConfig))
-    ) {
+    const userHasRbacPerm = await hasRbacPerm(user, rbacConfig as RBACConfig, resource, action);
+    if (!(userHasRbacPerm || (await userHasAccess(req, user)))) {
       res.status(401).send({
         error: `User with email ${user.email} does not have read and/or write access to the requested resource.`
       });
@@ -110,26 +89,54 @@ export const loginCheckedGet = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
-  resource?: string
-): RequestHandler => router.get(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
+  resource?: string,
+  action?: string,
+  userHasAccess?: (req: Request, user: IdolMember) => Promise<boolean>
+): RequestHandler =>
+  router.get(
+    path,
+    getAuthMiddleware(resource, action, userHasAccess),
+    loginCheckedHandler(handler)
+  );
 
 export const loginCheckedPost = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
-  resource?: string
-): RequestHandler => router.post(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
+  resource?: string,
+  action?: string,
+  userHasAccess?: (req: Request, user: IdolMember) => Promise<boolean>
+): RequestHandler =>
+  router.post(
+    path,
+    getAuthMiddleware(resource, action, userHasAccess),
+    loginCheckedHandler(handler)
+  );
 
 export const loginCheckedDelete = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
-  resource?: string
-): RequestHandler => router.delete(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
+  resource?: string,
+  action?: string,
+  userHasAccess?: (req: Request, user: IdolMember) => Promise<boolean>
+): RequestHandler =>
+  router.delete(
+    path,
+    getAuthMiddleware(resource, action, userHasAccess),
+    loginCheckedHandler(handler)
+  );
 
 export const loginCheckedPut = (
   router: Router,
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>,
-  resource?: string
-): RequestHandler => router.put(path, getAuthMiddleware(resource), loginCheckedHandler(handler));
+  resource?: string,
+  action?: string,
+  userHasAccess?: (req: Request, user: IdolMember) => Promise<boolean>
+): RequestHandler =>
+  router.put(
+    path,
+    getAuthMiddleware(resource, action, userHasAccess),
+    loginCheckedHandler(handler)
+  );

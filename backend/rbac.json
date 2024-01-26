@@ -1,58 +1,40 @@
 {
   "resources": {
     "dev-portfolio": {
-      "read_only": ["lead"],
-      "read_and_write": ["dev_lead"],
-      "has_metadata": true,
-      "has_owner": false
+      "read": ["lead", "admin"],
+      "write": ["dev_lead", "lead", "admin"]
     },
     "dev-portfolio-submission": {
-      "read_only": ["lead"],
-      "read_and_write": ["dev_lead"],
-      "has_metadata": true,
-      "has_owner": false
+      "read": ["lead", "dev_lead", "admin"],
+      "write": ["dev_lead", "admin"]
     },
     "profile-image": {
-      "read_only": [],
-      "read_and_write": ["lead"],
-      "has_metadata": false,
-      "has_owner": true
+      "read": ["lead", "admin"],
+      "write": ["lead", "admin"]
     },
     "member": {
-      "read_only": [],
-      "read_and_write": ["lead"],
-      "has_metadata": false,
-      "has_owner": true
+      "read": ["lead", "admin"],
+      "write": ["lead", "admin"]
     },
     "member-diff": {
-      "read_only": [],
-      "read_and_write": ["lead"],
-      "has_metadata": false,
-      "has_owner": false
+      "read": ["lead", "admin"],
+      "write": ["lead", "admin"]
     },
     "shoutout": {
-      "read_only": [],
-      "read_and_write": ["lead"],
-      "has_metadata": false,
-      "has_owner": true
+      "read": ["lead", "admin"],
+      "write": ["lead", "admin"]
     },
     "team": {
-      "read_only": [],
-      "read_and_write": ["lead"],
-      "has_metadata": false,
-      "has_owner": false
+      "read": ["lead", "admin"],
+      "write": ["lead", "admin"]
     },
     "team-event": {
-      "read_only": ["lead"],
-      "read_and_write": ["ci_lead"],
-      "has_metadata": true,
-      "has_owner": false
+      "read": ["lead", "ci_lead", "admin"],
+      "write": ["ci_lead", "admin"]
     },
     "team-event-attendance": {
-      "read_only": ["lead"],
-      "read_and_write": ["ci_lead"],
-      "has_metadata": false,
-      "has_owner": true
+      "read": ["lead", "ci_lead", "admin"],
+      "write": ["ci_lead", "admin"]
     }
   }
 }
