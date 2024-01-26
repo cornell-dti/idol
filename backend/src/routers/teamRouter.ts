@@ -4,7 +4,14 @@ import { loginCheckedGet, loginCheckedPut, loginCheckedPost } from '../utils/aut
 
 const teamRouter = Router();
 
-loginCheckedGet(teamRouter, '/', async () => ({ teams: await allTeams() }), 'team');
+loginCheckedGet(
+  teamRouter,
+  '/',
+  async () => ({ teams: await allTeams() }),
+  'team',
+  'read',
+  async () => false
+);
 
 loginCheckedPut(
   teamRouter,
@@ -12,7 +19,9 @@ loginCheckedPut(
   async (req, user) => ({
     team: await setTeam(req.body, user)
   }),
-  'team'
+  'team',
+  'write',
+  async () => false
 );
 
 // TODO: should eventually make this a delete request
@@ -22,7 +31,9 @@ loginCheckedPost(
   async (req, user) => ({
     team: await deleteTeam(req.body, user)
   }),
-  'team'
+  'team',
+  'write',
+  async () => false
 );
 
 export default teamRouter;
