@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import {
   getShoutouts,
   getAllShoutouts,
@@ -15,13 +15,18 @@ import {
 
 const shoutoutRouter = Router();
 
+const canAccessResource = async (req: Request, user: IdolMember): Promise<boolean> =>
+  req.params.email === user.email;
+
 loginCheckedGet(
   shoutoutRouter,
   '/:email/:type',
   async (req, user) => ({
     shoutouts: await getShoutouts(req.params.email, req.params.type as 'given' | 'received', user)
   }),
-  'shoutout'
+  'shoutout',
+  'read',
+  canAccessResource
 );
 
 loginCheckedGet(
@@ -30,7 +35,9 @@ loginCheckedGet(
   async () => ({
     shoutouts: await getAllShoutouts()
   }),
-  'shoutout'
+  'shoutout',
+  'read',
+  async () => false
 );
 // No RBAC?
 loginCheckedPost(shoutoutRouter, '/', async (req, user) => ({
@@ -44,7 +51,9 @@ loginCheckedPut(
     await hideShoutout(req.body.uuid, req.body.hide, user);
     return {};
   },
-  'shoutout'
+  'shoutout',
+  'write',
+  async () => false
 );
 
 loginCheckedDelete(
@@ -54,6 +63,8 @@ loginCheckedDelete(
     await deleteShoutout(req.params.uuid, user);
     return {};
   },
-  'shoutout'
+  'shoutout',
+  'write',
+  async () => false
 );
 export default shoutoutRouter;
