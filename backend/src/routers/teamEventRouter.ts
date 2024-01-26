@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import {
   createTeamEvent,
   getTeamEvent,
@@ -20,9 +20,9 @@ import {
 } from '../utils/auth';
 
 const teamEventRouter = Router();
-const teamEventAttendanceRouter = Router({ mergeParams: true });
 
-teamEventRouter.use('/attendance', teamEventAttendanceRouter);
+const canAccessResource = async (req: Request, user: IdolMember): Promise<boolean> =>
+  req.query.meta_only === 'true' || req.params.email === user.email;
 
 // /team-event
 loginCheckedPost(
@@ -32,7 +32,9 @@ loginCheckedPost(
     await createTeamEvent(req.body, user);
     return {};
   },
-  'team-event'
+  'team-event',
+  'write',
+  async () => false
 );
 loginCheckedGet(
   teamEventRouter,
@@ -40,7 +42,9 @@ loginCheckedGet(
   async (req, user) => ({
     event: await getTeamEvent(req.params.uuid, user)
   }),
-  'team-event'
+  'team-event',
+  'read',
+  canAccessResource
 );
 loginCheckedGet(
   teamEventRouter,
@@ -48,7 +52,9 @@ loginCheckedGet(
   async (req, user) => ({
     events: !req.query.meta_only ? await getAllTeamEvents(user) : await getAllTeamEventInfo()
   }),
-  'team-event'
+  'team-event',
+  'read',
+  canAccessResource
 );
 loginCheckedPut(
   teamEventRouter,
@@ -56,7 +62,9 @@ loginCheckedPut(
   async (req, user) => ({
     event: await updateTeamEvent(req.body, user)
   }),
-  'team-event'
+  'team-event',
+  'write',
+  async () => false
 );
 loginCheckedDelete(
   teamEventRouter,
@@ -65,7 +73,9 @@ loginCheckedDelete(
     await deleteTeamEvent(req.body, user);
     return {};
   },
-  'team-event'
+  'team-event',
+  'write',
+  async () => false
 );
 loginCheckedDelete(
   teamEventRouter,
@@ -74,12 +84,14 @@ loginCheckedDelete(
     await clearAllTeamEvents(user);
     return {};
   },
-  'team-event'
+  'team-event',
+  'write',
+  async () => false
 );
 
 // /team-event/attendance
 loginCheckedPost(
-  teamEventAttendanceRouter,
+  teamEventRouter,
   '/attendance',
   async (req, user) => {
     await requestTeamEventCredit(req.body.request, user);
@@ -88,15 +100,17 @@ loginCheckedPost(
   'team-event-attendance'
 );
 loginCheckedGet(
-  teamEventAttendanceRouter,
+  teamEventRouter,
   '/attendance/:email',
   async (_, user) => ({
     teamEventAttendance: await getTeamEventAttendanceByUser(user)
   }),
-  'team-event-attendance'
+  'team-event-attendance',
+  'read',
+  canAccessResource
 );
 loginCheckedPut(
-  teamEventAttendanceRouter,
+  teamEventRouter,
   '/attendance',
   async (req, user) => ({
     teamEventAttendance: await updateTeamEventAttendance(req.body, user)
@@ -104,13 +118,15 @@ loginCheckedPut(
   'team-event-attendance'
 );
 loginCheckedDelete(
-  teamEventAttendanceRouter,
+  teamEventRouter,
   '/attendance/:uuid',
   async (req, user) => {
     await deleteTeamEventAttendance(req.params.uuid, user);
     return {};
   },
-  'team-event-attendance'
+  'team-event-attendance',
+  'write',
+  async () => false
 );
 
 export default teamEventRouter;
