@@ -1,8 +1,11 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import { getMemberImage, setMemberImage, allMemberImages } from '../API/imageAPI';
 import { loginCheckedGet } from '../utils/auth';
 
 const memberImageRouter = Router();
+
+const canAccessResource = async (req: Request, user: IdolMember): Promise<boolean> =>
+  req.params.email === user.email;
 
 loginCheckedGet(
   memberImageRouter,
@@ -10,7 +13,9 @@ loginCheckedGet(
   async (_, user) => ({
     url: await getMemberImage(user)
   }),
-  'profile-image'
+  'profile-image',
+  'read',
+  canAccessResource
 );
 
 loginCheckedGet(
@@ -19,7 +24,9 @@ loginCheckedGet(
   async (_, user) => ({
     url: await setMemberImage(user)
   }),
-  'profile-image'
+  'profile-image',
+  'write',
+  canAccessResource
 );
 
 memberImageRouter.get('/', async (_, res) => {
