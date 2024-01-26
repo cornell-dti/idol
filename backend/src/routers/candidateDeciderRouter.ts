@@ -17,6 +17,10 @@ import {
 
 const candidateDeciderRouter = Router();
 
+// I think the flexibility of `userHasAccess` param for the auth middleware
+// make it so that the auth doesn't have to be handled by the API router handler
+// anymore. I just don't wanna do it.
+
 loginCheckedGet(candidateDeciderRouter, '/', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
