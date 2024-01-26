@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import {
   allApprovedMembers,
   allMembers,
@@ -15,6 +15,9 @@ import {
   loginCheckedPut,
   loginCheckedGet
 } from '../utils/auth';
+
+const canAccessResource = async (req: Request, user: IdolMember): Promise<boolean> =>
+  req.params.email === user.email;
 
 export const memberRouter = Router();
 export const memberDiffRouter = Router();
@@ -41,7 +44,9 @@ loginCheckedPost(
   async (req, user) => ({
     member: await setMember(req.body, user)
   }),
-  'member'
+  'member',
+  'write',
+  canAccessResource
 );
 loginCheckedDelete(
   memberRouter,
@@ -50,7 +55,9 @@ loginCheckedDelete(
     await deleteMember(req.params.email, user);
     return {};
   },
-  'member'
+  'member',
+  'write',
+  async () => false
 );
 loginCheckedPut(
   memberRouter,
@@ -58,7 +65,9 @@ loginCheckedPut(
   async (req, user) => ({
     member: await updateMember(req, req.body, user)
   }),
-  'member'
+  'member',
+  'write',
+  canAccessResource
 );
 
 loginCheckedGet(
@@ -67,7 +76,9 @@ loginCheckedGet(
   async (_, user) => ({
     diffs: await getUserInformationDifference(user)
   }),
-  'member-diff'
+  'member-diff',
+  'read',
+  async () => false
 );
 loginCheckedPut(
   memberDiffRouter,
@@ -75,5 +86,7 @@ loginCheckedPut(
   async (req, user) => ({
     member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
   }),
-  'member-diff'
+  'member-diff',
+  'write',
+  async () => false
 );
