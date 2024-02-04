@@ -118,7 +118,7 @@ const ResponsesPanel: React.FC<Props> = ({
       .map((header, i) => (
         <div key={i} className={styles.questionResponseContainer}>
           <h4 className={styles.questionHeader}>{header}</h4>
-          <div>{nonCredentialResponses(headers, responses)[i]}</div>
+          <div className={styles.responseText}>{nonCredentialResponses(headers, responses)[i]}</div>
         </div>
       ))}
   </div>
