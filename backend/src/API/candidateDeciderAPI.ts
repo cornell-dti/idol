@@ -75,13 +75,7 @@ export const getCandidateDeciderInstance = async (
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
-  if (
-    !(
-      (await PermissionsManager.isAdmin(user)) ||
-      instance.authorizedMembers.includes(user) ||
-      instance.authorizedRoles.includes(user.role)
-    )
-  ) {
+  if (!(await PermissionsManager.canAccessCandidateDeciderInstance(user, instance))) {
     throw new PermissionError(
       `User with email ${user.email} does not have permission to access this Candidate Decider instance`
     );
@@ -100,13 +94,7 @@ export const updateCandidateDeciderRatingAndComment = async (
   if (!instance) {
     throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
   }
-  if (
-    !(
-      (await PermissionsManager.isAdmin(user)) ||
-      instance.authorizedMembers.includes(user) ||
-      instance.authorizedRoles.includes(user.role)
-    )
-  )
+  if (!(await PermissionsManager.canAccessCandidateDeciderInstance(user, instance)))
     throw new PermissionError(
       `User with email ${user.email} does not have permission to access this Candidate Decider instance`
     );
