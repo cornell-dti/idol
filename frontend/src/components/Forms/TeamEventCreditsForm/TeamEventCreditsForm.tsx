@@ -19,6 +19,8 @@ const TeamEventCreditForm: React.FC = () => {
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
   const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
+  const [imageIndex, setImageIndex] = useState<number[]>([0]);
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
@@ -30,17 +32,26 @@ const TeamEventCreditForm: React.FC = () => {
     });
   }, []);
 
+  const handleAddIconClick = () => {
+    const newIndex = imageIndex.length;
+    setImageIndex([...imageIndex, newIndex]);
+  };
+
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files) return;
     const newImage = URL.createObjectURL(e.target.files[0]);
     setImage(newImage);
+    setImages([...images, newImage]);
   };
 
-  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
+  const requestTeamEventCredit = async (
+    eventCreditRequest: TeamEventAttendance,
+    uploadedImage: string
+  ) => {
     const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
-
+    console.log(uploadedImage);
     // upload image
-    const blob = await fetch(image).then((res) => res.blob());
+    const blob = await fetch(uploadedImage).then((res) => res.blob());
     const imageURL: string = window.URL.createObjectURL(blob);
     await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
       setImage(imageURL)
@@ -70,18 +81,23 @@ const TeamEventCreditForm: React.FC = () => {
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
-      const newTeamEventAttendance: TeamEventAttendance = {
-        member: userInfo,
-        hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
-        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
-        eventUuid: teamEvent.uuid,
-        pending: true,
-        status: 'pending' as Status,
-        reason: '',
-        uuid: ''
-      };
+      const promises = images.map(async (image, index) => {
+        const newTeamEventAttendance: TeamEventAttendance = {
+          member: userInfo,
+          hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
+          image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
+          eventUuid: teamEvent.uuid,
+          pending: true,
+          status: 'pending' as Status,
+          reason: '',
+          uuid: ''
+        };
 
-      requestTeamEventCredit(newTeamEventAttendance).then((createdAttendance) => {
+        const createdAttendance = await requestTeamEventCredit(
+          newTeamEventAttendance,
+          images[index]
+        );
+
         if (createdAttendance) {
           const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
           setPendingAttendance((pending) => [...pending, updatedAttendance]);
@@ -199,15 +215,27 @@ const TeamEventCreditForm: React.FC = () => {
             Please include a picture of yourself (and others) and/or an email chain only if the
             former is not possible.
           </p>
-          <input
-            id="newImage"
-            type="file"
-            accept="image/png, image/jpeg"
-            defaultValue=""
-            value={image ? undefined : ''}
-            onChange={handleNewImage}
-          />
+          {imageIndex.map((item, index) => (
+            <div className="input_container" style={{ marginBottom: '10px' }} key={index}>
+              <input
+                id="newImage"
+                type="file"
+                accept="image/png, image/jpeg"
+                defaultValue=""
+                value={image ? undefined : ''}
+                onChange={handleNewImage}
+              />
+            </div>
+          ))}
         </div>
+        <Form.Button
+          floated="right"
+          size="mini"
+          style={{ marginBottom: '10px' }}
+          onClick={handleAddIconClick}
+        >
+          +
+        </Form.Button>
         <Form.Button floated="right" onClick={submitTeamEventCredit}>
           Submit
         </Form.Button>
