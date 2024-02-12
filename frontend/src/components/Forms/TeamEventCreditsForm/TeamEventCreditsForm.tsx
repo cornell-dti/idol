@@ -81,7 +81,7 @@ const TeamEventCreditForm: React.FC = () => {
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
-      const promises = images.map(async (image, index) => {
+      images.map(async (image, index) => {
         const newTeamEventAttendance: TeamEventAttendance = {
           member: userInfo,
           hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
