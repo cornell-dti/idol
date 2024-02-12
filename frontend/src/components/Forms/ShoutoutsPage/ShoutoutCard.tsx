@@ -1,6 +1,5 @@
-/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
-import { Button, Card, Form, Modal, TextArea } from 'semantic-ui-react';
+import { Button, Card, Form, Icon, Modal, TextArea } from 'semantic-ui-react';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import ShoutoutDeleteModal from '../../Modals/ShoutoutDeleteModal';
 import { Emitters } from '../../../utils';
@@ -41,7 +40,7 @@ const ShoutoutCard = ({ shoutout, setGivenShoutouts }) => {
           content={new Date(shoutout.timestamp).toDateString()}
         />
       </Card.Group>
-      <Card.Group widths="equal" className={styles.shoutoutDelete}>
+      <div className={styles.shoutoutActions}>
         <Card.Meta
           className={styles.shoutoutFrom}
           content={
@@ -50,11 +49,13 @@ const ShoutoutCard = ({ shoutout, setGivenShoutouts }) => {
               : `From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`
           }
         />
-        <ShoutoutDeleteModal uuid={shoutout.uuid} setGivenShoutouts={setGivenShoutouts} />
-        <Button onClick={() => setIsEditing(true)} size="small">
-          Edit
-        </Button>
-      </Card.Group>
+        <div>
+          <ShoutoutDeleteModal uuid={shoutout.uuid} setGivenShoutouts={setGivenShoutouts} />
+          <Button icon onClick={() => setIsEditing(true)}>
+            <Icon name="edit" />
+          </Button>
+        </div>
+      </div>
       <Card.Content description={shoutout.message} />
       <Modal open={isEditing} onClose={() => setIsEditing(false)}>
         <Modal.Header>Edit Shoutout</Modal.Header>
