@@ -5,6 +5,9 @@ import { deleteCollection } from '../utils/firebase-utils';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
 
+/**
+ * Materializes team event attendance object from the serialized form in the database
+ */
 async function materializeTeamEventAttendance(
   dbTeamEventAttendance: DBTeamEventAttendance
 ): Promise<TeamEventAttendance> {
@@ -14,6 +17,9 @@ async function materializeTeamEventAttendance(
   };
 }
 
+/**
+ * Serializes team event attendance object to be stored in the database
+ */
 async function serializeTeamEventAttendance(
   teamEventAttendance: TeamEventAttendance
 ): Promise<DBTeamEventAttendance> {
@@ -23,6 +29,10 @@ async function serializeTeamEventAttendance(
   };
 }
 
+/**
+ * TeamEventAttendanceDao class handles database operations for team event attendance.
+ * It extends the BaseDao class.
+ */
 export default class TeamEventAttendanceDao extends BaseDao<
   TeamEventAttendance,
   DBTeamEventAttendance
