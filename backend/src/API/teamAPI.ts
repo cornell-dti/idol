@@ -8,6 +8,11 @@ const membersDao = new MembersDao();
 
 export const allTeams = (): Promise<readonly Team[]> => MembersDao.getAllTeams();
 
+/**
+ * Updates a current team if exists, otherwise creates a new team.
+ * @param team - The Team object to be updated or created.
+ * @returns - A promise that resolves when the update is complete.
+ */
 const updateTeamMembers = async (team: Team): Promise<void> => {
   const teamCopy = { ...team };
   teamCopy.uuid = teamCopy.uuid ? teamCopy.uuid : uuidv4();
@@ -25,6 +30,13 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
   await updateFormerMembers(teamCopy, oldTeam);
 };
 
+/**
+ * Updates the current members of a team from an old team based on the changes between 
+ * the old and new team configurations.
+ * @param team - The Team object that will be updated with members.
+ * @param oldTeam - The Team object that represents the old team.
+ * @returns A promise that resolves when the update is complete.
+ */
 const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> => {
   let newMembers: IdolMember[] = [];
   let deletedMembers: IdolMember[] = [];
@@ -59,6 +71,13 @@ const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> =>
   );
 };
 
+/**
+ * Updates the former members of a team based on the changes between the old and 
+ * new team configurations.
+ * @param team - The Team object that will be updated with members.
+ * @param oldTeam - The Team object that represents the old team.
+ * @returns A promise that resolves when the update is complete.
+ */
 const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => {
   let newFormerMembers: IdolMember[] = [];
   let removedFormerMembers: IdolMember[] = [];
@@ -92,6 +111,12 @@ const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => 
   );
 };
 
+/**
+ * Creates a team if proper conditions are met.
+ * @param teamBody - The Team object that will be updated with members.
+ * @param member - The IdolMember that is requesting to set the team.
+ * @returns A promise that resolves to the created Team object.
+ */
 export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
   const canEdit = await PermissionsManager.canEditTeams(member);
   if (!canEdit) {
@@ -106,6 +131,12 @@ export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team>
   return teamBody;
 };
 
+/**
+ * Deletes a team by removing all members, leaders, and formerMembers.
+ * @param teamBody - The Team object that will be deleted.
+ * @param member - The IdolMember that is requesting to delete the team.
+ * @returns A promise that resolves to the deleted Team object.
+ */
 export const deleteTeam = async (teamBody: Team, member: IdolMember): Promise<Team> => {
   if (!teamBody.uuid || teamBody.uuid === '') {
     throw new BadRequestError("Couldn't delete team with undefined uuid!");
