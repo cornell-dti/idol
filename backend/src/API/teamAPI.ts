@@ -31,7 +31,7 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
 };
 
 /**
- * Updates the current members of a team from an old team based on the changes between 
+ * Updates the current members of a team from an old team based on the changes between
  * the old and new team configurations.
  * @param team - The Team object that will be updated with members.
  * @param oldTeam - The Team object that represents the old team.
@@ -72,7 +72,7 @@ const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> =>
 };
 
 /**
- * Updates the former members of a team based on the changes between the old and 
+ * Updates the former members of a team based on the changes between the old and
  * new team configurations.
  * @param team - The Team object that will be updated with members.
  * @param oldTeam - The Team object that represents the old team.
