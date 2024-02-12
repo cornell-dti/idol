@@ -11,7 +11,7 @@ const shoutoutsDao = new ShoutoutsDao();
 export const getAllShoutouts = (): Promise<Shoutout[]> => shoutoutsDao.getAllShoutouts();
 
 /**
- * Gives a shoutout, ensuring the giver has the correct permissions.
+ * Creates a shoutout, ensuring the giver has the correct permissions.
  * @param body - The Shoutout object to be created.
  * @param user - The IdolMember who is giving the shoutout.
  * @throws {PermissionError} If the user attempting to give a shoutout is not the same as the giver specified in the shoutout.
