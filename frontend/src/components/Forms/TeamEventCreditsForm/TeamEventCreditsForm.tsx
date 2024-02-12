@@ -75,7 +75,6 @@ const TeamEventCreditForm: React.FC = () => {
         hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
         image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
         eventUuid: teamEvent.uuid,
-        pending: true,
         status: 'pending' as Status,
         reason: '',
         uuid: ''
