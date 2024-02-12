@@ -29,12 +29,12 @@
   display: inline-block;
   padding-left: 1.5rem;
   padding-bottom: 1rem;
-  align-self: left;
 }
 
 .shoutoutDelete {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
