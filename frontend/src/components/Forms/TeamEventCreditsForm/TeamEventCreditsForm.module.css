@@ -57,3 +57,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.modalContent {
+  max-height: 60vh !important;
+}

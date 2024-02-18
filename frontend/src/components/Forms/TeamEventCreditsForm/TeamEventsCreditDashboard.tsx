@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { Card, Loader, Message, Button } from 'semantic-ui-react';
+import React, { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import { Card, Loader, Message, Button, Modal, Header, Image } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -28,6 +28,9 @@ const TeamEventCreditDashboard = (props: {
     isAttendanceLoading,
     setPendingAttendance
   } = props;
+  const [image, setImage] = useState('');
+  const [open, setOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -39,6 +42,14 @@ const TeamEventCreditDashboard = (props: {
     const hours = attendance.hoursAttended;
     if (hours !== undefined) return hours;
     return 1;
+  };
+
+  const getTeamEventImage = (attendance: TeamEventAttendance) => {
+    setLoading(true);
+    ImagesAPI.getEventProofImage(attendance.image).then((url: string) => {
+      setImage(url);
+      setLoading(false);
+    });
   };
 
   const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
@@ -121,15 +132,53 @@ const TeamEventCreditDashboard = (props: {
                   {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
                   <Card.Meta>
                     {attendance.status === 'pending' && (
-                      <Button
-                        basic
-                        color="red"
-                        onClick={() => {
-                          deleteTECAttendanceRequest(attendance);
-                        }}
-                      >
-                        Cancel
-                      </Button>
+                      <div>
+                        <Button
+                          basic
+                          color="red"
+                          floated="right"
+                          size="small"
+                          onClick={() => {
+                            deleteTECAttendanceRequest(attendance);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+
+                        <Modal
+                          closeIcon
+                          onClose={() => setOpen(false)}
+                          onOpen={() => {
+                            getTeamEventImage(attendance);
+                            setOpen(true);
+                          }}
+                          open={open}
+                          trigger={
+                            <Button basic color="green" floated="left" size="small">
+                              Preview
+                            </Button>
+                          }
+                        >
+                          <Modal.Header>Team Event Credit Preview</Modal.Header>
+                          <Modal.Content className={styles.modalContent} scrolling>
+                            <Modal.Description>
+                              <Header>
+                                {attendance.member.firstName} {attendance.member.lastName}
+                              </Header>
+                              <p>Team Event: {teamEvent.name}</p>
+                              <p>Number of Credits: {teamEvent.numCredits}</p>
+                              {teamEvent.hasHours && (
+                                <p> Hours Attended: {attendance.hoursAttended}</p>
+                              )}
+                              {isLoading ? (
+                                <Loader className="modalLoader" active inline />
+                              ) : (
+                                <Image src={attendance.image} />
+                              )}
+                            </Modal.Description>
+                          </Modal.Content>
+                        </Modal>
+                      </div>
                     )}
                   </Card.Meta>
                   {COMMUNITY_EVENTS && (
