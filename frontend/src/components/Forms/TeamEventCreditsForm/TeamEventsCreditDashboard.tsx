@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Card, Loader, Message, Button, Modal, Header, Image } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
@@ -47,7 +47,6 @@ const TeamEventCreditDashboard = (props: {
   const getTeamEventImage = (attendance: TeamEventAttendance) => {
     setLoading(true);
     ImagesAPI.getEventProofImage(attendance.image).then((url: string) => {
-      console.log(url);
       setImage(url);
       setLoading(false);
     });
