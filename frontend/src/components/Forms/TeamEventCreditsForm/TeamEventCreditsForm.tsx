@@ -80,6 +80,7 @@ const TeamEventCreditForm: React.FC = () => {
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
+
       images.map(async (image, index) => {
         const newTeamEventCreditAttendance: TeamEventAttendance = {
           member: userInfo,
@@ -96,6 +97,17 @@ const TeamEventCreditForm: React.FC = () => {
           newTeamEventCreditAttendance,
           images[index]
         );
+
+      const newTeamEventAttendance: TeamEventAttendance = {
+        member: userInfo,
+        hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
+        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
+        eventUuid: teamEvent.uuid,
+        status: 'pending' as Status,
+        reason: '',
+        uuid: ''
+      };
+
 
         if (createdAttendance) {
           const updatedAttendance = {
