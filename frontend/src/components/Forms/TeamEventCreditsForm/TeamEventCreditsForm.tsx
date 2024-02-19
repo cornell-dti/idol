@@ -81,7 +81,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
     } else {
       images.map(async (image, index) => {
-        const newTeamEventAttendance: TeamEventAttendance = {
+        const newTeamEventCreditAttendance: TeamEventAttendance = {
           member: userInfo,
           hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
           image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
@@ -93,12 +93,15 @@ const TeamEventCreditForm: React.FC = () => {
         };
 
         const createdAttendance = await requestTeamEventCredit(
-          newTeamEventAttendance,
+          newTeamEventCreditAttendance,
           images[index]
         );
 
         if (createdAttendance) {
-          const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
+          const updatedAttendance = {
+            ...newTeamEventCreditAttendance,
+            uuid: createdAttendance.uuid
+          };
           setPendingAttendance((pending) => [...pending, updatedAttendance]);
           Emitters.generalSuccess.emit({
             headerMsg: 'Team Event Credit submitted!',
