@@ -48,6 +48,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ### Spring 2024
 
+- **Andrew Chen** - Developer Advisor
 - **Jason Mun** - PM
 - **Oscar Wang** - TPM
 - **Hope Zheng** - Designer
