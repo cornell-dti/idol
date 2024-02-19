@@ -49,7 +49,6 @@ const TeamEventCreditForm: React.FC = () => {
     uploadedImage: string
   ) => {
     const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
-    console.log(uploadedImage);
     // upload image
     const blob = await fetch(uploadedImage).then((res) => res.blob());
     const imageURL: string = window.URL.createObjectURL(blob);

@@ -47,6 +47,7 @@ const TeamEventCreditDashboard = (props: {
   const getTeamEventImage = (attendance: TeamEventAttendance) => {
     setLoading(true);
     ImagesAPI.getEventProofImage(attendance.image).then((url: string) => {
+      console.log(url);
       setImage(url);
       setLoading(false);
     });
@@ -173,7 +174,7 @@ const TeamEventCreditDashboard = (props: {
                               {isLoading ? (
                                 <Loader className="modalLoader" active inline />
                               ) : (
-                                <Image src={attendance.image} />
+                                <Image src={image} />
                               )}
                             </Modal.Description>
                           </Modal.Content>
