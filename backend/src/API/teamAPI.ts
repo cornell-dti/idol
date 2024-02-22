@@ -9,8 +9,9 @@ const membersDao = new MembersDao();
 export const allTeams = (): Promise<readonly Team[]> => MembersDao.getAllTeams();
 
 /**
- * Updates a current team if exists, otherwise creates a new team.
- * @param team - The Team object to be updated or created.
+ * Updates a current team if exists, otherwise creates a new team. Adds the team to the
+ * subteams or formerSubteams field of any current members or former members, respectively.
+ * @param team - The Team object used to update team members.
  * @returns - A promise that resolves when the update is complete.
  */
 const updateTeamMembers = async (team: Team): Promise<void> => {
@@ -31,9 +32,8 @@ const updateTeamMembers = async (team: Team): Promise<void> => {
 };
 
 /**
- * Updates the current members of a team from an old team based on the changes between
- * the old and new team configurations.
- * @param team - The Team object that will be updated with members.
+ * Updates the subteams field of any new members or removed members of a team.
+ * @param team - The Team object that will be used to update current members.
  * @param oldTeam - The Team object that represents the old team.
  * @returns A promise that resolves when the update is complete.
  */
@@ -72,9 +72,8 @@ const updateCurrentMembers = async (team: Team, oldTeam: Team): Promise<void> =>
 };
 
 /**
- * Updates the former members of a team based on the changes between the old and
- * new team configurations.
- * @param team - The Team object that will be updated with members.
+ * Updates the formerSubteams field of any new former members or removed former members of a team.
+ * @param team - The Team object that will be used to update former members.
  * @param oldTeam - The Team object that represents the old team.
  * @returns A promise that resolves when the update is complete.
  */
@@ -112,8 +111,9 @@ const updateFormerMembers = async (team: Team, oldTeam: Team): Promise<void> => 
 };
 
 /**
- * Creates a team if proper conditions are met.
- * @param teamBody - The Team object that will be updated with members.
+ * Creates a team by adding the team to the subteam or formerSubteam field of all members or
+ * past members, respectively.
+ * @param teamBody - The Team object that will be created.
  * @param member - The IdolMember that is requesting to set the team.
  * @returns A promise that resolves to the created Team object.
  */
@@ -132,7 +132,8 @@ export const setTeam = async (teamBody: Team, member: IdolMember): Promise<Team>
 };
 
 /**
- * Deletes a team by removing all members, leaders, and formerMembers.
+ * Deletes a team by removing the team from the subteams or formerSubteams field of all members,
+ * leaders, and formerMembers of the team.
  * @param teamBody - The Team object that will be deleted.
  * @param member - The IdolMember that is requesting to delete the team.
  * @returns A promise that resolves to the deleted Team object.
