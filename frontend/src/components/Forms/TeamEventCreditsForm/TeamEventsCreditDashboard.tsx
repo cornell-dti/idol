@@ -7,9 +7,10 @@ import ImagesAPI from '../../../API/ImagesAPI';
 import { Emitters } from '../../../utils';
 
 import {
-  REQUIRED_COMMUNITY_CREDITS,
+  REQUIRED_INITIATIVE_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
-  REQUIRED_MEMBER_TEC_CREDITS
+  REQUIRED_MEMBER_TEC_CREDITS,
+  INITIATIVE_EVENTS
 } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
@@ -63,7 +64,7 @@ const TeamEventCreditDashboard = (props: {
   };
 
   let approvedCredits = 0;
-  let approvedCommunityCredits = 0;
+  let approvedInitiativeCredits = 0;
   approvedAttendance.forEach(async (attendance) => {
     const event = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
     if (event !== undefined) {
@@ -71,31 +72,31 @@ const TeamEventCreditDashboard = (props: {
         ? Number(event.numCredits) * getHoursAttended(attendance)
         : Number(event.numCredits);
       approvedCredits += currCredits;
-      approvedCommunityCredits += event.isCommunity ? currCredits : 0;
+      approvedInitiativeCredits += event.isCommunity ? currCredits : 0;
     }
   });
-
-  // remove this variable and usage when community events ready to be released
-  const COMMUNITY_EVENTS = false;
 
   // Calculate the remaining credits
   let remainingCredits;
   if (requiredCredits - approvedCredits > 0) remainingCredits = requiredCredits - approvedCredits;
-  else if (COMMUNITY_EVENTS && approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
-    remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
+  else if (INITIATIVE_EVENTS && approvedInitiativeCredits < REQUIRED_INITIATIVE_CREDITS)
+    remainingCredits = REQUIRED_INITIATIVE_CREDITS - approvedInitiativeCredits;
   else remainingCredits = 0;
 
   let headerString;
   if (userRole !== 'lead')
     headerString = `Check your team event credit status for this semester here!  
-    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits 
-    ${COMMUNITY_EVENTS ? `and ${REQUIRED_COMMUNITY_CREDITS} community team event credits` : ''} 
+    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${
+      INITIATIVE_EVENTS
+        ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
+        : ''
+    } 
     to fulfill this requirement.`;
   else
-    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits
-    ${
-      COMMUNITY_EVENTS
-        ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
+    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event 
+    credits${
+      INITIATIVE_EVENTS
+        ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
     }.`;
 
@@ -132,8 +133,8 @@ const TeamEventCreditDashboard = (props: {
                       </Button>
                     )}
                   </Card.Meta>
-                  {COMMUNITY_EVENTS && (
-                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                  {INITIATIVE_EVENTS && (
+                    <Card.Meta>Initiative Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
                   )}
                 </Card.Content>
               </Card>
@@ -167,11 +168,11 @@ const TeamEventCreditDashboard = (props: {
             </label>
           </div>
 
-          {COMMUNITY_EVENTS && (
+          {INITIATIVE_EVENTS && (
             <div className={styles.inline}>
               <label className={styles.bold}>
-                Your Approved Community Credits:{' '}
-                <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
+                Your Approved Initiative Credits:{' '}
+                <span className={styles.dark_grey_color}>{approvedInitiativeCredits}</span>
               </label>
             </div>
           )}
@@ -182,6 +183,17 @@ const TeamEventCreditDashboard = (props: {
               <span className={styles.dark_grey_color}>{remainingCredits}</span>
             </label>
           </div>
+
+          {INITIATIVE_EVENTS && (
+            <div className={styles.inline}>
+              <label className={styles.bold}>
+                Remaining Initiative Credits Needed:{' '}
+                <span className={styles.dark_grey_color}>
+                  {Math.max(0, REQUIRED_INITIATIVE_CREDITS - approvedInitiativeCredits)}
+                </span>
+              </label>
+            </div>
+          )}
 
           <div className={styles.inline}>
             <label className={styles.bold}>Approved Events:</label>

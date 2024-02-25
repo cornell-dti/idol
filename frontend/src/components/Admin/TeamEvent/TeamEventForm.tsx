@@ -3,6 +3,7 @@ import { Form, Radio, Button } from 'semantic-ui-react';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 import styles from './TeamEventForm.module.css';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 type Props = {
   formType: string;
@@ -10,9 +11,6 @@ type Props = {
   teamEvent?: TeamEvent;
   editTeamEvent?: (teamEvent: TeamEvent) => void;
 };
-
-// remove this variable and usage when community events ready to be released
-const COMMUNITY_EVENTS = false;
 
 const TeamEventForm = (props: Props): JSX.Element => {
   const { formType, setOpen, teamEvent, editTeamEvent } = props;
@@ -156,8 +154,12 @@ const TeamEventForm = (props: Props): JSX.Element => {
           </Form.Field>
         </Form.Group>
 
-        {COMMUNITY_EVENTS && <label className={styles.label}>Is this a community event?</label>}
-        {COMMUNITY_EVENTS && (
+        {INITIATIVE_EVENTS && (
+          <label className={styles.label}>
+            Is this an initiative event? <span className={styles.required}>*</span>
+          </label>
+        )}
+        {INITIATIVE_EVENTS && (
           <Form.Group inline>
             <Form.Field>
               <Radio

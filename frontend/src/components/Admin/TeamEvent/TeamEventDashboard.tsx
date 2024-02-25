@@ -5,13 +5,11 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
-  REQUIRED_COMMUNITY_CREDITS
+  REQUIRED_INITIATIVE_CREDITS,
+  INITIATIVE_EVENTS
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-
-// remove this and its usage if/when community events are released
-const COMMUNITY_EVENTS = false;
 
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -94,7 +92,7 @@ const TeamEventDashboard: React.FC = () => {
               />
             </Table.HeaderCell>
             <Table.HeaderCell>Total</Table.HeaderCell>
-            {COMMUNITY_EVENTS && <Table.HeaderCell>Total Community Credits</Table.HeaderCell>}
+            {INITIATIVE_EVENTS && <Table.HeaderCell>Total Initiative Credits</Table.HeaderCell>}
             {teamEvents.map((event) => (
               <Table.HeaderCell>{event.name}</Table.HeaderCell>
             ))}
@@ -112,7 +110,7 @@ const TeamEventDashboard: React.FC = () => {
               const totalCreditsMet =
                 totalCredits >=
                 (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
-              const communityCreditsMet = communityCredits >= REQUIRED_COMMUNITY_CREDITS;
+              const communityCreditsMet = communityCredits >= REQUIRED_INITIATIVE_CREDITS;
 
               return (
                 <Table.Row>
@@ -128,7 +126,7 @@ const TeamEventDashboard: React.FC = () => {
                     )}
                   </Table.Cell>
                   <Table.Cell positive={totalCreditsMet}>{totalCredits}</Table.Cell>
-                  {COMMUNITY_EVENTS && (
+                  {INITIATIVE_EVENTS && (
                     <Table.Cell positive={communityCreditsMet}>{communityCredits}</Table.Cell>
                   )}
                   {teamEvents.map((event) => {
