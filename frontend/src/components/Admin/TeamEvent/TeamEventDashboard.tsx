@@ -14,9 +14,9 @@ import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
   event: TeamEvent,
-  isCommunity: boolean
+  isInitiativeEvent: boolean
 ): number =>
-  isCommunity && !event.isCommunity
+  isInitiativeEvent && !event.isCommunity
     ? 0
     : event.requests
         .filter((req) => req.status === 'approved')
@@ -32,7 +32,7 @@ const calculateMemberCreditsForEvent = (
 const calculateTotalCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, false);
 
-const calculateCommunityCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
+const calculateInitiativeCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, true);
 
 const TeamEventDashboard: React.FC = () => {
@@ -103,14 +103,14 @@ const TeamEventDashboard: React.FC = () => {
                 (val, event) => val + calculateTotalCreditsForEvent(member, event),
                 0
               );
-              const communityCredits = teamEvents.reduce(
-                (val, event) => calculateCommunityCreditsForEvent(member, event),
+              const initiativeCredits = teamEvents.reduce(
+                (val, event) => calculateInitiativeCreditsForEvent(member, event),
                 0
               );
               const totalCreditsMet =
                 totalCredits >=
                 (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
-              const communityCreditsMet = communityCredits >= REQUIRED_INITIATIVE_CREDITS;
+              const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
 
               return (
                 <Table.Row>
@@ -127,7 +127,7 @@ const TeamEventDashboard: React.FC = () => {
                   </Table.Cell>
                   <Table.Cell positive={totalCreditsMet}>{totalCredits}</Table.Cell>
                   {INITIATIVE_EVENTS && (
-                    <Table.Cell positive={communityCreditsMet}>{communityCredits}</Table.Cell>
+                    <Table.Cell positive={initiativeCreditsMet}>{initiativeCredits}</Table.Cell>
                   )}
                   {teamEvents.map((event) => {
                     const numCredits = calculateTotalCreditsForEvent(member, event);

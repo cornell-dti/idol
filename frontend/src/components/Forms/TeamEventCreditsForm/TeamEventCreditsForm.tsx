@@ -127,7 +127,7 @@ const TeamEventCreditForm: React.FC = () => {
                         <div className={styles.flex_start}>{event.name}</div>
                         <div className={styles.flex_end}>
                           {INITIATIVE_EVENTS && event.isCommunity && (
-                            <Label content="initiative"></Label>
+                            <Label content="initiative"/>
                           )}
                           <Label
                             content={`${new Date(event.date).toLocaleDateString('en-us', {
