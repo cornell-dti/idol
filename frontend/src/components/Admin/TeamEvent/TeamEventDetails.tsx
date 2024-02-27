@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Modal, Button, Loader } from 'semantic-ui-react';
+import { Card, Message, Modal, Button, Loader, Dropdown } from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import EditTeamEvent from './EditTeamEvent';
@@ -63,6 +63,8 @@ const TeamEventDetails: React.FC = () => {
   const uuid = location.query.uuid as string;
   const [teamEvent, setTeamEvent] = useState<TeamEvent>(defaultTeamEvent);
   const [isLoading, setLoading] = useState(true);
+  const [status, setStatus] = useState<Status | string>();
+  const allStatus: Status[] = ['approved', 'pending', 'rejected'];
 
   const fullReset = () => {
     setLoading(true);
@@ -137,18 +139,62 @@ const TeamEventDetails: React.FC = () => {
         )}
       </div>
 
-      <div className={styles.listsContainer}>
-        <div className={styles.listContainer}>
-          <h2 className={styles.memberTitle}>Members Pending</h2>
-          <AttendanceDisplay status={'pending' as Status} teamEvent={teamEvent} />
+      <div className={styles.row_direction}>
+        <div className={styles.dropdown}>
+          <label className={styles.bold}>Select Status:</label>
+          <Dropdown
+            placeholder="Select Status"
+            fluid
+            selection
+            options={allStatus.map((status) => ({
+              text: status,
+              value: status
+            }))}
+            onChange={(_, data) => {
+              setStatus(data.value as Status);
+            }}
+          />
         </div>
 
-        <div className={styles.listContainer}>
-          <h2 className={styles.memberTitle}>Members Approved</h2>
-          <AttendanceDisplay status={'approved' as Status} teamEvent={teamEvent} />
-          <h2 className={styles.memberTitle}>Members Rejected</h2>
-          <AttendanceDisplay status={'rejected' as Status} teamEvent={teamEvent} />
-        </div>
+        {status && (
+          <div className={styles.inline}>
+            <Button
+              onClick={() => {
+                setStatus(undefined);
+                fullReset();
+              }}
+            >
+              View All
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.listContainer}>
+        {status ? (
+          <>
+            <h2 className={styles.memberTitle}>
+              Members {status.charAt(0).toUpperCase() + status.slice(1)}
+            </h2>
+            <AttendanceDisplay status={status as Status} teamEvent={teamEvent} />
+          </>
+        ) : (
+          <>
+            <div className={styles.listsContainer}>
+              <div className={styles.listContainer}>
+                <h2 className={styles.memberTitle}>Members Pending</h2>
+                <AttendanceDisplay status={'pending' as Status} teamEvent={teamEvent} />
+              </div>
+
+              <div className={styles.listContainer}>
+                <h2 className={styles.memberTitle}>Members Approved</h2>
+                <AttendanceDisplay status={'approved' as Status} teamEvent={teamEvent} />
+                <h2 className={styles.memberTitle}>Members Rejected</h2>
+                <AttendanceDisplay status={'rejected' as Status} teamEvent={teamEvent} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
