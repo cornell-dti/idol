@@ -37,11 +37,22 @@ const TeamEventCreditForm: React.FC = () => {
     setImageIndex([...imageIndex, newIndex]);
   };
 
-  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>, index: number): void => {
     if (!e.target.files) return;
     const newImage = URL.createObjectURL(e.target.files[0]);
     setImage(newImage);
-    setImages([...images, newImage]);
+    if (index < images.length) {
+      const newImages = images.map((currentImage, i) => {
+        if (i == index) {
+          return newImage;
+        } else {
+          return currentImage;
+        }
+      });
+      setImages(newImages);
+    } else {
+      setImages([...images, newImage]);
+    }
   };
 
   const requestTeamEventCredit = async (
@@ -59,6 +70,8 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const submitTeamEventCredit = () => {
+    const expectedNumOfImages = images.length;
+
     if (!teamEvent) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Selected',
@@ -68,6 +81,11 @@ const TeamEventCreditForm: React.FC = () => {
       Emitters.generalError.emit({
         headerMsg: 'No Image Uploaded',
         contentMsg: 'Please upload an image!'
+      });
+    } else if (imageIndex.length !== expectedNumOfImages) {
+      Emitters.generalError.emit({
+        headerMsg: 'Unsucessful Image Upload',
+        contentMsg: 'Please upload all images from top to bottom!'
       });
     } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)))) {
       Emitters.generalError.emit({
@@ -80,38 +98,36 @@ const TeamEventCreditForm: React.FC = () => {
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
-
       images.map(async (image, index) => {
-        const newTeamEventCreditAttendance: TeamEventAttendance = {
+        const newTeamEventAttendance: TeamEventAttendance = {
           member: userInfo,
           hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
           image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
           eventUuid: teamEvent.uuid,
-          pending: true,
+          // pending: true,
           status: 'pending' as Status,
           reason: '',
           uuid: ''
         };
 
         const createdAttendance = await requestTeamEventCredit(
-          newTeamEventCreditAttendance,
+          newTeamEventAttendance,
           images[index]
         );
 
-      const newTeamEventAttendance: TeamEventAttendance = {
-        member: userInfo,
-        hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
-        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
-        eventUuid: teamEvent.uuid,
-        status: 'pending' as Status,
-        reason: '',
-        uuid: ''
-      };
-
+        // const newTeamAttendance: TeamEventAttendance = {
+        //   member: userInfo,
+        //   hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
+        //   image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
+        //   eventUuid: teamEvent.uuid,
+        //   status: 'pending' as Status,
+        //   reason: '',
+        //   uuid: ''
+        // };
 
         if (createdAttendance) {
           const updatedAttendance = {
-            ...newTeamEventCreditAttendance,
+            ...newTeamEventAttendance,
             uuid: createdAttendance.uuid
           };
           setPendingAttendance((pending) => [...pending, updatedAttendance]);
@@ -122,6 +138,7 @@ const TeamEventCreditForm: React.FC = () => {
           setTeamEvent(undefined);
           setHours('0');
           setImage('');
+          setImageIndex([0]);
         }
       });
     }
@@ -237,7 +254,7 @@ const TeamEventCreditForm: React.FC = () => {
                 accept="image/png, image/jpeg"
                 defaultValue=""
                 value={image ? undefined : ''}
-                onChange={handleNewImage}
+                onChange={(e) => handleNewImage(e, index)}
               />
             </div>
           ))}
