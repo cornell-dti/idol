@@ -43,11 +43,10 @@ const TeamEventCreditForm: React.FC = () => {
     setImage(newImage);
     if (index < images.length) {
       const newImages = images.map((currentImage, i) => {
-        if (i == index) {
+        if (i === index) {
           return newImage;
-        } else {
-          return currentImage;
         }
+        return currentImage;
       });
       setImages(newImages);
     } else {
