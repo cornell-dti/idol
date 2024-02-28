@@ -103,7 +103,6 @@ const TeamEventCreditForm: React.FC = () => {
           hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
           image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
           eventUuid: teamEvent.uuid,
-          // pending: true,
           status: 'pending' as Status,
           reason: '',
           uuid: ''
@@ -113,16 +112,6 @@ const TeamEventCreditForm: React.FC = () => {
           newTeamEventAttendance,
           images[index]
         );
-
-        // const newTeamAttendance: TeamEventAttendance = {
-        //   member: userInfo,
-        //   hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
-        //   image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
-        //   eventUuid: teamEvent.uuid,
-        //   status: 'pending' as Status,
-        //   reason: '',
-        //   uuid: ''
-        // };
 
         if (createdAttendance) {
           const updatedAttendance = {
