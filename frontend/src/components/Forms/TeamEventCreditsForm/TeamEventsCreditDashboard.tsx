@@ -72,7 +72,7 @@ const TeamEventCreditDashboard = (props: {
         ? Number(event.numCredits) * getHoursAttended(attendance)
         : Number(event.numCredits);
       approvedCredits += currCredits;
-      approvedInitiativeCredits += event.isCommunity ? currCredits : 0;
+      approvedInitiativeCredits += event.isInitiativeEvent ? currCredits : 0;
     }
   });
 
@@ -134,7 +134,9 @@ const TeamEventCreditDashboard = (props: {
                     )}
                   </Card.Meta>
                   {INITIATIVE_EVENTS && (
-                    <Card.Meta>Initiative Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                    <Card.Meta>
+                      Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
+                    </Card.Meta>
                   )}
                 </Card.Content>
               </Card>
