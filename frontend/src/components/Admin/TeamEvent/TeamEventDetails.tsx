@@ -16,7 +16,7 @@ const defaultTeamEvent: TeamEvent = {
   hasHours: false,
   requests: [],
   uuid: '',
-  isCommunity: false
+  isInitiativeEvent: false
 };
 
 type AttendanceDisplayProps = {
@@ -130,7 +130,7 @@ const TeamEventDetails: React.FC = () => {
         <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'yes' : 'no'}</h3>
         {INITIATIVE_EVENTS && (
           <h3 className={styles.eventDetails}>
-            Initiative Event: {teamEvent.isCommunity ? 'Yes' : 'No'}
+            Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
           </h3>
         )}
       </div>

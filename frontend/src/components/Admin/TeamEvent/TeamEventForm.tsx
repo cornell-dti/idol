@@ -19,7 +19,9 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
   const [teamEventCreditNum, setTeamEventCreditNum] = useState(teamEvent?.numCredits || '');
   const [teamEventHasHours, setTeamEventHasHours] = useState(teamEvent?.hasHours || false);
-  const [isCommunity, setIsCommunity] = useState<boolean>(teamEvent?.isCommunity || false);
+  const [isInitiativeEvent, setisInitiativeEvent] = useState<boolean>(
+    teamEvent?.isInitiativeEvent || false
+  );
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -53,7 +55,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
-        isCommunity
+        isCommunity: isInitiativeEvent,
+        isInitiativeEvent
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({
@@ -67,7 +70,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
-        isCommunity
+        isInitiativeEvent
       };
       TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
         if (val.error) {
@@ -165,16 +168,16 @@ const TeamEventForm = (props: Props): JSX.Element => {
               <Radio
                 label="Yes"
                 value="Yes"
-                checked={isCommunity}
-                onChange={() => setIsCommunity(true)}
+                checked={isInitiativeEvent}
+                onChange={() => setisInitiativeEvent(true)}
               />
             </Form.Field>
             <Form.Field>
               <Radio
                 label="No"
                 value="No"
-                checked={!isCommunity}
-                onChange={() => setIsCommunity(false)}
+                checked={!isInitiativeEvent}
+                onChange={() => setisInitiativeEvent(false)}
               />
             </Form.Field>
           </Form.Group>

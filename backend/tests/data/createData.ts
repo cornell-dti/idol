@@ -86,7 +86,7 @@ export const fakeTeamEvent = (): TeamEvent => {
     requests: [fakeTeamEventAttendance()],
     attendees: [],
     uuid: faker.datatype.uuid(),
-    isCommunity: getRandomBoolean()
+    isInitiativeEvent: getRandomBoolean()
   };
   return TE;
 };

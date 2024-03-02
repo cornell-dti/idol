@@ -16,7 +16,7 @@ const calculateMemberCreditsForEvent = (
   event: TeamEvent,
   isInitiativeEvent: boolean
 ): number =>
-  isInitiativeEvent && !event.isCommunity
+  isInitiativeEvent && !event.isInitiativeEvent
     ? 0
     : event.requests
         .filter((req) => req.status === 'approved')
@@ -104,7 +104,7 @@ const TeamEventDashboard: React.FC = () => {
                 0
               );
               const initiativeCredits = teamEvents.reduce(
-                (val, event) => calculateInitiativeCreditsForEvent(member, event),
+                (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
                 0
               );
               const totalCreditsMet =

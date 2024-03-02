@@ -40,7 +40,7 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
                     </Card.Meta>
                     {INITIATIVE_EVENTS && (
                       <Card.Meta>
-                        Initiative Event: {teamEvent.isCommunity ? 'Yes' : 'No'}
+                        Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
                       </Card.Meta>
                     )}
                   </Card.Content>
