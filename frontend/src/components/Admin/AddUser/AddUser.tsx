@@ -452,8 +452,8 @@ export default function AddUser(): JSX.Element {
                       control={Select}
                       label="Advisor"
                       options={[
-                        { key: 'true', text: 'Yes', value: true },
-                        { key: 'false', text: 'No', value: false }
+                        { key: true, text: 'Yes', value: true },
+                        { key: false, text: 'No', value: false }
                       ]}
                       placeholder="Advisor"
                       disabled={state.currentSelectedMember.role === 'tpm'} // no tpm advisor
@@ -463,10 +463,10 @@ export default function AddUser(): JSX.Element {
                       ) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          isAdvisor: data.value === 'true'
+                          isAdvisor: Boolean(data.value)
                         }));
                       }}
-                      value={state.currentSelectedMember.isAdvisor}
+                      value={state.currentSelectedMember.isAdvisor || false}
                     />
                   </Form.Group>
                   <Form.Group widths="equal">
