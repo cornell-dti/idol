@@ -61,3 +61,7 @@
 .modalContent {
   max-height: 60vh !important;
 }
+
+.margin_before_button {
+  margin-top: 1rem;
+}

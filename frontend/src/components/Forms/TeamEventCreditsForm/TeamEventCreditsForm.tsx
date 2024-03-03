@@ -20,7 +20,7 @@ const TeamEventCreditForm: React.FC = () => {
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
   const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
-  const [imageIndex, setImageIndex] = useState<number[]>([0]);
+  const [numImagesSlots, setNumImagesSlots] = useState<number>(1);
   const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ const TeamEventCreditForm: React.FC = () => {
   }, []);
 
   const handleAddIconClick = () => {
-    const newIndex = imageIndex.length;
-    setImageIndex([...imageIndex, newIndex]);
+    const currNumImagesSlots = numImagesSlots;
+    setNumImagesSlots(currNumImagesSlots + 1);
   };
 
   const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>, index: number): void => {
@@ -70,8 +70,6 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const submitTeamEventCredit = () => {
-    const expectedNumOfImages = images.length;
-
     if (!teamEvent) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Selected',
@@ -82,7 +80,7 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'No Image Uploaded',
         contentMsg: 'Please upload an image!'
       });
-    } else if (imageIndex.length !== expectedNumOfImages) {
+    } else if (numImagesSlots !== images.length) {
       Emitters.generalError.emit({
         headerMsg: 'Unsucessful Image Upload',
         contentMsg: 'Please upload all images from top to bottom!'
@@ -127,7 +125,7 @@ const TeamEventCreditForm: React.FC = () => {
           setTeamEvent(undefined);
           setHours('0');
           setImage('');
-          setImageIndex([0]);
+          setNumImagesSlots(1);
         }
       });
     }
@@ -238,15 +236,15 @@ const TeamEventCreditForm: React.FC = () => {
             Please include a picture of yourself (and others) and/or an email chain only if the
             former is not possible.
           </p>
-          {imageIndex.map((item, index) => (
-            <div className="input_container" style={{ marginBottom: '10px' }} key={index}>
+          {Array.from({ length: numImagesSlots }, (_, i) => (
+            <div className="input_container" style={{ marginBottom: '10px' }} key={i}>
               <input
                 id="newImage"
                 type="file"
                 accept="image/png, image/jpeg"
                 defaultValue=""
                 value={image ? undefined : ''}
-                onChange={(e) => handleNewImage(e, index)}
+                onChange={(e) => handleNewImage(e, i)}
               />
             </div>
           ))}

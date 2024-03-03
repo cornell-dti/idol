@@ -130,8 +130,13 @@ const TeamEventCreditDashboard = (props: {
                         : teamEvent.numCredits
                     }`}
                   </Card.Meta>
+                  {INITIATIVE_EVENTS && (
+                    <Card.Meta>
+                      Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
+                    </Card.Meta>
+                  )}
                   {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
-                  <Card.Meta>
+                  <Card.Meta className={styles.margin_before_button}>
                     {attendance.status === 'pending' && (
                       <div>
                         <Button
@@ -182,11 +187,6 @@ const TeamEventCreditDashboard = (props: {
                       </div>
                     )}
                   </Card.Meta>
-                  {INITIATIVE_EVENTS && (
-                    <Card.Meta>
-                      Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
-                    </Card.Meta>
-                  )}
                 </Card.Content>
               </Card>
             );
