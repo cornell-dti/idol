@@ -94,6 +94,7 @@ export default function AddUser(): JSX.Element {
         pronouns: '',
         email: '',
         role: '' as Role,
+        isAdvisor: false,
         graduation: '',
         major: '',
         doubleMajor: '',
@@ -194,6 +195,7 @@ export default function AddUser(): JSX.Element {
             ? m.formerSubteams.split(', ')
             : currMember.formerSubteams,
           role: m.role || currMember.role,
+          isAdvisor: m.isAdvisor || currMember.isAdvisor,
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
         MembersAPI.updateMember(updatedMember);
@@ -216,6 +218,7 @@ export default function AddUser(): JSX.Element {
           subteams: m.subteam ? [m.subteam] : [],
           formerSubteams: m.formerSubteams ? m.formerSubteams.split(', ') : [],
           role: m.role || ('' as Role),
+          isAdvisor: m.isAdvisor || false,
           roleDescription: getRoleDescriptionFromRoleID(m.role)
         } as IdolMember;
         MembersAPI.setMember(updatedMember);
@@ -444,6 +447,26 @@ export default function AddUser(): JSX.Element {
                         }));
                       }}
                       value={state.currentSelectedMember.role || ''}
+                    />
+                    <Form.Field
+                      control={Select}
+                      label="Advisor"
+                      options={[
+                        { key: 'true', text: 'Yes', value: true },
+                        { key: 'false', text: 'No', value: false }
+                      ]}
+                      placeholder="Advisor"
+                      disabled={state.currentSelectedMember.role === 'tpm'} // no tpm advisor
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
+                        setCurrentlySelectedMember((currentSelectedMember) => ({
+                          ...currentSelectedMember,
+                          isAdvisor: data.value === 'true'
+                        }));
+                      }}
+                      value={state.currentSelectedMember.isAdvisor}
                     />
                   </Form.Group>
                   <Form.Group widths="equal">

@@ -31,6 +31,7 @@ interface IdolMember {
   readonly subteams: readonly string[];
   readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
+  readonly isAdvisor: boolean;
   readonly roleDescription: RoleDescription;
 }
 
