@@ -7,6 +7,7 @@ import TeamEventCreditReview from './TeamEventCreditReview';
 import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 const defaultTeamEvent: TeamEvent = {
   name: '',
@@ -15,7 +16,7 @@ const defaultTeamEvent: TeamEvent = {
   hasHours: false,
   requests: [],
   uuid: '',
-  isCommunity: false
+  isInitiativeEvent: false
 };
 
 type AttendanceDisplayProps = {
@@ -54,9 +55,6 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent
     </>
   );
 };
-
-// remove this variable and usage when community events ready to be released
-const COMMUNITY_EVENTS = false;
 
 const TeamEventDetails: React.FC = () => {
   const location = useRouter();
@@ -130,9 +128,9 @@ const TeamEventDetails: React.FC = () => {
         <h3 className={styles.eventDetails}>Date: {teamEvent.date}</h3>
         <h3 className={styles.eventDetails}>Credits: {teamEvent.numCredits}</h3>
         <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'yes' : 'no'}</h3>
-        {COMMUNITY_EVENTS && (
+        {INITIATIVE_EVENTS && (
           <h3 className={styles.eventDetails}>
-            Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}
+            Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
           </h3>
         )}
       </div>

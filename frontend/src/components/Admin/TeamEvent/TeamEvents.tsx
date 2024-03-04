@@ -6,14 +6,12 @@ import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 type TeamEventsDisplayProps = {
   isLoading: boolean;
   teamEvents: TeamEvent[];
 };
-
-// remove this variable and usage when community events ready to be released
-const COMMUNITY_EVENTS = false;
 
 const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEvents }) => {
   if (isLoading) return <Loader active inline />;
@@ -40,8 +38,10 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
                         `0 pending requests`
                       )}
                     </Card.Meta>
-                    {COMMUNITY_EVENTS && (
-                      <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
+                    {INITIATIVE_EVENTS && (
+                      <Card.Meta>
+                        Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
+                      </Card.Meta>
                     )}
                   </Card.Content>
                 </Card>

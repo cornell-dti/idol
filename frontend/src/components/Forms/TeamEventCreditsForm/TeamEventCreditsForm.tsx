@@ -6,6 +6,7 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -125,6 +126,9 @@ const TeamEventCreditForm: React.FC = () => {
                       <div className={styles.flex_space_center}>
                         <div className={styles.flex_start}>{event.name}</div>
                         <div className={styles.flex_end}>
+                          {INITIATIVE_EVENTS && event.isInitiativeEvent && (
+                            <Label content="initiative" />
+                          )}
                           <Label
                             content={`${new Date(event.date).toLocaleDateString('en-us', {
                               month: 'short',
