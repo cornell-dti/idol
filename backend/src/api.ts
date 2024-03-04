@@ -6,7 +6,6 @@ import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import { app as adminApp, env } from './firebase';
 import PermissionsManager from './utils/permissionsManager';
-import { HandlerError } from './utils/errors';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
@@ -30,7 +29,8 @@ import {
   getShoutouts,
   giveShoutout,
   hideShoutout,
-  deleteShoutout
+  deleteShoutout,
+  editShoutout
 } from './API/shoutoutAPI';
 import {
   allSignInForms,
@@ -84,6 +84,7 @@ import {
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
+import { HandlerError } from './utils/errors';
 
 // Constants and configurations
 const app = express();
@@ -266,6 +267,11 @@ loginCheckedPost('/shoutout', async (req, user) => ({
 
 loginCheckedPut('/shoutout', async (req, user) => {
   await hideShoutout(req.body.uuid, req.body.hide, user);
+  return {};
+});
+
+loginCheckedPut('/shoutout/:uuid', async (req, user) => {
+  await editShoutout(req.params.uuid, req.body, user);
   return {};
 });
 
