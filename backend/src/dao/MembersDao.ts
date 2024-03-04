@@ -97,7 +97,7 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
   }
 
   /**
-   * Gets all teams based on the subteam and formersubteam(s) each member is on, since teams do not have 
+   * Gets all teams based on the subteam and formersubteam(s) each member is on, since teams do not have
    * a collection in the database (teams are aggregated data from the members collection).
    * @returns A promise that resolves to an array of all Team objects.
    */
@@ -131,7 +131,7 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
   }
 
   /**
-   * Gets a specific team by searching through each IDOL member and saving each member of the team. 
+   * Gets a specific team by searching through each IDOL member and saving each member of the team.
    * @param id The name of the team
    * @returns A promise that resolves to the Team object with the specified name.
    */
