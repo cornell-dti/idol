@@ -279,7 +279,7 @@ export default function AddUser(): JSX.Element {
             err.push('subteam cannot be in former subteams');
           }
           if (isAdvisor && role === 'tpm') {
-            err.push('TPM cannot be an advisor');
+            err.push('tpm advisor is not a valid role');
           }
           return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
         })
