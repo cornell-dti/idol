@@ -155,7 +155,7 @@ export default function AddUser(): JSX.Element {
       Emitters.generalError.emit({
         headerMsg: 'Invalid Role!',
         contentMsg:
-          'TPM advisor is not a valid role. Please select a different role if this member is returning as an advisor.'
+          'TPM advisor is not a valid role. Please select a different role if this member is returning as an advisor. Note that previous TPMs may become dev advisors.'
       });
       return;
     }
