@@ -12,7 +12,8 @@ const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-  const [isTpm, isAdvisor] = [userInfo.role === 'tpm', userInfo.isAdvisor];
+  const isTpm = userInfo.role === 'tpm';
+  const { isAdvisor } = userInfo;
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
