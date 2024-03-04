@@ -12,7 +12,7 @@ const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
-  const isTpm = userInfo.role === 'tpm';
+  const [isTpm, isAdvisor] = [userInfo.role === 'tpm', userInfo.isAdvisor];
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
@@ -86,7 +86,7 @@ const DevPortfolioForm: React.FC = () => {
       ? devPortfolio.lateDeadline
       : devPortfolio?.deadline;
 
-    if (!isTpm && otherEmpty && (openedEmpty || reviewedEmpty)) {
+    if (!(isTpm || isAdvisor) && otherEmpty && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
@@ -110,7 +110,7 @@ const DevPortfolioForm: React.FC = () => {
         headerMsg: 'Documentation Empty',
         contentMsg: 'Please write something for the documentation section of the assignment.'
       });
-    } else if (!isTpm && !otherEmpty && textEmpty) {
+    } else if (!(isTpm || isAdvisor) && !otherEmpty && textEmpty) {
       Emitters.generalError.emit({
         headerMsg: 'Explanation Empty',
         contentMsg: 'Please write an explanation for your other PR submission.'
@@ -225,6 +225,7 @@ const DevPortfolioForm: React.FC = () => {
             label="Opened Pull Request Github Link:"
             openOther={openOther}
             isTpm={isTpm}
+            isAdvisor={isAdvisor}
           />
           <PRInputs
             prs={reviewPRs}
@@ -233,8 +234,9 @@ const DevPortfolioForm: React.FC = () => {
             label="Reviewed Pull Request Github Link:"
             openOther={openOther}
             isTpm={isTpm}
+            isAdvisor={isAdvisor}
           />
-          {isTpm ? (
+          {isTpm || isAdvisor ? (
             <></>
           ) : (
             <OtherPRInputs
@@ -302,7 +304,8 @@ const PRInputs = ({
   label,
   placeholder,
   openOther,
-  isTpm
+  isTpm,
+  isAdvisor
 }: {
   prs: string[];
   setPRs: React.Dispatch<React.SetStateAction<string[]>>;
@@ -310,6 +313,7 @@ const PRInputs = ({
   placeholder: string;
   openOther: boolean;
   isTpm: boolean;
+  isAdvisor: boolean;
 }) => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === 'Enter') {
@@ -319,7 +323,7 @@ const PRInputs = ({
   return (
     <div className={styles.inline}>
       <label className={styles.bold}>
-        {label} {!isTpm && !openOther && <span className={styles.red_color}>*</span>}
+        {label} {!(isTpm || isAdvisor) && !openOther && <span className={styles.red_color}>*</span>}
       </label>
       {prs.map((pr, index) => (
         <div className={styles.prInputContainer} key={index}>
