@@ -216,8 +216,9 @@ const TeamEventCreditForm: React.FC = () => {
             Please include a picture of yourself (and others) and/or an email chain only if the
             former is not possible.
           </p>
+
           {images.map((image, i) => (
-            <div className="input_container" style={{ marginBottom: '10px' }} key={i}>
+            <div style={{ marginBottom: '10px' }} key={i}>
               <input
                 id="newImage"
                 type="file"
