@@ -56,6 +56,7 @@ const UserProfile: React.FC = () => {
         lastName,
         pronouns,
         role: userRole,
+        isAdvisor: userInfoBeforeEdit?.isAdvisor ?? false,
         roleDescription: getRoleDescriptionFromRoleID(userRole),
         graduation,
         major,
