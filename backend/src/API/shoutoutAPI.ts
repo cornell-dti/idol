@@ -54,14 +54,9 @@ export const editShoutout = async (
   if (!shoutout) {
     throw new NotFoundError(`Shoutout with uuid: ${uuid} does not exist!`);
   }
-  if (shoutout.giver.email !== user.email && !(await PermissionsManager.isLeadOrAdmin(user))) {
-    throw new PermissionError(
-      `User with email: ${user.email} is not authorized to edit this shoutout!`
-    );
-  }
-  const updatedShoutout = { ...shoutout, message: newMessage };
-  return shoutoutsDao.updateShoutout(updatedShoutout);
+  return shoutoutsDao.editShoutout(uuid, newMessage);
 };
+
 
 export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
   const shoutout = await shoutoutsDao.getShoutout(uuid);

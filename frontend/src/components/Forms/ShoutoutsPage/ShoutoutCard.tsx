@@ -1,34 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import { Button, Card, Form, Icon, Modal, TextArea } from 'semantic-ui-react';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import ShoutoutDeleteModal from '../../Modals/ShoutoutDeleteModal';
-import { Emitters } from '../../../utils';
 import styles from './ShoutoutCard.module.css';
 
-const ShoutoutCard = ({ shoutout, setGivenShoutouts }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedMessage, setEditedMessage] = useState(shoutout.message);
+interface ShoutoutCardProps {
+  shoutout: Shoutout;
+  setGivenShoutouts: Dispatch<SetStateAction<Shoutout[]>>;
+}
 
-  const handleEditShoutout = () => {
-    ShoutoutsAPI.editShoutout(shoutout.uuid, editedMessage).then((response) => {
-      if (!response.error) {
-        setGivenShoutouts((prevShoutouts) =>
-          prevShoutouts.map((s) =>
-            s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s
-          )
-        );
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Success!',
-          contentMsg: 'The shoutout message updated successfully.'
-        });
-        setIsEditing(false);
-      } else {
-        Emitters.generalError.emit({
-          headerMsg: 'Error',
-          contentMsg: `The shoutout message failed to update...: ${response.error}`
-        });
-      }
-    });
+const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedMessage, setEditedMessage] = useState('');
+
+  const handleEditShoutout = async () => {
+    try {
+      await ShoutoutsAPI.editShoutout(shoutout.uuid, { message: editedMessage });
+      setGivenShoutouts((prevShoutouts: Shoutout[]) =>
+        prevShoutouts.map((s) => (s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s))
+      );
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Failed to edit shoutout:', error);
+    }
   };
 
   return (
@@ -44,9 +38,7 @@ const ShoutoutCard = ({ shoutout, setGivenShoutouts }) => {
         <Card.Meta
           className={styles.shoutoutFrom}
           content={
-            shoutout.isAnon
-              ? 'From: Anonymous'
-              : `From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`
+            shoutout.isAnon ? 'From: Anonymous' : `From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`
           }
         />
         <div>
@@ -63,10 +55,7 @@ const ShoutoutCard = ({ shoutout, setGivenShoutouts }) => {
           <Form>
             <Form.Field>
               <label>Message</label>
-              <TextArea
-                value={editedMessage}
-                onChange={(e, { value }) => setEditedMessage(value)}
-              />
+              <TextArea value={editedMessage} onChange={(e, { value }) => setEditedMessage((value || '') as string)} />
             </Form.Field>
           </Form>
         </Modal.Content>
