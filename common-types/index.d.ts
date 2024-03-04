@@ -87,7 +87,6 @@ interface TeamEventAttendance {
   hoursAttended?: number;
   image: string;
   readonly eventUuid: string;
-  readonly pending: boolean;
   readonly status: Status;
   readonly reason: string;
   readonly uuid: string;
@@ -99,7 +98,8 @@ interface TeamEventInfo {
   readonly numCredits: string;
   readonly hasHours: boolean;
   readonly uuid: string;
-  readonly isCommunity: boolean;
+  readonly isCommunity?: boolean;
+  readonly isInitiativeEvent: boolean;
 }
 
 interface TeamEvent extends TeamEventInfo {

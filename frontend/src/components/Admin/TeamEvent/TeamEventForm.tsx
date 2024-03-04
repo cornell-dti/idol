@@ -3,6 +3,7 @@ import { Form, Radio, Button } from 'semantic-ui-react';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 import styles from './TeamEventForm.module.css';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 type Props = {
   formType: string;
@@ -11,9 +12,6 @@ type Props = {
   editTeamEvent?: (teamEvent: TeamEvent) => void;
 };
 
-// remove this variable and usage when community events ready to be released
-const COMMUNITY_EVENTS = false;
-
 const TeamEventForm = (props: Props): JSX.Element => {
   const { formType, setOpen, teamEvent, editTeamEvent } = props;
 
@@ -21,7 +19,9 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
   const [teamEventCreditNum, setTeamEventCreditNum] = useState(teamEvent?.numCredits || '');
   const [teamEventHasHours, setTeamEventHasHours] = useState(teamEvent?.hasHours || false);
-  const [isCommunity, setIsCommunity] = useState<boolean>(teamEvent?.isCommunity || false);
+  const [isInitiativeEvent, setisInitiativeEvent] = useState<boolean>(
+    teamEvent?.isInitiativeEvent || false
+  );
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -55,7 +55,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
-        isCommunity
+        isCommunity: isInitiativeEvent,
+        isInitiativeEvent
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({
@@ -69,7 +70,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
-        isCommunity
+        isInitiativeEvent
       };
       TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
         if (val.error) {
@@ -156,23 +157,27 @@ const TeamEventForm = (props: Props): JSX.Element => {
           </Form.Field>
         </Form.Group>
 
-        {COMMUNITY_EVENTS && <label className={styles.label}>Is this a community event?</label>}
-        {COMMUNITY_EVENTS && (
+        {INITIATIVE_EVENTS && (
+          <label className={styles.label}>
+            Is this an initiative event? <span className={styles.required}>*</span>
+          </label>
+        )}
+        {INITIATIVE_EVENTS && (
           <Form.Group inline>
             <Form.Field>
               <Radio
                 label="Yes"
                 value="Yes"
-                checked={isCommunity}
-                onChange={() => setIsCommunity(true)}
+                checked={isInitiativeEvent}
+                onChange={() => setisInitiativeEvent(true)}
               />
             </Form.Field>
             <Form.Field>
               <Radio
                 label="No"
                 value="No"
-                checked={!isCommunity}
-                onChange={() => setIsCommunity(false)}
+                checked={!isInitiativeEvent}
+                onChange={() => setisInitiativeEvent(false)}
               />
             </Form.Field>
           </Form.Group>
