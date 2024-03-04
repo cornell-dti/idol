@@ -150,6 +150,16 @@ export default function AddUser(): JSX.Element {
       return;
     }
 
+    // Check that no tpms are also advisors
+    if (member.role === 'tpm' && member.isAdvisor) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Role!',
+        contentMsg:
+          'TPM advisor is not a valid role. Please select a different role if this member is returning as an advisor.'
+      });
+      return;
+    }
+
     MembersAPI.setMember({
       ...member,
       netid: getNetIDFromEmail(member.email),
@@ -247,7 +257,7 @@ export default function AddUser(): JSX.Element {
       const json = await csvtojson().fromString(csv);
       const errors = json
         .map((m) => {
-          const [email, role, subteam] = [m.email, m.role, m.subteam];
+          const [email, role, subteam, isAdvisor] = [m.email, m.role, m.subteam, m.isAdvisor];
           const formerSubteams: string[] = m.formerSubteams ? m.formerSubteams.split(', ') : [];
           const err = [];
           if (!email) {
@@ -267,6 +277,9 @@ export default function AddUser(): JSX.Element {
           }
           if (formerSubteams.includes(subteam)) {
             err.push('subteam cannot be in former subteams');
+          }
+          if (isAdvisor && role === 'tpm') {
+            err.push('TPM cannot be an advisor');
           }
           return err.length > 0 ? `Row ${json.indexOf(m) + 1}: ${err.join(', ')}` : '';
         })

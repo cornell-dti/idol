@@ -10,7 +10,8 @@ type RoleDescription =
   | 'Product Manager'
   | 'Developer'
   | 'Designer'
-  | 'Business Analyst';
+  | 'Business Analyst'
+  | 'Advisor';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
