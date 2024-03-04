@@ -38,7 +38,9 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
         <Card.Meta
           className={styles.shoutoutFrom}
           content={
-            shoutout.isAnon ? 'From: Anonymous' : `From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`
+            shoutout.isAnon
+              ? 'From: Anonymous'
+              : `From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`
           }
         />
         <div>
@@ -55,7 +57,10 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
           <Form>
             <Form.Field>
               <label>Message</label>
-              <TextArea value={editedMessage} onChange={(e, { value }) => setEditedMessage((value || '') as string)} />
+              <TextArea
+                value={editedMessage}
+                onChange={(e, { value }) => setEditedMessage((value || '') as string)}
+              />
             </Form.Field>
           </Form>
         </Modal.Content>

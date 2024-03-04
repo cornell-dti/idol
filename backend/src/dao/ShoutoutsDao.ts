@@ -78,7 +78,7 @@ export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
 
   /**
    * Edits a shoutout
-   * @param uuid - uuid of the shoutout 
+   * @param uuid - uuid of the shoutout
    * @param shoutout - shoutout object
    */
   async editShoutout(uuid: string, newMessage: string): Promise<Shoutout> {
@@ -95,7 +95,6 @@ export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
     }
     return updatedDoc;
   }
-
 
   /**
    * Updates a shoutout

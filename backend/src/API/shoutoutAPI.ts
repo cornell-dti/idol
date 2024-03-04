@@ -57,7 +57,6 @@ export const editShoutout = async (
   return shoutoutsDao.editShoutout(uuid, newMessage);
 };
 
-
 export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
   const shoutout = await shoutoutsDao.getShoutout(uuid);
   if (!shoutout) {
