@@ -7,8 +7,7 @@ import TeamEventCreditReview from './TeamEventCreditReview';
 import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
-import { ALL_STATUS } from '../../../consts';
-import { INITIATIVE_EVENTS } from '../../../consts';
+import { ALL_STATUS, INITIATIVE_EVENTS } from '../../../consts';
 
 const defaultTeamEvent: TeamEvent = {
   name: '',
