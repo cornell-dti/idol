@@ -98,7 +98,8 @@ interface TeamEventInfo {
   readonly numCredits: string;
   readonly hasHours: boolean;
   readonly uuid: string;
-  readonly isCommunity: boolean;
+  readonly isCommunity?: boolean;
+  readonly isInitiativeEvent: boolean;
 }
 
 interface TeamEvent extends TeamEventInfo {

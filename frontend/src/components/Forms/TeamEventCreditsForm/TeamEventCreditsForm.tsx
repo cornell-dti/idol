@@ -6,19 +6,20 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userInfo = useSelf()!;
   const [teamEvent, setTeamEvent] = useState<TeamEventInfo | undefined>(undefined);
-  const [image, setImage] = useState('');
   const [hours, setHours] = useState('');
   const [teamEventInfoList, setTeamEventInfoList] = useState<TeamEventInfo[]>([]);
   const [approvedAttendance, setApprovedAttendance] = useState<TeamEventAttendance[]>([]);
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
   const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
+  const [images, setImages] = useState<string[]>(['']);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
@@ -30,34 +31,43 @@ const TeamEventCreditForm: React.FC = () => {
     });
   }, []);
 
-  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (!e.target.files) return;
-    const newImage = URL.createObjectURL(e.target.files[0]);
-    setImage(newImage);
+  const handleAddIconClick = () => {
+    setImages((images) => [...images, '']);
   };
 
-  const requestTeamEventCredit = async (eventCreditRequest: TeamEventAttendance) => {
-    const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
+  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>, index: number): void => {
+    if (!e.target.files) return;
+    const newImage = URL.createObjectURL(e.target.files[0]);
+    const newImages = images.map((currentImage, i) => {
+      if (i === index) {
+        return newImage;
+      }
+      return currentImage;
+    });
+    setImages(newImages);
+  };
 
+  const requestTeamEventCredit = async (
+    eventCreditRequest: TeamEventAttendance,
+    uploadedImage: string
+  ) => {
+    const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
     // upload image
-    const blob = await fetch(image).then((res) => res.blob());
-    const imageURL: string = window.URL.createObjectURL(blob);
-    await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image).then(() =>
-      setImage(imageURL)
-    );
+    const blob = await fetch(uploadedImage).then((res) => res.blob());
+    await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image);
     return createdAttendance;
   };
 
-  const submitTeamEventCredit = () => {
+  const submitTeamEventCredit = async () => {
     if (!teamEvent) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Selected',
         contentMsg: 'Please select a team event!'
       });
-    } else if (!image) {
+    } else if (images.some((image) => image === '')) {
       Emitters.generalError.emit({
-        headerMsg: 'No Image Uploaded',
-        contentMsg: 'Please upload an image!'
+        headerMsg: 'Unsuccessful Image Upload',
+        contentMsg: 'Please upload all images from top to bottom!'
       });
     } else if (teamEvent.hasHours && (hours === '' || isNaN(Number(hours)))) {
       Emitters.generalError.emit({
@@ -70,29 +80,34 @@ const TeamEventCreditForm: React.FC = () => {
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
     } else {
-      const newTeamEventAttendance: TeamEventAttendance = {
-        member: userInfo,
-        hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
-        image: `eventProofs/${getNetIDFromEmail(userInfo.email)}/${new Date().toISOString()}`,
-        eventUuid: teamEvent.uuid,
-        status: 'pending' as Status,
-        reason: '',
-        uuid: ''
-      };
+      await Promise.all(
+        images.map(async (image, i) => {
+          const newTeamEventAttendance: TeamEventAttendance = {
+            member: userInfo,
+            hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
+            image: `eventProofs/${getNetIDFromEmail(
+              userInfo.email
+            )}/${new Date().toISOString()}[${i}]`,
+            eventUuid: teamEvent.uuid,
+            status: 'pending' as Status,
+            reason: '',
+            uuid: ''
+          };
 
-      requestTeamEventCredit(newTeamEventAttendance).then((createdAttendance) => {
-        if (createdAttendance) {
-          const updatedAttendance = { ...newTeamEventAttendance, uuid: createdAttendance.uuid };
-          setPendingAttendance((pending) => [...pending, updatedAttendance]);
-          Emitters.generalSuccess.emit({
-            headerMsg: 'Team Event Credit submitted!',
-            contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
-          });
-          setTeamEvent(undefined);
-          setHours('0');
-          setImage('');
-        }
+          const createdAttendance = await requestTeamEventCredit(newTeamEventAttendance, image);
+
+          if (createdAttendance) {
+            setPendingAttendance((pending) => [...pending, createdAttendance]);
+          }
+        })
+      );
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Team Event Credit submitted!',
+        contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
       });
+      setTeamEvent(undefined);
+      setHours('0');
+      setImages(['']);
     }
   };
 
@@ -125,6 +140,9 @@ const TeamEventCreditForm: React.FC = () => {
                       <div className={styles.flex_space_center}>
                         <div className={styles.flex_start}>{event.name}</div>
                         <div className={styles.flex_end}>
+                          {INITIATIVE_EVENTS && event.isInitiativeEvent && (
+                            <Label content="initiative" />
+                          )}
                           <Label
                             content={`${new Date(event.date).toLocaleDateString('en-us', {
                               month: 'short',
@@ -198,16 +216,33 @@ const TeamEventCreditForm: React.FC = () => {
             Please include a picture of yourself (and others) and/or an email chain only if the
             former is not possible.
           </p>
-          <input
-            id="newImage"
-            type="file"
-            accept="image/png, image/jpeg"
-            defaultValue=""
-            value={image ? undefined : ''}
-            onChange={handleNewImage}
-          />
+
+          {images.map((image, i) => (
+            <div style={{ marginBottom: '10px' }} key={i}>
+              <input
+                id="newImage"
+                type="file"
+                accept="image/png, image/jpeg"
+                value={image ? undefined : ''}
+                onChange={(e) => handleNewImage(e, i)}
+              />
+            </div>
+          ))}
         </div>
-        <Form.Button floated="right" onClick={submitTeamEventCredit}>
+        <Form.Button
+          floated="right"
+          size="mini"
+          style={{ marginBottom: '10px' }}
+          onClick={handleAddIconClick}
+        >
+          +
+        </Form.Button>
+        <Form.Button
+          floated="right"
+          onClick={async () => {
+            await submitTeamEventCredit();
+          }}
+        >
           Submit
         </Form.Button>
         <TeamEventCreditDashboard
