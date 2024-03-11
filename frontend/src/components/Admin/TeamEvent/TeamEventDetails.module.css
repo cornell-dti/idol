@@ -1,3 +1,12 @@
+.attendanceCards {
+  display: flex;
+  justify-content: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .container {
   width: 90%;
   margin: 5em auto;
@@ -12,6 +21,11 @@
   font-size: 3em;
   text-decoration: none;
   cursor: pointer;
+}
+
+.dropdown {
+  padding-top: 2.5em;
+  width: 13em;
 }
 
 .eventName {
@@ -31,14 +45,19 @@
   margin: auto;
 }
 
+.inline {
+  padding-top: 3.9em;
+  padding-left: 1em;
+  width: 8.5em;
+}
+
 .listsContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
 }
 
 .listContainer {
-  width: 50%;
-  margin: 0 2em;
+  margin: 0 1em;
 }
 
 .memberGroup {
@@ -48,4 +67,10 @@
 .memberTitle {
   margin: 1em;
   text-align: center;
+}
+
+.rowDirection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
