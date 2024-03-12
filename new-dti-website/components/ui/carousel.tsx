@@ -24,6 +24,7 @@ type CarouselContextProps = {
   scrollNext: () => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
+  handleClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 } & CarouselProps;
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
@@ -69,6 +70,13 @@ const Carousel = React.forwardRef<
     api?.scrollNext();
   }, [api]);
 
+  const scrollTo = React.useCallback(
+    (index: number, jump?: boolean) => {
+      api?.scrollTo(index, jump);
+    },
+    [api]
+  );
+
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'ArrowLeft') {
@@ -80,6 +88,25 @@ const Carousel = React.forwardRef<
       }
     },
     [scrollPrev, scrollNext]
+  );
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!api) {
+        return;
+      }
+
+      const target = event.target as HTMLElement;
+      const slide = target.closest('[role="group"]');
+
+      if (!slide) {
+        return;
+      }
+
+      const index = Array.from(slide.parentElement?.children || []).indexOf(slide) - 2;
+      scrollTo(index, true);
+    },
+    [api, scrollTo]
   );
 
   React.useEffect(() => {
@@ -115,7 +142,8 @@ const Carousel = React.forwardRef<
         scrollPrev,
         scrollNext,
         canScrollPrev,
-        canScrollNext
+        canScrollNext,
+        handleClick
       }}
     >
       <div
@@ -156,7 +184,7 @@ CarouselContent.displayName = 'CarouselContent';
 
 const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const { orientation } = useCarousel();
+    const { orientation, handleClick } = useCarousel();
 
     return (
       <div
@@ -168,6 +196,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
           orientation === 'horizontal' ? 'pl-4' : 'pt-4',
           className
         )}
+        onClick={handleClick}
         {...props}
       />
     );
