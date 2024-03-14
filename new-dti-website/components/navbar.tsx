@@ -61,6 +61,7 @@ const Navbar: React.FC = () => {
                 pathname === item.url ? 'underline' : ''
               }`}
               href={item.url}
+              key={item.name}
             >
               {item.name}
             </a>
