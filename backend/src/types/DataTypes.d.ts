@@ -42,6 +42,15 @@ export type DBTeamEventAttendance = {
   uuid: string;
 };
 
+export type DBCoffeeChat = {
+  uuid: string;
+  members: firestore.DocumentReference[];
+  image: string;
+  category: string;
+  description: string;
+  status: string;
+};
+
 export type DBCandidateDeciderRating = {
   readonly reviewer: firestore.DocumentReference;
   readonly rating: Rating;
