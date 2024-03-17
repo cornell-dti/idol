@@ -97,3 +97,14 @@ export type DevPortfolioSubmissionRequestLog = {
     uuid: string;
   };
 };
+
+export const coffeeChatsCollection: admin.firestore.CollectionReference<DBCoffeeChat> = db
+  .collection('coffee-chats')
+  .withConverter({
+    fromFirestore(snapshot): DBCoffeeChat {
+      return snapshot.data() as DBCoffeeChat;
+    },
+    toFirestore(coffeeChatData: DBCoffeeChat) {
+      return coffeeChatData;
+    }
+  });
