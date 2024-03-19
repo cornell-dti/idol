@@ -26,7 +26,7 @@ const navbarItems = [
   },
   {
     name: 'Apply',
-    url: '#'
+    url: '/apply'
   }
 ];
 
