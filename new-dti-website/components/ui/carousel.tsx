@@ -103,7 +103,7 @@ const Carousel = React.forwardRef<
         return;
       }
 
-      const index = Array.from(slide.parentElement?.children || []).indexOf(slide) - 2;
+      const index = Array.from(slide.parentElement?.children || []).indexOf(slide) - 3;
       scrollTo(index, false);
     },
     [api, scrollTo]

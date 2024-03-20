@@ -3,12 +3,7 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi
-} from './ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from './ui/carousel';
 import useScreenSize from '../src/hooks/useScreenSize';
 
 interface carouselItem {
@@ -22,8 +17,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi>();
   const { width } = useScreenSize();
   const numElements = width < 1024 ? 3 : 5;
-  const highlight_index = Math.floor(numElements / 2);
-  console.log(highlight_index);
+  const highlight_index = Math.floor(numElements / 2) + 1;
 
   useEffect(() => {
     if (carouselApi) {
@@ -35,9 +29,8 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
 
   return (
     <div className="bg-black overflow-x-hidden">
-      <h1 className="bg-white">Page</h1>
       <Carousel
-        className="w-full h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96"
+        className="w-[1700px] h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 -ml-[250px]"
         opts={{
           align: 'start',
           loop: true
@@ -49,11 +42,13 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
           {props.items.map((product, index) => (
             <CarouselItem
               key={product.alt}
-              className="select-none lg:basis-1/5 sm:basis-1/3 sm:pl-16"
+              className="select-none lg:basis-[17%] sm:basis-1/3 sm:pl-16"
             >
               <Image
                 className={`${
-                  index !== (currentSlide + highlight_index) % props.items.length ? 'opacity-70' : ''
+                  index !== (currentSlide + highlight_index) % props.items.length
+                    ? 'opacity-70'
+                    : ''
                 } w-[211px] h-[211px]`}
                 src={product.path}
                 alt={product.alt}
