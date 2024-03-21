@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const ApplyBottom: React.FC = () => {
+const ApplyTimeline: React.FC = () => {
     const stages = [
         {
             title: "APPLICATIONS OPEN!",
@@ -51,10 +51,16 @@ const ApplyBottom: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center w-screen h-fit bg-black">
-            <div className="text-center text-white">
-                <h1 className="text-3xl">This is DTI.</h1>
-                <p className="text-xl mt-2">Developing, designing, delivering.</p>
+        <div
+            className="flex flex-col items-center justify-center w-screen h-screen"
+            style={{
+                backgroundImage: "url('/images/apply_timeline_bg.png')",
+                backgroundSize: 'cover',
+            }}
+        >
+            <div className="text-white" style={{ alignSelf: "flex-start", marginLeft: '212px' }}>
+                <h1 className="text-4xl font-semibold" style={{ marginBottom: '40px' }}>This is DTI.</h1>
+                <p className="text-3xl mt-2 font-semibold">developing, designing, delivering.</p>
             </div>
             <div
                 className="mt-10 bg-white rounded-lg w-3/4"
@@ -130,4 +136,4 @@ const ApplyBottom: React.FC = () => {
     );
 };
 
-export default ApplyBottom;
+export default ApplyTimeline;
