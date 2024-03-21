@@ -28,6 +28,10 @@ const products: carouselItem[] = [
   {
     alt: 'zing',
     path: '/icons/zing_icon.svg'
+  },
+  {
+    alt: 'dti',
+    path: '/dti_logo.svg'
   }
 ];
 
@@ -38,6 +42,7 @@ interface carouselItem {
 
 const Page = () => (
   <div>
+    <ImageCarousel items={products} />
     <ImageCarousel items={products} />
   </div>
 );

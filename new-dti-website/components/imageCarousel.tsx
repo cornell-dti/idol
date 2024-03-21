@@ -30,7 +30,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   return (
     <div className="bg-black overflow-x-hidden">
       <Carousel
-        className="w-[1700px] h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 -ml-[250px]"
+        className="lg:w-[1688px] h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[10%]"
         opts={{
           align: 'start',
           loop: true
@@ -40,10 +40,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
       >
         <CarouselContent>
           {props.items.map((product, index) => (
-            <CarouselItem
-              key={product.alt}
-              className="select-none lg:basis-[17%] sm:basis-1/3 sm:pl-16"
-            >
+            <CarouselItem key={product.alt} className="select-none lg:basis-[15%] sm:basis-1/3">
               <Image
                 className={`${
                   index !== (currentSlide + highlight_index) % props.items.length
