@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useMemo, useState, RefObject } from 'react';
-import { Card } from '../ui/card';
 import Image from 'next/image';
+import { Card } from '../ui/card';
 import { ibm_plex_mono } from '../../src/app/layout';
 
 type MemberSummaryProps = {
@@ -20,21 +20,29 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   roleDescription,
   enlarged
 }) => {
-  const chipColor =
-    role === 'lead'
-      ? '#FFD0D0'
-      : role === 'designer'
-      ? '#ADD3F9'
-      : role === 'pm'
-      ? '#DEBDFE'
-      : role === 'business'
-      ? '#F9D6AD'
-      : '#BCECC3';
+  let chipColor;
+  switch (role) {
+    case 'lead':
+      chipColor = '#FFD0D0';
+      break;
+    case 'designer':
+      chipColor = '#ADD3F9';
+      break;
+    case 'pm':
+      chipColor = '#DEBDFE';
+      break;
+    case 'business':
+      chipColor = '#F9D6AD';
+      break;
+    default:
+      chipColor = '#BCECC3';
+  }
 
   return (
     <div id="memberCard" className="flex flex-col gap-3">
       <img
         src={image}
+        alt={`${firstName}-${lastName}`}
         className={`rounded-md ${enlarged ? 'w-[244px] h-[255px]' : 'w-[202px] h-[208px]'}`}
       />
       <h3
@@ -57,24 +65,22 @@ type MemberCardProps = {
   role: string;
   image: string;
   roleDescription: string;
-  cardState: number;
+  cardState: number | undefined;
 };
 
-const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => {
-  return (
-    <Card
-      id="memberCard"
-      className={`p-3 pb-4 h-fit ${
-        props.cardState ? 'opacity-100' : 'opacity-70 hover:opacity-100'
-      } ${
-        props.cardState === 2 && 'shadow-[0_4px_4px_0_#00000040]'
-      } hover:shadow-[0_4px_4px_0_#00000040]`}
-      onClick={props.onClick}
-    >
-      <MemberSummary {...props} enlarged={false} />
-    </Card>
-  );
-};
+const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
+  <Card
+    id="memberCard"
+    className={`p-3 pb-4 h-fit ${
+      props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
+    } ${
+      props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
+    } hover:shadow-[0_4px_4px_0_#00000040]`}
+    onClick={props.onClick}
+  >
+    <MemberSummary {...props} enlarged={false} />
+  </Card>
+);
 
 type MemberDetailsProps = {
   onClose: () => void;
@@ -296,7 +302,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
 }) => {
   const selectedMemberIndex: number = useMemo(
     () => (selectedMember ? members.indexOf(selectedMember) : -1),
-    [selectedMember]
+    [members, selectedMember]
   );
 
   const canInsertMemberDetails = (index: number, columns: number): boolean =>
@@ -321,8 +327,10 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
               <MemberCard
                 {...member}
                 image="martha.png"
-                onClick={() => {setSelectedMember(member === selectedMember ? undefined : member)}}
-                cardState={selectedMember ? (index === selectedMemberIndex ? 2 : 0) : 1}
+                onClick={() => {
+                  setSelectedMember(member === selectedMember ? undefined : member);
+                }}
+                cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
               {selectedMember && canInsertMemberDetails(index, 4) && (
                 <div className="lg:col-span-4 md:col-span-3" ref={memberDetailsRef}>

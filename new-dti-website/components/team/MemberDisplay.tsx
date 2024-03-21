@@ -160,6 +160,7 @@ const MemberDisplay: React.FC = () => {
         <div>
           {Object.keys(roles).map((role) => {
             const value = roles[role as Role];
+            if (role === 'tpm') return <></>;
             return (
               <MemberGroup
                 key={value.roleName}
