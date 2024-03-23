@@ -3,8 +3,8 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from './ui/carousel';
-import useScreenSize from '../src/hooks/useScreenSize';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
+import useScreenSize from '../../src/hooks/useScreenSize';
 
 interface carouselItem {
   alt: string;

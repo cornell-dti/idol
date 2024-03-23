@@ -1,4 +1,4 @@
-import ImageCarousel from '../../../components/imageCarousel';
+import ImageCarousel from '../../../components/products/imageCarousel';
 
 const products: carouselItem[] = [
   {
