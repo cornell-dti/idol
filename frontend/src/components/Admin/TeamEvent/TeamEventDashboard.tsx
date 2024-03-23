@@ -10,6 +10,7 @@ import {
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
+import { ExportToCsv, Options } from 'export-to-csv';
 
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -51,11 +52,60 @@ const TeamEventDashboard: React.FC = () => {
 
   if (isLoading) return <Loader active>Fetching team event data...</Loader>;
 
+  const handleExportToCsv = () => {
+    const csvData = allMembers.map((member) => {
+      const totalCredits = teamEvents.reduce(
+        (val, event) => val + calculateTotalCreditsForEvent(member, event),
+        0
+      );
+      const initiativeCredits = teamEvents.reduce(
+        (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
+        0
+      );
+
+      const data = teamEvents.reduce(
+        (prev, event) => {
+          return {
+            ...prev,
+            [event.name]: calculateTotalCreditsForEvent(member, event)
+          };
+        },
+        {
+          Name: `${member.firstName} ${member.lastName}`,
+          NetID: `${member.netid}`,
+          Total: totalCredits,
+          Initiative: initiativeCredits
+        }
+      );
+
+      return data;
+    });
+
+    const options: Options = {
+      filename: `TEC_Dashboard`,
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `TEC Dashboard`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(csvData);
+  };
+
   return (
     <div className={styles.dashboardContainer}>
-      <Header as="h1" textAlign="center">
-        Team Event Dashboard
-      </Header>
+      <div className={styles.headerContainer}>
+        <Header as="h1">Team Event Dashboard</Header>
+        <div className={styles.csvButton}>
+          <Button onClick={() => handleExportToCsv()}>Export to CSV</Button>
+        </div>
+      </div>
       <div className={styles.tableContainer}>
         <Table celled selectable striped className={styles.dashboardTable}>
           <Table.Header>

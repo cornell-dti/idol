@@ -93,20 +93,20 @@ const emailAdmins = async (req: Request, subject: string, text: string) => {
  * @param text - The body of the email
  * @returns - The response body containing information of the member being sent the email
  */
-const emailMember = async (req: Request, member: IdolMember, subject: string, text: string) => {
-  const url = getSendMailURL(req);
-  const idToken = req.headers['auth-token'] as string;
-  const requestBody = {
-    subject,
-    text
-  };
+// const emailMember = async (req: Request, member: IdolMember, subject: string, text: string) => {
+//   const url = getSendMailURL(req);
+//   const idToken = req.headers['auth-token'] as string;
+//   const requestBody = {
+//     subject,
+//     text
+//   };
 
-  return axios.post(
-    url,
-    { ...requestBody, to: member.email },
-    { headers: { 'auth-token': idToken } }
-  );
-};
+//   return axios.post(
+//     url,
+//     { ...requestBody, to: member.email },
+//     { headers: { 'auth-token': idToken } }
+//   );
+// };
 
 /**
  * Send an email about a member updating their notifications
@@ -132,7 +132,7 @@ export const sendTECReminder = async (
   endOfSemesterReminder: boolean,
   member: IdolMember
 ): Promise<AxiosResponse> => {
-  const subject = 'TEC Reminder';
+  // const subject = 'TEC Reminder';
   const allEvents = await Promise.all(
     (
       await TeamEventsDao.getAllTeamEvents()
@@ -193,5 +193,15 @@ export const sendTECReminder = async (
   } approved and ${pendingCount} team event ${
     pendingCount !== 1 ? 'credits' : 'credit'
   } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
-  return emailMember(req, member, subject, text);
+  const webhookURL =
+    'https://hooks.slack.com/services/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';
+  const payload = {
+    text
+  };
+  return axios.post(webhookURL, payload, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  // return emailMember(req, member, subject, text);
 };
