@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 'use client';
 
 import React, { useState } from 'react';
