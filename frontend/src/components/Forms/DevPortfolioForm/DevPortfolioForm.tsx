@@ -14,7 +14,6 @@ const DevPortfolioForm: React.FC = () => {
   const userInfo = useSelf()!;
   const isTpm = userInfo.role === 'tpm';
   const isDevAdvisor = userInfo.role === 'dev-advisor';
-  console.log(userInfo.role)
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
