@@ -36,6 +36,17 @@ const calculateTotalCreditsForEvent = (member: IdolMember, event: TeamEvent): nu
 const calculateInitiativeCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, true);
 
+const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number => {
+  return teamEvents.reduce((val, event) => val + calculateTotalCreditsForEvent(member, event), 0);
+};
+
+const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number => {
+  return teamEvents.reduce(
+    (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
+    0
+  );
+};
+
 const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -54,14 +65,8 @@ const TeamEventDashboard: React.FC = () => {
 
   const handleExportToCsv = () => {
     const csvData = allMembers.map((member) => {
-      const totalCredits = teamEvents.reduce(
-        (val, event) => val + calculateTotalCreditsForEvent(member, event),
-        0
-      );
-      const initiativeCredits = teamEvents.reduce(
-        (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
-        0
-      );
+      const totalCredits = getTotalCredits(member, teamEvents);
+      const initiativeCredits = getInitiativeCredits(member, teamEvents);
 
       const data = teamEvents.reduce(
         (prev, event) => ({
@@ -101,7 +106,7 @@ const TeamEventDashboard: React.FC = () => {
       <div className={styles.headerContainer}>
         <Header as="h1">Team Event Dashboard</Header>
         <div className={styles.csvButton}>
-          <Button onClick={() => handleExportToCsv()}>Export to CSV</Button>
+          <Button onClick={handleExportToCsv}>Export to CSV</Button>
         </div>
       </div>
       <div className={styles.tableContainer}>
@@ -147,14 +152,8 @@ const TeamEventDashboard: React.FC = () => {
           </Table.Header>
           <Table.Body>
             {allMembers.map((member) => {
-              const totalCredits = teamEvents.reduce(
-                (val, event) => val + calculateTotalCreditsForEvent(member, event),
-                0
-              );
-              const initiativeCredits = teamEvents.reduce(
-                (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
-                0
-              );
+              const totalCredits = getTotalCredits(member, teamEvents);
+              const initiativeCredits = getInitiativeCredits(member, teamEvents);
               const totalCreditsMet =
                 totalCredits >=
                 (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
