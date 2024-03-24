@@ -16,7 +16,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi>();
   const { width } = useScreenSize();
-  const highlight_index = width < 1024 ? 1 : 3;
+  const highlightIndex = width < 1024 ? 1 : 3;
 
   useEffect(() => {
     if (carouselApi) {
@@ -37,14 +37,14 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
         plugins={[plugin.current]}
         setApi={setCarouselApi}
         canClick={true}
-        offset={highlight_index}
+        offset={highlightIndex}
       >
         <CarouselContent>
           {props.items.map((product, index) => (
-            <CarouselItem key={product.alt} className="select-none lg:basis-[15%] basis-1/3">
+            <CarouselItem key={product.alt} className="select-none lg:basis-[15%] basis-1/3 cursor-pointer">
               <Image
                 className={`${
-                  index !== (currentSlide + highlight_index) % props.items.length
+                  index !== (currentSlide + highlightIndex) % props.items.length
                     ? 'opacity-70'
                     : ''
                 } md:w-[211px] md:h-[211px] sm:w-[115px] sm:h-[115px]`}
