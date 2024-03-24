@@ -2,13 +2,15 @@ import { Dispatch, SetStateAction, useMemo, useState, RefObject } from 'react';
 import Image from 'next/image';
 import { Card } from '../ui/card';
 import { ibm_plex_mono } from '../../src/app/layout';
+import teamRoles from './team.json';
+import { getFullRoleFromDescription } from '../../src/app/utils';
 
 type MemberSummaryProps = {
   image: string;
   firstName: string;
   lastName: string;
   role: string;
-  roleDescription: string;
+  roleDescription: RoleDescription;
   enlarged: boolean;
 };
 
@@ -20,23 +22,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   roleDescription,
   enlarged
 }) => {
-  let chipColor;
-  switch (role) {
-    case 'lead':
-      chipColor = '#FFD0D0';
-      break;
-    case 'designer':
-      chipColor = '#ADD3F9';
-      break;
-    case 'pm':
-      chipColor = '#DEBDFE';
-      break;
-    case 'business':
-      chipColor = '#F9D6AD';
-      break;
-    default:
-      chipColor = '#BCECC3';
-  }
+  const chipColor = teamRoles.roles[role as Role].color;
 
   return (
     <div id="memberCard" className="flex flex-col gap-3">
@@ -52,7 +38,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} text-sm`}
         style={{ backgroundColor: chipColor }}
       >
-        {roleDescription}
+        {getFullRoleFromDescription(roleDescription)}
       </p>
     </div>
   );
@@ -64,7 +50,7 @@ type MemberCardProps = {
   lastName: string;
   role: string;
   image: string;
-  roleDescription: string;
+  roleDescription: RoleDescription;
   cardState: number | undefined;
 };
 
@@ -87,7 +73,7 @@ type MemberDetailsProps = {
   firstName: string;
   lastName: string;
   role: string;
-  roleDescription: string;
+  roleDescription: RoleDescription;
   graduation: string;
   major: string;
   hometown: string;
@@ -101,71 +87,14 @@ type MemberDetailsProps = {
 
 export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetailsProps) => {
   const [hover, setHover] = useState<boolean>(false);
+  const mouseHandler = () => setHover(!hover);
 
   const subteam = props.subteams[0] ?? '';
-  let subteamName: string = '';
-  let subteamLink: string = '';
-  const getSubteam = () => {
-    switch (subteam) {
-      case 'courseplan':
-        subteamName = 'CoursePlan';
-        subteamLink = 'https://courseplan.io/';
-        break;
-      case 'reviews':
-        subteamName = 'CUReviews';
-        subteamLink = 'https://www.cureviews.org/';
-        break;
-      case 'queuemein':
-        subteamName = 'Queue Me In';
-        subteamLink = 'https://queueme.in/';
-        break;
-      case 'cuapts':
-        subteamName = 'CU Apts';
-        subteamLink = 'https://www.cuapts.org/';
-        break;
-      case 'idol':
-        subteamName = 'IDOL';
-        break;
-      case 'cornellgo':
-        subteamName = 'Cornell GO';
-        break;
-      case 'leads':
-        subteamName = 'Lead';
-        break;
-      default:
-        subteamName = subteam.charAt(0).toUpperCase() + subteam.slice(1);
-    }
-  };
+  const { name, link } = subteam
+    ? teamRoles.subteams[subteam as Subteam]
+    : { name: 'No Subteam', link: '' };
 
-  getSubteam();
-
-  const connectIcons: {
-    [key: string]: {
-      src: string;
-      link: string;
-      height: number;
-      width: number;
-    };
-  } = {
-    linkedin: {
-      src: '/icons/linkedin.svg',
-      link: props.linkedin ?? '',
-      height: 20,
-      width: 19
-    },
-    email: {
-      src: '/icons/email.svg',
-      link: `mailto:${props.email}`,
-      height: 21,
-      width: 25
-    },
-    website: {
-      src: 'icons/website.svg',
-      link: props.website ?? '',
-      height: 20,
-      width: 19
-    }
-  };
+  const { connectIcons } = teamRoles;
 
   return (
     <Card className="flex p-7 rounded-[20px] shadow-[0_4px_4px_0_#00000040] gap-10">
@@ -185,7 +114,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   <path d="M 0 1 L 500 1" stroke="#E4E4E4" strokeWidth="3px" />
                 </svg>
               </div>
-              <p>{props.graduation || 'January 1000'}</p>
+              <p>{props.graduation ?? ''}</p>
             </div>
             <div className="flex flex-col w-5/12">
               <div className="flex items-center">
@@ -194,51 +123,47 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   <path d="M 0 1 L 500 1" stroke="#E4E4E4" strokeWidth="3px" />
                 </svg>
               </div>
-              <p>{props.major || 'Computer Science'}</p>
+              <p>{props.major ?? ''}</p>
             </div>
             <div className="w-4/12">
               <h3 className="text-lg font-medium text-[#877B7B]">HOMETOWN</h3>
-              <p>{props.hometown || 'Mars'}</p>
+              <p>{props.hometown ?? ''}</p>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="font-semibold text-xl">About</h2>
-          <p>
-            {props.about || 'An amazing member of DTI, but not amazing enough to write an about.'}
-          </p>
+          <p>{props.about || 'An amazing member of DTI.'}</p>
         </div>
         <div className="flex gap-24">
           <div className="flex flex-col gap-2">
             <h3 className="font-semibold text-xl">Subteam</h3>
             <div
-              className={`flex text-lg ${
-                subteamLink ? 'border-white border-b-black border-2' : ''
-              }`}
+              className={`flex text-lg ${link ? 'border-white border-b-black border-2 w-fit' : ''}`}
             >
-              {subteamLink ? (
-                <a href={subteamLink} className="whitespace-nowrap">
-                  {subteamName}
+              {link ? (
+                <a href={link} className="whitespace-nowrap">
+                  {name}
                 </a>
               ) : (
-                <p>{subteamName}</p>
+                <p>{name}</p>
               )}
-              {subteamLink && <Image src="/icons/link.svg" alt="link" height={20} width={20} />}
+              {link && <Image src="/icons/link.svg" alt="link" height={20} width={20} />}
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <h3 className="font-semibold text-xl">Connect</h3>
             <div className="flex gap-6 items-center">
-              {Object.keys(connectIcons).map((icon) => {
-                const iconDetails = connectIcons[icon];
+              {connectIcons.map((icon) => {
+                const link = props[icon.alt as keyof typeof props] as string | null;
                 return (
-                  iconDetails.link && (
-                    <a href={iconDetails.link} key={icon}>
+                  link && (
+                    <a href={icon.alt === 'email' ? `mailto:${link}` : `${link}`} key={icon.alt}>
                       <Image
-                        src={iconDetails.src}
-                        alt={icon}
-                        height={iconDetails.height}
-                        width={iconDetails.width}
+                        src={icon.src}
+                        alt={icon.alt}
+                        height={icon.height}
+                        width={icon.width}
                       />
                     </a>
                   )
@@ -248,10 +173,10 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
           </div>
           <div>
             <button
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
+              onMouseEnter={mouseHandler}
+              onMouseLeave={mouseHandler}
               className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
-              hover:bg-[#A52424] hover:text-white"
+              hover:bg-[#A52424] hover:text-white stroke-white"
             >
               <div className="flex gap-3 ">
                 <Image
@@ -314,6 +239,8 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
       (index === members.length - 1 &&
         selectedMemberIndex >= members.length - (members.length % columns)));
 
+  const onCloseMemberDetails = () => setSelectedMember(undefined);
+
   return (
     (selectedRole === roleName || selectedRole === 'Full Team') && (
       <div className="mb-[120px]">
@@ -327,9 +254,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
               <MemberCard
                 {...member}
                 image="martha.png"
-                onClick={() => {
-                  setSelectedMember(member === selectedMember ? undefined : member);
-                }}
+                onClick={() => setSelectedMember(member === selectedMember ? undefined : member)}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
               {selectedMember && canInsertMemberDetails(index, 4) && (
@@ -337,7 +262,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                   <MemberDetails
                     {...selectedMember}
                     image="martha.png"
-                    onClose={() => setSelectedMember(undefined)}
+                    onClose={onCloseMemberDetails}
                   />
                 </div>
               )}
