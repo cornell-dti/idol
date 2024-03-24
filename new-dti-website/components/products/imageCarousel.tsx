@@ -41,12 +41,13 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
       >
         <CarouselContent>
           {props.items.map((product, index) => (
-            <CarouselItem key={product.alt} className="select-none lg:basis-[15%] basis-1/3 cursor-pointer">
+            <CarouselItem
+              key={product.alt}
+              className="select-none lg:basis-[15%] basis-1/3 cursor-pointer"
+            >
               <Image
                 className={`${
-                  index !== (currentSlide + highlightIndex) % props.items.length
-                    ? 'opacity-70'
-                    : ''
+                  index !== (currentSlide + highlightIndex) % props.items.length ? 'opacity-70' : ''
                 } md:w-[211px] md:h-[211px] sm:w-[115px] sm:h-[115px]`}
                 src={product.path}
                 alt={product.alt}
