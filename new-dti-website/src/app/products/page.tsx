@@ -4,7 +4,6 @@ import { products } from '../../../components/products/productIcons.json';
 const Page = () => (
   <div>
     <ImageCarousel items={products} />
-    <ImageCarousel items={products} />
   </div>
 );
 
