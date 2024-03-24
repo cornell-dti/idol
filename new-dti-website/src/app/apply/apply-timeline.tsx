@@ -46,12 +46,16 @@ const ApplyTimeline: React.FC = () => {
     const iconBasePath = '/apply_icons/';
     if (index === 0) {
       return `${iconBasePath}timeline-applications-${current ? 'open-1' : 'open'}.png`;
-    } else if (index === 1 || index === 2) {
+    } if (index === 1 || index === 2) {
       return `${iconBasePath}timeline-info-sesh-${current ? '1' : ''}.png`;
-    } else if (index === 3) {
+    } if (index === 3) {
       return `${iconBasePath}timeline-applications-${current ? 'due-1' : 'due'}.png`;
     }
     return '';
+  };
+
+  const handleMouseOverOut = (event: React.MouseEvent<HTMLButtonElement>, borderColor: string) => {
+    (event.currentTarget.style.borderColor = borderColor);
   };
 
   return (
@@ -89,8 +93,8 @@ const ApplyTimeline: React.FC = () => {
                 border: '2px solid black',
                 transition: 'all 0.2s ease-in-out'
               }}
-              onMouseOver={(e) => (e.currentTarget.style.borderColor = 'white')}
-              onMouseOut={(e) => (e.currentTarget.style.borderColor = 'black')}
+              onMouseOver={(e) => handleMouseOverOut(e, 'white')}
+              onMouseOut={(e) => handleMouseOverOut(e, 'black')}
             >
               Freshmen/Transfer
             </button>
@@ -101,8 +105,8 @@ const ApplyTimeline: React.FC = () => {
                 border: '2px solid black',
                 transition: 'all 0.2s ease-in-out'
               }}
-              onMouseOver={(e) => (e.currentTarget.style.borderColor = 'white')}
-              onMouseOut={(e) => (e.currentTarget.style.borderColor = 'black')}
+              onMouseOver={(e) => handleMouseOverOut(e, 'white')}
+              onMouseOut={(e) => handleMouseOverOut(e, 'black')}
             >
               Upperclassmen
             </button>
@@ -123,9 +127,8 @@ const ApplyTimeline: React.FC = () => {
               <div key={index} className="flex mt-8 first:mt-0 ml-16">
                 <div className="relative flex-shrink-0">
                   <img
-                    src={`/apply_icons/${
-                      isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'
-                    }.png`}
+                    src={`/apply_icons/${isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'
+                      }.png`}
                     alt=""
                     className="w-16 h-16"
                   />
@@ -133,9 +136,8 @@ const ApplyTimeline: React.FC = () => {
                 </div>
                 <div className="ml-8">
                   <h3
-                    className={`text-xl ${
-                      isCurrentStage ? 'font-bold text-2xl' : 'font-semibold'
-                    } ml-4`}
+                    className={`text-xl ${isCurrentStage ? 'font-bold text-2xl' : 'font-semibold'
+                      } ml-4`}
                   >
                     {stage.title}
                   </h3>
