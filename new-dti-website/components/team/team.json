@@ -1,0 +1,150 @@
+{
+  "roles": {
+    "lead": {
+      "roleName": "Leads",
+      "description": "Striving to connect and mentor our members for their best growth.",
+      "members": [],
+      "order": ["Full Team Lead", "Product Lead", "Developer Lead", "Design Lead", "Business Lead"],
+      "color": "#FFD0D0"
+    },
+    "designer": {
+      "roleName": "Design",
+      "description": "Designing quality products, keeping users at the center of it all.",
+      "members": [],
+      "order": [],
+      "color": "#ADD3F9"
+    },
+    "pm": {
+      "roleName": "Product",
+      "description": "Leading product development to positively impact the community.",
+      "members": [],
+      "order": ["Product Manager", "Associate Product Manager"],
+      "color": "#DEBDFE"
+    },
+    "business": {
+      "roleName": "Business",
+      "description": "Bringing products and events to the community.",
+      "members": [],
+      "order": ["Product Marketing Manager", "Internal Business"],
+      "color": "#F9D6AD"
+    },
+    "developer": {
+      "roleName": "Development",
+      "description": "Building, testing, and optimizing our applications.",
+      "members": [],
+      "order": ["Technical PM", "Developer"],
+      "color": "#BCECC3"
+    },
+    "tpm": {
+      "roleName": "",
+      "description": "",
+      "members": [],
+      "order": [],
+      "color": "#BCECC3"
+    }
+  },
+  "roleIcons": [
+    {
+      "src": "/icons/full-team",
+      "altText": "Full Team",
+      "width": 66,
+      "height": 66
+    },
+    {
+      "src": "/icons/leads",
+      "altText": "Leads",
+      "width": 66,
+      "height": 66
+    },
+    {
+      "src": "/icons/design",
+      "altText": "Design",
+      "width": 66,
+      "height": 66
+    },
+    {
+      "src": "/icons/product",
+      "altText": "Product",
+      "width": 66,
+      "height": 66
+    },
+    {
+      "src": "/icons/business",
+      "altText": "Business",
+      "width": 66,
+      "height": 66
+    },
+    {
+      "src": "/icons/dev",
+      "altText": "Development",
+      "width": 72,
+      "height": 66
+    }
+  ],
+  "subteams": {
+    "courseplan": {
+      "name": "CoursePlan",
+      "link": "https://courseplan.io/"
+    },
+    "reviews": {
+      "name": "CUReviews",
+      "link": "https://www.cureviews.org/"
+    },
+    "queuemein": {
+      "name": "Queue Me In",
+      "link": "https://queueme.in/"
+    },
+    "cuapts": {
+      "name": "CU Apts",
+      "link": "https://www.cuapts.org/"
+    },
+    "idol": {
+      "name": "IDOL",
+      "link": "https://www.cornelldti.org"
+    },
+    "cornellgo": {
+      "name": "Cornell GO",
+      "link": ""
+    },
+    "carriage": {
+      "name": "Carriage",
+      "link": ""
+    },
+    "leads": {
+      "name": "Lead",
+      "link": ""
+    },
+    "business": {
+      "name": "Business",
+      "link": ""
+    },
+    "zing": {
+      "name": "Zing",
+      "link": "https://zing-lsc-prod.web.app/"
+    },
+    "dac": {
+      "name": "Design @ Cornell",
+      "link": "https://www.cudesign.io/"
+    }
+  },
+  "connectIcons": [
+    {
+      "src": "/icons/linkedin.svg",
+      "alt": "linkedin",
+      "height": 20,
+      "width": 19
+    },
+    {
+      "src": "/icons/email.svg",
+      "alt": "email",
+      "height": 21,
+      "width": 25
+    },
+    {
+      "src": "icons/website.svg",
+      "alt": "website",
+      "height": 20,
+      "width": 19
+    }
+  ]
+}
