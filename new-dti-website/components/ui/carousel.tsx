@@ -124,7 +124,7 @@ const Carousel = React.forwardRef<
           Array.from(slide.parentElement?.children || []).indexOf(slide) - (offset || 0);
         scrollTo(index, false);
       },
-      [api, scrollTo, offset]
+      [api, scrollTo, offset, canClick]
     );
 
     React.useEffect(() => {
