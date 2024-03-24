@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { ExportToCsv, Options } from 'export-to-csv';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
@@ -10,7 +11,6 @@ import {
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-import { ExportToCsv, Options } from 'export-to-csv';
 
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -64,12 +64,10 @@ const TeamEventDashboard: React.FC = () => {
       );
 
       const data = teamEvents.reduce(
-        (prev, event) => {
-          return {
-            ...prev,
-            [event.name]: calculateTotalCreditsForEvent(member, event)
-          };
-        },
+        (prev, event) => ({
+          ...prev,
+          [event.name]: calculateTotalCreditsForEvent(member, event)
+        }),
         {
           Name: `${member.firstName} ${member.lastName}`,
           NetID: `${member.netid}`,
