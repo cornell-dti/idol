@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 const ApplyTimeline: React.FC = () => {
   const stages = [
@@ -41,9 +40,9 @@ const ApplyTimeline: React.FC = () => {
     return index === -1 ? stages.length - 1 : index - 1;
   };
 
-  const [currentStageIndex, setCurrentStageIndex] = useState(getCurrentStageIndex());
+  const [currentStageIndex] = useState(getCurrentStageIndex());
 
-  const getIcon = (index, current) => {
+  const getIcon = (index: number, current: boolean) => {
     const iconBasePath = '/apply_icons/';
     if (index === 0) {
       return `${iconBasePath}timeline-applications-${current ? 'open-1' : 'open'}.png`;
@@ -52,6 +51,7 @@ const ApplyTimeline: React.FC = () => {
     } else if (index === 3) {
       return `${iconBasePath}timeline-applications-${current ? 'due-1' : 'due'}.png`;
     }
+    return '';
   };
 
   return (
