@@ -16,8 +16,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi>();
   const { width } = useScreenSize();
-  const numElements = width < 1024 ? 3 : 5;
-  const highlight_index = Math.floor(numElements / 2) + 1;
+  const highlight_index = width < 1024 ? 1 : 3;
 
   useEffect(() => {
     if (carouselApi) {
@@ -30,23 +29,25 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   return (
     <div className="bg-black overflow-x-hidden">
       <Carousel
-        className="lg:w-[1688px] h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[10%]"
+        className="lg:w-[1688px] h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[105px]"
         opts={{
           align: 'start',
           loop: true
         }}
         plugins={[plugin.current]}
         setApi={setCarouselApi}
+        canClick={true}
+        offset={highlight_index}
       >
         <CarouselContent>
           {props.items.map((product, index) => (
-            <CarouselItem key={product.alt} className="select-none lg:basis-[15%] sm:basis-1/3">
+            <CarouselItem key={product.alt} className="select-none lg:basis-[15%] basis-1/3">
               <Image
                 className={`${
                   index !== (currentSlide + highlight_index) % props.items.length
                     ? 'opacity-70'
                     : ''
-                } w-[211px] h-[211px]`}
+                } md:w-[211px] md:h-[211px] sm:w-[115px] sm:h-[115px]`}
                 src={product.path}
                 alt={product.alt}
                 width={174}
