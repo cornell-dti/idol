@@ -36,16 +36,10 @@ const calculateTotalCreditsForEvent = (member: IdolMember, event: TeamEvent): nu
 const calculateInitiativeCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, true);
 
-const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number => {
-  return teamEvents.reduce((val, event) => val + calculateTotalCreditsForEvent(member, event), 0);
-};
-
-const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number => {
-  return teamEvents.reduce(
-    (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
-    0
-  );
-};
+const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
+  teamEvents.reduce((val, event) => val + calculateTotalCreditsForEvent(member, event), 0);
+const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
+  teamEvents.reduce((val, event) => val + calculateInitiativeCreditsForEvent(member, event), 0);
 
 const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
