@@ -5,7 +5,8 @@ import {
   DBCandidateDeciderInstance,
   DBDevPortfolio,
   DevPortfolioSubmissionRequestLog,
-  DBTeamEventAttendance
+  DBTeamEventAttendance,
+  DBCoffeeChat
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -131,6 +132,17 @@ export const devPortfolioSubmissionRequestLogCollection: admin.firestore.Collect
     },
     toFirestore(requestLog: DevPortfolioSubmissionRequestLog) {
       return requestLog;
+    }
+  });
+
+export const coffeeChatsCollection: admin.firestore.CollectionReference<DBCoffeeChat> = db
+  .collection('coffee-chats')
+  .withConverter({
+    fromFirestore(snapshot): DBCoffeeChat {
+      return snapshot.data() as DBCoffeeChat;
+    },
+    toFirestore(coffeeChatData: DBCoffeeChat) {
+      return coffeeChatData;
     }
   });
 
