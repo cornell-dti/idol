@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useMemo, useState, RefObject } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState, RefObject, useEffect } from 'react';
 import Image from 'next/image';
 import { Card } from '../ui/card';
 import { ibm_plex_mono } from '../../src/app/layout';
@@ -49,13 +49,13 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 };
 
 type MemberCardProps = {
-  onClick: () => void;
-  firstName: string;
-  lastName: string;
-  role: string;
-  image: string;
-  roleDescription: RoleDescription;
-  cardState: number | undefined;
+   onClick: React.MouseEventHandler;
+   firstName: string;
+   lastName: string;
+   role: string;
+   image: string;
+   roleDescription: RoleDescription;
+   cardState: number | undefined;
 };
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
@@ -295,6 +295,13 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
 
   const onCloseMemberDetails = () => setSelectedMember(undefined);
 
+  useEffect(() => {
+    if (selectedMember) {
+      memberDetailsRef.current && window.scrollTo({left: 0, top: (memberDetailsRef.current.offsetTop - 200), behavior: 'smooth'});
+    }
+  }
+  , [selectedMember])
+
   return (
     (selectedRole === roleName || selectedRole === 'Full Team') && (
       <div className="md:mb-[120px] xs:mb-10">
@@ -312,7 +319,9 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                 {...member}
                 key={member.netid}
                 image="martha.png"
-                onClick={() => setSelectedMember(member === selectedMember ? undefined : member)}
+                onClick={(e) => {
+                  setSelectedMember(member === selectedMember ? undefined : member)
+                }}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
               {selectedMember && canInsertMemberDetails(index) && (
