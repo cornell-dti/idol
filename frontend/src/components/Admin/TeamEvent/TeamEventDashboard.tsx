@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { ExportToCsv, Options } from 'export-to-csv';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
@@ -35,6 +36,11 @@ const calculateTotalCreditsForEvent = (member: IdolMember, event: TeamEvent): nu
 const calculateInitiativeCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, true);
 
+const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
+  teamEvents.reduce((val, event) => val + calculateTotalCreditsForEvent(member, event), 0);
+const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
+  teamEvents.reduce((val, event) => val + calculateInitiativeCreditsForEvent(member, event), 0);
+
 const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,11 +57,52 @@ const TeamEventDashboard: React.FC = () => {
 
   if (isLoading) return <Loader active>Fetching team event data...</Loader>;
 
+  const handleExportToCsv = () => {
+    const csvData = allMembers.map((member) => {
+      const totalCredits = getTotalCredits(member, teamEvents);
+      const initiativeCredits = getInitiativeCredits(member, teamEvents);
+
+      const data = teamEvents.reduce(
+        (prev, event) => ({
+          ...prev,
+          [event.name]: calculateTotalCreditsForEvent(member, event)
+        }),
+        {
+          Name: `${member.firstName} ${member.lastName}`,
+          NetID: `${member.netid}`,
+          Total: totalCredits,
+          Initiative: initiativeCredits
+        }
+      );
+
+      return data;
+    });
+
+    const options: Options = {
+      filename: `TEC_Dashboard`,
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: `TEC Dashboard`,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(csvData);
+  };
+
   return (
     <div className={styles.dashboardContainer}>
-      <Header as="h1" textAlign="center">
-        Team Event Dashboard
-      </Header>
+      <div className={styles.headerContainer}>
+        <Header as="h1">Team Event Dashboard</Header>
+        <div className={styles.csvButton}>
+          <Button onClick={handleExportToCsv}>Export to CSV</Button>
+        </div>
+      </div>
       <div className={styles.tableContainer}>
         <Table celled selectable striped className={styles.dashboardTable}>
           <Table.Header>
@@ -99,14 +146,8 @@ const TeamEventDashboard: React.FC = () => {
           </Table.Header>
           <Table.Body>
             {allMembers.map((member) => {
-              const totalCredits = teamEvents.reduce(
-                (val, event) => val + calculateTotalCreditsForEvent(member, event),
-                0
-              );
-              const initiativeCredits = teamEvents.reduce(
-                (val, event) => val + calculateInitiativeCreditsForEvent(member, event),
-                0
-              );
+              const totalCredits = getTotalCredits(member, teamEvents);
+              const initiativeCredits = getInitiativeCredits(member, teamEvents);
               const totalCreditsMet =
                 totalCredits >=
                 (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);

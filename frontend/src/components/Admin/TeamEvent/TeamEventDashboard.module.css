@@ -1,3 +1,14 @@
+.headerContainer {
+  display: flex;
+  justify-content: right;
+}
+
+.csvButton {
+  padding-left: 30%;
+  padding-right: 5%;
+  padding-bottom: 0.5em;
+}
+
 .dashboardContainer {
   margin: 3%;
   overflow-x: scroll;
