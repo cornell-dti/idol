@@ -12,6 +12,7 @@ interface IconProps {
   onClick: () => void;
   width: number;
   height: number;
+  className?: string;
 }
 
 const Icon: React.FC<IconProps> = ({
@@ -22,7 +23,8 @@ const Icon: React.FC<IconProps> = ({
   isActive,
   onClick,
   width,
-  height
+  height,
+  className
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -43,7 +45,7 @@ const Icon: React.FC<IconProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
-      className="cursor-pointer"
+      className={`cursor-pointer ${className || ''}`}
     />
   );
 };
