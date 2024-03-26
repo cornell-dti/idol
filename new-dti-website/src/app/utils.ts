@@ -13,7 +13,7 @@ const populateMembers = (
     value.members = allMembers
       .filter((member) =>
         key === 'developer'
-          ? member.role === 'developer' || member.role === 'tpm'
+          ? member.role === 'developer' || member.role === 'tpm' || member.role === 'dev-advisor'
           : member.role === key
       )
       .sort(
