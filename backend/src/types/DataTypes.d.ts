@@ -105,4 +105,5 @@ export type DBCoffeeChat = {
   category: string;
   description: string;
   status: string;
+  date: number;
 };
