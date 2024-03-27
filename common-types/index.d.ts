@@ -197,7 +197,7 @@ interface CoffeeChat {
   members: IdolMember[];
   image: string;
   category: string;
-  description?: string;
+  description: string;
   status: Status;
   date: number;
 }
