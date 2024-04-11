@@ -6,26 +6,26 @@ import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import { populateMembers } from '../../src/app/utils';
 
-type DisplayCategory = 'Full Team' | 'Leads' | 'Design' | 'Product' | 'Business' | 'Development';
-
 const MemberDisplay: React.FC = () => {
-  const [selectedRole, setSelectedRole] = useState<DisplayCategory>('Full Team');
+  const [selectedRole, setSelectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
   const allMembers = FA23Members.members as IdolMember[];
 
-  const roles = teamRoles as {
-    [key in Role]: {
-      roleName: string;
-      description: string;
-      members: IdolMember[];
-      order: string[];
-    };
-  };
-
-  populateMembers(roles, allMembers);
+  const roles = populateMembers(
+    teamRoles as {
+      [key: string]: {
+        roleName: string;
+        description: string;
+        members: IdolMember[];
+        order: string[];
+        color: string;
+      };
+    },
+    allMembers
+  );
 
   return (
     <div
@@ -65,7 +65,7 @@ const MemberDisplay: React.FC = () => {
                   altText={role.altText}
                   isActive={selectedRole === role.altText}
                   onClick={() => {
-                    setSelectedRole(role.altText as DisplayCategory);
+                    setSelectedRole(role.altText);
                     setSelectedMember(undefined);
                   }}
                   width={role.width}

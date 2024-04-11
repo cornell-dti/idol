@@ -7,6 +7,7 @@ import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
 import { getFullRoleFromDescription } from '../../src/app/utils';
 import useScreenSize from '../../src/hooks/useScreenSize';
+import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/app/consts';
 
 type MemberSummaryProps = {
   image: string;
@@ -88,25 +89,14 @@ type MemberDetailsProps = {
   image: string;
 };
 
-type Subteam =
-  | 'courseplan'
-  | 'reviews'
-  | 'queuemein'
-  | 'cuapts'
-  | 'idol'
-  | 'cornellgo'
-  | 'carriage'
-  | 'leads'
-  | 'business'
-  | 'zing'
-  | 'dac';
-
 export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetailsProps) => {
   const [hover, setHover] = useState<boolean>(false);
   const mouseHandler = () => setHover((prev) => !prev);
 
   const subteam = props.subteams[0] ?? '';
-  const { name, link } = subteam ? subteams[subteam as Subteam] : { name: 'No Subteam', link: '' };
+  const { name, link } = subteam
+    ? (subteams as { [key: string]: { name: string; link: string } })[subteam]
+    : { name: 'No Subteam', link: '' };
 
   return (
     <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px] shadow-[0_4px_4px_0_#00000040] ">
@@ -269,19 +259,37 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   );
 
   const { width } = useScreenSize();
+  const LAPTOP_COLUMNS = 4;
+  const TABLET_COLUMNS = 3;
+  const PHONE_COLUMNS = 2;
 
+  /**
+   * Determines whether the selected member details can be inserted after the current index.
+   * @param index The index of a member relative to its member group.
+   */
   const canInsertMemberDetails = (index: number): boolean => {
-    let columns = 4;
-    if (width <= 768) columns = 2;
-    else if (width <= 1024) columns = 3;
+    // The number of columns in the member group grid.
+    let columns = LAPTOP_COLUMNS;
+    switch (true) {
+      case width <= LAPTOP_BREAKPOINT:
+        columns = TABLET_COLUMNS;
+        break;
+      case width <= TABLET_BREAKPOINT:
+        columns = PHONE_COLUMNS;
+        break;
+    }
+
+    if (selectedMember === undefined) return false;
+    if (roleName !== selectedRole && selectedRole !== 'Full Team') return false;
+
     return (
-      selectedMember !== undefined &&
-      (roleName === selectedRole || selectedRole === 'Full Team') &&
-      ((index % columns === columns - 1 &&
+      // Case where member of index is not on last row 
+      (index % columns === columns - 1 &&
         selectedMemberIndex >= index - columns + 1 &&
         selectedMemberIndex <= index) ||
-        (index === members.length - 1 &&
-          selectedMemberIndex >= members.length - (members.length % columns)))
+      // Case where member of index is on last row 
+      (index === members.length - 1 &&
+        selectedMemberIndex >= members.length - (members.length % columns))
     );
   };
 
@@ -302,6 +310,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <>
               <MemberCard
                 {...member}
+                key={member.netid}
                 image="martha.png"
                 onClick={() => setSelectedMember(member === selectedMember ? undefined : member)}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
