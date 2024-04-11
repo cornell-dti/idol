@@ -283,11 +283,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     if (roleName !== selectedRole && selectedRole !== 'Full Team') return false;
 
     return (
-      // Case where member of index is not on last row 
+      // Case where member of index is not on last row
       (index % columns === columns - 1 &&
         selectedMemberIndex >= index - columns + 1 &&
         selectedMemberIndex <= index) ||
-      // Case where member of index is on last row 
+      // Case where member of index is on last row
       (index === members.length - 1 &&
         selectedMemberIndex >= members.length - (members.length % columns))
     );
