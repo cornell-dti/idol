@@ -4,7 +4,7 @@ import Icon from '../icons';
 import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
-import { populateMembers } from '../../src/app/utils';
+import { populateMembers } from '../../src/utils';
 
 const MemberDisplay: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('Full Team');
