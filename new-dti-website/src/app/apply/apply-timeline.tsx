@@ -64,24 +64,24 @@ const ApplyTimeline: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center w-screen h-screen"
+      className="flex flex-col items-center justify-center w-screen min-h-screen px-4 lg:px-0"
       style={{
         backgroundImage: "url('/images/apply_timeline_bg.png')",
         backgroundSize: 'cover'
       }}
     >
-      <div className="text-white" style={{ alignSelf: 'flex-start', marginLeft: '212px' }}>
-        <h1 className="text-4xl font-semibold" style={{ marginBottom: '40px' }}>
+      <div className="text-white self-start lg:ml-52 xl:ml-64">
+        <h1 className="text-3xl lg:text-4xl font-semibold" style={{ marginBottom: '20px lg:40px' }}>
           This is DTI.
         </h1>
-        <p className="text-3xl mt-2 font-semibold">developing, designing, delivering.</p>
+        <p className="text-xl lg:text-3xl mt-2 font-semibold">developing, designing, delivering.</p>
       </div>
       <div
-        className="mt-10 bg-white rounded-lg w-3/4"
+        className="mt-5 lg:mt-10 bg-white rounded-lg w-full md:w-3/4 lg:w-2/3 xl:w-1/2"
         style={{ borderTopLeftRadius: '25px', borderTopRightRadius: '25px' }}
       >
         <div
-          className="flex items-center justify-between px-10 py-2"
+          className="flex items-center justify-between px-5 py-2 lg:px-10 lg:py-2"
           style={{
             backgroundColor: '#A52424',
             borderTopLeftRadius: '25px',
@@ -117,11 +117,11 @@ const ApplyTimeline: React.FC = () => {
           </div>
         </div>
         <div
-          className="relative bg-white p-30 text-black rounded-b-lg"
+          className="relative bg-white p-5 lg:p-30 text-black rounded-b-lg"
           style={{ borderBottomLeftRadius: '25px', borderBottomRightRadius: '25px' }}
         >
           <div
-            className="absolute left-20 top-0 bottom-0 w-3"
+            className="absolute left-4 lg:left-20 top-0 bottom-0 w-2 lg:w-3"
             style={{ backgroundColor: '#A52424' }}
           ></div>
           {stages.map((stage, index) => {
@@ -131,9 +131,8 @@ const ApplyTimeline: React.FC = () => {
               <div key={index} className="flex mt-8 first:mt-0 ml-16">
                 <div className="relative flex-shrink-0">
                   <img
-                    src={`/apply_icons/${
-                      isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'
-                    }.png`}
+                    src={`/apply_icons/${isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'
+                      }.png`}
                     alt=""
                     className="w-16 h-16"
                   />
@@ -141,9 +140,8 @@ const ApplyTimeline: React.FC = () => {
                 </div>
                 <div className="ml-8">
                   <h3
-                    className={`text-xl ${
-                      isCurrentStage ? 'font-bold text-2xl' : 'font-semibold'
-                    } ml-4`}
+                    className={`text-xl ${isCurrentStage ? 'font-bold text-2xl' : 'font-semibold'
+                      } ml-4`}
                   >
                     {stage.title}
                   </h3>
