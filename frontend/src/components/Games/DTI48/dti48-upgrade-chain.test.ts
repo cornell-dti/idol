@@ -33,7 +33,7 @@ const designLeads = DESIGN_LEAD_NETIDS.map(
       netid,
       role: 'lead',
       subteams: ['leads', 'design-leads']
-    }) as const
+    } as const)
 );
 
 const devLeads = DEV_LEAD_NETIDS.map(
@@ -42,7 +42,7 @@ const devLeads = DEV_LEAD_NETIDS.map(
       netid,
       role: 'lead',
       subteams: ['leads', 'dev-leads']
-    }) as const
+    } as const)
 );
 
 const tpms = [

@@ -6,7 +6,7 @@ import { PermissionError, BadRequestError } from '../utils/errors';
 require('dotenv').config();
 
 /**
- * Triggers a dispatch event to pull changes from the IDOL backend.
+ * Triggers a dispatch event for the pull-from-idol GitHub action. This action pulls the latest changes from the IDOL backend to synchronize with the current state.
  * @param {IdolMember} user - The user requesting the pull dispatch.
  * @returns {Promise<{updated: boolean}>} - A promise that resolves to an object indicating if the update was successful.
  * @throws {PermissionError} - If the user lacks permission to trigger the dispatch.
@@ -29,7 +29,7 @@ export const requestIDOLPullDispatch = async (user: IdolMember): Promise<{ updat
  * Retrieves the latest Pull Request with changes from the IDOL backend.
  * @param {IdolMember} user - The user requesting the pull request details.
  * @returns {Promise<{pr: PRResponse}>} - A promise that resolves to an object containing the pull request details.
- * @throws {PermissionError} - If the user lacks permission to access the pull request.
+ * @throws {PermissionError} - If the user lacks permission to access the pull request details.
  */
 export const getIDOLChangesPR = async (user: IdolMember): Promise<{ pr: PRResponse }> => {
   await checkPermissions(user);
@@ -38,7 +38,7 @@ export const getIDOLChangesPR = async (user: IdolMember): Promise<{ pr: PRRespon
 };
 
 /**
- * Accepts and merges the IDOL backend changes pull request.
+ * Accepts and merges the IDOL backend changes pull request, triggering a deployment of these changes.
  * @param {IdolMember} user - The user attempting to accept the changes.
  * @returns {Promise<{pr: PRResponse; merged: boolean}>} - A promise that resolves to an object containing the pull request details and a boolean indicating if the merge was successful.
  * @throws {PermissionError} - If the user lacks permission to merge the pull request.
@@ -78,10 +78,11 @@ export const acceptIDOLChanges = async (
 };
 
 /**
- * Rejects and closes the IDOL backend changes pull request.
+ * Closes the IDOL backend changes pull request.
  * @param {IdolMember} user - The user attempting to reject the changes.
  * @returns {Promise<{pr: PRResponse; closed: boolean}>} - A promise that resolves to an object containing the pull request details and a boolean indicating if the rejection was successful.
  * @throws {PermissionError} - If the user lacks permission to reject the pull request.
+ * @throws {BadRequestError} - If no valid pull request is found.
  */
 export const rejectIDOLChanges = async (
   user: IdolMember
@@ -99,7 +100,7 @@ export const rejectIDOLChanges = async (
     state: 'closed'
   });
   if (closedReview.data.state !== 'closed') {
-    throw new PermissionError('Could not approve the IDOL changes pull request!');
+    throw new PermissionError('Could not close the IDOL changes pull request!');
   }
   return { pr: foundPR, closed: closedReview.data.state === 'closed' };
 };
