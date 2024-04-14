@@ -1,7 +1,7 @@
 /** The common types required by more than one workspace. */
 
 /** All possible roles for a DTI member */
-type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
+type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business' | 'dev-advisor';
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
@@ -10,7 +10,8 @@ type RoleDescription =
   | 'Product Manager'
   | 'Developer'
   | 'Designer'
-  | 'Business Analyst';
+  | 'Business Analyst'
+  | 'Dev Advisor';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -87,7 +88,6 @@ interface TeamEventAttendance {
   hoursAttended?: number;
   image: string;
   readonly eventUuid: string;
-  readonly pending: boolean;
   readonly status: Status;
   readonly reason: string;
   readonly uuid: string;
@@ -99,7 +99,8 @@ interface TeamEventInfo {
   readonly numCredits: string;
   readonly hasHours: boolean;
   readonly uuid: string;
-  readonly isCommunity: boolean;
+  readonly isCommunity?: boolean;
+  readonly isInitiativeEvent: boolean;
 }
 
 interface TeamEvent extends TeamEventInfo {

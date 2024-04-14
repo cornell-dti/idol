@@ -49,4 +49,15 @@ export default class PermissionsManager {
   public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> {
     return mem.role === 'lead' || this.isAdmin(mem);
   }
+
+  public static async canAccessCandidateDeciderInstance(
+    mem: IdolMember,
+    instance: CandidateDeciderInstance
+  ): Promise<boolean> {
+    return (
+      (await this.isAdmin(mem)) ||
+      instance.authorizedMembers.some((authorizedMember) => authorizedMember.email === mem.email) ||
+      instance.authorizedRoles.includes(mem.role)
+    );
+  }
 }
