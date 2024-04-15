@@ -194,10 +194,10 @@ interface Shoutout {
 
 interface CoffeeChat {
   readonly uuid: string;
-  members: IdolMember[];
-  image: string;
-  category: string;
-  description?: string;
-  status: Status;
-  date: number;
+  readonly members: IdolMember[];
+  readonly image: string;
+  readonly category: string;
+  readonly description?: string;
+  readonly status: Status;
+  readonly date: number;
 }

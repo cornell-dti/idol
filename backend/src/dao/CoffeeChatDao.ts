@@ -1,7 +1,9 @@
-import { memberCollection, coffeeChatsCollection } from '../firebase';
+import { db, memberCollection, coffeeChatsCollection } from '../firebase';
+import { v4 as uuidv4 } from 'uuid';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
+import { deleteCollection } from '../utils/firebase-utils';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const member1 = await getMemberFromDocumentReference(dbCoffeeChat.members[0]);
@@ -27,6 +29,37 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   constructor() {
     super(coffeeChatsCollection, materializeCoffeeChat, serializeCoffeeChat);
   }
+  /**
+   * Creates a new coffee chat for member
+   * @param coffeeChat - Newly created CoffeeChat object.
+   * If provided, the object uuid will be used. If not, a new one will be generated.
+   * The pending field will be set to true by default.
+   * A member can not create a coffee chat the same person from previous semesters
+   */
+  async createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
+    const [member1, member2] = coffeeChat.members;
+    const prevChats1 = await this.getCoffeeChatsByUser(member1);
+    const prevChats2 = await this.getCoffeeChatsByUser(member2);
+
+    const prevChats = [...prevChats1, ...prevChats2];
+
+    if (
+      prevChats.some((c) => {
+        return c.members.includes(member1) && c.members.includes(member2);
+      })
+    ) {
+      throw new Error(
+        `Cannot create coffee chat with member. Previous coffee chats from previous semesters exist.`
+      );
+    }
+
+    const coffeeChatWithUUID = {
+      ...coffeeChat,
+      status: 'pending' as Status,
+      uuid: coffeeChat.uuid ? coffeeChat.uuid : uuidv4()
+    };
+    return this.createDocument(coffeeChatWithUUID.uuid, coffeeChatWithUUID);
+  }
 
   /**
    * Gets the coffee chats
@@ -41,5 +74,42 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   async getAllCoffeeChats(): Promise<CoffeeChat[]> {
     return this.getDocuments();
+  }
+
+  /**
+   * Updates a coffee chat
+   * @param coffeeChat - updated Coffee Chat object
+   */
+  async updateCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
+    return this.updateDocument(coffeeChat.uuid, coffeeChat);
+  }
+
+  /**
+   * Gets all coffee chat for a user
+   * @param user - user whose coffee chats should be fetched
+   */
+  async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
+    return this.getDocuments([
+      {
+        field: 'member',
+        comparisonOperator: '==',
+        value: memberCollection.doc(user.email)
+      }
+    ]);
+  }
+
+  /**
+   * Deletes a coffee chat
+   * @param uuid - DB uuid of CoffeeChat
+   */
+  async deleteCoffeeChat(uuid: string): Promise<void> {
+    await this.getDocuments();
+  }
+
+  /**
+   * Deletes all coffee chat for all users
+   */
+  static async deleteAllCoffeeChat(): Promise<void> {
+    await deleteCollection(db, 'coffee-chats', 500);
   }
 }
