@@ -1,5 +1,5 @@
-import { db, memberCollection, coffeeChatsCollection } from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
+import { db, memberCollection, coffeeChatsCollection } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
@@ -29,6 +29,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   constructor() {
     super(coffeeChatsCollection, materializeCoffeeChat, serializeCoffeeChat);
   }
+
   /**
    * Creates a new coffee chat for member
    * @param coffeeChat - Newly created CoffeeChat object.
@@ -36,6 +37,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * The pending field will be set to true by default.
    * A member can not create a coffee chat the same person from previous semesters
    */
+
   async createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
     const [member1, member2] = coffeeChat.members;
     const prevChats1 = await this.getCoffeeChatsByUser(member1);
@@ -43,16 +45,11 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
     const prevChats = [...prevChats1, ...prevChats2];
 
-    if (
-      prevChats.some((c) => {
-        return c.members.includes(member1) && c.members.includes(member2);
-      })
-    ) {
+    if (prevChats.some((c) => c.members.includes(member1) && c.members.includes(member2))) {
       throw new Error(
         `Cannot create coffee chat with member. Previous coffee chats from previous semesters exist.`
       );
     }
-
     const coffeeChatWithUUID = {
       ...coffeeChat,
       status: 'pending' as Status,
