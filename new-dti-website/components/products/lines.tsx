@@ -25,7 +25,7 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
     if (connectorRef.current != null) {
       return Math.min(
         props.height,
-        Math.max(0, scrollY - connectorRef.current.offsetTop + props.height / 2)
+        Math.max(0, scrollY - connectorRef.current.offsetTop + props.height)
       );
     }
     return 0;
@@ -34,7 +34,7 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
   return (
     <div
       ref={connectorRef}
-      className="lg:flex flex-row relative flex-shrink w-full justify-center px-10 sm:hidden"
+      className="lg:flex flex-row relative flex-shrink w-full justify-center px-10 hidden"
     >
       <svg
         width={props.width}

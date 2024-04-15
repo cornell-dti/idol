@@ -1,0 +1,74 @@
+{
+  "products": [
+    {
+      "alt": "cureviews",
+      "name": "CU Reviews",
+      "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
+      "link": "https://cureviews.org/",
+      "path": "images/cureviews.svg",
+      "iconPath": "icons/cureviews_icon.svg",
+      "width": 826,
+      "height": 615
+    },
+    {
+      "alt": "courseplan",
+      "name": "Course Plan",
+      "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
+      "link": "https://courseplan.io/",
+      "path": "images/courseplan.svg",
+      "iconPath": "icons/courseplan_icon.svg",
+      "width": 845,
+      "height": 533
+    },
+    {
+      "alt": "queue me in",
+      "name": "Queue Me In",
+      "description": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their classes.",
+      "link": "https://queueme.in/",
+      "path": "images/qmi.svg",
+      "iconPath": "icons/qmi_icon.svg",
+      "width": 823,
+      "height": 605
+    },
+    {
+      "alt": "design at cornell",
+      "name": "Design @ Cornell",
+      "description": "Design@Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
+      "link": "https://designatcornell.org/",
+      "path": "images/dac.svg",
+      "iconPath": "icons/dac_icon.svg",
+      "width": 861,
+      "height": 639
+    },
+    {
+      "alt": "zing",
+      "name": "Zing",
+      "description": "Collaborating with The Learning Strategies Center (LSC) at Cornell, Zing is an all-in-one web interface to create optimal groups for class projects based on students' study preferences.",
+      "link": "https://zing.cornell.edu/",
+      "path": "images/zing.svg",
+      "iconPath": "icons/zing_icon.svg",
+      "width": 838,
+      "height": 544
+    },
+    {
+      "alt": "cuapts",
+      "name": "CU Apts",
+      "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
+      "link": "https://cuapts.org/",
+      "path": "images/cuapts.svg",
+      "iconPath": "icons/cuapts_icon.svg",
+      "width": 787,
+      "height": 614
+    },
+    {
+      "alt": "carriage",
+      "name": "Carriage",
+      "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. \n \n Launching next semester.",
+      "link": "",
+      "path": "images/carriage.svg",
+      "iconPath": "icons/carriage_icon.svg",
+      "width": 777,
+      "height": 487
+    }
+  ]
+}
