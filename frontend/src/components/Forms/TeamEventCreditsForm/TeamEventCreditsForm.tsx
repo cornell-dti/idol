@@ -59,6 +59,28 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const submitTeamEventCredit = async () => {
+    const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
+      return attendance.reduce((sum, event) => {
+        console.log(event);
+        console.log(teamEvent);
+        console.log(event.uuid == teamEvent?.uuid);
+        if (event.uuid == teamEvent?.uuid) {
+          if (teamEvent?.hasHours) {
+            return sum + Number(teamEvent?.numCredits || 0) * Number(hours);
+          } else {
+            return sum + Number(teamEvent?.numCredits || 0);
+          }
+        } else {
+          return sum;
+        }
+      }, 0);
+    };
+    // console.log(approvedAttendance)
+    // console.log(pendingAttendance)
+    // console.log(getCredits(pendingAttendance))
+    const totalCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
+    // console.log(totalCredits)
+
     if (!teamEvent) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Selected',
@@ -78,6 +100,11 @@ const TeamEventCreditForm: React.FC = () => {
       Emitters.generalError.emit({
         headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
+      });
+    } else if (totalCredits >= Number(teamEvent.maxCredits)) {
+      Emitters.generalError.emit({
+        headerMsg: 'Maximum Credits Violated',
+        contentMsg: `You already have ${totalCredits} pending or approved for the event!`
       });
     } else {
       await Promise.all(
@@ -153,6 +180,8 @@ const TeamEventCreditForm: React.FC = () => {
                           <Label
                             content={`${event.numCredits} ${
                               Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                            } ${
+                              event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
                             } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>

@@ -42,21 +42,18 @@ export default function ProjectGoTo({ project, className }: Props): JSX.Element 
               </Button>
             </Col>
           )}
-          {project.android_github &&
-            !project.appstore &&
-            !project.playstore &&
-            !project.website && (
-              <Col className="connect-icon-container col-auto">
-                <Button
-                  variant="secondary"
-                  className="align-content-center"
-                  href={project.android_github}
-                >
-                  <GitHub className="connect-icon connect-icon-blank" />
-                  <span className="connect-text">Android</span>
-                </Button>
-              </Col>
-            )}
+          {project.android_github && !project.appstore && !project.playstore && !project.website && (
+            <Col className="connect-icon-container col-auto">
+              <Button
+                variant="secondary"
+                className="align-content-center"
+                href={project.android_github}
+              >
+                <GitHub className="connect-icon connect-icon-blank" />
+                <span className="connect-text">Android</span>
+              </Button>
+            </Col>
+          )}
           {project.github && !project.appstore && !project.playstore && !project.website && (
             <Col className="connect-icon-container col-auto">
               <Button variant="secondary" className="align-content-center" href={project.github}>

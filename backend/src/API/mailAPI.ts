@@ -134,7 +134,9 @@ export const sendTECReminder = async (
 ): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
   const allEvents = await Promise.all(
-    (await TeamEventsDao.getAllTeamEvents()).map(async (event) => ({
+    (
+      await TeamEventsDao.getAllTeamEvents()
+    ).map(async (event) => ({
       ...event,
       requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
     }))

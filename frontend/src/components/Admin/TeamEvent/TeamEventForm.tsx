@@ -22,6 +22,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [isInitiativeEvent, setisInitiativeEvent] = useState<boolean>(
     teamEvent?.isInitiativeEvent || false
   );
+  const [maxCredits, setMaxCredits] = useState(teamEvent?.maxCredits || '');
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -48,6 +49,11 @@ const TeamEventForm = (props: Props): JSX.Element => {
         headerMsg: 'Minumum Credits Violated',
         contentMsg: 'Team events must be worth a minimum of 0.25 credits!'
       });
+    } else if (Number(teamEventCreditNum) > Number(maxCredits)) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Credits',
+        contentMsg: 'The maximum credits cannot be greater than the team event credit!'
+      });
     } else if (teamEvent && editTeamEvent) {
       const editedTeamEvent: TeamEvent = {
         ...teamEvent,
@@ -56,7 +62,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
         isCommunity: isInitiativeEvent,
-        isInitiativeEvent
+        isInitiativeEvent,
+        maxCredits: maxCredits
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({
@@ -70,7 +77,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         date: teamEventDate,
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
-        isInitiativeEvent
+        isInitiativeEvent,
+        maxCredits: maxCredits
       };
       TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
         if (val.error) {
@@ -129,6 +137,21 @@ const TeamEventForm = (props: Props): JSX.Element => {
           label={
             <label className={styles.label}>
               How many credits is this event worth? <span className={styles.required}>*</span>
+            </label>
+          }
+        ></Form.Input>
+
+        <Form.Input
+          value={maxCredits}
+          onChange={(event) => {
+            setMaxCredits(event.target.value);
+          }}
+          type="number"
+          step="0.5"
+          label={
+            <label className={styles.label}>
+              What is the maximum number of credits a member can receive from this event?{' '}
+              <span className={styles.required}>*</span>
             </label>
           }
         ></Form.Input>

@@ -101,6 +101,7 @@ interface TeamEventInfo {
   readonly uuid: string;
   readonly isCommunity?: boolean;
   readonly isInitiativeEvent: boolean;
+  readonly maxCredits: string;
 }
 
 interface TeamEvent extends TeamEventInfo {
