@@ -64,24 +64,24 @@ const ApplyTimeline: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center w-screen h-screen"
+      className="flex flex-col items-center justify-center w-screen h-auto md:h-screen px-10"
       style={{
         backgroundImage: "url('/images/apply_timeline_bg.png')",
         backgroundSize: 'cover'
       }}
     >
-      <div className="text-white" style={{ alignSelf: 'flex-start', marginLeft: '212px' }}>
-        <h1 className="text-4xl font-semibold" style={{ marginBottom: '40px' }}>
+      <div className="text-white w-full md:px-0" style={{ alignSelf: 'flex-start' }}>
+        <h1 className="text-4xl font-semibold mb-4">
           This is DTI.
         </h1>
-        <p className="text-3xl mt-2 font-semibold">developing, designing, delivering.</p>
+        <p className="text-3xl font-semibold mb-4">developing, designing, delivering.</p>
       </div>
       <div
-        className="mt-10 bg-white rounded-lg w-3/4"
+        className="bg-white rounded-lg w-full md:w-3/4 p-6 md:p-0"
         style={{ borderTopLeftRadius: '25px', borderTopRightRadius: '25px' }}
       >
         <div
-          className="flex items-center justify-between px-10 py-2"
+          className="flex items-center justify-between p-6 md:p-10"
           style={{
             backgroundColor: '#A52424',
             borderTopLeftRadius: '25px',
@@ -116,8 +116,7 @@ const ApplyTimeline: React.FC = () => {
             </button>
           </div>
         </div>
-        <div
-          className="relative bg-white p-30 text-black rounded-b-lg"
+        <div className="relative bg-white p-6 md:p-30 text-black rounded-b-lg"
           style={{ borderBottomLeftRadius: '25px', borderBottomRightRadius: '25px' }}
         >
           <div
@@ -131,9 +130,8 @@ const ApplyTimeline: React.FC = () => {
               <div key={index} className="flex mt-8 first:mt-0 ml-16">
                 <div className="relative flex-shrink-0">
                   <img
-                    src={`/apply_icons/${
-                      isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'
-                    }.png`}
+                    src={`/apply_icons/${isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'
+                      }.png`}
                     alt=""
                     className="w-16 h-16"
                   />
@@ -141,9 +139,8 @@ const ApplyTimeline: React.FC = () => {
                 </div>
                 <div className="ml-8">
                   <h3
-                    className={`text-xl ${
-                      isCurrentStage ? 'font-bold text-2xl' : 'font-semibold'
-                    } ml-4`}
+                    className={`text-xl ${isCurrentStage ? 'font-bold text-2xl' : 'font-semibold'
+                      } ml-4`}
                   >
                     {stage.title}
                   </h3>
