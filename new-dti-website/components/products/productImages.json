@@ -7,6 +7,7 @@
       "link": "https://cureviews.org/",
       "path": "images/cureviews.svg",
       "iconPath": "icons/cureviews_icon.svg",
+      "iconDimensions": 67,
       "width": 826,
       "height": 615
     },
@@ -17,6 +18,7 @@
       "link": "https://courseplan.io/",
       "path": "images/courseplan.svg",
       "iconPath": "icons/courseplan_icon.svg",
+      "iconDimensions": 63,
       "width": 845,
       "height": 533
     },
@@ -27,6 +29,7 @@
       "link": "https://queueme.in/",
       "path": "images/qmi.svg",
       "iconPath": "icons/qmi_icon.svg",
+      "iconDimensions": 63,
       "width": 823,
       "height": 605
     },
@@ -37,6 +40,7 @@
       "link": "https://designatcornell.org/",
       "path": "images/dac.svg",
       "iconPath": "icons/dac_icon.svg",
+      "iconDimensions": 73,
       "width": 861,
       "height": 639
     },
@@ -47,6 +51,7 @@
       "link": "https://zing.cornell.edu/",
       "path": "images/zing.svg",
       "iconPath": "icons/zing_icon.svg",
+      "iconDimensions": 63,
       "width": 838,
       "height": 544
     },
@@ -57,6 +62,7 @@
       "link": "https://cuapts.org/",
       "path": "images/cuapts.svg",
       "iconPath": "icons/cuapts_icon.svg",
+      "iconDimensions": 79,
       "width": 787,
       "height": 614
     },
@@ -67,6 +73,7 @@
       "link": "",
       "path": "images/carriage.svg",
       "iconPath": "icons/carriage_icon.svg",
+      "iconDimensions": 63,
       "width": 777,
       "height": 487
     }

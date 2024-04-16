@@ -29,6 +29,7 @@ const Page = () => (
       </div>
     </div>
     <ImageCarousel items={productIcons.products} />
+    <div className="w-full py-12" />
 
     {productImages.products.map((product, index) => (
       <div>
