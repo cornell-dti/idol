@@ -60,26 +60,19 @@ const TeamEventCreditForm: React.FC = () => {
 
   const submitTeamEventCredit = async () => {
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
-      return attendance.reduce((sum, event) => {
-        console.log(event);
-        console.log(teamEvent);
-        console.log(event.uuid == teamEvent?.uuid);
-        if (event.uuid == teamEvent?.uuid) {
-          if (teamEvent?.hasHours) {
-            return sum + Number(teamEvent?.numCredits || 0) * Number(hours);
-          } else {
-            return sum + Number(teamEvent?.numCredits || 0);
-          }
+      const filteredAttendance = attendance.filter((event) => event.eventUuid == teamEvent?.uuid);
+      const sum = filteredAttendance.reduce((acc) => {
+        if (teamEvent?.hasHours) {
+          return acc + Number(teamEvent?.numCredits || 0) * Number(hours);
         } else {
-          return sum;
+          return acc + Number(teamEvent?.numCredits || 0);
         }
       }, 0);
+
+      return sum;
     };
-    // console.log(approvedAttendance)
-    // console.log(pendingAttendance)
-    // console.log(getCredits(pendingAttendance))
+
     const totalCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
-    // console.log(totalCredits)
 
     if (!teamEvent) {
       Emitters.generalError.emit({

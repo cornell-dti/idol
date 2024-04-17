@@ -128,6 +128,10 @@ const TeamEventCreditDashboard = (props: {
                       teamEvent.hasHours
                         ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
                         : teamEvent.numCredits
+                    } ${
+                      teamEvent.maxCredits == teamEvent.numCredits
+                        ? ''
+                        : `(${teamEvent.maxCredits} Max)`
                     }`}
                   </Card.Meta>
                   {INITIATIVE_EVENTS && (
