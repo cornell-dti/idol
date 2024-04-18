@@ -61,13 +61,14 @@ const TeamEventCreditForm: React.FC = () => {
   const submitTeamEventCredit = async () => {
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
       const filteredAttendance = attendance.filter((event) => event.eventUuid == teamEvent?.uuid);
-      const sum = filteredAttendance.reduce((acc) => {
-        if (teamEvent?.hasHours) {
-          return acc + Number(teamEvent?.numCredits || 0) * Number(hours);
-        } else {
-          return acc + Number(teamEvent?.numCredits || 0);
-        }
-      }, 0);
+      const sum = filteredAttendance.reduce(
+        (acc, event) =>
+          acc +
+          (teamEvent?.hasHours
+            ? Number(teamEvent?.numCredits || 0) * Number(hours)
+            : Number(teamEvent?.numCredits || 0)),
+        0
+      );
 
       return sum;
     };

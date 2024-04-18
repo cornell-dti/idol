@@ -63,7 +63,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
         hasHours: teamEventHasHours,
         isCommunity: isInitiativeEvent,
         isInitiativeEvent,
-        maxCredits: maxCredits
+        maxCredits
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({
@@ -78,7 +78,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
         isInitiativeEvent,
-        maxCredits: maxCredits
+        maxCredits
       };
       TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
         if (val.error) {
