@@ -27,7 +27,7 @@ test('Get instance by uuid', () =>
 
 test('Update instance', () =>
   candidateDeciderDao.updateInstance(newMockCDI).then((instance) => {
-    expect(instance.uuid === mockCDI.uuid)
+    expect(instance.uuid === mockCDI.uuid);
     expect(instance.isOpen);
   }));
 
