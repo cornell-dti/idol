@@ -22,7 +22,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
   const [isInitiativeEvent, setisInitiativeEvent] = useState<boolean>(
     teamEvent?.isInitiativeEvent || false
   );
-  const [maxCredits, setMaxCredits] = useState(teamEvent?.maxCredits || '');
+  const [maxCreditNum, setMaxCreditNum] = useState(teamEvent?.maxCredits || '');
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -49,10 +49,15 @@ const TeamEventForm = (props: Props): JSX.Element => {
         headerMsg: 'Minumum Credits Violated',
         contentMsg: 'Team events must be worth a minimum of 0.25 credits!'
       });
-    } else if (Number(teamEventCreditNum) > Number(maxCredits)) {
+    } else if (Number(teamEventCreditNum) > Number(maxCreditNum)) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid Credits',
         contentMsg: 'The maximum credits cannot be greater than the team event credit!'
+      });
+    } else if (Number(maxCreditNum) % Number(teamEventCreditNum) !== 0) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid Credits',
+        contentMsg: 'The maximum credits needs to be a multiple of the team event credit!'
       });
     } else if (teamEvent && editTeamEvent) {
       const editedTeamEvent: TeamEvent = {
@@ -63,7 +68,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
         hasHours: teamEventHasHours,
         isCommunity: isInitiativeEvent,
         isInitiativeEvent,
-        maxCredits
+        maxCredits: maxCreditNum
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({
@@ -78,7 +83,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
         isInitiativeEvent,
-        maxCredits
+        maxCredits: maxCreditNum
       };
       TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
         if (val.error) {
@@ -142,9 +147,9 @@ const TeamEventForm = (props: Props): JSX.Element => {
         ></Form.Input>
 
         <Form.Input
-          value={maxCredits}
+          value={maxCreditNum}
           onChange={(event) => {
-            setMaxCredits(event.target.value);
+            setMaxCreditNum(event.target.value);
           }}
           type="number"
           step="0.5"
