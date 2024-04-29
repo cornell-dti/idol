@@ -8,7 +8,6 @@
     "backend",
     "dti-website",
     "image-cli",
-    "dti-website-redesign",
     "new-dti-website"
   ],
   "scripts": {
