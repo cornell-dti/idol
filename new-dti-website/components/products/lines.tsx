@@ -8,13 +8,8 @@ type ConnectorProps = {
   width: number;
   height: number;
   strokeWidth: number;
-};
-
-type NodeProps = {
-  x: number;
-  y: number;
-  dx: number;
-  dy: number;
+  displayText?: string;
+  className?: string;
 };
 
 const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
@@ -34,7 +29,7 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
   return (
     <div
       ref={connectorRef}
-      className="lg:flex flex-row relative flex-shrink w-full justify-center px-10 hidden"
+      className={`lg:flex flex-row text-white relative flex-shrink w-full justify-center hidden ${props.className}`}
     >
       <svg
         width={props.width}
@@ -59,8 +54,13 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
           strokeLinecap="square"
         />
       </svg>
+      {props.displayText ? (
+        <div className="absolute font-medium text-[20px] top-[40%] left-[25%]">
+          {props.displayText}
+        </div>
+      ) : null}
       <svg
-        className={`absolute top-0 left-50% object-cover h-[${scrollY}px]`}
+        className={`absolute top-0 left-50%`}
         width={props.width}
         height={props.height}
         viewBox={`0 0 ${props.width} ${props.height}`}
@@ -90,6 +90,4 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
   );
 };
 
-const NodeLine = (props: NodeProps) => {};
-
-export { Connector, NodeLine };
+export default Connector;
