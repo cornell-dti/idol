@@ -70,7 +70,8 @@ export const fakeTeamEventAttendance = (): TeamEventAttendance => {
     hoursAttended: getRandomInt(1, 5),
     image: '',
     eventUuid: faker.datatype.uuid(),
-    pending: true,
+    reason: faker.lorem.word(),
+    status: 'pending' as Status,
     uuid: faker.datatype.uuid()
   };
   return TEA;
