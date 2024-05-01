@@ -40,9 +40,12 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
   async createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
     const [member1, member2] = coffeeChat.members;
+
+    if (member1.netid == member2.netid) {
+      throw new Error(`Cannot create coffee chat with yourself.`);
+    }
     const prevChats1 = await this.getCoffeeChatsByUser(member1);
     const prevChats2 = await this.getCoffeeChatsByUser(member2);
-
     const prevChats = [...prevChats1, ...prevChats2];
 
     if (prevChats.some((c) => c.members.includes(member1) && c.members.includes(member2))) {
