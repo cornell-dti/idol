@@ -49,13 +49,13 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 };
 
 type MemberCardProps = {
-   onClick: React.MouseEventHandler;
-   firstName: string;
-   lastName: string;
-   role: string;
-   image: string;
-   roleDescription: RoleDescription;
-   cardState: number | undefined;
+  onClick: React.MouseEventHandler;
+  firstName: string;
+  lastName: string;
+  role: string;
+  image: string;
+  roleDescription: RoleDescription;
+  cardState: number | undefined;
 };
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
@@ -297,10 +297,14 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
 
   useEffect(() => {
     if (selectedMember) {
-      memberDetailsRef.current && window.scrollTo({left: 0, top: (memberDetailsRef.current.offsetTop - 200), behavior: 'smooth'});
+      memberDetailsRef.current &&
+        window.scrollTo({
+          left: 0,
+          top: memberDetailsRef.current.offsetTop - 200,
+          behavior: 'smooth'
+        });
     }
-  }
-  , [selectedMember])
+  }, [selectedMember]);
 
   return (
     (selectedRole === roleName || selectedRole === 'Full Team') && (
@@ -320,7 +324,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                 key={member.netid}
                 image="martha.png"
                 onClick={(e) => {
-                  setSelectedMember(member === selectedMember ? undefined : member)
+                  setSelectedMember(member === selectedMember ? undefined : member);
                 }}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
