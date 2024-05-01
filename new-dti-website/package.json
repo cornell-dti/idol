@@ -20,7 +20,7 @@
     "embla-carousel-autoplay": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
     "init": "^0.1.2",
-    "next": "latest",
+    "next": "13.3.0",
     "react": "latest",
     "react-dom": "latest",
     "shadcn-ui": "^0.4.0",
