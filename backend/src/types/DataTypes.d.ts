@@ -99,11 +99,11 @@ export type DevPortfolioSubmissionRequestLog = {
 };
 
 export type DBCoffeeChat = {
-  readonly uuid: string;
+  uuid: string;
   members: firestore.DocumentReference[];
   image: string;
   category: string;
-  description?: string;
+  description: string;
   status: Status;
   date: number;
 };

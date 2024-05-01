@@ -1,37 +1,39 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
 const navbarItems = [
   {
     name: 'Team',
-    url: '#'
+    url: '/team'
   },
   {
     name: 'Products',
-    url: '#'
+    url: '/products'
   },
   {
     name: 'Courses',
-    url: '#'
+    url: '/courses'
   },
   {
     name: 'Initiative',
-    url: '#'
+    url: '/initiative'
   },
   {
     name: 'Sponsor',
-    url: '#'
+    url: '/sponsor'
   },
   {
     name: 'Apply',
-    url: '#'
+    url: '/apply'
   }
 ];
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleMenuClick = () => {
     document.body.classList.toggle('overflow-hidden');
@@ -55,8 +57,11 @@ const Navbar: React.FC = () => {
         <div className="hidden !justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
             <a
-              className="hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white"
+              className={`hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white ${
+                pathname === item.url ? 'underline' : ''
+              }`}
               href={item.url}
+              key={item.name}
             >
               {item.name}
             </a>
