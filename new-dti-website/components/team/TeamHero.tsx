@@ -157,8 +157,7 @@ const TeamHero = () => {
               >
                 <div
                   onClick={() => {
-                    if (index === (carouselIndex + offsetIndex) % 5 && width >= 768)
-                      setModalShown(true);
+                    if (index === (carouselIndex + offsetIndex) % 5 && width >= 768) setModalShown(true);
                   }}
                 >
                   <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
