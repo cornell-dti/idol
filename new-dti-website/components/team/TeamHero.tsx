@@ -85,6 +85,8 @@ const TeamHero = () => {
 
   const { width } = useScreenSize();
 
+  const carouselLength = carouselImages.images.length;
+
   useEffect(() => {
     if (carouselApi) {
       carouselApi.on('select', () => {
@@ -127,11 +129,14 @@ const TeamHero = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center relative bottom-2">
+        <div
+          className="flex justify-center relative bottom-2 cursor-pointer"
+          onClick={() => setModalShown(width >= TABLET_BREAKPOINT)}
+        >
           <img src="/images/carousel-frame.png" alt="frame" className="absolute z-10" />
           <div className="absolute z-10 w-[243px] h-[270px]">
             <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B] ${ibm_plex_mono.className}`}>
-              {`${carouselImages.images[carouselIndex % 6].alt}.jpg`}
+              {`${carouselImages.images[carouselIndex % carouselLength].alt}.jpg`}
             </p>
           </div>
         </div>
@@ -151,16 +156,10 @@ const TeamHero = () => {
                 <CarouselItem
                   key={image.alt}
                   className={`lg:basis-1/4 xs:basis-1/2 cursor-pointer flex justify-center ${
-                    index === carouselIndex % 6 ? '' : 'opacity-50'
+                    index === carouselIndex % carouselLength ? '' : 'opacity-50'
                   }`}
                 >
-                  <div
-                    className="relative z-10"
-                    onClick={() => {
-                      if (index === carouselIndex % 6 && width >= TABLET_BREAKPOINT)
-                        setModalShown(true);
-                    }}
-                  >
+                  <div className="relative z-10">
                     <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
                       <img src={image.src} alt={image.alt} className="h-[220px] max-w-none" />
                     </div>
