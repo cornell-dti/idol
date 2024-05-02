@@ -5,6 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui
 import carouselImages from './data/carousel.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
+import { TABLET_BREAKPOINT } from '../../src/consts';
 
 type ImageModalProps = {
   onClose: () => void;
@@ -58,7 +59,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
                   <p
                     className={`absolute bottom-0 p-5 text-xl text-[#877B7B] whitespace-nowrap ${ibm_plex_mono.className}`}
                   >
-                    {`${carouselImages.images[carouselIndex % 5].alt}.jpg`}
+                    {`${carouselImages.images[carouselIndex % 6].alt}.jpg`}
                   </p>
                 </div>
               </CarouselItem>
@@ -127,10 +128,8 @@ const TeamHero = () => {
           </div>
         </div>
         <div className="flex justify-center relative bottom-2">
-          <div className="absolute z-0 w-[243px] h-[270px] bg-white rounded-md">
-            <div className="flex justify-center">
-              <div className="absolute z-0 w-[227px] h-[220px] bg-black rounded-md top-2" />
-            </div>
+          <img src="/images/carousel-frame.png" alt="frame" className="absolute z-10" />
+          <div className="absolute z-10 w-[243px] h-[270px]">
             <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B] ${ibm_plex_mono.className}`}>
               {`${carouselImages.images[carouselIndex % 6].alt}.jpg`}
             </p>
@@ -158,7 +157,8 @@ const TeamHero = () => {
                   <div
                     className="relative z-10"
                     onClick={() => {
-                      if (index === carouselIndex % 6 && width >= 768) setModalShown(true);
+                      if (index === carouselIndex % 6 && width >= TABLET_BREAKPOINT)
+                        setModalShown(true);
                     }}
                   >
                     <div className="flex justify-center overflow-hidden w-[227px] rounded-md">

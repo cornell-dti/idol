@@ -1,16 +1,16 @@
 {
   "images": [
     {
-      "src": "/images/business.png",
-      "alt": "business",
-      "icon": "/icons/business_sticker.svg",
+      "src": "/images/full-team.png",
+      "alt": "full-team",
+      "icon": "/icons/full-team_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
     {
-      "src": "/images/full-team.png",
-      "alt": "full-team",
-      "icon": "/icons/full-team_sticker.svg",
+      "src": "/images/leads.png",
+      "alt": "leads",
+      "icon": "/icons/leads_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
@@ -32,6 +32,13 @@
       "src": "/images/product.png",
       "alt": "product",
       "icon": "/icons/product_sticker.svg",
+      "iconWidth": 50,
+      "iconHeight": 50
+    },
+    {
+      "src": "/images/business.png",
+      "alt": "business",
+      "icon": "/icons/business_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     }
