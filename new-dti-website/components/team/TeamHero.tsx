@@ -83,7 +83,6 @@ const TeamHero = () => {
   const [modalShown, setModalShown] = useState<boolean>(false);
 
   const { width } = useScreenSize();
-  const offsetIndex = width >= 768 ? 1 : 0;
 
   useEffect(() => {
     if (carouselApi) {
@@ -98,7 +97,7 @@ const TeamHero = () => {
       {modalShown && (
         <ImageModal
           onClose={() => setModalShown(false)}
-          carouselIndex={carouselIndex + offsetIndex}
+          carouselIndex={carouselIndex}
           setCarouselIndex={setCarouselIndex}
           carouselApi={carouselApi}
         />
@@ -128,53 +127,56 @@ const TeamHero = () => {
           </div>
         </div>
         <div className="flex justify-center relative bottom-2">
-          <div className="absolute w-[243px] h-[270px] bg-white rounded-md">
+          <div className="absolute z-0 w-[243px] h-[270px] bg-white rounded-md">
             <div className="flex justify-center">
-              <div className="absolute w-[227px] h-[220px] bg-black rounded-md top-2" />
+              <div className="absolute z-0 w-[227px] h-[220px] bg-black rounded-md top-2" />
             </div>
             <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B] ${ibm_plex_mono.className}`}>
-              {`${carouselImages.images[(carouselIndex + offsetIndex) % 5].alt}.jpg`}
+              {`${carouselImages.images[carouselIndex % 6].alt}.jpg`}
             </p>
           </div>
         </div>
-        <Carousel
-          plugins={modalShown ? undefined : [Autoplay({ delay: 5000, stopOnInteraction: false })]}
-          opts={{
-            align: 'start',
-            loop: true
-          }}
-          canClick={true}
-          setApi={setCarouselApi}
-          offset={1}
-        >
-          <CarouselContent>
-            {carouselImages.images.map((image, index) => (
-              <CarouselItem
-                key={image.alt}
-                className={`md:basis-1/3 cursor-pointer flex justify-center ${
-                  index === (carouselIndex + offsetIndex) % 5 ? '' : 'opacity-50'
-                }`}
-              >
-                <div
-                  onClick={() => {
-                    if (index === (carouselIndex + offsetIndex) % 5 && width >= 768) setModalShown(true);
-                  }}
+        <div>
+          <Carousel
+            plugins={modalShown ? undefined : [Autoplay({ delay: 5000, stopOnInteraction: false })]}
+            opts={{
+              align: 'center',
+              loop: true
+            }}
+            canClick={true}
+            setApi={setCarouselApi}
+            offset={0}
+          >
+            <CarouselContent>
+              {carouselImages.images.map((image, index) => (
+                <CarouselItem
+                  key={image.alt}
+                  className={`lg:basis-1/4 xs:basis-1/2 cursor-pointer flex justify-center ${
+                    index === carouselIndex % 6 ? '' : 'opacity-50'
+                  }`}
                 >
-                  <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
-                    <img src={image.src} alt={image.alt} className="h-[220px] max-w-none" />
+                  <div
+                    className="relative z-10"
+                    onClick={() => {
+                      if (index === carouselIndex % 6 && width >= 768) setModalShown(true);
+                    }}
+                  >
+                    <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
+                      <img src={image.src} alt={image.alt} className="h-[220px] max-w-none" />
+                    </div>
+                    <img
+                      src={image.icon}
+                      alt="icon"
+                      width={50}
+                      height={50}
+                      className="relative bottom-[62px] left-2"
+                    />
                   </div>
-                  <img
-                    src={image.icon}
-                    alt="icon"
-                    width={50}
-                    height={50}
-                    className="relative bottom-[62px] left-2"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div>
       </div>
     </div>
   );
