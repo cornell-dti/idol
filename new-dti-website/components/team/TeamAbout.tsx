@@ -4,6 +4,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
+import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
 type roleStatistics = {
   [key: string]: {
@@ -164,8 +165,8 @@ const TeamStatistics = () => {
       </div>
       <div>
         <PieChart
-          width={width >= 1024 ? 400 : 300}
-          height={width >= 1024 ? 400 : 300}
+          width={width >= LAPTOP_BREAKPOINT ? 400 : 300}
+          height={width >= LAPTOP_BREAKPOINT ? 400 : 300}
           chartSection={chartSection}
           setChartSection={setChartSection}
           allMembers={allMembers}
@@ -184,7 +185,10 @@ const TeamStatistics = () => {
             >
               <div
                 className={`min-w-10 rounded-xl border-[6px] border-[${roleStats[role].color}]`}
-                style={{ borderColor: roleStats[role].color, minWidth: width >= 728 ? 40 : 24}}
+                style={{
+                  borderColor: roleStats[role].color,
+                  minWidth: width >= TABLET_BREAKPOINT ? 40 : 24
+                }}
               />
               <p
                 className={`lg:text-[22px] md:text-lg font-bold ${
