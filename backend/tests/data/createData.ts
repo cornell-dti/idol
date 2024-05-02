@@ -29,14 +29,15 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer', 'business'];
+  const roles: Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer', 'business', 'dev-advisor'];
   const role_descriptions: RoleDescription[] = [
     'Lead',
     'Technical PM',
     'Product Manager',
     'Developer',
     'Designer',
-    'Business Analyst'
+    'Business Analyst',
+    'Dev Advisor'
   ];
 
   // pick one item at random from each list
@@ -113,6 +114,7 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
     member: fakeIdolMember(),
     openedPRs: fakePRs(),
     reviewedPRs: fakePRs(),
+    otherPRs: fakePRs(),
     status: 'pending'
   };
   return DPSub;
@@ -187,6 +189,8 @@ export const fakeCandidateDeciderCandidate = (): CandidateDeciderCandidate => {
 
 /** Create a fake CandidateDeciderInstance object. */
 export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
+  const { role } = fakeRoleObject();
+
   const CDI = {
     name: '',
     uuid: faker.datatype.uuid(),
@@ -194,7 +198,7 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
     headers: [''],
     candidates: [fakeCandidateDeciderCandidate()],
     authorizedMembers: [fakeIdolMember()],
-    authorizedRoles: [fakeRoleObject()]
+    authorizedRoles: [role]
   };
   return CDI;
 };
