@@ -7,7 +7,7 @@ interface SlideshowProps {
   selectedImage: number | null;
 }
 
-const imageNames = ['dti.png', 'family.png', 'collaboration.png', 'event.png', 'initiative.png'];
+const imageNames = ['full-team.png', 'family.png', 'collaboration.png', 'event.png', 'initiative.png'];
 
 const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({
   imageName,
