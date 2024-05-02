@@ -49,7 +49,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 };
 
 type MemberCardProps = {
-  onClick: () => void;
+  onClick?: () => void;
   firstName: string;
   lastName: string;
   role: string;
@@ -65,7 +65,7 @@ const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
     } ${
       props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
-    } hover:shadow-[0_4px_4px_0_#00000040]`}
+    } hover:shadow-[0_4px_4px_0_#00000040] cursor-pointer`}
     onClick={props.onClick}
   >
     <MemberSummary {...props} enlarged={false} />
@@ -271,12 +271,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     // The number of columns in the member group grid.
     let columns = LAPTOP_COLUMNS;
     switch (true) {
-      case width <= LAPTOP_BREAKPOINT:
+      case TABLET_BREAKPOINT < width && width <= LAPTOP_BREAKPOINT:
         columns = TABLET_COLUMNS;
         break;
       case width <= TABLET_BREAKPOINT:
         columns = PHONE_COLUMNS;
-        break;
     }
 
     if (selectedMember === undefined) return false;
@@ -332,4 +331,5 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   );
 };
 
+export { MemberCard };
 export default MemberGroup;
