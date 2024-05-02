@@ -60,7 +60,7 @@ const TeamEventCreditForm: React.FC = () => {
 
   const submitTeamEventCredit = async () => {
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
-      const filteredAttendance = attendance.filter((event) => event.eventUuid == teamEvent?.uuid);
+      const filteredAttendance = attendance.filter((event) => event.eventUuid === teamEvent?.uuid);
       const sum = filteredAttendance.reduce(
         (acc, event) =>
           acc +
