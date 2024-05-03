@@ -34,17 +34,10 @@ test('Update instance', () =>
     expect(instance.isOpen);
   }));
 
-test('Delete instance', () => {
-  candidateDeciderDao.deleteInstance(mockCDI.uuid);
-  candidateDeciderDao.getAllInstances().then((allInstances) => {
-    expect(allInstances.every((instance) => instance !== mockCDI));
-  });
-});
-
 test('Update instance with transaction', async () => {
   const promises: Promise<CandidateDeciderInstance>[] = [];
 
-  // Execute multiple concurrent update operations
+  // Execute concurrent update operations
   const mockIDs = [1, 2, 3, 4, 5];
   for (const mockID of mockIDs) {
     promises.push(
@@ -61,5 +54,39 @@ test('Update instance with transaction', async () => {
   const results = await Promise.all(promises);
 
   // Verify proper number of candidates are rated
-  expect(results[4].candidates.length === 5);
+  expect(results[4].candidates.length === 5).toBe(true);
+
+  // Execute concurrent update operations on same ID
+  const mockData = [
+    { id: 1, rating: 1, comment: 'oldComment' },
+    { id: 1, rating: 2, comment: 'newComment' }
+  ];
+  for (const data of mockData) {
+    promises.push(
+      candidateDeciderDao.updateInstanceWithTransaction(
+        mockCDI,
+        mockUser,
+        data.id,
+        data.rating,
+        data.comment
+      )
+    );
+  }
+
+  const newResults = await Promise.all(promises);
+
+  // Verify latest update persists for updates to the same ID
+  newResults[6].candidates.forEach((candidate) => {
+    if (candidate.id === 1) {
+      expect(candidate.rating).toBe(2);
+      expect(candidate.comment).toBe('newComment');
+    }
+  });
+});
+
+test('Delete instance', () => {
+  candidateDeciderDao.deleteInstance(mockCDI.uuid);
+  candidateDeciderDao.getAllInstances().then((allInstances) => {
+    expect(allInstances.every((instance) => instance !== mockCDI));
+  });
 });
