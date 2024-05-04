@@ -81,6 +81,7 @@ import {
   regradeSubmissions,
   updateSubmissions
 } from './API/devPortfolioAPI';
+import { getAllCoffeeChats } from './API/coffeeChatAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
@@ -343,6 +344,11 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
 // Team Events Proof Image
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
   url: await getEventProofImage(req.params.name, user)
+}));
+
+// Coffee Chat
+loginCheckedGet('/coffee-chat', async () => ({
+  coffeeChats: await getAllCoffeeChats()
 }));
 
 // TODO: Modify this endpoint to /event-proof-image/* to be more RESTful
