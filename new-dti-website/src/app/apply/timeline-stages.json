@@ -1,0 +1,54 @@
+{
+    "freshmenTransfer": [
+        {
+            "title": "APPLICATIONS OPEN!",
+            "content": "We’re welcoming freshmen and transfer students. Start your journey with us!",
+            "date": "2024-09-05",
+            "location": "Online Submission"
+        },
+        {
+            "title": "INFORMATION SESSION 1",
+            "content": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after!",
+            "date": "2024-09-15",
+            "location": "Goldwin Smith Hall G26"
+        },
+        {
+            "title": "INFORMATION SESSION 2",
+            "content": "We’re welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+            "date": "2024-09-16",
+            "location": "Kimball Hall B11"
+        },
+        {
+            "title": "APPLICATIONS DUE!",
+            "content": "Don't forget to submit your applications by today!",
+            "date": "2024-10-01",
+            "location": "Online Submission"
+        }
+    ],
+    "upperclassmen": [
+        {
+            "title": "APPLICATIONS OPEN!",
+            "content": "We’re welcoming freshmen and transfer students. Start your journey with us!",
+            "date": "2024-09-05",
+            "location": "Online Submission"
+        },
+        {
+            "title": "INFORMATION SESSION 1",
+            "content": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after!",
+            "date": "2024-09-15",
+            "location": "Goldwin Smith Hall G26"
+        },
+        {
+            "title": "INFORMATION SESSION 2",
+            "content": "We’re welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+            "date": "2024-09-16",
+            "location": "Kimball Hall B11"
+        },
+        {
+            "title": "APPLICATIONS DUE!",
+            "content": "Don't forget to submit your applications by today!",
+            "date": "2024-09-25",
+            "location": "Online Submission"
+        }
+    ]
+}

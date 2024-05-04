@@ -1,0 +1,28 @@
+{
+    "roles": [
+        {
+            "icon": "/apply_icons/product-inactive.svg",
+            "activeIcon": "/apply_icons/product-active.svg",
+            "name": "Product",
+            "description": "<strong style=\"font-size: 1.5em;\">Product Manager Application</strong><br/><br/><strong style=\"font-size: 1.2em;\">What we’re looking for...</strong><br/>• excellent organization skills in either Notion, G-Suite, Jira, etc<br/>• understanding of the product and design cycle as well as the technical stack<br/>• knowledge of DTI’s culture and product branding<br/>• eagerness to develop and maintain team culture!<br/><br/><strong style=\"font-size: 1.2em;\">Responsibilities at a glance...</strong><br/>• delivering the product by guiding products throughout their execution cycle<br/>• bridging the communication gaps between designers and developers<br/>• prioritizing requirements and tasks for delivery<br/>• collaborating and working with other student organizations on campus"
+        },
+        {
+            "icon": "/apply_icons/design-inactive.svg",
+            "activeIcon": "/apply_icons/design-active.svg",
+            "name": "Design",
+            "description": "<strong style=\"font-size: 1.5em;\">Design Application</strong><br/><br/><strong style=\"font-size: 1.2em;\">What we’re looking for...</strong><br/>• knowledge of product thinking, empathy and creativity to solve problems<br/>• openness to feedback and willingness to critique<br/>• case study/portfolio project recommended<br/>• experience in Figma, Sketch, Photoshop or similar recommended<br/><br/><strong style=\"font-size: 1.2em;\">Responsibilities at a glance...</strong><br/>• make high-level strategic decisions for the product you’re working on<br/>• conduct user and market research, interviewing target audiences<br/>• design low, medium, high fidelity mockups, prototypes<br/>• iterate based on critique, feedback and user testing"
+        },
+        {
+            "icon": "/apply_icons/developer-inactive.svg",
+            "activeIcon": "/apply_icons/developer-active.svg",
+            "name": "Development",
+            "description": "<strong style=\"font-size: 1.5em;\">Developer Application</strong><br/><br/><strong style=\"font-size: 1.2em;\">What we’re looking for...</strong><br/>• a curious, inventive and communicative investigator<br/>• eagerness to learn new technologies and applications<br/>• experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required!)<br/><br/><strong style=\"font-size: 1.2em;\">Responsibilities at a glance...</strong><br/>• work as the backbone of the project to bring concepts to reality<br/>• front-end developers: implement mockups, balancing project constraints<br/>• back-end developers: organize and manipulate processed data to create informed and practical data sources"
+        },
+        {
+            "icon": "/apply_icons/business-inactive.svg",
+            "activeIcon": "/apply_icons/business-active.svg",
+            "name": "Business",
+            "description": "<strong style=\"font-size: 1.5em;\">Business Application</strong><br/><br/><strong style=\"font-size: 1.2em;\">What we’re looking for...</strong><br/>• passion for projects that focus on impact and initiative<br/>• creativity to create new product visions with innovation<br/>• takes initiative to connect with members of the DTI community and beyond<br/>• knowledge of coding or business is NOT required<br/><br/><strong style=\"font-size: 1.2em;\">Responsibilities at a glance...</strong><br/>• develop strategies for teams to outreach and market their products<br/>• reach out to corporate partners to become Sponsors for DTI<br/>• innovate processes and create new team building events to boost team culture<br/>• bolster social media presence and enhance the presence of DTI online"
+        }
+    ]
+}

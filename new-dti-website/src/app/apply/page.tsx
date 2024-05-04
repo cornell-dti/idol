@@ -1,5 +1,7 @@
 import React from 'react';
-import ApplyTimeline from './apply-timeline';
+import ApplyTimeline from './timeline';
+import RoleDescriptions from './role';
+import FAQ from './faq';
 
 const Apply: React.FC = () => (
   <>
@@ -54,6 +56,8 @@ const Apply: React.FC = () => (
       </div>
     </div>
     <ApplyTimeline />
+    <RoleDescriptions />
+    <FAQ />
   </>
 );
 
