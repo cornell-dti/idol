@@ -2,6 +2,7 @@ import React from 'react';
 import ApplyTimeline from './timeline';
 import RoleDescriptions from './role';
 import FAQ from './faq';
+import CoffeeChat from './coffee-chat';
 
 const Apply: React.FC = () => (
   <>
@@ -16,7 +17,7 @@ const Apply: React.FC = () => (
             style={{
               lineHeight: '1.2em',
               letterSpacing: '0.01em',
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'Inter, sans-serif'
             }}
           >
             <span style={{ display: 'block', marginBottom: '0.01em' }}>JOIN OUR</span>
@@ -30,9 +31,11 @@ const Apply: React.FC = () => (
           className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4"
           style={{ fontFamily: 'Inter, sans-serif' }}
         >
-          <span style={{ color: '#877B7B' }}>Down to</span> <span style={{ fontStyle: 'italic' }}>innovate?</span>
+          <span style={{ color: '#877B7B' }}>Down to</span>{' '}
+          <span style={{ fontStyle: 'italic' }}>innovate?</span>
         </p>
-        <p className="text-lg md:text-xl lg:text-2xl"
+        <p
+          className="text-lg md:text-xl lg:text-2xl"
           style={{ fontFamily: 'Inter, sans-serif', fontWeight: 'normal' }}
         >
           <span style={{ fontWeight: 'bold' }}>We strive for inclusivity,</span> and encourage
@@ -48,7 +51,7 @@ const Apply: React.FC = () => (
             borderRadius: '10px',
             border: 'none',
             cursor: 'pointer',
-            marginTop: '1em',
+            marginTop: '1em'
           }}
         >
           Apply Now
@@ -58,6 +61,7 @@ const Apply: React.FC = () => (
     <ApplyTimeline />
     <RoleDescriptions />
     <FAQ />
+    <CoffeeChat />
   </>
 );
 
