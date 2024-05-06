@@ -1,7 +1,13 @@
 'use client';
 
-import TeamAlumni from "../../../components/team/TeamAlumni";
+import MemberDisplay from '../../../components/team/MemberDisplay';
+import TeamAlumni from '../../../components/team/TeamAlumni';
 
-const TeamPage = () => <TeamAlumni />;
+const TeamPage = () => (
+  <>
+    <MemberDisplay />
+    <TeamAlumni />;
+  </>
+);
 
 export default TeamPage;
