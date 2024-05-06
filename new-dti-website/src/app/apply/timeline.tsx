@@ -68,10 +68,11 @@ const ApplyTimeline: React.FC = () => {
           <span className="text-white">cornell-dti/timeline</span>
           <div className="flex justify-end">
             <button
-              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${userGroup === 'freshmenTransfer'
-                ? 'bg-white text-[#A52424]'
-                : 'bg-transparent text-white'
-                }`}
+              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${
+                userGroup === 'freshmenTransfer'
+                  ? 'bg-white text-[#A52424]'
+                  : 'bg-transparent text-white'
+              }`}
               onClick={() => {
                 setUserGroup('freshmenTransfer');
                 setCurrentStageIndex(getCurrentStageIndex);
@@ -80,10 +81,11 @@ const ApplyTimeline: React.FC = () => {
               Freshmen/Transfer
             </button>
             <button
-              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${userGroup === 'upperclassmen'
-                ? 'bg-white text-[#A52424]'
-                : 'bg-transparent text-white'
-                }`}
+              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${
+                userGroup === 'upperclassmen'
+                  ? 'bg-white text-[#A52424]'
+                  : 'bg-transparent text-white'
+              }`}
               onClick={() => {
                 setUserGroup('upperclassmen');
                 setCurrentStageIndex(getCurrentStageIndex);
