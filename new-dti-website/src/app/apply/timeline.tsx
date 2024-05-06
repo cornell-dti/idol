@@ -35,6 +35,7 @@ const ApplyTimeline: React.FC = () => {
       case 0:
         return `${iconBasePath}timeline-applications-${current ? 'open-1' : 'open'}.svg`;
       case 1:
+        return `${iconBasePath}timeline-info-sesh-${current ? '1' : ''}.svg`;
       case 2:
         return `${iconBasePath}timeline-info-sesh-${current ? '1' : ''}.svg`;
       case 3:
@@ -67,11 +68,10 @@ const ApplyTimeline: React.FC = () => {
           <span className="text-white">cornell-dti/timeline</span>
           <div className="flex justify-end">
             <button
-              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${
-                userGroup === 'freshmenTransfer'
-                  ? 'bg-white text-[#A52424]'
-                  : 'bg-transparent text-white'
-              }`}
+              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${userGroup === 'freshmenTransfer'
+                ? 'bg-white text-[#A52424]'
+                : 'bg-transparent text-white'
+                }`}
               onClick={() => {
                 setUserGroup('freshmenTransfer');
                 setCurrentStageIndex(getCurrentStageIndex);
@@ -80,11 +80,10 @@ const ApplyTimeline: React.FC = () => {
               Freshmen/Transfer
             </button>
             <button
-              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${
-                userGroup === 'upperclassmen'
-                  ? 'bg-white text-[#A52424]'
-                  : 'bg-transparent text-white'
-              }`}
+              className={`rounded-lg px-4 py-2 mx-2 transition-all duration-300 ${userGroup === 'upperclassmen'
+                ? 'bg-white text-[#A52424]'
+                : 'bg-transparent text-white'
+                }`}
               onClick={() => {
                 setUserGroup('upperclassmen');
                 setCurrentStageIndex(getCurrentStageIndex);
@@ -95,15 +94,26 @@ const ApplyTimeline: React.FC = () => {
           </div>
         </div>
         <div
-          className="bg-white rounded-b-lg p-6 text-black"
+          className="bg-white rounded-b-lg p-6 text-black relative"
           style={{ borderBottomLeftRadius: '25px', borderBottomRightRadius: '25px' }}
         >
+          <div
+            style={{
+              position: 'absolute',
+              left: '50px',
+              top: 0,
+              bottom: 0,
+              width: '12px',
+              backgroundColor: '#A52424',
+              zIndex: 0
+            }}
+          />
           {stages.map((stage, index) => {
             const isCurrentStage = index === currentStageIndex;
             const iconPath = getIcon(index, isCurrentStage);
             return (
-              <div key={index} className="flex mt-8 first:mt-0">
-                <div className="relative flex-shrink-0">
+              <div key={index} className="flex mt-8 first:mt-0 relative">
+                <div className="relative flex-shrink-0 z-10">
                   <img
                     src={`/apply_icons/${isCurrentStage ? 'selected-timeline-event' : 'unselected-timeline-event'}.svg`}
                     alt=""

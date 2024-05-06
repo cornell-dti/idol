@@ -12,7 +12,6 @@ interface Role {
 const roles = data.roles as Role[];
 
 const RoleDescriptions: React.FC = () => {
-  // Set initial state to "Product" or dynamically set to the first role's name if the array is properly ordered
   const [selectedRole, setSelectedRole] = useState<string | null>(roles[0].name);
 
   return (

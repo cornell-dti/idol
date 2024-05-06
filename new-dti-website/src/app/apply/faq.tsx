@@ -24,7 +24,6 @@ const FAQ: React.FC = () => {
     >
       <div className="w-full max-w-3xl px-4" style={{ marginTop: '10vh' }}>
         {' '}
-        // Adjusted for spacing
         <div className="flex flex-col items-start text-left mb-10">
           <h1 className="text-4xl font-bold text-white mb-4">What's next?</h1>
           <p className="text-lg text-white mb-8">
