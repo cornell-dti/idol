@@ -32,6 +32,7 @@ import {
   hideShoutout,
   deleteShoutout
 } from './API/shoutoutAPI';
+import { createCoffeeChat, getAllCoffeeChats } from './API/coffeeChatAPI';
 import {
   allSignInForms,
   createSignInForm,
@@ -81,7 +82,6 @@ import {
   regradeSubmissions,
   updateSubmissions
 } from './API/devPortfolioAPI';
-import { getAllCoffeeChats } from './API/coffeeChatAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
@@ -274,6 +274,10 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   await deleteShoutout(req.params.uuid, user);
   return {};
 });
+
+loginCheckedPost('/coffee-chat', async (req, _) => ({
+  coffeeChats: await createCoffeeChat(req.body)
+}));
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));

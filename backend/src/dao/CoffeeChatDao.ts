@@ -88,7 +88,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Deletes a coffee chat
    * @param uuid - DB uuid of CoffeeChat
    */
-  async deleteCoffeeChat(uuisd: string): Promise<void> {
+  async deleteCoffeeChat(uuid: string): Promise<void> {
     await this.getDocuments();
   }
 
