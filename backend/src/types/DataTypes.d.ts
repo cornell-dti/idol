@@ -97,3 +97,13 @@ export type DevPortfolioSubmissionRequestLog = {
     uuid: string;
   };
 };
+
+export type DBCoffeeChat = {
+  uuid: string;
+  members: firestore.DocumentReference[];
+  image: string;
+  category: string;
+  description: string;
+  status: Status;
+  date: number;
+};
