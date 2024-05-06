@@ -16,7 +16,8 @@ const defaultTeamEvent: TeamEvent = {
   hasHours: false,
   requests: [],
   uuid: '',
-  isInitiativeEvent: false
+  isInitiativeEvent: false,
+  maxCredits: ''
 };
 
 type AttendanceDisplayProps = {
@@ -127,8 +128,11 @@ const TeamEventDetails: React.FC = () => {
       <h1 className={styles.eventName}>{teamEvent.name}</h1>
       <div className={styles.eventDetailsContainer}>
         <h3 className={styles.eventDetails}>Date: {teamEvent.date}</h3>
-        <h3 className={styles.eventDetails}>Credits: {teamEvent.numCredits}</h3>
-        <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'yes' : 'no'}</h3>
+        <h3 className={styles.eventDetails}>
+          Credits: {teamEvent.numCredits}{' '}
+          {teamEvent.maxCredits > teamEvent.numCredits ? `(${teamEvent.maxCredits} Max)` : ''}
+        </h3>
+        <h3 className={styles.eventDetails}>Has Hours: {teamEvent.hasHours ? 'Yes' : 'No'}</h3>
         {INITIATIVE_EVENTS && (
           <h3 className={styles.eventDetails}>
             Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
