@@ -61,18 +61,18 @@ jobs:
           OAUTH_REFRESH_TOKEN: ${{ secrets.OAUTH_REFRESH_TOKEN }}
         run: yarn workspace backend send-tec-notifications
 
-member-archive-reminder:
-  if: contains(github.event.schedule, '0 14 20 1,8 *')
+  member-archive-reminder:
+    if: contains(github.event.schedule, '0 14 20 1,8 *')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
       - name: Use Yarn Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.cache/yarn
           key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
