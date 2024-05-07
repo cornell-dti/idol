@@ -201,7 +201,7 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
       fakeCandidateDeciderCandidate(2),
       fakeCandidateDeciderCandidate(3)
     ],
-    authorizedMembers: [fakeIdolMember()],
+    authorizedMembers: [{ ...fakeIdolMember(), email: 'test123@cornell.edu' }],
     authorizedRoles: [role]
   };
   return CDI;
