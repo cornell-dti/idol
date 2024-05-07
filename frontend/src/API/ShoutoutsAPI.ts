@@ -24,11 +24,11 @@ export default class ShoutoutsAPI {
   }
 
   public static createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
-    return APIWrapper.post(`http://localhost:3000/coffee-chat`, coffeeChat).then((res) => res.data);
+    return APIWrapper.post(`${backendURL}/coffee-chat`, coffeeChat).then((res) => res.data);
   }
 
   public static getAllCoffeeChats(): Promise<CoffeeChat[]> {
-    const coffeeChatProm = APIWrapper.get(`http://localhost:3000/coffee-chat`).then(
+    const coffeeChatProm = APIWrapper.get(`${backendURL}/coffee-chat`).then(
       (res) => res.data
     );
     return coffeeChatProm.then((val) => {
