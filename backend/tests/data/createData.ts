@@ -161,7 +161,7 @@ export const fakeRating = (): Rating => 0;
 /** Create a fake CandidateDeciderRating object. */
 export const fakeCandidateDeciderRating = (): CandidateDeciderRating => {
   const CDR = {
-    reviewer: fakeIdolMember(),
+    reviewer: { ...fakeIdolMember(), email: 'test123@cornell.edu' },
     rating: fakeRating()
   };
   return CDR;
@@ -170,17 +170,17 @@ export const fakeCandidateDeciderRating = (): CandidateDeciderRating => {
 /** Create a fake CandidateDeciderComment object. */
 export const fakeCandidateDeciderComment = (): CandidateDeciderComment => {
   const comment = {
-    reviewer: fakeIdolMember(),
+    reviewer: { ...fakeIdolMember(), email: 'test123@cornell.edu' },
     comment: ''
   };
   return comment;
 };
 
 /** Create a fake CandidateDeciderCandidate object. */
-export const fakeCandidateDeciderCandidate = (): CandidateDeciderCandidate => {
+export const fakeCandidateDeciderCandidate = (ID): CandidateDeciderCandidate => {
   const CDC = {
     responses: [''],
-    id: 1,
+    id: ID,
     ratings: [fakeCandidateDeciderRating()],
     comments: [fakeCandidateDeciderComment()]
   };
@@ -196,7 +196,11 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
     uuid: faker.datatype.uuid(),
     isOpen: false,
     headers: [''],
-    candidates: [fakeCandidateDeciderCandidate()],
+    candidates: [
+      fakeCandidateDeciderCandidate(1),
+      fakeCandidateDeciderCandidate(2),
+      fakeCandidateDeciderCandidate(3)
+    ],
     authorizedMembers: [fakeIdolMember()],
     authorizedRoles: [role]
   };
