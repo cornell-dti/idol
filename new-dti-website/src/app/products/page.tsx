@@ -8,22 +8,28 @@ import { Button } from '../../../components/ui/button';
 const Page = () => (
   <div>
     <div className="flex lg:flex-row flex-col lg:max-w-[1186.76px] lg:mx-52 lg:my-24 lg:space-x-20 md:space-y-10 md:max-w-[698px] h-fit md:my-[130px] md:mx-[67px]">
-      <div className="flex flex-col justify-between h-[220px] w-fit">
+      {/* <div className="flex flex-col justify-between h-[220px] w-fit">
         <span className="text-white text-8xl font-semibold">
           OUR
           <br />
         </span>
         <span className="text-red-500 text-8xl font-semibold">PRODUCTS</span>
+      </div> */}
+      <div className="md:w-fit w-[314px]">
+        <p className="md:text-[100px] md:leading-[121.02px] text-[48px] leading-[58.09px] font-semibold">
+          <span className="text-white">OUR </span>
+          <span className="text-red-500">PRODUCTS</span>
+        </p>
       </div>
-      <div className="flex flex-col justify-center w-96 gap-y-6">
+      <div className="flex flex-col justify-center w-fit gap-y-6">
         <div className="flex flex-row">
-          <div className="RealImpact">
-            <span className="text-neutral-400 text-4xl font-bold">Real</span>
-            <span className="text-white text-4xl font-medium"> </span>
-            <span className="text-neutral-200 text-4xl font-bold italic">impact</span>
+          <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px]">
+            <span className="text-neutral-400">Real</span>
+            <span className="text-white font-medium"> </span>
+            <span className="text-neutral-200 italic">impact</span>
           </div>
         </div>
-        <p className="text-[#FFFFFF]">
+        <p className="text-[#FFFFFF] w-[475px] md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]">
           Each of our projects address an unfulfilled need that exists in our community using
           <span className="font-semibold"> human-centered design and software engineering.</span>
         </p>

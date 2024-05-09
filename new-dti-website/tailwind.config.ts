@@ -62,6 +62,10 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
+        },
+        fontSize: {
+          reg: ['18px', { lineHeight: '21.78px' }],
+          heading: ['40px', { lineHeight: '48.41px' }]
         }
       },
       borderRadius: {
