@@ -5,6 +5,10 @@ import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
+import { getGeneralRole, populateObject } from '../../src/utils';
+
+const chartRadius = 175;
+const chartHoverRadius = 190;
 
 type roleStatistics = {
   [key: string]: {
@@ -33,9 +37,7 @@ const PieChart: React.FC<PieChartProps> = ({
   roleStats,
   allMembers
 }) => {
-  const radius = 175;
-  const hoverRadius = 190;
-  let previousPoint = [0, -radius];
+  let previousPoint = [0, -chartRadius];
   let totalAngle = 0;
 
   const polarToRect = (angle: number, radius: number) => {
@@ -47,23 +49,33 @@ const PieChart: React.FC<PieChartProps> = ({
   const pointAsString = (point: number[]) => point.join(' ');
   const scale = (point: number[], scalar: number) => point.map((x) => scalar * x);
 
+  const getNextPoints = (role: string) => {
+    const percentage = roleStats[role].people / allMembers.length;
+    const theta = 2 * Math.PI * percentage;
+
+    const arcPoint1 =
+      role === chartSection ? scale(previousPoint, chartHoverRadius / chartRadius) : previousPoint;
+
+    totalAngle += theta;
+    const arcPoint2 = polarToRect(
+      totalAngle,
+      role === chartSection ? chartHoverRadius : chartRadius
+    );
+
+    const nextPoint = polarToRect(totalAngle, chartRadius);
+    const textLocation = polarToRect((2 * totalAngle - theta) / 2, (3 * chartRadius) / 4);
+    previousPoint = nextPoint;
+
+    return [arcPoint1, arcPoint2, textLocation];
+  };
+
   return (
     <svg height={height} width={width} viewBox="-200 -200 400 400">
       {Object.keys(roleStats).map((role) => {
         const percentage = roleStats[role].people / allMembers.length;
         const theta = 2 * Math.PI * percentage;
-
-        const arcPoint1 =
-          role === chartSection ? scale(previousPoint, hoverRadius / radius) : previousPoint;
-        const currentRadius = role === chartSection ? hoverRadius : radius;
-
-        totalAngle += theta;
-        const arcPoint2 = polarToRect(totalAngle, role === chartSection ? hoverRadius : radius);
-
-        const nextPoint = polarToRect(totalAngle, radius);
-        const textLocation = polarToRect((2 * totalAngle - theta) / 2, (3 * radius) / 4);
-        previousPoint = nextPoint;
-
+        const currentRadius = role === chartSection ? chartHoverRadius : chartRadius;
+        const [point1, point2, textLocation] = getNextPoints(role);
         return (
           <g
             key={role}
@@ -71,9 +83,9 @@ const PieChart: React.FC<PieChartProps> = ({
             onMouseLeave={() => setChartSection(undefined)}
           >
             <path
-              d={`M 0 0 L ${pointAsString(arcPoint1)} A ${currentRadius} ${currentRadius} 0 ${
+              d={`M 0 0 L ${pointAsString(point1)} A ${currentRadius} ${currentRadius} 0 ${
                 theta > Math.PI ? `1` : `0`
-              } 1 ${pointAsString(arcPoint2)} L 0 0`}
+              } 1 ${pointAsString(point2)} L 0 0`}
               fill={roleStats[role].color}
             />
             <text
@@ -99,7 +111,16 @@ const TeamStatistics = () => {
 
   const allMembers = FA23Members.members as IdolMember[];
 
-  const roleStats: roleStatistics = {
+  const countMajors = (role?: string) =>
+    allMembers.reduce((acc, val) => {
+      if (!role || role === (getGeneralRole(val.role) as string)) {
+        if (val.major) acc.add(val.major.trim());
+        if (val.doubleMajor) acc.add(val.doubleMajor.trim());
+      }
+      return acc;
+    }, new Set());
+
+  const emptyRoleStats: roleStatistics = {
     designer: {
       name: 'Design',
       color: '#FFBCBC',
@@ -125,12 +146,9 @@ const TeamStatistics = () => {
     lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: new Set() }
   };
 
-  allMembers.forEach((member: IdolMember) => {
-    const fullRoleName =
-      member.role === 'tpm' || member.role === 'dev-advisor' ? 'developer' : member.role;
-    roleStats[fullRoleName].people += 1;
-    if (member.major) roleStats[fullRoleName].majors.add(member.major.trim());
-    if (member.doubleMajor) roleStats[fullRoleName].majors.add(member.doubleMajor.trim());
+  const roleStats = populateObject(emptyRoleStats, (key, value) => {
+    const count = allMembers.filter((mem) => key === (getGeneralRole(mem.role) as string)).length;
+    return { ...value, people: count, majors: countMajors(key) as Set<string> };
   });
 
   return (
@@ -145,13 +163,7 @@ const TeamStatistics = () => {
           </div>
           <div className="text-center md:pl-10 xs:w-1/3 border-l-red-600 border-2 border-transparent">
             <h1 className="font-semibold lg:text-[52px] md:text-[40px] xs:text-[32px]">
-              {chartSection
-                ? roleStats[chartSection].majors.size
-                : allMembers.reduce((acc, val) => {
-                    if (val.major) acc.add(val.major);
-                    if (val.doubleMajor) acc.add(val.doubleMajor);
-                    return acc;
-                  }, new Set()).size}
+              {chartSection ? roleStats[chartSection].majors.size : countMajors().size}
             </h1>
             <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">Different majors</p>
           </div>

@@ -59,7 +59,9 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
                   <p
                     className={`absolute bottom-0 p-5 text-xl text-[#877B7B] whitespace-nowrap ${ibm_plex_mono.className}`}
                   >
-                    {`${carouselImages.images[carouselIndex % 6].alt}.jpg`}
+                    {`${
+                      carouselImages.images[carouselIndex % carouselImages.images.length].alt
+                    }.jpg`}
                   </p>
                 </div>
               </CarouselItem>
