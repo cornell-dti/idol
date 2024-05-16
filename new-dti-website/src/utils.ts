@@ -1,3 +1,12 @@
+function populateObject<T>(obj: { [s: string]: T }, func: (k: string, v: T) => T) {
+  return Object.fromEntries(
+    Object.entries(obj).map((pair) => {
+      const [key, value] = pair;
+      return [key, func(key, value)];
+    })
+  );
+}
+
 const populateMembers = (
   roles: {
     [key: string]: {
@@ -18,22 +27,19 @@ const populateMembers = (
     color: string;
   };
 } =>
-  Object.fromEntries(
-    Object.entries(roles).map((role) => {
-      const [key, value] = role;
-      const sortedMembers = allMembers
-        .filter((member) =>
-          key === 'developer'
-            ? member.role === 'developer' || member.role === 'tpm' || member.role === 'dev-advisor'
-            : member.role === key
-        )
-        .sort(
-          (mem1, mem2) =>
-            value.order.indexOf(mem1.roleDescription) - value.order.indexOf(mem2.roleDescription)
-        );
-      return [key, { ...value, members: sortedMembers }];
-    })
-  );
+  populateObject(roles, (key, value) => {
+    const sortedMembers = allMembers
+      .filter((member) =>
+        key === 'developer'
+          ? member.role === 'developer' || member.role === 'tpm' || member.role === 'dev-advisor'
+          : member.role === key
+      )
+      .sort(
+        (mem1, mem2) =>
+          value.order.indexOf(mem1.roleDescription) - value.order.indexOf(mem2.roleDescription)
+      );
+    return { ...value, members: sortedMembers };
+  });
 
 const getFullRoleFromDescription = (roleDescription: RoleDescription): string => {
   switch (roleDescription) {
@@ -44,4 +50,15 @@ const getFullRoleFromDescription = (roleDescription: RoleDescription): string =>
   }
 };
 
-export { getFullRoleFromDescription, populateMembers };
+const getGeneralRole = (role: Role): Role => {
+  switch (role) {
+    case 'tpm':
+      return 'developer';
+    case 'dev-advisor':
+      return 'developer';
+    default:
+      return role;
+  }
+};
+
+export { getFullRoleFromDescription, getGeneralRole, populateMembers, populateObject };

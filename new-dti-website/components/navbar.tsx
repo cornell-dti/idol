@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="relative z-20">
       <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row ">
         <div className="w-fit flex flex-col !justify-center">
           <a href="/">
