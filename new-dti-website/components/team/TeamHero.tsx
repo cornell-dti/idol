@@ -133,7 +133,7 @@ const TeamHero = () => {
         </div>
         <div
           className="flex justify-center relative bottom-2 cursor-pointer"
-          onClick={() => setModalShown(width >= TABLET_BREAKPOINT)}
+          style={{ pointerEvents: 'none' }}
         >
           <img src="/images/carousel-frame.png" alt="frame" className="absolute z-10" />
           <div className="absolute z-10 w-[243px] h-[270px]">
@@ -161,7 +161,12 @@ const TeamHero = () => {
                     index === carouselIndex % carouselLength ? '' : 'opacity-50'
                   }`}
                 >
-                  <div className="relative z-10">
+                  <div
+                    className="relative z-10"
+                    onClick={() =>
+                      setModalShown(index === carouselIndex && width >= TABLET_BREAKPOINT)
+                    }
+                  >
                     <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
                       <img src={image.src} alt={image.alt} className="h-[220px] max-w-none" />
                     </div>
