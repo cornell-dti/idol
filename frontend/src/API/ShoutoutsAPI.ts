@@ -23,68 +23,6 @@ export default class ShoutoutsAPI {
     });
   }
 
-  public static getAllCoffeeChats(): Promise<CoffeeChat[]> {
-    const coffeeChatProm = APIWrapper.get(`${backendURL}/coffee-chat`).then((res) => res.data);
-    return coffeeChatProm.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't get all coffee chats",
-          contentMsg: `Error was: ${val.err}`
-        });
-        return [];
-      }
-      const chats = val.coffeeChats as CoffeeChat[];
-      console.log('get all coffee chats length is');
-      console.log(chats.length);
-      console.log(chats);
-      return chats;
-    });
-  }
-
-  public static createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
-    return APIWrapper.post(`${backendURL}/coffee-chat`, coffeeChat).then((res) => {
-      return res.data.coffeeChats;
-    });
-  }
-
-  public static async deleteCoffeeChat(uuid: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
-  }
-  public static async clearAllCoffeeChats(): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/coffee-chat/`);
-  }
-
-  public static async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
-    const requestURL = `${backendURL}/coffee-chat/${user.email}`;
-    console.log('Request URL:', requestURL);
-    try {
-      const res = await APIWrapper.get(`${backendURL}/coffee-chat/${user.email}`);
-      console.log('API Response:', res.data);
-      const val = res.data;
-
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't get all coffee chats for this user",
-          contentMsg: `Error was: ${val.err}`
-        });
-        return [];
-      }
-
-      console.log('sup!!!');
-      const chats = val.coffeeChats as CoffeeChat[];
-      console.log('get USER coffee chats length is', chats.length);
-      console.log(chats);
-      return chats;
-    } catch (error) {
-      console.error('API Error:', error);
-      Emitters.generalError.emit({
-        headerMsg: 'Error retrieving coffee chats',
-        contentMsg: `An error occurred`
-      });
-      return [];
-    }
-  }
-
   public static getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
     const responseProm = APIWrapper.get(`${backendURL}/shoutout/${email}?type=${type}`).then(
       (res) => res.data
@@ -100,10 +38,6 @@ export default class ShoutoutsAPI {
       const shoutouts = val.shoutouts as Shoutout[];
       return shoutouts;
     });
-  }
-
-  public static async updateCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
-    return APIWrapper.put(`${backendURL}/coffee-chat`, coffeeChat).then((res) => res.data);
   }
 
   public static giveShoutout(shoutout: Shoutout): Promise<ShoutoutResponseObj> {
