@@ -1,19 +1,16 @@
-import CoffeeChatDao from '../dao/CoffeeChatDao';
 import isEqual from 'lodash.isequal';
+import _ from 'lodash';
+import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
-import _ from 'lodash';
 
 const coffeeChatDao = new CoffeeChatDao();
 
-//get all coffee chat instances
 export const getAllCoffeeChats = (): Promise<CoffeeChat[]> => coffeeChatDao.getAllCoffeeChats();
 
-//get coffee chat instances for user
 export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat[]> =>
-  await coffeeChatDao.getCoffeeChatsByUser(user);
+  coffeeChatDao.getCoffeeChatsByUser(user);
 
-// create new coffee chat instance
 export const createCoffeeChat = async (coffeeChat: CoffeeChat): Promise<CoffeeChat> => {
   const [member1, member2] = coffeeChat.members;
 
@@ -41,7 +38,6 @@ export const createCoffeeChat = async (coffeeChat: CoffeeChat): Promise<CoffeeCh
   return coffeeChat;
 };
 
-// update coffee chat instance
 export const updateCoffeeChat = async (
   coffeeChat: CoffeeChat,
   user: IdolMember
@@ -57,7 +53,6 @@ export const updateCoffeeChat = async (
   return coffeeChat;
 };
 
-//delete coffee chat instance
 export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   const coffeeChat = await coffeeChatDao.getCoffeeChat(uuid);
@@ -75,12 +70,11 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
   await coffeeChatDao.deleteCoffeeChat(uuid);
 };
 
-//delete all coffee chats
 export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError(
-      'User with email ${user.email} does not have sufficient permissions to delete all coffee chats.'
+      `User with email ${user.email} does not have sufficient permissions to delete all coffee chats.`
     );
   await CoffeeChatDao.clearAllCoffeeChats();
 };

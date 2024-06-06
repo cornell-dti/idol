@@ -302,9 +302,7 @@ loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
 });
 
 loginCheckedGet('/coffee-chat/:email', async (_, user) => {
-  console.log('Received user:', user);
   const coffeeChats = await getCoffeeChatsByUser(user);
-  console.log('Retrieved coffee chats:', coffeeChats);
   return { coffeeChats };
 });
 
