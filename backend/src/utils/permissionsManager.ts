@@ -37,6 +37,10 @@ export default class PermissionsManager {
     return this.isLeadOrAdmin(mem);
   }
 
+  static async canEditCoffeeChat(mem: IdolMember): Promise<boolean> {
+    return this.isLeadOrAdmin(mem);
+  }
+
   static async canEditDevPortfolio(mem: IdolMember): Promise<boolean> {
     return this.isLeadOrAdmin(mem);
   }
