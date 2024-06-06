@@ -16,8 +16,8 @@ async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<Coffee
 }
 
 async function serializeCoffeeChat(coffeeChat: CoffeeChat): Promise<DBCoffeeChat> {
-  const member1Data = await memberCollection.doc(coffeeChat.members[0].email);
-  const member2Data = await memberCollection.doc(coffeeChat.members[1].email);
+  const member1Data = memberCollection.doc(coffeeChat.members[0].email);
+  const member2Data = memberCollection.doc(coffeeChat.members[1].email);
 
   return {
     ...coffeeChat,
@@ -74,14 +74,27 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Gets all coffee chat for a user
    * @param user - user whose coffee chats should be fetched
    */
+  // async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
+  //   return this.getDocuments([
+  //     {
+  //       field: 'members',
+  //       comparisonOperator: 'array-contains',
+  //       value: memberCollection.doc(user.email)
+
+  //     }
+  //   ]);
+  // }
   async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
-    return this.getDocuments([
+    // console.log('Querying for user:', user.email);
+    const queryResult = await this.getDocuments([
       {
-        field: 'member',
-        comparisonOperator: '==',
+        field: 'members',
+        comparisonOperator: 'array-contains',
         value: memberCollection.doc(user.email)
       }
     ]);
+    // console.log('Query result:', queryResult);
+    return queryResult;
   }
 
   /**
@@ -89,13 +102,13 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * @param uuid - DB uuid of CoffeeChat
    */
   async deleteCoffeeChat(uuid: string): Promise<void> {
-    await this.getDocuments();
+    await this.deleteDocument(uuid);
   }
 
   /**
    * Deletes all coffee chats for all users
    */
-  static async deleteAllCoffeeChat(): Promise<void> {
+  static async clearAllCoffeeChats(): Promise<void> {
     await deleteCollection(db, 'coffee-chats', 500);
   }
 }

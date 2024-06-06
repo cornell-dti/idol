@@ -32,7 +32,14 @@ import {
   hideShoutout,
   deleteShoutout
 } from './API/shoutoutAPI';
-import { createCoffeeChat, getAllCoffeeChats } from './API/coffeeChatAPI';
+import {
+  createCoffeeChat,
+  getAllCoffeeChats,
+  updateCoffeeChat,
+  getCoffeeChatsByUser,
+  deleteCoffeeChat,
+  clearAllCoffeeChats
+} from './API/coffeeChatAPI';
 import {
   allSignInForms,
   createSignInForm,
@@ -275,8 +282,34 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   return {};
 });
 
-loginCheckedPost('/coffee-chat', async (req, _) => ({
+//coffee chat
+loginCheckedGet('/coffee-chat', async () => ({
+  coffeeChats: await getAllCoffeeChats()
+}));
+
+loginCheckedPost('/coffee-chat', async (req) => ({
   coffeeChats: await createCoffeeChat(req.body)
+}));
+
+loginCheckedDelete('/coffee-chat', async (_, user) => {
+  await clearAllCoffeeChats(user);
+  return {};
+});
+
+loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
+  await deleteCoffeeChat(req.params.uuid, user);
+  return {};
+});
+
+loginCheckedGet('/coffee-chat/:email', async (_, user) => {
+  console.log('Received user:', user);
+  const coffeeChats = await getCoffeeChatsByUser(user);
+  console.log('Retrieved coffee chats:', coffeeChats);
+  return { coffeeChats };
+});
+
+loginCheckedPut('/coffee-chat', async (req, user) => ({
+  coffeeChats: await updateCoffeeChat(req.body, user)
 }));
 
 // Pull from IDOL
@@ -348,11 +381,6 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
 // Team Events Proof Image
 loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
   url: await getEventProofImage(req.params.name, user)
-}));
-
-// Coffee Chat
-loginCheckedGet('/coffee-chat', async () => ({
-  coffeeChats: await getAllCoffeeChats()
 }));
 
 // TODO: Modify this endpoint to /event-proof-image/* to be more RESTful
