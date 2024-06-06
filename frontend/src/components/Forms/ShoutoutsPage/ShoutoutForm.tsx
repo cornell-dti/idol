@@ -119,7 +119,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const createCoffee = () => {
     const coffeeChat: CoffeeChat = {
       uuid: '',
-      members: [mem2, mem1],
+      members: [mem2, mem4],
       image: 'hallooo',
       category: 'cool',
       description: 'hehe',

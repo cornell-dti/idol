@@ -1,7 +1,6 @@
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 import { Emitters } from '../utils';
-import { redirect } from 'next/dist/server/api-utils';
 
 type ShoutoutResponseObj = {
   shoutout: Shoutout;
@@ -24,14 +23,8 @@ export default class ShoutoutsAPI {
     });
   }
 
-  public static createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
-    return APIWrapper.post(`${backendURL}/coffee-chat`, coffeeChat).then((res) => res.data);
-  }
-
   public static getAllCoffeeChats(): Promise<CoffeeChat[]> {
-    const coffeeChatProm = APIWrapper.get(`${backendURL}/coffee-chat`).then(
-      (res) => res.data
-    );
+    const coffeeChatProm = APIWrapper.get(`${backendURL}/coffee-chat`).then((res) => res.data);
     return coffeeChatProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -50,20 +43,12 @@ export default class ShoutoutsAPI {
 
   public static createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
     return APIWrapper.post(`${backendURL}/coffee-chat`, coffeeChat).then((res) => {
-      console.log('print msg in frontend createCoffeeChat');
-      // console.log(res.data.coffeeChats);
-      console.log(res.data.coffeeChats);
       return res.data.coffeeChats;
     });
   }
 
   public static async deleteCoffeeChat(uuid: string): Promise<void> {
     await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
-    //  return APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`).then((res) => {
-    //   console.log("hello attempting to delete")
-    //   console.log(res.data);
-    //   return res.data.coffeeChats;
-    // });
   }
   public static async clearAllCoffeeChats(): Promise<void> {
     await APIWrapper.delete(`${backendURL}/coffee-chat/`);

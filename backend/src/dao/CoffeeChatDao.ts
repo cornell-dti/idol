@@ -74,27 +74,14 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Gets all coffee chat for a user
    * @param user - user whose coffee chats should be fetched
    */
-  // async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
-  //   return this.getDocuments([
-  //     {
-  //       field: 'members',
-  //       comparisonOperator: 'array-contains',
-  //       value: memberCollection.doc(user.email)
-
-  //     }
-  //   ]);
-  // }
   async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
-    // console.log('Querying for user:', user.email);
-    const queryResult = await this.getDocuments([
+    return this.getDocuments([
       {
         field: 'members',
         comparisonOperator: 'array-contains',
         value: memberCollection.doc(user.email)
       }
     ]);
-    // console.log('Query result:', queryResult);
-    return queryResult;
   }
 
   /**
