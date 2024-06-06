@@ -23,9 +23,16 @@ export default class ShoutoutsAPI {
       return shoutouts;
     });
   }
+
+  public static createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
+    return APIWrapper.post(`${backendURL}/coffee-chat`, coffeeChat).then((res) => res.data);
+  }
+
   public static getAllCoffeeChats(): Promise<CoffeeChat[]> {
-    const responseProm = APIWrapper.get(`${backendURL}/coffee-chat`).then((res) => res.data);
-    return responseProm.then((val) => {
+    const coffeeChatProm = APIWrapper.get(`${backendURL}/coffee-chat`).then(
+      (res) => res.data
+    );
+    return coffeeChatProm.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all coffee chats",
