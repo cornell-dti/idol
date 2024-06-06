@@ -282,7 +282,7 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   return {};
 });
 
-//coffee chat
+
 loginCheckedGet('/coffee-chat', async () => ({
   coffeeChats: await getAllCoffeeChats()
 }));
