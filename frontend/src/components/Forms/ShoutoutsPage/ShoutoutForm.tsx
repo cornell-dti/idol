@@ -58,40 +58,38 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   };
 
   return (
-    <div>
-      <Form className={styles.shoutoutForm}>
-        <h2 className={styles.formTitle}>Give someone a shoutout! 📣</h2>
-        <div className={styles.formContainer}>
-          <Form.Input
-            label="Who is awesome?"
-            value={receiver}
-            onChange={(event) => setReceiver(event.target.value)}
-            required
-          />
-          <Checkbox
-            label={{ children: 'Anonymous?' }}
-            className={styles.isAnonCheckbox}
-            checked={isAnon}
-            onChange={() => setIsAnon(!isAnon)}
-          />
-        </div>
+    <Form className={styles.shoutoutForm}>
+      <h2 className={styles.formTitle}>Give someone a shoutout! 📣</h2>
+      <div className={styles.formContainer}>
+        <Form.Input
+          label="Who is awesome?"
+          value={receiver}
+          onChange={(event) => setReceiver(event.target.value)}
+          required
+        />
+        <Checkbox
+          label={{ children: 'Anonymous?' }}
+          className={styles.isAnonCheckbox}
+          checked={isAnon}
+          onChange={() => setIsAnon(!isAnon)}
+        />
+      </div>
 
-        <div className={styles.reasonContainer}>
-          <Form.Input
-            label="Why are they awesome?"
-            name="message"
-            value={message}
-            control={TextArea}
-            onChange={(event) => setMessage(event.target.value)}
-            required
-          />
-        </div>
+      <div className={styles.reasonContainer}>
+        <Form.Input
+          label="Why are they awesome?"
+          name="message"
+          value={message}
+          control={TextArea}
+          onChange={(event) => setMessage(event.target.value)}
+          required
+        />
+      </div>
 
-        <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting}>
-          {isSubmitting ? <Loader active inline size="small" /> : 'Send'}
-        </Form.Button>
-      </Form>
-    </div>
+      <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting}>
+        {isSubmitting ? <Loader active inline size="small" /> : 'Send'}
+      </Form.Button>
+    </Form>
   );
 };
 
