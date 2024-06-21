@@ -21,7 +21,8 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange
+  reviewUserInformationChange,
+  generateMemberArchive
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -226,6 +227,10 @@ loginCheckedGet('/memberDiffs', async (_, user) => ({
 }));
 loginCheckedPut('/memberDiffs', async (req, user) => ({
   member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
+}));
+
+loginCheckedGet('/memberArchive', async (_, user) => ({
+  archive: await generateMemberArchive(user)
 }));
 
 // Teams

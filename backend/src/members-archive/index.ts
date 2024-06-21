@@ -22,7 +22,7 @@ export const archivedMembersByEmail: Readonly<Record<string, IdolMember>> = (() 
   return map;
 })();
 
-const generateArchive = async (): Promise<{ [key: string]: NovaMember[] }> => {
+export const generateArchive = async (): Promise<{ [key: string]: NovaMember[] }> => {
   const allMembers: Set<string> = new Set();
   const archive: { [key: string]: NovaMember[] } = { current: [], alumni: [], inactive: [] };
 
