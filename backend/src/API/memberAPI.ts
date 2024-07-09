@@ -3,7 +3,6 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
-import { generateArchive } from '../members-archive';
 
 const membersDao = new MembersDao();
 
@@ -164,17 +163,21 @@ export const reviewUserInformationChange = async (
 
 /**
  * Generates an archive of all IDOL members, separated into three categories: current, inactive, and alumni.
+ * @param membershipChanges - an object with lists of NetIds corresponding to the status of IDOL members in the next semester.
  * @param user - the `IdolMember` submitting the request.
+ * @param semesters - the number of previous semesters to look back, undefined if no limit.
  * @returns an object with the categories as the keys, each with value `NovaMember[]`.
  */
 export const generateMemberArchive = async (
-  user: IdolMember
-): Promise<{ [key: string]: NovaMember[] }> => {
+  membershipChanges: { [key: string]: string[] },
+  user: IdolMember,
+  semesters: number | undefined
+): Promise<{ [key: string]: string[] }> => {
   const canEditMembers = await PermissionsManager.canEditMembers(user);
   if (!canEditMembers) {
     throw new PermissionError(
       `User with email: ${user.email} does not have permission to generate an archive!`
     );
   }
-  return generateArchive();
+  return MembersDao.generateArchive(membershipChanges, semesters);
 };

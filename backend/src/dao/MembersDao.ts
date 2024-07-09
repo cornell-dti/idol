@@ -2,6 +2,7 @@ import { db, approvedMemberCollection, memberCollection } from '../firebase';
 import { Team } from '../types/DataTypes';
 import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
 import BaseDao from './BaseDao';
+import { allMemberImages } from '../API/imageAPI';
 
 export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
   constructor() {
@@ -156,5 +157,62 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
 
     if (team.leaders.length + team.members.length + team.formerMembers.length === 0) return null;
     return team;
+  }
+
+  /**
+   * Generates an archive of all IDOL members into three categories: current, alumni, and inactive.
+   * The data for each member includes additional information for display on the website.
+   * @param updates - the status of IDOL members in the next semester.
+   * @param semesters - the limit, if any, of the number of semesters to include in archive.
+   * @returns A promise that resolves to an Archive object.
+   */
+  static async generateArchive(
+    updates: {
+      [key: string]: string[];
+    },
+    semesters: number | undefined
+  ): Promise<{ [key: string]: string[] }> {
+    const allMembers: Set<string> = new Set();
+    const archive = { current: [], alumni: [], inactive: [] };
+
+    const currentMembers = await MembersDao.getAllMembers(true);
+    const images = await allMemberImages();
+
+    const addToArchive = (key: string, member: IdolMember) => {
+      const image = images.find((image) => image.fileName.split('.')[0] === member.netid);
+      archive[key].push({
+        ...member,
+        image: image ? image.url : null,
+        coffeeChatLink: `mailto:${member.email}`
+      });
+    };
+
+    // Each current member's netid should be found in the returning members survey.
+    currentMembers.forEach((member) => {
+      for (const update of Object.keys(updates)) {
+        if (updates[update].includes(member.netid)) {
+          allMembers.add(member.netid);
+          addToArchive(update, member);
+          return;
+        }
+      }
+    });
+
+    Object.values(archivedMembersBySemesters)
+      .reverse()
+      .forEach((semester, index) => {
+        if (!semesters || index < semesters) {
+          semester.forEach((member) => {
+            if (!allMembers.has(member.netid)) {
+              allMembers.add(member.netid);
+              Date.parse(member.graduation) < Date.now()
+                ? addToArchive('alumni', member)
+                : addToArchive('inactive', member);
+            }
+          });
+        }
+      });
+
+    return archive;
   }
 }

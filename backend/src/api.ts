@@ -229,8 +229,8 @@ loginCheckedPut('/memberDiffs', async (req, user) => ({
   member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
 }));
 
-loginCheckedGet('/memberArchive', async (_, user) => ({
-  archive: await generateMemberArchive(user)
+loginCheckedPost('/member-archive', async (req, user) => ({
+  archive: await generateMemberArchive(req.body, user, req.query.semesters as number | undefined)
 }));
 
 // Teams

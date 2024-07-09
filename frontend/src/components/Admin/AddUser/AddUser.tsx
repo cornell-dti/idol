@@ -85,6 +85,7 @@ export default function AddUser(): JSX.Element {
   });
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>();
+  const [archiveCsvFile, setArchiveCsvFile] = useState<File | undefined>(undefined);
 
   function createNewUser(): void {
     setState({
@@ -291,6 +292,40 @@ export default function AddUser(): JSX.Element {
     });
   }
 
+  async function processSurvey(survey: File) {
+    const fields = ['NetID', 'Graduation Semester', 'Returning'];
+    const rows = (await survey.text()).split('\n');
+    const tokens = rows.map((row) => {
+      const words = row.split(',');
+      return words.map((word, index) =>
+        index === words.length - 1 ? word.substring(0, word.length - 1) : word
+      );
+    });
+
+    const [netID, grad, returning] = fields.map((field) => tokens[0].indexOf(field));
+
+    if (netID === -1 || grad === -1 || returning === -1) {
+      return;
+    }
+
+    const json: { [key: string]: string[] } = { current: [], alumni: [], inactive: [] };
+    tokens.forEach((row, index) => {
+      if (index === 0 || index === rows.length - 1) return;
+      if (row[returning].toLowerCase() === 'yes') {
+        json.current.push(row[netID]);
+      } else {
+        Date.parse(row[grad]) < Date.now()
+          ? json.alumni.push(row[netID])
+          : json.inactive.push(row[netID]);
+      }
+    });
+    const archive = await MembersAPI.getArchive(json);
+    const download = document.createElement('a');
+    download.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(archive))}`;
+    download.download = 'archive.json';
+    download.click();
+  }
+
   return (
     <div className={styles.AddUser} data-testid="AddUser">
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
@@ -342,6 +377,7 @@ export default function AddUser(): JSX.Element {
               </div>
             </Card.Content>
             <Card.Content>
+              <h3>Update Members</h3>
               {csvFile ? (
                 <div className={`ui one buttons ${styles.fullWidth}`}>
                   <Button
@@ -379,6 +415,30 @@ export default function AddUser(): JSX.Element {
                   ) : undefined}
                 </div>
               ) : undefined}
+            </Card.Content>
+            <Card.Content>
+              <h3>Generate Archive</h3>
+              {archiveCsvFile ? (
+                <div className={`ui one buttons ${styles.fullWidth}`}>
+                  <Button
+                    basic
+                    color="green"
+                    className={styles.fullWidth}
+                    onClick={() => {
+                      processSurvey(archiveCsvFile);
+                    }}
+                  >
+                    {`Download Archive: ${archiveCsvFile.name}`}
+                  </Button>
+                </div>
+              ) : undefined}
+              <input
+                className={styles.wrap}
+                type="file"
+                accept=".csv"
+                onChange={(e) => setArchiveCsvFile(e.target.files?.[0])}
+              />
+              <a href="/sample_returning_members.csv">Download sample .csv file</a>
             </Card.Content>
           </Card>
           {state.currentSelectedMember !== undefined ? (
