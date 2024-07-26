@@ -166,7 +166,7 @@ export const reviewUserInformationChange = async (
  * @param membershipChanges - an object with lists of NetIds corresponding to the status of IDOL members in the next semester.
  * @param user - the `IdolMember` submitting the request.
  * @param semesters - the number of previous semesters to look back, undefined if no limit.
- * @returns an object with the categories as the keys, each with value `NovaMember[]`.
+ * @returns an object with the categories as the keys, each with value `MemberProfile[]`.
  */
 export const generateMemberArchive = async (
   membershipChanges: { [key: string]: string[] },

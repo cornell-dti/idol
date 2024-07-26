@@ -41,8 +41,31 @@ interface IdolMemberDiff {
   readonly diffString: string;
 }
 
-/** The data type used by Nova site to represent a DTI member. */
-interface NovaMember extends IdolMember {
+/** The data type used by Nova site to represent a DTI member. 
+ * @deprecated used in past DTI websites
+*/
+interface NovaMember {
+  readonly netid: string;
+  readonly name: string;
+  readonly pronouns: string;
+  readonly isLead?: boolean;
+  readonly graduation: string;
+  readonly major: string;
+  readonly doubleMajor?: string;
+  readonly minor?: string;
+  readonly website?: string;
+  readonly linkedin?: string;
+  readonly github?: string;
+  readonly hometown: string;
+  readonly about: string;
+  readonly subteams?: string[];
+  readonly formerSubteams?: string[];
+  readonly roleId: string;
+  readonly roleDescription: string;
+}
+
+/** The data type used by new DTI website to represent a DTI member. */
+interface MemberProfile extends IdolMember {
   readonly image?: string | null;
   readonly coffeeChatLink?: string | null;
 }
