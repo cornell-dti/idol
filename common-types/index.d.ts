@@ -41,9 +41,9 @@ interface IdolMemberDiff {
   readonly diffString: string;
 }
 
-/** The data type used by Nova site to represent a DTI member. 
+/** The data type used by Nova site to represent a DTI member.
  * @deprecated used in past DTI websites
-*/
+ */
 interface NovaMember {
   readonly netid: string;
   readonly name: string;
