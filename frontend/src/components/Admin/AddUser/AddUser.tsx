@@ -86,6 +86,7 @@ export default function AddUser(): JSX.Element {
   const [csvFile, setCsvFile] = useState<File | undefined>(undefined);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>();
   const [archiveCsvFile, setArchiveCsvFile] = useState<File | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
   function createNewUser(): void {
     setState({
@@ -293,7 +294,7 @@ export default function AddUser(): JSX.Element {
   }
 
   async function processSurvey(survey: File) {
-    const fields = ['NetID', 'Graduation Semester', 'Returning'];
+    const fields = ['NetID', 'Returning'];
     const rows = (await survey.text()).split('\n');
     const tokens = rows.map((row) => {
       const words = row.split(',');
@@ -302,28 +303,32 @@ export default function AddUser(): JSX.Element {
       );
     });
 
-    const [netID, grad, returning] = fields.map((field) => tokens[0].indexOf(field));
+    const [netID, returning] = fields.map((field) => tokens[0].indexOf(field));
 
-    if (netID === -1 || grad === -1 || returning === -1) {
+    if (netID === -1 || returning === -1) {
       return;
     }
 
-    const json: { [key: string]: string[] } = { current: [], alumni: [], inactive: [] };
+    setLoading(true);
+
+    const json: { [key: string]: string[] } = { returning: [], leaving: [] };
     tokens.forEach((row, index) => {
       if (index === 0 || index === rows.length - 1) return;
       if (row[returning].toLowerCase() === 'yes') {
-        json.current.push(row[netID]);
+        json.returning.push(row[netID]);
       } else {
-        Date.parse(row[grad]) < Date.now()
-          ? json.alumni.push(row[netID])
-          : json.inactive.push(row[netID]);
+        json.leaving.push(row[netID]);
       }
     });
+
     const archive = await MembersAPI.getArchive(json);
+
     const download = document.createElement('a');
     download.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(archive))}`;
     download.download = 'archive.json';
     download.click();
+
+    setLoading(false);
   }
 
   return (
@@ -427,8 +432,9 @@ export default function AddUser(): JSX.Element {
                     onClick={() => {
                       processSurvey(archiveCsvFile);
                     }}
+                    disabled={loading}
                   >
-                    {`Download Archive: ${archiveCsvFile.name}`}
+                    {loading ? 'Generating...' : `Download Archive: ${archiveCsvFile.name}`}
                   </Button>
                 </div>
               ) : undefined}

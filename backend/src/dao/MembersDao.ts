@@ -178,8 +178,15 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
     const currentMembers = await MembersDao.getAllMembers(true);
     const images = await allMemberImages();
 
-    const addToArchive = (key: string, member: IdolMember) => {
+    const addToArchive = (returning: boolean, member: IdolMember) => {
+      allMembers.add(member.netid);
       const image = images.find((image) => image.fileName.split('.')[0] === member.netid);
+
+      let key = 'current';
+      if (!returning) {
+        key = Date.parse(member.graduation) < Date.now() ? 'alumni' : 'inactive';
+      }
+
       archive[key].push({
         ...member,
         image: image ? image.url : null,
@@ -189,13 +196,7 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
 
     // Each current member's netid should be found in the returning members survey.
     currentMembers.forEach((member) => {
-      for (const update of Object.keys(updates)) {
-        if (updates[update].includes(member.netid)) {
-          allMembers.add(member.netid);
-          addToArchive(update, member);
-          return;
-        }
-      }
+      addToArchive(updates.returning.includes(member.netid), member);
     });
 
     Object.values(archivedMembersBySemesters)
@@ -204,10 +205,7 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
         if (!semesters || index < semesters) {
           semester.forEach((member) => {
             if (!allMembers.has(member.netid)) {
-              allMembers.add(member.netid);
-              Date.parse(member.graduation) < Date.now()
-                ? addToArchive('alumni', member)
-                : addToArchive('inactive', member);
+              addToArchive(false, member);
             }
           });
         }
