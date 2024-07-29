@@ -1,21 +1,28 @@
-'use client'
+'use client';
 
-import { impacts } from '../../../components/sponsor/data/impacts.json';
-import { companies } from '../../../components/sponsor/data/sponsors.json';
+import impactData from '../../../components/sponsor/data/impacts.json';
+import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 
+const { impacts } = impactData;
+const { companies } = companyData;
+
 const SponsorHero = () => (
-  <div className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)]">
+  <div
+    className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)]
+    flex items-center"
+  >
     <div
-      className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 relative z-10
-      lg:ml-[152px] md:ml-10 xs:ml-9"
+      className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 gap-x-24 relative z-10
+      lg:mx-32 md:mx-10 xs:mx-9"
     >
-      <div className="mr-20">
+      <div>
         <h1
           className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
-          xs:leading-[63px] w-[550px]"
+          xs:leading-[63px] whitespace-pre"
         >
-          SUPPORT <span className="text-[#FF4C4C]">OUR TEAM</span>
+          SUPPORT <br />
+          <span className="text-[#FF4C4C]">OUR TEAM</span>
         </h1>
       </div>
       <div className="flex flex-col justify-center gap-6">
@@ -42,30 +49,34 @@ type SponsorCardProps = {
   image: string;
   title: string;
   description: string;
-  key: string;
+  alt: string;
 };
 
-const SponsorCard: React.FC<SponsorCardProps> = ({ image, title, description, key }) => (
-  <div key={key} className="flex flex-col gap-3 w-[308px]">
-    <img src={image} alt={key} className="h-[112px]" />
+const SponsorCard: React.FC<SponsorCardProps> = ({ image, title, description, alt }) => (
+  <div className="flex flex-col gap-3 lg:w-[308px] md:w-60 max-w-lg">
+    <img src={image} alt={alt} className="h-[112px]" />
     <div
       className="bg-white p-6 flex flex-col gap-3 rounded-2xl"
       style={{ boxShadow: '4px 4px 8px 2px #00000014' }}
     >
-      <h3 className="font-semibold text-xl text-center">{title}</h3>
-      <p className="text-lg">{description}</p>
+      <h3 className="font-semibold lg:text-xl xs:text-lg text-center">{title}</h3>
+      <p className="lg:text-lg xs:text-sm">{description}</p>
     </div>
   </div>
 );
 
 const SponsorImpact = () => (
-  <div className="max-w-5xl flex gap-12 py-24">
+  <div
+    className="max-w-5xl flex lg:gap-x-12 xs:gap-y-10 xs:gap-x-3 lg:py-24 xs:py-14 xs:flex-col 
+    md:flex-row p-5 items-center"
+  >
     {impacts.map((impact) => (
       <SponsorCard
         image={impact.image}
         title={impact.title}
         description={impact.description}
         key={impact.key}
+        alt={impact.key}
       />
     ))}
   </div>
@@ -75,9 +86,13 @@ const SponsorPage = () => (
   <>
     <SponsorHero />
     <div className="bg-[#EDEDED] flex justify-center">
-      <div className="max-w-5xl flex justify-center py-14 gap-20">
-        <img src="/images/dti_2024.png" alt="DTI 2024" className="rounded-3xl w-[475px] h-auto" />
-        <div className="flex flex-col justify-center gap-5">
+      <div className="max-w-5xl flex justify-center p-5 py-14 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
+        <img
+          src="/images/dti_2024.png"
+          alt="DTI 2024"
+          className="rounded-3xl lg:w-[475px] xs:w-[350px] h-auto mx-auto"
+        />
+        <div className="flex flex-col justify-center md:gap-5 xs:gap-3">
           <h3 className="font-semibold text-2xl">Become a sponsor!</h3>
           <p className="text-lg">
             We would love to partner with organizations that share our vision of changing the world.
@@ -90,7 +105,7 @@ const SponsorPage = () => (
             className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
             font-bold hover:bg-white hover:text-[#A52424] w-fit"
           >
-            Contact us
+            <a href="mailto:hello@cornelldti.org">Contact us</a>
           </button>
         </div>
       </div>
@@ -99,21 +114,23 @@ const SponsorPage = () => (
       <SponsorImpact />
       <SponsorshipTable />
     </div>
-    <div className="bg-[#EDEDED] flex flex-col items-center gap-7 py-[100px]">
-      <h3 className="font-semibold text-[32px]">Thank you to our sponsors!</h3>
-      <div className="flex gap-6">
+    <div className="bg-[#EDEDED] flex flex-col items-center gap-7 lg:py-[100px] xs:py-[60px] md:px-20 xs:px-5">
+      <h3 className="font-semibold md:text-[32px] xs:text-2xl">Thank you to our sponsors!</h3>
+      <div className="grid gap-6 md:grid-cols-6 xs:grid-cols-3 items-center">
         {companies.map((company) => (
           <img src={company.icon} alt={company.key} key={company.key} width={company.width} />
         ))}
       </div>
     </div>
-    <div className="bg-[#F6F6F6] flex flex-col items-center gap-5 py-[60px]">
-      <p className="text-[22px]">Want to learn more about how you can help us make an impact?</p>
+    <div className="bg-[#F6F6F6] flex flex-col items-center gap-5 py-[60px] px-10">
+      <p className="lg:text-[22px] xs:text-lg text-center">
+        Want to learn more about how you can help us make an impact?
+      </p>
       <button
         className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
           font-bold hover:bg-white hover:text-[#A52424] w-fit"
       >
-        Contact us
+        <a href="mailto:hello@cornelldti.org">Contact us</a>
       </button>
     </div>
   </>
