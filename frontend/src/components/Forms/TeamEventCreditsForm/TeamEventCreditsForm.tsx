@@ -59,6 +59,22 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const submitTeamEventCredit = async () => {
+    const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
+      const filteredAttendance = attendance.filter((event) => event.eventUuid === teamEvent?.uuid);
+      const sum = filteredAttendance.reduce(
+        (acc, event) =>
+          acc +
+          (teamEvent?.hasHours
+            ? Number(teamEvent?.numCredits || 0) * Number(hours)
+            : Number(teamEvent?.numCredits || 0)),
+        0
+      );
+
+      return sum;
+    };
+
+    const totalCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
+
     if (!teamEvent) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Selected',
@@ -78,6 +94,11 @@ const TeamEventCreditForm: React.FC = () => {
       Emitters.generalError.emit({
         headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
+      });
+    } else if (totalCredits >= Number(teamEvent.maxCredits)) {
+      Emitters.generalError.emit({
+        headerMsg: 'Maximum Credits Violated',
+        contentMsg: `You already have ${totalCredits} pending or approved for the event!`
       });
     } else {
       await Promise.all(
@@ -153,6 +174,8 @@ const TeamEventCreditForm: React.FC = () => {
                           <Label
                             content={`${event.numCredits} ${
                               Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                            } ${
+                              event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
                             } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>
