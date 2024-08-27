@@ -29,7 +29,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   return (
     <div className="bg-black overflow-x-hidden">
       <Carousel
-        className="lg:w-[1688px] h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[105px]"
+        className="h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[105px]"
         opts={{
           align: 'start',
           loop: true
