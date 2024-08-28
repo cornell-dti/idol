@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import benefitData from './data/benefits.json';
 import medalData from './data/medals.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
@@ -20,11 +21,12 @@ const SponsorshipTableMobile = () => {
         <div className="flex h-fit justify-between">
           {Object.keys(medals).map((medal) => (
             <div className="flex justify-center items-center" key={medal}>
-              <img
+              <Image
                 src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
                 alt={medal}
                 onClick={() => setSelectedMedal(medal as Tier)}
-                height={selectedMedal === medal ? 100 : 87}
+                height={selectedMedal === medal ? 107 : 87}
+                width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
               />
             </div>
           ))}
@@ -35,9 +37,11 @@ const SponsorshipTableMobile = () => {
           const highlighted = tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
           return (
             <div className="flex py-3 gap-x-4 border-b-[1px] border-[#D3C4C4]" key={benefit.key}>
-              <img
+              <Image
                 src={`/icons/${highlighted ? 'green_check' : 'red_x'}.svg`}
                 alt={highlighted ? 'check' : 'x'}
+                width={22}
+                height={52}
               />
               <div className={`flex flex-col gap-1 ${highlighted ? 'opacity-100' : 'opacity-50'}`}>
                 <h4 className="text-lg text-[#0C0404]">{benefit.title}</h4>
@@ -60,7 +64,13 @@ const SponsorshipTableLaptop = () => (
       <div className="flex justify-evenly">
         {Object.keys(medals).map((medal) => (
           <div className="lg:w-[130px] md:w-28 flex justify-center" key={medal}>
-            <img src={medals[medal as Tier].standard} alt={medal} key={medal} />
+            <Image
+              src={medals[medal as Tier].standard}
+              alt={medal}
+              key={medal}
+              height={87}
+              width={medals[medal as Tier].width}
+            />
           </div>
         ))}
       </div>
@@ -78,7 +88,7 @@ const SponsorshipTableLaptop = () => (
               key={`${benefit.key}-${tier}`}
             >
               {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) && (
-                <img src="/icons/check.svg" alt="check" className="w-[30px]" />
+                <Image src="/icons/check.svg" alt="check" width={30} height={60} />
               )}
             </div>
           ))}

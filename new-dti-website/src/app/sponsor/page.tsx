@@ -1,8 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
+import useScreenSize from '../../hooks/useScreenSize';
+import { LAPTOP_BREAKPOINT } from '../../consts';
 
 const { impacts } = impactData;
 const { companies } = companyData;
@@ -50,11 +53,20 @@ type SponsorCardProps = {
   title: string;
   description: string;
   alt: string;
+  width: number;
+  height: number;
 };
 
-const SponsorCard: React.FC<SponsorCardProps> = ({ image, title, description, alt }) => (
-  <div className="flex flex-col gap-3 lg:w-[308px] md:w-60 max-w-lg">
-    <img src={image} alt={alt} className="h-[112px]" />
+const SponsorCard: React.FC<SponsorCardProps> = ({
+  image,
+  title,
+  description,
+  alt,
+  width,
+  height
+}) => (
+  <div className="flex flex-col gap-3 lg:w-[308px] md:w-60 max-w-lg items-center">
+    <Image src={image} alt={alt} height={height} width={width} />
     <div
       className="bg-white p-6 flex flex-col gap-3 rounded-2xl"
       style={{ boxShadow: '4px 4px 8px 2px #00000014' }}
@@ -77,63 +89,76 @@ const SponsorImpact = () => (
         description={impact.description}
         key={impact.key}
         alt={impact.key}
+        width={impact.width}
+        height={impact.height}
       />
     ))}
   </div>
 );
 
-const SponsorPage = () => (
-  <>
-    <SponsorHero />
-    <div className="bg-[#EDEDED] flex justify-center">
-      <div className="max-w-5xl flex justify-center p-5 py-14 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
-        <img
-          src="/images/dti_2024.png"
-          alt="DTI 2024"
-          className="rounded-3xl lg:w-[475px] xs:w-[350px] h-auto mx-auto"
-        />
-        <div className="flex flex-col justify-center md:gap-5 xs:gap-3">
-          <h3 className="font-semibold text-2xl">Become a sponsor!</h3>
-          <p className="text-lg">
-            We would love to partner with organizations that share our vision of changing the world.
-            Together, we can{' '}
-            <span className="font-bold">
-              harness the power of technology to drive change in our communities.
-            </span>
-          </p>
-          <button
-            className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
+const SponsorPage = () => {
+  const { width } = useScreenSize();
+  return (
+    <>
+      <SponsorHero />
+      <div className="bg-[#EDEDED] flex justify-center">
+        <div className="max-w-5xl flex justify-center p-5 py-14 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
+          <Image
+            src="/images/dti_2024.png"
+            alt="DTI 2024"
+            width={width >= LAPTOP_BREAKPOINT ? 475 : 350}
+            height={width >= LAPTOP_BREAKPOINT ? 320 : 236}
+            className="rounded-3xl mx-auto"
+          />
+          <div className="flex flex-col justify-center md:gap-5 xs:gap-3">
+            <h3 className="font-semibold text-2xl">Become a sponsor!</h3>
+            <p className="text-lg">
+              We would love to partner with organizations that share our vision of changing the
+              world. Together, we can{' '}
+              <span className="font-bold">
+                harness the power of technology to drive change in our communities.
+              </span>
+            </p>
+            <button
+              className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
             font-bold hover:bg-white hover:text-[#A52424] w-fit"
-          >
-            <a href="mailto:hello@cornelldti.org">Contact us</a>
-          </button>
+            >
+              <a href="mailto:hello@cornelldti.org">Contact us</a>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div className="bg-[#F6F6F6] flex flex-col items-center">
-      <SponsorImpact />
-      <SponsorshipTable />
-    </div>
-    <div className="bg-[#EDEDED] flex flex-col items-center gap-7 lg:py-[100px] xs:py-[60px] md:px-20 xs:px-5">
-      <h3 className="font-semibold md:text-[32px] xs:text-2xl">Thank you to our sponsors!</h3>
-      <div className="grid gap-6 md:grid-cols-6 xs:grid-cols-3 items-center">
-        {companies.map((company) => (
-          <img src={company.icon} alt={company.key} key={company.key} width={company.width} />
-        ))}
+      <div className="bg-[#F6F6F6] flex flex-col items-center">
+        <SponsorImpact />
+        <SponsorshipTable />
       </div>
-    </div>
-    <div className="bg-[#F6F6F6] flex flex-col items-center gap-5 py-[60px] px-10">
-      <p className="lg:text-[22px] xs:text-lg text-center">
-        Want to learn more about how you can help us make an impact?
-      </p>
-      <button
-        className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
+      <div className="bg-[#EDEDED] flex flex-col items-center gap-7 lg:py-[100px] xs:py-[60px] md:px-20 xs:px-5">
+        <h3 className="font-semibold md:text-[32px] xs:text-2xl">Thank you to our sponsors!</h3>
+        <div className="grid gap-6 md:grid-cols-6 xs:grid-cols-3 items-center">
+          {companies.map((company) => (
+            <Image
+              src={company.icon}
+              alt={company.key}
+              key={company.key}
+              width={company.width}
+              height={company.height}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="bg-[#F6F6F6] flex flex-col items-center gap-5 py-[60px] px-10">
+        <p className="lg:text-[22px] xs:text-lg text-center">
+          Want to learn more about how you can help us make an impact?
+        </p>
+        <button
+          className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
           font-bold hover:bg-white hover:text-[#A52424] w-fit"
-      >
-        <a href="mailto:hello@cornelldti.org">Contact us</a>
-      </button>
-    </div>
-  </>
-);
+        >
+          <a href="mailto:hello@cornelldti.org">Contact us</a>
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default SponsorPage;
