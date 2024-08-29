@@ -5,48 +5,59 @@ import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
-import { LAPTOP_BREAKPOINT } from '../../consts';
+import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
+import RedBlob from '../../../components/blob';
 
 const { impacts } = impactData;
 const { companies } = companyData;
 
-const SponsorHero = () => (
-  <div
-    className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)]
-    flex items-center"
-  >
+const SponsorHero = () => {
+  const { width } = useScreenSize();
+  return (
     <div
-      className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 gap-x-24 relative z-10
-      lg:mx-32 md:mx-10 xs:mx-9"
+      className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)]
+    flex items-center w-full overflow-hidden"
     >
-      <div>
-        <h1
-          className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
+      <RedBlob className={'left-[-250px] top-[-175px]'} intensity={0.4} />
+      <div
+        className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 gap-x-24 relative z-10
+      lg:mx-32 md:mx-10 xs:mx-9"
+      >
+        <div>
+          <h1
+            className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
-        >
-          SUPPORT <br />
-          <span className="text-[#FF4C4C]">OUR TEAM</span>
-        </h1>
-      </div>
-      <div className="flex flex-col justify-center gap-6">
-        <h2 className="font-bold md:text-[40px] xs:text-2xl">
-          <span className="text-[#877B7B]">Let's</span> <span className="italic">collaborate</span>
-        </h2>
-        <p className="md:text-lg xs:text-sm">
-          The generous contributions of our supporters and sponsors allow our team to continue
-          building products and hosting initiatives to{' '}
-          <span className="font-bold">help the Cornell and Ithaca communities.</span>
-        </p>
-        <button
-          className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
+          >
+            SUPPORT <br />
+            <span className="text-[#FF4C4C]">OUR TEAM</span>
+          </h1>
+        </div>
+        <div className="flex flex-col justify-center gap-6">
+          <h2 className="font-bold md:text-[40px] xs:text-2xl">
+            <span className="text-[#877B7B]">Let's</span>{' '}
+            <span className="italic">collaborate</span>
+          </h2>
+          <p className="md:text-lg xs:text-sm">
+            The generous contributions of our supporters and sponsors allow our team to continue
+            building products and hosting initiatives to{' '}
+            <span className="font-bold">help the Cornell and Ithaca communities.</span>
+          </p>
+          <button
+            className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
           font-bold hover:bg-white hover:text-[#A52424] w-fit"
-        >
-          Donate now
-        </button>
+          >
+            Donate now
+          </button>
+        </div>
       </div>
+      {width >= TABLET_BREAKPOINT && (
+        <div className="relative top-[-250px]">
+          <RedBlob className={'right-[-300px]'} intensity={0.3} />
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 type SponsorCardProps = {
   image: string;
