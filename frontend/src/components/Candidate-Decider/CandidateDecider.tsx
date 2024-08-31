@@ -46,22 +46,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
   useEffect(() => {
-    // Only set the currentRating and currentComment once when the instance first loads in
-    if (
-      instance.candidates[currentCandidate] &&
-      currentRating === undefined &&
-      currentComment === undefined
-    ) {
-      const rating = getRating(currentCandidate);
-      const comment = getComment(currentCandidate);
-
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
-    }
+    const rating = getRating(currentCandidate);
+    const comment = getComment(currentCandidate);
+    setCurrentRating(rating);
+    setCurrentComment(comment);
+    setDefaultCurrentRating(rating);
+    setDefaultCurrentComment(comment);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCandidate, instance.candidates]);
+  }, [currentCandidate, instance.candidates, reviews]);
 
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
