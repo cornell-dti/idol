@@ -14,6 +14,10 @@ const tiers = Object.keys(medals);
 
 const SponsorshipTableMobile = () => {
   const [selectedMedal, setSelectedMedal] = useState<Tier>('bronze');
+
+  const medalHeight = 87;
+  const medalSelectedHeight = 107;
+
   return (
     <>
       <div className="flex flex-col gap-7 pb-6 border-b-2 border-black">
@@ -25,7 +29,7 @@ const SponsorshipTableMobile = () => {
                 src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
                 alt={medal}
                 onClick={() => setSelectedMedal(medal as Tier)}
-                height={selectedMedal === medal ? 107 : 87}
+                height={selectedMedal === medal ? medalSelectedHeight : medalHeight}
                 width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
               />
             </div>
