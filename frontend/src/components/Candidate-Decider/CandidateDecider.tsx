@@ -29,7 +29,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (rating) return rating.rating;
-    return undefined;
+    return 0;
   };
 
   const getComment = (candidate: number) => {
@@ -37,7 +37,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (comment) return comment.comment;
-    return undefined;
+    return '';
   };
 
   const [currentRating, setCurrentRating] = useState<Rating>();
@@ -48,8 +48,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   useEffect(() => {
     if (
       instance.candidates[currentCandidate] &&
-      currentRating === undefined &&
-      currentComment === undefined
+      (currentRating === undefined || currentRating === 0) &&
+      (currentComment === undefined || currentComment === '')
     ) {
       const rating = getRating(currentCandidate);
       const comment = getComment(currentCandidate);
