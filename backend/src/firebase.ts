@@ -6,6 +6,7 @@ import {
   DBDevPortfolio,
   DevPortfolioSubmissionRequestLog,
   DBTeamEventAttendance,
+  DBCandidateDeciderReview,
   DBCoffeeChat
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
@@ -150,3 +151,13 @@ export const adminCollection: admin.firestore.CollectionReference = db.collectio
 
 export const teamEventAdminCollection: admin.firestore.CollectionReference =
   db.collection('team-event-admins');
+
+export const candidateDeciderReviewCollection: admin.firestore.CollectionReference<DBCandidateDeciderReview> =
+  db.collection('candidate-decider-review').withConverter({
+    fromFirestore(snapshot): DBCandidateDeciderReview {
+      return snapshot.data() as DBCandidateDeciderReview;
+    },
+    toFirestore(candidateDeciderReviewData: DBCandidateDeciderReview) {
+      return candidateDeciderReviewData;
+    }
+  });

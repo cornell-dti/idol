@@ -7,7 +7,10 @@ import GlobalProgressPanel from './GlobalProgressPanel';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
-import useCandidateDeciderInstance from './useCandidateDeciderInstance';
+import {
+  useCandidateDeciderInstance,
+  useCandidateDeciderReviews
+} from './useCandidateDeciderInstance';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -18,19 +21,20 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
-  const [instance, setInstance] = useCandidateDeciderInstance(uuid);
+  const instance = useCandidateDeciderInstance(uuid);
+  const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
 
   const getRating = (candidate: number) => {
-    const rating = instance.candidates[candidate].ratings.find(
-      (rt) => rt.reviewer.email === userInfo?.email
+    const rating = reviews.find(
+      (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (rating) return rating.rating;
     return 0;
   };
 
   const getComment = (candidate: number) => {
-    const comment = instance.candidates[candidate].comments.find(
-      (cmt) => cmt.reviewer.email === userInfo?.email
+    const comment = reviews.find(
+      (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (comment) return comment.comment;
     return '';
@@ -94,34 +98,19 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (userInfo) {
       setDefaultCurrentRating(rating);
       setDefaultCurrentComment(comment);
-      setInstance((instance) => ({
-        ...instance,
-        candidates: instance.candidates.map((candidate) =>
-          candidate.id === id
-            ? {
-                ...candidate,
-                ratings: candidate.ratings.find(
-                  (currRating) => currRating.reviewer.email === userInfo.email
-                )
-                  ? candidate.ratings.map((currRating) =>
-                      currRating.reviewer.email === userInfo.email
-                        ? { rating, reviewer: userInfo }
-                        : currRating
-                    )
-                  : [...candidate.ratings, { rating, reviewer: userInfo }],
-                comments: candidate.comments.find(
-                  (currComment) => currComment.reviewer.email === userInfo.email
-                )
-                  ? candidate.comments.map((currComment) =>
-                      currComment.reviewer.email === userInfo.email
-                        ? { comment, reviewer: userInfo }
-                        : currComment
-                    )
-                  : [...candidate.comments, { comment, reviewer: userInfo }]
-              }
-            : candidate
-        )
-      }));
+      setReviews((reviews) => [
+        ...reviews.filter(
+          (review) => review.candidateId !== id || review.reviewer.email !== userInfo.email
+        ),
+        {
+          rating,
+          comment,
+          candidateDeciderInstanceUuid: uuid,
+          candidateId: id,
+          reviewer: userInfo,
+          uuid: ''
+        }
+      ]);
     }
   };
 
@@ -197,8 +186,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           showOtherVotes={showOtherVotes}
           candidates={instance.candidates}
           currentCandidate={currentCandidate}
+          reviews={reviews}
         />
-        <GlobalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+        <GlobalProgressPanel
+          showOtherVotes={showOtherVotes}
+          candidates={instance.candidates}
+          reviews={reviews}
+        />
       </div>
     </div>
   );

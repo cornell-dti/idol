@@ -8,44 +8,41 @@ type ProgressPanelProps = {
   showOtherVotes: boolean;
   candidates: CandidateDeciderCandidate[];
   currentCandidate: number;
+  reviews: CandidateDeciderReview[];
 };
 
 const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
   showOtherVotes,
   candidates,
-  currentCandidate
+  currentCandidate,
+  reviews
 }) => {
   const userInfo = useSelf();
 
-  const myReviews = candidates.filter((candidate) =>
-    candidate.ratings.some((rating) => rating.reviewer.email === userInfo?.email)
-  );
-  const myRatings = myReviews.map(
-    (candidate) =>
-      candidate.ratings.find(
-        (rating) => rating.reviewer.email === userInfo?.email
-      ) as CandidateDeciderRating
+  const myRatings = reviews.filter((review) => review.reviewer.email === userInfo?.email);
+  const currentCandidateReviews = reviews.filter(
+    (review) => review.candidateId === currentCandidate
   );
   return (
     <div className={styles.progressContainer}>
       <h3>My Progress</h3>
       <Progress
-        value={myReviews.length}
+        value={myRatings.length}
         total={candidates.length}
         size="tiny"
         color="blue"
-      >{`${myReviews.length}/${candidates.length}`}</Progress>
+      >{`${myRatings.length}/${candidates.length}`}</Progress>
       <RatingsDisplay ratings={myRatings} header="My Rating Statistics" />
       {showOtherVotes && userInfo?.role === 'lead' ? (
         <>
           <RatingsDisplay
-            ratings={candidates[currentCandidate].ratings}
+            ratings={currentCandidateReviews}
             header={`Candidate ${currentCandidate} Global Ratings`}
           />
           <div>
             <h3>All Votes on Candidate {currentCandidate}</h3>
             <div className={styles.verticalContentContainer}>
-              {candidates[currentCandidate].ratings
+              {currentCandidateReviews
                 .filter((rating) => rating.rating !== 0)
                 .map((rating) => (
                   <span
@@ -58,11 +55,11 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
             </div>
             <h3>All Comments on Candidate {currentCandidate}</h3>
             <div className={styles.verticalContentContainer}>
-              {candidates[currentCandidate].comments.map((comment) => (
+              {currentCandidateReviews.map((review) => (
                 <span
                   className={`${styles.fullWidth} ${styles.smallVerticalMargin}`}
-                  key={comment.reviewer.email}
-                >{`${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}
+                  key={review.reviewer.email}
+                >{`${review.reviewer.firstName} ${review.reviewer.lastName}: ${review.comment}
             `}</span>
               ))}
             </div>

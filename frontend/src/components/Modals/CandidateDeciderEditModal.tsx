@@ -20,6 +20,7 @@ type Props = {
 const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [instance, setInstance] = useState<CandidateDeciderInstance>();
+  const [reviews, setReviews] = useState<CandidateDeciderReview[]>([]);
   const [authorizedMembers, setAuthorizedMembers] = useState<Array<IdolMember>>([]);
   const [authorizedRoles, setAuthorizedRoles] = useState<Array<Role>>([]);
   const [name, setName] = useState<string>('');
@@ -31,6 +32,9 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
         setAuthorizedMembers(candidateDeciderInstance.authorizedMembers);
         setAuthorizedRoles(candidateDeciderInstance.authorizedRoles);
         setName(candidateDeciderInstance.name);
+      });
+      CandidateDeciderAPI.getReviews(uuid).then((candidateDeciderReviews) => {
+        setReviews(candidateDeciderReviews);
       });
     }
   }, [isOpen, uuid]);
@@ -69,26 +73,29 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
     const lastNameIndex = getHeaderIndex('Last Name');
     const firstNameIndex = getHeaderIndex('First Name');
 
-    const csvData = instance.candidates.map((candidate) => ({
-      name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
-      netid: candidate.responses[netIDIndex],
-      comments: candidate.comments.reduce(
-        (acc, comment) =>
-          comment.comment === ''
-            ? ''
-            : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
-        ''
-      ),
-      ratings: candidate.ratings.reduce(
-        (acc, rating) =>
-          rating.rating === 0
-            ? ''
-            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
-                rating.rating
-              )}\n`,
-        ''
-      )
-    }));
+    const csvData = instance.candidates.map((candidate) => {
+      const candidateReviews = reviews.filter((review) => review.candidateId === candidate.id);
+      return {
+        name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
+        netid: candidate.responses[netIDIndex],
+        comments: candidateReviews.reduce(
+          (acc, comment) =>
+            comment.comment === ''
+              ? ''
+              : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
+          ''
+        ),
+        ratings: candidateReviews.reduce(
+          (acc, rating) =>
+            rating.rating === 0
+              ? ''
+              : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
+                  rating.rating
+                )}\n`,
+          ''
+        )
+      };
+    });
 
     const options: Options = {
       filename: `${instance.name}_Ratings`,
