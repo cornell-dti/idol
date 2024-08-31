@@ -29,7 +29,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (rating) return rating.rating;
-    return 0;
+    return undefined;
   };
 
   const getComment = (candidate: number) => {
@@ -37,7 +37,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (comment) return comment.comment;
-    return '';
+    return undefined;
   };
 
   const [currentRating, setCurrentRating] = useState<Rating>();
@@ -46,12 +46,18 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
   useEffect(() => {
-    const rating = getRating(currentCandidate);
-    const comment = getComment(currentCandidate);
-    setCurrentRating(rating);
-    setCurrentComment(comment);
-    setDefaultCurrentRating(rating);
-    setDefaultCurrentComment(comment);
+    if (
+      instance.candidates[currentCandidate] &&
+      currentRating === undefined &&
+      currentComment === undefined
+    ) {
+      const rating = getRating(currentCandidate);
+      const comment = getComment(currentCandidate);
+      setCurrentRating(rating);
+      setCurrentComment(comment);
+      setDefaultCurrentRating(rating);
+      setDefaultCurrentComment(comment);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates, reviews]);
 
