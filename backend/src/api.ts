@@ -62,7 +62,8 @@ import {
   deleteCandidateDeciderInstance,
   getCandidateDeciderInstance,
   updateCandidateDeciderRatingAndComment,
-  updateCandidateDeciderInstance
+  updateCandidateDeciderInstance,
+  getCandidateDeciderReviews
 } from './API/candidateDeciderAPI';
 import {
   deleteEventProofImage,
@@ -365,6 +366,9 @@ loginCheckedGet('/candidate-decider', async (_, user) => ({
 }));
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
+}));
+loginCheckedGet('/candidate-decider/:uuid/review', async (req, user) => ({
+  reviews: await getCandidateDeciderReviews(req.params.uuid, user)
 }));
 loginCheckedPost('/candidate-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)

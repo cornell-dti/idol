@@ -136,8 +136,15 @@ interface CandidateDeciderComment {
 interface CandidateDeciderCandidate {
   readonly responses: string[];
   readonly id: number;
-  ratings: CandidateDeciderRating[];
-  comments: CandidateDeciderComment[];
+}
+
+interface CandidateDeciderReview {
+  readonly candidateDeciderInstanceUuid: string;
+  readonly candidateId: number;
+  readonly reviewer: IdolMember;
+  readonly rating: Rating;
+  readonly comment: string;
+  readonly uuid: string;
 }
 
 interface CandidateDeciderInstance extends CandidateDeciderInfo {
