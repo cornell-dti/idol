@@ -89,6 +89,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
     CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
     if (userInfo) {
+      setCurrentRating(rating);
+      setCurrentComment(comment);
       setDefaultCurrentRating(rating);
       setDefaultCurrentComment(comment);
       setReviews((reviews) => [
