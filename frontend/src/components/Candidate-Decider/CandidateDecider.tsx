@@ -4,7 +4,7 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
 import GlobalProgressPanel from './GlobalProgressPanel';
-import { useSelf } from '../Common/FirestoreDataProvider';
+import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
 import {
@@ -23,6 +23,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
+  const hasAdminPermission = useHasAdminPermission();
 
   const getRating = (candidate: number) => {
     const rating = reviews.find(
@@ -162,13 +163,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           >
             Save
           </Button>
-          <Checkbox
+          {hasAdminPermission && <Checkbox
             className={styles.showOtherVotes}
             toggle
             checked={showOtherVotes}
             onChange={() => setShowOtherVotes((prev) => !prev)}
             label="Show other people's votes"
-          />
+          />}
         </div>
         <ResponsesPanel
           headers={instance.headers}
