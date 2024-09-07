@@ -75,7 +75,10 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
 
     const csvData = instance.candidates.map((candidate) => {
       const candidateReviews = reviews.filter((review) => review.candidateId === candidate.id);
-      return {
+      const reviewers = new Set<IdolMember>();
+      reviews.forEach((review) => reviewers.add(review.reviewer));
+
+      const row: Record<string, string> = {
         name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
         netid: candidate.responses[netIDIndex],
         comments: candidateReviews.reduce(
@@ -95,6 +98,28 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
           ''
         )
       };
+      reviewers.forEach((reviewer) => {
+        const review = candidateReviews.find((review) => review.reviewer.email === reviewer.email);
+        let formattedRating;
+        if (review === undefined || review.rating === 0) {
+          formattedRating = '';
+        } else {
+          formattedRating = String(review.rating);
+        }
+        row[`${reviewer.firstName} ${reviewer.lastName}`] = formattedRating;
+      });
+
+      let completedReviews = 0;
+      let sumOfRatings = 0;
+      candidateReviews.forEach((review) => {
+        if (review.rating !== 0) {
+          completedReviews += 1;
+          sumOfRatings += review.rating;
+        }
+      });
+      row['Average Rating'] = completedReviews === 0 ? '' : String(sumOfRatings / completedReviews);
+
+      return row;
     });
 
     const options: Options = {
@@ -111,6 +136,7 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
     };
 
     const csvExporter = new ExportToCsv(options);
+    csvData.sort((a, b) => Number(b['Average Rating']) - Number(a['Average Rating']));
     csvExporter.generateCsv(csvData);
   };
 
