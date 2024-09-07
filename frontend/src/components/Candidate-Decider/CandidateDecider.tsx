@@ -30,7 +30,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (rating) return rating.rating;
-    return 0;
+    return undefined;
   };
 
   const getComment = (candidate: number) => {
@@ -38,7 +38,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (comment) return comment.comment;
-    return '';
+    return undefined;
   };
 
   const [currentRating, setCurrentRating] = useState<Rating>();
@@ -46,18 +46,24 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [defaultCurrentRating, setDefaultCurrentRating] = useState<Rating>();
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
+  const populateReviewForCandidate = (candidate: number) => {
+    const rating = getRating(candidate);
+    const comment = getComment(candidate);
+    setCurrentRating(rating);
+    setCurrentComment(comment);
+    setDefaultCurrentRating(rating);
+    setDefaultCurrentComment(comment);
+  };
+
+  const completedReviews = reviews.filter((review) => review.rating !== 0);
+
   useEffect(() => {
     if (
       instance.candidates[currentCandidate] &&
-      (currentRating === undefined || currentRating === 0) &&
-      (currentComment === undefined || currentComment === '')
+      currentRating === undefined &&
+      currentComment === undefined
     ) {
-      const rating = getRating(currentCandidate);
-      const comment = getComment(currentCandidate);
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
+      populateReviewForCandidate(currentCandidate);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates, reviews]);
@@ -66,13 +72,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => {
       const nextCandidate = prev + 1;
-      const rating = getRating(nextCandidate);
-      const comment = getComment(nextCandidate);
-
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
+      populateReviewForCandidate(nextCandidate);
       return nextCandidate;
     });
   };
@@ -81,13 +81,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (currentCandidate === 0) return;
     setCurrentCandidate((prev) => {
       const prevCandidate = prev - 1;
-      const rating = getRating(prevCandidate);
-      const comment = getComment(prevCandidate);
-
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
+      populateReviewForCandidate(prevCandidate);
       return prevCandidate;
     });
   };
@@ -119,7 +113,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
         <div className={styles.searchBar}>
-          <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+          <SearchBar
+            instance={instance}
+            setCurrentCandidate={(candidate) => {
+              setCurrentCandidate(candidate);
+              populateReviewForCandidate(candidate);
+            }}
+            currentCandidate={currentCandidate}
+          />
         </div>
         <div className={styles.controlsContainer}>
           <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
@@ -132,7 +133,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               key: candidate.id,
               text: candidate.id
             }))}
-            onChange={(_, data) => setCurrentCandidate(data.value as number)}
+            onChange={(_, data) => {
+              setCurrentCandidate(data.value as number);
+              populateReviewForCandidate(data.value as number);
+            }}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
           <Button.Group className={styles.previousNextButtonContainer}>
@@ -163,13 +167,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           >
             Save
           </Button>
-          {hasAdminPermission && <Checkbox
-            className={styles.showOtherVotes}
-            toggle
-            checked={showOtherVotes}
-            onChange={() => setShowOtherVotes((prev) => !prev)}
-            label="Show other people's votes"
-          />}
+          {hasAdminPermission && (
+            <Checkbox
+              className={styles.showOtherVotes}
+              toggle
+              checked={showOtherVotes}
+              onChange={() => setShowOtherVotes((prev) => !prev)}
+              label="Show other people's votes"
+            />
+          )}
         </div>
         <ResponsesPanel
           headers={instance.headers}
@@ -185,12 +191,12 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           showOtherVotes={showOtherVotes}
           candidates={instance.candidates}
           currentCandidate={currentCandidate}
-          reviews={reviews}
+          reviews={completedReviews}
         />
         <GlobalProgressPanel
           showOtherVotes={showOtherVotes}
           candidates={instance.candidates}
-          reviews={reviews}
+          reviews={completedReviews}
         />
       </div>
     </div>
