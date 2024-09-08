@@ -84,14 +84,14 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
         comments: candidateReviews.reduce(
           (acc, comment) =>
             comment.comment === ''
-              ? ''
+              ? acc
               : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
           ''
         ),
         ratings: candidateReviews.reduce(
           (acc, rating) =>
             rating.rating === 0
-              ? ''
+              ? acc
               : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
                   rating.rating
                 )}\n`,
