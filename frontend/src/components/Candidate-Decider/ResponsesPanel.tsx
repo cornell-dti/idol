@@ -27,7 +27,7 @@ const credentialHeaders = [
   'Last Name',
   'Graduation Semester',
   'NetID',
-  'Link your resume (required).\n\nPlease make sure your resume is shared with us and anyone with the link can view. We will not review your application if the resume is not viewable!',
+  'Link your resume',
   'Share your GitHub (optional)',
   'Share your LinkedIn (optional)',
   'Share an additional portfolio (optional)',
@@ -62,7 +62,7 @@ const getCredentials = (headers: string[], responses: string[]) => {
         case 'Graduation Semester':
           credentials.gradYear = responses[i];
           break;
-        case 'Link your resume (required).\n\nPlease make sure your resume is shared with us and anyone with the link can view. We will not review your application if the resume is not viewable!':
+        case 'Link your resume':
           credentials.resumeURL = responses[i];
           break;
         case 'Share your GitHub (optional)':
