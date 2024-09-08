@@ -13,11 +13,11 @@ type Props = {
 };
 
 const ratings = [
-  { value: 1, text: 'No', color: 'red' },
-  { value: 2, text: 'Unlikely', color: 'orange' },
+  { value: 1, text: 'Strong No', color: 'red' },
+  { value: 2, text: 'No', color: 'orange' },
   { value: 3, text: 'Maybe', color: 'yellow' },
-  { value: 4, text: 'Strong Maybe', color: 'green' },
-  { value: 5, text: 'Yes', color: 'green ' },
+  { value: 4, text: 'Yes', color: 'green' },
+  { value: 5, text: 'Strong Yes', color: 'green ' },
   { value: 0, text: 'Undecided', color: 'grey' }
 ];
 
