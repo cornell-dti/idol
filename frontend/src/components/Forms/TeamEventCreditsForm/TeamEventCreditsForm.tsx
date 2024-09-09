@@ -59,21 +59,18 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const submitTeamEventCredit = async () => {
+    const creditsWithHours = teamEvent?.hasHours
+      ? Number(teamEvent?.numCredits || 0) * Number(hours)
+      : Number(teamEvent?.numCredits || 0);
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
       const filteredAttendance = attendance.filter((event) => event.eventUuid === teamEvent?.uuid);
-      const sum = filteredAttendance.reduce(
-        (acc, event) =>
-          acc +
-          (teamEvent?.hasHours
-            ? Number(teamEvent?.numCredits || 0) * Number(hours)
-            : Number(teamEvent?.numCredits || 0)),
-        0
-      );
+      const sum = filteredAttendance.reduce((acc, event) => acc + creditsWithHours, 0);
 
       return sum;
     };
 
-    const totalCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
+    const submittedCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
+    const creditsToSubmit = images.length * creditsWithHours;
 
     if (!teamEvent) {
       Emitters.generalError.emit({
@@ -95,10 +92,10 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
-    } else if (totalCredits >= Number(teamEvent.maxCredits)) {
+    } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You already have ${totalCredits} pending or approved for the event!`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting ${submittedCredits + creditsToSubmit} credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
