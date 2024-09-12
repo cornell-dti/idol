@@ -58,19 +58,24 @@ const TeamEventCreditForm: React.FC = () => {
     return createdAttendance;
   };
 
-  const submitTeamEventCredit = async () => {
-    const creditsWithHours = teamEvent?.hasHours
-      ? Number(teamEvent?.numCredits || 0) * Number(hours)
+  const getCreditsWithHours = (teamEvent: TeamEventInfo | undefined, hours: number) =>
+    teamEvent?.hasHours
+      ? Number(teamEvent?.numCredits || 0) * hours
       : Number(teamEvent?.numCredits || 0);
+
+  const submitTeamEventCredit = async () => {
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
       const filteredAttendance = attendance.filter((event) => event.eventUuid === teamEvent?.uuid);
-      const sum = filteredAttendance.reduce((acc, event) => acc + creditsWithHours, 0);
+      const sum = filteredAttendance.reduce(
+        (acc, attendance) => acc + getCreditsWithHours(teamEvent, attendance.hoursAttended || 0),
+        0
+      );
 
       return sum;
     };
 
     const submittedCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
-    const creditsToSubmit = images.length * creditsWithHours;
+    const creditsToSubmit = images.length * getCreditsWithHours(teamEvent, Number(hours));
 
     if (!teamEvent) {
       Emitters.generalError.emit({
@@ -95,7 +100,7 @@ const TeamEventCreditForm: React.FC = () => {
     } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting ${submittedCredits + creditsToSubmit} credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${submittedCredits + creditsToSubmit} credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
