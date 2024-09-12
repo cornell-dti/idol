@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Segment, Label, Button, Dropdown } from 'semantic-ui-react';
+import { Form, Label, Dropdown } from 'semantic-ui-react';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -147,7 +147,7 @@ const TeamEventCreditForm: React.FC = () => {
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.center_and_flex}>
-            {teamEventInfoList && !teamEvent ? (
+            {teamEventInfoList ? (
               <Dropdown
                 placeholder="Select a Team Event"
                 fluid
@@ -155,6 +155,12 @@ const TeamEventCreditForm: React.FC = () => {
                   options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
                 }
                 selection
+                value={teamEvent?.uuid ?? ''}
+                text={
+                  teamEvent
+                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${teamEvent.hasHours ? 'per hour' : ''}`
+                    : ''
+                }
                 options={teamEventInfoList
                   .sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime())
                   .map((event) => ({
@@ -189,30 +195,6 @@ const TeamEventCreditForm: React.FC = () => {
                   setTeamEvent(teamEventInfoList.find((event) => event.uuid === data.value));
                 }}
               />
-            ) : undefined}
-
-            {teamEvent ? (
-              <div className={styles.row_direction}>
-                <div>
-                  <Segment>
-                    <h4>{teamEvent.name}</h4>
-                    <Label>
-                      {`${teamEvent.numCredits} credit(s)`} {teamEvent.hasHours ? 'per hour' : ''}
-                    </Label>
-                  </Segment>
-                </div>
-
-                <Button
-                  negative
-                  onClick={() => {
-                    setTeamEvent(undefined);
-                    setHours('0');
-                  }}
-                  className={styles.inline}
-                >
-                  Clear
-                </Button>
-              </div>
             ) : undefined}
           </div>
         </div>
