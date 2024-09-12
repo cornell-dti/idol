@@ -58,22 +58,24 @@ const TeamEventCreditForm: React.FC = () => {
     return createdAttendance;
   };
 
+  const getCreditsWithHours = (teamEvent: TeamEventInfo | undefined, hours: number) =>
+    teamEvent?.hasHours
+      ? Number(teamEvent?.numCredits || 0) * hours
+      : Number(teamEvent?.numCredits || 0);
+
   const submitTeamEventCredit = async () => {
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
       const filteredAttendance = attendance.filter((event) => event.eventUuid === teamEvent?.uuid);
       const sum = filteredAttendance.reduce(
-        (acc, event) =>
-          acc +
-          (teamEvent?.hasHours
-            ? Number(teamEvent?.numCredits || 0) * Number(hours)
-            : Number(teamEvent?.numCredits || 0)),
+        (acc, attendance) => acc + getCreditsWithHours(teamEvent, attendance.hoursAttended || 0),
         0
       );
 
       return sum;
     };
 
-    const totalCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
+    const submittedCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
+    const creditsToSubmit = images.length * getCreditsWithHours(teamEvent, Number(hours));
 
     if (!teamEvent) {
       Emitters.generalError.emit({
@@ -95,10 +97,10 @@ const TeamEventCreditForm: React.FC = () => {
         headerMsg: 'Minimum Hours Violated',
         contentMsg: 'Team events must be logged for at least 0.5 hours!'
       });
-    } else if (totalCredits >= Number(teamEvent.maxCredits)) {
+    } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You already have ${totalCredits} pending or approved for the event!`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${submittedCredits + creditsToSubmit} credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
@@ -219,7 +221,8 @@ const TeamEventCreditForm: React.FC = () => {
           </label>
           <p className={styles.margin_bottom_zero}>
             Please include a picture of yourself (and others) and/or an email chain only if the
-            former is not possible.
+            former is not possible. You may click the "+" button to add additional submissions to
+            the same event (if the event allows for multiple submissions).
           </p>
 
           {images.map((image, i) => (
