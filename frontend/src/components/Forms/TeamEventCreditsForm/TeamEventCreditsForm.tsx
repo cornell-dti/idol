@@ -239,7 +239,8 @@ const TeamEventCreditForm: React.FC = () => {
           </label>
           <p className={styles.margin_bottom_zero}>
             Please include a picture of yourself (and others) and/or an email chain only if the
-            former is not possible.
+            former is not possible. You may click the "+" button to add additional submissions to
+            the same event (if the event allows for multiple submissions).
           </p>
 
           {images.map((image, i) => (
