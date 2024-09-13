@@ -2,20 +2,20 @@ name: IDOL Notifications
 on:
   schedule:
     # Runs script at 8AM UTC (6PM or 7PM ET) everyday. This hsould be an hour before pull-from-idol
-    - cron: '0 23 * * *'
+    - cron: '0 23 * * MON'
 
 jobs:
   profile-update-notifications:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
       - name: Use Yarn Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.cache/yarn
           key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
@@ -34,10 +34,10 @@ jobs:
   tec-request-notification:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
       - name: Use Yarn Cache

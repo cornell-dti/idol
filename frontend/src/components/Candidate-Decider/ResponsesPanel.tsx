@@ -13,11 +13,11 @@ type Props = {
 };
 
 const ratings = [
-  { value: 1, text: 'No', color: 'red' },
-  { value: 2, text: 'Unlikely', color: 'orange' },
+  { value: 1, text: 'Strong No', color: 'red' },
+  { value: 2, text: 'No', color: 'orange' },
   { value: 3, text: 'Maybe', color: 'yellow' },
-  { value: 4, text: 'Strong Maybe', color: 'green' },
-  { value: 5, text: 'Yes', color: 'green ' },
+  { value: 4, text: 'Yes', color: 'green' },
+  { value: 5, text: 'Strong Yes', color: 'green ' },
   { value: 0, text: 'Undecided', color: 'grey' }
 ];
 
@@ -27,7 +27,7 @@ const credentialHeaders = [
   'Last Name',
   'Graduation Semester',
   'NetID',
-  'Link your resume (required).\n\nPlease make sure your resume is shared with us and anyone with the link can view. We will not review your application if the resume is not viewable!',
+  'Link your resume',
   'Share your GitHub (optional)',
   'Share your LinkedIn (optional)',
   'Share an additional portfolio (optional)',
@@ -62,7 +62,7 @@ const getCredentials = (headers: string[], responses: string[]) => {
         case 'Graduation Semester':
           credentials.gradYear = responses[i];
           break;
-        case 'Link your resume (required).\n\nPlease make sure your resume is shared with us and anyone with the link can view. We will not review your application if the resume is not viewable!':
+        case 'Link your resume':
           credentials.resumeURL = responses[i];
           break;
         case 'Share your GitHub (optional)':

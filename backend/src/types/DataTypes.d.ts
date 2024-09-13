@@ -37,7 +37,6 @@ export type DBTeamEventAttendance = {
   hoursAttended?: number;
   image: string;
   eventUuid: string;
-  pending: boolean;
   status: Status;
   reason: string;
   uuid: string;
@@ -56,8 +55,15 @@ export type DBCandidateDeciderComment = {
 export type DBCandidateDeciderCandidate = {
   readonly responses: string[];
   readonly id: number;
-  ratings: DBCandidateDeciderRating[];
-  comments: DBCandidateDeciderComment[];
+};
+
+export type DBCandidateDeciderReview = {
+  readonly candidateDeciderInstanceUuid: string;
+  readonly candidateId: number;
+  readonly reviewer: firestore.DocumentReference;
+  readonly rating: Rating;
+  readonly comment: string;
+  readonly uuid: string;
 };
 
 export type DBCandidateDeciderInstance = {
@@ -97,4 +103,14 @@ export type DevPortfolioSubmissionRequestLog = {
     submission: DBDevPortfolioSubmission;
     uuid: string;
   };
+};
+
+export type DBCoffeeChat = {
+  uuid: string;
+  members: firestore.DocumentReference[];
+  image: string;
+  category: string;
+  description: string;
+  status: Status;
+  date: number;
 };

@@ -4,8 +4,17 @@ import ShoutoutsDao from '../dao/ShoutoutsDao';
 
 const shoutoutsDao = new ShoutoutsDao();
 
+/**
+ * Retrieves all shoutouts from the database.
+ * @returns A promise that resolves to an array of Shoutout objects.
+ */
 export const getAllShoutouts = (): Promise<Shoutout[]> => shoutoutsDao.getAllShoutouts();
 
+/**
+ * Creates a shoutout, ensuring the giver has the correct permissions.
+ * @throws {PermissionError} If the user attempting to give a shoutout is not the same as the giver specified in the shoutout.
+ * @returns A promise that resolves to the created Shoutout object.
+ */
 export const giveShoutout = async (body: Shoutout, user: IdolMember): Promise<Shoutout> => {
   if (body.giver.email !== user.email) {
     throw new PermissionError(
@@ -15,6 +24,11 @@ export const giveShoutout = async (body: Shoutout, user: IdolMember): Promise<Sh
   return shoutoutsDao.createShoutout(body);
 };
 
+/**
+ * Retrieves shoutouts based on the type (given or received) for a specific member.
+ * @throws {PermissionError} If the user does not have permission to view the shoutouts.
+ * @returns A promise that resolves to an array of Shoutout objects.
+ */
 export const getShoutouts = async (
   memberEmail: string,
   type: 'given' | 'received',
@@ -29,6 +43,11 @@ export const getShoutouts = async (
   return shoutoutsDao.getShoutouts(memberEmail, type);
 };
 
+/**
+ * Hides or unhides a shoutout based on the user's permissions.
+ * @throws {PermissionError} If the user does not have permission to hide shoutouts.
+ * @throws {NotFoundError} If no shoutout with the provided uuid exists.
+ */
 export const hideShoutout = async (
   uuid: string,
   hide: boolean,
@@ -45,6 +64,11 @@ export const hideShoutout = async (
   await shoutoutsDao.updateShoutout({ ...shoutout, hidden: hide });
 };
 
+/**
+ * Deletes a shoutout, ensuring the user has the necessary permissions or ownership.
+ * @throws {NotFoundError} If no shoutout with the provided uuid is found.
+ * @throws {PermissionError} If the user is neither the giver of the shoutout nor an admin or lead.
+ */
 export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<void> => {
   const shoutout = await shoutoutsDao.getShoutout(uuid);
   if (!shoutout) {

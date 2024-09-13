@@ -1,37 +1,39 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
 const navbarItems = [
   {
     name: 'Team',
-    url: '#'
+    url: '/team'
   },
   {
     name: 'Products',
-    url: '#'
+    url: '/products'
   },
   {
     name: 'Courses',
-    url: '#'
+    url: '/courses'
   },
   {
     name: 'Initiative',
-    url: '#'
+    url: '/initiative'
   },
   {
     name: 'Sponsor',
-    url: '#'
+    url: '/sponsor'
   },
   {
     name: 'Apply',
-    url: '#'
+    url: '/apply'
   }
 ];
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleMenuClick = () => {
     document.body.classList.toggle('overflow-hidden');
@@ -39,7 +41,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="relative z-20">
       <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row ">
         <div className="w-fit flex flex-col !justify-center">
           <a href="/">
@@ -55,8 +57,11 @@ const Navbar: React.FC = () => {
         <div className="hidden !justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
             <a
-              className="hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white"
+              className={`hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white ${
+                pathname === item.url ? 'underline' : ''
+              }`}
               href={item.url}
+              key={item.name}
             >
               {item.name}
             </a>

@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { Card, Loader, Message, Button } from 'semantic-ui-react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Card, Loader, Message, Button, Modal, Header, Image } from 'semantic-ui-react';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -7,9 +7,10 @@ import ImagesAPI from '../../../API/ImagesAPI';
 import { Emitters } from '../../../utils';
 
 import {
-  REQUIRED_COMMUNITY_CREDITS,
+  REQUIRED_INITIATIVE_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
-  REQUIRED_MEMBER_TEC_CREDITS
+  REQUIRED_MEMBER_TEC_CREDITS,
+  INITIATIVE_EVENTS
 } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
@@ -28,6 +29,9 @@ const TeamEventCreditDashboard = (props: {
     isAttendanceLoading,
     setPendingAttendance
   } = props;
+  const [image, setImage] = useState('');
+  const [open, setOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
@@ -39,6 +43,14 @@ const TeamEventCreditDashboard = (props: {
     const hours = attendance.hoursAttended;
     if (hours !== undefined) return hours;
     return 1;
+  };
+
+  const getTeamEventImage = (attendance: TeamEventAttendance) => {
+    setLoading(true);
+    ImagesAPI.getEventProofImage(attendance.image).then((url: string) => {
+      setImage(url);
+      setLoading(false);
+    });
   };
 
   const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
@@ -63,7 +75,7 @@ const TeamEventCreditDashboard = (props: {
   };
 
   let approvedCredits = 0;
-  let approvedCommunityCredits = 0;
+  let approvedInitiativeCredits = 0;
   approvedAttendance.forEach(async (attendance) => {
     const event = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
     if (event !== undefined) {
@@ -71,31 +83,31 @@ const TeamEventCreditDashboard = (props: {
         ? Number(event.numCredits) * getHoursAttended(attendance)
         : Number(event.numCredits);
       approvedCredits += currCredits;
-      approvedCommunityCredits += event.isCommunity ? currCredits : 0;
+      approvedInitiativeCredits += event.isInitiativeEvent ? currCredits : 0;
     }
   });
-
-  // remove this variable and usage when community events ready to be released
-  const COMMUNITY_EVENTS = false;
 
   // Calculate the remaining credits
   let remainingCredits;
   if (requiredCredits - approvedCredits > 0) remainingCredits = requiredCredits - approvedCredits;
-  else if (COMMUNITY_EVENTS && approvedCommunityCredits < REQUIRED_COMMUNITY_CREDITS)
-    remainingCredits = REQUIRED_COMMUNITY_CREDITS - approvedCommunityCredits;
+  else if (INITIATIVE_EVENTS && approvedInitiativeCredits < REQUIRED_INITIATIVE_CREDITS)
+    remainingCredits = REQUIRED_INITIATIVE_CREDITS - approvedInitiativeCredits;
   else remainingCredits = 0;
 
   let headerString;
   if (userRole !== 'lead')
     headerString = `Check your team event credit status for this semester here!  
-    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits 
-    ${COMMUNITY_EVENTS ? `and ${REQUIRED_COMMUNITY_CREDITS} community team event credits` : ''} 
+    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${
+      INITIATIVE_EVENTS
+        ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
+        : ''
+    } 
     to fulfill this requirement.`;
   else
-    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event credits
-    ${
-      COMMUNITY_EVENTS
-        ? `, with ${REQUIRED_COMMUNITY_CREDITS} of them being community event credits`
+    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event 
+    credits${
+      INITIATIVE_EVENTS
+        ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
     }.`;
 
@@ -116,25 +128,69 @@ const TeamEventCreditDashboard = (props: {
                       teamEvent.hasHours
                         ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
                         : teamEvent.numCredits
+                    } ${
+                      teamEvent.maxCredits === teamEvent.numCredits
+                        ? ''
+                        : `(${teamEvent.maxCredits} Max)`
                     }`}
                   </Card.Meta>
+                  {INITIATIVE_EVENTS && (
+                    <Card.Meta>
+                      Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
+                    </Card.Meta>
+                  )}
                   {attendance.reason ? <Card.Meta>Reason: {attendance.reason}</Card.Meta> : null}
-                  <Card.Meta>
+                  <Card.Meta className={styles.margin_before_button}>
                     {attendance.status === 'pending' && (
-                      <Button
-                        basic
-                        color="red"
-                        onClick={() => {
-                          deleteTECAttendanceRequest(attendance);
-                        }}
-                      >
-                        Cancel
-                      </Button>
+                      <div>
+                        <Button
+                          basic
+                          color="red"
+                          floated="right"
+                          size="small"
+                          onClick={() => {
+                            deleteTECAttendanceRequest(attendance);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+
+                        <Modal
+                          closeIcon
+                          onClose={() => setOpen(false)}
+                          onOpen={() => {
+                            getTeamEventImage(attendance);
+                            setOpen(true);
+                          }}
+                          open={open}
+                          trigger={
+                            <Button basic color="green" floated="left" size="small">
+                              Preview
+                            </Button>
+                          }
+                        >
+                          <Modal.Header>Team Event Credit Preview</Modal.Header>
+                          <Modal.Content className={styles.modalContent} scrolling>
+                            <Modal.Description>
+                              <Header>
+                                {attendance.member.firstName} {attendance.member.lastName}
+                              </Header>
+                              <p>Team Event: {teamEvent.name}</p>
+                              <p>Number of Credits: {teamEvent.numCredits}</p>
+                              {teamEvent.hasHours && (
+                                <p> Hours Attended: {attendance.hoursAttended}</p>
+                              )}
+                              {isLoading ? (
+                                <Loader className="modalLoader" active inline />
+                              ) : (
+                                <Image src={image} />
+                              )}
+                            </Modal.Description>
+                          </Modal.Content>
+                        </Modal>
+                      </div>
                     )}
                   </Card.Meta>
-                  {COMMUNITY_EVENTS && (
-                    <Card.Meta>Community Event: {teamEvent.isCommunity ? 'Yes' : 'No'}</Card.Meta>
-                  )}
                 </Card.Content>
               </Card>
             );
@@ -167,11 +223,11 @@ const TeamEventCreditDashboard = (props: {
             </label>
           </div>
 
-          {COMMUNITY_EVENTS && (
+          {INITIATIVE_EVENTS && (
             <div className={styles.inline}>
               <label className={styles.bold}>
-                Your Approved Community Credits:{' '}
-                <span className={styles.dark_grey_color}>{approvedCommunityCredits}</span>
+                Your Approved Initiative Credits:{' '}
+                <span className={styles.dark_grey_color}>{approvedInitiativeCredits}</span>
               </label>
             </div>
           )}
@@ -182,6 +238,17 @@ const TeamEventCreditDashboard = (props: {
               <span className={styles.dark_grey_color}>{remainingCredits}</span>
             </label>
           </div>
+
+          {INITIATIVE_EVENTS && (
+            <div className={styles.inline}>
+              <label className={styles.bold}>
+                Remaining Initiative Credits Needed:{' '}
+                <span className={styles.dark_grey_color}>
+                  {Math.max(0, REQUIRED_INITIATIVE_CREDITS - approvedInitiativeCredits)}
+                </span>
+              </label>
+            </div>
+          )}
 
           <div className={styles.inline}>
             <label className={styles.bold}>Approved Events:</label>

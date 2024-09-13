@@ -78,9 +78,7 @@ export default class TeamEventsDao {
 
   /* Returns all team event information details through 'TeamEventInfo' objects */
   static async getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
-    const docRefs = await teamEventsCollection
-      .select('name', 'date', 'numCredits', 'hasHours', 'uuid')
-      .get();
+    const docRefs = await teamEventsCollection.get();
     return docRefs.docs.map((doc) => doc.data() as TeamEventInfo);
   }
 }

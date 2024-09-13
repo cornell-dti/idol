@@ -12,6 +12,8 @@
   border-right: solid;
   border-color: lightgrey;
   padding: 1%;
+  overflow-wrap: break-word;
+  overflow: hidden;
 }
 
 .progressContainer {
