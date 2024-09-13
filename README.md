@@ -50,7 +50,6 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 - **Sam Shridhar** - PM
 - **Andrew Chen** - TPM
-- **Oscar Wang** - Dev Lead/Dev Advisor
 - **Vannessa Wong** - Designer
 - **Jason Mun** - Developer
 - **Patricia Huang** - Developer
