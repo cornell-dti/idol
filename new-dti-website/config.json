@@ -1,4 +1,56 @@
 {
   "semester": "Spring 2024",
-  "applicationDeadline": "February 1, 2024 11:59:59"
+  "applicationDeadline": "February 1, 2024 11:59:59 PM",
+  "applicationLink": "",
+  "timeline": {
+    "cycles": ["freshmen/transfer", "upperclassmen"],
+    "events": [
+      {
+        "title": "Applications Open!",
+        "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+        "location": "Google Form Application",
+        "date": "August 30",
+        "link": "form link"
+      },
+      {
+        "title": "Information Session 1",
+        "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after!",
+        "location": "Goldwin Smith Hall G26",
+        "date": "September 2",
+        "time": "5-6PM"
+      },
+      {
+        "title": "Information Session 2",
+        "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+        "location": "Goldwin Smith Hall G22",
+        "date": "September 30",
+        "time": "5-6PM",
+        "cycles": ["freshmen/transfer"]
+      },
+      {
+        "title": "Information Session 2",
+        "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+        "location": "Goldwin Smith Hall G22",
+        "date": "September 5",
+        "time": "5-6PM",
+        "cycles": ["upperclassmen"]
+      },
+      {
+        "title": "Applications Due",
+        "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+        "location": "Google Form Application",
+        "date": "September 12",
+        "link": "link",
+        "cycles": ["upperclassmen"]
+      },
+      {
+        "title": "Applications Due",
+        "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+        "location": "Google Form Application",
+        "date": "October 17",
+        "link": "link",
+        "cycles": ["freshmen/transfer"]
+      }
+    ]
+  }
 }
