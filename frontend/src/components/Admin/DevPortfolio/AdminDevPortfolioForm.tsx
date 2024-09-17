@@ -43,6 +43,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({
   const [deadline, setDeadline] = useState<Date>(deadlineDate);
   const [earliestDate, setEarliestDate] = useState<Date>(earliestValidDate);
   const [lateDeadline, setLateDeadline] = useState(lateDeadlineDate);
+  const [lastCreatedPortfolio, setLastCreatedPortfolio] = useState<DevPortfolio>();
 
   const handleSubmit = () => {
     if (name === '') {
@@ -90,6 +91,7 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({
       };
       DevPortfolioAPI.createDevPortfolio(newPortfolio).then((portfolio) => {
         setDevPortfolios((portfolios) => [...portfolios, portfolio]);
+        setLastCreatedPortfolio(portfolio);
         setSuccess(true);
       });
     }
@@ -131,11 +133,13 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({
           <Form.Button id={styles.submitButton} onClick={() => handleSubmit()}>
             Create Assignment
           </Form.Button>
-          <Message
-            success
-            header="Dev Portfolio Created"
-            content={`${name} was successfully created and will be due on ${deadline.toDateString()}`}
-          />
+          {lastCreatedPortfolio && (
+            <Message
+              success
+              header="Dev Portfolio Created"
+              content={`${lastCreatedPortfolio.name} was successfully created and will be due on ${new Date(lastCreatedPortfolio.deadline).toDateString()}`}
+            />
+          )}
         </>
       )}
 
