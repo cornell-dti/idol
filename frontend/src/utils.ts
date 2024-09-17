@@ -16,6 +16,8 @@ export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
       return 'Designer';
     case 'business':
       return 'Business Analyst';
+    case 'dev-advisor':
+      return 'Dev Advisor';
     default:
       throw new Error();
   }

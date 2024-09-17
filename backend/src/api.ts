@@ -20,7 +20,8 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange
+  reviewUserInformationChange,
+  generateMemberArchive
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -61,7 +62,8 @@ import {
   deleteCandidateDeciderInstance,
   getCandidateDeciderInstance,
   updateCandidateDeciderRatingAndComment,
-  updateCandidateDeciderInstance
+  updateCandidateDeciderInstance,
+  getCandidateDeciderReviews
 } from './API/candidateDeciderAPI';
 import {
   deleteEventProofImage,
@@ -98,8 +100,8 @@ export const enforceSession = true;
 const allowedOrigins = allowAllOrigins
   ? [/.*/]
   : isProd
-  ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
-  : [/http:\/\/localhost:3000/];
+    ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
+    : [/http:\/\/localhost:3000/];
 
 // Middleware
 app.use(
@@ -227,6 +229,10 @@ loginCheckedGet('/memberDiffs', async (_, user) => ({
 }));
 loginCheckedPut('/memberDiffs', async (req, user) => ({
   member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
+}));
+
+loginCheckedPost('/member-archive', async (req, user) => ({
+  archive: await generateMemberArchive(req.body, user, req.query.semesters as number | undefined)
 }));
 
 // Teams
@@ -366,6 +372,9 @@ loginCheckedGet('/candidate-decider', async (_, user) => ({
 }));
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
+}));
+loginCheckedGet('/candidate-decider/:uuid/review', async (req, user) => ({
+  reviews: await getCandidateDeciderReviews(req.params.uuid, user)
 }));
 loginCheckedPost('/candidate-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)

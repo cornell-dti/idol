@@ -5,7 +5,9 @@ import {
   DBCandidateDeciderInstance,
   DBDevPortfolio,
   DevPortfolioSubmissionRequestLog,
-  DBTeamEventAttendance
+  DBTeamEventAttendance,
+  DBCandidateDeciderReview,
+  DBCoffeeChat
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -134,7 +136,28 @@ export const devPortfolioSubmissionRequestLogCollection: admin.firestore.Collect
     }
   });
 
+export const coffeeChatsCollection: admin.firestore.CollectionReference<DBCoffeeChat> = db
+  .collection('coffee-chats')
+  .withConverter({
+    fromFirestore(snapshot): DBCoffeeChat {
+      return snapshot.data() as DBCoffeeChat;
+    },
+    toFirestore(coffeeChatData: DBCoffeeChat) {
+      return coffeeChatData;
+    }
+  });
+
 export const adminCollection: admin.firestore.CollectionReference = db.collection('admins');
 
 export const teamEventAdminCollection: admin.firestore.CollectionReference =
   db.collection('team-event-admins');
+
+export const candidateDeciderReviewCollection: admin.firestore.CollectionReference<DBCandidateDeciderReview> =
+  db.collection('candidate-decider-review').withConverter({
+    fromFirestore(snapshot): DBCandidateDeciderReview {
+      return snapshot.data() as DBCandidateDeciderReview;
+    },
+    toFirestore(candidateDeciderReviewData: DBCandidateDeciderReview) {
+      return candidateDeciderReviewData;
+    }
+  });

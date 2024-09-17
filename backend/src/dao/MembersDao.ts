@@ -2,6 +2,7 @@ import { db, approvedMemberCollection, memberCollection } from '../firebase';
 import { Team } from '../types/DataTypes';
 import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
 import BaseDao from './BaseDao';
+import { allMemberImages } from '../API/imageAPI';
 
 export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
   constructor() {
@@ -96,6 +97,11 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
     await batch.commit();
   }
 
+  /**
+   * Gets all teams based on the subteam and formersubteam(s) each member is on, since teams do not have
+   * a collection in the database (teams are aggregated data from the members collection).
+   * @returns A promise that resolves to an array of Team objects.
+   */
   static async getAllTeams(): Promise<Team[]> {
     const allMembers = await MembersDao.getAllMembers(false);
     const teamsMap = new Map<string, Team>();
@@ -125,6 +131,11 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
     return Array.from(teamsMap.values());
   }
 
+  /**
+   * Gets a specific team by searching through each IDOL member and saving each member of the team.
+   * @param id - The name of the team
+   * @returns A promise that resolves to the Team object with the specified name, or null if the team has no members.
+   */
   static async getTeam(id: string): Promise<Team | null> {
     const allMembers = await MembersDao.getAllMembers(false);
     const team: Team = { uuid: id, name: id, leaders: [], members: [], formerMembers: [] };
@@ -146,5 +157,60 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
 
     if (team.leaders.length + team.members.length + team.formerMembers.length === 0) return null;
     return team;
+  }
+
+  /**
+   * Generates an archive of all IDOL members into three categories: current, alumni, and inactive.
+   * The data for each member includes additional information for display on the website.
+   * @param updates - the status of IDOL members in the next semester.
+   * @param semesters - the limit, if any, of the number of semesters to include in archive.
+   * @returns A promise that resolves to an Archive object.
+   */
+  static async generateArchive(
+    updates: {
+      [key: string]: string[];
+    },
+    semesters: number | undefined
+  ): Promise<{ [key: string]: string[] }> {
+    const allMembers: Set<string> = new Set();
+    const archive = { current: [], alumni: [], inactive: [] };
+
+    const currentMembers = await MembersDao.getAllMembers(true);
+    const images = await allMemberImages();
+
+    const addToArchive = (returning: boolean, member: IdolMember) => {
+      allMembers.add(member.netid);
+      const image = images.find((image) => image.fileName.split('.')[0] === member.netid);
+
+      let key = 'current';
+      if (!returning) {
+        key = Date.parse(member.graduation) < Date.now() ? 'alumni' : 'inactive';
+      }
+
+      archive[key].push({
+        ...member,
+        image: image ? image.url : null,
+        coffeeChatLink: `mailto:${member.email}`
+      });
+    };
+
+    // Each current member's netid should be found in the returning members survey.
+    currentMembers.forEach((member) => {
+      addToArchive(updates.returning.includes(member.netid), member);
+    });
+
+    Object.values(archivedMembersBySemesters)
+      .reverse()
+      .forEach((semester, index) => {
+        if (!semesters || index < semesters) {
+          semester.forEach((member) => {
+            if (!allMembers.has(member.netid)) {
+              addToArchive(false, member);
+            }
+          });
+        }
+      });
+
+    return archive;
   }
 }

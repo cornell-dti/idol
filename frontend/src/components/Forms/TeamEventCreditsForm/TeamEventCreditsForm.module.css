@@ -57,3 +57,11 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.modal_content {
+  max-height: 60vh !important;
+}
+
+.margin_before_button {
+  margin-top: 1rem;
+}

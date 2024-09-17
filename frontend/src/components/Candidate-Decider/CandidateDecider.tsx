@@ -4,10 +4,13 @@ import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
 import GlobalProgressPanel from './GlobalProgressPanel';
-import { useSelf } from '../Common/FirestoreDataProvider';
+import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
-import useCandidateDeciderInstance from './useCandidateDeciderInstance';
+import {
+  useCandidateDeciderInstance,
+  useCandidateDeciderReviews
+} from './useCandidateDeciderInstance';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -18,22 +21,24 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
   const userInfo = useSelf();
-  const [instance, setInstance] = useCandidateDeciderInstance(uuid);
+  const instance = useCandidateDeciderInstance(uuid);
+  const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
+  const hasAdminPermission = useHasAdminPermission();
 
   const getRating = (candidate: number) => {
-    const rating = instance.candidates[candidate].ratings.find(
-      (rt) => rt.reviewer.email === userInfo?.email
+    const rating = reviews.find(
+      (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (rating) return rating.rating;
-    return 0;
+    return undefined;
   };
 
   const getComment = (candidate: number) => {
-    const comment = instance.candidates[candidate].comments.find(
-      (cmt) => cmt.reviewer.email === userInfo?.email
+    const comment = reviews.find(
+      (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
     if (comment) return comment.comment;
-    return '';
+    return undefined;
   };
 
   const [currentRating, setCurrentRating] = useState<Rating>();
@@ -41,35 +46,33 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [defaultCurrentRating, setDefaultCurrentRating] = useState<Rating>();
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
+  const populateReviewForCandidate = (candidate: number) => {
+    const rating = getRating(candidate);
+    const comment = getComment(candidate);
+    setCurrentRating(rating);
+    setCurrentComment(comment);
+    setDefaultCurrentRating(rating);
+    setDefaultCurrentComment(comment);
+  };
+
+  const completedReviews = reviews.filter((review) => review.rating !== 0);
+
   useEffect(() => {
-    // Only set the currentRating and currentComment once when the instance first loads in
     if (
       instance.candidates[currentCandidate] &&
       currentRating === undefined &&
       currentComment === undefined
     ) {
-      const rating = getRating(currentCandidate);
-      const comment = getComment(currentCandidate);
-
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
+      populateReviewForCandidate(currentCandidate);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCandidate, instance.candidates]);
+  }, [currentCandidate, instance.candidates, reviews]);
 
   const next = () => {
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => {
       const nextCandidate = prev + 1;
-      const rating = getRating(nextCandidate);
-      const comment = getComment(nextCandidate);
-
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
+      populateReviewForCandidate(nextCandidate);
       return nextCandidate;
     });
   };
@@ -78,13 +81,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     if (currentCandidate === 0) return;
     setCurrentCandidate((prev) => {
       const prevCandidate = prev - 1;
-      const rating = getRating(prevCandidate);
-      const comment = getComment(prevCandidate);
-
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
+      populateReviewForCandidate(prevCandidate);
       return prevCandidate;
     });
   };
@@ -92,36 +89,23 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
     CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
     if (userInfo) {
+      setCurrentRating(rating);
+      setCurrentComment(comment);
       setDefaultCurrentRating(rating);
       setDefaultCurrentComment(comment);
-      setInstance((instance) => ({
-        ...instance,
-        candidates: instance.candidates.map((candidate) =>
-          candidate.id === id
-            ? {
-                ...candidate,
-                ratings: candidate.ratings.find(
-                  (currRating) => currRating.reviewer.email === userInfo.email
-                )
-                  ? candidate.ratings.map((currRating) =>
-                      currRating.reviewer.email === userInfo.email
-                        ? { rating, reviewer: userInfo }
-                        : currRating
-                    )
-                  : [...candidate.ratings, { rating, reviewer: userInfo }],
-                comments: candidate.comments.find(
-                  (currComment) => currComment.reviewer.email === userInfo.email
-                )
-                  ? candidate.comments.map((currComment) =>
-                      currComment.reviewer.email === userInfo.email
-                        ? { comment, reviewer: userInfo }
-                        : currComment
-                    )
-                  : [...candidate.comments, { comment, reviewer: userInfo }]
-              }
-            : candidate
-        )
-      }));
+      setReviews((reviews) => [
+        ...reviews.filter(
+          (review) => review.candidateId !== id || review.reviewer.email !== userInfo.email
+        ),
+        {
+          rating,
+          comment,
+          candidateDeciderInstanceUuid: uuid,
+          candidateId: id,
+          reviewer: userInfo,
+          uuid: ''
+        }
+      ]);
     }
   };
 
@@ -131,7 +115,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     <div className={styles.candidateDeciderContainer}>
       <div className={styles.applicationContainer}>
         <div className={styles.searchBar}>
-          <SearchBar instance={instance} setCurrentCandidate={setCurrentCandidate} />
+          <SearchBar
+            instance={instance}
+            setCurrentCandidate={(candidate) => {
+              setCurrentCandidate(candidate);
+              populateReviewForCandidate(candidate);
+            }}
+            currentCandidate={currentCandidate}
+          />
         </div>
         <div className={styles.controlsContainer}>
           <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
@@ -144,7 +135,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               key: candidate.id,
               text: candidate.id
             }))}
-            onChange={(_, data) => setCurrentCandidate(data.value as number)}
+            onChange={(_, data) => {
+              setCurrentCandidate(data.value as number);
+              populateReviewForCandidate(data.value as number);
+            }}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
           <Button.Group className={styles.previousNextButtonContainer}>
@@ -175,13 +169,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           >
             Save
           </Button>
-          <Checkbox
-            className={styles.showOtherVotes}
-            toggle
-            checked={showOtherVotes}
-            onChange={() => setShowOtherVotes((prev) => !prev)}
-            label="Show other people's votes"
-          />
+          {hasAdminPermission && (
+            <Checkbox
+              className={styles.showOtherVotes}
+              toggle
+              checked={showOtherVotes}
+              onChange={() => setShowOtherVotes((prev) => !prev)}
+              label="Show other people's votes"
+            />
+          )}
         </div>
         <ResponsesPanel
           headers={instance.headers}
@@ -197,8 +193,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           showOtherVotes={showOtherVotes}
           candidates={instance.candidates}
           currentCandidate={currentCandidate}
+          reviews={completedReviews}
         />
-        <GlobalProgressPanel showOtherVotes={showOtherVotes} candidates={instance.candidates} />
+        <GlobalProgressPanel
+          showOtherVotes={showOtherVotes}
+          candidates={instance.candidates}
+          reviews={completedReviews}
+        />
       </div>
     </div>
   );

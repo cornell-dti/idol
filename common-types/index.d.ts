@@ -1,7 +1,7 @@
 /** The common types required by more than one workspace. */
 
 /** All possible roles for a DTI member */
-type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business';
+type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business' | 'dev-advisor';
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
@@ -10,7 +10,8 @@ type RoleDescription =
   | 'Product Manager'
   | 'Developer'
   | 'Designer'
-  | 'Business Analyst';
+  | 'Business Analyst'
+  | 'Dev Advisor';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -40,7 +41,9 @@ interface IdolMemberDiff {
   readonly diffString: string;
 }
 
-/** The data type used by Nova site to represent a DTI member. */
+/** The data type used by Nova site to represent a DTI member.
+ * @deprecated used in past DTI websites
+ */
 interface NovaMember {
   readonly netid: string;
   readonly name: string;
@@ -59,6 +62,12 @@ interface NovaMember {
   readonly formerSubteams?: string[];
   readonly roleId: string;
   readonly roleDescription: string;
+}
+
+/** The data type used by new DTI website to represent a DTI member. */
+interface MemberProfile extends IdolMember {
+  readonly image?: string | null;
+  readonly coffeeChatLink?: string | null;
 }
 
 interface ProfileImage {
@@ -100,6 +109,7 @@ interface TeamEventInfo {
   readonly uuid: string;
   readonly isCommunity?: boolean;
   readonly isInitiativeEvent: boolean;
+  readonly maxCredits: string;
 }
 
 interface TeamEvent extends TeamEventInfo {
@@ -126,8 +136,15 @@ interface CandidateDeciderComment {
 interface CandidateDeciderCandidate {
   readonly responses: string[];
   readonly id: number;
-  ratings: CandidateDeciderRating[];
-  comments: CandidateDeciderComment[];
+}
+
+interface CandidateDeciderReview {
+  readonly candidateDeciderInstanceUuid: string;
+  readonly candidateId: number;
+  readonly reviewer: IdolMember;
+  readonly rating: Rating;
+  readonly comment: string;
+  readonly uuid: string;
 }
 
 interface CandidateDeciderInstance extends CandidateDeciderInfo {
@@ -190,4 +207,14 @@ interface Shoutout {
   readonly timestamp: number;
   readonly hidden: boolean;
   readonly uuid: string;
+}
+
+interface CoffeeChat {
+  readonly uuid: string;
+  readonly members: IdolMember[];
+  readonly image: string;
+  readonly category: string;
+  readonly description: string;
+  readonly status: Status;
+  readonly date: number;
 }
