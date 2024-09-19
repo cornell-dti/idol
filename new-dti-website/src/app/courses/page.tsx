@@ -1,8 +1,35 @@
 'use client';
 // *IMPORTS
+import Image from 'next/image';
+import { useEffect, useRef } from 'react';
+
+// *COMPONENTS
 import RedBlob from '../../../components/blob';
 
 export default function Courses() {
+  const trendsLogoRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && trendsLogoRef.current) {
+          trendsLogoRef.current.classList.add('sticker-animate');
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (trendsLogoRef.current) {
+      observer.observe(trendsLogoRef.current);
+    }
+
+    return () => {
+      if (trendsLogoRef.current) {
+        observer.unobserve(trendsLogoRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <section id="Hero Section">
@@ -47,12 +74,20 @@ export default function Courses() {
         </div>
       </section>
 
+      {/* LOGO SECTION */}
       <section id="Trends and Web Development">
-        <div className="bg-[#EDEDED] text-black flex flex-col lg:flex-row lg:items-center min-h-[60vh]">
-          <div className="w-1/2">Logo</div>
+        <div className="bg-[#EDEDED] text-black flex flex-col pl-10 lg:flex-row lg:items-center lg:justify-around min-h-[60vh]">
+          <div ref={trendsLogoRef} className="sticker">
+            <Image
+              src={'/icons/courses/trends_logo.png'}
+              width={450}
+              height={450}
+              alt="Trends Logo"
+            />
+          </div>
 
-          <div className="flex flex-col w-1/2">
-            <div className="font-black md:text-xl xs:text-2xl tracking-wider">
+          <div className="flex flex-col lg:w-1/2">
+            <div className="font-black md:text-xl sm:text-md xs:text-sm tracking-wider">
               MODERN INDUSTRY-LEADING TECHNOLOGY
             </div>
 
@@ -84,6 +119,38 @@ export default function Courses() {
           </div>
         </div>
       </section>
+
+      {/* TODO: KEY EXPERIENCES SECTION */}
+      <section id="Key Experiences">
+        <div className="bg-[#EDEDED] text-black flex flex-col lg:flex-row lg:items-center min-h-[50vh] border-2 border-green-500"></div>
+      </section>
+
+      {/* TODO: TIMELINE SECTION */}
+      <section id="Timeline"></section>
+
+      {/* TODO: COURSE STAFF SECTION*/}
+      <section id="Course Staff"></section>
+
+      {/* TODO: PAST STUDENT EXPERIENCES SECTION*/}
+      <section id="Past Student Experiences"></section>
+
+      {/* TODO: PAST STUDENT PROJECTS SECTION*/}
+      <section id="Past Student Projects"></section>
+
+      <style jsx>{`
+        .sticker {
+          opacity: 0;
+          transform: scale(0) rotate(-15deg);
+          transition:
+            transform 0.6s ease-out,
+            opacity 0.6s ease-out;
+        }
+
+        .sticker-animate {
+          opacity: 1;
+          transform: scale(1) rotate(0);
+        }
+      `}</style>
     </>
   );
 }
