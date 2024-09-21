@@ -1,5 +1,10 @@
+'use client';
+
+import RoleDescriptions from '../../../components/apply/RoleDescriptions';
+import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
+
 const ApplyHero = () => (
-  <div className="text-white min-h-[calc(100vh-136px)] flex items-center">
+  <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center">
     <div className="flex gap-x-[60px] ml-[90px] mr-[169px]">
       <h1 className="text-[100px] leading-[120px] font-semibold">
         JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
@@ -25,7 +30,9 @@ const ApplyHero = () => (
 
 const ApplyPage = () => (
   <>
-    <ApplyHero />;
+    <ApplyHero />
+    <ApplicationTimeline />
+    <RoleDescriptions />
   </>
 );
 
