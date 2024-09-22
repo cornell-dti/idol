@@ -198,7 +198,7 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
   };
   return CDI;
 };
-  
+
 /** Create fake Coffee Chat */
 export const fakeCoffeeChat = (): CoffeeChat => {
   const DP = {
