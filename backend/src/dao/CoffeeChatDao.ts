@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { db, memberCollection, coffeeChatsCollection } from '../firebase';
+import { memberCollection, coffeeChatsCollection } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
-import { deleteCollection } from '../utils/firebase-utils';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const member1 = await getMemberFromDocumentReference(dbCoffeeChat.members[0]);
@@ -35,9 +34,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * @param coffeeChat - Newly created CoffeeChat object.
    * If provided, the object uuid will be used. If not, a new one will be generated.
    * The pending field will be set to true by default.
-   * A member can not create a coffee chat the same person from previous semesters
    */
-
   async createCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
     const coffeeChatWithUUID = {
       ...coffeeChat,
@@ -96,6 +93,10 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Deletes all coffee chats for all users
    */
   static async clearAllCoffeeChats(): Promise<void> {
-    await deleteCollection(db, 'coffee-chats', 500);
+    const batch = coffeeChatsCollection.firestore.batch();
+    const coll = await coffeeChatsCollection.get();
+
+    coll.docs.forEach((doc) => batch.delete(doc.ref));
+    await batch.commit();
   }
 }
