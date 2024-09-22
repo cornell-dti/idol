@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import config from '../../config.json';
+import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
 
 type TabProps = {
@@ -28,7 +30,8 @@ type DateTime = {
 type RecruitmentEvent = {
   title: string;
   description: string;
-  location: string;
+  location?: string;
+  type: string;
   link?: string;
   freshmen: DateTime;
   upperclassmen: DateTime;
@@ -82,7 +85,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
   dateTime
 }) => {
   const isNextEvent = index === nextEventIndex;
-  
+
   return (
     <div
       className={`flex lg:gap-x-10 md:gap-x-7 xs:gap-x-3 md:mx-12 xs:mx-3 ${
@@ -118,8 +121,16 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
         <div
           className={`${
             isNextEvent ? 'w-16 h-16 bg-[#FEFEFE]' : 'w-14 h-14 bg-[#F5E3E3] '
-          } rounded-xl border-4 border-solid border-[#A52424D9] z-20`}
-        />
+          } rounded-xl border-8 border-solid border-[#A52424D9] z-20 flex items-center justify-center`}
+        >
+          <Image
+            src={timelineIcons[event.type as keyof typeof timelineIcons].src}
+            alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
+            width={25}
+            height={25}
+            className={isNextEvent ? 'scale-[1.4] brightness-0' : ''}
+          />
+        </div>
       </div>
       <div className="flex flex-col gap-3">
         <h2
@@ -141,12 +152,40 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
               : 'lg:text-[15px] lg:leading-[18px]'
           }`}
         >
-          <p className={`${event.link ? 'underline' : ''}`}>
-            {event.link ? <a href={event.link}>{event.location}</a> : event.location}
-          </p>
-          <p>{`${dateTime.isTentative ? 'TBD' : dateTime.date}${
-            dateTime.time ? `, ${dateTime.time}` : ''
-          }`}</p>
+          {event.location && (
+            <div className="flex md:gap-2 xs:gap-1 items-center">
+              <Image
+                src="/icons/location.svg"
+                alt="location"
+                width={10}
+                height={10}
+                className={`${
+                  isNextEvent
+                    ? 'lg:scale-[2.8] md:scale-[1.8] xs:scale-[1.4] brightness-0'
+                    : 'lg:scale-[1.8] md:scale-[1.2]'
+                }`}
+              />
+              <p className={event.link ? 'underline' : ''}>
+                {event.link ? <a href={event.link}>{event.location}</a> : event.location}
+              </p>
+            </div>
+          )}
+          <div className="flex md:gap-2 xs:gap-1 items-center">
+            <Image
+              src="/icons/calendar.svg"
+              alt="calendar"
+              width={10}
+              height={10}
+              className={`${
+                isNextEvent
+                  ? 'lg:scale-[2.8] md:scale-[1.8] xs:scale-[1.4] brightness-0'
+                  : 'lg:scale-[1.8] md:scale-[1.2]'
+              }`}
+            />
+            <p>{`${dateTime.isTentative ? 'TBD' : dateTime.date}${
+              dateTime.time ? `, ${dateTime.time}` : ''
+            }`}</p>
+          </div>
         </div>
       </div>
     </div>
