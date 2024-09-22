@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import applicationData from './data/applications.json';
+import config from '../../config.json';
 
 const applications = applicationData as {
   [key: string]: {
@@ -25,7 +26,7 @@ const RoleDescriptions = () => {
               <div className="flex flex-col items-center gap-7" key={application}>
                 <h3
                   className={`text-[24px] leading-[29px] ${
-                    role === application ? 'font-semibold' : 'text-[#877B7B]'
+                    role === application ? 'font-semibold' : 'text-[#877B7B] font-medium'
                   }`}
                 >
                   {application.charAt(0).toUpperCase() + application.substring(1)}
@@ -78,9 +79,9 @@ const RoleDescriptions = () => {
         </div>
         <button
           className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
+          font-bold hover:bg-[#D63D3D] hover:text-[#A52424] w-fit"
         >
-          Apply now
+          <a href={config.applicationLink}>Apply now</a>
         </button>
       </div>
     </div>

@@ -10,12 +10,12 @@ type TabProps = {
 
 const Tab: React.FC<TabProps> = ({ isSelected, text, onClick }) => (
   <div
-    className={`px-5 py-4 rounded-t-xl ${
+    className={`flex items-center lg:px-5 lg:py-4 md:px-4 md:py-3 xs:px-2 md:rounded-t-xl xs:rounded-t-lg ${
       isSelected ? 'bg-[#FEFEFE] text-[#A52424]' : 'bg-[#7E2222CC] text-[#FEFEFE]'
-    } hover:cursor-pointer h-min`}
+    } hover:cursor-pointer md:h-min xs:h-full`}
     onClick={onClick}
   >
-    <p className="font-bold text-lg">{text}</p>
+    <p className="font-bold lg:text-lg md:text-[13px] xs:text-[10px]">{text}</p>
   </div>
 );
 
@@ -82,12 +82,20 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
   dateTime
 }) => {
   const isNextEvent = index === nextEventIndex;
+  
   return (
     <div
-      className={`flex gap-x-10 mx-12 ${isNextEvent ? 'text-[#0C0404] my-4' : 'text-[#727272]'}`}
+      className={`flex lg:gap-x-10 md:gap-x-7 xs:gap-x-3 md:mx-12 xs:mx-3 ${
+        isNextEvent ? 'text-[#0C0404] my-4' : 'text-[#727272]'
+      }`}
     >
       <div className="flex flex-col items-center justify-center min-w-[64px] relative">
-        <svg width="22" height="175" className="absolute z-10 bottom-[50px]">
+        <svg
+          width="22"
+          height="175"
+          className="absolute bottom-[60px]"
+          style={{ zIndex: 20 - index }}
+        >
           <rect
             width="22"
             height="175"
@@ -116,15 +124,21 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
       <div className="flex flex-col gap-3">
         <h2
           className={`font-bold ${
-            isNextEvent ? 'text-[32px] leading-[38px]' : 'text-[22px] leading-[26px]'
+            isNextEvent
+              ? 'lg:text-[32px] md:text-[22px] xs:text-[16px] lg:leading-[38px] xs:leading-[20px]'
+              : 'lg:text-[22px] lg:leading-[26px] xs:text-[16px] xs:leading-[19px]'
           }`}
         >
           {event.title.toUpperCase()}
         </h2>
-        <p className="text-lg leading-[22px]">{event.description}</p>
+        <p className={`lg:text-lg lg:leading-[22px] xs:text-[12px] xs:leading-[15px]`}>
+          {event.description}
+        </p>
         <div
-          className={`flex gap-4 ${
-            isNextEvent ? 'text-[20px] leading-[24px]' : 'text-[15px] leading-[18px]}'
+          className={`flex gap-4 xs:text-[10px] xs:leading-[15px] ${
+            isNextEvent
+              ? 'lg:text-[20px] lg:leading-[24px] md:text-[14px] md:leading-[17px]'
+              : 'lg:text-[15px] lg:leading-[18px]'
           }`}
         >
           <p className={`${event.link ? 'underline' : ''}`}>
@@ -159,15 +173,20 @@ const ApplicationTimeline = () => {
     1 + sortedEvents.findLastIndex((event) => getEndTime(getDate(event)) < new Date().getTime());
 
   return (
-    <div className="flex justify-center mb-[200px]">
-      <div className="max-w-5xl w-full">
-        <div className="flex flex-col gap-6 my-12 text-white">
-          <p className="font-semibold text-[32px]">This is DTI.</p>
-          <p className="text-[28px]">Developing, designing, delivering.</p>
+    <div className="flex justify-center">
+      <div className="max-w-5xl w-full md:px-[60px]">
+        <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
+          <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
+          <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">
+            Developing, designing, delivering.
+          </p>
         </div>
-        <div className="bg-white rounded-[20px]">
-          <div className="bg-[#A52424] rounded-t-[20px] text-[#FEFEFE] flex justify-between">
-            <p className={`py-[26px] pl-9 text-[22px] leading-[28px] ${ibm_plex_mono.className}`}>
+        <div className="bg-white md:rounded-[20px] xs:rounded-lg">
+          <div className="bg-[#A52424] md:rounded-t-[20px] xs:rounded-t-lg text-[#FEFEFE] flex justify-between">
+            <p
+              className={`md:py-[26px] md:pl-9 xs:py-5 xs:pl-3 lg:text-[22px] lg:leading-[28px] md:text-[16px] md:leading-[20px] 
+                xs:text-[10px] xs:leading-[13px] ${ibm_plex_mono.className}`}
+            >
               cornell-dti/timeline
             </p>
             <div className="flex items-end">
@@ -189,7 +208,10 @@ const ApplicationTimeline = () => {
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-10 max-h-[600px] overflow-y-scroll py-8">
+          <div
+            className="flex flex-col md:gap-10 xs:gap-7 md:max-h-[600px] md:overflow-y-scroll 
+            xs:overflow-y-hidden py-8"
+          >
             {sortedEvents.map((event, index) => (
               <TimelineNode
                 event={event}
