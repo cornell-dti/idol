@@ -1,10 +1,16 @@
 'use client';
 // *IMPORTS
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+
+// *DATA
+import experiencesData from '../../../components/courses/data/key_experiences.json';
 
 // *COMPONENTS
 import RedBlob from '../../../components/blob';
+import Experiences from '../../../components/courses/Experiences';
+
+const { key_experiences } = experiencesData;
 
 export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);
@@ -41,18 +47,18 @@ export default function Courses() {
             className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col w-10/12 relative z-10
       lg:mx-32 md:mx-10 xs:mx-9 md:gap-y-20"
           >
-            <div className="flex flex-col md:gap-y-14">
+            <div className="flex flex-col ">
               <h1
-                className="font-semibold md:text-[150px] xs:text-[52px] md:leading-[120px] 
+                className="font-semibold md:text-[120px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
               >
-                Our
+                OUR
               </h1>
               <h1
-                className="font-semibold md:text-[150px] xs:text-[52px] md:leading-[120px] 
+                className="font-semibold md:text-[120px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
               >
-                <span className="text-[#FF4C4C]">Course</span>
+                <span className="text-[#FF4C4C]">COURSE</span>
               </h1>
             </div>
 
@@ -83,6 +89,7 @@ export default function Courses() {
               width={450}
               height={450}
               alt="Trends Logo"
+              unoptimized
             />
           </div>
 
@@ -122,7 +129,15 @@ export default function Courses() {
 
       {/* TODO: KEY EXPERIENCES SECTION */}
       <section id="Key Experiences">
-        <div className="bg-[#EDEDED] text-black flex flex-col lg:flex-row lg:items-center min-h-[50vh] border-2 border-green-500"></div>
+        <div className="bg-[#EDEDED] text-black flex flex-col items-center gap-y-20 px-20 md:gap-x-10 md:flex-row md:items-center md:justify-around min-h-[60vh]">
+          {key_experiences.map((experiences) => (
+            <Experiences
+              icon={experiences.icon}
+              title={experiences.title}
+              description={experiences.description}
+            />
+          ))}
+        </div>
       </section>
 
       {/* TODO: TIMELINE SECTION */}
@@ -137,6 +152,7 @@ export default function Courses() {
       {/* TODO: PAST STUDENT PROJECTS SECTION*/}
       <section id="Past Student Projects"></section>
 
+      {/* STYLING SECTION */}
       <style jsx>{`
         .sticker {
           opacity: 0;
