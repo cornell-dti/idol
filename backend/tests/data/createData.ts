@@ -153,6 +153,52 @@ export const fakeCreateDevPortfolio = (): [DevPortfolio, DevPortfolio] => {
   return [input, output];
 };
 
+/** Create a fake Rating object. */
+export const fakeRating = (): Rating => 0;
+
+/** Create a fake CandidateDeciderRating object. */
+export const fakeCandidateDeciderRating = (): CandidateDeciderRating => {
+  const CDR = {
+    reviewer: fakeIdolMember(),
+    rating: fakeRating()
+  };
+  return CDR;
+};
+
+/** Create a fake CandidateDeciderComment object. */
+export const fakeCandidateDeciderComment = (): CandidateDeciderComment => {
+  const comment = {
+    reviewer: fakeIdolMember(),
+    comment: ''
+  };
+  return comment;
+};
+
+/** Create a fake CandidateDeciderCandidate object. */
+export const fakeCandidateDeciderCandidate = (): CandidateDeciderCandidate => {
+  const CDC = {
+    responses: [''],
+    id: 1,
+    ratings: [fakeCandidateDeciderRating()],
+    comments: [fakeCandidateDeciderComment()]
+  };
+  return CDC;
+};
+
+/** Create a fake CandidateDeciderInstance object. */
+export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
+  const CDI = {
+    name: '',
+    uuid: faker.datatype.uuid(),
+    isOpen: false,
+    headers: [''],
+    candidates: [fakeCandidateDeciderCandidate()],
+    authorizedMembers: [fakeIdolMember()],
+    authorizedRoles: [fakeRoleObject()]
+  };
+  return CDI;
+};
+  
 /** Create fake Coffee Chat */
 export const fakeCoffeeChat = (): CoffeeChat => {
   const DP = {

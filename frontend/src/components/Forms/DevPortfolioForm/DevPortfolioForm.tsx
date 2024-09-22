@@ -14,6 +14,7 @@ const DevPortfolioForm: React.FC = () => {
   const userInfo = useSelf()!;
   const isTpm = userInfo.role === 'tpm';
   const isDevAdvisor = userInfo.role === 'dev-advisor';
+  const isOpenedPROptional = isTpm || isDevAdvisor;
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
@@ -87,7 +88,7 @@ const DevPortfolioForm: React.FC = () => {
       ? devPortfolio.lateDeadline
       : devPortfolio?.deadline;
 
-    if (!isDevAdvisor && otherEmpty && (openedEmpty || reviewedEmpty)) {
+    if (!isOpenedPROptional && otherEmpty && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
@@ -225,7 +226,7 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Opened PR"
             label="Opened Pull Request Github Link:"
             openOther={openOther}
-            isRequired={!isDevAdvisor}
+            isRequired={!isOpenedPROptional}
           />
           <PRInputs
             prs={reviewPRs}

@@ -1,0 +1,40 @@
+{
+  "companies": [
+    {
+      "icon": "/icons/company-icons/millennium.svg",
+      "width": 249,
+      "height": 36,
+      "key": "millennium"
+    },
+    {
+      "icon": "/icons/company-icons/asana.svg",
+      "width": 161,
+      "height": 32,
+      "key": "asana"
+    },
+    {
+      "icon": "/icons/company-icons/google_full.svg",
+      "width": 150,
+      "height": 50,
+      "key": "google"
+    },
+    {
+      "icon": "/icons/company-icons/invision.svg",
+      "width": 191,
+      "height": 66,
+      "key": "invision"
+    },
+    {
+      "icon": "/icons/company-icons/capitalone.svg",
+      "width": 175,
+      "height": 117,
+      "key": "capitalone"
+    },
+    {
+      "icon": "/icons/company-icons/zeplin.svg",
+      "width": 156,
+      "height": 117,
+      "key": "zeplin"
+    }
+  ]
+}

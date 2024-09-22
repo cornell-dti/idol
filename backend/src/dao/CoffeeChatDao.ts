@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import { memberCollection, coffeeChatsCollection } from '../firebase';
+import { memberCollection, coffeeChatsCollection, db } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
+import { deleteCollection } from '../utils/firebase-utils';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const member1 = await getMemberFromDocumentReference(dbCoffeeChat.members[0]);
@@ -93,10 +94,6 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Deletes all coffee chats for all users
    */
   static async clearAllCoffeeChats(): Promise<void> {
-    const batch = coffeeChatsCollection.firestore.batch();
-    const coll = await coffeeChatsCollection.get();
-
-    coll.docs.forEach((doc) => batch.delete(doc.ref));
-    await batch.commit();
+    await deleteCollection(db, 'coffee-chats', 500);
   }
 }

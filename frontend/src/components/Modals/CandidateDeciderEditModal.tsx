@@ -20,6 +20,7 @@ type Props = {
 const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [instance, setInstance] = useState<CandidateDeciderInstance>();
+  const [reviews, setReviews] = useState<CandidateDeciderReview[]>([]);
   const [authorizedMembers, setAuthorizedMembers] = useState<Array<IdolMember>>([]);
   const [authorizedRoles, setAuthorizedRoles] = useState<Array<Role>>([]);
   const [name, setName] = useState<string>('');
@@ -31,6 +32,9 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
         setAuthorizedMembers(candidateDeciderInstance.authorizedMembers);
         setAuthorizedRoles(candidateDeciderInstance.authorizedRoles);
         setName(candidateDeciderInstance.name);
+      });
+      CandidateDeciderAPI.getReviews(uuid).then((candidateDeciderReviews) => {
+        setReviews(candidateDeciderReviews);
       });
     }
   }, [isOpen, uuid]);
@@ -69,26 +73,54 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
     const lastNameIndex = getHeaderIndex('Last Name');
     const firstNameIndex = getHeaderIndex('First Name');
 
-    const csvData = instance.candidates.map((candidate) => ({
-      name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
-      netid: candidate.responses[netIDIndex],
-      comments: candidate.comments.reduce(
-        (acc, comment) =>
-          comment.comment === ''
-            ? ''
-            : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
-        ''
-      ),
-      ratings: candidate.ratings.reduce(
-        (acc, rating) =>
-          rating.rating === 0
-            ? ''
-            : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
-                rating.rating
-              )}\n`,
-        ''
-      )
-    }));
+    const csvData = instance.candidates.map((candidate) => {
+      const candidateReviews = reviews.filter((review) => review.candidateId === candidate.id);
+      const reviewers = new Set<IdolMember>();
+      reviews.forEach((review) => reviewers.add(review.reviewer));
+
+      const row: Record<string, string> = {
+        name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
+        netid: candidate.responses[netIDIndex],
+        comments: candidateReviews.reduce(
+          (acc, comment) =>
+            comment.comment === ''
+              ? acc
+              : `${acc}${comment.reviewer.firstName} ${comment.reviewer.lastName}: ${comment.comment}\n`,
+          ''
+        ),
+        ratings: candidateReviews.reduce(
+          (acc, rating) =>
+            rating.rating === 0
+              ? acc
+              : `${acc}${rating.reviewer.firstName} ${rating.reviewer.lastName}: ${ratingToString(
+                  rating.rating
+                )}\n`,
+          ''
+        )
+      };
+      reviewers.forEach((reviewer) => {
+        const review = candidateReviews.find((review) => review.reviewer.email === reviewer.email);
+        let formattedRating;
+        if (review === undefined || review.rating === 0) {
+          formattedRating = '';
+        } else {
+          formattedRating = String(review.rating);
+        }
+        row[`${reviewer.firstName} ${reviewer.lastName}`] = formattedRating;
+      });
+
+      let completedReviews = 0;
+      let sumOfRatings = 0;
+      candidateReviews.forEach((review) => {
+        if (review.rating !== 0) {
+          completedReviews += 1;
+          sumOfRatings += review.rating;
+        }
+      });
+      row['Average Rating'] = completedReviews === 0 ? '' : String(sumOfRatings / completedReviews);
+
+      return row;
+    });
 
     const options: Options = {
       filename: `${instance.name}_Ratings`,
@@ -104,6 +136,7 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
     };
 
     const csvExporter = new ExportToCsv(options);
+    csvData.sort((a, b) => Number(b['Average Rating']) - Number(a['Average Rating']));
     csvExporter.generateCsv(csvData);
   };
 

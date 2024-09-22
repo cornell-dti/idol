@@ -12,6 +12,11 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instance);
   }
 
+  static async getReviews(uuid: string): Promise<CandidateDeciderReview[]> {
+    const response = APIWrapper.get(`${backendURL}/candidate-decider/${uuid}/review`);
+    return response.then((val) => val.data.reviews);
+  }
+
   static async createNewInstance(
     instance: CandidateDeciderInstance
   ): Promise<CandidateDeciderInfo> {

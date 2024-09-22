@@ -1,0 +1,28 @@
+{
+  "impacts": [
+    {
+      "image": "/icons/handshake.svg",
+      "title": "Build relationships",
+      "description": "We help organizations create a diverse talent pipeline, present information sessions, conduct workshops, and help establish a presence on Cornell's campus.",
+      "key": "handshake",
+      "width": 115,
+      "height": 112
+    },
+    {
+      "image": "/icons/globe.svg",
+      "title": "Make an impact",
+      "description": "All of the funds we receive are directly invested back into the team. Through software licenses, community outreach,  marketing, and more, funds help us grow our vision of helping our the community.",
+      "key": "globe",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "image": "/icons/heart-hand.svg",
+      "title": "Help us thrive",
+      "description": "Your contributions are crucial in helping the DTI community grow and maintain its vibrant culture. You can make a direct impact on the Cornell experience!",
+      "key": "heart-hand",
+      "width": 135,
+      "height": 112
+    }
+  ]
+}

@@ -55,8 +55,15 @@ export type DBCandidateDeciderComment = {
 export type DBCandidateDeciderCandidate = {
   readonly responses: string[];
   readonly id: number;
-  ratings: DBCandidateDeciderRating[];
-  comments: DBCandidateDeciderComment[];
+};
+
+export type DBCandidateDeciderReview = {
+  readonly candidateDeciderInstanceUuid: string;
+  readonly candidateId: number;
+  readonly reviewer: firestore.DocumentReference;
+  readonly rating: Rating;
+  readonly comment: string;
+  readonly uuid: string;
 };
 
 export type DBCandidateDeciderInstance = {

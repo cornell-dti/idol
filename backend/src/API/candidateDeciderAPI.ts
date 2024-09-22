@@ -1,8 +1,10 @@
 import CandidateDeciderDao from '../dao/CandidateDeciderDao';
+import CandidateDeciderReviewDao from '../dao/CandidateDeciderReviewDao';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
 const candidateDeciderDao = new CandidateDeciderDao();
+const candidateDeciderReviewDao = new CandidateDeciderReviewDao();
 
 /**
  * Retrieves all CandidateDecider instances accessible to the user.
@@ -110,8 +112,35 @@ export const getCandidateDeciderInstance = async (
 };
 
 /**
+ * Retrieves reviews for a specific CandidateDecider instance from the database.
+ * This method checks if the user has permission to access the requested instance's reviews.
+ * @returns {Promise<CandidateDeciderReview[]>} A promise that resolves with a CandidateDeciderReview array if found and accessible.
+ */
+export const getCandidateDeciderReviews = async (
+  uuid: string,
+  user: IdolMember
+): Promise<CandidateDeciderReview[]> => {
+  const instance = await candidateDeciderDao.getInstance(uuid);
+  if (!instance) {
+    throw new NotFoundError(`Instance with uuid ${uuid} does not exist`);
+  }
+  if (!(await PermissionsManager.canAccessCandidateDeciderInstance(user, instance))) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to access this Candidate Decider instance`
+    );
+  }
+  const reviews = await candidateDeciderReviewDao.getReviewsByCandidateDeciderInstance(uuid);
+  return reviews;
+};
+
+/**
  * Updates the rating and comment of a CandidateDecider instance in the database.
  * This method ensures that only users with access permission can update the rating and comment.
+ * @param user - User who made the review
+ * @param uuid - Candidate decider uuid
+ * @param id - Candidate's id within the candidate decider instance
+ * @param rating - Rating for candidate
+ * @param comment - Comment for candidate
  * @returns {Promise<void>} A promise that resolves when the update is successfully applied.
  */
 export const updateCandidateDeciderRatingAndComment = async (
@@ -130,5 +159,5 @@ export const updateCandidateDeciderRatingAndComment = async (
       `User with email ${user.email} does not have permission to access this Candidate Decider instance`
     );
 
-  await candidateDeciderDao.updateInstanceWithTransaction(instance, user, id, rating, comment);
+  await candidateDeciderReviewDao.createNewReview(instance, user, id, rating, comment);
 };
