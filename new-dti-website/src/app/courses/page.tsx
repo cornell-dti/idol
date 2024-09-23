@@ -38,6 +38,7 @@ export default function Courses() {
 
   return (
     <>
+      {/* Hero Section */}
       <section id="Hero Section">
         <div
           className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-250px)]
@@ -47,15 +48,15 @@ export default function Courses() {
             className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col w-10/12 relative z-10
       lg:mx-32 md:mx-10 xs:mx-9 md:gap-y-20"
           >
-            <div className="flex flex-col ">
+            <div className="flex flex-col gap-y-8 md:gap-y-0">
               <h1
-                className="font-semibold md:text-[120px] xs:text-[52px] md:leading-[120px] 
+                className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
               >
                 OUR
               </h1>
               <h1
-                className="font-semibold md:text-[120px] xs:text-[52px] md:leading-[120px] 
+                className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
               >
                 <span className="text-[#FF4C4C]">COURSE</span>
@@ -63,14 +64,16 @@ export default function Courses() {
             </div>
 
             <div className="flex flex-col justify-center gap-6 ">
-              <h2 className="font-bold md:text-[45px] xs:text-2xl">
+              <h2 className="font-bold md:text-5xl xs:text-4xl">
                 <span className="text-[#877B7B]">Teaching the</span>{' '}
                 <span className="italic">community</span>
               </h2>
-              <p className="md:text-lg xs:text-sm">
+              <p className="md:text-lg xs:text-md font-thin text-slate-300">
                 A project team is meant, above all, to be a learning experience. Given our mission
-                of community impact, we want to help everyone learn and grow through our training
-                course in product development.{' '}
+                of <span className="font-black text-xl text-white">community impact</span>, we want
+                to help everyone <b className="font-black text-xl text-white">learn and grow</b>{' '}
+                through our training course in{' '}
+                <b className="font-black text-xl text-white">product development</b>.{' '}
               </p>
             </div>
           </div>
@@ -90,19 +93,20 @@ export default function Courses() {
               height={450}
               alt="Trends Logo"
               unoptimized
+              className="w-72 md:w-96 lg:w-[450px]"
             />
           </div>
 
           <div className="flex flex-col lg:w-1/2">
-            <div className="font-black md:text-xl sm:text-md xs:text-sm tracking-wider">
+            <div className="font-black md:text-xl xs:text-lg tracking-wider">
               MODERN INDUSTRY-LEADING TECHNOLOGY
             </div>
 
-            <div className="font-bold md:text-[45px] xs:text-2xl tracking-wider mt-4">
+            <div className="font-black md:text-[45px] xs:text-4xl tracking-wider mt-4">
               Trends in Web Development
             </div>
 
-            <div className="md:text-lg xs:text-sm mt-8">
+            <div className="xs:text-lg mt-8">
               Trends in Web Development in a 2-credit S/U course that showcase modern full-stack
               development and best practices used within industry. We cover technologies like
               TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed at
@@ -153,7 +157,7 @@ export default function Courses() {
       <section id="Past Student Projects"></section>
 
       {/* STYLING SECTION */}
-      <style jsx>{`
+      <style>{`
         .sticker {
           opacity: 0;
           transform: scale(0) rotate(-15deg);
