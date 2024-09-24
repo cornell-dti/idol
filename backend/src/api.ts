@@ -121,8 +121,7 @@ app.use(
       winston.format.align(),
       winston.format.printf(
         (info) =>
-          `${info.timestamp} ${info.level} - ${info.meta.req.method} ${info.meta.req.originalUrl} ${
-            info.meta.res.statusCode
+          `${info.timestamp} ${info.level} - ${info.meta.req.method} ${info.meta.req.originalUrl} ${info.meta.res.statusCode
           } -- ${JSON.stringify(info.meta.req.body)}`
       )
     ),
@@ -140,30 +139,30 @@ const getUserEmailFromRequest = async (request: Request): Promise<string | undef
 
 const loginCheckedHandler =
   (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
-  async (req: Request, res: Response): Promise<void> => {
-    const userEmail = await getUserEmailFromRequest(req);
-    if (userEmail == null) {
-      res.status(440).json({ error: 'Not logged in!' });
-      return;
-    }
-    const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
-    if (!user) {
-      res.status(401).send({ error: `No user with email: ${userEmail}` });
-      return;
-    }
-    if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
-    }
-    try {
-      res.status(200).send(await handler(req, user));
-    } catch (error) {
-      if (error instanceof HandlerError) {
-        res.status(error.errorCode).send({ error: error.reason });
+    async (req: Request, res: Response): Promise<void> => {
+      const userEmail = await getUserEmailFromRequest(req);
+      if (userEmail == null) {
+        res.status(440).json({ error: 'Not logged in!' });
         return;
       }
-      res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
-    }
-  };
+      const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
+      if (!user) {
+        res.status(401).send({ error: `No user with email: ${userEmail}` });
+        return;
+      }
+      if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
+        res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
+      }
+      try {
+        res.status(200).send(await handler(req, user));
+      } catch (error) {
+        if (error instanceof HandlerError) {
+          res.status(error.errorCode).send({ error: error.reason });
+          return;
+        }
+        res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
+      }
+    };
 
 const loginCheckedGet = (
   path: string,
@@ -277,7 +276,7 @@ loginCheckedPut('/shoutout', async (req, user) => {
 });
 
 loginCheckedPut('/shoutout/:uuid', async (req, user) => {
-  await editShoutout(req.params.uuid, req.body, user);
+  await editShoutout(req.params.uuid, req.body.message, user);
   return {};
 });
 

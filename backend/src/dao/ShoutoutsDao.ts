@@ -82,13 +82,7 @@ export default class ShoutoutsDao extends BaseDao<Shoutout, DBShoutout> {
    * @param shoutout - shoutout object
    */
   async editShoutout(uuid: string, newMessage: string): Promise<Shoutout> {
-    const shoutout = await this.getShoutout(uuid);
-    if (!shoutout) {
-      throw new Error('Shoutout not found...');
-    }
-
     await this.collection.doc(uuid).update({ message: newMessage });
-
     const updatedDoc = await this.getDocument(uuid);
     if (!updatedDoc) {
       throw new Error('Failed to fetch updated shoutout...');

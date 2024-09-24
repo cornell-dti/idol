@@ -11,13 +11,15 @@ interface ShoutoutCardProps {
 
 const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedMessage, setEditedMessage] = useState('');
+  const [editedMessage, setEditedMessage] = useState(shoutout.message);
 
   const handleEditShoutout = async () => {
     try {
       await ShoutoutsAPI.updateShoutout(shoutout.uuid, { message: editedMessage });
-      setGivenShoutouts((prevShoutouts: Shoutout[]) =>
-        prevShoutouts.map((s) => (s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s))
+      setGivenShoutouts((prevShoutouts) =>
+        prevShoutouts.map((s) =>
+          s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s
+        )
       );
       setIsEditing(false);
     } catch (error) {
