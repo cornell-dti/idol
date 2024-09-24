@@ -99,7 +99,6 @@ const TeamEventCreditReview = (props: {
         onClick={() => {
           approveCreditRequest(teamEventAttendance);
         }}
-        disabled={reason !== ''}
       >
         Set to Approved
       </Button>
