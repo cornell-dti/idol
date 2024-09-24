@@ -1,0 +1,22 @@
+{
+  "application": {
+    "src": "/icons/pencil.svg",
+    "alt": "pencil"
+  },
+  "info": {
+    "src": "/icons/speakerphone.svg",
+    "alt": "speakerphone"
+  },
+  "deadline": {
+    "src": "/icons/alarm.svg",
+    "alt": "alarm"
+  },
+  "interview": {
+    "src": "/icons/message_star.svg",
+    "alt": "message-star"
+  },
+  "offer": {
+    "src": "/icons/star.svg",
+    "alt": "star"
+  }
+}
