@@ -3,6 +3,8 @@ import Image from 'next/image';
 import config from '../../config.json';
 import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
+import useScreenSize from '../../src/hooks/useScreenSize';
+import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
 type TabProps = {
   isSelected: boolean;
@@ -43,8 +45,10 @@ type RecruitmentEvent = {
  * tentative or not. If no time is specified, assume the end time is the last
  * second of the day.
  * @param dateTime the date and time of a recruitment event.
- * @requires date to be a single day or an interval with the month written out
- * @requires time to be an interval in 12-hour format if defined
+ * @requires date to be a single day or an interval, where the month is written out
+ * with a space between the day (e.g. January 1). If an interval, separate the two dates with a hyphen.
+ * @requires time to be an interval in 12-hour format (e.g. 12:00 PM) if defined.
+ * If an interval, separate the two times with a hyphen.
  * @returns the number representation of the event's end time.
  */
 const getEndTime = ({ date, time }: DateTime): number => {
@@ -84,7 +88,20 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
   isLast,
   dateTime
 }) => {
+  const { width } = useScreenSize();
   const isNextEvent = index === nextEventIndex;
+  let unselectedIconDim = 10;
+  let selectedIconDim = 14;
+
+  if (width >= LAPTOP_BREAKPOINT) {
+    selectedIconDim = 28;
+    unselectedIconDim = 18;
+  } else if (width >= TABLET_BREAKPOINT) {
+    selectedIconDim = 18;
+    unselectedIconDim = 12;
+  }
+
+  const iconDim = isNextEvent ? selectedIconDim : unselectedIconDim;
 
   return (
     <div
@@ -114,7 +131,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
               height="175"
               x="0"
               y="0"
-              fill={new Date().getTime() > getEndTime(dateTime) ? `#A52424` : '#3C3C3C'}
+              fill={Date.now() > getEndTime(dateTime) ? `#A52424` : '#3C3C3C'}
             />
           </svg>
         )}
@@ -157,13 +174,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
               <Image
                 src="/icons/location.svg"
                 alt="location"
-                width={10}
-                height={10}
-                className={`${
-                  isNextEvent
-                    ? 'lg:scale-[2.8] md:scale-[1.8] xs:scale-[1.4] brightness-0'
-                    : 'lg:scale-[1.8] md:scale-[1.2]'
-                }`}
+                width={iconDim}
+                height={iconDim}
+                className={`${isNextEvent ? 'brightness-0' : ''}`}
               />
               <p className={event.link ? 'underline' : ''}>
                 {event.link ? <a href={event.link}>{event.location}</a> : event.location}
@@ -174,13 +187,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
             <Image
               src="/icons/calendar.svg"
               alt="calendar"
-              width={10}
-              height={10}
-              className={`${
-                isNextEvent
-                  ? 'lg:scale-[2.8] md:scale-[1.8] xs:scale-[1.4] brightness-0'
-                  : 'lg:scale-[1.8] md:scale-[1.2]'
-              }`}
+              width={iconDim}
+              height={iconDim}
+              className={`${isNextEvent ? 'brightness-0' : ''}`}
             />
             <p>{`${dateTime.isTentative ? 'TBD' : dateTime.date}${
               dateTime.time ? `, ${dateTime.time}` : ''
@@ -209,7 +218,7 @@ const ApplicationTimeline = () => {
   );
 
   const nextEventIndex =
-    1 + sortedEvents.findLastIndex((event) => getEndTime(getDate(event)) < new Date().getTime());
+    1 + sortedEvents.findLastIndex((event) => getEndTime(getDate(event)) < Date.now());
 
   return (
     <div className="flex justify-center">
