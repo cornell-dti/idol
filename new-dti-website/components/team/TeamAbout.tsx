@@ -239,7 +239,7 @@ const TeamAbout = () => (
           <div className={`${ibm_plex_mono.className} text-sm`}>
             <p className="text-left mb-3">@2022</p>
             <Image
-              src="/images/full-team.png"
+              src="/images/full-team.jpg"
               alt="2022 DTI Team"
               width={490}
               height={370}
