@@ -189,7 +189,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
               >
                 <div className="flex gap-3 w-max">
                   <Image
-                    src="/icons/calendar.svg"
+                    src="/icons/red_calendar.svg"
                     alt="calendar"
                     width={24}
                     height={24}
