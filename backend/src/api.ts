@@ -94,7 +94,7 @@ import {
 import {
   getCoffeeChatProofImage,
   setCoffeeChatProofImage,
-  deleteCoffeeChatProofImage,
+  deleteCoffeeChatProofImage
 } from './API/coffeeChatImageAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';

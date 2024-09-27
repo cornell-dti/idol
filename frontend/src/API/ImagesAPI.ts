@@ -77,9 +77,9 @@ export default class ImagesAPI {
   }
 
   private static getCoffeeChatProofImageSignedURL(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/coffee-chat-proof-image-signed-url/${name}`).then(
-      (res) => res.data
-    );
+    const responseProm = APIWrapper.get(
+      `${backendURL}/coffee-chat-proof-image-signed-url/${name}`
+    ).then((res) => res.data);
     return responseProm.then((val) => val.url);
   }
 
