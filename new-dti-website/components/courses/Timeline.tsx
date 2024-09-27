@@ -37,50 +37,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   /**
-   * Calculates the length of the line connecting the first and last events.
-   *
-   * @remarks
-   * This function determines the position of the first and last event elements
-   * on the page and calculates the distance between them, either vertically
-   * (on mobile) or horizontally (on desktop). It updates the line length state accordingly.
-   *
-   * @returns A number representing the length of the line in pixels.
-   *
-   * @example
-   * ```ts
-   * calculateLineLength();
-   * ```
-   */
-  const calculateLineLength = () => {
-    if (events.length === 1 || events.length === 0) {
-      setLineLength(0);
-      return;
-    }
-    if (firstEventRef.current && lastEventRef.current) {
-      const firstPos = firstEventRef.current.getBoundingClientRect();
-      const lastPos = lastEventRef.current.getBoundingClientRect();
-
-      const firstCenter = {
-        x: firstPos.left + firstPos.width / 2,
-        y: firstPos.top + firstPos.height / 2
-      };
-
-      const lastCenter = {
-        x: lastPos.left + lastPos.width / 2,
-        y: lastPos.top + lastPos.height / 2
-      };
-
-      if (isMobile) {
-        const verticalDistance = Math.abs(lastCenter.y - firstCenter.y);
-        setLineLength(verticalDistance);
-      } else {
-        const horizontalDistance = Math.abs(lastCenter.x - firstCenter.x);
-        setLineLength(horizontalDistance);
-      }
-    }
-  };
-
-  /**
    * Parses an event's date and time to a `Date` object.
    *
    * @remarks
@@ -142,6 +98,49 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   // * Use Layout Effect to Handle resizing of the Timeline
   useLayoutEffect(() => {
+    /**
+     * Calculates the length of the line connecting the first and last events.
+     *
+     * @remarks
+     * This function determines the position of the first and last event elements
+     * on the page and calculates the distance between them, either vertically
+     * (on mobile) or horizontally (on desktop). It updates the line length state accordingly.
+     *
+     * @returns A number representing the length of the line in pixels.
+     *
+     * @example
+     * ```ts
+     * calculateLineLength();
+     * ```
+     */
+    const calculateLineLength = () => {
+      if (events.length === 1 || events.length === 0) {
+        setLineLength(0);
+        return;
+      }
+      if (firstEventRef.current && lastEventRef.current) {
+        const firstPos = firstEventRef.current.getBoundingClientRect();
+        const lastPos = lastEventRef.current.getBoundingClientRect();
+
+        const firstCenter = {
+          x: firstPos.left + firstPos.width / 2,
+          y: firstPos.top + firstPos.height / 2
+        };
+
+        const lastCenter = {
+          x: lastPos.left + lastPos.width / 2,
+          y: lastPos.top + lastPos.height / 2
+        };
+
+        if (isMobile) {
+          const verticalDistance = Math.abs(lastCenter.y - firstCenter.y);
+          setLineLength(verticalDistance);
+        } else {
+          const horizontalDistance = Math.abs(lastCenter.x - firstCenter.x);
+          setLineLength(horizontalDistance);
+        }
+      }
+    };
     const handleResize = () => {
       const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
@@ -154,7 +153,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [isMobile, calculateLineLength, lineLength]);
+  }, [isMobile, lineLength]);
 
   return (
     <>
