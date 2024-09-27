@@ -29,14 +29,15 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer', 'business'];
+  const roles: Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer', 'business', 'dev-advisor'];
   const role_descriptions: RoleDescription[] = [
     'Lead',
     'Technical PM',
     'Product Manager',
     'Developer',
     'Designer',
-    'Business Analyst'
+    'Business Analyst',
+    'Dev Advisor'
   ];
 
   // pick one item at random from each list
@@ -113,6 +114,7 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
     member: fakeIdolMember(),
     openedPRs: fakePRs(),
     reviewedPRs: fakePRs(),
+    otherPRs: fakePRs(),
     status: 'pending'
   };
   return DPSub;
@@ -159,7 +161,7 @@ export const fakeRating = (): Rating => 0;
 /** Create a fake CandidateDeciderRating object. */
 export const fakeCandidateDeciderRating = (): CandidateDeciderRating => {
   const CDR = {
-    reviewer: fakeIdolMember(),
+    reviewer: { ...fakeIdolMember(), email: 'test123@cornell.edu' },
     rating: fakeRating()
   };
   return CDR;
@@ -168,17 +170,17 @@ export const fakeCandidateDeciderRating = (): CandidateDeciderRating => {
 /** Create a fake CandidateDeciderComment object. */
 export const fakeCandidateDeciderComment = (): CandidateDeciderComment => {
   const comment = {
-    reviewer: fakeIdolMember(),
+    reviewer: { ...fakeIdolMember(), email: 'test123@cornell.edu' },
     comment: ''
   };
   return comment;
 };
 
 /** Create a fake CandidateDeciderCandidate object. */
-export const fakeCandidateDeciderCandidate = (): CandidateDeciderCandidate => {
+export const fakeCandidateDeciderCandidate = (ID): CandidateDeciderCandidate => {
   const CDC = {
     responses: [''],
-    id: 1,
+    id: ID,
     ratings: [fakeCandidateDeciderRating()],
     comments: [fakeCandidateDeciderComment()]
   };
@@ -187,14 +189,20 @@ export const fakeCandidateDeciderCandidate = (): CandidateDeciderCandidate => {
 
 /** Create a fake CandidateDeciderInstance object. */
 export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
+  const { role } = fakeRoleObject();
+
   const CDI = {
     name: '',
     uuid: faker.datatype.uuid(),
     isOpen: false,
     headers: [''],
-    candidates: [fakeCandidateDeciderCandidate()],
-    authorizedMembers: [fakeIdolMember()],
-    authorizedRoles: [fakeRoleObject()]
+    candidates: [
+      fakeCandidateDeciderCandidate(1),
+      fakeCandidateDeciderCandidate(2),
+      fakeCandidateDeciderCandidate(3)
+    ],
+    authorizedMembers: [{ ...fakeIdolMember(), email: 'test123@cornell.edu' }],
+    authorizedRoles: [role]
   };
   return CDI;
 };
