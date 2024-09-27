@@ -100,7 +100,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
    */
   const parseEventDate = (dateStr: string, timeStr: string) => {
     const currentYear = new Date().getFullYear();
-    let date = new Date(`${dateStr} ${currentYear} ${timeStr || '12:00 AM'}`);
+    const date = new Date(`${dateStr} ${currentYear} ${timeStr || '12:00 AM'}`);
     return date;
   };
 
@@ -145,9 +145,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     const handleResize = () => {
       const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
-      console.log(isMobile);
       calculateLineLength();
-      console.log(lineLength);
     };
 
     handleResize();
@@ -156,7 +154,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [isMobile]);
+  }, [isMobile, calculateLineLength, lineLength]);
 
   return (
     <>
@@ -183,12 +181,18 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         {events.map((event, idx) => {
           const eventDate = parseEventDate(event.date, event.time);
           const isPast = eventDate < currentDate;
+          let eventRef = null;
+          if (idx === 0) {
+            eventRef = firstEventRef;
+          } else if (idx === events.length - 1) {
+            eventRef = lastEventRef;
+          }
 
           return (
             <div
               key={idx}
               className="flex flex-row pl-[53px] space-x-10 sm:pl-0 sm:flex-col sm:items-center sm:justify-end sm:h-40 z-30"
-              ref={idx === 0 ? firstEventRef : idx === events.length - 1 ? lastEventRef : null}
+              ref={eventRef}
             >
               {/* Red Dot for Completed / Grey Dot for Mobile */}
               <div

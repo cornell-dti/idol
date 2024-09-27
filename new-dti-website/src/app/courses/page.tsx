@@ -1,7 +1,9 @@
 'use client';
+
 // *IMPORTS
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
+import { populateMembers } from '../../utils';
 
 // *IMPORT DATA
 import experiencesData from '../../../components/courses/data/key_experiences.json';
@@ -20,17 +22,16 @@ import TestimonialCard from '../../../components/courses/TestimonialCard';
 import DDProjects from '../../../components/courses/DDProjects';
 
 //* DATA
-const key_experiences = experiencesData.key_experiences;
-const timeline_events: Event[] = timelineData;
-const testimonials = testimonialData.testimonials;
+const { key_experiences } = experiencesData;
+const timeline_events = timelineData;
+const { testimonials } = testimonialData;
 const student_projects = studentProjectData.student_projects;
 const trend_instructors = trendsData.trend_instructors as IdolMember[];
-import { populateMembers } from '../../../src/utils';
 
 // * BEGIN COURSES COMPONENT
 export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);
-  const [selectedRole, setSelectedRole] = useState<string>('Full Team');
+  const [selectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
@@ -204,7 +205,7 @@ export default function Courses() {
             </div>
           </section>
 
-          {/* TODO: COURSE STAFF SECTION*/}
+          {/* TODO: COURSE STAFF SECTION */}
           <section id="Course Staff">
             <div className=" min-h-[60vh] flex flex-col items-center">
               <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
@@ -230,7 +231,7 @@ export default function Courses() {
             </div>
           </section>
 
-          {/* PAST STUDENT EXPERIENCES SECTION*/}
+          {/* PAST STUDENT EXPERIENCES SECTION */}
           <section id="Past Student Experiences">
             <div className="min-h-[40vh] flex flex-col">
               <div className="font-black text-4xl tracking-wider pl-10 md:pl-32 md:text-[45px] ">
@@ -251,7 +252,7 @@ export default function Courses() {
             </div>
           </section>
 
-          {/* PAST STUDENT PROJECTS SECTION*/}
+          {/* PAST STUDENT PROJECTS SECTION */}
           <section id="Past Student Projects">
             <div className="min-h-[60vh] flex flex-col p-10 md:p-32">
               <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
