@@ -116,7 +116,7 @@ interface TeamEvent extends TeamEventInfo {
   readonly requests: TeamEventAttendance[];
 }
 
-interface EventProofImage {
+interface ProofImage {
   readonly url: string;
   readonly fileName: string;
 }

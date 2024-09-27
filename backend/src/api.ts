@@ -91,6 +91,11 @@ import {
   regradeSubmissions,
   updateSubmissions
 } from './API/devPortfolioAPI';
+import {
+  getCoffeeChatProofImage,
+  setCoffeeChatProofImage,
+  deleteCoffeeChatProofImage,
+} from './API/coffeeChatImageAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
@@ -288,6 +293,7 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   return {};
 });
 
+// Coffee Chats
 loginCheckedGet('/coffee-chat', async () => ({
   coffeeChats: await getAllCoffeeChats()
 }));
@@ -314,6 +320,20 @@ loginCheckedGet('/coffee-chat/:email', async (_, user) => {
 loginCheckedPut('/coffee-chat', async (req, user) => ({
   coffeeChats: await updateCoffeeChat(req.body, user)
 }));
+
+// Coffee Chat Proof Image
+loginCheckedGet('/coffee-chat-proof-image/:name(*)', async (req) => ({
+  url: await getCoffeeChatProofImage(req.params.name)
+}));
+
+loginCheckedGet('/coffee-chat-proof-image-signed-url/:name(*)', async (req) => ({
+  url: await setCoffeeChatProofImage(req.params.name)
+}));
+
+loginCheckedDelete('/coffee-chat-proof-image/:name(*)', async (req) => {
+  await deleteCoffeeChatProofImage(req.params.name);
+  return {};
+});
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
@@ -382,16 +402,17 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
 }));
 
 // Team Events Proof Image
-loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
-  url: await getEventProofImage(req.params.name, user)
+loginCheckedGet('/event-proof-image/:name(*)', async (req) => ({
+  url: await getEventProofImage(req.params.name)
 }));
 
 // TODO: Modify this endpoint to /event-proof-image/* to be more RESTful
-loginCheckedGet('/event-proof-image-signed-url/:name(*)', async (req, user) => ({
-  url: await setEventProofImage(req.params.name, user)
+loginCheckedGet('/event-proof-image-signed-url/:name(*)', async (req) => ({
+  url: await setEventProofImage(req.params.name)
 }));
-loginCheckedDelete('/event-proof-image/:name(*)', async (req, user) => {
-  await deleteEventProofImage(req.params.name, user);
+
+loginCheckedDelete('/event-proof-image/:name(*)', async (req) => {
+  await deleteEventProofImage(req.params.name);
   return {};
 });
 

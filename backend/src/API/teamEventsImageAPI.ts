@@ -5,10 +5,9 @@ import { NotFoundError } from '../utils/errors';
 /**
  * Sets TEC proof image for member
  * @param name - the name of the image
- * @param user - the member who made the request
  * @returns a Promise to the signed URL to the image file
  */
-export const setEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
+export const setEventProofImage = async (name: string): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
   const signedURL = await file.getSignedUrl({
     action: 'write',
@@ -21,11 +20,10 @@ export const setEventProofImage = async (name: string, user: IdolMember): Promis
 /**
  * Gets TEC proof image for member
  * @param name - the name of the image
- * @param user - the member who made the request
  * @throws NotFoundError if the requested image does not exist
  * @returns a Promise to the signed URL to the image file
  */
-export const getEventProofImage = async (name: string, user: IdolMember): Promise<string> => {
+export const getEventProofImage = async (name: string): Promise<string> => {
   const file = bucket.file(`${name}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
   if (!fileExists) {
@@ -41,11 +39,11 @@ export const getEventProofImage = async (name: string, user: IdolMember): Promis
 /**
  * Gets all TEC proof images associated with the IdolMember
  * @param user - the member who made the request
- * @returns a Promise which results in an array of EventProofImage with file name and signed URL
+ * @returns a Promise which results in an array of ProofImage with file name and signed URL
  */
 export const allEventProofImagesForMember = async (
   user: IdolMember
-): Promise<readonly EventProofImage[]> => {
+): Promise<readonly ProofImage[]> => {
   const netId: string = getNetIDFromEmail(user.email);
   const files = await bucket.getFiles({ prefix: `eventProofs/${netId}` });
   const images = await Promise.all(
@@ -75,9 +73,8 @@ export const allEventProofImagesForMember = async (
 /**
  * Deletes TEC proof image for member
  * @param name - the name of the image
- * @param user - the member who made the request
  */
-export const deleteEventProofImage = async (name: string, user: IdolMember): Promise<void> => {
+export const deleteEventProofImage = async (name: string): Promise<void> => {
   const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
