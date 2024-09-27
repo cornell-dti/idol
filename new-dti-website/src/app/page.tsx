@@ -6,7 +6,7 @@ import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 
 const Home: React.FC = () => {
-  const [selectedIcon, setSelectedIcon] = useState<number | null>(null);
+  const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   const icons = [
