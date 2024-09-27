@@ -1,176 +1,293 @@
 'use client';
 // *IMPORTS
 import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-// *DATA
+// *IMPORT DATA
 import experiencesData from '../../../components/courses/data/key_experiences.json';
+import timelineData from '../../../components/courses/data/timeline_events.json';
+import testimonialData from '../../../components/courses/data/testimonials.json';
+import studentProjectData from '../../../components/courses/data/student_projects.json';
+import trendsData from '../../../components/courses/data/trend_instructors.json';
+import teamRoles from '../../../components/team/data/roles.json';
 
-// *COMPONENTS
+// *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';
 import Experiences from '../../../components/courses/Experiences';
+import Timeline, { Event } from '../../../components/courses/Timeline';
+import MemberGroup from '../../../components/team/MemberGroup';
+import TestimonialCard from '../../../components/courses/TestimonialCard';
+import DDProjects from '../../../components/courses/DDProjects';
 
-const { key_experiences } = experiencesData;
+//* DATA
+const key_experiences = experiencesData.key_experiences;
+const timeline_events: Event[] = timelineData;
+const testimonials = testimonialData.testimonials;
+const student_projects = studentProjectData.student_projects;
+const trend_instructors = trendsData.trend_instructors as IdolMember[];
+import { populateMembers } from '../../../src/utils';
 
+// * BEGIN COURSES COMPONENT
 export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);
+  const [selectedRole, setSelectedRole] = useState<string>('Full Team');
+  const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
+
+  const memberDetailsRef = useRef<HTMLInputElement>(null);
+
+  const roles = populateMembers(
+    teamRoles as {
+      [key: string]: {
+        roleName: string;
+        description: string;
+        members: IdolMember[];
+        order: string[];
+        color: string;
+      };
+    },
+    trend_instructors
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && trendsLogoRef.current) {
-          trendsLogoRef.current.classList.add('sticker-animate');
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in-animate');
+          }
+        });
       },
-      { threshold: 0.5 }
+      { threshold: 0.9 }
     );
 
-    if (trendsLogoRef.current) {
-      observer.observe(trendsLogoRef.current);
-    }
+    const sections = document.querySelectorAll('section');
+    sections.forEach((section) => {
+      section.classList.add('fade-in');
+      observer.observe(section);
+    });
 
     return () => {
-      if (trendsLogoRef.current) {
-        observer.unobserve(trendsLogoRef.current);
-      }
+      sections.forEach((section) => {
+        observer.unobserve(section);
+      });
     };
   }, []);
 
   return (
     <>
-      {/* Hero Section */}
-      <section id="Hero Section">
-        <div
-          className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-250px)]
-    flex items-center w-full overflow-hidden"
-        >
+      <div
+        onClick={(event) => {
+          const target = event.target as HTMLElement;
+          if (
+            !(target.id === 'memberCard' || target.parentElement?.id === 'memberCard') &&
+            !memberDetailsRef.current?.contains(target)
+          )
+            setSelectedMember(undefined);
+        }}
+      >
+        {/* Hero Section */}
+        <section id="Hero Section">
           <div
-            className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col w-10/12 relative z-10
-      lg:mx-32 md:mx-10 xs:mx-9 md:gap-y-20"
+            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)]
+    flex items-center w-full overflow-hidden"
           >
-            <div className="flex flex-col gap-y-8 md:gap-y-0">
-              <h1
-                className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
+            <div
+              className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col w-10/12 relative z-10
+      lg:mx-32 md:mx-10 xs:mx-9 md:gap-y-20"
+            >
+              <div className="flex flex-col gap-y-8 md:gap-y-0">
+                <h1
+                  className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
-              >
-                OUR
-              </h1>
-              <h1
-                className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
+                >
+                  OUR
+                </h1>
+                <h1
+                  className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
-              >
-                <span className="text-[#FF4C4C]">COURSE</span>
-              </h1>
-            </div>
+                >
+                  <span className="text-[#FF4C4C]">COURSE</span>
+                </h1>
+              </div>
 
-            <div className="flex flex-col justify-center gap-6 ">
-              <h2 className="font-bold md:text-5xl xs:text-4xl">
-                <span className="text-[#877B7B]">Teaching the</span>{' '}
-                <span className="italic">community</span>
-              </h2>
-              <p className="md:text-lg xs:text-md font-thin text-slate-300">
-                A project team is meant, above all, to be a learning experience. Given our mission
-                of <span className="font-black text-xl text-white">community impact</span>, we want
-                to help everyone <b className="font-black text-xl text-white">learn and grow</b>{' '}
-                through our training course in{' '}
-                <b className="font-black text-xl text-white">product development</b>.{' '}
-              </p>
+              <div className="flex flex-col justify-center gap-6 ">
+                <h2 className="font-bold text-3xl md:text-5xl">
+                  <span className="text-[#877B7B]">Teaching the</span>{' '}
+                  <span className="italic">community</span>
+                </h2>
+                <p className="text-md md:text-xl font-thin text-slate-300">
+                  A project team is meant, above all, to be a learning experience. Given our mission
+                  of{' '}
+                  <span className="font-black text-lg md:text-2xl text-white">
+                    community impact
+                  </span>
+                  , we want to help everyone{' '}
+                  <b className="font-black text-lg md:text-xl text-white">learn and grow</b> through
+                  our training course in{' '}
+                  <b className="font-black text-md md:text-xl text-white">product development</b>.{' '}
+                </p>
+              </div>
+            </div>
+            <div className="relative top-[-250px]">
+              <RedBlob className={'right-[-250px]'} intensity={0.3} />
             </div>
           </div>
-          <div className="relative top-[-150px]">
-            <RedBlob className={'right-[-300px]'} intensity={0.3} />
-          </div>
+        </section>
+
+        {/* WRAPPER */}
+        <div id="Wrapper" className="flex flex-col gap-y-28 bg-[#EDEDED] text-black ">
+          {/* LOGO SECTION */}
+          <section id="Trends and Web Development">
+            <div className="min-h-[60vh] flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
+              <div ref={trendsLogoRef} className="sticker">
+                <Image
+                  src={'/icons/courses/trends_logo.png'}
+                  width={450}
+                  height={450}
+                  alt="Trends Logo"
+                  unoptimized
+                  className="w-72 md:w-96 lg:w-[450px]"
+                />
+              </div>
+
+              <div className="flex flex-col lg:w-1/2">
+                <div className="font-black text-sm md:text-xl tracking-wider">
+                  MODERN INDUSTRY-LEADING TECHNOLOGY
+                </div>
+
+                <div className="font-black text-4xl tracking-wider mt-4 md:text-[45px]">
+                  Trends in Web Development
+                </div>
+
+                <div className="text-md md:text-2xl mt-8">
+                  Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
+                  development and best practices used within industry. We cover technologies like
+                  TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed
+                  at scale by leading tech companies
+                </div>
+
+                <div className="flex flex-row gap-x-6 mt-6">
+                  <button
+                    className="rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-[#A52424] text-white text-lg md:text-xl
+          font-black hover:bg-white hover:text-[#A52424] border-4 hover:border-[#A52424] w-fit"
+                  >
+                    Apply Now
+                  </button>
+                  <button
+                    className="rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-[#A52424] text-white text-lg md:text-xl
+          font-black hover:bg-white hover:text-[#A52424] border-4 hover:border-[#A52424] w-fit"
+                  >
+                    Learn More
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* KEY EXPERIENCES SECTION */}
+          <section id="Key Experiences">
+            <div className="min-h-[50vh] flex flex-col items-center gap-y-20 px-10 lg:px-20 md:gap-x-10 md:flex-row md:items-center md:justify-around">
+              {key_experiences.map((experiences) => (
+                <Experiences
+                  icon={experiences.icon}
+                  title={experiences.title}
+                  description={experiences.description}
+                />
+              ))}
+            </div>
+          </section>
+
+          {/* TIMELINE SECTION */}
+          <section id="Timeline">
+            <div className="min-h-screen sm:min-h-[50vh] pt-24">
+              <Timeline events={timeline_events} currentDate={new Date()} />
+            </div>
+          </section>
+
+          {/* TODO: COURSE STAFF SECTION*/}
+          <section id="Course Staff">
+            <div className=" min-h-[60vh] flex flex-col items-center">
+              <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
+                Course Staff
+              </div>
+              <div className="pt-14">
+                {Object.keys(roles).map((role) => {
+                  const value = roles[role as Role];
+                  if (role === 'tpm' || role === 'dev-advisor') return <></>;
+                  return (
+                    <MemberGroup
+                      key={value.roleName}
+                      {...value}
+                      setSelectedMember={setSelectedMember}
+                      selectedMember={selectedMember}
+                      selectedRole={selectedRole}
+                      memberDetailsRef={memberDetailsRef}
+                      isCard={true}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* PAST STUDENT EXPERIENCES SECTION*/}
+          <section id="Past Student Experiences">
+            <div className="min-h-[40vh] flex flex-col">
+              <div className="font-black text-4xl tracking-wider pl-10 md:pl-32 md:text-[45px] ">
+                Past Student Experiences
+              </div>
+              <div className="overflow-x-auto pt-14 ">
+                <div className="flex gap-x-12 px-10 sm:px-32 flex-nowrap">
+                  {testimonials.map((testimonial, index) => (
+                    <TestimonialCard
+                      key={index}
+                      description={testimonial.description}
+                      name={testimonial.name}
+                      semesterTaken={testimonial.semesterTaken}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* PAST STUDENT PROJECTS SECTION*/}
+          <section id="Past Student Projects">
+            <div className="min-h-[60vh] flex flex-col p-10 md:p-32">
+              <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
+                Past Student Projects
+              </div>
+              <div className="md:text-2xl xs:text-lg pt-8">
+                With the right skills, you will be able to create projects like ours.
+              </div>
+              <div className="space-y-8 pt-20">
+                {student_projects.map((project) => (
+                  <DDProjects
+                    title={project.title}
+                    description={project.description}
+                    imageSrc={project.imageSrc}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
 
-      {/* LOGO SECTION */}
-      <section id="Trends and Web Development">
-        <div className="bg-[#EDEDED] text-black flex flex-col pl-10 lg:flex-row lg:items-center lg:justify-around min-h-[60vh]">
-          <div ref={trendsLogoRef} className="sticker">
-            <Image
-              src={'/icons/courses/trends_logo.png'}
-              width={450}
-              height={450}
-              alt="Trends Logo"
-              unoptimized
-              className="w-72 md:w-96 lg:w-[450px]"
-            />
-          </div>
+        {/* STYLING SECTION */}
+        <style>{`
 
-          <div className="flex flex-col lg:w-1/2">
-            <div className="font-black md:text-xl xs:text-lg tracking-wider">
-              MODERN INDUSTRY-LEADING TECHNOLOGY
-            </div>
+          .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+          }
 
-            <div className="font-black md:text-[45px] xs:text-4xl tracking-wider mt-4">
-              Trends in Web Development
-            </div>
-
-            <div className="xs:text-lg mt-8">
-              Trends in Web Development in a 2-credit S/U course that showcase modern full-stack
-              development and best practices used within industry. We cover technologies like
-              TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed at
-              scale by leading tech companies
-            </div>
-
-            <div className="flex flex-row gap-x-6 mt-6">
-              <button
-                className="rounded-xl py-3 px-4 bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] border-4 hover:border-[#A52424] w-fit"
-              >
-                Apply Now
-              </button>
-              <button
-                className="rounded-xl py-3 px-4 bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] border-4 hover:border-[#A52424] w-fit"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TODO: KEY EXPERIENCES SECTION */}
-      <section id="Key Experiences">
-        <div className="bg-[#EDEDED] text-black flex flex-col items-center gap-y-20 px-20 md:gap-x-10 md:flex-row md:items-center md:justify-around min-h-[60vh]">
-          {key_experiences.map((experiences) => (
-            <Experiences
-              icon={experiences.icon}
-              title={experiences.title}
-              description={experiences.description}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* TODO: TIMELINE SECTION */}
-      <section id="Timeline"></section>
-
-      {/* TODO: COURSE STAFF SECTION*/}
-      <section id="Course Staff"></section>
-
-      {/* TODO: PAST STUDENT EXPERIENCES SECTION*/}
-      <section id="Past Student Experiences"></section>
-
-      {/* TODO: PAST STUDENT PROJECTS SECTION*/}
-      <section id="Past Student Projects"></section>
-
-      {/* STYLING SECTION */}
-      <style>{`
-        .sticker {
-          opacity: 0;
-          transform: scale(0) rotate(-15deg);
-          transition:
-            transform 0.6s ease-out,
-            opacity 0.6s ease-out;
-        }
-
-        .sticker-animate {
-          opacity: 1;
-          transform: scale(1) rotate(0);
-        }
+          .fade-in-animate {
+            opacity: 1;
+            transform: translateY(0);
+          }
       `}</style>
+      </div>
     </>
   );
 }

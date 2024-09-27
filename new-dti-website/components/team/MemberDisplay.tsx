@@ -89,6 +89,7 @@ const MemberDisplay: React.FC = () => {
                   selectedMember={selectedMember}
                   selectedRole={selectedRole}
                   memberDetailsRef={memberDetailsRef}
+                  isCard={false}
                 />
               );
             })}
