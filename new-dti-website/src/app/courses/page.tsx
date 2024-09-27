@@ -16,14 +16,14 @@ import teamRoles from '../../../components/team/data/roles.json';
 // *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';
 import Experiences from '../../../components/courses/Experiences';
-import Timeline, { Event } from '../../../components/courses/Timeline';
+import Timeline from '../../../components/courses/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
 import TestimonialCard from '../../../components/courses/TestimonialCard';
 import DDProjects from '../../../components/courses/DDProjects';
 
 //* DATA
 const { key_experiences } = experiencesData;
-const timeline_events = timelineData;
+const { timeline_events } = timelineData;
 const { testimonials } = testimonialData;
 const student_projects = studentProjectData.student_projects;
 const trend_instructors = trendsData.trend_instructors as IdolMember[];
