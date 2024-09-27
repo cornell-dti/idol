@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DocumentReference, collection, getDoc, onSnapshot } from 'firebase/firestore';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
 import { db } from '../../../firebase';
@@ -27,6 +28,7 @@ type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
+  images?: string[]; // Ensure that images field is part of the shoutout
 };
 
 const AdminShoutouts: React.FC = () => {
@@ -36,6 +38,7 @@ const AdminShoutouts: React.FC = () => {
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({}); // Store image URLs in an object
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
@@ -65,7 +68,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -83,8 +86,19 @@ const AdminShoutouts: React.FC = () => {
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
+  const fetchImages = useCallback((shoutouts: Shoutout[]) => {
+    shoutouts.forEach((shoutout) => {
+      if (shoutout.images?.length) {
+        ImagesAPI.getEventProofImage(shoutout.images[0]).then((url) => {
+          setImageUrls((prev) => ({ ...prev, [shoutout.uuid]: url }));
+        });
+      }
+    });
+  }, []);
+
   useEffect(() => {
     updateShoutouts();
+    fetchImages(displayShoutouts);
   }, [earlyDate, lastDate, hide, updateShoutouts]);
 
   useEffect(() => {
@@ -100,9 +114,10 @@ const AdminShoutouts: React.FC = () => {
         })
       );
       setAllShoutouts(newShoutouts);
+      fetchImages(newShoutouts); // Fetch images when new shoutouts are loaded
     });
     return unsubscribe;
-  }, [setAllShoutouts]);
+  }, [setAllShoutouts, fetchImages]);
 
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
@@ -229,6 +244,13 @@ const AdminShoutouts: React.FC = () => {
                 <HideModal shoutout={shoutout} />
               </Item.Group>
               <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
+              {imageUrls[shoutout.uuid] ? (
+                <Item.Image>
+                  <Image src={imageUrls[shoutout.uuid]} size="small" />
+                </Item.Image>
+              ) : shoutout.images?.length > 0 ? (
+                <Loader active inline="centered" />
+              ) : null}
             </Item.Content>
           </Item>
         ))}
@@ -246,6 +268,7 @@ const AdminShoutouts: React.FC = () => {
         onClick={() => {
           setView(buttonText);
           setDisplayShoutouts(shoutoutList);
+          fetchImages(shoutoutList);
         }}
         content={buttonText}
       />

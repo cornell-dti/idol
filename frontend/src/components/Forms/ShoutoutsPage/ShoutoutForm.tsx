@@ -3,6 +3,7 @@ import { Form, TextArea, Checkbox, Loader } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import styles from './ShoutoutForm.module.css';
 
@@ -18,15 +19,24 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const [message, setMessage] = useState('');
   const [isAnon, setIsAnon] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
 
-  const giveShoutout = () => {
+  const giveShoutout = async () => {
     setIsSubmitting(true);
     if (!receiver) {
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
-        contentMsg: 'Please select a member!'
+        contentMsg: 'Please select a member!',
       });
     } else if (user && receiver && message !== '') {
+      let imageUrl = '';
+
+      if (image) {
+        const blob = await fetch(image).then((res) => res.blob());
+        imageUrl = `shoutoutProofs/${user.email}/${new Date().toISOString()}`;
+        await ImagesAPI.uploadEventProofImage(blob, imageUrl);
+      }
+
       const shoutout: Shoutout = {
         giver: user,
         receiver,
@@ -34,27 +44,36 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         isAnon,
         timestamp: Date.now(),
         hidden: false,
-        uuid: ''
+        uuid: '',
+        images: imageUrl ? [imageUrl] : [],
       };
+
       ShoutoutsAPI.giveShoutout(shoutout).then((val) => {
         setIsSubmitting(false);
         if (val.error) {
           Emitters.generalError.emit({
             headerMsg: "Couldn't send shoutout!",
-            contentMsg: val.error
+            contentMsg: val.error,
           });
         } else {
           Emitters.generalSuccess.emit({
             headerMsg: 'Shoutout submitted!',
-            contentMsg: `Thank you for recognizing ${receiver}'s awesomeness! 🙏`
+            contentMsg: `Thank you for recognizing ${receiver}'s awesomeness! 🙏`,
           });
           setReceiver('');
           setMessage('');
           setIsAnon(true);
+          setImage(null);
           getGivenShoutouts();
         }
       });
     }
+  };
+
+  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (!e.target.files) return;
+    const newImage = URL.createObjectURL(e.target.files[0]);
+    setImage(newImage);
   };
 
   return (
@@ -86,7 +105,19 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         />
       </div>
 
-      <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting}>
+      <div className={styles.imageUploadContainer}>
+        <label className={styles.bold}>
+          Upload a picture with your shoutout here!
+        </label>
+        <input
+          id="newImage"
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={handleNewImage}
+        />
+      </div>
+
+      <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting} style={{ marginTop: '20px' }} >
         {isSubmitting ? <Loader active inline size="small" /> : 'Send'}
       </Form.Button>
     </Form>
