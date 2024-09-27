@@ -25,7 +25,7 @@ import DDProjects from '../../../components/courses/DDProjects';
 const { key_experiences } = experiencesData;
 const { timeline_events } = timelineData;
 const { testimonials } = testimonialData;
-const student_projects = studentProjectData.student_projects;
+const { student_projects } = studentProjectData;
 const trend_instructors = trendsData.trend_instructors as IdolMember[];
 
 // * BEGIN COURSES COMPONENT
