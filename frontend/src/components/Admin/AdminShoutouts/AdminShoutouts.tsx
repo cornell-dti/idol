@@ -224,6 +224,13 @@ const AdminShoutouts: React.FC = () => {
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
                 />
+                {imageUrls[shoutout.uuid] ? (
+                  <>
+                    <Image src={imageUrls[shoutout.uuid]} size="small" />
+                  </>
+                ) : shoutout.images?.length > 0 ? (
+                  <Loader active inline="centered" />
+                ) : null}
               </Item.Content>
             </Item>
           ))}
@@ -257,6 +264,7 @@ const AdminShoutouts: React.FC = () => {
       </Item.Group>
     );
   };
+
 
   const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
     const { shoutoutList, buttonText } = props;
