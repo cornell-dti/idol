@@ -28,7 +28,7 @@ type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
-  images?: string[]; // Ensure that images field is part of the shoutout
+  images?: string[];
 };
 
 const AdminShoutouts: React.FC = () => {
@@ -38,7 +38,7 @@ const AdminShoutouts: React.FC = () => {
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({}); // Store image URLs in an object
+  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
@@ -114,7 +114,7 @@ const AdminShoutouts: React.FC = () => {
         })
       );
       setAllShoutouts(newShoutouts);
-      fetchImages(newShoutouts); // Fetch images when new shoutouts are loaded
+      fetchImages(newShoutouts);
     });
     return unsubscribe;
   }, [setAllShoutouts, fetchImages]);
