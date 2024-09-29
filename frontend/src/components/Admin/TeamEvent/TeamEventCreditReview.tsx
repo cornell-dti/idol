@@ -128,6 +128,7 @@ const TeamEventCreditReview = (props: {
         <Button
           basic
           color="green"
+          disabled={reason !== ''}
           onClick={() => {
             approveCreditRequest(teamEventAttendance);
             setOpen(false);
