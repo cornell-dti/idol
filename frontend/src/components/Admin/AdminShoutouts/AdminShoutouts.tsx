@@ -68,7 +68,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -99,7 +99,7 @@ const AdminShoutouts: React.FC = () => {
   useEffect(() => {
     updateShoutouts();
     fetchImages(displayShoutouts);
-  }, [earlyDate, lastDate, hide, updateShoutouts]);
+  }, [earlyDate, lastDate, hide, updateShoutouts, displayShoutouts, fetchImages]);
 
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');
@@ -224,13 +224,21 @@ const AdminShoutouts: React.FC = () => {
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
                 />
-                {imageUrls[shoutout.uuid] ? (
-                  <>
-                    <Image src={imageUrls[shoutout.uuid]} size="small" />
-                  </>
-                ) : shoutout.images?.length > 0 ? (
-                  <Loader active inline="centered" />
-                ) : null}
+                {(() => {
+                  let content;
+                  if (imageUrls[shoutout.uuid]) {
+                    content = (
+                      <Item.Image>
+                        <Image src={imageUrls[shoutout.uuid]} size="small" />
+                      </Item.Image>
+                    );
+                  } else if (shoutout.images?.length > 0) {
+                    content = <Loader active inline="centered" />;
+                  } else {
+                    content = null;
+                  }
+                  return content;
+                })()}
               </Item.Content>
             </Item>
           ))}
@@ -251,13 +259,21 @@ const AdminShoutouts: React.FC = () => {
                 <HideModal shoutout={shoutout} />
               </Item.Group>
               <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
-              {imageUrls[shoutout.uuid] ? (
-                <Item.Image>
-                  <Image src={imageUrls[shoutout.uuid]} size="small" />
-                </Item.Image>
-              ) : shoutout.images?.length > 0 ? (
-                <Loader active inline="centered" />
-              ) : null}
+              {(() => {
+                let content;
+                if (imageUrls[shoutout.uuid]) {
+                  content = (
+                    <Item.Image>
+                      <Image src={imageUrls[shoutout.uuid]} size="small" />
+                    </Item.Image>
+                  );
+                } else if (shoutout.images?.length > 0) {
+                  content = <Loader active inline="centered" />;
+                } else {
+                  content = null;
+                }
+                return content;
+              })()}
             </Item.Content>
           </Item>
         ))}
