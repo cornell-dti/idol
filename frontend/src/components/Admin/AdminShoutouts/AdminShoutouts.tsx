@@ -68,7 +68,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-            60 * 60 * 1000 * 24
+              60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -264,7 +264,6 @@ const AdminShoutouts: React.FC = () => {
       </Item.Group>
     );
   };
-
 
   const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
     const { shoutoutList, buttonText } = props;

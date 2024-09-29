@@ -26,7 +26,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
     if (!receiver) {
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
-        contentMsg: 'Please select a member!',
+        contentMsg: 'Please select a member!'
       });
     } else if (user && receiver && message !== '') {
       let imageUrl = '';
@@ -45,7 +45,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         timestamp: Date.now(),
         hidden: false,
         uuid: '',
-        images: imageUrl ? [imageUrl] : [],
+        images: imageUrl ? [imageUrl] : []
       };
 
       ShoutoutsAPI.giveShoutout(shoutout).then((val) => {
@@ -53,12 +53,12 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         if (val.error) {
           Emitters.generalError.emit({
             headerMsg: "Couldn't send shoutout!",
-            contentMsg: val.error,
+            contentMsg: val.error
           });
         } else {
           Emitters.generalSuccess.emit({
             headerMsg: 'Shoutout submitted!',
-            contentMsg: `Thank you for recognizing ${receiver}'s awesomeness! 🙏`,
+            contentMsg: `Thank you for recognizing ${receiver}'s awesomeness! 🙏`
           });
           setReceiver('');
           setMessage('');
@@ -106,18 +106,16 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
       </div>
 
       <div className={styles.imageUploadContainer}>
-        <label className={styles.bold}>
-          Upload a picture with your shoutout here!
-        </label>
-        <input
-          id="newImage"
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={handleNewImage}
-        />
+        <label className={styles.bold}>Upload a picture with your shoutout here!</label>
+        <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={handleNewImage} />
       </div>
 
-      <Form.Button floated="right" onClick={giveShoutout} disabled={isSubmitting} style={{ marginTop: '20px' }} >
+      <Form.Button
+        floated="right"
+        onClick={giveShoutout}
+        disabled={isSubmitting}
+        style={{ marginTop: '20px' }}
+      >
         {isSubmitting ? <Loader active inline size="small" /> : 'Send'}
       </Form.Button>
     </Form>
