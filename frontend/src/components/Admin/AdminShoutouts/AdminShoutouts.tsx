@@ -68,7 +68,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-            60 * 60 * 1000 * 24
+              60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -232,7 +232,7 @@ const AdminShoutouts: React.FC = () => {
                         <Image src={imageUrls[shoutout.uuid]} size="small" />
                       </Item.Image>
                     );
-                  } else if (shoutout.images?.length > 0) {
+                  } else if (shoutout.images && shoutout.images.length > 0) {
                     content = <Loader active inline="centered" />;
                   } else {
                     content = null;
@@ -267,7 +267,7 @@ const AdminShoutouts: React.FC = () => {
                       <Image src={imageUrls[shoutout.uuid]} size="small" />
                     </Item.Image>
                   );
-                } else if (shoutout.images?.length > 0) {
+                } else if (shoutout.images && shoutout.images.length > 0) {
                   content = <Loader active inline="centered" />;
                 } else {
                   content = null;
