@@ -37,9 +37,16 @@ const AdminShoutouts: React.FC = () => {
   const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * A ViewMode type definition for filtering the displayed shoutouts
+   */
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
-  const [view, setView] = useState<ViewMode>('ALL');
+  const [view, setView] = useState<ViewMode>('ALL'); // Current view mode (all, present, hidden)
 
+  /**
+   * Updates the list of shoutouts based on the selected date range and view mode.
+   * Filters the shoutouts by hidden status, sorts them by timestamp, and updates the display state.
+   */
   const updateShoutouts = useCallback(() => {
     setLoading(true);
     if (lastDate < earlyDate) {
@@ -57,7 +64,7 @@ const AdminShoutouts: React.FC = () => {
       const filteredShoutouts = allShoutouts
         .filter((shoutout) => {
           const shoutoutDate = new Date(shoutout.timestamp);
-          // Set time to be 4:59:59AM UTC/11:59PM EST/12:59AM EDT
+          // Adjust the last date to include the entire day
           const lastDateAdjusted = new Date(
             new Date(lastDate.getTime() - lastDate.getTimezoneOffset() * 60 * 1000).setUTCHours(
               4,
@@ -65,10 +72,10 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
 
-          // Set time to be 5AM UTC/12AM EST/1AM EDT
+          // Adjust early date to start at 5 AM
           const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
           return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
         })
@@ -83,10 +90,17 @@ const AdminShoutouts: React.FC = () => {
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
+  /**
+   * useEffect to update the shoutouts list when date range or hidden status changes.
+   */
   useEffect(() => {
     updateShoutouts();
   }, [earlyDate, lastDate, hide, updateShoutouts]);
 
+  /**
+   * useEffect to retrieve real-time updates from Firestore for shoutouts.
+   * Populates the allShoutouts state with data from the Firestore 'shoutouts' collection.
+   */
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');
     const unsubscribe = onSnapshot(shoutoutCollection, async (snapshot) => {
@@ -104,6 +118,9 @@ const AdminShoutouts: React.FC = () => {
     return unsubscribe;
   }, [setAllShoutouts]);
 
+  /**
+   * A helper function to generate the title for the list of shoutouts based on the current view.
+   */
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
     if (view === 'HIDDEN') title = `Hidden Shoutouts (${displayShoutouts.length})`;
@@ -115,6 +132,10 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
+  /**
+   * A helper function to format the 'From' string for each shoutout.
+   * (if the shoutout is anonymous, it returns "From: Anonymous".)
+   */
   const fromString = (shoutout: Shoutout): string => {
     if (!shoutout.isAnon) {
       const { giver } = shoutout;
@@ -123,9 +144,16 @@ const AdminShoutouts: React.FC = () => {
     return ` (From: Anonymous)`;
   };
 
+  /**
+   * A helper function to format the date string for each shoutout's timestamp.
+   */
   const dateString = (shoutout: Shoutout): string =>
     `${new Date(shoutout.timestamp).toDateString()}`;
 
+  /**
+   * Handles hiding/unhiding a shoutout.
+   * Updates the 'hidden' status of the shoutout and triggers a success message upon completion.
+   */
   const onHide = (shoutout: Shoutout) => {
     setHide(true);
     const oppHide = !shoutout.hidden;
@@ -144,6 +172,9 @@ const AdminShoutouts: React.FC = () => {
     });
   };
 
+  /**
+   * A modal component to confirm hiding/unhiding a shoutout.
+   */
   const HideModal = (props: { shoutout: Shoutout }): JSX.Element => {
     const { shoutout } = props;
     if (!shoutout.hidden)
@@ -181,6 +212,9 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
+  /**
+   * Displays the list of shoutouts based on the current filters (all, present, hidden).
+   */
   const DisplayList = (): JSX.Element => {
     if (displayShoutouts.length === 0)
       return (
@@ -236,6 +270,9 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
+  /**
+   * A button component that toggles between 'ALL', 'PRESENT', and 'HIDDEN' views for filtering shoutouts.
+   */
   const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
     const { shoutoutList, buttonText } = props;
     let currColor: SemanticCOLORS = 'grey';
@@ -252,6 +289,9 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
+  /**
+   * A date selection component for choosing the start and end dates for filtering shoutouts.
+   */
   const ChooseDate = (props: {
     dateField: Date;
     dateFunction: (value: React.SetStateAction<Date>) => void;
