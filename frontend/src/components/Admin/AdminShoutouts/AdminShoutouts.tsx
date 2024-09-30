@@ -72,7 +72,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-            60 * 60 * 1000 * 24
+              60 * 60 * 1000 * 24
           );
 
           // Adjust early date to start at 5 AM
