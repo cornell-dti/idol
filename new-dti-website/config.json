@@ -1,0 +1,82 @@
+{
+  "semester": "Fall 2024",
+  "applicationDeadline": "February 1, 2024 11:59:59 PM",
+  "applicationLink": "",
+  "coffeeChatLink": "",
+  "coffeeChatFormLink": "",
+  "events": [
+    {
+      "title": "Applications Open!",
+      "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+      "location": "Google Form Application",
+      "type": "application",
+      "link": "form link",
+      "freshmen": { "date": "August 21", "isTentative": false },
+      "upperclassmen": { "date": "August 21", "isTentative": false },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Information Session 1",
+      "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after!",
+      "location": "Goldwin Smith Hall G26",
+      "type": "info",
+      "freshmen": { "date": "September 30", "isTentative": false, "time": "5-6PM" },
+      "upperclassmen": { "date": "August 27", "isTentative": false, "time": "5-6PM" },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Information Session 2",
+      "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+      "location": "Goldwin Smith Hall G22",
+      "type": "info",
+      "freshmen": { "date": "October 12", "isTentative": false, "time": "11AM-12PM" },
+      "upperclassmen": { "date": "September 2", "isTentative": false, "time": "6:30-7:30PM" },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Applications Due",
+      "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+      "location": "Google Form Application",
+      "type": "deadline",
+      "link": "link",
+      "freshmen": { "date": "October 17", "isTentative": false },
+      "upperclassmen": { "date": "September 4", "isTentative": false },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Behavioral Interviews",
+      "description": "Something something behaviorals.",
+      "location": "Varying locations",
+      "type": "interview",
+      "freshmen": { "date": "October 22-24", "isTentative": true },
+      "upperclassmen": { "date": "September 10-12", "isTentative": false },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Technical Interviews",
+      "description": "Something something technicals.",
+      "location": "Varying locations",
+      "type": "interview",
+      "freshmen": { "date": "October 26-28", "isTentative": true },
+      "upperclassmen": { "date": "September 14-16", "isTentative": false },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Freshmen Recruitment Event",
+      "description": "Get to know Cornell and DTI!",
+      "location": "Duffield Atrium",
+      "type": "info",
+      "freshmen": { "date": "October 1", "isTentative": false, "time": "4-5PM" },
+      "upperclassmen": { "date": "", "isTentative": false },
+      "spring": { "date": "", "isTentative": false }
+    },
+    {
+      "title": "Offers Extended",
+      "description": "Offers get sent out!",
+      "type": "offer",
+      "freshmen": { "date": "October 30", "isTentative": false },
+      "upperclassmen": { "date": "September 18", "isTentative": false },
+      "spring": { "date": "", "isTentative": false }
+    }
+  ]
+}

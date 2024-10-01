@@ -1,15 +1,15 @@
 export const ratingToString = (rating: number): string => {
   switch (rating) {
     case 1:
-      return 'No';
+      return 'Strong No';
     case 2:
-      return 'Unlikely';
+      return 'No';
     case 3:
       return 'Maybe';
     case 4:
-      return 'Strong Maybe';
-    case 5:
       return 'Yes';
+    case 5:
+      return 'Strong Yes';
     default:
       throw new Error();
   }

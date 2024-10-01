@@ -198,3 +198,17 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
   };
   return CDI;
 };
+
+/** Create fake Coffee Chat */
+export const fakeCoffeeChat = (): CoffeeChat => {
+  const DP = {
+    uuid: faker.datatype.uuid(),
+    members: [fakeIdolMember()],
+    image: '',
+    category: 'test',
+    description: 'test coffee chat',
+    status: 'pending',
+    date: Date.now()
+  };
+  return DP;
+};

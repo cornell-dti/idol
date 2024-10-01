@@ -7,7 +7,13 @@ interface SlideshowProps {
   selectedImage: number | null;
 }
 
-const imageNames = ['dti.png', 'family.png', 'collaboration.png', 'event.png', 'initiative.png'];
+const imageNames = [
+  'full-team.png',
+  'family.png',
+  'collaboration.png',
+  'event.png',
+  'initiative.png'
+];
 
 const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({
   imageName,
@@ -30,13 +36,13 @@ const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
     {imageNames.map((imageName, index) => (
       <div key={imageName} className="absolute top-0 left-0 w-full h-full">
         <ImageHeader imageName={imageName} isVisible={selectedImage === index} />
-        <div className="relative top-12 w-full h-[400px]">
+        <div className="relative top-10 w-full h-[400px]">
           <Image
             width={600}
             height={400}
             src={`/images/${imageName}`}
             alt={imageName.split('.')[0]}
-            className={`absolute top-0 left-1/2 transform -translate-x-1/2 max-w-full max-h-full transition-opacity duration-300 border-8 border-white rounded-lg ${
+            className={`absolute top-0 left-1/2 transform -translate-x-1/2 max-w-full max-h-full border-8 border-white rounded-lg ${
               selectedImage === index ? 'opacity-100' : 'opacity-0'
             }`}
           />

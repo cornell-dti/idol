@@ -1,0 +1,24 @@
+{
+  "icons": [
+    { "src": "/icons/company-icons/adobe.svg", "alt": "adobe" },
+    { "src": "/icons/company-icons/amazon.svg", "alt": "amazon" },
+    { "src": "/icons/company-icons/apple.svg", "alt": "apple" },
+    { "src": "/icons/company-icons/capitalone.svg", "alt": "capital-one" },
+    { "src": "/icons/company-icons/datadog.svg", "alt": "datadog" },
+    { "src": "/icons/company-icons/goldman.svg", "alt": "goldman" },
+    { "src": "/icons/company-icons/google.svg", "alt": "google" },
+    { "src": "/icons/company-icons/ibm.svg", "alt": "ibm" },
+    { "src": "/icons/company-icons/linkedin.svg", "alt": "linkedin" },
+    { "src": "/icons/company-icons/mckinsey.svg", "alt": "mckinsey" },
+    { "src": "/icons/company-icons/meta.svg", "alt": "meta" },
+    { "src": "/icons/company-icons/microsoft.svg", "alt": "microsoft" },
+    { "src": "/icons/company-icons/mongodb.svg", "alt": "mongodb" },
+    { "src": "/icons/company-icons/robinhood.svg", "alt": "robinhood" },
+    { "src": "/icons/company-icons/roblox.svg", "alt": "roblox" },
+    { "src": "/icons/company-icons/salesforce.svg", "alt": "salesforce" },
+    { "src": "/icons/company-icons/squarespace.svg", "alt": "squarespace" },
+    { "src": "/icons/company-icons/tesla.svg", "alt": "tesla" },
+    { "src": "/icons/company-icons/uber.svg", "alt": "uber" },
+    { "src": "/icons/company-icons/ycombinator.svg", "alt": "ycombinator" }
+  ]
+}

@@ -21,7 +21,8 @@ import {
   deleteMember,
   updateMember,
   getUserInformationDifference,
-  reviewUserInformationChange
+  reviewUserInformationChange,
+  generateMemberArchive
 } from './API/memberAPI';
 import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
@@ -32,6 +33,14 @@ import {
   hideShoutout,
   deleteShoutout
 } from './API/shoutoutAPI';
+import {
+  createCoffeeChat,
+  getAllCoffeeChats,
+  updateCoffeeChat,
+  getCoffeeChatsByUser,
+  deleteCoffeeChat,
+  clearAllCoffeeChats
+} from './API/coffeeChatAPI';
 import {
   allSignInForms,
   createSignInForm,
@@ -61,7 +70,8 @@ import {
   deleteCandidateDeciderInstance,
   getCandidateDeciderInstance,
   updateCandidateDeciderRatingAndComment,
-  updateCandidateDeciderInstance
+  updateCandidateDeciderInstance,
+  getCandidateDeciderReviews
 } from './API/candidateDeciderAPI';
 import {
   deleteEventProofImage,
@@ -228,6 +238,10 @@ loginCheckedPut('/memberDiffs', async (req, user) => ({
   member: await reviewUserInformationChange(req.body.approved, req.body.rejected, user)
 }));
 
+loginCheckedPost('/member-archive', async (req, user) => ({
+  archive: await generateMemberArchive(req.body, user, req.query.semesters as number | undefined)
+}));
+
 // Teams
 loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
 loginCheckedPut('/team', async (req, user) => ({
@@ -273,6 +287,33 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   await deleteShoutout(req.params.uuid, user);
   return {};
 });
+
+loginCheckedGet('/coffee-chat', async () => ({
+  coffeeChats: await getAllCoffeeChats()
+}));
+
+loginCheckedPost('/coffee-chat', async (req) => ({
+  coffeeChats: await createCoffeeChat(req.body)
+}));
+
+loginCheckedDelete('/coffee-chat', async (_, user) => {
+  await clearAllCoffeeChats(user);
+  return {};
+});
+
+loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
+  await deleteCoffeeChat(req.params.uuid, user);
+  return {};
+});
+
+loginCheckedGet('/coffee-chat/:email', async (_, user) => {
+  const coffeeChats = await getCoffeeChatsByUser(user);
+  return { coffeeChats };
+});
+
+loginCheckedPut('/coffee-chat', async (req, user) => ({
+  coffeeChats: await updateCoffeeChat(req.body, user)
+}));
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
@@ -360,6 +401,9 @@ loginCheckedGet('/candidate-decider', async (_, user) => ({
 }));
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
+}));
+loginCheckedGet('/candidate-decider/:uuid/review', async (req, user) => ({
+  reviews: await getCandidateDeciderReviews(req.params.uuid, user)
 }));
 loginCheckedPost('/candidate-decider', async (req, user) => ({
   instance: await createNewCandidateDeciderInstance(req.body, user)

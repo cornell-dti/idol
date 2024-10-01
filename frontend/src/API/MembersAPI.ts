@@ -31,6 +31,12 @@ export class MembersAPI {
     );
   }
 
+  public static getArchive(body: {
+    [key: string]: string[];
+  }): Promise<{ [key: string]: MemberProfile[] }> {
+    return APIWrapper.post(`${backendURL}/member-archive`, body).then((res) => res.data);
+  }
+
   public static notifyMember(
     member: Member,
     endOfSemesterReminder: boolean

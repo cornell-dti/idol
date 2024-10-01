@@ -160,3 +160,24 @@ export const reviewUserInformationChange = async (
     MembersDao.revertMemberInformationChanges(rejected)
   ]);
 };
+
+/**
+ * Generates an archive of all IDOL members, separated into three categories: current, inactive, and alumni.
+ * @param membershipChanges - an object with lists of NetIds corresponding to the status of IDOL members in the next semester.
+ * @param user - the `IdolMember` submitting the request.
+ * @param semesters - the number of previous semesters to look back, undefined if no limit.
+ * @returns an object with the categories as the keys, each with value `MemberProfile[]`.
+ */
+export const generateMemberArchive = async (
+  membershipChanges: { [key: string]: string[] },
+  user: IdolMember,
+  semesters: number | undefined
+): Promise<{ [key: string]: string[] }> => {
+  const canEditMembers = await PermissionsManager.canEditMembers(user);
+  if (!canEditMembers) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to generate an archive!`
+    );
+  }
+  return MembersDao.generateArchive(membershipChanges, semesters);
+};

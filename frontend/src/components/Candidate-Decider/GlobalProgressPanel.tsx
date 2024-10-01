@@ -5,36 +5,30 @@ import styles from './ProgressPanel.module.css';
 type Props = {
   showOtherVotes: boolean;
   candidates: CandidateDeciderCandidate[];
+  reviews: CandidateDeciderReview[];
 };
 
-const GlobalProgressPanel: React.FC<Props> = ({ showOtherVotes, candidates }) => {
+const GlobalProgressPanel: React.FC<Props> = ({ showOtherVotes, candidates, reviews }) => {
   const reviewers = new Set();
-  let totalReviews = 0;
-  candidates.forEach((candidate) =>
-    candidate.ratings.forEach((rating) => {
-      reviewers.add(rating.reviewer.email);
-      totalReviews += 1;
-    })
-  );
+  reviews.forEach((review) => reviewers.add(review.reviewer.email));
   const allReviewers = Array.from(reviewers);
-  const allRatings = candidates.map((candidate) => candidate.ratings).flat();
 
   return (
     <div className={styles.progressContainer}>
       <h3>Global Progress</h3>
       <Progress
-        value={totalReviews}
+        value={reviews.length}
         total={allReviewers.length * candidates.length}
         size="tiny"
         color="blue"
-      >{`${allRatings.length}/${candidates.length * allReviewers.length}`}</Progress>
-      <RatingsDisplay ratings={allRatings} header="Global Rating Statistics" />
+      >{`${reviews.length}/${candidates.length * allReviewers.length}`}</Progress>
+      <RatingsDisplay ratings={reviews} header="Global Rating Statistics" />
       {showOtherVotes ? (
         <>
           <h3>Per-person Ratings</h3>
           {candidates.map((candidate) => (
             <RatingsDisplay
-              ratings={candidate.ratings}
+              ratings={reviews.filter((review) => review.candidateId === candidate.id)}
               header={`Candidate ${candidate.id}`}
               key={candidate.id}
             />

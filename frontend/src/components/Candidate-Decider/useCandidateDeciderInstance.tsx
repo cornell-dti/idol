@@ -1,5 +1,13 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { onSnapshot, doc, collection, getDoc, DocumentReference } from 'firebase/firestore';
+import {
+  onSnapshot,
+  doc,
+  query,
+  collection,
+  getDoc,
+  DocumentReference,
+  where
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export type DBCandidateDeciderRating = {
@@ -15,8 +23,6 @@ export type DBCandidateDeciderComment = {
 export type DBCandidateDeciderCandidate = {
   readonly responses: string[];
   readonly id: number;
-  ratings: DBCandidateDeciderRating[];
-  comments: DBCandidateDeciderComment[];
 };
 
 export type DBCandidateDeciderInstance = {
@@ -28,9 +34,16 @@ export type DBCandidateDeciderInstance = {
   readonly authorizedRoles: Role[];
   isOpen: boolean;
 };
-const useCandidateDeciderInstance = (
-  uuid: string
-): [CandidateDeciderInstance, Dispatch<SetStateAction<CandidateDeciderInstance>>] => {
+
+export type DBCandidateDeciderReview = {
+  readonly candidateDeciderInstanceUuid: string;
+  readonly candidateId: number;
+  readonly reviewer: DocumentReference;
+  readonly rating: Rating;
+  readonly comment: string;
+  readonly uuid: string;
+};
+const useCandidateDeciderInstance = (uuid: string): CandidateDeciderInstance => {
   const [instance, setInstance] = useState<CandidateDeciderInstance>(blankInstance);
 
   useEffect(() => {
@@ -47,19 +60,7 @@ const useCandidateDeciderInstance = (
           ),
           candidates: await Promise.all(
             dbInstance.candidates.map(async (candidate) => ({
-              ...candidate,
-              ratings: await Promise.all(
-                candidate.ratings.map(async (rating) => ({
-                  ...rating,
-                  reviewer: (await getDoc(rating.reviewer)).data() as IdolMember
-                }))
-              ),
-              comments: await Promise.all(
-                candidate.comments.map(async (comment) => ({
-                  ...comment,
-                  reviewer: (await getDoc(comment.reviewer)).data() as IdolMember
-                }))
-              )
+              ...candidate
             }))
           )
         };
@@ -69,7 +70,42 @@ const useCandidateDeciderInstance = (
     return unsubscribe;
   }, [uuid]);
 
-  return [instance, setInstance];
+  return instance;
+};
+
+const useCandidateDeciderReviews = (
+  uuid: string
+): [CandidateDeciderReview[], Dispatch<SetStateAction<CandidateDeciderReview[]>>] => {
+  const [reviews, setReviews] = useState<CandidateDeciderReview[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(
+        collection(db, 'candidate-decider-review'),
+        where('candidateDeciderInstanceUuid', '==', uuid)
+      ),
+      async (snapshot) => {
+        const dbReviews: DBCandidateDeciderReview[] = [];
+        snapshot.forEach((doc) => {
+          const dbCandidateDeciderReview = doc.data() as DBCandidateDeciderReview;
+          dbReviews.push({
+            ...dbCandidateDeciderReview
+          });
+        });
+
+        const reviews = await Promise.all(
+          dbReviews.map(async (dbReview) => ({
+            ...dbReview,
+            reviewer: (await getDoc(dbReview.reviewer)).data() as IdolMember
+          }))
+        );
+        setReviews(reviews);
+      }
+    );
+
+    return unsubscribe;
+  }, [uuid]);
+  return [reviews, setReviews];
 };
 
 const blankInstance: CandidateDeciderInstance = {
@@ -82,4 +118,4 @@ const blankInstance: CandidateDeciderInstance = {
   isOpen: true
 };
 
-export default useCandidateDeciderInstance;
+export { useCandidateDeciderInstance, useCandidateDeciderReviews };
