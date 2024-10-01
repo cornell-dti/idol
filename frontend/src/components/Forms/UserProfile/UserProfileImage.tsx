@@ -18,7 +18,7 @@ const UserProfileImage: React.FC = () => {
     if (process.env.NODE_ENV === 'test') {
       return;
     }
-    ImagesAPI.getMemberImage(userInfo ? userInfo.email : '').then((url: string) => {
+    ImagesAPI.getImage(userInfo ? userInfo.email : '', 'member-image').then((url: string) => {
       setProfilePhoto(url);
     });
   }, [userInfo]);
@@ -31,7 +31,7 @@ const UserProfileImage: React.FC = () => {
         .then((res) => res.blob())
         .then((blob) => {
           imageURL = window.URL.createObjectURL(blob);
-          ImagesAPI.uploadMemberImage(blob);
+          ImagesAPI.uploadImage(blob, 'member-image-signedURL');
           setProfilePhoto(imageURL);
         });
     }
