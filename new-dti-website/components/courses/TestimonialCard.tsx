@@ -1,6 +1,5 @@
 import React from 'react';
 
-// * INTERFACE
 interface TestimonialCardProps {
   description: string;
   name: string;

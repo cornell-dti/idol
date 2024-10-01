@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// *INTERFACE
 interface DDProjectsProps {
   title: string;
   description: string;

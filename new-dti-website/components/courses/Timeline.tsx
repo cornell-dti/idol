@@ -1,13 +1,13 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import useScreenSize from '../../src/hooks/useScreenSize';
+import { MOBILE_BREAKPOINT } from '../../src/consts';
 
-// * TYPES
 export type Event = {
   title: string;
   date: string;
   time: string;
 };
 
-// * INTERFACE
 type TimelineProps = {
   events: Event[];
   currentDate: Date;
@@ -74,7 +74,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
    * ```ts
    * const progressPercentage = getProgressPercentage();
    * ```
-   */ const getProgressPercentage = () => {
+   */
+  const getProgressPercentage = () => {
     const sortedEvents = events.sort((a, b) => {
       const aDate = parseEventDate(a.date, a.time);
       const bDate = parseEventDate(b.date, b.time);
@@ -95,8 +96,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   };
 
   const progressPercentage = getProgressPercentage();
+  const { width } = useScreenSize();
 
-  // * Use Layout Effect to Handle resizing of the Timeline
   useLayoutEffect(() => {
     /**
      * Calculates the length of the line connecting the first and last events.
@@ -141,19 +142,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         }
       }
     };
-    const handleResize = () => {
-      const mobile = window.innerWidth < 640;
+
+    if (width) {
+      const mobile = width < MOBILE_BREAKPOINT;
       setIsMobile(mobile);
       calculateLineLength();
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isMobile, lineLength]);
+    }
+  }, [isMobile, lineLength, events.length, width]);
 
   return (
     <>
@@ -163,8 +158,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           style={{
             height: isMobile ? `${lineLength}px` : '6px',
             width: isMobile ? '2px' : `${lineLength}px`,
-            left: isMobile ? '65px' : '50%', // This Centers it horizontally on non-mobile
-            transform: isMobile ? 'translateY(-10px)' : 'translateX(-50%) translateY(67px)' // Use this to fine tune position
+            left: isMobile ? '65px' : '50%',
+            transform: isMobile ? 'translateY(-10px)' : 'translateX(-50%) translateY(67px)'
           }}
         >
           <div className="absolute sm:h-2 h-full sm:w-full w-2 bg-gray-300 z-10" />

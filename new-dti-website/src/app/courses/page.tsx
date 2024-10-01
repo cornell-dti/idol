@@ -2,6 +2,7 @@
 
 // *IMPORTS
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { populateMembers } from '../../utils';
 
@@ -58,7 +59,7 @@ export default function Courses() {
           }
         });
       },
-      { threshold: 0.9 }
+      { threshold: 0.6 }
     );
 
     const sections = document.querySelectorAll('section');
@@ -89,7 +90,7 @@ export default function Courses() {
         {/* Hero Section */}
         <section id="Hero Section">
           <div
-            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)]
+            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)] 
     flex items-center w-full overflow-hidden"
           >
             <div
@@ -123,9 +124,12 @@ export default function Courses() {
                     community impact
                   </span>
                   , we want to help everyone{' '}
-                  <b className="font-black text-lg md:text-xl text-white">learn and grow</b> through
-                  our training course in{' '}
-                  <b className="font-black text-md md:text-xl text-white">product development</b>.{' '}
+                  <span className="font-black text-lg md:text-xl text-white">learn and grow</span>{' '}
+                  through our training course in{' '}
+                  <span className="font-black text-md md:text-xl text-white">
+                    product development
+                  </span>
+                  .{' '}
                 </p>
               </div>
             </div>
@@ -136,10 +140,13 @@ export default function Courses() {
         </section>
 
         {/* WRAPPER */}
-        <div id="Wrapper" className="flex flex-col gap-y-28 bg-[#EDEDED] text-black ">
+        <div
+          id="Wrapper"
+          className="flex flex-col py-10 lg:py-20 gap-y-36 md:gap-y-56 lg:gap-y-80 bg-[#EDEDED] text-black "
+        >
           {/* LOGO SECTION */}
           <section id="Trends and Web Development">
-            <div className="min-h-[60vh] flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
+            <div className=" flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
               <div ref={trendsLogoRef} className="sticker">
                 <Image
                   src={'/icons/courses/trends_logo.png'}
@@ -168,18 +175,22 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <button
+                  <Link
+                    key="Apply Page"
+                    href={'/apply'}
                     className="rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-[#A52424] text-white text-lg md:text-xl
           font-black hover:bg-white hover:text-[#A52424] border-4 hover:border-[#A52424] w-fit"
                   >
                     Apply Now
-                  </button>
-                  <button
+                  </Link>
+                  <Link
+                    key="Trends Form"
+                    href={''}
                     className="rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-[#A52424] text-white text-lg md:text-xl
           font-black hover:bg-white hover:text-[#A52424] border-4 hover:border-[#A52424] w-fit"
                   >
                     Learn More
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -187,7 +198,7 @@ export default function Courses() {
 
           {/* KEY EXPERIENCES SECTION */}
           <section id="Key Experiences">
-            <div className="min-h-[50vh] flex flex-col items-center gap-y-20 px-10 lg:px-20 md:gap-x-10 md:flex-row md:items-center md:justify-around">
+            <div className="flex flex-col items-center gap-y-20 px-10 lg:px-20 md:gap-x-10 md:flex-row md:items-center md:justify-around">
               {key_experiences.map((experiences) => (
                 <Experiences
                   icon={experiences.icon}
@@ -200,14 +211,14 @@ export default function Courses() {
 
           {/* TIMELINE SECTION */}
           <section id="Timeline">
-            <div className="min-h-screen sm:min-h-[50vh] pt-24">
+            <div className="">
               <Timeline events={timeline_events} currentDate={new Date()} />
             </div>
           </section>
 
-          {/* TODO: COURSE STAFF SECTION */}
+          {/* COURSE STAFF SECTION */}
           <section id="Course Staff">
-            <div className=" min-h-[60vh] flex flex-col items-center">
+            <div className="flex flex-col items-center">
               <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
                 Course Staff
               </div>
@@ -233,7 +244,7 @@ export default function Courses() {
 
           {/* PAST STUDENT EXPERIENCES SECTION */}
           <section id="Past Student Experiences">
-            <div className="min-h-[40vh] flex flex-col">
+            <div className="flex flex-col">
               <div className="font-black text-4xl tracking-wider pl-10 md:pl-32 md:text-[45px] ">
                 Past Student Experiences
               </div>
@@ -254,7 +265,7 @@ export default function Courses() {
 
           {/* PAST STUDENT PROJECTS SECTION */}
           <section id="Past Student Projects">
-            <div className="min-h-[60vh] flex flex-col p-10 md:p-32">
+            <div className="flex flex-col px-10 md:px-32">
               <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
                 Past Student Projects
               </div>

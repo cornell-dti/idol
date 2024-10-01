@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 
-// * INTERFACE
 interface IconProps {
   icon: string;
   title: string;
