@@ -58,13 +58,13 @@ const Page = () => (
     ))}
     <Connector
       orientation="right"
-      width={384}
+      width={390}
       height={466}
       strokeWidth={6}
-      className={'pl-[198px]'}
+      className="!w-fit !ml-[50%]"
     />
-    <div className="flex justify-center lg:my-[120px] md:my-[260px]">
-      <div className="flex flex-col text-white max-w-[727px] text-center items-center space-y-6">
+    <div className="flex justify-center lg:my-32 md:my-64">
+      <div className="flex flex-col text-white max-w-screen-md text-center items-center space-y-6">
         <p className="font-semibold text-[32px]">Have Any Ideas?</p>
         <p className="px-20">
           We've learned that tackling the hardest problems is the only way to truly create value for

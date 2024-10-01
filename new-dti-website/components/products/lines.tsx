@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import useScrollPosition from '../../src/hooks/useScrollPosition';
+import { cn } from '../../lib/utils';
 
 type ConnectorProps = {
   orientation: 'left' | 'right';
@@ -29,7 +30,10 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
   return (
     <div
       ref={connectorRef}
-      className={`lg:flex flex-row text-white relative flex-shrink w-full justify-center hidden ${props.className}`}
+      className={cn(
+        'lg:flex flex-row text-white relative flex-shrink w-full justify-center hidden',
+        props.className
+      )}
     >
       <svg
         width={props.width}
@@ -55,9 +59,7 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
         />
       </svg>
       {props.displayText ? (
-        <div className="absolute font-medium text-[20px] top-[40%] left-[25%]">
-          {props.displayText}
-        </div>
+        <div className="absolute font-medium text-xl top-[40%] left-[30%]">{props.displayText}</div>
       ) : null}
       <svg
         className={`absolute top-0 left-50%`}

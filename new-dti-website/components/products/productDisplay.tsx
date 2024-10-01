@@ -17,10 +17,10 @@ const ProductDisplay = (props: {
 }) => (
   <div
     key={props.product.alt}
-    className="flex lg:flex-row flex-col justify-between w-full lg:gap-x-24 items-center lg:my-10"
+    className="flex lg:flex-row flex-col gap-x-20 w-full lg:justify-center lg:my-10 w-full"
   >
     <div
-      className={`md:mx-[60px] ${
+      className={`md:mx-16 ${
         props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'
       }`}
     >
@@ -32,7 +32,7 @@ const ProductDisplay = (props: {
       />
     </div>
     <div
-      className={`flex flex-row lg:max-w-[430px] md:max-w-[567px] md:mt-20 md:mb-[250px] h-full text-white ${
+      className={`flex flex-row lg:max-w-md md:max-w-xl md:mt-20 md:mb-60 h-full text-white ${
         props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
       }`}
     >
