@@ -34,6 +34,14 @@ import {
   deleteShoutout
 } from './API/shoutoutAPI';
 import {
+  createCoffeeChat,
+  getAllCoffeeChats,
+  updateCoffeeChat,
+  getCoffeeChatsByUser,
+  deleteCoffeeChat,
+  clearAllCoffeeChats
+} from './API/coffeeChatAPI';
+import {
   allSignInForms,
   createSignInForm,
   deleteSignInForm,
@@ -279,6 +287,33 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   await deleteShoutout(req.params.uuid, user);
   return {};
 });
+
+loginCheckedGet('/coffee-chat', async () => ({
+  coffeeChats: await getAllCoffeeChats()
+}));
+
+loginCheckedPost('/coffee-chat', async (req) => ({
+  coffeeChats: await createCoffeeChat(req.body)
+}));
+
+loginCheckedDelete('/coffee-chat', async (_, user) => {
+  await clearAllCoffeeChats(user);
+  return {};
+});
+
+loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
+  await deleteCoffeeChat(req.params.uuid, user);
+  return {};
+});
+
+loginCheckedGet('/coffee-chat/:email', async (_, user) => {
+  const coffeeChats = await getCoffeeChatsByUser(user);
+  return { coffeeChats };
+});
+
+loginCheckedPut('/coffee-chat', async (req, user) => ({
+  coffeeChats: await updateCoffeeChat(req.body, user)
+}));
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
