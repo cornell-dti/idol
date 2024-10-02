@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
@@ -17,7 +17,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi>();
   const { width } = useScreenSize();
-  const highlightIndex = useMemo(() => (width < 1024 ? 1 : 3), [width]);
+  const highlightIndex = width < 1024 ? 1 : 3;
 
   useEffect(() => {
     if (carouselApi) {

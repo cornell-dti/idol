@@ -9,7 +9,6 @@ type ConnectorProps = {
   width: number;
   height: number;
   strokeWidth: number;
-  displayText?: string;
   className?: string;
 };
 
@@ -58,9 +57,6 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
           strokeLinecap="square"
         />
       </svg>
-      {props.displayText ? (
-        <div className="absolute font-medium text-xl top-[40%] left-[30%]">{props.displayText}</div>
-      ) : null}
       <svg
         className={`absolute top-0 left-50%`}
         width={props.width}

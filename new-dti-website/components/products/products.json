@@ -1,5 +1,5 @@
 {
-  "products": [
+  "current": [
     {
       "alt": "cureviews",
       "name": "CU Reviews",
@@ -65,7 +65,9 @@
       "iconDimensions": 79,
       "width": 787,
       "height": 614
-    },
+    }
+  ],
+  "upcoming": [
     {
       "alt": "carriage",
       "name": "Carriage",
@@ -73,6 +75,17 @@
       "link": "",
       "path": "images/carriage.svg",
       "iconPath": "icons/carriage_icon.svg",
+      "iconDimensions": 63,
+      "width": 777,
+      "height": 487
+    },
+    {
+      "alt": "cornellgo",
+      "name": "CornellGo",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien.",
+      "link": "",
+      "path": "images/cornellgo.svg",
+      "iconPath": "icons/cornellgo_icon.svg",
       "iconDimensions": 63,
       "width": 777,
       "height": 487
