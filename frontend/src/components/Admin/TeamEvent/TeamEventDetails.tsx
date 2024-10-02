@@ -39,6 +39,11 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent
                   {req.member.firstName} {req.member.lastName}
                 </Card.Header>
                 <Card.Meta>{req.member.email}</Card.Meta>
+                {status === 'rejected' && req.reason && (
+                  <Card.Description>
+                    <strong>Rejection Reason:</strong> {req.reason}
+                  </Card.Description>
+                )}
               </Card.Content>
               <Card.Content extra>
                 <TeamEventCreditReview
