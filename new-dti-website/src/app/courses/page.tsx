@@ -19,17 +19,18 @@ import RedBlob from '../../../components/blob';
 import Experiences from '../../../components/courses/Experiences';
 import Timeline from '../../../components/courses/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
-import TestimonialCard from '../../../components/courses/TestimonialCard';
+import TestimonialSlider from '../../../components/courses/TestimonialSlider';
 import DDProjects from '../../../components/courses/DDProjects';
+import { TestimonialCardProps } from '../../../components/courses/TestimonialCard';
 
 //* DATA
 const { key_experiences } = experiencesData;
 const { timeline_events } = timelineData;
-const { testimonials } = testimonialData;
+const { testimonials }: { testimonials: TestimonialCardProps[] } = testimonialData;
 const { student_projects } = studentProjectData;
 const trend_instructors = trendsData.trend_instructors as IdolMember[];
 
-// * BEGIN COURSES COMPONENT
+// * BEGIN COURSES PAGE
 export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);
   const [selectedRole] = useState<string>('Full Team');
@@ -98,38 +99,28 @@ export default function Courses() {
       lg:mx-32 md:mx-10 xs:mx-9 md:gap-y-20"
             >
               <div className="flex flex-col gap-y-8 md:gap-y-0">
-                <h1
-                  className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
+                <div>
+                  <h1
+                    className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
-                >
-                  OUR
-                </h1>
-                <h1
-                  className="font-semibold md:text-9xl xs:text-7xl md:leading-[120px] 
-          xs:leading-[63px] whitespace-pre"
-                >
-                  <span className="text-[#FF4C4C]">COURSE</span>
-                </h1>
+                  >
+                    OUR <br />
+                    <span className="text-[#FF4C4C]">COURSE</span>
+                  </h1>
+                </div>
               </div>
 
               <div className="flex flex-col justify-center gap-6 ">
-                <h2 className="font-bold text-3xl md:text-5xl">
+                <h2 className="font-bold md:text-[40px] xs:text-2xl">
                   <span className="text-[#877B7B]">Teaching the</span>{' '}
                   <span className="italic">community</span>
                 </h2>
-                <p className="text-md md:text-xl font-thin text-slate-300">
+                <p className="md:text-lg xs:text-sm">
                   A project team is meant, above all, to be a learning experience. Given our mission
-                  of{' '}
-                  <span className="font-black text-lg md:text-2xl text-white">
-                    community impact
-                  </span>
-                  , we want to help everyone{' '}
-                  <span className="font-black text-lg md:text-xl text-white">learn and grow</span>{' '}
+                  of <span className="font-black">community impact</span>, we want to help everyone
+                  <span className="font-black">learn and grow</span>
                   through our training course in{' '}
-                  <span className="font-black text-md md:text-xl text-white">
-                    product development
-                  </span>
-                  .{' '}
+                  <span className="font-black">product development.</span>
                 </p>
               </div>
             </div>
@@ -248,18 +239,7 @@ export default function Courses() {
               <div className="font-black text-4xl tracking-wider pl-10 md:pl-32 md:text-[45px] ">
                 Past Student Experiences
               </div>
-              <div className="overflow-x-auto pt-14 ">
-                <div className="flex gap-x-12 px-10 sm:px-32 flex-nowrap">
-                  {testimonials.map((testimonial, index) => (
-                    <TestimonialCard
-                      key={index}
-                      description={testimonial.description}
-                      name={testimonial.name}
-                      semesterTaken={testimonial.semesterTaken}
-                    />
-                  ))}
-                </div>
-              </div>
+              <TestimonialSlider testimonials={testimonials} />
             </div>
           </section>
 

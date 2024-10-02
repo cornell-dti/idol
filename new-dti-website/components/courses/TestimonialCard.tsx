@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface TestimonialCardProps {
+export interface TestimonialCardProps {
   description: string;
   name: string;
   semesterTaken: string;
