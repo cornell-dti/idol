@@ -11,11 +11,12 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
   const [scrollAtEnd, setScrollAtEnd] = useState(false);
 
   useEffect(() => {
-    // Ensure the return value is always consistent (cleanup function)
-    if (testimonials.length === 0 || scrollAtEnd) return;
-
     const slider = sliderRef.current;
-    if (!slider || isScrolling) return;
+
+    // Return early if there are no testimonials or if we've reached the end
+    if (!slider || testimonials.length === 0 || scrollAtEnd || isScrolling) {
+      return undefined; // Return `undefined` explicitly to satisfy consistent-return rule
+    }
 
     const scrollInterval = setInterval(() => {
       const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
@@ -23,12 +24,15 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
       if (slider.scrollLeft < maxScrollLeft) {
         slider.scrollLeft += 2; // Adjust the scroll speed as needed
       } else {
-        setScrollAtEnd(true); // Stop scrolling when the end is reached :)
-        // slider.scrollLeft = 0 if you want it to restart at the beginning
+        setScrollAtEnd(true); // Stop scrolling when the end is reached
+        // slider.scrollLeft = 0 if we want to start from the begnning :)
       }
     }, 25); // Adjust the interval as needed for smoother/faster scrolling
 
-    return () => clearInterval(scrollInterval); // Cleanup function
+    // Return the cleanup function
+    return () => {
+      clearInterval(scrollInterval);
+    };
   }, [testimonials, isScrolling, scrollAtEnd]);
 
   const handleMouseEnter = () => {
