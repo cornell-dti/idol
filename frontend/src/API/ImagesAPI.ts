@@ -21,7 +21,7 @@ export default class ImagesAPI {
 
   public static uploadImage(body: Blob, name: string): Promise<void> {
     return this.getSignedURL(`${name}`).then((url) => {
-      const headers = { 'content-type': 'image/jpeg' };
+      const headers = { 'content-type': `${body.type}` };
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
   }

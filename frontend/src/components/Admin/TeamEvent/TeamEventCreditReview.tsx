@@ -18,7 +18,7 @@ const TeamEventCreditReview = (props: {
 
   useEffect(() => {
     setLoading(true);
-    ImagesAPI.getImage(teamEventAttendance.image, 'event-proof-image').then((url: string) => {
+    ImagesAPI.getImage(teamEventAttendance.image, 'image').then((url: string) => {
       setImage(url);
       setLoading(false);
     });
@@ -58,7 +58,7 @@ const TeamEventCreditReview = (props: {
           headerMsg: 'Team Event Attendance Rejected!',
           contentMsg: 'The team event attendance was successfully rejected!'
         });
-        ImagesAPI.deleteImage(`event-proof-image/${teamEventAttendance.image}`);
+        ImagesAPI.deleteImage(`image/${teamEventAttendance.image}`);
         Emitters.teamEventsUpdated.emit();
       })
       .catch((error) => {

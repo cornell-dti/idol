@@ -54,7 +54,7 @@ const TeamEventCreditForm: React.FC = () => {
     const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
     // upload image
     const blob = await fetch(uploadedImage).then((res) => res.blob());
-    await ImagesAPI.uploadImage(blob, `event-proof-image-signed-url/${eventCreditRequest.image}`);
+    await ImagesAPI.uploadImage(blob, `image-signed-url/${eventCreditRequest.image}`);
     return createdAttendance;
   };
 
@@ -105,12 +105,15 @@ const TeamEventCreditForm: React.FC = () => {
     } else {
       await Promise.all(
         images.map(async (image, i) => {
+          const blob = await fetch(image).then((res) => res.blob());
+          const fileType = blob.type.split('/').pop();
+
           const newTeamEventAttendance: TeamEventAttendance = {
             member: userInfo,
             hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
             image: `eventProofs/${getNetIDFromEmail(
               userInfo.email
-            )}/${new Date().toISOString()}[${i}]`,
+            )}/${new Date().toISOString()}[${i}].${fileType}`,
             eventUuid: teamEvent.uuid,
             status: 'pending' as Status,
             reason: '',

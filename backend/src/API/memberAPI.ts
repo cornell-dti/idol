@@ -1,8 +1,8 @@
 import MembersDao from '../dao/MembersDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
-import { bucket } from '../firebase';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
+import { deleteImage } from './imageAPI';
 
 const membersDao = new MembersDao();
 
@@ -96,24 +96,12 @@ export const deleteMember = async (email: string, user: IdolMember): Promise<voi
   if (!email || email === '') {
     throw new BadRequestError("Couldn't delete member with undefined email!");
   }
-  await membersDao.deleteMember(email).then(() =>
-    deleteImage(email).catch(() => {
+  await membersDao.deleteMember(email).then(() => {
+    const netId: string = getNetIDFromEmail(email);
+    deleteImage(`images/${netId}`).catch(() => {
       /* Ignore the error since the user might not have a profile picture. */
-    })
-  );
-};
-
-/**
- * Deletes the profile picture of an IDOL member given their email.
- * @param email - the email of the member profile picture to delete.
- */
-export const deleteImage = async (email: string): Promise<void> => {
-  // Create a reference to the file to delete
-  const netId: string = getNetIDFromEmail(email);
-  const imageFile = bucket.file(`images/${netId}.jpg`);
-
-  // Delete the file
-  await imageFile.delete();
+    });
+  });
 };
 
 /**
