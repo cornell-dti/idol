@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
   }, [selectedIcon]);
 
   return (
-    <div>
+    <Suspense fallback={<div style={{ color: 'black' }}>Loading...</div>}>
       <div
         className="flex flex-col bg-black bg-cover bg-center h-screen"
         style={{ backgroundImage: "url('/images/hero_bg.png')" }}
@@ -130,7 +130,7 @@ const Home: React.FC = () => {
       </div>
       <div ref={scrollRef} className="min-h-[10vh]"></div>
       <Bottom />
-    </div>
+    </Suspense>
   );
 };
 
