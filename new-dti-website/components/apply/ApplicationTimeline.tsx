@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import config from '../../config.json';
 import timelineIcons from './data/timelineIcons.json';
-import { ibm_plex_mono } from '../../src/app/layout';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -233,7 +232,7 @@ const ApplicationTimeline = () => {
           <div className="bg-[#A52424] md:rounded-t-[20px] xs:rounded-t-lg text-[#FEFEFE] flex justify-between">
             <p
               className={`md:py-[26px] md:pl-9 xs:py-5 xs:pl-3 lg:text-[22px] lg:leading-[28px] md:text-[16px] md:leading-[20px] 
-                xs:text-[10px] xs:leading-[13px] ${ibm_plex_mono.className}`}
+                xs:text-[10px] xs:leading-[13px]`}
             >
               cornell-dti/timeline
             </p>

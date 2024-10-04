@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
-import { ibm_plex_mono } from '../../src/app/layout';
 import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
@@ -236,7 +235,7 @@ const TeamAbout = () => (
               passionate about making change on campus and beyond.
             </p>
           </div>
-          <div className={`${ibm_plex_mono.className} text-sm`}>
+          <div className={`text-sm`}>
             <p className="text-left mb-3">@2022</p>
             <Image
               src="/images/full-team.png"
@@ -247,7 +246,7 @@ const TeamAbout = () => (
             />
           </div>
         </div>
-        <div className={`${ibm_plex_mono.className} text-sm relative w-fit xl:bottom-[84px]`}>
+        <div className={`text-sm relative w-fit xl:bottom-[84px]`}>
           <p className="mb-3 text-sm">@2017</p>
           <Image
             src="/images/dti_2017.png"

@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import { ibm_plex_mono } from '../../src/app/layout';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
 import carouselImages from './data/carousel.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
@@ -57,7 +56,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
                     className="absolute bottom-20 left-6"
                   />
                   <p
-                    className={`absolute bottom-0 p-5 text-xl text-[#877B7B] whitespace-nowrap ${ibm_plex_mono.className}`}
+                    className={`absolute bottom-0 p-5 text-xl text-[#877B7B] whitespace-nowrap`}
                   >
                     {`${
                       carouselImages.images[carouselIndex % carouselImages.images.length].alt
@@ -137,7 +136,7 @@ const TeamHero = () => {
         >
           <img src="/images/carousel-frame.png" alt="frame" className="absolute z-10" />
           <div className="absolute z-10 w-[243px] h-[270px]">
-            <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B] ${ibm_plex_mono.className}`}>
+            <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B]`}>
               {`${carouselImages.images[carouselIndex % carouselLength].alt}.jpg`}
             </p>
           </div>

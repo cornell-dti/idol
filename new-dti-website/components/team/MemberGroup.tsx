@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useMemo, useState, RefObject } from 'react';
 import Image from 'next/image';
 import { Card } from '../ui/card';
-import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
@@ -39,7 +38,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`xs:text-lg font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-[22px]'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
-        className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
+        className={`w-fit px-3 py-1 rounded-2xl md:text-sm xs:text-xs`}
         style={{ backgroundColor: chipColor }}
       >
         {getFullRoleFromDescription(roleDescription)}
