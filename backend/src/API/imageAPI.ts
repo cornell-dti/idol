@@ -84,14 +84,14 @@ export const getAllImagesForMember = async (
     })
   );
 
-  images
+  const filteredImages = images
     .filter((image) => image.fileName.length > `${type}/`.length)
     .map((image) => ({
       ...image,
       fileName: image.fileName.slice(image.fileName.indexOf('/') + 1)
     }));
 
-  return images;
+  return filteredImages;
 };
 
 /**
