@@ -24,22 +24,12 @@ export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat
  * A member can not coffee chat the same person from previous semesters.
  */
 export const createCoffeeChat = async (coffeeChat: CoffeeChat): Promise<CoffeeChat> => {
-  const [member1, member2] = coffeeChat.members;
-
-  if (isEqual(member1, member2)) {
+  if (isEqual(coffeeChat.submitter, coffeeChat.otherMember)) {
     throw new Error('Cannot create coffee chat with yourself.');
   }
 
-  const prevChats1 = await coffeeChatDao.getCoffeeChatsByUser(member1);
-  const prevChats2 = await coffeeChatDao.getCoffeeChatsByUser(member2);
-
-  const prevChats = [...prevChats1, ...prevChats2];
-
-  const chatExists = prevChats.some((chat) => {
-    const chatMembers = chat.members.map((m) => m.email).sort();
-    const currentMembers = [member1.email, member2.email].sort();
-    return isEqual(chatMembers, currentMembers);
-  });
+  const prevChats = await coffeeChatDao.getCoffeeChatsByUser(coffeeChat.submitter);
+  const chatExists = prevChats.some((chat) => isEqual(coffeeChat.otherMember, chat.otherMember));
 
   if (chatExists) {
     throw new Error(
