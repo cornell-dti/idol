@@ -15,7 +15,9 @@ export default class ImagesAPI {
   }
 
   private static getSignedURL(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/image-signed-url/${name}`).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/image-signed-url/${name}`).then(
+      (res) => res.data
+    );
     return responseProm.then((val) => val.url);
   }
 

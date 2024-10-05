@@ -66,4 +66,3 @@ export const deleteImage = async (name: string): Promise<void> => {
   const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
-
