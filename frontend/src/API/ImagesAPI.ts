@@ -15,12 +15,12 @@ export default class ImagesAPI {
   }
 
   private static getSignedURL(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/${name}`).then((res) => res.data);
+    const responseProm = APIWrapper.get(`${backendURL}/image-signed-url/${name}`).then((res) => res.data);
     return responseProm.then((val) => val.url);
   }
 
   public static uploadImage(body: Blob, name: string): Promise<void> {
-    return this.getSignedURL(`image-signed-url/${name}`).then((url) => {
+    return this.getSignedURL(name).then((url) => {
       const headers = { 'content-type': body.type };
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
