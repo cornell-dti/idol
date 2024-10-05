@@ -27,11 +27,11 @@ describe('User is not lead or admin', () => {
 
   const user = fakeIdolMember();
   const user2 = fakeIdolMember();
-  const coffeeChat = { ...fakeCoffeeChat(), members: [user, user2] };
+  const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
   createCoffeeChat(coffeeChat);
 
   test('createCoffeeChat should throw error if creating a coffee chat with self', async () => {
-    const selfChat = { ...coffeeChat, members: [user, user] };
+    const selfChat = { ...coffeeChat, submitter: user, otherMember: user };
     await expect(createCoffeeChat(selfChat)).rejects.toThrow(
       new Error('Cannot create coffee chat with yourself.')
     );
@@ -110,11 +110,12 @@ describe('User is lead or admin', () => {
 
   test('createCoffeeChat should successfully create a coffee chat', async () => {
     const coffeeChat = fakeCoffeeChat();
-    const newChat = { ...coffeeChat, members: [user, fakeIdolMember()] };
+    const newChat = { ...coffeeChat, submitter: user, otherMember: fakeIdolMember() };
     const result = await createCoffeeChat(newChat);
 
     expect(CoffeeChatDao.prototype.createCoffeeChat).toBeCalled();
-    expect(result.members).toEqual(newChat.members);
+    expect(result.submitter).toEqual(newChat.submitter);
+    expect(result.otherMember).toEqual(newChat.otherMember);
   });
 
   test('updateCoffeeChat should successfully update a coffee chat', async () => {
@@ -125,7 +126,7 @@ describe('User is lead or admin', () => {
 
   test('deleteCoffeeChat should successfully delete a coffee chat', async () => {
     const coffeeChat = fakeCoffeeChat();
-    const newChat = { ...coffeeChat, members: [user, fakeIdolMember()] };
+    const newChat = { ...coffeeChat, submitter: user, otherMember: fakeIdolMember() };
     await createCoffeeChat(newChat);
 
     await deleteCoffeeChat(newChat.uuid, user);

@@ -201,14 +201,14 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
 
 /** Create fake Coffee Chat */
 export const fakeCoffeeChat = (): CoffeeChat => {
-  const DP = {
+  const CC = {
     uuid: faker.datatype.uuid(),
-    members: [fakeIdolMember()],
-    image: '',
+    submitter: fakeIdolMember(),
+    otherMember: fakeIdolMember(),
+    slackLink: '',
     category: 'test',
-    description: 'test coffee chat',
     status: 'pending',
     date: Date.now()
   };
-  return DP;
+  return CC;
 };

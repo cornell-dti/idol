@@ -6,22 +6,24 @@ import BaseDao from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
-  const member1 = await getMemberFromDocumentReference(dbCoffeeChat.members[0]);
-  const member2 = await getMemberFromDocumentReference(dbCoffeeChat.members[1]);
+  const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);
+  const otherMember = await getMemberFromDocumentReference(dbCoffeeChat.otherMember);
 
   return {
     ...dbCoffeeChat,
-    members: [member1, member2]
+    submitter,
+    otherMember
   };
 }
 
 async function serializeCoffeeChat(coffeeChat: CoffeeChat): Promise<DBCoffeeChat> {
-  const member1Data = memberCollection.doc(coffeeChat.members[0].email);
-  const member2Data = memberCollection.doc(coffeeChat.members[1].email);
+  const submitter = memberCollection.doc(coffeeChat.submitter.email);
+  const otherMember = memberCollection.doc(coffeeChat.otherMember.email);
 
   return {
     ...coffeeChat,
-    members: [member1Data, member2Data]
+    submitter,
+    otherMember
   };
 }
 
@@ -69,14 +71,14 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Gets all coffee chat for a user
+   * Gets all coffee chat that a user has submitted
    * @param user - user whose coffee chats should be fetched
    */
   async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
     return this.getDocuments([
       {
-        field: 'members',
-        comparisonOperator: 'array-contains',
+        field: 'submitter',
+        comparisonOperator: '==',
         value: memberCollection.doc(user.email)
       }
     ]);
