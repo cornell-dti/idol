@@ -18,7 +18,7 @@ const UserProfileImage: React.FC = () => {
     if (process.env.NODE_ENV === 'test') {
       return;
     }
-    ImagesAPI.getImage(`${userInfo ? userInfo.email : ''}`, 'image').then((url: string) => {
+    ImagesAPI.getImage(userInfo ? userInfo.email : '').then((url: string) => {
       setProfilePhoto(url);
     });
   }, [userInfo]);

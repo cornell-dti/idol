@@ -105,15 +105,12 @@ const TeamEventCreditForm: React.FC = () => {
     } else {
       await Promise.all(
         images.map(async (image, i) => {
-          const blob = await fetch(image).then((res) => res.blob());
-          const fileType = blob.type.split('/').pop();
-
           const newTeamEventAttendance: TeamEventAttendance = {
             member: userInfo,
             hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
             image: `eventProofs/${getNetIDFromEmail(
               userInfo.email
-            )}/${new Date().toISOString()}[${i}].${fileType}`,
+            )}/${new Date().toISOString()}[${i}]`,
             eventUuid: teamEvent.uuid,
             status: 'pending' as Status,
             reason: '',

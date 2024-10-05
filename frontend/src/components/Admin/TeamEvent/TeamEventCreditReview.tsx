@@ -18,7 +18,7 @@ const TeamEventCreditReview = (props: {
 
   useEffect(() => {
     setLoading(true);
-    ImagesAPI.getImage(teamEventAttendance.image, 'image').then((url: string) => {
+    ImagesAPI.getImage(teamEventAttendance.image).then((url: string) => {
       setImage(url);
       setLoading(false);
     });

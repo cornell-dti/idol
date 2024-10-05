@@ -3,8 +3,8 @@ import APIWrapper from './APIWrapper';
 import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
 export default class ImagesAPI {
-  public static getImage(email: string, name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/${name}/${email}`).then((res) => res.data);
+  public static getImage(name: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/image/${name}`).then((res) => res.data);
 
     return responseProm.then((val) => {
       if (val.error) {

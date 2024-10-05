@@ -8,7 +8,7 @@ import { NotFoundError } from '../utils/errors';
  * @returns a Promise to the signed URL to the image file
  */
 export const getWriteSignedURL = async (name: string): Promise<string> => {
-  const file = bucket.file(`${name}`);
+  const file = bucket.file(`${name}.jpg`);
   const signedURL = await file.getSignedUrl({
     action: 'write',
     version: 'v4',
@@ -24,7 +24,7 @@ export const getWriteSignedURL = async (name: string): Promise<string> => {
  * @returns a Promise to the signed URL to the image file
  */
 export const getReadSignedURL = async (name: string): Promise<string> => {
-  const file = bucket.file(`${name}`);
+  const file = bucket.file(`${name}.jpg`);
   const fileExists = await file.exists().then((result) => result[0]);
   if (!fileExists) {
     throw new NotFoundError(`The requested image (${name}) does not exist`);
@@ -99,7 +99,7 @@ export const getAllImagesForMember = async (
  * @param name - the name of the image
  */
 export const deleteImage = async (name: string): Promise<void> => {
-  const imageFile = bucket.file(`${name}`);
+  const imageFile = bucket.file(`${name}.jpg`);
   await imageFile.delete();
 };
 

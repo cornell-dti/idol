@@ -47,7 +47,7 @@ const TeamEventCreditDashboard = (props: {
 
   const getTeamEventImage = (attendance: TeamEventAttendance) => {
     setLoading(true);
-    ImagesAPI.getImage(`${attendance.image}`, 'image').then((url: string) => {
+    ImagesAPI.getImage(attendance.image).then((url: string) => {
       setImage(url);
       setLoading(false);
     });
