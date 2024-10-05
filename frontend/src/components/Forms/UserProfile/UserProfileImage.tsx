@@ -31,7 +31,7 @@ const UserProfileImage: React.FC = () => {
         .then((res) => res.blob())
         .then((blob) => {
           imageURL = window.URL.createObjectURL(blob);
-          ImagesAPI.uploadImage(blob, `image-signed-url/images/${userInfo ? userInfo.netid : ''}`);
+          ImagesAPI.uploadImage(blob, `images/${userInfo ? userInfo.netid : ''}`);
           setProfilePhoto(imageURL);
         });
     }

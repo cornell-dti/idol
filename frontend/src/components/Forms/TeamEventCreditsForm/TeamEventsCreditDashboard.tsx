@@ -63,7 +63,7 @@ const TeamEventCreditDashboard = (props: {
           headerMsg: 'Team Event Attendance Deleted!',
           contentMsg: 'Your team event attendance was successfully deleted!'
         });
-        ImagesAPI.deleteImage(`image/${attendance.image}`);
+        ImagesAPI.deleteImage(`${attendance.image}`);
         Emitters.teamEventsUpdated.emit();
       })
       .catch((error) => {

@@ -20,13 +20,13 @@ export default class ImagesAPI {
   }
 
   public static uploadImage(body: Blob, name: string): Promise<void> {
-    return this.getSignedURL(`${name}`).then((url) => {
-      const headers = { 'content-type': `${body.type}` };
+    return this.getSignedURL(`image-signed-url/${name}`).then((url) => {
+      const headers = { 'content-type': body.type };
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
   }
 
   public static async deleteImage(name: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/${name}`);
+    await APIWrapper.delete(`${backendURL}/image/${name}`);
   }
 }
