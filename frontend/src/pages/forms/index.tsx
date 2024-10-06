@@ -29,6 +29,11 @@ const navCardItems: readonly NavigationCardItem[] = [
     header: 'Dev Portfolio Assignments',
     description: 'Submit opened and reviewed pull requests.',
     link: '/forms/devPortfolio'
+  },
+  {
+    header: 'Coffee Chats',
+    description: 'Submit your coffee chats.',
+    link: '/forms/coffeeChats'
   }
 ];
 
