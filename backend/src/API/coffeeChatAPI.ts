@@ -29,7 +29,7 @@ export const createCoffeeChat = async (
 ): Promise<CoffeeChat> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin && coffeeChat.submitter.email !== user.email) {
-    throw new Error(
+    throw new PermissionError(
       `User with email ${user.email} does not have permissions to create coffee chat.`
     );
   }

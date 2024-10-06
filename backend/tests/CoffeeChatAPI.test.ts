@@ -32,7 +32,9 @@ describe('User is not lead or admin', () => {
   test('createCoffeeChat should throw error if submitter does not match person making request', async () => {
     const chat = { ...coffeeChat, submitter: user2, otherMember: user };
     await expect(createCoffeeChat(chat, user)).rejects.toThrow(
-      new Error(`User with email ${user.email} does not have permissions to create coffee chat.`)
+      new PermissionError(
+        `User with email ${user.email} does not have permissions to create coffee chat.`
+      )
     );
   });
 
