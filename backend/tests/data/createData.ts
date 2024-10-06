@@ -29,9 +29,8 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer', 'business'];
+  const roles: Role[] = ['tpm', 'pm', 'developer', 'designer', 'business'];
   const role_descriptions: RoleDescription[] = [
-    'Lead',
     'Technical PM',
     'Product Manager',
     'Developer',
@@ -59,6 +58,16 @@ export const fakeIdolMember = (): IdolMember => {
     about: faker.lorem.paragraph(),
     subteams: fakeSubteams(),
     ...fakeRoleObject()
+  };
+  return member;
+};
+
+/** Create fake non-admin */
+export const fakeIdolLead = (): IdolMember => {
+  const member = {
+    ...fakeIdolMember(),
+    role: 'Lead',
+    roleDescription: 'lead'
   };
   return member;
 };

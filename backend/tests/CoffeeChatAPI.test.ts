@@ -1,7 +1,6 @@
-import isEqual from 'lodash.isequal';
 import CoffeeChatDao from '../src/dao/CoffeeChatDao'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import PermissionsManager from '../src/utils/permissionsManager';
-import { fakeIdolMember, fakeCoffeeChat } from './data/createData';
+import { fakeIdolMember, fakeCoffeeChat, fakeIdolLead } from './data/createData';
 import {
   getAllCoffeeChats,
   getCoffeeChatsByUser,
@@ -28,17 +27,24 @@ describe('User is not lead or admin', () => {
   const user = fakeIdolMember();
   const user2 = fakeIdolMember();
   const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
-  createCoffeeChat(coffeeChat);
+  createCoffeeChat(coffeeChat, user);
+
+  test('createCoffeeChat should throw error if submitter does not match person making request', async () => {
+    const chat = { ...coffeeChat, submitter: user2, otherMember: user };
+    await expect(createCoffeeChat(chat, user)).rejects.toThrow(
+      new Error(`User with email ${user.email} does not have permissions to create coffee chat.`)
+    );
+  });
 
   test('createCoffeeChat should throw error if creating a coffee chat with self', async () => {
     const selfChat = { ...coffeeChat, submitter: user, otherMember: user };
-    await expect(createCoffeeChat(selfChat)).rejects.toThrow(
+    await expect(createCoffeeChat(selfChat, user)).rejects.toThrow(
       new Error('Cannot create coffee chat with yourself.')
     );
   });
 
   test('createCoffeeChat should throw error if previous chats exist', async () => {
-    await expect(createCoffeeChat(coffeeChat)).rejects.toThrow(
+    await expect(createCoffeeChat(coffeeChat, user)).rejects.toThrow(
       new Error(
         'Cannot create coffee chat with member. Previous coffee chats from previous semesters exist.'
       )
@@ -74,12 +80,16 @@ describe('User is not lead or admin', () => {
 });
 
 describe('User is lead or admin', () => {
-  const user = { ...fakeIdolMember(), role: 'lead' };
+  const adminUser = fakeIdolLead();
+  const submitter = fakeIdolMember();
+  const otherMember = fakeIdolMember();
 
   beforeAll(() => {
     const mockIsLeadOrAdmin = jest.fn().mockResolvedValue(true);
     const mockGetAllCoffeeChats = jest.fn().mockResolvedValue([fakeCoffeeChat()]);
-    const mockGetCoffeeChatsByUser = jest.fn().mockResolvedValue([fakeCoffeeChat()]);
+    const mockGetCoffeeChatsByUser = jest
+      .fn()
+      .mockImplementation((submitter, otherMember) => (!otherMember ? [fakeCoffeeChat()] : []));
     const mockCreateCoffeeChat = jest.fn().mockResolvedValue(fakeCoffeeChat());
     const mockUpdateCoffeeChat = jest.fn().mockResolvedValue(fakeCoffeeChat());
     const mockDeleteCoffeeChat = jest.fn().mockResolvedValue(undefined);
@@ -96,6 +106,14 @@ describe('User is lead or admin', () => {
     jest.clearAllMocks();
   });
 
+  test('createCoffeeChat should allow an admin user to create coffee chat for other user', async () => {
+    const newChat = { ...fakeCoffeeChat(), submitter, otherMember };
+    const result = await createCoffeeChat(newChat, adminUser);
+    expect(CoffeeChatDao.prototype.createCoffeeChat).toBeCalled();
+    expect(result.submitter).toEqual(newChat.submitter);
+    expect(result.otherMember).toEqual(newChat.otherMember);
+  });
+
   test('getAllCoffeeChats should return all coffee chats', async () => {
     const coffeeChats = await getAllCoffeeChats();
     expect(coffeeChats.length).toBeGreaterThan(0);
@@ -103,15 +121,15 @@ describe('User is lead or admin', () => {
   });
 
   test('getCoffeeChatsByUser should return user coffee chats', async () => {
-    const coffeeChats = await getCoffeeChatsByUser(user);
+    const coffeeChats = await getCoffeeChatsByUser(adminUser);
     expect(coffeeChats.length).toBeGreaterThan(0);
     expect(CoffeeChatDao.prototype.getCoffeeChatsByUser).toBeCalled();
   });
 
   test('createCoffeeChat should successfully create a coffee chat', async () => {
     const coffeeChat = fakeCoffeeChat();
-    const newChat = { ...coffeeChat, submitter: user, otherMember: fakeIdolMember() };
-    const result = await createCoffeeChat(newChat);
+    const newChat = { ...coffeeChat, submitter: adminUser, otherMember: fakeIdolMember() };
+    const result = await createCoffeeChat(newChat, adminUser);
 
     expect(CoffeeChatDao.prototype.createCoffeeChat).toBeCalled();
     expect(result.submitter).toEqual(newChat.submitter);
@@ -119,31 +137,17 @@ describe('User is lead or admin', () => {
   });
 
   test('updateCoffeeChat should successfully update a coffee chat', async () => {
-    const updatedChat = await updateCoffeeChat(fakeCoffeeChat(), user);
+    const updatedChat = await updateCoffeeChat(fakeCoffeeChat(), adminUser);
     expect(CoffeeChatDao.prototype.updateCoffeeChat).toBeCalled();
     expect(updatedChat).toBeDefined();
   });
 
   test('deleteCoffeeChat should successfully delete a coffee chat', async () => {
     const coffeeChat = fakeCoffeeChat();
-    const newChat = { ...coffeeChat, submitter: user, otherMember: fakeIdolMember() };
-    await createCoffeeChat(newChat);
+    const newChat = { ...coffeeChat, submitter: adminUser, otherMember: fakeIdolMember() };
+    await createCoffeeChat(newChat, adminUser);
 
-    await deleteCoffeeChat(newChat.uuid, user);
+    await deleteCoffeeChat(newChat.uuid, adminUser);
     expect(CoffeeChatDao.prototype.deleteCoffeeChat).toBeCalled();
-  });
-});
-
-describe('isEqual function usage', () => {
-  test('isEqual should correctly identify different members', () => {
-    const member1 = fakeIdolMember();
-    const member2 = fakeIdolMember();
-    expect(isEqual(member1, member2)).toBe(false);
-  });
-
-  test('isEqual should correctly identify same members', () => {
-    const member1 = fakeIdolMember();
-    const member2 = { ...member1 };
-    expect(isEqual(member1, member2)).toBe(true);
   });
 });

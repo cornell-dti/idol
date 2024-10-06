@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { memberCollection, coffeeChatsCollection, db } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
-import BaseDao from './BaseDao';
+import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
@@ -72,16 +72,30 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
   /**
    * Gets all coffee chat that a user has submitted
-   * @param user - user whose coffee chats should be fetched
+   * @param submitter - submitter whose coffee chats should be fetched
+   * @param otherMember - additional filter for coffee chats with otherMember (optional)
    */
-  async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
-    return this.getDocuments([
+  async getCoffeeChatsByUser(
+    submitter: IdolMember,
+    otherMember?: IdolMember
+  ): Promise<CoffeeChat[]> {
+    const filters: FirestoreFilter[] = [
       {
         field: 'submitter',
         comparisonOperator: '==',
-        value: memberCollection.doc(user.email)
+        value: memberCollection.doc(submitter.email)
       }
-    ]);
+    ];
+
+    if (otherMember) {
+      filters.push({
+        field: 'otherMember',
+        comparisonOperator: '==',
+        value: memberCollection.doc(otherMember.email)
+      });
+    }
+
+    return this.getDocuments(filters);
   }
 
   /**
