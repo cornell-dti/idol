@@ -1,6 +1,7 @@
 import NavigationCard, {
   NavigationCardItem
 } from '../../components/Common/NavigationCard/NavigationCard';
+import { ENABLE_COFFEE_CHAT } from '../../consts';
 
 const navCardItems: readonly NavigationCardItem[] = [
   { header: 'Sign-In Form', description: 'Sign in to an event!', link: '/forms/signin' },
@@ -33,7 +34,8 @@ const navCardItems: readonly NavigationCardItem[] = [
   {
     header: 'Coffee Chats',
     description: 'Submit your coffee chats.',
-    link: '/forms/coffeeChats'
+    link: '/forms/coffeeChats',
+    adminOnly: !ENABLE_COFFEE_CHAT
   }
 ];
 
