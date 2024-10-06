@@ -28,6 +28,11 @@ const CoffeeChatsForm: React.FC = () => {
     });
   }, [userInfo]);
 
+  const coffeeChatExists = async (): Promise<boolean> => {
+    const chats = await CoffeeChatAPI.getCoffeeChatsByUser(userInfo);
+    return chats.some((chat) => chat.otherMember.netid === member?.netid);
+  };
+
   const submitCoffeeChat = async () => {
     if (!member) {
       Emitters.generalError.emit({
@@ -44,6 +49,16 @@ const CoffeeChatsForm: React.FC = () => {
         headerMsg: 'No Category Entered',
         contentMsg: 'Please enter a category!'
       });
+    } else if (member.netid === userInfo.netid) {
+      Emitters.generalError.emit({
+        headerMsg: 'Cannot Coffee Chat Yourself',
+        contentMsg: 'Please submit a coffee chat with another member!'
+      });
+    } else if (await coffeeChatExists()) {
+      Emitters.generalError.emit({
+        headerMsg: 'Coffee Chat Exists',
+        contentMsg: 'Please submit a coffee chat with a new member!'
+      });
     } else {
       const newCoffeeChat: CoffeeChat = {
         uuid: '',
@@ -58,14 +73,14 @@ const CoffeeChatsForm: React.FC = () => {
       CoffeeChatAPI.createCoffeeChat(newCoffeeChat).then(() => {
         setPendingChats((pending) => [...pending, newCoffeeChat]);
       });
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Coffee Chat submitted!',
+        contentMsg: `The leads were notified of your submission, and your coffee chat will be approved soon!`
+      });
+      setMember(undefined);
+      setCategory('');
+      setSlackLink('');
     }
-    Emitters.generalSuccess.emit({
-      headerMsg: 'Coffee Chat submitted!',
-      contentMsg: `The leads were notified of your submission, and your coffee chat will be approved soon!`
-    });
-    setMember(undefined);
-    setCategory('');
-    setSlackLink('');
   };
 
   return (
