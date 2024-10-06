@@ -1,21 +1,21 @@
 {
   "images": [
     {
-      "src": "/images/full-team.png",
+      "src": "/images/full-team.jpg",
       "alt": "full-team",
       "icon": "/icons/full-team_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
     {
-      "src": "/images/leads.png",
+      "src": "/images/leads.jpg",
       "alt": "leads",
       "icon": "/icons/leads_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
     {
-      "src": "/images/design.png",
+      "src": "/images/design.jpg",
       "alt": "design",
       "icon": "/icons/design_sticker.svg",
       "iconWidth": 50,

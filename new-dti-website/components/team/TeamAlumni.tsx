@@ -68,7 +68,7 @@ const TeamAlumni = () => {
       <div className="flex justify-center bg-[#EDEDED] lg:py-32 md:py-16 xs:py-10">
         <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 md:items-center">
           <Image
-            src="/images/full-team.png"
+            src="/images/full-team.jpg"
             alt="team picture"
             width={412}
             height={312}
