@@ -21,20 +21,8 @@
 }
 
 .sectionDescription {
-  min-height: 6rem;
+  min-height: 4rem;
   margin-bottom: 1rem;
-}
-
-.card {
-  display: flex;
-  width: 40%;
-  margin-left: 2rem;
-  margin-bottom: 2rem;
-}
-
-.devCard {
-  margin-left: 2rem;
-  margin-bottom: 2rem;
 }
 
 @media (max-width: 900px) {
@@ -43,21 +31,8 @@
     flex-direction: column;
   }
 
-  .card {
-    display: flex;
-    width: 100%;
-    margin-top: 2rem;
-    margin-bottom: 0;
-  }
-
   .sectionDescription {
     min-height: 0;
     margin-bottom: 1rem;
-  }
-
-  .quick {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 }
