@@ -15,8 +15,8 @@ const ShoutoutCard = (props: {
 
   const fromString = shoutout.isAnon
     ? 'From: Anonymous'
-    : `From: ${shoutout.giver?.firstName} ${shoutout.giver?.lastName}`;
-  const dateString = `${new Date(shoutout.timestamp).toDateString()}`;
+    : `From: ${shoutout.giver?.firstName || ''} ${shoutout.giver?.lastName || ''}`.trim();
+  const dateString = new Date(shoutout.timestamp).toDateString();
 
   useEffect(() => {
     if (shoutout.images && shoutout.images.length > 0) {
@@ -47,10 +47,10 @@ const ShoutoutCard = (props: {
       {isLoading ? (
         <Loader active inline />
       ) : (
-        image && (
+        image?.length > 0 && (
           <Card.Content>
             <div className={styles.imageContainer}>
-              <Image src={image} size="small" />
+              <Image src={image} size="small" alt="shoutout image" />
             </div>
           </Card.Content>
         )
