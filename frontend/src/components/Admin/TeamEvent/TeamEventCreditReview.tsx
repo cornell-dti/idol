@@ -9,26 +9,28 @@ const TeamEventCreditReview = (props: {
   teamEvent: TeamEvent;
   teamEventAttendance: TeamEventAttendance;
   currentStatus: Status;
+  onClose: () => void;
 }): JSX.Element => {
-  const { teamEvent, teamEventAttendance, currentStatus } = props;
+  const { teamEvent, teamEventAttendance, currentStatus, onClose } = props;
   const [image, setImage] = useState('');
-  const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [reason, setReason] = useState('');
+  const [reason, setReason] = useState(teamEventAttendance.reason || '');
 
   useEffect(() => {
-    setLoading(true);
-    ImagesAPI.getImage(teamEventAttendance.image).then((url: string) => {
-      setImage(url);
-      setLoading(false);
-    });
+    if (teamEventAttendance.image) {
+      setLoading(true);
+      ImagesAPI.getImage(teamEventAttendance.image).then((url: string) => {
+        setImage(url);
+        setLoading(false);
+      });
+    }
   }, [teamEventAttendance]);
 
-  const approveCreditRequest = (teamEventAttendance: TeamEventAttendance) => {
+  const approveCreditRequest = () => {
     const updatedTeamEventAttendance = {
       ...teamEventAttendance,
       status: 'approved' as Status,
-      reason
+      reason: ''
     };
     TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
       .then(() => {
@@ -37,6 +39,7 @@ const TeamEventCreditReview = (props: {
           contentMsg: 'The team event attendance was successfully approved!'
         });
         Emitters.teamEventsUpdated.emit();
+        onClose();
       })
       .catch((error) => {
         Emitters.generalError.emit({
@@ -60,6 +63,7 @@ const TeamEventCreditReview = (props: {
         });
         ImagesAPI.deleteImage(`${teamEventAttendance.image}`);
         Emitters.teamEventsUpdated.emit();
+        onClose();
       })
       .catch((error) => {
         Emitters.generalError.emit({
@@ -69,49 +73,8 @@ const TeamEventCreditReview = (props: {
       });
   };
 
-  if (currentStatus === 'approved') {
-    return (
-      <>
-        <Input
-          className={styles.rejectText}
-          type="text"
-          placeholder="Reason for reject"
-          onChange={(e) => setReason(e.target.value)}
-        />
-        <Button
-          basic
-          color="red"
-          disabled={reason === ''}
-          onClick={() => {
-            rejectCreditRequest();
-          }}
-        >
-          Set to Rejected
-        </Button>
-      </>
-    );
-  }
-  if (currentStatus === 'rejected') {
-    return (
-      <Button
-        basic
-        color="green"
-        onClick={() => {
-          approveCreditRequest(teamEventAttendance);
-        }}
-      >
-        Set to Approved
-      </Button>
-    );
-  }
   return (
-    <Modal
-      closeIcon
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      trigger={<Button>Review request</Button>}
-    >
+    <Modal closeIcon onClose={onClose} open>
       <Modal.Header>Team Event Credit Review</Modal.Header>
       <Modal.Content className={styles.modalContent} scrolling>
         <Modal.Description>
@@ -121,39 +84,65 @@ const TeamEventCreditReview = (props: {
           <p>Team Event: {teamEvent.name}</p>
           <p>Number of Credits: {teamEvent.numCredits}</p>
           {teamEvent.hasHours && <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>}
+          {currentStatus === 'rejected' && teamEventAttendance.reason && (
+            <p>
+              <strong>Rejection Reason:</strong> {teamEventAttendance.reason}
+            </p>
+          )}
           {isLoading ? <Loader className="modalLoader" active inline /> : <Image src={image} />}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button
-          basic
-          color="green"
-          disabled={reason !== ''}
-          onClick={() => {
-            approveCreditRequest(teamEventAttendance);
-            setOpen(false);
-          }}
-        >
-          Approve
-        </Button>
-        <Button
-          basic
-          color="red"
-          disabled={reason === ''}
-          onClick={() => {
-            rejectCreditRequest();
-            setOpen(false);
-          }}
-        >
-          Reject
-        </Button>
         <Input
           type="text"
           placeholder="Reason for reject"
+          value={reason}
           onChange={(e) => setReason(e.target.value)}
         />
+        {/* Show 'Set to Rejected' only if the current status is approved */}
+        {currentStatus === 'approved' && (
+          <Button
+            basic
+            color="red"
+            disabled={reason === ''}
+            onClick={rejectCreditRequest}
+          >
+            Set to Rejected
+          </Button>
+        )}
+        {/* Show 'Set to Approved' only if the current status is rejected */}
+        {currentStatus === 'rejected' && (
+          <Button
+            basic
+            color="green"
+            onClick={approveCreditRequest}
+          >
+            Set to Approved
+          </Button>
+        )}
+        {/* Show 'Approve' and 'Reject' only if the current status is pending */}
+        {currentStatus === 'pending' && (
+          <>
+            <Button
+              basic
+              color="green"
+              onClick={approveCreditRequest}
+            >
+              Approve
+            </Button>
+            <Button
+              basic
+              color="red"
+              disabled={reason === ''}
+              onClick={rejectCreditRequest}
+            >
+              Reject
+            </Button>
+          </>
+        )}
       </Modal.Actions>
     </Modal>
   );
 };
+
 export default TeamEventCreditReview;
