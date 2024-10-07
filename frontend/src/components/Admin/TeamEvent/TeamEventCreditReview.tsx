@@ -101,41 +101,23 @@ const TeamEventCreditReview = (props: {
         />
         {/* Show 'Set to Rejected' only if the current status is approved */}
         {currentStatus === 'approved' && (
-          <Button
-            basic
-            color="red"
-            disabled={reason === ''}
-            onClick={rejectCreditRequest}
-          >
+          <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}>
             Set to Rejected
           </Button>
         )}
         {/* Show 'Set to Approved' only if the current status is rejected */}
         {currentStatus === 'rejected' && (
-          <Button
-            basic
-            color="green"
-            onClick={approveCreditRequest}
-          >
+          <Button basic color="green" onClick={approveCreditRequest}>
             Set to Approved
           </Button>
         )}
         {/* Show 'Approve' and 'Reject' only if the current status is pending */}
         {currentStatus === 'pending' && (
           <>
-            <Button
-              basic
-              color="green"
-              onClick={approveCreditRequest}
-            >
+            <Button basic color="green" onClick={approveCreditRequest}>
               Approve
             </Button>
-            <Button
-              basic
-              color="red"
-              disabled={reason === ''}
-              onClick={rejectCreditRequest}
-            >
+            <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}>
               Reject
             </Button>
           </>
