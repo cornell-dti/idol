@@ -68,7 +68,7 @@ const getEndTime = ({ date, time }: DateTime): number => {
     const end = time.split('-')[1];
     const endHourMin = end.substring(0, end.length - 2);
     const suffix = end.substring(end.length - 2);
-    endTime = endTime + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
+    endTime = endHourMin + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
   }
 
   return new Date(`${endDate}, ${new Date().getFullYear()} ${endTime}`).getTime();
