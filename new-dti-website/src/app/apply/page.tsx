@@ -11,13 +11,19 @@ const ApplyHero = () => (
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
     xs:mx-6 md:mx-[65px]"
     >
-      <h1 className="flex items-center md:text-[100px] xs:text-[48px] md:leading-[120px] xs:text-[48px] font-semibold">
+      <h1
+        className="flex items-center md:text-[100px] xs:text-[48px] md:leading-[120px] 
+        xs:text-[48px] font-semibold"
+      >
         <div>
           JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
         </div>
       </h1>
       <div className="flex flex-col gap-6">
-        <h2 className="font-bold md:text-[40px] xs:text-[24px] md:leading-[48px] xs:leading-[29px] text-[#877B7B]">
+        <h2
+          className="font-bold md:text-[40px] xs:text-[24px] md:leading-[48px] 
+          xs:leading-[29px] text-[#877B7B]"
+        >
           Down to <span className="text-[#E4E4E4] italic">innovate?</span>
         </h2>
         <p className="md:text-lg xs:text-sm">
@@ -26,7 +32,7 @@ const ApplyHero = () => (
         </p>
         <button
           className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
+          font-bold hover:bg-[#D63D3D] w-fit"
         >
           <a href={config.applicationLink}>Apply now</a>
         </button>
@@ -41,24 +47,30 @@ const ApplyFAQ = () => {
 
   const buttons = sections.map((section) => (
     <button
-      className={`rounded-[30px] font-bold text-[20px] py-4 px-5 border-[3px] border-[#FEFEFE] ${
-        section === question ? 'text-[#0C0404] bg-[#FEFEFE]' : ''
-      }`}
+      className={`md:rounded-[30px] xs:rounded-[15px] font-bold md:text-[20px] xs:text-[9px] md:py-4 md:px-5 xs:py-[10px] 
+        xs:px-2 border-[3px] border-[#FEFEFE] ${
+          section === question ? 'text-[#0C0404] bg-[#FEFEFE]' : ''
+        }`}
       onClick={() => setQuestion(section)}
     >
       {section}
     </button>
   ));
 
-  const sectionHeadingStyle = 'font-semibold text-[24px] leading-[29px]';
-  const sectionSubheadingStyle = 'font-semibold text-[20px] leading-[24px]';
-  const sectionTextStyle = 'text-[22px] leading-[26px]';
+  const sectionHeadingStyle =
+    'font-semibold md:text-[24px] md:leading-[29px] xs:text-[14px] xs:leading-[17px]';
+  const sectionSubheadingStyle =
+    'font-semibold md:text-[20px] md:leading-[24px] xs:text-[12px] xs:leading-[14px]';
+  const sectionTextStyle = 'md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px]';
   const subsectionStyle = 'flex flex-col gap-2';
 
   return (
     <div className="flex justify-center text-[#FEFEFE]">
-      <div className="flex flex-col max-w-5xl w-full gap-11">
-        <h2 className="font-semibold text-[32px]">What's next?</h2>
+      <div
+        className="flex flex-col max-w-5xl w-full lg:gap-11 md:gap-7 xs:gap-4 
+        lg:px-0 md:px-[60px] xs:px-6"
+      >
+        <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
           <h3 className={sectionHeadingStyle}>
             Learn more about DTI's core values and processes below.
@@ -196,16 +208,16 @@ const ApplyFAQ = () => {
 };
 
 const ApplyCoffeeChat = () => (
-  <div className="flex justify-center text-[#FEFEFE] mb-[200px]">
-    <div className="max-w-5xl w-full">
-      <h3 className="font-semibold text-[32px] pb-4">Have more questions?</h3>
-      <p className="text-[22px] pb-6">
+  <div className="flex justify-center text-[#FEFEFE] md:mb-[200px] xs:mb-[139px]">
+    <div className="max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-6">
+      <h3 className="font-semibold md:text-[32px] xs:text-[22px] pb-4">Have more questions?</h3>
+      <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px] pb-6">
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
       </p>
-      <div className="flex gap-3">
+      <div className="flex md:flex-row xs:flex-col gap-3">
         <button
           className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
+          font-bold hover:bg-[#D63D3D] w-fit"
         >
           <a href={config.coffeeChatLink}>Coffee chat with us</a>
         </button>
@@ -221,7 +233,7 @@ const ApplyCoffeeChat = () => (
 );
 
 const ApplyPage = () => (
-  <div className="flex flex-col gap-[200px]">
+  <div className="flex flex-col md:gap-[200px] xs:gap-[80px]">
     <ApplyHero />
     <ApplicationTimeline />
     <RoleDescriptions />

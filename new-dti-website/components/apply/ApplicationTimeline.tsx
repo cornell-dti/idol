@@ -222,7 +222,7 @@ const ApplicationTimeline = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="max-w-5xl w-full md:px-[60px]">
+      <div className="max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-0">
         <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
           <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
           <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">

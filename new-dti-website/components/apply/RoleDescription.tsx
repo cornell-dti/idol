@@ -17,17 +17,20 @@ const RoleDescriptions = () => {
 
   return (
     <div className="flex justify-center text-[#FEFEFE]">
-      <div className="flex flex-col max-w-5xl w-full gap-11">
-        <h2 className="font-semibold text-[32px] leading-[38px]">Applications</h2>
-        <div className="flex gap-20 mx-14 justify-between">
+      <div className="flex flex-col max-w-5xl w-full gap-11 lg:px-0 md:px-[60px] xs:px-6">
+        <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
+          Applications
+        </h2>
+        <div className="flex md:gap-20 xs:gap-3 lg:mx-14 md:mx-10 justify-between">
           {Object.keys(applications).map((application) => {
             const { icon } = applications[application];
             return (
               <div className="flex flex-col items-center gap-7" key={application}>
                 <h3
-                  className={`text-[24px] leading-[29px] ${
-                    role === application ? 'font-semibold' : 'text-[#877B7B] font-medium'
-                  }`}
+                  className={`lg:text-[24px] lg:leading-[29px] md:text-[18px] md:leading-[22px] 
+                    xs:text-[16px] xs:leading-[19px] ${
+                      role === application ? 'font-semibold' : 'text-[#877B7B] font-medium'
+                    }`}
                 >
                   {application.charAt(0).toUpperCase() + application.substring(1)}
                 </h3>
@@ -36,7 +39,8 @@ const RoleDescriptions = () => {
                   alt={application}
                   width={icon.width}
                   height={icon.height}
-                  className={`${role === application ? '' : 'brightness-50'} cursor-pointer`}
+                  className={`${role === application ? '' : 'brightness-50'} cursor-pointer 
+                    lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
                   onClick={() => setRole(application)}
                 />
               </div>
@@ -49,26 +53,39 @@ const RoleDescriptions = () => {
             return (
               role === application && (
                 <>
-                  <h3 className="font-semibold text-[32px] leading-[38px]">
+                  <h3
+                    className="font-semibold lg:text-[32px] lg:leading-[38px] md:text-[24px] 
+                    md:leading-[29px] xs:text-[22px]"
+                  >
                     {roleApplication.roleName} Application
                   </h3>
                   <div className="space-y-2">
-                    <h3 className="font-semibold text-[24px] leading-[29px]">
+                    <h3
+                      className="font-semibold lg:text-[24px] lg:leading-[29px] md:text-[20px] 
+                      md:leading-[24px] xs:text-[14px] xs:leading-[17px]"
+                    >
                       What we're looking for...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
                       {roleApplication.skills.map((skill) => (
-                        <li className="text-[22px] leading-[28px]">{skill}</li>
+                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                          {skill}
+                        </li>
                       ))}
                     </ul>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-semibold text-[24px] leading-[29px]">
+                    <h3
+                      className="font-semibold lg:text-[24px] lg:leading-[29px] md:text-[20px] 
+                      md:leading-[24px] xs:text-[14px] xs:leading-[17px]"
+                    >
                       Responsibilities at a glance...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
                       {roleApplication.responsibilities.map((resp) => (
-                        <li className="text-[22px] leading-[28px]">{resp}</li>
+                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                          {resp}
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -78,8 +95,8 @@ const RoleDescriptions = () => {
           })}
         </div>
         <button
-          className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-[#D63D3D] hover:text-[#A52424] w-fit"
+          className="rounded-xl py-4 px-5 bg-[#A52424] text-white 
+          font-bold hover:bg-[#D63D3D] w-fit"
         >
           <a href={config.applicationLink}>Apply now</a>
         </button>
