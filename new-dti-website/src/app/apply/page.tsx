@@ -4,12 +4,13 @@ import { useState } from 'react';
 import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
 import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
+import RedBlob from '../../../components/blob';
 
 const ApplyHero = () => (
   <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center">
     <div
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
-    xs:mx-6 md:mx-[65px]"
+      xs:mx-6 md:mx-[65px]"
     >
       <h1
         className="flex items-center md:text-[100px] xs:text-[48px] md:leading-[120px] 
@@ -38,6 +39,9 @@ const ApplyHero = () => (
         </button>
       </div>
     </div>
+    <div className="relative">
+      <RedBlob className={'right-[-300px]'} intensity={0.7} />
+    </div>
   </div>
 );
 
@@ -65,10 +69,11 @@ const ApplyFAQ = () => {
   const subsectionStyle = 'flex flex-col gap-2';
 
   return (
-    <div className="flex justify-center text-[#FEFEFE]">
+    <div className="relative flex justify-center text-[#FEFEFE]">
+      <RedBlob className="top-[-300px] left-[-350px] z-0" intensity={0.7} />
       <div
         className="flex flex-col max-w-5xl w-full lg:gap-11 md:gap-7 xs:gap-4 
-        lg:px-0 md:px-[60px] xs:px-6"
+        lg:px-0 md:px-[60px] xs:px-6 relative z-10"
       >
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
@@ -77,6 +82,7 @@ const ApplyFAQ = () => {
           </h3>
           <div className="flex gap-4">{buttons}</div>
         </div>
+        <RedBlob className="top-[300px] right-[-500px] z-0" intensity={0.7} />
         <div className="flex flex-col gap-6">
           <h3 className={sectionHeadingStyle}>{question}</h3>
           {question === sections[0] && (
@@ -208,8 +214,9 @@ const ApplyFAQ = () => {
 };
 
 const ApplyCoffeeChat = () => (
-  <div className="flex justify-center text-[#FEFEFE] md:mb-[200px] xs:mb-[139px]">
-    <div className="max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-6">
+  <div className="relative flex justify-center text-[#FEFEFE] md:mb-[200px] xs:mb-[139px]">
+    <RedBlob className="top-[-200px] left-[-300px] z-0" intensity={0.7} />
+    <div className="max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-6 relative">
       <h3 className="font-semibold md:text-[32px] xs:text-[22px] pb-4">Have more questions?</h3>
       <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px] pb-6">
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
@@ -233,7 +240,7 @@ const ApplyCoffeeChat = () => (
 );
 
 const ApplyPage = () => (
-  <div className="flex flex-col md:gap-[200px] xs:gap-[80px]">
+  <div className="flex flex-col md:gap-[200px] xs:gap-[80px] overflow-hidden">
     <ApplyHero />
     <ApplicationTimeline />
     <RoleDescriptions />

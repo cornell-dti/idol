@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import applicationData from './data/applications.json';
 import config from '../../config.json';
+import RedBlob from '../blob';
 
 const applications = applicationData as {
   [key: string]: {
@@ -16,8 +17,9 @@ const RoleDescriptions = () => {
   const [role, setRole] = useState<string>('product');
 
   return (
-    <div className="flex justify-center text-[#FEFEFE]">
-      <div className="flex flex-col max-w-5xl w-full gap-11 lg:px-0 md:px-[60px] xs:px-6">
+    <div className="relative flex justify-center text-[#FEFEFE]">
+      <RedBlob className="top-[-250px] right-[-350px] z-0" intensity={0.5} />
+      <div className="relative flex flex-col max-w-5xl w-full gap-11 lg:px-0 md:px-[60px] xs:px-6 z-10">
         <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
           Applications
         </h2>
