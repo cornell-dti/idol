@@ -36,7 +36,6 @@ const AdminShoutouts: React.FC = () => {
   const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
-  const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
 
@@ -68,7 +67,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -81,7 +80,6 @@ const AdminShoutouts: React.FC = () => {
       else if (view === 'HIDDEN')
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
       else setDisplayShoutouts(filteredShoutouts);
-      setHide(false);
       setLoading(false);
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
@@ -145,7 +143,6 @@ const AdminShoutouts: React.FC = () => {
     `${new Date(shoutout.timestamp).toDateString()}`;
 
   const onHide = (shoutout: Shoutout) => {
-    setHide(true);
     const oppHide = !shoutout.hidden;
     ShoutoutsAPI.hideShoutout(shoutout.uuid, oppHide).then(() => {
       if (oppHide) {
