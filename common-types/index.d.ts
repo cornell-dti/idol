@@ -116,7 +116,7 @@ interface TeamEvent extends TeamEventInfo {
   readonly requests: TeamEventAttendance[];
 }
 
-interface EventProofImage {
+interface Image {
   readonly url: string;
   readonly fileName: string;
 }
@@ -212,10 +212,10 @@ interface Shoutout {
 
 interface CoffeeChat {
   readonly uuid: string;
-  readonly members: IdolMember[];
-  readonly image: string;
+  readonly submitter: IdolMember;
+  readonly otherMember: IdolMember;
+  readonly slackLink: string;
   readonly category: string;
-  readonly description: string;
   readonly status: Status;
   readonly date: number;
 }

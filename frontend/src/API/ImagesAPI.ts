@@ -3,11 +3,8 @@ import APIWrapper from './APIWrapper';
 import HeadshotPlaceholder from '../static/images/headshot-placeholder.png';
 
 export default class ImagesAPI {
-  // member images
-  public static getMemberImage(email: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/member-image/${email}`).then(
-      (res) => res.data
-    );
+  public static getImage(name: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/image/${name}`).then((res) => res.data);
 
     return responseProm.then((val) => {
       if (val.error) {
@@ -17,48 +14,21 @@ export default class ImagesAPI {
     });
   }
 
-  private static getSignedURL(): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/member-image-signedURL`).then(
+  private static getSignedURL(name: string): Promise<string> {
+    const responseProm = APIWrapper.get(`${backendURL}/image-signed-url/${name}`).then(
       (res) => res.data
     );
     return responseProm.then((val) => val.url);
   }
 
-  public static uploadMemberImage(body: Blob): Promise<void> {
-    return this.getSignedURL().then((url) => {
-      const headers = { 'content-type': 'image/jpeg' };
+  public static uploadImage(body: Blob, name: string): Promise<void> {
+    return this.getSignedURL(name).then((url) => {
+      const headers = { 'content-type': body.type };
       APIWrapper.put(url, body, headers).then((res) => res.data);
     });
   }
 
-  // Event proof images
-  public static getEventProofImage(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/event-proof-image/${name}`).then(
-      (res) => res.data
-    );
-    return responseProm.then((val) => {
-      if (val.error) {
-        return HeadshotPlaceholder.src;
-      }
-      return val.url;
-    });
-  }
-
-  private static getEventProofImageSignedURL(name: string): Promise<string> {
-    const responseProm = APIWrapper.get(`${backendURL}/event-proof-image-signed-url/${name}`).then(
-      (res) => res.data
-    );
-    return responseProm.then((val) => val.url);
-  }
-
-  public static uploadEventProofImage(body: Blob, name: string): Promise<void> {
-    return this.getEventProofImageSignedURL(name).then((url) => {
-      const headers = { 'content-type': 'image/jpeg' };
-      APIWrapper.put(url, body, headers).then((res) => res.data);
-    });
-  }
-
-  public static async deleteEventProofImage(name: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/event-proof-image/${name}`);
+  public static async deleteImage(name: string): Promise<void> {
+    await APIWrapper.delete(`${backendURL}/image/${name}`);
   }
 }
