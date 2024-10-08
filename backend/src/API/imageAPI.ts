@@ -1,6 +1,40 @@
 import { bucket } from '../firebase';
-import { getNetIDFromEmail, filterImagesResponse } from '../utils/memberUtil';
+import { filterImagesResponse } from '../utils/memberUtil';
 import { NotFoundError } from '../utils/errors';
+
+/**
+ * Sets image for member
+ * @param name - the name of the image
+ * @returns a Promise to the signed URL to the image file
+ */
+export const getWriteSignedURL = async (name: string): Promise<string> => {
+  const file = bucket.file(`${name}.jpg`);
+  const signedURL = await file.getSignedUrl({
+    action: 'write',
+    version: 'v4',
+    expires: Date.now() + 15 * 60000 // 15 min
+  });
+  return signedURL[0];
+};
+
+/**
+ * Gets image for member
+ * @param name - the name of the image
+ * @throws NotFoundError if the requested image does not exist
+ * @returns a Promise to the signed URL to the image file
+ */
+export const getReadSignedURL = async (name: string): Promise<string> => {
+  const file = bucket.file(`${name}.jpg`);
+  const fileExists = await file.exists().then((result) => result[0]);
+  if (!fileExists) {
+    throw new NotFoundError(`The requested image (${name}) does not exist`);
+  }
+  const signedURL = await file.getSignedUrl({
+    action: 'read',
+    expires: Date.now() + 15 * 60000
+  });
+  return signedURL[0];
+};
 
 /**
  * Gets all profile images for members
@@ -25,37 +59,10 @@ export const allMemberImages = async (): Promise<readonly ProfileImage[]> => {
 };
 
 /**
- * Sets member image
- * @param user - the member whose image will be set
- * @returns - a Promise that represents the signedURL
+ * Deletes image for member
+ * @param name - the name of the image
  */
-export const setMemberImage = async (user: IdolMember): Promise<string> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  const file = bucket.file(`images/${netId}.jpg`);
-  const signedURL = await file.getSignedUrl({
-    action: 'write',
-    version: 'v4',
-    expires: Date.now() + 15 * 60000 // 15 min
-  });
-  return signedURL[0];
-};
-
-/**
- * Gets member image
- * @param user - the requested member
- * @returns - a Promise that represents signedURL which can be used to get the image file
- * @throws NotFoundError if the requested image does not exist
- */
-export const getMemberImage = async (user: IdolMember): Promise<string> => {
-  const netId: string = getNetIDFromEmail(user.email);
-  const file = bucket.file(`images/${netId}.jpg`);
-  const fileExists = await file.exists().then((result) => result[0]);
-  if (!fileExists) {
-    throw new NotFoundError(`The requested image (${netId}.jpg) does not exist`);
-  }
-  const signedUrl = await file.getSignedUrl({
-    action: 'read',
-    expires: Date.now() + 15 * 60000
-  });
-  return signedUrl[0];
+export const deleteImage = async (name: string): Promise<void> => {
+  const imageFile = bucket.file(`${name}.jpg`);
+  await imageFile.delete();
 };

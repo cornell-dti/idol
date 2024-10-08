@@ -47,7 +47,7 @@ const TeamEventCreditDashboard = (props: {
 
   const getTeamEventImage = (attendance: TeamEventAttendance) => {
     setLoading(true);
-    ImagesAPI.getEventProofImage(attendance.image).then((url: string) => {
+    ImagesAPI.getImage(attendance.image).then((url: string) => {
       setImage(url);
       setLoading(false);
     });
@@ -63,7 +63,7 @@ const TeamEventCreditDashboard = (props: {
           headerMsg: 'Team Event Attendance Deleted!',
           contentMsg: 'Your team event attendance was successfully deleted!'
         });
-        ImagesAPI.deleteEventProofImage(attendance.image);
+        ImagesAPI.deleteImage(`${attendance.image}`);
         Emitters.teamEventsUpdated.emit();
       })
       .catch((error) => {

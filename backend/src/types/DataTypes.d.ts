@@ -107,10 +107,10 @@ export type DevPortfolioSubmissionRequestLog = {
 
 export type DBCoffeeChat = {
   uuid: string;
-  members: firestore.DocumentReference[];
-  image: string;
+  submitter: firestore.DocumentReference;
+  otherMember: firestore.DocumentReference;
+  slackLink: string;
   category: string;
-  description: string;
   status: Status;
   date: number;
 };

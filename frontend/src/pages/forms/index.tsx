@@ -2,6 +2,8 @@ import NavigationCard, {
   NavigationCardItem
 } from '../../components/Common/NavigationCard/NavigationCard';
 
+import styles from './index.module.css';
+
 const navCardItems: readonly NavigationCardItem[] = [
   { header: 'Sign-In Form', description: 'Sign in to an event!', link: '/forms/signin' },
   {
@@ -32,5 +34,9 @@ const navCardItems: readonly NavigationCardItem[] = [
   }
 ];
 
-const FormsIndex = (): JSX.Element => <NavigationCard items={navCardItems} />;
+const FormsIndex = (): JSX.Element => (
+  <div className={styles.content}>
+    <NavigationCard items={navCardItems} />
+  </div>
+);
 export default FormsIndex;
