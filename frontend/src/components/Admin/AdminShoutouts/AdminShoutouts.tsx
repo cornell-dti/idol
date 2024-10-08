@@ -68,7 +68,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -89,7 +89,7 @@ const AdminShoutouts: React.FC = () => {
   const fetchImages = useCallback((shoutouts: Shoutout[]) => {
     shoutouts.forEach((shoutout) => {
       if (shoutout.images?.length) {
-        ImagesAPI.getEventProofImage(shoutout.images[0]).then((url) => {
+        ImagesAPI.getImage(shoutout.images[0]).then((url) => {
           setImageUrls((prev) => ({ ...prev, [shoutout.uuid]: url }));
         });
       }
@@ -98,8 +98,12 @@ const AdminShoutouts: React.FC = () => {
 
   useEffect(() => {
     updateShoutouts();
+  }, [earlyDate, lastDate, view, updateShoutouts]);
+
+  useEffect(() => {
     fetchImages(displayShoutouts);
-  }, [earlyDate, lastDate, hide, updateShoutouts, displayShoutouts, fetchImages]);
+  }, [displayShoutouts, fetchImages]);
+
 
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');

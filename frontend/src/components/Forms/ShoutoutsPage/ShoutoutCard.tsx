@@ -21,7 +21,7 @@ const ShoutoutCard = (props: {
   useEffect(() => {
     if (shoutout.images && shoutout.images.length > 0) {
       setIsLoading(true);
-      ImagesAPI.getEventProofImage(shoutout.images[0])
+      ImagesAPI.getImage(shoutout.images[0])
         .then((url: string) => {
           setImage(url);
           setIsLoading(false);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Form, TextArea, Checkbox, Loader } from 'semantic-ui-react';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { Emitters } from '../../../utils';
@@ -20,6 +20,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const [isAnon, setIsAnon] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const giveShoutout = async () => {
     setIsSubmitting(true);
@@ -34,7 +35,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
       if (image) {
         const blob = await fetch(image).then((res) => res.blob());
         imageUrl = `shoutoutProofs/${user.email}/${new Date().toISOString()}`;
-        await ImagesAPI.uploadEventProofImage(blob, imageUrl);
+        await ImagesAPI.uploadImage(blob, imageUrl);
       }
 
       const shoutout: Shoutout = {
@@ -64,6 +65,9 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
           setMessage('');
           setIsAnon(true);
           setImage(null);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
           getGivenShoutouts();
         }
       });
@@ -107,7 +111,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
 
       <div className={styles.imageUploadContainer}>
         <label className={styles.bold}>Upload a picture with your shoutout here!</label>
-        <input id="newImage" type="file" accept="image/png, image/jpeg" onChange={handleNewImage} />
+        <input ref={fileInputRef} id="newImage" type="file" accept="image/png, image/jpeg" onChange={handleNewImage} />
       </div>
 
       <Form.Button
