@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
-import { Button, Card, Divider } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
 import styles from './Homepage.module.css';
 
-import { NavigationCardItem } from '../../Common/NavigationCard/NavigationCard';
+import NavigationCard, { NavigationCardItem } from '../../Common/NavigationCard/NavigationCard';
 
 const everyoneItems: readonly NavigationCardItem[] = [
   {
@@ -37,31 +37,6 @@ const devItems: readonly NavigationCardItem[] = [
   }
 ];
 
-const NavCard = ({
-  className,
-  header,
-  description,
-  link
-}: NavigationCardItem & { className?: string }): JSX.Element => (
-  <div className={className ? `styles[${className}]` : styles.card}>
-    <Card key={link}>
-      <Card.Content>
-        <Card.Header>{header}</Card.Header>
-        <Card.Description>{description}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className="ui one buttons">
-          <Link href={link}>
-            <Button basic color="blue">
-              Go To
-            </Button>
-          </Link>
-        </div>
-      </Card.Content>
-    </Card>
-  </div>
-);
-
 const Homepage: React.FC = () => (
   <div className={styles.Homepage} data-testid="Homepage">
     <div className={styles.content}>
@@ -88,11 +63,7 @@ const Homepage: React.FC = () => (
           <p className={styles.sectionDescription}>
             Check out your profile or log your attendance at a DTI event!
           </p>
-          <Card.Group className={styles.quick}>
-            {everyoneItems.map((item) => (
-              <NavCard key={item.link} {...item} />
-            ))}
-          </Card.Group>
+          <NavigationCard items={everyoneItems} />
         </div>
 
         <div>
@@ -105,11 +76,7 @@ const Homepage: React.FC = () => (
               profile you use for your subteam.
             </b>
           </p>
-          <Card.Group className={styles.quick}>
-            {devItems.map((item) => (
-              <NavCard className={styles.devCard} key={item.link} {...item} />
-            ))}
-          </Card.Group>
+          <NavigationCard items={devItems} />
         </div>
       </div>
     </div>
