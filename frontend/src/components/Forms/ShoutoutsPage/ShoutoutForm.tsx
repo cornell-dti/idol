@@ -111,7 +111,13 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
 
       <div className={styles.imageUploadContainer}>
         <label className={styles.bold}>Upload a picture with your shoutout here!</label>
-        <input ref={fileInputRef} id="newImage" type="file" accept="image/png, image/jpeg" onChange={handleNewImage} />
+        <input
+          ref={fileInputRef}
+          id="newImage"
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={handleNewImage}
+        />
       </div>
 
       <Form.Button
