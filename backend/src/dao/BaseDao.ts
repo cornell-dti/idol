@@ -6,7 +6,7 @@ import { firestore } from 'firebase-admin';
  * comparisonOperator -- the comparison operator to use for comparison/filtering (https://cloud.google.com/firestore/docs/query-data/queries)
  * value -- the value to compare the field to
  */
-interface FirestoreFilter {
+export interface FirestoreFilter {
   field: string;
   comparisonOperator: FirebaseFirestore.WhereFilterOp;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
