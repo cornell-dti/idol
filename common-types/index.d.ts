@@ -207,6 +207,7 @@ interface Shoutout {
   readonly timestamp: number;
   readonly hidden: boolean;
   readonly uuid: string;
+  readonly images?: string[];
 }
 
 interface CoffeeChat {

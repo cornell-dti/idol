@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DocumentReference, collection, getDoc, onSnapshot } from 'firebase/firestore';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
 import { db } from '../../../firebase';
@@ -27,6 +28,7 @@ type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
+  images?: string[];
 };
 
 const AdminShoutouts: React.FC = () => {
@@ -34,8 +36,8 @@ const AdminShoutouts: React.FC = () => {
   const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
-  const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
@@ -78,14 +80,27 @@ const AdminShoutouts: React.FC = () => {
       else if (view === 'HIDDEN')
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
       else setDisplayShoutouts(filteredShoutouts);
-      setHide(false);
       setLoading(false);
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
+  const fetchImages = useCallback((shoutouts: Shoutout[]) => {
+    shoutouts.forEach((shoutout) => {
+      if (shoutout.images?.length) {
+        ImagesAPI.getImage(shoutout.images[0]).then((url) => {
+          setImageUrls((prev) => ({ ...prev, [shoutout.uuid]: url }));
+        });
+      }
+    });
+  }, []);
+
   useEffect(() => {
     updateShoutouts();
-  }, [earlyDate, lastDate, hide, updateShoutouts]);
+  }, [earlyDate, lastDate, view, updateShoutouts]);
+
+  useEffect(() => {
+    fetchImages(displayShoutouts);
+  }, [displayShoutouts, fetchImages]);
 
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');
@@ -100,9 +115,10 @@ const AdminShoutouts: React.FC = () => {
         })
       );
       setAllShoutouts(newShoutouts);
+      fetchImages(newShoutouts);
     });
     return unsubscribe;
-  }, [setAllShoutouts]);
+  }, [setAllShoutouts, fetchImages]);
 
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
@@ -127,7 +143,6 @@ const AdminShoutouts: React.FC = () => {
     `${new Date(shoutout.timestamp).toDateString()}`;
 
   const onHide = (shoutout: Shoutout) => {
-    setHide(true);
     const oppHide = !shoutout.hidden;
     ShoutoutsAPI.hideShoutout(shoutout.uuid, oppHide).then(() => {
       if (oppHide) {
@@ -209,6 +224,21 @@ const AdminShoutouts: React.FC = () => {
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
                 />
+                {(() => {
+                  let content;
+                  if (imageUrls[shoutout.uuid]) {
+                    content = (
+                      <Item.Image>
+                        <Image src={imageUrls[shoutout.uuid]} size="small" />
+                      </Item.Image>
+                    );
+                  } else if (shoutout.images && shoutout.images.length > 0) {
+                    content = <Loader active inline="centered" />;
+                  } else {
+                    content = null;
+                  }
+                  return content;
+                })()}
               </Item.Content>
             </Item>
           ))}
@@ -229,6 +259,21 @@ const AdminShoutouts: React.FC = () => {
                 <HideModal shoutout={shoutout} />
               </Item.Group>
               <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
+              {(() => {
+                let content;
+                if (imageUrls[shoutout.uuid]) {
+                  content = (
+                    <Item.Image>
+                      <Image src={imageUrls[shoutout.uuid]} size="small" />
+                    </Item.Image>
+                  );
+                } else if (shoutout.images && shoutout.images.length > 0) {
+                  content = <Loader active inline="centered" />;
+                } else {
+                  content = null;
+                }
+                return content;
+              })()}
             </Item.Content>
           </Item>
         ))}
@@ -246,6 +291,7 @@ const AdminShoutouts: React.FC = () => {
         onClick={() => {
           setView(buttonText);
           setDisplayShoutouts(shoutoutList);
+          fetchImages(shoutoutList);
         }}
         content={buttonText}
       />
