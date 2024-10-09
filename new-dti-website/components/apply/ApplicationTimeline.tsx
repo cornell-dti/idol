@@ -5,6 +5,7 @@ import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
+import RedBlob from '../blob';
 
 type TabProps = {
   isSelected: boolean;
@@ -67,7 +68,7 @@ const getEndTime = ({ date, time }: DateTime): number => {
     const end = time.split('-')[1];
     const endHourMin = end.substring(0, end.length - 2);
     const suffix = end.substring(end.length - 2);
-    endTime = endTime + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
+    endTime = endHourMin + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
   }
 
   return new Date(`${endDate}, ${new Date().getFullYear()} ${endTime}`).getTime();
@@ -221,8 +222,9 @@ const ApplicationTimeline = () => {
     1 + sortedEvents.findLastIndex((event) => getEndTime(getDate(event)) < Date.now());
 
   return (
-    <div className="flex justify-center">
-      <div className="max-w-5xl w-full md:px-[60px]">
+    <div className="flex justify-center relative">
+      <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
+      <div className="relative z-10 max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-0">
         <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
           <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
           <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">
