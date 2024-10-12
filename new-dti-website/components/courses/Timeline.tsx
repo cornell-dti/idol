@@ -164,7 +164,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         >
           <div className="absolute sm:h-2 h-full sm:w-full w-2 bg-gray-300 z-10" />
           <div
-            className="absolute sm:h-1 h-full sm:w-full w-1 bg-[#D63D3D] z-20"
+            className="absolute sm:h-1 h-full sm:w-full w-1 bg-red-500 z-20"
             style={{
               height: `calc(${progressPercentage}% + 1px)`,
               width: isMobile ? '6px' : `${progressPercentage}%`
@@ -191,7 +191,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               {/* Red Dot for Completed / Grey Dot for Mobile */}
               <div
                 className={`w-[26px] h-[26px] rounded-full ${
-                  isPast ? 'bg-[#D63D3D]' : 'bg-gray-300'
+                  isPast ? 'bg-red-500' : 'bg-gray-300'
                 } sm:hidden block`}
               />
               {/* Title and Date */}
@@ -205,7 +205,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               {/* Red Dot for Completed / Grey Dot for Tablet/Laptop */}
               <div
                 className={`w-[26px] h-[26px] rounded-full ${
-                  isPast ? 'bg-[#D63D3D]' : 'bg-gray-300'
+                  isPast ? 'bg-red-500' : 'bg-gray-300'
                 } hidden sm:block`}
               />
             </div>

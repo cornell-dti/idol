@@ -32,7 +32,7 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
   return (
     <div
       className={`transition-all duration-300 ease-in-out ${
-        isOpen ? 'bg-[#D63D3D]' : 'bg-white'
+        isOpen ? 'bg-red-500' : 'bg-white'
       } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
     >
       <div className="flex justify-between items-center">
