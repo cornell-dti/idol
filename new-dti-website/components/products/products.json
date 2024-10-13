@@ -9,7 +9,17 @@
       "iconPath": "icons/cureviews_icon.svg",
       "iconDimensions": 67,
       "width": 826,
-      "height": 615
+      "height": 615, 
+      "blobs": [
+        {
+          "className": "-right-24",
+          "intensity": 0.4
+        }, 
+        {
+          "className": "left-0 -bottom-32",
+          "intensity": 0.4
+        }
+      ]
     },
     {
       "alt": "courseplan",
@@ -20,7 +30,17 @@
       "iconPath": "icons/courseplan_icon.svg",
       "iconDimensions": 63,
       "width": 845,
-      "height": 533
+      "height": 533,
+      "blobs": [
+        {
+          "className": "right-48 -top-48",
+          "intensity": 0.4
+        },
+        {
+          "className": "left-32 -bottom-32",
+          "intensity": 0.4
+        }
+      ]
     },
     {
       "alt": "queue me in",
@@ -31,7 +51,17 @@
       "iconPath": "icons/qmi_icon.svg",
       "iconDimensions": 63,
       "width": 823,
-      "height": 605
+      "height": 605,
+      "blobs": [
+        {
+          "className": "left-0 -top-48",
+          "intensity": 0.4
+        },
+        {
+          "className": "-right-32 -bottom-32",
+          "intensity": 0.4
+        }
+      ]
     },
     {
       "alt": "design at cornell",
@@ -42,7 +72,13 @@
       "iconPath": "icons/dac_icon.svg",
       "iconDimensions": 73,
       "width": 861,
-      "height": 639
+      "height": 639, 
+      "blobs": [
+        {
+          "className": "left-80 -bottom-20",
+          "intensity": 0.3
+        }
+      ]
     },
     {
       "alt": "zing",
@@ -53,7 +89,17 @@
       "iconPath": "icons/zing_icon.svg",
       "iconDimensions": 63,
       "width": 838,
-      "height": 544
+      "height": 544, 
+      "blobs": [
+        {
+          "className": "-right-24 -bottom-48",
+          "intensity": 0.4
+        }, 
+        {
+          "className": "left-0 -bottom-32",
+          "intensity": 0.4
+        }
+      ]
     },
     {
       "alt": "cuapts",
@@ -64,7 +110,17 @@
       "iconPath": "icons/cuapts_icon.svg",
       "iconDimensions": 79,
       "width": 787,
-      "height": 614
+      "height": 614, 
+      "blobs": [
+        {
+          "className": "-right-24 -bottom-48",
+          "intensity": 0.4
+        }, 
+        {
+          "className": "left-96 -top-48",
+          "intensity": 0.3
+        }
+      ]
     }
   ],
   "upcoming": [
@@ -73,7 +129,7 @@
       "name": "Carriage",
       "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. \n \n Launching next semester.",
       "link": "",
-      "path": "images/carriage.png",
+      "path": "",
       "iconPath": "icons/carriage_icon.svg",
       "iconDimensions": 63,
       "width": 777,

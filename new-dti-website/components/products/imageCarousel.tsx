@@ -28,7 +28,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   }, [currentSlide, carouselApi]);
 
   return (
-    <div className="bg-black overflow-x-hidden">
+    <div className="flex relative -z-20 bg-black overflow-x-hidden">
       <Carousel
         className="h-40 md:mb-0 mb-24 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[105px]"
         opts={{
