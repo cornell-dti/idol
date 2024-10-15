@@ -115,7 +115,7 @@ const CoffeeChatsDashboard = (props: {
             {rejectedChats.length !== 0 ? (
               <CoffeeChatsDisplay coffeeChatList={rejectedChats} />
             ) : (
-              <Message>You have not been rejected for any coffee chats.</Message>
+              <Message>You have not been rejected for any coffee chat submissions.</Message>
             )}
           </div>
         </div>
