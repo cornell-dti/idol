@@ -111,7 +111,7 @@ const CoffeeChatsDashboard = (props: {
           </div>
 
           <div className={styles.inline}>
-            <label className={styles.bold}>Rejected Events:</label>
+            <label className={styles.bold}>Rejected Coffee Chat Submissions:</label>
             {rejectedChats.length !== 0 ? (
               <CoffeeChatsDisplay coffeeChatList={rejectedChats} />
             ) : (
