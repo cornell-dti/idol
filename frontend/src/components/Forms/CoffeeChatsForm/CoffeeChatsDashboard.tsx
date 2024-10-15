@@ -53,7 +53,7 @@ const CoffeeChatsDashboard = (props: {
                   <Card.Meta>Category: {coffeeChat.slackLink}</Card.Meta>
                   <Card.Meta>
                     <b>
-                      <a href={coffeeChat.slackLink}>Image Link</a>
+                      <a href={coffeeChat.slackLink} target="_blank">Image Link</a>
                     </b>
                   </Card.Meta>
                 </div>
