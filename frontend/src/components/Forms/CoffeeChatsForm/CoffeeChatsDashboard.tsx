@@ -97,7 +97,7 @@ const CoffeeChatsDashboard = (props: {
             {approvedChats.length !== 0 ? (
               <CoffeeChatsDisplay coffeeChatList={approvedChats} />
             ) : (
-              <Message>You have not been approved for any coffee chats yet.</Message>
+              <Message>You have not been approved for any coffee chat submissions yet.</Message>
             )}
           </div>
 
