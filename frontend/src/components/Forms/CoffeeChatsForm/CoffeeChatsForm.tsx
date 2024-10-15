@@ -41,7 +41,7 @@ const CoffeeChatsForm: React.FC = () => {
       });
     } else if (!slackLink) {
       Emitters.generalError.emit({
-        headerMsg: 'No Image Entered',
+        headerMsg: 'No Slack Link Entered',
         contentMsg: 'Please enter a link to your Slack post in #coffee-chats!'
       });
     } else if (!category) {
