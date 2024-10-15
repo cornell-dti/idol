@@ -106,7 +106,7 @@ const CoffeeChatsDashboard = (props: {
             {pendingChats.length !== 0 ? (
               <CoffeeChatsDisplay coffeeChatList={pendingChats} />
             ) : (
-              <Message>You are not currently pending approval for any coffee chats.</Message>
+              <Message>You are not currently pending approval for any coffee chats submissions.</Message>
             )}
           </div>
 
