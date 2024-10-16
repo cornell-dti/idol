@@ -6,6 +6,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 import RedBlob from '../blob';
+import { extractEndDate, extractEndTime, parseDate } from '../../src/utils/dateUtils';
 
 type TabProps = {
   isSelected: boolean;
@@ -53,25 +54,14 @@ type RecruitmentEvent = {
  * @returns the number representation of the event's end time.
  */
 const getEndTime = ({ date, time }: DateTime): number => {
-  // Find end date
-  const dates = date.split('-');
-  let endDate = dates[dates.length - 1];
+  const endDate = extractEndDate(date);
 
-  if (endDate.length <= 2) {
-    const month = dates[0].split(' ')[0];
-    endDate = `${month} ${endDate}`;
-  }
-
-  // Find end time
-  let endTime = '11:59:59 PM';
+  let endTime;
   if (time) {
-    const end = time.split('-')[1];
-    const endHourMin = end.substring(0, end.length - 2);
-    const suffix = end.substring(end.length - 2);
-    endTime = endHourMin + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
+    endTime = extractEndTime(time);
   }
 
-  return new Date(`${endDate}, ${new Date().getFullYear()} ${endTime}`).getTime();
+  return parseDate(endDate, '11:59:59 PM', endTime).getTime();
 };
 
 type RecruitmentEventProps = {
