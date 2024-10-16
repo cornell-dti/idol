@@ -45,7 +45,6 @@ const ApplyHero = () => (
   </div>
 );
 
-
 const ApplyCoffeeChat = () => (
   <div className="relative flex justify-center text-[#FEFEFE] md:mb-[200px] xs:mb-[139px]">
     <RedBlob className="top-[-200px] left-[-400px] z-0" intensity={0.5} />

@@ -43,7 +43,7 @@ export const extractEndDate = (dateInterval: string) => {
 /**
  * Extracts the end date of an interval of times.
  *
- * @param timeInterval An inclusive range of times, in the form `hh:mm:ss AM/PM - hh:mm:ss AM/PM`. 
+ * @param timeInterval An inclusive range of times, in the form `hh:mm:ss AM/PM - hh:mm:ss AM/PM`.
  * Seconds are optional and AM/PM is optional for start time if it is the same as the end time.
  * @returns The end time of the interval.
  */

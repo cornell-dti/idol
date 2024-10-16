@@ -5,7 +5,7 @@ import interviewPrep from './data/interviewPrep.json';
 
 const ApplyFAQ = () => {
   const sections = ['General Questions', 'Behavioral Prep', 'Technical Prep'];
-  const [question, setQuestion] = useState("General Questions");
+  const [question, setQuestion] = useState('General Questions');
 
   const buttons = sections.map((section) => (
     <button
