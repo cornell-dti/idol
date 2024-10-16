@@ -19,7 +19,7 @@ const RoleDescriptions = () => {
   return (
     <div className="relative flex justify-center text-[#FEFEFE]">
       <RedBlob className="top-[-250px] right-[-350px] z-0" intensity={0.5} />
-      <div className="relative flex flex-col max-w-5xl w-full gap-11 lg:px-0 md:px-[60px] xs:px-6 z-10">
+      <div className="relative flex flex-col max-w-5xl w-full gap-11 lg:px-5 md:px-[60px] xs:px-6 z-10">
         <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
           Applications
         </h2>

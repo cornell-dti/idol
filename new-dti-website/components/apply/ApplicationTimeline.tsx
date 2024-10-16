@@ -128,7 +128,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
         )}
         <div
           className={`${
-            isNextEvent ? 'w-16 h-16 bg-[#FEFEFE]' : 'w-14 h-14 bg-[#F5E3E3] '
+            isNextEvent ? 'w-[70px] h-[70px] bg-[#FEFEFE]' : 'w-[60px] h-[60px] bg-[#F5E3E3] '
           } rounded-xl border-8 border-solid border-[#A52424D9] z-20 flex items-center justify-center`}
         >
           <Image
@@ -136,7 +136,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
             alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
             width={25}
             height={25}
-            className={isNextEvent ? 'scale-[1.4] brightness-0' : ''}
+            className={isNextEvent ? 'scale-[1.5] brightness-0' : ''}
           />
         </div>
       </div>

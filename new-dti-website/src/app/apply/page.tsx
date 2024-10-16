@@ -40,7 +40,7 @@ const ApplyHero = () => (
       </div>
     </div>
     <div className="relative">
-      <RedBlob className={'right-[-300px]'} intensity={0.7} />
+      <RedBlob className={'right-[-300px]'} intensity={0.5} />
     </div>
   </div>
 );
@@ -48,8 +48,8 @@ const ApplyHero = () => (
 
 const ApplyCoffeeChat = () => (
   <div className="relative flex justify-center text-[#FEFEFE] md:mb-[200px] xs:mb-[139px]">
-    <RedBlob className="top-[-200px] left-[-300px] z-0" intensity={0.7} />
-    <div className="max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-6 relative">
+    <RedBlob className="top-[-200px] left-[-400px] z-0" intensity={0.5} />
+    <div className="max-w-5xl w-full lg:px-5 md:px-[60px] xs:px-6 relative">
       <h3 className="font-semibold md:text-[32px] xs:text-[22px] pb-4">Have more questions?</h3>
       <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px] pb-6">
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
@@ -74,8 +74,10 @@ const ApplyCoffeeChat = () => (
 
 const ApplyPage = () => (
   <div className="flex flex-col md:gap-[200px] xs:gap-[80px] overflow-hidden">
-    <ApplyHero />
-    <ApplicationTimeline />
+    <div>
+      <ApplyHero />
+      <ApplicationTimeline />
+    </div>
     <RoleDescriptions />
     <ApplyFAQ />
     <ApplyCoffeeChat />

@@ -21,10 +21,10 @@ const ApplyFAQ = () => {
 
   return (
     <div className="relative flex justify-center text-[#FEFEFE]">
-      <RedBlob className="top-[-300px] left-[-350px] z-0" intensity={0.7} />
+      <RedBlob className="top-[-300px] left-[-350px] z-0" intensity={0.5} />
       <div
         className="flex flex-col max-w-5xl w-full lg:gap-11 md:gap-7 xs:gap-4 
-        lg:px-0 md:px-[60px] xs:px-6 relative z-10"
+        lg:px-5 md:px-[60px] xs:px-6 relative z-10"
       >
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
@@ -33,7 +33,7 @@ const ApplyFAQ = () => {
           </h3>
           <div className="flex gap-4">{buttons}</div>
         </div>
-        <RedBlob className="top-[300px] right-[-500px] z-0" intensity={0.7} />
+        <RedBlob className="top-[300px] right-[-500px] z-0" intensity={0.5} />
         <div className="flex flex-col gap-6">
           <h3 className="section-heading">{question}</h3>
           {question === 'General Questions' && (
