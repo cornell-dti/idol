@@ -34,6 +34,7 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
       className={`transition-all duration-300 ease-in-out ${
         isOpen ? 'bg-red-500' : 'bg-white'
       } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
+      onClick={toggleCard}
     >
       <div className="flex justify-between items-center">
         <h3 className={`md:text-3xl text-xl font-bold ${isOpen ? 'text-white' : 'text-black'}`}>
@@ -41,7 +42,6 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
         </h3>
         <button
           className={`md:text-4xl text-2xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}
-          onClick={toggleCard}
         >
           {isOpen ? '−' : '+'}
         </button>
