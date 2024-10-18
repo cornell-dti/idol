@@ -4,7 +4,7 @@ import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
-import RedBlob from '../../../components/blob'
+import RedBlob from '../../../components/blob';
 
 const Page = () => {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -13,9 +13,12 @@ const Page = () => {
   }));
 
   return (
-    <div className='overflow-x-hidden'>
+    <div className="overflow-x-hidden">
       <div className="flex lg:flex-row flex-col relative lg:max-w-[1186.76px] lg:mx-52 lg:my-24 lg:space-x-20 md:space-y-10 md:max-w-[698px] h-fit md:my-[130px] md:mx-[67px] max-w-[314px] mx-auto md:py-0 py-32">
-        <RedBlob className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'} intensity={0.4} />
+        <RedBlob
+          className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'}
+          intensity={0.4}
+        />
         <div className="md:w-fit w-[314px]">
           <p className="md:text-[100px] md:leading-[121px] text-[48px] leading-[58px] font-semibold">
             <span className="text-white">OUR </span>
@@ -74,30 +77,36 @@ const Page = () => {
         </div>
       ))}
       <Connector
-          orientation="right"
-          width={390}
-          height={466}
-          strokeWidth={6}
-          className="!w-fit !ml-[50%]"
+        orientation="right"
+        width={390}
+        height={466}
+        strokeWidth={6}
+        className="!w-fit !ml-[50%]"
+      />
+      <div className="flex relative justify-center lg:my-32 md:my-64 mb-60 mt-40">
+        <RedBlob
+          className={'-left-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
+          intensity={0.3}
         />
-        <div className="flex relative justify-center lg:my-32 md:my-64 mb-60 mt-40">
-        <RedBlob className={'-left-52 bottom-0 scale-50 sm:scale-75 md:scale-100'} intensity={0.3}/>
-        <RedBlob className={'-right-52 bottom-0 scale-50 sm:scale-75 md:scale-100'} intensity={0.3} />
-          <div className="flex flex-col text-white max-w-screen-md text-center items-center space-y-6">
-            <p className="font-semibold text-[32px]">Have Any Ideas?</p>
-            <p className="px-20">
-              We've learned that tackling the hardest problems is the only way to truly create value
-              for the people around us.
-            </p>
-            <Button
-              className="text-white font-bold bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
-              variant="outline"
-              size="default"
-            >
-              Contact us
-            </Button>
-          </div>
+        <RedBlob
+          className={'-right-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
+          intensity={0.3}
+        />
+        <div className="flex flex-col text-white max-w-screen-md text-center items-center space-y-6">
+          <p className="font-semibold text-[32px]">Have Any Ideas?</p>
+          <p className="px-20">
+            We've learned that tackling the hardest problems is the only way to truly create value
+            for the people around us.
+          </p>
+          <Button
+            className="text-white font-bold bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
+            variant="outline"
+            size="default"
+          >
+            Contact us
+          </Button>
         </div>
+      </div>
     </div>
   );
 };
@@ -124,8 +133,11 @@ const ProductDisplay = (props: {
     {/* Render blobs if they exist */}
     {props.product.blobs &&
       props.product.blobs.map((blob, index) => (
-        <RedBlob key={index}   className={blob.className ? blob.className.trim() : ''}
-        intensity={blob.intensity} />
+        <RedBlob
+          key={index}
+          className={blob.className ? blob.className.trim() : ''}
+          intensity={blob.intensity}
+        />
       ))}
     <div
       className={cn(
@@ -169,6 +181,5 @@ const ProductDisplay = (props: {
     </div>
   </div>
 );
-
 
 export default Page;
