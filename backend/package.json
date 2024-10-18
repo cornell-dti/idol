@@ -9,6 +9,7 @@
     "tsc": "tsc",
     "build": "tsc",
     "update-dev-db": "esr scripts/update-dev-db.ts",
+    "send-member-archive-reminder": "esr scripts/send-member-archive-reminder.ts",
     "send-profile-update-notifications": "esr scripts/send-profile-update-notifications.ts",
     "send-tec-notifications": "esr scripts/send-tec-notifications.ts",
     "backup-prod-db": "esr scripts/backup-prod-db.ts",
