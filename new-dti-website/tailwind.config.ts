@@ -85,5 +85,10 @@ module.exports = {
       }
     }
   },
-  plugins: ['tailwindcss-animate']
+  plugins: ['tailwindcss-animate'],
+  safelist: [
+    {
+      pattern: /-?(left|right|top|bottom)-\d+/
+    }
+  ]
 };

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
 import useScreenSize from '../../src/hooks/useScreenSize';
+import { cn } from '../../lib/utils';
 
 interface carouselItem {
   alt: string;
@@ -27,9 +28,9 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   }, [currentSlide, carouselApi]);
 
   return (
-    <div className="bg-black overflow-x-hidden">
+    <div className="flex relative -z-20 bg-black overflow-x-hidden">
       <Carousel
-        className="h-40 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[105px]"
+        className="h-40 md:mb-0 mb-24 md:h-52 lg:h-64 xl:h-80 2xl:h-96 lg:-ml-[105px]"
         opts={{
           align: 'start',
           loop: true
@@ -43,12 +44,16 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
           {props.items.map((product, index) => (
             <CarouselItem
               key={product.alt}
-              className="select-none lg:basis-[15%] basis-1/3 cursor-pointer"
+              className="select-none lg:basis-[15%] basis-1/3 cursor-pointer md:pl-10"
             >
               <Image
-                className={`${
-                  index !== (currentSlide + highlightIndex) % props.items.length ? 'opacity-70' : ''
-                } md:w-[211px] md:h-[211px] sm:w-[115px] sm:h-[115px]`}
+                className={cn(
+                  `${
+                    index !== (currentSlide + highlightIndex) % props.items.length
+                      ? 'opacity-70'
+                      : ''
+                  } md:w-[211px] md:h-[211px] sm:w-[115px] sm:h-[115px]`
+                )}
                 src={product.path}
                 alt={product.alt}
                 width={174}
