@@ -64,6 +64,18 @@ export const hideShoutout = async (
   await shoutoutsDao.updateShoutout({ ...shoutout, hidden: hide });
 };
 
+export const editShoutout = async (
+  uuid: string,
+  newMessage: string,
+  user: IdolMember
+): Promise<Shoutout> => {
+  const shoutout = await shoutoutsDao.getShoutout(uuid);
+  if (!shoutout) {
+    throw new NotFoundError(`Shoutout with uuid: ${uuid} does not exist!`);
+  }
+  return shoutoutsDao.editShoutout(uuid, newMessage);
+};
+
 /**
  * Deletes a shoutout, ensuring the user has the necessary permissions or ownership.
  * @throws {NotFoundError} If no shoutout with the provided uuid is found.
