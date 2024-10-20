@@ -71,15 +71,21 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Gets all coffee chat that a user has submitted
+   * Gets coffee chats that a user has submitted by status
    * @param user - user whose coffee chats should be fetched
+   * @param status - the status of fetched coffee chats
    */
-  async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
+  async getCoffeeChatsByUser(user: IdolMember, status: Status): Promise<CoffeeChat[]> {
     return this.getDocuments([
       {
         field: 'submitter',
         comparisonOperator: '==',
         value: memberCollection.doc(user.email)
+      },
+      {
+        field: 'status',
+        comparisonOperator: '==',
+        value: status,
       }
     ]);
   }

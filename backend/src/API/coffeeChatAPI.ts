@@ -11,11 +11,24 @@ const coffeeChatDao = new CoffeeChatDao();
 export const getAllCoffeeChats = (): Promise<CoffeeChat[]> => coffeeChatDao.getAllCoffeeChats();
 
 /**
- * Gets all coffee chats for a user
+ * Gets all coffee chats for a user by status
  * @param user - user whose coffee chats should be fetched
+ * @param status - the status of fetched coffee chats (default is all)
  */
-export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat[]> =>
-  coffeeChatDao.getCoffeeChatsByUser(user);
+export const getCoffeeChatsByUser = async (user: IdolMember, status: 'all' | Status = 'all'): Promise<CoffeeChat[]> => {
+  const pendingChats = await coffeeChatDao.getCoffeeChatsByUser(user, 'pending');
+  const approvedChats = await coffeeChatDao.getCoffeeChatsByUser(user, 'approved');
+  const rejectedChats = await coffeeChatDao.getCoffeeChatsByUser(user, 'rejected');
+
+  if (status === 'pending') {
+    return pendingChats;
+  } if (status === 'approved') {
+    return approvedChats;
+  } if (status === 'rejected') {
+    return rejectedChats;
+  } 
+    return [...pendingChats, ...approvedChats, ...rejectedChats];
+}
 
 /**
  * Creates a new coffee chat for member
@@ -28,7 +41,7 @@ export const createCoffeeChat = async (coffeeChat: CoffeeChat): Promise<CoffeeCh
     throw new Error('Cannot create coffee chat with yourself.');
   }
 
-  const prevChats = await coffeeChatDao.getCoffeeChatsByUser(coffeeChat.submitter);
+  const prevChats = await getCoffeeChatsByUser(coffeeChat.submitter);
   const chatExists = prevChats.some((chat) => isEqual(coffeeChat.otherMember, chat.otherMember));
 
   if (chatExists) {
