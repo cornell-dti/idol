@@ -6,6 +6,7 @@ import { MembersAPI } from '../../../API/MembersAPI';
 import CoffeeChatsDashboard from './CoffeeChatsDashboard';
 import styles from './CoffeeChatsForm.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
+import { COFFEE_CHAT_BINGO_BOARD } from '../../../consts';
 
 const CoffeeChatsForm: React.FC = () => {
   const userInfo = useSelf()!;
@@ -20,7 +21,7 @@ const CoffeeChatsForm: React.FC = () => {
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
-    CoffeeChatAPI.getCoffeeChatsByUser(userInfo).then((coffeeChat) => {
+    CoffeeChatAPI.getAllCoffeeChatsByUser(userInfo).then((coffeeChat) => {
       setApprovedChats(coffeeChat.filter((chat) => chat.status === 'approved'));
       setPendingChats(coffeeChat.filter((chat) => chat.status === 'pending'));
       setRejectedChats(coffeeChat.filter((chat) => chat.status === 'rejected'));
@@ -28,10 +29,9 @@ const CoffeeChatsForm: React.FC = () => {
     });
   }, [userInfo]);
 
-  const coffeeChatExists = async (): Promise<boolean> => {
-    const chats = await CoffeeChatAPI.getCoffeeChatsByUser(userInfo);
-    return chats.some((chat) => chat.otherMember.netid === member?.netid);
-  };
+  const coffeeChatExists = (): boolean =>
+    approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
+    pendingChats.some((chat) => chat.otherMember.netid === member?.netid);
 
   const submitCoffeeChat = async () => {
     if (!member) {
@@ -46,15 +46,15 @@ const CoffeeChatsForm: React.FC = () => {
       });
     } else if (!category) {
       Emitters.generalError.emit({
-        headerMsg: 'No Category Entered',
-        contentMsg: 'Please enter a category!'
+        headerMsg: 'No Category Selected',
+        contentMsg: 'Please select a category!'
       });
     } else if (member.netid === userInfo.netid) {
       Emitters.generalError.emit({
         headerMsg: 'Cannot Coffee Chat Yourself',
         contentMsg: 'Please submit a coffee chat with another member!'
       });
-    } else if (await coffeeChatExists()) {
+    } else if (coffeeChatExists()) {
       Emitters.generalError.emit({
         headerMsg: 'Coffee Chat Exists',
         contentMsg: 'Please submit a coffee chat with a new member!'
@@ -105,7 +105,7 @@ const CoffeeChatsForm: React.FC = () => {
                 }
                 selection
                 value={member?.netid ?? ''}
-                text={member ? `${member.firstName} ${member.lastName}` : ''}
+                text={member ? `${member.firstName} ${member.lastName} (${member.netid})` : ''}
                 options={membersList
                   .sort((m1, m2) =>
                     `${m1.firstName} ${m1.lastName}`.localeCompare(`${m2.firstName} ${m2.lastName}`)
@@ -114,7 +114,7 @@ const CoffeeChatsForm: React.FC = () => {
                     key: member.netid,
                     label: (
                       <div className={styles.flex_start}>
-                        {member.firstName} {member.lastName}
+                        {member.firstName} {member.lastName} ({member.netid})
                       </div>
                     ),
                     value: member.netid
@@ -131,12 +131,29 @@ const CoffeeChatsForm: React.FC = () => {
             Which category does this coffee chat fulfill?{' '}
             <span className={styles.red_color}>*</span>
           </label>
-          <Form.Input
-            fluid
-            type="string"
-            value={category}
-            onChange={(category) => setCategory(category.target.value)}
-          />
+          <div className={styles.center_and_flex}>
+            <Dropdown
+              placeholder="Select a category"
+              fluid
+              search={(options, query) =>
+                options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
+              }
+              selection
+              value={category}
+              text={category}
+              options={COFFEE_CHAT_BINGO_BOARD.flat().map((category, _) => ({
+                key: category,
+                label: <div className={styles.flex_start}>{category}</div>,
+                value: category
+              }))}
+              onChange={(_, data) => {
+                const foundCategory = COFFEE_CHAT_BINGO_BOARD.flat().find(
+                  (category) => category === data.value
+                );
+                setCategory(foundCategory || '');
+              }}
+            />
+          </div>
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
@@ -144,7 +161,7 @@ const CoffeeChatsForm: React.FC = () => {
           </label>
           <p className={styles.margin_bottom_zero}>
             Go to your coffee chat image in the #coffee-chats channel, and click on 'Copy link to
-            file'. Example: https://cornelldti.slack.com/files/U05SULTP4V7/F06LF0ZNCQM/img_4661.jpg
+            file'. Example: https://cornelldti.slack.com/files/A05SULTP4V7/F06LF0ZNCQM/img_4661.jpg
           </p>
           <Form.Input
             fluid

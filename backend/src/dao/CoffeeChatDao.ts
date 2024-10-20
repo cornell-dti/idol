@@ -42,7 +42,8 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
     const coffeeChatWithUUID = {
       ...coffeeChat,
       status: 'pending' as Status,
-      uuid: coffeeChat.uuid ? coffeeChat.uuid : uuidv4()
+      uuid: coffeeChat.uuid ? coffeeChat.uuid : uuidv4(),
+      date: new Date().getTime()
     };
     return this.createDocument(coffeeChatWithUUID.uuid, coffeeChatWithUUID);
   }

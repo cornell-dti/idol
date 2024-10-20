@@ -1,8 +1,10 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { Card, Loader, Message, Button } from 'semantic-ui-react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { Loader } from 'semantic-ui-react';
 import styles from './CoffeeChatsForm.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
+import { COFFEE_CHAT_BINGO_BOARD } from '../../../consts';
+import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
 
 const CoffeeChatsDashboard = (props: {
   approvedChats: CoffeeChat[];
@@ -12,10 +14,26 @@ const CoffeeChatsDashboard = (props: {
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
 }): JSX.Element => {
   const { approvedChats, pendingChats, rejectedChats, isChatLoading, setPendingChats } = props;
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
+  const categoryStatus = useMemo(() => {
+    const statusMap = new Map<string, CoffeeChat>();
+
+    [...approvedChats, ...pendingChats, ...rejectedChats].forEach((chat) => {
+      const existing: CoffeeChat | undefined = statusMap.get(chat.category);
+
+      if (!existing || chat.date > existing.date) {
+        statusMap.set(chat.category, chat);
+      }
+    });
+
+    return statusMap;
+  }, [approvedChats, pendingChats, rejectedChats]);
 
   const deleteCoffeeChatRequest = (coffeeChat: CoffeeChat) => {
     CoffeeChatAPI.deleteCoffeeChat(coffeeChat.uuid)
       .then(() => {
+        setOpen(false);
         setPendingChats(pendingChats.filter((currChat) => currChat.uuid !== coffeeChat.uuid));
         Emitters.generalSuccess.emit({
           headerMsg: 'Coffee Chat Deleted!',
@@ -31,96 +49,60 @@ const CoffeeChatsDashboard = (props: {
       });
   };
 
-  const CoffeeChatsDisplay = (props: { coffeeChatList: CoffeeChat[] }): JSX.Element => {
-    const { coffeeChatList } = props;
+  const getCoffeeChatByCategory = (category: string): CoffeeChat | undefined => {
+    const findChat = (chatList: CoffeeChat[]) =>
+      chatList.find((chat) => chat.category === category);
 
-    return (
-      <Card.Group>
-        {coffeeChatList.map((coffeeChat) => (
-          <Card key={coffeeChat.uuid}>
-            <Card.Content>
-              <Card.Header>Coffee Chat with {coffeeChat.otherMember.firstName}</Card.Header>
+    return findChat(approvedChats) || findChat(pendingChats) || findChat(rejectedChats);
+  };
 
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginTop: '10px'
-                }}
-              >
-                <div>
-                  <Card.Meta>Category: {coffeeChat.slackLink}</Card.Meta>
-                  <Card.Meta>
-                    <b>
-                      <a href={coffeeChat.slackLink} target="_blank">Image Link</a>
-                    </b>
-                  </Card.Meta>
-                </div>
-                <Card.Meta>
-                  {coffeeChat.status === 'pending' && (
-                    <div>
-                      <Button
-                        basic
-                        color="red"
-                        floated="right"
-                        size="small"
-                        onClick={() => {
-                          deleteCoffeeChatRequest(coffeeChat);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  )}
-                </Card.Meta>
-              </div>
-            </Card.Content>
-          </Card>
-        ))}
-      </Card.Group>
-    );
+  const openChatModal = (category: string) => {
+    const chat = getCoffeeChatByCategory(category);
+    setSelectedChat(chat);
+    setOpen(true);
   };
 
   return (
-    <div>
-      <div className={styles.header}></div>
-      <h1>Check Coffee Chats Status</h1>
-      <p>Check your coffee chat status for this semester here!</p>
+    <>
+      <div className={styles.coffee_chat_header}>
+        <h1>Check Coffee Chats Status</h1>
+        <p>
+          Track your coffee chat status for this semester here! Accepted chats are highlighted in{' '}
+          <strong style={{ color: '#02c002' }}>green</strong>, rejected ones appear in{' '}
+          <strong style={{ color: '#f23e3e' }}>red</strong>, and pending ones appear in{' '}
+          <strong style={{ color: '#7d7d7d' }}>gray</strong>. Click on a bingo cell to view more
+          details about each chat.
+        </p>
+      </div>
 
-      {isChatLoading ? (
-        <Loader active inline />
-      ) : (
-        <div>
-          <div className={styles.inline}>
-            <label className={styles.bold}>Approved Coffee Chat Submissions:</label>
-            {approvedChats.length !== 0 ? (
-              <CoffeeChatsDisplay coffeeChatList={approvedChats} />
-            ) : (
-              <Message>You have not been approved for any coffee chat submissions yet.</Message>
-            )}
-          </div>
+      <div className={styles.container}>
+        {isChatLoading ? (
+          <Loader active inline />
+        ) : (
+          <div className={styles.bingo_board}>
+            {COFFEE_CHAT_BINGO_BOARD.flat().map((category, index) => {
+              const status = categoryStatus.get(category)?.status || 'default';
 
-          <div className={styles.inline}>
-            <label className={styles.bold}>Pending Approval For:</label>
-            {pendingChats.length !== 0 ? (
-              <CoffeeChatsDisplay coffeeChatList={pendingChats} />
-            ) : (
-              <Message>You are not currently pending approval for any coffee chats submissions.</Message>
-            )}
+              return (
+                <>
+                  <div key={index} className={styles[status]}>
+                    <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
+                      <div className={styles.bingo_text}>{category}</div>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
           </div>
-
-          <div className={styles.inline}>
-            <label className={styles.bold}>Rejected Coffee Chat Submissions:</label>
-            {rejectedChats.length !== 0 ? (
-              <CoffeeChatsDisplay coffeeChatList={rejectedChats} />
-            ) : (
-              <Message>You have not been rejected for any coffee chat submissions.</Message>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      <CoffeeChatModal
+        coffeeChat={selectedChat}
+        open={open}
+        setOpen={setOpen}
+        deleteCoffeeChatRequest={deleteCoffeeChatRequest}
+      />
+    </>
   );
 };
 
