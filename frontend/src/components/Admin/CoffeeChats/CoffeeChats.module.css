@@ -1,0 +1,41 @@
+.wrapper {
+  width: 60%;
+  margin: auto;
+  margin-bottom: 2em;
+  justify-content: center;
+  align-items: center;
+}
+
+.formWrapper {
+  padding-top: 3rem;
+}
+
+.bingo_board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(5px, 1.5vw, 15px);
+  max-width: 600px;
+}
+
+.bingo_cell {
+  aspect-ratio: 1 / 1;
+  max-width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bingo_cell:hover {
+  background-color: #82beff;
+}
+
+.bingo_text {
+  font-size: clamp(5px, 1.5vw, 13px);
+  text-align: center;
+  overflow: hidden;
+  font-weight: bold;
+  margin: 5px;
+}

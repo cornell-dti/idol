@@ -7,6 +7,10 @@ export default class CoffeeChatAPI {
     return APIWrapper.post(`${backendURL}/coffee-chat`, request).then((res) => res.data.coffeeChat);
   }
 
+  public static async getAllCoffeeChats(): Promise<CoffeeChat[]> {
+    return APIWrapper.get(`${backendURL}/coffee-chat`).then((res) => res.data.coffeeChats);
+  }
+
   public static async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
     const res = APIWrapper.get(`${backendURL}/coffee-chat/${user.email}`).then((res) => res.data);
     return res.then((val) => {
@@ -19,6 +23,10 @@ export default class CoffeeChatAPI {
       }
       return val.coffeeChats as CoffeeChat[];
     });
+  }
+
+  public static async updateCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
+    return APIWrapper.put(`${backendURL}/coffee-chat`, coffeeChat).then((res) => res.data);
   }
 
   public static async deleteCoffeeChat(uuid: string): Promise<void> {
