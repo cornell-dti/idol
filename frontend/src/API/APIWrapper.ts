@@ -4,7 +4,8 @@ import { getUserIdToken } from '../components/Common/UserProvider/UserProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type APIProcessedResponse = {
-  then(arg0: (val: any) => CoffeeChat[]): string[][] | PromiseLike<string[][]>; data: any 
+  then(arg0: (val: any) => CoffeeChat[]): string[][] | PromiseLike<string[][]>;
+  data: any;
 };
 
 const getUserIDTokenNonNull = () =>

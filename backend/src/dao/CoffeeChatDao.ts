@@ -4,7 +4,7 @@ import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
-import { COFFEE_CHAT_BINGO_BOARD } from '../../../frontend/src/consts'
+import { COFFEE_CHAT_BINGO_BOARD } from '../../../frontend/src/consts';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);

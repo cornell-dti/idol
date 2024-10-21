@@ -148,9 +148,7 @@ const CoffeeChatsForm: React.FC = () => {
                 value: category
               }))}
               onChange={(_, data) => {
-                const foundCategory = bingoBoard.flat().find(
-                  (category) => category === data.value
-                );
+                const foundCategory = bingoBoard.flat().find((category) => category === data.value);
                 setCategory(foundCategory || '');
               }}
             />

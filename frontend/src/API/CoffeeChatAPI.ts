@@ -26,7 +26,9 @@ export default class CoffeeChatAPI {
   }
 
   public static async getCoffeeChatBingoBoard(): Promise<string[][]> {
-    const res = await APIWrapper.get(`${backendURL}/coffee-chat-bingo-board`).then((res) => res.data);
+    const res = await APIWrapper.get(`${backendURL}/coffee-chat-bingo-board`).then(
+      (res) => res.data
+    );
     return res.board as string[][];
   }
 }
