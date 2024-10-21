@@ -13,10 +13,8 @@ export const getAllCoffeeChats = (): Promise<CoffeeChat[]> => coffeeChatDao.getA
  * Gets all coffee chats for a user
  * @param user - user whose coffee chats should be fetched
  */
-export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat[]> => {
-  const chats = await coffeeChatDao.getCoffeeChatsByUser(user);
-  return chats;
-};
+export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat[]> =>
+  coffeeChatDao.getCoffeeChatsByUser(user);
 
 /**
  * Creates a new coffee chat for member

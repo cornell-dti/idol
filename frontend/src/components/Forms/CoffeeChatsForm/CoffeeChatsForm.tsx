@@ -4,7 +4,7 @@ import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { MembersAPI } from '../../../API/MembersAPI';
 import CoffeeChatsDashboard from './CoffeeChatsDashboard';
-import styles from './CoffeeChatsForm.module.css';
+import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 
 const CoffeeChatsForm: React.FC = () => {

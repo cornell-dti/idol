@@ -75,7 +75,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   /**
    * Gets all coffee chat that a user has submitted
    * @param submitter - submitter whose coffee chats should be fetched
-   * @param status - the status of fetched coffee chats
+   * @param status - the status of fetched coffee chats (optional)
    * @param otherMember - additional filter for coffee chats with otherMember (optional)
    */
   async getCoffeeChatsByUser(

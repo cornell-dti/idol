@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Icon, Loader, Table } from 'semantic-ui-react';
-import styles from './CoffeeChatsForm.module.css';
+import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
 import { COFFEE_CHAT_BINGO_BOARD } from '../../../consts';
@@ -71,7 +71,7 @@ const CoffeeChatsDashboard = ({
 
   return (
     <>
-      <header className={styles.coffee_chat_header}>
+      <header className={styles.header}>
         <h1>Check Coffee Chats Status</h1>
         <p>
           Track your coffee chat status for this semester! Accepted chats are{' '}
