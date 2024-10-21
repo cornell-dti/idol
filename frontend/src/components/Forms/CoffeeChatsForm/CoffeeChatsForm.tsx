@@ -21,7 +21,7 @@ const CoffeeChatsForm: React.FC = () => {
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
-    CoffeeChatAPI.getAllCoffeeChatsByUser(userInfo).then((coffeeChat) => {
+    CoffeeChatAPI.getCoffeeChatsByUser(userInfo).then((coffeeChat) => {
       setApprovedChats(coffeeChat.filter((chat) => chat.status === 'approved'));
       setPendingChats(coffeeChat.filter((chat) => chat.status === 'pending'));
       setRejectedChats(coffeeChat.filter((chat) => chat.status === 'rejected'));
@@ -57,7 +57,7 @@ const CoffeeChatsForm: React.FC = () => {
     } else if (coffeeChatExists()) {
       Emitters.generalError.emit({
         headerMsg: 'Coffee Chat Exists',
-        contentMsg: 'Please submit a coffee chat with a new member!'
+        contentMsg: 'Please submit a new coffee chat!'
       });
     } else {
       const newCoffeeChat: CoffeeChat = {

@@ -3,7 +3,7 @@ import { Modal, Button } from 'semantic-ui-react';
 import styles from './CoffeeChatDetailsModal.module.css';
 
 type Props = {
-  coffeeChat: CoffeeChat | undefined;
+  coffeeChat?: CoffeeChat;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
@@ -13,8 +13,8 @@ const CoffeeChatModal: React.FC<Props> = ({
   coffeeChat,
   open,
   setOpen,
-  deleteCoffeeChatRequest
-}): JSX.Element => (
+  deleteCoffeeChatRequest,
+}) => (
   <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
     {coffeeChat ? (
       <>
@@ -22,28 +22,27 @@ const CoffeeChatModal: React.FC<Props> = ({
           Coffee Chat with {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName} (
           {coffeeChat.otherMember.netid})
         </Modal.Header>
+
         <Modal.Content className={styles.modal_content}>
-          <p>
-            <b>Category:</b> {coffeeChat.category}
-          </p>
-          <p>
-            <b>Image Link:</b>{' '}
-            <a href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
-              {coffeeChat.slackLink}
-            </a>
-          </p>
-          <p>
-            <b>Status:</b> {coffeeChat.status}
-          </p>
+          <ChatDetail label="Category" value={coffeeChat.category} />
+          <ChatDetail 
+            label="Image Link" 
+            value={
+              <a href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
+                {coffeeChat.slackLink}
+              </a>
+            }
+          />
+          <ChatDetail label="Status" value={coffeeChat.status} />
+          {coffeeChat.reason && <ChatDetail label="Reason" value={coffeeChat.reason} />}
         </Modal.Content>
-        {coffeeChat.status === 'pending' ? (
+
+        {coffeeChat.status === 'pending' && (
           <Modal.Actions>
             <Button color="red" onClick={() => deleteCoffeeChatRequest(coffeeChat)}>
               Delete
             </Button>
           </Modal.Actions>
-        ) : (
-          <></>
         )}
       </>
     ) : (
@@ -55,6 +54,12 @@ const CoffeeChatModal: React.FC<Props> = ({
       </>
     )}
   </Modal>
+);
+
+const ChatDetail = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <p>
+    <b>{label}:</b> {value}
+  </p>
 );
 
 export default CoffeeChatModal;

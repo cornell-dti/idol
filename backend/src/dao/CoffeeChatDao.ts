@@ -86,7 +86,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
       {
         field: 'status',
         comparisonOperator: '==',
-        value: status,
+        value: status
       }
     ]);
   }

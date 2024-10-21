@@ -303,23 +303,8 @@ loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
   return {};
 });
 
-loginCheckedGet('/coffee-chat/:email', async (req, user) => {
-  const status = req.query.status as Status | undefined;
-  let coffeeChats;
-  switch (status) {
-    case 'pending':
-      coffeeChats = await getCoffeeChatsByUser(user, 'pending');
-      break;
-    case 'approved':
-      coffeeChats = await getCoffeeChatsByUser(user, 'approved');
-      break;
-    case 'rejected':
-      coffeeChats = await getCoffeeChatsByUser(user, 'rejected');
-      break;
-    default:
-      coffeeChats = await getCoffeeChatsByUser(user);
-  }
-  
+loginCheckedGet('/coffee-chat/:email', async (_, user) => {
+  const coffeeChats = await getCoffeeChatsByUser(user);
   return { coffeeChats };
 });
 

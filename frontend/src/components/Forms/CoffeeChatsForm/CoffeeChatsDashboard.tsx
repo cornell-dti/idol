@@ -1,40 +1,54 @@
 import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { Loader } from 'semantic-ui-react';
+import { Icon, Loader, Table } from 'semantic-ui-react';
 import styles from './CoffeeChatsForm.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
 import { COFFEE_CHAT_BINGO_BOARD } from '../../../consts';
 import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
 
-const CoffeeChatsDashboard = (props: {
+const CoffeeChatsDashboard = ({
+  approvedChats,
+  pendingChats,
+  rejectedChats,
+  isChatLoading,
+  setPendingChats
+}: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
   rejectedChats: CoffeeChat[];
   isChatLoading: boolean;
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
 }): JSX.Element => {
-  const { approvedChats, pendingChats, rejectedChats, isChatLoading, setPendingChats } = props;
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
-  const categoryStatus = useMemo(() => {
-    const statusMap = new Map<string, CoffeeChat>();
+  const [openRejected, setOpenRejected] = useState(false);
 
-    [...approvedChats, ...pendingChats, ...rejectedChats].forEach((chat) => {
-      const existing: CoffeeChat | undefined = statusMap.get(chat.category);
+  const allChats = useMemo(
+    () => [...approvedChats, ...pendingChats, ...rejectedChats],
+    [approvedChats, pendingChats, rejectedChats]
+  );
 
-      if (!existing || chat.date > existing.date) {
-        statusMap.set(chat.category, chat);
-      }
-    });
+  const categoryStatus = useMemo(
+    () =>
+      allChats.reduce((acc, chat) => {
+        if (!acc.get(chat.category) || chat.date > acc.get(chat.category)!.date) {
+          acc.set(chat.category, chat);
+        }
+        return acc;
+      }, new Map<string, CoffeeChat>()),
+    [allChats]
+  );
 
-    return statusMap;
-  }, [approvedChats, pendingChats, rejectedChats]);
+  const previouslyRejectedChats = useMemo(
+    () => rejectedChats.filter((chat) => categoryStatus.get(chat.category)?.uuid !== chat.uuid),
+    [categoryStatus, rejectedChats]
+  );
 
-  const deleteCoffeeChatRequest = (coffeeChat: CoffeeChat) => {
-    CoffeeChatAPI.deleteCoffeeChat(coffeeChat.uuid)
+  const deleteCoffeeChatRequest = (chat: CoffeeChat) => {
+    CoffeeChatAPI.deleteCoffeeChat(chat.uuid)
       .then(() => {
         setOpen(false);
-        setPendingChats(pendingChats.filter((currChat) => currChat.uuid !== coffeeChat.uuid));
+        setPendingChats((chats) => chats.filter((c) => c.uuid !== chat.uuid));
         Emitters.generalSuccess.emit({
           headerMsg: 'Coffee Chat Deleted!',
           contentMsg: 'Your coffee chat was successfully deleted!'
@@ -49,61 +63,101 @@ const CoffeeChatsDashboard = (props: {
       });
   };
 
-  const getCoffeeChatByCategory = (category: string): CoffeeChat | undefined => {
-    const findChat = (chatList: CoffeeChat[]) =>
-      chatList.find((chat) => chat.category === category);
-
-    return findChat(approvedChats) || findChat(pendingChats) || findChat(rejectedChats);
-  };
-
   const openChatModal = (category: string) => {
-    const chat = getCoffeeChatByCategory(category);
+    const chat = allChats.find((chat) => chat.category === category);
     setSelectedChat(chat);
     setOpen(true);
   };
 
   return (
     <>
-      <div className={styles.coffee_chat_header}>
+      <header className={styles.coffee_chat_header}>
         <h1>Check Coffee Chats Status</h1>
         <p>
-          Track your coffee chat status for this semester here! Accepted chats are highlighted in{' '}
-          <strong style={{ color: '#02c002' }}>green</strong>, rejected ones appear in{' '}
-          <strong style={{ color: '#f23e3e' }}>red</strong>, and pending ones appear in{' '}
+          Track your coffee chat status for this semester! Accepted chats are{' '}
+          <strong style={{ color: '#02c002' }}>green</strong>, rejected are{' '}
+          <strong style={{ color: '#f23e3e' }}>red</strong>, and pending are{' '}
           <strong style={{ color: '#7d7d7d' }}>gray</strong>. Click on a bingo cell to view more
-          details about each chat.
+          details.
         </p>
-      </div>
+      </header>
 
       <div className={styles.container}>
         {isChatLoading ? (
           <Loader active inline />
         ) : (
           <div className={styles.bingo_board}>
-            {COFFEE_CHAT_BINGO_BOARD.flat().map((category, index) => {
-              const status = categoryStatus.get(category)?.status || 'default';
-
-              return (
-                <>
-                  <div key={index} className={styles[status]}>
-                    <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
-                      <div className={styles.bingo_text}>{category}</div>
-                    </div>
-                  </div>
-                </>
-              );
-            })}
+            {COFFEE_CHAT_BINGO_BOARD.flat().map((category, index) => (
+              <div
+                key={index}
+                className={styles[categoryStatus.get(category)?.status || 'default']}
+              >
+                <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
+                  <div className={styles.bingo_text}>{category}</div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
+
       <CoffeeChatModal
         coffeeChat={selectedChat}
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
       />
+
+      <div className={styles.rejected_section}>
+        <Icon
+          className={styles.btnContainer}
+          name={openRejected ? 'angle down' : 'angle right'}
+          onClick={() => setOpenRejected((prev) => !prev)}
+        />
+        <span className={styles.bold}>Show Previously Rejected Chats</span>
+        {openRejected &&
+          (previouslyRejectedChats.length > 0 ? (
+            <RejectedChatsDisplay coffeeChats={previouslyRejectedChats} />
+          ) : (
+            <div className={styles.rejected_display}>
+              You don't have any previously rejected chats.
+            </div>
+          ))}
+      </div>
     </>
   );
 };
+
+const RejectedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => (
+  <div className={styles.rejected_display}>
+    <Table celled style={{ border: '0.5px solid black' }}>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Chat Details</Table.HeaderCell>
+          <Table.HeaderCell>Reject Reason</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {coffeeChats.map((chat) => (
+          <Table.Row key={chat.uuid}>
+            <Table.Cell>
+              <div>
+                Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName} (
+                {chat.otherMember.netid})
+              </div>
+              <div>Category: {chat.category}</div>
+              <div>
+                <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
+                  Image Link
+                </a>
+              </div>
+            </Table.Cell>
+            <Table.Cell>{chat.reason}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  </div>
+);
 
 export default CoffeeChatsDashboard;

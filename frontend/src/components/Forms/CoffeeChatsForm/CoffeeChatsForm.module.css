@@ -95,3 +95,13 @@
 .flex_start {
   justify-content: flex-start;
 }
+
+.rejected_section {
+  padding-top: 30px;
+}
+
+.rejected_display {
+  padding-top: 15px;
+  max-width: 600px;
+  word-wrap: break-word;
+}
