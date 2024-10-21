@@ -13,7 +13,7 @@ const CoffeeChatModal: React.FC<Props> = ({
   coffeeChat,
   open,
   setOpen,
-  deleteCoffeeChatRequest,
+  deleteCoffeeChatRequest
 }) => (
   <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
     {coffeeChat ? (
@@ -25,8 +25,8 @@ const CoffeeChatModal: React.FC<Props> = ({
 
         <Modal.Content className={styles.modal_content}>
           <ChatDetail label="Category" value={coffeeChat.category} />
-          <ChatDetail 
-            label="Image Link" 
+          <ChatDetail
+            label="Image Link"
             value={
               <a href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
                 {coffeeChat.slackLink}
