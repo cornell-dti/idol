@@ -3,7 +3,9 @@ import { auth } from '../firebase';
 import { getUserIdToken } from '../components/Common/UserProvider/UserProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type APIProcessedResponse = { data: any };
+type APIProcessedResponse = {
+  then(arg0: (val: any) => CoffeeChat[]): string[][] | PromiseLike<string[][]>; data: any 
+};
 
 const getUserIDTokenNonNull = () =>
   getUserIdToken().then((it) => {

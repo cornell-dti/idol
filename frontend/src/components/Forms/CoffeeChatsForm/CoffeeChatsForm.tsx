@@ -6,7 +6,6 @@ import { MembersAPI } from '../../../API/MembersAPI';
 import CoffeeChatsDashboard from './CoffeeChatsDashboard';
 import styles from './CoffeeChatsForm.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
-import { COFFEE_CHAT_BINGO_BOARD } from '../../../consts';
 
 const CoffeeChatsForm: React.FC = () => {
   const userInfo = useSelf()!;
@@ -18,6 +17,7 @@ const CoffeeChatsForm: React.FC = () => {
   const [rejectedChats, setRejectedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
+  const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -27,6 +27,7 @@ const CoffeeChatsForm: React.FC = () => {
       setRejectedChats(coffeeChat.filter((chat) => chat.status === 'rejected'));
       setIsChatLoading(false);
     });
+    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   }, [userInfo]);
 
   const coffeeChatExists = (): boolean =>
@@ -141,13 +142,13 @@ const CoffeeChatsForm: React.FC = () => {
               selection
               value={category}
               text={category}
-              options={COFFEE_CHAT_BINGO_BOARD.flat().map((category, _) => ({
+              options={bingoBoard.flat().map((category, _) => ({
                 key: category,
                 label: <div className={styles.flex_start}>{category}</div>,
                 value: category
               }))}
               onChange={(_, data) => {
-                const foundCategory = COFFEE_CHAT_BINGO_BOARD.flat().find(
+                const foundCategory = bingoBoard.flat().find(
                   (category) => category === data.value
                 );
                 setCategory(foundCategory || '');

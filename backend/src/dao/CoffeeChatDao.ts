@@ -4,6 +4,7 @@ import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
+import { COFFEE_CHAT_BINGO_BOARD } from '../../../frontend/src/consts'
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);
@@ -104,5 +105,12 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async clearAllCoffeeChats(): Promise<void> {
     await deleteCollection(db, 'coffee-chats', 500);
+  }
+
+  /**
+   * Gets the coffee chat bingo board
+   */
+  static async getCoffeeChatBingoBoard(): Promise<string[][]> {
+    return COFFEE_CHAT_BINGO_BOARD;
   }
 }

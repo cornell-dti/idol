@@ -24,4 +24,9 @@ export default class CoffeeChatAPI {
   public static async deleteCoffeeChat(uuid: string): Promise<void> {
     await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
   }
+
+  public static async getCoffeeChatBingoBoard(): Promise<string[][]> {
+    const res = await APIWrapper.get(`${backendURL}/coffee-chat-bingo-board`).then((res) => res.data);
+    return res.board as string[][];
+  }
 }

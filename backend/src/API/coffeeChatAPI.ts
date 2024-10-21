@@ -100,3 +100,8 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
   }
   await CoffeeChatDao.clearAllCoffeeChats();
 };
+
+/**
+ * Gets the coffee chat bingo board
+ */
+export const getCoffeeChatBingoBoard = (): Promise<string[][]> => CoffeeChatDao.getCoffeeChatBingoBoard();
