@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { memberCollection, coffeeChatsCollection, db } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
-import BaseDao from './BaseDao';
+import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
 import { COFFEE_CHAT_BINGO_BOARD } from '../../../frontend/src/consts';
 
@@ -73,23 +73,38 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Gets coffee chats that a user has submitted by status
-   * @param user - user whose coffee chats should be fetched
+   * Gets all coffee chat that a user has submitted
+   * @param submitter - submitter whose coffee chats should be fetched
    * @param status - the status of fetched coffee chats
+   * @param otherMember - additional filter for coffee chats with otherMember (optional)
    */
-  async getCoffeeChatsByUser(user: IdolMember, status: Status): Promise<CoffeeChat[]> {
-    return this.getDocuments([
+  async getCoffeeChatsByUser(
+    submitter: IdolMember,
+    status: Status,
+    otherMember?: IdolMember
+  ): Promise<CoffeeChat[]> {
+    const filters: FirestoreFilter[] = [
       {
         field: 'submitter',
         comparisonOperator: '==',
-        value: memberCollection.doc(user.email)
+        value: memberCollection.doc(submitter.email)
       },
       {
         field: 'status',
         comparisonOperator: '==',
         value: status
       }
-    ]);
+    ];
+
+    if (otherMember) {
+      filters.push({
+        field: 'otherMember',
+        comparisonOperator: '==',
+        value: memberCollection.doc(otherMember.email)
+      });
+    }
+
+    return this.getDocuments(filters);
   }
 
   /**

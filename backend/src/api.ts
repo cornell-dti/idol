@@ -290,8 +290,8 @@ loginCheckedGet('/coffee-chat', async () => ({
   coffeeChats: await getAllCoffeeChats()
 }));
 
-loginCheckedPost('/coffee-chat', async (req) => ({
-  coffeeChats: await createCoffeeChat(req.body)
+loginCheckedPost('/coffee-chat', async (req, user) => ({
+  coffeeChats: await createCoffeeChat(req.body, user)
 }));
 
 loginCheckedDelete('/coffee-chat', async (_, user) => {
