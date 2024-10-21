@@ -21,9 +21,10 @@
   border: 1px solid black;
   border-radius: 5px;
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+}
+
+.bingo_cell:hover {
+  background-color: #82beff;
 }
 
 .bingo_text {
