@@ -80,7 +80,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   async getCoffeeChatsByUser(
     submitter: IdolMember,
-    status: Status,
+    status?: Status,
     otherMember?: IdolMember
   ): Promise<CoffeeChat[]> {
     const filters: FirestoreFilter[] = [
@@ -88,11 +88,6 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
         field: 'submitter',
         comparisonOperator: '==',
         value: memberCollection.doc(submitter.email)
-      },
-      {
-        field: 'status',
-        comparisonOperator: '==',
-        value: status
       }
     ];
 
@@ -101,6 +96,14 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
         field: 'otherMember',
         comparisonOperator: '==',
         value: memberCollection.doc(otherMember.email)
+      });
+    }
+
+    if (status) {
+      filters.push({
+        field: 'status',
+        comparisonOperator: '==',
+        value: status
       });
     }
 

@@ -14,11 +14,8 @@ export const getAllCoffeeChats = (): Promise<CoffeeChat[]> => coffeeChatDao.getA
  * @param user - user whose coffee chats should be fetched
  */
 export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat[]> => {
-  const pendingChats = await coffeeChatDao.getCoffeeChatsByUser(user, 'pending');
-  const approvedChats = await coffeeChatDao.getCoffeeChatsByUser(user, 'approved');
-  const rejectedChats = await coffeeChatDao.getCoffeeChatsByUser(user, 'rejected');
-
-  return [...pendingChats, ...approvedChats, ...rejectedChats];
+  const chats = await coffeeChatDao.getCoffeeChatsByUser(user);
+  return chats;
 };
 
 /**
