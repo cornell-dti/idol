@@ -93,22 +93,23 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
   }
 
   const iconDim = isNextEvent ? selectedIconDim : unselectedIconDim;
+  const timelineWidth = width >= TABLET_BREAKPOINT ? 22 : 12;
 
   return (
     <div
       className={`flex lg:gap-x-10 md:gap-x-7 xs:gap-x-3 md:mx-12 xs:mx-3 ${
-        isNextEvent ? 'text-[#0C0404] my-4' : 'text-[#727272]'
+        isNextEvent ? 'text-[#0C0404]' : 'text-[#727272]'
       }`}
     >
-      <div className="flex flex-col items-center justify-center min-w-[64px] relative">
+      <div className="flex flex-col items-center justify-center md:min-w-[70px] xs:min-w-[50px] relative">
         <svg
-          width="22"
+          width={timelineWidth}
           height="175"
           className="absolute bottom-[60px]"
           style={{ zIndex: 20 - index }}
         >
           <rect
-            width="22"
+            width={timelineWidth}
             height="175"
             x="0"
             y="0"
@@ -116,9 +117,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           />
         </svg>
         {isLast && (
-          <svg width="22" height="175" className="absolute z-0 bottom-[-50px]">
+          <svg width={timelineWidth} height="175" className="absolute z-0 bottom-[-50px]">
             <rect
-              width="22"
+              width={timelineWidth}
               height="175"
               x="0"
               y="0"
@@ -127,15 +128,17 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           </svg>
         )}
         <div
-          className={`${
-            isNextEvent ? 'w-[70px] h-[70px] bg-[#FEFEFE]' : 'w-[60px] h-[60px] bg-[#F5E3E3] '
-          } rounded-xl border-8 border-solid border-[#A52424D9] z-20 flex items-center justify-center`}
+          className={`flex items-center justify-center w-[50px] h-[50px] ${
+            isNextEvent
+              ? 'md:w-[70px] md:h-[70px] bg-[#FEFEFE]'
+              : 'md:w-[60px] md:h-[60px] bg-[#F5E3E3] '
+          } rounded-xl md:border-8 xs:border-4 border-solid border-[#A52424D9] z-20`}
         >
           <Image
             src={timelineIcons[event.type as keyof typeof timelineIcons].src}
             alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
-            width={25}
-            height={25}
+            width={width >= TABLET_BREAKPOINT ? 25 : 20}
+            height={width >= TABLET_BREAKPOINT ? 25 : 20}
             className={isNextEvent ? 'scale-[1.5] brightness-0' : ''}
           />
         </div>
