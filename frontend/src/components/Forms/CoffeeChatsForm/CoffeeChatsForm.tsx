@@ -21,10 +21,10 @@ const CoffeeChatsForm: React.FC = () => {
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
-    CoffeeChatAPI.getCoffeeChatsByUser(userInfo).then((coffeeChat) => {
-      setApprovedChats(coffeeChat.filter((chat) => chat.status === 'approved'));
-      setPendingChats(coffeeChat.filter((chat) => chat.status === 'pending'));
-      setRejectedChats(coffeeChat.filter((chat) => chat.status === 'rejected'));
+    CoffeeChatAPI.getCoffeeChatsByUser(userInfo).then((coffeeChats) => {
+      setApprovedChats(coffeeChats.filter((chat) => chat.status === 'approved'));
+      setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
+      setRejectedChats(coffeeChats.filter((chat) => chat.status === 'rejected'));
       setIsChatLoading(false);
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
@@ -183,6 +183,7 @@ const CoffeeChatsForm: React.FC = () => {
           rejectedChats={rejectedChats}
           isChatLoading={isChatLoading}
           setPendingChats={setPendingChats}
+          bingoBoard={bingoBoard}
         />
       </Form>
     </div>
