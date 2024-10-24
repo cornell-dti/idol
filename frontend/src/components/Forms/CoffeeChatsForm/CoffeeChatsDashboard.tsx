@@ -3,7 +3,6 @@ import { Icon, Loader, Table } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
-import { COFFEE_CHAT_BINGO_BOARD } from '../../../consts';
 import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
 
 const CoffeeChatsDashboard = ({
@@ -11,13 +10,15 @@ const CoffeeChatsDashboard = ({
   pendingChats,
   rejectedChats,
   isChatLoading,
-  setPendingChats
+  setPendingChats,
+  bingoBoard
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
   rejectedChats: CoffeeChat[];
   isChatLoading: boolean;
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
+  bingoBoard: string[][];
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
@@ -87,7 +88,7 @@ const CoffeeChatsDashboard = ({
           <Loader active inline />
         ) : (
           <div className={styles.bingo_board}>
-            {COFFEE_CHAT_BINGO_BOARD.flat().map((category, index) => (
+            {bingoBoard.flat().map((category, index) => (
               <div
                 key={index}
                 className={styles[categoryStatus.get(category)?.status || 'default']}
