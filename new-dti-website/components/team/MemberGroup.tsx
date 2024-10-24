@@ -5,7 +5,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
-import { getFullRoleFromDescription } from '../../src/utils';
+import { getFullRoleFromDescription } from '../../src/utils/memberUtils';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
