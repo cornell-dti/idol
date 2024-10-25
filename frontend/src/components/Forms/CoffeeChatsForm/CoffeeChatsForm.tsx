@@ -142,13 +142,12 @@ const CoffeeChatsForm: React.FC = () => {
                   `${m1.firstName} ${m1.lastName}`.localeCompare(`${m2.firstName} ${m2.lastName}`)
                 )
                 .map((member) => ({
-                  key: member.netid,
+                  key: `${member.firstName} ${member.lastName} (${member.netid})`,
                   label: (
                     <div className={styles.flex_start}>
                       {member.firstName} {member.lastName} ({member.netid})
                     </div>
-                  ),
-                  value: member.netid
+                  )
                 }))}
               onChange={(_, data) => {
                 setMember(membersList.find((member) => member.netid === data.value));
@@ -197,8 +196,8 @@ const CoffeeChatsForm: React.FC = () => {
             Submit a Slack link to your coffee chat! <span className={styles.red_color}>*</span>
           </label>
           <p className={styles.margin_bottom_zero}>
-            Go to your coffee chat image in the #coffee-chats channel, and click on 'Copy link to
-            file'. Example: https://cornelldti.slack.com/files/A05SULTP4V7/F06LF0ZNCQM/img_4661.jpg
+            Go to your coffee chat post in the #coffee-chats channel, and click on 'Copy link'.
+            Example: https://cornelldti.slack.com/archives/CDXP35346/p1729873261010759
           </p>
           <Form.Input
             fluid
