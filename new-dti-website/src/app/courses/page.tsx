@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-import { populateMembers } from '../../utils';
+import { populateMembers } from '../../utils/memberUtils';
 
 // *IMPORT DATA
 import experiencesData from '../../../components/courses/data/key_experiences.json';
