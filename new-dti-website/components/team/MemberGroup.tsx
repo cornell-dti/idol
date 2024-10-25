@@ -5,7 +5,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
-import { getFullRoleFromDescription } from '../../src/utils';
+import { getFullRoleFromDescription } from '../../src/utils/memberUtils';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -242,6 +242,7 @@ type MemberGroupProps = {
   selectedMember: IdolMember | undefined;
   selectedRole: string;
   memberDetailsRef: RefObject<HTMLInputElement>;
+  isCard: boolean;
 };
 
 const MemberGroup: React.FC<MemberGroupProps> = ({
@@ -251,7 +252,8 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   setSelectedMember,
   selectedMember,
   selectedRole,
-  memberDetailsRef
+  memberDetailsRef,
+  isCard
 }) => {
   const selectedMemberIndex: number = useMemo(
     () => (selectedMember ? members.indexOf(selectedMember) : -1),
@@ -295,16 +297,9 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   const onCloseMemberDetails = () => setSelectedMember(undefined);
 
   return (
-    (selectedRole === roleName || selectedRole === 'Full Team') && (
-      <div className="md:mb-[120px] xs:mb-10">
-        <h2 className="font-semibold md:text-[32px] xs:text-2xl">{`${roleName} ${
-          roleName !== 'Leads' ? '' : 'Team'
-        }`}</h2>
-        <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
-        <div
-          className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-        >
+    <>
+      {isCard ? (
+        <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
           {members.map((member, index) => (
             <>
               <MemberCard
@@ -326,8 +321,47 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             </>
           ))}
         </div>
-      </div>
-    )
+      ) : (
+        (selectedRole === roleName || selectedRole === 'Full Team') && (
+          <div className="md:mb-[120px] xs:mb-10">
+            <h2 className="font-semibold md:text-[32px] xs:text-2xl">{`${roleName} ${
+              roleName !== 'Leads' ? '' : 'Team'
+            }`}</h2>
+            <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
+            <div
+              className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
+          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+            >
+              {members.map((member, index) => (
+                <>
+                  <MemberCard
+                    {...member}
+                    key={member.netid}
+                    image="martha.png"
+                    onClick={() =>
+                      setSelectedMember(member === selectedMember ? undefined : member)
+                    }
+                    cardState={selectedMember ? index - selectedMemberIndex : undefined}
+                  />
+                  {selectedMember && canInsertMemberDetails(index) && (
+                    <div
+                      className="lg:col-span-4 md:col-span-3 xs:col-span-2"
+                      ref={memberDetailsRef}
+                    >
+                      <MemberDetails
+                        {...selectedMember}
+                        image="martha.png"
+                        onClose={onCloseMemberDetails}
+                      />
+                    </div>
+                  )}
+                </>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+    </>
   );
 };
 

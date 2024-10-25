@@ -5,7 +5,7 @@ import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
-import { getGeneralRole, populateObject } from '../../src/utils';
+import { getGeneralRole, populateObject } from '../../src/utils/memberUtils';
 
 const chartRadius = 175;
 const chartHoverRadius = 190;
