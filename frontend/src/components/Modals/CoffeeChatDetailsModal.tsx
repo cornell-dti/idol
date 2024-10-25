@@ -26,7 +26,7 @@ const CoffeeChatModal: React.FC<Props> = ({
         <Modal.Content className={styles.modal_content}>
           <ChatDetail label="Category" value={coffeeChat.category} />
           <ChatDetail
-            label="Image Link"
+            label="Slack Link"
             value={
               <a href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
                 {coffeeChat.slackLink}
