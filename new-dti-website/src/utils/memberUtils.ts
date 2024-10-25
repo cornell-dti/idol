@@ -1,4 +1,12 @@
-function populateObject<T>(obj: { [s: string]: T }, func: (k: string, v: T) => T) {
+/**
+ * Returns a new object with the results of calling a provided function on each key-value pair.
+ *
+ * @param obj some object whose values all have the same type.
+ * @param func a function to execute for each key-value pair. Its return value is the new value
+ * associated with the key passed in as the argument.
+ * @returns a new object with the same keys but values as the result of the callback function.
+ */
+export function populateObject<T>(obj: { [s: string]: T }, func: (k: string, v: T) => T) {
   return Object.fromEntries(
     Object.entries(obj).map((pair) => {
       const [key, value] = pair;
@@ -7,7 +15,7 @@ function populateObject<T>(obj: { [s: string]: T }, func: (k: string, v: T) => T
   );
 }
 
-const populateMembers = (
+export const populateMembers = (
   roles: {
     [key: string]: {
       roleName: string;
@@ -41,7 +49,7 @@ const populateMembers = (
     return { ...value, members: sortedMembers };
   });
 
-const getFullRoleFromDescription = (roleDescription: RoleDescription): string => {
+export const getFullRoleFromDescription = (roleDescription: RoleDescription): string => {
   switch (roleDescription) {
     case 'Technical PM':
       return 'Technical Product Manager';
@@ -50,7 +58,7 @@ const getFullRoleFromDescription = (roleDescription: RoleDescription): string =>
   }
 };
 
-const getGeneralRole = (role: Role): Role => {
+export const getGeneralRole = (role: Role): Role => {
   switch (role) {
     case 'tpm':
       return 'developer';
@@ -60,5 +68,3 @@ const getGeneralRole = (role: Role): Role => {
       return role;
   }
 };
-
-export { getFullRoleFromDescription, getGeneralRole, populateMembers, populateObject };

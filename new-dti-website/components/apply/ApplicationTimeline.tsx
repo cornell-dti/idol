@@ -5,6 +5,8 @@ import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
+import RedBlob from '../blob';
+import { extractEndDate, extractEndTime, parseDate } from '../../src/utils/dateUtils';
 
 type TabProps = {
   isSelected: boolean;
@@ -52,25 +54,14 @@ type RecruitmentEvent = {
  * @returns the number representation of the event's end time.
  */
 const getEndTime = ({ date, time }: DateTime): number => {
-  // Find end date
-  const dates = date.split('-');
-  let endDate = dates[dates.length - 1];
+  const endDate = extractEndDate(date);
 
-  if (endDate.length <= 2) {
-    const month = dates[0].split(' ')[0];
-    endDate = `${month} ${endDate}`;
-  }
-
-  // Find end time
-  let endTime = '11:59:59 PM';
+  let endTime;
   if (time) {
-    const end = time.split('-')[1];
-    const endHourMin = end.substring(0, end.length - 2);
-    const suffix = end.substring(end.length - 2);
-    endTime = endTime + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
+    endTime = extractEndTime(time);
   }
 
-  return new Date(`${endDate}, ${new Date().getFullYear()} ${endTime}`).getTime();
+  return parseDate(endDate, '11:59:59 PM', endTime).getTime();
 };
 
 type RecruitmentEventProps = {
@@ -102,22 +93,23 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
   }
 
   const iconDim = isNextEvent ? selectedIconDim : unselectedIconDim;
+  const timelineWidth = width >= TABLET_BREAKPOINT ? 22 : 12;
 
   return (
     <div
       className={`flex lg:gap-x-10 md:gap-x-7 xs:gap-x-3 md:mx-12 xs:mx-3 ${
-        isNextEvent ? 'text-[#0C0404] my-4' : 'text-[#727272]'
+        isNextEvent ? 'text-[#0C0404]' : 'text-[#727272]'
       }`}
     >
-      <div className="flex flex-col items-center justify-center min-w-[64px] relative">
+      <div className="flex flex-col items-center justify-center md:min-w-[70px] xs:min-w-[50px] relative">
         <svg
-          width="22"
+          width={timelineWidth}
           height="175"
           className="absolute bottom-[60px]"
           style={{ zIndex: 20 - index }}
         >
           <rect
-            width="22"
+            width={timelineWidth}
             height="175"
             x="0"
             y="0"
@@ -125,9 +117,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           />
         </svg>
         {isLast && (
-          <svg width="22" height="175" className="absolute z-0 bottom-[-50px]">
+          <svg width={timelineWidth} height="175" className="absolute z-0 bottom-[-50px]">
             <rect
-              width="22"
+              width={timelineWidth}
               height="175"
               x="0"
               y="0"
@@ -136,16 +128,18 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           </svg>
         )}
         <div
-          className={`${
-            isNextEvent ? 'w-16 h-16 bg-[#FEFEFE]' : 'w-14 h-14 bg-[#F5E3E3] '
-          } rounded-xl border-8 border-solid border-[#A52424D9] z-20 flex items-center justify-center`}
+          className={`flex items-center justify-center w-[50px] h-[50px] ${
+            isNextEvent
+              ? 'md:w-[70px] md:h-[70px] bg-[#FEFEFE]'
+              : 'md:w-[60px] md:h-[60px] bg-[#F5E3E3] '
+          } rounded-xl md:border-8 xs:border-4 border-solid border-[#A52424D9] z-20`}
         >
           <Image
             src={timelineIcons[event.type as keyof typeof timelineIcons].src}
             alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
-            width={25}
-            height={25}
-            className={isNextEvent ? 'scale-[1.4] brightness-0' : ''}
+            width={width >= TABLET_BREAKPOINT ? 25 : 20}
+            height={width >= TABLET_BREAKPOINT ? 25 : 20}
+            className={isNextEvent ? 'scale-[1.5] brightness-0' : ''}
           />
         </div>
       </div>
@@ -221,8 +215,9 @@ const ApplicationTimeline = () => {
     1 + sortedEvents.findLastIndex((event) => getEndTime(getDate(event)) < Date.now());
 
   return (
-    <div className="flex justify-center">
-      <div className="max-w-5xl w-full md:px-[60px]">
+    <div className="flex justify-center relative">
+      <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
+      <div className="relative z-10 max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-0">
         <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
           <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
           <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">
