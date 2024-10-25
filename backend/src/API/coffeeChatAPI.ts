@@ -38,10 +38,17 @@ export const createCoffeeChat = async (
     throw new Error('Cannot create coffee chat with yourself.');
   }
 
-  const prevChats = await coffeeChatDao.getCoffeeChatsByUser(
+  const pendingChats = await coffeeChatDao.getCoffeeChatsByUser(
     coffeeChat.submitter,
+    'pending',
     coffeeChat.otherMember
   );
+  const approvedChats = await coffeeChatDao.getCoffeeChatsByUser(
+    coffeeChat.submitter,
+    'approved',
+    coffeeChat.otherMember
+  );
+  const prevChats = [...pendingChats, ...approvedChats];
   const chatExists = prevChats.length > 0;
 
   if (chatExists) {
@@ -85,7 +92,7 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
 
   if (!coffeeChat) return;
 
-  if (!isLeadOrAdmin) {
+  if (!isLeadOrAdmin && coffeeChat.submitter !== user) {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete coffee chat.`
     );
@@ -106,3 +113,9 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
   }
   await CoffeeChatDao.clearAllCoffeeChats();
 };
+
+/**
+ * Gets the coffee chat bingo board
+ */
+export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
+  CoffeeChatDao.getCoffeeChatBingoBoard();
