@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { MOBILE_BREAKPOINT } from '../../src/consts';
+import { parseDate } from '../../src/utils/dateUtils';
 
 export type Event = {
   title: string;
@@ -37,30 +38,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   /**
-   * Parses an event's date and time to a `Date` object.
-   *
-   * @remarks
-   * This function converts a date string (formatted as `MMM DD`) and an optional time string (formatted as `hh:mm AM/PM`)
-   * into a JavaScript `Date` object. If no time is provided, the default time is 12:00 AM. The year is automatically
-   * set to the current year if no year is provided, so ensure that the date values are formatted properly.
-   *
-   * @param dateStr - The date string of the event in the format `MMM DD, YYYY` (e.g., "Feb 19, 2024"). MONTH NOT REQUIRED TO BE ABBREVIATED
-   * @param timeStr - (Optional) The time of the event in the format `hh:mm AM/PM` (e.g., "12:00 PM EST").
-   *
-   * @returns A `Date` object corresponding to the event's date and time.
-   *
-   * @example
-   * ```ts
-   * const eventDate = parseEventDate("Feb 19", "7:30 PM");
-   * ```
-   */
-  const parseEventDate = (dateStr: string, timeStr: string) => {
-    const currentYear = new Date().getFullYear();
-    const date = new Date(`${dateStr} ${currentYear} ${timeStr || '12:00 AM'}`);
-    return date;
-  };
-
-  /**
    * Calculates the percentage of progress through the events based on the current date.
    *
    * @remarks
@@ -77,14 +54,15 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
    */
   const getProgressPercentage = () => {
     const sortedEvents = events.sort((a, b) => {
-      const aDate = parseEventDate(a.date, a.time);
-      const bDate = parseEventDate(b.date, b.time);
+      const aDate = parseDate(a.date, '11:59:59 PM', a.time);
+      const bDate = parseDate(b.date, '11:59:59 PM', b.time);
       return aDate.getTime() - bDate.getTime();
     });
 
-    const firstEventDate = parseEventDate(sortedEvents[0].date, sortedEvents[0].time);
-    const lastEventDate = parseEventDate(
+    const firstEventDate = parseDate(sortedEvents[0].date, '11:59:59 PM', sortedEvents[0].time);
+    const lastEventDate = parseDate(
       sortedEvents[sortedEvents.length - 1].date,
+      '11:59:59 PM',
       sortedEvents[sortedEvents.length - 1].time
     );
 
@@ -173,7 +151,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         </div>
 
         {events.map((event, idx) => {
-          const eventDate = parseEventDate(event.date, event.time);
+          const eventDate = parseDate(event.date, '11:59:59 PM', event.time);
           const isPast = eventDate < currentDate;
           let eventRef = null;
           if (idx === 0) {
