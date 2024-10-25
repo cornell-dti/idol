@@ -149,7 +149,7 @@ const RejectedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) =>
               <div>Category: {chat.category}</div>
               <div>
                 <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
-                  Image Link
+                  Slack Link
                 </a>
               </div>
             </Table.Cell>
