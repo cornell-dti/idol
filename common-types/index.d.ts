@@ -217,4 +217,5 @@ interface CoffeeChat {
   readonly category: string;
   readonly status: Status;
   readonly date: number;
+  readonly reason?: string;
 }

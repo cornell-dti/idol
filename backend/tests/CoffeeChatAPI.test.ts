@@ -65,7 +65,7 @@ describe('User is not lead or admin', () => {
     const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
     CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
 
-    await expect(deleteCoffeeChat('fake-uuid', user)).rejects.toThrow(
+    await expect(deleteCoffeeChat('fake-uuid', user2)).rejects.toThrow(
       new PermissionError(
         `User with email ${user.email} does not have sufficient permissions to delete coffee chat.`
       )

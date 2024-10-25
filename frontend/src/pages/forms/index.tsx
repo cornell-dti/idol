@@ -1,6 +1,7 @@
 import NavigationCard, {
   NavigationCardItem
 } from '../../components/Common/NavigationCard/NavigationCard';
+import { ENABLE_COFFEE_CHAT } from '../../consts';
 
 import styles from './index.module.css';
 
@@ -31,6 +32,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     header: 'Dev Portfolio Assignments',
     description: 'Submit opened and reviewed pull requests.',
     link: '/forms/devPortfolio'
+  },
+  {
+    header: 'Coffee Chats',
+    description: 'Submit your coffee chats.',
+    link: '/forms/coffeeChats',
+    adminOnly: !ENABLE_COFFEE_CHAT
   }
 ];
 

@@ -38,7 +38,8 @@ import {
   updateCoffeeChat,
   getCoffeeChatsByUser,
   deleteCoffeeChat,
-  clearAllCoffeeChats
+  clearAllCoffeeChats,
+  getCoffeeChatBingoBoard
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -311,6 +312,11 @@ loginCheckedGet('/coffee-chat/:email', async (_, user) => {
 loginCheckedPut('/coffee-chat', async (req, user) => ({
   coffeeChats: await updateCoffeeChat(req.body, user)
 }));
+
+loginCheckedGet('/coffee-chat-bingo-board', async () => {
+  const board = await getCoffeeChatBingoBoard();
+  return { board };
+});
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));

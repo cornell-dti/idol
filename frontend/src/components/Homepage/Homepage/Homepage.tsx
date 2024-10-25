@@ -2,8 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import { Divider } from 'semantic-ui-react';
 import styles from './Homepage.module.css';
-
 import NavigationCard, { NavigationCardItem } from '../../Common/NavigationCard/NavigationCard';
+import { ENABLE_COFFEE_CHAT } from '../../../consts';
 
 const everyoneItems: readonly NavigationCardItem[] = [
   {
@@ -26,6 +26,12 @@ const everyoneItems: readonly NavigationCardItem[] = [
     header: 'Team Event Credits',
     description: 'Track your team event credits.',
     link: '/forms/teamEventCredits'
+  },
+  {
+    header: 'Coffee Chats',
+    description: 'Submit your coffee chats.',
+    link: '/forms/coffeeChats',
+    adminOnly: !ENABLE_COFFEE_CHAT
   }
 ];
 
