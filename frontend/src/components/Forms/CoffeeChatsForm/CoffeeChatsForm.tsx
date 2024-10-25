@@ -75,7 +75,7 @@ const CoffeeChatsForm: React.FC = () => {
     } else if (coffeeChatExists()) {
       Emitters.generalError.emit({
         headerMsg: 'Coffee Chat Exists',
-        contentMsg: 'Please submit a new coffee chat!'
+        contentMsg: 'Cannot coffee chat the same member for more than one category!'
       });
     } else {
       const newCoffeeChat: CoffeeChat = {
