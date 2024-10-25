@@ -77,7 +77,7 @@ const CoffeeChatsForm: React.FC = () => {
     } else if (coffeeChatExists()) {
       Emitters.generalError.emit({
         headerMsg: 'Coffee Chat Exists',
-        contentMsg: 'Submission exists for this member or category'
+        contentMsg: 'Submission exists for this member or category!'
       });
     } else {
       const newCoffeeChat: CoffeeChat = {
