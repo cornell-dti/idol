@@ -19,8 +19,8 @@ const CoffeeChatModal: React.FC<Props> = ({
     {coffeeChat ? (
       <>
         <Modal.Header>
-          Coffee Chat with {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName} (
-          {coffeeChat.otherMember.netid})
+          Coffee Chat with {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName}{' '}
+          {coffeeChat.otherMember.netid ? `(${coffeeChat.otherMember.netid})` : ''}
         </Modal.Header>
 
         <Modal.Content className={styles.modal_content}>

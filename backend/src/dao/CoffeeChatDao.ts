@@ -8,7 +8,11 @@ import COFFEE_CHAT_BINGO_BOARD from '../consts';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);
-  const otherMember = await getMemberFromDocumentReference(dbCoffeeChat.otherMember);
+  const otherMember = !dbCoffeeChat.isNonIDOLMember
+    ? await getMemberFromDocumentReference(
+        dbCoffeeChat.otherMember as FirebaseFirestore.DocumentReference
+      )
+    : (dbCoffeeChat.otherMember as unknown as IdolMember);
 
   return {
     ...dbCoffeeChat,
@@ -19,7 +23,9 @@ async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<Coffee
 
 async function serializeCoffeeChat(coffeeChat: CoffeeChat): Promise<DBCoffeeChat> {
   const submitter = memberCollection.doc(coffeeChat.submitter.email);
-  const otherMember = memberCollection.doc(coffeeChat.otherMember.email);
+  const otherMember = !coffeeChat.isNonIDOLMember
+    ? memberCollection.doc(coffeeChat.otherMember.email)
+    : coffeeChat.otherMember;
 
   return {
     ...coffeeChat,

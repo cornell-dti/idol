@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Dropdown } from 'semantic-ui-react';
+import { Form, Dropdown, Icon } from 'semantic-ui-react';
+import { createHash } from 'crypto';
 import { Emitters } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { MembersAPI } from '../../../API/MembersAPI';
@@ -10,6 +11,7 @@ import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 const CoffeeChatsForm: React.FC = () => {
   const userInfo = useSelf()!;
   const [member, setMember] = useState<IdolMember | undefined>(undefined);
+  const [isNonIDOLMember, setIsNonIDOLMember] = useState<boolean>(false);
   const [category, setCategory] = useState('');
   const [membersList, setMembersList] = useState<IdolMember[]>([]);
   const [approvedChats, setApprovedChats] = useState<CoffeeChat[]>([]);
@@ -29,6 +31,21 @@ const CoffeeChatsForm: React.FC = () => {
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   }, [userInfo]);
+
+  const createMember = (name: string): IdolMember => ({
+    netid: `${createHash('sha256').update(name).digest('hex')}`,
+    email: `${createHash('sha256').update(name).digest('hex')}`,
+    firstName: name,
+    lastName: '',
+    pronouns: '',
+    graduation: '',
+    major: '',
+    hometown: '',
+    about: '',
+    subteams: [],
+    role: 'developer',
+    roleDescription: 'Developer'
+  });
 
   const coffeeChatExists = (): boolean =>
     approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
@@ -65,6 +82,7 @@ const CoffeeChatsForm: React.FC = () => {
         uuid: '',
         submitter: userInfo,
         otherMember: member,
+        isNonIDOLMember,
         slackLink,
         category,
         status: 'pending' as Status,
@@ -81,6 +99,7 @@ const CoffeeChatsForm: React.FC = () => {
       setMember(undefined);
       setCategory('');
       setSlackLink('');
+      setIsNonIDOLMember(false);
     }
   };
 
@@ -93,66 +112,85 @@ const CoffeeChatsForm: React.FC = () => {
           after each chat to receive your credit.
         </p>
         <div className={styles.inline}>
-          <label className={styles.bold}>
-            Select a team member: <span className={styles.red_color}>*</span>
-          </label>
-          <div className={styles.center_and_flex}>
-            {membersList ? (
-              <Dropdown
-                placeholder="Select a team member"
-                fluid
-                search={(options, query) =>
-                  options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
-                }
-                selection
-                value={member?.netid ?? ''}
-                text={member ? `${member.firstName} ${member.lastName} (${member.netid})` : ''}
-                options={membersList
-                  .sort((m1, m2) =>
-                    `${m1.firstName} ${m1.lastName}`.localeCompare(`${m2.firstName} ${m2.lastName}`)
-                  )
-                  .map((member) => ({
-                    key: member.netid,
-                    label: (
-                      <div className={styles.flex_start}>
-                        {member.firstName} {member.lastName} ({member.netid})
-                      </div>
-                    ),
-                    value: member.netid
-                  }))}
-                onChange={(_, data) => {
-                  setMember(membersList.find((member) => member.netid === data.value));
-                }}
-              />
-            ) : undefined}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <label className={styles.bold}>
+              Which team member did you coffee chat? <span className={styles.red_color}>*</span>
+            </label>
+            <div
+              onClick={() => {
+                setIsNonIDOLMember((prev) => !prev);
+                setMember(undefined);
+              }}
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+            >
+              <Icon name={isNonIDOLMember ? 'check square' : 'square outline'} size="small" />
+              Member not listed
+            </div>
           </div>
+          {!isNonIDOLMember ? (
+            <Dropdown
+              placeholder="Select a team member"
+              fluid
+              search={(options, query) =>
+                options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
+              }
+              selection
+              value={member?.netid ?? ''}
+              text={member ? `${member.firstName} ${member.lastName} (${member.netid})` : ''}
+              options={membersList
+                .sort((m1, m2) =>
+                  `${m1.firstName} ${m1.lastName}`.localeCompare(`${m2.firstName} ${m2.lastName}`)
+                )
+                .map((member) => ({
+                  key: member.netid,
+                  label: (
+                    <div className={styles.flex_start}>
+                      {member.firstName} {member.lastName} ({member.netid})
+                    </div>
+                  ),
+                  value: member.netid
+                }))}
+              onChange={(_, data) => {
+                setMember(membersList.find((member) => member.netid === data.value));
+                setIsNonIDOLMember(false);
+              }}
+            />
+          ) : (
+            <Form.Input
+              fluid
+              placeholder="Full Name (e.g., John Doe)"
+              type="string"
+              onChange={(name) => {
+                setMember(createMember(name.target.value));
+                setIsNonIDOLMember(true);
+              }}
+            />
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
             Which category does this coffee chat fulfill?{' '}
             <span className={styles.red_color}>*</span>
           </label>
-          <div className={styles.center_and_flex}>
-            <Dropdown
-              placeholder="Select a category"
-              fluid
-              search={(options, query) =>
-                options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
-              }
-              selection
-              value={category}
-              text={category}
-              options={bingoBoard.flat().map((category, _) => ({
-                key: category,
-                label: <div className={styles.flex_start}>{category}</div>,
-                value: category
-              }))}
-              onChange={(_, data) => {
-                const foundCategory = bingoBoard.flat().find((category) => category === data.value);
-                setCategory(foundCategory || '');
-              }}
-            />
-          </div>
+          <Dropdown
+            placeholder="Select a category"
+            fluid
+            search={(options, query) =>
+              options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
+            }
+            selection
+            value={category}
+            text={category}
+            options={bingoBoard.flat().map((category, _) => ({
+              key: category,
+              label: <div className={styles.flex_start}>{category}</div>,
+              value: category
+            }))}
+            onChange={(_, data) => {
+              const foundCategory = bingoBoard.flat().find((category) => category === data.value);
+              setCategory(foundCategory || '');
+            }}
+          />
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>

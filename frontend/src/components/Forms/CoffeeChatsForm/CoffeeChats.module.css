@@ -79,11 +79,6 @@
   padding: 3rem 0 5rem 0;
 }
 
-.center_and_flex {
-  display: flex;
-  align-items: center;
-}
-
 .margin_bottom_zero {
   margin-bottom: 0;
   word-wrap: break-word;
@@ -101,4 +96,8 @@
   padding-top: 15px;
   max-width: 600px;
   word-wrap: break-word;
+}
+
+.alumni {
+  padding-top: 10px;
 }
