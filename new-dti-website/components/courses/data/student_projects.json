@@ -1,0 +1,24 @@
+{
+  "student_projects": [
+    {
+      "title": "Project Name1",
+      "description": "This project is about blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "imageSrc": "https://via.placeholder.com/400"
+    },
+    {
+      "title": "Project Name2",
+      "description": "This project is about blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "imageSrc": "https://via.placeholder.com/400"
+    },
+    {
+      "title": "Project Name3",
+      "description": "This project is about blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "imageSrc": "https://via.placeholder.com/400"
+    },
+    {
+      "title": "Project Name4",
+      "description": "This project is about blah blah blah blah blah blah blah blah blah blah blah blah blah.",
+      "imageSrc": "https://via.placeholder.com/400"
+    }
+  ]
+}
