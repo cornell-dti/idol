@@ -132,7 +132,9 @@ const CoffeeChatsForm: React.FC = () => {
               placeholder="Select a team member"
               fluid
               search={(options, query) =>
-                options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
+                options.filter((option) =>
+                  `${option.text}`.toLowerCase().includes(query.toLowerCase())
+                )
               }
               selection
               value={member?.netid ?? ''}
@@ -142,8 +144,10 @@ const CoffeeChatsForm: React.FC = () => {
                   `${m1.firstName} ${m1.lastName}`.localeCompare(`${m2.firstName} ${m2.lastName}`)
                 )
                 .map((member) => ({
-                  key: `${member.firstName} ${member.lastName} (${member.netid})`,
-                  label: (
+                  key: member.netid,
+                  value: member.netid,
+                  text: `${member.firstName} ${member.lastName} (${member.netid})`,
+                  content: (
                     <div className={styles.flex_start}>
                       {member.firstName} {member.lastName} ({member.netid})
                     </div>
