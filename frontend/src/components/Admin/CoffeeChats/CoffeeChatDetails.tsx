@@ -28,7 +28,7 @@ const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeCha
                 </Card.Header>
                 <Card.Meta>
                   Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
-                  {chat.otherMember.netid ? `(${chat.otherMember.netid})` : ''}
+                  {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
                 </Card.Meta>
                 <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
                   Slack link
