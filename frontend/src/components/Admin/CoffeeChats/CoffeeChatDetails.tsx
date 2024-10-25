@@ -27,10 +27,12 @@ const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeCha
                   {chat.submitter.firstName} {chat.submitter.lastName} ({chat.submitter.netid})
                 </Card.Header>
                 <Card.Meta>
-                  <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
-                    {chat.slackLink}
-                  </a>
+                  Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
+                  {chat.otherMember.netid ? `(${chat.otherMember.netid})` : ''}
                 </Card.Meta>
+                <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
+                  Slack link
+                </a>
                 {status === 'rejected' && chat.reason && (
                   <Card.Description>
                     <strong>Rejection Reason:</strong> {chat.reason}
