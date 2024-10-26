@@ -85,6 +85,7 @@ describe('User is lead or admin', () => {
   const adminUser = fakeIdolLead();
   const submitter = fakeIdolMember();
   const otherMember = fakeIdolMember();
+  const mockCoffeeChat = fakeCoffeeChat();
 
   beforeAll(() => {
     const mockIsLeadOrAdmin = jest.fn().mockResolvedValue(true);
@@ -92,7 +93,7 @@ describe('User is lead or admin', () => {
     const mockGetCoffeeChatsByUser = jest
       .fn()
       .mockImplementation((submitter, otherMember) => (!otherMember ? [fakeCoffeeChat()] : []));
-    const mockCreateCoffeeChat = jest.fn().mockResolvedValue(fakeCoffeeChat());
+    const mockCreateCoffeeChat = jest.fn().mockResolvedValue(mockCoffeeChat);
     const mockUpdateCoffeeChat = jest.fn().mockResolvedValue(fakeCoffeeChat());
     const mockDeleteCoffeeChat = jest.fn().mockResolvedValue(undefined);
 
@@ -109,11 +110,13 @@ describe('User is lead or admin', () => {
   });
 
   test('createCoffeeChat should allow an admin user to create coffee chat for other user', async () => {
-    const newChat = { ...fakeCoffeeChat(), submitter, otherMember };
-    const result = await createCoffeeChat(newChat, adminUser);
+    const result = await createCoffeeChat(
+      { ...fakeCoffeeChat(), submitter, otherMember },
+      adminUser
+    );
     expect(CoffeeChatDao.prototype.createCoffeeChat).toBeCalled();
-    expect(result.submitter).toEqual(newChat.submitter);
-    expect(result.otherMember).toEqual(newChat.otherMember);
+    expect(result.submitter).toEqual(mockCoffeeChat.submitter);
+    expect(result.otherMember).toEqual(mockCoffeeChat.otherMember);
   });
 
   test('getAllCoffeeChats should return all coffee chats', async () => {
@@ -130,12 +133,14 @@ describe('User is lead or admin', () => {
 
   test('createCoffeeChat should successfully create a coffee chat', async () => {
     const coffeeChat = fakeCoffeeChat();
-    const newChat = { ...coffeeChat, submitter: adminUser, otherMember: fakeIdolMember() };
-    const result = await createCoffeeChat(newChat, adminUser);
+    const result = await createCoffeeChat(
+      { ...coffeeChat, submitter: adminUser, otherMember: fakeIdolMember() },
+      adminUser
+    );
 
     expect(CoffeeChatDao.prototype.createCoffeeChat).toBeCalled();
-    expect(result.submitter).toEqual(newChat.submitter);
-    expect(result.otherMember).toEqual(newChat.otherMember);
+    expect(result.submitter).toEqual(mockCoffeeChat.submitter);
+    expect(result.otherMember).toEqual(mockCoffeeChat.otherMember);
   });
 
   test('updateCoffeeChat should successfully update a coffee chat', async () => {

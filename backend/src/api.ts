@@ -291,7 +291,7 @@ loginCheckedGet('/coffee-chat', async () => ({
 }));
 
 loginCheckedPost('/coffee-chat', async (req, user) => ({
-  coffeeChats: await createCoffeeChat(req.body, user)
+  coffeeChat: await createCoffeeChat(req.body, user)
 }));
 
 loginCheckedDelete('/coffee-chat', async (_, user) => {
@@ -310,7 +310,7 @@ loginCheckedGet('/coffee-chat/:email', async (_, user) => {
 });
 
 loginCheckedPut('/coffee-chat', async (req, user) => ({
-  coffeeChats: await updateCoffeeChat(req.body, user)
+  coffeeChat: await updateCoffeeChat(req.body, user)
 }));
 
 loginCheckedGet('/coffee-chat-bingo-board', async () => {

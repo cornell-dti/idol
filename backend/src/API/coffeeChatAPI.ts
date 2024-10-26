@@ -57,8 +57,8 @@ export const createCoffeeChat = async (
     );
   }
 
-  await coffeeChatDao.createCoffeeChat(coffeeChat);
-  return coffeeChat;
+  const newCoffeeChat = await coffeeChatDao.createCoffeeChat(coffeeChat);
+  return newCoffeeChat;
 };
 
 /**
