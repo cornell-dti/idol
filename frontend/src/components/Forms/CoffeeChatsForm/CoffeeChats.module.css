@@ -1,0 +1,99 @@
+.container {
+  justify-content: center;
+  align-items: center;
+}
+
+.bingo_board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(5px, 1.5vw, 15px);
+  max-width: 600px;
+  justify-content: center;
+  align-items: center;
+}
+
+.bingo_cell {
+  aspect-ratio: 1 / 1;
+  max-width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bingo_cell:hover {
+  background-color: #82beff;
+}
+
+.bingo_text {
+  font-size: clamp(5px, 1.5vw, 13px);
+  text-align: center;
+  overflow: hidden;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.header {
+  margin-top: 8rem;
+  margin-bottom: 2rem;
+}
+
+.pending {
+  background-color: #cfcfcf;
+  border-radius: 5px;
+}
+
+.approved {
+  background-color: #97ee97;
+  border-radius: 5px;
+}
+
+.rejected {
+  background-color: #f97f7f;
+  border-radius: 5px;
+}
+
+.default {
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.inline {
+  margin: 2rem 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.red_color {
+  color: red;
+}
+
+.form_style {
+  width: 60%;
+  align-self: center;
+  margin: auto;
+  padding: 3rem 0 5rem 0;
+}
+
+.margin_bottom_zero {
+  margin-bottom: 0;
+  word-wrap: break-word;
+}
+
+.flex_start {
+  justify-content: flex-start;
+}
+
+.rejected_section {
+  padding-top: 30px;
+}
+
+.rejected_display {
+  padding-top: 15px;
+  max-width: 600px;
+  word-wrap: break-word;
+}
