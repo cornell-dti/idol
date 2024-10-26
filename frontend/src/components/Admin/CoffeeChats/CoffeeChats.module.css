@@ -39,3 +39,10 @@
   font-weight: bold;
   margin: 5px;
 }
+
+.pending_text {
+  font-size: clamp(5px, 1.5vw, 13px);
+  text-align: center;
+  overflow: hidden;
+  padding-top: 5px;
+}
