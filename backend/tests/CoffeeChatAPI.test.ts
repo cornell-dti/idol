@@ -15,8 +15,8 @@ describe('User is not lead or admin', () => {
   beforeAll(() => {
     const mockIsLeadOrAdmin = jest.fn().mockResolvedValue(false);
     const mockGetCoffeeChatsByUser = jest.fn().mockResolvedValue([coffeeChat]);
-
     PermissionsManager.isLeadOrAdmin = mockIsLeadOrAdmin;
+    PermissionsManager.isClearAllCoffeeChatsDisabled = jest.fn().mockResolvedValue(false);
     CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
   });
 
@@ -77,6 +77,13 @@ describe('User is not lead or admin', () => {
       new PermissionError(
         `User with email ${user.email} does not have sufficient permissions to delete all coffee chats.`
       )
+    );
+  });
+
+  test('clearAllCoffeeChats is disabled', async () => {
+    PermissionsManager.isClearAllCoffeeChatsDisabled = jest.fn().mockResolvedValue(true);
+    await expect(clearAllCoffeeChats(user)).rejects.toThrow(
+      new PermissionError('Clearing all Coffee Chats is disabled')
     );
   });
 });
