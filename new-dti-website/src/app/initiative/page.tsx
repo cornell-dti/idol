@@ -1,3 +1,7 @@
+'use client'
+
+import InitiativeDisplay from "../../../components/initiative/InitiativeDisplay";
+
 const InitiativeHero = () => (
   <div className="bg-black text-[#FEFEFE] min-h-[calc(100vh-136px)] h-full flex items-center">
     <div
@@ -30,9 +34,9 @@ const InitiativeHero = () => (
 );
 
 const InitiativePage = () => (
-  <div className="bg-white flex flex-col md:gap-[200px] xs:gap-[80px] overflow-hidden">
+  <div className="bg-white flex flex-col overflow-hidden">
     <InitiativeHero />
-    <div className="bg-white h-[500px]"></div>
+    <InitiativeDisplay />
   </div>
 );
 
