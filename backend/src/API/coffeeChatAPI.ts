@@ -1,7 +1,6 @@
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
-import { DISABLE_DELETE_ALL_COFFEE_CHATS } from '../consts';
 
 const coffeeChatDao = new CoffeeChatDao();
 
@@ -106,8 +105,9 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
  * @param user - The user that is requesting to delete all coffee chats
  */
 export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
-  if (DISABLE_DELETE_ALL_COFFEE_CHATS) {
-    return;
+  const isClearAllCoffeeChatsDisabled = await PermissionsManager.isClearAllCoffeeChatsDisabled();
+  if (isClearAllCoffeeChatsDisabled) {
+    throw new PermissionError('Clearing all Coffee Chats is disabled');
   }
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin) {

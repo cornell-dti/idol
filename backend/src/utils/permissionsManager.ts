@@ -1,3 +1,4 @@
+import { DISABLE_DELETE_ALL_COFFEE_CHATS } from '../consts';
 import { adminCollection } from '../firebase';
 
 export default class PermissionsManager {
@@ -52,6 +53,10 @@ export default class PermissionsManager {
 
   public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> {
     return mem.role === 'lead' || this.isAdmin(mem);
+  }
+
+  public static async isClearAllCoffeeChatsDisabled(): Promise<boolean> {
+    return DISABLE_DELETE_ALL_COFFEE_CHATS;
   }
 
   public static async canAccessCandidateDeciderInstance(
