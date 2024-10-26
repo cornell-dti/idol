@@ -49,9 +49,7 @@ const CoffeeChatsForm: React.FC = () => {
 
   const coffeeChatExists = (): boolean =>
     approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
-    pendingChats.some(
-      (chat) => chat.otherMember.netid === member?.netid || chat.category === category
-    );
+    pendingChats.some((chat) => chat.otherMember.netid === member?.netid);
 
   const coffeeChatCategoryExists = (): boolean =>
     approvedChats.some((chat) => chat.category === category) ||
