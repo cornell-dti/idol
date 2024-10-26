@@ -1,0 +1,64 @@
+.cards {
+  display: flex;
+  justify-content: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.container {
+  width: 90%;
+  margin: 5em auto;
+}
+
+.arrowAndButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.arrow {
+  font-size: 3em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  padding-top: 2.5em;
+  width: 13em;
+}
+
+.categoryName {
+  text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+.inline {
+  padding-top: 3.9em;
+  padding-left: 1em;
+  width: 8.5em;
+}
+
+.listsContainer {
+  display: flex;
+  justify-content: left;
+}
+
+.listContainer {
+  margin: 0 1em;
+}
+
+.memberCard {
+  word-wrap: break-word;
+}
+
+.memberTitle {
+  margin: 1em;
+  text-align: center;
+}
+
+.rowDirection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

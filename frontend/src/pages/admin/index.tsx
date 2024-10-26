@@ -64,6 +64,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'An example page visible to admin only. It can be used to gate unstable features.',
     link: '/admin/hidden',
     adminOnly: true
+  },
+  {
+    header: 'Review Coffee Chats',
+    description: 'Review coffee chat submissions!',
+    link: '/admin/coffee-chats',
+    adminOnly: true
   }
 ];
 
