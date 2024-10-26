@@ -46,6 +46,15 @@ const CoffeeChatsDashboard = ({
   );
 
   const deleteCoffeeChatRequest = (chat: CoffeeChat) => {
+    // Prevent accidentally clearing all coffee chats
+    if (!chat.uuid) {
+      Emitters.generalError.emit({
+        headerMsg: 'Failed to Delete Coffee Chat.',
+        contentMsg:
+          'Something went wrong, and the coffee chat was not deleted successfully. Please try again.'
+      });
+      return;
+    }
     CoffeeChatAPI.deleteCoffeeChat(chat.uuid)
       .then(() => {
         setOpen(false);
