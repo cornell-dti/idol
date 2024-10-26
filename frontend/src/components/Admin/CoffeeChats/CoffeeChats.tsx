@@ -38,22 +38,22 @@ const CoffeeChats: React.FC = () => {
         <div className={styles.bingo_board}>
           {bingoBoard.flat().map((category, index) => (
             <div key={index}>
-              <div className={styles.bingo_cell}>
-                <Link
-                  key={category}
-                  href={{
-                    pathname: `/admin/coffee-chat-details/${hashString(category)}`,
-                    query: { category }
-                  }}
-                >
+              <Link
+                key={category}
+                href={{
+                  pathname: `/admin/coffee-chat-details/${hashString(category)}`,
+                  query: { category }
+                }}
+              >
+                <div className={styles.bingo_cell}>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div className={styles.bingo_text}>{category}</div>
                     <div className={styles.pending_text}>
                       {chatCount.get(category) ? `${chatCount.get(category)} pending` : ''}{' '}
                     </div>
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
