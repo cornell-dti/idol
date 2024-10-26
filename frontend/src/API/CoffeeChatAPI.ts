@@ -26,10 +26,15 @@ export default class CoffeeChatAPI {
   }
 
   public static async updateCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
-    return APIWrapper.put(`${backendURL}/coffee-chat`, coffeeChat).then((res) => res.data);
+    return APIWrapper.put(`${backendURL}/coffee-chat`, coffeeChat).then(
+      (res) => res.data.coffeeChat
+    );
   }
 
   public static async deleteCoffeeChat(uuid: string): Promise<void> {
+    if (!uuid) {
+      return;
+    }
     await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
   }
 
