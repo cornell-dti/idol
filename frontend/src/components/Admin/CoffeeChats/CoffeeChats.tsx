@@ -17,19 +17,15 @@ const CoffeeChats: React.FC = () => {
     [pendingChats]
   );
 
-  useEffect(() => {
-    CoffeeChatAPI.getAllCoffeeChats().then((coffeeChats) => {
-      setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
-    });
-    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
-  }, []);
-
   const hashString = (category: string) => createHash('sha256').update(category).digest('hex');
 
   useEffect(() => {
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => {
       setBingoBoard(board);
       setIsLoading(false);
+    });
+    CoffeeChatAPI.getAllCoffeeChats().then((coffeeChats) => {
+      setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
     });
   }, [isLoading]);
 
