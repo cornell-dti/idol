@@ -97,14 +97,12 @@ const TeamEventCreditReview = ({
           />
         )}
         {currentStatus !== 'rejected' && (
-          <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}
-          >
+          <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}>
             {currentStatus === 'pending' ? 'Reject' : 'Set to Rejected'}
           </Button>
         )}
         {currentStatus !== 'approved' && (
-          <Button basic color="green" onClick={approveCreditRequest}
-          >
+          <Button basic color="green" onClick={approveCreditRequest}>
             {currentStatus === 'pending' ? 'Approve' : 'Set to Approved'}
           </Button>
         )}
