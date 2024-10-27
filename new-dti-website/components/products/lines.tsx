@@ -10,6 +10,7 @@ type ConnectorProps = {
   height: number;
   strokeWidth: number;
   className?: string;
+  text?: string;
 };
 
 const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
@@ -34,29 +35,41 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
         props.className
       )}
     >
-      <svg
-        width={props.width}
-        height={props.height}
-        viewBox={`0 0 ${props.width} ${props.height}`}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d={
-            props.orientation === 'left'
-              ? `M${props.strokeWidth / 2} 0 V${props.height / 2 - props.strokeWidth} H${
-                  props.width - props.strokeWidth / 2
-                } V${props.height}`
-              : `M${props.width - props.strokeWidth / 2} 0 V${
-                  props.height / 2 - props.strokeWidth / 2
-                } H${props.strokeWidth / 2} V${props.height}`
-          }
-          stroke="#FEFEFE"
-          strokeOpacity="0.2"
-          strokeWidth="6"
-          strokeLinecap="square"
-        />
-      </svg>
+      <div className="relative">
+        <svg
+          width={props.width}
+          height={props.height}
+          viewBox={`0 0 ${props.width} ${props.height}`}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d={
+              props.orientation === 'left'
+                ? `M${props.strokeWidth / 2} 0 V${props.height / 2 - props.strokeWidth} H${
+                    props.width - props.strokeWidth / 2
+                  } V${props.height}`
+                : `M${props.width - props.strokeWidth / 2} 0 V${
+                    props.height / 2 - props.strokeWidth / 2
+                  } H${props.strokeWidth / 2} V${props.height}`
+            }
+            stroke="#FEFEFE"
+            strokeOpacity="0.2"
+            strokeWidth="6"
+            strokeLinecap="square"
+          />
+        </svg>
+        {props.orientation === 'left' ? (
+          <div className="flex absolute top-[35%] left-[3%] text-3xl tracking-wider w-full h-auto">
+            {props.text}
+          </div>
+        ) : (
+          <div className="flex absolute top-[35%] -right-2/3 text-3xl tracking-wider w-full h-auto">
+            {props.text}
+          </div>
+        )}
+      </div>
+
       <svg
         className={`absolute top-0 left-50%`}
         width={props.width}

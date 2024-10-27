@@ -5,6 +5,7 @@ import products from '../../../components/products/products.json';
 import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
 import RedBlob from '../../../components/blob';
+import FloatingImages, { ImageData } from '../../../components/products/Products';
 
 const Page = () => {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -59,6 +60,13 @@ const Page = () => {
           )}
         </div>
       ))}
+      <Connector
+        orientation={'left'}
+        width={780}
+        height={470}
+        strokeWidth={6}
+        text="Coming Soon..."
+      />
       {products.upcoming.map((product, index) => (
         <div>
           <ProductDisplay
@@ -115,71 +123,66 @@ const ProductDisplay = (props: {
   orientation: string;
   product: {
     alt: string;
-    path: string;
     name: string;
     description: string;
     link: string;
     iconPath: string;
     iconDimensions: number;
-    width: number;
-    height: number;
     blobs?: { className: string; intensity: number }[];
+    images?: ImageData[];
   };
-}) => (
-  <div
-    key={props.product.alt}
-    className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:my-10 w-full "
-  >
-    {/* Render blobs if they exist */}
-    {props.product.blobs &&
-      props.product.blobs.map((blob, index) => (
-        <RedBlob
-          key={index}
-          className={blob.className ? blob.className.trim() : ''}
-          intensity={blob.intensity}
-        />
-      ))}
+}) => {
+  return (
     <div
-      className={cn(
-        'md:mx-16 px-4 md:px-0',
-        `${props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'}`
-      )}
+      key={props.product.alt}
+      className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full "
     >
-      <Image
-        src={props.product.path}
-        alt={props.product.alt}
-        width={props.product.width}
-        height={props.product.height}
-      />
-    </div>
-    <div
-      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-32 mb-40 text-white ${
-        props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
-      }`}
-    >
-      <div className="space-y-6 md:max-w-xl">
-        <Image
-          src={props.product.iconPath}
-          alt={props.product.alt}
-          width={props.product.iconDimensions}
-          height={props.product.iconDimensions}
-        />
-        <p className="text-3xl font-semibold">{props.product.name}</p>
-        <p>{props.product.description}</p>
-        <div hidden={props.product.link === ''}>
-          <a href={props.product.link}>
-            <Button
-              className="text-white bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
-              variant="outline"
-              size="default"
-            >
-              Learn More
-            </Button>
-          </a>
+      {props.product.blobs &&
+        props.product.blobs.map((blob, index) => (
+          <RedBlob
+            key={index}
+            className={blob.className ? blob.className.trim() : ''}
+            intensity={blob.intensity}
+          />
+        ))}
+      <div
+        className={cn(
+          'md:mx-16 px-20 sm:px-28 md:px-20',
+          `${props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'}`
+        )}
+      >
+        <div className="-translate-y-20">
+          <FloatingImages images={props.product.images ?? []} />
+        </div>
+      </div>
+      <div
+        className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-32 mb-40 text-white ${
+          props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
+        }`}
+      >
+        <div className="space-y-6 md:max-w-xl">
+          <Image
+            src={props.product.iconPath}
+            alt={props.product.alt}
+            width={props.product.iconDimensions}
+            height={props.product.iconDimensions}
+          />
+          <p className="text-3xl font-semibold">{props.product.name}</p>
+          <p>{props.product.description}</p>
+          <div hidden={props.product.link === ''}>
+            <a href={props.product.link}>
+              <Button
+                className="text-white bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
+                variant="outline"
+                size="default"
+              >
+                View Product
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
-
+  );
+};
 export default Page;
