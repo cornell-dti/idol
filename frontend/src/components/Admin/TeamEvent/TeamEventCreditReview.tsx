@@ -96,25 +96,17 @@ const TeamEventCreditReview = ({
             onChange={(e) => setReason(e.target.value)}
           />
         )}
-        {currentStatus === 'approved' && (
-          <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}>
-            Set to Rejected
+        {currentStatus !== 'rejected' && (
+          <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}
+          >
+            {currentStatus === 'pending' ? 'Reject' : 'Set to Rejected'}
           </Button>
         )}
-        {currentStatus === 'rejected' && (
-          <Button basic color="green" onClick={approveCreditRequest}>
-            Set to Approved
+        {currentStatus !== 'approved' && (
+          <Button basic color="green" onClick={approveCreditRequest}
+          >
+            {currentStatus === 'pending' ? 'Approve' : 'Set to Approved'}
           </Button>
-        )}
-        {currentStatus === 'pending' && (
-          <>
-            <Button basic color="green" onClick={approveCreditRequest}>
-              Approve
-            </Button>
-            <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}>
-              Reject
-            </Button>
-          </>
         )}
       </Modal.Actions>
     </Modal>
