@@ -1,6 +1,9 @@
 import NavigationCard, {
   NavigationCardItem
 } from '../../components/Common/NavigationCard/NavigationCard';
+import { ENABLE_COFFEE_CHAT } from '../../consts';
+
+import styles from './index.module.css';
 
 const navCardItems: readonly NavigationCardItem[] = [
   { header: 'Sign-In Form', description: 'Sign in to an event!', link: '/forms/signin' },
@@ -29,8 +32,18 @@ const navCardItems: readonly NavigationCardItem[] = [
     header: 'Dev Portfolio Assignments',
     description: 'Submit opened and reviewed pull requests.',
     link: '/forms/devPortfolio'
+  },
+  {
+    header: 'Coffee Chats',
+    description: 'Submit your coffee chats.',
+    link: '/forms/coffeeChats',
+    adminOnly: !ENABLE_COFFEE_CHAT
   }
 ];
 
-const FormsIndex = (): JSX.Element => <NavigationCard items={navCardItems} />;
+const FormsIndex = (): JSX.Element => (
+  <div className={styles.content}>
+    <NavigationCard items={navCardItems} />
+  </div>
+);
 export default FormsIndex;

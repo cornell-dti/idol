@@ -214,8 +214,10 @@ interface CoffeeChat {
   readonly uuid: string;
   readonly submitter: IdolMember;
   readonly otherMember: IdolMember;
+  readonly isNonIDOLMember: boolean;
   readonly slackLink: string;
   readonly category: string;
   readonly status: Status;
   readonly date: number;
+  readonly reason?: string;
 }
