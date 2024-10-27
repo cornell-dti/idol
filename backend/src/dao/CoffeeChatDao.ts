@@ -2,12 +2,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { memberCollection, coffeeChatsCollection, db } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
-import BaseDao from './BaseDao';
+import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
+import COFFEE_CHAT_BINGO_BOARD from '../consts';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);
-  const otherMember = await getMemberFromDocumentReference(dbCoffeeChat.otherMember);
+  const otherMember = !dbCoffeeChat.isNonIDOLMember
+    ? await getMemberFromDocumentReference(
+        dbCoffeeChat.otherMember as FirebaseFirestore.DocumentReference
+      )
+    : (dbCoffeeChat.otherMember as unknown as IdolMember);
 
   return {
     ...dbCoffeeChat,
@@ -18,7 +23,9 @@ async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<Coffee
 
 async function serializeCoffeeChat(coffeeChat: CoffeeChat): Promise<DBCoffeeChat> {
   const submitter = memberCollection.doc(coffeeChat.submitter.email);
-  const otherMember = memberCollection.doc(coffeeChat.otherMember.email);
+  const otherMember = !coffeeChat.isNonIDOLMember
+    ? memberCollection.doc(coffeeChat.otherMember.email)
+    : coffeeChat.otherMember;
 
   return {
     ...coffeeChat,
@@ -42,7 +49,8 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
     const coffeeChatWithUUID = {
       ...coffeeChat,
       status: 'pending' as Status,
-      uuid: coffeeChat.uuid ? coffeeChat.uuid : uuidv4()
+      uuid: coffeeChat.uuid ? coffeeChat.uuid : uuidv4(),
+      date: new Date().getTime()
     };
     return this.createDocument(coffeeChatWithUUID.uuid, coffeeChatWithUUID);
   }
@@ -72,16 +80,40 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
   /**
    * Gets all coffee chat that a user has submitted
-   * @param user - user whose coffee chats should be fetched
+   * @param submitter - submitter whose coffee chats should be fetched
+   * @param status - the status of fetched coffee chats (optional)
+   * @param otherMember - additional filter for coffee chats with otherMember (optional)
    */
-  async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
-    return this.getDocuments([
+  async getCoffeeChatsByUser(
+    submitter: IdolMember,
+    status?: Status,
+    otherMember?: IdolMember
+  ): Promise<CoffeeChat[]> {
+    const filters: FirestoreFilter[] = [
       {
         field: 'submitter',
         comparisonOperator: '==',
-        value: memberCollection.doc(user.email)
+        value: memberCollection.doc(submitter.email)
       }
-    ]);
+    ];
+
+    if (otherMember) {
+      filters.push({
+        field: 'otherMember',
+        comparisonOperator: '==',
+        value: memberCollection.doc(otherMember.email)
+      });
+    }
+
+    if (status) {
+      filters.push({
+        field: 'status',
+        comparisonOperator: '==',
+        value: status
+      });
+    }
+
+    return this.getDocuments(filters);
   }
 
   /**
@@ -97,5 +129,12 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async clearAllCoffeeChats(): Promise<void> {
     await deleteCollection(db, 'coffee-chats', 500);
+  }
+
+  /**
+   * Gets the coffee chat bingo board
+   */
+  static async getCoffeeChatBingoBoard(): Promise<string[][]> {
+    return COFFEE_CHAT_BINGO_BOARD;
   }
 }

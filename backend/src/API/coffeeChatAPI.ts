@@ -1,4 +1,3 @@
-import isEqual from 'lodash.isequal';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
@@ -20,16 +19,37 @@ export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat
 /**
  * Creates a new coffee chat for member
  * @param coffeeChat - Newly created CoffeeChat object
+ * @param user - user who is submitting the coffee chat
  * A member can not coffee chat themselves.
  * A member can not coffee chat the same person from previous semesters.
  */
-export const createCoffeeChat = async (coffeeChat: CoffeeChat): Promise<CoffeeChat> => {
-  if (isEqual(coffeeChat.submitter, coffeeChat.otherMember)) {
+export const createCoffeeChat = async (
+  coffeeChat: CoffeeChat,
+  user: IdolMember
+): Promise<CoffeeChat> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin && coffeeChat.submitter.email !== user.email) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permissions to create coffee chat.`
+    );
+  }
+
+  if (coffeeChat.submitter.email === coffeeChat.otherMember.email) {
     throw new Error('Cannot create coffee chat with yourself.');
   }
 
-  const prevChats = await coffeeChatDao.getCoffeeChatsByUser(coffeeChat.submitter);
-  const chatExists = prevChats.some((chat) => isEqual(coffeeChat.otherMember, chat.otherMember));
+  const pendingChats = await coffeeChatDao.getCoffeeChatsByUser(
+    coffeeChat.submitter,
+    'pending',
+    coffeeChat.otherMember
+  );
+  const approvedChats = await coffeeChatDao.getCoffeeChatsByUser(
+    coffeeChat.submitter,
+    'approved',
+    coffeeChat.otherMember
+  );
+  const prevChats = [...pendingChats, ...approvedChats];
+  const chatExists = prevChats.length > 0;
 
   if (chatExists) {
     throw new Error(
@@ -37,8 +57,8 @@ export const createCoffeeChat = async (coffeeChat: CoffeeChat): Promise<CoffeeCh
     );
   }
 
-  await coffeeChatDao.createCoffeeChat(coffeeChat);
-  return coffeeChat;
+  const newCoffeeChat = await coffeeChatDao.createCoffeeChat(coffeeChat);
+  return newCoffeeChat;
 };
 
 /**
@@ -72,7 +92,7 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
 
   if (!coffeeChat) return;
 
-  if (!isLeadOrAdmin) {
+  if (!isLeadOrAdmin && coffeeChat.submitter !== user) {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete coffee chat.`
     );
@@ -85,6 +105,10 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
  * @param user - The user that is requesting to delete all coffee chats
  */
 export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
+  const isClearAllCoffeeChatsDisabled = await PermissionsManager.isClearAllCoffeeChatsDisabled();
+  if (isClearAllCoffeeChatsDisabled) {
+    throw new PermissionError('Clearing all Coffee Chats is disabled');
+  }
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin) {
     throw new PermissionError(
@@ -93,3 +117,9 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
   }
   await CoffeeChatDao.clearAllCoffeeChats();
 };
+
+/**
+ * Gets the coffee chat bingo board
+ */
+export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
+  CoffeeChatDao.getCoffeeChatBingoBoard();

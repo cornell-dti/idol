@@ -61,7 +61,6 @@ const TeamEventCreditReview = (props: {
           headerMsg: 'Team Event Attendance Rejected!',
           contentMsg: 'The team event attendance was successfully rejected!'
         });
-        ImagesAPI.deleteImage(`${teamEventAttendance.image}`);
         Emitters.teamEventsUpdated.emit();
         onClose();
       })

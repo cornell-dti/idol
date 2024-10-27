@@ -108,9 +108,11 @@ export type DevPortfolioSubmissionRequestLog = {
 export type DBCoffeeChat = {
   uuid: string;
   submitter: firestore.DocumentReference;
-  otherMember: firestore.DocumentReference;
+  otherMember: firestore.DocumentReference | IdolMember;
+  isNonIDOLMember: boolean;
   slackLink: string;
   category: string;
   status: Status;
   date: number;
+  reason?: string;
 };

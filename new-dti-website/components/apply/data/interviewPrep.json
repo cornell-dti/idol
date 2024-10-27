@@ -1,0 +1,25 @@
+{
+  "behavioral": [
+    "In our behavioral interviews, you will have the opportunity to share your experiences and passions with us in a casual setting (no need to dress up!). We want to get to know what makes you who you are and what brings you to DTI!",
+    "If selected, you will get a zoom invitation in your email. We, as a team, just want to get a better idea of you as a candidate, how you work in a team, and what Cornell DTI means to you",
+    "You can find some behavioral practice online or chat with members about what to expect. This isn't something to stress out about. Believe us, we've all been there. Above all, we want to get to know you."
+  ],
+  "technical": [
+    {
+      "role": "Designer",
+      "expectation": "The design technical interview consists of 15 minutes behavioral questions that are more design focused. Then, a 15 minutes portfolio review + 5 minutes of questions. You will present a slide deck on one of your past projects. We'll end with a 25 minute whiteboard challenge where we'll present you with a problem space and you will create a solution solving it."
+    },
+    {
+      "role": "Developer",
+      "expectation": "To prepare for this interview, we recommend reviewing data structures (OOP) and system design. You're expected to perform white-board challenges (yes, no code!) to design features of a website. Ultimately, we want to see how you think and solve problems."
+    },
+    {
+      "role": "Business",
+      "expectation": "Our technical interview questions will comprise of business case studies simulating challenges you may face in your role. We do not expect any specific background knowledge heading into your interview; however, the best way to prepare would be to thoroughly research the expectations of your role. We look for candidates that show passion and the ability to make rational decisions with limited information."
+    },
+    {
+      "role": "Product Manager",
+      "expectation": "Our technical interview questions are similar to questions real product managers get asked in industry. If you google “PM interview questions” you'll find a lot of helpful resources! We recommend following the CIRCLES framework. We'll also send materials to help you prepare at that stage."
+    }
+  ]
+}

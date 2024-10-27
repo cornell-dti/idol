@@ -85,4 +85,7 @@ export class Emitters {
 
   // Dev Portfolio
   static devPortfolioUpdated: EventEmitter<void> = new EventEmitter();
+
+  // Coffee Chats
+  static coffeeChatsUpdated: EventEmitter<void> = new EventEmitter();
 }

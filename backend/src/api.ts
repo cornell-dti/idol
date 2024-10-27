@@ -38,7 +38,8 @@ import {
   updateCoffeeChat,
   getCoffeeChatsByUser,
   deleteCoffeeChat,
-  clearAllCoffeeChats
+  clearAllCoffeeChats,
+  getCoffeeChatBingoBoard
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -289,8 +290,8 @@ loginCheckedGet('/coffee-chat', async () => ({
   coffeeChats: await getAllCoffeeChats()
 }));
 
-loginCheckedPost('/coffee-chat', async (req) => ({
-  coffeeChats: await createCoffeeChat(req.body)
+loginCheckedPost('/coffee-chat', async (req, user) => ({
+  coffeeChat: await createCoffeeChat(req.body, user)
 }));
 
 loginCheckedDelete('/coffee-chat', async (_, user) => {
@@ -309,8 +310,13 @@ loginCheckedGet('/coffee-chat/:email', async (_, user) => {
 });
 
 loginCheckedPut('/coffee-chat', async (req, user) => ({
-  coffeeChats: await updateCoffeeChat(req.body, user)
+  coffeeChat: await updateCoffeeChat(req.body, user)
 }));
+
+loginCheckedGet('/coffee-chat-bingo-board', async () => {
+  const board = await getCoffeeChatBingoBoard();
+  return { board };
+});
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
