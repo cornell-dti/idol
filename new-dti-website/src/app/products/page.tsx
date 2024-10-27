@@ -7,7 +7,7 @@ import { cn } from '../../../lib/utils';
 import RedBlob from '../../../components/blob';
 import FloatingImages, { ImageData } from '../../../components/products/Products';
 
-const Page = () => {
+export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
     alt: product.alt,
     path: product.iconPath
@@ -109,7 +109,7 @@ const Page = () => {
       </div>
     </div>
   );
-};
+}
 
 const ProductDisplay = (props: {
   orientation: string;
@@ -123,58 +123,55 @@ const ProductDisplay = (props: {
     blobs?: { className: string; intensity: number }[];
     images?: ImageData[];
   };
-}) => {
-  return (
+}) => (
+  <div
+    key={props.product.alt}
+    className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full "
+  >
+    {props.product.blobs &&
+      props.product.blobs.map((blob, index) => (
+        <RedBlob
+          key={index}
+          className={blob.className ? blob.className.trim() : ''}
+          intensity={blob.intensity}
+        />
+      ))}
     <div
-      key={props.product.alt}
-      className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full "
+      className={cn(
+        'md:mx-16 px-20 sm:px-28 md:px-20',
+        `${props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'}`
+      )}
     >
-      {props.product.blobs &&
-        props.product.blobs.map((blob, index) => (
-          <RedBlob
-            key={index}
-            className={blob.className ? blob.className.trim() : ''}
-            intensity={blob.intensity}
-          />
-        ))}
-      <div
-        className={cn(
-          'md:mx-16 px-20 sm:px-28 md:px-20',
-          `${props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'}`
-        )}
-      >
-        <div className="-translate-y-20">
-          <FloatingImages images={props.product.images ?? []} />
-        </div>
+      <div className="-translate-y-20">
+        <FloatingImages images={props.product.images ?? []} />
       </div>
-      <div
-        className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-32 mb-40 text-white ${
-          props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
-        }`}
-      >
-        <div className="space-y-6 md:max-w-xl">
-          <Image
-            src={props.product.iconPath}
-            alt={props.product.alt}
-            width={props.product.iconDimensions}
-            height={props.product.iconDimensions}
-          />
-          <p className="text-3xl font-semibold">{props.product.name}</p>
-          <p>{props.product.description}</p>
-          <div hidden={props.product.link === ''}>
-            <a href={props.product.link}>
-              <Button
-                className="text-white bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
-                variant="outline"
-                size="default"
-              >
-                View Product
-              </Button>
-            </a>
-          </div>
+    </div>
+    <div
+      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-32 mb-40 text-white ${
+        props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
+      }`}
+    >
+      <div className="space-y-6 md:max-w-xl">
+        <Image
+          src={props.product.iconPath}
+          alt={props.product.alt}
+          width={props.product.iconDimensions}
+          height={props.product.iconDimensions}
+        />
+        <p className="text-3xl font-semibold">{props.product.name}</p>
+        <p>{props.product.description}</p>
+        <div hidden={props.product.link === ''}>
+          <a href={props.product.link}>
+            <Button
+              className="text-white bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
+              variant="outline"
+              size="default"
+            >
+              View Product
+            </Button>
+          </a>
         </div>
       </div>
     </div>
-  );
-};
-export default Page;
+  </div>
+);
