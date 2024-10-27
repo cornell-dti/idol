@@ -5,13 +5,17 @@ import ImagesAPI from '../../../API/ImagesAPI';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 
-const TeamEventCreditReview = (props: {
+const TeamEventCreditReview = ({
+  teamEvent,
+  teamEventAttendance,
+  currentStatus,
+  onClose
+}: {
   teamEvent: TeamEvent;
   teamEventAttendance: TeamEventAttendance;
   currentStatus: Status;
   onClose: () => void;
 }): JSX.Element => {
-  const { teamEvent, teamEventAttendance, currentStatus, onClose } = props;
   const [image, setImage] = useState('');
   const [isLoading, setLoading] = useState(true);
   const [reason, setReason] = useState(teamEventAttendance.reason || '');
@@ -27,12 +31,8 @@ const TeamEventCreditReview = (props: {
   }, [teamEventAttendance]);
 
   const approveCreditRequest = () => {
-    const updatedTeamEventAttendance = {
-      ...teamEventAttendance,
-      status: 'approved' as Status,
-      reason: ''
-    };
-    TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
+    const updatedAttendance = { ...teamEventAttendance, status: 'approved' as Status, reason: '' };
+    TeamEventsAPI.updateTeamEventAttendance(updatedAttendance)
       .then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Approved!',
@@ -41,7 +41,7 @@ const TeamEventCreditReview = (props: {
         Emitters.teamEventsUpdated.emit();
         onClose();
       })
-      .catch((error) => {
+      .catch(error => {
         Emitters.generalError.emit({
           headerMsg: "Couldn't approve the team event attendance!",
           contentMsg: error
@@ -50,12 +50,8 @@ const TeamEventCreditReview = (props: {
   };
 
   const rejectCreditRequest = () => {
-    const updatedTeamEventAttendance = {
-      ...teamEventAttendance,
-      status: 'rejected' as Status,
-      reason
-    };
-    TeamEventsAPI.updateTeamEventAttendance(updatedTeamEventAttendance)
+    const updatedAttendance = { ...teamEventAttendance, status: 'rejected' as Status, reason };
+    TeamEventsAPI.updateTeamEventAttendance(updatedAttendance)
       .then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Rejected!',
@@ -64,7 +60,7 @@ const TeamEventCreditReview = (props: {
         Emitters.teamEventsUpdated.emit();
         onClose();
       })
-      .catch((error) => {
+      .catch(error => {
         Emitters.generalError.emit({
           headerMsg: "Couldn't reject the team event attendance!",
           contentMsg: error
@@ -82,7 +78,7 @@ const TeamEventCreditReview = (props: {
           </Header>
           <p>Team Event: {teamEvent.name}</p>
           <p>Number of Credits: {teamEvent.numCredits}</p>
-          {teamEvent.hasHours && <p> Hours Attended: {teamEventAttendance.hoursAttended}</p>}
+          {teamEvent.hasHours && <p>Hours Attended: {teamEventAttendance.hoursAttended}</p>}
           {currentStatus === 'rejected' && teamEventAttendance.reason && (
             <p>
               <strong>Rejection Reason:</strong> {teamEventAttendance.reason}
@@ -92,25 +88,24 @@ const TeamEventCreditReview = (props: {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Input
-          type="text"
-          placeholder="Reason for reject"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-        />
-        {/* Show 'Set to Rejected' only if the current status is approved */}
+        {currentStatus !== 'rejected' && (
+          <Input
+            type="text"
+            placeholder="Reason for reject"
+            value={reason}
+            onChange={e => setReason(e.target.value)}
+          />
+        )}
         {currentStatus === 'approved' && (
           <Button basic color="red" disabled={reason === ''} onClick={rejectCreditRequest}>
             Set to Rejected
           </Button>
         )}
-        {/* Show 'Set to Approved' only if the current status is rejected */}
         {currentStatus === 'rejected' && (
           <Button basic color="green" onClick={approveCreditRequest}>
             Set to Approved
           </Button>
         )}
-        {/* Show 'Approve' and 'Reject' only if the current status is pending */}
         {currentStatus === 'pending' && (
           <>
             <Button basic color="green" onClick={approveCreditRequest}>
