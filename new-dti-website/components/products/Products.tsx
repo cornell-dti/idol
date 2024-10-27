@@ -19,8 +19,52 @@ interface FloatingImagesProps {
   images: ImageData[];
 }
 
-const GlobalStyles = () => (
-  <style jsx global>{`
+export default function FloatingImages({ images }: FloatingImagesProps) {
+  const getFloatClass = (dir?: string) => {
+    switch (dir) {
+      case 'up':
+        return 'floating-up';
+      case 'down':
+        return 'floating-down';
+      case 'right':
+        return 'floating-right';
+      default:
+        return '';
+    }
+  };
+
+  const getStyle = (img: ImageData, index: number): CSSProperties => {
+    const style: CSSProperties = {};
+
+    if (index !== 0) {
+      if (img.bottom) style.bottom = img.bottom;
+      if (img.right) style.right = img.right;
+      if (img.top) style.top = img.top;
+      if (img.left) style.left = img.left;
+      if (img.width) style.width = img.width;
+    } else {
+      style.width = '100%';
+    }
+
+    return style;
+  };
+
+  return (
+    <>
+      <div className="relative max-w-4xl">
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className={`${index === 0 ? 'relative' : 'absolute'} w-full h-auto ${
+              index !== 0 ? getFloatClass(img.direction) : ''
+            } ${img.delay && index !== 0 ? 'floating-delay' : ''}`}
+            style={getStyle(img, index)}
+          >
+            <Image src={img.src} alt={img.alt} width={800} height={800} />
+          </div>
+        ))}
+      </div>
+      <style>{`
     @keyframes floatUp {
       0%,
       100% {
@@ -70,54 +114,6 @@ const GlobalStyles = () => (
       animation-delay: 0.75s;
     }
   `}</style>
-);
-
-export default function FloatingImages({ images }: FloatingImagesProps) {
-  const getFloatClass = (dir?: string) => {
-    switch (dir) {
-      case 'up':
-        return 'floating-up';
-      case 'down':
-        return 'floating-down';
-      case 'right':
-        return 'floating-right';
-      default:
-        return '';
-    }
-  };
-
-  const getStyle = (img: ImageData, index: number): CSSProperties => {
-    const style: CSSProperties = {};
-
-    if (index !== 0) {
-      if (img.bottom) style.bottom = img.bottom;
-      if (img.right) style.right = img.right;
-      if (img.top) style.top = img.top;
-      if (img.left) style.left = img.left;
-      if (img.width) style.width = img.width;
-    } else {
-      style.width = '100%';
-    }
-
-    return style;
-  };
-
-  return (
-    <>
-      <GlobalStyles />
-      <div className="relative max-w-4xl">
-        {images.map((img, index) => (
-          <div
-            key={index}
-            className={`${index === 0 ? 'relative' : 'absolute'} w-full h-auto ${
-              index !== 0 ? getFloatClass(img.direction) : ''
-            } ${img.delay && index !== 0 ? 'floating-delay' : ''}`}
-            style={getStyle(img, index)}
-          >
-            <Image src={img.src} alt={img.alt} width={800} height={800} />
-          </div>
-        ))}
-      </div>
     </>
   );
 }
