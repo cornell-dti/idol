@@ -59,7 +59,6 @@ const AdminShoutouts: React.FC = () => {
       const filteredShoutouts = allShoutouts
         .filter((shoutout) => {
           const shoutoutDate = new Date(shoutout.timestamp);
-          // Set time to be 4:59:59AM UTC/11:59PM EST/12:59AM EDT
           const lastDateAdjusted = new Date(
             new Date(lastDate.getTime() - lastDate.getTimezoneOffset() * 60 * 1000).setUTCHours(
               4,
@@ -69,8 +68,6 @@ const AdminShoutouts: React.FC = () => {
             ) +
               60 * 60 * 1000 * 24
           );
-
-          // Set time to be 5AM UTC/12AM EST/1AM EDT
           const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
           return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
         })
@@ -159,41 +156,54 @@ const AdminShoutouts: React.FC = () => {
     });
   };
 
-  const HideModal = (props: { shoutout: Shoutout }): JSX.Element => {
-    const { shoutout } = props;
-    if (!shoutout.hidden)
+  const onDeleteShoutout = (shoutout: Shoutout) => {
+    ShoutoutsAPI.deleteShoutout(shoutout.uuid).then(() => {
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Shoutout Deleted',
+        contentMsg: 'This shoutout was successfully deleted.'
+      });
+      if (shoutout.images) {
+        shoutout.images.forEach((image) => {
+          ImagesAPI.deleteImage(image);
+        });
+      }
+      setAllShoutouts((prev) => prev.filter((s) => s.uuid !== shoutout.uuid));
+    });
+  };
+
+  const HideModal = ({ shoutout }: { shoutout: Shoutout }): JSX.Element => (
+    <Modal
+      trigger={<Button icon={shoutout.hidden ? 'eye slash' : 'eye'} size="tiny" />}
+      header={shoutout.hidden ? 'Unhide Shoutout' : 'Hide Shoutout'}
+      content={`Are you sure you want to ${shoutout.hidden ? 'unhide' : 'hide'} this shoutout?`}
+      actions={[
+        'Cancel',
+        {
+          key: 'toggleHide',
+          content: shoutout.hidden ? 'Unhide Shoutout' : 'Hide Shoutout',
+          color: 'red',
+          onClick: () => onHide(shoutout)
+        }
+      ]}
+    />
+  );
+
+  const ShoutoutImage = ({ shoutout }: { shoutout: Shoutout }) => {
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    useEffect(() => {
+      if (shoutout.images && shoutout.images.length > 0) {
+        ImagesAPI.getImage(shoutout.images[0]).then((url) => setImageUrl(url));
+      }
+    }, [shoutout.images]);
+
+    if (imageUrl)
       return (
-        <Modal
-          trigger={<Button icon="eye" size="tiny" />}
-          header="Hide Shoutout"
-          content="Are you sure that you want to hide this shoutout?"
-          actions={[
-            'Cancel',
-            {
-              key: 'hideShoutouts',
-              content: 'Hide Shoutout',
-              color: 'red',
-              onClick: () => onHide(shoutout)
-            }
-          ]}
-        />
+        <Item.Image>
+          <Image src={imageUrl} size="small" />
+        </Item.Image>
       );
-    return (
-      <Modal
-        trigger={<Button icon="eye slash" size="tiny" />}
-        header="Unhide Shoutout"
-        content="Are you sure that you want to show this shoutout?"
-        actions={[
-          'Cancel',
-          {
-            key: 'unhideShoutouts',
-            content: 'Unhide Shoutout',
-            color: 'red',
-            onClick: () => onHide(shoutout)
-          }
-        ]}
-      />
-    );
+    if (shoutout.images && shoutout.images.length > 0) return <Loader active inline="centered" />;
+    return null;
   };
 
   const DisplayList = (): JSX.Element => {
@@ -224,21 +234,7 @@ const AdminShoutouts: React.FC = () => {
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
                 />
-                {(() => {
-                  let content;
-                  if (imageUrls[shoutout.uuid]) {
-                    content = (
-                      <Item.Image>
-                        <Image src={imageUrls[shoutout.uuid]} size="small" />
-                      </Item.Image>
-                    );
-                  } else if (shoutout.images && shoutout.images.length > 0) {
-                    content = <Loader active inline="centered" />;
-                  } else {
-                    content = null;
-                  }
-                  return content;
-                })()}
+                <ShoutoutImage shoutout={shoutout} />
               </Item.Content>
             </Item>
           ))}
@@ -259,21 +255,10 @@ const AdminShoutouts: React.FC = () => {
                 <HideModal shoutout={shoutout} />
               </Item.Group>
               <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
-              {(() => {
-                let content;
-                if (imageUrls[shoutout.uuid]) {
-                  content = (
-                    <Item.Image>
-                      <Image src={imageUrls[shoutout.uuid]} size="small" />
-                    </Item.Image>
-                  );
-                } else if (shoutout.images && shoutout.images.length > 0) {
-                  content = <Loader active inline="centered" />;
-                } else {
-                  content = null;
-                }
-                return content;
-              })()}
+              <ShoutoutImage shoutout={shoutout} />
+              <Button color="red" onClick={() => onDeleteShoutout(shoutout)}>
+                Delete
+              </Button>
             </Item.Content>
           </Item>
         ))}
