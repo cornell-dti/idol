@@ -44,12 +44,8 @@ const Page = () => {
       <div className="w-full py-12" />
 
       {products.current.map((product, index) => (
-        <div>
-          <ProductDisplay
-            key={product.alt}
-            orientation={index % 2 === 0 ? 'left' : 'right'}
-            product={product}
-          />
+        <div key={product.alt}>
+          <ProductDisplay orientation={index % 2 === 0 ? 'left' : 'right'} product={product} />
           {index < products.current.length - 1 && (
             <Connector
               orientation={index % 2 === 0 ? 'right' : 'left'}
@@ -68,12 +64,8 @@ const Page = () => {
         text="Coming Soon..."
       />
       {products.upcoming.map((product, index) => (
-        <div>
-          <ProductDisplay
-            key={product.alt}
-            orientation={index % 2 === 0 ? 'left' : 'right'}
-            product={product}
-          />
+        <div key={product.alt}>
+          <ProductDisplay orientation={index % 2 === 0 ? 'left' : 'right'} product={product} />
           {index < products.upcoming.length - 1 && (
             <Connector
               orientation={index % 2 === 0 ? 'right' : 'left'}
