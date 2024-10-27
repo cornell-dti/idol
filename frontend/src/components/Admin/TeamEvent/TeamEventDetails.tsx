@@ -48,13 +48,7 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent
                 )}
               </Card.Content>
               <Card.Content extra>
-                <Button
-                  onClick={() => {
-                    setSelectedRequest(req);
-                  }}
-                >
-                  Review
-                </Button>
+                <Button onClick={() => setSelectedRequest(req)}>Review</Button>
               </Card.Content>
             </Card>
           ))}
