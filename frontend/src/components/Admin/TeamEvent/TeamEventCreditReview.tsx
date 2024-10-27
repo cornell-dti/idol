@@ -41,7 +41,7 @@ const TeamEventCreditReview = ({
         Emitters.teamEventsUpdated.emit();
         onClose();
       })
-      .catch(error => {
+      .catch((error) => {
         Emitters.generalError.emit({
           headerMsg: "Couldn't approve the team event attendance!",
           contentMsg: error
@@ -60,7 +60,7 @@ const TeamEventCreditReview = ({
         Emitters.teamEventsUpdated.emit();
         onClose();
       })
-      .catch(error => {
+      .catch((error) => {
         Emitters.generalError.emit({
           headerMsg: "Couldn't reject the team event attendance!",
           contentMsg: error
@@ -93,7 +93,7 @@ const TeamEventCreditReview = ({
             type="text"
             placeholder="Reason for reject"
             value={reason}
-            onChange={e => setReason(e.target.value)}
+            onChange={(e) => setReason(e.target.value)}
           />
         )}
         {currentStatus === 'approved' && (
