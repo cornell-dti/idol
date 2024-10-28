@@ -66,7 +66,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
           const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
           return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
@@ -189,19 +189,15 @@ const AdminShoutouts: React.FC = () => {
   );
 
   const ShoutoutImage = ({ shoutout }: { shoutout: Shoutout }) => {
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    useEffect(() => {
-      if (shoutout.images && shoutout.images.length > 0) {
-        ImagesAPI.getImage(shoutout.images[0]).then((url) => setImageUrl(url));
-      }
-    }, [shoutout.images]);
+    const imageUrl = imageUrls[shoutout.uuid];
 
-    if (imageUrl)
+    if (imageUrl) {
       return (
         <Item.Image>
           <Image src={imageUrl} size="small" />
         </Item.Image>
       );
+    }
     if (shoutout.images && shoutout.images.length > 0) return <Loader active inline="centered" />;
     return null;
   };
