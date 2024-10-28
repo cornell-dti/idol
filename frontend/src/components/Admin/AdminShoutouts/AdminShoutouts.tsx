@@ -66,7 +66,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-              60 * 60 * 1000 * 24
+            60 * 60 * 1000 * 24
           );
           const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
           return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
@@ -153,21 +153,6 @@ const AdminShoutouts: React.FC = () => {
           contentMsg: 'This shoutout was successfully unhidden.'
         });
       }
-    });
-  };
-
-  const onDeleteShoutout = (shoutout: Shoutout) => {
-    ShoutoutsAPI.deleteShoutout(shoutout.uuid).then(() => {
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Shoutout Deleted',
-        contentMsg: 'This shoutout was successfully deleted.'
-      });
-      if (shoutout.images) {
-        shoutout.images.forEach((image) => {
-          ImagesAPI.deleteImage(image);
-        });
-      }
-      setAllShoutouts((prev) => prev.filter((s) => s.uuid !== shoutout.uuid));
     });
   };
 
