@@ -66,7 +66,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-            60 * 60 * 1000 * 24
+              60 * 60 * 1000 * 24
           );
           const earlyDateAdjusted = new Date(new Date(earlyDate).setUTCHours(5, 0, 0, 0));
           return shoutoutDate >= earlyDateAdjusted && shoutoutDate <= lastDateAdjusted;
