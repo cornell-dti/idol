@@ -37,7 +37,7 @@ const CoffeeChatModal: React.FC<Props> = ({
           {coffeeChat.reason && <ChatDetail label="Reason" value={coffeeChat.reason} />}
         </Modal.Content>
 
-        {coffeeChat.status === 'pending' && (
+        {coffeeChat.status !== 'rejected' && (
           <Modal.Actions>
             <Button color="red" onClick={() => deleteCoffeeChatRequest(coffeeChat)}>
               Delete

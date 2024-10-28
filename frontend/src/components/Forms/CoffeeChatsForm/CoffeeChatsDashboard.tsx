@@ -11,6 +11,7 @@ const CoffeeChatsDashboard = ({
   rejectedChats,
   isChatLoading,
   setPendingChats,
+  setApprovedChats,
   bingoBoard
 }: {
   approvedChats: CoffeeChat[];
@@ -18,6 +19,7 @@ const CoffeeChatsDashboard = ({
   rejectedChats: CoffeeChat[];
   isChatLoading: boolean;
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
+  setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   bingoBoard: string[][];
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -58,7 +60,12 @@ const CoffeeChatsDashboard = ({
     CoffeeChatAPI.deleteCoffeeChat(chat.uuid)
       .then(() => {
         setOpen(false);
-        setPendingChats((chats) => chats.filter((c) => c.uuid !== chat.uuid));
+        if (chat.status === 'pending') {
+          setPendingChats((chats) => chats.filter((c) => c.uuid !== chat.uuid));
+        }
+        if (chat.status === 'approved') {
+          setApprovedChats((chats) => chats.filter((c) => c.uuid !== chat.uuid));
+        }
         Emitters.generalSuccess.emit({
           headerMsg: 'Coffee Chat Deleted!',
           contentMsg: 'Your coffee chat was successfully deleted!'
