@@ -252,9 +252,6 @@ const AdminShoutouts: React.FC = () => {
               </Item.Group>
               <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
               <ShoutoutImage shoutout={shoutout} />
-              <Button color="red" onClick={() => onDeleteShoutout(shoutout)}>
-                Delete
-              </Button>
             </Item.Content>
           </Item>
         ))}
