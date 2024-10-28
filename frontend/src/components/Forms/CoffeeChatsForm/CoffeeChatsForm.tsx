@@ -234,6 +234,7 @@ const CoffeeChatsForm: React.FC = () => {
           isChatLoading={isChatLoading}
           setPendingChats={setPendingChats}
           bingoBoard={bingoBoard}
+          setApprovedChats={setApprovedChats}
         />
       </Form>
     </div>
