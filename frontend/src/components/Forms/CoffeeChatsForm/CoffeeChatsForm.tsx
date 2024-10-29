@@ -49,9 +49,11 @@ const CoffeeChatsForm: React.FC = () => {
 
   const coffeeChatExists = (): boolean =>
     approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
-    pendingChats.some(
-      (chat) => chat.otherMember.netid === member?.netid || chat.category === category
-    );
+    pendingChats.some((chat) => chat.otherMember.netid === member?.netid);
+
+  const coffeeChatCategoryExists = (): boolean =>
+    approvedChats.some((chat) => chat.category === category) ||
+    pendingChats.some((chat) => chat.category === category);
 
   const submitCoffeeChat = async () => {
     if (!member) {
@@ -77,7 +79,12 @@ const CoffeeChatsForm: React.FC = () => {
     } else if (coffeeChatExists()) {
       Emitters.generalError.emit({
         headerMsg: 'Coffee Chat Exists',
-        contentMsg: 'Submission exists for this member or category!'
+        contentMsg: 'Pending or approved submission exists for this member!'
+      });
+    } else if (coffeeChatCategoryExists()) {
+      Emitters.generalError.emit({
+        headerMsg: 'Coffee Chat Category Filled',
+        contentMsg: 'There is already a pending or approved coffee chat in this category!'
       });
     } else {
       const newCoffeeChat: CoffeeChat = {
@@ -91,8 +98,8 @@ const CoffeeChatsForm: React.FC = () => {
         date: new Date().getTime()
       };
 
-      CoffeeChatAPI.createCoffeeChat(newCoffeeChat).then(() => {
-        setPendingChats((pending) => [...pending, newCoffeeChat]);
+      CoffeeChatAPI.createCoffeeChat(newCoffeeChat).then((coffeeChat) => {
+        setPendingChats((pending) => [...pending, coffeeChat]);
       });
       Emitters.generalSuccess.emit({
         headerMsg: 'Coffee Chat submitted!',
@@ -227,6 +234,7 @@ const CoffeeChatsForm: React.FC = () => {
           isChatLoading={isChatLoading}
           setPendingChats={setPendingChats}
           bingoBoard={bingoBoard}
+          setApprovedChats={setApprovedChats}
         />
       </Form>
     </div>

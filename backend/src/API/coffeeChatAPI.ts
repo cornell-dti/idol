@@ -57,8 +57,8 @@ export const createCoffeeChat = async (
     );
   }
 
-  await coffeeChatDao.createCoffeeChat(coffeeChat);
-  return coffeeChat;
+  const newCoffeeChat = await coffeeChatDao.createCoffeeChat(coffeeChat);
+  return newCoffeeChat;
 };
 
 /**
@@ -105,6 +105,10 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
  * @param user - The user that is requesting to delete all coffee chats
  */
 export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
+  const isClearAllCoffeeChatsDisabled = await PermissionsManager.isClearAllCoffeeChatsDisabled();
+  if (isClearAllCoffeeChatsDisabled) {
+    throw new PermissionError('Clearing all Coffee Chats is disabled');
+  }
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin) {
     throw new PermissionError(

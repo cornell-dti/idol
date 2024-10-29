@@ -214,7 +214,7 @@ const DevPortfolioForm: React.FC = () => {
               <p>
                 In addition, if you have created and/or reviewed pull requests, please include those
                 links. There is no required minimum or maximum but please do include them when you
-                do them.
+                do them. However, you must open at least 2 PR's in total during the entire semester.
               </p>
             </div>
           ) : (
@@ -286,13 +286,13 @@ const DocumentationInput = ({
 }) => (
   <div>
     <label className={styles.bold}>
-      Documentation: <span className={styles.red_color}>*</span>
+      Documentation or Testing: <span className={styles.red_color}>*</span>
     </label>
     <p>
-      Please provide a link to at least one piece of documentation you added/updated. If it's
-      included in the PRs you added above, you may simply write "Documentation located in PR (insert
-      PR number here)". If you made a separate PR updating documentation in the codebase, please
-      link that PR here.
+      Please provide a link to at least one piece of documentation or test(s) you added/updated. If
+      it's included in the PRs you added above, you may simply write "Documentation located in PR
+      (insert PR number here)" or "Testing located in PR (insert PR number here)". If you made a
+      separate PR updating documentation/testing in the codebase, please link that PR here.
     </p>
     <TextArea value={documentationText} onChange={(e) => setDocumentationText(e.target.value)} />
   </div>

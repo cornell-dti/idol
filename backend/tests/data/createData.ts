@@ -214,6 +214,7 @@ export const fakeCoffeeChat = (): CoffeeChat => {
     uuid: faker.datatype.uuid(),
     submitter: fakeIdolMember(),
     otherMember: fakeIdolMember(),
+    isNonIDOLMember: false,
     slackLink: '',
     category: 'test',
     status: 'pending',

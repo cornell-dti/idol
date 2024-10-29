@@ -6,3 +6,5 @@ const COFFEE_CHAT_BINGO_BOARD = [
 ];
 
 export default COFFEE_CHAT_BINGO_BOARD;
+
+export const DISABLE_DELETE_ALL_COFFEE_CHATS = true;
