@@ -37,7 +37,7 @@ const AdminShoutouts: React.FC = () => {
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
   const [loading, setLoading] = useState(false);
-  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
+  const [imageCache, setImageCache] = useState<{ [key: string]: string }>({});
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
@@ -81,23 +81,26 @@ const AdminShoutouts: React.FC = () => {
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
-  const fetchImages = useCallback((shoutouts: Shoutout[]) => {
-    shoutouts.forEach((shoutout) => {
-      if (shoutout.images?.length) {
-        ImagesAPI.getImage(shoutout.images[0]).then((url) => {
-          setImageUrls((prev) => ({ ...prev, [shoutout.uuid]: url }));
-        });
-      }
-    });
-  }, []);
+  const fetchImages = useCallback(
+    (shoutouts: Shoutout[]) => {
+      shoutouts.forEach((shoutout) => {
+        if (shoutout.images?.length && !imageCache[shoutout.uuid]) {
+          ImagesAPI.getImage(shoutout.images[0]).then((url) => {
+            setImageCache((prev) => ({ ...prev, [shoutout.uuid]: url }));
+          });
+        }
+      });
+    },
+    [imageCache]
+  );
 
   useEffect(() => {
     updateShoutouts();
   }, [earlyDate, lastDate, view, updateShoutouts]);
 
   useEffect(() => {
-    fetchImages(displayShoutouts);
-  }, [displayShoutouts, fetchImages]);
+    fetchImages(allShoutouts);
+  }, [allShoutouts, fetchImages]);
 
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');
@@ -112,10 +115,9 @@ const AdminShoutouts: React.FC = () => {
         })
       );
       setAllShoutouts(newShoutouts);
-      fetchImages(newShoutouts);
     });
     return unsubscribe;
-  }, [setAllShoutouts, fetchImages]);
+  }, [setAllShoutouts]);
 
   const ListTitle = (): JSX.Element => {
     let title = `All Shoutouts (${displayShoutouts.length})`;
@@ -174,7 +176,7 @@ const AdminShoutouts: React.FC = () => {
   );
 
   const ShoutoutImage = ({ shoutout }: { shoutout: Shoutout }) => {
-    const imageUrl = imageUrls[shoutout.uuid];
+    const imageUrl = imageCache[shoutout.uuid];
 
     if (imageUrl) {
       return (
@@ -253,8 +255,13 @@ const AdminShoutouts: React.FC = () => {
         color={currColor}
         onClick={() => {
           setView(buttonText);
-          setDisplayShoutouts(shoutoutList);
-          fetchImages(shoutoutList);
+          setDisplayShoutouts(
+            buttonText === 'ALL'
+              ? allShoutouts
+              : buttonText === 'HIDDEN'
+                ? allShoutouts.filter((s) => s.hidden)
+                : allShoutouts.filter((s) => !s.hidden)
+          );
         }}
         content={buttonText}
       />
