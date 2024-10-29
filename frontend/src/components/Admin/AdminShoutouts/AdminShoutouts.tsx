@@ -67,7 +67,7 @@ const AdminShoutouts: React.FC = () => {
               59,
               59
             ) +
-            60 * 60 * 1000 * 24
+              60 * 60 * 1000 * 24
           );
 
           // Set time to be 5AM UTC/12AM EST/1AM EDT
@@ -249,26 +249,21 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
-  const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
-    const { shoutoutList, buttonText } = props;
+  const ButtonPiece = (props: { buttonText: ViewMode }): JSX.Element => {
+    const { buttonText } = props;
     let currColor: SemanticCOLORS = 'grey';
     if (buttonText === view) currColor = 'blue';
-    return (
-      <Button
-        color={currColor}
-        onClick={() => {
-          setView(buttonText);
-          setDisplayShoutouts(
-            buttonText === 'ALL'
-              ? allShoutouts
-              : buttonText === 'HIDDEN'
-                ? allShoutouts.filter((s) => s.hidden)
-                : allShoutouts.filter((s) => !s.hidden)
-          );
-        }}
-        content={buttonText}
-      />
-    );
+
+    const handleButtonClick = () => {
+      setView(buttonText);
+      setDisplayShoutouts(() => {
+        if (buttonText === 'ALL') return allShoutouts;
+        if (buttonText === 'HIDDEN') return allShoutouts.filter((s) => s.hidden);
+        return allShoutouts.filter((s) => !s.hidden);
+      });
+    };
+
+    return <Button color={currColor} onClick={handleButtonClick} content={buttonText} />;
   };
 
   const ChooseDate = (props: {
@@ -293,15 +288,9 @@ const AdminShoutouts: React.FC = () => {
           <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
           <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
           <Button.Group className={styles.buttonGroup}>
-            <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
-              buttonText={'HIDDEN'}
-            />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
-              buttonText={'PRESENT'}
-            />
+            <ButtonPiece buttonText={'ALL'} />
+            <ButtonPiece buttonText={'HIDDEN'} />
+            <ButtonPiece buttonText={'PRESENT'} />
           </Button.Group>
         </Form.Group>
       </Form>
