@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import config from '../../config.json';
 import timelineIcons from './data/timelineIcons.json';
@@ -197,6 +197,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
 
 const ApplicationTimeline = () => {
   const [cycle, setCycle] = useState<'freshmen' | 'upperclassmen'>('freshmen');
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const selectedNodeRef = useRef<HTMLDivElement>(null);
+  const { width } = useScreenSize();
 
   const season = config.semester.split(' ')[0].toLocaleLowerCase() as 'fall' | 'spring';
   const isFall = season === 'fall';
@@ -213,6 +216,17 @@ const ApplicationTimeline = () => {
 
   const nextEventIndex =
     1 + sortedEvents.findLastIndex((event) => getEndTime(getDate(event)) < Date.now());
+
+  const scrollToIndex =
+    nextEventIndex === sortedEvents.length ? nextEventIndex - 1 : nextEventIndex;
+
+  useEffect(() => {
+    if (timelineRef.current && selectedNodeRef.current && width >= TABLET_BREAKPOINT) {
+      const innerDiv = selectedNodeRef.current.getBoundingClientRect().top;
+      const outerDiv = timelineRef.current.getBoundingClientRect().top;
+      timelineRef.current.scrollTop += innerDiv - outerDiv;
+    }
+  });
 
   return (
     <div className="flex justify-center relative">
@@ -254,15 +268,18 @@ const ApplicationTimeline = () => {
           <div
             className="flex flex-col md:gap-10 xs:gap-7 md:max-h-[600px] md:overflow-y-scroll 
             xs:overflow-y-hidden py-8"
+            ref={timelineRef}
           >
             {sortedEvents.map((event, index) => (
-              <TimelineNode
-                event={event}
-                index={index}
-                nextEventIndex={nextEventIndex}
-                isLast={index === filteredEvents.length - 1}
-                dateTime={getDate(event)}
-              />
+              <div key={index} ref={index === scrollToIndex ? selectedNodeRef : undefined}>
+                <TimelineNode
+                  event={event}
+                  index={index}
+                  nextEventIndex={nextEventIndex}
+                  isLast={index === filteredEvents.length - 1}
+                  dateTime={getDate(event)}
+                />
+              </div>
             ))}
           </div>
         </div>
