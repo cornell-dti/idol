@@ -37,11 +37,15 @@ const Initiative = ({
           <h3 className="font-semibold text-[32px] leading-10">{title}</h3>
         </div>
         <p className="font-semibold text-[22px] leading-[26px]">{subtitle}</p>
-        <div
-          className="flex justify-center overflow-hidden rounded-xl"
-          style={{ boxShadow: `${width >= LAPTOP_BREAKPOINT ? '0px 4px 10px 3px #00000036' : ''}` }}
-        >
-          <Image {...image} className="h-[260px] max-w-none rounded-xl" />
+        <div className="flex justify-center">
+          <div
+            className="flex justify-center max-w-fit overflow-hidden rounded-xl"
+            style={{
+              boxShadow: `${width >= LAPTOP_BREAKPOINT ? '0px 4px 10px 3px #00000036' : ''}`
+            }}
+          >
+            <Image {...image} className="h-[260px] max-w-none rounded-xl" />
+          </div>
         </div>
       </div>
       <p
