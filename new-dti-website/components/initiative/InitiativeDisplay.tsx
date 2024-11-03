@@ -40,7 +40,7 @@ const Initiative = ({
         <div className="flex justify-center">
           <Image
             {...image}
-            className="h-[260px] lg:w-full object-cover rounded-xl"
+            className="xs:h-[260px] md:h-[375px] lg:h-[260px] w-full object-cover rounded-xl"
             style={{
               boxShadow: `${width >= LAPTOP_BREAKPOINT ? '0px 4px 10px 3px #00000036' : ''}`
             }}
