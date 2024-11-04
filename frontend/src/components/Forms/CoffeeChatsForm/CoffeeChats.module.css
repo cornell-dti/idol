@@ -97,3 +97,14 @@
   max-width: 600px;
   word-wrap: break-word;
 }
+
+.bingo_display {
+  background-color: #fff423;
+  border-radius: 5px;
+}
+
+.blackout_display {
+  background-color: #383737;
+  border-radius: 5px;
+  color: #ffffff;
+}
