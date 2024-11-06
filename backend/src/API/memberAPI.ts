@@ -3,6 +3,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
 import { deleteImage } from './imageAPI';
+import { Team } from '../types/DataTypes';
 
 const membersDao = new MembersDao();
 
@@ -169,3 +170,18 @@ export const generateMemberArchive = async (
   }
   return MembersDao.generateArchive(membershipChanges, semesters);
 };
+
+/**
+ * Gets the properties of a member given their email.
+ * @param email - the email of a member.
+ * @returns the `MemberProperties` where the email matches the given email.
+ */
+export const getMemberProperties = async (email: string): Promise<MemberProperties | undefined> =>
+  MembersDao.getMemberProperties(email);
+
+/**
+ * Gets a specific team by searching through each IDOL member and saving each member of the team.
+ * @param id - The name of the team
+ * @returns A promise that resolves to the Team object with the specified name, or null if the team has no members.
+ */
+export const getTeam = async (id: string): Promise<Team | null> => MembersDao.getTeam(id);

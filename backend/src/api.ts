@@ -22,7 +22,9 @@ import {
   updateMember,
   getUserInformationDifference,
   reviewUserInformationChange,
-  generateMemberArchive
+  generateMemberArchive,
+  getMemberProperties,
+  getTeam
 } from './API/memberAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import {
@@ -238,6 +240,11 @@ loginCheckedPost('/member-archive', async (req, user) => ({
   archive: await generateMemberArchive(req.body, user, req.query.semesters as number | undefined)
 }));
 
+loginCheckedGet('/member-properties/:email', async (req) => {
+  const member = await getMemberProperties(req.params.email);
+  return { member };
+});
+
 // Teams
 loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
 loginCheckedPut('/team', async (req, user) => ({
@@ -247,6 +254,11 @@ loginCheckedPut('/team', async (req, user) => ({
 loginCheckedPost('/team', async (req, user) => ({
   team: await deleteTeam(req.body, user)
 }));
+
+loginCheckedGet('/team/:id', async (req) => {
+  const team = await getTeam(req.params.id);
+  return { team };
+});
 
 // Images
 loginCheckedGet('/image/:name(*)', async (req) => ({

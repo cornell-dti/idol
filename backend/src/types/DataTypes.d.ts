@@ -117,3 +117,11 @@ export type DBCoffeeChat = {
   date: number;
   reason?: string;
 };
+
+export type DBMemberProperties = {
+  college: string;
+  newbie: boolean;
+  notCsOrInfosci: boolean;
+  ta: boolean;
+  leadType?: Role;
+};

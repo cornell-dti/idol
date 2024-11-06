@@ -221,3 +221,11 @@ interface CoffeeChat {
   readonly date: number;
   readonly reason?: string;
 }
+
+interface MemberProperties {
+  readonly college: string;
+  readonly newbie: boolean;
+  readonly notCsOrInfosci: boolean;
+  readonly ta: boolean;
+  readonly leadType?: Role;
+}

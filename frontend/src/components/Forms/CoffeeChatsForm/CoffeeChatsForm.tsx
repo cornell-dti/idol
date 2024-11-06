@@ -20,6 +20,7 @@ const CoffeeChatsForm: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
+  const [memberMeetsCategory, setMemberMeetsCategory] = useState<boolean>(true);
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -30,7 +31,12 @@ const CoffeeChatsForm: React.FC = () => {
       setIsChatLoading(false);
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
-  }, [userInfo]);
+    if (member && category) {
+      MembersAPI.checkMemberMeetsCategory(member, userInfo, category).then((check) =>
+        setMemberMeetsCategory(check)
+      );
+    }
+  }, [category, member, userInfo]);
 
   const createMember = (name: string): IdolMember => ({
     netid: `${createHash('sha256').update(name).digest('hex')}`,
@@ -109,6 +115,7 @@ const CoffeeChatsForm: React.FC = () => {
       setCategory('');
       setSlackLink('');
       setIsNonIDOLMember(false);
+      setMemberMeetsCategory(true);
     }
   };
 
@@ -203,6 +210,14 @@ const CoffeeChatsForm: React.FC = () => {
               setCategory(foundCategory || '');
             }}
           />
+          {!memberMeetsCategory ? (
+            <div className={styles.warning}>
+              Warning: {member?.firstName} {member?.lastName} does not meet the category '{category}
+              '
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>

@@ -7,7 +7,8 @@ import {
   DevPortfolioSubmissionRequestLog,
   DBTeamEventAttendance,
   DBCandidateDeciderReview,
-  DBCoffeeChat
+  DBCoffeeChat,
+  DBMemberProperties
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -58,6 +59,16 @@ export const approvedMemberCollection: admin.firestore.CollectionReference<IdolM
       return snapshot.data() as IdolMember;
     },
     toFirestore(userData: IdolMember) {
+      return userData;
+    }
+  });
+
+export const memberPropertiesCollection: admin.firestore.CollectionReference<DBMemberProperties> =
+  db.collection('member-properties').withConverter({
+    fromFirestore(snapshot): DBMemberProperties {
+      return snapshot.data() as DBMemberProperties;
+    },
+    toFirestore(userData: DBMemberProperties) {
       return userData;
     }
   });
