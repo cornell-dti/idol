@@ -32,7 +32,7 @@ const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({
 );
 
 const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
-  <div className="relative w-[600px] h-[500px] flex items-center overflow-hidden">
+  <div className="relative w-[600px] h-[500px] z-10 flex items-center overflow-hidden">
     {imageNames.map((imageName, index) => (
       <div key={imageName} className="absolute top-0 left-0 w-full h-full">
         <ImageHeader imageName={imageName} isVisible={selectedImage === index} />
