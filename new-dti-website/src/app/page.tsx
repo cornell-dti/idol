@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
-import RedBlob from '@/components/blob';
+import RedBlob from '../../components/blob';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);

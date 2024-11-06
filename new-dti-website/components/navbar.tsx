@@ -42,8 +42,8 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="relative z-20">
-      <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row ">
-        <div className="w-fit flex flex-col !justify-center">
+      <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row">
+        <div className="w-fit flex flex-col !justify-center z-40">
           <a href="/">
             <Image
               className="md:h-12 h-8 w-auto"
@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
           ))}
         </div>
         <div className={`flex lg:hidden w-fit ${isMenuOpen ? 'z-50' : 'z-10'}`}>
-          {!isMenuOpen && (
+          {!isMenuOpen ? (
             <Image
               className="h-12 w-auto md:h-14"
               src="/icons/hamburger_icon.svg"
@@ -77,13 +77,15 @@ const Navbar: React.FC = () => {
               alt="Hamburger Menu Icon"
               onClick={(e) => handleMenuClick()}
             />
+          ) : (
+            <div className="h-12 w-auto md:h-14" />
           )}
         </div>
       </div>
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm z-40 lg:hidden">
-          <div className="w-full h-full flex flex-col items-end">
-            <div className="p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-25 lg:hidden">
+          <div className="w-full h-full">
+            <div className="w-full bg-black p-6 md:p-10 flex flex-col items-end">
               <Image
                 className="h-12 w-auto md:h-14"
                 src="/icons/close_icon.svg"
@@ -93,7 +95,7 @@ const Navbar: React.FC = () => {
                 onClick={(e) => handleMenuClick()}
               />
             </div>
-            <div className="w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right bg-stone-950 backdrop-filter backdrop-blur-lg bg-opacity-95">
+            <div className="bg-black bg-opacity-25 backdrop-blur-sm w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
               {navbarItems.map((item) => (
                 <a
                   key={item.name}
