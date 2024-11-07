@@ -33,12 +33,15 @@ const CoffeeChatsForm: React.FC = () => {
       setIsChatLoading(false);
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
+  }, [userInfo]);
+
+  useEffect(() => {
     if (member && category) {
       CoffeeChatAPI.checkMemberMeetsCategory(member, category).then((check) =>
         setMemberMeetsCategory(check)
       );
     }
-  }, [category, member, userInfo]);
+  }, [category, member]);
 
   const createMember = (name: string): IdolMember => ({
     netid: `${createHash('sha256').update(name).digest('hex')}`,
