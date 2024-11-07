@@ -23,7 +23,7 @@ import {
   getUserInformationDifference,
   reviewUserInformationChange,
   generateMemberArchive,
-  getMemberProperties
+  checkMemberMeetsCategory
 } from './API/memberAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import {
@@ -239,9 +239,9 @@ loginCheckedPost('/member-archive', async (req, user) => ({
   archive: await generateMemberArchive(req.body, user, req.query.semesters as number | undefined)
 }));
 
-loginCheckedGet('/member-properties/:email', async (req) => {
-  const member = await getMemberProperties(req.params.email);
-  return { member };
+loginCheckedGet('/member/:email/:category', async (req, user) => {
+  const result = await checkMemberMeetsCategory(req.params.email, user, req.params.category);
+  return { result };
 });
 
 // Teams

@@ -65,97 +65,23 @@ export class MembersAPI {
     ).then((res) => res.data);
   }
 
-  public static getMemberProperties(member: IdolMember): Promise<MemberProperties | undefined> {
-    const res = APIWrapper.get(`${backendURL}/member-properties/${member.email}`).then(
-      (res) => res.data
-    );
-
+  public static checkMemberMeetsCategory(
+    otherMember: IdolMember,
+    category: string
+  ): Promise<boolean | undefined> {
+    const res = APIWrapper.get(
+      `${backendURL}/member/${otherMember.email}/${Buffer.from(category).toString('base64')}`
+    ).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
-          headerMsg: "Couldn't get member properties",
+          headerMsg: "Couldn't check if member meets category",
           contentMsg: `Error was: ${val.err}`
         });
         return undefined;
       }
-      const member = val.member as MemberProperties;
-      return member;
+      const result = val.result as boolean | undefined;
+      return result;
     });
-  }
-
-  private static haveNoCommonSubteams(member1: IdolMember, member2: IdolMember): boolean {
-    return (
-      member2.subteams.every((team) => !member1.subteams.includes(team)) &&
-      member1.subteams.every((team) => !member2.subteams.includes(team))
-    );
-  }
-
-  public static async checkMemberMeetsCategory(
-    otherMember: IdolMember,
-    submitter: IdolMember,
-    category: string
-  ): Promise<boolean | undefined> {
-    const otherMemberProperties = await this.getMemberProperties(otherMember);
-    const submitterProperties = await this.getMemberProperties(submitter);
-    if (category === 'an alumni') {
-      return (await this.getAllMembers()).every((member) => member.email !== otherMember.email);
-    }
-    if (category === 'courseplan member') {
-      return otherMember.subteams.includes('courseplan');
-    }
-    if (category === 'a pm (not your team)') {
-      return otherMember.role === 'pm' && this.haveNoCommonSubteams(submitter, otherMember);
-    }
-    if (category === 'business member') {
-      return otherMember.role === 'business';
-    }
-    if (category === 'is/was a TA') {
-      return otherMemberProperties ? otherMemberProperties.ta : undefined;
-    }
-    if (category === 'major/minor that is not cs/infosci') {
-      return otherMemberProperties ? otherMemberProperties.notCsOrInfosci : undefined;
-    }
-    if (category === 'idol member') {
-      return otherMember.subteams.includes('idol');
-    }
-    if (category === 'a newbie') {
-      return otherMemberProperties ? otherMemberProperties.newbie : undefined;
-    }
-    if (category === 'from a different college') {
-      return otherMemberProperties && submitterProperties
-        ? otherMemberProperties.college !== submitterProperties.college
-        : undefined;
-    }
-    if (category === 'curaise member') {
-      return otherMember.subteams.includes('curaise');
-    }
-    if (category === 'cornellgo member') {
-      return otherMember.subteams.includes('cornellgo');
-    }
-    if (category === 'a tpm (not your team)') {
-      return otherMember.role === 'tpm' && this.haveNoCommonSubteams(submitter, otherMember);
-    }
-    if (category === 'carriage member') {
-      return otherMember.subteams.includes('carriage');
-    }
-    if (category === 'qmi member') {
-      return otherMember.subteams.includes('queuemein');
-    }
-    if (category === 'a lead (not your role)') {
-      return (
-        otherMember.role === 'lead' &&
-        (submitter.role !== 'lead'
-          ? otherMemberProperties?.leadType !== submitter.role
-          : otherMemberProperties?.leadType !== submitterProperties?.leadType)
-      );
-    }
-    if (category === 'cuapts member') {
-      return otherMember.subteams.includes('cuapts');
-    }
-    Emitters.generalError.emit({
-      headerMsg: 'Given category is not valid',
-      contentMsg: 'Enter a category that is from this semester!'
-    });
-    return undefined;
   }
 }

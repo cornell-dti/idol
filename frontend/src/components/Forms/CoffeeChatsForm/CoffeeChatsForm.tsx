@@ -32,7 +32,7 @@ const CoffeeChatsForm: React.FC = () => {
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
     if (member && category) {
-      MembersAPI.checkMemberMeetsCategory(member, userInfo, category).then((check) =>
+      MembersAPI.checkMemberMeetsCategory(member, category).then((check) =>
         setMemberMeetsCategory(check)
       );
     }
