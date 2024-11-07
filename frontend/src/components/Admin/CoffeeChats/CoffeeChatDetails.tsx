@@ -8,65 +8,79 @@ import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
 import { ALL_STATUS } from '../../../consts';
 
+type CoffeeChatCardProps = {
+  status: Status;
+  chat: CoffeeChat;
+};
+
 type CoffeeChatDisplayProps = {
   status: Status;
   coffeeChats: CoffeeChat[];
 };
 
-const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeChats }) => {
-  const filteredChats = coffeeChats.filter((res) => res.status === status);
+const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
   const [memberMeetsCategory, setMemberMeetsCategory] =
     useState<MemberMeetsCategoryStatus>('no data');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const categoryToBackgroundColor = () => {
+    if (memberMeetsCategory === 'pass') {
+      return '#c3ffb7';
+    }
+    if (memberMeetsCategory === 'fail') {
+      return '#ffcaca';
+    }
+    return 'white';
+  };
+
+  useEffect(() => {
+    CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.category).then((check) => {
+      setMemberMeetsCategory(check);
+      setIsLoading(false);
+    });
+  }, [chat]);
+  return isLoading ? (
+    <Loader active />
+  ) : (
+    <Card
+      className={styles.memberCard}
+      style={{
+        backgroundColor: categoryToBackgroundColor()
+      }}
+    >
+      <Card.Content>
+        <Card.Header>
+          {chat.submitter.firstName} {chat.submitter.lastName} ({chat.submitter.netid})
+        </Card.Header>
+        <Card.Meta>
+          Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
+          {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
+        </Card.Meta>
+        <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
+          Slack link
+        </a>
+        {status === 'rejected' && chat.reason && (
+          <Card.Description>
+            <strong>Rejection Reason:</strong> {chat.reason}
+          </Card.Description>
+        )}
+      </Card.Content>
+      <Card.Content extra>
+        <CoffeeChatReview coffeeChat={chat} currentStatus={status}></CoffeeChatReview>
+      </Card.Content>
+    </Card>
+  );
+};
+
+const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeChats }) => {
+  const filteredChats = coffeeChats.filter((res) => res.status === status);
   return (
     <>
       {filteredChats && filteredChats.length !== 0 ? (
         <Card.Group className={styles.cards}>
-          {filteredChats.map((chat, i) => {
-            CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.category).then((check) =>
-              setMemberMeetsCategory(check)
-            );
-            let backgroundColor;
-
-            if (memberMeetsCategory === 'pass') {
-              backgroundColor = '#c3ffb7';
-            } else if (memberMeetsCategory === 'fail') {
-              backgroundColor = '#ffcaca';
-            } else {
-              backgroundColor = 'white';
-            }
-
-            return (
-              <Card
-                className={styles.memberCard}
-                key={i}
-                style={{
-                  backgroundColor
-                }}
-              >
-                <Card.Content>
-                  <Card.Header>
-                    {chat.submitter.firstName} {chat.submitter.lastName} ({chat.submitter.netid})
-                  </Card.Header>
-                  <Card.Meta>
-                    Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
-                    {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
-                  </Card.Meta>
-                  <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
-                    Slack link
-                  </a>
-                  {status === 'rejected' && chat.reason && (
-                    <Card.Description>
-                      <strong>Rejection Reason:</strong> {chat.reason}
-                    </Card.Description>
-                  )}
-                </Card.Content>
-                <Card.Content extra>
-                  <CoffeeChatReview coffeeChat={chat} currentStatus={status}></CoffeeChatReview>
-                </Card.Content>
-              </Card>
-            );
-          })}
+          {filteredChats.map((chat, i) => (
+            <CoffeeChatCard key={i} chat={chat} status={status} />
+          ))}
         </Card.Group>
       ) : (
         <Message>There are currently no {status} members for this event.</Message>
@@ -84,10 +98,6 @@ const CoffeeChatDetails: React.FC = () => {
   const [isLoading, setLoading] = useState(true);
   const [status, setStatus] = useState<Status | string>();
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
-
-  useEffect(() => {
-    CoffeeChatAPI.getAllCoffeeChats().then((chats) => setCoffeeChats(chats));
-  }, []);
 
   const categoryToChats = useMemo(() => {
     const map = new Map<string, CoffeeChat[]>([['default', []]]);
