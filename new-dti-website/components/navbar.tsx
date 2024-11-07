@@ -83,9 +83,9 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-25 lg:hidden">
+        <div className="fixed inset-0 bg-black bg-opacity-80 lg:hidden">
           <div className="w-full h-full">
-            <div className="w-full bg-black p-6 md:p-10 flex flex-col items-end">
+            <div className="w-full p-6 md:p-10 flex flex-col items-end">
               <Image
                 className="h-12 w-auto md:h-14"
                 src="/icons/close_icon.svg"
@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
                 onClick={(e) => handleMenuClick()}
               />
             </div>
-            <div className="bg-black bg-opacity-25 backdrop-blur-sm w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
+            <div className="backdrop-blur-sm w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
               {navbarItems.map((item) => (
                 <a
                   key={item.name}
