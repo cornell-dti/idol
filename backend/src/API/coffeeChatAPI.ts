@@ -129,7 +129,7 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
  * Checks if a member meets a category.
  * @param otherMemberEmail - the email of the member we are checking.
  * @param submitter - the member that submitted the coffee chat.
- * @param encodedCategory - the category we are checking with (encoded with base64).
+ * @param encodedCategory - the category we are checking with (encoded).
  * @returns true if a member meets a category, false if not, undefined if not enough data to know.
  */
 export const checkMemberMeetsCategory = async (
