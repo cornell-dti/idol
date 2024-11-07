@@ -115,6 +115,7 @@ export type DBCoffeeChat = {
   category: string;
   status: Status;
   date: number;
+  memberMeetsCategory: MemberMeetsCategoryStatus;
   reason?: string;
   errorMessage?: string;
 };

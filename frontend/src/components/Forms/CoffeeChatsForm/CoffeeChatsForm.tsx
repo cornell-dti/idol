@@ -108,6 +108,7 @@ const CoffeeChatsForm: React.FC = () => {
         category,
         status: 'pending' as Status,
         date: new Date().getTime(),
+        memberMeetsCategory,
         errorMessage
       };
 

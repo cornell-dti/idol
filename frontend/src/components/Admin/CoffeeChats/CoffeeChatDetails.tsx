@@ -117,6 +117,31 @@ const CoffeeChatDetails: React.FC = () => {
     return map;
   }, [coffeeChats]);
 
+  const runAutoCheckerForCategory = async (category: string) => {
+    setLoading(true);
+
+    const coffeeChats = categoryToChats.get(category);
+    if (coffeeChats) {
+      await Promise.all(
+        coffeeChats.map(async (chat) => {
+          const result = await CoffeeChatAPI.checkMemberMeetsCategory(
+            chat.otherMember,
+            chat.submitter,
+            chat.category
+          );
+          const updatedChat: CoffeeChat = {
+            ...chat,
+            memberMeetsCategory: result.status,
+            errorMessage: result.message
+          };
+          await CoffeeChatAPI.updateCoffeeChat(updatedChat);
+        })
+      );
+    }
+
+    setLoading(false);
+  };
+
   useEffect(() => {
     const cb = () => {
       setLoading(true);
@@ -144,6 +169,9 @@ const CoffeeChatDetails: React.FC = () => {
         <Link href="/admin/coffee-chats">
           <span className={styles.arrow}>&#8592;</span>
         </Link>
+        {category && (
+          <Button onClick={() => runAutoCheckerForCategory(category)}>Re-run autochecker</Button>
+        )}
       </div>
 
       <h1 className={styles.categoryName}>Category: {category}</h1>
