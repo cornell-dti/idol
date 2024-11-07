@@ -20,7 +20,9 @@ const CoffeeChatsForm: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
-  const [memberMeetsCategory, setMemberMeetsCategory] = useState<boolean | undefined>(undefined);
+  const [memberMeetsCategory, setMemberMeetsCategory] = useState<'pass' | 'fail' | 'no data'>(
+    'no data'
+  );
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -115,7 +117,7 @@ const CoffeeChatsForm: React.FC = () => {
       setCategory('');
       setSlackLink('');
       setIsNonIDOLMember(false);
-      setMemberMeetsCategory(true);
+      setMemberMeetsCategory('no data');
     }
   };
 
@@ -210,7 +212,7 @@ const CoffeeChatsForm: React.FC = () => {
               setCategory(foundCategory || '');
             }}
           />
-          {memberMeetsCategory === false ? (
+          {memberMeetsCategory === 'fail' ? (
             <div className={styles.warning}>
               Warning: {member?.firstName} {member?.lastName} does not meet the category '{category}
               '

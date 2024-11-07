@@ -320,7 +320,17 @@ loginCheckedGet('/coffee-chat-bingo-board', async () => {
 });
 
 loginCheckedGet('/coffee-chat/:email/:category', async (req, user) => {
-  const result = await checkMemberMeetsCategory(req.params.email, user, req.params.category);
+  const res = await checkMemberMeetsCategory(req.params.email, user, req.params.category);
+
+  let result;
+  if (res === true) {
+    result = 'pass';
+  } else if (res === false) {
+    result = 'fail';
+  } else {
+    result = 'no data';
+  }
+
   return { result };
 });
 

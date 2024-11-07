@@ -15,7 +15,9 @@ type CoffeeChatDisplayProps = {
 
 const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeChats }) => {
   const filteredChats = coffeeChats.filter((res) => res.status === status);
-  const [memberMeetsCategory, setMemberMeetsCategory] = useState<boolean | undefined>(undefined);
+  const [memberMeetsCategory, setMemberMeetsCategory] = useState<'pass' | 'fail' | 'no data'>(
+    'no data'
+  );
 
   return (
     <>
@@ -27,9 +29,9 @@ const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeCha
             );
             let backgroundColor;
 
-            if (memberMeetsCategory === true) {
+            if (memberMeetsCategory === 'pass') {
               backgroundColor = '#c3ffb7';
-            } else if (memberMeetsCategory === false) {
+            } else if (memberMeetsCategory === 'fail') {
               backgroundColor = '#ffcaca';
             } else {
               backgroundColor = 'white';

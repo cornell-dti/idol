@@ -48,7 +48,7 @@ export default class CoffeeChatAPI {
   public static checkMemberMeetsCategory(
     otherMember: IdolMember,
     category: string
-  ): Promise<boolean | undefined> {
+  ): Promise<'pass' | 'fail' | 'no data'> {
     const encode = (input: string): string => input.replace(/\//g, '*');
     const res = APIWrapper.get(
       `${backendURL}/coffee-chat/${otherMember.email}/${encode(category)}`
@@ -59,9 +59,9 @@ export default class CoffeeChatAPI {
           headerMsg: "Couldn't check if member meets category",
           contentMsg: `Error was: ${val.err}`
         });
-        return undefined;
+        return 'no data';
       }
-      const result = val.result as boolean | undefined;
+      const result = val.result as 'pass' | 'fail' | 'no data';
       return result;
     });
   }
