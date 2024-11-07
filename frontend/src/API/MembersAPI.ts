@@ -69,8 +69,9 @@ export class MembersAPI {
     otherMember: IdolMember,
     category: string
   ): Promise<boolean | undefined> {
+    const encode = (input: string): string => input.replace(/\//g, '*');
     const res = APIWrapper.get(
-      `${backendURL}/member/${otherMember.email}/${Buffer.from(category).toString('base64')}`
+      `${backendURL}/member/${otherMember.email}/${encode(category)}`
     ).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {

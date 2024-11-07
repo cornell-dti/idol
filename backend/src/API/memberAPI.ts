@@ -186,7 +186,8 @@ export const checkMemberMeetsCategory = async (
   const otherMemberProperties = await getMemberProperties(otherMemberEmail);
   const submitterProperties = await getMemberProperties(submitter.email);
   const otherMember = await getMember(otherMemberEmail);
-  const category = Buffer.from(encodedCategory, 'base64').toString('utf8');
+  const decode = (input: string): string => input.replace(/\*/g, '/');
+  const category = decode(encodedCategory);
   const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
     member2.subteams.every((team) => !member1.subteams.includes(team)) &&
     member1.subteams.every((team) => !member2.subteams.includes(team));
