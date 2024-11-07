@@ -14,10 +14,7 @@ const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
   const handleClick = () => setIsOpen((prev) => !prev);
 
   return (
-    <div
-      className="py-4 border-white border-b-black border-2 cursor-pointer"
-      onClick={handleClick}
-    >
+    <div className="py-4 border-white border-b-black border-2 cursor-pointer" onClick={handleClick}>
       <div className="flex justify-between pr-4">
         <p className="font-semibold text-[20px] leading-[24px]">{header}</p>
         <Image
