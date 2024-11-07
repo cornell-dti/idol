@@ -5,6 +5,7 @@ import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
 import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
+import useThemeContext from '../../hooks/useThemeContext';
 
 const ApplyHero = () => (
   <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center">
@@ -70,18 +71,23 @@ const ApplyCoffeeChat = () => (
   </div>
 );
 
-const ApplyPage = () => (
-  <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
-    <div>
-      <ApplyHero />
-      <ApplicationTimeline />
+const ApplyPage = () => {
+  const { theme } = useThemeContext();
+  theme?.setFooterTheme('light');
+
+  return (
+    <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
+      <div>
+        <ApplyHero />
+        <ApplicationTimeline />
+      </div>
+      <RoleDescriptions />
+      <div>
+        <ApplyFAQ />
+        <ApplyCoffeeChat />
+      </div>
     </div>
-    <RoleDescriptions />
-    <div>
-      <ApplyFAQ />
-      <ApplyCoffeeChat />
-    </div>
-  </div>
-);
+  );
+};
 
 export default ApplyPage;
