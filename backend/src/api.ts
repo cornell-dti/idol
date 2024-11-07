@@ -23,8 +23,7 @@ import {
   getUserInformationDifference,
   reviewUserInformationChange,
   generateMemberArchive,
-  getMemberProperties,
-  getTeam
+  getMemberProperties
 } from './API/memberAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import {
@@ -254,11 +253,6 @@ loginCheckedPut('/team', async (req, user) => ({
 loginCheckedPost('/team', async (req, user) => ({
   team: await deleteTeam(req.body, user)
 }));
-
-loginCheckedGet('/team/:id', async (req) => {
-  const team = await getTeam(req.params.id);
-  return { team };
-});
 
 // Images
 loginCheckedGet('/image/:name(*)', async (req) => ({
