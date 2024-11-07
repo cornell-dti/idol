@@ -32,7 +32,7 @@ const Bottom: React.FC = () => (
           />
         </div>
       </div>
-      <div className="text-left w-full md:self-center max-w-[520px]">
+      <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
           <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">courses</p>
           <h5 className="text-lg font-semibold md:text-xl lg:text-[32px]">

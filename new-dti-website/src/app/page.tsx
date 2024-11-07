@@ -85,7 +85,7 @@ const Home: React.FC = () => {
   }, [selectedIcon]);
 
   return (
-    <div>
+    <div className="relative overflow-hidden">
       <div className="flex flex-col bg-black bg-cover bg-center h-screen">
         <RedBlob intensity={0.6} className="left-[-200px] top-[-100px]" />
         <div className="flex flex-row justify-between items-center pl-[15%] pt-20 w-full">
@@ -116,7 +116,9 @@ const Home: React.FC = () => {
           <div className="flex-grow">
             <Slideshow selectedImage={selectedIcon} />
           </div>
-          <RedBlob intensity={0.6} className="left-[1200px] top-[0px]" />
+          <div className="relative">
+            <RedBlob intensity={0.6} className="left-[-300px] top-[-250px]" />
+          </div>
         </div>
         <div className="flex justify-center self-center w-full mt-10 mb-10">
           <button
