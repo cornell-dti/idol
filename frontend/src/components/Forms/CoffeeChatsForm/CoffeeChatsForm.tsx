@@ -20,9 +20,8 @@ const CoffeeChatsForm: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
-  const [memberMeetsCategory, setMemberMeetsCategory] = useState<'pass' | 'fail' | 'no data'>(
-    'no data'
-  );
+  const [memberMeetsCategory, setMemberMeetsCategory] =
+    useState<MemberMeetsCategoryStatus>('no data');
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));

@@ -229,3 +229,5 @@ interface MemberProperties {
   readonly ta: boolean;
   readonly leadType?: Role;
 }
+
+type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';

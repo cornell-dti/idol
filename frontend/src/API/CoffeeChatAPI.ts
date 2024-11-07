@@ -48,7 +48,7 @@ export default class CoffeeChatAPI {
   public static checkMemberMeetsCategory(
     otherMember: IdolMember,
     category: string
-  ): Promise<'pass' | 'fail' | 'no data'> {
+  ): Promise<MemberMeetsCategoryStatus> {
     const res = APIWrapper.get(
       `${backendURL}/coffee-chat/${otherMember.email}/${encodeURIComponent(category)}`
     ).then((res) => res.data);
@@ -60,7 +60,7 @@ export default class CoffeeChatAPI {
         });
         return 'no data';
       }
-      const result = val.result as 'pass' | 'fail' | 'no data';
+      const result = val.result as MemberMeetsCategoryStatus;
       return result;
     });
   }

@@ -15,9 +15,8 @@ type CoffeeChatDisplayProps = {
 
 const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeChats }) => {
   const filteredChats = coffeeChats.filter((res) => res.status === status);
-  const [memberMeetsCategory, setMemberMeetsCategory] = useState<'pass' | 'fail' | 'no data'>(
-    'no data'
-  );
+  const [memberMeetsCategory, setMemberMeetsCategory] =
+    useState<MemberMeetsCategoryStatus>('no data');
 
   return (
     <>
