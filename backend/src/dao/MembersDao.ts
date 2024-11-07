@@ -220,7 +220,7 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
   }
 
   /**
-   * Gets the properities for a specific member
+   * Gets the properties for a specific member
    * @param email - the email of the member whose properties we want to retrieve.
    * @returns A promise that resolves to an DBMemberProperties object or undefined.
    */
