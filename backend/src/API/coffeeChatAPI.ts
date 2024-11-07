@@ -123,3 +123,11 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
  */
 export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
+
+/**
+ * Gets the properties of a member given their email.
+ * @param email - the email of a member.
+ * @returns the `MemberProperties` where the email matches the given email.
+ */
+export const getMemberProperties = async (email: string): Promise<MemberProperties | undefined> =>
+  CoffeeChatDao.getMemberProperties(email);

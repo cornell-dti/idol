@@ -3,6 +3,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getNetIDFromEmail, computeMembersDiff } from '../utils/memberUtil';
 import { deleteImage } from './imageAPI';
+import { getMemberProperties } from './coffeeChatAPI';
 
 const membersDao = new MembersDao();
 
@@ -169,14 +170,6 @@ export const generateMemberArchive = async (
   }
   return MembersDao.generateArchive(membershipChanges, semesters);
 };
-
-/**
- * Gets the properties of a member given their email.
- * @param email - the email of a member.
- * @returns the `MemberProperties` where the email matches the given email.
- */
-export const getMemberProperties = async (email: string): Promise<MemberProperties | undefined> =>
-  MembersDao.getMemberProperties(email);
 
 /**
  * Checks if a member meets a category.

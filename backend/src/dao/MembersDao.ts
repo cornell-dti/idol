@@ -1,10 +1,5 @@
-import {
-  db,
-  approvedMemberCollection,
-  memberCollection,
-  memberPropertiesCollection
-} from '../firebase';
-import { DBMemberProperties, Team } from '../types/DataTypes';
+import { db, approvedMemberCollection, memberCollection } from '../firebase';
+import { Team } from '../types/DataTypes';
 import { archivedMembersBySemesters, archivedMembersByEmail } from '../members-archive';
 import BaseDao from './BaseDao';
 import { allMemberImages } from '../API/imageAPI';
@@ -217,17 +212,5 @@ export default class MembersDao extends BaseDao<IdolMember, IdolMember> {
       });
 
     return archive;
-  }
-
-  /**
-   * Gets the properties for a specific member
-   * @param email - the email of the member whose properties we want to retrieve.
-   * @returns A promise that resolves to an DBMemberProperties object or undefined.
-   */
-  static async getMemberProperties(email: string): Promise<DBMemberProperties | undefined> {
-    return memberPropertiesCollection
-      .doc(email)
-      .get()
-      .then((docRef) => docRef.data());
   }
 }
