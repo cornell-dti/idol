@@ -326,15 +326,15 @@ loginCheckedGet('/coffee-chat/:otherMemberEmail/:submitterEmail/:category', asyn
     req.params.category
   );
 
-  let result;
-  if (res === true) {
-    result = 'pass';
-  } else if (res === false) {
-    result = 'fail';
+  let output;
+  if (res.status === true) {
+    output = 'pass';
+  } else if (res.status === false) {
+    output = 'fail';
   } else {
-    result = 'no data';
+    output = 'no data';
   }
-
+  const result = { status: output, message: res.message };
   return { result };
 });
 

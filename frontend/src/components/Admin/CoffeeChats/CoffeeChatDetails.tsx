@@ -35,8 +35,8 @@ const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
 
   useEffect(() => {
     CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.submitter, chat.category).then(
-      (check) => {
-        setMemberMeetsCategory(check);
+      (result) => {
+        setMemberMeetsCategory(result.status);
         setIsLoading(false);
       }
     );
@@ -58,6 +58,9 @@ const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
           Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
           {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
         </Card.Meta>
+        {memberMeetsCategory === 'fail' && chat.errorMessage && (
+          <div className={styles.warning}>{chat.errorMessage}</div>
+        )}
         <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
           Slack link
         </a>

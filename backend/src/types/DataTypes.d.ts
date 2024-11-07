@@ -116,4 +116,5 @@ export type DBCoffeeChat = {
   status: Status;
   date: number;
   reason?: string;
+  errorMessage?: string;
 };

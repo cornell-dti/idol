@@ -220,6 +220,7 @@ interface CoffeeChat {
   readonly status: Status;
   readonly date: number;
   readonly reason?: string;
+  readonly errorMessage?: string;
 }
 
 interface MemberProperties {
@@ -229,5 +230,5 @@ interface MemberProperties {
   readonly ta: boolean;
   readonly leadType?: Role;
 }
-
 type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
+type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };

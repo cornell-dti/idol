@@ -49,7 +49,7 @@ export default class CoffeeChatAPI {
     otherMember: IdolMember,
     submitter: IdolMember,
     category: string
-  ): Promise<MemberMeetsCategoryStatus> {
+  ): Promise<MemberMeetsCategoryType> {
     const res = APIWrapper.get(
       `${backendURL}/coffee-chat/${otherMember.email}/${submitter.email}/${encodeURIComponent(category)}`
     ).then((res) => res.data);
@@ -59,9 +59,9 @@ export default class CoffeeChatAPI {
           headerMsg: "Couldn't check if member meets category",
           contentMsg: `Error was: ${val.err}`
         });
-        return 'no data';
+        return { status: 'no data', message: '' };
       }
-      const result = val.result as MemberMeetsCategoryStatus;
+      const result = val.result as MemberMeetsCategoryType;
       return result;
     });
   }

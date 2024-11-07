@@ -136,7 +136,7 @@ export const checkMemberMeetsCategory = async (
   otherMemberEmail: string,
   submitterEmail: string,
   encodedCategory: string
-): Promise<boolean | undefined> => {
+): Promise<{ status: boolean | undefined; message: string }> => {
   const otherMemberProperties = await CoffeeChatDao.getMemberProperties(otherMemberEmail);
   const submitterProperties = await CoffeeChatDao.getMemberProperties(submitterEmail);
   const otherMember = await getMember(otherMemberEmail);
@@ -145,61 +145,133 @@ export const checkMemberMeetsCategory = async (
   const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
     member2.subteams.every((team) => !member1.subteams.includes(team)) &&
     member1.subteams.every((team) => !member2.subteams.includes(team));
+  let status: boolean | undefined;
+  let message: string = '';
 
   if (category === 'an alumni') {
-    return (await allMembers()).every((member) => member.email !== otherMember?.email);
+    status = (await allMembers()).every((member) => member.email !== otherMember?.email);
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not an alumni`;
+    }
   }
   if (category === 'courseplan member') {
-    return otherMember?.subteams.includes('courseplan');
+    status = otherMember?.subteams.includes('courseplan');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a CoursePlan member`;
+    }
   }
   if (category === 'a pm (not your team)') {
-    return otherMember?.role === 'pm' && submitter && haveNoCommonSubteams(submitter, otherMember);
+    const isPm = otherMember?.role === 'pm';
+    const notSameTeam = otherMember && submitter && haveNoCommonSubteams(submitter, otherMember);
+    status = isPm && notSameTeam;
+    if (status === false && !isPm) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a PM`;
+    }
+    if (status === false && !notSameTeam) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is a PM, but on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
+    }
+    if (status === false && !isPm && !notSameTeam) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a PM and is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
+    }
   }
   if (category === 'business member') {
-    return otherMember?.role === 'business';
+    status = otherMember?.role === 'business';
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a business member`;
+    }
   }
   if (category === 'is/was a TA') {
-    return otherMemberProperties ? otherMemberProperties.ta : undefined;
+    status = otherMemberProperties ? otherMemberProperties.ta : undefined;
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} was never a TA`;
+    }
   }
   if (category === 'major/minor that is not cs/infosci') {
-    return otherMemberProperties ? otherMemberProperties.notCsOrInfosci : undefined;
+    status = otherMemberProperties ? otherMemberProperties.notCsOrInfosci : undefined;
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is a CS or Infosci major`;
+    }
   }
   if (category === 'idol member') {
-    return otherMember?.subteams.includes('idol');
+    status = otherMember?.subteams.includes('idol');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not an IDOL member`;
+    }
   }
   if (category === 'a newbie') {
-    return otherMemberProperties ? otherMemberProperties.newbie : undefined;
+    status = otherMemberProperties ? otherMemberProperties.newbie : undefined;
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a newbie`;
+    }
   }
   if (category === 'from a different college') {
-    return otherMemberProperties && submitterProperties
-      ? otherMemberProperties.college !== submitterProperties.college
-      : undefined;
+    status =
+      otherMemberProperties && submitterProperties
+        ? otherMemberProperties.college !== submitterProperties.college
+        : undefined;
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is from the same college as ${submitter?.firstName} ${submitter?.lastName} (${otherMemberProperties?.college})`;
+    }
   }
   if (category === 'curaise member') {
-    return otherMember?.subteams.includes('curaise');
+    status = otherMember?.subteams.includes('curaise');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a CURaise member`;
+    }
   }
   if (category === 'cornellgo member') {
-    return otherMember?.subteams.includes('cornellgo');
+    status = otherMember?.subteams.includes('cornellgo');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a CornellGo member`;
+    }
   }
   if (category === 'a tpm (not your team)') {
-    return otherMember?.role === 'tpm' && submitter && haveNoCommonSubteams(submitter, otherMember);
+    const isTpm = otherMember?.role === 'tpm';
+    const notSameTeam = otherMember && submitter && haveNoCommonSubteams(submitter, otherMember);
+    status = isTpm && notSameTeam;
+    if (status === false && !isTpm) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a TPM`;
+    }
+    if (status === false && !notSameTeam) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is a TPM, but is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
+    }
+    if (status === false && !isTpm && !notSameTeam) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a TPM and is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
+    }
   }
   if (category === 'carriage member') {
-    return otherMember?.subteams.includes('carriage');
+    status = otherMember?.subteams.includes('carriage');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a Carriage member`;
+    }
   }
   if (category === 'qmi member') {
-    return otherMember?.subteams.includes('queuemein');
+    status = otherMember?.subteams.includes('queuemein');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a QMI member`;
+    }
   }
   if (category === 'a lead (not your role)') {
-    return (
-      otherMember?.role === 'lead' &&
-      (submitter?.role !== 'lead'
-        ? otherMemberProperties?.leadType !== submitter?.role
-        : otherMemberProperties?.leadType !== submitterProperties?.leadType)
-    );
+    const isLead = otherMember?.role === 'lead' && submitter?.role !== 'lead';
+    const diffRole = isLead
+      ? otherMemberProperties?.leadType !== submitter?.role
+      : otherMemberProperties?.leadType !== submitterProperties?.leadType;
+    status = isLead && diffRole;
+    if (status === false && !isLead) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a lead`;
+    }
+    if (status === false && !diffRole) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is a lead, but from the same role (${submitter?.role}) as ${submitter?.firstName} ${submitter?.lastName}`;
+    }
+    if (status === false && !isLead && !diffRole) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a lead and is from the same role as ${submitter?.firstName} ${submitter?.lastName}`;
+    }
   }
   if (category === 'cuapts member') {
-    return otherMember?.subteams.includes('cuapts');
+    status = otherMember?.subteams.includes('cuapts');
+    if (status === false) {
+      message = `${otherMember?.firstName} ${otherMember?.lastName} is not a CUApts member`;
+    }
   }
-  return undefined;
+  return { status, message };
 };
