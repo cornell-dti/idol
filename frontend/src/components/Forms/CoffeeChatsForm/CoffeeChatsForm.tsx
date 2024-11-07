@@ -20,7 +20,7 @@ const CoffeeChatsForm: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
-  const [memberMeetsCategory, setMemberMeetsCategory] = useState<boolean>(true);
+  const [memberMeetsCategory, setMemberMeetsCategory] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -210,7 +210,7 @@ const CoffeeChatsForm: React.FC = () => {
               setCategory(foundCategory || '');
             }}
           />
-          {!memberMeetsCategory ? (
+          {memberMeetsCategory === false ? (
             <div className={styles.warning}>
               Warning: {member?.firstName} {member?.lastName} does not meet the category '{category}
               '

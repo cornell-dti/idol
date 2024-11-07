@@ -94,7 +94,7 @@ export class MembersAPI {
     otherMember: IdolMember,
     submitter: IdolMember,
     category: string
-  ): Promise<boolean> {
+  ): Promise<boolean | undefined> {
     const otherMemberProperties = await this.getMemberProperties(otherMember);
     const submitterProperties = await this.getMemberProperties(submitter);
     if (category === 'an alumni') {
@@ -110,21 +110,21 @@ export class MembersAPI {
       return otherMember.role === 'business';
     }
     if (category === 'is/was a TA') {
-      return otherMemberProperties ? otherMemberProperties.ta : true;
+      return otherMemberProperties ? otherMemberProperties.ta : undefined;
     }
     if (category === 'major/minor that is not cs/infosci') {
-      return otherMemberProperties ? otherMemberProperties.notCsOrInfosci : true;
+      return otherMemberProperties ? otherMemberProperties.notCsOrInfosci : undefined;
     }
     if (category === 'idol member') {
       return otherMember.subteams.includes('idol');
     }
     if (category === 'a newbie') {
-      return otherMemberProperties ? otherMemberProperties.newbie : true;
+      return otherMemberProperties ? otherMemberProperties.newbie : undefined;
     }
     if (category === 'from a different college') {
       return otherMemberProperties && submitterProperties
         ? otherMemberProperties.college !== submitterProperties.college
-        : true;
+        : undefined;
     }
     if (category === 'curaise member') {
       return otherMember.subteams.includes('curaise');
@@ -156,6 +156,6 @@ export class MembersAPI {
       headerMsg: 'Given category is not valid',
       contentMsg: 'Enter a category that is from this semester!'
     });
-    return true;
+    return undefined;
   }
 }
