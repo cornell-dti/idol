@@ -146,7 +146,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   /**
    * Gets the properties for a specific member
    * @param email - the email of the member whose properties we want to retrieve.
-   * @returns A promise that resolves to an DBMemberProperties object or undefined.
+   * @returns A promise that resolves to an MemberProperties object or undefined.
    */
   static async getMemberProperties(email: string): Promise<MemberProperties | undefined> {
     return memberPropertiesCollection
