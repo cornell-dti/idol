@@ -20,6 +20,8 @@ const CoffeeChatsForm: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
+  const [memberMeetsCategory, setMemberMeetsCategory] =
+    useState<MemberMeetsCategoryStatus>('no data');
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -31,6 +33,14 @@ const CoffeeChatsForm: React.FC = () => {
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   }, [userInfo]);
+
+  useEffect(() => {
+    if (member && category) {
+      CoffeeChatAPI.checkMemberMeetsCategory(member, category).then((check) =>
+        setMemberMeetsCategory(check)
+      );
+    }
+  }, [category, member]);
 
   const createMember = (name: string): IdolMember => ({
     netid: `${createHash('sha256').update(name).digest('hex')}`,
@@ -109,6 +119,7 @@ const CoffeeChatsForm: React.FC = () => {
       setCategory('');
       setSlackLink('');
       setIsNonIDOLMember(false);
+      setMemberMeetsCategory('no data');
     }
   };
 
@@ -129,6 +140,8 @@ const CoffeeChatsForm: React.FC = () => {
               onClick={() => {
                 setIsNonIDOLMember((prev) => !prev);
                 setMember(undefined);
+                setCategory('');
+                setMemberMeetsCategory('no data');
               }}
               style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             >
@@ -203,6 +216,14 @@ const CoffeeChatsForm: React.FC = () => {
               setCategory(foundCategory || '');
             }}
           />
+          {memberMeetsCategory === 'fail' ? (
+            <div className={styles.warning}>
+              Warning: {member?.firstName} {member?.lastName} does not meet the category '{category}
+              '
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
@@ -234,6 +255,7 @@ const CoffeeChatsForm: React.FC = () => {
           isChatLoading={isChatLoading}
           setPendingChats={setPendingChats}
           bingoBoard={bingoBoard}
+          setApprovedChats={setApprovedChats}
         />
       </Form>
     </div>

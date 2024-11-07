@@ -16,6 +16,7 @@ export type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
+  images?: string[];
 };
 
 export type DBSignInFormResponse = {

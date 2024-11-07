@@ -207,6 +207,7 @@ interface Shoutout {
   readonly timestamp: number;
   readonly hidden: boolean;
   readonly uuid: string;
+  readonly images?: string[];
 }
 
 interface CoffeeChat {
@@ -220,3 +221,13 @@ interface CoffeeChat {
   readonly date: number;
   readonly reason?: string;
 }
+
+interface MemberProperties {
+  readonly college: string;
+  readonly newbie: boolean;
+  readonly notCsOrInfosci: boolean;
+  readonly ta: boolean;
+  readonly leadType?: Role;
+}
+
+type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';

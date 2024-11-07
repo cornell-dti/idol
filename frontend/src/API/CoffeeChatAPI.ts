@@ -44,4 +44,24 @@ export default class CoffeeChatAPI {
     );
     return res.board as string[][];
   }
+
+  public static checkMemberMeetsCategory(
+    otherMember: IdolMember,
+    category: string
+  ): Promise<MemberMeetsCategoryStatus> {
+    const res = APIWrapper.get(
+      `${backendURL}/coffee-chat/${otherMember.email}/${encodeURIComponent(category)}`
+    ).then((res) => res.data);
+    return res.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't check if member meets category",
+          contentMsg: `Error was: ${val.err}`
+        });
+        return 'no data';
+      }
+      const result = val.result as MemberMeetsCategoryStatus;
+      return result;
+    });
+  }
 }
