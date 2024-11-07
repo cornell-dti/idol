@@ -46,8 +46,7 @@ const ApplyHero = () => (
 );
 
 const ApplyCoffeeChat = () => (
-  <div className="relative flex justify-center text-[#FEFEFE] md:mb-[200px] xs:mb-[139px]">
-    <RedBlob className="top-[-200px] left-[-400px] z-0" intensity={0.5} />
+  <div className="relative flex justify-center bg-[#F5F5F5] md:py-[80px] xs:py-[80px]">
     <div className="max-w-5xl w-full lg:px-5 md:px-[60px] xs:px-6 relative">
       <h3 className="font-semibold md:text-[32px] xs:text-[22px] pb-4">Have more questions?</h3>
       <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px] pb-6">
@@ -61,8 +60,8 @@ const ApplyCoffeeChat = () => (
           <a href={config.coffeeChatLink}>Coffee chat with us</a>
         </button>
         <button
-          className="rounded-xl py-3 px-[20px] text-[#FFDCDC] border-[#FFDCDC] border-[3px]
-          font-bold hover:bg-[#FFDCDC] hover:text-[#0C0404] w-fit"
+          className="rounded-xl py-3 px-[20px] text-[#F39A9A] border-[#F39A9A] border-[3px]
+          font-bold hover:bg-[#F39A9A] hover:text-[#0C0404] w-fit"
         >
           <a href={config.coffeeChatFormLink}>Don't know who to chat with?</a>
         </button>
@@ -72,14 +71,16 @@ const ApplyCoffeeChat = () => (
 );
 
 const ApplyPage = () => (
-  <div className="flex flex-col md:gap-[200px] xs:gap-[80px] overflow-hidden">
+  <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
     <div>
       <ApplyHero />
       <ApplicationTimeline />
     </div>
     <RoleDescriptions />
-    <ApplyFAQ />
-    <ApplyCoffeeChat />
+    <div>
+      <ApplyFAQ />
+      <ApplyCoffeeChat />
+    </div>
   </div>
 );
 
