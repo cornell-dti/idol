@@ -5,7 +5,7 @@ import {
   db,
   memberPropertiesCollection
 } from '../firebase';
-import { DBCoffeeChat, DBMemberProperties } from '../types/DataTypes';
+import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
@@ -148,7 +148,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * @param email - the email of the member whose properties we want to retrieve.
    * @returns A promise that resolves to an DBMemberProperties object or undefined.
    */
-  static async getMemberProperties(email: string): Promise<DBMemberProperties | undefined> {
+  static async getMemberProperties(email: string): Promise<MemberProperties | undefined> {
     return memberPropertiesCollection
       .doc(email)
       .get()
