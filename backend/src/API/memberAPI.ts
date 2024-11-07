@@ -178,6 +178,13 @@ export const generateMemberArchive = async (
 export const getMemberProperties = async (email: string): Promise<MemberProperties | undefined> =>
   MembersDao.getMemberProperties(email);
 
+/**
+ * Checks if a member meets a category.
+ * @param otherMemberEmail - the email of the member we are checking.
+ * @param submitter - the member that submitted the coffee chat.
+ * @param encodedCategory - the category we are checking with (encoded with base64).
+ * @returns true if a member meets a category, false if not, undefined if not enough data to know.
+ */
 export const checkMemberMeetsCategory = async (
   otherMemberEmail: string,
   submitter: IdolMember,
