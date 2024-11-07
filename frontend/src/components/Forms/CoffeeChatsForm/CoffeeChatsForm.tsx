@@ -140,6 +140,8 @@ const CoffeeChatsForm: React.FC = () => {
               onClick={() => {
                 setIsNonIDOLMember((prev) => !prev);
                 setMember(undefined);
+                setCategory('');
+                setMemberMeetsCategory('no data');
               }}
               style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             >
