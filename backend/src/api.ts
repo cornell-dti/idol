@@ -22,8 +22,7 @@ import {
   updateMember,
   getUserInformationDifference,
   reviewUserInformationChange,
-  generateMemberArchive,
-  checkMemberMeetsCategory
+  generateMemberArchive
 } from './API/memberAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import {
@@ -40,7 +39,8 @@ import {
   getCoffeeChatsByUser,
   deleteCoffeeChat,
   clearAllCoffeeChats,
-  getCoffeeChatBingoBoard
+  getCoffeeChatBingoBoard,
+  checkMemberMeetsCategory
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -239,11 +239,6 @@ loginCheckedPost('/member-archive', async (req, user) => ({
   archive: await generateMemberArchive(req.body, user, req.query.semesters as number | undefined)
 }));
 
-loginCheckedGet('/member/:email/:category', async (req, user) => {
-  const result = await checkMemberMeetsCategory(req.params.email, user, req.params.category);
-  return { result };
-});
-
 // Teams
 loginCheckedGet('/team', async () => ({ teams: await allTeams() }));
 loginCheckedPut('/team', async (req, user) => ({
@@ -322,6 +317,11 @@ loginCheckedPut('/coffee-chat', async (req, user) => ({
 loginCheckedGet('/coffee-chat-bingo-board', async () => {
   const board = await getCoffeeChatBingoBoard();
   return { board };
+});
+
+loginCheckedGet('/coffee-chat/:email/:category', async (req, user) => {
+  const result = await checkMemberMeetsCategory(req.params.email, user, req.params.category);
+  return { result };
 });
 
 // Pull from IDOL

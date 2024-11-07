@@ -7,7 +7,6 @@ import styles from './CoffeeChatDetails.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
 import { ALL_STATUS } from '../../../consts';
-import { MembersAPI } from '../../../API/MembersAPI';
 
 type CoffeeChatDisplayProps = {
   status: Status;
@@ -23,7 +22,7 @@ const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeCha
       {filteredChats && filteredChats.length !== 0 ? (
         <Card.Group className={styles.cards}>
           {filteredChats.map((chat, i) => {
-            MembersAPI.checkMemberMeetsCategory(chat.otherMember, chat.category).then((check) =>
+            CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.category).then((check) =>
               setMemberMeetsCategory(check)
             );
             let backgroundColor;

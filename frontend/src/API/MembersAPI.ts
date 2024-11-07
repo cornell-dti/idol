@@ -64,25 +64,4 @@ export class MembersAPI {
       member
     ).then((res) => res.data);
   }
-
-  public static checkMemberMeetsCategory(
-    otherMember: IdolMember,
-    category: string
-  ): Promise<boolean | undefined> {
-    const encode = (input: string): string => input.replace(/\//g, '*');
-    const res = APIWrapper.get(
-      `${backendURL}/member/${otherMember.email}/${encode(category)}`
-    ).then((res) => res.data);
-    return res.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't check if member meets category",
-          contentMsg: `Error was: ${val.err}`
-        });
-        return undefined;
-      }
-      const result = val.result as boolean | undefined;
-      return result;
-    });
-  }
 }
