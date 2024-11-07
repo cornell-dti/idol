@@ -7,7 +7,7 @@ import { Button } from './ui/button';
 const Bottom: React.FC = () => (
   <div className="flex flex-col w-screen h-fit text-white justify-center">
     <div className="flex flex-col h-fit justify-center items-start px-8 md:flex-row md:px-14 lg:gap-x-12">
-      <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 max-w-[609px]">
+      <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 max-w-[609px] z-10">
         <Image
           className="w-5/12"
           src="/images/teaching_1.svg"
