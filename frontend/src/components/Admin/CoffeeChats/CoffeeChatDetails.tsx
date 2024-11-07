@@ -135,7 +135,7 @@ const CoffeeChatDetails: React.FC = () => {
       <p className={styles.description}>
         Coffee chats will appear <strong style={{ color: '#02c002' }}>green</strong> if the coffee
         chatted member meets the category, <strong style={{ color: '#f23e3e' }}>red</strong> if they
-        do not, and <strong>white</strong> if their status is uncertain.
+        do not, and <strong>white</strong> if we don't have the data to determine whether or not the member meets the category.
       </p>
 
       <div className={styles.listsContainer}>
