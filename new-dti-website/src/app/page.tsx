@@ -85,7 +85,7 @@ const Home: React.FC = () => {
   }, [selectedIcon]);
 
   return (
-    <div className="relative overflow-hidden">
+    <div>
       <div className="flex flex-col bg-black bg-cover bg-center h-screen">
         <RedBlob intensity={0.6} className="left-[-200px] top-[-100px]" />
         <div className="flex flex-row justify-between items-center pl-[15%] pt-20 w-full">
