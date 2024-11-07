@@ -34,10 +34,12 @@ const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
   };
 
   useEffect(() => {
-    CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.submitter, chat.category).then((check) => {
-      setMemberMeetsCategory(check);
-      setIsLoading(false);
-    });
+    CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.submitter, chat.category).then(
+      (check) => {
+        setMemberMeetsCategory(check);
+        setIsLoading(false);
+      }
+    );
   }, [chat]);
   return isLoading ? (
     <Loader active />
