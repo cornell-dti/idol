@@ -49,9 +49,8 @@ export default class CoffeeChatAPI {
     otherMember: IdolMember,
     category: string
   ): Promise<'pass' | 'fail' | 'no data'> {
-    const encode = (input: string): string => input.replace(/\//g, '*');
     const res = APIWrapper.get(
-      `${backendURL}/coffee-chat/${otherMember.email}/${encode(category)}`
+      `${backendURL}/coffee-chat/${otherMember.email}/${encodeURIComponent(category)}`
     ).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {

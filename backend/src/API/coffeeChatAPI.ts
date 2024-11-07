@@ -140,8 +140,7 @@ export const checkMemberMeetsCategory = async (
   const otherMemberProperties = await CoffeeChatDao.getMemberProperties(otherMemberEmail);
   const submitterProperties = await CoffeeChatDao.getMemberProperties(submitter.email);
   const otherMember = await getMember(otherMemberEmail);
-  const decode = (input: string): string => input.replace(/\*/g, '/');
-  const category = decode(encodedCategory);
+  const category = decodeURIComponent(encodedCategory);
   const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
     member2.subteams.every((team) => !member1.subteams.includes(team)) &&
     member1.subteams.every((team) => !member2.subteams.includes(team));
