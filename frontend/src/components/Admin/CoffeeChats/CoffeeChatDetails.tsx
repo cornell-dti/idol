@@ -15,24 +15,31 @@ type CoffeeChatDisplayProps = {
 
 const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeChats }) => {
   const filteredChats = coffeeChats.filter((res) => res.status === status);
-  const [memberMeetsCategory, setMemberMeetsCategory] =
-    useState<MemberMeetsCategoryStatus>('no data');
+  const [memberMeetsCategories, setMemberMeetsCategories] = useState<{
+    [key: number]: MemberMeetsCategoryStatus;
+  }>({});
+
+  useEffect(() => {
+    coffeeChats.forEach((chat, i) => {
+      CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.submitter, chat.category).then(
+        (check) => {
+          setMemberMeetsCategories((prev) => ({ ...prev, [i]: check }));
+        }
+      );
+    });
+  }, [coffeeChats]);
 
   return (
     <>
       {filteredChats && filteredChats.length !== 0 ? (
         <Card.Group className={styles.cards}>
           {filteredChats.map((chat, i) => {
-            CoffeeChatAPI.checkMemberMeetsCategory(
-              chat.otherMember,
-              chat.submitter,
-              chat.category
-            ).then((check) => setMemberMeetsCategory(check));
             let backgroundColor;
+            const categoryStatus = memberMeetsCategories[i];
 
-            if (memberMeetsCategory === 'pass') {
+            if (categoryStatus === 'pass') {
               backgroundColor = '#c3ffb7';
-            } else if (memberMeetsCategory === 'fail') {
+            } else if (categoryStatus === 'fail') {
               backgroundColor = '#ffcaca';
             } else {
               backgroundColor = 'white';
