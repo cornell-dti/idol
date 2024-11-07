@@ -1,6 +1,7 @@
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
+import { getMember, allMembers } from './memberAPI';
 
 const coffeeChatDao = new CoffeeChatDao();
 
@@ -123,3 +124,81 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
  */
 export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
+
+/**
+ * Checks if a member meets a category.
+ * @param otherMemberEmail - the email of the member we are checking.
+ * @param submitter - the member that submitted the coffee chat.
+ * @param encodedCategory - the category we are checking with (encoded).
+ * @returns true if a member meets a category, false if not, undefined if not enough data to know.
+ */
+export const checkMemberMeetsCategory = async (
+  otherMemberEmail: string,
+  submitter: IdolMember,
+  encodedCategory: string
+): Promise<boolean | undefined> => {
+  const otherMemberProperties = await CoffeeChatDao.getMemberProperties(otherMemberEmail);
+  const submitterProperties = await CoffeeChatDao.getMemberProperties(submitter.email);
+  const otherMember = await getMember(otherMemberEmail);
+  const category = decodeURIComponent(encodedCategory);
+  const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
+    member2.subteams.every((team) => !member1.subteams.includes(team)) &&
+    member1.subteams.every((team) => !member2.subteams.includes(team));
+
+  if (category === 'an alumni') {
+    return (await allMembers()).every((member) => member.email !== otherMember?.email);
+  }
+  if (category === 'courseplan member') {
+    return otherMember?.subteams.includes('courseplan');
+  }
+  if (category === 'a pm (not your team)') {
+    return otherMember?.role === 'pm' && haveNoCommonSubteams(submitter, otherMember);
+  }
+  if (category === 'business member') {
+    return otherMember?.role === 'business';
+  }
+  if (category === 'is/was a TA') {
+    return otherMemberProperties ? otherMemberProperties.ta : undefined;
+  }
+  if (category === 'major/minor that is not cs/infosci') {
+    return otherMemberProperties ? otherMemberProperties.notCsOrInfosci : undefined;
+  }
+  if (category === 'idol member') {
+    return otherMember?.subteams.includes('idol');
+  }
+  if (category === 'a newbie') {
+    return otherMemberProperties ? otherMemberProperties.newbie : undefined;
+  }
+  if (category === 'from a different college') {
+    return otherMemberProperties && submitterProperties
+      ? otherMemberProperties.college !== submitterProperties.college
+      : undefined;
+  }
+  if (category === 'curaise member') {
+    return otherMember?.subteams.includes('curaise');
+  }
+  if (category === 'cornellgo member') {
+    return otherMember?.subteams.includes('cornellgo');
+  }
+  if (category === 'a tpm (not your team)') {
+    return otherMember?.role === 'tpm' && haveNoCommonSubteams(submitter, otherMember);
+  }
+  if (category === 'carriage member') {
+    return otherMember?.subteams.includes('carriage');
+  }
+  if (category === 'qmi member') {
+    return otherMember?.subteams.includes('queuemein');
+  }
+  if (category === 'a lead (not your role)') {
+    return (
+      otherMember?.role === 'lead' &&
+      (submitter.role !== 'lead'
+        ? otherMemberProperties?.leadType !== submitter.role
+        : otherMemberProperties?.leadType !== submitterProperties?.leadType)
+    );
+  }
+  if (category === 'cuapts member') {
+    return otherMember?.subteams.includes('cuapts');
+  }
+  return undefined;
+};

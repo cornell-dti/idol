@@ -15,35 +15,58 @@ type CoffeeChatDisplayProps = {
 
 const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeChats }) => {
   const filteredChats = coffeeChats.filter((res) => res.status === status);
+  const [memberMeetsCategory, setMemberMeetsCategory] =
+    useState<MemberMeetsCategoryStatus>('no data');
 
   return (
     <>
       {filteredChats && filteredChats.length !== 0 ? (
         <Card.Group className={styles.cards}>
-          {filteredChats.map((chat, i) => (
-            <Card className={styles.memberCard} key={i}>
-              <Card.Content>
-                <Card.Header>
-                  {chat.submitter.firstName} {chat.submitter.lastName} ({chat.submitter.netid})
-                </Card.Header>
-                <Card.Meta>
-                  Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
-                  {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
-                </Card.Meta>
-                <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
-                  Slack link
-                </a>
-                {status === 'rejected' && chat.reason && (
-                  <Card.Description>
-                    <strong>Rejection Reason:</strong> {chat.reason}
-                  </Card.Description>
-                )}
-              </Card.Content>
-              <Card.Content extra>
-                <CoffeeChatReview coffeeChat={chat} currentStatus={status}></CoffeeChatReview>
-              </Card.Content>
-            </Card>
-          ))}
+          {filteredChats.map((chat, i) => {
+            CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.category).then((check) =>
+              setMemberMeetsCategory(check)
+            );
+            let backgroundColor;
+
+            if (memberMeetsCategory === 'pass') {
+              backgroundColor = '#c3ffb7';
+            } else if (memberMeetsCategory === 'fail') {
+              backgroundColor = '#ffcaca';
+            } else {
+              backgroundColor = 'white';
+            }
+
+            return (
+              <Card
+                className={styles.memberCard}
+                key={i}
+                style={{
+                  backgroundColor
+                }}
+              >
+                <Card.Content>
+                  <Card.Header>
+                    {chat.submitter.firstName} {chat.submitter.lastName} ({chat.submitter.netid})
+                  </Card.Header>
+                  <Card.Meta>
+                    Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
+                    {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
+                  </Card.Meta>
+                  <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
+                    Slack link
+                  </a>
+                  {status === 'rejected' && chat.reason && (
+                    <Card.Description>
+                      <strong>Rejection Reason:</strong> {chat.reason}
+                    </Card.Description>
+                  )}
+                </Card.Content>
+                <Card.Content extra>
+                  <CoffeeChatReview coffeeChat={chat} currentStatus={status}></CoffeeChatReview>
+                </Card.Content>
+              </Card>
+            );
+          })}
         </Card.Group>
       ) : (
         <Message>There are currently no {status} members for this event.</Message>
@@ -109,6 +132,12 @@ const CoffeeChatDetails: React.FC = () => {
       </div>
 
       <h1 className={styles.categoryName}>Category: {category}</h1>
+      <p className={styles.description}>
+        Coffee chats will appear <strong style={{ color: '#02c002' }}>green</strong> if the coffee
+        chatted member meets the category, <strong style={{ color: '#f23e3e' }}>red</strong> if they
+        do not, and <strong>white</strong> if we don't have the data to determine whether or not the
+        member meets the category.
+      </p>
 
       <div className={styles.listsContainer}>
         <div className={styles.listContainer}>
