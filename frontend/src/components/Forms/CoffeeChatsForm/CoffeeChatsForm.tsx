@@ -36,11 +36,11 @@ const CoffeeChatsForm: React.FC = () => {
 
   useEffect(() => {
     if (member && category) {
-      CoffeeChatAPI.checkMemberMeetsCategory(member, category).then((check) =>
+      CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category).then((check) =>
         setMemberMeetsCategory(check)
       );
     }
-  }, [category, member]);
+  }, [category, member, userInfo]);
 
   const createMember = (name: string): IdolMember => ({
     netid: `${createHash('sha256').update(name).digest('hex')}`,

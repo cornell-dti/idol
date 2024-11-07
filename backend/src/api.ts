@@ -319,8 +319,12 @@ loginCheckedGet('/coffee-chat-bingo-board', async () => {
   return { board };
 });
 
-loginCheckedGet('/coffee-chat/:email/:category', async (req, user) => {
-  const res = await checkMemberMeetsCategory(req.params.email, user, req.params.category);
+loginCheckedGet('/coffee-chat/:otherMemberEmail/:submitterEmail/:category', async (req) => {
+  const res = await checkMemberMeetsCategory(
+    req.params.otherMemberEmail,
+    req.params.submitterEmail,
+    req.params.category
+  );
 
   let result;
   if (res === true) {

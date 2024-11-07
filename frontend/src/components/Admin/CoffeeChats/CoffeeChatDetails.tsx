@@ -23,9 +23,11 @@ const CoffeeChatDisplay: React.FC<CoffeeChatDisplayProps> = ({ status, coffeeCha
       {filteredChats && filteredChats.length !== 0 ? (
         <Card.Group className={styles.cards}>
           {filteredChats.map((chat, i) => {
-            CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.category).then((check) =>
-              setMemberMeetsCategory(check)
-            );
+            CoffeeChatAPI.checkMemberMeetsCategory(
+              chat.otherMember,
+              chat.submitter,
+              chat.category
+            ).then((check) => setMemberMeetsCategory(check));
             let backgroundColor;
 
             if (memberMeetsCategory === 'pass') {

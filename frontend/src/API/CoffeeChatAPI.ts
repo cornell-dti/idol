@@ -47,10 +47,11 @@ export default class CoffeeChatAPI {
 
   public static checkMemberMeetsCategory(
     otherMember: IdolMember,
+    submitter: IdolMember,
     category: string
   ): Promise<MemberMeetsCategoryStatus> {
     const res = APIWrapper.get(
-      `${backendURL}/coffee-chat/${otherMember.email}/${encodeURIComponent(category)}`
+      `${backendURL}/coffee-chat/${otherMember.email}/${submitter.email}/${encodeURIComponent(category)}`
     ).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {
