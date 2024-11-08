@@ -8,7 +8,6 @@ import {
   updateCoffeeChat,
   deleteCoffeeChat,
   clearAllCoffeeChats
-  // checkMemberMeetsCategory
 } from '../src/API/coffeeChatAPI';
 import { PermissionError } from '../src/utils/errors';
 
@@ -166,77 +165,3 @@ describe('User is lead or admin', () => {
     expect(CoffeeChatDao.prototype.deleteCoffeeChat).toBeCalled();
   });
 });
-
-// describe('More complicated member meets category checks', () => {
-//   test('pm that is not on same team', async () => {
-//     const result = await checkMemberMeetsCategory('al853@cornell.edu', 'ph444@cornell.edu', 'a pm (not your team)')
-//     expect(result.status).toBe('pass')
-//     expect(result.message).toBe('')
-//   });
-
-//   test('pm that is on same team', async () => {
-//     const result = await checkMemberMeetsCategory('ar2345@cornell.edu', 'ph444@cornell.edu', 'a pm (not your team)')
-//     expect(result.status).toBe('fail')
-//     expect(result.message).toBe('Amelie Rosso is a PM, but is on the same team as Patricia Huang')
-//   });
-
-//   test('not a pm', async () => {
-//     const result = await checkMemberMeetsCategory('atl82@cornell.edu', 'ph444@cornell.edu', 'a pm (not your team)')
-//     expect(result.status).toBe('fail')
-//     expect(result.message).toBe('An Le is not a PM')
-//   });
-
-//   test('tpm that is not on same team', async () => {
-//     const result = await checkMemberMeetsCategory('nm549@cornell.edu', 'ph444@cornell.edu', 'a tpm (not your team)')
-//     expect(result.status).toBe('pass')
-//     expect(result.message).toBe('')
-//   });
-
-//   test('tpm that is on same team', async () => {
-//     const result = await checkMemberMeetsCategory('axc2@cornell.edu', 'ph444@cornell.edu', 'a tpm (not your team)')
-//     expect(result.status).toBe('fail')
-//     expect(result.message).toBe('Andrew Chen is a TPM, but is on the same team as Patricia Huang')
-//   });
-
-//   test('not a tpm', async () => {
-//     const result = await checkMemberMeetsCategory('atl82@cornell.edu', 'ph444@cornell.edu', 'a tpm (not your team)')
-//     expect(result.status).toBe('fail')
-//     expect(result.message).toBe('An Le is not a TPM')
-//   });
-
-//   test('a lead that is not same role', async () => {
-//     const result = await checkMemberMeetsCategory('egk46@cornell.edu', 'ph444@cornell.edu', 'a lead (not your role)')
-//     expect(result.status).toBe('pass')
-//     expect(result.message).toBe('')
-//   });
-
-//   test('a lead that is the same role', async () => {
-//     const result = await checkMemberMeetsCategory('ow39@cornell.edu', 'ph444@cornell.edu', 'a lead (not your role)')
-//     expect(result.status).toBe('fail')
-//     expect(result.message).toBe('Oscar Wang is a lead, but from the same role (developer) as Patricia Huang')
-//   });
-
-//   test('not a lead', async () => {
-//     const result = await checkMemberMeetsCategory('atl82@cornell.edu', 'ph444@cornell.edu', 'a lead (not your role)')
-//     expect(result.status).toBe('fail')
-//     expect(result.message).toBe('An Le is not a lead')
-//   });
-
-//   test('should pass but otherMemberProperties undefined', async () => {
-//     const result = await checkMemberMeetsCategory('sz266@cornell.edu', 'ph444@cornell.edu', 'a lead (not your role)')
-//     expect(result.status).toBe('no data')
-//     expect(result.message).toBe('')
-//   });
-
-//   test('should pass but submitterProperties undefined', async () => {
-//     const result = await checkMemberMeetsCategory('egk46@cornell.edu', 'sz266@cornell.edu', 'a lead (not your role)')
-//     expect(result.status).toBe('no data')
-//     expect(result.message).toBe('')
-//   });
-
-//   test('both submitterProperties and otherMemberProperties undefined', async () => {
-//     const result = await checkMemberMeetsCategory('sz266@cornell.edu', 'szw3@cornell.edu', 'a lead (not your role)')
-//     expect(result.status).toBe('no data')
-//     expect(result.message).toBe('')
-//   });
-// });
