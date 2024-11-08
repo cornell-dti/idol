@@ -163,19 +163,18 @@ export const runAutoChecker = async (uuid: string, user: IdolMember): Promise<Co
  * Checks if a member meets a category.
  * @param otherMemberEmail - the email of the member we are checking.
  * @param submitterEmail - the email of the member that submitted the coffee chat.
- * @param encodedCategory - the category we are checking with (encoded).
+ * @param category - the category we are checking with.
  * @returns 'pass' if a member meets a category, 'fail' if not, 'no data' if not enough data to know.
  */
 export const checkMemberMeetsCategory = async (
   otherMemberEmail: string,
   submitterEmail: string,
-  encodedCategory: string
+  category: string
 ): Promise<{ status: MemberMeetsCategoryStatus; message: string }> => {
   const otherMemberProperties = await CoffeeChatDao.getMemberProperties(otherMemberEmail);
   const submitterProperties = await CoffeeChatDao.getMemberProperties(submitterEmail);
   const otherMember = await getMember(otherMemberEmail);
   const submitter = await getMember(submitterEmail);
-  const category = decodeURIComponent(encodedCategory);
   const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
     member2.subteams.every((team) => !member1.subteams.includes(team)) &&
     member1.subteams.every((team) => !member2.subteams.includes(team));
@@ -244,7 +243,7 @@ export const checkMemberMeetsCategory = async (
         if (!isPm) {
           message = `${otherMember.firstName} ${otherMember.lastName} is not a PM`;
         } else {
-          message = `${otherMember.firstName} ${otherMember.lastName} is a PM, but on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
+          message = `${otherMember.firstName} ${otherMember.lastName} is a PM, but is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
         }
       }
     } else if (category === 'a tpm (not your team)') {

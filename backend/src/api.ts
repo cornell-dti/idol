@@ -324,7 +324,7 @@ loginCheckedGet('/coffee-chat/:otherMemberEmail/:submitterEmail/:category', asyn
   const result = await checkMemberMeetsCategory(
     req.params.otherMemberEmail,
     req.params.submitterEmail,
-    req.params.category
+    decodeURIComponent(req.params.category)
   );
   return { result };
 });
