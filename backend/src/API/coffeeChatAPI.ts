@@ -316,7 +316,7 @@ export const checkMemberMeetsCategory = async (
       }
 
       if (diffRole !== undefined) {
-        status = isLead && diffRole;
+        status = diffRole;
         if (!status) {
           message = `${otherMember.firstName} ${otherMember.lastName} is a lead, but from the same role (${submitter.role}) as ${submitter.firstName} ${submitter.lastName}`;
         }
