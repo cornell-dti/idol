@@ -1,6 +1,6 @@
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
-import { PermissionError } from '../utils/errors';
+import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember, allMembers } from './memberAPI';
 
 const coffeeChatDao = new CoffeeChatDao();
@@ -126,17 +126,51 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
 /**
+ * Checks if a member meets a category for the specified coffee chat.
+ * @param uuid - the uuid of the coffee chats we are checking.
+ * @param user - the IdolMember making the request.
+ * @returns the updated coffee chat
+ */
+export const runAutoChecker = async (uuid: string, user: IdolMember): Promise<CoffeeChat> => {
+  const canRunAutoChecker = await PermissionsManager.isLeadOrAdmin(user);
+  if (!canRunAutoChecker)
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to regrade dev portfolio submissions`
+    );
+
+  const coffeeChat = await coffeeChatDao.getCoffeeChat(uuid);
+  if (!coffeeChat) {
+    throw new BadRequestError(`Coffee chat with uuid: ${uuid} does not exist`);
+  }
+
+  const result = await checkMemberMeetsCategory(
+    coffeeChat.otherMember.email,
+    coffeeChat.submitter.email,
+    coffeeChat.category
+  );
+
+  const updatedCC = {
+    ...coffeeChat,
+    memberMeetsCategory: result.status,
+    errorMessage: result.message
+  };
+  await coffeeChatDao.updateCoffeeChat(updatedCC);
+
+  return updatedCC;
+};
+
+/**
  * Checks if a member meets a category.
  * @param otherMemberEmail - the email of the member we are checking.
  * @param submitterEmail - the email of the member that submitted the coffee chat.
  * @param encodedCategory - the category we are checking with (encoded).
- * @returns true if a member meets a category, false if not, undefined if not enough data to know.
+ * @returns 'pass' if a member meets a category, 'fail' if not, 'no data' if not enough data to know.
  */
 export const checkMemberMeetsCategory = async (
   otherMemberEmail: string,
   submitterEmail: string,
   encodedCategory: string
-): Promise<{ status: boolean | undefined; message: string }> => {
+): Promise<{ status: MemberMeetsCategoryStatus; message: string }> => {
   const otherMemberProperties = await CoffeeChatDao.getMemberProperties(otherMemberEmail);
   const submitterProperties = await CoffeeChatDao.getMemberProperties(submitterEmail);
   const otherMember = await getMember(otherMemberEmail);
@@ -145,57 +179,59 @@ export const checkMemberMeetsCategory = async (
   const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
     member2.subteams.every((team) => !member1.subteams.includes(team)) &&
     member1.subteams.every((team) => !member2.subteams.includes(team));
-  let status: boolean | undefined;
+  let status: MemberMeetsCategoryStatus = 'no data';
   let message: string = '';
 
   // If otherMember doesn't exist in the DB, assume they are an alumni
   if (!otherMember && category === 'an alumni') {
-    return { status: true, message };
+    return { status: 'pass', message };
   }
 
   // If otherMember and submitter don't exist, status should stay undefined
   if (otherMember && submitter) {
     if (category === 'an alumni') {
-      status = (await allMembers()).every((member) => member.email !== otherMember.email);
-      status === false &&
+      status = (await allMembers()).every((member) => member.email !== otherMember.email)
+        ? 'pass'
+        : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not an alumni`);
     } else if (category === 'courseplan member') {
-      status = otherMember.subteams.includes('courseplan');
-      status === false &&
+      status = otherMember.subteams.includes('courseplan') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember?.lastName} is not a CoursePlan member`);
     } else if (category === 'business member') {
-      status = otherMember.role === 'business';
-      status === false &&
+      status = otherMember.role === 'business' ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not a business member`);
     } else if (category === 'idol member') {
-      status = otherMember.subteams.includes('idol');
-      status === false &&
+      status = otherMember.subteams.includes('idol') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not an IDOL member`);
     } else if (category === 'curaise member') {
-      status = otherMember.subteams.includes('curaise');
-      status === false &&
+      status = otherMember.subteams.includes('curaise') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not a CURaise member`);
     } else if (category === 'cornellgo member') {
-      status = otherMember.subteams.includes('cornellgo');
-      status === false &&
+      status = otherMember.subteams.includes('cornellgo') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not a CornellGo member`);
     } else if (category === 'carriage member') {
-      status = otherMember.subteams.includes('carriage');
-      status === false &&
+      status = otherMember.subteams.includes('carriage') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not a Carriage member`);
     } else if (category === 'qmi member') {
-      status = otherMember.subteams.includes('queuemein');
-      status === false &&
+      status = otherMember.subteams.includes('queuemein') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not a QMI member`);
     } else if (category === 'cuapts member') {
-      status = otherMember.subteams.includes('cuapts');
-      status === false &&
+      status = otherMember.subteams.includes('cuapts') ? 'pass' : 'fail';
+      status === 'fail' &&
         (message = `${otherMember.firstName} ${otherMember.lastName} is not a CUApts member`);
     } else if (category === 'a pm (not your team)') {
       const isPm = otherMember.role === 'pm';
       const notSameTeam = haveNoCommonSubteams(submitter, otherMember);
-      status = isPm && notSameTeam;
-      if (status === false) {
+      status = isPm && notSameTeam ? 'pass' : 'fail';
+      if (status === 'fail') {
         if (!isPm && !notSameTeam) {
           message = `${otherMember.firstName} ${otherMember.lastName} is not a PM and is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
         } else if (!isPm) {
@@ -207,8 +243,8 @@ export const checkMemberMeetsCategory = async (
     } else if (category === 'a tpm (not your team)') {
       const isTpm = otherMember.role === 'tpm';
       const notSameTeam = haveNoCommonSubteams(submitter, otherMember);
-      status = isTpm && notSameTeam;
-      if (status === false) {
+      status = isTpm && notSameTeam ? 'pass' : 'fail';
+      if (status === 'fail') {
         if (!isTpm && !notSameTeam) {
           message = `${otherMember.firstName} ${otherMember.lastName} is not a TPM and is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
         } else if (!isTpm) {
@@ -222,24 +258,24 @@ export const checkMemberMeetsCategory = async (
     // If otherMemberProperties doesn't exist, status should stay undefined
     if (otherMemberProperties) {
       if (category === 'a newbie') {
-        status = otherMemberProperties.newbie;
-        status === false &&
+        status = otherMemberProperties.newbie ? 'pass' : 'fail';
+        status === 'fail' &&
           (message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`);
       } else if (category === 'is/was a TA') {
-        status = otherMemberProperties.ta;
-        status === false &&
+        status = otherMemberProperties.ta ? 'pass' : 'fail';
+        status === 'fail' &&
           (message = `${otherMember.firstName} ${otherMember.lastName} was never a TA`);
       } else if (category === 'major/minor that is not cs/infosci') {
-        status = otherMemberProperties.notCsOrInfosci;
-        status === false &&
+        status = otherMemberProperties.notCsOrInfosci ? 'pass' : 'fail';
+        status === 'fail' &&
           (message = `${otherMember.firstName} ${otherMember.lastName} is a CS or Infosci major`);
       }
 
       // If submitterProperties doesn't exist, status should stay undefined
       if (submitterProperties) {
         if (category === 'from a different college') {
-          status = otherMemberProperties.college !== submitterProperties.college;
-          status === false &&
+          status = otherMemberProperties.college !== submitterProperties.college ? 'pass' : 'fail';
+          status === 'fail' &&
             (message = `${otherMember.firstName} ${otherMember.lastName} is from the same college as ${submitter.firstName} ${submitter.lastName} (${otherMemberProperties.college})`);
         }
       }

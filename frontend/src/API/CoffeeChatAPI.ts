@@ -45,6 +45,12 @@ export default class CoffeeChatAPI {
     return res.board as string[][];
   }
 
+  public static async runAutoChecker(uuid: string): Promise<DevPortfolio> {
+    return APIWrapper.put(`${backendURL}/coffee-chat/autocheck/${uuid}/`, {}).then(
+      (res) => res.data.coffeeChat
+    );
+  }
+
   public static checkMemberMeetsCategory(
     otherMember: IdolMember,
     submitter: IdolMember,

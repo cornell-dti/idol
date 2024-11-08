@@ -124,17 +124,7 @@ const CoffeeChatDetails: React.FC = () => {
     if (coffeeChats) {
       await Promise.all(
         coffeeChats.map(async (chat) => {
-          const result = await CoffeeChatAPI.checkMemberMeetsCategory(
-            chat.otherMember,
-            chat.submitter,
-            chat.category
-          );
-          const updatedChat: CoffeeChat = {
-            ...chat,
-            memberMeetsCategory: result.status,
-            errorMessage: result.message
-          };
-          await CoffeeChatAPI.updateCoffeeChat(updatedChat);
+          CoffeeChatAPI.runAutoChecker(chat.uuid);
         })
       );
     }
