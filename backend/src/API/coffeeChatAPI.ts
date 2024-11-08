@@ -189,11 +189,6 @@ export const checkMemberMeetsCategory = async (
 
   // If otherMember and submitter don't exist, status should stay undefined
   if (otherMember && submitter) {
-    // Member coffee chatted themselves
-    if (otherMember.netid === submitter.netid) {
-      return { status: 'fail', message };
-    }
-
     if (category === 'an alumni') {
       status = (await allMembers()).every((member) => member.email !== otherMember.email)
         ? 'pass'

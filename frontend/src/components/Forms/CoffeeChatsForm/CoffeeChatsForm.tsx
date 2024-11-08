@@ -195,6 +195,11 @@ const CoffeeChatsForm: React.FC = () => {
               }}
             />
           )}
+          {member?.netid === userInfo.netid ? (
+            <div className={styles.warning}>Warning: Cannot coffee chat yourself</div>
+          ) : (
+            ''
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
