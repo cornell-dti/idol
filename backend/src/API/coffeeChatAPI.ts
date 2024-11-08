@@ -300,11 +300,10 @@ export const checkMemberMeetsCategory = async (
       if (!isLead) {
         status = 'fail';
         message = `${otherMember.firstName} ${otherMember.lastName} is not a lead`;
-      }
 
-      let diffRole;
-      // If otherMember is a lead, but otherMemberProperties doesn't exist, status should stay undefined
-      if (otherMemberProperties) {
+        // If otherMember is a lead, but otherMemberProperties doesn't exist, status should stay undefined
+      } else if (otherMemberProperties) {
+        let diffRole;
         if (submitter.role !== 'lead') {
           diffRole = otherMemberProperties.leadType !== submitter.role;
           // If submitter is a lead, but submitterProperties doesn't exist, status should stay undefined
@@ -313,12 +312,11 @@ export const checkMemberMeetsCategory = async (
         } else {
           diffRole = undefined;
         }
-      }
-
-      if (diffRole !== undefined) {
-        status = diffRole;
-        if (!status) {
-          message = `${otherMember.firstName} ${otherMember.lastName} is a lead, but from the same role (${submitter.role}) as ${submitter.firstName} ${submitter.lastName}`;
+        if (diffRole !== undefined) {
+          status = diffRole ? 'pass' : 'fail';
+          if (!diffRole) {
+            message = `${otherMember.firstName} ${otherMember.lastName} is a lead, but from the same role (${submitter.role}) as ${submitter.firstName} ${submitter.lastName}`;
+          }
         }
       }
     }
