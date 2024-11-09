@@ -12,7 +12,8 @@ const CoffeeChatsDashboard = ({
   isChatLoading,
   setPendingChats,
   setApprovedChats,
-  bingoBoard
+  bingoBoard,
+  resetState
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
@@ -21,6 +22,7 @@ const CoffeeChatsDashboard = ({
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   bingoBoard: string[][];
+  resetState: () => void;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
@@ -115,6 +117,7 @@ const CoffeeChatsDashboard = ({
           contentMsg: 'Your coffee chat was successfully deleted!'
         });
         Emitters.coffeeChatsUpdated.emit();
+        resetState();
       })
       .catch((error) => {
         Emitters.generalError.emit({

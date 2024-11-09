@@ -67,6 +67,14 @@ const CoffeeChatsForm: React.FC = () => {
     approvedChats.some((chat) => chat.category === category) ||
     pendingChats.some((chat) => chat.category === category);
 
+  const resetState = () => {
+    setMember(undefined);
+    setCategory('');
+    setSlackLink('');
+    setIsNonIDOLMember(false);
+    setMemberMeetsCategory('no data');
+  };
+
   const submitCoffeeChat = async () => {
     if (!member) {
       Emitters.generalError.emit({
@@ -119,11 +127,7 @@ const CoffeeChatsForm: React.FC = () => {
         headerMsg: 'Coffee Chat submitted!',
         contentMsg: `The leads were notified of your submission, and your coffee chat will be approved soon!`
       });
-      setMember(undefined);
-      setCategory('');
-      setSlackLink('');
-      setIsNonIDOLMember(false);
-      setMemberMeetsCategory('no data');
+      resetState();
     }
   };
 
@@ -262,6 +266,7 @@ const CoffeeChatsForm: React.FC = () => {
           setPendingChats={setPendingChats}
           bingoBoard={bingoBoard}
           setApprovedChats={setApprovedChats}
+          resetState={resetState}
         />
       </Form>
     </div>
