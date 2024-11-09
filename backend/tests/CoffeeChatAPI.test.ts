@@ -11,6 +11,10 @@ import {
 } from '../src/API/coffeeChatAPI';
 import { PermissionError } from '../src/utils/errors';
 
+const user = fakeIdolMember();
+const user2 = fakeIdolMember();
+const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
+
 describe('User is not lead or admin', () => {
   beforeAll(() => {
     const mockIsLeadOrAdmin = jest.fn().mockResolvedValue(false);
@@ -20,14 +24,9 @@ describe('User is not lead or admin', () => {
     CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
-
-  const user = fakeIdolMember();
-  const user2 = fakeIdolMember();
-  const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
-  createCoffeeChat(coffeeChat, user);
 
   test('createCoffeeChat should throw error if submitter does not match person making request', async () => {
     const chat = { ...coffeeChat, submitter: user2, otherMember: user };
@@ -72,6 +71,13 @@ describe('User is not lead or admin', () => {
     );
   });
 
+  test('deleteCoffeeChat should pass if submitter is making the request', async () => {
+    const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
+    CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
+
+    await expect(deleteCoffeeChat('fake-uuid', user)).resolves.not.toThrow();
+  });
+
   test('clearAllCoffeeChats should throw permission error', async () => {
     await expect(clearAllCoffeeChats(user)).rejects.toThrow(
       new PermissionError(
@@ -112,7 +118,7 @@ describe('User is lead or admin', () => {
     CoffeeChatDao.prototype.deleteCoffeeChat = mockDeleteCoffeeChat;
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
 

@@ -93,7 +93,7 @@ export const deleteCoffeeChat = async (uuid: string, user: IdolMember): Promise<
 
   if (!coffeeChat) return;
 
-  if (!isLeadOrAdmin && coffeeChat.submitter !== user) {
+  if (!isLeadOrAdmin && coffeeChat.submitter.email !== user.email) {
     throw new PermissionError(
       `User with email ${user.email} does not have sufficient permissions to delete coffee chat.`
     );
