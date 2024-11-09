@@ -72,6 +72,13 @@ describe('User is not lead or admin', () => {
     );
   });
 
+  test('deleteCoffeeChat should pass if submitter is making the request', async () => {
+    const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
+    CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
+
+    await expect(deleteCoffeeChat('fake-uuid', user)).resolves.not.toThrow();
+  });
+
   test('clearAllCoffeeChats should throw permission error', async () => {
     await expect(clearAllCoffeeChats(user)).rejects.toThrow(
       new PermissionError(
