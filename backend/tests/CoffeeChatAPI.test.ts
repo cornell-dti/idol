@@ -20,7 +20,7 @@ describe('User is not lead or admin', () => {
     CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
 
@@ -119,7 +119,7 @@ describe('User is lead or admin', () => {
     CoffeeChatDao.prototype.deleteCoffeeChat = mockDeleteCoffeeChat;
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
 
