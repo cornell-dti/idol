@@ -35,8 +35,8 @@ const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
 
   useEffect(() => {
     CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.submitter, chat.category).then(
-      (check) => {
-        setMemberMeetsCategory(check);
+      (result) => {
+        setMemberMeetsCategory(result.status);
         setIsLoading(false);
       }
     );
@@ -58,6 +58,9 @@ const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
           Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
           {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
         </Card.Meta>
+        {memberMeetsCategory === 'fail' && chat.errorMessage && (
+          <div className={styles.warning}>{chat.errorMessage}</div>
+        )}
         <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
           Slack link
         </a>
@@ -114,6 +117,21 @@ const CoffeeChatDetails: React.FC = () => {
     return map;
   }, [coffeeChats]);
 
+  const runAutoCheckerForCategory = async (category: string) => {
+    setLoading(true);
+
+    const coffeeChats = categoryToChats.get(category);
+    if (coffeeChats) {
+      await Promise.all(
+        coffeeChats.map(async (chat) => {
+          CoffeeChatAPI.runAutoChecker(chat.uuid);
+        })
+      );
+    }
+
+    setLoading(false);
+  };
+
   useEffect(() => {
     const cb = () => {
       setLoading(true);
@@ -141,6 +159,9 @@ const CoffeeChatDetails: React.FC = () => {
         <Link href="/admin/coffee-chats">
           <span className={styles.arrow}>&#8592;</span>
         </Link>
+        {category && (
+          <Button onClick={() => runAutoCheckerForCategory(category)}>Re-run autochecker</Button>
+        )}
       </div>
 
       <h1 className={styles.categoryName}>Category: {category}</h1>

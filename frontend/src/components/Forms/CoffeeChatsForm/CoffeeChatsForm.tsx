@@ -22,6 +22,7 @@ const CoffeeChatsForm: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
   const [memberMeetsCategory, setMemberMeetsCategory] =
     useState<MemberMeetsCategoryStatus>('no data');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -36,9 +37,10 @@ const CoffeeChatsForm: React.FC = () => {
 
   useEffect(() => {
     if (member && category) {
-      CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category).then((check) =>
-        setMemberMeetsCategory(check)
-      );
+      CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category).then((result) => {
+        setMemberMeetsCategory(result.status);
+        setErrorMessage(result.message);
+      });
     }
   }, [category, member, userInfo]);
 
@@ -105,7 +107,9 @@ const CoffeeChatsForm: React.FC = () => {
         slackLink,
         category,
         status: 'pending' as Status,
-        date: new Date().getTime()
+        date: new Date().getTime(),
+        memberMeetsCategory,
+        errorMessage
       };
 
       CoffeeChatAPI.createCoffeeChat(newCoffeeChat).then((coffeeChat) => {
@@ -191,6 +195,11 @@ const CoffeeChatsForm: React.FC = () => {
               }}
             />
           )}
+          {member?.netid === userInfo.netid ? (
+            <div className={styles.warning}>Warning: Cannot coffee chat yourself</div>
+          ) : (
+            ''
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
@@ -216,11 +225,8 @@ const CoffeeChatsForm: React.FC = () => {
               setCategory(foundCategory || '');
             }}
           />
-          {memberMeetsCategory === 'fail' ? (
-            <div className={styles.warning}>
-              Warning: {member?.firstName} {member?.lastName} does not meet the category '{category}
-              '
-            </div>
+          {memberMeetsCategory === 'fail' && errorMessage ? (
+            <div className={styles.warning}>Warning: {errorMessage}</div>
           ) : (
             ''
           )}
