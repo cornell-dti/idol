@@ -11,6 +11,10 @@ import {
 } from '../src/API/coffeeChatAPI';
 import { PermissionError } from '../src/utils/errors';
 
+const user = fakeIdolMember();
+const user2 = fakeIdolMember();
+const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
+
 describe('User is not lead or admin', () => {
   beforeAll(() => {
     const mockIsLeadOrAdmin = jest.fn().mockResolvedValue(false);
@@ -23,11 +27,6 @@ describe('User is not lead or admin', () => {
   afterAll(() => {
     jest.clearAllMocks();
   });
-
-  const user = fakeIdolMember();
-  const user2 = fakeIdolMember();
-  const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
-  createCoffeeChat(coffeeChat, user);
 
   test('createCoffeeChat should throw error if submitter does not match person making request', async () => {
     const chat = { ...coffeeChat, submitter: user2, otherMember: user };
