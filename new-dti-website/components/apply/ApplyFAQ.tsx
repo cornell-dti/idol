@@ -54,10 +54,7 @@ const ApplyFAQ = () => {
 
   return (
     <div className="relative flex justify-center bg-white py-24">
-      <div
-        className="flex flex-col max-w-5xl w-full lg:gap-11 md:gap-7 xs:gap-4 
-        lg:px-5 md:px-[60px] xs:px-6 relative z-10"
-      >
+      <div className="flex flex-col max-w-5xl w-full gap-6 lg:px-5 md:px-[60px] xs:px-6 relative z-10">
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
           <h3 className="section-heading">
