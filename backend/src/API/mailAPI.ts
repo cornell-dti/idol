@@ -1,3 +1,4 @@
+import { LEAD_ROLES } from 'common-types/constants';
 import axios, { AxiosResponse } from 'axios';
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
@@ -161,15 +162,15 @@ export const sendTECReminder = async (
   });
 
   let reminder;
-
+  const isLead = LEAD_ROLES.includes(member.role);
   if (endOfSemesterReminder) {
     reminder = `This is a reminder to submit all your TEC requests to fulfill your ${
-      member.role === 'lead' ? '6' : '3'
+      isLead ? '6' : '3'
     } team event credits requirement by the end of the semester!`;
   } else {
     reminder =
       `This is a reminder to get at least ${
-        member.role === 'lead' ? '6' : '3'
+        isLead ? '6' : '3'
       } team event credits by the end of the semester.\n` +
       `\n${
         futureEvents.length === 0

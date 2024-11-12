@@ -1,3 +1,4 @@
+import { BUSINESS_ROLES, LEAD_ROLES } from 'common-types/constants';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
@@ -201,7 +202,7 @@ export const checkMemberMeetsCategory = async (
         message = `${otherMember.firstName} ${otherMember?.lastName} is not a CoursePlan member`;
       }
     } else if (category === 'business member') {
-      status = otherMember.role === 'business' ? 'pass' : 'fail';
+      status = BUSINESS_ROLES.includes(otherMember.role) ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a business member`;
       }
@@ -290,7 +291,7 @@ export const checkMemberMeetsCategory = async (
     }
 
     if (category === 'a lead (not your role)') {
-      const isLead = otherMember.role === 'lead';
+      const isLead = LEAD_ROLES.includes(otherMember.role);
       if (!isLead) {
         status = 'fail';
         message = `${otherMember.firstName} ${otherMember.lastName} is not a lead`;
@@ -298,7 +299,7 @@ export const checkMemberMeetsCategory = async (
         // If otherMember is a lead, but otherMemberProperties doesn't exist, status should stay undefined
       } else if (otherMemberProperties) {
         let diffRole;
-        if (submitter.role !== 'lead') {
+        if (!LEAD_ROLES.includes(submitter.role)) {
           diffRole = otherMemberProperties.leadType !== submitter.role;
           // If submitter is a lead, but submitterProperties doesn't exist, status should stay undefined
         } else if (submitterProperties) {

@@ -1,6 +1,7 @@
 import { Loader, Modal } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
+import { LEAD_ROLES } from 'common-types/constants';
 import {
   adminsCollection,
   membersCollection,
@@ -41,7 +42,10 @@ export const useHasAdminPermission = (): boolean => {
   const userEmail = useUserEmail();
   const self = useSelf();
   const adminEmails = useAdminEmails();
-  return (isProduction || allowAdmin) && (self?.role === 'lead' || adminEmails.includes(userEmail));
+  return (
+    (isProduction || allowAdmin) &&
+    ((self && LEAD_ROLES.includes(self.role)) || adminEmails.includes(userEmail))
+  );
 };
 
 export const useTeamNames = (): readonly string[] => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
@@ -9,7 +10,7 @@ const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
   const userInfoBeforeEdit = useSelf();
   const userRole = userInfoBeforeEdit?.role ?? ('' as Role);
-  const isNotLead = userRole !== 'lead';
+  const isNotLead = !LEAD_ROLES.includes(userRole);
 
   const [firstName, setFirstName] = useState(userInfoBeforeEdit?.firstName ?? '');
   const [lastName, setLastName] = useState(userInfoBeforeEdit?.lastName ?? '');

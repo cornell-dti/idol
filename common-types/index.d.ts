@@ -1,17 +1,46 @@
 /** The common types required by more than one workspace. */
 
 /** All possible roles for a DTI member */
-type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business' | 'dev-advisor';
+type Role =
+  | 'lead'
+  | 'ops-lead'
+  | 'product-lead'
+  | 'dev-lead'
+  | 'design-lead'
+  | 'business-lead'
+  | 'tpm'
+  | 'pm'
+  | 'apm'
+  | 'developer'
+  | 'designer'
+  | 'business'
+  | 'internal-business'
+  | 'pmm'
+  | 'pm-advisor'
+  | 'dev-advisor'
+  | 'design-advisor'
+  | 'business-advisor';
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
   | 'Lead'
+  | 'Full Team Lead'
+  | 'Product Lead'
+  | 'Developer Lead'
+  | 'Design Lead'
+  | 'Business Lead'
   | 'Technical PM'
   | 'Product Manager'
+  | 'Associate Product Manager'
   | 'Developer'
   | 'Designer'
   | 'Business Analyst'
-  | 'Dev Advisor';
+  | 'Internal Business'
+  | 'Product Marketing Manager'
+  | 'PM Advisor'
+  | 'Dev Advisor'
+  | 'Design Advisor'
+  | 'Business Advisor';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
@@ -122,7 +123,7 @@ const TeamEventDashboard: React.FC = () => {
                   );
                   return (
                     totalCredits <
-                    (member.role === 'lead'
+                    (LEAD_ROLES.includes(member.role)
                       ? REQUIRED_LEAD_TEC_CREDITS
                       : REQUIRED_MEMBER_TEC_CREDITS)
                   );
@@ -150,7 +151,9 @@ const TeamEventDashboard: React.FC = () => {
               const initiativeCredits = getInitiativeCredits(member, teamEvents);
               const totalCreditsMet =
                 totalCredits >=
-                (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
+                (LEAD_ROLES.includes(member.role)
+                  ? REQUIRED_LEAD_TEC_CREDITS
+                  : REQUIRED_MEMBER_TEC_CREDITS);
               const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
 
               return (

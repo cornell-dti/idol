@@ -1,3 +1,4 @@
+import { LEAD_ROLES } from 'common-types/constants';
 import { DISABLE_DELETE_ALL_COFFEE_CHATS } from '../consts';
 import { adminCollection } from '../firebase';
 
@@ -48,11 +49,11 @@ export default class PermissionsManager {
 
   public static async isAdmin(mem: IdolMember): Promise<boolean> {
     const member = (await adminCollection.doc(mem.email).get()).data();
-    return mem.role === 'lead' || member !== undefined;
+    return LEAD_ROLES.includes(mem.role) || member !== undefined;
   }
 
   public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> {
-    return mem.role === 'lead' || this.isAdmin(mem);
+    return LEAD_ROLES.includes(mem.role) || this.isAdmin(mem);
   }
 
   public static async isClearAllCoffeeChatsDisabled(): Promise<boolean> {
