@@ -7,9 +7,15 @@ import {
   createCoffeeChat,
   updateCoffeeChat,
   deleteCoffeeChat,
-  clearAllCoffeeChats
+  clearAllCoffeeChats,
+  checkMemberMeetsCategory
 } from '../src/API/coffeeChatAPI';
+import { setMember, deleteMember } from '../src/API/memberAPI';
 import { PermissionError } from '../src/utils/errors';
+
+const user = fakeIdolMember();
+const user2 = fakeIdolMember();
+const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
 
 describe('User is not lead or admin', () => {
   beforeAll(() => {
@@ -20,14 +26,9 @@ describe('User is not lead or admin', () => {
     CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
-
-  const user = fakeIdolMember();
-  const user2 = fakeIdolMember();
-  const coffeeChat = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
-  createCoffeeChat(coffeeChat, user);
 
   test('createCoffeeChat should throw error if submitter does not match person making request', async () => {
     const chat = { ...coffeeChat, submitter: user2, otherMember: user };
@@ -72,6 +73,13 @@ describe('User is not lead or admin', () => {
     );
   });
 
+  test('deleteCoffeeChat should pass if submitter is making the request', async () => {
+    const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
+    CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
+
+    await expect(deleteCoffeeChat('fake-uuid', user)).resolves.not.toThrow();
+  });
+
   test('clearAllCoffeeChats should throw permission error', async () => {
     await expect(clearAllCoffeeChats(user)).rejects.toThrow(
       new PermissionError(
@@ -112,7 +120,7 @@ describe('User is lead or admin', () => {
     CoffeeChatDao.prototype.deleteCoffeeChat = mockDeleteCoffeeChat;
   });
 
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
 
@@ -163,5 +171,149 @@ describe('User is lead or admin', () => {
 
     await deleteCoffeeChat(newChat.uuid, adminUser);
     expect(CoffeeChatDao.prototype.deleteCoffeeChat).toBeCalled();
+  });
+});
+
+describe('More complicated member meets category checks', () => {
+  const admin = { ...fakeIdolLead() };
+  const user1 = { ...fakeIdolMember(), subteams: ['team1'], role: 'developer' };
+  const user2 = { ...fakeIdolMember(), role: 'pm', subteams: ['team2'] };
+  const user3 = { ...fakeIdolMember(), role: 'pm', subteams: ['team1'] };
+  const user4 = { ...fakeIdolMember(), role: 'business' };
+  const user5 = { ...fakeIdolMember(), role: 'tpm', subteams: ['team3'] };
+  const user6 = { ...fakeIdolMember(), role: 'tpm', subteams: ['team1'] };
+  const user7 = { ...fakeIdolMember(), role: 'lead' };
+  const memberProperties7 = { leadType: 'pm' };
+  const user8 = { ...fakeIdolMember(), role: 'lead' };
+  const memberProperties8 = { leadType: 'developer' };
+  const user9 = { ...fakeIdolMember(), role: 'lead' };
+  const user10 = { ...fakeIdolMember(), role: 'lead' };
+
+  beforeAll(async () => {
+    const users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];
+    await Promise.all(users.map((user) => setMember(user, admin)));
+    await CoffeeChatDao.createMemberProperties(user7.email, memberProperties7);
+    await CoffeeChatDao.createMemberProperties(user8.email, memberProperties8);
+  });
+
+  afterAll(async () => {
+    const users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];
+    await Promise.all(users.map((user) => deleteMember(user.email, admin)));
+    await CoffeeChatDao.deleteMemberProperties(user7.email);
+    await CoffeeChatDao.deleteMemberProperties(user8.email);
+  });
+
+  test('pm that is not on same team', async () => {
+    const result = await checkMemberMeetsCategory(user2.email, user1.email, 'a pm (not your team)');
+    expect(result.status).toBe('pass');
+    expect(result.message).toBe('');
+  });
+
+  test('pm that is on same team', async () => {
+    const result = await checkMemberMeetsCategory(user3.email, user1.email, 'a pm (not your team)');
+    expect(result.status).toBe('fail');
+    expect(result.message).toBe(
+      `${user3.firstName} ${user3.lastName} is a PM, but is on the same team as ${user1.firstName} ${user1.lastName}`
+    );
+  });
+
+  test('not a pm', async () => {
+    const result = await checkMemberMeetsCategory(user4.email, user1.email, 'a pm (not your team)');
+    expect(result.status).toBe('fail');
+    expect(result.message).toBe(`${user4.firstName} ${user4.lastName} is not a PM`);
+  });
+
+  test('tpm that is not on same team', async () => {
+    const result = await checkMemberMeetsCategory(
+      user5.email,
+      user1.email,
+      'a tpm (not your team)'
+    );
+    expect(result.status).toBe('pass');
+    expect(result.message).toBe('');
+  });
+
+  test('tpm that is on same team', async () => {
+    const result = await checkMemberMeetsCategory(
+      user6.email,
+      user1.email,
+      'a tpm (not your team)'
+    );
+    expect(result.status).toBe('fail');
+    expect(result.message).toBe(
+      `${user6.firstName} ${user6.lastName} is a TPM, but is on the same team as ${user1.firstName} ${user1.lastName}`
+    );
+  });
+
+  test('not a tpm', async () => {
+    const result = await checkMemberMeetsCategory(
+      user4.email,
+      user1.email,
+      'a tpm (not your team)'
+    );
+    expect(result.status).toBe('fail');
+    expect(result.message).toBe(`${user4.firstName} ${user4.lastName} is not a TPM`);
+  });
+
+  test('a lead that is not same role', async () => {
+    const result = await checkMemberMeetsCategory(
+      user7.email,
+      user1.email,
+      'a lead (not your role)'
+    );
+    expect(result.status).toBe('pass');
+    expect(result.message).toBe('');
+  });
+
+  test('a lead that is the same role', async () => {
+    const result = await checkMemberMeetsCategory(
+      user8.email,
+      user1.email,
+      'a lead (not your role)'
+    );
+    expect(result.status).toBe('fail');
+    expect(result.message).toBe(
+      `${user8.firstName} ${user8.lastName} is a lead, but from the same role (${memberProperties8.leadType}) as ${user1.firstName} ${user1.lastName}`
+    );
+  });
+
+  test('not a lead', async () => {
+    const result = await checkMemberMeetsCategory(
+      user4.email,
+      user1.email,
+      'a lead (not your role)'
+    );
+    expect(result.status).toBe('fail');
+    expect(result.message).toBe(`${user4.firstName} ${user4.lastName} is not a lead`);
+  });
+
+  test('should pass but otherMemberProperties undefined', async () => {
+    const result = await checkMemberMeetsCategory(
+      user9.email,
+      user1.email,
+      'a lead (not your role)'
+    );
+    expect(result.status).toBe('no data');
+    expect(result.message).toBe('');
+  });
+
+  test('should pass but submitterProperties undefined', async () => {
+    const result = await checkMemberMeetsCategory(
+      user7.email,
+      user9.email,
+      'a lead (not your role)'
+    );
+    expect(result.status).toBe('no data');
+    expect(result.message).toBe('');
+  });
+
+  test('both submitterProperties and otherMemberProperties undefined', async () => {
+    const result = await checkMemberMeetsCategory(
+      user9.email,
+      user10.email,
+      'a lead (not your role)'
+    );
+    expect(result.status).toBe('no data');
+    expect(result.message).toBe('');
   });
 });

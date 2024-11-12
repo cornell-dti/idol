@@ -219,5 +219,17 @@ interface CoffeeChat {
   readonly category: string;
   readonly status: Status;
   readonly date: number;
+  readonly memberMeetsCategory: MemberMeetsCategoryStatus;
   readonly reason?: string;
+  readonly errorMessage?: string;
 }
+
+interface MemberProperties {
+  readonly college: string;
+  readonly newbie: boolean;
+  readonly notCsOrInfosci: boolean;
+  readonly ta: boolean;
+  readonly leadType?: Role;
+}
+type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
+type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };

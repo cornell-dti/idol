@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
+import RedBlob from '../../components/blob';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
@@ -85,16 +86,15 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div
-        className="flex flex-col bg-black bg-cover bg-center h-screen"
-        style={{ backgroundImage: "url('/images/hero_bg.png')" }}
-      >
+      <div className="flex flex-col bg-black bg-cover bg-center h-screen">
+        <RedBlob intensity={0.6} className="left-[-200px] top-[-100px]" />
         <div className="flex flex-row justify-between items-center pl-[15%] pt-20 w-full">
           <div className="flex flex-col mr-20">
-            <h2 className="text-white text-6xl">
+            <h2 className="text-white text-6xl z-10">
               Cornell Digital <br /> Tech & Innovation
             </h2>
-            <div className="flex items-center space-x-2 mt-5 h-28">
+            <RedBlob intensity={0.6} className="left-[200px] top-[450px]" />
+            <div className="flex items-center space-x-2 mt-5 h-28 z-10">
               {icons.map((icon, index) => (
                 <Icon
                   key={index}
@@ -116,11 +116,14 @@ const Home: React.FC = () => {
           <div className="flex-grow">
             <Slideshow selectedImage={selectedIcon} />
           </div>
+          <div className="relative">
+            <RedBlob intensity={0.6} className="left-[-300px] top-[-250px]" />
+          </div>
         </div>
         <div className="flex justify-center self-center w-full mt-10 mb-10">
           <button
             onClick={scrollToContent}
-            className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center"
+            className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center z-10"
             style={{ transition: 'all 0.3s ease', marginTop: '2rem' }}
           >
             LEARN MORE

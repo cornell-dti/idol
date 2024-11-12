@@ -49,15 +49,6 @@ export const populateMembers = (
     return { ...value, members: sortedMembers };
   });
 
-export const getFullRoleFromDescription = (roleDescription: RoleDescription): string => {
-  switch (roleDescription) {
-    case 'Technical PM':
-      return 'Technical Product Manager';
-    default:
-      return roleDescription;
-  }
-};
-
 export const getGeneralRole = (role: Role): Role => {
   switch (role) {
     case 'tpm':
