@@ -48,3 +48,9 @@
   color: rgb(48, 164, 22);
   font-weight: bold;
 }
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
