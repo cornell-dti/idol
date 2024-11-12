@@ -130,3 +130,38 @@
 .section-heading {
   font-weight: 600;
 }
+
+.primary-button {
+  color: #fefefe;
+  background-color: #d63d3d;
+  padding: 16px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 18px;
+  height: fit-content;
+  width: fit-content;
+}
+
+.primary-button:hover {
+  background-color: #a52424;
+}
+
+.secondary-button {
+  color: black;
+  background-color: #FEFEFE;
+  padding: 13.6px 27.6px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 18px;
+  height: fit-content;
+  width: fit-content;
+  border-color: black;
+  border-width: 3px;
+  border-style: solid;
+}
+
+.secondary-button:hover {
+  color: #FEFEFE;
+  background-color: black;
+  border-color: white;
+}

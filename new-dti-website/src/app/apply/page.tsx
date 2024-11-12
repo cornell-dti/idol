@@ -31,10 +31,7 @@ const ApplyHero = () => (
           <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
           applicants to apply regardless of experience. We'd love to work with someone like you.
         </p>
-        <button
-          className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-[#D63D3D] w-fit"
-        >
+        <button className="primary-button">
           <a href={config.applicationLink}>Apply now</a>
         </button>
       </div>
@@ -54,15 +51,11 @@ const ApplyCoffeeChat = () => (
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
       </p>
       <div className="flex md:flex-row xs:flex-col gap-3">
-        <button
-          className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-[#D63D3D] w-fit"
-        >
+        <button className="primary-button">
           <a href={config.coffeeChatLink}>Coffee chat with us</a>
         </button>
         <button
-          className="rounded-xl py-3 px-[20px] text-[#FFDCDC] border-[#FFDCDC] border-[3px]
-          font-bold hover:bg-[#FFDCDC] hover:text-[#0C0404] w-fit"
+          className="secondary-button"
         >
           <a href={config.coffeeChatFormLink}>Don't know who to chat with?</a>
         </button>

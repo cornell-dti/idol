@@ -169,16 +169,14 @@ export default function Courses() {
                   <Link
                     key="Apply Page"
                     href={'/apply'}
-                    className="transition ease-in-out duration-300 rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-red-500 text-white text-lg md:text-xl
-          font-black border-4 hover:bg-red-800 w-fit"
+                    className="transition ease-in-out duration-300 primary-button"
                   >
                     Apply Now
                   </Link>
                   <Link
                     key="Trends Form"
                     href={''}
-                    className="transition ease-in-out duration-300 rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-red-500 text-white text-lg md:text-xl
-          font-black border-4 hover:bg-red-800 w-fit"
+                    className="transition ease-in-out duration-300 primary-button"
                   >
                     Learn More
                   </Link>

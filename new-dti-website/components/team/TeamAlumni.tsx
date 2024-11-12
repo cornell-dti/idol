@@ -81,7 +81,7 @@ const TeamAlumni = () => {
               {isApplicationOpen ? 'now open!' : 'now closed.'}
             </p>
             {isApplicationOpen && (
-              <button className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white font-bold hover:bg-white hover:text-[#A52424]">
+              <button className="primary-button">
                 <a href={'/apply'} target="_blank" rel="noopener noreferrer">
                   Apply here
                 </a>
