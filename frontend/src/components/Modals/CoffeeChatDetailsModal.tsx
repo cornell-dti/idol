@@ -27,7 +27,7 @@ const CoffeeChatModal: React.FC<Props> = ({
   const userInfo = useSelf()!;
   const [members, setMembers] = useState<IdolMember[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [membersInCategory, setMembersInCategory] = useState<IdolMember[]>([]);
+  const [membersInCategory, setMembersInCategory] = useState<(IdolMember | undefined)[]>([]);
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((mem) => {
@@ -43,7 +43,7 @@ const CoffeeChatModal: React.FC<Props> = ({
         const filteredMembers = await Promise.all(
           members.map(async (member) => {
             const result = await CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category);
-            return result.status === 'pass' ? member : null;
+            return result.status === 'pass' ? member : undefined;
           })
         );
 
@@ -51,12 +51,12 @@ const CoffeeChatModal: React.FC<Props> = ({
 
         const getValidMembers = (
           existingChats: CoffeeChat[],
-          members: IdolMember[]
-        ): IdolMember[] =>
+          members: (IdolMember | undefined)[]
+        ): (IdolMember | undefined)[] =>
           members.filter(
             (member) =>
-              !existingChats.some((chat) => chat.otherMember.netid === member.netid) &&
-              !(member.netid === userInfo.netid)
+              !existingChats.some((chat) => chat.otherMember.netid === member?.netid) &&
+              !(member?.netid === userInfo.netid)
           );
 
         const remainingMembers = getValidMembers(
@@ -109,23 +109,19 @@ const CoffeeChatModal: React.FC<Props> = ({
           <Modal.Content>
             <div>
               Members in this category you haven't coffee chatted yet:
-              {isLoading ? <div style={{ marginTop: '5px' }}>Loading...</div> : <></>}
-              {!isLoading && membersInCategory ? (
+              {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
+              {!isLoading && membersInCategory.length === 0 && (
                 <div style={{ marginTop: '5px' }}>
                   There are no active members who certainly meet this category.
                 </div>
-              ) : (
-                <></>
               )}
-              {!isLoading && membersInCategory ? (
+              {!isLoading &&
+                membersInCategory.length > 0 &&
                 membersInCategory.map((member) => (
-                  <div key={member.netid} style={{ marginTop: '5px' }}>
-                    {`${member.firstName} ${member.lastName} (${member.netid})`}
+                  <div key={member?.netid} style={{ marginTop: '5px' }}>
+                    {`${member?.firstName} ${member?.lastName} (${member?.netid})`}
                   </div>
-                ))
-              ) : (
-                <></>
-              )}
+                ))}
             </div>
           </Modal.Content>
         </>
