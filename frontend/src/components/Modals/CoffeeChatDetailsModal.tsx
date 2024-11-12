@@ -47,7 +47,7 @@ const CoffeeChatModal: React.FC<Props> = ({
           })
         );
 
-        const membersToCategory = filteredMembers.filter((member) => member !== null);
+        const membersToCategory = filteredMembers.filter((member) => member !== undefined);
 
         const getValidMembers = (
           existingChats: CoffeeChat[],
