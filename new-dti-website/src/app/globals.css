@@ -148,7 +148,7 @@
 
 .secondary-button {
   color: black;
-  background-color: #FEFEFE;
+  background-color: #fefefe;
   padding: 13.6px 27.6px;
   border-radius: 30px;
   font-weight: 700;
@@ -161,7 +161,7 @@
 }
 
 .secondary-button:hover {
-  color: #FEFEFE;
+  color: #fefefe;
   background-color: black;
-  border-color: white;
+  border-color: #fefefe;
 }
