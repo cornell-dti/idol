@@ -306,7 +306,7 @@ describe('More complicated member meets category checks', () => {
     expect(result.status).toBe('no data');
     expect(result.message).toBe('');
   });
-
+console.log("")
   test('both submitterProperties and otherMemberProperties undefined', async () => {
     const result = await checkMemberMeetsCategory(
       user9.email,
