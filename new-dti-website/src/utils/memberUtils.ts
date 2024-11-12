@@ -60,10 +60,32 @@ export const getFullRoleFromDescription = (roleDescription: RoleDescription): st
 
 export const getGeneralRole = (role: Role): Role => {
   switch (role) {
+    case 'ops-lead':
+      return 'lead';
+    case 'product-lead':
+      return 'lead';
+    case 'dev-lead':
+      return 'lead';
+    case 'design-lead':
+      return 'lead';
+    case 'business-lead':
+      return 'lead';
     case 'tpm':
       return 'developer';
+    case 'apm':
+      return 'pm';
+    case 'internal-business':
+      return 'business';
+    case 'pmm':
+      return 'business';
+    case 'pm-advisor':
+      return 'pm';
     case 'dev-advisor':
       return 'developer';
+    case 'design-advisor':
+      return 'designer';
+    case 'business-advisor':
+      return 'business';
     default:
       return role;
   }

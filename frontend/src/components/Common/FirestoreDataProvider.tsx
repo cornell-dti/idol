@@ -11,6 +11,7 @@ import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
 import { isProduction, allowAdmin, environment } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
+import { LEAD_ROLES } from '../../consts';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -41,7 +42,10 @@ export const useHasAdminPermission = (): boolean => {
   const userEmail = useUserEmail();
   const self = useSelf();
   const adminEmails = useAdminEmails();
-  return (isProduction || allowAdmin) && (self?.role === 'lead' || adminEmails.includes(userEmail));
+  return (
+    (isProduction || allowAdmin) &&
+    ((self && LEAD_ROLES.includes(self.role)) || adminEmails.includes(userEmail))
+  );
 };
 
 export const useTeamNames = (): readonly string[] => {
