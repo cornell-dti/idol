@@ -55,7 +55,7 @@ export default function FloatingImages({ images }: FloatingImagesProps) {
         {images.map((img, index) => (
           <div
             key={index}
-            className={`${index === 0 ? 'relative' : 'absolute'} w-full h-auto ${
+            className={`${index === 0 ? 'relative z-10' : 'absolute'} w-full h-auto ${
               index !== 0 ? getFloatClass(img.direction) : ''
             } ${img.delay && index !== 0 ? 'floating-delay' : ''}`}
             style={getStyle(img, index)}

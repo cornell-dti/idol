@@ -20,13 +20,13 @@ export default function Page() {
           className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'}
           intensity={0.4}
         />
-        <div className="md:w-fit w-[314px]">
+        <div className="md:w-fit w-[314px] z-10">
           <p className="md:text-[100px] md:leading-[121px] text-[48px] leading-[58px] font-semibold">
             <span className="text-white">OUR </span>
             <span className="text-red-500">PRODUCTS</span>
           </p>
         </div>
-        <div className="flex flex-col justify-center w-fit gap-y-6">
+        <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
           <div className="flex flex-row">
             <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px]">
               <span className="text-neutral-400">Real</span>
@@ -34,7 +34,7 @@ export default function Page() {
               <span className="text-neutral-200 italic">impact</span>
             </div>
           </div>
-          <p className="text-[#FFFFFF] w-[475px] md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px]">
+          <p className="text-[#FFFFFF] w-[475px] md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
             Each of our projects address an unfulfilled need that exists in our community using
             <span className="font-semibold"> human-centered design and software engineering.</span>
           </p>
@@ -142,12 +142,12 @@ const ProductDisplay = (props: {
         `${props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'}`
       )}
     >
-      <div className="-translate-y-20">
+      <div className="relative z-10 -translate-y-20">
         <FloatingImages images={props.product.images ?? []} />
       </div>
     </div>
     <div
-      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-32 mb-40 text-white ${
+      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-0 mb-72 z-10 text-white ${
         props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
       }`}
     >
