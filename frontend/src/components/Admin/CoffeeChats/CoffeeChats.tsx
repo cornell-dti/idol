@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { createHash } from 'crypto';
+import { Button } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
-import { Button } from 'semantic-ui-react';
 
 const CoffeeChats: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
