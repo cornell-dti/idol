@@ -54,9 +54,7 @@ const ApplyCoffeeChat = () => (
         <button className="primary-button">
           <a href={config.coffeeChatLink}>Coffee chat with us</a>
         </button>
-        <button
-          className="secondary-button"
-        >
+        <button className="secondary-button">
           <a href={config.coffeeChatFormLink}>Don't know who to chat with?</a>
         </button>
       </div>

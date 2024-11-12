@@ -135,7 +135,7 @@
   color: #fefefe;
   background-color: #d63d3d;
   padding: 16px 20px;
-  border-radius: 30px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 18px;
   height: fit-content;
@@ -147,21 +147,21 @@
 }
 
 .secondary-button {
-  color: black;
-  background-color: #fefefe;
+  color: #fefefe;
+  background-color: black;
   padding: 13.6px 27.6px;
-  border-radius: 30px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 18px;
   height: fit-content;
   width: fit-content;
-  border-color: black;
+  border-color: #fefefe;
   border-width: 3px;
   border-style: solid;
 }
 
 .secondary-button:hover {
-  color: #fefefe;
-  background-color: black;
+  color: black;
+  background-color: #fefefe;
   border-color: #fefefe;
 }
