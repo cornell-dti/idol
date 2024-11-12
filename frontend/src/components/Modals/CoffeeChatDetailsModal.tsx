@@ -1,60 +1,134 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import styles from './CoffeeChatDetailsModal.module.css';
+import CoffeeChatAPI from '../../API/CoffeeChatAPI';
+import { useSelf } from '../Common/FirestoreDataProvider';
+import { MembersAPI } from '../../API/MembersAPI';
 
 type Props = {
   coffeeChat?: CoffeeChat;
+  category: string;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
+  approvedChats: CoffeeChat[];
+  pendingChats: CoffeeChat[];
 };
 
 const CoffeeChatModal: React.FC<Props> = ({
   coffeeChat,
+  category,
   open,
   setOpen,
-  deleteCoffeeChatRequest
-}) => (
-  <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
-    {coffeeChat ? (
-      <>
-        <Modal.Header>
-          Coffee Chat with {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName}{' '}
-          {!coffeeChat.isNonIDOLMember ? `(${coffeeChat.otherMember.netid})` : ''}
-        </Modal.Header>
+  deleteCoffeeChatRequest,
+  approvedChats,
+  pendingChats
+}) => {
+  const userInfo = useSelf()!;
+  const [members, setMembers] = useState<IdolMember[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [categoryToMembers, setCategoryToMembers] = useState<IdolMember[]>([]);
 
-        <Modal.Content className={styles.modal_content}>
-          <ChatDetail label="Category" value={coffeeChat.category} />
-          <ChatDetail
-            label="Slack Link"
-            value={
-              <a href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
-                {coffeeChat.slackLink}
-              </a>
-            }
-          />
-          <ChatDetail label="Status" value={coffeeChat.status} />
-          {coffeeChat.reason && <ChatDetail label="Reason" value={coffeeChat.reason} />}
-        </Modal.Content>
+  useEffect(() => {
+    MembersAPI.getAllMembers().then((mem) => {
+      setMembers(mem);
+    });
+  }, []);
 
-        {coffeeChat.status !== 'rejected' && (
-          <Modal.Actions>
-            <Button color="red" onClick={() => deleteCoffeeChatRequest(coffeeChat)}>
-              Delete
-            </Button>
-          </Modal.Actions>
-        )}
-      </>
-    ) : (
-      <>
-        <Modal.Header>No Coffee Chat Submitted</Modal.Header>
-        <Modal.Content>
-          <p>You have not submitted a coffee chat for this category.</p>
-        </Modal.Content>
-      </>
-    )}
-  </Modal>
-);
+  useEffect(() => {
+    if (category) {
+      setIsLoading(true);
+
+      const filterMembers = async () => {
+        const filteredMembers = await Promise.all(
+          members.map(async (member) => {
+            const result = await CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category);
+            return result.status === 'pass' ? member : null;
+          })
+        );
+
+        const membersToCategory = filteredMembers.filter((member) => member !== null);
+
+        const getRemainingMembers = (
+          existingChats: CoffeeChat[],
+          members: IdolMember[]
+        ): IdolMember[] =>
+          members.filter(
+            (member) =>
+              !existingChats.some((chat) => chat.otherMember.netid === member.netid) &&
+              !(member.netid === userInfo.netid)
+          );
+
+        const remainingMembers = getRemainingMembers(
+          [...pendingChats, ...approvedChats],
+          membersToCategory
+        );
+        setCategoryToMembers(remainingMembers);
+
+        setIsLoading(false); // Set loading to false once all operations are completed
+      };
+
+      filterMembers();
+    }
+  }, [members, userInfo, category, pendingChats, approvedChats]);
+
+  return (
+    <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
+      {coffeeChat ? (
+        <>
+          <Modal.Header>
+            Coffee Chat with {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName}{' '}
+            {!coffeeChat.isNonIDOLMember ? `(${coffeeChat.otherMember.netid})` : ''}
+          </Modal.Header>
+
+          <Modal.Content className={styles.modal_content}>
+            <ChatDetail label="Category" value={coffeeChat.category} />
+            <ChatDetail
+              label="Slack Link"
+              value={
+                <a href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
+                  {coffeeChat.slackLink}
+                </a>
+              }
+            />
+            <ChatDetail label="Status" value={coffeeChat.status} />
+            {coffeeChat.reason && <ChatDetail label="Reason" value={coffeeChat.reason} />}
+          </Modal.Content>
+
+          {coffeeChat.status !== 'rejected' && (
+            <Modal.Actions>
+              <Button color="red" onClick={() => deleteCoffeeChatRequest(coffeeChat)}>
+                Delete
+              </Button>
+            </Modal.Actions>
+          )}
+        </>
+      ) : (
+        <>
+          <Modal.Header>No Submission For Category '{category}'</Modal.Header>
+          <Modal.Content>
+            <div>
+              Members in this category you haven't coffee chatted yet:
+              {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
+              {!isLoading && categoryToMembers.length === 0 && (
+                <div style={{ marginTop: '5px' }}>
+                  There are no active members who certainly meet this category.
+                </div>
+              )}
+              {!isLoading &&
+                categoryToMembers.length > 0 &&
+                categoryToMembers.map((member) => (
+                  <div key={member.netid} style={{ marginTop: '5px' }}>
+                    {`${member.firstName} ${member.lastName} (${member.netid})`}
+                  </div>
+                ))}
+            </div>
+          </Modal.Content>
+        </>
+      )}
+    </Modal>
+  );
+};
 
 const ChatDetail = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <p>

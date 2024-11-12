@@ -26,6 +26,7 @@ const CoffeeChatsDashboard = ({
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [openRejected, setOpenRejected] = useState(false);
   const [bingoCount, setBingoCount] = useState(0);
 
@@ -131,6 +132,7 @@ const CoffeeChatsDashboard = ({
     (category: string) => {
       const chat = allChats.find((chat) => chat.category === category);
       setSelectedChat(chat);
+      setSelectedCategory(category);
       setOpen(true);
     },
     [allChats]
@@ -151,8 +153,10 @@ const CoffeeChatsDashboard = ({
           <strong style={{ color: '#02c002' }}>green</strong>, rejected chats in{' '}
           <strong style={{ color: '#f23e3e' }}>red</strong>, and pending chats in{' '}
           <strong style={{ color: '#7d7d7d' }}>gray</strong>. Bingo rows, columns, or diagonals will
-          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>. Click on a bingo
-          cell to view more details.
+          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>.{' '}
+          <strong>
+            Click on a bingo cell to view more details, or view coffee chat suggestions.
+          </strong>
         </p>
         <strong>
           {blackout
@@ -179,9 +183,12 @@ const CoffeeChatsDashboard = ({
 
       <CoffeeChatModal
         coffeeChat={selectedChat}
+        category={selectedCategory}
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
+        approvedChats={approvedChats}
+        pendingChats={pendingChats}
       />
 
       <div className={styles.rejected_section}>
