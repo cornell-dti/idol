@@ -60,9 +60,9 @@ const CoffeeChats: React.FC = () => {
         </div>
       </div>
       <div className={styles.buttonContainer}>
-        <Button>
-          <Link href="/admin/coffee-chats/dashboard">View Coffee Chats Dashboard</Link>
-        </Button>
+        <Link href="/admin/coffee-chats/dashboard">
+          <Button>View Coffee Chats Dashboard</Button>
+        </Link>
       </div>
     </div>
   );
