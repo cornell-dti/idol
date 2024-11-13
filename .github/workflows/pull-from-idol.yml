@@ -32,4 +32,4 @@ jobs:
       - name: Pull From IDOL
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        run: yarn workspace dti-website run pull-from-idol
+        run: yarn workspace new-dti-website run pull-from-idol
