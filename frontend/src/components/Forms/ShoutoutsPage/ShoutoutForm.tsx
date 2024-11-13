@@ -41,7 +41,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
 
       if (image) {
         const blob = await fetch(image).then((res) => res.blob());
-        imageUrl = `shoutoutProofs/${user.email}/${new Date().toISOString()}`;
+        imageUrl = `shoutoutImages/${user.email}/${new Date().toISOString()}`;
         await ImagesAPI.uploadImage(blob, imageUrl);
       }
 
