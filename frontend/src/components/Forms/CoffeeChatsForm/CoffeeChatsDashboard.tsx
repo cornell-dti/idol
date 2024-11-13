@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 
 import { Icon, Loader, Table } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
-import { Emitters } from '../../../utils';
+import { Emitters, getLinesFromBoard } from '../../../utils';
 import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
 
 const CoffeeChatsDashboard = ({
@@ -50,17 +50,11 @@ const CoffeeChatsDashboard = ({
 
   const isBingoCell = useMemo(() => {
     const map = new Map<string, boolean>();
-    const size = bingoBoard.length;
 
     const isApprovedLine = (categories: string[]) =>
       categories.every((category) => approvedChats.some((chat) => chat.category === category));
 
-    const linesToCheck = [
-      ...bingoBoard, // Rows
-      ...Array.from({ length: size }, (_, col) => bingoBoard.map((row) => row[col])), // Columns
-      Array.from({ length: size }, (_, i) => bingoBoard[i][i]), // Primary diagonal
-      Array.from({ length: size }, (_, i) => bingoBoard[i][size - 1 - i]) // Secondary diagonal
-    ];
+    const linesToCheck = getLinesFromBoard(bingoBoard);
 
     let newBingoCount = 0;
     linesToCheck.forEach((line) => {

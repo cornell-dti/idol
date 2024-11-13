@@ -4,6 +4,7 @@ import { ExportToCsv, Options } from 'export-to-csv';
 import styles from './CoffeeChatDashboard.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
+import { getLinesFromBoard } from '../../../utils';
 
 type CoffeeChatStats = {
   fulfilledCategories: string[];
@@ -36,18 +37,12 @@ const CoffeeChatDashboard: React.FC = () => {
     const stats: { [key: string]: CoffeeChatStats } = {};
 
     allMembers.forEach((member) => {
-      const size = bingoBoard.length;
       const chatsByMember = coffeeChats.filter((chat) => chat.submitter.netid === member.netid);
       const fulfilledCategories = chatsByMember.map((chat) => chat.category);
       const blackout = categories.every((category) => fulfilledCategories.includes(category));
       let bingo = false;
 
-      const linesToCheck = [
-        ...bingoBoard, // Rows
-        ...Array.from({ length: size }, (_, col) => bingoBoard.map((row) => row[col])), // Columns
-        Array.from({ length: size }, (_, i) => bingoBoard[i][i]), // Primary diagonal
-        Array.from({ length: size }, (_, i) => bingoBoard[i][size - 1 - i]) // Secondary diagonal
-      ];
+      const linesToCheck = getLinesFromBoard(bingoBoard);
 
       linesToCheck.forEach((line) => {
         bingo = line.every((category) => fulfilledCategories.includes(category));
