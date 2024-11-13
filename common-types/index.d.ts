@@ -31,7 +31,7 @@ type RoleDescription =
   | 'Business Lead'
   | 'Technical PM'
   | 'Product Manager'
-  | 'Associate Product Manager'
+  | 'Associate PM'
   | 'Developer'
   | 'Designer'
   | 'Business Analyst'

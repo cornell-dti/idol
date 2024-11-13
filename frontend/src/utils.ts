@@ -21,7 +21,7 @@ export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
     case 'pm':
       return 'Product Manager';
     case 'apm':
-      return 'Associate Product Manager';
+      return 'Associate PM';
     case 'developer':
       return 'Developer';
     case 'designer':

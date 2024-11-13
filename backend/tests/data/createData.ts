@@ -33,7 +33,7 @@ const fakeRoleObject = () => {
   const role_descriptions: RoleDescription[] = [
     'Technical PM',
     'Product Manager',
-    'Associate Product Manager',
+    'Associate PM',
     'Developer',
     'Designer',
     'Internal Business',

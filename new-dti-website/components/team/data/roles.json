@@ -52,7 +52,7 @@
     "roleName": "Product",
     "description": "Leading product development to positively impact the community.",
     "members": [],
-    "order": ["Product Manager", "Associate Product Manager", "PM Advisor"],
+    "order": ["Product Manager", "Associate PM", "PM Advisor"],
     "color": "#DEBDFE"
   },
   "apm": {
