@@ -103,6 +103,7 @@ const RoleDescriptions = () => {
           <a href={config.applicationLink}>Apply now</a>
         </button>
       </div>
+      <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />
     </div>
   );
 };
