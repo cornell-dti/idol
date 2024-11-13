@@ -66,7 +66,7 @@
     "roleName": "Business",
     "description": "Bringing products and events to the community.",
     "members": [],
-    "order": ["Product Marketing Manager", "Internal Business", "Business Advisor"],
+    "order": ["PMM", "Internal Business", "Business Advisor"],
     "color": "#F9D6AD"
   },
   "internal-business": {

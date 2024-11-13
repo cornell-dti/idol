@@ -37,7 +37,7 @@ const fakeRoleObject = () => {
     'Developer',
     'Designer',
     'Internal Business',
-    'Product Marketing Manager'
+    'PMM'
   ];
 
   // pick one item at random from each list

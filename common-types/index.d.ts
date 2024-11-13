@@ -36,7 +36,7 @@ type RoleDescription =
   | 'Designer'
   | 'Business Analyst'
   | 'Internal Business'
-  | 'Product Marketing Manager'
+  | 'PMM'
   | 'PM Advisor'
   | 'Dev Advisor'
   | 'Design Advisor'
