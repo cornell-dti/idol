@@ -5,6 +5,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
+import { getGeneralRole } from '../../src/utils/memberUtils';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -25,7 +26,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   roleDescription,
   enlarged
 }) => {
-  const chipColor = teamRoles[role as Role].color;
+  const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
     <div id="memberCard" className="flex flex-col md:gap-3 xs:gap-2">

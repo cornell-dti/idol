@@ -1,4 +1,5 @@
 import { Progress } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import styles from './ProgressPanel.module.css';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import RatingsDisplay from './RatingsDisplay';
@@ -33,7 +34,7 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
         color="blue"
       >{`${myRatings.length}/${candidates.length}`}</Progress>
       <RatingsDisplay ratings={myRatings} header="My Rating Statistics" />
-      {showOtherVotes && userInfo?.role === 'lead' ? (
+      {showOtherVotes && userInfo && LEAD_ROLES.includes(userInfo.role) ? (
         <>
           <RatingsDisplay
             ratings={currentCandidateReviews}
