@@ -49,22 +49,26 @@ const main = async () => {
       state: 'open'
     })
   ).data.find((pr) => pr.title === commitMessage);
-  if (existingPR == null) {
-    await octokit.pulls.create({
-      owner: 'cornell-dti',
-      repo: 'idol',
-      title: commitMessage,
-      body: prBody,
-      base: 'main',
-      head: gitBranch
-    });
-  } else {
-    await octokit.pulls.update({
-      owner: 'cornell-dti',
-      repo: 'idol',
-      pull_number: existingPR.number,
-      body: prBody
-    });
+  try {
+    if (existingPR == null) {
+      await octokit.pulls.create({
+        owner: 'cornell-dti',
+        repo: 'idol',
+        title: commitMessage,
+        body: prBody,
+        base: 'main',
+        head: gitBranch
+      });
+    } else {
+      await octokit.pulls.update({
+        owner: 'cornell-dti',
+        repo: 'idol',
+        pull_number: existingPR.number,
+        body: prBody
+      });
+    }
+  } catch (e) {
+    console.log('No changes made.');
   }
 };
 

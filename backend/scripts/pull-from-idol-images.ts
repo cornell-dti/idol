@@ -7,15 +7,16 @@ const main = async () => {
   console.log('Downloading all member images...');
   const processedImages = await allMemberImages();
 
-  processedImages.forEach((image) => {
+  const imageProcessingList = processedImages.map((image) => {
     const outputFolder = 'temp';
 
     const fullPath = join(outputFolder, image.fileName);
 
-    downloadImage(image.url, fullPath)
+    return downloadImage(image.url, fullPath)
       .then(() => console.log('Download complete'))
       .catch((error) => console.error('Download failed:', error));
   });
+  await Promise.all(imageProcessingList);
 };
 
 async function downloadImage(url: string, outputPath: string): Promise<void> {
