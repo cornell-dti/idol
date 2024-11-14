@@ -45,6 +45,17 @@ export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
   }
 };
 
+export const getLinesFromBoard = (bingoBoard: string[][]): string[][] => {
+  const size = bingoBoard.length;
+
+  return [
+    ...bingoBoard, // Rows
+    ...Array.from({ length: size }, (_, col) => bingoBoard.map((row) => row[col])), // Columns
+    Array.from({ length: size }, (_, i) => bingoBoard[i][i]), // Primary diagonal
+    Array.from({ length: size }, (_, i) => bingoBoard[i][size - 1 - i]) // Secondary diagonal
+  ];
+};
+
 export class PermissionsError extends Error {}
 
 export class EventEmitter<T> {
