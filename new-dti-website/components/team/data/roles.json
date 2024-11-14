@@ -3,126 +3,35 @@
     "roleName": "Leads",
     "description": "Striving to connect and mentor our members for their best growth.",
     "members": [],
-    "order": ["Full Team Lead", "Product Lead", "Developer Lead", "Design Lead", "Business Lead"],
-    "color": "#FFD0D0"
-  },
-  "ops-lead": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#FFD0D0"
-  },
-  "product-lead": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#FFD0D0"
-  },
-  "dev-lead": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#FFD0D0"
-  },
-  "design-lead": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#FFD0D0"
-  },
-  "business-lead": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
+    "roles": ["lead", "ops-lead", "product-lead", "dev-lead", "design-lead", "business-lead"],
     "color": "#FFD0D0"
   },
   "designer": {
     "roleName": "Design",
     "description": "Designing quality products, keeping users at the center of it all.",
     "members": [],
-    "order": ["Designer", "Design Advisor"],
+    "roles": ["designer", "design-advisor"],
     "color": "#ADD3F9"
   },
   "pm": {
     "roleName": "Product",
     "description": "Leading product development to positively impact the community.",
     "members": [],
-    "order": ["Product Manager", "Associate PM", "PM Advisor"],
-    "color": "#DEBDFE"
-  },
-  "apm": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
+    "roles": ["pm", "apm", "pm-advisor"],
     "color": "#DEBDFE"
   },
   "business": {
     "roleName": "Business",
     "description": "Bringing products and events to the community.",
     "members": [],
-    "order": ["PMM", "Internal Business", "Business Advisor"],
-    "color": "#F9D6AD"
-  },
-  "internal-business": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#F9D6AD"
-  },
-  "pmm": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
+    "roles": ["business", "pmm", "internal-business", "business-advisor"],
     "color": "#F9D6AD"
   },
   "developer": {
     "roleName": "Development",
     "description": "Building, testing, and optimizing our applications.",
     "members": [],
-    "order": ["Technical PM", "Developer", "Dev Advisor"],
+    "roles": ["tpm", "developer", "dev-advisor"],
     "color": "#BCECC3"
-  },
-  "tpm": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#BCECC3"
-  },
-  "pm-advisor": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#DEBDFE"
-  },
-  "dev-advisor": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#BCECC3"
-  },
-  "design-advisor": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#ADD3F9"
-  },
-  "business-advisor": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#F9D6AD"
   }
 }
