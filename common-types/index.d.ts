@@ -65,6 +65,7 @@ interface IdolMember {
   readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
+  readonly coffeeChatLink?: string | null;
 }
 
 interface IdolMemberDiff {
@@ -94,12 +95,6 @@ interface NovaMember {
   readonly formerSubteams?: string[];
   readonly roleId: string;
   readonly roleDescription: string;
-}
-
-/** The data type used by new DTI website to represent a DTI member. */
-interface MemberProfile extends IdolMember {
-  readonly image?: string | null;
-  readonly coffeeChatLink?: string | null;
 }
 
 interface ProfileImage {
