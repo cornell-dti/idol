@@ -36,9 +36,11 @@ const main = async () => {
   const prBody = `
   ## Summary
 
-  This is a PR auto-generated from \`yarn workspace backend run pull-from-idol-images\`. and
+  This is a PR auto-generated from running \`yarn workspace backend run pull-from-idol-images\` and
   \`yarn workspace backend run create-idol-images-pr\`.
+
   It updates the new-dti-website with latest images from Google Cloud Storage.
+  
   Please verify that the images look fine on the website and that the image sizes aren't too large.`;
   const existingPR = (
     await octokit.pulls.list({
