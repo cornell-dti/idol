@@ -103,6 +103,7 @@ export default function AddUser(): JSX.Element {
         website: '',
         linkedin: '',
         github: '',
+        coffeeChatLink: '',
         hometown: '',
         about: '',
         subteams: [],
@@ -189,6 +190,7 @@ export default function AddUser(): JSX.Element {
           website: m.website || currMember.website,
           linkedin: m.linkedin || currMember.linkedin,
           github: m.github || currMember.github,
+          coffeeChatLink: m.coffeeChatLink || currMember.coffeeChatLink,
           hometown: m.hometown || currMember.hometown,
           about: m.about || currMember.about,
           subteams: m.subteam ? [m.subteam] : currMember.subteams,
@@ -213,6 +215,7 @@ export default function AddUser(): JSX.Element {
           website: m.website || '',
           linkedin: m.linkedin || '',
           github: m.github || '',
+          coffeeChatLink: m.coffeeChatLink || '',
           hometown: m.hometown || '',
           about: m.about || '',
           subteams: m.subteam ? [m.subteam] : [],
@@ -626,6 +629,18 @@ export default function AddUser(): JSX.Element {
                         }));
                       }}
                       value={state.currentSelectedMember.github || ''}
+                    />
+                    <Form.Field
+                      control={Input}
+                      label="Coffee Chat Calendly"
+                      placeholder="Coffee Chat Calendly"
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setCurrentlySelectedMember((currentSelectedMember) => ({
+                          ...currentSelectedMember,
+                          coffeeChatLink: event.target.value
+                        }));
+                      }}
+                      value={state.currentSelectedMember.coffeeChatLink || ''}
                     />
                   </Form.Group>
                 </Form>

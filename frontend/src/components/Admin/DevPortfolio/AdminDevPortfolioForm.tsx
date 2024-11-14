@@ -137,7 +137,11 @@ const AdminDevPortfolioForm: React.FC<AdminDevPortfolioFormProps> = ({
             <Message
               success
               header="Dev Portfolio Created"
-              content={`${lastCreatedPortfolio.name} was successfully created and will be due on ${new Date(lastCreatedPortfolio.deadline).toDateString()}`}
+              content={`${
+                lastCreatedPortfolio.name
+              } was successfully created and will be due on ${new Date(
+                lastCreatedPortfolio.deadline
+              ).toDateString()}`}
             />
           )}
         </>

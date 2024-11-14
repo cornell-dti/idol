@@ -86,6 +86,7 @@ type MemberDetailsProps = {
   website?: string | null;
   linkedin?: string | null;
   image: string;
+  coffeeChatLink?: string | null;
 };
 
 export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetailsProps) => {
@@ -180,23 +181,25 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <button
-                onMouseEnter={mouseHandler}
-                onMouseLeave={mouseHandler}
-                className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
-              hover:bg-[#A52424] hover:text-white stroke-white"
-              >
-                <div className="flex gap-3 w-max">
-                  <Image
-                    src="/icons/red_calendar.svg"
-                    alt="calendar"
-                    width={24}
-                    height={24}
-                    className={hover ? 'brightness-0 invert' : ''}
-                  />
-                  <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-                </div>
-              </button>
+              <a href={props.coffeeChatLink ?? `mailto:${props.email}`}>
+                <button
+                  onMouseEnter={mouseHandler}
+                  onMouseLeave={mouseHandler}
+                  className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
+                hover:bg-[#A52424] hover:text-white stroke-white"
+                >
+                  <div className="flex gap-3 w-max">
+                    <Image
+                      src="/icons/red_calendar.svg"
+                      alt="calendar"
+                      width={24}
+                      height={24}
+                      className={hover ? 'brightness-0 invert' : ''}
+                    />
+                    <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
+                  </div>
+                </button>
+              </a>
             </div>
           </div>
         </div>
