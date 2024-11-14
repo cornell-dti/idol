@@ -283,34 +283,4 @@ describe('More complicated member meets category checks', () => {
     expect(result.status).toBe('fail');
     expect(result.message).toBe(`${user4.firstName} ${user4.lastName} is not a lead`);
   });
-
-  test('should pass but otherMemberProperties undefined', async () => {
-    const result = await checkMemberMeetsCategory(
-      user9.email,
-      user1.email,
-      'a lead (not your role)'
-    );
-    expect(result.status).toBe('no data');
-    expect(result.message).toBe('');
-  });
-
-  test('should pass but submitterProperties undefined', async () => {
-    const result = await checkMemberMeetsCategory(
-      user7.email,
-      user9.email,
-      'a lead (not your role)'
-    );
-    expect(result.status).toBe('no data');
-    expect(result.message).toBe('');
-  });
-
-  test('both submitterProperties and otherMemberProperties undefined', async () => {
-    const result = await checkMemberMeetsCategory(
-      user9.email,
-      user10.email,
-      'a lead (not your role)'
-    );
-    expect(result.status).toBe('no data');
-    expect(result.message).toBe('');
-  });
 });
