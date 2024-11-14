@@ -99,6 +99,16 @@
     font-size: 12px;
     line-height: 14px;
   }
+
+  .primary-button {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+
+  .secondary-button {
+    padding: 9.6px 11.6px;
+    font-size: 16px;
+  }
 }
 
 /* Tablet viewport */
@@ -117,6 +127,16 @@
     font-size: 22px;
     line-height: 26px;
   }
+
+  .primary-button {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+
+  .secondary-button {
+    padding: 13.6px 27.6px;
+    font-size: 18px;
+  }
 }
 
 /* Laptop viewport */
@@ -134,10 +154,8 @@
 .primary-button {
   color: #fefefe;
   background-color: #d63d3d;
-  padding: 16px 20px;
   border-radius: 12px;
   font-weight: 700;
-  font-size: 18px;
   height: fit-content;
   width: fit-content;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
@@ -153,15 +171,17 @@
 .secondary-button {
   color: #fefefe;
   background-color: black;
-  padding: 13.6px 27.6px;
   border-radius: 12px;
   font-weight: 700;
-  font-size: 18px;
   height: fit-content;
   width: fit-content;
   border-color: #fefefe;
   border-width: 3px;
   border-style: solid;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
 
 .secondary-button:hover {
