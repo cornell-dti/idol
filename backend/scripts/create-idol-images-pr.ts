@@ -18,7 +18,7 @@ const main = async () => {
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/pull-from-idol-images';
   const commitMessage = '[bot] Automatically pull images from Google Cloud Storage';
-  runCommand('git', 'add', '.');
+  runCommand('git', 'add', '../new-dti-website/public/team');
   runCommand('git', 'fetch', '--all');
   runCommand('git', 'checkout', 'main');
   runCommand('git', 'checkout', '-b', gitBranch);
