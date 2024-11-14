@@ -12,6 +12,7 @@ import {
 } from '../src/API/coffeeChatAPI';
 import { setMember, deleteMember } from '../src/API/memberAPI';
 import { PermissionError } from '../src/utils/errors';
+import { getGeneralRoleFromLeadType } from '../src/utils/memberUtil';
 
 const user = fakeIdolMember();
 const user2 = fakeIdolMember();
@@ -176,24 +177,20 @@ describe('User is lead or admin', () => {
 
 describe('More complicated member meets category checks', () => {
   const admin = { ...fakeIdolLead() };
-  const user1 = { ...fakeIdolMember(), subteams: ['team1'], role: 'developer' };
-  const user2 = { ...fakeIdolMember(), role: 'pm', subteams: ['team2'] };
-  const user3 = { ...fakeIdolMember(), role: 'pm', subteams: ['team1'] };
+  const user1 = { ...fakeIdolMember(), subteams: ['team1'], role: 'developer' as Role };
+  const user2 = { ...fakeIdolMember(), role: 'pm' as Role, subteams: ['team2'] };
+  const user3 = { ...fakeIdolMember(), role: 'pm' as Role, subteams: ['team1'] };
   const user4 = { ...fakeIdolMember(), role: 'internal-business' };
-  const user5 = { ...fakeIdolMember(), role: 'tpm', subteams: ['team3'] };
-  const user6 = { ...fakeIdolMember(), role: 'tpm', subteams: ['team1'] };
-  const user7 = { ...fakeIdolMember(), role: 'product-lead' };
-  const memberProperties7 = { leadType: 'pm' };
-  const user8 = { ...fakeIdolMember(), role: 'dev-lead' };
-  const memberProperties8 = { leadType: 'developer' };
-  const user9 = { ...fakeIdolMember(), role: 'ops-lead' };
-  const user10 = { ...fakeIdolMember(), role: 'ops-lead' };
+  const user5 = { ...fakeIdolMember(), role: 'tpm' as Role, subteams: ['team3'] };
+  const user6 = { ...fakeIdolMember(), role: 'tpm' as Role, subteams: ['team1'] };
+  const user7 = { ...fakeIdolMember(), role: 'product-lead' as Role };
+  const user8 = { ...fakeIdolMember(), role: 'dev-lead' as Role };
+  const user9 = { ...fakeIdolMember(), role: 'ops-lead' as Role };
+  const user10 = { ...fakeIdolMember(), role: 'ops-lead' as Role };
 
   beforeAll(async () => {
     const users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];
     await Promise.all(users.map((user) => setMember(user, admin)));
-    await CoffeeChatDao.createMemberProperties(user7.email, memberProperties7);
-    await CoffeeChatDao.createMemberProperties(user8.email, memberProperties8);
   });
 
   afterAll(async () => {
@@ -273,7 +270,7 @@ describe('More complicated member meets category checks', () => {
     );
     expect(result.status).toBe('fail');
     expect(result.message).toBe(
-      `${user8.firstName} ${user8.lastName} is a lead, but from the same role (${memberProperties8.leadType}) as ${user1.firstName} ${user1.lastName}`
+      `${user8.firstName} ${user8.lastName} is a lead, but from the same role (${getGeneralRoleFromLeadType(user8.role)}) as ${user1.firstName} ${user1.lastName}`
     );
   });
 

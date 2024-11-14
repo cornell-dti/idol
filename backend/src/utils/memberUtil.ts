@@ -88,3 +88,20 @@ export const computeMembersDiff = <M extends SimplifiedMember>(
 
   return diffs.sort((a, b) => a.email.localeCompare(b.email));
 };
+
+export const getGeneralRoleFromLeadType = (role: Role): GeneralRole => {
+  switch (role) {
+    case 'ops-lead':
+      return 'lead';
+    case 'product-lead':
+      return 'pm';
+    case 'dev-lead':
+      return 'developer';
+    case 'design-lead':
+      return 'designer';
+    case 'business-lead':
+      return 'business';
+    default:
+      throw new Error('Role must be a Lead type');
+  }
+};

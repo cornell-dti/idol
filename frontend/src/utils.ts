@@ -4,8 +4,6 @@ export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
 export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
   switch (role) {
-    case 'lead':
-      return 'Lead';
     case 'ops-lead':
       return 'Full Team Lead';
     case 'product-lead':
@@ -26,8 +24,6 @@ export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
       return 'Developer';
     case 'designer':
       return 'Designer';
-    case 'business':
-      return 'Business Analyst';
     case 'internal-business':
       return 'Internal Business';
     case 'pmm':
