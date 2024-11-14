@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
-import { LEAD_ROLES } from '../../../consts';
 
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();

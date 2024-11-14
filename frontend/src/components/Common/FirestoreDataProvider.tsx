@@ -1,6 +1,7 @@
 import { Loader, Modal } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
+import { LEAD_ROLES } from 'common-types/constants';
 import {
   adminsCollection,
   membersCollection,
@@ -11,7 +12,6 @@ import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
 import { isProduction, allowAdmin, environment } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
-import { LEAD_ROLES } from '../../consts';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
