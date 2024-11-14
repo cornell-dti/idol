@@ -8,7 +8,7 @@ on:
     - cron: '0 0 * * *'
   pull_request:
     paths:
-      - dti-website/pull-from-idol.ts
+      - new-dti-website/pull-from-idol.ts
       - .github/workflows/pull-from-idol.yml
 
 jobs:
