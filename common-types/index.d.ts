@@ -1,12 +1,7 @@
 /** The common types required by more than one workspace. */
 
 /** Overarching team roles for DTI members */
-type GeneralRole = 
-| 'lead'
-| 'designer'
-| 'pm'
-| 'business'
-| 'developer'
+type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
 
 /** All possible roles for a DTI member */
 type Role =

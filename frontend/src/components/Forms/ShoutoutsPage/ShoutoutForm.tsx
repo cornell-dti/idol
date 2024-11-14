@@ -25,16 +25,23 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const giveShoutout = async () => {
     setIsSubmitting(true);
     if (!receiver) {
+      setIsSubmitting(false);
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
-        contentMsg: 'Please select a member!'
+        contentMsg: "Please fill in a member's name!"
       });
-    } else if (user && receiver && message !== '') {
+    } else if (message === '') {
+      setIsSubmitting(false);
+      Emitters.generalError.emit({
+        headerMsg: 'No message submitted.',
+        contentMsg: 'Please fill in a message!'
+      });
+    } else if (user && receiver) {
       let imageUrl = '';
 
       if (image) {
         const blob = await fetch(image).then((res) => res.blob());
-        imageUrl = `shoutoutProofs/${user.email}/${new Date().toISOString()}`;
+        imageUrl = `shoutoutImages/${user.email}/${new Date().toISOString()}`;
         await ImagesAPI.uploadImage(blob, imageUrl);
       }
 
@@ -110,7 +117,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
       </div>
 
       <div className={styles.imageUploadContainer}>
-        <label className={styles.bold}>Upload a picture with your shoutout here!</label>
+        <label className={styles.bold}>[Optional] Upload a picture with your shoutout here!</label>
         <input
           ref={fileInputRef}
           id="newImage"

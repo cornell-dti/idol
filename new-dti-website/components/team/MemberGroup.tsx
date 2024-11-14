@@ -5,7 +5,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
-import { getFullRoleFromDescription, getGeneralRole } from '../../src/utils/memberUtils';
+import { getGeneralRole } from '../../src/utils/memberUtils';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -42,7 +42,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
         style={{ backgroundColor: chipColor }}
       >
-        {getFullRoleFromDescription(roleDescription)}
+        {roleDescription}
       </p>
     </div>
   );
