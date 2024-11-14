@@ -10,7 +10,8 @@ import {
   REQUIRED_INITIATIVE_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
-  INITIATIVE_EVENTS
+  INITIATIVE_EVENTS,
+  LEAD_ROLES
 } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
@@ -36,8 +37,9 @@ const TeamEventCreditDashboard = (props: {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
 
-  const requiredCredits =
-    userRole === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
+  const requiredCredits = LEAD_ROLES.includes(userRole)
+    ? REQUIRED_LEAD_TEC_CREDITS
+    : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
   const getHoursAttended = (attendance: TeamEventAttendance): number => {
     const hours = attendance.hoursAttended;
@@ -95,7 +97,7 @@ const TeamEventCreditDashboard = (props: {
   else remainingCredits = 0;
 
   let headerString;
-  if (userRole !== 'lead')
+  if (!LEAD_ROLES.includes(userRole))
     headerString = `Check your team event credit status for this semester here!  
     Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${
       INITIATIVE_EVENTS

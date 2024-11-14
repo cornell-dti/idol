@@ -29,13 +29,15 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['tpm', 'pm', 'developer', 'designer', 'business'];
+  const roles: Role[] = ['tpm', 'pm', 'apm', 'developer', 'designer', 'internal-business', 'pmm'];
   const role_descriptions: RoleDescription[] = [
     'Technical PM',
     'Product Manager',
+    'Associate PM',
     'Developer',
     'Designer',
-    'Business Analyst'
+    'Internal Business',
+    'PMM'
   ];
 
   // pick one item at random from each list
@@ -67,7 +69,7 @@ export const fakeIdolLead = (): IdolMember => {
   const member = {
     ...fakeIdolMember(),
     role: 'Lead',
-    roleDescription: 'lead'
+    roleDescription: 'ops-lead'
   };
   return member;
 };

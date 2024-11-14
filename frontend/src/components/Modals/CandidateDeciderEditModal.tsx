@@ -7,10 +7,11 @@ import { MemberSearch, RoleSearch } from '../Common/Search/Search';
 import styles from './CandidateDeciderEditModal.module.css';
 import { Emitters } from '../../utils';
 import { ratingToString } from '../Candidate-Decider/ratings-utils';
+import { LEAD_ROLES } from '../../consts';
 
-const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter((role) => role !== 'lead').map(
-  (role) => ({ role })
-);
+const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter(
+  (role) => !LEAD_ROLES.includes(role)
+).map((role) => ({ role }));
 
 type Props = {
   uuid: string;

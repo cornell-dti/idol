@@ -4,12 +4,13 @@ import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
+import { LEAD_ROLES } from '../../../consts';
 
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
   const userInfoBeforeEdit = useSelf();
   const userRole = userInfoBeforeEdit?.role ?? ('' as Role);
-  const isNotLead = userRole !== 'lead';
+  const isNotLead = !LEAD_ROLES.includes(userRole);
 
   const [firstName, setFirstName] = useState(userInfoBeforeEdit?.firstName ?? '');
   const [lastName, setLastName] = useState(userInfoBeforeEdit?.lastName ?? '');

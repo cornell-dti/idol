@@ -7,7 +7,8 @@ import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
   REQUIRED_INITIATIVE_CREDITS,
-  INITIATIVE_EVENTS
+  INITIATIVE_EVENTS,
+  LEAD_ROLES
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
@@ -122,7 +123,7 @@ const TeamEventDashboard: React.FC = () => {
                   );
                   return (
                     totalCredits <
-                    (member.role === 'lead'
+                    (LEAD_ROLES.includes(member.role)
                       ? REQUIRED_LEAD_TEC_CREDITS
                       : REQUIRED_MEMBER_TEC_CREDITS)
                   );
@@ -150,7 +151,9 @@ const TeamEventDashboard: React.FC = () => {
               const initiativeCredits = getInitiativeCredits(member, teamEvents);
               const totalCreditsMet =
                 totalCredits >=
-                (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
+                (LEAD_ROLES.includes(member.role)
+                  ? REQUIRED_LEAD_TEC_CREDITS
+                  : REQUIRED_MEMBER_TEC_CREDITS);
               const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
 
               return (

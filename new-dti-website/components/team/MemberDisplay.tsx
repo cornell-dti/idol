@@ -20,7 +20,7 @@ const MemberDisplay: React.FC = () => {
         roleName: string;
         description: string;
         members: IdolMember[];
-        order: string[];
+        roles: string[];
         color: string;
       };
     },
@@ -79,8 +79,7 @@ const MemberDisplay: React.FC = () => {
           </div>
           <div>
             {Object.keys(roles).map((role) => {
-              const value = roles[role as Role];
-              if (role === 'tpm' || role === 'dev-advisor') return <></>;
+              const value = roles[role as GeneralRole];
               return (
                 <MemberGroup
                   key={value.roleName}
