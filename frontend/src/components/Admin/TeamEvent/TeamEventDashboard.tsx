@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
   REQUIRED_INITIATIVE_CREDITS,
-  INITIATIVE_EVENTS,
-  LEAD_ROLES
+  INITIATIVE_EVENTS
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';

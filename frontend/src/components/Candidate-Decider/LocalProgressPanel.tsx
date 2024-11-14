@@ -1,9 +1,9 @@
 import { Progress } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import styles from './ProgressPanel.module.css';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import RatingsDisplay from './RatingsDisplay';
 import { ratingToString } from './ratings-utils';
-import { LEAD_ROLES } from '../../consts';
 
 type ProgressPanelProps = {
   showOtherVotes: boolean;

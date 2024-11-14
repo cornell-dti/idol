@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Loader, Header, Message, Card, Checkbox } from 'semantic-ui-react';
 import csv from 'csvtojson';
-import ALL_ROLES from 'common-types/constants';
+import { ALL_ROLES, LEAD_ROLES } from 'common-types/constants';
 import { MemberSearch, RoleSearch } from '../../Common/Search/Search';
 import CandidateDeciderAPI from '../../../API/CandidateDeciderAPI';
 import CandidateDeciderDeleteModal from '../../Modals/CandidateDeciderDeleteModal';
 import styles from './AdminCandidateDecider.module.css';
 import CandidateDeciderEditModal from '../../Modals/CandidateDeciderEditModal';
-import { LEAD_ROLES } from '../../../consts';
 
 const allNonleadRoles: { role: Role }[] = ALL_ROLES.filter(
   (role) => !LEAD_ROLES.includes(role)
