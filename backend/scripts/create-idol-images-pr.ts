@@ -17,7 +17,7 @@ const main = async () => {
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/pull-from-idol-images';
-  const commitMessage = '[bot] Automatically pull images from Google Cloud Storage';
+  const commitMessage = '[bot] Automatically pull images from IDOL';
   runCommand('git', 'add', '../new-dti-website/public/team');
   runCommand('git', 'fetch', '--all');
   runCommand('git', 'checkout', 'main');
@@ -39,8 +39,8 @@ const main = async () => {
   This is a PR auto-generated from running \`yarn workspace backend run pull-from-idol-images\` and
   \`yarn workspace backend run create-idol-images-pr\`.
 
-  It updates the new-dti-website with latest images from Google Cloud Storage.
-  
+  It updates the new-dti-website with latest images from IDOL.
+
   Please verify that the images look fine on the website and that the image sizes aren't too large.`;
   const existingPR = (
     await octokit.pulls.list({
