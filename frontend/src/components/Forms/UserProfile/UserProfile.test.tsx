@@ -20,5 +20,6 @@ describe('<UserProfile />', () => {
     expect(screen.getByText('Website')).toBeInTheDocument();
     expect(screen.getByText('LinkedIn')).toBeInTheDocument();
     expect(screen.getByText('GitHub')).toBeInTheDocument();
+    expect(screen.getByText('Coffee Chat Calendly *')).toBeInTheDocument();
   });
 });

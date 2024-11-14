@@ -5,6 +5,7 @@ import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
+import styles from './UserProfile.module.css';
 
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
@@ -192,12 +193,14 @@ const UserProfile: React.FC = () => {
         />
         <Form.Input
           fluid
-          label="Coffee Chat Calendly"
+          label="Coffee Chat Calendly *"
           value={coffeeChatLink}
           onChange={(event) => setCoffeeChatLink(event.target.value)}
         />
       </Form.Group>
-
+      <span className={styles.coffeeChatLinkFootnote}>
+        *If coffee chat link not provided, your email will be displayed.
+      </span>
       <Form.Button onClick={saveProfileInfo} floated="right">
         Save
       </Form.Button>
