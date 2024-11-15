@@ -2,8 +2,8 @@ name: Pull from IDOL Images
 on:
   workflow_dispatch:
   schedule:
-    # Run the script at 0AM in UTC every day, which is 7PM or 8PM in ET.
-    - cron: '0 0 * * *'
+    # Run the script at 0AM in UTC every Monday, which is 7PM or 8PM in ET.
+    - cron: '0 0 * * MON'
   pull_request:
     paths:
       - backend/scripts/pull-from-idol-images.ts
