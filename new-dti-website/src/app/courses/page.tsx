@@ -168,15 +168,15 @@ export default function Courses() {
 
                 <div className="flex flex-row gap-x-6 mt-6">
                   <Link
-                    key="Apply Page"
-                    href="https://bit.ly/TrendsFA24"
+                    key="Trends Application"
+                    href={config.trendsApplicationLink}
                     className="primary-button"
                   >
                     Apply Now
                   </Link>
                   <Link
-                    key="Trends Form"
-                    href="https://webdev.cornelldti.org/"
+                    key="Trends Website"
+                    href={config.trendsWebsiteLink}
                     className="primary-button"
                   >
                     Learn More
