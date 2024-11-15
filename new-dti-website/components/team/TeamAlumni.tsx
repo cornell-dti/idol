@@ -30,7 +30,7 @@ const BeyondDTI = () => {
   );
 };
 
-const TeamAlumni = () => {
+const TeamFooter = () => {
   const isApplicationOpen = Date.parse(config.applicationDeadline) >= Date.now();
   return (
     <div className="flex flex-col">
@@ -64,4 +64,4 @@ const TeamAlumni = () => {
   );
 };
 
-export default TeamAlumni;
+export default TeamFooter;
