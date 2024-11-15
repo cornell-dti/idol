@@ -166,18 +166,10 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link
-                    key="Apply Page"
-                    href={'/apply'}
-                    className="primary-button"
-                  >
+                  <Link key="Apply Page" href={'/apply'} className="primary-button">
                     Apply Now
                   </Link>
-                  <Link
-                    key="Trends Form"
-                    href={''}
-                    className="primary-button"
-                  >
+                  <Link key="Trends Form" href={''} className="primary-button">
                     Learn More
                   </Link>
                 </div>
