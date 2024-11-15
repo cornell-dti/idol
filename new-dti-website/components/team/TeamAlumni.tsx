@@ -21,7 +21,7 @@ const AlumniDisplay = () => (
                 {...member}
                 roleDescription={member.roleDescription as RoleDescription}
                 cardState={undefined}
-                image={'/martha.png'}
+                image={`team/${member.netid}.jpg`}
               />
             </a>
           ) : (

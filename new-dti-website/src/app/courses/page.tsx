@@ -11,7 +11,7 @@ import experiencesData from '../../../components/courses/data/key_experiences.js
 import timelineData from '../../../components/courses/data/timeline_events.json';
 import testimonialData from '../../../components/courses/data/testimonials.json';
 import studentProjectData from '../../../components/courses/data/student_projects.json';
-import trendsData from '../../../components/courses/data/trend_instructors.json';
+import trendsData from '../../../components/courses/data/trends_instructors.json';
 import teamRoles from '../../../components/team/data/roles.json';
 
 // *IMPORT COMPONENTS
@@ -28,7 +28,7 @@ const { key_experiences } = experiencesData;
 const { timeline_events } = timelineData;
 const { testimonials }: { testimonials: TestimonialCardProps[] } = testimonialData;
 const { student_projects } = studentProjectData;
-const trend_instructors = trendsData.trend_instructors as IdolMember[];
+const trends_instructors = trendsData.trends_instructors as IdolMember[];
 
 // * BEGIN COURSES PAGE
 export default function Courses() {
@@ -48,7 +48,7 @@ export default function Courses() {
         color: string;
       };
     },
-    trend_instructors
+    trends_instructors
   );
 
   useEffect(() => {
