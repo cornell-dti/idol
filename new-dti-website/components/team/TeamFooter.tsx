@@ -31,12 +31,25 @@ const BeyondDTI = () => {
 };
 
 const TeamFooter = () => {
-  const isApplicationOpen = Date.parse(config.applicationDeadline) >= Date.now();
+  const isGenAppOpen = Date.parse(config.applicationDeadline) >= Date.now();
+  const isFreshAppOpen = Date.parse(config.freshmanAppDeadline) >= Date.now();
+  const isFall = config.semester.startsWith('Fall');
+  const isAppOpen = (isFall && isFreshAppOpen) || (!isFall && isGenAppOpen);
+
+  let message;
+  if ((isFall && !isFreshAppOpen) || (!isFall && !isGenAppOpen)) {
+    message = `We're no longer accepting applicants for ${config.semester}. Stay tuned for opportunities next semester!`;
+  } else if (isFall && !isGenAppOpen) {
+    message = `Freshmen/Transfer applications for ${config.semester} are open.`;
+  } else {
+    message = `Applications for ${config.semester} are now open.`
+  }
+
   return (
     <div className="flex flex-col">
       <BeyondDTI />
-      <div className="flex justify-center bg-[#EDEDED] lg:py-32 md:py-16 xs:py-10">
-        <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 md:items-center">
+      <div className="flex justify-center bg-[#EDEDED] lg:py-32 md:py-16 xs:py-10 xs:px-8">
+        <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 items-center max-w-5xl">
           <Image
             src="/images/full-team.png"
             alt="team picture"
@@ -44,13 +57,10 @@ const TeamFooter = () => {
             height={312}
             className="lg:w-[412px] xs:w-[360px] rounded-xl"
           />
-          <div className="flex flex-col gap-[20px] items-start">
+          <div className="flex flex-col gap-[20px] items-start w-2/3">
             <h1 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h1>
-            <p className="lg:text-[22px] md:text-lg">
-              Applications for {config.semester} are{' '}
-              {isApplicationOpen ? 'now open!' : 'now closed.'}
-            </p>
-            {isApplicationOpen && (
+            <p className="lg:text-[22px] md:text-lg">{message}</p>
+            {isAppOpen && (
               <button className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white font-bold hover:bg-white hover:text-[#A52424]">
                 <a href={'/apply'} target="_blank" rel="noopener noreferrer">
                   Apply here
