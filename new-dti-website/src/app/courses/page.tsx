@@ -4,15 +4,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-import { populateMembers } from '../../utils/memberUtils';
 
 // *IMPORT DATA
 import experiencesData from '../../../components/courses/data/key_experiences.json';
 import timelineData from '../../../components/courses/data/timeline_events.json';
 import testimonialData from '../../../components/courses/data/testimonials.json';
 import studentProjectData from '../../../components/courses/data/student_projects.json';
-import trendsData from '../../../components/courses/data/trends_instructors.json';
-import teamRoles from '../../../components/team/data/roles.json';
+import trendsData from '../../../config.json';
 import allMembers from '../../../components/team/data/all-members.json';
 
 // *IMPORT COMPONENTS
@@ -29,30 +27,20 @@ const { key_experiences } = experiencesData;
 const { timeline_events } = timelineData;
 const { testimonials }: { testimonials: TestimonialCardProps[] } = testimonialData;
 const { student_projects } = studentProjectData;
-const trends_instructors = allMembers.filter((member) =>
-  trendsData.trends_instructors.includes(member.netid)
-) as IdolMember[];
+const trends_instructors = allMembers
+  .filter((member) => trendsData.trends_instructors.includes(member.netid))
+  .sort(
+    (instructor1, instructor2) =>
+      trendsData.trends_instructors.findIndex((netid) => netid === instructor1.netid) -
+      trendsData.trends_instructors.findIndex((netid) => netid === instructor2.netid)
+  ) as IdolMember[];
 
 // * BEGIN COURSES PAGE
 export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);
-  const [selectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
-
-  const roles = populateMembers(
-    teamRoles as {
-      [key: string]: {
-        roleName: string;
-        description: string;
-        members: IdolMember[];
-        roles: string[];
-        color: string;
-      };
-    },
-    trends_instructors
-  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -217,20 +205,13 @@ export default function Courses() {
                 Course Staff
               </div>
               <div className="pt-14">
-                {Object.keys(roles).map((role) => {
-                  const value = roles[role as GeneralRole];
-                  return (
-                    <MemberGroup
-                      key={value.roleName}
-                      {...value}
-                      setSelectedMember={setSelectedMember}
-                      selectedMember={selectedMember}
-                      selectedRole={selectedRole}
-                      memberDetailsRef={memberDetailsRef}
-                      isCard={true}
-                    />
-                  );
-                })}
+                <MemberGroup
+                  members={trends_instructors}
+                  setSelectedMember={setSelectedMember}
+                  selectedMember={selectedMember}
+                  memberDetailsRef={memberDetailsRef}
+                  isCard={true}
+                />
               </div>
             </div>
           </section>
