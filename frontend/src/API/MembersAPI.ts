@@ -1,4 +1,5 @@
 import { backendURL } from '../environment';
+import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
 type MemberResponseObj = {
@@ -9,6 +10,21 @@ type MemberResponseObj = {
 export type Member = IdolMember;
 
 export class MembersAPI {
+  public static getAllMembers(): Promise<IdolMember[]> {
+    const res = APIWrapper.get(`${backendURL}/member`).then((res) => res.data);
+    return res.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't get all members",
+          contentMsg: `Error was: ${val.err}`
+        });
+        return [];
+      }
+      const members = val.members as IdolMember[];
+      return members;
+    });
+  }
+
   public static async getMembersFromAllSemesters(): Promise<Record<string, readonly IdolMember[]>> {
     return APIWrapper.get(`${backendURL}/member?type=all-semesters`).then((res) => res.data);
   }
@@ -33,7 +49,7 @@ export class MembersAPI {
 
   public static getArchive(body: {
     [key: string]: string[];
-  }): Promise<{ [key: string]: MemberProfile[] }> {
+  }): Promise<{ [key: string]: IdolMember[] }> {
     return APIWrapper.post(`${backendURL}/member-archive`, body).then((res) => res.data);
   }
 

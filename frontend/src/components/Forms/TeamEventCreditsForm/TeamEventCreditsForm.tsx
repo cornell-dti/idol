@@ -54,7 +54,7 @@ const TeamEventCreditForm: React.FC = () => {
     const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
     // upload image
     const blob = await fetch(uploadedImage).then((res) => res.blob());
-    await ImagesAPI.uploadEventProofImage(blob, eventCreditRequest.image);
+    await ImagesAPI.uploadImage(blob, `${eventCreditRequest.image}`);
     return createdAttendance;
   };
 
@@ -100,7 +100,9 @@ const TeamEventCreditForm: React.FC = () => {
     } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${submittedCredits + creditsToSubmit} credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${
+          submittedCredits + creditsToSubmit
+        } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
@@ -158,7 +160,9 @@ const TeamEventCreditForm: React.FC = () => {
                 value={teamEvent?.uuid ?? ''}
                 text={
                   teamEvent
-                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${teamEvent.hasHours ? 'per hour' : ''}`
+                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${
+                        teamEvent.hasHours ? 'per hour' : ''
+                      }`
                     : ''
                 }
                 options={teamEventInfoList

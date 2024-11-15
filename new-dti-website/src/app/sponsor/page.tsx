@@ -42,12 +42,7 @@ const SponsorHero = () => {
             building products and hosting initiatives to{' '}
             <span className="font-bold">help the Cornell and Ithaca communities.</span>
           </p>
-          <button
-            className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
-          >
-            Donate now
-          </button>
+          <button className="primary-button">Donate now</button>
         </div>
       </div>
       {width >= TABLET_BREAKPOINT && (
@@ -130,10 +125,7 @@ const SponsorPage = () => {
                 harness the power of technology to drive change in our communities.
               </span>
             </p>
-            <button
-              className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
-            font-bold hover:bg-white hover:text-[#A52424] w-fit"
-            >
+            <button className="primary-button">
               <a href="mailto:hello@cornelldti.org">Contact us</a>
             </button>
           </div>
@@ -161,10 +153,7 @@ const SponsorPage = () => {
         <p className="lg:text-[22px] xs:text-lg text-center">
           Want to learn more about how you can help us make an impact?
         </p>
-        <button
-          className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
-        >
+        <button className="primary-button">
           <a href="mailto:hello@cornelldti.org">Contact us</a>
         </button>
       </div>

@@ -2,6 +2,8 @@ import NavigationCard, {
   NavigationCardItem
 } from '../../components/Common/NavigationCard/NavigationCard';
 
+import styles from './index.module.css';
+
 const navCardItems: readonly NavigationCardItem[] = [
   {
     header: 'Member Information Review',
@@ -62,8 +64,18 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'An example page visible to admin only. It can be used to gate unstable features.',
     link: '/admin/hidden',
     adminOnly: true
+  },
+  {
+    header: 'Review Coffee Chats',
+    description: 'Review coffee chat submissions!',
+    link: '/admin/coffee-chats',
+    adminOnly: true
   }
 ];
 
-const AdminIndex = (): JSX.Element => <NavigationCard items={navCardItems} />;
+const AdminIndex = (): JSX.Element => (
+  <div className={styles.content}>
+    <NavigationCard items={navCardItems} />
+  </div>
+);
 export default AdminIndex;

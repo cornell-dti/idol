@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -73,4 +77,114 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.section-heading {
+  font-weight: 600;
+}
+
+/* Mobile phone viewport */
+@media screen and (min-width: 320px) {
+  .section-subheading {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .section-heading {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .section-text {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .primary-button {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+
+  .secondary-button {
+    padding: 9.6px 11.6px;
+    font-size: 16px;
+  }
+}
+
+/* Tablet viewport */
+@media screen and (min-width: 768px) {
+  .section-subheading {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .section-heading {
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  .section-text {
+    font-size: 22px;
+    line-height: 26px;
+  }
+
+  .primary-button {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+
+  .secondary-button {
+    padding: 13.6px 27.6px;
+    font-size: 18px;
+  }
+}
+
+/* Laptop viewport */
+@media screen and (min-width: 1024px) {
+}
+
+.section-subheading {
+  font-weight: 600;
+}
+
+.section-heading {
+  font-weight: 600;
+}
+
+.primary-button {
+  color: #fefefe;
+  background-color: #d63d3d;
+  border-radius: 12px;
+  font-weight: 700;
+  height: fit-content;
+  width: fit-content;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.primary-button:hover {
+  background-color: #a52424;
+}
+
+.secondary-button {
+  color: #fefefe;
+  background-color: black;
+  border-radius: 12px;
+  font-weight: 700;
+  height: fit-content;
+  width: fit-content;
+  border-color: #fefefe;
+  border-width: 3px;
+  border-style: solid;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.secondary-button:hover {
+  color: black;
+  background-color: #fefefe;
 }

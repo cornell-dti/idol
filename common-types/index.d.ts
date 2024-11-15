@@ -1,17 +1,49 @@
 /** The common types required by more than one workspace. */
 
+/** Overarching team roles for DTI members */
+type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
+
 /** All possible roles for a DTI member */
-type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business' | 'dev-advisor';
+type Role =
+  | 'lead'
+  | 'ops-lead'
+  | 'product-lead'
+  | 'dev-lead'
+  | 'design-lead'
+  | 'business-lead'
+  | 'tpm'
+  | 'pm'
+  | 'apm'
+  | 'developer'
+  | 'designer'
+  | 'business'
+  | 'internal-business'
+  | 'pmm'
+  | 'pm-advisor'
+  | 'dev-advisor'
+  | 'design-advisor'
+  | 'business-advisor';
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
   | 'Lead'
+  | 'Full Team Lead'
+  | 'Product Lead'
+  | 'Developer Lead'
+  | 'Design Lead'
+  | 'Business Lead'
   | 'Technical PM'
   | 'Product Manager'
+  | 'Associate PM'
   | 'Developer'
   | 'Designer'
   | 'Business Analyst'
-  | 'Dev Advisor';
+  | 'Internal Business'
+  | 'PMM'
+  | 'PM Advisor'
+  | 'Dev Advisor'
+  | 'Design Advisor'
+  | 'Business Advisor';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -33,6 +65,7 @@ interface IdolMember {
   readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
+  readonly coffeeChatLink?: string | null;
 }
 
 interface IdolMemberDiff {
@@ -62,12 +95,6 @@ interface NovaMember {
   readonly formerSubteams?: string[];
   readonly roleId: string;
   readonly roleDescription: string;
-}
-
-/** The data type used by new DTI website to represent a DTI member. */
-interface MemberProfile extends IdolMember {
-  readonly image?: string | null;
-  readonly coffeeChatLink?: string | null;
 }
 
 interface ProfileImage {
@@ -116,7 +143,7 @@ interface TeamEvent extends TeamEventInfo {
   readonly requests: TeamEventAttendance[];
 }
 
-interface EventProofImage {
+interface Image {
   readonly url: string;
   readonly fileName: string;
 }
@@ -207,14 +234,29 @@ interface Shoutout {
   readonly timestamp: number;
   readonly hidden: boolean;
   readonly uuid: string;
+  readonly images?: string[];
 }
 
 interface CoffeeChat {
   readonly uuid: string;
-  readonly members: IdolMember[];
-  readonly image: string;
+  readonly submitter: IdolMember;
+  readonly otherMember: IdolMember;
+  readonly isNonIDOLMember: boolean;
+  readonly slackLink: string;
   readonly category: string;
-  readonly description: string;
   readonly status: Status;
   readonly date: number;
+  readonly memberMeetsCategory: MemberMeetsCategoryStatus;
+  readonly reason?: string;
+  readonly errorMessage?: string;
 }
+
+interface MemberProperties {
+  readonly college: string;
+  readonly newbie: boolean;
+  readonly notCsOrInfosci: boolean;
+  readonly ta: boolean;
+  readonly leadType?: Role;
+}
+type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
+type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };

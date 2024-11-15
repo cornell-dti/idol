@@ -3,49 +3,35 @@
     "roleName": "Leads",
     "description": "Striving to connect and mentor our members for their best growth.",
     "members": [],
-    "order": ["Full Team Lead", "Product Lead", "Developer Lead", "Design Lead", "Business Lead"],
+    "roles": ["lead", "ops-lead", "product-lead", "dev-lead", "design-lead", "business-lead"],
     "color": "#FFD0D0"
   },
   "designer": {
     "roleName": "Design",
     "description": "Designing quality products, keeping users at the center of it all.",
     "members": [],
-    "order": [],
+    "roles": ["designer", "design-advisor"],
     "color": "#ADD3F9"
   },
   "pm": {
     "roleName": "Product",
     "description": "Leading product development to positively impact the community.",
     "members": [],
-    "order": ["Product Manager", "Associate Product Manager"],
+    "roles": ["pm", "apm", "pm-advisor"],
     "color": "#DEBDFE"
   },
   "business": {
     "roleName": "Business",
     "description": "Bringing products and events to the community.",
     "members": [],
-    "order": ["Product Marketing Manager", "Internal Business"],
+    "roles": ["business", "pmm", "internal-business", "business-advisor"],
     "color": "#F9D6AD"
   },
   "developer": {
     "roleName": "Development",
     "description": "Building, testing, and optimizing our applications.",
     "members": [],
-    "order": ["Technical PM", "Developer"],
-    "color": "#BCECC3"
-  },
-  "tpm": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
-    "color": "#BCECC3"
-  },
-  "dev-advisor": {
-    "roleName": "",
-    "description": "",
-    "members": [],
-    "order": [],
+    "roles": ["tpm", "developer", "dev-advisor"],
     "color": "#BCECC3"
   }
 }

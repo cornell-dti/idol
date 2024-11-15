@@ -5,7 +5,7 @@ import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
-import { getGeneralRole, populateObject } from '../../src/utils';
+import { getGeneralRole, populateObject } from '../../src/utils/memberUtils';
 
 const chartRadius = 175;
 const chartHoverRadius = 190;
@@ -187,7 +187,7 @@ const TeamStatistics = () => {
       </div>
       <div className="grid md:grid-cols-1 xs:grid-cols-2 md:gap-8 xs:gap-2 md:ml-5 lg:ml-10">
         {Object.keys(roleStats).map((role) => {
-          if (role === 'tpm' || role === 'dev-advisor') return <></>;
+          if (!Object.keys(emptyRoleStats).includes(role)) return <></>;
           return (
             <div
               key={role}

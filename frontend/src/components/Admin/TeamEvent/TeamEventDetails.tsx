@@ -26,6 +26,8 @@ type AttendanceDisplayProps = {
 };
 
 const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent }) => {
+  const [selectedRequest, setSelectedRequest] = useState<TeamEventAttendance | null>(null);
+
   const newAttendance = teamEvent.requests.filter((res) => res.status === status);
 
   return (
@@ -46,17 +48,22 @@ const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent
                 )}
               </Card.Content>
               <Card.Content extra>
-                <TeamEventCreditReview
-                  teamEvent={teamEvent}
-                  teamEventAttendance={req}
-                  currentStatus={status}
-                ></TeamEventCreditReview>
+                <Button onClick={() => setSelectedRequest(req)}>Review</Button>
               </Card.Content>
             </Card>
           ))}
         </Card.Group>
       ) : (
         <Message>There are currently no {status} members for this event.</Message>
+      )}
+
+      {selectedRequest && (
+        <TeamEventCreditReview
+          teamEvent={teamEvent}
+          teamEventAttendance={selectedRequest}
+          currentStatus={status}
+          onClose={() => setSelectedRequest(null)}
+        />
       )}
     </>
   );
@@ -205,4 +212,5 @@ const TeamEventDetails: React.FC = () => {
     </div>
   );
 };
+
 export default TeamEventDetails;

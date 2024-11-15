@@ -24,7 +24,6 @@ import {
   reviewUserInformationChange,
   generateMemberArchive
 } from './API/memberAPI';
-import { getMemberImage, setMemberImage, allMemberImages } from './API/imageAPI';
 import { allTeams, setTeam, deleteTeam } from './API/teamAPI';
 import {
   getAllShoutouts,
@@ -39,7 +38,10 @@ import {
   updateCoffeeChat,
   getCoffeeChatsByUser,
   deleteCoffeeChat,
-  clearAllCoffeeChats
+  clearAllCoffeeChats,
+  getCoffeeChatBingoBoard,
+  checkMemberMeetsCategory,
+  runAutoChecker
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -74,11 +76,6 @@ import {
   getCandidateDeciderReviews
 } from './API/candidateDeciderAPI';
 import {
-  deleteEventProofImage,
-  getEventProofImage,
-  setEventProofImage
-} from './API/teamEventsImageAPI';
-import {
   getAllDevPortfolios,
   createNewDevPortfolio,
   updateDevPortfolio,
@@ -91,6 +88,7 @@ import {
   regradeSubmissions,
   updateSubmissions
 } from './API/devPortfolioAPI';
+import { getWriteSignedURL, getReadSignedURL, deleteImage } from './API/imageAPI';
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
@@ -253,16 +251,17 @@ loginCheckedPost('/team', async (req, user) => ({
 }));
 
 // Images
-loginCheckedGet('/member-image/:email', async (_, user) => ({
-  url: await getMemberImage(user)
+loginCheckedGet('/image/:name(*)', async (req) => ({
+  url: await getReadSignedURL(req.params.name)
 }));
-// TODO: Modify this endpoint to /member-image/* to be more RESTful
-loginCheckedGet('/member-image-signedURL', async (_, user) => ({
-  url: await setMemberImage(user)
+
+loginCheckedGet('/image-signed-url/:name(*)', async (req) => ({
+  url: await getWriteSignedURL(req.params.name)
 }));
-router.get('/member-image', async (_, res) => {
-  const images = await allMemberImages();
-  res.status(200).json({ images });
+
+loginCheckedDelete('/image/:name(*)', async (req) => {
+  await deleteImage(req.params.name);
+  return {};
 });
 
 // Shoutouts
@@ -288,12 +287,13 @@ loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   return {};
 });
 
+// Coffee Chats
 loginCheckedGet('/coffee-chat', async () => ({
   coffeeChats: await getAllCoffeeChats()
 }));
 
-loginCheckedPost('/coffee-chat', async (req) => ({
-  coffeeChats: await createCoffeeChat(req.body)
+loginCheckedPost('/coffee-chat', async (req, user) => ({
+  coffeeChat: await createCoffeeChat(req.body, user)
 }));
 
 loginCheckedDelete('/coffee-chat', async (_, user) => {
@@ -312,7 +312,25 @@ loginCheckedGet('/coffee-chat/:email', async (_, user) => {
 });
 
 loginCheckedPut('/coffee-chat', async (req, user) => ({
-  coffeeChats: await updateCoffeeChat(req.body, user)
+  coffeeChat: await updateCoffeeChat(req.body, user)
+}));
+
+loginCheckedGet('/coffee-chat-bingo-board', async () => {
+  const board = await getCoffeeChatBingoBoard();
+  return { board };
+});
+
+loginCheckedGet('/coffee-chat/:otherMemberEmail/:submitterEmail/:category', async (req) => {
+  const result = await checkMemberMeetsCategory(
+    req.params.otherMemberEmail,
+    req.params.submitterEmail,
+    decodeURIComponent(req.params.category)
+  );
+  return { result };
+});
+
+loginCheckedPut('/coffee-chat/autocheck/:uuid/', async (req, user) => ({
+  coffeeChat: await runAutoChecker(req.params.uuid, user)
 }));
 
 // Pull from IDOL
@@ -380,20 +398,6 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
 loginCheckedPost('/team-event-reminder', async (req, user) => ({
   info: await notifyMember(req, req.query.end_of_semester_reminder !== undefined, req.body, user)
 }));
-
-// Team Events Proof Image
-loginCheckedGet('/event-proof-image/:name(*)', async (req, user) => ({
-  url: await getEventProofImage(req.params.name, user)
-}));
-
-// TODO: Modify this endpoint to /event-proof-image/* to be more RESTful
-loginCheckedGet('/event-proof-image-signed-url/:name(*)', async (req, user) => ({
-  url: await setEventProofImage(req.params.name, user)
-}));
-loginCheckedDelete('/event-proof-image/:name(*)', async (req, user) => {
-  await deleteEventProofImage(req.params.name, user);
-  return {};
-});
 
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({

@@ -16,6 +16,7 @@ export type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
+  images?: string[];
 };
 
 export type DBSignInFormResponse = {
@@ -107,10 +108,14 @@ export type DevPortfolioSubmissionRequestLog = {
 
 export type DBCoffeeChat = {
   uuid: string;
-  members: firestore.DocumentReference[];
-  image: string;
+  submitter: firestore.DocumentReference;
+  otherMember: firestore.DocumentReference | IdolMember;
+  isNonIDOLMember: boolean;
+  slackLink: string;
   category: string;
-  description: string;
   status: Status;
   date: number;
+  memberMeetsCategory: MemberMeetsCategoryStatus;
+  reason?: string;
+  errorMessage?: string;
 };

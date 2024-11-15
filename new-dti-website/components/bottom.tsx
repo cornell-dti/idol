@@ -2,12 +2,11 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Button } from './ui/button';
 
 const Bottom: React.FC = () => (
   <div className="flex flex-col w-screen h-fit text-white justify-center">
     <div className="flex flex-col h-fit justify-center items-start px-8 md:flex-row md:px-14 lg:gap-x-12">
-      <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 max-w-[609px]">
+      <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 max-w-[609px] z-10">
         <Image
           className="w-5/12"
           src="/images/teaching_1.svg"
@@ -32,7 +31,7 @@ const Bottom: React.FC = () => (
           />
         </div>
       </div>
-      <div className="text-left w-full md:self-center max-w-[520px]">
+      <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
           <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">courses</p>
           <h5 className="text-lg font-semibold md:text-xl lg:text-[32px]">
@@ -73,9 +72,7 @@ const Bottom: React.FC = () => (
             </div>
           </div>
         </div>
-        <Button className="px-3.5 py-3 w-fit h-fit bg-red-500 border-2 border-red-500 rounded-lg font-bold hover:border-red-800 hover:bg-red-800">
-          Learn more
-        </Button>
+        <button className="primary-button">Learn more</button>
       </div>
     </div>
     <div className="flex flex-col h-fit justify-center items-start py-10 px-8 md:flex-row md:py-20 md:px-16">
@@ -116,9 +113,7 @@ const Bottom: React.FC = () => (
             We strive to build initiatives not only at Cornell, but also in the{' '}
             <span className="font-bold">Ithaca community and beyond</span>.
           </p>
-          <Button className="px-3.5 py-3 w-fit h-fit bg-red-500 border-2 border-red-500 rounded-lg font-bold hover:border-red-800 hover:bg-red-800">
-            How we give back
-          </Button>
+          <button className="primary-button">How we give back</button>
         </div>
       </div>
     </div>
@@ -141,12 +136,8 @@ const Bottom: React.FC = () => (
           <span className="font-bold">teach others from our experience.</span>
         </p>
         <div className="flex flex-row gap-x-3">
-          <Button className="px-3.5 py-3 w-fit h-fit bg-red-500 border-2 border-red-500 rounded-lg font-bold hover:border-red-800 hover:bg-red-800">
-            Get to know us
-          </Button>
-          <Button className="px-3.5 py-3 w-fit h-fit text-red-200 bg-transparent border-2 border-red-200 rounded-lg font-bold hover:bg-red-200 hover:text-red-800">
-            Join us
-          </Button>
+          <button className="primary-button">Get to know us</button>
+          <button className="secondary-button">Join us</button>
         </div>
       </div>
     </div>
