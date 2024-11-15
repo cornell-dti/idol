@@ -3,6 +3,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember, allMembers } from './memberAPI';
 import { BUSINESS_ROLES, LEAD_ROLES } from '../consts';
+import { getGeneralRoleFromLeadType } from '../utils/memberUtil';
 
 const coffeeChatDao = new CoffeeChatDao();
 
@@ -295,23 +296,14 @@ export const checkMemberMeetsCategory = async (
       if (!isLead) {
         status = 'fail';
         message = `${otherMember.firstName} ${otherMember.lastName} is not a lead`;
-
-        // If otherMember is a lead, but otherMemberProperties doesn't exist, status should stay undefined
-      } else if (otherMemberProperties) {
-        let diffRole;
-        if (!LEAD_ROLES.includes(submitter.role)) {
-          diffRole = otherMemberProperties.leadType !== submitter.role;
-          // If submitter is a lead, but submitterProperties doesn't exist, status should stay undefined
-        } else if (submitterProperties) {
-          diffRole = otherMemberProperties.leadType !== submitterProperties.leadType;
-        } else {
-          diffRole = undefined;
-        }
-        if (diffRole !== undefined) {
-          status = diffRole ? 'pass' : 'fail';
-          if (!diffRole) {
-            message = `${otherMember.firstName} ${otherMember.lastName} is a lead, but from the same role (${submitter.role}) as ${submitter.firstName} ${submitter.lastName}`;
-          }
+      } else {
+        const diffRole = !LEAD_ROLES.includes(submitter.role)
+          ? getGeneralRoleFromLeadType(otherMember.role) !== submitter.role
+          : getGeneralRoleFromLeadType(otherMember.role) !==
+            getGeneralRoleFromLeadType(submitter.role);
+        status = diffRole ? 'pass' : 'fail';
+        if (!diffRole) {
+          message = `${otherMember.firstName} ${otherMember.lastName} is a lead, but from the same role (${submitter.role}) as ${submitter.firstName} ${submitter.lastName}`;
         }
       }
     }
