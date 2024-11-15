@@ -43,7 +43,9 @@ const SponsorHero = () => {
             building products and hosting initiatives to{' '}
             <span className="font-bold">help the Cornell and Ithaca communities.</span>
           </p>
-          <button className="primary-button">Donate now</button>
+          <Link href="mailto:hello@cornelldti.org" className="primary-button">
+            Donate now
+          </Link>
         </div>
       </div>
       {width >= TABLET_BREAKPOINT && (
