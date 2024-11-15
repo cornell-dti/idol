@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import MemberGroup from './MemberGroup';
 import Icon from '../icons';
-import members from './data/all-members.json';
+import FA23Members from '../../../backend/src/members-archive/fa23.json';
 import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import { populateMembers } from '../../src/utils/memberUtils';
@@ -12,7 +12,7 @@ const MemberDisplay: React.FC = () => {
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
-  const allMembers = members as IdolMember[];
+  const allMembers = FA23Members.members as IdolMember[];
 
   const roles = populateMembers(
     teamRoles as {
