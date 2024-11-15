@@ -44,7 +44,7 @@ export default function Courses() {
         roleName: string;
         description: string;
         members: IdolMember[];
-        order: string[];
+        roles: string[];
         color: string;
       };
     },
@@ -213,8 +213,7 @@ export default function Courses() {
               </div>
               <div className="pt-14">
                 {Object.keys(roles).map((role) => {
-                  const value = roles[role as Role];
-                  if (role === 'tpm' || role === 'dev-advisor') return <></>;
+                  const value = roles[role as GeneralRole];
                   return (
                     <MemberGroup
                       key={value.roleName}
