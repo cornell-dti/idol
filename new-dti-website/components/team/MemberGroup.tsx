@@ -330,7 +330,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
             <div
               className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
             >
               {members.map((member, index) => (
                 <>
