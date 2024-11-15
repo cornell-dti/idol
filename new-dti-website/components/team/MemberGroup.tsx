@@ -36,7 +36,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`rounded-md h-auto ${enlarged ? 'w-[244px]' : 'w-[202px]'}`}
       />
       <h3
-        className={`xs:text-lg font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-[22px]'}`}
+        className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
@@ -333,7 +333,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
             <div
               className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
             >
               {members.map((member, index) => (
                 <>

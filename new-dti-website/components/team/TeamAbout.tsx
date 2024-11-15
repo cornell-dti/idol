@@ -6,6 +6,7 @@ import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 import { getGeneralRole, populateObject } from '../../src/utils/memberUtils';
+import config from '../../config.json';
 
 const chartRadius = 175;
 const chartHoverRadius = 190;
@@ -265,7 +266,8 @@ const TeamAbout = () => (
           More than just being inclusive, our team strives to{' '}
           <span className="font-bold">bring many backgrounds and perspectives together</span> to
           solve community problems. These statistics come from recruiting across campus and seeking
-          applicants with the best skills and potential for growth on the team. Updated Fall 2023.
+          applicants with the best skills and potential for growth on the team. Updated{' '}
+          {config.semester}.
         </p>
       </div>
       <TeamStatistics />
