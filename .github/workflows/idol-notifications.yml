@@ -1,7 +1,7 @@
 name: IDOL Notifications
 on:
   schedule:
-    # Runs script at 8AM UTC (6PM or 7PM ET) everyday. This hsould be an hour before pull-from-idol
+    # Runs script at 8AM UTC (6PM or 7PM ET) everyday. This should be an hour before pull-from-idol
     - cron: '0 23 * * MON'
 
 jobs:
