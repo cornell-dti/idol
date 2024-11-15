@@ -36,7 +36,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`rounded-md h-auto ${enlarged ? 'w-[244px]' : 'w-[202px]'}`}
       />
       <h3
-        className={`xs:text-lg font-${enlarged ? 'semibold md:text-2xl' : 'bold'}`}
+        className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
