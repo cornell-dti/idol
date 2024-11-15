@@ -13,6 +13,7 @@ import testimonialData from '../../../components/courses/data/testimonials.json'
 import studentProjectData from '../../../components/courses/data/student_projects.json';
 import trendsData from '../../../components/courses/data/trends_instructors.json';
 import teamRoles from '../../../components/team/data/roles.json';
+import allMembers from '../../../components/team/data/all-members.json';
 
 // *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';
@@ -28,7 +29,9 @@ const { key_experiences } = experiencesData;
 const { timeline_events } = timelineData;
 const { testimonials }: { testimonials: TestimonialCardProps[] } = testimonialData;
 const { student_projects } = studentProjectData;
-const trends_instructors = trendsData.trends_instructors as IdolMember[];
+const trends_instructors = allMembers.filter((member) =>
+  trendsData.trends_instructors.includes(member.netid)
+) as IdolMember[];
 
 // * BEGIN COURSES PAGE
 export default function Courses() {
