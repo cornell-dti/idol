@@ -114,7 +114,7 @@ const SponsorPage = () => {
             alt="DTI 2024"
             width={width >= LAPTOP_BREAKPOINT ? 475 : 350}
             height={width >= LAPTOP_BREAKPOINT ? 320 : 236}
-            className="rounded-3xl mx-auto"
+            className="rounded-3xl mx-auto object-cover"
           />
           <div className="flex flex-col justify-center md:gap-5 xs:gap-3">
             <h3 className="font-semibold text-2xl">Become a sponsor!</h3>
