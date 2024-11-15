@@ -10,10 +10,10 @@ const InitiativeHero = () => (
   >
     <div
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
-      xs:mx-6 md:mx-[65px] relative z-20"
+      xs:mx-6 md:mx-[65px] relative z-10"
     >
       <h1
-        className="flex items-center md:text-[100px] xs:text-[48px] md:leading-[120px] 
+        className="flex items-center md:text-[100px] md:leading-[120px] 
         xs:text-[48px] font-semibold"
       >
         <div>
