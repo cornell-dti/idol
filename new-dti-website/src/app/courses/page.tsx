@@ -13,7 +13,7 @@ import testimonialData from '../../../components/courses/data/testimonials.json'
 import studentProjectData from '../../../components/courses/data/student_projects.json';
 import trendsData from '../../../components/courses/data/trend_instructors.json';
 import teamRoles from '../../../components/team/data/roles.json';
-import config from '../../../config.json';
+import config from '../../../components/courses/data/config.json';
 
 // *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';

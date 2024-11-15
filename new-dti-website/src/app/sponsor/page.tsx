@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import RedBlob from '../../../components/blob';
-import Link from 'next/link';
 
 const { impacts } = impactData;
 const { companies } = companyData;
