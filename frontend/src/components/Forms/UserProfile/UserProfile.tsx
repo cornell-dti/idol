@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
-import { LEAD_ROLES } from '../../../consts';
+import styles from './UserProfile.module.css';
 
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
@@ -24,6 +25,7 @@ const UserProfile: React.FC = () => {
   const [website, setWebsite] = useState(userInfoBeforeEdit?.website ?? '');
   const [linkedin, setLinkedin] = useState(userInfoBeforeEdit?.linkedin ?? '');
   const [github, setGithub] = useState(userInfoBeforeEdit?.github ?? '');
+  const [coffeeChatLink, setCoffeeChatLink] = useState(userInfoBeforeEdit?.coffeeChatLink ?? '');
 
   const initialPronouns = userInfoBeforeEdit?.pronouns;
 
@@ -67,6 +69,7 @@ const UserProfile: React.FC = () => {
         website: isFilledOut(website) ? website : null,
         linkedin: isFilledOut(linkedin) ? linkedin : null,
         github: isFilledOut(github) ? github : null,
+        coffeeChatLink: isFilledOut(coffeeChatLink) ? coffeeChatLink : null,
         subteams: userInfoBeforeEdit?.subteams ?? [],
         formerSubteams: userInfoBeforeEdit?.formerSubteams ?? []
       };
@@ -188,8 +191,16 @@ const UserProfile: React.FC = () => {
           value={github}
           onChange={(event) => setGithub(event.target.value)}
         />
+        <Form.Input
+          fluid
+          label="Coffee Chat Calendly *"
+          value={coffeeChatLink}
+          onChange={(event) => setCoffeeChatLink(event.target.value)}
+        />
       </Form.Group>
-
+      <span className={styles.coffeeChatLinkFootnote}>
+        *If coffee chat link not provided, your email will be displayed.
+      </span>
       <Form.Button onClick={saveProfileInfo} floated="right">
         Save
       </Form.Button>

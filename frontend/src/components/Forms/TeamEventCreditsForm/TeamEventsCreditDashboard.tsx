@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Card, Loader, Message, Button, Modal, Header, Image } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -10,8 +11,7 @@ import {
   REQUIRED_INITIATIVE_CREDITS,
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
-  INITIATIVE_EVENTS,
-  LEAD_ROLES
+  INITIATIVE_EVENTS
 } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {

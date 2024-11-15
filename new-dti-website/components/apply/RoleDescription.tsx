@@ -96,10 +96,7 @@ const RoleDescriptions = () => {
             );
           })}
         </div>
-        <button
-          className="rounded-xl py-4 px-5 bg-[#A52424] text-white 
-          font-bold hover:bg-[#D63D3D] w-fit"
-        >
+        <button className="primary-button">
           <a href={config.applicationLink}>Apply now</a>
         </button>
       </div>

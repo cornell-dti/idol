@@ -59,9 +59,11 @@ const TeamFooter = () => {
           />
           <div className="flex flex-col gap-[20px] items-start w-2/3">
             <h1 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h1>
-            <p className="lg:text-[22px] md:text-lg">{message}</p>
+            <p className="lg:text-[22px] md:text-lg">
+              {message}
+            </p>
             {isAppOpen && (
-              <button className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white font-bold hover:bg-white hover:text-[#A52424]">
+              <button className="primary-button">
                 <a href={'/apply'} target="_blank" rel="noopener noreferrer">
                   Apply here
                 </a>
