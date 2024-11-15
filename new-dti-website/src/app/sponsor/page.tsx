@@ -7,6 +7,7 @@ import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import RedBlob from '../../../components/blob';
+import Link from 'next/link';
 
 const { impacts } = impactData;
 const { companies } = companyData;
@@ -125,9 +126,9 @@ const SponsorPage = () => {
                 harness the power of technology to drive change in our communities.
               </span>
             </p>
-            <button className="primary-button">
-              <a href="mailto:hello@cornelldti.org">Contact us</a>
-            </button>
+            <Link href="mailto:hello@cornelldti.org" className="primary-button">
+              Contact us
+            </Link>
           </div>
         </div>
       </div>
@@ -153,9 +154,9 @@ const SponsorPage = () => {
         <p className="lg:text-[22px] xs:text-lg text-center">
           Want to learn more about how you can help us make an impact?
         </p>
-        <button className="primary-button">
-          <a href="mailto:hello@cornelldti.org">Contact us</a>
-        </button>
+        <Link className="primary-button" href="mailto:hello@cornelldti.org">
+          Contact us
+        </Link>
       </div>
     </>
   );

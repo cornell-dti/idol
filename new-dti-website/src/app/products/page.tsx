@@ -98,13 +98,15 @@ export default function Page() {
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
           </p>
-          <Button
-            className="text-white font-bold bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
-            variant="outline"
-            size="default"
-          >
-            Contact us
-          </Button>
+          <a href="mailto:hello@cornelldti.org">
+            <Button
+              className="text-white font-bold bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
+              variant="outline"
+              size="default"
+            >
+              Contact us
+            </Button>
+          </a>
         </div>
       </div>
     </div>
