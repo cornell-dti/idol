@@ -52,10 +52,7 @@ const InitiativePage = () => (
         <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px]">
           Feel free to coordinate with us over email, coffee, lunch-we're excited to work with you.
         </p>
-        <button
-          className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-[#D63D3D] w-fit"
-        >
+        <button className="primary-button">
           <a href="mailto:hello@cornelldti.org">Get in touch</a>
         </button>
       </div>
