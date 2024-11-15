@@ -42,7 +42,7 @@ const TeamFooter = () => {
   } else if (isFall && !isGenAppOpen) {
     message = `Freshmen/Transfer applications for ${config.semester} are open.`;
   } else {
-    message = `Applications for ${config.semester} are now open.`
+    message = `Applications for ${config.semester} are now open.`;
   }
 
   return (
