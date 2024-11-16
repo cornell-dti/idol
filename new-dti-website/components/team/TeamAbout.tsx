@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import { ibm_plex_mono } from '../../src/app/layout';
-import FA23Members from '../../../backend/src/members-archive/fa23.json';
+import members from './data/all-members.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 import { getGeneralRole, populateObject } from '../../src/utils/memberUtils';
+import config from '../../config.json';
 
 const chartRadius = 175;
 const chartHoverRadius = 190;
@@ -109,7 +110,7 @@ const TeamStatistics = () => {
   const [chartSection, setChartSection] = useState<string | undefined>(undefined);
   const { width } = useScreenSize();
 
-  const allMembers = FA23Members.members as IdolMember[];
+  const allMembers = members as IdolMember[];
 
   const countMajors = (role?: string) =>
     allMembers.reduce((acc, val) => {
@@ -265,7 +266,8 @@ const TeamAbout = () => (
           More than just being inclusive, our team strives to{' '}
           <span className="font-bold">bring many backgrounds and perspectives together</span> to
           solve community problems. These statistics come from recruiting across campus and seeking
-          applicants with the best skills and potential for growth on the team. Updated Fall 2023.
+          applicants with the best skills and potential for growth on the team. Updated{' '}
+          {config.semester}.
         </p>
       </div>
       <TeamStatistics />

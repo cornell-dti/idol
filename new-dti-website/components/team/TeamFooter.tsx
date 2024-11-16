@@ -2,36 +2,7 @@ import Image from 'next/image';
 import companies from './data/companies.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { TABLET_BREAKPOINT } from '../../src/consts';
-import { MemberCard } from './MemberGroup';
-import alumniMembers from '../../../backend/src/members-archive/fa21.json';
 import config from '../../config.json';
-
-const AlumniDisplay = () => (
-  <div className="flex justify-center bg-[#F6F6F6] pb-36">
-    <div className="xs:mx-5 md:mx-10 lg:mx-20 xl:mx-60 max-w-5xl">
-      <h2 className="font-semibold md:text-[32px] xs:text-2xl">Alumni & Inactive Members</h2>
-      <div
-        className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-      >
-        {alumniMembers.members.map((member, index) =>
-          index <= 5 ? (
-            <a href={member.linkedin ?? undefined}>
-              <MemberCard
-                {...member}
-                roleDescription={member.roleDescription as RoleDescription}
-                cardState={undefined}
-                image={'/martha.png'}
-              />
-            </a>
-          ) : (
-            <></>
-          )
-        )}
-      </div>
-    </div>
-  </div>
-);
 
 const BeyondDTI = () => {
   const { width } = useScreenSize();
@@ -59,14 +30,26 @@ const BeyondDTI = () => {
   );
 };
 
-const TeamAlumni = () => {
-  const isApplicationOpen = Date.parse(config.applicationDeadline) >= Date.now();
+const TeamFooter = () => {
+  const isGenAppOpen = Date.parse(config.applicationDeadline) >= Date.now();
+  const isFreshAppOpen = Date.parse(config.freshmanAppDeadline) >= Date.now();
+  const isFall = config.semester.startsWith('Fall');
+  const isAppOpen = (isFall && isFreshAppOpen) || (!isFall && isGenAppOpen);
+
+  let message;
+  if ((isFall && !isFreshAppOpen) || (!isFall && !isGenAppOpen)) {
+    message = `We're no longer accepting applicants for ${config.semester}. Stay tuned for opportunities next semester!`;
+  } else if (isFall && !isGenAppOpen) {
+    message = `Freshmen/Transfer applications for ${config.semester} are open.`;
+  } else {
+    message = `Applications for ${config.semester} are now open.`;
+  }
+
   return (
     <div className="flex flex-col">
-      <AlumniDisplay />
       <BeyondDTI />
-      <div className="flex justify-center bg-[#EDEDED] lg:py-32 md:py-16 xs:py-10">
-        <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 md:items-center">
+      <div className="flex justify-center bg-[#EDEDED] lg:py-32 md:py-16 xs:py-10 xs:px-8">
+        <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 items-center max-w-5xl">
           <Image
             src="/images/full-team.png"
             alt="team picture"
@@ -74,13 +57,10 @@ const TeamAlumni = () => {
             height={312}
             className="lg:w-[412px] xs:w-[360px] rounded-xl"
           />
-          <div className="flex flex-col gap-[20px] items-start">
+          <div className="flex flex-col gap-[20px] items-start w-2/3">
             <h1 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h1>
-            <p className="lg:text-[22px] md:text-lg">
-              Applications for {config.semester} are{' '}
-              {isApplicationOpen ? 'now open!' : 'now closed.'}
-            </p>
-            {isApplicationOpen && (
+            <p className="lg:text-[22px] md:text-lg">{message}</p>
+            {isAppOpen && (
               <button className="primary-button">
                 <a href={'/apply'} target="_blank" rel="noopener noreferrer">
                   Apply here
@@ -94,4 +74,4 @@ const TeamAlumni = () => {
   );
 };
 
-export default TeamAlumni;
+export default TeamFooter;
