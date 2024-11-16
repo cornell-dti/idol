@@ -7,6 +7,7 @@ import RoleDescriptions from '../../../components/apply/RoleDescription';
 import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import useThemeContext from '../../hooks/useThemeContext';
+import { isAppOpen } from '../../utils/dateUtils';
 
 const ApplyHero = () => (
   <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center">
@@ -33,9 +34,16 @@ const ApplyHero = () => (
           <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
           applicants to apply regardless of experience. We'd love to work with someone like you.
         </p>
-        <Link key="Apply Page" href={config.applicationLink} className="primary-button">
-          Apply now
-        </Link>
+        {isAppOpen() ? (
+          <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+            Apply now
+          </Link>
+        ) : (
+          <p className="md:text-lg xs:text-sm">
+            We're no longer accepting applicants for {config.semester}. Stay tuned for opportunities
+            next semester!
+          </p>
+        )}
       </div>
     </div>
     <div className="relative">
