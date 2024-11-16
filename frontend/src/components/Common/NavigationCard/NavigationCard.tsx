@@ -10,19 +10,20 @@ export type NavigationCardItem = {
   readonly description: string;
   readonly link: string;
   readonly adminOnly?: boolean;
+  readonly disabled?: boolean
 };
 
-type Props = { readonly testID?: string; readonly items: readonly NavigationCardItem[] };
+type Props = { readonly testID?: string; readonly items: readonly NavigationCardItem[]};
 
-export default function NavigationCard({ testID, items }: Props): JSX.Element {
+export default function NavigationCard({ testID, items}: Props): JSX.Element {
   const hasAdminPermission = useHasAdminPermission();
 
   return (
     <div data-testid={testID}>
       <Card.Group className={styles.cardsContainer}>
         {items.map(
-          ({ header, description, link, adminOnly }) =>
-            (!isProduction || !adminOnly || hasAdminPermission) && (
+          ({ header, description, link, adminOnly, disabled }) =>
+            !disabled && (!isProduction || !adminOnly || hasAdminPermission) && (
               <Card key={link}>
                 <Card.Content>
                   <Card.Header>{header}</Card.Header>
