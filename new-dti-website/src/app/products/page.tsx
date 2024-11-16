@@ -5,7 +5,7 @@ import products from '../../../components/products/products.json';
 import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
 import RedBlob from '../../../components/blob';
-import FloatingImages, { ImageData } from '../../../components/products/Products';
+import FloatingImages, { ImageData } from '../../../components/products/FloatingImages';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
