@@ -1,0 +1,46 @@
+name: Pull from IDOL Images
+on:
+  workflow_dispatch:
+  schedule:
+    # Run the script at 0AM in UTC every Monday, which is 7PM or 8PM in ET.
+    - cron: '0 0 * * MON'
+  pull_request:
+    paths:
+      - backend/scripts/pull-from-idol-images.ts
+      - .github/workflows/pull-from-idol-images.yml
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Use Yarn Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: yarn-
+      - name: Install
+        run: yarn
+      - name: Clear out new-dti-website/public/team
+        run: rm -rf new-dti-website/public/team && mkdir new-dti-website/public/team
+      - name: Make Temp Directory
+        run: mkdir backend/temp
+      - name: Pull Images From IDOL
+        env:
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+        run: yarn workspace backend run pull-from-idol-images
+      - name: Move Images from backend/temp to new-dti-website/public/team
+        run: mv backend/temp/** new-dti-website/public/team
+      - name: Delete Temp Directory
+        run: rm -r backend/temp
+      - name: Create PR
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: yarn workspace backend run create-idol-images-pr
