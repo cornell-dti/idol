@@ -6,7 +6,7 @@ import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import RedBlob from '../../components/blob';
 import useScreenSize from '../hooks/useScreenSize';
-import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../consts';
+import { LAPTOP_BREAKPOINT } from '../consts';
 import { ibm_plex_mono } from './layout';
 
 const Home: React.FC = () => {
