@@ -10,10 +10,10 @@ const InitiativeHero = () => (
   >
     <div
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
-      xs:mx-6 md:mx-[65px] relative z-20"
+      xs:mx-6 md:mx-[65px] relative z-10"
     >
       <h1
-        className="flex items-center md:text-[100px] xs:text-[48px] md:leading-[120px] 
+        className="flex items-center md:text-[100px] md:leading-[120px] 
         xs:text-[48px] font-semibold"
       >
         <div>
@@ -52,10 +52,7 @@ const InitiativePage = () => (
         <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px]">
           Feel free to coordinate with us over email, coffee, lunch-we're excited to work with you.
         </p>
-        <button
-          className="rounded-xl py-3 px-[20px] bg-[#A52424] text-white 
-          font-bold hover:bg-[#D63D3D] w-fit"
-        >
+        <button className="primary-button">
           <a href="mailto:hello@cornelldti.org">Get in touch</a>
         </button>
       </div>

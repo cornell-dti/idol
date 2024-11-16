@@ -36,7 +36,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`rounded-md h-auto ${enlarged ? 'w-[244px]' : 'w-[202px]'}`}
       />
       <h3
-        className={`xs:text-lg font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-[22px]'}`}
+        className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
@@ -87,6 +87,7 @@ type MemberDetailsProps = {
   website?: string | null;
   linkedin?: string | null;
   image: string;
+  coffeeChatLink?: string | null;
 };
 
 export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetailsProps) => {
@@ -181,23 +182,25 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <button
-                onMouseEnter={mouseHandler}
-                onMouseLeave={mouseHandler}
-                className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
-              hover:bg-[#A52424] hover:text-white stroke-white"
-              >
-                <div className="flex gap-3 w-max">
-                  <Image
-                    src="/icons/red_calendar.svg"
-                    alt="calendar"
-                    width={24}
-                    height={24}
-                    className={hover ? 'brightness-0 invert' : ''}
-                  />
-                  <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-                </div>
-              </button>
+              <a href={props.coffeeChatLink ?? `mailto:${props.email}`}>
+                <button
+                  onMouseEnter={mouseHandler}
+                  onMouseLeave={mouseHandler}
+                  className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
+                hover:bg-[#A52424] hover:text-white stroke-white"
+                >
+                  <div className="flex gap-3 w-max">
+                    <Image
+                      src="/icons/red_calendar.svg"
+                      alt="calendar"
+                      width={24}
+                      height={24}
+                      className={hover ? 'brightness-0 invert' : ''}
+                    />
+                    <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
+                  </div>
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -330,7 +333,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
             <div
               className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
             >
               {members.map((member, index) => (
                 <>

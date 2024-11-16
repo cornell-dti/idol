@@ -166,20 +166,10 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link
-                    key="Apply Page"
-                    href={'/apply'}
-                    className="transition ease-in-out duration-300 rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-red-500 text-white text-lg md:text-xl
-          font-black border-4 hover:bg-red-800 w-fit"
-                  >
+                  <Link key="Apply Page" href={'/apply'} className="primary-button">
                     Apply Now
                   </Link>
-                  <Link
-                    key="Trends Form"
-                    href={''}
-                    className="transition ease-in-out duration-300 rounded-2xl py-2 px-4 md:py-4 md:px-8 bg-red-500 text-white text-lg md:text-xl
-          font-black border-4 hover:bg-red-800 w-fit"
-                  >
+                  <Link key="Trends Form" href={''} className="primary-button">
                     Learn More
                   </Link>
                 </div>

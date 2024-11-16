@@ -5,7 +5,6 @@ type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
 
 /** All possible roles for a DTI member */
 type Role =
-  | 'lead'
   | 'ops-lead'
   | 'product-lead'
   | 'dev-lead'
@@ -16,7 +15,6 @@ type Role =
   | 'apm'
   | 'developer'
   | 'designer'
-  | 'business'
   | 'internal-business'
   | 'pmm'
   | 'pm-advisor'
@@ -26,7 +24,6 @@ type Role =
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
-  | 'Lead'
   | 'Full Team Lead'
   | 'Product Lead'
   | 'Developer Lead'
@@ -37,7 +34,6 @@ type RoleDescription =
   | 'Associate PM'
   | 'Developer'
   | 'Designer'
-  | 'Business Analyst'
   | 'Internal Business'
   | 'PMM'
   | 'PM Advisor'
@@ -65,6 +61,7 @@ interface IdolMember {
   readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
+  readonly coffeeChatLink?: string | null;
 }
 
 interface IdolMemberDiff {
@@ -94,12 +91,6 @@ interface NovaMember {
   readonly formerSubteams?: string[];
   readonly roleId: string;
   readonly roleDescription: string;
-}
-
-/** The data type used by new DTI website to represent a DTI member. */
-interface MemberProfile extends IdolMember {
-  readonly image?: string | null;
-  readonly coffeeChatLink?: string | null;
 }
 
 interface ProfileImage {
@@ -261,7 +252,6 @@ interface MemberProperties {
   readonly newbie: boolean;
   readonly notCsOrInfosci: boolean;
   readonly ta: boolean;
-  readonly leadType?: Role;
 }
 type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
 type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };
