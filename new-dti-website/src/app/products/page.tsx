@@ -1,12 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import ImageCarousel from '../../../components/products/imageCarousel';
 import FloatingImages, { ImageData } from '../../../components/products/FloatingImages';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
-import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
 import RedBlob from '../../../components/blob';
-import Link from 'next/link';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
