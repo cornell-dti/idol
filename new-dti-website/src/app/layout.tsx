@@ -11,7 +11,7 @@ export const ibm_plex_mono = IBM_Plex_Mono({
 
 const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => (
   <html lang="en">
-    <body className={`${inter.className} bg-black overflow-x-hidden`}>
+    <body className={`${inter.className} bg-black relative overflow-x-hidden`}>
       <Page>{children}</Page>
     </body>
   </html>
