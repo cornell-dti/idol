@@ -92,7 +92,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div className="flex flex-col h-[calc(100vh-136px)] justify-between items-center">
+      {/* <div className="flex flex-col h-[calc(100vh-136px)] justify-between items-center">
         <RedBlob intensity={0.6} className="left-[-250px] top-[-150px]" />
         <div className="flex flex-row xs:items-center h-full justify-evenly lg:gap-28 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
           <div className="flex flex-col md:gap-8 xs:gap-4 xs:w-full lg:w-5/12">
@@ -141,7 +141,7 @@ const Home: React.FC = () => {
           </button>
         </div>
       </div>
-      <div ref={scrollRef} className="min-h-[10vh]"></div>
+      <div ref={scrollRef} className="min-h-[10vh]"></div> */}
       <Line />
       <Bottom />
     </div>
