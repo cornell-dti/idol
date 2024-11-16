@@ -12,6 +12,7 @@ import testimonialData from '../../../components/courses/data/testimonials.json'
 import studentProjectData from '../../../components/courses/data/student_projects.json';
 import trendsData from '../../../config.json';
 import allMembers from '../../../components/team/data/all-members.json';
+import config from '../../../components/courses/data/config.json';
 
 // *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';
@@ -157,10 +158,18 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link key="Apply Page" href={'/apply'} className="primary-button">
+                  <Link
+                    key="Trends Application"
+                    href={config.trendsApplicationLink}
+                    className="primary-button"
+                  >
                     Apply Now
                   </Link>
-                  <Link key="Trends Form" href={''} className="primary-button">
+                  <Link
+                    key="Trends Website"
+                    href={config.trendsWebsiteLink}
+                    className="primary-button"
+                  >
                     Learn More
                   </Link>
                 </div>
@@ -183,7 +192,7 @@ export default function Courses() {
 
           {/* TIMELINE SECTION */}
           <section id="Timeline">
-            <div className="">
+            <div>
               <Timeline events={timeline_events} currentDate={new Date()} />
             </div>
           </section>

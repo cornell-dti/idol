@@ -1,11 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import ImageCarousel from '../../../components/products/imageCarousel';
+import FloatingImages, { ImageData } from '../../../components/products/FloatingImages';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
-import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
 import RedBlob from '../../../components/blob';
-import FloatingImages, { ImageData } from '../../../components/products/FloatingImages';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -98,13 +98,10 @@ export default function Page() {
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
           </p>
-          <Button
-            className="text-white font-bold bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
-            variant="outline"
-            size="default"
-          >
+
+          <Link href="mailto:hello@cornelldti.org" className="primary-button">
             Contact us
-          </Button>
+          </Link>
         </div>
       </div>
     </div>
@@ -161,15 +158,9 @@ const ProductDisplay = (props: {
         <p className="text-3xl font-semibold">{props.product.name}</p>
         <p>{props.product.description}</p>
         <div hidden={props.product.link === ''}>
-          <a href={props.product.link}>
-            <Button
-              className="text-white bg-[#D63D3D] hover:bg-[#A52424] hover:text-white border-none px-4 py-5"
-              variant="outline"
-              size="default"
-            >
-              View Product
-            </Button>
-          </a>
+          <Link href={props.product.link} className="primary-button">
+            View Product
+          </Link>
         </div>
       </div>
     </div>
