@@ -6,7 +6,12 @@ import { ENABLE_COFFEE_CHAT } from '../../consts';
 import styles from './index.module.css';
 
 const navCardItems: readonly NavigationCardItem[] = [
-  { header: 'Sign-In Form', description: 'Sign in to an event!', link: '/forms/signin', disabled: true },
+  {
+    header: 'Sign-In Form',
+    description: 'Sign in to an event!',
+    link: '/forms/signin',
+    disabled: true
+  },
   {
     header: 'Shoutouts',
     description: 'Give someone a shoutout or view your past given shoutouts.',
