@@ -8,6 +8,7 @@ import RedBlob from '../../components/blob';
 import useScreenSize from '../hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT } from '../consts';
 import { ibm_plex_mono } from './layout';
+import Line from '../../components/home/Line';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
@@ -133,6 +134,7 @@ const Home: React.FC = () => {
             onClick={scrollToContent}
             className={`text-white md:text-lg xs:text-[16px] font-semibold cursor-pointer flex flex-col items-center z-10 ${ibm_plex_mono.className}`}
             style={{ transition: 'all 0.3s ease' }}
+            suppressHydrationWarning
           >
             LEARN MORE
             <img src="/images/arrow.png" alt="Learn more" className="mt-3 w-auto h-6" />
@@ -140,6 +142,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div ref={scrollRef} className="min-h-[10vh]"></div>
+      <Line />
       <Bottom />
     </div>
   );

@@ -19,10 +19,16 @@ const imageNames = [
 const ImageHeader: React.FC<{ imageName: string }> = ({ imageName }) => (
   <div className="md:p-4 xs:p-2 flex items-center rounded-[20px] gap-2">
     <img src="/images/folder_icon.png" alt="Folder" className="xs:h-3 md:h-6" />
-    <span className={`font-medium xs:text-[10px] md:text-[22px] ${ibm_plex_mono.className}`}>
+    <span
+      className={`font-medium xs:text-[10px] md:text-[22px] ${ibm_plex_mono.className}`}
+      suppressHydrationWarning
+    >
       cornell-dti
     </span>
-    <span className={`ml-auto font-medium md:text-[14px] xs:text-[7px] ${ibm_plex_mono.className}`}>
+    <span
+      className={`ml-auto font-medium md:text-[14px] xs:text-[7px] ${ibm_plex_mono.className}`}
+      suppressHydrationWarning
+    >
       {imageName}
     </span>
   </div>
