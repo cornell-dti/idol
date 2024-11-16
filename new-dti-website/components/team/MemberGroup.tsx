@@ -13,7 +13,7 @@ type MemberSummaryProps = {
   image: string;
   firstName: string;
   lastName: string;
-  role: Role;
+  role: string;
   roleDescription: RoleDescription;
   enlarged: boolean;
 };
@@ -26,7 +26,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   roleDescription,
   enlarged
 }) => {
-  const chipColor = teamRoles[getGeneralRole(role)].color;
+  const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
     <div id="memberCard" className="flex flex-col md:gap-3 xs:gap-2">
@@ -52,7 +52,7 @@ type MemberCardProps = {
   onClick?: () => void;
   firstName: string;
   lastName: string;
-  role: Role;
+  role: string;
   image: string;
   roleDescription: RoleDescription;
   cardState: number | undefined;
@@ -243,7 +243,7 @@ type MemberGroupProps = {
   members: IdolMember[];
   setSelectedMember: Dispatch<SetStateAction<IdolMember | undefined>>;
   selectedMember: IdolMember | undefined;
-  selectedRole?: Role;
+  selectedRole?: string;
   memberDetailsRef: RefObject<HTMLInputElement>;
   isCard: boolean;
 };
