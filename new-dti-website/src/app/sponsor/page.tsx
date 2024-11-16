@@ -8,6 +8,7 @@ import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import RedBlob from '../../../components/blob';
+import config from '../../../config.json';
 
 const { impacts } = impactData;
 const { companies } = companyData;
@@ -43,7 +44,7 @@ const SponsorHero = () => {
             building products and hosting initiatives to{' '}
             <span className="font-bold">help the Cornell and Ithaca communities.</span>
           </p>
-          <Link href="mailto:hello@cornelldti.org" className="primary-button">
+          <Link href={config.donationLink} className="primary-button">
             Donate now
           </Link>
         </div>
