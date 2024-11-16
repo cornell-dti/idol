@@ -33,7 +33,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
       <img
         src={image}
         alt={`${firstName}-${lastName}`}
-        className={`rounded-md h-auto ${enlarged ? 'w-[244px]' : 'w-[202px]'}`}
+        className={`rounded-md ${enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'} object-cover`}
       />
       <h3
         className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
@@ -76,7 +76,7 @@ type MemberDetailsProps = {
   onClose: () => void;
   firstName: string;
   lastName: string;
-  role: string;
+  role: Role;
   roleDescription: RoleDescription;
   graduation: string;
   major: string;
@@ -238,12 +238,12 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
 };
 
 type MemberGroupProps = {
-  roleName: string;
-  description: string;
+  roleName?: string;
+  description?: string;
   members: IdolMember[];
   setSelectedMember: Dispatch<SetStateAction<IdolMember | undefined>>;
   selectedMember: IdolMember | undefined;
-  selectedRole: string;
+  selectedRole?: string;
   memberDetailsRef: RefObject<HTMLInputElement>;
   isCard: boolean;
 };
@@ -254,7 +254,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   members,
   setSelectedMember,
   selectedMember,
-  selectedRole,
+  selectedRole = 'Full Team',
   memberDetailsRef,
   isCard
 }) => {
@@ -308,7 +308,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
               <MemberCard
                 {...member}
                 key={member.netid}
-                image="martha.png"
+                image={`team/${member.netid}.jpg`}
                 onClick={() => setSelectedMember(member === selectedMember ? undefined : member)}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
@@ -316,7 +316,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                 <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
                   <MemberDetails
                     {...selectedMember}
-                    image="martha.png"
+                    image={`team/${selectedMember.netid}.jpg`}
                     onClose={onCloseMemberDetails}
                   />
                 </div>
@@ -340,7 +340,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                   <MemberCard
                     {...member}
                     key={member.netid}
-                    image="martha.png"
+                    image={`team/${member.netid}.jpg`}
                     onClick={() =>
                       setSelectedMember(member === selectedMember ? undefined : member)
                     }
@@ -353,7 +353,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                     >
                       <MemberDetails
                         {...selectedMember}
-                        image="martha.png"
+                        image={`team/${selectedMember.netid}.jpg`}
                         onClose={onCloseMemberDetails}
                       />
                     </div>

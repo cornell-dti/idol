@@ -79,5 +79,6 @@
       "upperclassmen": { "date": "September 18", "isTentative": false },
       "spring": { "date": "", "isTentative": false }
     }
-  ]
+  ],
+  "trends_instructors": ["ow39", "sci24", "cc2785"]
 }
