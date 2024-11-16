@@ -42,12 +42,7 @@ const SponsorHero = () => {
             building products and hosting initiatives to{' '}
             <span className="font-bold">help the Cornell and Ithaca communities.</span>
           </p>
-          <button
-            className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
-          >
-            Donate now
-          </button>
+          <button className="primary-button">Donate now</button>
         </div>
       </div>
       {width >= TABLET_BREAKPOINT && (
@@ -119,7 +114,7 @@ const SponsorPage = () => {
             alt="DTI 2024"
             width={width >= LAPTOP_BREAKPOINT ? 475 : 350}
             height={width >= LAPTOP_BREAKPOINT ? 320 : 236}
-            className="rounded-3xl mx-auto"
+            className="rounded-3xl mx-auto object-cover"
           />
           <div className="flex flex-col justify-center md:gap-5 xs:gap-3">
             <h3 className="font-semibold text-2xl">Become a sponsor!</h3>
@@ -130,10 +125,7 @@ const SponsorPage = () => {
                 harness the power of technology to drive change in our communities.
               </span>
             </p>
-            <button
-              className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
-            font-bold hover:bg-white hover:text-[#A52424] w-fit"
-            >
+            <button className="primary-button">
               <a href="mailto:hello@cornelldti.org">Contact us</a>
             </button>
           </div>
@@ -161,10 +153,7 @@ const SponsorPage = () => {
         <p className="lg:text-[22px] xs:text-lg text-center">
           Want to learn more about how you can help us make an impact?
         </p>
-        <button
-          className="rounded-xl py-3 px-[14px] bg-[#A52424] text-white 
-          font-bold hover:bg-white hover:text-[#A52424] w-fit"
-        >
+        <button className="primary-button">
           <a href="mailto:hello@cornelldti.org">Contact us</a>
         </button>
       </div>
