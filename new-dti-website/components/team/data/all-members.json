@@ -404,25 +404,25 @@
   },
   {
     "formerSubteams": [],
-    "hometown": "Jericho, NY",
+    "roleDescription": "Product Manager",
+    "minor": null,
+    "doubleMajor": "Communication",
+    "about": "CornellGO PM",
+    "website": null,
+    "lastName": "Wang",
+    "role": "pm",
+    "linkedin": "www.linkedin.com/in/carolyn-wang258",
     "subteams": [
       "cornellgo"
     ],
-    "major": "Information Science",
-    "email": "cw945@cornell.edu",
-    "graduation": "2027",
-    "github": null,
-    "firstName": "Carolyn",
-    "doubleMajor": "Communication",
-    "about": "CornellGO PM",
-    "role": "apm",
-    "roleDescription": "Associate PM",
-    "website": null,
-    "minor": null,
-    "lastName": "Wang",
     "netid": "cw945",
+    "email": "cw945@cornell.edu",
+    "firstName": "Carolyn",
+    "major": "Information Science",
+    "github": null,
+    "graduation": "2027",
     "pronouns": "she/her",
-    "linkedin": "www.linkedin.com/in/carolyn-wang258"
+    "hometown": "Jericho, NY"
   },
   {
     "lastName": "Jin",
@@ -535,13 +535,9 @@
     "email": "dm769@cornell.edu"
   },
   {
-    "major": "",
-    "github": "",
-    "about": "",
     "lastName": "Krechmer",
     "firstName": "Ella",
     "email": "egk46@cornell.edu",
-    "website": "",
     "formerSubteams": [
       "cuapts"
     ],
@@ -549,14 +545,19 @@
     "subteams": [
       "leads"
     ],
-    "doubleMajor": "",
     "netid": "egk46",
-    "graduation": "",
-    "hometown": "",
     "role": "product-lead",
-    "minor": "",
-    "pronouns": "",
-    "linkedin": ""
+    "github": "https://github.com/ellakrechmer",
+    "hometown": "Brooklyn, NY",
+    "website": null,
+    "minor": "Business",
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "graduation": "May 2026",
+    "coffeeChatLink": null,
+    "about": "Product Lead and PM of CUApts!",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/ella-krechmer-a9360923a/"
   },
   {
     "formerSubteams": [],
