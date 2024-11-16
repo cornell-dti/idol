@@ -30,7 +30,6 @@
 
 .categoryName {
   text-align: center;
-  padding-bottom: 1.5rem;
 }
 
 .inline {
@@ -61,4 +60,13 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.description {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.warning {
+  color: #fc0000;
 }

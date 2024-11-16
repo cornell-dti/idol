@@ -20,6 +20,9 @@ const CoffeeChatsForm: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
+  const [memberMeetsCategory, setMemberMeetsCategory] =
+    useState<MemberMeetsCategoryStatus>('no data');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     MembersAPI.getAllMembers().then((members) => setMembersList(members));
@@ -31,6 +34,15 @@ const CoffeeChatsForm: React.FC = () => {
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   }, [userInfo]);
+
+  useEffect(() => {
+    if (member && category) {
+      CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category).then((result) => {
+        setMemberMeetsCategory(result.status);
+        setErrorMessage(result.message);
+      });
+    }
+  }, [category, member, userInfo]);
 
   const createMember = (name: string): IdolMember => ({
     netid: `${createHash('sha256').update(name).digest('hex')}`,
@@ -54,6 +66,14 @@ const CoffeeChatsForm: React.FC = () => {
   const coffeeChatCategoryExists = (): boolean =>
     approvedChats.some((chat) => chat.category === category) ||
     pendingChats.some((chat) => chat.category === category);
+
+  const resetState = () => {
+    setMember(undefined);
+    setCategory('');
+    setSlackLink('');
+    setIsNonIDOLMember(false);
+    setMemberMeetsCategory('no data');
+  };
 
   const submitCoffeeChat = async () => {
     if (!member) {
@@ -95,7 +115,9 @@ const CoffeeChatsForm: React.FC = () => {
         slackLink,
         category,
         status: 'pending' as Status,
-        date: new Date().getTime()
+        date: new Date().getTime(),
+        memberMeetsCategory,
+        errorMessage
       };
 
       CoffeeChatAPI.createCoffeeChat(newCoffeeChat).then((coffeeChat) => {
@@ -105,10 +127,7 @@ const CoffeeChatsForm: React.FC = () => {
         headerMsg: 'Coffee Chat submitted!',
         contentMsg: `The leads were notified of your submission, and your coffee chat will be approved soon!`
       });
-      setMember(undefined);
-      setCategory('');
-      setSlackLink('');
-      setIsNonIDOLMember(false);
+      resetState();
     }
   };
 
@@ -129,6 +148,8 @@ const CoffeeChatsForm: React.FC = () => {
               onClick={() => {
                 setIsNonIDOLMember((prev) => !prev);
                 setMember(undefined);
+                setCategory('');
+                setMemberMeetsCategory('no data');
               }}
               style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             >
@@ -178,6 +199,11 @@ const CoffeeChatsForm: React.FC = () => {
               }}
             />
           )}
+          {member?.netid === userInfo.netid ? (
+            <div className={styles.warning}>Warning: Cannot coffee chat yourself</div>
+          ) : (
+            ''
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
@@ -203,6 +229,11 @@ const CoffeeChatsForm: React.FC = () => {
               setCategory(foundCategory || '');
             }}
           />
+          {memberMeetsCategory === 'fail' && errorMessage ? (
+            <div className={styles.warning}>Warning: {errorMessage}</div>
+          ) : (
+            ''
+          )}
         </div>
         <div className={styles.inline}>
           <label className={styles.bold}>
@@ -235,6 +266,7 @@ const CoffeeChatsForm: React.FC = () => {
           setPendingChats={setPendingChats}
           bingoBoard={bingoBoard}
           setApprovedChats={setApprovedChats}
+          resetState={resetState}
         />
       </Form>
     </div>

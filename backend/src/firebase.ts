@@ -62,6 +62,17 @@ export const approvedMemberCollection: admin.firestore.CollectionReference<IdolM
     }
   });
 
+export const memberPropertiesCollection: admin.firestore.CollectionReference<MemberProperties> = db
+  .collection('member-properties')
+  .withConverter({
+    fromFirestore(snapshot): MemberProperties {
+      return snapshot.data() as MemberProperties;
+    },
+    toFirestore(userData: MemberProperties) {
+      return userData;
+    }
+  });
+
 export const shoutoutCollection: admin.firestore.CollectionReference<DBShoutout> = db
   .collection('shoutouts')
   .withConverter({

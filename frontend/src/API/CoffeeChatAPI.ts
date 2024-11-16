@@ -44,4 +44,31 @@ export default class CoffeeChatAPI {
     );
     return res.board as string[][];
   }
+
+  public static async runAutoChecker(uuid: string): Promise<DevPortfolio> {
+    return APIWrapper.put(`${backendURL}/coffee-chat/autocheck/${uuid}/`, {}).then(
+      (res) => res.data.coffeeChat
+    );
+  }
+
+  public static checkMemberMeetsCategory(
+    otherMember: IdolMember,
+    submitter: IdolMember,
+    category: string
+  ): Promise<MemberMeetsCategoryType> {
+    const res = APIWrapper.get(
+      `${backendURL}/coffee-chat/${otherMember.email}/${submitter.email}/${encodeURIComponent(category)}`
+    ).then((res) => res.data);
+    return res.then((val) => {
+      if (val.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't check if member meets category",
+          contentMsg: `Error was: ${val.err}`
+        });
+        return { status: 'no data', message: '' };
+      }
+      const result = val.result as MemberMeetsCategoryType;
+      return result;
+    });
+  }
 }

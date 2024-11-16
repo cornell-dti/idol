@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { ibm_plex_mono } from '../src/app/layout';
 
 interface SlideshowProps {
   selectedImage: number | null;
@@ -15,41 +16,34 @@ const imageNames = [
   'initiative.png'
 ];
 
-const ImageHeader: React.FC<{ imageName: string; isVisible: boolean }> = ({
-  imageName,
-  isVisible
-}) => (
-  <div
-    className={`absolute top-0 left-0 w-full p-4 bg-white bg-opacity-100 flex items-center rounded-lg ${
-      isVisible ? 'opacity-100' : 'opacity-0'
-    }`}
-    style={{ zIndex: isVisible ? 1 : -1 }}
-  >
-    <img src="/images/folder_icon.png" alt="Folder" className="h-6 mr-2" />
-    <span className="font-medium">cornell-dti/{imageName}</span>
-    <span className="ml-auto font-medium">{imageName}</span>
+const ImageHeader: React.FC<{ imageName: string }> = ({ imageName }) => (
+  <div className="md:p-4 xs:p-2 flex items-center rounded-[20px] gap-2">
+    <img src="/images/folder_icon.png" alt="Folder" className="xs:h-3 md:h-6" />
+    <span className={`font-medium xs:text-[10px] md:text-[22px] ${ibm_plex_mono.className}`}>
+      cornell-dti
+    </span>
+    <span className={`ml-auto font-medium md:text-[14px] xs:text-[7px] ${ibm_plex_mono.className}`}>
+      {imageName}
+    </span>
   </div>
 );
 
-const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => (
-  <div className="relative w-[600px] h-[500px] flex items-center overflow-hidden">
-    {imageNames.map((imageName, index) => (
-      <div key={imageName} className="absolute top-0 left-0 w-full h-full">
-        <ImageHeader imageName={imageName} isVisible={selectedImage === index} />
-        <div className="relative top-10 w-full h-[400px]">
-          <Image
-            width={600}
-            height={400}
-            src={`/images/${imageName}`}
-            alt={imageName.split('.')[0]}
-            className={`absolute top-0 left-1/2 transform -translate-x-1/2 max-w-full max-h-full border-8 border-white rounded-lg ${
-              selectedImage === index ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        </div>
+const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => {
+  const image = imageNames[selectedImage ?? 0];
+  return (
+    <div className="bg-white w-fit md:rounded-[20px] xs:rounded-lg relative z-20">
+      <ImageHeader imageName={image} />
+      <div>
+        <Image
+          width={600}
+          height={400}
+          src={`/images/${image}`}
+          alt={image.split('.')[0]}
+          className={`max-h-[400px] md:border-8 xs:border-4 border-white md:rounded-[20px] xs:rounded-lg object-cover`}
+        />
       </div>
-    ))}
-  </div>
-);
+    </div>
+  );
+};
 
 export default Slideshow;

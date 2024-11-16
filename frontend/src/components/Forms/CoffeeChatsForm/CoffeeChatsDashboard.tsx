@@ -1,8 +1,8 @@
-import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 import { Icon, Loader, Table } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
-import { Emitters } from '../../../utils';
+import { Emitters, getLinesFromBoard } from '../../../utils';
 import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
 
 const CoffeeChatsDashboard = ({
@@ -12,7 +12,8 @@ const CoffeeChatsDashboard = ({
   isChatLoading,
   setPendingChats,
   setApprovedChats,
-  bingoBoard
+  bingoBoard,
+  resetState
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
@@ -21,10 +22,12 @@ const CoffeeChatsDashboard = ({
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   bingoBoard: string[][];
+  resetState: () => void;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
   const [openRejected, setOpenRejected] = useState(false);
+  const [bingoCount, setBingoCount] = useState(0);
 
   const allChats = useMemo(
     () => [...approvedChats, ...pendingChats, ...rejectedChats],
@@ -45,6 +48,43 @@ const CoffeeChatsDashboard = ({
   const previouslyRejectedChats = useMemo(
     () => rejectedChats.filter((chat) => categoryStatus.get(chat.category)?.uuid !== chat.uuid),
     [categoryStatus, rejectedChats]
+  );
+
+  const isBingoCell = useMemo(() => {
+    const map = new Map<string, boolean>();
+
+    const isApprovedLine = (categories: string[]) =>
+      categories.every((category) => approvedChats.some((chat) => chat.category === category));
+
+    const linesToCheck = getLinesFromBoard(bingoBoard);
+
+    let newBingoCount = 0;
+    linesToCheck.forEach((line) => {
+      if (isApprovedLine(line)) {
+        newBingoCount += 1;
+        line.forEach((category) => map.set(category, true));
+      }
+    });
+
+    if (newBingoCount !== bingoCount) {
+      setBingoCount(newBingoCount);
+    }
+
+    bingoBoard.flat().forEach((category) => {
+      if (!map.has(category)) {
+        map.set(category, false);
+      }
+    });
+
+    return map;
+  }, [bingoBoard, approvedChats, bingoCount]);
+
+  const blackout = useMemo(
+    () =>
+      bingoBoard
+        .flat()
+        .every((category) => approvedChats.some((chat) => chat.category === category)),
+    [bingoBoard, approvedChats]
   );
 
   const deleteCoffeeChatRequest = (chat: CoffeeChat) => {
@@ -71,6 +111,7 @@ const CoffeeChatsDashboard = ({
           contentMsg: 'Your coffee chat was successfully deleted!'
         });
         Emitters.coffeeChatsUpdated.emit();
+        resetState();
       })
       .catch((error) => {
         Emitters.generalError.emit({
@@ -80,10 +121,19 @@ const CoffeeChatsDashboard = ({
       });
   };
 
-  const openChatModal = (category: string) => {
-    const chat = allChats.find((chat) => chat.category === category);
-    setSelectedChat(chat);
-    setOpen(true);
+  const openChatModal = useCallback(
+    (category: string) => {
+      const chat = allChats.find((chat) => chat.category === category);
+      setSelectedChat(chat);
+      setOpen(true);
+    },
+    [allChats]
+  );
+
+  const getAppearance = (category: string) => {
+    if (blackout) return styles.blackout_display;
+    if (isBingoCell.get(category)) return styles.bingo_display;
+    return styles[categoryStatus.get(category)?.status || 'default'];
   };
 
   return (
@@ -91,12 +141,18 @@ const CoffeeChatsDashboard = ({
       <header className={styles.header}>
         <h1>Check Coffee Chats Status</h1>
         <p>
-          Track your coffee chat status for this semester! Accepted chats are{' '}
-          <strong style={{ color: '#02c002' }}>green</strong>, rejected are{' '}
-          <strong style={{ color: '#f23e3e' }}>red</strong>, and pending are{' '}
-          <strong style={{ color: '#7d7d7d' }}>gray</strong>. Click on a bingo cell to view more
-          details.
+          Track your coffee chat status for this semester! Accepted chats are marked in{' '}
+          <strong style={{ color: '#02c002' }}>green</strong>, rejected chats in{' '}
+          <strong style={{ color: '#f23e3e' }}>red</strong>, and pending chats in{' '}
+          <strong style={{ color: '#7d7d7d' }}>gray</strong>. Bingo rows, columns, or diagonals will
+          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>. Click on a bingo
+          cell to view more details.
         </p>
+        <strong>
+          {blackout
+            ? '🎉 Congratulations! You have achieved a blackout! 🎉'
+            : `Bingo Count: ${bingoCount}`}
+        </strong>
       </header>
 
       <div className={styles.container}>
@@ -105,10 +161,7 @@ const CoffeeChatsDashboard = ({
         ) : (
           <div className={styles.bingo_board}>
             {bingoBoard.flat().map((category, index) => (
-              <div
-                key={index}
-                className={styles[categoryStatus.get(category)?.status || 'default']}
-              >
+              <div key={index} className={getAppearance(category)}>
                 <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
                   <div className={styles.bingo_text}>{category}</div>
                 </div>

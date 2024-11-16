@@ -16,6 +16,7 @@ export type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
+  images?: string[];
 };
 
 export type DBSignInFormResponse = {
@@ -114,5 +115,7 @@ export type DBCoffeeChat = {
   category: string;
   status: Status;
   date: number;
+  memberMeetsCategory: MemberMeetsCategoryStatus;
   reason?: string;
+  errorMessage?: string;
 };

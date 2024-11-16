@@ -1,5 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { memberCollection, coffeeChatsCollection, db } from '../firebase';
+import {
+  memberCollection,
+  coffeeChatsCollection,
+  db,
+  memberPropertiesCollection
+} from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao, { FirestoreFilter } from './BaseDao';
@@ -136,5 +141,35 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async getCoffeeChatBingoBoard(): Promise<string[][]> {
     return COFFEE_CHAT_BINGO_BOARD;
+  }
+
+  /**
+   * Gets the properties for a specific member
+   * @param email - the email of the member whose properties we want to retrieve.
+   * @returns A promise that resolves to an MemberProperties object or undefined.
+   */
+  static async getMemberProperties(email: string): Promise<MemberProperties | undefined> {
+    return memberPropertiesCollection
+      .doc(email)
+      .get()
+      .then((docRef) => docRef.data());
+  }
+
+  /**
+   * Creates the properties for a specific member
+   * @param email - the email of the member whose properties we want to create.
+   * @param properties - the properties of the member
+   * @returns A promise that resolves to an MemberProperties object or undefined.
+   */
+  static async createMemberProperties(email: string, properties: MemberProperties) {
+    return memberPropertiesCollection.doc(email).set(properties);
+  }
+
+  /**
+   * Deletes the properties for a specific member
+   * @param email - the email of the member whose properties we want to delete.
+   */
+  static async deleteMemberProperties(email: string): Promise<void> {
+    memberPropertiesCollection.doc(email).delete();
   }
 }

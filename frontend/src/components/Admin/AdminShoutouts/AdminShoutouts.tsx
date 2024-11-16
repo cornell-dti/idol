@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DocumentReference, collection, getDoc, onSnapshot } from 'firebase/firestore';
 import { Emitters } from '../../../utils';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 import styles from './AdminShoutouts.module.css';
 import catEmoji from '../../../static/images/meow_attention.gif';
 import { db } from '../../../firebase';
@@ -27,6 +28,7 @@ type DBShoutout = {
   timestamp: number;
   hidden: boolean;
   uuid: string;
+  images?: string[];
 };
 
 const AdminShoutouts: React.FC = () => {
@@ -34,8 +36,8 @@ const AdminShoutouts: React.FC = () => {
   const [displayShoutouts, setDisplayShoutouts] = useState<Shoutout[]>([]);
   const [earlyDate, setEarlyDate] = useState<Date>(new Date(Date.now() - 86400000 * 13.5));
   const [lastDate, setLastDate] = useState<Date>(new Date());
-  const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageCache, setImageCache] = useState<{ [key: string]: string }>({});
 
   type ViewMode = 'ALL' | 'PRESENT' | 'HIDDEN';
   const [view, setView] = useState<ViewMode>('ALL');
@@ -78,14 +80,30 @@ const AdminShoutouts: React.FC = () => {
       else if (view === 'HIDDEN')
         setDisplayShoutouts(filteredShoutouts.filter((shoutout) => shoutout.hidden));
       else setDisplayShoutouts(filteredShoutouts);
-      setHide(false);
       setLoading(false);
     }
   }, [allShoutouts, earlyDate, lastDate, view]);
 
+  const fetchImages = useCallback(
+    (shoutouts: Shoutout[]) => {
+      shoutouts.forEach((shoutout) => {
+        if (shoutout.images?.length && !imageCache[shoutout.uuid]) {
+          ImagesAPI.getImage(shoutout.images[0]).then((url) => {
+            setImageCache((prev) => ({ ...prev, [shoutout.uuid]: url }));
+          });
+        }
+      });
+    },
+    [imageCache]
+  );
+
   useEffect(() => {
     updateShoutouts();
-  }, [earlyDate, lastDate, hide, updateShoutouts]);
+  }, [earlyDate, lastDate, view, updateShoutouts]);
+
+  useEffect(() => {
+    fetchImages(allShoutouts);
+  }, [allShoutouts, fetchImages]);
 
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');
@@ -127,7 +145,6 @@ const AdminShoutouts: React.FC = () => {
     `${new Date(shoutout.timestamp).toDateString()}`;
 
   const onHide = (shoutout: Shoutout) => {
-    setHide(true);
     const oppHide = !shoutout.hidden;
     ShoutoutsAPI.hideShoutout(shoutout.uuid, oppHide).then(() => {
       if (oppHide) {
@@ -144,41 +161,35 @@ const AdminShoutouts: React.FC = () => {
     });
   };
 
-  const HideModal = (props: { shoutout: Shoutout }): JSX.Element => {
-    const { shoutout } = props;
-    if (!shoutout.hidden)
+  const HideModal = ({ shoutout }: { shoutout: Shoutout }): JSX.Element => (
+    <Modal
+      trigger={<Button icon={shoutout.hidden ? 'eye slash' : 'eye'} size="tiny" />}
+      header={shoutout.hidden ? 'Unhide Shoutout' : 'Hide Shoutout'}
+      content={`Are you sure you want to ${shoutout.hidden ? 'unhide' : 'hide'} this shoutout?`}
+      actions={[
+        'Cancel',
+        {
+          key: 'toggleHide',
+          content: shoutout.hidden ? 'Unhide Shoutout' : 'Hide Shoutout',
+          color: 'red',
+          onClick: () => onHide(shoutout)
+        }
+      ]}
+    />
+  );
+
+  const ShoutoutImage = ({ shoutout }: { shoutout: Shoutout }) => {
+    const imageUrl = imageCache[shoutout.uuid];
+
+    if (imageUrl) {
       return (
-        <Modal
-          trigger={<Button icon="eye" size="tiny" />}
-          header="Hide Shoutout"
-          content="Are you sure that you want to hide this shoutout?"
-          actions={[
-            'Cancel',
-            {
-              key: 'hideShoutouts',
-              content: 'Hide Shoutout',
-              color: 'red',
-              onClick: () => onHide(shoutout)
-            }
-          ]}
-        />
+        <Item.Image>
+          <Image src={imageUrl} size="small" />
+        </Item.Image>
       );
-    return (
-      <Modal
-        trigger={<Button icon="eye slash" size="tiny" />}
-        header="Unhide Shoutout"
-        content="Are you sure that you want to show this shoutout?"
-        actions={[
-          'Cancel',
-          {
-            key: 'unhideShoutouts',
-            content: 'Unhide Shoutout',
-            color: 'red',
-            onClick: () => onHide(shoutout)
-          }
-        ]}
-      />
-    );
+    }
+    if (shoutout.images && shoutout.images.length > 0) return <Loader active inline="centered" />;
+    return null;
   };
 
   const DisplayList = (): JSX.Element => {
@@ -209,6 +220,7 @@ const AdminShoutouts: React.FC = () => {
                   className={styles.presentShoutoutMessage}
                   content={shoutout.message}
                 />
+                <ShoutoutImage shoutout={shoutout} />
               </Item.Content>
             </Item>
           ))}
@@ -229,6 +241,7 @@ const AdminShoutouts: React.FC = () => {
                 <HideModal shoutout={shoutout} />
               </Item.Group>
               <Item.Description className={styles.shoutoutMessage} content={shoutout.message} />
+              <ShoutoutImage shoutout={shoutout} />
             </Item.Content>
           </Item>
         ))}
@@ -236,20 +249,21 @@ const AdminShoutouts: React.FC = () => {
     );
   };
 
-  const ButtonPiece = (props: { shoutoutList: Shoutout[]; buttonText: ViewMode }): JSX.Element => {
-    const { shoutoutList, buttonText } = props;
+  const ButtonPiece = (props: { buttonText: ViewMode }): JSX.Element => {
+    const { buttonText } = props;
     let currColor: SemanticCOLORS = 'grey';
     if (buttonText === view) currColor = 'blue';
-    return (
-      <Button
-        color={currColor}
-        onClick={() => {
-          setView(buttonText);
-          setDisplayShoutouts(shoutoutList);
-        }}
-        content={buttonText}
-      />
-    );
+
+    const handleButtonClick = () => {
+      setView(buttonText);
+      setDisplayShoutouts(() => {
+        if (buttonText === 'ALL') return allShoutouts;
+        if (buttonText === 'HIDDEN') return allShoutouts.filter((s) => s.hidden);
+        return allShoutouts.filter((s) => !s.hidden);
+      });
+    };
+
+    return <Button color={currColor} onClick={handleButtonClick} content={buttonText} />;
   };
 
   const ChooseDate = (props: {
@@ -274,15 +288,9 @@ const AdminShoutouts: React.FC = () => {
           <ChooseDate dateField={earlyDate} dateFunction={setEarlyDate} />
           <ChooseDate dateField={lastDate} dateFunction={setLastDate} />
           <Button.Group className={styles.buttonGroup}>
-            <ButtonPiece shoutoutList={displayShoutouts} buttonText={'ALL'} />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => shoutout.hidden)}
-              buttonText={'HIDDEN'}
-            />
-            <ButtonPiece
-              shoutoutList={displayShoutouts.filter((shoutout) => !shoutout.hidden)}
-              buttonText={'PRESENT'}
-            />
+            <ButtonPiece buttonText={'ALL'} />
+            <ButtonPiece buttonText={'HIDDEN'} />
+            <ButtonPiece buttonText={'PRESENT'} />
           </Button.Group>
         </Form.Group>
       </Form>

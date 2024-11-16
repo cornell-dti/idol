@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
-import MemberGroup from './MemberGroup';
+import MemberGroup, { MemberCard } from './MemberGroup';
 import Icon from '../icons';
-import FA23Members from '../../../backend/src/members-archive/fa23.json';
+import members from './data/all-members.json';
 import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import { populateMembers } from '../../src/utils/memberUtils';
+
+import alumniMembers from '../../../backend/src/members-archive/fa21.json';
 
 const MemberDisplay: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('Full Team');
@@ -12,7 +14,7 @@ const MemberDisplay: React.FC = () => {
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
-  const allMembers = FA23Members.members as IdolMember[];
+  const allMembers = members as IdolMember[];
 
   const roles = populateMembers(
     teamRoles as {
@@ -20,7 +22,7 @@ const MemberDisplay: React.FC = () => {
         roleName: string;
         description: string;
         members: IdolMember[];
-        order: string[];
+        roles: string[];
         color: string;
       };
     },
@@ -39,7 +41,7 @@ const MemberDisplay: React.FC = () => {
           setSelectedMember(undefined);
       }}
     >
-      <div className="xs:mx-5 md:mx-10 lg:mx-20 xl:mx-60">
+      <div className="xs:mx-5 md:mx-10 lg:mx-20 xl:mx-30">
         <div className="flex flex-col gap-[72px] max-w-5xl">
           <div className="flex flex-col lg:w-4/5 md:w-full mt-[100px]">
             <h1 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h1>
@@ -79,8 +81,7 @@ const MemberDisplay: React.FC = () => {
           </div>
           <div>
             {Object.keys(roles).map((role) => {
-              const value = roles[role as Role];
-              if (role === 'tpm' || role === 'dev-advisor') return <></>;
+              const value = roles[role as GeneralRole];
               return (
                 <MemberGroup
                   key={value.roleName}
@@ -93,6 +94,28 @@ const MemberDisplay: React.FC = () => {
                 />
               );
             })}
+          </div>
+          <div className="mb-20">
+            <h2 className="font-semibold md:text-[32px] xs:text-2xl">Alumni & Inactive Members</h2>
+            <div
+              className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
+                xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+            >
+              {alumniMembers.members.map((member, index) =>
+                index <= 5 ? (
+                  <a href={member.linkedin ?? undefined} key={index}>
+                    <MemberCard
+                      {...member}
+                      roleDescription={member.roleDescription as RoleDescription}
+                      cardState={undefined}
+                      image={`team/${member.netid}.jpg`}
+                    />
+                  </a>
+                ) : (
+                  <></>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>

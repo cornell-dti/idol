@@ -5,7 +5,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
-import { getFullRoleFromDescription } from '../../src/utils/memberUtils';
+import { getGeneralRole } from '../../src/utils/memberUtils';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -26,23 +26,23 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   roleDescription,
   enlarged
 }) => {
-  const chipColor = teamRoles[role as Role].color;
+  const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
     <div id="memberCard" className="flex flex-col md:gap-3 xs:gap-2">
       <img
         src={image}
         alt={`${firstName}-${lastName}`}
-        className={`rounded-md h-auto ${enlarged ? 'w-[244px]' : 'w-[202px]'}`}
+        className={`rounded-md ${enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'} object-cover`}
       />
       <h3
-        className={`xs:text-lg font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-[22px]'}`}
+        className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
         style={{ backgroundColor: chipColor }}
       >
-        {getFullRoleFromDescription(roleDescription)}
+        {roleDescription}
       </p>
     </div>
   );
@@ -76,7 +76,7 @@ type MemberDetailsProps = {
   onClose: () => void;
   firstName: string;
   lastName: string;
-  role: string;
+  role: Role;
   roleDescription: RoleDescription;
   graduation: string;
   major: string;
@@ -87,6 +87,7 @@ type MemberDetailsProps = {
   website?: string | null;
   linkedin?: string | null;
   image: string;
+  coffeeChatLink?: string | null;
 };
 
 export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetailsProps) => {
@@ -181,23 +182,25 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <button
-                onMouseEnter={mouseHandler}
-                onMouseLeave={mouseHandler}
-                className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
-              hover:bg-[#A52424] hover:text-white stroke-white"
-              >
-                <div className="flex gap-3 w-max">
-                  <Image
-                    src="/icons/red_calendar.svg"
-                    alt="calendar"
-                    width={24}
-                    height={24}
-                    className={hover ? 'brightness-0 invert' : ''}
-                  />
-                  <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-                </div>
-              </button>
+              <a href={props.coffeeChatLink ?? `mailto:${props.email}`}>
+                <button
+                  onMouseEnter={mouseHandler}
+                  onMouseLeave={mouseHandler}
+                  className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
+                hover:bg-[#A52424] hover:text-white stroke-white"
+                >
+                  <div className="flex gap-3 w-max">
+                    <Image
+                      src="/icons/red_calendar.svg"
+                      alt="calendar"
+                      width={24}
+                      height={24}
+                      className={hover ? 'brightness-0 invert' : ''}
+                    />
+                    <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
+                  </div>
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -235,12 +238,12 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
 };
 
 type MemberGroupProps = {
-  roleName: string;
-  description: string;
+  roleName?: string;
+  description?: string;
   members: IdolMember[];
   setSelectedMember: Dispatch<SetStateAction<IdolMember | undefined>>;
   selectedMember: IdolMember | undefined;
-  selectedRole: string;
+  selectedRole?: string;
   memberDetailsRef: RefObject<HTMLInputElement>;
   isCard: boolean;
 };
@@ -251,7 +254,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   members,
   setSelectedMember,
   selectedMember,
-  selectedRole,
+  selectedRole = 'Full Team',
   memberDetailsRef,
   isCard
 }) => {
@@ -305,7 +308,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
               <MemberCard
                 {...member}
                 key={member.netid}
-                image="martha.png"
+                image={`team/${member.netid}.jpg`}
                 onClick={() => setSelectedMember(member === selectedMember ? undefined : member)}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
@@ -313,7 +316,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                 <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
                   <MemberDetails
                     {...selectedMember}
-                    image="martha.png"
+                    image={`team/${selectedMember.netid}.jpg`}
                     onClose={onCloseMemberDetails}
                   />
                 </div>
@@ -330,14 +333,14 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
             <div
               className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
             >
               {members.map((member, index) => (
                 <>
                   <MemberCard
                     {...member}
                     key={member.netid}
-                    image="martha.png"
+                    image={`team/${member.netid}.jpg`}
                     onClick={() =>
                       setSelectedMember(member === selectedMember ? undefined : member)
                     }
@@ -350,7 +353,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                     >
                       <MemberDetails
                         {...selectedMember}
-                        image="martha.png"
+                        image={`team/${selectedMember.netid}.jpg`}
                         onClose={onCloseMemberDetails}
                       />
                     </div>
