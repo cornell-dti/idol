@@ -5,6 +5,9 @@ import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import RedBlob from '../../components/blob';
+import useScreenSize from '../hooks/useScreenSize';
+import { LAPTOP_BREAKPOINT } from '../consts';
+import { ibm_plex_mono } from './layout';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
@@ -84,17 +87,22 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIcon]);
 
+  const { width } = useScreenSize();
+
   return (
     <div>
-      <div className="flex flex-col bg-black bg-cover bg-center h-screen">
-        <RedBlob intensity={0.6} className="left-[-200px] top-[-100px]" />
-        <div className="flex flex-row justify-between items-center pl-[15%] pt-20 w-full">
-          <div className="flex flex-col mr-20">
-            <h2 className="text-white text-6xl z-10">
-              Cornell Digital <br /> Tech & Innovation
+      <div className="flex flex-col h-[calc(100vh-136px)] justify-between items-center">
+        <RedBlob intensity={0.6} className="left-[-250px] top-[-150px]" />
+        <div className="flex flex-row xs:items-center h-full justify-evenly lg:gap-28 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
+          <div className="flex flex-col md:gap-8 xs:gap-4 xs:w-full lg:w-5/12">
+            <h2 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
+              Cornell Digital Tech & Innovation Project Team
             </h2>
             <RedBlob intensity={0.6} className="left-[200px] top-[450px]" />
-            <div className="flex items-center space-x-2 mt-5 h-28 z-10">
+            <div className="flex justify-center">
+              {width < LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
+            </div>
+            <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px]">
               {icons.map((icon, index) => (
                 <Icon
                   key={index}
@@ -107,24 +115,24 @@ const Home: React.FC = () => {
                     setSelectedIcon(index);
                     if (timer) clearTimeout(timer);
                   }}
-                  width={icon.width}
-                  height={icon.height}
+                  width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
+                  height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
                 />
               ))}
             </div>
           </div>
-          <div className="flex-grow">
-            <Slideshow selectedImage={selectedIcon} />
-          </div>
-          <div className="relative">
-            <RedBlob intensity={0.6} className="left-[-300px] top-[-250px]" />
+          <div className="lg:w-7/12 xs:w-none">
+            {width >= LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
+            <div className="relative z-0">
+              <RedBlob intensity={0.6} className="left-[300px] top-[-500px]" />
+            </div>
           </div>
         </div>
-        <div className="flex justify-center self-center w-full mt-10 mb-10">
+        <div className="flex justify-center self-center w-full py-5">
           <button
             onClick={scrollToContent}
-            className="text-white text-lg font-semibold cursor-pointer flex flex-col items-center z-10"
-            style={{ transition: 'all 0.3s ease', marginTop: '2rem' }}
+            className={`text-white md:text-lg xs:text-[16px] font-semibold cursor-pointer flex flex-col items-center z-10 ${ibm_plex_mono.className}`}
+            style={{ transition: 'all 0.3s ease' }}
           >
             LEARN MORE
             <img src="/images/arrow.png" alt="Learn more" className="mt-3 w-auto h-6" />
