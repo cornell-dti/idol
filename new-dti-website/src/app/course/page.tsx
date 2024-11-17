@@ -6,22 +6,22 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
 // *IMPORT DATA
-import experiencesData from '../../../components/courses/data/key_experiences.json';
-import timelineData from '../../../components/courses/data/timeline_events.json';
-import testimonialData from '../../../components/courses/data/testimonials.json';
-import studentProjectData from '../../../components/courses/data/student_projects.json';
+import experiencesData from '../../../components/course/data/key_experiences.json';
+import timelineData from '../../../components/course/data/timeline_events.json';
+import testimonialData from '../../../components/course/data/testimonials.json';
+import studentProjectData from '../../../components/course/data/student_projects.json';
 import trendsData from '../../../config.json';
 import allMembers from '../../../components/team/data/all-members.json';
-import config from '../../../components/courses/data/config.json';
+import config from '../../../components/course/data/config.json';
 
 // *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';
-import Experiences from '../../../components/courses/Experiences';
-import Timeline from '../../../components/courses/Timeline';
+import Experiences from '../../../components/course/Experiences';
+import Timeline from '../../../components/course/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
-import TestimonialSlider from '../../../components/courses/TestimonialSlider';
-import DDProjects from '../../../components/courses/DDProjects';
-import { TestimonialCardProps } from '../../../components/courses/TestimonialCard';
+import TestimonialSlider from '../../../components/course/TestimonialSlider';
+import DDProjects from '../../../components/course/DDProjects';
+import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
 
 //* DATA
 const { key_experiences } = experiencesData;
