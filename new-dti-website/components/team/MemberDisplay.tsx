@@ -112,6 +112,7 @@ const MemberDisplay: React.FC = () => {
                         roleDescription={member.roleDescription as RoleDescription}
                         cardState={undefined}
                         image={`team/${member.netid}.jpg`}
+                        key={member.netid}
                       />
                     </a>
                   ) : (
