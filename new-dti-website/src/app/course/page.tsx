@@ -109,7 +109,7 @@ export default function Courses() {
                 </h2>
                 <p className="md:text-lg xs:text-sm">
                   A project team is meant, above all, to be a learning experience. Given our mission
-                  of <span className="font-black">community impact</span>, we want to help everyone
+                  of <span className="font-black">community impact</span>, we want to help everyone{' '}
                   <span className="font-black">learn and grow</span>
                   through our training course in{' '}
                   <span className="font-black">product development.</span>
@@ -253,7 +253,7 @@ export default function Courses() {
           .fade-in {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
           }
 
           .fade-in-animate {
