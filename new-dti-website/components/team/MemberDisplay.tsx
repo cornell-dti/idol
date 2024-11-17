@@ -95,28 +95,32 @@ const MemberDisplay: React.FC = () => {
               );
             })}
           </div>
-          <div className="mb-20">
-            <h2 className="font-semibold md:text-[32px] xs:text-2xl">Alumni & Inactive Members</h2>
-            <div
-              className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
+          {selectedRole === 'Full Team' && (
+            <div className="mb-20">
+              <h2 className="font-semibold md:text-[32px] xs:text-2xl">
+                Alumni & Inactive Members
+              </h2>
+              <div
+                className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
                 xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-            >
-              {alumniMembers.members.map((member, index) =>
-                index <= 5 ? (
-                  <a href={member.linkedin ?? undefined} key={index}>
-                    <MemberCard
-                      {...member}
-                      roleDescription={member.roleDescription as RoleDescription}
-                      cardState={undefined}
-                      image={`team/${member.netid}.jpg`}
-                    />
-                  </a>
-                ) : (
-                  <></>
-                )
-              )}
+              >
+                {alumniMembers.members.map((member, index) =>
+                  index <= 5 ? (
+                    <a href={member.linkedin ?? undefined} key={index}>
+                      <MemberCard
+                        {...member}
+                        roleDescription={member.roleDescription as RoleDescription}
+                        cardState={undefined}
+                        image={`team/${member.netid}.jpg`}
+                      />
+                    </a>
+                  ) : (
+                    <></>
+                  )
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
