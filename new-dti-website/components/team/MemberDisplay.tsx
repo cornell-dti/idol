@@ -8,26 +8,27 @@ import { populateMembers } from '../../src/utils/memberUtils';
 
 import alumniMembers from '../../../backend/src/members-archive/fa21.json';
 
+const allMembers = members as IdolMember[];
+
+const roles = populateMembers(
+  teamRoles as {
+    [key: string]: {
+      roleName: string;
+      description: string;
+      members: IdolMember[];
+      roles: string[];
+      color: string;
+    };
+  },
+  allMembers
+);
+
 const MemberDisplay: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
+  const [clickedSection, setClickedSection] = useState<string | undefined>(undefined);
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
-
-  const allMembers = members as IdolMember[];
-
-  const roles = populateMembers(
-    teamRoles as {
-      [key: string]: {
-        roleName: string;
-        description: string;
-        members: IdolMember[];
-        roles: string[];
-        color: string;
-      };
-    },
-    allMembers
-  );
 
   return (
     <div
@@ -80,16 +81,21 @@ const MemberDisplay: React.FC = () => {
             ))}
           </div>
           <div>
-            {Object.keys(roles).map((role) => {
+            {Object.keys(roles).map((role, index) => {
               const value = roles[role as GeneralRole];
+              // if (index > 1) return <></>;
               return (
                 <MemberGroup
                   key={value.roleName}
                   {...value}
-                  setSelectedMember={setSelectedMember}
+                  setSelectedMember={(member) => {
+                    setSelectedMember(member);
+                    setClickedSection(member ? value.roleName : undefined);
+                  }}
                   selectedMember={selectedMember}
                   selectedRole={selectedRole}
                   memberDetailsRef={memberDetailsRef}
+                  displayDetails={clickedSection ? clickedSection === value.roleName : false}
                   isCard={false}
                 />
               );

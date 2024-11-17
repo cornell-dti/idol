@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useMemo, useState, RefObject } from 'react';
+import { useState, RefObject } from 'react';
 import Image from 'next/image';
 import { Card } from '../ui/card';
 import { ibm_plex_mono } from '../../src/app/layout';
@@ -243,10 +243,11 @@ type MemberGroupProps = {
   roleName?: string;
   description?: string;
   members: IdolMember[];
-  setSelectedMember: Dispatch<SetStateAction<IdolMember | undefined>>;
-  selectedMember: IdolMember | undefined;
+  setSelectedMember: (member?: IdolMember) => void;
+  selectedMember?: IdolMember;
   selectedRole?: string;
   memberDetailsRef: RefObject<HTMLInputElement>;
+  displayDetails?: boolean;
   isCard: boolean;
 };
 
@@ -257,13 +258,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   setSelectedMember,
   selectedMember,
   selectedRole = 'Full Team',
+  displayDetails = true,
   memberDetailsRef,
   isCard
 }) => {
-  const selectedMemberIndex: number = useMemo(
-    () => (selectedMember ? members.indexOf(selectedMember) : -1),
-    [members, selectedMember]
-  );
+  const selectedMemberIndex: number = displayDetails && selectedMember ? members.indexOf(selectedMember) : -1;
 
   const { width } = useScreenSize();
   const LAPTOP_COLUMNS = 4;
@@ -356,7 +355,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
                 onClick={() => onMemberCardClick(member)}
                 cardState={selectedMember ? index - selectedMemberIndex : undefined}
               />
-              {selectedMember && canInsertMemberDetails(index) && (
+              {selectedMember && canInsertMemberDetails(index) && displayDetails && (
                 <div
                   className="lg:col-span-4 md:col-span-3 xs:col-span-2"
                   ref={canInsertMemberDetails(index) ? memberDetailsRef : undefined}
