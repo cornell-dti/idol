@@ -303,12 +303,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   const onMemberCardClick = (member: IdolMember) => {
     setSelectedMember(member === selectedMember ? undefined : member);
     if (member !== selectedMember) {
-      requestAnimationFrame(
-        () =>
-          memberDetailsRef.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          })
+      requestAnimationFrame(() =>
+        memberDetailsRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
       );
     }
   };
