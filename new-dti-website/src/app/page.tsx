@@ -124,7 +124,9 @@ const Home: React.FC = () => {
             {width >= LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
           </div>
         </div>
-        {width >= LAPTOP_BREAKPOINT && <RedBlob intensity={0.6} className="left-[800px] top-[100px]" />}
+        {width >= LAPTOP_BREAKPOINT && (
+          <RedBlob intensity={0.6} className="left-[800px] top-[100px]" />
+        )}
         <div className="relative flex justify-center self-center w-full py-5">
           <RedBlob intensity={0.5} className="left-[0px] top-[-200px]" />
           <button

@@ -262,7 +262,8 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   memberDetailsRef,
   isCard
 }) => {
-  const selectedMemberIndex: number = displayDetails && selectedMember ? members.indexOf(selectedMember) : -1;
+  const selectedMemberIndex: number =
+    displayDetails && selectedMember ? members.indexOf(selectedMember) : -1;
 
   const { width } = useScreenSize();
   const LAPTOP_COLUMNS = 4;
