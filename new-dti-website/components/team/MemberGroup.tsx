@@ -44,7 +44,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
         style={{ backgroundColor: chipColor }}
       >
-        {roleDescription}
+        {getGeneralRole(role as Role) === 'business' ? 'Business' : roleDescription}
       </p>
     </div>
   );

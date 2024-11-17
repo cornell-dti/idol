@@ -14,7 +14,7 @@ export default function Page() {
   }));
 
   return (
-    <div className="overflow-x-hidden flex flex-col items-center">
+    <div className="overflow-x-hidden">
       <div className="flex lg:flex-row flex-col relative lg:max-w-[1186.76px] lg:px-[10vw] lg:my-24 lg:gap-20 md:space-y-10 md:max-w-[698px] h-fit md:my-[130px] md:px-[67px] max-w-none px-10 md:py-0 py-20">
         <RedBlob
           className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'}
@@ -42,7 +42,7 @@ export default function Page() {
       </div>
       <ImageCarousel items={productIcons} />
       <div className="w-full py-12" />
-{/* 
+
       {products.current.map((product, index) => (
         <div key={product.alt}>
           <ProductDisplay orientation={index % 2 === 0 ? 'left' : 'right'} product={product} />
@@ -102,7 +102,7 @@ export default function Page() {
             Contact us
           </Link>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
