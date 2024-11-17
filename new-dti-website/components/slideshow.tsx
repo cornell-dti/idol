@@ -31,7 +31,7 @@ const ImageHeader: React.FC<{ imageName: string }> = ({ imageName }) => (
 const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => {
   const image = imageNames[selectedImage ?? 0];
   return (
-    <div className="bg-white w-fit md:rounded-[20px] xs:rounded-lg relative z-20">
+    <div className="bg-white w-fit md:rounded-[20px] xs:rounded-lg relative z-10">
       <ImageHeader imageName={image} />
       <div>
         <Image
