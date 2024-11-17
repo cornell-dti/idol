@@ -25,7 +25,7 @@ const SponsorHero = () => {
         className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 gap-x-24 relative z-10
       lg:mx-32 md:mx-10 xs:mx-9"
       >
-        <div>
+        <div className="flex items-center">
           <h1
             className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
