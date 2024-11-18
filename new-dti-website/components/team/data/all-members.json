@@ -44,26 +44,27 @@
     "role": "designer"
   },
   {
-    "lastName": "Qian",
-    "hometown": "Pennington, NJ",
-    "website": null,
-    "github": "https://github.com/qiandrewj",
     "formerSubteams": [],
+    "lastName": "Qian",
     "role": "developer",
-    "minor": null,
     "netid": "ajq22",
-    "doubleMajor": "Economics",
-    "about": "dev @ cureviews :)",
-    "linkedin": null,
     "firstName": "Andrew",
-    "major": "Computer Science",
-    "graduation": "2027",
-    "pronouns": "he/him",
     "subteams": [
       "reviews"
     ],
     "roleDescription": "Developer",
-    "email": "ajq22@cornell.edu"
+    "email": "ajq22@cornell.edu",
+    "hometown": "Pennington, NJ",
+    "website": null,
+    "minor": null,
+    "major": "Computer Science",
+    "doubleMajor": "Economics",
+    "graduation": "2027",
+    "pronouns": "he/him",
+    "linkedin": null,
+    "github": "https://github.com/qiandrewj",
+    "coffeeChatLink": null,
+    "about": "Developer at CUReviews"
   },
   {
     "lastName": "Thia",
