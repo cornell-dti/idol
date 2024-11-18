@@ -1,6 +1,7 @@
 import PermissionsManager from '../utils/permissionsManager';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import ShoutoutsDao from '../dao/ShoutoutsDao';
+import { deleteImage } from './imageAPI';
 
 const shoutoutsDao = new ShoutoutsDao();
 
@@ -79,6 +80,9 @@ export const deleteShoutout = async (uuid: string, user: IdolMember): Promise<vo
     throw new PermissionError(
       `You are not a lead or admin, so you can't delete a shoutout from a different user!`
     );
+  }
+  if (shoutout.images && shoutout.images.length > 0) {
+    await deleteImage(shoutout.images[0]);
   }
   await shoutoutsDao.deleteShoutout(uuid);
 };
