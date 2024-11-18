@@ -128,17 +128,20 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please select another dev portfolio.'
       });
     } else {
+      const finalPRs = openPRs.filter((pr) => pr !== "");
+      const finalReviewedPRs = reviewPRs.filter((pr) => pr !== "");
+      const finalOtherPRs = otherPRs.filter((pr) => pr !== "");
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
-        openedPRs: openPRs.map((pr) => ({
+        openedPRs: finalPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
-        reviewedPRs: reviewPRs.map((pr) => ({
+        reviewedPRs: finalReviewedPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
-        otherPRs: otherPRs.map((pr) => ({
+        otherPRs: finalOtherPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
@@ -146,6 +149,7 @@ const DevPortfolioForm: React.FC = () => {
         documentationText,
         ...(text && { text })
       };
+      console.log(newDevPortfolioSubmission);
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
     }
   };
