@@ -128,9 +128,9 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please select another dev portfolio.'
       });
     } else {
-      const finalPRs = openPRs.filter((pr) => pr !== "");
-      const finalReviewedPRs = reviewPRs.filter((pr) => pr !== "");
-      const finalOtherPRs = otherPRs.filter((pr) => pr !== "");
+      const finalPRs = openPRs.filter((pr) => pr !== '');
+      const finalReviewedPRs = reviewPRs.filter((pr) => pr !== '');
+      const finalOtherPRs = otherPRs.filter((pr) => pr !== '');
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
         openedPRs: finalPRs.map((pr) => ({
