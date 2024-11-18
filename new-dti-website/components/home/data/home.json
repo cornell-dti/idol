@@ -1,0 +1,43 @@
+{
+  "design": [
+    {
+      "mainIcon": "/icons/home/design.png",
+      "title": "DESIGN",
+      "description": [
+        "Harnessing human-centered",
+        "design to solve problems with",
+        "empathy and creativity."
+      ],
+      "images": [
+        {
+          "id": "image1",
+          "src": "/public/images/home/image1.png",
+          "width": 150,
+          "height": 150,
+          "breakpointDimensions": {
+            "MOBILE_BREAKPOINT": { "width": 100, "height": 100, "x": 30, "y": 175 },
+            "TABLET_BREAKPOINT": { "width": 80, "height": 80, "x": 0, "y": 120 },
+            "LAPTOP_BREAKPOINT": { "width": 100, "height": 100, "x": 0, "y": 150 },
+            "LARGE_LAPTOP_BREAKPOINT": { "width": 100, "height": 100, "x": 0, "y": 150 },
+            "MONITOR_BREAKPOINT": { "width": 170, "height": 170, "x": 0, "y": 200 }
+          },
+          "float": true
+        },
+        {
+          "id": "image2",
+          "src": "/public/images/home/image2.png",
+          "width": 200,
+          "height": 200,
+          "breakpointDimensions": {
+            "MOBILE_BREAKPOINT": { "width": 100, "height": 100, "x": 30, "y": 175 },
+            "TABLET_BREAKPOINT": { "width": 100, "height": 100, "x": 90, "y": 175 },
+            "LAPTOP_BREAKPOINT": { "width": 120, "height": 120, "x": 110, "y": 190 },
+            "LARGE_LAPTOP_BREAKPOINT": { "width": 150, "height": 150, "x": 125, "y": 225 },
+            "MONITOR_BREAKPOINT": { "width": 200, "height": 200, "x": 200, "y": 280 }
+          },
+          "float": true
+        }
+      ]
+    }
+  ]
+}

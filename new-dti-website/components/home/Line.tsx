@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { TABLET_BREAKPOINT, MOBILE_BREAKPOINT } from '../../src/consts';
 import Node from './Node';
+import nodes from './data/home.json';
 
 const Line: React.FC = () => {
   const line1Ref = useRef<SVGPathElement | null>(null);
@@ -42,7 +43,8 @@ const Line: React.FC = () => {
         const dashOffset = pathLength - pathLength * scrollProgress;
         line1Ref.current.style.strokeDashoffset = dashOffset.toString();
 
-        // Calculate progress in percentage
+        // * Calculate progress in percentage
+        // ? Might need to adjust depending due to clipping
         const progressPercentage = scrollProgress * 100;
         if (progressPercentage >= 65 && progressPercentage <= 100) {
           const normalizedProgress = (progressPercentage - 65) / (100 - 65);
@@ -52,7 +54,8 @@ const Line: React.FC = () => {
           setRotationDegree(0);
         }
 
-        // Update icons based on scroll progress
+        // * Update icons based on scroll progress
+        // TODO: Decide if it should just be opacity or a new icon?
         setActiveIcon({
           design: progressPercentage >= 5,
           development: progressPercentage >= 16,
@@ -156,13 +159,17 @@ const Line: React.FC = () => {
           )}
         </div>
         {/* End of Lind Component */}
-        <div className="flex absolute top-24 left-44">
-          <Node />
-        </div>
 
         {/* Beginning of Icons and text*/}
         {/* First Row */}
-
+        <div className="flex absolute top-[3%] left-[10%] sm:top-[3%] sm:left-[12%] md:top-[4%] md:left-[13%] lg:top-[5%] lg:left-[13%] xl:top-[5%] xl:left-[13%] border border-white sm:border-purple-500 md:border-pink-500 lg:border-red-500 xl:border-blue-500 2xl:border-green-500">
+          <Node
+            mainIcon={nodes.design[0].mainIcon}
+            title={nodes.design[0].title}
+            description={nodes.design[0].description}
+            images={nodes.design[0].images}
+          />
+        </div>
         {/* {width >= TABLET_BREAKPOINT ? (
           <div className="inline-flex items-center border-2 border-green-300 space-x-5 tracking-normal lg:tracking-widest absolute h-auto text-white top-[20%] left-[54%]">
             <Image
