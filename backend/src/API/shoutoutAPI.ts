@@ -1,7 +1,7 @@
 import PermissionsManager from '../utils/permissionsManager';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import ShoutoutsDao from '../dao/ShoutoutsDao';
-import { deleteImage } from 'backend/src/API/imageAPI';
+import { deleteImage } from './imageAPI';
 
 const shoutoutsDao = new ShoutoutsDao();
 
