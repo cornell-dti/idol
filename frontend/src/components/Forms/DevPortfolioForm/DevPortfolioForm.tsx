@@ -94,9 +94,9 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!otherEmpty && otherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
+      (!openedEmpty && openPRs.some((pr) => pr !== '' && pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!reviewedEmpty && reviewPRs.some((pr) => pr !== '' && pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!otherEmpty && otherPRs.some((pr) => pr !== '' && pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
