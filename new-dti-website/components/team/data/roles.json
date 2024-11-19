@@ -24,7 +24,7 @@
     "roleName": "Business",
     "description": "Bringing products and events to the community.",
     "members": [],
-    "roles": ["business-lead", "business", "pmm", "internal-business", "business-advisor"],
+    "roles": ["business-lead", "pmm", "internal-business", "business-advisor"],
     "color": "#F9D6AD"
   },
   "developer": {
