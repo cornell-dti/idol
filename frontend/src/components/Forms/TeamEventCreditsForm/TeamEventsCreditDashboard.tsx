@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Card, Loader, Message, Button, Modal, Header, Image } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -36,8 +37,9 @@ const TeamEventCreditDashboard = (props: {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
 
-  const requiredCredits =
-    userRole === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
+  const requiredCredits = LEAD_ROLES.includes(userRole)
+    ? REQUIRED_LEAD_TEC_CREDITS
+    : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
   const getHoursAttended = (attendance: TeamEventAttendance): number => {
     const hours = attendance.hoursAttended;
@@ -47,7 +49,7 @@ const TeamEventCreditDashboard = (props: {
 
   const getTeamEventImage = (attendance: TeamEventAttendance) => {
     setLoading(true);
-    ImagesAPI.getEventProofImage(attendance.image).then((url: string) => {
+    ImagesAPI.getImage(attendance.image).then((url: string) => {
       setImage(url);
       setLoading(false);
     });
@@ -63,7 +65,7 @@ const TeamEventCreditDashboard = (props: {
           headerMsg: 'Team Event Attendance Deleted!',
           contentMsg: 'Your team event attendance was successfully deleted!'
         });
-        ImagesAPI.deleteEventProofImage(attendance.image);
+        ImagesAPI.deleteImage(`${attendance.image}`);
         Emitters.teamEventsUpdated.emit();
       })
       .catch((error) => {
@@ -95,7 +97,7 @@ const TeamEventCreditDashboard = (props: {
   else remainingCredits = 0;
 
   let headerString;
-  if (userRole !== 'lead')
+  if (!LEAD_ROLES.includes(userRole))
     headerString = `Check your team event credit status for this semester here!  
     Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${
       INITIATIVE_EVENTS

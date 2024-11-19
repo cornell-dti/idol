@@ -29,14 +29,15 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['lead', 'tpm', 'pm', 'developer', 'designer', 'business'];
+  const roles: Role[] = ['tpm', 'pm', 'apm', 'developer', 'designer', 'internal-business', 'pmm'];
   const role_descriptions: RoleDescription[] = [
-    'Lead',
     'Technical PM',
     'Product Manager',
+    'Associate PM',
     'Developer',
     'Designer',
-    'Business Analyst'
+    'Internal Business',
+    'PMM'
   ];
 
   // pick one item at random from each list
@@ -59,6 +60,16 @@ export const fakeIdolMember = (): IdolMember => {
     about: faker.lorem.paragraph(),
     subteams: fakeSubteams(),
     ...fakeRoleObject()
+  };
+  return member;
+};
+
+/** Create fake non-admin */
+export const fakeIdolLead = (): IdolMember => {
+  const member = {
+    ...fakeIdolMember(),
+    role: 'ops-lead',
+    roleDescription: 'Full Team Lead'
   };
   return member;
 };
@@ -197,4 +208,19 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
     authorizedRoles: [fakeRoleObject()]
   };
   return CDI;
+};
+
+/** Create fake Coffee Chat */
+export const fakeCoffeeChat = (): CoffeeChat => {
+  const CC = {
+    uuid: faker.datatype.uuid(),
+    submitter: fakeIdolMember(),
+    otherMember: fakeIdolMember(),
+    isNonIDOLMember: false,
+    slackLink: '',
+    category: 'test',
+    status: 'pending',
+    date: Date.now()
+  };
+  return CC;
 };

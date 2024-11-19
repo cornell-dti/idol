@@ -14,6 +14,7 @@ const DevPortfolioForm: React.FC = () => {
   const userInfo = useSelf()!;
   const isTpm = userInfo.role === 'tpm';
   const isDevAdvisor = userInfo.role === 'dev-advisor';
+  const isOpenedPROptional = isTpm || isDevAdvisor;
 
   const [devPortfolio, setDevPortfolio] = useState<DevPortfolio | undefined>(undefined);
   const [devPortfolios, setDevPortfolios] = useState<DevPortfolio[]>([]);
@@ -71,9 +72,12 @@ const DevPortfolioForm: React.FC = () => {
   };
 
   const submitDevPortfolio = () => {
-    const openedEmpty = !openPRs[0] || openPRs[0].length === 0;
-    const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
-    const otherEmpty = !otherPRs[0] || otherPRs[0].length === 0;
+    const finalPRs = openPRs.filter((pr) => pr !== '');
+    const finalReviewedPRs = reviewPRs.filter((pr) => pr !== '');
+    const finalOtherPRs = otherPRs.filter((pr) => pr !== '');
+    const openedEmpty = !finalPRs[0] || finalPRs[0].length === 0;
+    const reviewedEmpty = !finalReviewedPRs[0] || finalReviewedPRs[0].length === 0;
+    const otherEmpty = !finalOtherPRs[0] || finalOtherPRs[0].length === 0;
     const textEmpty = !text;
 
     if (!devPortfolio) {
@@ -87,15 +91,15 @@ const DevPortfolioForm: React.FC = () => {
       ? devPortfolio.lateDeadline
       : devPortfolio?.deadline;
 
-    if (!isDevAdvisor && otherEmpty && (openedEmpty || reviewedEmpty)) {
+    if (!isOpenedPROptional && otherEmpty && (openedEmpty || reviewedEmpty)) {
       Emitters.generalError.emit({
         headerMsg: 'No opened or reviewed PR url submitted',
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!otherEmpty && otherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
+      (!openedEmpty && finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!reviewedEmpty && finalReviewedPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!otherEmpty && finalOtherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
@@ -129,15 +133,15 @@ const DevPortfolioForm: React.FC = () => {
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
-        openedPRs: openPRs.map((pr) => ({
+        openedPRs: finalPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
-        reviewedPRs: reviewPRs.map((pr) => ({
+        reviewedPRs: finalReviewedPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
-        otherPRs: otherPRs.map((pr) => ({
+        otherPRs: finalOtherPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
@@ -213,7 +217,7 @@ const DevPortfolioForm: React.FC = () => {
               <p>
                 In addition, if you have created and/or reviewed pull requests, please include those
                 links. There is no required minimum or maximum but please do include them when you
-                do them.
+                do them. However, you must open at least 2 PR's in total during the entire semester.
               </p>
             </div>
           ) : (
@@ -225,7 +229,7 @@ const DevPortfolioForm: React.FC = () => {
             placeholder="Opened PR"
             label="Opened Pull Request Github Link:"
             openOther={openOther}
-            isRequired={!isDevAdvisor}
+            isRequired={!isOpenedPROptional}
           />
           <PRInputs
             prs={reviewPRs}
@@ -285,13 +289,13 @@ const DocumentationInput = ({
 }) => (
   <div>
     <label className={styles.bold}>
-      Documentation: <span className={styles.red_color}>*</span>
+      Documentation or Testing: <span className={styles.red_color}>*</span>
     </label>
     <p>
-      Please provide a link to at least one piece of documentation you added/updated. If it's
-      included in the PRs you added above, you may simply write "Documentation located in PR (insert
-      PR number here)". If you made a separate PR updating documentation in the codebase, please
-      link that PR here.
+      Please provide a link to at least one piece of documentation or test(s) you added/updated. If
+      it's included in the PRs you added above, you may simply write "Documentation located in PR
+      (insert PR number here)" or "Testing located in PR (insert PR number here)". If you made a
+      separate PR updating documentation/testing in the codebase, please link that PR here.
     </p>
     <TextArea value={documentationText} onChange={(e) => setDocumentationText(e.target.value)} />
   </div>

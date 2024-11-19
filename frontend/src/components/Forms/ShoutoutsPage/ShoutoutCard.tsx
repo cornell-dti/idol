@@ -1,5 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { Button, Card, Form, Icon, Modal, TextArea } from 'semantic-ui-react';
+import { Button, Card, Image, Loader, Form, Icon, Modal, TextArea } from 'semantic-ui-react';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import ShoutoutDeleteModal from '../../Modals/ShoutoutDeleteModal';
 import styles from './ShoutoutCard.module.css';
@@ -24,6 +25,31 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
       console.error('Failed to edit shoutout:', error);
     }
   };
+  setGivenShoutouts: React.Dispatch<React.SetStateAction<Shoutout[]>>;
+}): JSX.Element => {
+  const { shoutout, setGivenShoutouts } = props;
+
+  const [image, setImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fromString = shoutout.isAnon
+    ? 'From: Anonymous'
+    : `From: ${shoutout.giver?.firstName || ''} ${shoutout.giver?.lastName || ''}`.trim();
+  const dateString = new Date(shoutout.timestamp).toDateString();
+
+  useEffect(() => {
+    if (shoutout.images && shoutout.images.length > 0) {
+      setIsLoading(true);
+      ImagesAPI.getImage(shoutout.images[0])
+        .then((url: string) => {
+          setImage(url);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [shoutout.images]);
 
   return (
     <Card className={styles.shoutoutCardContainer}>
@@ -51,6 +77,18 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
         </div>
       </div>
       <Card.Content description={shoutout.message} />
+
+      {isLoading ? (
+        <Loader active inline />
+      ) : (
+        image?.length > 0 && (
+          <Card.Content>
+            <div className={styles.imageContainer}>
+              <Image src={image} size="small" alt="shoutout image" />
+            </div>
+          </Card.Content>
+        )
+      )}
       <Modal open={isEditing} onClose={() => setIsEditing(false)}>
         <Modal.Header>Edit Shoutout</Modal.Header>
         <Modal.Content>
@@ -76,5 +114,6 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
     </Card>
   );
 };
+
 
 export default ShoutoutCard;

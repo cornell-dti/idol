@@ -40,10 +40,18 @@ const socialIcons: Icon[] = [
   }
 ];
 
-const Footer: React.FC = () => (
-  <div className="w-full h-[146px] inset-x-0 bottom-0 md:px-[40px] lg:px-[60px] inline-flex justify-between items-center md:flex-row flex-col">
-    <div className="sm: w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-neutral-50 text-sm font-medium flex items-center ">
-      © 2023 Cornell Digital Tech & Innovation Project Team
+type FooterProps = {
+  theme: 'dark' | 'light';
+};
+
+const Footer: React.FC<FooterProps> = ({ theme }) => (
+  <div
+    className={`${
+      theme === 'dark' ? 'bg-black text-neutral-50' : 'bg-[#F5F5F5] text-[#0C0404]'
+    } w-full h-[146px] md:px-10 lg:px-[60px] flex justify-between items-center md:flex-row flex-col`}
+  >
+    <div className="sm:w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-sm font-medium flex items-center ">
+      © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
     </div>
     <div className="flex gap-5 md:h-fit h-screen">
       {socialIcons.map((icon, index) => (
@@ -54,7 +62,13 @@ const Footer: React.FC = () => (
           rel="noopener noreferrer"
           className="w-9 h-9 relative"
         >
-          <Image className="w-full h-full" src={icon.src} width={36} height={36} alt={icon.alt} />
+          <Image
+            className={`${theme === 'dark' ? 'invert-0' : 'invert'} w-full h-full`}
+            src={icon.src}
+            width={36}
+            height={36}
+            alt={icon.alt}
+          />
         </a>
       ))}
     </div>

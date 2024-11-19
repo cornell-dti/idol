@@ -46,6 +46,18 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ## Contributors
 
+### Fall 2024
+
+- **Sam Shridhar** - PM
+- **Amelie Rosso** - APM
+- **Andrew Chen** - TPM
+- **Vannessa Wong** - Designer
+- **Jason Mun** - Developer
+- **Patricia Huang** - Developer
+- **Kevin Ram** - Developer
+- **Chris Chen** - Developer
+- **Juliet Crane** - Developer
+
 ### Spring 2024
 
 - **Andrew Chen** - Developer Advisor

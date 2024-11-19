@@ -186,7 +186,7 @@ const DetailsTable: React.FC<DevPortfolioDetailsTableProps> = ({ portfolio, isAd
           <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Opened PRs</Table.HeaderCell>
           <Table.HeaderCell>Reviewed PRs</Table.HeaderCell>
-          <Table.HeaderCell>Documentation</Table.HeaderCell>
+          <Table.HeaderCell>Documentation/Testing</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
           {sortedSubmissions.some((submission) => submission.text) && (
             <Table.HeaderCell></Table.HeaderCell>

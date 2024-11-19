@@ -1,3 +1,4 @@
+import { DISABLE_DELETE_ALL_COFFEE_CHATS, LEAD_ROLES } from '../consts';
 import { adminCollection } from '../firebase';
 
 export default class PermissionsManager {
@@ -37,17 +38,25 @@ export default class PermissionsManager {
     return this.isLeadOrAdmin(mem);
   }
 
+  static async canEditCoffeeChat(mem: IdolMember): Promise<boolean> {
+    return this.isLeadOrAdmin(mem);
+  }
+
   static async canEditDevPortfolio(mem: IdolMember): Promise<boolean> {
     return this.isLeadOrAdmin(mem);
   }
 
   public static async isAdmin(mem: IdolMember): Promise<boolean> {
     const member = (await adminCollection.doc(mem.email).get()).data();
-    return mem.role === 'lead' || member !== undefined;
+    return LEAD_ROLES.includes(mem.role) || member !== undefined;
   }
 
   public static async isLeadOrAdmin(mem: IdolMember): Promise<boolean> {
-    return mem.role === 'lead' || this.isAdmin(mem);
+    return LEAD_ROLES.includes(mem.role) || this.isAdmin(mem);
+  }
+
+  public static async isClearAllCoffeeChatsDisabled(): Promise<boolean> {
+    return DISABLE_DELETE_ALL_COFFEE_CHATS;
   }
 
   public static async canAccessCandidateDeciderInstance(

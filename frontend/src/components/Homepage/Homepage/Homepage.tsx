@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
-import { Button, Card, Divider } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
 import styles from './Homepage.module.css';
-
-import { NavigationCardItem } from '../../Common/NavigationCard/NavigationCard';
+import NavigationCard, { NavigationCardItem } from '../../Common/NavigationCard/NavigationCard';
+import { ENABLE_COFFEE_CHAT } from '../../../consts';
 
 const everyoneItems: readonly NavigationCardItem[] = [
   {
@@ -16,7 +16,12 @@ const everyoneItems: readonly NavigationCardItem[] = [
     description: 'Edit your profile image.',
     link: '/forms/profileImage'
   },
-  { header: 'Sign-In Form', description: 'Sign in to an event.', link: '/forms/signin' },
+  {
+    header: 'Sign-In Form',
+    description: 'Sign in to an event.',
+    link: '/forms/signin',
+    disabled: true
+  },
   {
     header: 'Shoutouts',
     description: 'Give someone a shoutout or view your past given shoutouts.',
@@ -26,6 +31,12 @@ const everyoneItems: readonly NavigationCardItem[] = [
     header: 'Team Event Credits',
     description: 'Track your team event credits.',
     link: '/forms/teamEventCredits'
+  },
+  {
+    header: 'Coffee Chats',
+    description: 'Submit your coffee chats.',
+    link: '/forms/coffeeChats',
+    adminOnly: !ENABLE_COFFEE_CHAT
   }
 ];
 
@@ -36,31 +47,6 @@ const devItems: readonly NavigationCardItem[] = [
     link: '/forms/devPortfolio'
   }
 ];
-
-const NavCard = ({
-  className,
-  header,
-  description,
-  link
-}: NavigationCardItem & { className?: string }): JSX.Element => (
-  <div className={className ? `styles[${className}]` : styles.card}>
-    <Card key={link}>
-      <Card.Content>
-        <Card.Header>{header}</Card.Header>
-        <Card.Description>{description}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className="ui one buttons">
-          <Link href={link}>
-            <Button basic color="blue">
-              Go To
-            </Button>
-          </Link>
-        </div>
-      </Card.Content>
-    </Card>
-  </div>
-);
 
 const Homepage: React.FC = () => (
   <div className={styles.Homepage} data-testid="Homepage">
@@ -88,11 +74,7 @@ const Homepage: React.FC = () => (
           <p className={styles.sectionDescription}>
             Check out your profile or log your attendance at a DTI event!
           </p>
-          <Card.Group className={styles.quick}>
-            {everyoneItems.map((item) => (
-              <NavCard key={item.link} {...item} />
-            ))}
-          </Card.Group>
+          <NavigationCard items={everyoneItems} />
         </div>
 
         <div>
@@ -105,11 +87,7 @@ const Homepage: React.FC = () => (
               profile you use for your subteam.
             </b>
           </p>
-          <Card.Group className={styles.quick}>
-            {devItems.map((item) => (
-              <NavCard className={styles.devCard} key={item.link} {...item} />
-            ))}
-          </Card.Group>
+          <NavigationCard items={devItems} />
         </div>
       </div>
     </div>
