@@ -75,9 +75,6 @@ const DevPortfolioForm: React.FC = () => {
     const finalPRs = openPRs.filter((pr) => pr !== '');
     const finalReviewedPRs = reviewPRs.filter((pr) => pr !== '');
     const finalOtherPRs = otherPRs.filter((pr) => pr !== '');
-    setOpenPRs(finalPRs);
-    setReviewedPRs(finalReviewedPRs);
-    setOtherPRs(finalOtherPRs);
     const openedEmpty = !finalPRs[0] || finalPRs[0].length === 0;
     const reviewedEmpty = !finalReviewedPRs[0] || finalReviewedPRs[0].length === 0;
     const otherEmpty = !finalOtherPRs[0] || finalOtherPRs[0].length === 0;
