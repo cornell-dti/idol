@@ -72,9 +72,15 @@ const DevPortfolioForm: React.FC = () => {
   };
 
   const submitDevPortfolio = () => {
-    const openedEmpty = !openPRs[0] || openPRs[0].length === 0;
-    const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
-    const otherEmpty = !otherPRs[0] || otherPRs[0].length === 0;
+    const finalPRs = openPRs.filter((pr) => pr !== '');
+    const finalReviewedPRs = reviewPRs.filter((pr) => pr !== '');
+    const finalOtherPRs = otherPRs.filter((pr) => pr !== '');
+    setOpenPRs(finalPRs);
+    setReviewedPRs(finalReviewedPRs);
+    setOtherPRs(finalOtherPRs);
+    const openedEmpty = !finalPRs[0] || finalPRs[0].length === 0;
+    const reviewedEmpty = !finalReviewedPRs[0] || finalReviewedPRs[0].length === 0;
+    const otherEmpty = !finalOtherPRs[0] || finalOtherPRs[0].length === 0;
     const textEmpty = !text;
 
     if (!devPortfolio) {
@@ -94,9 +100,9 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      (!openedEmpty && openPRs.some((pr) => pr !== '' && pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!reviewedEmpty && reviewPRs.some((pr) => pr !== '' && pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!otherEmpty && otherPRs.some((pr) => pr !== '' && pr.match(GITHUB_PR_REGEX) === null))
+      (!openedEmpty && finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!reviewedEmpty && finalReviewedPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!otherEmpty && finalOtherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
@@ -128,9 +134,6 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please select another dev portfolio.'
       });
     } else {
-      const finalPRs = openPRs.filter((pr) => pr !== '');
-      const finalReviewedPRs = reviewPRs.filter((pr) => pr !== '');
-      const finalOtherPRs = otherPRs.filter((pr) => pr !== '');
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
         openedPRs: finalPRs.map((pr) => ({
@@ -149,7 +152,6 @@ const DevPortfolioForm: React.FC = () => {
         documentationText,
         ...(text && { text })
       };
-      console.log(newDevPortfolioSubmission);
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
     }
   };
