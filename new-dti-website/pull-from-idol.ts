@@ -7,6 +7,8 @@ import { join } from 'path';
 import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
 
+const DIFF_OUTPUT_LIMIT = 65_000;
+
 async function getIdolMembers(): Promise<readonly IdolMember[]> {
   const { members } = await fetch(
     'https://idol.cornelldti.org/.netlify/functions/api/member?type=approved'
@@ -70,6 +72,12 @@ async function main(): Promise<void> {
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/big-diff-warning'
   });
+
+  // Don't place a diff output in PR description if it exceeds the char limit.
+  if (diffOutput.length > DIFF_OUTPUT_LIMIT) {
+    diffOutput = '<Output is too long to put in the PR description. See PR diff for details.>';
+  }
+
   const prBody = `## Diffs
   \`\`\`diff
   ${diffOutput}
