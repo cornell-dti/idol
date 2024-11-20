@@ -1,5 +1,6 @@
 import { useState, RefObject } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Card } from '../ui/card';
 import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
@@ -184,25 +185,22 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <a href={props.coffeeChatLink ?? `mailto:${props.email}`}>
-                <button
-                  onMouseEnter={mouseHandler}
-                  onMouseLeave={mouseHandler}
-                  className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
-                hover:bg-[#A52424] hover:text-white stroke-white"
-                >
-                  <div className="flex gap-3 w-max">
-                    <Image
-                      src="/icons/red_calendar.svg"
-                      alt="calendar"
-                      width={24}
-                      height={24}
-                      className={hover ? 'brightness-0 invert' : ''}
-                    />
-                    <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-                  </div>
-                </button>
-              </a>
+              <Link
+                href={props.coffeeChatLink ?? `mailto:${props.email}`}
+                onMouseEnter={mouseHandler}
+                onMouseLeave={mouseHandler}
+                className="flex items-center justify-center gap-3 py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
+             hover:bg-[#A52424] hover:text-white stroke-white w-max"
+              >
+                <Image
+                  src="/icons/red_calendar.svg"
+                  alt="calendar"
+                  width={24}
+                  height={24}
+                  className={hover ? 'brightness-0 invert' : ''}
+                />
+                <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
+              </Link>
             </div>
           </div>
         </div>
