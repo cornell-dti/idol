@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { TABLET_BREAKPOINT, MOBILE_BREAKPOINT } from '../../src/consts';
 import Node from './Node';
+import Wheel from './Wheel';
 import nodes from './data/home.json';
 
 const Line: React.FC = () => {
@@ -60,8 +61,8 @@ const Line: React.FC = () => {
           design: progressPercentage >= 5,
           development: progressPercentage >= 16,
           innovation: progressPercentage >= 26,
-          creatingTechnology: progressPercentage >= 34,
-          community: progressPercentage >= 40
+          creatingTechnology: progressPercentage >= 36,
+          community: progressPercentage >= 44
         });
       } else if (scrollY <= startAnimationScrollY) {
         line1Ref.current.style.strokeDashoffset = `${pathLength}`;
@@ -98,7 +99,7 @@ const Line: React.FC = () => {
       <div className="relative max-w-full bg-black border border-blue-500" ref={componentRef}>
         {/* Begin Line Component */}
         <div className="relative w-full h-auto" ref={componentRef}>
-          {width >= MOBILE_BREAKPOINT ? (
+          {width > MOBILE_BREAKPOINT ? (
             <div className="relative">
               <svg
                 ref={svgRef}
@@ -161,13 +162,28 @@ const Line: React.FC = () => {
         {/* End of Lind Component */}
 
         {/* Beginning of Icons and text*/}
-        {/* First Row */}
-        <div className="flex absolute top-[3%] left-[10%] sm:top-[3%] sm:left-[12%] md:top-[4%] md:left-[13%] lg:top-[5%] lg:left-[13%] xl:top-[5%] xl:left-[13%] border border-white sm:border-purple-500 md:border-pink-500 lg:border-red-500 xl:border-blue-500 2xl:border-green-500">
+        {/* Design */}
+        <div className="border border-white sm:border-purple-500 md:border-pink-500 lg:border-red-500 xl:border-blue-500 2xl:border-green-500 flex absolute top-[3%] left-[5%] sm:top-[3%] sm:left-[9%] md:top-[4%] md:left-[11%] lg:top-[5%] lg:left-[13%] xl:top-[5%] xl:left-[13%]">
           <Node
             mainIcon={nodes.design[0].mainIcon}
             title={nodes.design[0].title}
             description={nodes.design[0].description}
             images={nodes.design[0].images}
+            dragLimit={750}
+            activeIcon={activeIcon.design}
+            position={true}
+          />
+        </div>
+        {/* Innovation */}
+        <div className="border border-white sm:border-purple-500 md:border-pink-500 lg:border-red-500 xl:border-blue-500 2xl:border-green-500 flex absolute top-[45%] left-[-2%] sm:top-[26%] sm:left-[12%] md:top-[28.25%] md:left-[13%] lg:top-[29%] lg:left-[13%] xl:top-[27%] xl:left-[14%] ">
+          <Node
+            mainIcon={nodes.innovation[0].mainIcon}
+            title={nodes.innovation[0].title}
+            description={nodes.innovation[0].description}
+            images={nodes.innovation[0].images}
+            dragLimit={750}
+            activeIcon={activeIcon.innovation}
+            position={false}
           />
         </div>
         {/* {width >= TABLET_BREAKPOINT ? (
@@ -205,128 +221,36 @@ const Line: React.FC = () => {
           </div>
         )} */}
 
-        {/* <div
-                ref={imageRef2}
-                className="flex flex-row col-span-2 row-start-5 border-2 border-green-300 space-x-5 tracking-normal lg:tracking-widest"
-                style={{ transform: 'translateY(70px)' }}
-              >
-                <Image
-                  className="h-auto w-16 sm:w-20 md:w-24 lg:w-32"
-                  src={activeIcon.innovation ? innovation : innovationdim}
-                  alt="innovation Icon"
-                />
-                <div className="flex flex-col lg:flex-row lg:space-x-5">
-                  <div className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-semibold tracking-widest">
-                    INNOVATION
-                  </div>
-                  <p className="text-xs sm:text-sm md:text-md lg:text-2xl lg:mt-2">
-                    Pioneering new ideas to solve real<br></br> problems in our community, at
-                    <br></br> Cornell and beyond.
-                  </p>
-                </div>
-              </div> */}
+        {/* Text Portion*/}
+        <div className="flex absolute top-[71%] sm:top-[53%] md:top-[53.5%] w-full h-auto text-white border border-purple-500">
+          <div className="relative w-full h-auto grid grid-cols-2 gap-y-8 sm:gap-y-6 md:gap-y-8 lg:gap-y-10 xl:gap-y-12 2xl:gap-y-16 text-md lg:text-2xl xl:text-3xl 2xl:text-4xl font-normal tracking-widest">
+            <div
+              className={`col-span-1 text-right ease-in-out duration-500 mr-14 sm:mr-0 md:mr-8 lg:mr-[8%] ${
+                activeIcon.creatingTechnology ? 'opacity-100 scale-100 ' : 'opacity-50 scale-95'
+              }`}
+            >
+              Creating technology
+            </div>
+            <div className="col-span-1"></div>
+            <div
+              className={`col-span-1 col-start-2 text-left ease-in-out duration-500 sm:ml-0 md:ml-8 lg:ml-[6%] ${
+                activeIcon.community ? 'opacity-100 scale-100' : 'opacity-50 scale-95 '
+              }`}
+            >
+              for community impact
+            </div>
+            <div
+              className={` ${
+                activeIcon.creatingTechnology ? 'bg-white' : 'opacity-50'
+              } absolute top-[50%] left-[46%] rotate-[30deg] bg-gray-300 h-[5%] w-[7%]`}
+            ></div>
+          </div>
+        </div>
 
-        {/* Second Row: Text */}
-        {/* <div className="text-white row-start-2">
-              <div
-                className={`text-4xl ml-96 mt-10 ${
-                  activeIcon.creatingTechnology ? 'opacity-100' : 'opacity-50'
-                }`}
-              >
-                Creating technology
-              </div>
-              <div
-                className={`text-4xl ml-28 mt-44 ${
-                  activeIcon.community ? 'opacity-100' : 'opacity-50'
-                }`}
-              >
-                for community impact
-              </div>
-            </div> */}
-
-        {/* Third Row */}
-        {/* Wheel of Product Icons TODO */}
-        {/* <div className="flex flex-col relative row-start-3 items-center justify-center col-span-2 text-white border-2 border-red-500">
-              <div className="flex flex-col items-center space-y-6 tracking-wide mr-20">
-                <div className="text-4xl font-semibold">Our products define us</div>
-                <div className="text-2xl font-light">
-                  5 launched products. The student body as our users.
-                </div>
-                <button className="flex flex-row text-xl space-x-2 pl-10 pr-6 py-3 h-fit w-fit bg-red-500 border-2 border-red-500 rounded-lg font-bold hover:border-red-800 hover:bg-red-800">
-                  <div>Explore our products</div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    strokeLinejoin="round"
-                    className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 12l14 0" />
-                    <path d="M15 16l4 -4" />
-                    <path d="M15 8l4 4" />
-                  </svg>
-                </button>
-              </div>
-              <div
-                className="flex flex-col justify-center relative w-screen mr-20 mt-[-90px]"
-                style={{
-                  transform: `rotate(${rotationDegree}deg)`,
-                  transformOrigin: 'center center'
-                }}
-              >
-                <div className="flex items-center justify-center bg-blue-500">
-                  <Image
-                    src={CUReviews}
-                    className="absolute"
-                    style={{ transform: 'translate(0rem, -25rem)' }}
-                    alt="CUReviews"
-                  />
-                  <Image
-                    src={Carriage}
-                    className="absolute"
-                    style={{ transform: 'translate(21rem, -14rem)' }}
-                    alt="Carriage"
-                  />
-                  <Image
-                    src={DAC}
-                    className="absolute"
-                    style={{ transform: 'translate(25rem, 6rem)' }}
-                    alt="DAC"
-                  />
-                  <Image
-                    src={Zing}
-                    className="absolute"
-                    style={{ transform: 'translate(11rem, 23rem)' }}
-                    alt="Zing"
-                  />
-                  <Image
-                    src={CoursePlan}
-                    className="absolute"
-                    style={{ transform: 'translate(-11rem, 23rem)' }}
-                    alt="CoursePlan"
-                  />
-                  <Image
-                    src={QMI}
-                    className="absolute"
-                    style={{ transform: 'translate(-25rem, 6rem)' }}
-                    alt="QMI"
-                  />
-                  <Image
-                    src={CUApts}
-                    className="absolute"
-                    style={{ transform: 'translate(-21rem, -14rem)' }}
-                    alt="CUApts"
-                  />
-                </div>
-              </div>
-            </div> */}
-        {/* Fourth Row */}
+        {/* Wheel */}
+        {/* <div className="flex absolute w-full h-auto bottom-[15%] border border-green-500">
+          <Wheel rotationDegree={rotationDegree} products={nodes.wheel} />
+        </div> */}
       </div>
       {/* End of the Icons and Text */}
     </>
