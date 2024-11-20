@@ -116,7 +116,12 @@ const MemberDisplay: React.FC = () => {
                 xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
               >
                 {orderedAlumni.map((member, index) => (
-                  <a href={member.linkedin ?? undefined} key={index}>
+                  <a
+                    href={member.linkedin ?? undefined}
+                    key={index}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <MemberCard
                       {...member}
                       roleDescription={member.roleDescription as RoleDescription}
