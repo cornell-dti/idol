@@ -15,29 +15,34 @@ export default function Page() {
 
   return (
     <div className="overflow-x-hidden">
-      <div className="flex lg:flex-row flex-col relative lg:max-w-[1186.76px] lg:mx-52 lg:my-24 lg:space-x-20 md:space-y-10 md:max-w-[698px] h-fit md:my-[130px] md:mx-[67px] max-w-[314px] mx-auto md:py-0 py-32">
-        <RedBlob
-          className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'}
-          intensity={0.4}
-        />
-        <div className="md:w-fit w-[314px] z-10">
-          <p className="md:text-[100px] md:leading-[121px] text-[48px] leading-[58px] font-semibold">
-            <span className="text-white">OUR </span>
-            <span className="text-red-500">PRODUCTS</span>
-          </p>
-        </div>
-        <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
-          <div className="flex flex-row">
-            <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px]">
-              <span className="text-neutral-400">Real</span>
-              <span className="text-white font-medium"> </span>
-              <span className="text-neutral-200 italic">impact</span>
-            </div>
+      <div className="flex justify-center">
+        <div className="flex lg:flex-row flex-col relative lg:px-[10vw] lg:my-24 lg:gap-20 md:space-y-10 h-fit md:my-[130px] md:px-[67px] px-10 md:py-0 py-20">
+          <RedBlob
+            className="-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100"
+            intensity={0.4}
+          />
+          <div className="md:w-fit md:max-w-[558px] xs:max-w-none z-10">
+            <p className="md:text-[100px] md:leading-[121px] text-[48px] leading-[58px] font-semibold">
+              <span className="text-white">OUR </span>
+              <span className="text-red-500">PRODUCTS</span>
+            </p>
           </div>
-          <p className="text-[#FFFFFF] w-[475px] md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
-            Each of our projects address an unfulfilled need that exists in our community using
-            <span className="font-semibold"> human-centered design and software engineering.</span>
-          </p>
+          <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
+            <div className="flex flex-row">
+              <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px]">
+                <span className="text-neutral-400">Real</span>
+                <span className="text-white font-medium"> </span>
+                <span className="text-neutral-200 italic">impact</span>
+              </div>
+            </div>
+            <p className="text-[#FFFFFF] md:max-w-[475px] xs:max-w-none md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
+              Each of our projects address an unfulfilled need that exists in our community using
+              <span className="font-semibold">
+                {' '}
+                human-centered design and software engineering.
+              </span>
+            </p>
+          </div>
         </div>
       </div>
       <ImageCarousel items={productIcons} />
@@ -98,7 +103,6 @@ export default function Page() {
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
           </p>
-
           <Link href="mailto:hello@cornelldti.org" className="primary-button">
             Contact us
           </Link>

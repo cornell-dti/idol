@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import RedBlob from '../../../components/blob';
-import InitiativeDisplay from '../../../components/initiative/InitiativeDisplay';
+import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 
 const InitiativeHero = () => (
   <div

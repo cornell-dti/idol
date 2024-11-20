@@ -25,7 +25,7 @@ const SponsorHero = () => {
         className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 gap-x-24 relative z-10
       lg:mx-32 md:mx-10 xs:mx-9"
       >
-        <div>
+        <div className="flex items-center">
           <h1
             className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
@@ -36,8 +36,8 @@ const SponsorHero = () => {
         </div>
         <div className="flex flex-col justify-center gap-6">
           <h2 className="font-bold md:text-[40px] xs:text-2xl">
-            <span className="text-[#877B7B]">Let's</span>{' '}
-            <span className="italic">collaborate</span>
+            <span className="text-[#877B7B] leading-[50px]">Let's</span>{' '}
+            <span className="italic leading-[50px]">collaborate</span>
           </h2>
           <p className="md:text-lg xs:text-sm">
             The generous contributions of our supporters and sponsors allow our team to continue

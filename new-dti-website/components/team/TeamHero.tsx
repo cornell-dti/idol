@@ -157,7 +157,7 @@ const TeamHero = () => {
               {carouselImages.images.map((image, index) => (
                 <CarouselItem
                   key={image.alt}
-                  className={`lg:basis-1/4 xs:basis-1/2 cursor-pointer flex justify-center ${
+                  className={`lg:basis-1/4 xs:basis-1/2 cursor-pointer min-w-[250px] flex justify-center ${
                     index === carouselIndex % carouselLength ? '' : 'opacity-50'
                   }`}
                 >

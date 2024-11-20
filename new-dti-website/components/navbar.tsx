@@ -14,12 +14,12 @@ const navbarItems = [
     url: '/products'
   },
   {
-    name: 'Courses',
-    url: '/courses'
+    name: 'Course',
+    url: '/course'
   },
   {
-    name: 'Initiative',
-    url: '/initiative'
+    name: 'Initiatives',
+    url: '/initiatives'
   },
   {
     name: 'Sponsor',
