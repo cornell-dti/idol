@@ -12,7 +12,7 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "application",
-      "link": "form link",
+      "link": "https://forms.gle/F9tFrW88a2Xoa9D49",
       "freshmen": { "date": "August 21", "isTentative": false },
       "upperclassmen": { "date": "August 21", "isTentative": false },
       "spring": { "date": "", "isTentative": false }
@@ -40,7 +40,7 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "deadline",
-      "link": "link",
+      "link": "https://forms.gle/F9tFrW88a2Xoa9D49",
       "freshmen": { "date": "October 17", "isTentative": false },
       "upperclassmen": { "date": "September 4", "isTentative": false },
       "spring": { "date": "", "isTentative": false }
