@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import config from '../../config.json';
 import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
@@ -173,7 +174,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
                 className={`${isNextEvent ? 'brightness-0' : ''}`}
               />
               <p className={event.link ? 'underline' : ''}>
-                {event.link ? <a href={event.link}>{event.location}</a> : event.location}
+                {event.link ? <Link href={event.link}>{event.location}</Link> : event.location}
               </p>
             </div>
           )}

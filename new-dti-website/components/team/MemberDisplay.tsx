@@ -83,7 +83,6 @@ const MemberDisplay: React.FC = () => {
           <div>
             {Object.keys(roles).map((role, index) => {
               const value = roles[role as GeneralRole];
-              // if (index > 1) return <></>;
               return (
                 <MemberGroup
                   key={value.roleName}
