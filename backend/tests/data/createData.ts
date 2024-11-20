@@ -29,15 +29,14 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['tpm', 'pm', 'apm', 'developer', 'designer', 'internal-business', 'pmm'];
+  const roles: Role[] = ['tpm', 'pm', 'apm', 'developer', 'designer', 'business'];
   const role_descriptions: RoleDescription[] = [
     'Technical PM',
     'Product Manager',
     'Associate PM',
     'Developer',
     'Designer',
-    'Internal Business',
-    'PMM'
+    'Business'
   ];
 
   // pick one item at random from each list

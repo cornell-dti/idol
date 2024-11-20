@@ -2,7 +2,7 @@ import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember, allMembers } from './memberAPI';
-import { BUSINESS_ROLES, LEAD_ROLES } from '../consts';
+import { LEAD_ROLES } from '../consts';
 import { getGeneralRoleFromLeadType } from '../utils/memberUtil';
 
 const coffeeChatDao = new CoffeeChatDao();
@@ -203,7 +203,7 @@ export const checkMemberMeetsCategory = async (
         message = `${otherMember.firstName} ${otherMember?.lastName} is not a CoursePlan member`;
       }
     } else if (category === 'business member') {
-      status = BUSINESS_ROLES.includes(otherMember.role) ? 'pass' : 'fail';
+      status = otherMember.role === 'business' ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a business member`;
       }
