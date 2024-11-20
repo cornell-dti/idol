@@ -16,9 +16,9 @@ export default function Page() {
   return (
     <div className="overflow-x-hidden">
       <div className="flex justify-center">
-        <div className="flex lg:flex-row flex-col relative lg:max-w-[1186.76px] lg:px-[10vw] lg:my-24 lg:gap-20 md:space-y-10 md:max-w-[698px] h-fit md:my-[130px] md:px-[67px] max-w-none px-10 md:py-0 py-20">
+        <div className="flex lg:flex-row flex-col relative lg:px-[10vw] lg:my-24 lg:gap-20 md:space-y-10 h-fit md:my-[130px] md:px-[67px] px-10 md:py-0 py-20">
           <RedBlob
-            className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'}
+            className="-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100"
             intensity={0.4}
           />
           <div className="md:w-fit md:max-w-[558px] xs:max-w-none z-10">
