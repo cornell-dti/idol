@@ -155,9 +155,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                 }`}
               >
                 {link ? (
-                  <a href={link} className="whitespace-nowrap">
+                  <Link href={link} className="whitespace-nowrap">
                     {name}
-                  </a>
+                  </Link>
                 ) : (
                   <p>{name}</p>
                 )}
@@ -171,14 +171,17 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   const link = props[icon.alt as keyof typeof props] as string | null;
                   return (
                     link && (
-                      <a href={icon.alt === 'email' ? `mailto:${link}` : `${link}`} key={icon.alt}>
+                      <Link
+                        href={icon.alt === 'email' ? `mailto:${link}` : `${link}`}
+                        key={icon.alt}
+                      >
                         <Image
                           src={icon.src}
                           alt={icon.alt}
                           height={icon.height}
                           width={icon.width}
                         />
-                      </a>
+                      </Link>
                     )
                   );
                 })}
