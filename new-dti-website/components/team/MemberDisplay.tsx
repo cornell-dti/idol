@@ -6,28 +6,34 @@ import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import { populateMembers } from '../../src/utils/memberUtils';
 
-import alumniMembers from '../../../backend/src/members-archive/fa21.json';
+import alumniMembers from './data/alumni.json';
 
 const allMembers = members as IdolMember[];
 
-const roles = populateMembers(
-  teamRoles as {
-    [key: string]: {
-      roleName: string;
-      description: string;
-      members: IdolMember[];
-      roles: string[];
-      color: string;
-    };
-  },
-  allMembers
-);
+type RoleEntry = {
+  [key: string]: {
+    roleName: string;
+    description: string;
+    members: IdolMember[];
+    roles: string[];
+    color: string;
+  };
+};
+
+const roles = populateMembers(teamRoles as RoleEntry, allMembers);
 
 const MemberDisplay: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
   const [clickedSection, setClickedSection] = useState<string | undefined>(undefined);
 
+  // Make roles in alumni section the same order as full team
+  const alumniRoles = populateMembers(teamRoles as RoleEntry, alumniMembers as IdolMember[]);
+  const orderedAlumni = Object.keys(alumniRoles).reduce(
+    (acc: IdolMember[], role) =>
+      acc.concat(alumniRoles[role].members.filter((member) => !acc.includes(member))),
+    []
+  );
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -109,21 +115,22 @@ const MemberDisplay: React.FC = () => {
                 className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
                 xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
               >
-                {alumniMembers.members.map((member, index) =>
-                  index <= 5 ? (
-                    <a href={member.linkedin ?? undefined} key={index}>
-                      <MemberCard
-                        {...member}
-                        roleDescription={member.roleDescription as RoleDescription}
-                        cardState={undefined}
-                        image={`team/${member.netid}.jpg`}
-                        key={member.netid}
-                      />
-                    </a>
-                  ) : (
-                    <></>
-                  )
-                )}
+                {orderedAlumni.map((member, index) => (
+                  <a
+                    href={member.linkedin ?? undefined}
+                    key={index}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MemberCard
+                      {...member}
+                      roleDescription={member.roleDescription as RoleDescription}
+                      cardState={undefined}
+                      image={`team/${member.netid}.jpg`}
+                      key={member.netid}
+                    />
+                  </a>
+                ))}
               </div>
             </div>
           )}
