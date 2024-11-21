@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import config from '../../config.json';
 import interviewPrep from './data/interviewPrep.json';
 
@@ -100,9 +101,9 @@ const ApplyFAQ = () => {
                   coffee, but should be 30 minutes like an actual coffee catch up with a friend. Get
                   the most out of the coffee chat by preparing your questions ahead of time and
                   researching the other person's experiences first. Find DTI members to chat{' '}
-                  <a className="underline" href={config.coffeeChatLink}>
+                  <Link className="underline" href={config.coffeeChatLink}>
                     here
-                  </a>
+                  </Link>
                   .
                 </p>
               </FAQAccordion>
@@ -111,9 +112,9 @@ const ApplyFAQ = () => {
                   Whether or not you receive an interview invitation, we will email you a definitive
                   decision within a week of applying! We're happy to answer any questions you have
                   during this time through our email,{' '}
-                  <a className="underline" href="mailto:hello@cornelldti.org">
+                  <Link className="underline" href="mailto:hello@cornelldti.org">
                     hello@cornelldti.org
-                  </a>
+                  </Link>
                   .
                 </p>
               </FAQAccordion>

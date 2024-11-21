@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import applicationData from './data/applications.json';
 import config from '../../config.json';
 import RedBlob from '../blob';
+import { isAppOpen } from '../../src/utils/dateUtils';
 
 const applications = applicationData as {
   [key: string]: {
@@ -96,9 +98,13 @@ const RoleDescriptions = () => {
             );
           })}
         </div>
-        <button className="primary-button">
-          <a href={config.applicationLink}>Apply now</a>
-        </button>
+        {isAppOpen() ? (
+          <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+            Apply now
+          </Link>
+        ) : (
+          <></>
+        )}
       </div>
       <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />
     </div>

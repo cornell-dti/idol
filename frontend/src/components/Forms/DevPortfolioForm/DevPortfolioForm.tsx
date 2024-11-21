@@ -72,9 +72,12 @@ const DevPortfolioForm: React.FC = () => {
   };
 
   const submitDevPortfolio = () => {
-    const openedEmpty = !openPRs[0] || openPRs[0].length === 0;
-    const reviewedEmpty = !reviewPRs[0] || reviewPRs[0].length === 0;
-    const otherEmpty = !otherPRs[0] || otherPRs[0].length === 0;
+    const finalPRs = openPRs.filter((pr) => pr !== '');
+    const finalReviewedPRs = reviewPRs.filter((pr) => pr !== '');
+    const finalOtherPRs = otherPRs.filter((pr) => pr !== '');
+    const openedEmpty = !finalPRs[0] || finalPRs[0].length === 0;
+    const reviewedEmpty = !finalReviewedPRs[0] || finalReviewedPRs[0].length === 0;
+    const otherEmpty = !finalOtherPRs[0] || finalOtherPRs[0].length === 0;
     const textEmpty = !text;
 
     if (!devPortfolio) {
@@ -94,9 +97,9 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      (!openedEmpty && openPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!reviewedEmpty && reviewPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
-      (!otherEmpty && otherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
+      (!openedEmpty && finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!reviewedEmpty && finalReviewedPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!otherEmpty && finalOtherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid PR link',
@@ -130,15 +133,15 @@ const DevPortfolioForm: React.FC = () => {
     } else {
       const newDevPortfolioSubmission: DevPortfolioSubmission = {
         member: userInfo,
-        openedPRs: openPRs.map((pr) => ({
+        openedPRs: finalPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
-        reviewedPRs: reviewPRs.map((pr) => ({
+        reviewedPRs: finalReviewedPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),
-        otherPRs: otherPRs.map((pr) => ({
+        otherPRs: finalOtherPRs.map((pr) => ({
           url: pr,
           status: 'pending'
         })),

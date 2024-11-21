@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import RedBlob from '../../../components/blob';
+import config from '../../../config.json';
 
 const { impacts } = impactData;
 const { companies } = companyData;
@@ -23,7 +25,7 @@ const SponsorHero = () => {
         className="flex lg:flex-row xs:flex-col w-10/12 gap-y-9 gap-x-24 relative z-10
       lg:mx-32 md:mx-10 xs:mx-9"
       >
-        <div>
+        <div className="flex items-center">
           <h1
             className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
           xs:leading-[63px] whitespace-pre"
@@ -34,15 +36,17 @@ const SponsorHero = () => {
         </div>
         <div className="flex flex-col justify-center gap-6">
           <h2 className="font-bold md:text-[40px] xs:text-2xl">
-            <span className="text-[#877B7B]">Let's</span>{' '}
-            <span className="italic">collaborate</span>
+            <span className="text-[#877B7B] leading-[50px]">Let's</span>{' '}
+            <span className="italic leading-[50px]">collaborate</span>
           </h2>
           <p className="md:text-lg xs:text-sm">
             The generous contributions of our supporters and sponsors allow our team to continue
             building products and hosting initiatives to{' '}
             <span className="font-bold">help the Cornell and Ithaca communities.</span>
           </p>
-          <button className="primary-button">Donate now</button>
+          <Link href={config.donationLink} className="primary-button">
+            Donate now
+          </Link>
         </div>
       </div>
       {width >= TABLET_BREAKPOINT && (
@@ -125,9 +129,9 @@ const SponsorPage = () => {
                 harness the power of technology to drive change in our communities.
               </span>
             </p>
-            <button className="primary-button">
-              <a href="mailto:hello@cornelldti.org">Contact us</a>
-            </button>
+            <Link href="mailto:hello@cornelldti.org" className="primary-button">
+              Contact us
+            </Link>
           </div>
         </div>
       </div>
@@ -153,9 +157,9 @@ const SponsorPage = () => {
         <p className="lg:text-[22px] xs:text-lg text-center">
           Want to learn more about how you can help us make an impact?
         </p>
-        <button className="primary-button">
-          <a href="mailto:hello@cornelldti.org">Contact us</a>
-        </button>
+        <Link className="primary-button" href="mailto:hello@cornelldti.org">
+          Contact us
+        </Link>
       </div>
     </>
   );

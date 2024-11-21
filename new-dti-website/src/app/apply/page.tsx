@@ -1,11 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
 import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
 import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import useThemeContext from '../../hooks/useThemeContext';
+import { isAppOpen } from '../../utils/dateUtils';
 
 const ApplyHero = () => (
   <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center">
@@ -32,9 +34,16 @@ const ApplyHero = () => (
           <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
           applicants to apply regardless of experience. We'd love to work with someone like you.
         </p>
-        <button className="primary-button">
-          <a href={config.applicationLink}>Apply now</a>
-        </button>
+        {isAppOpen() ? (
+          <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+            Apply now
+          </Link>
+        ) : (
+          <p className="md:text-lg xs:text-sm">
+            We're no longer accepting applicants for {config.semester}. Stay tuned for opportunities
+            next semester!
+          </p>
+        )}
       </div>
     </div>
     <div className="relative">
@@ -51,12 +60,12 @@ const ApplyCoffeeChat = () => (
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
       </p>
       <div className="flex md:flex-row xs:flex-col gap-3">
-        <button className="primary-button">
-          <a href={config.coffeeChatLink}>Coffee chat with us</a>
-        </button>
-        <button className="secondary-button">
-          <a href={config.coffeeChatFormLink}>Don't know who to chat with?</a>
-        </button>
+        <Link href={config.coffeeChatLink} className="primary-button">
+          Coffee chat with us
+        </Link>
+        <Link href={config.coffeeChatFormLink} className="secondary-button">
+          Don't know who to chat with?
+        </Link>
       </div>
     </div>
   </div>

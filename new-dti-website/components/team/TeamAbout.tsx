@@ -238,9 +238,9 @@ const TeamAbout = () => (
             </p>
           </div>
           <div className={`${ibm_plex_mono.className} text-sm`}>
-            <p className="text-left mb-3">@2022</p>
+            <p className="text-left mb-3">@2024</p>
             <Image
-              src="/images/full-team.png"
+              src="/images/dti_2024.png"
               alt="2022 DTI Team"
               width={490}
               height={370}

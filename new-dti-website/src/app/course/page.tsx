@@ -6,21 +6,22 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
 // *IMPORT DATA
-import experiencesData from '../../../components/courses/data/key_experiences.json';
-import timelineData from '../../../components/courses/data/timeline_events.json';
-import testimonialData from '../../../components/courses/data/testimonials.json';
-import studentProjectData from '../../../components/courses/data/student_projects.json';
+import experiencesData from '../../../components/course/data/key_experiences.json';
+import timelineData from '../../../components/course/data/timeline_events.json';
+import testimonialData from '../../../components/course/data/testimonials.json';
+import studentProjectData from '../../../components/course/data/student_projects.json';
 import trendsData from '../../../config.json';
 import allMembers from '../../../components/team/data/all-members.json';
+import config from '../../../components/course/data/config.json';
 
 // *IMPORT COMPONENTS
 import RedBlob from '../../../components/blob';
-import Experiences from '../../../components/courses/Experiences';
-import Timeline from '../../../components/courses/Timeline';
+import Experiences from '../../../components/course/Experiences';
+import Timeline from '../../../components/course/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
-import TestimonialSlider from '../../../components/courses/TestimonialSlider';
-import DDProjects from '../../../components/courses/DDProjects';
-import { TestimonialCardProps } from '../../../components/courses/TestimonialCard';
+import TestimonialSlider from '../../../components/course/TestimonialSlider';
+import DDProjects from '../../../components/course/DDProjects';
+import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
 
 //* DATA
 const { key_experiences } = experiencesData;
@@ -108,7 +109,7 @@ export default function Courses() {
                 </h2>
                 <p className="md:text-lg xs:text-sm">
                   A project team is meant, above all, to be a learning experience. Given our mission
-                  of <span className="font-black">community impact</span>, we want to help everyone
+                  of <span className="font-black">community impact</span>, we want to help everyone{' '}
                   <span className="font-black">learn and grow</span>
                   through our training course in{' '}
                   <span className="font-black">product development.</span>
@@ -157,10 +158,18 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link key="Apply Page" href={'/apply'} className="primary-button">
+                  <Link
+                    key="Trends Application"
+                    href={config.trendsApplicationLink}
+                    className="primary-button"
+                  >
                     Apply Now
                   </Link>
-                  <Link key="Trends Form" href={''} className="primary-button">
+                  <Link
+                    key="Trends Website"
+                    href={config.trendsWebsiteLink}
+                    className="primary-button"
+                  >
                     Learn More
                   </Link>
                 </div>
@@ -183,7 +192,7 @@ export default function Courses() {
 
           {/* TIMELINE SECTION */}
           <section id="Timeline">
-            <div className="">
+            <div>
               <Timeline events={timeline_events} currentDate={new Date()} />
             </div>
           </section>
@@ -244,7 +253,7 @@ export default function Courses() {
           .fade-in {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
           }
 
           .fade-in-animate {

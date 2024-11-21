@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Icon = {
   src: string;
@@ -55,7 +56,7 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
     </div>
     <div className="flex gap-5 md:h-fit h-screen">
       {socialIcons.map((icon, index) => (
-        <a
+        <Link
           key={index}
           href={icon.link}
           target="_blank"
@@ -69,7 +70,7 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
             height={36}
             alt={icon.alt}
           />
-        </a>
+        </Link>
       ))}
     </div>
   </div>

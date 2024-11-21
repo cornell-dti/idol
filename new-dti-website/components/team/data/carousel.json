@@ -8,35 +8,35 @@
       "iconHeight": 50
     },
     {
-      "src": "/images/leads.png",
+      "src": "/images/team/leads.png",
       "alt": "leads",
       "icon": "/icons/leads_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
     {
-      "src": "/images/design.png",
+      "src": "/images/team/design.png",
       "alt": "design",
       "icon": "/icons/design_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
     {
-      "src": "/images/development.png",
+      "src": "/images/team/development.png",
       "alt": "development",
       "icon": "/icons/dev_sticker.svg",
       "iconWidth": 53,
       "iconHeight": 50
     },
     {
-      "src": "/images/product.png",
+      "src": "/images/team/product.png",
       "alt": "product",
       "icon": "/icons/product_sticker.svg",
       "iconWidth": 50,
       "iconHeight": 50
     },
     {
-      "src": "/images/business.png",
+      "src": "/images/team/business.png",
       "alt": "business",
       "icon": "/icons/business_sticker.svg",
       "iconWidth": 50,

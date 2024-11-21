@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import companies from './data/companies.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { TABLET_BREAKPOINT } from '../../src/consts';
 import config from '../../config.json';
+import { isAppOpen, isFall, isFreshAppOpen, isGenAppOpen } from '../../src/utils/dateUtils';
 
 const BeyondDTI = () => {
   const { width } = useScreenSize();
@@ -31,15 +33,10 @@ const BeyondDTI = () => {
 };
 
 const TeamFooter = () => {
-  const isGenAppOpen = Date.parse(config.applicationDeadline) >= Date.now();
-  const isFreshAppOpen = Date.parse(config.freshmanAppDeadline) >= Date.now();
-  const isFall = config.semester.startsWith('Fall');
-  const isAppOpen = (isFall && isFreshAppOpen) || (!isFall && isGenAppOpen);
-
   let message;
-  if ((isFall && !isFreshAppOpen) || (!isFall && !isGenAppOpen)) {
+  if ((isFall() && !isFreshAppOpen()) || (!isFall() && !isGenAppOpen())) {
     message = `We're no longer accepting applicants for ${config.semester}. Stay tuned for opportunities next semester!`;
-  } else if (isFall && !isGenAppOpen) {
+  } else if (isFall() && !isGenAppOpen()) {
     message = `Freshmen/Transfer applications for ${config.semester} are open.`;
   } else {
     message = `Applications for ${config.semester} are now open.`;
@@ -60,12 +57,10 @@ const TeamFooter = () => {
           <div className="flex flex-col gap-[20px] items-start w-2/3">
             <h1 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h1>
             <p className="lg:text-[22px] md:text-lg">{message}</p>
-            {isAppOpen && (
-              <button className="primary-button">
-                <a href={'/apply'} target="_blank" rel="noopener noreferrer">
-                  Apply here
-                </a>
-              </button>
+            {isAppOpen() && (
+              <Link href={'/apply'} className="primary-button">
+                Apply here
+              </Link>
             )}
           </div>
         </div>
