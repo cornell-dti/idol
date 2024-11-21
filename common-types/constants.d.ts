@@ -1,4 +1,3 @@
 export const ALL_ROLES: readonly Role[];
 export const LEAD_ROLES: readonly Role[];
-export const BUSINESS_ROLES: readonly Role[];
 export const ADVISOR_ROLES: readonly Role[];
