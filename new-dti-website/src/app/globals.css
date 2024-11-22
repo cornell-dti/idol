@@ -168,6 +168,10 @@
   background-color: #a52424;
 }
 
+.primary-button[aria-disabled='true']:hover {
+  background-color: #d63d3d;
+}
+
 .secondary-button {
   color: #fefefe;
   background-color: black;

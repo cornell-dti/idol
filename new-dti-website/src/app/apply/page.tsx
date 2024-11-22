@@ -6,19 +6,21 @@ import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
 import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
+import Banner from '../../../components/apply/Banner';
 import useThemeContext from '../../hooks/useThemeContext';
 import { isAppOpen } from '../../utils/dateUtils';
 
 const ApplyHero = () => (
-  <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center">
+  <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative">
+    <Banner
+      message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
+      variant={'alert'}
+    />
     <div
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
       xs:mx-6 md:mx-[65px]"
     >
-      <h1
-        className="flex items-center md:text-[100px] xs:text-[48px] md:leading-[120px] 
-        xs:text-[48px] font-semibold"
-      >
+      <h1 className="flex items-center md:text-[100px] md:leading-[120px] xs:text-[48px] font-semibold">
         <div>
           JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
         </div>
@@ -39,10 +41,15 @@ const ApplyHero = () => (
             Apply now
           </Link>
         ) : (
-          <p className="md:text-lg xs:text-sm">
-            We're no longer accepting applicants for {config.semester}. Stay tuned for opportunities
-            next semester!
-          </p>
+          <Link
+            key="Apply Page"
+            href="#"
+            className="primary-button opacity-50 cursor-not-allowed"
+            onClick={(e) => e.preventDefault()}
+            aria-disabled="true"
+          >
+            Apply now
+          </Link>
         )}
       </div>
     </div>
