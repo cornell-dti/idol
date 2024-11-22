@@ -13,9 +13,7 @@ import { isAppOpen } from '../../utils/dateUtils';
 const ApplyHero = () => (
   <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative">
     <Banner
-      message={
-        "We're no longer accepting applications for Fall 2024. Stay tuned for opportunities next Semester!"
-      }
+      message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next Semester!`}
       variant={'alert'}
     />
     <div
