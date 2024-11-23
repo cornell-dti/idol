@@ -21,28 +21,15 @@ const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefi
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
   const matches = link.match(urlRegex);
 
-  let extractedLink = matches ? matches[0].trim() : link.trim();
+  const extractedLink = matches ? matches[0].trim() : link.trim();
 
-  let fixedLink: string = '';
+  let fixedLink: string | undefined = '';
 
-  if (!extractedLink.startsWith('https://') && extractedLink.startsWith('http://')) {
-    extractedLink = extractedLink.replace('http://', 'https://');
-  }
-
-  if (extractedLink.includes('https://')) {
-    if (!extractedLink.startsWith('https://')) {
-      const index = extractedLink.indexOf('https://');
-      fixedLink = extractedLink.substring(index);
-    } else {
-      fixedLink = extractedLink;
-    }
-  } else if (linkedIn) {
+  if (linkedIn) {
     if (extractedLink.startsWith('www.')) {
-      const index = extractedLink.indexOf('https://');
-      fixedLink = `https://${extractedLink.substring(index)}`;
+      fixedLink = `https://${extractedLink}`;
     } else if (extractedLink.startsWith('linkedin.com')) {
-      const index = extractedLink.indexOf('https://');
-      fixedLink = `https://www.${extractedLink.substring(index)}`;
+      fixedLink = `https://www.${extractedLink}`;
     } else if (!extractedLink.includes('linkedin.com/in')) {
       fixedLink = `https://www.linkedin.com/in/${extractedLink}/`;
     } else {
@@ -55,7 +42,7 @@ const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefi
       fixedLink = `https://github.com/${extractedLink}`;
     }
   } else {
-    fixedLink = extractedLink;
+    fixedLink = undefined;
   }
 
   return fixedLink;
