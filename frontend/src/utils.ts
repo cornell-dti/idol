@@ -116,3 +116,85 @@ export class Emitters {
   // Coffee Chats
   static coffeeChatsUpdated: EventEmitter<void> = new EventEmitter();
 }
+
+/**
+ * Parses links from english text and fixes a provided link to ensure it adheres to a proper format for LinkedIn or GitHub profiles.
+ * Also handles raw usernames (e.g., "jujulcrane") by constructing a proper URL.
+ *
+ * @param {string} link - The input link, which could be a full URL, partial URL, or raw username.
+ * @param {boolean} git - Whether the link is for GitHub. If true, it processes the link as a GitHub URL.
+ * @param {boolean} linkedIn - Whether the link is for LinkedIn. If true, it processes the link as a LinkedIn URL.
+ * @returns {string | undefined} - The fixed and properly formatted link or undefined if the input is invalid.
+ *
+ * @example
+ * fixLink("https://linkedin.com/in/jujulcrane", false, true);
+ * // Returns: "https://www.linkedin.com/in/jujulcrane"
+ *
+ * @example
+ * fixLink("github.com/jujulcrane", true, false);
+ * // Returns: "https://github.com/jujulcrane"
+ *
+ * @example
+ * fixLink("Visit my profiles: https://linkedin.com/in/jujulcrane and github.com/jujulcrane", false, true);
+ * // Returns: undefined (multiple links in the input)
+ *
+ * @example
+ * fixLink("jujulcrane", false, true);
+ * // Returns: "https://www.linkedin.com/in/jujulcrane/"
+ */
+export const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefined => {
+  if (!link) {
+    return undefined;
+  }
+
+  const urlRegex =
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
+  const matches = link.match(urlRegex);
+
+  if (matches && matches.length > 1) {
+    return undefined;
+  }
+
+  if (!matches) {
+    if (linkedIn) {
+      return `https://www.linkedin.com/in/${link.trim().toLowerCase()}/`;
+    }
+    if (git) {
+      return `https://github.com/${link.trim().toLowerCase()}`;
+    }
+    return undefined;
+  }
+
+  const extractedLink = matches[0]
+    .trim()
+    .replace(/[.,)]+$/, '')
+    .toLowerCase();
+
+  if (linkedIn) {
+    if (extractedLink.startsWith('www.')) {
+      return `https://${extractedLink}`;
+    }
+    if (extractedLink.startsWith('linkedin.com')) {
+      return `https://www.${extractedLink}`;
+    }
+    if (!extractedLink.includes('linkedin.com/in')) {
+      return `https://www.linkedin.com/in/${extractedLink}/`;
+    }
+    return extractedLink;
+  }
+
+  if (git) {
+    if (extractedLink.startsWith('github.com')) {
+      return `https://${extractedLink}`;
+    }
+    if (extractedLink.startsWith('www.github.com/')) {
+      return `https://${extractedLink.substring(4)}`;
+    }
+    if (!extractedLink.includes('github.com')) {
+      return `https://github.com/${extractedLink}`;
+    }
+    return extractedLink;
+  }
+
+  return extractedLink;
+};

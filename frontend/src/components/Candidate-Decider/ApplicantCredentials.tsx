@@ -1,5 +1,6 @@
 import { Card } from 'semantic-ui-react';
 import styles from './ApplicantCredentials.module.css';
+import { fixLink } from '../../utils';
 
 type Props = {
   name: string;
@@ -10,42 +11,6 @@ type Props = {
   linkedinURL?: string;
   portfolioURL?: string;
   preferredName?: string;
-};
-
-const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefined => {
-  if (!link) {
-    return undefined;
-  }
-
-  const urlRegex =
-    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
-  const matches = link.match(urlRegex);
-
-  const extractedLink = matches ? matches[0].trim() : link.trim();
-
-  let fixedLink: string | undefined = '';
-
-  if (linkedIn) {
-    if (extractedLink.startsWith('www.')) {
-      fixedLink = `https://${extractedLink}`;
-    } else if (extractedLink.startsWith('linkedin.com')) {
-      fixedLink = `https://www.${extractedLink}`;
-    } else if (!extractedLink.includes('linkedin.com/in')) {
-      fixedLink = `https://www.linkedin.com/in/${extractedLink}/`;
-    } else {
-      fixedLink = extractedLink;
-    }
-  } else if (git) {
-    if (extractedLink.startsWith('github.com')) {
-      fixedLink = `https://${extractedLink}`;
-    } else if (!extractedLink.includes('github.com')) {
-      fixedLink = `https://github.com/${extractedLink}`;
-    }
-  } else {
-    fixedLink = undefined;
-  }
-
-  return fixedLink;
 };
 
 const ApplicantCredentials: React.FC<Props> = ({
