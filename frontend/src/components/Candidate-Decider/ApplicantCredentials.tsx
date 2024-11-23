@@ -18,7 +18,7 @@ const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefi
   }
 
   const urlRegex =
-  /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
   const matches = link.match(urlRegex);
 
   let extractedLink = matches ? matches[0].trim() : link.trim();
@@ -39,10 +39,10 @@ const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefi
   } else if (linkedIn) {
     if (extractedLink.startsWith('www.')) {
       const index = extractedLink.indexOf('https://');
-      fixedLink = `https://${  extractedLink.substring(index)}`;
+      fixedLink = `https://${extractedLink.substring(index)}`;
     } else if (extractedLink.startsWith('linkedin.com')) {
       const index = extractedLink.indexOf('https://');
-      fixedLink = `https://www.${  extractedLink.substring(index)}`;
+      fixedLink = `https://www.${extractedLink.substring(index)}`;
     } else if (!extractedLink.includes('linkedin.com/in')) {
       fixedLink = `https://www.linkedin.com/in/${extractedLink}/`;
     } else {
@@ -50,9 +50,9 @@ const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefi
     }
   } else if (git) {
     if (extractedLink.startsWith('github.com')) {
-      fixedLink = `https://${  extractedLink}`;
+      fixedLink = `https://${extractedLink}`;
     } else if (!extractedLink.includes('github.com')) {
-      fixedLink = `https://github.com/${  extractedLink}`;
+      fixedLink = `https://github.com/${extractedLink}`;
     }
   } else {
     fixedLink = extractedLink;
