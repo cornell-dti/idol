@@ -103,7 +103,15 @@ const RoleDescriptions = () => {
             Apply now
           </Link>
         ) : (
-          <></>
+          <Link
+            key="Apply Page"
+            href="#"
+            className="primary-button opacity-50 cursor-not-allowed"
+            onClick={(e) => e.preventDefault()}
+            aria-disabled="true"
+          >
+            Apply now
+          </Link>
         )}
       </div>
       <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />

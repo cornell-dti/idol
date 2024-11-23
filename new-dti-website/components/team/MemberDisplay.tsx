@@ -117,7 +117,7 @@ const MemberDisplay: React.FC = () => {
               >
                 {orderedAlumni.map((member, index) => (
                   <a
-                    href={member.linkedin ?? undefined}
+                    href={!member.linkedin ? undefined : member.linkedin}
                     key={index}
                     target="_blank"
                     rel="noopener noreferrer"
