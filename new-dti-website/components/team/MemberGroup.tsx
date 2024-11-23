@@ -39,7 +39,9 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         } object-cover`}
       />
       <h3
-        className={`xs:text-[16px] text-left font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
+        className={`xs:text-[16px] text-left font-${
+          enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'
+        }`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}

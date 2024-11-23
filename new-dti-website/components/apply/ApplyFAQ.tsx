@@ -15,7 +15,10 @@ const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
   const handleClick = () => setIsOpen((prev) => !prev);
 
   return (
-    <button className="py-4 border-white border-b-black border-2 cursor-pointer text-left" onClick={handleClick}>
+    <button
+      className="py-4 border-white border-b-black border-2 cursor-pointer text-left"
+      onClick={handleClick}
+    >
       <div className="flex justify-between pr-4">
         <p className="section-subheading">{header}</p>
         <Image
