@@ -12,6 +12,55 @@ type Props = {
   preferredName?: string;
 };
 
+const fixLink = (link: string, git: boolean, linkedIn: boolean): string | undefined => {
+  if (!link) {
+    return undefined;
+  }
+
+  const urlRegex =
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+  const matches = link.match(urlRegex);
+
+  let extractedLink = matches ? matches[0].trim() : link.trim();
+
+  let fixedLink: string = '';
+
+  if (!extractedLink.startsWith('https://') && extractedLink.startsWith('http://')) {
+    extractedLink = extractedLink.replace('http://', 'https://');
+  }
+
+  if (extractedLink.includes('https://')) {
+    if (!extractedLink.startsWith('https://')) {
+      const index = extractedLink.indexOf('https://');
+      fixedLink = extractedLink.substring(index);
+    } else {
+      fixedLink = extractedLink;
+    }
+  } else if (linkedIn) {
+    if (extractedLink.startsWith('www.')) {
+      const index = extractedLink.indexOf('https://');
+      fixedLink = 'https://' + extractedLink.substring(index);
+    } else if (extractedLink.startsWith('linkedin.com')) {
+      const index = extractedLink.indexOf('https://');
+      fixedLink = 'https://www.' + extractedLink.substring(index);
+    } else if (!extractedLink.includes('linkedin.com/in')) {
+      fixedLink = `https://www.linkedin.com/in/${extractedLink}/`;
+    } else {
+      fixedLink = extractedLink;
+    }
+  } else if (git) {
+    if (extractedLink.startsWith('github.com')) {
+      fixedLink = 'https://' + extractedLink;
+    } else if (!extractedLink.includes('github.com')) {
+      fixedLink = 'https://github.com/' + extractedLink;
+    }
+  } else {
+    fixedLink = extractedLink;
+  }
+
+  return fixedLink;
+};
+
 const ApplicantCredentials: React.FC<Props> = ({
   name,
   email,
@@ -29,21 +78,21 @@ const ApplicantCredentials: React.FC<Props> = ({
     <p>{email}</p>
     <p>Class of {gradYear}</p>
     <div className={styles.iconsContainer}>
-      <a className={styles.icon} href={resumeURL}>
+      <a className={styles.icon} href={fixLink(resumeURL, false, false)}>
         <FileIcon />
       </a>
       {githubURL && (
-        <a className={styles.icon} href={githubURL}>
+        <a className={styles.icon} href={fixLink(githubURL, true, false)}>
           <GithubIcon />
         </a>
       )}
       {linkedinURL && (
-        <a className={styles.icon} href={linkedinURL}>
+        <a className={styles.icon} href={fixLink(linkedinURL, false, true)}>
           <LinkedinIcon />
         </a>
       )}
       {portfolioURL && (
-        <a className={styles.icon} href={portfolioURL}>
+        <a className={styles.icon} href={fixLink(portfolioURL, false, false)}>
           <GlobeIcon />
         </a>
       )}
