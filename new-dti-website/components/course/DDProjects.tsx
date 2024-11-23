@@ -30,8 +30,8 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
   };
 
   return (
-    <div
-      className={`transition-all duration-300 ease-in-out ${
+    <button
+      className={`transition-all duration-300 ease-in-out text-left ${
         isOpen ? 'bg-red-500' : 'bg-white'
       } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
       onClick={toggleCard}
@@ -58,6 +58,6 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
           <img src={imageSrc} alt={title} className="mt-4 w-full h-48 object-cover rounded-lg" />
         </div>
       </div>
-    </div>
+    </button>
   );
 }

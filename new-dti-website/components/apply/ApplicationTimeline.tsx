@@ -16,14 +16,14 @@ type TabProps = {
 };
 
 const Tab: React.FC<TabProps> = ({ isSelected, text, onClick }) => (
-  <div
+  <button
     className={`flex items-center lg:px-5 lg:py-4 md:px-4 md:py-3 xs:px-2 md:rounded-t-xl xs:rounded-t-lg ${
       isSelected ? 'bg-[#FEFEFE] text-[#A52424]' : 'bg-[#7E2222CC] text-[#FEFEFE]'
     } hover:cursor-pointer md:h-min xs:h-full`}
     onClick={onClick}
   >
     <p className="font-bold lg:text-lg md:text-[13px] xs:text-[10px]">{text}</p>
-  </div>
+  </button>
 );
 
 type DateTime = {

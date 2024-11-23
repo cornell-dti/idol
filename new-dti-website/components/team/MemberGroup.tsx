@@ -39,7 +39,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         } object-cover`}
       />
       <h3
-        className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
+        className={`xs:text-[16px] text-left font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
@@ -62,17 +62,18 @@ type MemberCardProps = {
 };
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
-  <Card
-    id="memberCard"
-    className={`w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
-      props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
-    } ${
-      props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
-    } hover:shadow-[0_4px_4px_0_#00000040] cursor-pointer`}
-    onClick={props.onClick}
-  >
-    <MemberSummary {...props} enlarged={false} />
-  </Card>
+  <button onClick={props.onClick}>
+    <Card
+      id="memberCard"
+      className={`w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
+        props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
+      } ${
+        props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
+      } hover:shadow-[0_4px_4px_0_#00000040] cursor-pointer`}
+    >
+      <MemberSummary {...props} enlarged={false} />
+    </Card>
+  </button>
 );
 
 type MemberDetailsProps = {
@@ -207,15 +208,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             </div>
           </div>
         </div>
-        <div onClick={props.onClose}>
-          <Image
-            src="/icons/close.svg"
-            width={23}
-            height={23}
-            alt="close"
-            className="m-2 cursor-pointer xs:w-4"
-          />
-        </div>
+        <button onClick={props.onClose} className="cursor-pointer h-min">
+          <Image src="/icons/close.svg" width={23} height={23} alt="close" className="m-2 xs:w-4" />
+        </button>
       </div>
       <div className="md:hidden xs:block">
         <button
@@ -304,11 +299,12 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   const onMemberCardClick = (member: IdolMember) => {
     setSelectedMember(member === selectedMember ? undefined : member);
     if (member !== selectedMember) {
-      requestAnimationFrame(() =>
-        memberDetailsRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        })
+      requestAnimationFrame(
+        () =>
+          memberDetailsRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          })
       );
     }
   };

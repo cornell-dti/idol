@@ -20,13 +20,9 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
   return (
     <div className="fixed w-full inset-0 bg-opacity-50 backdrop-blur-sm z-20 md:block xs:hidden">
       <div className="flex justify-center items-center h-full gap-[70px] md:scale-75 lg:scale-100">
-        <img
-          src="/icons/arrow.svg"
-          alt="left arrow"
-          width={20}
-          onClick={handlePrev}
-          className="cursor-pointer"
-        />
+        <button onClick={handlePrev}>
+          <img src="/icons/arrow.svg" alt="left arrow" width={20} className="cursor-pointer" />
+        </button>
         <Carousel
           opts={{
             startIndex: carouselIndex,
@@ -41,14 +37,15 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
                   <div className="flex items-center h-[440px] overflow-hidden rounded-md relative top-[10px] left-[10px]">
                     <img src={image.src} alt={image.alt} className="w-[730px] h-fit" />
                   </div>
-                  <img
-                    src="/icons/close_icon.svg"
-                    alt="close"
-                    width={47}
-                    height={47}
-                    className="absolute right-5 top-5 cursor-pointer"
-                    onClick={onClose}
-                  />
+                  <button onClick={onClose}>
+                    <img
+                      src="/icons/close_icon.svg"
+                      alt="close"
+                      width={47}
+                      height={47}
+                      className="absolute right-5 top-5 cursor-pointer"
+                    />
+                  </button>
                   <img
                     src={image.icon}
                     alt="icon"
@@ -68,13 +65,14 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
             ))}
           </CarouselContent>
         </Carousel>
-        <img
-          src="/icons/arrow.svg"
-          alt="right arrow"
-          width={20}
-          onClick={handleNext}
-          className="cursor-pointer rotate-180"
-        />
+        <button onClick={handleNext}>
+          <img
+            src="/icons/arrow.svg"
+            alt="right arrow"
+            width={20}
+            className="cursor-pointer rotate-180"
+          />
+        </button>
       </div>
     </div>
   );
@@ -161,7 +159,7 @@ const TeamHero = () => {
                     index === carouselIndex % carouselLength ? '' : 'opacity-50'
                   }`}
                 >
-                  <div
+                  <button
                     className="relative z-10"
                     onClick={() =>
                       setModalShown(index === carouselIndex && width >= TABLET_BREAKPOINT)
@@ -177,7 +175,7 @@ const TeamHero = () => {
                       height={50}
                       className="relative bottom-[62px] left-2"
                     />
-                  </div>
+                  </button>
                 </CarouselItem>
               ))}
             </CarouselContent>

@@ -67,22 +67,25 @@ const MemberDisplay: React.FC = () => {
                 key={role.altText}
               >
                 <h3 className="font-semibold md:text-xl xs:text-base mb-4">{role.altText}</h3>
-                <Icon
-                  icon={`${role.src}_base.svg`}
-                  hoverIcon={`${role.src}_sticker.svg`}
-                  activeIcon={`${role.src}_shadow.svg`}
-                  altText={role.altText}
-                  isActive={selectedRole === role.altText}
+                <button
                   onClick={() => {
                     setSelectedRole(role.altText);
                     setSelectedMember(undefined);
                   }}
-                  width={role.width}
-                  height={role.height}
-                  className={`lg:h-[66px] xs:h-[50px] w-auto ${
-                    selectedRole === role.altText ? 'scale-125' : ''
-                  } hover:scale-125`}
-                />
+                >
+                  <Icon
+                    icon={`${role.src}_base.svg`}
+                    hoverIcon={`${role.src}_sticker.svg`}
+                    activeIcon={`${role.src}_shadow.svg`}
+                    altText={role.altText}
+                    isActive={selectedRole === role.altText}
+                    width={role.width}
+                    height={role.height}
+                    className={`lg:h-[66px] xs:h-[50px] w-auto ${
+                      selectedRole === role.altText ? 'scale-125' : ''
+                    } hover:scale-125`}
+                  />
+                </button>
               </div>
             ))}
           </div>

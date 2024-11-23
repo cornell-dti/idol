@@ -103,20 +103,23 @@ const Home: React.FC = () => {
             </div>
             <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px]">
               {icons.map((icon, index) => (
-                <Icon
-                  key={index}
-                  icon={icon.src}
-                  hoverIcon={icon.hover}
-                  activeIcon={icon.active}
-                  altText={icon.altText}
-                  isActive={selectedIcon === index}
+                <button
                   onClick={() => {
                     setSelectedIcon(index);
                     if (timer) clearTimeout(timer);
                   }}
-                  width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
-                  height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
-                />
+                >
+                  <Icon
+                    key={index}
+                    icon={icon.src}
+                    hoverIcon={icon.hover}
+                    activeIcon={icon.active}
+                    altText={icon.altText}
+                    isActive={selectedIcon === index}
+                    width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
+                    height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
+                  />
+                </button>
               ))}
             </div>
           </div>

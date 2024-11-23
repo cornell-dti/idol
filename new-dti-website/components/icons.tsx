@@ -9,7 +9,7 @@ interface IconProps {
   activeIcon: string;
   altText: string;
   isActive: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   width: number;
   height: number;
   className?: string;
