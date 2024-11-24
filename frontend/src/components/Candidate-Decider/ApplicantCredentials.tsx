@@ -1,6 +1,6 @@
 import { Card } from 'semantic-ui-react';
 import styles from './ApplicantCredentials.module.css';
-import { fixLink } from '../../utils';
+import { formatLink } from '../../utils';
 
 type Props = {
   name: string;
@@ -30,21 +30,21 @@ const ApplicantCredentials: React.FC<Props> = ({
     <p>{email}</p>
     <p>Class of {gradYear}</p>
     <div className={styles.iconsContainer}>
-      <a className={styles.icon} href={fixLink(resumeURL, false, false)}>
+      <a className={styles.icon} href={formatLink(resumeURL)}>
         <FileIcon />
       </a>
       {githubURL && (
-        <a className={styles.icon} href={fixLink(githubURL, true, false)}>
+        <a className={styles.icon} href={formatLink(githubURL, 'github')}>
           <GithubIcon />
         </a>
       )}
       {linkedinURL && (
-        <a className={styles.icon} href={fixLink(linkedinURL, false, true)}>
+        <a className={styles.icon} href={formatLink(linkedinURL, 'linkedin')}>
           <LinkedinIcon />
         </a>
       )}
       {portfolioURL && (
-        <a className={styles.icon} href={fixLink(portfolioURL, false, false)}>
+        <a className={styles.icon} href={formatLink(portfolioURL)}>
           <GlobeIcon />
         </a>
       )}
