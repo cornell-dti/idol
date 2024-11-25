@@ -116,7 +116,11 @@ const TeamHero = () => {
 
   const carouselLength = carouselImages.images.length;
 
-  const focusableElements = document.querySelectorAll('button, a');
+  let focusableElements: NodeListOf<Element>;
+
+  useEffect(() => {
+    focusableElements = document.querySelectorAll('button, a');
+  }, []);
 
   useEffect(() => {
     if (carouselApi) {
@@ -127,7 +131,7 @@ const TeamHero = () => {
   }, [carouselIndex, carouselApi]);
 
   useEffect(() => {
-    focusableElements.forEach((el) => el.setAttribute('tabIndex', modalShown ? '-1' : '0'));
+    focusableElements?.forEach((el) => el.setAttribute('tabIndex', modalShown ? '-1' : '0'));
     if (modalShown) {
       modalRef.current?.focus();
     }
