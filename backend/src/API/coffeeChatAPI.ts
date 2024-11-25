@@ -126,16 +126,27 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
 /**
- * Gets a mapping of all categories to corresponding members, given the semester
+ * Gets all coffee chat suggestions for a specific member, given their email
+ * and the semester
  * @param semester - the semester of the bingo board (i.e. fall-2024).
+ * @param email - the member's email
  * @returns A promise that resolves to a BingoBoard object.
  */
-export const getCategoryToMembers = async (semester: string): Promise<BingoBoard> => {
-  const categoryToMembers = await CoffeeChatDao.getCategoryToMembers(semester);
-  if (!categoryToMembers) {
+export const getCoffeeChatSuggestionsForMember = async (
+  semester: string,
+  email: string
+): Promise<BingoBoard> => {
+  const suggestions = await CoffeeChatDao.getCoffeeChatSuggestions(semester);
+  if (!suggestions) {
     throw new BadRequestError(`Bingo board from ${semester} does not exist`);
   }
-  return categoryToMembers;
+  const suggestionsMap = new Map<string, BingoBoard>(Object.entries(suggestions || {}));
+  const suggestionsForMember = suggestionsMap.get(email);
+  if (!suggestionsForMember) {
+    throw new BadRequestError(`Couldn't get suggestions for member with email ${email}`);
+  }
+
+  return suggestionsForMember;
 };
 
 /**

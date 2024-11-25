@@ -4,7 +4,7 @@ import {
   coffeeChatsCollection,
   db,
   memberPropertiesCollection,
-  bingoBoardCollection
+  coffeeChatSuggestionsCollection
 } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
@@ -175,12 +175,14 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Gets a mapping of all categories to corresponding members, given the semester
+   * Gets coffee chat suggestions for all members, given the semester
    * @param semester - the semester of the bingo board (i.e. fall-2024).
-   * @returns A promise that resolves to a BingoBoard object, or undefined.
+   * @returns A promise that resolves to a map of member emails to a BingoBoard object, or undefined.
    */
-  static async getCategoryToMembers(semester: string): Promise<BingoBoard | undefined> {
-    return bingoBoardCollection
+  static async getCoffeeChatSuggestions(
+    semester: string
+  ): Promise<Map<string, BingoBoard> | undefined> {
+    return coffeeChatSuggestionsCollection
       .doc(semester)
       .get()
       .then((docRef) => docRef.data());

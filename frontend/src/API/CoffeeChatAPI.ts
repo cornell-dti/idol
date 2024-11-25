@@ -72,7 +72,12 @@ export default class CoffeeChatAPI {
     });
   }
 
-  public static async getCategoryToMembers(semester: string): Promise<BingoBoard> {
-    return APIWrapper.get(`${backendURL}/bingo-board/${semester}`).then((res) => res.data.result);
+  public static async getCoffeeChatSuggestionsForMember(
+    semester: string,
+    email: string
+  ): Promise<BingoBoard> {
+    return APIWrapper.get(`${backendURL}/coffee-chat-suggestions/${semester}/${email}`).then(
+      (res) => res.data.suggestions
+    );
   }
 }

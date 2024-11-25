@@ -267,6 +267,7 @@ const CoffeeChatsForm: React.FC = () => {
           bingoBoard={bingoBoard}
           setApprovedChats={setApprovedChats}
           resetState={resetState}
+          userInfo={userInfo}
         />
       </Form>
     </div>

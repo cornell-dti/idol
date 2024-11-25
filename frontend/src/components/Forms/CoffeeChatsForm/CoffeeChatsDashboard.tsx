@@ -13,7 +13,8 @@ const CoffeeChatsDashboard = ({
   setPendingChats,
   setApprovedChats,
   bingoBoard,
-  resetState
+  resetState,
+  userInfo
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
@@ -23,6 +24,7 @@ const CoffeeChatsDashboard = ({
   setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   bingoBoard: string[][];
   resetState: () => void;
+  userInfo: IdolMember;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
@@ -187,6 +189,7 @@ const CoffeeChatsDashboard = ({
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
+        userInfo={userInfo}
       />
 
       <div className={styles.rejected_section}>

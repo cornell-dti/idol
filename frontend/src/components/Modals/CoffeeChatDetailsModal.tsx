@@ -10,6 +10,7 @@ type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
+  userInfo: IdolMember;
 };
 
 const CoffeeChatModal: React.FC<Props> = ({
@@ -17,7 +18,8 @@ const CoffeeChatModal: React.FC<Props> = ({
   category,
   open,
   setOpen,
-  deleteCoffeeChatRequest
+  deleteCoffeeChatRequest,
+  userInfo
 }) => {
   const [membersInCategory, setMembersInCategory] = useState<MemberDetails[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -27,7 +29,10 @@ const CoffeeChatModal: React.FC<Props> = ({
       setIsLoading(true);
       let result = {};
       try {
-        result = await CoffeeChatAPI.getCategoryToMembers(CURRENT_SEMESTER);
+        result = await CoffeeChatAPI.getCoffeeChatSuggestionsForMember(
+          CURRENT_SEMESTER,
+          userInfo.email
+        );
       } catch (error) {
         result = {};
       }
@@ -37,7 +42,7 @@ const CoffeeChatModal: React.FC<Props> = ({
     };
 
     fetchMembers();
-  }, [category]);
+  }, [category, userInfo.email]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
