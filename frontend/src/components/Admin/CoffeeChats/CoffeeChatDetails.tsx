@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Message, Button, Loader, Dropdown } from 'semantic-ui-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -89,39 +89,7 @@ const CoffeeChatDetails: React.FC = () => {
   const [isLoading, setLoading] = useState(true);
   const [status, setStatus] = useState<Status | string>();
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
-
-  const categoryToChats = useMemo(() => {
-    const map = new Map<string, CoffeeChat[]>([['default', []]]);
-
-    coffeeChats.forEach((chat) => {
-      if (!map.has(chat.category)) {
-        map.set(chat.category, []);
-      }
-      map.get(chat.category)!.push(chat);
-    });
-
-    return map;
-  }, [coffeeChats]);
-
-  const runAutoCheckerForCategory = async (category: string) => {
-    setLoading(true);
-
-    const coffeeChatsForCategory = categoryToChats.get(category);
-
-    if (coffeeChatsForCategory) {
-      const updatedChatsByUuid = await Promise.all(
-        coffeeChatsForCategory.map((chat) => CoffeeChatAPI.runAutoChecker(chat.uuid))
-      );
-
-      setCoffeeChats((prevChats) =>
-        prevChats.map(
-          (chat) => updatedChatsByUuid.find((updatedChat) => updatedChat.uuid === chat.uuid) || chat
-        )
-      );
-    }
-
-    setLoading(false);
-  };
+  const [categoryToChats, setCategoryToChats] = useState<Map<string, CoffeeChat[]>>(new Map());
 
   useEffect(() => {
     const cb = () => {
@@ -141,6 +109,48 @@ const CoffeeChatDetails: React.FC = () => {
       });
     }
   }, [isLoading, category]);
+
+  useEffect(() => {
+    const map = new Map<string, CoffeeChat[]>([['default', []]]);
+    coffeeChats.forEach((chat) => {
+      if (!map.has(chat.category)) {
+        map.set(chat.category, []);
+      }
+      map.get(chat.category)!.push(chat);
+    });
+
+    setCategoryToChats(map);
+  }, [coffeeChats]);
+
+  const runAutoCheckerForCategory = async (category: string) => {
+    setLoading(true);
+
+    const coffeeChatsForCategory = categoryToChats.get(category) || [];
+
+    const updatedChatsByUuid = await Promise.all(
+      coffeeChatsForCategory.map(async (chat) => {
+        try {
+          return await CoffeeChatAPI.runAutoChecker(chat.uuid);
+        } catch (error) {
+          return chat;
+        }
+      })
+    );
+
+    setCoffeeChats((prevChats) =>
+      prevChats.map(
+        (chat) => updatedChatsByUuid.find((updatedChat) => updatedChat.uuid === chat.uuid) || chat
+      )
+    );
+
+    setCategoryToChats((prevMap) => {
+      const newMap = new Map(prevMap);
+      newMap.set(category, updatedChatsByUuid);
+      return newMap;
+    });
+
+    setLoading(false);
+  };
 
   if (isLoading) return <Loader active />;
 
