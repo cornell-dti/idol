@@ -31,7 +31,7 @@ const CoffeeChatModal: React.FC<Props> = ({
       try {
         result = await CoffeeChatAPI.getCoffeeChatSuggestionsForMember(
           CURRENT_SEMESTER,
-          userInfo.email
+          userInfo.netid
         );
       } catch (error) {
         result = {};
@@ -42,7 +42,7 @@ const CoffeeChatModal: React.FC<Props> = ({
     };
 
     fetchMembers();
-  }, [category, userInfo.email]);
+  }, [category, userInfo.netid]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">

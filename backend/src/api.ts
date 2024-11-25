@@ -334,10 +334,10 @@ loginCheckedPut('/coffee-chat/autocheck/:uuid/', async (req, user) => ({
   coffeeChat: await runAutoChecker(req.params.uuid, user)
 }));
 
-loginCheckedGet('/coffee-chat-suggestions/:semester/:email', async (req) => {
+loginCheckedGet('/coffee-chat-suggestions/:semester/:netid', async (req) => {
   const suggestions = await getCoffeeChatSuggestionsForMember(
     req.params.semester,
-    req.params.email
+    req.params.netid
   );
   return { suggestions };
 });
