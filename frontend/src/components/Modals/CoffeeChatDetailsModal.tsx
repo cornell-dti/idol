@@ -25,7 +25,12 @@ const CoffeeChatModal: React.FC<Props> = ({
   useEffect(() => {
     const fetchMembers = async () => {
       setIsLoading(true);
-      const result = await CoffeeChatAPI.getCategoryToMembers(CURRENT_SEMESTER);
+      let result = {};
+      try {
+        result = await CoffeeChatAPI.getCategoryToMembers(CURRENT_SEMESTER);
+      } catch (error) {
+        result = {};
+      }
       const categoryMap = new Map<string, MemberDetails[]>(Object.entries(result || {}));
       setMembersInCategory(categoryMap.get(category) || []);
       setIsLoading(false);

@@ -73,16 +73,6 @@ export default class CoffeeChatAPI {
   }
 
   public static async getCategoryToMembers(semester: string): Promise<BingoBoard> {
-    const res = APIWrapper.get(`${backendURL}/bingo-board/${semester}`).then((res) => res.data);
-    return res.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Couldn't get mapping of categories to corresponding members",
-          contentMsg: `Error was: ${val.err}`
-        });
-        return new Map<string, MemberDetails[]>();
-      }
-      return val.result as BingoBoard;
-    });
+    return APIWrapper.get(`${backendURL}/bingo-board/${semester}`).then((res) => res.data.result);
   }
 }
