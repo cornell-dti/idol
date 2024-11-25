@@ -3,7 +3,7 @@
 // *IMPORTS
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 // *IMPORT DATA
 import experiencesData from '../../../components/course/data/key_experiences.json';
@@ -42,31 +42,6 @@ export default function Courses() {
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in-animate');
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => {
-      section.classList.add('fade-in');
-      observer.observe(section);
-    });
-
-    return () => {
-      sections.forEach((section) => {
-        observer.unobserve(section);
-      });
-    };
-  }, []);
 
   return (
     <>
@@ -246,21 +221,6 @@ export default function Courses() {
             </div>
           </section>
         </div>
-
-        {/* STYLING SECTION */}
-        <style>{`
-
-          .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-          }
-
-          .fade-in-animate {
-            opacity: 1;
-            transform: translateY(0);
-          }
-      `}</style>
       </div>
     </>
   );

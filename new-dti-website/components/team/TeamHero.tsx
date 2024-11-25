@@ -4,6 +4,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
 import carouselImages from './data/carousel.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
+import useMediaReduce from '../../src/hooks/useMediaReduce';
 import RedBlob from '../blob';
 import { TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -86,7 +87,7 @@ const TeamHero = () => {
   const [modalShown, setModalShown] = useState<boolean>(false);
 
   const { width } = useScreenSize();
-
+  const reduceMotion = useMediaReduce();
   const carouselLength = carouselImages.images.length;
 
   useEffect(() => {
@@ -144,10 +145,15 @@ const TeamHero = () => {
         </div>
         <div>
           <Carousel
-            plugins={modalShown ? undefined : [Autoplay({ delay: 5000, stopOnInteraction: false })]}
+            plugins={
+              !modalShown && !reduceMotion
+                ? [Autoplay({ delay: 5000, stopOnInteraction: false })]
+                : undefined
+            }
             opts={{
               align: 'center',
-              loop: true
+              loop: true,
+              ...(reduceMotion && { duration: 200 })
             }}
             canClick={true}
             setApi={setCarouselApi}

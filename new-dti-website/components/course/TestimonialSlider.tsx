@@ -22,12 +22,12 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
       const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
 
       if (slider.scrollLeft < maxScrollLeft) {
-        slider.scrollLeft += 2; // Adjust the scroll speed as needed
+        slider.scrollLeft += 1; // Adjust the scroll speed as needed
       } else {
         setScrollAtEnd(true); // Stop scrolling when the end is reached
         // slider.scrollLeft = 0 if we want to start from the begnning :)
       }
-    }, 25); // Adjust the interval as needed for smoother/faster scrolling
+    }, 40); // Adjust the interval as needed for smoother/faster scrolling
 
     // Return the cleanup function
     return () => {
