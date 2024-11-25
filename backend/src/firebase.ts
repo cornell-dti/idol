@@ -73,6 +73,17 @@ export const memberPropertiesCollection: admin.firestore.CollectionReference<Mem
     }
   });
 
+export const bingoBoardCollection: admin.firestore.CollectionReference<BingoBoard> = db
+  .collection('coffee-chat-bingo-board')
+  .withConverter({
+    fromFirestore(snapshot): BingoBoard {
+      return snapshot.data() as BingoBoard;
+    },
+    toFirestore(userData: BingoBoard) {
+      return userData;
+    }
+  });
+
 export const shoutoutCollection: admin.firestore.CollectionReference<DBShoutout> = db
   .collection('shoutouts')
   .withConverter({

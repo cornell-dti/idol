@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import styles from './CoffeeChatDetailsModal.module.css';
 import CoffeeChatAPI from '../../API/CoffeeChatAPI';
-import { useSelf } from '../Common/FirestoreDataProvider';
-import { MembersAPI } from '../../API/MembersAPI';
+import { CURRENT_SEMESTER } from '../../consts';
 
 type Props = {
   coffeeChat?: CoffeeChat;
@@ -20,57 +19,22 @@ const CoffeeChatModal: React.FC<Props> = ({
   category,
   open,
   setOpen,
-  deleteCoffeeChatRequest,
-  approvedChats,
-  pendingChats
+  deleteCoffeeChatRequest
 }) => {
-  const userInfo = useSelf()!;
-  const [members, setMembers] = useState<IdolMember[]>([]);
+  const [membersInCategory, setMembersInCategory] = useState<MemberDetails[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [membersInCategory, setMembersInCategory] = useState<(IdolMember | undefined)[]>([]);
 
   useEffect(() => {
-    MembersAPI.getAllMembers().then((mem) => {
-      setMembers(mem);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (category) {
+    const fetchMembers = async () => {
       setIsLoading(true);
+      const result = await CoffeeChatAPI.getCategoryToMembers(CURRENT_SEMESTER);
+      const categoryMap = new Map<string, MemberDetails[]>(Object.entries(result || {}));
+      setMembersInCategory(categoryMap.get(category) || []);
+      setIsLoading(false);
+    };
 
-      const filterMembers = async () => {
-        const filteredMembers = await Promise.all(
-          members.map(async (member) => {
-            const result = await CoffeeChatAPI.checkMemberMeetsCategory(member, userInfo, category);
-            return result.status === 'pass' ? member : undefined;
-          })
-        );
-
-        const membersToCategory = filteredMembers.filter((member) => member !== undefined);
-
-        const getValidMembers = (
-          existingChats: CoffeeChat[],
-          members: (IdolMember | undefined)[]
-        ): (IdolMember | undefined)[] =>
-          members.filter(
-            (member) =>
-              !existingChats.some((chat) => chat.otherMember.netid === member?.netid) &&
-              !(member?.netid === userInfo.netid)
-          );
-
-        const remainingMembers = getValidMembers(
-          [...pendingChats, ...approvedChats],
-          membersToCategory
-        );
-        setMembersInCategory(remainingMembers);
-
-        setIsLoading(false);
-      };
-
-      filterMembers();
-    }
-  }, [members, userInfo, category, pendingChats, approvedChats]);
+    fetchMembers();
+  }, [category]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
@@ -108,7 +72,7 @@ const CoffeeChatModal: React.FC<Props> = ({
           <Modal.Header>No Submission For Category '{category}'</Modal.Header>
           <Modal.Content>
             <div>
-              Members in this category you haven't coffee chatted yet:
+              Member(s) in this category you haven't coffee chatted yet:
               {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
               {!isLoading && membersInCategory.length === 0 && (
                 <div style={{ marginTop: '5px' }}>
@@ -119,7 +83,7 @@ const CoffeeChatModal: React.FC<Props> = ({
                 membersInCategory.length > 0 &&
                 membersInCategory.map((member) => (
                   <div key={member?.netid} style={{ marginTop: '5px' }}>
-                    {`${member?.firstName} ${member?.lastName} (${member?.netid})`}
+                    {`${member?.name} (${member?.netid})`}
                   </div>
                 ))}
             </div>

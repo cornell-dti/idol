@@ -126,6 +126,19 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
 /**
+ * Gets a mapping of all categories to corresponding members, given the semester
+ * @param semester - the semester of the bingo board (i.e. fall-2024).
+ * @returns A promise that resolves to a BingoBoard object.
+ */
+export const getCategoryToMembers = async (semester: string): Promise<BingoBoard> => {
+  const categoryToMembers = await CoffeeChatDao.getCategoryToMembers(semester);
+  if (!categoryToMembers) {
+    throw new BadRequestError(`Bingo board from ${semester} does not exist`);
+  }
+  return categoryToMembers;
+};
+
+/**
  * Checks if a member meets a category for the specified coffee chat.
  * @param uuid - the uuid of the coffee chats we are checking.
  * @param user - the IdolMember making the request.
