@@ -18,7 +18,7 @@ const Home: React.FC = () => {
       src: '/images/DTI_notsel.png',
       hover: '/images/DTI_hover.png',
       active: '/images/DTI_current.png',
-      altText: 'DTI',
+      ariaLabel: 'Show full team slide',
       width: 80,
       height: 80
     },
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       src: '/images/Family_notsel.png',
       hover: '/images/Family_hover.png',
       active: '/images/Family_current.png',
-      altText: 'Family',
+      araiLabel: 'Show family slide',
       width: 80,
       height: 80
     },
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
       src: '/images/Collaboration_notsel.png',
       hover: '/images/Collaboration_hover.png',
       active: '/images/Collaboration_current.png',
-      altText: 'Collaboration',
+      ariaLabel: 'Show collaboration slide',
       width: 100,
       height: 80
     },
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       src: '/images/Events_notsel.png',
       hover: '/images/Events_hover.png',
       active: '/images/Events_current.png',
-      altText: 'Events',
+      ariaLabel: 'Show events slide',
       width: 90,
       height: 90
     },
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
       src: '/images/Initiatives_notsel.png',
       hover: '/images/Initiatives_hover.png',
       active: '/images/Initiatives_current.png',
-      altText: 'Initiatives',
+      ariaLabel: 'Show initiatives slide',
       width: 80,
       height: 80
     }
@@ -114,7 +114,8 @@ const Home: React.FC = () => {
                     icon={icon.src}
                     hoverIcon={icon.hover}
                     activeIcon={icon.active}
-                    altText={icon.altText}
+                    altText=""
+                    aria-label={icon.ariaLabel}
                     isActive={selectedIcon === index}
                     width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
                     height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}

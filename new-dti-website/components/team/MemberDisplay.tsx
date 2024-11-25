@@ -42,7 +42,10 @@ const MemberDisplay: React.FC = () => {
       onClick={(event) => {
         const target = event.target as HTMLElement;
         if (
-          !(target.id === 'memberCard' || target.parentElement?.id === 'memberCard') &&
+          !(
+            target.classList.contains('memberCard') ||
+            target.parentElement?.classList.contains('memberCard')
+          ) &&
           !memberDetailsRef.current?.contains(target)
         )
           setSelectedMember(undefined);
@@ -77,7 +80,8 @@ const MemberDisplay: React.FC = () => {
                     icon={`${role.src}_base.svg`}
                     hoverIcon={`${role.src}_sticker.svg`}
                     activeIcon={`${role.src}_shadow.svg`}
-                    altText={role.altText}
+                    altText={''}
+                    ariaLabel={`Show ${role.altText}`}
                     isActive={selectedRole === role.altText}
                     width={role.width}
                     height={role.height}

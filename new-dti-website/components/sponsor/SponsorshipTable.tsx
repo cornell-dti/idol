@@ -28,7 +28,8 @@ const SponsorshipTableMobile = () => {
               <button onClick={() => setSelectedMedal(medal as Tier)}>
                 <Image
                   src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
-                  alt={medal}
+                  alt=""
+                  aria-label={`Show ${medal} tier`}
                   height={selectedMedal === medal ? medalSelectedHeight : medalHeight}
                   width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
                 />

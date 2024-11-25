@@ -40,11 +40,9 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
         <h3 className={`md:text-3xl text-xl font-bold ${isOpen ? 'text-white' : 'text-black'}`}>
           {title}
         </h3>
-        <button
-          className={`md:text-4xl text-2xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}
-        >
+        <p className={`md:text-4xl text-2xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}>
           {isOpen ? '−' : '+'}
-        </button>
+        </p>
       </div>
 
       {/* Smooth transition for the Additional Content onClick */}

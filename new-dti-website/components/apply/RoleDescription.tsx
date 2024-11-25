@@ -38,15 +38,17 @@ const RoleDescriptions = () => {
                 >
                   {application.charAt(0).toUpperCase() + application.substring(1)}
                 </h3>
-                <Image
-                  src={icon.src}
-                  alt={application}
-                  width={icon.width}
-                  height={icon.height}
-                  className={`${role === application ? '' : 'brightness-50'} cursor-pointer 
-                    lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
-                  onClick={() => setRole(application)}
-                />
+                <button onClick={() => setRole(application)}>
+                  <Image
+                    src={icon.src}
+                    alt=""
+                    aria-label={`Show ${application} questions`}
+                    width={icon.width}
+                    height={icon.height}
+                    className={`${role === application ? '' : 'brightness-50'}
+                      lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
+                  />
+                </button>
               </div>
             );
           })}

@@ -76,7 +76,8 @@ const Navbar: React.FC = () => {
                 src="/icons/hamburger_icon.svg"
                 width={56.5}
                 height={56.5}
-                alt="Hamburger Menu Icon"
+                alt=""
+                aria-label="Open navigation menu"
               />
             </button>
           ) : (
@@ -94,7 +95,8 @@ const Navbar: React.FC = () => {
                   src="/icons/close_icon.svg"
                   width={56.5}
                   height={56.5}
-                  alt="Close Menu Icon"
+                  alt=""
+                  aria-label="Close Menu Icon"
                 />
               </button>
             </div>
