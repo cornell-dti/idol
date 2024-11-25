@@ -10,8 +10,6 @@ type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
-  approvedChats: CoffeeChat[];
-  pendingChats: CoffeeChat[];
 };
 
 const CoffeeChatModal: React.FC<Props> = ({

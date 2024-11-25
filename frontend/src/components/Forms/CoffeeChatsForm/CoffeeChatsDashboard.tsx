@@ -187,8 +187,6 @@ const CoffeeChatsDashboard = ({
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
-        approvedChats={approvedChats}
-        pendingChats={pendingChats}
       />
 
       <div className={styles.rejected_section}>
