@@ -19,31 +19,17 @@ type CoffeeChatDisplayProps = {
 };
 
 const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
-  const [memberMeetsCategory, setMemberMeetsCategory] =
-    useState<MemberMeetsCategoryStatus>('no data');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const categoryToBackgroundColor = () => {
-    if (memberMeetsCategory === 'pass') {
+    if (chat.memberMeetsCategory === 'pass') {
       return '#c3ffb7';
     }
-    if (memberMeetsCategory === 'fail') {
+    if (chat.memberMeetsCategory === 'fail') {
       return '#ffcaca';
     }
     return 'white';
   };
 
-  useEffect(() => {
-    CoffeeChatAPI.checkMemberMeetsCategory(chat.otherMember, chat.submitter, chat.category).then(
-      (result) => {
-        setMemberMeetsCategory(result.status);
-        setIsLoading(false);
-      }
-    );
-  }, [chat]);
-  return isLoading ? (
-    <Loader active />
-  ) : (
+  return (
     <Card
       className={styles.memberCard}
       style={{
@@ -58,7 +44,7 @@ const CoffeeChatCard: React.FC<CoffeeChatCardProps> = ({ status, chat }) => {
           Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName}{' '}
           {!chat.isNonIDOLMember ? `(${chat.otherMember.netid})` : ''}
         </Card.Meta>
-        {memberMeetsCategory === 'fail' && chat.errorMessage && (
+        {chat.memberMeetsCategory === 'fail' && chat.errorMessage && (
           <div className={styles.warning}>{chat.errorMessage}</div>
         )}
         <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
@@ -120,12 +106,17 @@ const CoffeeChatDetails: React.FC = () => {
   const runAutoCheckerForCategory = async (category: string) => {
     setLoading(true);
 
-    const coffeeChats = categoryToChats.get(category);
-    if (coffeeChats) {
-      await Promise.all(
-        coffeeChats.map(async (chat) => {
-          CoffeeChatAPI.runAutoChecker(chat.uuid);
-        })
+    const coffeeChatsForCategory = categoryToChats.get(category);
+
+    if (coffeeChatsForCategory) {
+      const updatedChatsByUuid = await Promise.all(
+        coffeeChatsForCategory.map((chat) => CoffeeChatAPI.runAutoChecker(chat.uuid))
+      );
+
+      setCoffeeChats((prevChats) =>
+        prevChats.map(
+          (chat) => updatedChatsByUuid.find((updatedChat) => updatedChat.uuid === chat.uuid) || chat
+        )
       );
     }
 
