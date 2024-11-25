@@ -75,7 +75,7 @@ export default class CoffeeChatAPI {
   public static async getCoffeeChatSuggestionsForMember(
     semester: string,
     email: string
-  ): Promise<BingoBoard> {
+  ): Promise<CoffeeChatSuggestions> {
     return APIWrapper.get(`${backendURL}/coffee-chat-suggestions/${semester}/${email}`).then(
       (res) => res.data.suggestions
     );

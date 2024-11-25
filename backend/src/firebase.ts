@@ -74,12 +74,12 @@ export const memberPropertiesCollection: admin.firestore.CollectionReference<Mem
   });
 
 export const coffeeChatSuggestionsCollection: admin.firestore.CollectionReference<
-  Map<string, BingoBoard>
+  Map<string, CoffeeChatSuggestions>
 > = db.collection('coffee-chat-bingo-board').withConverter({
-  fromFirestore(snapshot): Map<string, BingoBoard> {
-    return snapshot.data() as Map<string, BingoBoard>;
+  fromFirestore(snapshot): Map<string, CoffeeChatSuggestions> {
+    return snapshot.data() as Map<string, CoffeeChatSuggestions>;
   },
-  toFirestore(userData: Map<string, BingoBoard>) {
+  toFirestore(userData: Map<string, CoffeeChatSuggestions>) {
     return userData;
   }
 });

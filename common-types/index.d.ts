@@ -238,4 +238,4 @@ interface MemberDetails {
   readonly name: string;
   readonly netid: string;
 }
-type BingoBoard = Map<string, MemberDetails[]>;
+type CoffeeChatSuggestions = Map<string, MemberDetails[]>;

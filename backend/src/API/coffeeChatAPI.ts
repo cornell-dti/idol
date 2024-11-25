@@ -135,12 +135,12 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
 export const getCoffeeChatSuggestionsForMember = async (
   semester: string,
   email: string
-): Promise<BingoBoard> => {
+): Promise<CoffeeChatSuggestions> => {
   const suggestions = await CoffeeChatDao.getCoffeeChatSuggestions(semester);
   if (!suggestions) {
     throw new BadRequestError(`Bingo board from ${semester} does not exist`);
   }
-  const suggestionsMap = new Map<string, BingoBoard>(Object.entries(suggestions || {}));
+  const suggestionsMap = new Map<string, CoffeeChatSuggestions>(Object.entries(suggestions || {}));
   const suggestionsForMember = suggestionsMap.get(email);
   if (!suggestionsForMember) {
     throw new BadRequestError(`Couldn't get suggestions for member with email ${email}`);

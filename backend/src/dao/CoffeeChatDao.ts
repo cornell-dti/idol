@@ -181,7 +181,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async getCoffeeChatSuggestions(
     semester: string
-  ): Promise<Map<string, BingoBoard> | undefined> {
+  ): Promise<Map<string, CoffeeChatSuggestions> | undefined> {
     return coffeeChatSuggestionsCollection
       .doc(semester)
       .get()
