@@ -1,7 +1,6 @@
 import {
   Dispatch,
   KeyboardEvent,
-  Ref,
   RefObject,
   SetStateAction,
   useEffect,
