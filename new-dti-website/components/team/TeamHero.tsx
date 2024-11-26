@@ -102,6 +102,7 @@ const TeamHero = () => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [modalShown, setModalShown] = useState<boolean>(false);
+  const [focusableElements, setFocusableElements] = useState<NodeListOf<Element>>();
 
   const modalRef = useRef<HTMLButtonElement>(null);
 
@@ -109,10 +110,8 @@ const TeamHero = () => {
 
   const carouselLength = carouselImages.images.length;
 
-  let focusableElements: NodeListOf<Element>;
-
   useEffect(() => {
-    focusableElements = document.querySelectorAll('button, a');
+    setFocusableElements(document.querySelectorAll('button, a'));
   }, []);
 
   useEffect(() => {
@@ -128,7 +127,7 @@ const TeamHero = () => {
     if (modalShown) {
       modalRef.current?.focus();
     }
-  }, [modalShown]);
+  }, [focusableElements, modalShown]);
 
   return (
     <div className="flex flex-col">
