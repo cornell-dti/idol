@@ -131,7 +131,7 @@ type LinkType = 'github' | 'linkedin';
  * // Returns: "https://www.linkedin.com/in/jujulcrane"
  *
  * @example
- * formatLink("github.com/jujulcrane", github);
+ * formatLink("github.com/jujulcrane", "github");
  * // Returns: "https://github.com/jujulcrane"
  *
  * @example
