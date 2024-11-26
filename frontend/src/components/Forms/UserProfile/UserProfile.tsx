@@ -16,7 +16,7 @@ const UserProfile: React.FC = () => {
   const [firstName, setFirstName] = useState(userInfoBeforeEdit?.firstName ?? '');
   const [lastName, setLastName] = useState(userInfoBeforeEdit?.lastName ?? '');
   const [pronouns, setPronouns] = useState(userInfoBeforeEdit?.pronouns ?? '');
-  const [joined, setJoined] = useState(userInfoBeforeEdit?.joined ?? '');
+  const [semesterJoined, setSemesterJoined] = useState(userInfoBeforeEdit?.semesterJoined ?? '');
   const [graduation, setGraduation] = useState(userInfoBeforeEdit?.graduation ?? '');
   const [major, setMajor] = useState(userInfoBeforeEdit?.major ?? '');
   const [doubleMajor, setDoubleMajor] = useState(userInfoBeforeEdit?.doubleMajor ?? '');
@@ -54,7 +54,8 @@ const UserProfile: React.FC = () => {
       firstName,
       lastName,
       pronouns,
-      joined,
+      semesterJoined,
+      college,
       graduation,
       major,
       hometown,
@@ -71,7 +72,7 @@ const UserProfile: React.FC = () => {
         pronouns,
         role: userRole,
         roleDescription: getRoleDescriptionFromRoleID(userRole),
-        joined,
+        semesterJoined,
         graduation,
         major,
         doubleMajor: isFilledOut(doubleMajor) ? doubleMajor : null,
@@ -140,8 +141,8 @@ const UserProfile: React.FC = () => {
         <Form.Input
           fluid
           label="Semester Joined"
-          value={joined}
-          onChange={(event) => setJoined(event.target.value)}
+          value={semesterJoined}
+          onChange={(event) => setSemesterJoined(event.target.value)}
           required
           disabled={isNotLead}
         />
@@ -190,6 +191,7 @@ const UserProfile: React.FC = () => {
           onChange={(event, data) => {
             setCollege(data.value);
           }}
+          required
         />
       </Form.Group>
 

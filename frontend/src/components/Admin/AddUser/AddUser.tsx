@@ -96,7 +96,7 @@ export default function AddUser(): JSX.Element {
         pronouns: '',
         email: '',
         role: '' as Role,
-        joined: '',
+        semesterJoined: '',
         graduation: '',
         major: '',
         doubleMajor: '',
@@ -155,11 +155,12 @@ export default function AddUser(): JSX.Element {
     }
 
     // Check that college is selected
-    if (!member.college) {
+    if (!member.semesterJoined) {
       Emitters.generalError.emit({
-        headerMsg: 'College not selected!',
-        contentMsg: 'Please select college from the dropdown.'
+        headerMsg: 'Semester joined not filled in!',
+        contentMsg: 'Please fill in the "Semester Joined" field.'
       });
+      return;
     }
 
     MembersAPI.setMember({
@@ -193,7 +194,7 @@ export default function AddUser(): JSX.Element {
           firstName: m.firstName || currMember.firstName,
           lastName: m.lastName || currMember.lastName,
           pronouns: m.pronouns || currMember.pronouns,
-          joined: m.joined || currMember.joined,
+          semesterJoined: m.semesterJoined || currMember.semesterJoined,
           graduation: m.graduation || currMember.graduation,
           major: m.major || currMember.major,
           doubleMajor: m.doubleMajor || currMember.doubleMajor,
@@ -220,7 +221,7 @@ export default function AddUser(): JSX.Element {
           firstName: m.firstName || '',
           lastName: m.lastName || '',
           pronouns: m.pronouns || '',
-          joined: m.joined || '',
+          semesterJoined: m.semesterJoined || '',
           graduation: m.graduation || '',
           major: m.major || '',
           doubleMajor: m.doubleMajor || '',
@@ -534,11 +535,11 @@ export default function AddUser(): JSX.Element {
                       control={Input}
                       label="Semester Joined"
                       placeholder="Semester Joined"
-                      value={state.currentSelectedMember?.joined}
+                      value={state.currentSelectedMember?.semesterJoined}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          joined: event.target.value
+                          semesterJoined: event.target.value
                         }));
                       }}
                     />
