@@ -314,7 +314,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
       {members.map((member, index) => (
         <>
-          <button onClick={() => onMemberCardClick(member)}>
+          <button onClick={() => onMemberCardClick(member)} className="memberCard">
             <MemberCard
               {...member}
               key={member.netid}
