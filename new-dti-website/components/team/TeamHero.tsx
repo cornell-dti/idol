@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { ibm_plex_mono } from '../../src/app/layout';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel/carousel';
 import carouselImages from './data/carousel.json';
@@ -7,7 +8,6 @@ import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
 import RedBlob from '../blob';
 import { TABLET_BREAKPOINT } from '../../src/consts';
-import Image from 'next/image';
 import play from '../../public/icons/play.svg';
 import pause from '../../public/icons/pause.svg';
 
@@ -91,7 +91,7 @@ const TeamHero = () => {
   const reduceMotion = useMediaReduce();
   const { isPlaying, togglePlayPause, carouselApi, setCarouselApi, plugin } = useCarouselControls({
     delay: 5000,
-    reduceMotion: reduceMotion,
+    reduceMotion,
     width
   });
   const carouselLength = carouselImages.images.length;

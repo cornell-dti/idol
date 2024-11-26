@@ -20,7 +20,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const { width } = useScreenSize();
   const { isPlaying, togglePlayPause, currentSlide, setCarouselApi, plugin } = useCarouselControls({
     delay: 5000,
-    reduceMotion: reduceMotion,
+    reduceMotion,
     width
   });
   const highlightIndex = React.useMemo(() => (width < 1024 ? 1 : 3), [width]);
