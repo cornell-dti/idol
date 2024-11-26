@@ -42,7 +42,7 @@ import {
   getCoffeeChatBingoBoard,
   checkMemberMeetsCategory,
   runAutoChecker,
-  getCoffeeChatSuggestionsForMember
+  getCoffeeChatSuggestions
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -334,11 +334,8 @@ loginCheckedPut('/coffee-chat/autocheck/:uuid/', async (req, user) => ({
   coffeeChat: await runAutoChecker(req.params.uuid, user)
 }));
 
-loginCheckedGet('/coffee-chat-suggestions/:semester/:netid', async (req) => {
-  const suggestions = await getCoffeeChatSuggestionsForMember(
-    req.params.semester,
-    req.params.netid
-  );
+loginCheckedGet('/coffee-chat-suggestions/:email', async (req) => {
+  const suggestions = await getCoffeeChatSuggestions(req.params.email);
   return { suggestions };
 });
 

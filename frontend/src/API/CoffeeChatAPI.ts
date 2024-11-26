@@ -72,11 +72,8 @@ export default class CoffeeChatAPI {
     });
   }
 
-  public static async getCoffeeChatSuggestionsForMember(
-    semester: string,
-    netid: string
-  ): Promise<CoffeeChatSuggestions> {
-    return APIWrapper.get(`${backendURL}/coffee-chat-suggestions/${semester}/${netid}`).then(
+  public static async getCoffeeChatSuggestions(email: string): Promise<CoffeeChatSuggestions> {
+    return APIWrapper.get(`${backendURL}/coffee-chat-suggestions/${email}`).then(
       (res) => res.data.suggestions
     );
   }

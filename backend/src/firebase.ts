@@ -73,16 +73,15 @@ export const memberPropertiesCollection: admin.firestore.CollectionReference<Mem
     }
   });
 
-export const coffeeChatSuggestionsCollection: admin.firestore.CollectionReference<
-  Map<string, CoffeeChatSuggestions>
-> = db.collection('coffee-chat-bingo-board').withConverter({
-  fromFirestore(snapshot): Map<string, CoffeeChatSuggestions> {
-    return snapshot.data() as Map<string, CoffeeChatSuggestions>;
-  },
-  toFirestore(userData: Map<string, CoffeeChatSuggestions>) {
-    return userData;
-  }
-});
+export const coffeeChatSuggestionsCollection: admin.firestore.CollectionReference<CoffeeChatSuggestions> =
+  db.collection('coffee-chat-bingo-board').withConverter({
+    fromFirestore(snapshot): CoffeeChatSuggestions {
+      return snapshot.data() as CoffeeChatSuggestions;
+    },
+    toFirestore(userData: CoffeeChatSuggestions) {
+      return userData;
+    }
+  });
 
 export const shoutoutCollection: admin.firestore.CollectionReference<DBShoutout> = db
   .collection('shoutouts')

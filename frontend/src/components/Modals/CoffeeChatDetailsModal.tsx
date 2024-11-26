@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import styles from './CoffeeChatDetailsModal.module.css';
 import CoffeeChatAPI from '../../API/CoffeeChatAPI';
-import { CURRENT_SEMESTER } from '../../consts';
 
 type Props = {
   coffeeChat?: CoffeeChat;
@@ -27,22 +26,19 @@ const CoffeeChatModal: React.FC<Props> = ({
   useEffect(() => {
     const fetchMembers = async () => {
       setIsLoading(true);
-      let result = {};
+      let suggestions: CoffeeChatSuggestions = {};
       try {
-        result = await CoffeeChatAPI.getCoffeeChatSuggestionsForMember(
-          CURRENT_SEMESTER,
-          userInfo.netid
-        );
+        suggestions = await CoffeeChatAPI.getCoffeeChatSuggestions(userInfo.email);
       } catch (error) {
-        result = {};
+        suggestions = {};
       }
-      const categoryMap = new Map<string, MemberDetails[]>(Object.entries(result || {}));
-      setMembersInCategory(categoryMap.get(category) || []);
+      // const categoryMap = new Map<string, MemberDetails[]>(Object.entries(result || {}));
+      setMembersInCategory(suggestions[category] || []);
       setIsLoading(false);
     };
 
     fetchMembers();
-  }, [category, userInfo.netid]);
+  }, [category, userInfo.email]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">

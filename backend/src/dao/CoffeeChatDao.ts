@@ -175,15 +175,13 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Gets coffee chat suggestions for all members, given the semester
-   * @param semester - the semester of the bingo board (i.e. fall-2024).
-   * @returns A promise that resolves to a map of member emails to a BingoBoard object, or undefined.
+   * Gets coffee chat suggestions for a specifc member
+   * @param email - the email of the member
+   * @returns A promise that resolves to a CoffeeChatSuggestions object, or undefined.
    */
-  static async getCoffeeChatSuggestions(
-    semester: string
-  ): Promise<Map<string, CoffeeChatSuggestions> | undefined> {
+  static async getCoffeeChatSuggestions(email: string): Promise<CoffeeChatSuggestions | undefined> {
     return coffeeChatSuggestionsCollection
-      .doc(semester)
+      .doc(email)
       .get()
       .then((docRef) => docRef.data());
   }

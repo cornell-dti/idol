@@ -238,4 +238,5 @@ interface MemberDetails {
   readonly name: string;
   readonly netid: string;
 }
-type CoffeeChatSuggestions = Map<string, MemberDetails[]>;
+
+type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
