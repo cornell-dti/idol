@@ -70,14 +70,13 @@ const Navbar: React.FC = () => {
         </div>
         <div className={`flex lg:hidden w-fit ${isMenuOpen ? 'z-50' : 'z-10'}`}>
           {!isMenuOpen ? (
-            <button onClick={handleMenuClick}>
+            <button onClick={handleMenuClick} aria-label="Open navigation menu">
               <Image
                 className="h-12 w-auto md:h-14"
                 src="/icons/hamburger_icon.svg"
                 width={56.5}
                 height={56.5}
                 alt=""
-                aria-label="Open navigation menu"
               />
             </button>
           ) : (
@@ -89,14 +88,13 @@ const Navbar: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-80 lg:hidden">
           <div className="w-full h-full">
             <div className="w-full p-6 md:p-10 flex flex-col items-end">
-              <button onClick={handleMenuClick}>
+              <button onClick={handleMenuClick} aria-label="Close Menu Icon">
                 <Image
                   className="h-12 w-auto md:h-14"
                   src="/icons/close_icon.svg"
                   width={56.5}
                   height={56.5}
                   alt=""
-                  aria-label="Close Menu Icon"
                 />
               </button>
             </div>

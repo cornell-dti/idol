@@ -62,11 +62,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
                   <div className="flex items-center h-[440px] overflow-hidden rounded-md relative top-[10px] left-[10px]">
                     <img src={image.src} alt={image.alt} className="w-[730px] h-fit" />
                   </div>
-                  <button onClick={onClose}>
+                  <button onClick={onClose} aria-label="View previous carousel slide">
                     <img
                       src="/icons/close_icon.svg"
                       alt=""
-                      aria-label="View previous carousel slide"
                       width={47}
                       height={47}
                       className="absolute right-5 top-5 cursor-pointer"
@@ -91,14 +90,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
             ))}
           </CarouselContent>
         </Carousel>
-        <button onClick={handleNext}>
-          <img
-            src="/icons/arrow.svg"
-            alt=""
-            aria-label="View next carousel slide"
-            width={20}
-            className="cursor-pointer rotate-180"
-          />
+        <button onClick={handleNext} aria-label="View next carousel slide">
+          <img src="/icons/arrow.svg" alt="" width={20} className="cursor-pointer rotate-180" />
         </button>
       </div>
     </div>

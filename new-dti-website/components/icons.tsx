@@ -23,7 +23,6 @@ const Icon: React.FC<IconProps> = ({
   isActive,
   width,
   height,
-  ariaLabel,
   className
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -42,7 +41,6 @@ const Icon: React.FC<IconProps> = ({
       alt={altText}
       width={width}
       height={height}
-      aria-label={ariaLabel}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`cursor-pointer ${className || ''}`}

@@ -38,11 +38,13 @@ const RoleDescriptions = () => {
                 >
                   {application.charAt(0).toUpperCase() + application.substring(1)}
                 </h3>
-                <button onClick={() => setRole(application)}>
+                <button
+                  onClick={() => setRole(application)}
+                  aria-label={`Show ${application} questions`}
+                >
                   <Image
                     src={icon.src}
                     alt=""
-                    aria-label={`Show ${application} questions`}
                     width={icon.width}
                     height={icon.height}
                     className={`${role === application ? '' : 'brightness-50'}

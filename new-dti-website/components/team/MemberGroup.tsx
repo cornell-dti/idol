@@ -206,15 +206,12 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             </div>
           </div>
         </div>
-        <button onClick={props.onClose} className="cursor-pointer h-min">
-          <Image
-            src="/icons/close.svg"
-            width={23}
-            height={23}
-            alt=""
-            aria-label="Close member details"
-            className="m-2 xs:w-4"
-          />
+        <button
+          onClick={props.onClose}
+          className="cursor-pointer h-min"
+          aria-label="Close member details"
+        >
+          <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
         </button>
       </div>
       <div className="md:hidden xs:block">
@@ -304,11 +301,12 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   const onMemberCardClick = (member: IdolMember) => {
     setSelectedMember(member.netid === selectedMember?.netid ? undefined : member);
     if (member.netid !== selectedMember?.netid) {
-      requestAnimationFrame(() =>
-        memberDetailsRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        })
+      requestAnimationFrame(
+        () =>
+          memberDetailsRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          })
       );
     }
   };

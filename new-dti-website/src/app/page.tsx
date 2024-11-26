@@ -108,6 +108,7 @@ const Home: React.FC = () => {
                     setSelectedIcon(index);
                     if (timer) clearTimeout(timer);
                   }}
+                  aria-label={icon.ariaLabel}
                 >
                   <Icon
                     key={index}
@@ -115,7 +116,6 @@ const Home: React.FC = () => {
                     hoverIcon={icon.hover}
                     activeIcon={icon.active}
                     altText=""
-                    aria-label={icon.ariaLabel}
                     isActive={selectedIcon === index}
                     width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
                     height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
