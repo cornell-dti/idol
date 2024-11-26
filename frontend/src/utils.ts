@@ -127,7 +127,7 @@ type LinkType = 'github' | 'linkedin';
  * @returns {string | undefined} - The fixed and properly formatted link or undefined if the input is invalid.
  *
  * @example
- * formatLink("https://linkedin.com/in/jujulcrane", linkedin);
+ * formatLink("https://linkedin.com/in/jujulcrane", "linkedin");
  * // Returns: "https://www.linkedin.com/in/jujulcrane"
  *
  * @example
