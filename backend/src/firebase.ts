@@ -74,7 +74,7 @@ export const memberPropertiesCollection: admin.firestore.CollectionReference<Mem
   });
 
 export const coffeeChatSuggestionsCollection: admin.firestore.CollectionReference<CoffeeChatSuggestions> =
-  db.collection('coffee-chat-bingo-board').withConverter({
+  db.collection('coffee-chat-suggestions').withConverter({
     fromFirestore(snapshot): CoffeeChatSuggestions {
       return snapshot.data() as CoffeeChatSuggestions;
     },
