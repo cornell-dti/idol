@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Autoplay from 'embla-carousel-autoplay';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel/carousel';
+import useCarouselControls from '../ui/carousel/useCarouselControls';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
 import { cn } from '../../lib/utils';
@@ -17,44 +17,37 @@ interface carouselItem {
 
 const ImageCarousel = (props: { items: carouselItem[] }) => {
   const reduceMotion = useMediaReduce();
-  const plugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: false }));
-  const [isPlaying, setIsPlaying] = useState(!reduceMotion);
-  const [currentSlide, setCurrentSlide] = React.useState(0);
-  const [carouselApi, setCarouselApi] = React.useState<CarouselApi>();
   const { width } = useScreenSize();
-  const highlightIndex = width < 1024 ? 1 : 3;
-
-  useEffect(() => {
-    if (carouselApi && plugin.current) {
-      carouselApi.on('select', () => {
-        setCurrentSlide(carouselApi.selectedScrollSnap());
-      });
-    }
-  }, [carouselApi]);
-
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
+  const { isPlaying, togglePlayPause, currentSlide, setCarouselApi, plugin } = useCarouselControls({
+    delay: 5000,
+    reduceMotion: reduceMotion,
+    width
+  });
+  const highlightIndex = React.useMemo(() => (width < 1024 ? 1 : 3), [width]);
 
   return (
-    <div className="flex relative bg-transparent overflow-x-hidden">
+    <div
+      className="flex relative bg-transparent overflow-x-hidden"
+      onPointerDown={(e) => e.preventDefault()}
+      onTouchStart={(e) => e.preventDefault()}
+    >
       <Carousel
         className="grow h-36 md:h-72 lg:h-80 mb-24 md:mb-0 lg:-ml-[105px]"
         opts={{
           align: 'start',
           loop: true,
-          duration: 200
+          duration: 300
         }}
-        plugins={isPlaying ? [plugin.current] : []}
+        plugins={[plugin.current]}
         setApi={setCarouselApi}
-        canClick={true}
+        canClick={!reduceMotion}
         offset={highlightIndex}
       >
         <CarouselContent>
           {props.items.map((product, index) => (
             <CarouselItem
               key={product.alt}
-              className="select-none lg:basis-[15%] basis-1/3 cursor-pointer md:pl-10"
+              className="select-none lg:basis-[15%] basis-1/3 motion-safe:cursor-pointer md:pl-10"
             >
               <Image
                 className={cn(

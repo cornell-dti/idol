@@ -1,12 +1,15 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Autoplay from 'embla-carousel-autoplay';
 import { ibm_plex_mono } from '../../src/app/layout';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel/carousel';
 import carouselImages from './data/carousel.json';
+import useCarouselControls from '../ui/carousel/useCarouselControls';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
 import RedBlob from '../blob';
 import { TABLET_BREAKPOINT } from '../../src/consts';
+import Image from 'next/image';
+import play from '/public/icons/play.svg';
+import pause from '/public/icons/pause.svg';
 
 type ImageModalProps = {
   onClose: () => void;
@@ -82,12 +85,15 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
 };
 
 const TeamHero = () => {
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [modalShown, setModalShown] = useState<boolean>(false);
-
   const { width } = useScreenSize();
   const reduceMotion = useMediaReduce();
+  const { isPlaying, togglePlayPause, carouselApi, setCarouselApi, plugin } = useCarouselControls({
+    delay: 5000,
+    reduceMotion: reduceMotion,
+    width
+  });
   const carouselLength = carouselImages.images.length;
 
   useEffect(() => {
@@ -99,7 +105,7 @@ const TeamHero = () => {
   }, [carouselIndex, carouselApi]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       {modalShown && (
         <ImageModal
           onClose={() => setModalShown(false)}
@@ -143,13 +149,9 @@ const TeamHero = () => {
             </p>
           </div>
         </div>
-        <div>
+        <div onPointerDown={(e) => e.preventDefault()} onTouchStart={(e) => e.preventDefault()}>
           <Carousel
-            plugins={
-              !modalShown && !reduceMotion
-                ? [Autoplay({ delay: 5000, stopOnInteraction: false })]
-                : undefined
-            }
+            plugins={[plugin.current]}
             opts={{
               align: 'center',
               loop: true,
@@ -190,6 +192,20 @@ const TeamHero = () => {
           </Carousel>
         </div>
       </div>
+      {reduceMotion && (
+        <button
+          className="absolute right-[2%] -bottom-10 z-20 rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
+          onClick={togglePlayPause}
+          aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
+        >
+          <Image
+            src={isPlaying ? pause : play}
+            alt={isPlaying ? 'Pause' : 'Play'}
+            width={24}
+            height={24}
+          />
+        </button>
+      )}
     </div>
   );
 };
