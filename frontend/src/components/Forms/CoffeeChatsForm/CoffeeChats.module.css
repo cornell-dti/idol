@@ -10,6 +10,7 @@
   max-width: 600px;
   justify-content: center;
   align-items: center;
+  padding-top: 15px;
 }
 
 .bingo_cell {
