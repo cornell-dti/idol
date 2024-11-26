@@ -154,6 +154,14 @@ export default function AddUser(): JSX.Element {
       return;
     }
 
+    // Check that college is selected
+    if (!member.college) {
+      Emitters.generalError.emit({
+        headerMsg: 'College not selected!',
+        contentMsg: 'Please select college from the dropdown.'
+      });
+    }
+
     MembersAPI.setMember({
       ...member,
       netid: getNetIDFromEmail(member.email),

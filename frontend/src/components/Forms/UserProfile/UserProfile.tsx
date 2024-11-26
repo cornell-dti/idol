@@ -50,7 +50,16 @@ const UserProfile: React.FC = () => {
   const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
 
   const saveProfileInfo = () => {
-    const requiredFields = [firstName, lastName, pronouns, graduation, major, hometown, about];
+    const requiredFields = [
+      firstName,
+      lastName,
+      pronouns,
+      joined,
+      graduation,
+      major,
+      hometown,
+      about
+    ];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {
