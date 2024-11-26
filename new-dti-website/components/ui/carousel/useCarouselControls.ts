@@ -32,10 +32,10 @@ const useCarouselControls = ({
   }, [carouselApi, isPlaying]);
 
   useEffect(() => {
-    if (reduceMotion) {
+    if (reduceMotion && width) {
       setIsPlaying(false);
     }
-  }, [width]);
+  }, [width, reduceMotion]);
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel/carousel';
 import useCarouselControls from '../ui/carousel/useCarouselControls';

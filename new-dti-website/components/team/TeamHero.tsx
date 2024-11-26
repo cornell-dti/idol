@@ -8,8 +8,8 @@ import useMediaReduce from '../../src/hooks/useMediaReduce';
 import RedBlob from '../blob';
 import { TABLET_BREAKPOINT } from '../../src/consts';
 import Image from 'next/image';
-import play from '/public/icons/play.svg';
-import pause from '/public/icons/pause.svg';
+import play from '../../public/icons/play.svg';
+import pause from '../../public/icons/pause.svg';
 
 type ImageModalProps = {
   onClose: () => void;

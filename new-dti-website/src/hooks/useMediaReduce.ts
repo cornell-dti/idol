@@ -7,8 +7,9 @@ const useMediaReduce = (): boolean => {
   );
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
+    if (typeof window === 'undefined') {
+      return;
+    }
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const handleChange = (event: MediaQueryListEvent) => {
