@@ -7,8 +7,6 @@ import useCarouselControls from '../ui/carousel/useCarouselControls';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
 import { cn } from '../../lib/utils';
-import play from '../../public/icons/play.svg';
-import pause from '../../public/icons/pause.svg';
 
 interface carouselItem {
   alt: string;
@@ -73,7 +71,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
           aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
         >
           <Image
-            src={isPlaying ? pause : play}
+            src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
             alt={isPlaying ? 'Pause' : 'Play'}
             width={24}
             height={24}

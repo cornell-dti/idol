@@ -8,8 +8,6 @@ import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
 import RedBlob from '../blob';
 import { TABLET_BREAKPOINT } from '../../src/consts';
-import play from '../../public/icons/play.svg';
-import pause from '../../public/icons/pause.svg';
 
 type ImageModalProps = {
   onClose: () => void;
@@ -199,7 +197,7 @@ const TeamHero = () => {
           aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
         >
           <Image
-            src={isPlaying ? pause : play}
+            src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
             alt={isPlaying ? 'Pause' : 'Play'}
             width={24}
             height={24}
