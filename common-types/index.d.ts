@@ -49,9 +49,9 @@ interface IdolMember {
   readonly firstName: string;
   readonly lastName: string;
   readonly pronouns: string;
-  readonly joined: string;
+  readonly joined?: string;
   readonly graduation: string;
-  readonly college: College;
+  readonly college?: College;
   readonly major: string;
   readonly doubleMajor?: string | null;
   readonly minor?: string | null;
