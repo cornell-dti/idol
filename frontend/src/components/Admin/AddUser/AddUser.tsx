@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
-import { ALL_ROLES } from 'common-types/constants';
+import { ALL_COLLEGES, ALL_ROLES } from 'common-types/constants';
 import csvtojson from 'csvtojson';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
@@ -96,10 +96,12 @@ export default function AddUser(): JSX.Element {
         pronouns: '',
         email: '',
         role: '' as Role,
+        joined: '',
         graduation: '',
         major: '',
         doubleMajor: '',
         minor: '',
+        college: '' as College,
         website: '',
         linkedin: '',
         github: '',
@@ -183,10 +185,12 @@ export default function AddUser(): JSX.Element {
           firstName: m.firstName || currMember.firstName,
           lastName: m.lastName || currMember.lastName,
           pronouns: m.pronouns || currMember.pronouns,
+          joined: m.joined || currMember.joined,
           graduation: m.graduation || currMember.graduation,
           major: m.major || currMember.major,
           doubleMajor: m.doubleMajor || currMember.doubleMajor,
           minor: m.minor || currMember.minor,
+          college: m.college || currMember.college,
           website: m.website || currMember.website,
           linkedin: m.linkedin || currMember.linkedin,
           github: m.github || currMember.github,
@@ -208,10 +212,12 @@ export default function AddUser(): JSX.Element {
           firstName: m.firstName || '',
           lastName: m.lastName || '',
           pronouns: m.pronouns || '',
+          joined: m.joined || '',
           graduation: m.graduation || '',
           major: m.major || '',
           doubleMajor: m.doubleMajor || '',
           minor: m.minor || '',
+          college: m.college || ('' as College),
           website: m.website || '',
           linkedin: m.linkedin || '',
           github: m.github || '',
@@ -518,6 +524,18 @@ export default function AddUser(): JSX.Element {
                   <Form.Group widths="equal">
                     <Form.Field
                       control={Input}
+                      label="Semester Joined"
+                      placeholder="Semester Joined"
+                      value={state.currentSelectedMember?.joined}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setCurrentlySelectedMember((currentSelectedMember) => ({
+                          ...currentSelectedMember,
+                          joined: event.target.value
+                        }));
+                      }}
+                    />
+                    <Form.Field
+                      control={Input}
                       label="Graduation"
                       placeholder="Graduation"
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -577,6 +595,22 @@ export default function AddUser(): JSX.Element {
                         }));
                       }}
                       value={state.currentSelectedMember.minor || ''}
+                    />
+                    <Form.Field
+                      control={Select}
+                      label="College"
+                      value={state.currentSelectedMember.college || ''}
+                      options={ALL_COLLEGES.map((val) => ({ key: val, text: val, value: val }))}
+                      placeholder="College"
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
+                        setCurrentlySelectedMember((currentSelectedMember) => ({
+                          ...currentSelectedMember,
+                          college: data.value as College
+                        }));
+                      }}
                     />
                   </Form.Group>
                   <Form.Group widths="equal">
