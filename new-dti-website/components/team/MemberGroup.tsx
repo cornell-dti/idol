@@ -30,7 +30,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
-    <div id="memberCard" className="flex flex-col md:gap-3 xs:gap-2">
+    <div className="memberCard flex flex-col md:gap-3 xs:gap-2">
       <img
         src={image}
         alt={`${firstName}-${lastName}`}
@@ -39,7 +39,9 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         } object-cover`}
       />
       <h3
-        className={`xs:text-[16px] font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'}`}
+        className={`xs:text-[16px] text-left font-${
+          enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'
+        }`}
       >{`${firstName} ${lastName}`}</h3>
       <p
         className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
@@ -52,7 +54,6 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 };
 
 type MemberCardProps = {
-  onClick?: () => void;
   firstName: string;
   lastName: string;
   role: string;
@@ -63,13 +64,11 @@ type MemberCardProps = {
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
   <Card
-    id="memberCard"
-    className={`w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
+    className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
     } ${
       props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
     } hover:shadow-[0_4px_4px_0_#00000040] cursor-pointer`}
-    onClick={props.onClick}
   >
     <MemberSummary {...props} enlarged={false} />
   </Card>
@@ -207,15 +206,13 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             </div>
           </div>
         </div>
-        <div onClick={props.onClose}>
-          <Image
-            src="/icons/close.svg"
-            width={23}
-            height={23}
-            alt="close"
-            className="m-2 cursor-pointer xs:w-4"
-          />
-        </div>
+        <button
+          onClick={props.onClose}
+          className="cursor-pointer h-min"
+          aria-label="Close member details"
+        >
+          <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
+        </button>
       </div>
       <div className="md:hidden xs:block">
         <button
@@ -302,8 +299,8 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
 
   const onCloseMemberDetails = () => setSelectedMember(undefined);
   const onMemberCardClick = (member: IdolMember) => {
-    setSelectedMember(member === selectedMember ? undefined : member);
-    if (member !== selectedMember) {
+    setSelectedMember(member.netid === selectedMember?.netid ? undefined : member);
+    if (member.netid !== selectedMember?.netid) {
       requestAnimationFrame(() =>
         memberDetailsRef.current?.scrollIntoView({
           behavior: 'smooth',
@@ -317,13 +314,14 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
       {members.map((member, index) => (
         <>
-          <MemberCard
-            {...member}
-            key={member.netid}
-            image={`team/${member.netid}.jpg`}
-            onClick={() => onMemberCardClick(member)}
-            cardState={selectedMember ? index - selectedMemberIndex : undefined}
-          />
+          <button onClick={() => onMemberCardClick(member)} className="memberCard">
+            <MemberCard
+              {...member}
+              key={member.netid}
+              image={`team/${member.netid}.jpg`}
+              cardState={selectedMember ? index - selectedMemberIndex : undefined}
+            />
+          </button>
           {selectedMember && canInsertMemberDetails(index) && (
             <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
               <MemberDetails
@@ -349,13 +347,14 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         >
           {members.map((member, index) => (
             <>
-              <MemberCard
-                {...member}
-                key={member.netid}
-                image={`team/${member.netid}.jpg`}
-                onClick={() => onMemberCardClick(member)}
-                cardState={selectedMember ? index - selectedMemberIndex : undefined}
-              />
+              <button onClick={() => onMemberCardClick(member)} className="memberCard">
+                <MemberCard
+                  {...member}
+                  key={member.netid}
+                  image={`team/${member.netid}.jpg`}
+                  cardState={selectedMember ? index - selectedMemberIndex : undefined}
+                />
+              </button>
               {selectedMember && canInsertMemberDetails(index) && displayDetails && (
                 <div
                   className="lg:col-span-4 md:col-span-3 xs:col-span-2"

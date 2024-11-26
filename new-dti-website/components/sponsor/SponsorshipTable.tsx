@@ -25,13 +25,17 @@ const SponsorshipTableMobile = () => {
         <div className="flex h-fit justify-between">
           {Object.keys(medals).map((medal) => (
             <div className="flex justify-center items-center" key={medal}>
-              <Image
-                src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
-                alt={medal}
+              <button
                 onClick={() => setSelectedMedal(medal as Tier)}
-                height={selectedMedal === medal ? medalSelectedHeight : medalHeight}
-                width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
-              />
+                aria-label={`Show ${medal} tier`}
+              >
+                <Image
+                  src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
+                  alt=""
+                  height={selectedMedal === medal ? medalSelectedHeight : medalHeight}
+                  width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
+                />
+              </button>
             </div>
           ))}
         </div>
