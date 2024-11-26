@@ -73,23 +73,25 @@ const CoffeeChatModal: React.FC<Props> = ({
         </>
       ) : (
         <>
-          <Modal.Header>No Submission For Category '{category}'</Modal.Header>
+          <Modal.Header>No Coffee Chat Submitted</Modal.Header>
           <Modal.Content>
             <div>
-              Member(s) in this category you haven't coffee chatted yet:
               {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
               {!isLoading && membersInCategory.length === 0 && (
                 <div style={{ marginTop: '5px' }}>
-                  There are no active members who certainly meet this category.
+                  You have not submitted a coffee chat for this category.
                 </div>
               )}
-              {!isLoading &&
-                membersInCategory.length > 0 &&
-                membersInCategory.map((member) => (
-                  <div key={member?.netid} style={{ marginTop: '5px' }}>
-                    {`${member?.name} (${member?.netid})`}
-                  </div>
-                ))}
+              {!isLoading && membersInCategory.length > 0 && (
+                <div>
+                  <div>Member(s) in category '{category}' you haven't coffee chatted yet:</div>
+                  {membersInCategory.map((member) => (
+                    <div key={member?.netid} style={{ marginTop: '5px' }}>
+                      {`${member?.name} (${member?.netid})`}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </Modal.Content>
         </>
