@@ -135,7 +135,7 @@ type LinkType = 'github' | 'linkedin';
  * // Returns: "https://github.com/jujulcrane"
  *
  * @example
- * foramtLink("Visit my profiles: https://linkedin.com/in/jujulcrane and https://github.com/jujulcrane", linkedin);
+ * formatLink("Visit my profiles: https://linkedin.com/in/jujulcrane and https://github.com/jujulcrane", "linkedin");
  * // Returns: undefined (multiple links in the input)
  *
  * @example
