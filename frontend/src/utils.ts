@@ -139,7 +139,7 @@ type LinkType = 'github' | 'linkedin';
  * // Returns: undefined (multiple links in the input)
  *
  * @example
- * formatLink("jujulcrane", linkedin);
+ * formatLink("jujulcrane", "linkedin");
  * // Returns: "https://www.linkedin.com/in/jujulcrane/"
  */
 export const formatLink = (link: string, linkType?: LinkType): string | undefined => {
