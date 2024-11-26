@@ -41,6 +41,8 @@ const MemberDisplay: React.FC = () => {
       className="flex justify-center bg-[#f6f6f6]"
       onClick={(event) => {
         const target = event.target as HTMLElement;
+        console.log(target, target.classList);
+        console.log(target.parentElement, target.parentElement?.classList);
         if (
           !(
             target.classList.contains('memberCard') ||

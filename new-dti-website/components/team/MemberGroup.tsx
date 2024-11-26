@@ -30,7 +30,7 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
-    <div id="memberCard" className="flex flex-col md:gap-3 xs:gap-2">
+    <div className="memberCard flex flex-col md:gap-3 xs:gap-2">
       <img
         src={image}
         alt={`${firstName}-${lastName}`}
