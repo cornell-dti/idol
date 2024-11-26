@@ -177,7 +177,7 @@ const UserProfile: React.FC = () => {
           label="College"
           value={college}
           options={ALL_COLLEGES.map((val) => ({ key: val, text: val, value: val }))}
-          placeholder="College"
+          placeholder="Select college"
           onChange={(event, data) => {
             setCollege(data.value);
           }}
