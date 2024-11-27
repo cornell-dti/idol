@@ -178,6 +178,8 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Gets coffee chat suggestions for a specifc member
    * @param email - the email of the member
    * @returns A promise that resolves to a CoffeeChatSuggestions object, or undefined.
+   * Note: This data can be stale, so changes made to member or coffee chat info are not immediately reflected.
+   * The data is currently being updated manually.
    */
   static async getCoffeeChatSuggestions(email: string): Promise<CoffeeChatSuggestions | undefined> {
     return coffeeChatSuggestionsCollection
