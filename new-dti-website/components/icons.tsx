@@ -9,9 +9,9 @@ interface IconProps {
   activeIcon: string;
   altText: string;
   isActive: boolean;
-  onClick: () => void;
   width: number;
   height: number;
+  ariaLabel?: string;
   className?: string;
 }
 
@@ -21,7 +21,6 @@ const Icon: React.FC<IconProps> = ({
   activeIcon,
   altText,
   isActive,
-  onClick,
   width,
   height,
   className
@@ -44,7 +43,6 @@ const Icon: React.FC<IconProps> = ({
       height={height}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
       className={`cursor-pointer ${className || ''}`}
     />
   );
