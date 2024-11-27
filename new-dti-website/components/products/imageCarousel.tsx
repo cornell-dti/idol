@@ -17,12 +17,11 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const reduceMotion = useMediaReduce();
   const { width } = useScreenSize();
   const { isPlaying, togglePlayPause, currentSlide, setCarouselApi, plugin } = useCarouselControls({
-    delay: 2000,
+    delay: 5000,
     reduceMotion,
     width
   });
   const highlightIndex = React.useMemo(() => (width < 1024 ? 1 : 3), [width]);
-  console.log(isPlaying);
 
   return (
     <div
@@ -35,7 +34,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
         opts={{
           align: 'start',
           loop: true,
-          duration: 150
+          duration: 75
         }}
         plugins={[plugin.current]}
         setApi={setCarouselApi}
