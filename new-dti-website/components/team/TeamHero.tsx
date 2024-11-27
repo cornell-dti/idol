@@ -1,9 +1,19 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Autoplay from 'embla-carousel-autoplay';
+import {
+  Dispatch,
+  KeyboardEvent,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+import Image from 'next/image';
 import { ibm_plex_mono } from '../../src/app/layout';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../ui/carousel/carousel';
 import carouselImages from './data/carousel.json';
+import useCarouselControls from '../ui/carousel/useCarouselControls';
 import useScreenSize from '../../src/hooks/useScreenSize';
+import useMediaReduce from '../../src/hooks/useMediaReduce';
 import RedBlob from '../blob';
 import { TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -12,21 +22,34 @@ type ImageModalProps = {
   carouselIndex: number;
   setCarouselIndex: Dispatch<SetStateAction<number>>;
   carouselApi: CarouselApi;
+  modalRef: RefObject<HTMLButtonElement>;
+  isShown: boolean;
 };
 
-const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouselApi }) => {
+const ImageModal: React.FC<ImageModalProps> = ({
+  onClose,
+  carouselIndex,
+  carouselApi,
+  modalRef,
+  isShown
+}) => {
   const handleNext = () => carouselApi?.scrollNext();
   const handlePrev = () => carouselApi?.scrollPrev();
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
   return (
     <div className="fixed w-full inset-0 bg-opacity-50 backdrop-blur-sm z-20 md:block xs:hidden">
-      <div className="flex justify-center items-center h-full gap-[70px] md:scale-75 lg:scale-100">
-        <img
-          src="/icons/arrow.svg"
-          alt="left arrow"
-          width={20}
-          onClick={handlePrev}
-          className="cursor-pointer"
-        />
+      <div
+        className="flex justify-center items-center h-full gap-[70px] md:scale-75 lg:scale-100"
+        onKeyDown={handleKeyDown}
+      >
+        <button onClick={handlePrev} ref={modalRef}>
+          <img src="/icons/arrow.svg" alt="left arrow" width={20} className="cursor-pointer" />
+        </button>
         <Carousel
           opts={{
             startIndex: carouselIndex,
@@ -41,14 +64,15 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
                   <div className="flex items-center h-[440px] overflow-hidden rounded-md relative top-[10px] left-[10px]">
                     <img src={image.src} alt={image.alt} className="w-[730px] h-fit" />
                   </div>
-                  <img
-                    src="/icons/close_icon.svg"
-                    alt="close"
-                    width={47}
-                    height={47}
-                    className="absolute right-5 top-5 cursor-pointer"
-                    onClick={onClose}
-                  />
+                  <button onClick={onClose} aria-label="View previous carousel slide">
+                    <img
+                      src="/icons/close_icon.svg"
+                      alt=""
+                      width={47}
+                      height={47}
+                      className="absolute right-5 top-5 cursor-pointer"
+                    />
+                  </button>
                   <img
                     src={image.icon}
                     alt="icon"
@@ -68,26 +92,31 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, carouselIndex, carouse
             ))}
           </CarouselContent>
         </Carousel>
-        <img
-          src="/icons/arrow.svg"
-          alt="right arrow"
-          width={20}
-          onClick={handleNext}
-          className="cursor-pointer rotate-180"
-        />
+        <button onClick={handleNext} aria-label="View next carousel slide">
+          <img src="/icons/arrow.svg" alt="" width={20} className="cursor-pointer rotate-180" />
+        </button>
       </div>
     </div>
   );
 };
 
 const TeamHero = () => {
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [modalShown, setModalShown] = useState<boolean>(false);
-
+  const [focusableElements, setFocusableElements] = useState<NodeListOf<Element>>();
+  const modalRef = useRef<HTMLButtonElement>(null);
   const { width } = useScreenSize();
-
+  const reduceMotion = useMediaReduce();
+  const { isPlaying, togglePlayPause, carouselApi, setCarouselApi, plugin } = useCarouselControls({
+    delay: 5000,
+    reduceMotion,
+    width
+  });
   const carouselLength = carouselImages.images.length;
+
+  useEffect(() => {
+    setFocusableElements(document.querySelectorAll('button, a'));
+  }, []);
 
   useEffect(() => {
     if (carouselApi) {
@@ -97,14 +126,23 @@ const TeamHero = () => {
     }
   }, [carouselIndex, carouselApi]);
 
+  useEffect(() => {
+    focusableElements?.forEach((el) => el.setAttribute('tabIndex', modalShown ? '-1' : '0'));
+    if (modalShown) {
+      modalRef.current?.focus();
+    }
+  }, [focusableElements, modalShown]);
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       {modalShown && (
         <ImageModal
           onClose={() => setModalShown(false)}
           carouselIndex={carouselIndex}
           setCarouselIndex={setCarouselIndex}
           carouselApi={carouselApi}
+          modalRef={modalRef}
+          isShown={modalShown}
         />
       )}
       <RedBlob intensity={0.7} className="left-[-300px] top-[-100px]" />
@@ -142,12 +180,13 @@ const TeamHero = () => {
             </p>
           </div>
         </div>
-        <div>
+        <div onPointerDown={(e) => e.preventDefault()} onTouchStart={(e) => e.preventDefault()}>
           <Carousel
-            plugins={modalShown ? undefined : [Autoplay({ delay: 5000, stopOnInteraction: false })]}
+            plugins={[plugin.current]}
             opts={{
               align: 'center',
-              loop: true
+              loop: true,
+              ...(reduceMotion && { duration: 100 })
             }}
             canClick={true}
             setApi={setCarouselApi}
@@ -161,7 +200,7 @@ const TeamHero = () => {
                     index === carouselIndex % carouselLength ? '' : 'opacity-50'
                   }`}
                 >
-                  <div
+                  <button
                     className="relative z-10"
                     onClick={() =>
                       setModalShown(index === carouselIndex && width >= TABLET_BREAKPOINT)
@@ -177,13 +216,25 @@ const TeamHero = () => {
                       height={50}
                       className="relative bottom-[62px] left-2"
                     />
-                  </div>
+                  </button>
                 </CarouselItem>
               ))}
             </CarouselContent>
           </Carousel>
         </div>
       </div>
+      <button
+        className="absolute right-[2%] -bottom-10 z-20 rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
+        onClick={togglePlayPause}
+        aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
+      >
+        <Image
+          src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
+          alt={isPlaying ? 'Pause' : 'Play'}
+          width={24}
+          height={24}
+        />
+      </button>
     </div>
   );
 };

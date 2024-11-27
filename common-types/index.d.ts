@@ -39,6 +39,9 @@ type RoleDescription =
   | 'Design Advisor'
   | 'Business Advisor';
 
+/** The possible colleges an IDOL member could be. */
+type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks';
+
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
   readonly netid: string;
@@ -46,7 +49,9 @@ interface IdolMember {
   readonly firstName: string;
   readonly lastName: string;
   readonly pronouns: string;
+  readonly semesterJoined: string;
   readonly graduation: string;
+  readonly college?: College;
   readonly major: string;
   readonly doubleMajor?: string | null;
   readonly minor?: string | null;

@@ -14,7 +14,7 @@ const ApplyHero = () => (
   <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative">
     <Banner
       message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
-      variant={'alert'}
+      variant={'accent'}
     />
     <div
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
