@@ -35,7 +35,7 @@ export default function Page() {
                 <span className="text-neutral-200 italic">impact</span>
               </div>
             </div>
-            <p className="text-[#FFFFFF] md:max-w-[475px] xs:max-w-none md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
+            <p className="text-[#FFFFFF] xs:max-w-none md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
               Each of our projects address an unfulfilled need that exists in our community using
               <span className="font-semibold">
                 {' '}

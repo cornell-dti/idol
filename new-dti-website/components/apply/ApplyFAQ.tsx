@@ -29,11 +29,7 @@ const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
           className={isOpen ? 'rotate-180' : 'rotate-0'}
         />
       </div>
-      <div
-        className={`overflow-hidden transition-all duration-700 ease-in-out ${
-          isOpen ? 'max-h-none opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
+      <div className={`overflow-hidden ${isOpen ? 'max-h-none' : 'max-h-0'}`}>
         <div className="md:py-5 xs:py-3">{children}</div>
       </div>
     </button>
