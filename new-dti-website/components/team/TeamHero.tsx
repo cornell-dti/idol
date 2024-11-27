@@ -153,7 +153,7 @@ const TeamHero = () => {
             opts={{
               align: 'center',
               loop: true,
-              ...(reduceMotion && { duration: 200 })
+              ...(reduceMotion && { duration: 100 })
             }}
             canClick={true}
             setApi={setCarouselApi}
@@ -190,20 +190,18 @@ const TeamHero = () => {
           </Carousel>
         </div>
       </div>
-      {reduceMotion && (
-        <button
-          className="absolute right-[2%] -bottom-10 z-20 rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
-          onClick={togglePlayPause}
-          aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
-        >
-          <Image
-            src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
-            alt={isPlaying ? 'Pause' : 'Play'}
-            width={24}
-            height={24}
-          />
-        </button>
-      )}
+      <button
+        className="absolute right-[2%] -bottom-10 z-20 rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
+        onClick={togglePlayPause}
+        aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
+      >
+        <Image
+          src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
+          alt={isPlaying ? 'Pause' : 'Play'}
+          width={24}
+          height={24}
+        />
+      </button>
     </div>
   );
 };

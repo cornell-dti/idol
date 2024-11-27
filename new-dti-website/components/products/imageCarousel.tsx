@@ -17,11 +17,12 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const reduceMotion = useMediaReduce();
   const { width } = useScreenSize();
   const { isPlaying, togglePlayPause, currentSlide, setCarouselApi, plugin } = useCarouselControls({
-    delay: 5000,
+    delay: 2000,
     reduceMotion,
     width
   });
   const highlightIndex = React.useMemo(() => (width < 1024 ? 1 : 3), [width]);
+  console.log(isPlaying);
 
   return (
     <div
@@ -34,7 +35,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
         opts={{
           align: 'start',
           loop: true,
-          duration: 300
+          duration: 150
         }}
         plugins={[plugin.current]}
         setApi={setCarouselApi}
@@ -64,20 +65,18 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
           ))}
         </CarouselContent>
       </Carousel>
-      {reduceMotion && (
-        <button
-          className="absolute right-[2%] bottom-[15%] rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
-          onClick={togglePlayPause}
-          aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
-        >
-          <Image
-            src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
-            alt={isPlaying ? 'Pause' : 'Play'}
-            width={24}
-            height={24}
-          />
-        </button>
-      )}
+      <button
+        className="absolute right-[2%] bottom-[15%] rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
+        onClick={togglePlayPause}
+        aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
+      >
+        <Image
+          src={isPlaying ? '/icons/pause.svg' : '/icons/play.svg'}
+          alt={isPlaying ? 'Pause' : 'Play'}
+          width={24}
+          height={24}
+        />
+      </button>
     </div>
   );
 };
