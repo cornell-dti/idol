@@ -49,7 +49,10 @@ export default function Courses() {
         onClick={(event) => {
           const target = event.target as HTMLElement;
           if (
-            !(target.id === 'memberCard' || target.parentElement?.id === 'memberCard') &&
+            !(
+              target.classList.contains('memberCard') ||
+              target.parentElement?.classList.contains('memberCard')
+            ) &&
             !memberDetailsRef.current?.contains(target)
           )
             setSelectedMember(undefined);

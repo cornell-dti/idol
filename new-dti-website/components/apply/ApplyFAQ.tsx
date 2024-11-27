@@ -15,7 +15,10 @@ const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
   const handleClick = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className="py-4 border-white border-b-black border-2 cursor-pointer" onClick={handleClick}>
+    <button
+      className="py-4 border-white border-b-black border-2 cursor-pointer text-left"
+      onClick={handleClick}
+    >
       <div className="flex justify-between pr-4">
         <p className="section-subheading">{header}</p>
         <Image
@@ -29,7 +32,7 @@ const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
       <div className={`overflow-hidden ${isOpen ? 'max-h-none' : 'max-h-0'}`}>
         <div className="md:py-5 xs:py-3">{children}</div>
       </div>
-    </div>
+    </button>
   );
 };
 
