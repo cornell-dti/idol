@@ -29,11 +29,13 @@ export default function Page() {
           </div>
           <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
             <div className="flex flex-row">
-              <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px] text-heroPrimary">
-                Real impact
+              <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px]">
+                <span className="text-neutral-400">Real</span>
+                <span className="text-white font-medium"> </span>
+                <span className="text-neutral-200 italic">impact</span>
               </div>
             </div>
-            <p className="text-heroSecondary xs:max-w-none md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px] md:max-w-md max-w-[314px] z-10">
+            <p className="text-[#FFFFFF] xs:max-w-none md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
               Each of our projects address an unfulfilled need that exists in our community using
               <span className="font-semibold">
                 {' '}
