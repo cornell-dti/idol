@@ -128,6 +128,21 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
 /**
+ * Gets coffee chat suggestions for a specifc member
+ * @param email - the email of the member
+ * @returns A promise that resolves to a CoffeeChatSuggestions object.
+ */
+export const getCoffeeChatSuggestions = async (email: string): Promise<CoffeeChatSuggestions> => {
+  const suggestions = await CoffeeChatDao.getCoffeeChatSuggestions(email);
+  if (!suggestions) {
+    throw new BadRequestError(
+      `Coffee chat suggestions does not exist for member with email ${email}`
+    );
+  }
+  return suggestions;
+};
+
+/**
  * Checks if a member meets a category for the specified coffee chat.
  * @param uuid - the uuid of the coffee chats we are checking.
  * @param user - the IdolMember making the request.
