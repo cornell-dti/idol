@@ -192,3 +192,34 @@
   color: black;
   background-color: #fefefe;
 }
+
+summary {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+
+summary::after {
+  content: '';
+  width: 13px;
+  height: 7px;
+  background: url('/icons/dropdown.svg');
+  background-size: cover;
+}
+
+details[open] > summary::after {
+  rotate: 180deg;
+}
+
+details {
+  user-select: none;
+}
+
+details > *:not(summary) {
+  user-select: text;
+}
