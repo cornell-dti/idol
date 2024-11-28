@@ -6,7 +6,7 @@ import { allMemberImages } from '../src/API/imageAPI';
 
 const RESIZE_HEIGHT = 500; // Standard height for resizing
 const OUTPUT_FOLDER = 'temp';
-const MAX_SIZE_KB = 20;
+const MAX_SIZE_KB = 300;
 
 const main = async () => {
   console.log('Downloading and processing all member images...');
