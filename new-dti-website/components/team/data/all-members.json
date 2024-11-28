@@ -1399,30 +1399,28 @@
     "semesterJoined": "Fall 2024"
   },
   {
-    "hometown": "Orlando, FL",
-    "formerSubteams": [
+    "formerSubteams": [],
+    "doubleMajor": null,
+    "graduation": "May 2025",
+    "subteams": [
       "queuemein"
     ],
-    "github": "https://github.com/burninglilies",
-    "firstName": "Lily",
-    "website": null,
-    "github ": "",
-    "doubleMajor": null,
-    "pronouns": "she/her",
-    "linkedin": null,
-    "roleDescription": "Developer Lead",
-    "graduation": "May 2025",
-    "major": "Computer Science",
-    "netid": "lnp35",
-    "role": "dev-lead",
-    "about": "Hello! My name is Lily and I am an Orlando native and super excited to be working in DTI this semester. In my free time I love to bake, spend time with friends, and watch movies. ",
+    "semesterJoined": "Spring 2022",
     "email": "lnp35@cornell.edu",
     "lastName": "Pham",
-    "subteams": [
-      "leads"
-    ],
+    "linkedin": null,
+    "github": "https://github.com/burninglilies",
     "minor": null,
-    "semesterJoined": "Spring 2022"
+    "hometown": "Orlando, FL",
+    "role": "dev-advisor",
+    "firstName": "Lily",
+    "github ": "",
+    "about": "Hello! My name is Lily and I am an Orlando native and super excited to be working in DTI this semester. In my free time I love to bake, spend time with friends, and watch movies. ",
+    "website": null,
+    "pronouns": "she/her",
+    "roleDescription": "Dev Advisor",
+    "major": "Computer Science",
+    "netid": "lnp35"
   },
   {
     "formerSubteams": [],
