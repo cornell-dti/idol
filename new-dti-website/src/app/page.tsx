@@ -96,7 +96,7 @@ const Home: React.FC = () => {
         <div className="flex flex-row grow h-full justify-evenly lg:gap-24 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
           <div className="flex flex-col md:gap-8 xs:gap-4 xs:w-full lg:w-5/12">
             <h2 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
-              Building the Future of Tech @ Cornell
+              Cornell Digital Tech & Innovation Project Team
             </h2>
             <div className="flex justify-center">
               {width < LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
