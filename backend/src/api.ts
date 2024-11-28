@@ -41,7 +41,8 @@ import {
   clearAllCoffeeChats,
   getCoffeeChatBingoBoard,
   checkMemberMeetsCategory,
-  runAutoChecker
+  runAutoChecker,
+  notifyMemberCoffeeChat
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -64,7 +65,7 @@ import {
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
   deleteTeamEventAttendance,
-  notifyMember
+  notifyMemberTeamEvents
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -333,6 +334,10 @@ loginCheckedPut('/coffee-chat/autocheck/:uuid/', async (req, user) => ({
   coffeeChat: await runAutoChecker(req.params.uuid, user)
 }));
 
+loginCheckedPost('/coffee-chat-reminder', async (req, user) => ({
+  info: await notifyMemberCoffeeChat(req, req.body, user)
+}));
+
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
 loginCheckedGet('/getIDOLChangesPR', (_, user) => getIDOLChangesPR(user));
@@ -396,7 +401,12 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   return {};
 });
 loginCheckedPost('/team-event-reminder', async (req, user) => ({
-  info: await notifyMember(req, req.query.end_of_semester_reminder !== undefined, req.body, user)
+  info: await notifyMemberTeamEvents(
+    req,
+    req.query.end_of_semester_reminder !== undefined,
+    req.body,
+    user
+  )
 }));
 
 // Candidate Decider

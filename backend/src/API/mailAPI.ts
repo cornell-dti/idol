@@ -9,6 +9,7 @@ import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
 import { LEAD_ROLES } from '../consts';
+import { getCoffeeChatsByUser } from './coffeeChatAPI';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
@@ -192,5 +193,41 @@ export const sendTECReminder = async (
   } approved and ${pendingCount} team event ${
     pendingCount !== 1 ? 'credits' : 'credit'
   } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
+  return emailMember(req, member, subject, text);
+};
+
+/**
+ * Send an email reminder to members who do not have a coffee chat blackout
+ * @param req - The request made when sending the email
+ * @param member - The member being sent the email
+ * @returns - The response body containing information of the member being sent the email
+ */
+export const sendCoffeeChatReminder = async (
+  req: Request,
+  member: IdolMember
+): Promise<AxiosResponse> => {
+  const subject = 'Coffee Chat Reminder';
+  const memberCoffeeChats: CoffeeChat[] = await Promise.all(
+    (await getCoffeeChatsByUser(member)).map(async (chat) => ({
+      ...chat
+    }))
+  );
+
+  let approvedCount = 0;
+  let pendingCount = 0;
+  memberCoffeeChats.forEach((chat) => {
+    if (chat.status === 'approved') {
+      approvedCount += 1;
+    }
+    if (chat.status === 'pending') {
+      pendingCount += 1;
+    }
+  });
+
+  const text = `Hey! You currently have ${approvedCount} coffee ${
+    approvedCount !== 1 ? 'chats' : 'chat'
+  } approved and ${pendingCount} coffee ${
+    pendingCount !== 1 ? 'chats' : 'chat'
+  } pending this semester.\nThis is a reminder to submit your coffee chats by the end of the semester.\nTo submit your coffee chats, please visit https://idol.cornelldti.org/forms/coffeeChats.`;
   return emailMember(req, member, subject, text);
 };

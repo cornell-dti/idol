@@ -1,9 +1,11 @@
+import { Request } from 'express';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember, allMembers } from './memberAPI';
 import { LEAD_ROLES } from '../consts';
 import { getGeneralRoleFromLeadType } from '../utils/memberUtil';
+import { sendCoffeeChatReminder } from './mailAPI';
 
 const coffeeChatDao = new CoffeeChatDao();
 
@@ -309,4 +311,30 @@ export const checkMemberMeetsCategory = async (
     }
   }
   return { status, message };
+};
+
+/**
+ * Reminds a member about submitting coffee chats this semester.
+ * @param req - the post request being made by the user
+ * @param member - the member being notified
+ * @param user - the user trying to notify the member
+ * @throws PermissionError if the user does not have permissions to notify members
+ * @returns the body of the request, which contains details about the member being notified
+ */
+export const notifyMemberCoffeeChat = async (
+  req: Request,
+  member: IdolMember,
+  user: IdolMember
+): Promise<unknown> => {
+  const canNotify = await PermissionsManager.canNotifyMembers(user);
+  if (!canNotify) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to notify members!`
+    );
+  }
+  if (!member.email || member.email === '') {
+    throw new BadRequestError("Couldn't notify member with undefined email!");
+  }
+  const responseBody = await sendCoffeeChatReminder(req, member);
+  return responseBody.data;
 };

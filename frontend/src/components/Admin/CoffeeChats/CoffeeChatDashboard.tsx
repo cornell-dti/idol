@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Header, Loader, Button, Table } from 'semantic-ui-react';
+import { Header, Loader, Button, Table, Icon } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
 import styles from './CoffeeChatDashboard.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { getLinesFromBoard } from '../../../utils';
+import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 
 type CoffeeChatStats = {
   fulfilledCategories: string[];
@@ -93,7 +94,7 @@ const CoffeeChatDashboard: React.FC = () => {
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.headerContainer}>
-        <Header as="h1">Team Event Dashboard</Header>
+        <Header as="h1">Coffee Chat Dashboard</Header>
         <div className={styles.csvButton}>
           <Button onClick={handleExportToCsv}>Export to CSV</Button>
         </div>
@@ -101,7 +102,19 @@ const CoffeeChatDashboard: React.FC = () => {
       <div className={styles.tableContainer}>
         <Table celled selectable striped>
           <Table.Header>
-            <Table.HeaderCell className={styles.nameCell}>Name</Table.HeaderCell>
+            <Table.HeaderCell className={styles.nameCell}>
+              Name
+              <NotifyMemberModal
+                all={true}
+                trigger={
+                  <Button className={styles.remindButton} size="small" color="red">
+                    Remind All
+                  </Button>
+                }
+                members={allMembers.filter((member) => !coffeeChatStats[member.netid].blackout)}
+                type={'coffee chat'}
+              />
+            </Table.HeaderCell>
             <Table.HeaderCell>Blacked Out?</Table.HeaderCell>
             <Table.HeaderCell>Bingo?</Table.HeaderCell>
             {categories.map((category, index) => (
@@ -113,6 +126,14 @@ const CoffeeChatDashboard: React.FC = () => {
               <Table.Row key={index}>
                 <Table.Cell className={styles.nameCell}>
                   {member.firstName} {member.lastName} ({member.netid})
+                  {!coffeeChatStats[member.netid].blackout && (
+                    <NotifyMemberModal
+                      all={false}
+                      trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
+                      member={member}
+                      type={'coffee chat'}
+                    />
+                  )}
                 </Table.Cell>
                 <Table.Cell>{coffeeChatStats[member.netid].blackout ? 'Yes' : 'No'}</Table.Cell>
                 <Table.Cell>{coffeeChatStats[member.netid].bingo ? 'Yes' : 'No'}</Table.Cell>
