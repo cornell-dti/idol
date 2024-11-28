@@ -58,50 +58,25 @@ const SponsorHero = () => {
   );
 };
 
-type SponsorCardProps = {
-  image: string;
-  title: string;
-  description: string;
-  alt: string;
-  width: number;
-  height: number;
-};
-
-const SponsorCard: React.FC<SponsorCardProps> = ({
-  image,
-  title,
-  description,
-  alt,
-  width,
-  height
-}) => (
-  <div className="flex flex-col gap-3 lg:w-[308px] md:w-60 max-w-lg items-center">
-    <Image src={image} alt={alt} height={height} width={width} />
-    <div
-      className="bg-white p-6 flex flex-col gap-3 rounded-2xl"
-      style={{ boxShadow: '4px 4px 8px 2px #00000014' }}
-    >
-      <h3 className="font-semibold lg:text-xl xs:text-lg text-center">{title}</h3>
-      <p className="lg:text-lg xs:text-sm">{description}</p>
-    </div>
-  </div>
-);
-
 const SponsorImpact = () => (
   <div
     className="max-w-5xl flex lg:gap-x-12 xs:gap-y-10 xs:gap-x-3 lg:py-24 xs:py-14 xs:flex-col 
-    md:flex-row p-5 items-center"
+    md:flex-row p-5"
   >
     {impacts.map((impact) => (
-      <SponsorCard
-        image={impact.image}
-        title={impact.title}
-        description={impact.description}
-        key={impact.key}
-        alt={impact.key}
-        width={impact.width}
-        height={impact.height}
-      />
+      <div className="flex flex-col gap-3 md:w-1/3">
+        <div className="flex items-center gap-1">
+          <Image
+            src={impact.image}
+            alt={impact.key}
+            height={impact.height}
+            width={impact.width}
+            className="h-24 h-auto md:w-[30%]"
+          />
+          <h3 className="font-semibold lg:text-xl xs:text-lg text-center">{impact.title}</h3>
+        </div>
+        <p className="lg:text-lg xs:text-sm">{impact.description}</p>
+      </div>
     ))}
   </div>
 );
