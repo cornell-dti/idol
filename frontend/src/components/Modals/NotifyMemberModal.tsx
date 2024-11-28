@@ -16,45 +16,28 @@ const NotifyMemberModal = (props: {
   const [open, setOpen] = useState(false);
   const subject = !all && member ? `${member.firstName} ${member.lastName}` : 'everyone';
 
-  const handleSubmit = (type: 'tec' | 'coffee chat') => {
-    if (!all && member && type === 'tec') {
-      MembersAPI.notifyMemberTeamEvents(member, endOfSemesterReminder || false).then(() => {
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Reminder sent!',
-          contentMsg: `A TEC email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
-        });
-      });
+  const notifyMember = async (member: Member) => {
+    if (type === 'tec') {
+      await MembersAPI.notifyMemberTeamEvents(member, endOfSemesterReminder || false);
+    } else if (type === 'coffee chat') {
+      await MembersAPI.notifyMemberCoffeeChat(member);
     }
+  };
 
-    if (all && members && type === 'tec') {
-      members.forEach(async (member) => {
-        await MembersAPI.notifyMemberTeamEvents(member, endOfSemesterReminder || false);
-      });
+  const handleSubmit = async () => {
+    if (all && members) {
+      await Promise.all(members.map(notifyMember));
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A TEC email reminder was successfully sent to everyone!`
+        contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
       });
-    }
-
-    if (!all && member && type === 'coffee chat') {
-      MembersAPI.notifyMemberCoffeeChat(member).then(() => {
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Reminder sent!',
-          contentMsg: `A coffee chat email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
-        });
-      });
-    }
-
-    if (all && members && type === 'coffee chat') {
-      members.forEach(async (member) => {
-        await MembersAPI.notifyMemberCoffeeChat(member);
-      });
+    } else if (member) {
+      await notifyMember(member);
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A coffee chat email reminder was successfully sent to everyone!`
+        contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
       });
     }
-
     setOpen(false);
   };
 
@@ -79,9 +62,7 @@ const NotifyMemberModal = (props: {
               content="Yes"
               labelPosition="right"
               icon="checkmark"
-              onClick={() => {
-                handleSubmit(type);
-              }}
+              onClick={handleSubmit}
               positive
             />
           </div>
