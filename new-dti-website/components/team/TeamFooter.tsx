@@ -19,9 +19,9 @@ const BeyondDTI = () => {
               <div className="flex flex-col items-center gap-6 col-span-2 row-span-2">
                 <h1 className="font-semibold md:text-[32px] xs:text-[20px]">Beyond DTI</h1>
                 <p className="md:text-[22px] xs:text-sm !leading-7 text-center">
-                  Our members and alumni are{' '}
-                  <span className="font-bold">all over the world</span>, but here are
-                  just a few places you'll find the DTI family continue their success into industry.
+                  Our members and alumni are <span className="font-bold">all over the world</span>,
+                  but here are just a few places you'll find the DTI family continue their success
+                  into industry.
                 </p>
               </div>
             )}
