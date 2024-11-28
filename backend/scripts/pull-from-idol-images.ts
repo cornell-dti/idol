@@ -40,7 +40,7 @@ async function downloadAndProcessImage(url: string, outputPath: string): Promise
 
     const processedImage = await sharp(Buffer.from(imageBuffer))
       .resize({ height: RESIZE_HEIGHT, withoutEnlargement: true })
-      .jpeg({ quality: 75 })
+      .jpeg({ quality: 100 })
       .toBuffer();
 
     const processedSize = processedImage.length / 1024;
