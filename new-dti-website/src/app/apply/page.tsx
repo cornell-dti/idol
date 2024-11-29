@@ -7,7 +7,6 @@ import RoleDescriptions from '../../../components/apply/RoleDescription';
 import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import Banner from '../../../components/apply/Banner';
-import useThemeContext from '../../hooks/useThemeContext';
 import { isAppOpen } from '../../utils/dateUtils';
 
 const ApplyHero = () => (
@@ -20,19 +19,19 @@ const ApplyHero = () => (
       className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
       xs:mx-6 md:mx-[65px]"
     >
-      <h1 className="flex items-center md:text-[100px] md:leading-[120px] xs:text-[48px] font-semibold">
+      <h1 className="flex items-center md:text-header md:leading-header xs:text-[48px] xs:leading-header-xs font-semibold">
         <div>
           JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
         </div>
       </h1>
       <div className="flex flex-col gap-6">
         <h2
-          className="font-bold md:text-[40px] xs:text-[24px] md:leading-[48px] 
-          xs:leading-[29px] text-[#877B7B]"
+          className="font-bold md:text-subheader xs:text-[24px] md:leading-subheader
+          xs:leading-[29px] text-hero-primary"
         >
-          Down to <span className="text-[#E4E4E4] italic">innovate?</span>
+          Down to innovate?
         </h2>
-        <p className="md:text-lg xs:text-sm">
+        <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
           <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
           applicants to apply regardless of experience. We'd love to work with someone like you.
         </p>
@@ -78,23 +77,18 @@ const ApplyCoffeeChat = () => (
   </div>
 );
 
-const ApplyPage = () => {
-  const { theme } = useThemeContext();
-  theme?.setFooterTheme('light');
-
-  return (
-    <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
-      <div>
-        <ApplyHero />
-        <ApplicationTimeline />
-      </div>
-      <RoleDescriptions />
-      <div>
-        <ApplyFAQ />
-        <ApplyCoffeeChat />
-      </div>
+const ApplyPage = () => (
+  <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
+    <div>
+      <ApplyHero />
+      <ApplicationTimeline />
     </div>
-  );
-};
+    <RoleDescriptions />
+    <div>
+      <ApplyFAQ />
+      <ApplyCoffeeChat />
+    </div>
+  </div>
+);
 
 export default ApplyPage;
