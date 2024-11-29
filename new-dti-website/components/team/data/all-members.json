@@ -1809,26 +1809,27 @@
   },
   {
     "formerSubteams": [],
+    "website": null,
+    "doubleMajor": null,
+    "linkedin": null,
     "graduation": "May 2027",
-    "firstName": "Renee",
+    "major": "Design and Environmental Analysis",
+    "pronouns": "She/her",
+    "semesterJoined": "Fall 2024",
+    "minor": "Information Science, Entrepreneurship",
+    "hometown": "Rancho Cucamonga, CA",
+    "email": "rcd239@cornell.edu",
     "subteams": [
       "reviews"
     ],
-    "website": null,
-    "hometown": "Rancho Cucamonga, CA",
-    "email": "rcd239@cornell.edu",
-    "netid": "rcd239",
-    "linkedin": null,
-    "role": "designer",
-    "major": "Design and Environmental Analysis",
     "roleDescription": "Designer",
-    "lastName": "Du",
+    "firstName": "Renee",
     "about": "Designer on DTI",
-    "pronouns": "She/her",
-    "doubleMajor": null,
+    "lastName": "Du",
+    "role": "designer",
+    "netid": "rcd239",
     "github": null,
-    "minor": "Information Science, Entrepreneurship",
-    "semesterJoined": "Fall 2024"
+    "college": "humec"
   },
   {
     "formerSubteams": [],
@@ -2024,26 +2025,27 @@
   },
   {
     "formerSubteams": [],
-    "about": "product designer! ",
-    "email": "ssh96@cornell.edu",
-    "hometown": "Mumbai, India",
-    "graduation": "May 2024",
-    "subteams": [
-      "queuemein"
-    ],
-    "lastName": "Harisingani",
     "roleDescription": "Designer",
+    "semesterJoined": "Spring 2024",
+    "doubleMajor": null,
+    "linkedin": "https://www.linkedin.com/in/sia-harisingani-13081b22a",
+    "email": "ssh96@cornell.edu",
     "netid": "ssh96",
+    "website": null,
+    "graduation": "May 2024",
+    "minor": "Information Science and Psychology ",
+    "major": "Design and Environmental Analysis",
+    "lastName": "Harisingani",
+    "pronouns": "she/her",
+    "hometown": "Mumbai, India",
     "role": "designer",
     "firstName": "Sia",
     "github": null,
-    "minor": "Information Science and Psychology ",
-    "major": "Design and Environmental Analysis",
-    "linkedin": "https://www.linkedin.com/in/sia-harisingani-13081b22a",
-    "pronouns": "she/her",
-    "website": null,
-    "doubleMajor": null,
-    "semesterJoined": "Spring 2024"
+    "about": "product designer! ",
+    "subteams": [
+      "queuemein"
+    ],
+    "college": "humec"
   },
   {
     "formerSubteams": [],
