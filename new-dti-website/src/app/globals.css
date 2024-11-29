@@ -215,11 +215,3 @@ summary::after {
 details[open] > summary::after {
   rotate: 180deg;
 }
-
-details {
-  user-select: none;
-}
-
-details > *:not(summary) {
-  user-select: text;
-}
