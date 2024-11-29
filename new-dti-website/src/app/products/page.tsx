@@ -29,7 +29,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
             <div className="flex flex-row">
-              <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px] text-hero-primary">
+              <div className="text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px] text-hero-primary">
                 Real impact
               </div>
             </div>

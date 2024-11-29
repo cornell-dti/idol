@@ -78,23 +78,18 @@ const ApplyCoffeeChat = () => (
   </div>
 );
 
-const ApplyPage = () => {
-  const { theme } = useThemeContext();
-  theme?.setFooterTheme('light');
-
-  return (
-    <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
-      <div>
-        <ApplyHero />
-        <ApplicationTimeline />
-      </div>
-      <RoleDescriptions />
-      <div>
-        <ApplyFAQ />
-        <ApplyCoffeeChat />
-      </div>
+const ApplyPage = () => (
+  <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
+    <div>
+      <ApplyHero />
+      <ApplicationTimeline />
     </div>
-  );
-};
+    <RoleDescriptions />
+    <div>
+      <ApplyFAQ />
+      <ApplyCoffeeChat />
+    </div>
+  </div>
+);
 
 export default ApplyPage;
