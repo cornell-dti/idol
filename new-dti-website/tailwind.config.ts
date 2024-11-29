@@ -73,6 +73,11 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
       },
+      lineHeight: {
+        header: 'var(--hero-leading-header)',
+        subheader: 'var(--hero-leading-subheader)',
+        bodyText: 'var(--hero-leading-body-text)'
+      },
       keyframes: {
         'accordion-down': {
           from: { height: 0 },

@@ -152,15 +152,15 @@ const TeamHero = () => {
         lg:m-[0_0_106px_152px] md:m-[0_0_140px_40px] xs:m-[0_0_71px_36px]"
         >
           <div className="mr-20">
-            <h1 className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] xs:leading-[63px]">
+            <h1 className="font-semibold md:text-[100px] xs:text-[52px] md:leading-header xs:leading-[63px]">
               OUR <span className="text-[#FF4C4C]">TEAM</span>
             </h1>
           </div>
           <div className="flex flex-col justify-center gap-6">
-            <h2 className="font-bold md:text-[40px] xs:text-2xl text-hero-primary">
+            <h2 className="font-bold md:text-[40px] xs:text-2xl text-hero-primary md:leading-subheader">
               Working together
             </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary">
+            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-bodyText">
               We are Cornell DTI. But individually, we are a{' '}
               <span className="font-bold">talented, diverse group of students</span> from different
               colleges and countries striving to make a difference in the Cornell community and

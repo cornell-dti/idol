@@ -22,18 +22,18 @@ export default function Page() {
             intensity={0.4}
           />
           <div className="md:w-fit md:max-w-[558px] xs:max-w-none z-10">
-            <p className="md:text-[100px] md:leading-[121px] text-[48px] leading-[58px] font-semibold">
+            <h1 className="md:text-[100px] md:leading-header text-[48px] font-semibold">
               <span className="text-white">OUR </span>
               <span className="text-red-500">PRODUCTS</span>
-            </p>
+            </h1>
           </div>
           <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
             <div className="flex flex-row">
-              <div className="text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px] text-hero-primary">
+              <div className="text-[24px] font-bold md:text-[40px] md:leading-subheader text-hero-primary">
                 Real impact
               </div>
             </div>
-            <p className="text-hero-secondary xs:max-w-none md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px] md:max-w-md max-w-[314px] z-10">
+            <p className="text-hero-secondary xs:max-w-none md:text-lg md:leading-bodyText text-[14px] md:max-w-md max-w-[314px] z-10">
               Each of our projects address an unfulfilled need that exists in our community using
               <span className="font-semibold">
                 {' '}

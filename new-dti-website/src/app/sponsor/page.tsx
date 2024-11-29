@@ -27,7 +27,7 @@ const SponsorHero = () => {
       >
         <div className="flex items-center">
           <h1
-            className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
+            className="font-semibold md:text-[100px] xs:text-[52px] md:leading-header
           xs:leading-[63px] whitespace-pre"
           >
             SUPPORT <br />
@@ -35,7 +35,7 @@ const SponsorHero = () => {
           </h1>
         </div>
         <div className="flex flex-col justify-center gap-6">
-          <h2 className="font-bold md:text-[40px] xs:text-2xl text-hero-primary">
+          <h2 className="font-bold md:text-[40px] xs:text-2xl text-hero-primary md:leading-subheader">
             Let's collaborate
           </h2>
           <p className="md:text-lg xs:text-sm text-hero-secondary">
