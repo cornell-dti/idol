@@ -24,11 +24,11 @@ const InitiativeHero = () => (
       <div className="flex flex-col gap-6">
         <h2
           className="font-bold md:text-[40px] xs:text-[24px] md:leading-[48px] 
-          xs:leading-[29px] text-heroPrimary"
+          xs:leading-[29px] text-hero-primary"
         >
           Invigorating growth
         </h2>
-        <p className="md:text-lg xs:text-sm text-heroSecondary">
+        <p className="md:text-lg xs:text-sm text-hero-secondary">
           What sets us apart from other project teams is our desire to{' '}
           <span className="font-bold">share our discoveries</span> with other students and members
           of the greater Ithaca community.

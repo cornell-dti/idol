@@ -81,10 +81,10 @@ export default function Courses() {
               </div>
 
               <div className="flex flex-col justify-center gap-6 ">
-                <h2 className="font-bold md:text-[40px] xs:text-2xl text-heroPrimary">
+                <h2 className="font-bold md:text-[40px] xs:text-2xl text-hero-primary">
                   Teaching the community
                 </h2>
-                <p className="md:text-lg xs:text-sm text-heroSecondary">
+                <p className="md:text-lg xs:text-sm text-hero-secondary">
                   A project team is meant, above all, to be a learning experience. Given our mission
                   of <span className="font-black">community impact</span>, we want to help everyone{' '}
                   <span className="font-black">learn and grow</span> through our training course in{' '}

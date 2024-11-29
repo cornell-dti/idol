@@ -28,11 +28,11 @@ const ApplyHero = () => (
       <div className="flex flex-col gap-6">
         <h2
           className="font-bold md:text-[40px] xs:text-[24px] md:leading-[48px] 
-          xs:leading-[29px] text-heroPrimary"
+          xs:leading-[29px] text-hero-primary"
         >
           Down to innovate?
         </h2>
-        <p className="md:text-lg xs:text-sm text-heroSecondary">
+        <p className="md:text-lg xs:text-sm text-hero-secondary">
           <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
           applicants to apply regardless of experience. We'd love to work with someone like you.
         </p>

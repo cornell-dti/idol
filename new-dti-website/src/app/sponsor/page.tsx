@@ -35,10 +35,10 @@ const SponsorHero = () => {
           </h1>
         </div>
         <div className="flex flex-col justify-center gap-6">
-          <h2 className="font-bold md:text-[40px] xs:text-2xl text-heroPrimary">
+          <h2 className="font-bold md:text-[40px] xs:text-2xl text-hero-primary">
             Let's collaborate
           </h2>
-          <p className="md:text-lg xs:text-sm text-heroSecondary">
+          <p className="md:text-lg xs:text-sm text-hero-secondary">
             The generous contributions of our supporters and sponsors allow our team to continue
             building products and hosting initiatives to{' '}
             <span className="font-bold">help the Cornell and Ithaca communities.</span>
