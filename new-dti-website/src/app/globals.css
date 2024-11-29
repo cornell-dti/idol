@@ -216,6 +216,7 @@
 .secondary-button--red:hover {
   color: #fefefe;
   background-color: #d63d3d;
+}
 
 summary {
   padding-top: 1rem;
