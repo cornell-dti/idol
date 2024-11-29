@@ -122,13 +122,7 @@ const TeamStatistics = () => {
     }, new Set());
 
   const emptyRoleStats: roleStatistics = {
-    designer: {
-      name: 'Design',
-      color: '#FFBCBC',
-      people: 0,
-      majors: new Set(),
-      colleges: new Set()
-    },
+    lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: new Set() },
     developer: {
       name: 'Development',
       color: '#D63D3D',
@@ -136,7 +130,13 @@ const TeamStatistics = () => {
       majors: new Set(),
       colleges: new Set()
     },
-    pm: { name: 'Product', color: '#FFFFFF', people: 0, majors: new Set(), colleges: new Set() },
+    designer: {
+      name: 'Design',
+      color: '#FFBCBC',
+      people: 0,
+      majors: new Set(),
+      colleges: new Set()
+    },
     business: {
       name: 'Business',
       color: '#B7B7B7',
@@ -144,7 +144,7 @@ const TeamStatistics = () => {
       majors: new Set(),
       colleges: new Set()
     },
-    lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: new Set() }
+    pm: { name: 'Product', color: '#FFFFFF', people: 0, majors: new Set(), colleges: new Set() }
   };
 
   const roleStats = populateObject(emptyRoleStats, (key, value) => {
