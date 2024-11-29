@@ -7,7 +7,6 @@ import RoleDescriptions from '../../../components/apply/RoleDescription';
 import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import Banner from '../../../components/apply/Banner';
-import useThemeContext from '../../hooks/useThemeContext';
 import { isAppOpen } from '../../utils/dateUtils';
 
 const ApplyHero = () => (
