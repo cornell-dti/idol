@@ -148,26 +148,28 @@ const CoffeeChatsDashboard = ({
           be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>. Click on a bingo
           cell to view more details.
         </p>
-        <strong>
-          {blackout
-            ? '🎉 Congratulations! You have achieved a blackout! 🎉'
-            : `Bingo Count: ${bingoCount}`}
-        </strong>
       </header>
 
       <div className={styles.container}>
         {isChatLoading ? (
           <Loader active inline />
         ) : (
-          <div className={styles.bingo_board}>
-            {bingoBoard.flat().map((category, index) => (
-              <div key={index} className={getAppearance(category)}>
-                <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
-                  <div className={styles.bingo_text}>{category}</div>
+          <>
+            <strong>
+              {blackout
+                ? '🎉 Congratulations! You have achieved a blackout! 🎉'
+                : `Bingo Count: ${bingoCount}`}
+            </strong>
+            <div className={styles.bingo_board}>
+              {bingoBoard.flat().map((category, index) => (
+                <div key={index} className={getAppearance(category)}>
+                  <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
+                    <div className={styles.bingo_text}>{category}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

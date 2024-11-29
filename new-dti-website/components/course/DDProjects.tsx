@@ -47,7 +47,7 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
 
       {/* Smooth transition for the Additional Content onClick */}
       <div
-        className={`overflow-hidden transition-all duration-700 ease-in-out ${
+        className={`overflow-hidden transition-all motion-reduce:duration-[1500ms] duration-700 motion-safe:ease-in-out ${
           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
