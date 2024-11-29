@@ -1,5 +1,4 @@
 import { ReactNode, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import config from '../../config.json';
 import interviewPrep from './data/interviewPrep.json';
@@ -9,32 +8,12 @@ type FAQAccordionProps = {
   children: ReactNode;
 };
 
-const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = () => setIsOpen((prev) => !prev);
-
-  return (
-    <button
-      className="py-4 border-white border-b-black border-2 cursor-pointer text-left"
-      onClick={handleClick}
-    >
-      <div className="flex justify-between pr-4">
-        <p className="section-subheading">{header}</p>
-        <Image
-          src="/icons/dropdown.svg"
-          alt="dropdown"
-          width={13}
-          height={7}
-          className={isOpen ? 'rotate-180' : 'rotate-0'}
-        />
-      </div>
-      <div className={`overflow-hidden ${isOpen ? 'max-h-none' : 'max-h-0'}`}>
-        <div className="md:py-5 xs:py-3">{children}</div>
-      </div>
-    </button>
-  );
-};
+const FAQAccordion = ({ header, children }: FAQAccordionProps) => (
+  <details className="border-white border-b-black border-2 cursor-pointer">
+    <summary className="section-subheading">{header}</summary>
+    <div className="md:py-5 xs:py-3">{children}</div>
+  </details>
+);
 
 const ApplyFAQ = () => {
   const sections = ['General Questions', 'Behavioral Prep', 'Technical Prep'];
