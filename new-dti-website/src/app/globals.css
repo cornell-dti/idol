@@ -41,9 +41,13 @@
     --hero-primary: 255, 255, 255;
     --hero-secondary: 255, 255, 255, 0.7;
 
+    --hero-leading-header-xs: 63px;
     --hero-leading-header: 120px;
     --hero-leading-subheader: 50px;
     --hero-leading-body-text: 20px;
+
+    --hero-header: 100px;
+    --hero-subheader: 40px;
   }
 
   .dark {

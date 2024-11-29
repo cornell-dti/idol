@@ -74,9 +74,14 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)'
       },
       lineHeight: {
+        'header-xs': 'var(--hero-leading-header-xs)',
         header: 'var(--hero-leading-header)',
         subheader: 'var(--hero-leading-subheader)',
-        bodyText: 'var(--hero-leading-body-text)'
+        'body-text': 'var(--hero-leading-body-text)'
+      },
+      fontSize: {
+        header: 'var(--hero-header)',
+        subheader: 'var(--hero-subheader)'
       },
       keyframes: {
         'accordion-down': {
