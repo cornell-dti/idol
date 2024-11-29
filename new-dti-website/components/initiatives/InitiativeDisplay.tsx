@@ -41,9 +41,6 @@ const Initiative = ({
           <Image
             {...image}
             className="xs:h-[260px] md:h-[375px] lg:h-[260px] w-full object-cover rounded-xl"
-            style={{
-              boxShadow: `${width >= LAPTOP_BREAKPOINT ? '0px 4px 10px 3px #00000036' : ''}`
-            }}
           />
         </div>
       </div>
@@ -64,27 +61,21 @@ const InitiativeDisplay = () => {
   const parts = featured.description.split(new RegExp(`(${featured.eventName})`));
 
   return (
-    <div className="bg-white text-black flex justify-center mt-10 mb-24 lg:mx-20 xs:mx-7">
+    <div className="bg-white text-black flex justify-center my-24 lg:mx-20 xs:mx-7">
       <div className="max-w-7xl">
         {width >= LAPTOP_BREAKPOINT ? (
           <div className="grid grid-cols-2 gap-16 mb-36">
             <div className="flex flex-col gap-8">
               <h3 className="font-semibold text-[40px] leading-[48px]">{featured.subtitle}</h3>
               <p className="font-semibold text-[22px] leading-[26px]">{featured.title}</p>
-              <p className="section-text">
+              <p className="section-text !leading-[28px]">
                 {parts.map((part, index) =>
                   part === featured.eventName ? <b key={index}>{part}</b> : part
                 )}
               </p>
             </div>
             <div className="flex items-center">
-              <Image
-                {...featured.image}
-                className="rounded-xl"
-                style={
-                  width >= LAPTOP_BREAKPOINT ? { boxShadow: '0px 4px 10px 3px #00000036' } : {}
-                }
-              />
+              <Image {...featured.image} className="rounded-xl" />
             </div>
           </div>
         ) : (
