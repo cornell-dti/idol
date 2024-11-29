@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import useScrollPosition from '../../src/hooks/useScrollPosition';
 import { cn } from '../../lib/utils';
+import useMediaReduce from '../../src/hooks/useMediaReduce';
 
 type ConnectorProps = {
   orientation: 'left' | 'right';
@@ -14,6 +15,7 @@ type ConnectorProps = {
 };
 
 const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
+  const reduceMotion = useMediaReduce();
   const connectorRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScrollPosition();
 
@@ -93,7 +95,11 @@ const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
           strokeLinecap="square"
           strokeDasharray={`${props.width + props.height} ${props.width + props.height}`}
           strokeDashoffset={
-            props.width + props.height - (getOffset() / props.height) * (props.width + props.height)
+            reduceMotion
+              ? 0
+              : props.width +
+                props.height -
+                (getOffset() / props.height) * (props.width + props.height)
           }
         />
       </svg>
