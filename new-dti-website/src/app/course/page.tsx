@@ -70,10 +70,7 @@ export default function Courses() {
             >
               <div className="flex flex-col gap-y-8 md:gap-y-0">
                 <div>
-                  <h1
-                    className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
-          xs:leading-[63px] whitespace-pre"
-                  >
+                  <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs whitespace-pre">
                     OUR <br />
                     <span className="text-[#FF4C4C]">COURSE</span>
                   </h1>
@@ -81,15 +78,13 @@ export default function Courses() {
               </div>
 
               <div className="flex flex-col justify-center gap-6 ">
-                <h2 className="font-bold md:text-[40px] xs:text-2xl">
-                  <span className="text-[#877B7B]">Teaching the</span>{' '}
-                  <span className="italic">community</span>
+                <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
+                  Teaching the community
                 </h2>
-                <p className="md:text-lg xs:text-sm">
+                <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
                   A project team is meant, above all, to be a learning experience. Given our mission
                   of <span className="font-black">community impact</span>, we want to help everyone{' '}
-                  <span className="font-black">learn and grow</span>
-                  through our training course in{' '}
+                  <span className="font-black">learn and grow</span> through our training course in{' '}
                   <span className="font-black">product development.</span>
                 </p>
               </div>
