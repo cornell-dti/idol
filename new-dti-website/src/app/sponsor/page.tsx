@@ -87,17 +87,17 @@ const SponsorPage = () => {
     <>
       <SponsorHero />
       <div className="bg-[#EDEDED] flex justify-center">
-        <div className="max-w-5xl flex justify-center p-5 py-14 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
+        <div className="max-w-5xl flex justify-center p-5 py-24 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
           <Image
             src="/images/dti_2024.png"
             alt="DTI 2024"
             width={width >= LAPTOP_BREAKPOINT ? 475 : 350}
             height={width >= LAPTOP_BREAKPOINT ? 320 : 236}
-            className="rounded-3xl mx-auto object-cover"
+            className="rounded-3xl object-cover md:w-5/12"
           />
-          <div className="flex flex-col justify-center md:gap-5 xs:gap-3">
-            <h3 className="font-semibold text-2xl">Become a sponsor!</h3>
-            <p className="text-lg">
+          <div className="flex flex-col justify-center md:gap-5 xs:gap-3 md:w-7/12">
+            <h3 className="md:text-4xl xs:text-2xl font-semibold">Become a sponsor!</h3>
+            <p className="text-lg mb-4">
               We would love to partner with organizations that share our vision of changing the
               world. Together, we can{' '}
               <span className="font-bold">
