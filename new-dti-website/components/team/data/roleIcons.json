@@ -13,14 +13,14 @@
       "height": 66
     },
     {
-      "src": "/icons/design",
-      "altText": "Design",
-      "width": 66,
+      "src": "/icons/dev",
+      "altText": "Development",
+      "width": 72,
       "height": 66
     },
     {
-      "src": "/icons/product",
-      "altText": "Product",
+      "src": "/icons/design",
+      "altText": "Design",
       "width": 66,
       "height": 66
     },
@@ -31,9 +31,9 @@
       "height": 66
     },
     {
-      "src": "/icons/dev",
-      "altText": "Development",
-      "width": 72,
+      "src": "/icons/product",
+      "altText": "Product",
+      "width": 66,
       "height": 66
     }
   ]
