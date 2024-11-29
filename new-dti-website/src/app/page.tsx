@@ -137,9 +137,10 @@ const Home: React.FC = () => {
             onClick={scrollToContent}
             className={`text-white md:text-lg xs:text-[16px] font-semibold cursor-pointer flex flex-col items-center z-10 ${ibm_plex_mono.className}`}
             style={{ transition: 'all 0.3s ease' }}
+            aria-label="scroll down"
           >
             LEARN MORE
-            <img src="/images/arrow.png" alt="Learn more" className="mt-3 w-auto h-6" />
+            <img src="/images/arrow.png" alt="" className="mt-3 w-auto h-6" />
           </button>
         </div>
       </div>

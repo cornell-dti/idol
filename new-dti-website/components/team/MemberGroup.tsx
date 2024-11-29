@@ -189,6 +189,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                 onMouseLeave={mouseHandler}
                 className="flex items-center justify-center gap-3 py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
              hover:bg-[#A52424] hover:text-white stroke-white w-max"
+                aria-label={`schedule coffee chat with ${props.firstName} ${props.lastName}`}
               >
                 <Image
                   src="/icons/red_calendar.svg"
@@ -211,11 +212,13 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
         </button>
       </div>
       <div className="md:hidden xs:block">
-        <button
+        <Link
+          href={props.coffeeChatLink ?? `mailto:${props.email}`}
           onMouseEnter={mouseHandler}
           onMouseLeave={mouseHandler}
           className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
               hover:bg-[#A52424] hover:text-white stroke-white w-full flex justify-center"
+          aria-label={`schedule coffee chat with ${props.firstName} ${props.lastName}`}
         >
           <div className="flex gap-3 w-max">
             <Image
@@ -227,7 +230,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             />
             <p className="font-bold text-base text-inherit whitespace-nowrap">Chat with me</p>
           </div>
-        </button>
+        </Link>
       </div>
     </Card>
   );
@@ -310,7 +313,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
       {members.map((member, index) => (
         <>
-          <button onClick={() => onMemberCardClick(member)} className="memberCard">
+          <button
+            onClick={() => onMemberCardClick(member)}
+            className="memberCard"
+            aria-label={`open ${member.firstName} ${member.lastName}'s details`}
+          >
             <MemberCard
               {...member}
               key={member.netid}
@@ -343,7 +350,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         >
           {members.map((member, index) => (
             <>
-              <button onClick={() => onMemberCardClick(member)} className="memberCard">
+              <button
+                onClick={() => onMemberCardClick(member)}
+                className="memberCard"
+                aria-label={`open ${member.firstName} ${member.lastName}'s details`}
+              >
                 <MemberCard
                   {...member}
                   key={member.netid}

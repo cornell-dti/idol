@@ -108,7 +108,7 @@ export default function Courses() {
                   src={'/icons/courses/trends_logo.png'}
                   width={450}
                   height={450}
-                  alt="Trends Logo"
+                  alt="Trends Logo composed of the firebase, react, typescript, nodejs, vscode, and DTI logos."
                   unoptimized
                   className="w-72 md:w-96 lg:w-[450px]"
                 />
@@ -142,6 +142,7 @@ export default function Courses() {
                     key="Trends Website"
                     href={config.trendsWebsiteLink}
                     className="primary-button"
+                    aria-label="Trends Website"
                   >
                     Learn More
                   </Link>
