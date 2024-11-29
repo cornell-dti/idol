@@ -192,3 +192,14 @@
   color: black;
   background-color: #fefefe;
 }
+
+.secondary-button--red {
+  color: #d63d3d;
+  background-color: #fefefe;
+  border-color: #d63d3d;
+}
+
+.secondary-button--red:hover {
+  color: #fefefe;
+  background-color: #d63d3d;
+}

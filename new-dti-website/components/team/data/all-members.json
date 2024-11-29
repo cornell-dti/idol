@@ -10,9 +10,7 @@
     "major": "Mathematics",
     "email": "aa2724@cornell.edu",
     "netid": "aa2724",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "linkedin": "https://www.linkedin.com/in/arshagga/",
     "about": "Freshman in CAS studying Mathematics with a concentration in Economics. From Bryn Mawr, PA which is 30 minutes outside of Philadelphia. Things I do for fun are play golf and tennis, follow F1, woodworking, DJing. ",
     "minor": null,
@@ -39,9 +37,7 @@
     "email": "aep227@cornell.edu",
     "role": "designer",
     "about": "",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "github": "",
     "graduation": "May 2027",
     "semesterJoined": "Fall 2024"
@@ -64,9 +60,7 @@
     "roleDescription": "Developer",
     "graduation": "May 2027",
     "major": "Computer Science",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "semesterJoined": "Spring 2024",
     "college": "cas",
     "linkedin": "https://www.linkedin.com/in/andrew-qian/"
@@ -77,9 +71,7 @@
     "pronouns": "",
     "hometown": "",
     "lastName": "Thia",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "about": "",
     "graduation": "May 2026",
     "linkedin": "",
@@ -98,9 +90,7 @@
     "graduation": "May 2025",
     "about": "Hi! My name is Alisha. I'm studying Computer Science in Engineering, but I'm also a business analyst on DTI! I'm also involved in other organizations on campus such as WICC. Outside of school, I enjoy traveling to new places and visiting some of the aesthetic, local coffee shops!",
     "lastName": "Lin",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "doubleMajor": "",
     "linkedin": "",
     "firstName": "Alisha",
@@ -127,9 +117,7 @@
     "email": "anc76@cornell.edu",
     "netid": "anc76",
     "doubleMajor": null,
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "website": null,
     "firstName": "Annie",
     "hometown": "Bridgewater, NJ",
@@ -144,9 +132,7 @@
     "minor": "Engineering Management",
     "linkedin": "https://www.linkedin.com/in/amelie-rosso-5b9034296",
     "role": "apm",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "github": null,
     "pronouns": "she/her",
     "roleDescription": "Associate PM",
@@ -165,9 +151,7 @@
   {
     "formerSubteams": [],
     "linkedin": "https://www.linkedin.com/in/amber-shen7/",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "doubleMajor": null,
     "email": "as4288@cornell.edu",
     "about": "newbie dev on CornellGo!",
@@ -187,14 +171,10 @@
   },
   {
     "pronouns": "She/Her",
-    "formerSubteams": [
-      "business"
-    ],
+    "formerSubteams": ["business"],
     "github": null,
     "major": "Information Science",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "lastName": "Le",
     "firstName": "An",
     "netid": "atl82",
@@ -220,9 +200,7 @@
     "minor": "",
     "website": null,
     "hometown": "Boston, MA",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "role": "tpm",
     "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/",
     "github ": "https://github.com/andrew032011",
@@ -245,9 +223,7 @@
     "email": "bl628@cornell.edu",
     "linkedin": "",
     "website": "",
-    "formerSubteams": [
-      "queuemein"
-    ],
+    "formerSubteams": ["queuemein"],
     "pronouns": "",
     "about": "",
     "github": "",
@@ -255,9 +231,7 @@
     "minor": "",
     "doubleMajor": "",
     "hometown": "",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "graduation": "May 2026",
     "semesterJoined": "Spring 2023"
   },
@@ -277,9 +251,7 @@
     "netid": "bt283",
     "linkedin": "https://www.linkedin.com/in/benjamint-xyz/",
     "graduation": "May 2025",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "hometown": "Cupertino",
     "firstName": "Benjamin",
     "semesterJoined": "Fall 2021"
@@ -300,9 +272,7 @@
     "major": "Computer Science",
     "graduation": "May 2025",
     "pronouns": "He/Him",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "roleDescription": "Technical PM",
     "email": "byl8@cornell.edu",
     "github ": "",
@@ -318,9 +288,7 @@
     "firstName": "Chris",
     "major": "CS",
     "graduation": "May 2027",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "roleDescription": "Developer",
     "email": "cc2785@cornell.edu",
     "hometown": "Queens, NY",
@@ -348,9 +316,7 @@
     "hometown": "",
     "roleDescription": "Business",
     "pronouns": "",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "firstName": "Claire",
     "semesterJoined": "Fall 2024"
   },
@@ -365,9 +331,7 @@
     "website": null,
     "role": "developer",
     "doubleMajor": null,
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "about": "Hi! I am Casper! I am a freshman at the College of Art & Science. ",
     "minor": null,
     "pronouns": "he/him",
@@ -379,9 +343,7 @@
   },
   {
     "formerSubteams": [],
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "lastName": "Lan",
     "linkedin": "",
     "doubleMajor": "",
@@ -417,9 +379,7 @@
     "doubleMajor": null,
     "github": "https://github.com/Bookie0",
     "graduation": "May 2028",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "role": "designer",
     "semesterJoined": "Fall 2024",
     "college": "cas",
@@ -431,9 +391,7 @@
     "about": "CornellGO PM",
     "pronouns": "she/her",
     "lastName": "Wang",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "roleDescription": "Product Manager",
     "graduation": "May 2027",
     "linkedin": "https://www.linkedin.com/in/carolyn-wang258",
@@ -453,9 +411,7 @@
     "about": "",
     "lastName": "Jin",
     "pronouns": "",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "major": "",
     "roleDescription": "Dev Advisor",
     "hometown": "",
@@ -487,9 +443,7 @@
     "major": "Computer Science",
     "graduation": "December 2025",
     "pronouns": "He/Him",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "roleDescription": "Technical PM",
     "email": "dka34@cornell.edu",
     "semesterJoined": "Spring 2023"
@@ -500,9 +454,7 @@
     "role": "developer",
     "netid": "dka36",
     "firstName": "Dwain",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "roleDescription": "Developer",
     "email": "dka36@cornell.edu",
     "hometown": "Long Island, NY",
@@ -530,9 +482,7 @@
     "role": "business",
     "pronouns": "she/her",
     "hometown": "Bay Area, CA",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "minor": "Information Science",
     "email": "dl979@cornell.edu",
     "netid": "dl979",
@@ -553,9 +503,7 @@
     "pronouns": "he/him/his",
     "firstName": "David",
     "lastName": "Martinez Lopez",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "linkedin": null,
     "hometown": "Los Angeles, CA",
     "graduation": "May 2026",
@@ -567,13 +515,9 @@
     "lastName": "Krechmer",
     "firstName": "Ella",
     "email": "egk46@cornell.edu",
-    "formerSubteams": [
-      "cuapts"
-    ],
+    "formerSubteams": ["cuapts"],
     "roleDescription": "Product Lead",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "netid": "egk46",
     "role": "product-lead",
     "github": "https://github.com/ellakrechmer",
@@ -591,9 +535,7 @@
   },
   {
     "formerSubteams": [],
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "linkedin": "https://www.linkedin.com/in/ericcheng-software/",
     "hometown": "Cary, NC",
     "about": "Hi, I'm Eric! I'm a first-year in the College of Engineering planning to major in Computer Science.",
@@ -625,9 +567,7 @@
     "major": "Information Science",
     "firstName": "Erica",
     "coffeeChatLink": null,
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "roleDescription": "Designer",
     "minor": "Business",
     "about": "Hi everyone :) I'm a designer on CUReviews, but also a part-time boba drinker, avid k-drama watcher, and ribbon dance enthusiast :) Feel free to reach out to me about anything and everything! ",
@@ -649,9 +589,7 @@
     "minor": null,
     "role": "designer",
     "netid": "em849",
-    "subteams": [
-      "curaise"
-    ],
+    "subteams": ["curaise"],
     "graduation": "May 2027",
     "website": null,
     "firstName": "Evelyn",
@@ -671,9 +609,7 @@
     "roleDescription": "Developer",
     "graduation": "May 2027",
     "netid": "es999",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "firstName": "Esha",
     "hometown": "Paramus, NJ",
     "pronouns": "she/her",
@@ -688,9 +624,7 @@
     "lastName": "Tang",
     "email": "et362@cornell.edu",
     "major": "Computer Science",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "graduation": "May 2025",
     "github": "https://github.com/elizabeth-tang",
     "roleDescription": "Dev Advisor",
@@ -711,9 +645,7 @@
     "role": "developer",
     "netid": "ew522",
     "firstName": "Eric",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "roleDescription": "Developer",
     "email": "ew522@cornell.edu",
     "github": "https://github.com/EricWeng23",
@@ -731,9 +663,7 @@
   {
     "formerSubteams": [],
     "firstName": "Grace",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "website": null,
     "pronouns": "she/her",
     "doubleMajor": null,
@@ -755,9 +685,7 @@
     "formerSubteams": [],
     "coffeeChatLink": null,
     "minor": null,
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "firstName": "Helen",
     "semesterJoined": "Fall 2023",
     "roleDescription": "Developer",
@@ -789,9 +717,7 @@
     "about": "",
     "hometown": "",
     "firstName": "Jade",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "roleDescription": "Business",
     "netid": "hn294",
     "website": "",
@@ -802,9 +728,7 @@
   {
     "formerSubteams": [],
     "hometown": "Holliston",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "major": "Computer Science",
     "linkedin": "https://www.linkedin.com/in/hannah-yunzi-zhou/",
     "pronouns": "she/her",
@@ -828,9 +752,7 @@
     "minor": "",
     "email": "il226@cornell.edu",
     "netid": "il226",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "role": "business",
     "firstName": "Ivan",
     "major": "Information Science",
@@ -866,9 +788,7 @@
     "lastName": "Yan",
     "coffeeChatLink": "",
     "minor": null,
-    "subteams": [
-      "courseplan"
-    ]
+    "subteams": ["courseplan"]
   },
   {
     "formerSubteams": [],
@@ -882,9 +802,7 @@
     "minor": "",
     "firstName": "Jesse",
     "email": "jc2755@cornell.edu",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "github": "",
     "lastName": "Cheng",
     "role": "developer",
@@ -901,9 +819,7 @@
     "github": null,
     "doubleMajor": null,
     "hometown": "Long Island",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "roleDescription": "Designer",
     "website": null,
     "linkedin": "https://www.linkedin.com/in/joannachen1014",
@@ -919,17 +835,13 @@
   {
     "netid": "jcm533",
     "major": "",
-    "formerSubteams": [
-      "courseplan"
-    ],
+    "formerSubteams": ["courseplan"],
     "firstName": "Jonathan",
     "website": "",
     "pronouns": "",
     "doubleMajor": "",
     "linkedin": "",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "about": "",
     "hometown": "",
     "github": "",
@@ -955,9 +867,7 @@
     "graduation": "May 2028",
     "website": null,
     "email": "jig47@cornell.edu",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "doubleMajor": "N/A",
     "pronouns": "he/him",
     "github": null,
@@ -969,9 +879,7 @@
     "hometown": "",
     "pronouns": "",
     "role": "developer",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "email": "jjm493@cornell.edu",
     "github": "https://github.com/JasonMun7",
     "minor": "",
@@ -997,17 +905,13 @@
     "lastName": "Spokes",
     "doubleMajor": "Information Science",
     "minor": null,
-    "formerSubteams": [
-      "cornellgo"
-    ],
+    "formerSubteams": ["cornellgo"],
     "netid": "jjs464",
     "roleDescription": "Full Team Lead",
     "github": null,
     "major": "Sociology",
     "email": "jjs464@cornell.edu",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "website": "https://jspokes.com/",
     "coffeeChatLink": null,
     "about": "Full Team Lead, Former Designer @ CornellGo ",
@@ -1015,13 +919,9 @@
   },
   {
     "major": "Applied Economics and Management",
-    "formerSubteams": [
-      "cornellgo"
-    ],
+    "formerSubteams": ["cornellgo"],
     "minor": "",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "doubleMajor": "Information Science",
     "graduation": "May 2026",
     "netid": "jl3587",
@@ -1041,9 +941,7 @@
   {
     "formerSubteams": [],
     "email": "jl4229@cornell.edu",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "minor": null,
     "doubleMajor": null,
     "pronouns": "she/her",
@@ -1069,9 +967,7 @@
     "website": null,
     "doubleMajor": "Communication",
     "pronouns": "she/her",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "minor": "Business",
     "netid": "jl4427",
     "roleDescription": "Business",
@@ -1098,9 +994,7 @@
     "major": "Economics",
     "role": "developer",
     "hometown": "Ithaca NY",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "linkedin": "https://www.linkedin.com/in/juliet-crane",
     "roleDescription": "Developer",
     "github": "https://github.com/jujulcrane",
@@ -1124,9 +1018,7 @@
     "firstName": "Joshua",
     "pronouns": "",
     "major": "",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "minor": "",
     "semesterJoined": "Spring 2024"
   },
@@ -1136,9 +1028,7 @@
     "role": "developer",
     "netid": "jxc6",
     "firstName": "Jacqueline",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "roleDescription": "Developer",
     "email": "jxc6@cornell.edu",
     "github": "https://github.com/jacquelinecai",
@@ -1164,9 +1054,7 @@
     "linkedin": "https://www.linkedin.com/in/jasminexli/",
     "email": "jxl9@cornell.edu",
     "role": "pm",
-    "subteams": [
-      "curaise"
-    ],
+    "subteams": ["curaise"],
     "minor": null,
     "major": "Computer Science",
     "hometown": "Xi'an, China",
@@ -1174,9 +1062,7 @@
     "netid": "jxl9",
     "github": "https://github.com/jasmineee-li",
     "lastName": "Li",
-    "formerSubteams": [
-      "cornellgo"
-    ],
+    "formerSubteams": ["cornellgo"],
     "graduation": "May 2027",
     "semesterJoined": "Fall 2023"
   },
@@ -1193,9 +1079,7 @@
     "website": null,
     "doubleMajor": null,
     "major": "Information Science",
-    "subteams": [
-      "curaise"
-    ],
+    "subteams": ["curaise"],
     "roleDescription": "Designer",
     "role": "designer",
     "email": "kh784@cornell.edu",
@@ -1214,18 +1098,14 @@
     "roleDescription": "Design Lead",
     "firstName": "Katherine",
     "netid": "kjc249",
-    "formerSubteams": [
-      "cuapts"
-    ],
+    "formerSubteams": ["cuapts"],
     "website": "https://www.katjch.com",
     "major": "Information Science",
     "pronouns": "",
     "graduation": "May 2025",
     "email": "kjc249@cornell.edu",
     "role": "design-lead",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "doubleMajor": "",
     "lastName": "Chang",
     "semesterJoined": "Spring 2023"
@@ -1245,9 +1125,7 @@
     "role": "business",
     "about": "",
     "pronouns": "",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "graduation": "May 2028",
     "lastName": "Lee",
     "netid": "kl2246",
@@ -1257,10 +1135,7 @@
     "email": "kl628@cornell.edu",
     "github": "https://github.com/kevin-lin12",
     "roleDescription": "Business Lead",
-    "formerSubteams": [
-      "business",
-      "carriage"
-    ],
+    "formerSubteams": ["business", "carriage"],
     "pronouns": "He/Him",
     "hometown": "Syosset",
     "graduation": "May 2025",
@@ -1270,9 +1145,7 @@
     "role": "business-lead",
     "major": "Computer Science",
     "netid": "kl628",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "firstName": "Kevin",
     "doubleMajor": null,
     "about": "Hi! ",
@@ -1296,9 +1169,7 @@
     "email": "km653@cornell.edu",
     "github": "",
     "netid": "km653",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "doubleMajor": "",
     "semesterJoined": "Fall 2023"
   },
@@ -1314,9 +1185,7 @@
     "minor": "Business",
     "role": "developer",
     "about": "I'll figure out what to write here later...",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "website": null,
     "github": "https://github.com/kevinmram",
     "roleDescription": "Developer",
@@ -1337,9 +1206,7 @@
     "website": "https://kea-roy.github.io/",
     "major": "Computer Science",
     "firstName": "Kea-Roy",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "netid": "ko353",
     "graduation": "May 2027",
     "lastName": "Ong",
@@ -1357,9 +1224,7 @@
     "major": "Information Science",
     "firstName": "Lazim",
     "github": null,
-    "formerSubteams": [
-      "carriage"
-    ],
+    "formerSubteams": ["carriage"],
     "website": "https://www.lazimjarif.com/",
     "doubleMajor": null,
     "minor": "Business",
@@ -1367,9 +1232,7 @@
     "email": "lej56@cornell.edu",
     "roleDescription": "Designer",
     "netid": "lej56",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "hometown": "Ithaca",
     "graduation": "May 2026",
     "lastName": "Jarif",
@@ -1383,9 +1246,7 @@
     "graduation": "May 2027",
     "role": "designer",
     "about": "Hi!",
-    "subteams": [
-      "curaise"
-    ],
+    "subteams": ["curaise"],
     "doubleMajor": null,
     "github": null,
     "netid": "lmb423",
@@ -1402,9 +1263,7 @@
     "formerSubteams": [],
     "doubleMajor": null,
     "graduation": "May 2025",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "semesterJoined": "Spring 2022",
     "email": "lnp35@cornell.edu",
     "lastName": "Pham",
@@ -1435,9 +1294,7 @@
     "netid": "ly345",
     "hometown": "Ithaca, NY",
     "lastName": "Yang",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "linkedin": "https://www.linkedin.com/in/lilyxyang/",
     "minor": null,
     "graduation": "May 2027",
@@ -1449,9 +1306,7 @@
   {
     "formerSubteams": [],
     "about": "hello! I'm a current sophomore pursuing majors in psychology and information science (ux concentration) along with a minor in education :) in my free time, I love to bake, rock climb, complete nyt games, and watch apartment design videos on youtube!",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "netid": "ly375",
     "doubleMajor": "Information Science",
     "github": null,
@@ -1476,9 +1331,7 @@
     "email": "may52@cornell.edu",
     "role": "pm",
     "doubleMajor": null,
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "lastName": "Yap",
     "roleDescription": "Product Manager",
     "graduation": "May 2027",
@@ -1496,9 +1349,7 @@
   },
   {
     "formerSubteams": [],
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "about": "",
     "pronouns": "",
     "graduation": "May 2026",
@@ -1526,9 +1377,7 @@
     "pronouns": "she/her",
     "firstName": "Maddie",
     "major": "Economics",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "hometown": "Minneapolis",
     "linkedin": null,
     "role": "business",
@@ -1550,9 +1399,7 @@
     "firstName": "Matthew",
     "major": "",
     "graduation": "May 2028",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "lastName": "Kim",
     "email": "mk2672@cornell.edu",
     "minor": "",
@@ -1566,9 +1413,7 @@
   {
     "formerSubteams": [],
     "hometown": "Hanoi",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "github": "https://github.com/namanhboi",
     "about": "New developer at Carriage",
     "minor": null,
@@ -1597,9 +1442,7 @@
     "firstName": "Nidhi",
     "netid": "nm549",
     "github": "https://github.com/nidhi-mylavarapu",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "graduation": "May 2026",
     "role": "tpm",
     "lastName": "Mylavarapu",
@@ -1618,9 +1461,7 @@
     "major": "Computer Science",
     "role": "apm",
     "hometown": "Houston",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "email": "nmp79@cornell.edu",
     "about": "Hi! I'm a freshman studying Computer Science with a minor in UX Design. I joined F23 and am a developer on Cornell Go.",
     "lastName": "Pakala",
@@ -1629,9 +1470,7 @@
     "github": "https://github.com/nit0107",
     "minor": "UX Design",
     "pronouns": "she/her",
-    "formerSubteams": [
-      "cornellgo"
-    ],
+    "formerSubteams": ["cornellgo"],
     "semesterJoined": "Fall 2023"
   },
   {
@@ -1651,9 +1490,7 @@
     "netid": "ns848",
     "about": "QMI newbie dev!",
     "roleDescription": "Developer",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "email": "ns848@cornell.edu"
   },
   {
@@ -1663,9 +1500,7 @@
     "lastName": "Tatem",
     "major": "Computer Science",
     "graduation": "May 2028",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "minor": "ORIE",
     "hometown": "Frisco, Texas",
     "github": null,
@@ -1688,17 +1523,13 @@
     "coffeeChatLink": null,
     "email": "ow39@cornell.edu",
     "netid": "ow39",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "graduation": "May 2026",
     "major": "Computer Science",
     "minor": "AI",
     "about": "",
     "roleDescription": "Developer Lead",
-    "formerSubteams": [
-      "idol"
-    ],
+    "formerSubteams": ["idol"],
     "lastName": "Wang",
     "semesterJoined": "Spring 2023",
     "doubleMajor": "Math",
@@ -1724,18 +1555,14 @@
     "lastName": "Zheng",
     "netid": "oz36",
     "about": "Hi! I am on the Internal Business team and I am so excited to get to know everyone and work together :)!",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "minor": null,
     "semesterJoined": "Spring 2024"
   },
   {
     "formerSubteams": [],
     "github": "https://github.com/patriciaahuang",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "roleDescription": "Developer",
     "about": "Developer on IDOL",
     "firstName": "Patricia",
@@ -1756,9 +1583,7 @@
   {
     "formerSubteams": [],
     "netid": "ps2245",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "email": "ps2245@cornell.edu",
     "lastName": "Sudhakar",
     "firstName": "Pratyush",
@@ -1783,9 +1608,7 @@
     "role": "developer",
     "major": "Computer Science",
     "lastName": "Tehranipoor",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "doubleMajor": null,
     "website": null,
     "graduation": "May 2028",
@@ -1805,9 +1628,7 @@
     "formerSubteams": [],
     "graduation": "May 2027",
     "firstName": "Renee",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "website": null,
     "hometown": "Rancho Cucamonga, CA",
     "email": "rcd239@cornell.edu",
@@ -1831,9 +1652,7 @@
     "about": "Hi, I'm Richard! I'm currently a developer on ClubView. I especially enjoy creating mobile iOS apps. Outside of DTI, I'm part of the Reserve Club Tennis Team and CSA. I like cooking, participating in trivia competitions, and watching Netflix in my free time.",
     "minor": "Business for Engineers",
     "major": "Computer Science",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "hometown": "Minneapolis, MN",
     "graduation": "May 2025",
     "github": "https://github.com/rgu0114",
@@ -1853,12 +1672,8 @@
     "lastName": "Ji",
     "about": "Dev at Carriage",
     "major": "Computer Science",
-    "subteams": [
-      "carriage"
-    ],
-    "formerSubteams": [
-      "queuemein"
-    ],
+    "subteams": ["carriage"],
+    "formerSubteams": ["queuemein"],
     "hometown": "Cupertino",
     "minor": null,
     "pronouns": "she/her",
@@ -1890,17 +1705,13 @@
     "about": "",
     "hometown": "",
     "firstName": "Ryan",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "website": "",
     "semesterJoined": "Fall 2024"
   },
   {
     "email": "sc2548@cornell.edu",
-    "formerSubteams": [
-      "carriage"
-    ],
+    "formerSubteams": ["carriage"],
     "netid": "sc2548",
     "role": "product-lead",
     "graduation": "May 2025",
@@ -1913,9 +1724,7 @@
     "minor": "",
     "hometown": "",
     "pronouns": "",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "github": "",
     "about": "",
     "firstName": "Stephy",
@@ -1940,17 +1749,13 @@
     "graduation": "Dec 2026",
     "about": "Serial builder, language learner, and digger-upper of interesting tidbits of knowledge.",
     "linkedin": "https://linkedin.com/in/simon-ilincev/",
-    "subteams": [
-      "courseplan"
-    ],
+    "subteams": ["courseplan"],
     "major": "Computer Science",
     "lastName": "Ilincev"
   },
   {
     "formerSubteams": [],
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "doubleMajor": null,
     "website": null,
     "major": "Computer Science",
@@ -1985,9 +1790,7 @@
     "email": "shs96@cornell.edu",
     "hometown": "",
     "linkedin": "",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "minor": "",
     "netid": "shs96",
     "semesterJoined": "Spring 2024"
@@ -2010,9 +1813,7 @@
     "minor": null,
     "doubleMajor": null,
     "email": "sl2663@cornell.edu",
-    "subteams": [
-      "carriage"
-    ],
+    "subteams": ["carriage"],
     "semesterJoined": "Spring 2024"
   },
   {
@@ -2021,9 +1822,7 @@
     "email": "ssh96@cornell.edu",
     "hometown": "Mumbai, India",
     "graduation": "May 2024",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "lastName": "Harisingani",
     "roleDescription": "Designer",
     "netid": "ssh96",
@@ -2041,9 +1840,7 @@
   {
     "formerSubteams": [],
     "about": "Developer on Queue Me In",
-    "subteams": [
-      "curaise"
-    ],
+    "subteams": ["curaise"],
     "hometown": "Westchester",
     "minor": "Business",
     "roleDescription": "Technical PM",
@@ -2067,9 +1864,7 @@
     "graduation": "May 2025",
     "github": "",
     "pronouns": "",
-    "subteams": [
-      "business"
-    ],
+    "subteams": ["business"],
     "linkedin": "",
     "firstName": "Sayan",
     "minor": "",
@@ -2094,9 +1889,7 @@
     "github": "",
     "role": "ops-lead",
     "website": "",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "minor": "",
     "major": "",
     "firstName": "Sophie",
@@ -2113,9 +1906,7 @@
     "website": null,
     "role": "developer",
     "netid": "szw3",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "doubleMajor": null,
     "github": "https://github.com/swang235",
     "linkedin": "https://www.linkedin.com/in/swang235/",
@@ -2141,9 +1932,7 @@
     "role": "developer",
     "roleDescription": "Developer",
     "hometown": "Houston",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "netid": "ta375",
     "linkedin": null,
     "doubleMajor": null,
@@ -2166,12 +1955,8 @@
     "graduation": "May 2025",
     "github ": "",
     "hometown": "Ho Chi Minh, Vietnam",
-    "subteams": [
-      "leads"
-    ],
-    "formerSubteams": [
-      "cuapts"
-    ],
+    "subteams": ["leads"],
+    "formerSubteams": ["cuapts"],
     "firstName": "Sophia",
     "minor": "Entrepreneur",
     "github": "https://github.com/thuypham03",
@@ -2187,13 +1972,9 @@
     "linkedin": "https://www.linkedin.com/in/valeriekristenwong",
     "roleDescription": "Product Manager",
     "website": "",
-    "formerSubteams": [
-      "cornellgo"
-    ],
+    "formerSubteams": ["cornellgo"],
     "netid": "vkw7",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "doubleMajor": null,
     "lastName": "Wong",
     "pronouns": "she/her",
@@ -2222,17 +2003,13 @@
     "about": "Hi! I'm Vannessa! What’s meaningful for me in my work is having a collaborative community to learn from and bounce ideas off of. Creativity and design isn’t possible without the team it’s fostered in and the community it’s for, so it’s of highest value of me to find teamwork and mentorship. I'm interested in pursuing design education, design education experiences, game design, journalism or product design (UI/UX centered)\n\nOutside of design, I’m fond of writing stories, filming video essay and baking pizza & pastries. Let's talk about designing products, reading autobiographies, or soft pop recommendations!",
     "pronouns": "she/her",
     "role": "designer",
-    "subteams": [
-      "idol"
-    ],
+    "subteams": ["idol"],
     "email": "vw77@cornell.edu",
     "github": null,
     "semesterJoined": "Fall 2023"
   },
   {
-    "formerSubteams": [
-      "idol"
-    ],
+    "formerSubteams": ["idol"],
     "minor": null,
     "hometown": "Long Island, New York",
     "netid": "vw92",
@@ -2241,9 +2018,7 @@
     "email": "vw92@cornell.edu",
     "linkedin": "https://www.linkedin.com/in/vicky-wang-5b875b219",
     "major": "Computer Science",
-    "subteams": [
-      "cuapts"
-    ],
+    "subteams": ["cuapts"],
     "roleDescription": "Designer",
     "firstName": "Vicky",
     "github": null,
@@ -2273,9 +2048,7 @@
     "minor": "Business",
     "doubleMajor": "Econ",
     "pronouns": "he him",
-    "subteams": [
-      "reviews"
-    ],
+    "subteams": ["reviews"],
     "semesterJoined": "Fall 2021"
   },
   {
@@ -2287,9 +2060,7 @@
     "hometown": "Boston",
     "major": "Computer Science",
     "email": "xl989@cornell.edu",
-    "subteams": [
-      "queuemein"
-    ],
+    "subteams": ["queuemein"],
     "roleDescription": "Developer",
     "college": "eng",
     "coffeeChatLink": "https://calendly.com/xl989-cornell/30min",
@@ -2318,14 +2089,10 @@
     "hometown": "",
     "netid": "yl3262",
     "lastName": "Li",
-    "subteams": [
-      "cornellgo"
-    ],
+    "subteams": ["cornellgo"],
     "graduation": "May 2026",
     "website": "",
-    "formerSubteams": [
-      "queuemein"
-    ],
+    "formerSubteams": ["queuemein"],
     "semesterJoined": "Spring 2023"
   }
 ]
