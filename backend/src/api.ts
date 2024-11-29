@@ -41,7 +41,8 @@ import {
   clearAllCoffeeChats,
   getCoffeeChatBingoBoard,
   checkMemberMeetsCategory,
-  runAutoChecker
+  runAutoChecker,
+  getCoffeeChatSuggestions
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -332,6 +333,11 @@ loginCheckedGet('/coffee-chat/:otherMemberEmail/:submitterEmail/:category', asyn
 loginCheckedPut('/coffee-chat/autocheck/:uuid/', async (req, user) => ({
   coffeeChat: await runAutoChecker(req.params.uuid, user)
 }));
+
+loginCheckedGet('/coffee-chat-suggestions/:email', async (req) => {
+  const suggestions = await getCoffeeChatSuggestions(req.params.email);
+  return { suggestions };
+});
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));
