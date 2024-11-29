@@ -125,12 +125,13 @@ const TeamStatistics = () => {
     allMembers
       .filter((member) => !role || role === (getGeneralRole(member.role) as string))
       .reduce(
-        (acc, val) => (val.college === undefined ? acc : [...acc, val.college]),
+        (acc, val) =>
+          val.college !== undefined && !acc.includes(val.college) ? [...acc, val.college] : acc,
         [] as College[]
       );
 
   const emptyRoleStats: roleStatistics = {
-    lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: new Set() },
+    lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: [] },
     developer: {
       name: 'Development',
       color: '#D63D3D',
@@ -152,7 +153,7 @@ const TeamStatistics = () => {
       majors: new Set(),
       colleges: []
     },
-    pm: { name: 'Product', color: '#FFFFFF', people: 0, majors: new Set(), colleges: new Set() }
+    pm: { name: 'Product', color: '#FFFFFF', people: 0, majors: new Set(), colleges: [] }
   };
 
   const roleStats = populateObject(emptyRoleStats, (key, value) => {
