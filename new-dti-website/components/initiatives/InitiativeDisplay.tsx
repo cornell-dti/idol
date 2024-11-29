@@ -30,7 +30,7 @@ const Initiative = ({
   const { width } = useScreenSize();
 
   return (
-    <div className={`flex flex-col gap-10 ${className}`}>
+    <article className={`flex flex-col gap-10 ${className}`}>
       <div className="flex flex-col gap-[14px]">
         <div className="flex gap-2 min-h-10 xs:flex-col lg:flex-row">
           <Image {...icon} />
@@ -51,7 +51,7 @@ const Initiative = ({
       >
         {parts.map((part, index) => (part === eventName ? <b key={index}>{part}</b> : part))}
       </p>
-    </div>
+    </article>
   );
 };
 
@@ -61,7 +61,10 @@ const InitiativeDisplay = () => {
   const parts = featured.description.split(new RegExp(`(${featured.eventName})`));
 
   return (
-    <div className="bg-white text-black flex justify-center my-24 lg:mx-20 xs:mx-7">
+    <section
+      id="initiative-display"
+      className="bg-white text-black flex justify-center my-24 lg:mx-20 xs:mx-7"
+    >
       <div className="max-w-7xl">
         {width >= LAPTOP_BREAKPOINT ? (
           <div className="grid grid-cols-2 gap-16 mb-36">
@@ -98,7 +101,7 @@ const InitiativeDisplay = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

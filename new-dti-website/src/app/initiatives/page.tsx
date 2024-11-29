@@ -5,7 +5,8 @@ import RedBlob from '../../../components/blob';
 import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 
 const InitiativeHero = () => (
-  <div
+  <section
+    id="initiative-hero"
     className="bg-black text-[#FEFEFE] min-h-[calc(100vh-136px)] h-full flex items-center
     relative overflow-hidden"
   >
@@ -38,14 +39,17 @@ const InitiativeHero = () => (
     <div className="relative">
       <RedBlob intensity={0.5} className="right-[-300px] bottom-[-600px]" />
     </div>
-  </div>
+  </section>
 );
 
 const InitiativePage = () => (
   <div className="bg-white flex flex-col">
     <InitiativeHero />
     <InitiativeDisplay />
-    <div className="flex justify-center bg-[#F5F5F5] lg:py-32 xs:py-16 lg:px-20 xs:px-7">
+    <section
+      id="initiative-footer"
+      className="flex justify-center bg-[#F5F5F5] lg:py-32 xs:py-16 lg:px-20 xs:px-7"
+    >
       <div className="max-w-7xl w-full flex flex-col lg:gap-6 xs:gap-3">
         <h3 className="font-semibold md:text-[32px] xs:text-[22px] leading-10">
           Want us to be a part of your next event?
@@ -57,7 +61,7 @@ const InitiativePage = () => (
           Get in touch
         </Link>
       </div>
-    </div>
+    </section>
   </div>
 );
 
