@@ -16,7 +16,7 @@ const applications = applicationData as {
 };
 
 const RoleDescriptions = () => {
-  const [role, setRole] = useState<string>('product');
+  const [role, setRole] = useState<string>('development');
 
   return (
     <div className="relative flex justify-center text-[#FEFEFE]">
