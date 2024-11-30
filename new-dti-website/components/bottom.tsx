@@ -128,7 +128,7 @@ const Bottom: React.FC = () => (
         src="/images/team.svg"
         width={377}
         height={286}
-        alt="team photo"
+        alt="team photo of DTI members"
       />
       <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 max-w-[389px]">
         <div className="flex flex-col gap-y-1 md:gap-y-2">
