@@ -102,7 +102,7 @@ export default function Courses() {
         >
           {/* LOGO SECTION */}
           <section id="Trends and Web Development">
-            <div className=" flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
+            <div className="flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
               <div ref={trendsLogoRef} className="sticker">
                 <Image
                   src={'/icons/courses/trends_logo.png'}
@@ -123,7 +123,7 @@ export default function Courses() {
                   Trends in Web Development
                 </div>
 
-                <div className="text-md md:text-xl mt-8">
+                <div className="md:text-lg mt-8">
                   Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
                   development and best practices used within industry. We cover technologies like
                   TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed
@@ -165,9 +165,7 @@ export default function Courses() {
 
           {/* TIMELINE SECTION */}
           <section id="Timeline">
-            <div>
-              <Timeline events={timeline_events} currentDate={new Date()} />
-            </div>
+            <Timeline events={timeline_events} currentDate={new Date()} />
           </section>
 
           {/* COURSE STAFF SECTION */}

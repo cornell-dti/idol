@@ -36,7 +36,7 @@ export default function Experiences({ icon, title, description }: IconProps) {
           />
           <div className="text-4xl font-bold">{title}</div>
         </div>
-        <div className="mt-8 text-lg md:text-md lg:text-xl">{description}</div>
+        <div className="mt-8 md:text-lg">{description}</div>
       </div>
     </>
   );
