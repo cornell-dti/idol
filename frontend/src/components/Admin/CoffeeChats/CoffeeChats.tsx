@@ -4,11 +4,23 @@ import { createHash } from 'crypto';
 import { Button } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
+import { useMembers } from '../../Common/FirestoreDataProvider';
+import CoffeeChatsDashboard from '../../Forms/CoffeeChatsForm/CoffeeChatsDashboard';
 
 const CoffeeChats: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pendingChats, setPendingChats] = useState<CoffeeChat[]>([]);
+  const [specificBingoBoard, setSpecificBingoBoard] = useState<string[][]>([[]]);
+  const [approvedChats, setApprovedChats] = useState<CoffeeChat[]>([]);
+  const [specificPendingChats, setSpecificPendingChats] = useState<CoffeeChat[]>([]);
+  const [rejectedChats, setRejectedChats] = useState<CoffeeChat[]>([]);
+  const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
+  const [displayMembers, setDisplayMembers] = useState<boolean>(false);
+  const [selectedMember, setSelectedMember] = useState<IdolMember | null>(null);
+  
+  const allMembers = useMembers();
+  
   const chatCount = useMemo(
     () =>
       pendingChats.reduce((acc, chat) => {
@@ -29,6 +41,22 @@ const CoffeeChats: React.FC = () => {
       setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
     });
   }, [isLoading]);
+
+    const handleMemberClick = (member: IdolMember) => {
+      setIsChatLoading(true);
+      setSelectedMember(member);
+  
+      CoffeeChatAPI.getCoffeeChatsByUser(member).then((coffeeChats) => {
+        setApprovedChats(coffeeChats.filter((chat) => chat.status === 'approved'));
+        setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
+        setRejectedChats(coffeeChats.filter((chat) => chat.status === 'rejected'));
+        setIsChatLoading(false);
+      });
+
+    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => 
+      setSpecificBingoBoard(board)
+  );
+};
 
   return (
     <div>
@@ -63,8 +91,46 @@ const CoffeeChats: React.FC = () => {
         <Link href="/admin/coffee-chats/dashboard">
           <Button>View Coffee Chats Dashboard</Button>
         </Link>
+        <div>
+          <Button onClick={() => {
+            if (selectedMember) {
+              setSelectedMember(null);
+            }
+            setDisplayMembers(!displayMembers)
+          }}>
+            View Member Bingo Board
+            </Button>
+          {displayMembers && ( 
+          <ul> 
+            {allMembers.map( (member, index) => (
+            <button 
+            key = {index} 
+            onClick={() => handleMemberClick(member)}>
+              {member.firstName} {member.lastName}
+              </button> 
+            ))}
+          </ul> 
+          )}
+          {selectedMember && (
+            <div>
+              <h2>
+                Bingo Board for {selectedMember.firstName} {selectedMember.lastName}
+              </h2>
+              <CoffeeChatsDashboard
+            approvedChats={approvedChats}
+            pendingChats={specificPendingChats}
+            rejectedChats={rejectedChats}
+            isChatLoading={isChatLoading}
+            setPendingChats={setSpecificPendingChats}
+            setApprovedChats={setApprovedChats}
+            bingoBoard={specificBingoBoard}
+            resetState={() => {}}
+            />
+              </div>
+          )}
+          </div>
+        </div>
       </div>
-    </div>
   );
 };
 
