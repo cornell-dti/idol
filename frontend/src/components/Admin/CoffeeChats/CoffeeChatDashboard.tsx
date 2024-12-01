@@ -14,23 +14,51 @@ type CoffeeChatStats = {
 };
 
 const CoffeeChatDashboard: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [bingoBoard, setBingoBoard] = useState<string[][]>([]);
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
+  const [isNewbieMap, setIsNewbieMap] = useState<{ [key: string]: boolean }>({});
 
   const allMembers = useMembers();
 
   useEffect(() => {
-    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => {
-      setBingoBoard(board);
-    });
+    const fetchData = async () => {
+      setIsLoading(true);
 
-    CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
-      setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
-    });
+      const boardPromise = CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => {
+        setBingoBoard(board);
+      });
 
-    setIsLoading(false);
-  }, []);
+      const chatsPromise = CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
+        setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
+      });
+
+      const fetchNewbieStatus = async () => {
+        const newbieMap: { [key: string]: boolean } = {};
+
+        await Promise.all(
+          allMembers.map(async (member) => {
+            const { status } = await CoffeeChatAPI.checkMemberMeetsCategory(
+              member,
+              member,
+              'a newbie'
+            );
+            newbieMap[member.netid] = status === 'pass';
+          })
+        );
+
+        setIsNewbieMap(newbieMap);
+      };
+
+      const newbieStatusPromise = fetchNewbieStatus();
+
+      await Promise.all([boardPromise, chatsPromise, newbieStatusPromise]);
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [allMembers]);
 
   const categories = bingoBoard.flat();
 
@@ -111,7 +139,7 @@ const CoffeeChatDashboard: React.FC = () => {
                     Remind All
                   </Button>
                 }
-                members={allMembers.filter((member) => !coffeeChatStats[member.netid].blackout)}
+                members={allMembers.filter((member) => !coffeeChatStats[member.netid].bingo)}
                 type={'coffee chat'}
               />
             </Table.HeaderCell>
@@ -126,7 +154,7 @@ const CoffeeChatDashboard: React.FC = () => {
               <Table.Row key={index}>
                 <Table.Cell className={styles.nameCell}>
                   {member.firstName} {member.lastName} ({member.netid})
-                  {!coffeeChatStats[member.netid].blackout && (
+                  {!coffeeChatStats[member.netid].bingo && isNewbieMap[member.netid] && (
                     <NotifyMemberModal
                       all={false}
                       trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
