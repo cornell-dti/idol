@@ -137,7 +137,9 @@
     "graduation": "May 2027",
     "major": "CS",
     "lastName": "Chen",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "coffeeChatLink": null
   },
   {
     "formerSubteams": [],
@@ -592,7 +594,8 @@
     "about": "Product Lead and PM of CUApts!",
     "pronouns": "she/her",
     "linkedin": "https://www.linkedin.com/in/ella-krechmer-a9360923a/",
-    "semesterJoined": "Fall 2023"
+    "semesterJoined": "Fall 2023",
+    "college": "eng"
   },
   {
     "formerSubteams": [],
