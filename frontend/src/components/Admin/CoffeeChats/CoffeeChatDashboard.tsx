@@ -6,7 +6,6 @@ import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { getLinesFromBoard } from '../../../utils';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-import { CURRENT_SEMESTER } from '../../../consts';
 
 type CoffeeChatStats = {
   fulfilledCategories: string[];
@@ -18,6 +17,7 @@ const CoffeeChatDashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [bingoBoard, setBingoBoard] = useState<string[][]>([]);
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
+  const [currentSemester, setCurrentSemester] = useState<string>('');
 
   const allMembers = useMembers();
 
@@ -29,6 +29,12 @@ const CoffeeChatDashboard: React.FC = () => {
     CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
       setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
     });
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const semester = month >= 1 && month <= 6 ? 'Spring' : 'Fall';
+    setCurrentSemester(`${semester} ${year}`);
 
     setIsLoading(false);
   }, []);
@@ -128,7 +134,7 @@ const CoffeeChatDashboard: React.FC = () => {
                 <Table.Cell className={styles.nameCell}>
                   {member.firstName} {member.lastName} ({member.netid})
                   {!coffeeChatStats[member.netid].bingo &&
-                    member.semesterJoined === CURRENT_SEMESTER && (
+                    member.semesterJoined === currentSemester && (
                       <NotifyMemberModal
                         all={false}
                         trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
