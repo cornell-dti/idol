@@ -17,7 +17,7 @@ type roleStatistics = {
     color: string;
     people: number;
     majors: Set<string>;
-    colleges: Set<string>;
+    colleges: College[];
   };
 };
 
@@ -121,59 +121,73 @@ const TeamStatistics = () => {
       return acc;
     }, new Set());
 
+  const countColleges = (role?: string): College[] =>
+    allMembers
+      .filter((member) => !role || role === (getGeneralRole(member.role) as string))
+      .reduce(
+        (acc, val) =>
+          val.college !== undefined && !acc.includes(val.college) ? [...acc, val.college] : acc,
+        [] as College[]
+      );
+
   const emptyRoleStats: roleStatistics = {
-    designer: {
-      name: 'Design',
-      color: '#FFBCBC',
-      people: 0,
-      majors: new Set(),
-      colleges: new Set()
-    },
+    lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: [] },
     developer: {
       name: 'Development',
       color: '#D63D3D',
       people: 0,
       majors: new Set(),
-      colleges: new Set()
+      colleges: []
     },
-    pm: { name: 'Product', color: '#FFFFFF', people: 0, majors: new Set(), colleges: new Set() },
+    designer: {
+      name: 'Design',
+      color: '#FFBCBC',
+      people: 0,
+      majors: new Set(),
+      colleges: []
+    },
     business: {
       name: 'Business',
       color: '#B7B7B7',
       people: 0,
       majors: new Set(),
-      colleges: new Set()
+      colleges: []
     },
-    lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: new Set() }
+    pm: { name: 'Product', color: '#FFFFFF', people: 0, majors: new Set(), colleges: [] }
   };
 
   const roleStats = populateObject(emptyRoleStats, (key, value) => {
     const count = allMembers.filter((mem) => key === (getGeneralRole(mem.role) as string)).length;
-    return { ...value, people: count, majors: countMajors(key) as Set<string> };
+    return {
+      ...value,
+      people: count,
+      majors: countMajors(key) as Set<string>,
+      colleges: countColleges(key)
+    };
   });
 
   return (
     <div className="flex md:flex-row xs:flex-col items-center justify-between lg:ml-6 relative z-10">
-      <div className="flex">
-        <div className="flex md:flex-col xs:flex-row lg:gap-y-10 md:gap-y-[30px]">
-          <div className="text-center md:pl-10 xs:w-1/3 md:border-l-red-600 md:border-2 border-transparent">
-            <h1 className="font-semibold lg:text-[52px] md:text-[40px] xs:text-[32px]">
-              {chartSection ? roleStats[chartSection].people : allMembers.length}
-            </h1>
-            <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">Members</p>
-          </div>
-          <div className="text-center md:pl-10 xs:w-1/3 border-l-red-600 border-2 border-transparent">
-            <h1 className="font-semibold lg:text-[52px] md:text-[40px] xs:text-[32px]">
-              {chartSection ? roleStats[chartSection].majors.size : countMajors().size}
-            </h1>
-            <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">Different majors</p>
-          </div>
-          <div className="text-center md:pl-10 xs:w-1/3 border-l-red-600 border-2 border-transparent">
-            <h1 className="font-semibold lg:text-[52px] md:text-[40px] xs:text-[32px]">7</h1>
-            <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">
-              Represented colleges
-            </p>
-          </div>
+      <div className="flex md:flex-col xs:flex-row lg:gap-y-10 md:gap-y-[30px]">
+        <div className="md:pl-6 xs:w-1/3 md:border-l-red-600 md:border-2 border-transparent md:w-fit xs:text-center md:text-left">
+          <p className="font-semibold lg:text-[52px] lg:leading-[52px] md:text-[40px] md:leading-[40px] xs:text-[32px] xs:leading-[32px]">
+            {chartSection ? roleStats[chartSection].people : allMembers.length}
+          </p>
+          <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">Members</p>
+        </div>
+        <div className="md:pl-6 xs:w-1/3 border-l-red-600 border-2 border-transparent md:w-fit xs:text-center md:text-left">
+          <p className="font-semibold lg:text-[52px] lg:leading-[52px] md:text-[40px] md:leading-[40px] xs:text-[32px] xs:leading-[32px]">
+            {chartSection ? roleStats[chartSection].majors.size : countMajors().size}
+          </p>
+          <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">Different majors</p>
+        </div>
+        <div className="md:pl-6 xs:w-1/3 border-l-red-600 border-2 border-transparent md:w-fit xs:text-center md:text-left">
+          <p className="font-semibold lg:text-[52px] lg:leading-[52px] md:text-[40px] md:leading-[40px] xs:text-[32px] xs:leading-[32px]">
+            {chartSection ? roleStats[chartSection].colleges.length : countColleges().length}
+          </p>
+          <p className="lg:text-[22px] md:text-lg text-[#E4E4E4] xs:text-sm">
+            Represented colleges
+          </p>
         </div>
       </div>
       <div>
@@ -241,7 +255,7 @@ const TeamAbout = () => (
             <p className="text-left mb-3">@2024</p>
             <Image
               src="/images/dti_2024.png"
-              alt="2022 DTI Team"
+              alt="2024 DTI Team"
               width={490}
               height={370}
               className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
@@ -252,7 +266,7 @@ const TeamAbout = () => (
           <p className="mb-3 text-sm">@2017</p>
           <Image
             src="/images/dti_2017.png"
-            alt="2022 DTI Team"
+            alt="2017 DTI Team"
             width={453}
             height={305}
             className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
@@ -260,8 +274,8 @@ const TeamAbout = () => (
         </div>
       </div>
       <RedBlob intensity={0.7} className="right-[-500px] top-[600px]" />
-      <div className="lg:w-2/3 md:w-full mt-[63px] relative z-10">
-        <h1 className="font-semibold mb-4 text-[32px]">Who we are</h1>
+      <div className="lg:w-2/3 md:w-full mt-[63px] relative z-10 flex flex-col gap-6">
+        <h1 className="font-semibold text-[32px]">Who we are</h1>
         <p className="text-lg leading-6">
           More than just being inclusive, our team strives to{' '}
           <span className="font-bold">bring many backgrounds and perspectives together</span> to

@@ -174,10 +174,15 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               />
               {/* Title and Date */}
               <div className="sm:text-center sm:mb-4">
-                <p className="font-extrabold lg:text-3xl text-xl">{event.title}</p>
+                <p className="font-bold lg:text-3xl text-xl">{event.title}</p>
                 <div className="flex flex-row gap-x-2 sm:flex-col">
-                  <p className="text-md lg:text-lg">{event.date}</p>
-                  <p className="text-md lg:text-lg">{event.time}</p>
+                  {event.time ? (
+                    <p className="text-md lg:text-lg">
+                      {event.date} @ {event.time}
+                    </p>
+                  ) : (
+                    <p className="text-md lg:text-lg">{event.date} </p>
+                  )}
                 </div>
               </div>
               {/* Red Dot for Completed / Grey Dot for Tablet/Laptop */}

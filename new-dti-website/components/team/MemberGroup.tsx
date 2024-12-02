@@ -2,7 +2,6 @@ import { useState, RefObject } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '../ui/card';
-import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
@@ -30,7 +29,11 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
-    <div className="memberCard flex flex-col md:gap-3 xs:gap-2">
+    <div
+      className={`memberCard flex flex-col md:gap-3 xs:gap-2 xs:text-[16px] ${
+        enlarged ? 'md:text-2xl' : 'md:text-lg'
+      }`}
+    >
       <img
         src={image}
         alt={`${firstName}-${lastName}`}
@@ -39,14 +42,9 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
         } object-cover`}
       />
       <h3
-        className={`xs:text-[16px] text-left font-${
-          enlarged ? 'semibold md:text-2xl' : 'bold md:text-lg'
-        }`}
+        className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
       >{`${firstName} ${lastName}`}</h3>
-      <p
-        className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
-        style={{ backgroundColor: chipColor }}
-      >
+      <p className="w-fit px-3 py-1 rounded-2xl" style={{ backgroundColor: chipColor }}>
         {roleDescription}
       </p>
     </div>
@@ -66,9 +64,7 @@ const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
   <Card
     className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
-    } ${
-      props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
-    } hover:shadow-[0_4px_4px_0_#00000040] cursor-pointer`}
+    }`}
   >
     <MemberSummary {...props} enlarged={false} />
   </Card>
@@ -102,7 +98,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
     : { name: 'No Subteam', link: '' };
 
   return (
-    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px] shadow-[0_4px_4px_0_#00000040] ">
+    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px]">
       <div className="flex lg:gap-10">
         <div className="w-3/12 lg:flex xs:hidden">
           <MemberSummary {...props} enlarged={true} />

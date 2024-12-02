@@ -1,18 +1,16 @@
 {
-  "product": {
-    "roleName": "Product Manager",
-    "icon": { "src": "/icons/product_sticker.svg", "width": 90, "height": 90 },
+  "development": {
+    "roleName": "Developer",
+    "icon": { "src": "/icons/dev_sticker.svg", "width": 96, "height": 90 },
     "skills": [
-      "excellent organization skills in either Notion, G-Suite, Jira, etc",
-      "understanding of the product and design cycle as well as the technical stack",
-      "knowledge of DTI's culture and product branding",
-      "eagerness to develop and maintain team culture!"
+      "a curious, inventive and communicative investigator",
+      "eagerness to learn new technologies and applications",
+      "experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required!)"
     ],
     "responsibilities": [
-      "delivering the product by guiding products throughout their execution cycle",
-      "bridging the communication gaps between designers and developers",
-      "prioritizing requirements and tasks for delivery",
-      "collaborating and working with other student organizations on campus"
+      "work as the backbone of the project to bring concepts to reality",
+      "front-end developers: implement mockups, balancing project constraints ",
+      "back-end developers: organize and manipulate processed data to create informed and practical data sources"
     ]
   },
   "design": {
@@ -31,20 +29,6 @@
       "Iterate based on critique, feedback and user testing"
     ]
   },
-  "development": {
-    "roleName": "Developer",
-    "icon": { "src": "/icons/dev_sticker.svg", "width": 96, "height": 90 },
-    "skills": [
-      "a curious, inventive and communicative investigator",
-      "eagerness to learn new technologies and applications",
-      "experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required!)"
-    ],
-    "responsibilities": [
-      "work as the backbone of the project to bring concepts to reality",
-      "front-end developers: implement mockups, balancing project constraints ",
-      "back-end developers: organize and manipulate processed data to create informed and practical data sources"
-    ]
-  },
   "business": {
     "roleName": "Business",
     "icon": { "src": "/icons/business_sticker.svg", "width": 90, "height": 90 },
@@ -59,6 +43,22 @@
       "reach out to corporate partners to become Sponsors for DTI",
       "innovate processes and create new team building events to boost team culture",
       "bolster social media presence and enhance the presence of DTI online"
+    ]
+  },
+  "product": {
+    "roleName": "Product Manager",
+    "icon": { "src": "/icons/product_sticker.svg", "width": 90, "height": 90 },
+    "skills": [
+      "excellent organization skills in either Notion, G-Suite, Jira, etc",
+      "understanding of the product and design cycle as well as the technical stack",
+      "knowledge of DTI's culture and product branding",
+      "eagerness to develop and maintain team culture!"
+    ],
+    "responsibilities": [
+      "delivering the product by guiding products throughout their execution cycle",
+      "bridging the communication gaps between designers and developers",
+      "prioritizing requirements and tasks for delivery",
+      "collaborating and working with other student organizations on campus"
     ]
   }
 }
