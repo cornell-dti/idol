@@ -9,7 +9,6 @@ import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
 import { LEAD_ROLES } from '../consts';
-import { checkMemberMeetsCategory } from './coffeeChatAPI';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
@@ -208,13 +207,14 @@ export const sendCoffeeChatReminder = async (
 ): Promise<AxiosResponse> => {
   const subject = 'Coffee Chat Reminder';
 
-  const isNewbie = await checkMemberMeetsCategory(member.email, member.email, 'a newbie').then(
-    (result) => result.status === 'pass'
-  );
-
-  const text = `Hey! You currently have no coffee chat bingo this semester
-  ${isNewbie ? ', and newbies are required to get at least 1 bingo' : ''}
-  .\nThis is a reminder to submit your coffee chats by the end of the semester.\n
-  To submit your coffee chats, please visit https://idol.cornelldti.org/forms/coffeeChats.`;
+  const text = `
+  Hey! You currently don't have any coffee chat bingos this semester. 
+  This is a reminder to submit your coffee chats by the last day of classes.
+  
+  [NOTE]: Newbies are required to get at least 1 bingo.
+  
+  To submit your coffee chats, please visit 
+  https://idol.cornelldti.org/forms/coffeeChats.
+  `;
   return emailMember(req, member, subject, text);
 };

@@ -6,6 +6,7 @@ import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { getLinesFromBoard } from '../../../utils';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
+import { CURRENT_SEMESTER } from '../../../consts';
 
 type CoffeeChatStats = {
   fulfilledCategories: string[];
@@ -17,48 +18,20 @@ const CoffeeChatDashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [bingoBoard, setBingoBoard] = useState<string[][]>([]);
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
-  const [isNewbieMap, setIsNewbieMap] = useState<{ [key: string]: boolean }>({});
 
   const allMembers = useMembers();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => {
+      setBingoBoard(board);
+    });
 
-      const boardPromise = CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => {
-        setBingoBoard(board);
-      });
+    CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
+      setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
+    });
 
-      const chatsPromise = CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
-        setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
-      });
-
-      const fetchNewbieStatus = async () => {
-        const newbieMap: { [key: string]: boolean } = {};
-
-        await Promise.all(
-          allMembers.map(async (member) => {
-            const { status } = await CoffeeChatAPI.checkMemberMeetsCategory(
-              member,
-              member,
-              'a newbie'
-            );
-            newbieMap[member.netid] = status === 'pass';
-          })
-        );
-
-        setIsNewbieMap(newbieMap);
-      };
-
-      const newbieStatusPromise = fetchNewbieStatus();
-
-      await Promise.all([boardPromise, chatsPromise, newbieStatusPromise]);
-
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [allMembers]);
+    setIsLoading(false);
+  }, []);
 
   const categories = bingoBoard.flat();
 
@@ -154,14 +127,15 @@ const CoffeeChatDashboard: React.FC = () => {
               <Table.Row key={index}>
                 <Table.Cell className={styles.nameCell}>
                   {member.firstName} {member.lastName} ({member.netid})
-                  {!coffeeChatStats[member.netid].bingo && isNewbieMap[member.netid] && (
-                    <NotifyMemberModal
-                      all={false}
-                      trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
-                      member={member}
-                      type={'coffee chat'}
-                    />
-                  )}
+                  {!coffeeChatStats[member.netid].bingo &&
+                    member.semesterJoined === CURRENT_SEMESTER && (
+                      <NotifyMemberModal
+                        all={false}
+                        trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
+                        member={member}
+                        type={'coffee chat'}
+                      />
+                    )}
                 </Table.Cell>
                 <Table.Cell>{coffeeChatStats[member.netid].blackout ? 'Yes' : 'No'}</Table.Cell>
                 <Table.Cell>{coffeeChatStats[member.netid].bingo ? 'Yes' : 'No'}</Table.Cell>
