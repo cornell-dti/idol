@@ -15,7 +15,7 @@ type ConnectorProps = {
 };
 
 const Connector: React.FC<ConnectorProps> = (props: ConnectorProps) => {
-  const reduceMotion = useMediaReduce();
+  const [reduceMotion, isReady] = useMediaReduce();
   const connectorRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScrollPosition();
 
