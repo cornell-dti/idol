@@ -14,7 +14,7 @@ interface carouselItem {
 }
 
 const ImageCarousel = (props: { items: carouselItem[] }) => {
-  const [reduceMotion, isReady] = useMediaReduce();
+  const [reduceMotion] = useMediaReduce();
   const { width } = useScreenSize();
   const { isPlaying, togglePlayPause, currentSlide, setCarouselApi, plugin } = useCarouselControls({
     delay: 5000,

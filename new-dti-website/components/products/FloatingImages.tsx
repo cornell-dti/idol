@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { CSSProperties, useEffect } from 'react';
+import React, { CSSProperties } from 'react';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
 
 export interface ImageData {
