@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form } from 'semantic-ui-react';
 import styles from './NotifyMemberModal.module.css';
 import { Member, MembersAPI } from '../../API/MembersAPI';
-import { Emitters } from '../../utils';
+import { delay, Emitters } from '../../utils';
 
 const NotifyMemberModal = (props: {
   all: boolean;
@@ -26,7 +26,13 @@ const NotifyMemberModal = (props: {
 
   const handleSubmit = async () => {
     if (all && members) {
-      await Promise.all(members.map(notifyMember));
+      await Promise.all(
+        members.map(async (member) => {
+          // Delay by 1 second between members to avoid rate-limiting
+          await delay(1000);
+          await notifyMember(member);
+        })
+      );
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
         contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
