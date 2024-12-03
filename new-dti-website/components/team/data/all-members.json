@@ -669,7 +669,6 @@
   },
   {
     "formerSubteams": [],
-    "about": "Hi there! I’m a computer science student at Cornell, passionate about coding, problem-solving, and using technology to make a difference. I love exploring new programming languages and working on projects that challenge me creatively and technically. Outside of my studies, I enjoy building intricate miniature models, singing, and volunteering to teach tech skills to others. I’m always eager to learn and excited to see where my journey in tech will take me!\n\n",
     "minor": null,
     "major": "Computer Science",
     "github": "https://github.com/shah-esha",
@@ -688,7 +687,10 @@
     "doubleMajor": null,
     "website": null,
     "role": "developer",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "coffeeChatLink": null,
+    "about": "Esha Shah is a computer science student at Cornell with a passion for coding, problem-solving, and harnessing technology to create meaningful impact. She thrives on exploring new programming languages and tackling projects that push her both creatively and technically. On campus, she holds leadership roles in SWE and HSC, volunteers with Girls Who Code, and contributes to machine learning research in the PoRTaL lab. Beyond academics, she channels her creativity into building intricate miniature models, enjoys singing, and loves sharing her tech skills through teaching and mentorship. Always eager to learn and grow, she is excited to see where her journey in technology will lead her."
   },
   {
     "formerSubteams": [],
@@ -1056,7 +1058,6 @@
     "minor": null,
     "doubleMajor": null,
     "pronouns": "she/her",
-    "about": "product design on CornellGO :))",
     "role": "designer",
     "hometown": "Brooklyn, New York",
     "firstName": "Jessica",
@@ -1068,7 +1069,10 @@
     "website": null,
     "roleDescription": "Designer",
     "netid": "jl4229",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "coffeeChatLink": null,
+    "about": "product designer on CornellGO :))"
   },
   {
     "formerSubteams": [],
@@ -1100,7 +1104,6 @@
     "lastName": "Crane",
     "doubleMajor": "Mathematics",
     "minor": "Computer Science",
-    "about": "New dev on Idol :D",
     "netid": "jlc565",
     "pronouns": "she/her",
     "email": "jlc565@cornell.edu",
@@ -1114,7 +1117,10 @@
     "roleDescription": "Developer",
     "github": "https://github.com/jujulcrane",
     "firstName": "Juju",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "coffeeChatLink": null,
+    "about": "Hi! I'm Juju, a freshman at Cornell. I'm double majoring in Math and Econ and minoring in CS. Outside of academics, I play hockey on the Cornell Women's Club Hockey team and French horn in the Cornell Symphony Orchestra."
   },
   {
     "formerSubteams": [],
@@ -1545,9 +1551,11 @@
     "netid": "mh2535",
     "minor": "Business",
     "doubleMajor": null,
-    "about": "PMM @ Queue Me In!",
     "roleDescription": "Business",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "coffeeChatLink": null,
+    "about": "Product Marketing Manager @ Queue Me In!"
   },
   {
     "formerSubteams": [],
@@ -1859,29 +1867,31 @@
     "semesterJoined": "Spring 2022"
   },
   {
-    "firstName": "Raissa",
-    "lastName": "Ji",
+    "graduation": "May 2026",
+    "netid": "rj353",
+    "website": null,
+    "linkedin": "https://www.linkedin.com/in/raissaji/",
+    "hometown": "Cupertino",
     "about": "Dev at Carriage",
-    "major": "Computer Science",
+    "pronouns": "she/her",
+    "role": "developer",
     "subteams": [
       "carriage"
     ],
+    "major": "Computer Science",
+    "coffeeChatLink": null,
+    "roleDescription": "Developer",
+    "semesterJoined": "Fall 2023",
+    "github": "https://github.com/raissaji",
+    "minor": "Business and Entrepreneurship",
+    "lastName": "Ji",
+    "firstName": "Raissa",
+    "doubleMajor": null,
+    "college": "cas",
+    "email": "rj353@cornell.edu",
     "formerSubteams": [
       "queuemein"
-    ],
-    "hometown": "Cupertino",
-    "minor": null,
-    "pronouns": "she/her",
-    "doubleMajor": null,
-    "github": "https://github.com/raissaji",
-    "netid": "rj353",
-    "role": "developer",
-    "graduation": "May 2026",
-    "roleDescription": "Developer",
-    "email": "rj353@cornell.edu",
-    "linkedin": "https://www.linkedin.com/in/raissaji/",
-    "website": null,
-    "semesterJoined": "Fall 2023"
+    ]
   },
   {
     "formerSubteams": [],
