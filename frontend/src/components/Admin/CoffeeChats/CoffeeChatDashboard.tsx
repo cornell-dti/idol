@@ -4,7 +4,7 @@ import { ExportToCsv, Options } from 'export-to-csv';
 import styles from './CoffeeChatDashboard.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
-import { getLinesFromBoard } from '../../../utils';
+import { getLinesFromBoard, getCurrentSemester } from '../../../utils';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 
 type CoffeeChatStats = {
@@ -30,12 +30,7 @@ const CoffeeChatDashboard: React.FC = () => {
       setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
     });
 
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const semester = month >= 1 && month <= 6 ? 'Spring' : 'Fall';
-    setCurrentSemester(`${semester} ${year}`);
-
+    setCurrentSemester(getCurrentSemester());
     setIsLoading(false);
   }, []);
 
