@@ -14,12 +14,10 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(5px, 1.5vw, 15px);
-  max-width: 600px;
 }
 
 .bingo_cell {
   aspect-ratio: 1 / 1;
-  max-width: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,14 +53,11 @@
   margin-bottom: 2rem;
 }
 
-
-
-
 .flexContainer {
   display: flex;
-  gap: 2rem; 
-  justify-content: space-between; 
-  align-items: flex-start; 
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -72,11 +67,12 @@
 }
 
 .main-content {
-  flex: 2; 
+  flex: 2;
 }
 
 .dropdown-column {
-  flex: 1; 
+  flex: 1;
+  background-color: black;
 }
 
 .dropdownButton {
