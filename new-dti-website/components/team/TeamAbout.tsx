@@ -134,7 +134,7 @@ const TeamStatistics = () => {
     lead: { name: 'Leads', color: '#484848', people: 0, majors: new Set(), colleges: [] },
     developer: {
       name: 'Development',
-      color: '#D63D3D',
+      color: 'hsl(var(--accent))',
       people: 0,
       majors: new Set(),
       colleges: []

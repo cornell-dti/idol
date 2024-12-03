@@ -95,7 +95,7 @@
 
 .team {
   width: 295px;
-  color: #ff4c4c;
+  color: hsl(var(--accent-brighter));
 }
 
 .ourTeam {

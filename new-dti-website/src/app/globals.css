@@ -25,9 +25,10 @@
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    
+    --accent: 0 65.1% 53.9%; /* Use for default accent color */
+    --accent-foreground: 0 0% 99.6%; /* Use for fg color of text on accent bg color */
+    --accent-brighter: 0 100% 64.9%; /* Use for text that needs accent color (eg: hero sections) */ 
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -166,8 +167,8 @@
 }
 
 .primary-button {
-  color: #fefefe;
-  background-color: #d63d3d;
+  color: hsl(var(--accent-foreground));
+  background-color: hsl(var(--accent));
   border-radius: 12px;
   font-weight: 700;
   height: fit-content;
@@ -183,7 +184,7 @@
 }
 
 .primary-button[aria-disabled='true']:hover {
-  background-color: #d63d3d;
+  background-color: hsl(var(--accent));
 }
 
 .secondary-button {
@@ -208,14 +209,14 @@
 }
 
 .secondary-button--red {
-  color: #d63d3d;
+  color: hsl(var(--accent));
   background-color: #ededed;
-  border-color: #d63d3d;
+  border-color: hsl(var(--accent));
 }
 
 .secondary-button--red:hover {
   color: #fefefe;
-  background-color: #d63d3d;
+  background-color: hsl(var(--accent));
 }
 
 summary {

@@ -61,7 +61,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
         </CarouselContent>
       </Carousel>
       <button
-        className="absolute right-[2%] bottom-[15%] rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
+        className="absolute right-[2%] bottom-[15%] rounded-full p-2 bg-accent hover:bg-[#a52424] duration-300"
         onClick={togglePlayPause}
         aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
       >

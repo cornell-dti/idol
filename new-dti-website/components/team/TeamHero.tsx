@@ -153,7 +153,7 @@ const TeamHero = () => {
         >
           <div className="mr-20">
             <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
-              OUR <span className="text-[#FF4C4C]">TEAM</span>
+              OUR <span className="text-accentBrighter">TEAM</span>
             </h1>
           </div>
           <div className="flex flex-col justify-center gap-6">
@@ -223,7 +223,7 @@ const TeamHero = () => {
         </div>
       </div>
       <button
-        className="absolute right-[2%] -bottom-10 z-20 rounded-full p-2 bg-[#d63d3d] hover:bg-[#a52424] duration-300"
+        className="absolute right-[2%] -bottom-10 z-20 rounded-full p-2 bg-accent hover:bg-[#a52424] duration-300"
         onClick={togglePlayPause}
         aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
       >
