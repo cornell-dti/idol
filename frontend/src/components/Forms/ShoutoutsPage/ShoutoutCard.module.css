@@ -27,7 +27,7 @@
 .shoutoutFrom {
   color: gray;
   display: inline-block;
-  padding-left: 1.5rem;
+  padding-left: 1rem;
   padding-bottom: 1rem;
 }
 
@@ -43,8 +43,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
-  margin-top: 1rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+}
+
+.editIcon {
+  color: #4183c4;
+  cursor: pointer;
+  margin-right: 10px !important;
+  transition: color 0.3s ease;
+}
+
+.editIcon:hover {
+  color: #1e70bf;
 }

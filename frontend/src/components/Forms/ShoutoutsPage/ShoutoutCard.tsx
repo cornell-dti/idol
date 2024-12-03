@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Button, Card, Image, Loader, Form, Icon, Modal, TextArea } from 'semantic-ui-react';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 import ShoutoutDeleteModal from '../../Modals/ShoutoutDeleteModal';
 import styles from './ShoutoutCard.module.css';
 
@@ -13,6 +13,8 @@ interface ShoutoutCardProps {
 const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedMessage, setEditedMessage] = useState(shoutout.message);
+  const [image, setImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEditShoutout = async () => {
     try {
@@ -25,17 +27,6 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
       console.error('Failed to edit shoutout:', error);
     }
   };
-  setGivenShoutouts: React.Dispatch<React.SetStateAction<Shoutout[]>>;
-}): JSX.Element => {
-  const { shoutout, setGivenShoutouts } = props;
-
-  const [image, setImage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const fromString = shoutout.isAnon
-    ? 'From: Anonymous'
-    : `From: ${shoutout.giver?.firstName || ''} ${shoutout.giver?.lastName || ''}`.trim();
-  const dateString = new Date(shoutout.timestamp).toDateString();
 
   useEffect(() => {
     if (shoutout.images && shoutout.images.length > 0) {
@@ -51,33 +42,30 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
     }
   }, [shoutout.images]);
 
+  const fromString = shoutout.isAnon
+    ? 'From: Anonymous'
+    : `From: ${shoutout.giver?.firstName || ''} ${shoutout.giver?.lastName || ''}`.trim();
+  const dateString = new Date(shoutout.timestamp).toDateString();
+
   return (
     <Card className={styles.shoutoutCardContainer}>
       <Card.Group widths="equal" className={styles.shoutoutCardDetails}>
         <Card.Content header={`To: ${shoutout.receiver}`} className={styles.shoutoutTo} />
-        <Card.Content
-          className={styles.shoutoutDate}
-          content={new Date(shoutout.timestamp).toDateString()}
-        />
+        <Card.Content className={styles.shoutoutDate} content={dateString} />
       </Card.Group>
       <div className={styles.shoutoutActions}>
-        <Card.Meta
-          className={styles.shoutoutFrom}
-          content={
-            shoutout.isAnon
-              ? 'From: Anonymous'
-              : `From: ${shoutout.giver.firstName} ${shoutout.giver.lastName}`
-          }
-        />
-        <div>
+        <Card.Meta className={styles.shoutoutFrom} content={fromString} />
+        <div className={styles.actionIcons}>
+          <Icon
+            name="edit"
+            onClick={() => setIsEditing(true)}
+            className={styles.editIcon}
+            aria-label="Edit Shoutout"
+          />
           <ShoutoutDeleteModal uuid={shoutout.uuid} setGivenShoutouts={setGivenShoutouts} />
-          <Button icon onClick={() => setIsEditing(true)}>
-            <Icon name="edit" />
-          </Button>
         </div>
       </div>
       <Card.Content description={shoutout.message} />
-
       {isLoading ? (
         <Loader active inline />
       ) : (
@@ -114,6 +102,5 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
     </Card>
   );
 };
-
 
 export default ShoutoutCard;
