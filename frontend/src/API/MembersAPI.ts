@@ -1,5 +1,6 @@
+/* eslint-disable no-await-in-loop */
 import { backendURL } from '../environment';
-import { Emitters } from '../utils';
+import { delay, Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
 type MemberResponseObj = {
@@ -53,19 +54,31 @@ export class MembersAPI {
     return APIWrapper.post(`${backendURL}/member-archive`, body).then((res) => res.data);
   }
 
-  public static notifyMemberTeamEvents(
-    member: Member,
+  public static async notifyMemberTeamEvents(
+    members: Member[],
     endOfSemesterReminder: boolean
-  ): Promise<MemberResponseObj> {
-    return APIWrapper.post(
-      `${backendURL}/team-event-reminder${
-        endOfSemesterReminder ? '?end_of_semester_reminder=true' : ''
-      }`,
-      member
-    ).then((res) => res.data);
+  ): Promise<void> {
+    for (const member of members) {
+      await delay(1000);
+      await APIWrapper.post(
+        `${backendURL}/team-event-reminder${
+          endOfSemesterReminder ? '?end_of_semester_reminder=true' : ''
+        }`,
+        member
+      ).then((res) => res.data);
+    }
   }
 
-  public static notifyMemberCoffeeChat(member: Member): Promise<MemberResponseObj> {
-    return APIWrapper.post(`${backendURL}/coffee-chat-reminder`, member).then((res) => res.data);
+  public static async notifyMemberCoffeeChat(members: Member[]): Promise<void> {
+    if (members.length === 1) {
+      await APIWrapper.post(`${backendURL}/coffee-chat-reminder`, members[0]).then(
+        (res) => res.data
+      );
+      return;
+    }
+    for (const member of members) {
+      await APIWrapper.post(`${backendURL}/coffee-chat-reminder`, member).then((res) => res.data);
+      await delay(1000);
+    }
   }
 }
