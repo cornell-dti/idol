@@ -98,7 +98,7 @@ const Line: React.FC = () => {
       {/* Begin Parent Div Container*/}
       <div className="relative max-w-full bg-black border border-blue-500" ref={componentRef}>
         {/* Begin Line Component */}
-        <div className="relative w-full h-auto" ref={componentRef}>
+        <div className="relative w-full h-auto z-10" ref={componentRef}>
           {width > MOBILE_BREAKPOINT ? (
             <div className="relative">
               <svg
@@ -222,7 +222,7 @@ const Line: React.FC = () => {
         )} */}
 
         {/* Text Portion*/}
-        <div className="flex absolute top-[71%] sm:top-[53%] md:top-[53.5%] w-full h-auto text-white border border-purple-500">
+        <div className="flex absolute top-[71%] sm:top-[53%] md:top-[53.5%] w-full h-auto text-white border border-purple-500 z-0">
           <div className="relative w-full h-auto grid grid-cols-2 gap-y-8 sm:gap-y-6 md:gap-y-8 lg:gap-y-10 xl:gap-y-12 2xl:gap-y-16 text-md lg:text-2xl xl:text-3xl 2xl:text-4xl font-normal tracking-widest">
             <div
               className={`col-span-1 text-right ease-in-out duration-500 mr-14 sm:mr-0 md:mr-8 lg:mr-[8%] ${
@@ -240,9 +240,7 @@ const Line: React.FC = () => {
               for community impact
             </div>
             <div
-              className={` ${
-                activeIcon.creatingTechnology ? 'bg-white' : 'opacity-50'
-              } absolute top-[50%] left-[46%] rotate-[30deg] bg-gray-300 h-[5%] w-[7%]`}
+              className={`absolute top-[50%] left-[46%] rotate-[30deg] bg-gray-300 opacity-50 h-[3%] w-[7%]`}
             ></div>
           </div>
         </div>
