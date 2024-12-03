@@ -72,10 +72,10 @@ const Bottom: React.FC = () => (
               </p>
             </div>
           </div>
+          <Link href="/course" className="primary-button">
+            Learn more
+          </Link>
         </div>
-        <a href="/courses">
-          <button className="primary-button">Learn more</button>
-        </a>
       </div>
     </div>
     <div className="flex flex-col h-fit justify-center items-start py-10 px-8 md:flex-row md:py-20 md:px-16">
@@ -116,7 +116,7 @@ const Bottom: React.FC = () => (
             We strive to build initiatives not only at Cornell, but also in the{' '}
             <span className="font-bold">Ithaca community and beyond</span>.
           </p>
-          <Link href="/initiative" className="primary-button">
+          <Link href="/initiatives" className="primary-button">
             How we give back
           </Link>
         </div>
@@ -141,12 +141,12 @@ const Bottom: React.FC = () => (
           <span className="font-bold">teach others from our experience.</span>
         </p>
         <div className="flex flex-row gap-x-3">
-          <a href="/team">
-            <button className="primary-button">Get to know us</button>
-          </a>
-          <a href="/apply">
-            <button className="secondary-button">Join us</button>
-          </a>
+          <Link href="/team" className="primary-button">
+            Get to know us
+          </Link>
+          <Link href="/apply" className="secondary-button">
+            Join us
+          </Link>
         </div>
       </div>
     </div>

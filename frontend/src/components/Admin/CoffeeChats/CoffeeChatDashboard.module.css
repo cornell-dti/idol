@@ -27,3 +27,13 @@
   padding-right: 5%;
   padding-bottom: 0.5em;
 }
+
+.remindButton {
+  position: sticky;
+  left: 35%;
+}
+
+.notify {
+  position: absolute;
+  right: 1%;
+}

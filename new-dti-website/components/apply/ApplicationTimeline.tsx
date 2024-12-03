@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import config from '../../config.json';
 import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
@@ -11,18 +12,24 @@ import { extractEndDate, extractEndTime, parseDate } from '../../src/utils/dateU
 type TabProps = {
   isSelected: boolean;
   text: string;
+  tabIndex?: number;
   onClick?: () => void;
 };
 
-const Tab: React.FC<TabProps> = ({ isSelected, text, onClick }) => (
-  <div
+const Tab: React.FC<TabProps> = ({ isSelected, text, onClick, tabIndex }) => (
+  <button
     className={`flex items-center lg:px-5 lg:py-4 md:px-4 md:py-3 xs:px-2 md:rounded-t-xl xs:rounded-t-lg ${
-      isSelected ? 'bg-[#FEFEFE] text-[#A52424]' : 'bg-[#7E2222CC] text-[#FEFEFE]'
+      isSelected ? 'bg-[#FEFEFE] text-[#A52424]' : 'text-[#FEFEFE]'
     } hover:cursor-pointer md:h-min xs:h-full`}
     onClick={onClick}
+    role="tab"
+    tabIndex={isSelected ? 0 : -1}
+    aria-selected={isSelected}
   >
-    <p className="font-bold lg:text-lg md:text-[13px] xs:text-[10px]">{text}</p>
-  </div>
+    <p className="font-bold lg:text-lg md:text-[13px] xs:text-[10px]" role="tabpanel">
+      {text}
+    </p>
+  </button>
 );
 
 type DateTime = {
@@ -173,7 +180,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
                 className={`${isNextEvent ? 'brightness-0' : ''}`}
               />
               <p className={event.link ? 'underline' : ''}>
-                {event.link ? <a href={event.link}>{event.location}</a> : event.location}
+                {event.link ? <Link href={event.link}>{event.location}</Link> : event.location}
               </p>
             </div>
           )}
@@ -220,6 +227,12 @@ const ApplicationTimeline = () => {
   const scrollToIndex =
     nextEventIndex === sortedEvents.length ? nextEventIndex - 1 : nextEventIndex;
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      setCycle(cycle === 'freshmen' ? 'upperclassmen' : 'freshmen');
+    }
+  };
+
   useEffect(() => {
     if (timelineRef.current && selectedNodeRef.current && width >= TABLET_BREAKPOINT) {
       const innerDiv = selectedNodeRef.current.getBoundingClientRect().top;
@@ -246,18 +259,18 @@ const ApplicationTimeline = () => {
             >
               cornell-dti/timeline
             </p>
-            <div className="flex items-end">
+            <div className="flex items-end" role="tablist" onKeyDown={handleKeyDown}>
               {isFall ? (
                 <>
-                  <Tab
-                    isSelected={cycle === 'freshmen'}
-                    text={'Freshmen/Transfer'}
-                    onClick={() => setCycle('freshmen')}
-                  />
                   <Tab
                     isSelected={cycle === 'upperclassmen'}
                     text={'Upperclassmen'}
                     onClick={() => setCycle('upperclassmen')}
+                  />
+                  <Tab
+                    isSelected={cycle === 'freshmen'}
+                    text={'Freshmen/Transfer'}
+                    onClick={() => setCycle('freshmen')}
                   />
                 </>
               ) : (

@@ -16,7 +16,7 @@ const applications = applicationData as {
 };
 
 const RoleDescriptions = () => {
-  const [role, setRole] = useState<string>('product');
+  const [role, setRole] = useState<string>('development');
 
   return (
     <div className="relative flex justify-center text-[#FEFEFE]">
@@ -38,15 +38,19 @@ const RoleDescriptions = () => {
                 >
                   {application.charAt(0).toUpperCase() + application.substring(1)}
                 </h3>
-                <Image
-                  src={icon.src}
-                  alt={application}
-                  width={icon.width}
-                  height={icon.height}
-                  className={`${role === application ? '' : 'brightness-50'} cursor-pointer 
-                    lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
+                <button
                   onClick={() => setRole(application)}
-                />
+                  aria-label={`Show ${application} questions`}
+                >
+                  <Image
+                    src={icon.src}
+                    alt=""
+                    width={icon.width}
+                    height={icon.height}
+                    className={`${role === application ? '' : 'brightness-50'}
+                      lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
+                  />
+                </button>
               </div>
             );
           })}
@@ -103,7 +107,15 @@ const RoleDescriptions = () => {
             Apply now
           </Link>
         ) : (
-          <></>
+          <Link
+            key="Apply Page"
+            href="#"
+            className="primary-button opacity-50 cursor-not-allowed"
+            onClick={(e) => e.preventDefault()}
+            aria-disabled="true"
+          >
+            Apply now
+          </Link>
         )}
       </div>
       <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />

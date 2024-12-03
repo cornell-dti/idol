@@ -15,29 +15,32 @@ export default function Page() {
 
   return (
     <div className="overflow-x-hidden">
-      <div className="flex lg:flex-row flex-col relative lg:max-w-[1186.76px] lg:mx-52 lg:my-24 lg:space-x-20 md:space-y-10 md:max-w-[698px] h-fit md:my-[130px] md:mx-[67px] max-w-[314px] mx-auto md:py-0 py-32">
-        <RedBlob
-          className={'-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100'}
-          intensity={0.4}
-        />
-        <div className="md:w-fit w-[314px] z-10">
-          <p className="md:text-[100px] md:leading-[121px] text-[48px] leading-[58px] font-semibold">
-            <span className="text-white">OUR </span>
-            <span className="text-red-500">PRODUCTS</span>
-          </p>
-        </div>
-        <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
-          <div className="flex flex-row">
-            <div className="RealImpact text-[24px] leading-[29.05px] font-bold md:text-[40px] md:leading-[48.41px]">
-              <span className="text-neutral-400">Real</span>
-              <span className="text-white font-medium"> </span>
-              <span className="text-neutral-200 italic">impact</span>
-            </div>
+      <div className="flex justify-center">
+        <div className="flex lg:flex-row flex-col relative lg:px-[10vw] lg:my-24 lg:gap-20 md:space-y-10 h-fit md:my-[130px] md:px-[67px] px-10 md:py-0 py-20">
+          <RedBlob
+            className="-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100"
+            intensity={0.4}
+          />
+          <div className="md:w-fit md:max-w-[558px] xs:max-w-none z-10">
+            <h1 className="md:text-header md:leading-header text-[48px] font-semibold xs:leading-header-xs">
+              <span className="text-white">OUR </span>
+              <span className="text-red-500">PRODUCTS</span>
+            </h1>
           </div>
-          <p className="text-[#FFFFFF] w-[475px] md:text-lg md:leading-[21.78px] text-[14px] leading-[16.94px]  md:max-w-md max-w-[314px] z-10">
-            Each of our projects address an unfulfilled need that exists in our community using
-            <span className="font-semibold"> human-centered design and software engineering.</span>
-          </p>
+          <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
+            <div className="flex flex-row">
+              <div className="text-[24px] font-bold md:text-subheader md:leading-subheader text-hero-primary">
+                Real impact
+              </div>
+            </div>
+            <p className="text-hero-secondary xs:max-w-none md:text-lg md:leading-body-text xs:text-sm md:max-w-md max-w-[314px] z-10">
+              Each of our projects address an unfulfilled need that exists in our community using
+              <span className="font-semibold">
+                {' '}
+                human-centered design and software engineering.
+              </span>
+            </p>
+          </div>
         </div>
       </div>
       <ImageCarousel items={productIcons} />
@@ -92,13 +95,12 @@ export default function Page() {
           className={'-right-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
           intensity={0.3}
         />
-        <div className="flex flex-col text-white max-w-screen-md text-center items-center space-y-6">
+        <div className="flex flex-col text-white max-w-xl text-center items-center space-y-6">
           <p className="font-semibold text-[32px]">Have Any Ideas?</p>
           <p className="px-20">
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
           </p>
-
           <Link href="mailto:hello@cornelldti.org" className="primary-button">
             Contact us
           </Link>
@@ -117,6 +119,7 @@ const ProductDisplay = (props: {
     link: string;
     iconPath: string;
     iconDimensions: number;
+    imageClassName?: string;
     blobs?: { className: string; intensity: number }[];
     images?: ImageData[];
   };
@@ -144,20 +147,21 @@ const ProductDisplay = (props: {
       </div>
     </div>
     <div
-      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-0 mb-72 z-10 text-white ${
+      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 md:px-0 mt-0 mb-72 z-10 text-white ${
         props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
       }`}
     >
-      <div className="space-y-6 md:max-w-xl">
+      <div className="space-y-3 md:max-w-xl ">
         <Image
           src={props.product.iconPath}
           alt={props.product.alt}
           width={props.product.iconDimensions}
           height={props.product.iconDimensions}
+          className={props.product.imageClassName}
         />
         <p className="text-3xl font-semibold">{props.product.name}</p>
         <p>{props.product.description}</p>
-        <div hidden={props.product.link === ''}>
+        <div className="-translate-x-0.5 translate-y-10" hidden={props.product.link === ''}>
           <Link href={props.product.link} className="primary-button">
             View Product
           </Link>

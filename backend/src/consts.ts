@@ -20,8 +20,7 @@ export const ALL_ROLES: Role[] = [
   'apm',
   'developer',
   'designer',
-  'internal-business',
-  'pmm',
+  'business',
   'pm-advisor',
   'dev-advisor',
   'design-advisor',
@@ -35,7 +34,6 @@ export const LEAD_ROLES: Role[] = [
   'design-lead',
   'business-lead'
 ];
-export const BUSINESS_ROLES: Role[] = ['internal-business', 'pmm'];
 export const ADVISOR_ROLES: Role[] = [
   'pm-advisor',
   'dev-advisor',

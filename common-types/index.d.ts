@@ -15,8 +15,7 @@ type Role =
   | 'apm'
   | 'developer'
   | 'designer'
-  | 'internal-business'
-  | 'pmm'
+  | 'business'
   | 'pm-advisor'
   | 'dev-advisor'
   | 'design-advisor'
@@ -34,12 +33,14 @@ type RoleDescription =
   | 'Associate PM'
   | 'Developer'
   | 'Designer'
-  | 'Internal Business'
-  | 'PMM'
+  | 'Business'
   | 'PM Advisor'
   | 'Dev Advisor'
   | 'Design Advisor'
   | 'Business Advisor';
+
+/** The possible colleges an IDOL member could be. */
+type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -48,7 +49,9 @@ interface IdolMember {
   readonly firstName: string;
   readonly lastName: string;
   readonly pronouns: string;
+  readonly semesterJoined: string;
   readonly graduation: string;
+  readonly college?: College;
   readonly major: string;
   readonly doubleMajor?: string | null;
   readonly minor?: string | null;
@@ -255,3 +258,10 @@ interface MemberProperties {
 }
 type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
 type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };
+
+interface MemberDetails {
+  readonly name: string;
+  readonly netid: string;
+}
+
+type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
 import config from '../../config.json';
 import interviewPrep from './data/interviewPrep.json';
 
@@ -8,33 +8,12 @@ type FAQAccordionProps = {
   children: ReactNode;
 };
 
-const FAQAccordion = ({ header, children }: FAQAccordionProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = () => setIsOpen((prev) => !prev);
-
-  return (
-    <div className="py-4 border-white border-b-black border-2 cursor-pointer" onClick={handleClick}>
-      <div className="flex justify-between pr-4">
-        <p className="section-subheading">{header}</p>
-        <Image
-          src="/icons/dropdown.svg"
-          alt="dropdown"
-          width={13}
-          height={7}
-          className={isOpen ? 'rotate-180' : 'rotate-0'}
-        />
-      </div>
-      <div
-        className={`overflow-hidden transition-all duration-700 ease-in-out ${
-          isOpen ? 'max-h-none opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <div className="md:py-5 xs:py-3">{children}</div>
-      </div>
-    </div>
-  );
-};
+const FAQAccordion = ({ header, children }: FAQAccordionProps) => (
+  <details className="border-white border-b-black border-2 cursor-pointer">
+    <summary className="section-subheading">{header}</summary>
+    <div className="md:py-5 xs:py-3">{children}</div>
+  </details>
+);
 
 const ApplyFAQ = () => {
   const sections = ['General Questions', 'Behavioral Prep', 'Technical Prep'];
@@ -100,9 +79,9 @@ const ApplyFAQ = () => {
                   coffee, but should be 30 minutes like an actual coffee catch up with a friend. Get
                   the most out of the coffee chat by preparing your questions ahead of time and
                   researching the other person's experiences first. Find DTI members to chat{' '}
-                  <a className="underline" href={config.coffeeChatLink}>
+                  <Link className="underline" href={config.coffeeChatLink}>
                     here
-                  </a>
+                  </Link>
                   .
                 </p>
               </FAQAccordion>
@@ -111,9 +90,9 @@ const ApplyFAQ = () => {
                   Whether or not you receive an interview invitation, we will email you a definitive
                   decision within a week of applying! We're happy to answer any questions you have
                   during this time through our email,{' '}
-                  <a className="underline" href="mailto:hello@cornelldti.org">
+                  <Link className="underline" href="mailto:hello@cornelldti.org">
                     hello@cornelldti.org
-                  </a>
+                  </Link>
                   .
                 </p>
               </FAQAccordion>

@@ -45,7 +45,7 @@ export default class CoffeeChatAPI {
     return res.board as string[][];
   }
 
-  public static async runAutoChecker(uuid: string): Promise<DevPortfolio> {
+  public static async runAutoChecker(uuid: string): Promise<CoffeeChat> {
     return APIWrapper.put(`${backendURL}/coffee-chat/autocheck/${uuid}/`, {}).then(
       (res) => res.data.coffeeChat
     );
@@ -70,5 +70,11 @@ export default class CoffeeChatAPI {
       const result = val.result as MemberMeetsCategoryType;
       return result;
     });
+  }
+
+  public static async getCoffeeChatSuggestions(email: string): Promise<CoffeeChatSuggestions> {
+    return APIWrapper.get(`${backendURL}/coffee-chat-suggestions/${email}`).then(
+      (res) => res.data.suggestions
+    );
   }
 }

@@ -18,7 +18,7 @@ const Home: React.FC = () => {
       src: '/images/DTI_notsel.png',
       hover: '/images/DTI_hover.png',
       active: '/images/DTI_current.png',
-      altText: 'DTI',
+      ariaLabel: 'Show full team slide',
       width: 80,
       height: 80
     },
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       src: '/images/Family_notsel.png',
       hover: '/images/Family_hover.png',
       active: '/images/Family_current.png',
-      altText: 'Family',
+      araiLabel: 'Show family slide',
       width: 80,
       height: 80
     },
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
       src: '/images/Collaboration_notsel.png',
       hover: '/images/Collaboration_hover.png',
       active: '/images/Collaboration_current.png',
-      altText: 'Collaboration',
+      ariaLabel: 'Show collaboration slide',
       width: 100,
       height: 80
     },
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       src: '/images/Events_notsel.png',
       hover: '/images/Events_hover.png',
       active: '/images/Events_current.png',
-      altText: 'Events',
+      ariaLabel: 'Show events slide',
       width: 90,
       height: 90
     },
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
       src: '/images/Initiatives_notsel.png',
       hover: '/images/Initiatives_hover.png',
       active: '/images/Initiatives_current.png',
-      altText: 'Initiatives',
+      ariaLabel: 'Show initiatives slide',
       width: 80,
       height: 80
     }
@@ -90,45 +90,49 @@ const Home: React.FC = () => {
   const { width } = useScreenSize();
 
   return (
-    <div>
-      <div className="flex flex-col h-[calc(100vh-136px)] justify-between items-center">
-        <RedBlob intensity={0.6} className="left-[-250px] top-[-150px]" />
-        <div className="flex flex-row xs:items-center h-full justify-evenly lg:gap-28 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
+    <>
+      <div className="flex flex-col min-h-[calc(100vh-136px)] justify-between items-center">
+        <RedBlob intensity={0.5} className="left-[-250px] top-[-250px]" />
+        <div className="flex flex-row grow h-full justify-evenly lg:gap-24 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
           <div className="flex flex-col md:gap-8 xs:gap-4 xs:w-full lg:w-5/12">
             <h2 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
-              Cornell Digital Tech & Innovation Project Team
+              Building the Future <br /> of Tech @ Cornell
             </h2>
-            <RedBlob intensity={0.6} className="left-[200px] top-[450px]" />
             <div className="flex justify-center">
               {width < LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
             </div>
             <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px]">
               {icons.map((icon, index) => (
-                <Icon
-                  key={index}
-                  icon={icon.src}
-                  hoverIcon={icon.hover}
-                  activeIcon={icon.active}
-                  altText={icon.altText}
-                  isActive={selectedIcon === index}
+                <button
                   onClick={() => {
                     setSelectedIcon(index);
                     if (timer) clearTimeout(timer);
                   }}
-                  width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
-                  height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
-                />
+                  aria-label={icon.ariaLabel}
+                >
+                  <Icon
+                    key={index}
+                    icon={icon.src}
+                    hoverIcon={icon.hover}
+                    activeIcon={icon.active}
+                    altText=""
+                    isActive={selectedIcon === index}
+                    width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
+                    height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
+                  />
+                </button>
               ))}
             </div>
           </div>
-          <div className="lg:w-7/12 xs:w-none">
+          <div className="lg:w-7/12 xs:w-none flex flex-row-reverse">
             {width >= LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
-            <div className="relative z-0">
-              <RedBlob intensity={0.6} className="left-[300px] top-[-500px]" />
-            </div>
           </div>
         </div>
-        <div className="flex justify-center self-center w-full py-5">
+        {width >= LAPTOP_BREAKPOINT && (
+          <RedBlob intensity={0.6} className="left-[800px] top-[100px]" />
+        )}
+        <div className="relative flex justify-center self-center w-full py-5">
+          <RedBlob intensity={0.5} className="left-[0px] top-[-200px]" />
           <button
             onClick={scrollToContent}
             className={`text-white md:text-lg xs:text-[16px] font-semibold cursor-pointer flex flex-col items-center z-10 ${ibm_plex_mono.className}`}
@@ -141,7 +145,7 @@ const Home: React.FC = () => {
       </div>
       <div ref={scrollRef} className="min-h-[10vh]"></div>
       <Bottom />
-    </div>
+    </>
   );
 };
 

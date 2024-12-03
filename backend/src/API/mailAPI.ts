@@ -194,3 +194,27 @@ export const sendTECReminder = async (
   } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
   return emailMember(req, member, subject, text);
 };
+
+/**
+ * Send an email reminder to members who do not have a coffee chat blackout
+ * @param req - The request made when sending the email
+ * @param member - The member being sent the email
+ * @returns - The response body containing information of the member being sent the email
+ */
+export const sendCoffeeChatReminder = async (
+  req: Request,
+  member: IdolMember
+): Promise<AxiosResponse> => {
+  const subject = 'Coffee Chat Reminder';
+
+  const text = `
+  Hey! You currently don't have any coffee chat bingos this semester. 
+  This is a reminder to submit your coffee chats by the last day of classes.
+  
+  [NOTE]: Newbies are required to get at least 1 bingo.
+  
+  To submit your coffee chats, please visit 
+  https://idol.cornelldti.org/forms/coffeeChats.
+  `;
+  return emailMember(req, member, subject, text);
+};

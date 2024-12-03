@@ -24,10 +24,8 @@ export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
       return 'Developer';
     case 'designer':
       return 'Designer';
-    case 'internal-business':
-      return 'Internal Business';
-    case 'pmm':
-      return 'PMM';
+    case 'business':
+      return 'Business';
     case 'pm-advisor':
       return 'PM Advisor';
     case 'dev-advisor':
@@ -118,3 +116,69 @@ export class Emitters {
   // Coffee Chats
   static coffeeChatsUpdated: EventEmitter<void> = new EventEmitter();
 }
+
+type LinkType = 'github' | 'linkedin';
+/**
+ * Parses links from english text and fixes a provided link to ensure it adheres to a proper format for LinkedIn or GitHub profiles.
+ * Also handles raw usernames (e.g., "jujulcrane") by constructing a proper URL.
+ *
+ * @param {string} link - The input link, which could be a full URL, partial URL, or raw username.
+ * @param {LinkType} linkType - The type of link if either GitHub or LinkedIn.
+ * @returns {string | undefined} - The fixed and properly formatted link or undefined if the input is invalid.
+ *
+ * @example
+ * formatLink("https://linkedin.com/in/jujulcrane", "linkedin");
+ * // Returns: "https://www.linkedin.com/in/jujulcrane"
+ *
+ * @example
+ * formatLink("github.com/jujulcrane", "github");
+ * // Returns: "https://github.com/jujulcrane"
+ *
+ * @example
+ * formatLink("Visit my profiles: https://linkedin.com/in/jujulcrane and https://github.com/jujulcrane", "linkedin");
+ * // Returns: undefined (multiple links in the input)
+ *
+ * @example
+ * formatLink("jujulcrane", "linkedin");
+ * // Returns: "https://www.linkedin.com/in/jujulcrane/"
+ */
+export const formatLink = (link: string, linkType?: LinkType): string | undefined => {
+  if (!link) {
+    return undefined;
+  }
+
+  const urlRegex =
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]+\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
+  const matches = link.match(urlRegex);
+
+  if (matches && matches.length > 1) {
+    return undefined;
+  }
+
+  if (!matches) {
+    if (linkType) {
+      if (!link.includes(' ')) {
+        switch (linkType) {
+          case 'linkedin':
+            return `https://www.linkedin.com/in/${link.trim().toLowerCase()}`;
+          case 'github':
+            return `https://github.com/${link.trim().toLowerCase()}`;
+          default:
+            return undefined;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  const extractedLink = matches[0]
+    .trim()
+    .replace(/[.,)]+$/, '') // removes any trailing punctuation
+    .toLowerCase();
+
+  if (!extractedLink.startsWith('https://') && !extractedLink.startsWith('http://')) {
+    return `https://${extractedLink}`;
+  }
+
+  return extractedLink;
+};
