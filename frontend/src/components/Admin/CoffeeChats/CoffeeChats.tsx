@@ -5,16 +5,16 @@ import { Button } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
-import CoffeeChatsDashboard from '../../Forms/CoffeeChatsForm/CoffeeChatsDashboard';
+import CoffeeChatsBingoBoard from '../../Forms/CoffeeChatsForm/CoffeeChatsBingoBoard';
 
 const CoffeeChats: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pendingChats, setPendingChats] = useState<CoffeeChat[]>([]);
   const [specificBingoBoard, setSpecificBingoBoard] = useState<string[][]>([[]]);
-  const [approvedChats, setApprovedChats] = useState<CoffeeChat[]>([]);
+  const [specificApprovedChats, setSpecificApprovedChats] = useState<CoffeeChat[]>([]);
   const [specificPendingChats, setSpecificPendingChats] = useState<CoffeeChat[]>([]);
-  const [rejectedChats, setRejectedChats] = useState<CoffeeChat[]>([]);
+  const [specificRejectedChats, setSpecificRejectedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [displayMembers, setDisplayMembers] = useState<boolean>(false);
   const [selectedMember, setSelectedMember] = useState<IdolMember | null>(null);
@@ -47,9 +47,9 @@ const CoffeeChats: React.FC = () => {
       setSelectedMember(member);
   
       CoffeeChatAPI.getCoffeeChatsByUser(member).then((coffeeChats) => {
-        setApprovedChats(coffeeChats.filter((chat) => chat.status === 'approved'));
-        setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
-        setRejectedChats(coffeeChats.filter((chat) => chat.status === 'rejected'));
+        setSpecificApprovedChats(coffeeChats.filter((chat) => chat.status === 'approved'));
+        setSpecificPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
+        setSpecificRejectedChats(coffeeChats.filter((chat) => chat.status === 'rejected'));
         setIsChatLoading(false);
       });
 
@@ -59,7 +59,24 @@ const CoffeeChats: React.FC = () => {
 };
 
   return (
-    <div>
+    <div className={styles.flexContainer}> 
+      <div className="main-content">
+      {selectedMember ? (
+            <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
+              <h2>
+                Bingo Board for {selectedMember.firstName} {selectedMember.lastName}
+              </h2>
+            <CoffeeChatsBingoBoard
+            approvedChats={specificApprovedChats}
+            pendingChats={specificPendingChats}
+            rejectedChats={specificRejectedChats}
+            isChatLoading={isChatLoading}
+            bingoBoard={specificBingoBoard}
+            onCellClick={() => {}}
+            />
+              </div>
+          ) : (
+            <div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
         <h1>Review Coffee Chats</h1>
       </div>
@@ -86,50 +103,42 @@ const CoffeeChats: React.FC = () => {
             </div>
           ))}
         </div>
+      </div> 
       </div>
+      )}
       <div className={styles.buttonContainer}>
         <Link href="/admin/coffee-chats/dashboard">
           <Button>View Coffee Chats Dashboard</Button>
         </Link>
-        <div>
-          <Button onClick={() => {
+        </div>
+        <div className="dropdown-column">
+        <div className={styles.dropdownContainer}>
+          <button 
+          className={styles.dropdownButton}
+          onClick={() => {
             if (selectedMember) {
               setSelectedMember(null);
             }
             setDisplayMembers(!displayMembers)
           }}>
             View Member Bingo Board
-            </Button>
+            </button>
           {displayMembers && ( 
-          <ul> 
+          <ul className={styles.dropdownMenu}> 
             {allMembers.map( (member, index) => (
+              <li key={index}>
             <button 
-            key = {index} 
+            className={styles.memberButton} 
             onClick={() => handleMemberClick(member)}>
               {member.firstName} {member.lastName}
               </button> 
+              </li>
             ))}
           </ul> 
           )}
-          {selectedMember && (
-            <div>
-              <h2>
-                Bingo Board for {selectedMember.firstName} {selectedMember.lastName}
-              </h2>
-              <CoffeeChatsDashboard
-            approvedChats={approvedChats}
-            pendingChats={specificPendingChats}
-            rejectedChats={rejectedChats}
-            isChatLoading={isChatLoading}
-            setPendingChats={setSpecificPendingChats}
-            setApprovedChats={setApprovedChats}
-            bingoBoard={specificBingoBoard}
-            resetState={() => {}}
-            />
-              </div>
-          )}
           </div>
         </div>
+      </div>
       </div>
   );
 };
