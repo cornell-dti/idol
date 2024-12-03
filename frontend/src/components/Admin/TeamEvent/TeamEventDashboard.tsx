@@ -129,6 +129,7 @@ const TeamEventDashboard: React.FC = () => {
                   );
                 })}
                 endOfSemesterReminder={endOfSemesterReminder}
+                type={'tec'}
               />
               <Checkbox
                 className={styles.endOfSemesterCheckbox}
@@ -166,6 +167,7 @@ const TeamEventDashboard: React.FC = () => {
                         trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
                         member={member}
                         endOfSemesterReminder={endOfSemesterReminder}
+                        type={'tec'}
                       />
                     )}
                   </Table.Cell>

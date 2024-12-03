@@ -53,7 +53,7 @@ export class MembersAPI {
     return APIWrapper.post(`${backendURL}/member-archive`, body).then((res) => res.data);
   }
 
-  public static notifyMember(
+  public static notifyMemberTeamEvents(
     member: Member,
     endOfSemesterReminder: boolean
   ): Promise<MemberResponseObj> {
@@ -63,5 +63,9 @@ export class MembersAPI {
       }`,
       member
     ).then((res) => res.data);
+  }
+
+  public static notifyMemberCoffeeChat(member: Member): Promise<MemberResponseObj> {
+    return APIWrapper.post(`${backendURL}/coffee-chat-reminder`, member).then((res) => res.data);
   }
 }

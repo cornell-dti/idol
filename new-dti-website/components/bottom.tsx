@@ -72,7 +72,7 @@ const Bottom: React.FC = () => (
               </p>
             </div>
           </div>
-          <Link href="/courses" className="primary-button">
+          <Link href="/course" className="primary-button">
             Learn more
           </Link>
         </div>
@@ -116,7 +116,7 @@ const Bottom: React.FC = () => (
             We strive to build initiatives not only at Cornell, but also in the{' '}
             <span className="font-bold">Ithaca community and beyond</span>.
           </p>
-          <Link href="/initiative" className="primary-button">
+          <Link href="/initiatives" className="primary-button">
             How we give back
           </Link>
         </div>
