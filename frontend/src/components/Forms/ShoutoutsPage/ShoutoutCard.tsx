@@ -17,15 +17,11 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEditShoutout = async () => {
-    try {
-      await ShoutoutsAPI.updateShoutout(shoutout.uuid, { message: editedMessage });
-      setGivenShoutouts((prevShoutouts) =>
-        prevShoutouts.map((s) => (s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s))
-      );
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Failed to edit shoutout:', error);
-    }
+    await ShoutoutsAPI.updateShoutout(shoutout.uuid, { message: editedMessage });
+    setGivenShoutouts((prevShoutouts) =>
+      prevShoutouts.map((s) => (s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s))
+    );
+    setIsEditing(false);
   };
 
   useEffect(() => {
@@ -36,9 +32,7 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
           setImage(url);
           setIsLoading(false);
         })
-        .catch(() => {
-          setIsLoading(false);
-        });
+        .catch(() => setIsLoading(false));
     }
   }, [shoutout.images]);
 
