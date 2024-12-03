@@ -140,12 +140,9 @@ export const sendTECReminder = async (
       requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
     }))
   );
-
-  const futureEvents = allEvents.filter((event) => {
-    const eventDate = new Date(event.date);
-    const todayDate = new Date();
-    return eventDate >= todayDate;
-  });
+  const todayDate = new Date();
+  todayDate.setUTCHours(0, 0, 0, 0);
+  const futureEvents = allEvents.filter((event) => new Date(event.date) >= todayDate);
   const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
   let approvedCount = 0;
   let pendingCount = 0;
