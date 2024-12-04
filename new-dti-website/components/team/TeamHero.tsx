@@ -106,7 +106,7 @@ const TeamHero = () => {
   const [focusableElements, setFocusableElements] = useState<NodeListOf<Element>>();
   const modalRef = useRef<HTMLButtonElement>(null);
   const { width } = useScreenSize();
-  const reduceMotion = useMediaReduce();
+  const [reduceMotion] = useMediaReduce();
   const { isPlaying, togglePlayPause, carouselApi, setCarouselApi, plugin } = useCarouselControls({
     delay: 5000,
     reduceMotion,

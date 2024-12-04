@@ -6,7 +6,8 @@
       "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
       "link": "https://cureviews.org/",
       "iconPath": "icons/cureviews_icon.svg",
-      "iconDimensions": 67,
+      "iconDimensions": 90,
+      "imageClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-3/4 -top-32 scale-50 md:scale-100",
@@ -38,7 +39,8 @@
       "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
       "link": "https://courseplan.io/",
       "iconPath": "icons/courseplan_icon.svg",
-      "iconDimensions": 63,
+      "iconDimensions": 90,
+      "imageClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-2/4 -top-48 scale-50 md:scale-100",
@@ -79,7 +81,8 @@
       "description": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their classes.",
       "link": "https://queueme.in/",
       "iconPath": "icons/qmi_icon.svg",
-      "iconDimensions": 63,
+      "iconDimensions": 90,
+      "imageClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-0 -top-48 scale-50 md:scale-100",
@@ -119,7 +122,8 @@
       "description": "Design@Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
       "link": "https://www.cudesign.io/",
       "iconPath": "icons/dac_icon.svg",
-      "iconDimensions": 73,
+      "iconDimensions": 100,
+      "imageClassName": "-translate-x-0",
       "blobs": [
         {
           "className": "left-1/3 scale-50 md:scale-100",
@@ -151,9 +155,9 @@
         {
           "src": "/images/products/dac/dac4.png",
           "alt": "DAC Image 4",
-          "top": "9%",
-          "right": "-18%",
-          "width": "45%",
+          "top": "10%",
+          "right": "-16%",
+          "width": "43%",
           "direction": "right"
         }
       ]
@@ -164,7 +168,8 @@
       "description": "Collaborating with The Learning Strategies Center (LSC) at Cornell, Zing is an all-in-one web interface to create optimal groups for class projects based on students' study preferences.",
       "link": "https://zing-lsc-prod.web.app/",
       "iconPath": "icons/zing_icon.svg",
-      "iconDimensions": 63,
+      "iconDimensions": 80,
+      "imageClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-2/3 scale-50 md:scale-100",
@@ -205,7 +210,7 @@
       "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
       "link": "https://cuapts.org/",
       "iconPath": "icons/cuapts_icon.svg",
-      "iconDimensions": 79,
+      "iconDimensions": 110,
       "blobs": [
         {
           "className": "left-3/4 scale-50 md:scale-100",
@@ -238,7 +243,7 @@
       "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. \n \n Launching next semester.",
       "link": "",
       "iconPath": "icons/carriage_icon.svg",
-      "iconDimensions": 63,
+      "iconDimensions": 100,
       "blobs": [
         {
           "className": "left-1/3 scale-50 md:scale-100",
@@ -258,7 +263,7 @@
       "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges.  \n \n Launching this semester",
       "link": "",
       "iconPath": "icons/cornellgo_icon.svg",
-      "iconDimensions": 63,
+      "iconDimensions": 90,
       "blobs": [
         {
           "className": "left-2/3 scale-50 md:scale-100",

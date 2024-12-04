@@ -207,6 +207,17 @@
   background-color: #fefefe;
 }
 
+.secondary-button--red {
+  color: #d63d3d;
+  background-color: #ededed;
+  border-color: #d63d3d;
+}
+
+.secondary-button--red:hover {
+  color: #fefefe;
+  background-color: #d63d3d;
+}
+
 summary {
   padding-top: 1rem;
   padding-bottom: 1rem;
