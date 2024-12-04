@@ -30,7 +30,11 @@ export default function TestimonialCard({
       <div className="text-3xl text-gray-800 mb-4 tracking-wider font-black">❛❛</div>
       <p className="text-gray-700 mb-6">{description}</p>
       <div className="flex flex-row justify-start gap-4 items-center mt-auto">
-        <img src={profileImage} alt={`${name}'s profile`} className="rounded-full h-[50px] w-[50px] object-cover"/>
+        <img
+          src={profileImage}
+          alt={`${name}'s profile`}
+          className="rounded-full h-[50px] w-[50px] object-cover"
+        />
         <section>
           <h4 className="text-gray-900 font-bold pt-2">{name}</h4>
           <p className="text-gray-500">{semesterTaken}</p>
