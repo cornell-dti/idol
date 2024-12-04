@@ -35,9 +35,9 @@ const Bottom: React.FC = () => (
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
           <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">courses</p>
-          <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">
+          <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
             Teaching the Cornell Community
-          </h3>
+          </h2>
         </div>
         <div className="flex flex-col h-fit pb-3 justify-start gap-y-3 items-start md:gap-y-4">
           <div className="flex flex-row w-full justify-start">
@@ -49,9 +49,9 @@ const Bottom: React.FC = () => (
               alt="Trends icon"
             />
             <div className="flex flex-col justify-start w-full items-start">
-              <h4 className="text-left w-full font-bold md:text-sm lg:text-[22px]">
+              <h3 className="text-left w-full font-bold md:text-sm lg:text-[22px]">
                 Trends in Web Development
-              </h4>
+              </h3>
               <p className="md:text-xs lg:text-lg">
                 Learn about modern industry-leading technologies.
               </p>
@@ -108,9 +108,9 @@ const Bottom: React.FC = () => (
         <div className="flex flex-col gap-y-3 md:gap-y-4">
           <div className="flex flex-col gap-y-1 md:gap-y-2">
             <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">outreach</p>
-            <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">
+            <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
               Expanding reach to our community
-            </h3>
+            </h2>
           </div>
           <p className="md:text-xs lg:text-lg">
             We strive to build initiatives not only at Cornell, but also in the{' '}

@@ -34,7 +34,7 @@ export default function Experiences({ icon, title, description }: IconProps) {
             unoptimized
             className="w-24 md:w-[30%]"
           />
-          <div className="text-4xl font-extrabold">{title}</div>
+          <h3 className="text-4xl font-extrabold">{title}</h3>
         </div>
         <div className="mt-8 text-lg md:text-md lg:text-2xl">{description}</div>
       </div>

@@ -119,9 +119,9 @@ export default function Courses() {
                   MODERN INDUSTRY-LEADING TECHNOLOGY
                 </div>
 
-                <div className="font-black text-4xl tracking-wider mt-4 md:text-[45px]">
+                <h2 className="font-black text-4xl tracking-wider mt-4 md:text-[45px]">
                   Trends in Web Development
-                </div>
+                </h2>
 
                 <div className="text-md md:text-2xl mt-8">
                   Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
@@ -173,9 +173,7 @@ export default function Courses() {
           {/* COURSE STAFF SECTION */}
           <section id="Course Staff">
             <div className="flex flex-col items-center">
-              <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
-                Course Staff
-              </div>
+              <h2 className="font-black md:text-[45px] xs:text-4xl tracking-wider">Course Staff</h2>
               <div className="pt-14">
                 <MemberGroup
                   members={trends_instructors}
