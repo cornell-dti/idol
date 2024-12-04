@@ -98,11 +98,11 @@ export default function Courses() {
         {/* WRAPPER */}
         <div
           id="Wrapper"
-          className="flex flex-col py-10 lg:py-20 gap-y-36 md:gap-y-56 lg:gap-y-80 bg-[#EDEDED] text-black "
+          className="flex flex-col pb-10 gap-y-28 md:gap-y-36 lg:gap-y-44 bg-[#EDEDED] text-black "
         >
           {/* LOGO SECTION */}
           <section id="Trends and Web Development">
-            <div className=" flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
+            <div className="flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
               <div ref={trendsLogoRef} className="sticker">
                 <Image
                   src={'/icons/courses/trends_logo.png'}
@@ -115,19 +115,19 @@ export default function Courses() {
               </div>
 
               <div className="flex flex-col lg:w-1/2">
-                <div className="font-black text-sm md:text-xl tracking-wider">
+                <div className="font-semibold text-sm md:text-xl">
                   MODERN INDUSTRY-LEADING TECHNOLOGY
                 </div>
 
-                <h2 className="font-black text-4xl tracking-wider mt-4 md:text-[45px]">
+                <h2 className="font-bold text-4xl mt-4 md:text-[45px]">
                   Trends in Web Development
                 </h2>
 
-                <div className="text-md md:text-2xl mt-8">
+                <div className="md:text-lg mt-8">
                   Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
                   development and best practices used within industry. We cover technologies like
                   TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed
-                  at scale by leading tech companies
+                  at scale by leading tech companies.
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
@@ -141,7 +141,7 @@ export default function Courses() {
                   <Link
                     key="Trends Website"
                     href={config.trendsWebsiteLink}
-                    className="primary-button"
+                    className="secondary-button secondary-button--red"
                   >
                     Learn More
                   </Link>
@@ -165,15 +165,13 @@ export default function Courses() {
 
           {/* TIMELINE SECTION */}
           <section id="Timeline">
-            <div>
-              <Timeline events={timeline_events} currentDate={new Date()} />
-            </div>
+            <Timeline events={timeline_events} currentDate={new Date()} />
           </section>
 
           {/* COURSE STAFF SECTION */}
           <section id="Course Staff">
             <div className="flex flex-col items-center">
-              <h2 className="font-black md:text-[45px] xs:text-4xl tracking-wider">Course Staff</h2>
+              <h2 className="font-bold md:text-[45px] xs:text-4xl">Course Staff</h2>
               <div className="pt-14">
                 <MemberGroup
                   members={trends_instructors}
@@ -189,7 +187,7 @@ export default function Courses() {
           {/* PAST STUDENT EXPERIENCES SECTION */}
           <section id="Past Student Experiences">
             <div className="flex flex-col">
-              <div className="font-black text-4xl tracking-wider pl-10 md:pl-32 md:text-[45px] ">
+              <div className="font-bold text-4xl pl-10 md:pl-32 md:text-[45px] ">
                 Past Student Experiences
               </div>
               <TestimonialSlider testimonials={testimonials} />
@@ -199,9 +197,7 @@ export default function Courses() {
           {/* PAST STUDENT PROJECTS SECTION */}
           <section id="Past Student Projects">
             <div className="flex flex-col px-10 md:px-32">
-              <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
-                Past Student Projects
-              </div>
+              <div className="font-bold md:text-[45px] xs:text-4xl">Past Student Projects</div>
               <div className="md:text-2xl xs:text-lg pt-8">
                 With the right skills, you will be able to create projects like ours.
               </div>

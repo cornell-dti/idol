@@ -14,7 +14,7 @@ interface carouselItem {
 }
 
 const ImageCarousel = (props: { items: carouselItem[] }) => {
-  const reduceMotion = useMediaReduce();
+  const [reduceMotion] = useMediaReduce();
   const { width } = useScreenSize();
   const { isPlaying, togglePlayPause, currentSlide, setCarouselApi, plugin } = useCarouselControls({
     delay: 5000,
@@ -24,13 +24,9 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const highlightIndex = React.useMemo(() => (width < 1024 ? 1 : 3), [width]);
 
   return (
-    <div
-      className="flex relative bg-transparent overflow-x-hidden"
-      onPointerDown={(e) => e.preventDefault()}
-      onTouchStart={(e) => e.preventDefault()}
-    >
+    <div className="flex relative bg-transparent overflow-x-hidden ">
       <Carousel
-        className="grow h-36 md:h-72 lg:h-80 mb-24 md:mb-0 lg:-ml-[105px]"
+        className="grow h-36 md:h-72 lg:h-80 mb-24 md:mb-0 lg:-ml-[105px] pointer-events-none"
         opts={{
           align: 'start',
           loop: true,

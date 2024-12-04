@@ -9,54 +9,60 @@ import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import Banner from '../../../components/apply/Banner';
 import { isAppOpen } from '../../utils/dateUtils';
 
-const ApplyHero = () => (
-  <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative">
-    <Banner
-      message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
-      variant={'accent'}
-    />
-    <div
-      className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
+const ApplyHero = () => {
+  const isApplicationOpen = isAppOpen();
+
+  return (
+    <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative">
+      {!isApplicationOpen && (
+        <Banner
+          message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
+          variant={'accent'}
+        />
+      )}
+      <div
+        className="flex lg:flex-row xs:flex-col gap-x-[60px] lg:ml-[90px] lg:mr-[169px]
       xs:mx-6 md:mx-[65px]"
-    >
-      <h1 className="flex items-center md:text-header md:leading-header xs:text-[48px] xs:leading-header-xs font-semibold">
-        <div>
-          JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
-        </div>
-      </h1>
-      <div className="flex flex-col gap-6">
-        <h2
-          className="font-bold md:text-subheader xs:text-[24px] md:leading-subheader
+      >
+        <h1 className="flex items-center md:text-header md:leading-header xs:text-[48px] xs:leading-header-xs font-semibold">
+          <div>
+            JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
+          </div>
+        </h1>
+        <div className="flex flex-col gap-6">
+          <h2
+            className="font-bold md:text-subheader xs:text-[24px] md:leading-subheader
           xs:leading-[29px] text-hero-primary"
-        >
-          Down to innovate?
-        </h2>
-        <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-          <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
-          applicants to apply regardless of experience. We'd love to work with someone like you.
-        </p>
-        {isAppOpen() ? (
-          <Link key="Apply Page" href={config.applicationLink} className="primary-button">
-            Apply now
-          </Link>
-        ) : (
-          <Link
-            key="Apply Page"
-            href="#"
-            className="primary-button opacity-50 cursor-not-allowed"
-            onClick={(e) => e.preventDefault()}
-            aria-disabled="true"
           >
-            Apply now
-          </Link>
-        )}
+            Down to innovate?
+          </h2>
+          <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
+            <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
+            applicants to apply regardless of experience. We'd love to work with someone like you.
+          </p>
+          {isApplicationOpen ? (
+            <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+              Apply now
+            </Link>
+          ) : (
+            <Link
+              key="Apply Page"
+              href="#"
+              className="primary-button opacity-50 cursor-not-allowed"
+              onClick={(e) => e.preventDefault()}
+              aria-disabled="true"
+            >
+              Apply now
+            </Link>
+          )}
+        </div>
+      </div>
+      <div className="relative">
+        <RedBlob className={'right-[-300px]'} intensity={0.5} />
       </div>
     </div>
-    <div className="relative">
-      <RedBlob className={'right-[-300px]'} intensity={0.5} />
-    </div>
-  </div>
-);
+  );
+};
 
 const ApplyCoffeeChat = () => (
   <div className="relative flex justify-center bg-[#F5F5F5] md:py-[80px] xs:py-[80px]">
