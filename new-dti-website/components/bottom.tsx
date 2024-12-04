@@ -34,7 +34,7 @@ const Bottom: React.FC = () => (
       </div>
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
-          <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">courses</p>
+          <p className="text-neutral-200 text-xs font-bold lg:text-lg">Courses</p>
           <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
             Teaching the Cornell Community
           </h2>
@@ -107,7 +107,7 @@ const Bottom: React.FC = () => (
       <div className="text-left w-full md:py-10 max-w-[559px]">
         <div className="flex flex-col gap-y-3 md:gap-y-4">
           <div className="flex flex-col gap-y-1 md:gap-y-2">
-            <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">outreach</p>
+            <p className="text-neutral-200 text-xs font-bold lg:text-lg">Outreach</p>
             <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
               Expanding reach to our community
             </h2>
@@ -132,7 +132,7 @@ const Bottom: React.FC = () => (
       />
       <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 max-w-[389px]">
         <div className="flex flex-col gap-y-1 md:gap-y-2">
-          <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">team</p>
+          <p className="text-neutral-200 text-xs font-bold lg:text-lg">Team</p>
           <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h3>
         </div>
         <p className="md:text-xs lg:text-lg">
