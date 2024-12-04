@@ -158,7 +158,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
               : 'lg:text-[22px] lg:leading-[26px] xs:text-[16px] xs:leading-[19px]'
           }`}
         >
-          {event.title.toUpperCase()}
+          {event.title}
         </h2>
         <p className={`lg:text-lg lg:leading-[22px] xs:text-[12px] xs:leading-[15px]`}>
           {event.description}
