@@ -35,7 +35,7 @@ export default function TestimonialCard({
           alt={`${name}'s profile`}
           className="rounded-full h-[50px] w-[50px] object-cover"
         />
-        <section>
+        <section className="-translate-y-0.5">
           <h4 className="text-gray-900 font-bold pt-2">{name}</h4>
           <p className="text-gray-500">{semesterTaken}</p>
         </section>
