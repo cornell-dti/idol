@@ -182,7 +182,3 @@ export const formatLink = (link: string, linkType?: LinkType): string | undefine
 
   return extractedLink;
 };
-
-export function delay(time: number) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
