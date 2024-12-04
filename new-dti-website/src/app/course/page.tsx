@@ -116,7 +116,7 @@ export default function Courses() {
 
               <div className="flex flex-col lg:w-1/2">
                 <div className="font-semibold text-sm md:text-xl">
-                  MODERN INDUSTRY-LEADING TECHNOLOGY
+                  Modern industry-leading technology
                 </div>
 
                 <h2 className="font-bold text-4xl mt-4 md:text-[45px]">
