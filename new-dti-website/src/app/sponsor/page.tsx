@@ -89,7 +89,7 @@ const SponsorPage = () => {
         <div className="max-w-5xl flex justify-center p-5 py-24 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
           <Image
             src="/images/dti_2024.png"
-            alt="DTI 2024"
+            alt="2024 DTI Team"
             width={width >= LAPTOP_BREAKPOINT ? 475 : 350}
             height={width >= LAPTOP_BREAKPOINT ? 320 : 236}
             className="rounded-3xl object-cover md:w-5/12"

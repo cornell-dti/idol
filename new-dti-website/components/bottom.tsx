@@ -13,7 +13,7 @@ const Bottom: React.FC = () => (
           src="/images/teaching_1.svg"
           width={292}
           height={441}
-          alt="teaching 1"
+          alt="teacher presenting slide on ReactJS"
         />
         <div className="flex flex-col h-full w-7/12 gap-y-16">
           <Image
@@ -21,14 +21,14 @@ const Bottom: React.FC = () => (
             src="/images/teaching_2.svg"
             width={276}
             height={179}
-            alt="teachine 2"
+            alt="teacher lecturing in front of architecture diagram"
           />
           <Image
             className="w-3/4 self-end"
             src="/images/teaching_3.svg"
             width={276}
             height={179}
-            alt="teachine 3"
+            alt="students in front of sticky note board"
           />
         </div>
       </div>
@@ -46,7 +46,7 @@ const Bottom: React.FC = () => (
               src="/icons/new_trends.svg"
               width={58}
               height={58}
-              alt="Trends icon"
+              alt="Laptop icon"
             />
             <div className="flex flex-col justify-start w-full items-start">
               <h6 className="text-left w-full font-bold md:text-sm lg:text-[22px]">
@@ -63,7 +63,7 @@ const Bottom: React.FC = () => (
               src="/icons/propel_icon.svg"
               width={58}
               height={63}
-              alt="Propel icon"
+              alt="rocket ship icon"
             />
             <div className="flex flex-col justify-start w-full items-start md:text-xs">
               <h6 className="text-left w-full font-bold md:text-sm lg:text-[22px]">Propel</h6>
@@ -72,7 +72,7 @@ const Bottom: React.FC = () => (
               </p>
             </div>
           </div>
-          <Link href="/course" className="primary-button">
+          <Link href="/course" className="primary-button" aria-label="Courses page">
             Learn more
           </Link>
         </div>
@@ -85,7 +85,7 @@ const Bottom: React.FC = () => (
           src="/images/outreach_1.svg"
           width={275}
           height={143}
-          alt="outreach 1"
+          alt="kids stacking boxes at make-a-thon"
         />
         <div className="flex flex-row gap-x-10 w-full h-3/4">
           <Image
@@ -93,14 +93,14 @@ const Bottom: React.FC = () => (
             src="/images/outreach_3.svg"
             width={154}
             height={104}
-            alt="outreach 3"
+            alt="kids being mentored by DTI member"
           />
           <Image
             className="w-1/3 self-start"
             src="/images/outreach_2.svg"
             width={115}
             height={103}
-            alt="outreach 2"
+            alt="students learning Figma from DTI members"
           />
         </div>
       </div>
@@ -128,8 +128,8 @@ const Bottom: React.FC = () => (
         src="/images/team.svg"
         width={377}
         height={286}
-        alt="team"
-      ></Image>
+        alt="team photo of DTI members"
+      />
       <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 max-w-[389px]">
         <div className="flex flex-col gap-y-1 md:gap-y-2">
           <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">team</p>

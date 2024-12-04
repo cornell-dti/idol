@@ -132,20 +132,20 @@
       ],
       "images": [
         {
-          "src": "/images/products/dcc/dcc1.png",
-          "alt": "DCC Image 1"
+          "src": "/images/products/dac/dac1.png",
+          "alt": "DAC Image 1"
         },
         {
-          "src": "/images/products/dcc/dcc2.png",
-          "alt": "DCC Image 2",
+          "src": "/images/products/dac/dac2.png",
+          "alt": "DAC Image 2",
           "top": "50%",
           "left": "-7%",
           "width": "47%",
           "direction": "down"
         },
         {
-          "src": "/images/products/dcc/dcc3.png",
-          "alt": "DCC Image 3",
+          "src": "/images/products/dac/dac3.png",
+          "alt": "DAC Image 3",
           "bottom": "11%",
           "right": "-10%",
           "width": "62%",
@@ -153,8 +153,8 @@
           "delay": true
         },
         {
-          "src": "/images/products/dcc/dcc4.png",
-          "alt": "DCC Image 4",
+          "src": "/images/products/dac/dac4.png",
+          "alt": "DAC Image 4",
           "top": "10%",
           "right": "-16%",
           "width": "43%",

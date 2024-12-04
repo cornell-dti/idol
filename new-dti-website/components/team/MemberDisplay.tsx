@@ -75,6 +75,7 @@ const MemberDisplay: React.FC = () => {
                     setSelectedRole(role.altText);
                     setSelectedMember(undefined);
                   }}
+                  aria-label={`select ${role.altText} role`}
                 >
                   <Icon
                     icon={`${role.src}_base.svg`}

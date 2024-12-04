@@ -26,6 +26,7 @@ const ApplyFAQ = () => {
           section === question ? 'text-[#FEFEFE] bg-[#0C0404]' : ''
         }`}
       onClick={() => setQuestion(section)}
+      aria-label={`select ${section} section`}
     >
       {section}
     </button>
