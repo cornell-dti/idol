@@ -32,7 +32,7 @@ export default function TestimonialCard({
       <div className="flex flex-row justify-start gap-4 items-center mt-auto">
         <img
           src={profileImage}
-          alt={name}
+          alt={`${name}'s profile`}
           className="rounded-full h-[50px] w-[50px] object-cover"
         />
         <section>
