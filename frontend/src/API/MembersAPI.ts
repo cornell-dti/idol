@@ -58,26 +58,26 @@ export class MembersAPI {
     members: Member[],
     endOfSemesterReminder: boolean
   ): Promise<void> {
-    let numMember = 0;
     for (const member of members) {
+      await delay(1000);
       await APIWrapper.post(
         `${backendURL}/team-event-reminder${
           endOfSemesterReminder ? '?end_of_semester_reminder=true' : ''
         }`,
         member
       ).then((res) => res.data);
-      if (numMember === members.length - 1) return;
-      numMember += 1;
-      await delay(1000);
     }
   }
 
   public static async notifyMemberCoffeeChat(members: Member[]): Promise<void> {
-    let numMember = 0;
+    if (members.length === 1) {
+      await APIWrapper.post(`${backendURL}/coffee-chat-reminder`, members[0]).then(
+        (res) => res.data
+      );
+      return;
+    }
     for (const member of members) {
       await APIWrapper.post(`${backendURL}/coffee-chat-reminder`, member).then((res) => res.data);
-      if (numMember === members.length - 1) return;
-      numMember += 1;
       await delay(1000);
     }
   }
