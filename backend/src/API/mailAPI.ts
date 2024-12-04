@@ -9,7 +9,6 @@ import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
 import { LEAD_ROLES } from '../consts';
-import getCurrentSemester from '../utils/dateUtils';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
@@ -134,7 +133,7 @@ export const sendTECReminder = async (
   endOfSemesterReminder: boolean,
   member: IdolMember
 ): Promise<AxiosResponse> => {
-  const subject = '[Update] TEC Reminder';
+  const subject = 'TEC Reminder';
   const allEvents = await Promise.all(
     (await TeamEventsDao.getAllTeamEvents()).map(async (event) => ({
       ...event,
@@ -161,24 +160,15 @@ export const sendTECReminder = async (
 
   let reminder;
   const isLead = LEAD_ROLES.includes(member.role);
-  const currentSemester = getCurrentSemester();
-  const isNewbie = member.semesterJoined === currentSemester;
-
-  let creditRequirement;
-
-  if (isLead) {
-    creditRequirement = 6;
-  } else if (isNewbie) {
-    creditRequirement = 1;
-  } else {
-    creditRequirement = 3;
-  }
-
   if (endOfSemesterReminder) {
-    reminder = `This is a reminder to submit all your TEC requests to fulfill your ${creditRequirement} team event credits requirement by the end of the semester!`;
+    reminder = `This is a reminder to submit all your TEC requests to fulfill your ${
+      isLead ? '6' : '3'
+    } team event credits requirement by the end of the semester!`;
   } else {
     reminder =
-      `This is a reminder to get at least ${creditRequirement} team event credits by the end of the semester.\n` +
+      `This is a reminder to get at least ${
+        isLead ? '6' : '3'
+      } team event credits by the end of the semester.\n` +
       `\n${
         futureEvents.length === 0
           ? 'There are currently no upcoming team events listed on IDOL, but check the #team-events channel for upcoming team events.'
@@ -192,10 +182,6 @@ export const sendTECReminder = async (
             })\n`
         )
         .join('')}`;
-  }
-
-  if (isNewbie) {
-    reminder = `${reminder}\n[Note] As you are a newbie, we are making an exception for the Fall 2024 semester to only require submission of 1 TEC as opposed to the usual 3.`;
   }
 
   const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${approvedCount} team event ${

@@ -8,12 +8,10 @@ import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
   REQUIRED_INITIATIVE_CREDITS,
-  INITIATIVE_EVENTS,
-  REQUIRED_NEWBIE_FALL2024_TEC_CREDITS
+  INITIATIVE_EVENTS
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-import { getCurrentSemester } from '../../../utils';
 
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -48,7 +46,6 @@ const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [endOfSemesterReminder, setEndOfSemesterReminder] = useState(false);
-  const [currentSemester, setCurrentSemester] = useState<string>('');
 
   const allMembers = useMembers();
 
@@ -57,7 +54,6 @@ const TeamEventDashboard: React.FC = () => {
       setTeamEvents(events);
       setIsLoading(false);
     });
-    setCurrentSemester(getCurrentSemester());
   }, []);
 
   if (isLoading) return <Loader active>Fetching team event data...</Loader>;
@@ -122,10 +118,10 @@ const TeamEventDashboard: React.FC = () => {
                 }
                 members={allMembers.filter((member) => {
                   if (ADVISOR_ROLES.includes(member.role)) return false;
-                  const totalCredits = getTotalCredits(member, teamEvents);
-                  if (member.semesterJoined === currentSemester) {
-                    return totalCredits < REQUIRED_NEWBIE_FALL2024_TEC_CREDITS;
-                  }
+                  const totalCredits = teamEvents.reduce(
+                    (val, event) => val + calculateTotalCreditsForEvent(member, event),
+                    0
+                  );
                   return (
                     totalCredits <
                     (LEAD_ROLES.includes(member.role)
@@ -155,16 +151,11 @@ const TeamEventDashboard: React.FC = () => {
             {allMembers.map((member) => {
               const totalCredits = getTotalCredits(member, teamEvents);
               const initiativeCredits = getInitiativeCredits(member, teamEvents);
-              let totalCreditsMet;
-              if (member.semesterJoined === currentSemester) {
-                totalCreditsMet = totalCredits >= REQUIRED_NEWBIE_FALL2024_TEC_CREDITS;
-              } else {
-                totalCreditsMet =
-                  totalCredits >=
-                  (LEAD_ROLES.includes(member.role)
-                    ? REQUIRED_LEAD_TEC_CREDITS
-                    : REQUIRED_MEMBER_TEC_CREDITS);
-              }
+              const totalCreditsMet =
+                totalCredits >=
+                (LEAD_ROLES.includes(member.role)
+                  ? REQUIRED_LEAD_TEC_CREDITS
+                  : REQUIRED_MEMBER_TEC_CREDITS);
               const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
 
               const isAdvisor = ADVISOR_ROLES.includes(member.role);
