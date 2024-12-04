@@ -35,9 +35,9 @@ const Bottom: React.FC = () => (
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
           <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">courses</p>
-          <h5 className="text-lg font-semibold md:text-xl lg:text-[32px]">
+          <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
             Teaching the Cornell Community
-          </h5>
+          </h2>
         </div>
         <div className="flex flex-col h-fit pb-3 justify-start gap-y-3 items-start md:gap-y-4">
           <div className="flex flex-row w-full justify-start">
@@ -49,9 +49,9 @@ const Bottom: React.FC = () => (
               alt="Laptop icon"
             />
             <div className="flex flex-col justify-start w-full items-start">
-              <h6 className="text-left w-full font-bold md:text-sm lg:text-[22px]">
+              <h3 className="text-left w-full font-bold md:text-sm lg:text-[22px]">
                 Trends in Web Development
-              </h6>
+              </h3>
               <p className="md:text-xs lg:text-lg">
                 Learn about modern industry-leading technologies.
               </p>
@@ -66,7 +66,7 @@ const Bottom: React.FC = () => (
               alt="rocket ship icon"
             />
             <div className="flex flex-col justify-start w-full items-start md:text-xs">
-              <h6 className="text-left w-full font-bold md:text-sm lg:text-[22px]">Propel</h6>
+              <h4 className="text-left w-full font-bold md:text-sm lg:text-[22px]">Propel</h4>
               <p className="md:text-xs lg:text-lg">
                 An incubator program devoted to student ideas.
               </p>
@@ -108,9 +108,9 @@ const Bottom: React.FC = () => (
         <div className="flex flex-col gap-y-3 md:gap-y-4">
           <div className="flex flex-col gap-y-1 md:gap-y-2">
             <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">outreach</p>
-            <h5 className="text-lg font-semibold md:text-xl lg:text-[32px]">
+            <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
               Expanding reach to our community
-            </h5>
+            </h2>
           </div>
           <p className="md:text-xs lg:text-lg">
             We strive to build initiatives not only at Cornell, but also in the{' '}
@@ -133,7 +133,7 @@ const Bottom: React.FC = () => (
       <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 max-w-[389px]">
         <div className="flex flex-col gap-y-1 md:gap-y-2">
           <p className="text-neutral-200 text-xs font-bold uppercase lg:text-lg">team</p>
-          <h5 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h5>
+          <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h3>
         </div>
         <p className="md:text-xs lg:text-lg">
           We <span className="font-bold">solve real problems around us</span> to make our community
