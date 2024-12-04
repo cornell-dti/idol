@@ -34,7 +34,7 @@ const BeyondDTI = () => {
 
 const TeamFooter = () => {
   let message;
-  if (isAppOpen()) {
+  if (!isAppOpen()) {
     message = `We're no longer accepting applicants for ${config.semester}. Stay tuned for opportunities next semester!`;
   } else if (isFall() && !isGenAppOpen()) {
     message = `Freshmen/Transfer applications for ${config.semester} are open.`;
