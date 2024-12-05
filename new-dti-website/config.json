@@ -8,7 +8,7 @@
   "donationLink": "https://securelb.imodules.com/s/1717/giving/interior.aspx?sid=1717&gid=2&pgid=16421&bledit=1&dids=2215",
   "events": [
     {
-      "title": "Applications Open!",
+      "title": "Applications open!",
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "application",
@@ -36,7 +36,7 @@
       "spring": { "date": "", "isTentative": false }
     },
     {
-      "title": "Applications Due",
+      "title": "Applications due",
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "deadline",
@@ -73,7 +73,7 @@
       "spring": { "date": "", "isTentative": false }
     },
     {
-      "title": "Offers Extended",
+      "title": "Offers extended",
       "description": "Offers get sent out!",
       "type": "offer",
       "freshmen": { "date": "October 30", "isTentative": false },

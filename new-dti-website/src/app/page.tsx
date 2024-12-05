@@ -95,9 +95,9 @@ const Home: React.FC = () => {
         <RedBlob intensity={0.5} className="left-[-250px] top-[-250px]" />
         <div className="flex flex-row grow h-full justify-evenly lg:gap-24 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
           <div className="flex flex-col md:gap-8 xs:gap-4 xs:w-full lg:w-5/12">
-            <h2 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
+            <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
               Building the Future <br /> of Tech @ Cornell
-            </h2>
+            </h1>
             <div className="flex justify-center">
               {width < LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
             </div>
@@ -137,9 +137,10 @@ const Home: React.FC = () => {
             onClick={scrollToContent}
             className={`text-white md:text-lg xs:text-[16px] font-semibold cursor-pointer flex flex-col items-center z-10 ${ibm_plex_mono.className}`}
             style={{ transition: 'all 0.3s ease' }}
+            aria-label="scroll down"
           >
             LEARN MORE
-            <img src="/images/arrow.png" alt="Learn more" className="mt-3 w-auto h-6" />
+            <img src="/images/arrow.png" alt="" className="mt-3 w-auto h-6" />
           </button>
         </div>
       </div>

@@ -29,7 +29,12 @@ const RoleDescriptions = () => {
           {Object.keys(applications).map((application) => {
             const { icon } = applications[application];
             return (
-              <div className="flex flex-col items-center gap-7" key={application}>
+              <button
+                onClick={() => setRole(application)}
+                aria-label={`Show ${application} questions`}
+                className="flex flex-col items-center gap-7"
+                key={application}
+              >
                 <h3
                   className={`lg:text-[24px] lg:leading-[29px] md:text-[18px] md:leading-[22px] 
                     xs:text-[16px] xs:leading-[19px] ${
@@ -38,20 +43,15 @@ const RoleDescriptions = () => {
                 >
                   {application.charAt(0).toUpperCase() + application.substring(1)}
                 </h3>
-                <button
-                  onClick={() => setRole(application)}
-                  aria-label={`Show ${application} questions`}
-                >
-                  <Image
-                    src={icon.src}
-                    alt=""
-                    width={icon.width}
-                    height={icon.height}
-                    className={`${role === application ? '' : 'brightness-50'}
+                <Image
+                  src={icon.src}
+                  alt=""
+                  width={icon.width}
+                  height={icon.height}
+                  className={`${role === application ? '' : 'brightness-50'}
                       lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
-                  />
-                </button>
-              </div>
+                />
+              </button>
             );
           })}
         </div>

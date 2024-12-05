@@ -47,8 +47,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
         className="flex justify-center items-center h-full gap-[70px] md:scale-75 lg:scale-100"
         onKeyDown={handleKeyDown}
       >
-        <button onClick={handlePrev} ref={modalRef}>
-          <img src="/icons/arrow.svg" alt="left arrow" width={20} className="cursor-pointer" />
+        <button onClick={handlePrev} ref={modalRef} aria-label="navigate to previous photo">
+          <img src="/icons/arrow.svg" alt="" width={20} className="cursor-pointer" />
         </button>
         <Carousel
           opts={{
@@ -106,7 +106,7 @@ const TeamHero = () => {
   const [focusableElements, setFocusableElements] = useState<NodeListOf<Element>>();
   const modalRef = useRef<HTMLButtonElement>(null);
   const { width } = useScreenSize();
-  const reduceMotion = useMediaReduce();
+  const [reduceMotion] = useMediaReduce();
   const { isPlaying, togglePlayPause, carouselApi, setCarouselApi, plugin } = useCarouselControls({
     delay: 5000,
     reduceMotion,
@@ -172,7 +172,7 @@ const TeamHero = () => {
           className="flex justify-center relative bottom-2 cursor-pointer"
           style={{ pointerEvents: 'none' }}
         >
-          <img src="/images/carousel-frame.png" alt="frame" className="absolute z-10" />
+          <img src="/images/carousel-frame.png" alt="" className="absolute z-10" />
           <div className="absolute z-10 w-[243px] h-[270px]">
             <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B] ${ibm_plex_mono.className}`}>
               {`${carouselImages.images[carouselIndex % carouselLength].alt}.jpg`}
@@ -204,13 +204,14 @@ const TeamHero = () => {
                     onClick={() =>
                       setModalShown(index === carouselIndex && width >= TABLET_BREAKPOINT)
                     }
+                    aria-label="open modal"
                   >
                     <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
                       <img src={image.src} alt={image.alt} className="h-[220px] max-w-none" />
                     </div>
                     <img
                       src={image.icon}
-                      alt="icon"
+                      alt=""
                       width={50}
                       height={50}
                       className="relative bottom-[62px] left-2"

@@ -1,8 +1,8 @@
 name: Profile Update Notification
 on:
   schedule:
-    # Runs script at 10PM UTC (5PM or 6PM ET) every day. This should be two hours before pull-from-idol
-    - cron: '0 23 * * *'
+    # Runs script at 5PM UTC (12PM or 1PM ET) every Monday. This should be seven hours before pull-from-idol
+    - cron: '0 17 * * MON'
 
 jobs:
   profile-update-notification:
