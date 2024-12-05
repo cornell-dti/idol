@@ -54,6 +54,7 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
         {testimonials.map((testimonial, index) => (
           <TestimonialCard
             key={index}
+            profileImage={testimonial.profileImage}
             description={testimonial.description}
             name={testimonial.name}
             semesterTaken={testimonial.semesterTaken}

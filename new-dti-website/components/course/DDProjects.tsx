@@ -35,6 +35,7 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
         isOpen ? 'bg-red-500' : 'bg-white'
       } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
       onClick={toggleCard}
+      aria-label={`${isOpen ? 'Minimize' : 'Expand'} ${title} student project`}
     >
       <div className="flex justify-between items-center">
         <h3 className={`md:text-2xl text-lg font-semibold ${isOpen ? 'text-white' : 'text-black'}`}>

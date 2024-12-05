@@ -108,7 +108,7 @@ export default function Courses() {
                   src={'/icons/courses/trends_logo.png'}
                   width={450}
                   height={450}
-                  alt="Trends Logo"
+                  alt="Trends Logo composed of the firebase, react, typescript, nodejs, vscode, and DTI logos."
                   unoptimized
                   className="w-72 md:w-96 lg:w-[450px]"
                 />
@@ -116,12 +116,12 @@ export default function Courses() {
 
               <div className="flex flex-col lg:w-1/2">
                 <div className="font-semibold text-sm md:text-xl">
-                  MODERN INDUSTRY-LEADING TECHNOLOGY
+                  Modern industry-leading technology
                 </div>
 
-                <div className="font-bold text-4xl mt-4 md:text-[45px]">
+                <h2 className="font-bold text-4xl mt-4 md:text-[45px]">
                   Trends in Web Development
-                </div>
+                </h2>
 
                 <div className="md:text-lg mt-8">
                   Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
@@ -142,6 +142,7 @@ export default function Courses() {
                     key="Trends Website"
                     href={config.trendsWebsiteLink}
                     className="secondary-button secondary-button--red"
+                    aria-label="Trends Website"
                   >
                     Learn More
                   </Link>
@@ -171,7 +172,7 @@ export default function Courses() {
           {/* COURSE STAFF SECTION */}
           <section id="Course Staff">
             <div className="flex flex-col items-center">
-              <div className="font-bold md:text-[45px] xs:text-4xl">Course Staff</div>
+              <h2 className="font-bold md:text-[45px] xs:text-4xl">Course Staff</h2>
               <div className="pt-14">
                 <MemberGroup
                   members={trends_instructors}

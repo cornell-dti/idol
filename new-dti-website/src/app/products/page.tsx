@@ -29,9 +29,9 @@ export default function Page() {
           </div>
           <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
             <div className="flex flex-row">
-              <div className="text-[24px] font-bold md:text-subheader md:leading-subheader text-hero-primary">
+              <h2 className="text-[24px] font-bold md:text-subheader md:leading-subheader text-hero-primary">
                 Real impact
-              </div>
+              </h2>
             </div>
             <p className="text-hero-secondary xs:max-w-none md:text-lg md:leading-body-text xs:text-sm md:max-w-md max-w-[314px] z-10">
               Each of our projects address an unfulfilled need that exists in our community using
@@ -96,7 +96,7 @@ export default function Page() {
           intensity={0.3}
         />
         <div className="flex flex-col text-white max-w-xl text-center items-center space-y-6">
-          <p className="font-semibold text-[32px]">Have Any Ideas?</p>
+          <h2 className="font-semibold text-[32px]">Have Any Ideas?</h2>
           <p className="px-20">
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
@@ -159,7 +159,7 @@ const ProductDisplay = (props: {
           height={props.product.iconDimensions}
           className={props.product.imageClassName}
         />
-        <p className="text-3xl font-semibold">{props.product.name}</p>
+        <h3 className="text-3xl font-semibold">{props.product.name}</h3>
         <p>{props.product.description}</p>
         <div className="-translate-x-0.5 translate-y-10" hidden={props.product.link === ''}>
           <Link href={props.product.link} className="primary-button">

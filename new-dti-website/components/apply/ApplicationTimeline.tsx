@@ -12,11 +12,10 @@ import { extractEndDate, extractEndTime, parseDate } from '../../src/utils/dateU
 type TabProps = {
   isSelected: boolean;
   text: string;
-  tabIndex?: number;
   onClick?: () => void;
 };
 
-const Tab: React.FC<TabProps> = ({ isSelected, text, onClick, tabIndex }) => (
+const Tab: React.FC<TabProps> = ({ isSelected, text, onClick }) => (
   <button
     className={`flex items-center lg:px-5 lg:py-4 md:px-4 md:py-3 xs:px-2 md:rounded-t-xl xs:rounded-t-lg ${
       isSelected ? 'bg-[#FEFEFE] text-[#A52424]' : 'text-[#FEFEFE]'
@@ -25,6 +24,7 @@ const Tab: React.FC<TabProps> = ({ isSelected, text, onClick, tabIndex }) => (
     role="tab"
     tabIndex={isSelected ? 0 : -1}
     aria-selected={isSelected}
+    aria-label="select tab"
   >
     <p className="font-bold lg:text-lg md:text-[13px] xs:text-[10px]" role="tabpanel">
       {text}
@@ -158,7 +158,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
               : 'lg:text-[22px] lg:leading-[26px] xs:text-[16px] xs:leading-[19px]'
           }`}
         >
-          {event.title.toUpperCase()}
+          {event.title}
         </h2>
         <p className={`lg:text-lg lg:leading-[22px] xs:text-[12px] xs:leading-[15px]`}>
           {event.description}

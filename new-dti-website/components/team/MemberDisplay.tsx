@@ -54,7 +54,7 @@ const MemberDisplay: React.FC = () => {
       <div className="xs:mx-5 md:mx-10 lg:mx-20 xl:mx-30">
         <div className="flex flex-col gap-[72px] max-w-5xl">
           <div className="flex flex-col lg:w-4/5 md:w-full mt-[100px]">
-            <h1 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h1>
+            <h2 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h2>
             <p className="mt-6 md:text-lg xs:text-sm">
               Learn more about the team at DTI and what we do behind the scenes. Our design,
               development, business, and product teams all strive to use creativity and innovation
@@ -75,6 +75,7 @@ const MemberDisplay: React.FC = () => {
                     setSelectedRole(role.altText);
                     setSelectedMember(undefined);
                   }}
+                  aria-label={`select ${role.altText} role`}
                 >
                   <Icon
                     icon={`${role.src}_base.svg`}
