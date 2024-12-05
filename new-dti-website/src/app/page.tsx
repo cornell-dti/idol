@@ -98,10 +98,10 @@ const Home: React.FC = () => {
             <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
               Building the Future <br /> of Tech @ Cornell
             </h1>
-            <div className="flex justify-center">
-              {width < LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
+            <div className="flex justify-center lg:hidden">
+              <Slideshow selectedImage={selectedIcon} />
             </div>
-            <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px]">
+            <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px] scale-75 lg:scale-100">
               {icons.map((icon, index) => (
                 <button
                   onClick={() => {
@@ -117,20 +117,18 @@ const Home: React.FC = () => {
                     activeIcon={icon.active}
                     altText=""
                     isActive={selectedIcon === index}
-                    width={width >= LAPTOP_BREAKPOINT ? icon.width : icon.width / 2}
-                    height={width >= LAPTOP_BREAKPOINT ? icon.height : icon.height / 2}
+                    width={icon.width}
+                    height={icon.height}
                   />
                 </button>
               ))}
             </div>
           </div>
-          <div className="lg:w-7/12 xs:w-none flex flex-row-reverse">
-            {width >= LAPTOP_BREAKPOINT && <Slideshow selectedImage={selectedIcon} />}
+          <div className="lg:w-7/12 xs:w-none hidden lg:block">
+            <Slideshow selectedImage={selectedIcon} />
           </div>
         </div>
-        {width >= LAPTOP_BREAKPOINT && (
-          <RedBlob intensity={0.6} className="left-[800px] top-[100px]" />
-        )}
+        <RedBlob intensity={0.6} className="left-[800px] top-[100px] hidden lg:block" />
         <div className="relative flex justify-center self-center w-full py-5">
           <RedBlob intensity={0.5} className="left-[0px] top-[-200px]" />
           <button
