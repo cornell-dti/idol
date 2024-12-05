@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageCarousel from '../../../components/products/imageCarousel';
-import FloatingImages from '../../../components/products/FloatingImages';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import RedBlob from '../../../components/blob';
