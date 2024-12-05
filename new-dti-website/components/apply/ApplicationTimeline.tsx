@@ -97,7 +97,6 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
   }
 
   const iconDim = isNextEvent ? selectedIconDim : unselectedIconDim;
-  const timelineWidth = width >= TABLET_BREAKPOINT ? 16 : 8;
 
   return (
     <div
@@ -107,13 +106,13 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
     >
       <div className="flex flex-col items-center justify-center md:min-w-[70px] xs:min-w-[50px] relative">
         <svg
-          width={timelineWidth}
+          width={6}
           height="175"
           className="absolute bottom-[60px]"
           style={{ zIndex: 20 - index }}
         >
           <rect
-            width={timelineWidth}
+            width={6}
             height="175"
             x="0"
             y="0"
@@ -121,9 +120,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           />
         </svg>
         {isLast && (
-          <svg width={timelineWidth} height="175" className="absolute z-0 bottom-[-50px]">
+          <svg width={6} height="175" className="absolute z-0 bottom-[-50px]">
             <rect
-              width={timelineWidth}
+              width={6}
               height="175"
               x="0"
               y="0"
@@ -136,7 +135,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
             isNextEvent
               ? 'md:w-[70px] md:h-[70px]'
               : 'md:w-[60px] md:h-[60px]'
-          } rounded-xl md:border-8 xs:border-4 border-solid border-[#A52424] z-20`}
+          } rounded-xl md:border-6 xs:border-4 border-solid border-[#A52424] z-20`}
         >
           <Image
             src={timelineIcons[event.type as keyof typeof timelineIcons].src}
