@@ -138,9 +138,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           <Image
             src={timelineIcons[event.type as keyof typeof timelineIcons].src}
             alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
-            width={width >= TABLET_BREAKPOINT ? 30 : 25}
-            height={width >= TABLET_BREAKPOINT ? 30 : 25}
-            className={isNextEvent ? 'scale-[1.5]' : ''}
+            width={28}
+            height={28}
+            className={isNextEvent ? 'scale-150' : ''}
           />
         </div>
       </div>

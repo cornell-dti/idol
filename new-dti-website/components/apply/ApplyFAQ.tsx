@@ -9,7 +9,7 @@ type FAQAccordionProps = {
 };
 
 const FAQAccordion = ({ header, children }: FAQAccordionProps) => (
-  <details className="border-white border-b-black border-2 cursor-pointer">
+  <details className="border-b-black border-2 cursor-pointer">
     <summary className="section-subheading">{header}</summary>
     <div className="md:py-5 xs:py-3">{children}</div>
   </details>
@@ -21,7 +21,7 @@ const ApplyFAQ = () => {
 
   const buttons = sections.map((section, index) => (
     <button
-      className={`rounded-[64px] md:font-bold xs:font-normal md:text-[20px] xs:text-[12px] md:py-4 md:px-5 xs:p-2
+      className={`rounded-[64px] md:font-bold xs:font-normal md:text-xl xs:text-xs md:py-4 md:px-5 xs:p-2
         md:border-[3px] xs:border-[1px] border-black ${
           section === question ? 'text-[#FEFEFE] bg-[#0C0404]' : ''
         }`}
