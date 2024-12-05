@@ -88,19 +88,16 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
 }) => {
   const { width } = useScreenSize();
   const isNextEvent = index === nextEventIndex;
-  let unselectedIconDim = 10;
-  let selectedIconDim = 14;
+  let unselectedIconDim = 12;
+  let selectedIconDim = 18;
 
   if (width >= LAPTOP_BREAKPOINT) {
-    selectedIconDim = 28;
-    unselectedIconDim = 18;
-  } else if (width >= TABLET_BREAKPOINT) {
-    selectedIconDim = 18;
-    unselectedIconDim = 12;
+    selectedIconDim = 34;
+    unselectedIconDim = 20;
   }
 
   const iconDim = isNextEvent ? selectedIconDim : unselectedIconDim;
-  const timelineWidth = width >= TABLET_BREAKPOINT ? 22 : 12;
+  const timelineWidth = width >= TABLET_BREAKPOINT ? 16 : 8;
 
   return (
     <div
@@ -135,18 +132,18 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           </svg>
         )}
         <div
-          className={`flex items-center justify-center w-[50px] h-[50px] ${
+          className={`flex items-center justify-center w-[50px] h-[50px] bg-[#FEFEFE] ${
             isNextEvent
-              ? 'md:w-[70px] md:h-[70px] bg-[#FEFEFE]'
-              : 'md:w-[60px] md:h-[60px] bg-[#F5E3E3] '
-          } rounded-xl md:border-8 xs:border-4 border-solid border-[#A52424D9] z-20`}
+              ? 'md:w-[70px] md:h-[70px]'
+              : 'md:w-[60px] md:h-[60px]'
+          } rounded-xl md:border-8 xs:border-4 border-solid border-[#A52424] z-20`}
         >
           <Image
             src={timelineIcons[event.type as keyof typeof timelineIcons].src}
             alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
-            width={width >= TABLET_BREAKPOINT ? 25 : 20}
-            height={width >= TABLET_BREAKPOINT ? 25 : 20}
-            className={isNextEvent ? 'scale-[1.5] brightness-0' : ''}
+            width={width >= TABLET_BREAKPOINT ? 30 : 25}
+            height={width >= TABLET_BREAKPOINT ? 30 : 25}
+            className={isNextEvent ? 'scale-[1.5]' : ''}
           />
         </div>
       </div>
@@ -158,7 +155,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
               : 'lg:text-[22px] lg:leading-[26px] xs:text-[16px] xs:leading-[19px]'
           }`}
         >
-          {event.title.toUpperCase()}
+          {event.title}
         </h2>
         <p className={`lg:text-lg lg:leading-[22px] xs:text-[12px] xs:leading-[15px]`}>
           {event.description}
@@ -179,7 +176,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
                 height={iconDim}
                 className={`${isNextEvent ? 'brightness-0' : ''}`}
               />
-              <p className={event.link ? 'underline' : ''}>
+              <p className={event.link ? 'underline text-[#D63D3D]' : ''}>
                 {event.link ? <Link href={event.link}>{event.location}</Link> : event.location}
               </p>
             </div>
@@ -203,7 +200,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
 };
 
 const ApplicationTimeline = () => {
-  const [cycle, setCycle] = useState<'freshmen' | 'upperclassmen'>('freshmen');
+  const [cycle, setCycle] = useState<'freshmen' | 'upperclassmen'>('upperclassmen');
   const timelineRef = useRef<HTMLDivElement>(null);
   const selectedNodeRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();

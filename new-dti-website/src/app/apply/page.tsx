@@ -75,7 +75,7 @@ const ApplyCoffeeChat = () => (
         <Link href={config.coffeeChatLink} className="primary-button">
           Coffee chat with us
         </Link>
-        <Link href={config.coffeeChatFormLink} className="secondary-button">
+        <Link href={config.coffeeChatFormLink} className="secondary-button !border-black">
           Don't know who to chat with?
         </Link>
       </div>

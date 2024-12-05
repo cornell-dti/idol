@@ -21,8 +21,8 @@ const ApplyFAQ = () => {
 
   const buttons = sections.map((section) => (
     <button
-      className={`md:rounded-[30px] xs:rounded-[15px] font-bold md:text-[20px] xs:text-[9px] md:py-4 md:px-5 xs:py-[10px] 
-        xs:px-2 border-[3px] border-black ${
+      className={`rounded-[64px] md:font-bold xs:font-normal md:text-[20px] xs:text-[12px] md:py-4 md:px-5 xs:p-2
+        md:border-[3px] xs:border-[1px] border-black ${
           section === question ? 'text-[#FEFEFE] bg-[#0C0404]' : ''
         }`}
       onClick={() => setQuestion(section)}
@@ -32,14 +32,14 @@ const ApplyFAQ = () => {
   ));
 
   return (
-    <div className="relative flex justify-center bg-white py-24">
+    <div className="relative flex justify-center bg-[#f6f6f6] py-24">
       <div className="flex flex-col max-w-5xl w-full gap-6 lg:px-5 md:px-[60px] xs:px-6 relative z-10">
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
           <h3 className="section-heading">
             Learn more about DTI's core values and processes below.
           </h3>
-          <div className="flex gap-4">{buttons}</div>
+          <div className="flex md:gap-4 xs:gap-1">{buttons}</div>
         </div>
         <div className="flex flex-col gap-6">
           <h3 className="section-heading">{question}</h3>
@@ -79,7 +79,7 @@ const ApplyFAQ = () => {
                   coffee, but should be 30 minutes like an actual coffee catch up with a friend. Get
                   the most out of the coffee chat by preparing your questions ahead of time and
                   researching the other person's experiences first. Find DTI members to chat{' '}
-                  <Link className="underline" href={config.coffeeChatLink}>
+                  <Link className="underline text-[#D63D3D]" href={config.coffeeChatLink}>
                     here
                   </Link>
                   .
@@ -90,7 +90,7 @@ const ApplyFAQ = () => {
                   Whether or not you receive an interview invitation, we will email you a definitive
                   decision within a week of applying! We're happy to answer any questions you have
                   during this time through our email,{' '}
-                  <Link className="underline" href="mailto:hello@cornelldti.org">
+                  <Link className="underline text-[#D63D3D]" href="mailto:hello@cornelldti.org">
                     hello@cornelldti.org
                   </Link>
                   .
