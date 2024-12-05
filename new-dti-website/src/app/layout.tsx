@@ -12,7 +12,7 @@ declare global {
     gtag: any;
   }
 }
-const MEASUREMENT_ID = 'G-B49CN5ZE3H';
+const MEASUREMENT_ID = 'G-6Y507Z87ST';
 const inter = Inter({ subsets: ['latin'] });
 
 export const ibm_plex_mono = IBM_Plex_Mono({
