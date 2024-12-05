@@ -35,12 +35,13 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
         isOpen ? 'bg-red-500' : 'bg-white'
       } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
       onClick={toggleCard}
+      aria-label={`${isOpen ? 'Minimize' : 'Expand'} ${title} student project`}
     >
       <div className="flex justify-between items-center">
-        <h3 className={`md:text-3xl text-xl font-bold ${isOpen ? 'text-white' : 'text-black'}`}>
+        <h3 className={`md:text-2xl text-lg font-semibold ${isOpen ? 'text-white' : 'text-black'}`}>
           {title}
         </h3>
-        <p className={`md:text-4xl text-2xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}>
+        <p className={`md:text-3xl text-xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}>
           {isOpen ? '−' : '+'}
         </p>
       </div>
@@ -52,7 +53,7 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
         }`}
       >
         <div className="mt-4">
-          <p className="text-white">{description}</p>
+          <p className="text-white text-lg">{description}</p>
           <img src={imageSrc} alt={title} className="mt-4 w-full h-48 object-cover rounded-lg" />
         </div>
       </div>

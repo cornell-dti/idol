@@ -27,6 +27,7 @@ const ApplyFAQ = () => {
         }`}
       onClick={() => setQuestion(section)}
       key={index}
+      aria-label={`select ${section} section`}
     >
       {section}
     </button>

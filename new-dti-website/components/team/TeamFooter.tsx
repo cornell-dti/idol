@@ -17,7 +17,7 @@ const BeyondDTI = () => {
             <img src={icon.src} alt={icon.alt} key={icon.alt} className="scale-50" />
             {index === insertIndex && (
               <div className="flex flex-col items-center gap-6 col-span-2 row-span-2">
-                <h1 className="font-semibold md:text-[32px] xs:text-[20px]">Beyond DTI</h1>
+                <h2 className="font-semibold md:text-[32px] xs:text-[20px]">Beyond DTI</h2>
                 <p className="md:text-[22px] xs:text-sm !leading-7 text-center">
                   Our members and alumni are <span className="font-bold">all over the world</span>,
                   but here are just a few places you'll find the DTI family continue their success
@@ -34,7 +34,7 @@ const BeyondDTI = () => {
 
 const TeamFooter = () => {
   let message;
-  if (isAppOpen()) {
+  if (!isAppOpen()) {
     message = `We're no longer accepting applicants for ${config.semester}. Stay tuned for opportunities next semester!`;
   } else if (isFall() && !isGenAppOpen()) {
     message = `Freshmen/Transfer applications for ${config.semester} are open.`;
@@ -55,7 +55,7 @@ const TeamFooter = () => {
             className="lg:w-[412px] xs:w-[360px] rounded-xl"
           />
           <div className="flex flex-col gap-[20px] items-start w-2/3">
-            <h1 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h1>
+            <h2 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h2>
             <p className="lg:text-[22px] md:text-lg">{message}</p>
             {isAppOpen() && (
               <Link href={'/apply'} className="primary-button">

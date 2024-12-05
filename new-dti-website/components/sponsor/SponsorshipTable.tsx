@@ -96,7 +96,7 @@ const SponsorshipTableLaptop = () => (
               key={`${benefit.key}-${tier}`}
             >
               {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) && (
-                <Image src="/icons/check.svg" alt="check" width={30} height={60} />
+                <Image src="/icons/check.svg" alt="checkmark" width={30} height={60} />
               )}
             </div>
           ))}

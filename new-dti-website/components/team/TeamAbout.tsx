@@ -242,7 +242,7 @@ const TeamAbout = () => (
       <div className="flex flex-col items-center xs:gap-[30px_0px]">
         <div className="flex md:flex-row xs:flex-col justify-between gap-[30px] items-center">
           <div className="flex flex-col md:w-1/2 gap-6">
-            <h1 className="font-semibold text-[32px]">We are Cornell DTI</h1>
+            <h2 className="font-semibold text-[32px]">We are Cornell DTI</h2>
             <p className="md:text-lg xs:text-sm">
               Founded in 2017, DTI is a project team of{' '}
               <span className="font-bold">
@@ -275,7 +275,7 @@ const TeamAbout = () => (
       </div>
       <RedBlob intensity={0.7} className="right-[-500px] top-[600px]" />
       <div className="lg:w-2/3 md:w-full mt-[63px] relative z-10 flex flex-col gap-6">
-        <h1 className="font-semibold text-[32px]">Who we are</h1>
+        <h2 className="font-semibold text-[32px]">Who we are</h2>
         <p className="text-lg leading-6">
           More than just being inclusive, our team strives to{' '}
           <span className="font-bold">bring many backgrounds and perspectives together</span> to

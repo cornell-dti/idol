@@ -140,12 +140,9 @@ export const sendTECReminder = async (
       requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
     }))
   );
-
-  const futureEvents = allEvents.filter((event) => {
-    const eventDate = new Date(event.date);
-    const todayDate = new Date();
-    return eventDate >= todayDate;
-  });
+  const todayDate = new Date();
+  todayDate.setUTCHours(0, 0, 0, 0);
+  const futureEvents = allEvents.filter((event) => new Date(event.date) >= todayDate);
   const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
   let approvedCount = 0;
   let pendingCount = 0;
@@ -187,10 +184,27 @@ export const sendTECReminder = async (
         .join('')}`;
   }
 
-  const text = `Hey! You currently have ${approvedCount} team event ${
+  const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${approvedCount} team event ${
     approvedCount !== 1 ? 'credits' : 'credit'
   } approved and ${pendingCount} team event ${
     pendingCount !== 1 ? 'credits' : 'credit'
   } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
+  return emailMember(req, member, subject, text);
+};
+
+/**
+ * Send an email reminder to members who do not have a coffee chat blackout
+ * @param req - The request made when sending the email
+ * @param member - The member being sent the email
+ * @returns - The response body containing information of the member being sent the email
+ */
+export const sendCoffeeChatReminder = async (
+  req: Request,
+  member: IdolMember
+): Promise<AxiosResponse> => {
+  const subject = 'Coffee Chat Reminder';
+
+  const text =
+    "[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently don't have any coffee chat bingos this semester.\nThis is a reminder to submit your coffee chats by the last day of classes.\n[NOTE]: Newbies taking DTI for credit are required to get at least 1 bingo.\nTo submit your coffee chats, please visit https://idol.cornelldti.org/forms/coffeeChats.";
   return emailMember(req, member, subject, text);
 };

@@ -29,9 +29,9 @@ export default function Page() {
           </div>
           <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
             <div className="flex flex-row">
-              <div className="text-[24px] font-bold md:text-subheader md:leading-subheader text-hero-primary">
+              <h2 className="text-[24px] font-bold md:text-subheader md:leading-subheader text-hero-primary">
                 Real impact
-              </div>
+              </h2>
             </div>
             <p className="text-hero-secondary xs:max-w-none md:text-lg md:leading-body-text xs:text-sm md:max-w-md max-w-[314px] z-10">
               Each of our projects address an unfulfilled need that exists in our community using
@@ -95,8 +95,8 @@ export default function Page() {
           className={'-right-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
           intensity={0.3}
         />
-        <div className="flex flex-col text-white max-w-screen-md text-center items-center space-y-6">
-          <p className="font-semibold text-[32px]">Have Any Ideas?</p>
+        <div className="flex flex-col text-white max-w-xl text-center items-center space-y-6">
+          <h2 className="font-semibold text-[32px]">Have Any Ideas?</h2>
           <p className="px-20">
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
@@ -119,6 +119,7 @@ const ProductDisplay = (props: {
     link: string;
     iconPath: string;
     iconDimensions: number;
+    imageClassName?: string;
     blobs?: { className: string; intensity: number }[];
     images?: ImageData[];
   };
@@ -146,20 +147,21 @@ const ProductDisplay = (props: {
       </div>
     </div>
     <div
-      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 mt-0 mb-72 z-10 text-white ${
+      className={`flex flex-row lg:max-w-md w-full justify-center md:mt-20 md:mb-60 h-full px-12 md:px-0 mt-0 mb-72 z-10 text-white ${
         props.orientation === 'left' ? 'lg:mr-24' : 'lg:ml-24'
       }`}
     >
-      <div className="space-y-6 md:max-w-xl">
+      <div className="space-y-3 md:max-w-xl ">
         <Image
           src={props.product.iconPath}
           alt={props.product.alt}
           width={props.product.iconDimensions}
           height={props.product.iconDimensions}
+          className={props.product.imageClassName}
         />
-        <p className="text-3xl font-semibold">{props.product.name}</p>
+        <h3 className="text-3xl font-semibold">{props.product.name}</h3>
         <p>{props.product.description}</p>
-        <div hidden={props.product.link === ''}>
+        <div className="-translate-x-0.5 translate-y-10" hidden={props.product.link === ''}>
           <Link href={props.product.link} className="primary-button">
             View Product
           </Link>
