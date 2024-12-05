@@ -56,11 +56,11 @@ const RoleDescriptions = () => {
           })}
         </div>
         <div className="flex flex-col gap-5">
-          {Object.keys(applications).map((application) => {
+          {Object.keys(applications).map((application, index) => {
             const roleApplication = applications[application];
             return (
               role === application && (
-                <>
+                <div key={index}>
                   <h3
                     className="font-semibold lg:text-[32px] lg:leading-[38px] md:text-[24px] 
                     md:leading-[29px] xs:text-[22px]"
@@ -75,8 +75,11 @@ const RoleDescriptions = () => {
                       What we're looking for...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
-                      {roleApplication.skills.map((skill) => (
-                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                      {roleApplication.skills.map((skill, index) => (
+                        <li
+                          className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]"
+                          key={index}
+                        >
                           {skill}
                         </li>
                       ))}
@@ -90,14 +93,17 @@ const RoleDescriptions = () => {
                       Responsibilities at a glance...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
-                      {roleApplication.responsibilities.map((resp) => (
-                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                      {roleApplication.responsibilities.map((resp, index) => (
+                        <li
+                          className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]"
+                          key={index}
+                        >
                           {resp}
                         </li>
                       ))}
                     </ul>
                   </div>
-                </>
+                </div>
               )
             );
           })}

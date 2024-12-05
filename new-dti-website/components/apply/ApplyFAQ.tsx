@@ -19,13 +19,14 @@ const ApplyFAQ = () => {
   const sections = ['General Questions', 'Behavioral Prep', 'Technical Prep'];
   const [question, setQuestion] = useState('General Questions');
 
-  const buttons = sections.map((section) => (
+  const buttons = sections.map((section, index) => (
     <button
       className={`rounded-[64px] md:font-bold xs:font-normal md:text-[20px] xs:text-[12px] md:py-4 md:px-5 xs:p-2
         md:border-[3px] xs:border-[1px] border-black ${
           section === question ? 'text-[#FEFEFE] bg-[#0C0404]' : ''
         }`}
       onClick={() => setQuestion(section)}
+      key={index}
     >
       {section}
     </button>
