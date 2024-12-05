@@ -5,8 +5,6 @@ import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import RedBlob from '../../components/blob';
-import useScreenSize from '../hooks/useScreenSize';
-import { LAPTOP_BREAKPOINT } from '../consts';
 import { ibm_plex_mono } from './layout';
 
 const Home: React.FC = () => {
@@ -86,8 +84,6 @@ const Home: React.FC = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIcon]);
-
-  const { width } = useScreenSize();
 
   return (
     <>
