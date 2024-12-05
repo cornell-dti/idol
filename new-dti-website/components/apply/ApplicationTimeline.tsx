@@ -132,9 +132,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
         )}
         <div
           className={`flex items-center justify-center w-[50px] h-[50px] bg-[#FEFEFE] ${
-            isNextEvent
-              ? 'md:w-[70px] md:h-[70px]'
-              : 'md:w-[60px] md:h-[60px]'
+            isNextEvent ? 'md:w-[70px] md:h-[70px]' : 'md:w-[60px] md:h-[60px]'
           } rounded-xl md:border-6 xs:border-4 border-solid border-[#A52424] z-20`}
         >
           <Image
@@ -238,7 +236,7 @@ const ApplicationTimeline = () => {
   });
 
   return (
-    <div className="flex justify-center relative">
+    <section id="Application Timeline" className="flex justify-center relative">
       <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
       <div className="relative z-10 max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-0">
         <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
@@ -293,7 +291,7 @@ const ApplicationTimeline = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

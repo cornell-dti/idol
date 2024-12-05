@@ -13,7 +13,10 @@ const ApplyHero = () => {
   const isApplicationOpen = isAppOpen();
 
   return (
-    <div className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative">
+    <section
+      id="Apply Hero"
+      className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative"
+    >
       {!isApplicationOpen && (
         <Banner
           message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
@@ -60,12 +63,15 @@ const ApplyHero = () => {
       <div className="relative">
         <RedBlob className={'right-[-300px]'} intensity={0.5} />
       </div>
-    </div>
+    </section>
   );
 };
 
 const ApplyCoffeeChat = () => (
-  <div className="relative flex justify-center bg-[#F5F5F5] md:py-[80px] xs:py-[80px]">
+  <section
+    id="Apply Coffee Chat"
+    className="relative flex justify-center bg-[#F5F5F5] md:py-[80px] xs:py-[80px]"
+  >
     <div className="max-w-5xl w-full lg:px-5 md:px-[60px] xs:px-6 relative">
       <h3 className="font-semibold md:text-[32px] xs:text-[22px] pb-4">Have more questions?</h3>
       <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px] pb-6">
@@ -80,7 +86,7 @@ const ApplyCoffeeChat = () => (
         </Link>
       </div>
     </div>
-  </div>
+  </section>
 );
 
 const ApplyPage = () => (
