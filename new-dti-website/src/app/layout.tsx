@@ -1,6 +1,8 @@
+'use client';
+
 import './globals.css';
 import { Inter, IBM_Plex_Mono } from 'next/font/google';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import Page from '../../components/page';
 
@@ -10,7 +12,7 @@ declare global {
     gtag: any;
   }
 }
-
+const MEASUREMENT_ID = 'G-B49CN5ZE3H';
 const inter = Inter({ subsets: ['latin'] });
 
 export const ibm_plex_mono = IBM_Plex_Mono({
@@ -19,20 +21,17 @@ export const ibm_plex_mono = IBM_Plex_Mono({
 });
 
 const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const handleRouteChange = (url: string) => {
-    window.gtag('config', 'G-B49CN5ZE3H', {
-      page_path: url
+  const handleRouteChange = (path: string) => {
+    window.gtag('config', MEASUREMENT_ID, {
+      page_path: path
     });
   };
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
+    handleRouteChange(pathname);
+  }, [pathname]);
 
   return (
     <html lang="en">
@@ -41,14 +40,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element =>
           <Page>{children}</Page>
         </div>
       </body>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-B49CN5ZE3H" />
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`} />
       <script
         dangerouslySetInnerHTML={{
           __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-B49CN5ZE3H', { page_path: window.location.pathname });
+          gtag('config', '${MEASUREMENT_ID}', { page_path: window.location.pathname });
         `
         }}
       />
