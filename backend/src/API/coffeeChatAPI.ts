@@ -18,8 +18,20 @@ export const getAllCoffeeChats = (): Promise<CoffeeChat[]> => coffeeChatDao.getA
  * Gets all coffee chats for a user
  * @param user - user whose coffee chats should be fetched
  */
-export const getCoffeeChatsByUser = async (user: IdolMember): Promise<CoffeeChat[]> =>
-  coffeeChatDao.getCoffeeChatsByUser(user);
+export const getCoffeeChatsByUser = async (
+  user: IdolMember,
+  email: string
+): Promise<CoffeeChat[]> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin && email !== user.email) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permissions to get coffee chats for user with email ${email}.`
+    );
+  }
+
+  const coffeeChats = coffeeChatDao.getCoffeeChatsByUser(email);
+  return coffeeChats;
+};
 
 /**
  * Creates a new coffee chat for member
@@ -44,12 +56,12 @@ export const createCoffeeChat = async (
   }
 
   const pendingChats = await coffeeChatDao.getCoffeeChatsByUser(
-    coffeeChat.submitter,
+    coffeeChat.submitter.email,
     'pending',
     coffeeChat.otherMember
   );
   const approvedChats = await coffeeChatDao.getCoffeeChatsByUser(
-    coffeeChat.submitter,
+    coffeeChat.submitter.email,
     'approved',
     coffeeChat.otherMember
   );
