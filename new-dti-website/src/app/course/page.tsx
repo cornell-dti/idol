@@ -115,7 +115,7 @@ export default function Courses() {
               </div>
 
               <div className="flex flex-col lg:w-1/2">
-                <div className="font-semibold text-sm md:text-xl">
+                <div className="font-semibold text-sm md:text-xl uppercase text-[16px] tracking-[1px] text-[#666]">
                   Modern industry-leading technology
                 </div>
 

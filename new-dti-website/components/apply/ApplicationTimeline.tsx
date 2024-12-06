@@ -88,19 +88,15 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
 }) => {
   const { width } = useScreenSize();
   const isNextEvent = index === nextEventIndex;
-  let unselectedIconDim = 10;
-  let selectedIconDim = 14;
+  let unselectedIconDim = 12;
+  let selectedIconDim = 18;
 
   if (width >= LAPTOP_BREAKPOINT) {
-    selectedIconDim = 28;
-    unselectedIconDim = 18;
-  } else if (width >= TABLET_BREAKPOINT) {
-    selectedIconDim = 18;
-    unselectedIconDim = 12;
+    selectedIconDim = 34;
+    unselectedIconDim = 20;
   }
 
   const iconDim = isNextEvent ? selectedIconDim : unselectedIconDim;
-  const timelineWidth = width >= TABLET_BREAKPOINT ? 22 : 12;
 
   return (
     <div
@@ -110,13 +106,13 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
     >
       <div className="flex flex-col items-center justify-center md:min-w-[70px] xs:min-w-[50px] relative">
         <svg
-          width={timelineWidth}
+          width={6}
           height="175"
           className="absolute bottom-[60px]"
           style={{ zIndex: 20 - index }}
         >
           <rect
-            width={timelineWidth}
+            width={6}
             height="175"
             x="0"
             y="0"
@@ -124,9 +120,9 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           />
         </svg>
         {isLast && (
-          <svg width={timelineWidth} height="175" className="absolute z-0 bottom-[-50px]">
+          <svg width={6} height="175" className="absolute z-0 bottom-[-50px]">
             <rect
-              width={timelineWidth}
+              width={6}
               height="175"
               x="0"
               y="0"
@@ -135,18 +131,16 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
           </svg>
         )}
         <div
-          className={`flex items-center justify-center w-[50px] h-[50px] ${
-            isNextEvent
-              ? 'md:w-[70px] md:h-[70px] bg-[#FEFEFE]'
-              : 'md:w-[60px] md:h-[60px] bg-[#F5E3E3] '
-          } rounded-xl md:border-8 xs:border-4 border-solid border-[#A52424D9] z-20`}
+          className={`flex items-center justify-center w-[50px] h-[50px] bg-[#FEFEFE] ${
+            isNextEvent ? 'md:w-[70px] md:h-[70px]' : 'md:w-[60px] md:h-[60px]'
+          } rounded-xl md:border-6 xs:border-4 border-solid border-[#A52424] z-20`}
         >
           <Image
             src={timelineIcons[event.type as keyof typeof timelineIcons].src}
             alt={timelineIcons[event.type as keyof typeof timelineIcons].alt}
-            width={width >= TABLET_BREAKPOINT ? 25 : 20}
-            height={width >= TABLET_BREAKPOINT ? 25 : 20}
-            className={isNextEvent ? 'scale-[1.5] brightness-0' : ''}
+            width={28}
+            height={28}
+            className={isNextEvent ? 'scale-150' : ''}
           />
         </div>
       </div>
@@ -179,7 +173,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
                 height={iconDim}
                 className={`${isNextEvent ? 'brightness-0' : ''}`}
               />
-              <p className={event.link ? 'underline' : ''}>
+              <p className={event.link ? 'underline text-[#D63D3D]' : ''}>
                 {event.link ? <Link href={event.link}>{event.location}</Link> : event.location}
               </p>
             </div>
@@ -203,7 +197,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
 };
 
 const ApplicationTimeline = () => {
-  const [cycle, setCycle] = useState<'freshmen' | 'upperclassmen'>('freshmen');
+  const [cycle, setCycle] = useState<'freshmen' | 'upperclassmen'>('upperclassmen');
   const timelineRef = useRef<HTMLDivElement>(null);
   const selectedNodeRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
@@ -242,7 +236,7 @@ const ApplicationTimeline = () => {
   });
 
   return (
-    <div className="flex justify-center relative">
+    <section id="Application Timeline" className="flex justify-center relative">
       <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
       <div className="relative z-10 max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-0">
         <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
@@ -297,7 +291,7 @@ const ApplicationTimeline = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

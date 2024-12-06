@@ -1,10 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageCarousel from '../../../components/products/imageCarousel';
-import FloatingImages, { ImageData } from '../../../components/products/FloatingImages';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
-import { cn } from '../../../lib/utils';
 import RedBlob from '../../../components/blob';
 
 export default function Page() {
@@ -119,14 +117,16 @@ const ProductDisplay = (props: {
     link: string;
     iconPath: string;
     iconDimensions: number;
-    imageClassName?: string;
+    iconClassName?: string;
+    productImage: string;
+    productAlt: string;
+    productImageDimensions: number;
     blobs?: { className: string; intensity: number }[];
-    images?: ImageData[];
   };
 }) => (
   <div
     key={props.product.alt}
-    className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full "
+    className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full"
   >
     {props.product.blobs &&
       props.product.blobs.map((blob, index) => (
@@ -137,13 +137,18 @@ const ProductDisplay = (props: {
         />
       ))}
     <div
-      className={cn(
-        'md:mx-16 px-20 sm:px-28 md:px-20',
-        `${props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'}`
-      )}
+      className={`${
+        props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'
+      }`}
     >
-      <div className="relative z-10 -translate-y-20">
-        <FloatingImages images={props.product.images ?? []} />
+      <div className="relative z-10 -translate-y-8">
+        <Image
+          src={props.product.productImage}
+          alt={props.product.productAlt}
+          width={props.product.productImageDimensions}
+          height={props.product.productImageDimensions}
+          unoptimized
+        />
       </div>
     </div>
     <div
@@ -157,7 +162,8 @@ const ProductDisplay = (props: {
           alt={props.product.alt}
           width={props.product.iconDimensions}
           height={props.product.iconDimensions}
-          className={props.product.imageClassName}
+          className={props.product.iconClassName}
+          unoptimized
         />
         <h3 className="text-3xl font-semibold">{props.product.name}</h3>
         <p>{props.product.description}</p>
