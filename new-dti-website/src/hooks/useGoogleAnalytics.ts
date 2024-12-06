@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 declare global {
@@ -11,16 +11,18 @@ declare global {
 const useGoogleAnalytics = (measurementId: string) => {
   const pathname = usePathname();
 
-  const handleRouteChange = (path: string) => {
-    console.log(path);
-    window.gtag('config', measurementId, {
-      page_path: path
-    });
-  };
+  const handleRouteChange = useCallback(
+    (path: string) => {
+      window.gtag('config', measurementId, {
+        page_path: path
+      });
+    },
+    [measurementId]
+  );
 
   useEffect(() => {
     handleRouteChange(pathname);
-  }, [pathname]);
+  }, [pathname, handleRouteChange]);
 };
 
 export default useGoogleAnalytics;
