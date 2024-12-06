@@ -2,17 +2,10 @@
 
 import './globals.css';
 import { Inter, IBM_Plex_Mono } from 'next/font/google';
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
 import Page from '../../components/page';
+import useGoogleAnalytics from '../hooks/useGoogleAnalytics';
+import { MEASUREMENT_ID } from '../consts';
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gtag: any;
-  }
-}
-const MEASUREMENT_ID = 'G-6Y507Z87ST';
 const inter = Inter({ subsets: ['latin'] });
 
 export const ibm_plex_mono = IBM_Plex_Mono({
@@ -21,17 +14,7 @@ export const ibm_plex_mono = IBM_Plex_Mono({
 });
 
 const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const pathname = usePathname();
-
-  const handleRouteChange = (path: string) => {
-    window.gtag('config', MEASUREMENT_ID, {
-      page_path: path
-    });
-  };
-
-  useEffect(() => {
-    handleRouteChange(pathname);
-  }, [pathname]);
+  useGoogleAnalytics(MEASUREMENT_ID);
 
   return (
     <html lang="en">
