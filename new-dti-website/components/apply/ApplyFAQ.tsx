@@ -9,7 +9,7 @@ type FAQAccordionProps = {
 };
 
 const FAQAccordion = ({ header, children }: FAQAccordionProps) => (
-  <details className="border-b-black border-2 cursor-pointer">
+  <details className="border-transparent border-b-black border-2 cursor-pointer">
     <summary className="section-subheading">{header}</summary>
     <div className="md:py-5 xs:py-3">{children}</div>
   </details>
