@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const navbarItems = [
   {
@@ -45,7 +44,7 @@ const Navbar: React.FC = () => {
     <div className="relative z-[60]">
       <div className="w-full px-5 py-7 md:p-10 lg:pl-11 lg:py-10 lg:pr-7 !inline-flex !justify-between !flex-row">
         <div className="w-fit flex flex-col !justify-center z-40">
-          <Link href="/">
+          <a href="/">
             <Image
               className="md:h-12 h-8 w-auto"
               src="/dti_logo.svg"
@@ -53,11 +52,11 @@ const Navbar: React.FC = () => {
               height={62}
               alt="DTI Logo"
             />
-          </Link>
+          </a>
         </div>
         <div className="hidden !justify-self-end w-fit lg:inline-flex flex-row">
           {navbarItems.map((item) => (
-            <Link
+            <a
               className={`hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white ${
                 pathname === item.url ? 'underline' : ''
               }`}
@@ -65,7 +64,7 @@ const Navbar: React.FC = () => {
               key={item.name}
             >
               {item.name}
-            </Link>
+            </a>
           ))}
         </div>
         <div className={`flex lg:hidden w-fit ${isMenuOpen ? 'z-50' : 'z-10'}`}>
@@ -100,13 +99,13 @@ const Navbar: React.FC = () => {
             </div>
             <div className="backdrop-blur-sm w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
               {navbarItems.map((item) => (
-                <Link
+                <a
                   key={item.name}
                   className="hover:underline cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-white"
                   href={item.url}
                 >
                   {item.name}
-                </Link>
+                </a>
               ))}
             </div>
           </div>

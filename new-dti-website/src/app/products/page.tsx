@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+
 import ImageCarousel from '../../../components/products/imageCarousel';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
@@ -99,9 +99,9 @@ export default function Page() {
             We've learned that tackling the hardest problems is the only way to truly create value
             for the people around us.
           </p>
-          <Link href="mailto:hello@cornelldti.org" className="primary-button">
+          <a href="mailto:hello@cornelldti.org" className="primary-button">
             Contact us
-          </Link>
+          </a>
         </div>
       </div>
     </div>
@@ -168,9 +168,9 @@ const ProductDisplay = (props: {
         <h3 className="text-3xl font-semibold">{props.product.name}</h3>
         <p>{props.product.description}</p>
         <div className="-translate-x-0.5 translate-y-10" hidden={props.product.link === ''}>
-          <Link href={props.product.link} className="primary-button">
+          <a href={props.product.link} className="primary-button">
             View Product
-          </Link>
+          </a>
         </div>
       </div>
     </div>
