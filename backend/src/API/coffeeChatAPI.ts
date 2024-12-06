@@ -16,7 +16,8 @@ export const getAllCoffeeChats = (): Promise<CoffeeChat[]> => coffeeChatDao.getA
 
 /**
  * Gets all coffee chats for a user
- * @param user - user whose coffee chats should be fetched
+ * @param user - user requesting to fetch coffee chats
+ * @param email - email of user whose coffee chats should be fetched
  */
 export const getCoffeeChatsByUser = async (
   user: IdolMember,
