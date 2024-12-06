@@ -18,7 +18,8 @@
           "intensity": 0.4
         }
       ],
-      "productImage": "/images/products/static/cureviews.png",
+      "productImage": "/images/products/cureviews.png",
+      "productAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
       "productImageDimensions": 1500
     },
     {
@@ -39,7 +40,8 @@
           "intensity": 0.4
         }
       ],
-      "productImage": "/images/products/static/courseplan.png",
+      "productImage": "/images/products/courseplan.png",
+      "productAlt": "A desktop computer next to a laptop, displaying the planning page and the profile page of the Course Plan website",
       "productImageDimensions": 1500
     },
     {
@@ -60,8 +62,9 @@
           "intensity": 0.4
         }
       ],
-      "productImage": "/images/products/static/qmi.png",
-      "productImageDimensions": 1500
+      "productImage": "/images/products/qmi.png",
+      "productAlt": "2 phones side by side, displaying the list of available consulting hours screen and the join queue screen of the Queue Me In website",
+      "productImageDimensions": 1000
     },
     {
       "alt": "design at cornell",
@@ -77,8 +80,9 @@
           "intensity": 0.3
         }
       ],
-      "productImage": "/images/products/static/dcc.png",
-      "productImageDimensions": 1500
+      "productImage": "/images/products/dcc.png",
+      "productAlt": "A browser displaying the hero section of the Design @ Cornell website",
+      "productImageDimensions": 1000
     },
     {
       "alt": "zing",
@@ -98,7 +102,8 @@
           "intensity": 0.4
         }
       ],
-      "productImage": "/images/products/static/zing.png",
+      "productImage": "/images/products/zing.png",
+      "productAlt": "A desktop computer next to a tablet, displaying the landing page and questionnaire page of the Zing website",
       "productImageDimensions": 1500
     },
     {
@@ -118,7 +123,8 @@
           "intensity": 0.3
         }
       ],
-      "productImage": "/images/products/static/cuapts.png",
+      "productImage": "/images/products/cuapts.png",
+      "productAlt": "A laptop next to a phone, displaying home page and an address page of the CU Apts website",
       "productImageDimensions": 1500
     }
   ],
@@ -136,7 +142,8 @@
           "intensity": 0.3
         }
       ],
-      "productImage": "/images/products/static/carriage.png",
+      "productImage": "/images/products/carriage.png",
+      "productAlt": "A monitor displaying a blurry screen of the Carriage website with the words Coming Soon overlaid on top",
       "productImageDimensions": 1500
     },
     {
@@ -156,7 +163,8 @@
           "intensity": 0.4
         }
       ],
-      "productImage": "/images/products/static/cornellgo.png",
+      "productImage": "/images/products/cornellgo.png",
+      "productAlt": "2 phones side by side, displaying the profile page and map section of the Cornell Go Application",
       "productImageDimensions": 1500
     }
   ]

@@ -119,6 +119,7 @@ const ProductDisplay = (props: {
     iconDimensions: number;
     iconClassName?: string;
     productImage: string;
+    productAlt: string;
     productImageDimensions: number;
     blobs?: { className: string; intensity: number }[];
   };
@@ -143,9 +144,10 @@ const ProductDisplay = (props: {
       <div className="relative z-10 -translate-y-8">
         <Image
           src={props.product.productImage}
-          alt={props.product.name}
+          alt={props.product.productAlt}
           width={props.product.productImageDimensions}
           height={props.product.productImageDimensions}
+          unoptimized
         />
       </div>
     </div>
@@ -161,6 +163,7 @@ const ProductDisplay = (props: {
           width={props.product.iconDimensions}
           height={props.product.iconDimensions}
           className={props.product.iconClassName}
+          unoptimized
         />
         <h3 className="text-3xl font-semibold">{props.product.name}</h3>
         <p>{props.product.description}</p>
