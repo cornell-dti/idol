@@ -19,7 +19,7 @@ const RoleDescriptions = () => {
   const [role, setRole] = useState<string>('development');
 
   return (
-    <div className="relative flex justify-center text-[#FEFEFE]">
+    <section id="Role Descriptions" className="relative flex justify-center text-[#FEFEFE]">
       <RedBlob className="top-[-250px] right-[-350px] z-0" intensity={0.5} />
       <div className="relative flex flex-col max-w-5xl w-full gap-11 lg:px-5 md:px-[60px] xs:px-6 z-10">
         <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
@@ -56,11 +56,11 @@ const RoleDescriptions = () => {
           })}
         </div>
         <div className="flex flex-col gap-5">
-          {Object.keys(applications).map((application) => {
+          {Object.keys(applications).map((application, index) => {
             const roleApplication = applications[application];
             return (
               role === application && (
-                <>
+                <div key={index}>
                   <h3
                     className="font-semibold lg:text-[32px] lg:leading-[38px] md:text-[24px] 
                     md:leading-[29px] xs:text-[22px]"
@@ -75,8 +75,11 @@ const RoleDescriptions = () => {
                       What we're looking for...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
-                      {roleApplication.skills.map((skill) => (
-                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                      {roleApplication.skills.map((skill, index) => (
+                        <li
+                          className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]"
+                          key={index}
+                        >
                           {skill}
                         </li>
                       ))}
@@ -90,14 +93,17 @@ const RoleDescriptions = () => {
                       Responsibilities at a glance...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
-                      {roleApplication.responsibilities.map((resp) => (
-                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                      {roleApplication.responsibilities.map((resp, index) => (
+                        <li
+                          className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]"
+                          key={index}
+                        >
                           {resp}
                         </li>
                       ))}
                     </ul>
                   </div>
-                </>
+                </div>
               )
             );
           })}
@@ -119,7 +125,7 @@ const RoleDescriptions = () => {
         )}
       </div>
       <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />
-    </div>
+    </section>
   );
 };
 
