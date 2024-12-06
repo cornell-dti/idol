@@ -44,7 +44,6 @@ const CoffeeChatsDashboard = ({
     [allChats]
   );
 
-
   const categoryStatus = useMemo(
     () =>
       allChats.reduce((acc, chat) => {
@@ -134,7 +133,7 @@ const CoffeeChatsDashboard = ({
             bingoBoard={bingoBoard}
             onCellClick={openChatModal}
             updateBingoCount={setBingoCount}
-            />
+          />
         )}
       </div>
 

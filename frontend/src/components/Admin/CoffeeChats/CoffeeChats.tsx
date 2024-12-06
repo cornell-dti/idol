@@ -53,9 +53,7 @@ const CoffeeChats: React.FC = () => {
       setIsChatLoading(false);
     });
 
-    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) =>
-      setSpecificBingoBoard(board)
-    );
+    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setSpecificBingoBoard(board));
   };
 
   return (
@@ -72,7 +70,7 @@ const CoffeeChats: React.FC = () => {
               rejectedChats={specificRejectedChats}
               isChatLoading={isChatLoading}
               bingoBoard={specificBingoBoard}
-              onCellClick={() => { }}
+              onCellClick={() => {}}
             />
           </div>
         ) : (
@@ -120,17 +118,16 @@ const CoffeeChats: React.FC = () => {
               if (selectedMember) {
                 setSelectedMember(null);
               }
-              setDisplayMembers(!displayMembers)
-            }}>
+              setDisplayMembers(!displayMembers);
+            }}
+          >
             View Member Bingo Board
           </button>
           {displayMembers && (
             <ul className={styles.dropdownMenu}>
               {allMembers.map((member, index) => (
                 <li key={index}>
-                  <button
-                    className={styles.memberButton}
-                    onClick={() => handleMemberClick(member)}>
+                  <button className={styles.memberButton} onClick={() => handleMemberClick(member)}>
                     {member.firstName} {member.lastName}
                   </button>
                 </li>
