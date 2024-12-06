@@ -1,6 +1,6 @@
 import { useState, RefObject } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import { Card } from '../ui/card';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
@@ -150,9 +150,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                 }`}
               >
                 {link ? (
-                  <Link href={link} className="whitespace-nowrap">
+                  <a href={link} className="whitespace-nowrap">
                     {name}
-                  </Link>
+                  </a>
                 ) : (
                   <p>{name}</p>
                 )}
@@ -166,24 +166,21 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   const link = props[icon.alt as keyof typeof props] as string | null;
                   return (
                     link && (
-                      <Link
-                        href={icon.alt === 'email' ? `mailto:${link}` : `${link}`}
-                        key={icon.alt}
-                      >
+                      <a href={icon.alt === 'email' ? `mailto:${link}` : `${link}`} key={icon.alt}>
                         <Image
                           src={icon.src}
                           alt={icon.alt}
                           height={icon.height}
                           width={icon.width}
                         />
-                      </Link>
+                      </a>
                     )
                   );
                 })}
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <Link
+              <a
                 href={props.coffeeChatLink ?? `mailto:${props.email}`}
                 onMouseEnter={mouseHandler}
                 onMouseLeave={mouseHandler}
@@ -199,7 +196,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   className={hover ? 'brightness-0 invert' : ''}
                 />
                 <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -212,7 +209,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
         </button>
       </div>
       <div className="md:hidden xs:block">
-        <Link
+        <a
           href={props.coffeeChatLink ?? `mailto:${props.email}`}
           onMouseEnter={mouseHandler}
           onMouseLeave={mouseHandler}
@@ -230,7 +227,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             />
             <p className="font-bold text-base text-inherit whitespace-nowrap">Chat with me</p>
           </div>
-        </Link>
+        </a>
       </div>
     </Card>
   );

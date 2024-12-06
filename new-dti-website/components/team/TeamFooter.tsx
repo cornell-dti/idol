@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+
 import companies from './data/companies.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { TABLET_BREAKPOINT } from '../../src/consts';
@@ -58,9 +58,9 @@ const TeamFooter = () => {
             <h2 className="font-semibold lg:text-[32px] md:text-2xl">Want to join the family?</h2>
             <p className="lg:text-[22px] md:text-lg">{message}</p>
             {isAppOpen() && (
-              <Link href={'/apply'} className="primary-button">
+              <a href={'/apply'} className="primary-button">
                 Apply here
-              </Link>
+              </a>
             )}
           </div>
         </div>

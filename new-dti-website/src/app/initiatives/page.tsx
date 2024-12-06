@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import RedBlob from '../../../components/blob';
 import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 
@@ -57,9 +56,9 @@ const InitiativePage = () => (
         <p className="md:text-[22px] md:leading-[26px] xs:text-[12px] xs:leading-[14px]">
           Feel free to coordinate with us over email, coffee, lunch-we're excited to work with you.
         </p>
-        <Link href="mailto:hello@cornelldti.org" className="primary-button">
+        <a href="mailto:hello@cornelldti.org" className="primary-button">
           Get in touch
-        </Link>
+        </a>
       </div>
     </section>
   </div>
