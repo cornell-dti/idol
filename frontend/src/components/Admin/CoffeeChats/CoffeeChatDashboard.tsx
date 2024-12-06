@@ -48,13 +48,12 @@ const CoffeeChatDashboard: React.FC = () => {
       const chatsByMember = coffeeChats.filter((chat) => chat.submitter.netid === member.netid);
       const fulfilledCategories = chatsByMember.map((chat) => chat.category);
       const blackout = categories.every((category) => fulfilledCategories.includes(category));
-      let bingo = false;
 
       const linesToCheck = getLinesFromBoard(bingoBoard);
 
-      linesToCheck.forEach((line) => {
-        bingo = line.every((category) => fulfilledCategories.includes(category));
-      });
+      const bingo = linesToCheck.some((line) =>
+        line.every((category) => fulfilledCategories.includes(category))
+      );
 
       stats[member.netid] = { fulfilledCategories, blackout, bingo };
     });
