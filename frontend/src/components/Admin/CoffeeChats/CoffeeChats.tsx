@@ -70,7 +70,7 @@ const CoffeeChats: React.FC = () => {
               rejectedChats={specificRejectedChats}
               isChatLoading={isChatLoading}
               bingoBoard={specificBingoBoard}
-              onCellClick={() => {}}
+              onCellClick={() => { }}
             />
           </div>
         ) : (
@@ -121,7 +121,7 @@ const CoffeeChats: React.FC = () => {
               setDisplayMembers(!displayMembers);
             }}
           >
-            View Member Bingo Board
+            {!selectedMember ? "View Member Bingo Board" : "Review All Coffee Chats"}
           </button>
           {displayMembers && (
             <ul className={styles.dropdownMenu}>
