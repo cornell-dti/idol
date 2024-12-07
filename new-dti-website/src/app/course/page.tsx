@@ -114,7 +114,7 @@ export default function Courses() {
               </div>
 
               <div className="flex flex-col lg:w-1/2">
-                <div className="font-semibold text-sm md:text-xl uppercase text-[16px] tracking-[1px] text-[#666]">
+                <div className="font-semibold text-sm md:text-xl uppercase !text-[18px] tracking-[1px] text-[#666]">
                   Modern industry-leading technology
                 </div>
 
@@ -197,7 +197,7 @@ export default function Courses() {
             <div className="flex flex-col">
               <div className="font-bold md:text-[40px] xs:text-4xl">Past Student Projects</div>
               <div className="md:text-2xl xs:text-lg pt-8">
-                With the right skills, you will be able to create projects like ours.
+                See how our course helps students bring their ideas to life.
               </div>
               <div className="space-y-8 pt-20">
                 {student_projects.map((project) => (
