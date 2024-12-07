@@ -23,10 +23,10 @@
       "title": "Events",
       "subtitle": "Our presence on campus.",
       "icon": {
-        "src": "/icons/pin.svg",
-        "alt": "location",
-        "width": 23,
-        "height": 32
+        "src": "/icons/events.png",
+        "alt": "handshake icon representing events",
+        "width": 80,
+        "height": 64
       },
       "image": {
         "src": "/images/half-baked.jpg",
@@ -42,10 +42,10 @@
       "title": "Workshops",
       "subtitle": "Enriching the community.",
       "icon": {
-        "src": "/icons/yellow_star.svg",
-        "alt": "star",
-        "width": 29,
-        "height": 28
+        "src": "/icons/workshops.png",
+        "alt": "person teaching icon representing workshops",
+        "width": 66,
+        "height": 64
       },
       "image": {
         "src": "/images/bigredhacks.jpg",
@@ -61,10 +61,10 @@
       "title": "Initiatives",
       "subtitle": "Empowering the future.",
       "icon": {
-        "src": "/icons/rocket.svg",
-        "alt": "rocket",
-        "width": 28,
-        "height": 32
+        "src": "/icons/initiatives.png",
+        "alt": "lightbulb icon representing initiatives",
+        "width": 54,
+        "height": 61
       },
       "image": {
         "src": "/images/millennium.jpg",
