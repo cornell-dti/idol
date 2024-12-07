@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import SectionWrapper from '../components/hoc/SectionWrapper';
+import SectionWrapper from './hoc/SectionWrapper';
 
 type Icon = {
   src: string;

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import SectionWrapper from '../components/hoc/SectionWrapper';
+import SectionWrapper from './hoc/SectionWrapper';
 
 const navbarItems = [
   {
