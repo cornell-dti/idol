@@ -100,7 +100,7 @@ const Home: React.FC = () => {
             <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px] scale-75 lg:scale-100">
               {icons.map((icon, index) => (
                 <button
-                  className='rounded-md'
+                  className="rounded-md"
                   onClick={() => {
                     setSelectedIcon(index);
                     if (timer) clearTimeout(timer);

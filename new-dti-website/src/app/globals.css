@@ -186,7 +186,8 @@
   background-color: #d63d3d;
 }
 
-.primary-button:focus-visible, .secondary-button--red:focus-visible {
+.primary-button:focus-visible,
+.secondary-button--red:focus-visible {
   outline: 3px solid #d63d3d !important;
   outline-offset: 3px;
   border-radius: 12px;
@@ -236,7 +237,8 @@ a:focus-visible {
   border-radius: 4px;
 }
 
-button:focus-visible, summary:focus-visible {
+button:focus-visible,
+summary:focus-visible {
   outline: 3px solid #d63d3d;
   outline-offset: 3px;
   transition: outline 0s;
@@ -265,7 +267,6 @@ summary::after {
 details[open] > summary::after {
   rotate: 180deg;
 }
-
 
 .custom-focus-state:focus-visible {
   outline: none;
