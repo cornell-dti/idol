@@ -37,9 +37,7 @@ const ApplyHero = () => {
             >
               Down to innovate?
             </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              <span className="font-bold">We strive for inclusivity</span>, and encourage passionate
-              applicants to apply regardless of experience. We'd love to work with someone like you.
+            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">We strive for inclusivity, and encourage passionate applicants to apply regardless of experience. We'd love to work with someone like you.
             </p>
             {isApplicationOpen ? (
               <a key="Apply Page" href={config.applicationLink} className="primary-button">

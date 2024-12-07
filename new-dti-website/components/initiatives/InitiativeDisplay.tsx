@@ -49,7 +49,7 @@ const Initiative = ({
           width >= LAPTOP_BREAKPOINT ? inter.className : ibm_plex_mono.className
         }`}
       >
-        {parts.map((part, index) => (part === eventName ? <b key={index}>{part}</b> : part))}
+        {parts.map((part, index) => (part))}
       </p>
     </article>
   );
