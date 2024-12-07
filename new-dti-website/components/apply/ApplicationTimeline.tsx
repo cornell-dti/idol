@@ -270,7 +270,7 @@ const ApplicationTimeline = () => {
                     />
                   </>
                 ) : (
-                  <Tab isSelected={true} text={'All Students'} />
+                  <Tab isSelected={false} text={'All Students'} />
                 )}
               </div>
             </div>
