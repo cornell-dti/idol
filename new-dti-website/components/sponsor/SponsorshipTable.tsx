@@ -109,7 +109,7 @@ const SponsorshipTableLaptop = () => (
 const SponsorshipTable = () => {
   const { width } = useScreenSize();
   return (
-    <div className="max-w-5xl w-full flex flex-col justify-center lg:my-24 md:my-14 xs:my-10 p-5">
+    <div className="w-full flex flex-col justify-center lg:my-24 md:my-14 xs:my-10">
       {width >= TABLET_BREAKPOINT ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
     </div>
   );

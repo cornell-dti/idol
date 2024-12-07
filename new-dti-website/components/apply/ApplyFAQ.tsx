@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import config from '../../config.json';
 import interviewPrep from './data/interviewPrep.json';
+import SectionWrapper from '../hoc/SectionWrapper';
 
 type FAQAccordionProps = {
   header: string;
@@ -35,7 +36,7 @@ const ApplyFAQ = () => {
 
   return (
     <section id="Apply FAQ" className="relative flex justify-center bg-[#f6f6f6] py-24">
-      <div className="flex flex-col max-w-5xl w-full gap-6 lg:px-5 md:px-[60px] xs:px-6 relative z-10">
+      <SectionWrapper id={'Apply FAQ Wrapper'} className="flex flex-col w-full gap-6 relative z-10">
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
           <h3 className="section-heading">
@@ -120,7 +121,7 @@ const ApplyFAQ = () => {
             </div>
           )}
         </div>
-      </div>
+      </SectionWrapper>
     </section>
   );
 };
