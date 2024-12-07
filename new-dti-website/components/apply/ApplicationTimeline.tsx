@@ -259,7 +259,7 @@ const ApplicationTimeline = () => {
                 cornell-dti/timeline
               </p>
               <div className="flex items-end" role="tablist" onKeyDown={handleKeyDown}>
-                {!isFall ? (
+                {isFall ? (
                   <>
                     <Tab
                       isSelected={cycle === 'upperclassmen'}
