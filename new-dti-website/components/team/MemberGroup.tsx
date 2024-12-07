@@ -139,7 +139,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold md:text-xl xs:text-base">About</h2>
-            <p className="md:text-lg xs:text-sm">{props.about || 'An amazing member of DTI.'}</p>
+            <p className="md:text-lg xs:text-sm whitespace-pre-wrap">
+              {props.about || 'An amazing member of DTI.'}
+            </p>
           </div>
           <div className="flex justify-around">
             <div className="flex flex-col gap-2 md:w-1/3 xs:w-1/2">
