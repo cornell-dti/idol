@@ -51,7 +51,7 @@ const MemberDisplay: React.FC = () => {
           setSelectedMember(undefined);
       }}
     >
-      <SectionWrapper>
+      <SectionWrapper id={'Member display wrapper'}>
         <div className="flex flex-col gap-[72px]">
           <div className="flex flex-col lg:w-4/5 md:w-full mt-[100px]">
             <h2 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h2>
