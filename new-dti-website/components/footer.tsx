@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import SectionWrapper from '../components/hoc/SectionWrapper';
 
 type Icon = {
@@ -62,7 +61,7 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
       </div>
       <div className="flex gap-5 md:h-fit h-screen">
         {socialIcons.map((icon, index) => (
-          <Link
+          <a
             key={index}
             href={icon.link}
             target="_blank"
@@ -76,7 +75,7 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
               height={36}
               alt={icon.alt}
             />
-          </Link>
+          </a>
         ))}
       </div>
     </div>

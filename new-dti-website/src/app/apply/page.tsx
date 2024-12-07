@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
 import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
@@ -43,19 +42,18 @@ const ApplyHero = () => {
               applicants to apply regardless of experience. We'd love to work with someone like you.
             </p>
             {isApplicationOpen ? (
-              <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+              <a key="Apply Page" href={config.applicationLink} className="primary-button">
                 Apply now
-              </Link>
+              </a>
             ) : (
-              <Link
+              <button
                 key="Apply Page"
-                href="#"
                 className="primary-button opacity-50 cursor-not-allowed"
                 onClick={(e) => e.preventDefault()}
                 aria-disabled="true"
               >
                 Apply now
-              </Link>
+              </button>
             )}
           </div>
         </div>
@@ -78,12 +76,12 @@ const ApplyCoffeeChat = () => (
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
       </p>
       <div className="flex md:flex-row xs:flex-col gap-3">
-        <Link href={config.coffeeChatLink} className="primary-button">
+        <a href={config.coffeeChatLink} className="primary-button">
           Coffee chat with us
-        </Link>
-        <Link href={config.coffeeChatFormLink} className="secondary-button !border-black">
+        </a>
+        <a href={config.coffeeChatFormLink} className="secondary-button !border-black">
           Don't know who to chat with?
-        </Link>
+        </a>
       </div>
     </SectionWrapper>
   </section>

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import SectionWrapper from '../components/hoc/SectionWrapper';
 
 const navbarItems = [
@@ -102,13 +101,13 @@ const Navbar: React.FC = () => {
               </div>
               <div className="backdrop-blur-sm w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
                 {navbarItems.map((item) => (
-                  <Link
+                  <a
                     key={item.name}
                     className="hover:underline cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-white"
                     href={item.url}
                   >
                     {item.name}
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>

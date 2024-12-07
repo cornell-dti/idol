@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const Bottom: React.FC = () => (
   <div className="flex flex-col w-screen h-fit text-white justify-center">
@@ -72,9 +71,9 @@ const Bottom: React.FC = () => (
               </p>
             </div>
           </div>
-          <Link href="/course" className="primary-button" aria-label="Courses page">
+          <a href="/course" className="primary-button" aria-label="Courses page">
             Learn more
-          </Link>
+          </a>
         </div>
       </div>
     </div>
@@ -116,9 +115,9 @@ const Bottom: React.FC = () => (
             We strive to build initiatives not only at Cornell, but also in the{' '}
             <span className="font-bold">Ithaca community and beyond</span>.
           </p>
-          <Link href="/initiatives" className="primary-button">
+          <a href="/initiatives" className="primary-button">
             How we give back
-          </Link>
+          </a>
         </div>
       </div>
     </div>
@@ -141,12 +140,12 @@ const Bottom: React.FC = () => (
           <span className="font-bold">teach others from our experience.</span>
         </p>
         <div className="flex flex-row gap-x-3">
-          <Link href="/team" className="primary-button">
+          <a href="/team" className="primary-button">
             Get to know us
-          </Link>
-          <Link href="/apply" className="secondary-button">
+          </a>
+          <a href="/apply" className="secondary-button">
             Join us
-          </Link>
+          </a>
         </div>
       </div>
     </div>

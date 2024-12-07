@@ -2,7 +2,7 @@
 
 // *IMPORTS
 import Image from 'next/image';
-import Link from 'next/link';
+
 import React, { useRef, useState } from 'react';
 
 // *IMPORT DATA
@@ -130,21 +130,21 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link
+                  <a
                     key="Trends Application"
                     href={config.trendsApplicationLink}
                     className="primary-button"
                   >
                     Apply Now
-                  </Link>
-                  <Link
+                  </a>
+                  <a
                     key="Trends Website"
                     href={config.trendsWebsiteLink}
                     className="secondary-button secondary-button--red"
                     aria-label="Trends Website"
                   >
                     Learn More
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

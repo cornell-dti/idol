@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+
 import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
@@ -42,9 +42,9 @@ const SponsorHero = () => {
               building products and hosting initiatives to{' '}
               <span className="font-bold">help the Cornell and Ithaca communities.</span>
             </p>
-            <Link href={config.donationLink} className="primary-button">
+            <a href={config.donationLink} className="primary-button">
               Donate now
-            </Link>
+            </a>
           </div>
         </div>
       </SectionWrapper>
@@ -104,9 +104,9 @@ const SponsorPage = () => {
                   harness the power of technology to drive change in our communities.
                 </span>
               </p>
-              <Link href="mailto:hello@cornelldti.org" className="primary-button">
+              <a href="mailto:hello@cornelldti.org" className="primary-button">
                 Contact us
-              </Link>
+              </a>
             </div>
           </div>
         </SectionWrapper>
@@ -137,9 +137,9 @@ const SponsorPage = () => {
         <p className="lg:text-[22px] xs:text-lg text-center">
           Want to learn more about how you can help us make an impact?
         </p>
-        <Link className="primary-button" href="mailto:hello@cornelldti.org">
+        <a className="primary-button" href="mailto:hello@cornelldti.org">
           Contact us
-        </Link>
+        </a>
       </div>
     </>
   );

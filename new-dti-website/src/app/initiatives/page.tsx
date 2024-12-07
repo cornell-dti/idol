@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import RedBlob from '../../../components/blob';
 import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
@@ -58,9 +57,9 @@ const InitiativePage = () => (
             Feel free to coordinate with us over email, coffee, lunch-we're excited to work with
             you.
           </p>
-          <Link href="mailto:hello@cornelldti.org" className="primary-button">
+          <a href="mailto:hello@cornelldti.org" className="primary-button">
             Get in touch
-          </Link>
+          </a>
         </div>
       </SectionWrapper>
     </div>

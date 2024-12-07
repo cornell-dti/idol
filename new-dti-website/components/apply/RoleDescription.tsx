@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import applicationData from './data/applications.json';
 import config from '../../config.json';
 import RedBlob from '../blob';
@@ -111,19 +111,18 @@ const RoleDescriptions = () => {
             })}
           </div>
           {isAppOpen() ? (
-            <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+            <a key="Apply Page" href={config.applicationLink} className="primary-button">
               Apply now
-            </Link>
+            </a>
           ) : (
-            <Link
+            <button
               key="Apply Page"
-              href="#"
               className="primary-button opacity-50 cursor-not-allowed"
               onClick={(e) => e.preventDefault()}
               aria-disabled="true"
             >
               Apply now
-            </Link>
+            </button>
           )}
         </div>
       </SectionWrapper>
