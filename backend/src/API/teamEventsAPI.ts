@@ -215,7 +215,7 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
  * @throws PermissionError if the user does not have permissions to notify members
  * @returns the body of the request, which contains details about the member being notified
  */
-export const notifyMember = async (
+export const notifyMemberTeamEvents = async (
   req: Request,
   endOfSemesterReminder: boolean,
   member: IdolMember,

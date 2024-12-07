@@ -37,6 +37,17 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --hero-primary: 255, 255, 255;
+    --hero-secondary: 255, 255, 255, 0.7;
+
+    --hero-leading-header-xs: 63px;
+    --hero-leading-header: 120px;
+    --hero-leading-subheader: 50px;
+    --hero-leading-body-text: 20px;
+
+    --hero-header: 100px;
+    --hero-subheader: 40px;
   }
 
   .dark {
@@ -67,6 +78,9 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --hero-primary: 255, 255, 255;
+    --hero-secondary: 255, 255, 255, 0.7;
   }
 }
 
@@ -168,6 +182,10 @@
   background-color: #a52424;
 }
 
+.primary-button[aria-disabled='true']:hover {
+  background-color: #d63d3d;
+}
+
 .secondary-button {
   color: #fefefe;
   background-color: black;
@@ -187,4 +205,38 @@
 .secondary-button:hover {
   color: black;
   background-color: #fefefe;
+}
+
+.secondary-button--red {
+  color: #d63d3d;
+  background-color: #ededed;
+  border-color: #d63d3d;
+}
+
+.secondary-button--red:hover {
+  color: #fefefe;
+  background-color: #d63d3d;
+}
+
+summary {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+
+summary::after {
+  content: '';
+  width: 13px;
+  height: 7px;
+  background: url('/icons/dropdown.svg');
+  background-size: cover;
+}
+
+details[open] > summary::after {
+  rotate: 180deg;
 }

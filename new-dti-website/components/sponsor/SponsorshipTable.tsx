@@ -25,13 +25,17 @@ const SponsorshipTableMobile = () => {
         <div className="flex h-fit justify-between">
           {Object.keys(medals).map((medal) => (
             <div className="flex justify-center items-center" key={medal}>
-              <Image
-                src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
-                alt={medal}
+              <button
                 onClick={() => setSelectedMedal(medal as Tier)}
-                height={selectedMedal === medal ? medalSelectedHeight : medalHeight}
-                width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
-              />
+                aria-label={`Show ${medal} tier`}
+              >
+                <Image
+                  src={medals[medal as Tier][selectedMedal === medal ? 'sticker' : 'shadow']}
+                  alt=""
+                  height={selectedMedal === medal ? medalSelectedHeight : medalHeight}
+                  width={medals[medal as Tier][selectedMedal === medal ? 'widthSelected' : 'width']}
+                />
+              </button>
             </div>
           ))}
         </div>
@@ -92,7 +96,7 @@ const SponsorshipTableLaptop = () => (
               key={`${benefit.key}-${tier}`}
             >
               {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) && (
-                <Image src="/icons/check.svg" alt="check" width={30} height={60} />
+                <Image src="/icons/check.svg" alt="checkmark" width={30} height={60} />
               )}
             </div>
           ))}

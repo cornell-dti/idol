@@ -58,10 +58,6 @@ export const getGeneralRole = (role: Role): GeneralRole => {
       return 'developer';
     case 'apm':
       return 'pm';
-    case 'internal-business':
-      return 'business';
-    case 'pmm':
-      return 'business';
     case 'pm-advisor':
       return 'pm';
     case 'dev-advisor':

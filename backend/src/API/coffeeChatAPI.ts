@@ -1,9 +1,11 @@
+import { Request } from 'express';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember, allMembers } from './memberAPI';
-import { BUSINESS_ROLES, LEAD_ROLES } from '../consts';
+import { LEAD_ROLES } from '../consts';
 import { getGeneralRoleFromLeadType } from '../utils/memberUtil';
+import { sendCoffeeChatReminder } from './mailAPI';
 
 const coffeeChatDao = new CoffeeChatDao();
 
@@ -128,6 +130,21 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
 /**
+ * Gets coffee chat suggestions for a specifc member
+ * @param email - the email of the member
+ * @returns A promise that resolves to a CoffeeChatSuggestions object.
+ */
+export const getCoffeeChatSuggestions = async (email: string): Promise<CoffeeChatSuggestions> => {
+  const suggestions = await CoffeeChatDao.getCoffeeChatSuggestions(email);
+  if (!suggestions) {
+    throw new BadRequestError(
+      `Coffee chat suggestions does not exist for member with email ${email}`
+    );
+  }
+  return suggestions;
+};
+
+/**
  * Checks if a member meets a category for the specified coffee chat.
  * @param uuid - the uuid of the coffee chats we are checking.
  * @param user - the IdolMember making the request.
@@ -203,7 +220,7 @@ export const checkMemberMeetsCategory = async (
         message = `${otherMember.firstName} ${otherMember?.lastName} is not a CoursePlan member`;
       }
     } else if (category === 'business member') {
-      status = BUSINESS_ROLES.includes(otherMember.role) ? 'pass' : 'fail';
+      status = otherMember.role === 'business' ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a business member`;
       }
@@ -309,4 +326,30 @@ export const checkMemberMeetsCategory = async (
     }
   }
   return { status, message };
+};
+
+/**
+ * Reminds a member about submitting coffee chats this semester.
+ * @param req - the post request being made by the user
+ * @param member - the member being notified
+ * @param user - the user trying to notify the member
+ * @throws PermissionError if the user does not have permissions to notify members
+ * @returns the body of the request, which contains details about the member being notified
+ */
+export const notifyMemberCoffeeChat = async (
+  req: Request,
+  member: IdolMember,
+  user: IdolMember
+): Promise<unknown> => {
+  const canNotify = await PermissionsManager.canNotifyMembers(user);
+  if (!canNotify) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to notify members!`
+    );
+  }
+  if (!member.email || member.email === '') {
+    throw new BadRequestError("Couldn't notify member with undefined email!");
+  }
+  const responseBody = await sendCoffeeChatReminder(req, member);
+  return responseBody.data;
 };

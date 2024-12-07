@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import React, { CSSProperties } from 'react';
+import useMediaReduce from '../../src/hooks/useMediaReduce';
 
 export interface ImageData {
   src: string;
@@ -20,6 +21,8 @@ interface FloatingImagesProps {
 }
 
 export default function FloatingImages({ images }: FloatingImagesProps) {
+  const [reduceMotion, isReady] = useMediaReduce();
+
   const getFloatClass = (dir?: string) => {
     switch (dir) {
       case 'up':
@@ -56,8 +59,8 @@ export default function FloatingImages({ images }: FloatingImagesProps) {
           <div
             key={index}
             className={`${index === 0 ? 'relative z-10' : 'absolute'} w-full h-auto ${
-              index !== 0 ? getFloatClass(img.direction) : ''
-            } ${img.delay && index !== 0 ? 'floating-delay' : ''}`}
+              isReady && index !== 0 && !reduceMotion ? getFloatClass(img.direction) : ''
+            } ${isReady && !reduceMotion && img.delay && index !== 0 ? 'floating-delay' : ''}`}
             style={getStyle(img, index)}
           >
             <Image src={img.src} alt={img.alt} width={800} height={800} />

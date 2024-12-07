@@ -3,3 +3,4 @@ export const TABLET_BREAKPOINT = 768;
 export const LAPTOP_BREAKPOINT = 1024;
 export const LARGE_LAPTOP_BREAKPOINT = 1280;
 export const MONITOR_BREAKPOINT = 1536;
+export const MEASUREMENT_ID = process.env.MEASUREMENT_ID ?? '';

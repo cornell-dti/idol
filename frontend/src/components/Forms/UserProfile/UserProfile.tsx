@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, TextArea } from 'semantic-ui-react';
-import { LEAD_ROLES } from 'common-types/constants';
+import { Form, Select, TextArea } from 'semantic-ui-react';
+import { ALL_COLLEGES, LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
@@ -16,10 +16,12 @@ const UserProfile: React.FC = () => {
   const [firstName, setFirstName] = useState(userInfoBeforeEdit?.firstName ?? '');
   const [lastName, setLastName] = useState(userInfoBeforeEdit?.lastName ?? '');
   const [pronouns, setPronouns] = useState(userInfoBeforeEdit?.pronouns ?? '');
+  const [semesterJoined, setSemesterJoined] = useState(userInfoBeforeEdit?.semesterJoined ?? '');
   const [graduation, setGraduation] = useState(userInfoBeforeEdit?.graduation ?? '');
   const [major, setMajor] = useState(userInfoBeforeEdit?.major ?? '');
   const [doubleMajor, setDoubleMajor] = useState(userInfoBeforeEdit?.doubleMajor ?? '');
   const [minor, setMinor] = useState(userInfoBeforeEdit?.minor ?? '');
+  const [college, setCollege] = useState(userInfoBeforeEdit?.college ?? '');
   const [hometown, setHometown] = useState(userInfoBeforeEdit?.hometown ?? '');
   const [about, setAbout] = useState(userInfoBeforeEdit?.about ?? '');
   const [website, setWebsite] = useState(userInfoBeforeEdit?.website ?? '');
@@ -48,7 +50,17 @@ const UserProfile: React.FC = () => {
   const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
 
   const saveProfileInfo = () => {
-    const requiredFields = [firstName, lastName, pronouns, graduation, major, hometown, about];
+    const requiredFields = [
+      firstName,
+      lastName,
+      pronouns,
+      semesterJoined,
+      college,
+      graduation,
+      major,
+      hometown,
+      about
+    ];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {
@@ -60,10 +72,12 @@ const UserProfile: React.FC = () => {
         pronouns,
         role: userRole,
         roleDescription: getRoleDescriptionFromRoleID(userRole),
+        semesterJoined,
         graduation,
         major,
         doubleMajor: isFilledOut(doubleMajor) ? doubleMajor : null,
         minor: isFilledOut(minor) ? minor : null,
+        college: college as College,
         hometown,
         about,
         website: isFilledOut(website) ? website : null,
@@ -126,6 +140,14 @@ const UserProfile: React.FC = () => {
       <Form.Group widths="equal">
         <Form.Input
           fluid
+          label="Semester Joined"
+          value={semesterJoined}
+          onChange={(event) => setSemesterJoined(event.target.value)}
+          required
+          disabled={isNotLead}
+        />
+        <Form.Input
+          fluid
           label="Graduation"
           value={graduation}
           onChange={(event) => setGraduation(event.target.value)}
@@ -159,6 +181,17 @@ const UserProfile: React.FC = () => {
           label="Minor"
           value={minor}
           onChange={(event) => setMinor(event.target.value)}
+        />
+        <Form.Input
+          control={Select}
+          label="College"
+          value={college}
+          options={ALL_COLLEGES.map((val) => ({ key: val, text: val, value: val }))}
+          placeholder="Select college"
+          onChange={(event, data) => {
+            setCollege(data.value);
+          }}
+          required
         />
       </Form.Group>
 

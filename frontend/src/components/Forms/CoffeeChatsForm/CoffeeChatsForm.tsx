@@ -50,8 +50,10 @@ const CoffeeChatsForm: React.FC = () => {
     firstName: name,
     lastName: '',
     pronouns: '',
+    semesterJoined: '',
     graduation: '',
     major: '',
+    college: 'eng',
     hometown: '',
     about: '',
     subteams: [],
@@ -267,6 +269,7 @@ const CoffeeChatsForm: React.FC = () => {
           bingoBoard={bingoBoard}
           setApprovedChats={setApprovedChats}
           resetState={resetState}
+          userInfo={userInfo}
         />
       </Form>
     </div>
