@@ -37,7 +37,9 @@ const Bottom: React.FC = () => (
       </div>
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
-          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">Courses</p>
+          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">
+            Courses
+          </p>
           <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
             Teaching the Cornell Community
           </h2>
@@ -114,7 +116,9 @@ const Bottom: React.FC = () => (
       <div className="text-left w-full md:py-10">
         <div className="flex flex-col gap-y-3 md:gap-y-4">
           <div className="flex flex-col gap-y-1 md:gap-y-2">
-          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">Outreach</p>
+            <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">
+              Outreach
+            </p>
             <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
               Expanding reach to our community
             </h2>
@@ -143,7 +147,9 @@ const Bottom: React.FC = () => (
       />
       <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 ">
         <div className="flex flex-col gap-y-1 md:gap-y-2">
-        <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">Team</p>
+          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">
+            Team
+          </p>
           <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h3>
         </div>
         <p className="md:text-xs lg:text-lg">
