@@ -34,7 +34,7 @@ const RoleDescriptions = () => {
                 <button
                   onClick={() => setRole(application)}
                   aria-label={`Show ${application} questions`}
-                  className="flex flex-col items-center gap-7"
+                  className="application-role-tab flex flex-col items-center gap-7"
                   key={application}
                 >
                   <h3
