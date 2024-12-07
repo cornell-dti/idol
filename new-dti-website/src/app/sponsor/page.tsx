@@ -98,7 +98,8 @@ const SponsorPage = () => {
               <h3 className="md:text-4xl xs:text-2xl font-semibold">Become a sponsor!</h3>
               <p className="text-lg mb-4">
                 We would love to partner with organizations that share our vision of changing the
-                world. Together, we can harness the power of technology to drive change in our communities.
+                world. Together, we can harness the power of technology to drive change in our
+                communities.
               </p>
               <a href="mailto:hello@cornelldti.org" className="primary-button">
                 Contact us

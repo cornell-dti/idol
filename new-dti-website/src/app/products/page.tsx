@@ -26,7 +26,9 @@ export default function Page() {
               Real impact
             </h2>
             <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              Each of our projects address an unfulfilled need that exists in our community using human-centered design and software engineering.</p>
+              Each of our projects address an unfulfilled need that exists in our community using
+              human-centered design and software engineering.
+            </p>
           </div>
         </div>
       </SectionWrapper>

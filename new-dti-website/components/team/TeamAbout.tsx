@@ -243,7 +243,8 @@ const TeamAbout = () => (
             <div className="flex flex-col md:w-1/2 gap-6">
               <h2 className="font-semibold text-[32px]">We are Cornell DTI</h2>
               <p className="md:text-lg xs:text-sm">
-                Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond.
+                Founded in 2017, DTI is a project team of 80+ designers, developers, product
+                managers, and business members passionate about making change on campus and beyond.
               </p>
             </div>
             <div className={`${ibm_plex_mono.className} text-sm`}>
@@ -274,9 +275,10 @@ const TeamAbout = () => (
         <div className="lg:w-2/3 md:w-full relative z-10 flex flex-col gap-6">
           <h2 className="font-semibold text-[32px]">Who we are</h2>
           <p className="text-lg leading-6">
-            More than just being inclusive, our team strives to bring many backgrounds and perspectives together solve community problems. These statistics come from recruiting across campus and
-            seeking applicants with the best skills and potential for growth on the team. Updated{' '}
-            {config.semester}.
+            More than just being inclusive, our team strives to bring many backgrounds and
+            perspectives together solve community problems. These statistics come from recruiting
+            across campus and seeking applicants with the best skills and potential for growth on
+            the team. Updated {config.semester}.
           </p>
         </div>
         <TeamStatistics />

@@ -49,7 +49,7 @@ const Initiative = ({
           width >= LAPTOP_BREAKPOINT ? inter.className : ibm_plex_mono.className
         }`}
       >
-        {parts.map((part, index) => (part))}
+        {parts.map((part, index) => part)}
       </p>
     </article>
   );

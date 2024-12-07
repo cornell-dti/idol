@@ -120,7 +120,8 @@ const Bottom: React.FC = () => (
             </h2>
           </div>
           <p className="md:text-xs lg:text-lg">
-            We strive to build initiatives not only at Cornell, but also in the Ithaca community and beyond.
+            We strive to build initiatives not only at Cornell, but also in the Ithaca community and
+            beyond.
           </p>
           <a href="/initiatives" className="primary-button">
             How we give back
@@ -146,8 +147,8 @@ const Bottom: React.FC = () => (
           <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h3>
         </div>
         <p className="md:text-xs lg:text-lg">
-          We solve real problems around us to make our community
-          better, while fostering our personal growth to teach others from our experience.
+          We solve real problems around us to make our community better, while fostering our
+          personal growth to teach others from our experience.
         </p>
         <div className="flex flex-row gap-x-3">
           <a href="/team" className="primary-button">

@@ -160,7 +160,8 @@ const TeamHero = () => {
                 Working together
               </h2>
               <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-                We are Cornell DTI. But individually, we are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell
+                We are Cornell DTI. But individually, we are a talented, diverse group of students
+                from different colleges and countries striving to make a difference in the Cornell
                 community and beyond.
               </p>
             </div>
