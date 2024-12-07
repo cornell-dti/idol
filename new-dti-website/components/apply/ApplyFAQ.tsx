@@ -40,7 +40,7 @@ const ApplyFAQ = () => {
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
           <h3 className="section-heading">
-            Learn more about DTI's core values and application below.
+            Learn more about DTI's application below.
           </h3>
           <div className="flex md:gap-4 xs:gap-1">{buttons}</div>
         </div>
