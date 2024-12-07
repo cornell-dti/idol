@@ -5,7 +5,7 @@ import { coffeeChatsCollection } from '../src/firebase';
 const user = fakeIdolMember();
 const user2 = fakeIdolMember();
 const mockCC = { ...fakeCoffeeChat(), submitter: user };
-const mockCC2 = { ...fakeCoffeeChat(), status: 'accepted', submitter: user };
+const mockCC2 = { ...fakeCoffeeChat(), status: 'accepted' as Status, submitter: user };
 const mockCC3 = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
 
 const coffeeChatDao = new CoffeeChatDao();
@@ -24,21 +24,21 @@ afterAll(async () => {
 });
 
 test('Get coffee chat by user', () =>
-  coffeeChatDao.getCoffeeChatsByUser(user).then((coffeeChats) => {
+  coffeeChatDao.getCoffeeChatsByUser(user.email).then((coffeeChats) => {
     expect(coffeeChats.some((submission) => submission === mockCC));
     expect(coffeeChats.some((submission) => submission === mockCC2));
     expect(coffeeChats.some((submission) => submission === mockCC3));
   }));
 
 test('Get coffee chat by user with status', () =>
-  coffeeChatDao.getCoffeeChatsByUser(user, 'accepted').then((coffeeChats) => {
+  coffeeChatDao.getCoffeeChatsByUser(user.email, 'accepted' as Status).then((coffeeChats) => {
     expect(coffeeChats.some((submission) => submission === mockCC)).toBe(false);
     expect(coffeeChats.some((submission) => submission === mockCC2));
     expect(coffeeChats.some((submission) => submission === mockCC3)).toBe(false);
   }));
 
 test('Get coffee chat by user with other member', () =>
-  coffeeChatDao.getCoffeeChatsByUser(user, undefined, user2).then((coffeeChats) => {
+  coffeeChatDao.getCoffeeChatsByUser(user.email, undefined, user2).then((coffeeChats) => {
     expect(coffeeChats.some((submission) => submission === mockCC)).toBe(false);
     expect(coffeeChats.some((submission) => submission === mockCC2)).toBe(false);
     expect(coffeeChats.some((submission) => submission === mockCC3));
