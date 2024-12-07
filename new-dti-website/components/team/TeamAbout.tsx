@@ -168,7 +168,7 @@ const TeamStatistics = () => {
   });
 
   return (
-    <div className="flex md:flex-row xs:flex-col items-center justify-between lg:ml-6 relative z-10">
+    <div className="flex md:flex-row xs:flex-col items-center justify-between relative z-10">
       <div className="flex md:flex-col xs:flex-row lg:gap-y-10 md:gap-y-[30px]">
         <div className="md:pl-6 xs:w-1/3 md:border-l-red-600 md:border-2 border-transparent md:w-fit xs:text-center md:text-left">
           <p className="font-semibold lg:text-[52px] lg:leading-[52px] md:text-[40px] md:leading-[40px] xs:text-[32px] xs:leading-[32px]">

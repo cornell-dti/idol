@@ -50,7 +50,7 @@ const TeamFooter = () => {
       <BeyondDTI />
       <div className="flex justify-center bg-[#EDEDED] lg:py-32 md:py-16 xs:py-10 xs:px-8">
         <SectionWrapper id={'Team Page Footer Information'}>
-          <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 items-center max-w-5xl">
+          <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 items-center">
             <Image
               src="/images/full-team.png"
               alt="team picture"

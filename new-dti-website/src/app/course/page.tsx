@@ -102,7 +102,7 @@ export default function Courses() {
         >
           <SectionWrapper id={'Products Page Logo Section'}>
             <div className="flex flex-col pt-20 lg:flex-row lg:items-center lg:justify-around">
-              <div ref={trendsLogoRef} className="sticker">
+              <div ref={trendsLogoRef} className="w-1/2">
                 <Image
                   src={'/icons/courses/trends_logo.png'}
                   width={450}
