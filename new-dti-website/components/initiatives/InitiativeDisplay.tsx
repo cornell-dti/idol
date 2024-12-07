@@ -61,10 +61,7 @@ const InitiativeDisplay = () => {
   const parts = featured.description.split(new RegExp(`(${featured.eventName})`));
 
   return (
-    <section
-      id="initiative-display"
-      className="bg-white text-black flex justify-center my-24 lg:mx-20 xs:mx-7"
-    >
+    <section id="initiative-display" className="bg-white text-black flex justify-center my-24">
       <div className="max-w-7xl">
         {width >= LAPTOP_BREAKPOINT ? (
           <div className="grid grid-cols-2 gap-16 mb-36">
