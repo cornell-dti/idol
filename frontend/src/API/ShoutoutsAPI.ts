@@ -48,10 +48,7 @@ export default class ShoutoutsAPI {
     return APIWrapper.put(`${backendURL}/shoutout`, { uuid, hide }).then((res) => res.data);
   }
 
-  public static updateShoutout(
-    uuid: string,
-    shoutout: Partial<Shoutout>
-  ): Promise<ShoutoutResponseObj> {
+  public static updateShoutout(uuid: string, shoutout: Shoutout): Promise<ShoutoutResponseObj> {
     return APIWrapper.put(`${backendURL}/shoutout/${uuid}`, shoutout).then((res) => res.data);
   }
 

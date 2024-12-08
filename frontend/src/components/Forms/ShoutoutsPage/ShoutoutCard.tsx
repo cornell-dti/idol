@@ -17,7 +17,11 @@ const ShoutoutCard: React.FC<ShoutoutCardProps> = ({ shoutout, setGivenShoutouts
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEditShoutout = async () => {
-    await ShoutoutsAPI.updateShoutout(shoutout.uuid, { message: editedMessage });
+    const updatedShoutout = {
+      ...shoutout,
+      message: editedMessage
+    };
+    await ShoutoutsAPI.updateShoutout(shoutout.uuid, updatedShoutout);
     setGivenShoutouts((prevShoutouts) =>
       prevShoutouts.map((s) => (s.uuid === shoutout.uuid ? { ...s, message: editedMessage } : s))
     );

@@ -85,7 +85,10 @@ export const editShoutout = async (
       `You are not a lead or admin, so you can't edit a shoutout from a different user!`
     );
   }
-  return shoutoutsDao.editShoutout(uuid, newMessage);
+  return shoutoutsDao.updateShoutout({
+    ...shoutout,
+    message: newMessage
+  });
 };
 
 /**
