@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction, useMemo, useState, RefObject } from 'react';
+import { useState, RefObject } from 'react';
 import Image from 'next/image';
+
 import { Card } from '../ui/card';
-import { ibm_plex_mono } from '../../src/app/layout';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
 import connectIcons from './data/connectIcons.json';
-import { getFullRoleFromDescription } from '../../src/utils/memberUtils';
+import { getGeneralRole } from '../../src/utils/memberUtils';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -26,30 +26,35 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
   roleDescription,
   enlarged
 }) => {
-  const chipColor = teamRoles[role as Role].color;
+  const chipColor = teamRoles[getGeneralRole(role as Role)].color;
 
   return (
-    <div id="memberCard" className="flex flex-col md:gap-3 xs:gap-2">
+    <div
+      className={`memberCard flex flex-col md:gap-3 xs:gap-2 xs:text-[16px] ${
+        enlarged ? 'md:text-2xl' : 'md:text-lg'
+      }`}
+    >
       <img
         src={image}
         alt={`${firstName}-${lastName}`}
-        className={`rounded-md h-auto ${enlarged ? 'w-[244px]' : 'w-[202px]'}`}
+        className={`rounded-md ${
+          enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'
+        } object-cover`}
       />
       <h3
-        className={`xs:text-lg font-${enlarged ? 'semibold md:text-2xl' : 'bold md:text-[22px]'}`}
+        className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
       >{`${firstName} ${lastName}`}</h3>
       <p
-        className={`w-fit px-3 py-1 rounded-2xl ${ibm_plex_mono.className} md:text-sm xs:text-xs`}
+        className="w-fit h-[32px] flex items-center px-[12px] py-[4px] rounded-2xl text-[14px]"
         style={{ backgroundColor: chipColor }}
       >
-        {getFullRoleFromDescription(roleDescription)}
+        {roleDescription}
       </p>
     </div>
   );
 };
 
 type MemberCardProps = {
-  onClick?: () => void;
   firstName: string;
   lastName: string;
   role: string;
@@ -60,13 +65,9 @@ type MemberCardProps = {
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
   <Card
-    id="memberCard"
-    className={`w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
+    className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
-    } ${
-      props.cardState === 0 && 'shadow-[0_4px_4px_0_#00000040]'
-    } hover:shadow-[0_4px_4px_0_#00000040] cursor-pointer`}
-    onClick={props.onClick}
+    }`}
   >
     <MemberSummary {...props} enlarged={false} />
   </Card>
@@ -76,7 +77,7 @@ type MemberDetailsProps = {
   onClose: () => void;
   firstName: string;
   lastName: string;
-  role: string;
+  role: Role;
   roleDescription: RoleDescription;
   graduation: string;
   major: string;
@@ -87,6 +88,7 @@ type MemberDetailsProps = {
   website?: string | null;
   linkedin?: string | null;
   image: string;
+  coffeeChatLink?: string | null;
 };
 
 export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetailsProps) => {
@@ -99,7 +101,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
     : { name: 'No Subteam', link: '' };
 
   return (
-    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px] shadow-[0_4px_4px_0_#00000040] ">
+    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px]">
       <div className="flex lg:gap-10">
         <div className="w-3/12 lg:flex xs:hidden">
           <MemberSummary {...props} enlarged={true} />
@@ -140,7 +142,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold md:text-xl xs:text-base">About</h2>
-            <p className="md:text-lg xs:text-sm">{props.about || 'An amazing member of DTI.'}</p>
+            <p className="md:text-lg xs:text-sm whitespace-pre-wrap">
+              {props.about || 'An amazing member of DTI.'}
+            </p>
           </div>
           <div className="flex justify-around">
             <div className="flex flex-col gap-2 md:w-1/3 xs:w-1/2">
@@ -181,42 +185,42 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <button
+              <a
+                href={props.coffeeChatLink ?? `mailto:${props.email}`}
                 onMouseEnter={mouseHandler}
                 onMouseLeave={mouseHandler}
-                className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
-              hover:bg-[#A52424] hover:text-white stroke-white"
+                className="flex items-center justify-center gap-3 py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
+             hover:bg-[#A52424] hover:text-white stroke-white w-max"
+                aria-label={`schedule coffee chat with ${props.firstName} ${props.lastName}`}
               >
-                <div className="flex gap-3 w-max">
-                  <Image
-                    src="/icons/red_calendar.svg"
-                    alt="calendar"
-                    width={24}
-                    height={24}
-                    className={hover ? 'brightness-0 invert' : ''}
-                  />
-                  <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-                </div>
-              </button>
+                <Image
+                  src="/icons/red_calendar.svg"
+                  alt="calendar"
+                  width={24}
+                  height={24}
+                  className={hover ? 'brightness-0 invert' : ''}
+                />
+                <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
+              </a>
             </div>
           </div>
         </div>
-        <div onClick={props.onClose}>
-          <Image
-            src="/icons/close.svg"
-            width={23}
-            height={23}
-            alt="close"
-            className="m-2 cursor-pointer xs:w-4"
-          />
-        </div>
+        <button
+          onClick={props.onClose}
+          className="cursor-pointer h-min rounded-md"
+          aria-label="Close member details"
+        >
+          <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
+        </button>
       </div>
       <div className="md:hidden xs:block">
-        <button
+        <a
+          href={props.coffeeChatLink ?? `mailto:${props.email}`}
           onMouseEnter={mouseHandler}
           onMouseLeave={mouseHandler}
           className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
               hover:bg-[#A52424] hover:text-white stroke-white w-full flex justify-center"
+          aria-label={`schedule coffee chat with ${props.firstName} ${props.lastName}`}
         >
           <div className="flex gap-3 w-max">
             <Image
@@ -228,20 +232,21 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             />
             <p className="font-bold text-base text-inherit whitespace-nowrap">Chat with me</p>
           </div>
-        </button>
+        </a>
       </div>
     </Card>
   );
 };
 
 type MemberGroupProps = {
-  roleName: string;
-  description: string;
+  roleName?: string;
+  description?: string;
   members: IdolMember[];
-  setSelectedMember: Dispatch<SetStateAction<IdolMember | undefined>>;
-  selectedMember: IdolMember | undefined;
-  selectedRole: string;
+  setSelectedMember: (member?: IdolMember) => void;
+  selectedMember?: IdolMember;
+  selectedRole?: string;
   memberDetailsRef: RefObject<HTMLInputElement>;
+  displayDetails?: boolean;
   isCard: boolean;
 };
 
@@ -251,14 +256,13 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   members,
   setSelectedMember,
   selectedMember,
-  selectedRole,
+  selectedRole = 'Full Team',
+  displayDetails = true,
   memberDetailsRef,
   isCard
 }) => {
-  const selectedMemberIndex: number = useMemo(
-    () => (selectedMember ? members.indexOf(selectedMember) : -1),
-    [members, selectedMember]
-  );
+  const selectedMemberIndex: number =
+    displayDetails && selectedMember ? members.indexOf(selectedMember) : -1;
 
   const { width } = useScreenSize();
   const LAPTOP_COLUMNS = 4;
@@ -295,25 +299,79 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   };
 
   const onCloseMemberDetails = () => setSelectedMember(undefined);
+  const onMemberCardClick = (member: IdolMember) => {
+    setSelectedMember(member.netid === selectedMember?.netid ? undefined : member);
+    if (member.netid !== selectedMember?.netid) {
+      requestAnimationFrame(() =>
+        memberDetailsRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+      );
+    }
+  };
 
-  return (
-    <>
-      {isCard ? (
-        <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
+  return isCard ? (
+    <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
+      {members.map((member, index) => (
+        <>
+          <button
+            onClick={() => onMemberCardClick(member)}
+            className="memberCard custom-focus-state"
+            aria-label={`open ${member.firstName} ${member.lastName}'s details`}
+          >
+            <MemberCard
+              {...member}
+              key={member.netid}
+              image={`team/${member.netid}.jpg`}
+              cardState={selectedMember ? index - selectedMemberIndex : undefined}
+            />
+          </button>
+          {selectedMember && canInsertMemberDetails(index) && (
+            <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
+              <MemberDetails
+                {...selectedMember}
+                image={`team/${selectedMember.netid}.jpg`}
+                onClose={onCloseMemberDetails}
+              />
+            </div>
+          )}
+        </>
+      ))}
+    </div>
+  ) : (
+    (selectedRole === roleName || selectedRole === 'Full Team') && (
+      <div className="md:mb-[120px] xs:mb-10">
+        <h2 className="font-semibold md:text-[32px] xs:text-2xl">{`${roleName} ${
+          roleName !== 'Leads' ? '' : 'Team'
+        }`}</h2>
+        <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
+        <div
+          className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
+              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+        >
           {members.map((member, index) => (
             <>
-              <MemberCard
-                {...member}
-                key={member.netid}
-                image="martha.png"
-                onClick={() => setSelectedMember(member === selectedMember ? undefined : member)}
-                cardState={selectedMember ? index - selectedMemberIndex : undefined}
-              />
-              {selectedMember && canInsertMemberDetails(index) && (
-                <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
+              <button
+                onClick={() => onMemberCardClick(member)}
+                className="memberCard custom-focus-state"
+                aria-label={`open ${member.firstName} ${member.lastName}'s details`}
+              >
+                <MemberCard
+                  {...member}
+                  key={member.netid}
+                  image={`team/${member.netid}.jpg`}
+                  cardState={selectedMember ? index - selectedMemberIndex : undefined}
+                />
+              </button>
+              {selectedMember && canInsertMemberDetails(index) && displayDetails && (
+                <div
+                  className="lg:col-span-4 md:col-span-3 xs:col-span-2"
+                  ref={canInsertMemberDetails(index) ? memberDetailsRef : undefined}
+                >
                   <MemberDetails
                     {...selectedMember}
-                    image="martha.png"
+                    image={`team/${selectedMember.netid}.jpg`}
                     onClose={onCloseMemberDetails}
                   />
                 </div>
@@ -321,47 +379,8 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             </>
           ))}
         </div>
-      ) : (
-        (selectedRole === roleName || selectedRole === 'Full Team') && (
-          <div className="md:mb-[120px] xs:mb-10">
-            <h2 className="font-semibold md:text-[32px] xs:text-2xl">{`${roleName} ${
-              roleName !== 'Leads' ? '' : 'Team'
-            }`}</h2>
-            <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
-            <div
-              className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-          xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-            >
-              {members.map((member, index) => (
-                <>
-                  <MemberCard
-                    {...member}
-                    key={member.netid}
-                    image="martha.png"
-                    onClick={() =>
-                      setSelectedMember(member === selectedMember ? undefined : member)
-                    }
-                    cardState={selectedMember ? index - selectedMemberIndex : undefined}
-                  />
-                  {selectedMember && canInsertMemberDetails(index) && (
-                    <div
-                      className="lg:col-span-4 md:col-span-3 xs:col-span-2"
-                      ref={memberDetailsRef}
-                    >
-                      <MemberDetails
-                        {...selectedMember}
-                        image="martha.png"
-                        onClose={onCloseMemberDetails}
-                      />
-                    </div>
-                  )}
-                </>
-              ))}
-            </div>
-          </div>
-        )
-      )}
-    </>
+      </div>
+    )
   );
 };
 

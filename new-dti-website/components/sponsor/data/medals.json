@@ -1,32 +1,32 @@
 {
-    "medals": {
-        "bronze": {
-            "standard": "/icons/sponsorship/bronze.svg",
-            "shadow": "/icons/sponsorship/bronze_shadow.svg",
-            "sticker": "/icons/sponsorship/bronze_sticker.svg",
-            "width": 61,
-            "widthSelected": 92
-        },
-        "silver": {
-            "standard": "/icons/sponsorship/silver.svg",
-            "shadow": "/icons/sponsorship/silver_shadow.svg",
-            "sticker": "/icons/sponsorship/silver_sticker.svg",
-            "width": 49,
-            "widthSelected": 82
-        },
-        "gold": {
-            "standard": "/icons/sponsorship/gold.svg",
-            "shadow": "/icons/sponsorship/gold_shadow.svg",
-            "sticker": "/icons/sponsorship/gold_sticker.svg",
-            "width": 45,
-            "widthSelected": 82
-        },
-        "platinum": {
-            "standard": "/icons/sponsorship/platinum.svg",
-            "shadow": "/icons/sponsorship/platinum_shadow.svg",
-            "sticker": "/icons/sponsorship/platinum_sticker.svg",
-            "width": 76,
-            "widthSelected": 106
-        }
-    }   
+  "medals": {
+    "bronze": {
+      "standard": "/icons/sponsorship/bronze.svg",
+      "shadow": "/icons/sponsorship/bronze_shadow.svg",
+      "sticker": "/icons/sponsorship/bronze_sticker.svg",
+      "width": 61,
+      "widthSelected": 92
+    },
+    "silver": {
+      "standard": "/icons/sponsorship/silver.svg",
+      "shadow": "/icons/sponsorship/silver_shadow.svg",
+      "sticker": "/icons/sponsorship/silver_sticker.svg",
+      "width": 49,
+      "widthSelected": 82
+    },
+    "gold": {
+      "standard": "/icons/sponsorship/gold.svg",
+      "shadow": "/icons/sponsorship/gold_shadow.svg",
+      "sticker": "/icons/sponsorship/gold_sticker.svg",
+      "width": 45,
+      "widthSelected": 82
+    },
+    "platinum": {
+      "standard": "/icons/sponsorship/platinum.svg",
+      "shadow": "/icons/sponsorship/platinum_shadow.svg",
+      "sticker": "/icons/sponsorship/platinum_sticker.svg",
+      "width": 76,
+      "widthSelected": 106
+    }
+  }
 }

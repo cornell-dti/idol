@@ -12,6 +12,7 @@ import {
 } from '../src/API/coffeeChatAPI';
 import { setMember, deleteMember } from '../src/API/memberAPI';
 import { PermissionError } from '../src/utils/errors';
+import { getGeneralRoleFromLeadType } from '../src/utils/memberUtil';
 
 const user = fakeIdolMember();
 const user2 = fakeIdolMember();
@@ -94,6 +95,20 @@ describe('User is not lead or admin', () => {
       new PermissionError('Clearing all Coffee Chats is disabled')
     );
   });
+
+  test('getCoffeeChatsByUser user can fetch own coffee chats', async () => {
+    const coffeeChats = await getCoffeeChatsByUser(user, user.email);
+    expect(coffeeChats.length).toBeGreaterThan(0);
+    expect(CoffeeChatDao.prototype.getCoffeeChatsByUser).toBeCalled();
+  });
+
+  test("getCoffeeChatsByUser should throw error if non-admin requests for other user's coffee chats", async () => {
+    expect(getCoffeeChatsByUser(user, user2.email)).rejects.toThrow(
+      new PermissionError(
+        `User with email ${user.email} does not have permissions to get coffee chats for user with email ${user2.email}.`
+      )
+    );
+  });
 });
 
 describe('User is lead or admin', () => {
@@ -141,7 +156,7 @@ describe('User is lead or admin', () => {
   });
 
   test('getCoffeeChatsByUser should return user coffee chats', async () => {
-    const coffeeChats = await getCoffeeChatsByUser(adminUser);
+    const coffeeChats = await getCoffeeChatsByUser(adminUser, user.email);
     expect(coffeeChats.length).toBeGreaterThan(0);
     expect(CoffeeChatDao.prototype.getCoffeeChatsByUser).toBeCalled();
   });
@@ -176,24 +191,20 @@ describe('User is lead or admin', () => {
 
 describe('More complicated member meets category checks', () => {
   const admin = { ...fakeIdolLead() };
-  const user1 = { ...fakeIdolMember(), subteams: ['team1'], role: 'developer' };
-  const user2 = { ...fakeIdolMember(), role: 'pm', subteams: ['team2'] };
-  const user3 = { ...fakeIdolMember(), role: 'pm', subteams: ['team1'] };
-  const user4 = { ...fakeIdolMember(), role: 'business' };
-  const user5 = { ...fakeIdolMember(), role: 'tpm', subteams: ['team3'] };
-  const user6 = { ...fakeIdolMember(), role: 'tpm', subteams: ['team1'] };
-  const user7 = { ...fakeIdolMember(), role: 'lead' };
-  const memberProperties7 = { leadType: 'pm' };
-  const user8 = { ...fakeIdolMember(), role: 'lead' };
-  const memberProperties8 = { leadType: 'developer' };
-  const user9 = { ...fakeIdolMember(), role: 'lead' };
-  const user10 = { ...fakeIdolMember(), role: 'lead' };
+  const user1 = { ...fakeIdolMember(), subteams: ['team1'], role: 'developer' as Role };
+  const user2 = { ...fakeIdolMember(), role: 'pm' as Role, subteams: ['team2'] };
+  const user3 = { ...fakeIdolMember(), role: 'pm' as Role, subteams: ['team1'] };
+  const user4 = { ...fakeIdolMember(), role: 'business' as Role };
+  const user5 = { ...fakeIdolMember(), role: 'tpm' as Role, subteams: ['team3'] };
+  const user6 = { ...fakeIdolMember(), role: 'tpm' as Role, subteams: ['team1'] };
+  const user7 = { ...fakeIdolMember(), role: 'product-lead' as Role };
+  const user8 = { ...fakeIdolMember(), role: 'dev-lead' as Role };
+  const user9 = { ...fakeIdolMember(), role: 'ops-lead' as Role };
+  const user10 = { ...fakeIdolMember(), role: 'ops-lead' as Role };
 
   beforeAll(async () => {
     const users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];
     await Promise.all(users.map((user) => setMember(user, admin)));
-    await CoffeeChatDao.createMemberProperties(user7.email, memberProperties7);
-    await CoffeeChatDao.createMemberProperties(user8.email, memberProperties8);
   });
 
   afterAll(async () => {
@@ -273,7 +284,7 @@ describe('More complicated member meets category checks', () => {
     );
     expect(result.status).toBe('fail');
     expect(result.message).toBe(
-      `${user8.firstName} ${user8.lastName} is a lead, but from the same role (${memberProperties8.leadType}) as ${user1.firstName} ${user1.lastName}`
+      `${user8.firstName} ${user8.lastName} is a lead, but from the same role (${getGeneralRoleFromLeadType(user8.role)}) as ${user1.firstName} ${user1.lastName}`
     );
   });
 
@@ -285,35 +296,5 @@ describe('More complicated member meets category checks', () => {
     );
     expect(result.status).toBe('fail');
     expect(result.message).toBe(`${user4.firstName} ${user4.lastName} is not a lead`);
-  });
-
-  test('should pass but otherMemberProperties undefined', async () => {
-    const result = await checkMemberMeetsCategory(
-      user9.email,
-      user1.email,
-      'a lead (not your role)'
-    );
-    expect(result.status).toBe('no data');
-    expect(result.message).toBe('');
-  });
-
-  test('should pass but submitterProperties undefined', async () => {
-    const result = await checkMemberMeetsCategory(
-      user7.email,
-      user9.email,
-      'a lead (not your role)'
-    );
-    expect(result.status).toBe('no data');
-    expect(result.message).toBe('');
-  });
-
-  test('both submitterProperties and otherMemberProperties undefined', async () => {
-    const result = await checkMemberMeetsCategory(
-      user9.email,
-      user10.email,
-      'a lead (not your role)'
-    );
-    expect(result.status).toBe('no data');
-    expect(result.message).toBe('');
   });
 });

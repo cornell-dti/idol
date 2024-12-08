@@ -1,0 +1,40 @@
+{
+  "testimonials": [
+    {
+      "description": "Trends in Web Development has been an incredibly valuable course, equipping me with practical skills and knowledge that will greatly benefit my future career. The final project was a rewarding experience, allowing me to put my new skills into practice and create a project I'm proud of!",
+      "name": "Juju Crane",
+      "semesterTaken": "Fall 2024",
+      "profileImage": "/course/testimonials/jlc565.jpg"
+    },
+    {
+      "description": "This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!",
+      "name": "Serkan Aymaz",
+      "semesterTaken": "Fall 2024",
+      "profileImage": "/course/testimonials/sa2392.jpg"
+    },
+    {
+      "description": "This course taught me a lot of useful tools that align with industry-standards. The instructors were all very communicative and engaging. The final project gave me a chance to work with my peers on a fun project that can solve real-world problems!",
+      "name": "Katie Xiao",
+      "semesterTaken": "Fall 2024",
+      "profileImage": "/course/testimonials/jx385.jpg"
+    },
+    {
+      "description": "Trends taught the foundations for being a full-stack web developer. Some units required an additional bit of understanding of other languages like HTML and CSS, but overall the class gave a good starting point to learning web development.",
+      "name": "Lauren Pothuru",
+      "semesterTaken": "Fall 2024",
+      "profileImage": "/course/testimonials/lsp75.jpg"
+    },
+    {
+      "description": "Trends was a great class because of the hands-on webdev practice you get. It helped me see web development as a whole, and also gave me a project that I could use in my portfolio!",
+      "name": "Ryan Qiu",
+      "semesterTaken": "Fall 2024",
+      "profileImage": "/course/testimonials/rwq3.jpg"
+    },
+    {
+      "description": "I took Trends my freshman fall and it has been one of my favorite experiences at Cornell. I didn't really know anything about web development before taking the class, but the class gave me so much practical knowledge. As a senior, I still utilize the skills I learned in Trends across my current projects and a past internship!",
+      "name": "Reid Fleishman",
+      "semesterTaken": "Fall 2021",
+      "profileImage": "/course/testimonials/rf377.jpg"
+    }
+  ]
+}

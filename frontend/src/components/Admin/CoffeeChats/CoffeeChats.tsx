@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { createHash } from 'crypto';
+import { Button } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 
@@ -57,6 +58,11 @@ const CoffeeChats: React.FC = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div className={styles.buttonContainer}>
+        <Link href="/admin/coffee-chats/dashboard">
+          <Button>View Coffee Chats Dashboard</Button>
+        </Link>
       </div>
     </div>
   );

@@ -11,6 +11,8 @@
     "update-dev-db": "esr scripts/update-dev-db.ts",
     "send-profile-update-notifications": "esr scripts/send-profile-update-notifications.ts",
     "send-tec-notifications": "esr scripts/send-tec-notifications.ts",
+    "pull-from-idol-images": "esr scripts/pull-from-idol-images.ts",
+    "create-idol-images-pr": "esr scripts/create-idol-images-pr.ts",
     "backup-prod-db": "esr scripts/backup-prod-db.ts",
     "restore-from-backup": "esr scripts/restore-from-backup.ts",
     "shoutout-leaderboard": "esr scripts/shoutout-leaderboard.ts"
@@ -42,6 +44,7 @@
     "netlify-lambda": "^2.0.14",
     "nodemailer": "^6.7.3",
     "serverless-http": "^2.5.0",
+    "sharp": "^0.33.5",
     "typescript": "^4.4.3",
     "uuid": "^8.3.2",
     "winston": "^3.8.2"

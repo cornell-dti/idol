@@ -1,0 +1,39 @@
+.dashboardContainer {
+  margin: 3%;
+  width: 100%;
+}
+
+.tableContainer {
+  max-width: 95%;
+  overflow-y: auto;
+  overflow-x: scroll;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: right;
+}
+
+.nameCell {
+  position: sticky;
+  left: 0;
+  display: block;
+  background-color: white;
+  min-width: 250px;
+}
+
+.csvButton {
+  padding-left: 30%;
+  padding-right: 5%;
+  padding-bottom: 0.5em;
+}
+
+.remindButton {
+  position: sticky;
+  left: 35%;
+}
+
+.notify {
+  position: absolute;
+  right: 1%;
+}

@@ -1,64 +1,65 @@
 {
-  "product": {
-    "roleName": "Product Manager",
-    "icon": { "src": "/icons/product_sticker.svg", "width": 90, "height": 90 },
+  "development": {
+    "roleName": "Developer",
+    "icon": { "src": "/icons/dev_sticker.svg", "width": 96, "height": 90 },
     "skills": [
-      "excellent organization skills in either Notion, G-Suite, Jira, etc",
-      "understanding of the product and design cycle as well as the technical stack",
-      "knowledge of DTI's culture and product branding",
-      "eagerness to develop and maintain team culture!"
+      "A curious, inventive and communicative investigator",
+      "Eagerness to learn new technologies and applications",
+      "Experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required)"
     ],
     "responsibilities": [
-      "delivering the product by guiding products throughout their execution cycle",
-      "bridging the communication gaps between designers and developers",
-      "prioritizing requirements and tasks for delivery",
-      "collaborating and working with other student organizations on campus"
+      "Work as the backbone of the project to bring concepts to reality",
+      "Front-end developers: implement mockups, balancing project constraints ",
+      "Back-end developers: organize and manipulate processed data to create informed and practical data sources",
+      "Conduct code reviews to ensure quality and consistency"
     ]
   },
   "design": {
     "roleName": "Designer",
     "icon": { "src": "/icons/design_sticker.svg", "width": 90, "height": 90 },
     "skills": [
-      "knowledge of product thinking, empathy and creativity to solve problems",
-      "openness to feedback and willingness to critique",
-      "case study/portfolio project recommended",
-      "experience in Figma, Sketch, Photoshop or similar recommended"
+      "Knowledge of product thinking, empathy and creativity to solve problems",
+      "Openness to feedback and willingness to critique",
+      "Case study/portfolio project recommended",
+      "Experience in Figma, Sketch, Photoshop or similar recommended"
     ],
     "responsibilities": [
-      "make high-level strategic decisions for the product you're working on",
-      "conduct user and market research, interviewing target audiences",
-      "design low, medium, high fidelity mockups, prototypes",
+      "Make high-level strategic decisions for the product you're working on",
+      "Conduct user and market research, interviewing target audiences",
+      "Design low, medium, high fidelity mockups, prototypes",
       "Iterate based on critique, feedback and user testing"
-    ]
-  },
-  "development": {
-    "roleName": "Developer",
-    "icon": { "src": "/icons/dev_sticker.svg", "width": 96, "height": 90 },
-    "skills": [
-      "a curious, inventive and communicative investigator",
-      "eagerness to learn new technologies and applications",
-      "experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required!)"
-    ],
-    "responsibilities": [
-      "work as the backbone of the project to bring concepts to reality",
-      "front-end developers: implement mockups, balancing project constraints ",
-      "back-end developers: organize and manipulate processed data to create informed and practical data sources"
     ]
   },
   "business": {
     "roleName": "Business",
     "icon": { "src": "/icons/business_sticker.svg", "width": 90, "height": 90 },
     "skills": [
-      "passion for projects that focus on impact and initiative",
-      "creativity to create new product visions with innovation",
-      "takes initiative to connect with members of the DTI community and beyond",
-      "knowledge of coding or business is NOT required"
+      "Passion for projects that focus on impact and initiative",
+      "Creativity to create new product visions with innovation",
+      "Takes initiative to connect with members of the DTI community and beyond",
+      "Knowledge of coding or business is NOT required"
     ],
     "responsibilities": [
-      "develop strategies for teams to outreach and market their products",
-      "reach out to corporate partners to become Sponsors for DTI",
-      "innovate processes and create new team building events to boost team culture",
-      "bolster social media presence and enhance the presence of DTI online"
+      "Develop strategies for teams to outreach and market their products",
+      "Reach out to corporate partners to become Sponsors for DTI",
+      "Innovate processes and create new team building events to boost team culture",
+      "Bolster social media presence and enhance the presence of DTI online"
+    ]
+  },
+  "product": {
+    "roleName": "Product Manager",
+    "icon": { "src": "/icons/product_sticker.svg", "width": 90, "height": 90 },
+    "skills": [
+      "Excellent organization skills in either Notion, G-Suite, Jira, etc",
+      "Understanding of the product and design cycle as well as the technical stack",
+      "Knowledge of DTI's culture and product branding",
+      "Eagerness to develop and maintain team culture"
+    ],
+    "responsibilities": [
+      "Delivering the product by guiding products throughout their execution cycle",
+      "Bridging the communication gaps between designers and developers",
+      "Prioritizing requirements and tasks for delivery",
+      "Collaborating and working with other student organizations on campus"
     ]
   }
 }

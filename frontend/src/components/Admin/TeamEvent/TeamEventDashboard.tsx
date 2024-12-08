@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
+import { ADVISOR_ROLES, LEAD_ROLES } from 'common-types/constants';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import {
@@ -112,22 +113,24 @@ const TeamEventDashboard: React.FC = () => {
                 all={true}
                 trigger={
                   <Button className={styles.remindButton} size="small" color="red">
-                    Remind All
+                    Remind All (Excludes Advisors)
                   </Button>
                 }
                 members={allMembers.filter((member) => {
+                  if (ADVISOR_ROLES.includes(member.role)) return false;
                   const totalCredits = teamEvents.reduce(
                     (val, event) => val + calculateTotalCreditsForEvent(member, event),
                     0
                   );
                   return (
                     totalCredits <
-                    (member.role === 'lead'
+                    (LEAD_ROLES.includes(member.role)
                       ? REQUIRED_LEAD_TEC_CREDITS
                       : REQUIRED_MEMBER_TEC_CREDITS)
                   );
                 })}
                 endOfSemesterReminder={endOfSemesterReminder}
+                type={'tec'}
               />
               <Checkbox
                 className={styles.endOfSemesterCheckbox}
@@ -150,8 +153,12 @@ const TeamEventDashboard: React.FC = () => {
               const initiativeCredits = getInitiativeCredits(member, teamEvents);
               const totalCreditsMet =
                 totalCredits >=
-                (member.role === 'lead' ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS);
+                (LEAD_ROLES.includes(member.role)
+                  ? REQUIRED_LEAD_TEC_CREDITS
+                  : REQUIRED_MEMBER_TEC_CREDITS);
               const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
+
+              const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
               return (
                 <Table.Row>
@@ -160,9 +167,16 @@ const TeamEventDashboard: React.FC = () => {
                     {!totalCreditsMet && (
                       <NotifyMemberModal
                         all={false}
-                        trigger={<Icon className={styles.notify} name="exclamation" color="red" />}
+                        trigger={
+                          isAdvisor ? (
+                            <div />
+                          ) : (
+                            <Icon className={styles.notify} name="exclamation" color="red" />
+                          )
+                        }
                         member={member}
                         endOfSemesterReminder={endOfSemesterReminder}
+                        type={'tec'}
                       />
                     )}
                   </Table.Cell>

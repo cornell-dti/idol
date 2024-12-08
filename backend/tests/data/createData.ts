@@ -29,13 +29,14 @@ const fakeSubteams = (): string[] => {
 };
 
 const fakeRoleObject = () => {
-  const roles: Role[] = ['tpm', 'pm', 'developer', 'designer', 'business'];
+  const roles: Role[] = ['tpm', 'pm', 'apm', 'developer', 'designer', 'business'];
   const role_descriptions: RoleDescription[] = [
     'Technical PM',
     'Product Manager',
+    'Associate PM',
     'Developer',
     'Designer',
-    'Business Analyst'
+    'Business'
   ];
 
   // pick one item at random from each list
@@ -57,6 +58,7 @@ export const fakeIdolMember = (): IdolMember => {
     hometown: faker.address.city(),
     about: faker.lorem.paragraph(),
     subteams: fakeSubteams(),
+    semesterJoined: fakeYear(),
     ...fakeRoleObject()
   };
   return member;
@@ -66,8 +68,8 @@ export const fakeIdolMember = (): IdolMember => {
 export const fakeIdolLead = (): IdolMember => {
   const member = {
     ...fakeIdolMember(),
-    role: 'Lead',
-    roleDescription: 'lead'
+    role: 'ops-lead' as Role,
+    roleDescription: 'Full Team Lead' as RoleDescription
   };
   return member;
 };
@@ -96,7 +98,8 @@ export const fakeTeamEvent = (): TeamEvent => {
     requests: [fakeTeamEventAttendance()],
     attendees: [],
     uuid: faker.datatype.uuid(),
-    isInitiativeEvent: getRandomBoolean()
+    isInitiativeEvent: getRandomBoolean(),
+    maxCredits: ''
   };
   return TE;
 };
@@ -122,6 +125,7 @@ export const fakeDevPortfolioSubmission = (): DevPortfolioSubmission => {
     member: fakeIdolMember(),
     openedPRs: fakePRs(),
     reviewedPRs: fakePRs(),
+    otherPRs: fakePRs(),
     status: 'pending'
   };
   return DPSub;
@@ -203,7 +207,7 @@ export const fakeCandidateDeciderInstance = (): CandidateDeciderInstance => {
     headers: [''],
     candidates: [fakeCandidateDeciderCandidate()],
     authorizedMembers: [fakeIdolMember()],
-    authorizedRoles: [fakeRoleObject()]
+    authorizedRoles: [fakeRoleObject().role]
   };
   return CDI;
 };
@@ -217,8 +221,9 @@ export const fakeCoffeeChat = (): CoffeeChat => {
     isNonIDOLMember: false,
     slackLink: '',
     category: 'test',
-    status: 'pending',
-    date: Date.now()
+    status: 'pending' as Status,
+    date: Date.now(),
+    memberMeetsCategory: 'no data' as MemberMeetsCategoryStatus
   };
   return CC;
 };

@@ -1,28 +1,33 @@
 import React, { useState } from 'react';
-import { Form, TextArea } from 'semantic-ui-react';
+import { Form, Select, TextArea } from 'semantic-ui-react';
+import { ALL_COLLEGES, LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
+import styles from './UserProfile.module.css';
 
 const UserProfile: React.FC = () => {
   const userEmail = useUserEmail();
   const userInfoBeforeEdit = useSelf();
   const userRole = userInfoBeforeEdit?.role ?? ('' as Role);
-  const isNotLead = userRole !== 'lead';
+  const isNotLead = !LEAD_ROLES.includes(userRole);
 
   const [firstName, setFirstName] = useState(userInfoBeforeEdit?.firstName ?? '');
   const [lastName, setLastName] = useState(userInfoBeforeEdit?.lastName ?? '');
   const [pronouns, setPronouns] = useState(userInfoBeforeEdit?.pronouns ?? '');
+  const [semesterJoined, setSemesterJoined] = useState(userInfoBeforeEdit?.semesterJoined ?? '');
   const [graduation, setGraduation] = useState(userInfoBeforeEdit?.graduation ?? '');
   const [major, setMajor] = useState(userInfoBeforeEdit?.major ?? '');
   const [doubleMajor, setDoubleMajor] = useState(userInfoBeforeEdit?.doubleMajor ?? '');
   const [minor, setMinor] = useState(userInfoBeforeEdit?.minor ?? '');
+  const [college, setCollege] = useState(userInfoBeforeEdit?.college ?? '');
   const [hometown, setHometown] = useState(userInfoBeforeEdit?.hometown ?? '');
   const [about, setAbout] = useState(userInfoBeforeEdit?.about ?? '');
   const [website, setWebsite] = useState(userInfoBeforeEdit?.website ?? '');
   const [linkedin, setLinkedin] = useState(userInfoBeforeEdit?.linkedin ?? '');
   const [github, setGithub] = useState(userInfoBeforeEdit?.github ?? '');
+  const [coffeeChatLink, setCoffeeChatLink] = useState(userInfoBeforeEdit?.coffeeChatLink ?? '');
 
   const initialPronouns = userInfoBeforeEdit?.pronouns;
 
@@ -45,7 +50,17 @@ const UserProfile: React.FC = () => {
   const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
 
   const saveProfileInfo = () => {
-    const requiredFields = [firstName, lastName, pronouns, graduation, major, hometown, about];
+    const requiredFields = [
+      firstName,
+      lastName,
+      pronouns,
+      semesterJoined,
+      college,
+      graduation,
+      major,
+      hometown,
+      about
+    ];
     const isValid = requiredFields.every(isFilledOut);
 
     if (isValid) {
@@ -57,15 +72,18 @@ const UserProfile: React.FC = () => {
         pronouns,
         role: userRole,
         roleDescription: getRoleDescriptionFromRoleID(userRole),
+        semesterJoined,
         graduation,
         major,
         doubleMajor: isFilledOut(doubleMajor) ? doubleMajor : null,
         minor: isFilledOut(minor) ? minor : null,
+        college: college as College,
         hometown,
         about,
         website: isFilledOut(website) ? website : null,
         linkedin: isFilledOut(linkedin) ? linkedin : null,
         github: isFilledOut(github) ? github : null,
+        coffeeChatLink: isFilledOut(coffeeChatLink) ? coffeeChatLink : null,
         subteams: userInfoBeforeEdit?.subteams ?? [],
         formerSubteams: userInfoBeforeEdit?.formerSubteams ?? []
       };
@@ -122,6 +140,14 @@ const UserProfile: React.FC = () => {
       <Form.Group widths="equal">
         <Form.Input
           fluid
+          label="Semester Joined"
+          value={semesterJoined}
+          onChange={(event) => setSemesterJoined(event.target.value)}
+          required
+          disabled={isNotLead}
+        />
+        <Form.Input
+          fluid
           label="Graduation"
           value={graduation}
           onChange={(event) => setGraduation(event.target.value)}
@@ -156,6 +182,17 @@ const UserProfile: React.FC = () => {
           value={minor}
           onChange={(event) => setMinor(event.target.value)}
         />
+        <Form.Input
+          control={Select}
+          label="College"
+          value={college}
+          options={ALL_COLLEGES.map((val) => ({ key: val, text: val, value: val }))}
+          placeholder="Select college"
+          onChange={(event, data) => {
+            setCollege(data.value);
+          }}
+          required
+        />
       </Form.Group>
 
       <Form.Input
@@ -187,8 +224,16 @@ const UserProfile: React.FC = () => {
           value={github}
           onChange={(event) => setGithub(event.target.value)}
         />
+        <Form.Input
+          fluid
+          label="Coffee Chat Calendly *"
+          value={coffeeChatLink}
+          onChange={(event) => setCoffeeChatLink(event.target.value)}
+        />
       </Form.Group>
-
+      <span className={styles.coffeeChatLinkFootnote}>
+        *If coffee chat link not provided, your email will be displayed.
+      </span>
       <Form.Button onClick={saveProfileInfo} floated="right">
         Save
       </Form.Button>

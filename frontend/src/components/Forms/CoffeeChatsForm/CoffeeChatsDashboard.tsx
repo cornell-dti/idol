@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 
 import { Icon, Loader, Table } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
-import { Emitters } from '../../../utils';
+import { Emitters, getLinesFromBoard } from '../../../utils';
 import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
 
 const CoffeeChatsDashboard = ({
@@ -13,7 +13,8 @@ const CoffeeChatsDashboard = ({
   setPendingChats,
   setApprovedChats,
   bingoBoard,
-  resetState
+  resetState,
+  userInfo
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
@@ -23,9 +24,11 @@ const CoffeeChatsDashboard = ({
   setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   bingoBoard: string[][];
   resetState: () => void;
+  userInfo: IdolMember;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [openRejected, setOpenRejected] = useState(false);
   const [bingoCount, setBingoCount] = useState(0);
 
@@ -52,17 +55,11 @@ const CoffeeChatsDashboard = ({
 
   const isBingoCell = useMemo(() => {
     const map = new Map<string, boolean>();
-    const size = bingoBoard.length;
 
     const isApprovedLine = (categories: string[]) =>
       categories.every((category) => approvedChats.some((chat) => chat.category === category));
 
-    const linesToCheck = [
-      ...bingoBoard, // Rows
-      ...Array.from({ length: size }, (_, col) => bingoBoard.map((row) => row[col])), // Columns
-      Array.from({ length: size }, (_, i) => bingoBoard[i][i]), // Primary diagonal
-      Array.from({ length: size }, (_, i) => bingoBoard[i][size - 1 - i]) // Secondary diagonal
-    ];
+    const linesToCheck = getLinesFromBoard(bingoBoard);
 
     let newBingoCount = 0;
     linesToCheck.forEach((line) => {
@@ -131,6 +128,7 @@ const CoffeeChatsDashboard = ({
     (category: string) => {
       const chat = allChats.find((chat) => chat.category === category);
       setSelectedChat(chat);
+      setSelectedCategory(category);
       setOpen(true);
     },
     [allChats]
@@ -151,37 +149,43 @@ const CoffeeChatsDashboard = ({
           <strong style={{ color: '#02c002' }}>green</strong>, rejected chats in{' '}
           <strong style={{ color: '#f23e3e' }}>red</strong>, and pending chats in{' '}
           <strong style={{ color: '#7d7d7d' }}>gray</strong>. Bingo rows, columns, or diagonals will
-          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>. Click on a bingo
-          cell to view more details.
+          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>.{' '}
+          <strong>
+            Click on a bingo cell to view more details, or view coffee chat suggestions.
+          </strong>
         </p>
-        <strong>
-          {blackout
-            ? '🎉 Congratulations! You have achieved a blackout! 🎉'
-            : `Bingo Count: ${bingoCount}`}
-        </strong>
       </header>
 
       <div className={styles.container}>
         {isChatLoading ? (
           <Loader active inline />
         ) : (
-          <div className={styles.bingo_board}>
-            {bingoBoard.flat().map((category, index) => (
-              <div key={index} className={getAppearance(category)}>
-                <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
-                  <div className={styles.bingo_text}>{category}</div>
+          <>
+            <strong>
+              {blackout
+                ? '🎉 Congratulations! You have achieved a blackout! 🎉'
+                : `Bingo Count: ${bingoCount}`}
+            </strong>
+            <div className={styles.bingo_board}>
+              {bingoBoard.flat().map((category, index) => (
+                <div key={index} className={getAppearance(category)}>
+                  <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
+                    <div className={styles.bingo_text}>{category}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
       <CoffeeChatModal
         coffeeChat={selectedChat}
+        category={selectedCategory}
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
+        userInfo={userInfo}
       />
 
       <div className={styles.rejected_section}>

@@ -1,17 +1,46 @@
 /** The common types required by more than one workspace. */
 
+/** Overarching team roles for DTI members */
+type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
+
 /** All possible roles for a DTI member */
-type Role = 'lead' | 'tpm' | 'pm' | 'developer' | 'designer' | 'business' | 'dev-advisor';
+type Role =
+  | 'ops-lead'
+  | 'product-lead'
+  | 'dev-lead'
+  | 'design-lead'
+  | 'business-lead'
+  | 'tpm'
+  | 'pm'
+  | 'apm'
+  | 'developer'
+  | 'designer'
+  | 'business'
+  | 'pm-advisor'
+  | 'dev-advisor'
+  | 'design-advisor'
+  | 'business-advisor';
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
-  | 'Lead'
+  | 'Full Team Lead'
+  | 'Product Lead'
+  | 'Developer Lead'
+  | 'Design Lead'
+  | 'Business Lead'
   | 'Technical PM'
   | 'Product Manager'
+  | 'Associate PM'
   | 'Developer'
   | 'Designer'
-  | 'Business Analyst'
-  | 'Dev Advisor';
+  | 'Business'
+  | 'PM Advisor'
+  | 'Dev Advisor'
+  | 'Design Advisor'
+  | 'Business Advisor';
+
+/** The possible colleges an IDOL member could be. */
+type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -20,7 +49,9 @@ interface IdolMember {
   readonly firstName: string;
   readonly lastName: string;
   readonly pronouns: string;
+  readonly semesterJoined: string;
   readonly graduation: string;
+  readonly college?: College;
   readonly major: string;
   readonly doubleMajor?: string | null;
   readonly minor?: string | null;
@@ -33,6 +64,7 @@ interface IdolMember {
   readonly formerSubteams?: readonly string[] | null;
   readonly role: Role;
   readonly roleDescription: RoleDescription;
+  readonly coffeeChatLink?: string | null;
 }
 
 interface IdolMemberDiff {
@@ -62,12 +94,6 @@ interface NovaMember {
   readonly formerSubteams?: string[];
   readonly roleId: string;
   readonly roleDescription: string;
-}
-
-/** The data type used by new DTI website to represent a DTI member. */
-interface MemberProfile extends IdolMember {
-  readonly image?: string | null;
-  readonly coffeeChatLink?: string | null;
 }
 
 interface ProfileImage {
@@ -229,7 +255,13 @@ interface MemberProperties {
   readonly newbie: boolean;
   readonly notCsOrInfosci: boolean;
   readonly ta: boolean;
-  readonly leadType?: Role;
 }
 type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
 type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };
+
+interface MemberDetails {
+  readonly name: string;
+  readonly netid: string;
+}
+
+type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };

@@ -8,3 +8,35 @@ const COFFEE_CHAT_BINGO_BOARD = [
 export default COFFEE_CHAT_BINGO_BOARD;
 
 export const DISABLE_DELETE_ALL_COFFEE_CHATS = true;
+
+export const ALL_ROLES: Role[] = [
+  'ops-lead',
+  'product-lead',
+  'dev-lead',
+  'design-lead',
+  'business-lead',
+  'tpm',
+  'pm',
+  'apm',
+  'developer',
+  'designer',
+  'business',
+  'pm-advisor',
+  'dev-advisor',
+  'design-advisor',
+  'business-advisor'
+];
+
+export const LEAD_ROLES: Role[] = [
+  'ops-lead',
+  'product-lead',
+  'dev-lead',
+  'design-lead',
+  'business-lead'
+];
+export const ADVISOR_ROLES: Role[] = [
+  'pm-advisor',
+  'dev-advisor',
+  'design-advisor',
+  'business-advisor'
+];

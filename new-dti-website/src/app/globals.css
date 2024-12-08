@@ -37,6 +37,17 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --hero-primary: 255, 255, 255;
+    --hero-secondary: 255, 255, 255, 0.7;
+
+    --hero-leading-header-xs: 63px;
+    --hero-leading-header: 120px;
+    --hero-leading-subheader: 50px;
+    --hero-leading-body-text: 20px;
+
+    --hero-header: 100px;
+    --hero-subheader: 40px;
   }
 
   .dark {
@@ -67,6 +78,9 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --hero-primary: 255, 255, 255;
+    --hero-secondary: 255, 255, 255, 0.7;
   }
 }
 
@@ -99,6 +113,16 @@
     font-size: 12px;
     line-height: 14px;
   }
+
+  .primary-button {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+
+  .secondary-button {
+    padding: 9.6px 11.6px;
+    font-size: 16px;
+  }
 }
 
 /* Tablet viewport */
@@ -117,6 +141,16 @@
     font-size: 22px;
     line-height: 26px;
   }
+
+  .primary-button {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+
+  .secondary-button {
+    padding: 13.6px 27.6px;
+    font-size: 18px;
+  }
 }
 
 /* Laptop viewport */
@@ -129,4 +163,146 @@
 
 .section-heading {
   font-weight: 600;
+}
+
+.primary-button {
+  color: #fefefe;
+  background-color: #d63d3d;
+  border-radius: 12px;
+  font-weight: 700;
+  height: fit-content;
+  width: fit-content;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.primary-button:hover {
+  background-color: #a52424;
+}
+
+.primary-button[aria-disabled='true']:hover {
+  background-color: #d63d3d;
+}
+
+.primary-button:focus-visible,
+.secondary-button--red:focus-visible {
+  outline: 3px solid #d63d3d !important;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.secondary-button {
+  color: #fefefe;
+  background-color: black;
+  border-radius: 12px;
+  font-weight: 700;
+  height: fit-content;
+  width: fit-content;
+  border-color: #fefefe;
+  border-width: 3px;
+  border-style: solid;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.secondary-button:hover {
+  color: black;
+  background-color: #fefefe;
+}
+
+.secondary-button--red {
+  color: #d63d3d;
+  background-color: #ededed;
+  border-color: #d63d3d;
+}
+
+.secondary-button--red:hover {
+  color: #fefefe;
+  background-color: #d63d3d;
+}
+
+.secondary-button:focus-visible {
+  outline: 3px solid #fefefe;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+a:focus-visible {
+  outline: 3px solid #d63d3d;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #d63d3d;
+  outline-offset: 3px;
+  transition: outline 0s;
+}
+
+summary {
+  border-radius: 8px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+
+summary::after {
+  content: '';
+  width: 13px;
+  height: 7px;
+  background: url('/icons/dropdown.svg');
+  background-size: cover;
+}
+
+details[open] > summary::after {
+  rotate: 180deg;
+}
+
+.custom-focus-state:focus-visible {
+  outline: none;
+  position: relative;
+}
+
+.custom-focus-state:focus-visible::after {
+  content: '';
+  width: calc(100% + 75px);
+  height: 123px;
+  top: -50px;
+  left: -37px;
+  border-radius: 8px;
+  position: absolute;
+  outline: 3px solid #d63d3d;
+}
+
+.memberCard:focus-visible::after {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+}
+
+.application-role-tab {
+  border-radius: 8px;
+}
+
+.team-carousel-button {
+  position: static;
+}
+
+.team-carousel-button:focus-visible::after {
+  height: 317px;
+  width: calc(100% + 26px);
+  left: -13px;
+  border-radius: 16px;
 }

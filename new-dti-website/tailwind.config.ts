@@ -62,12 +62,26 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
+        },
+        hero: {
+          primary: 'rgb(var(--hero-primary))',
+          secondary: 'rgb(var(--hero-secondary))'
         }
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
+      },
+      lineHeight: {
+        'header-xs': 'var(--hero-leading-header-xs)',
+        header: 'var(--hero-leading-header)',
+        subheader: 'var(--hero-leading-subheader)',
+        'body-text': 'var(--hero-leading-body-text)'
+      },
+      fontSize: {
+        header: 'var(--hero-header)',
+        subheader: 'var(--hero-subheader)'
       },
       keyframes: {
         'accordion-down': {
@@ -85,5 +99,10 @@ module.exports = {
       }
     }
   },
-  plugins: ['tailwindcss-animate']
+  plugins: ['tailwindcss-animate'],
+  safelist: [
+    {
+      pattern: /-?(left|right|top|bottom)-\d+/
+    }
+  ]
 };

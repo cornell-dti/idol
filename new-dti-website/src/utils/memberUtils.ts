@@ -21,7 +21,7 @@ export const populateMembers = (
       roleName: string;
       description: string;
       members: IdolMember[];
-      order: string[];
+      roles: string[];
       color: string;
     };
   },
@@ -31,39 +31,41 @@ export const populateMembers = (
     roleName: string;
     description: string;
     members: IdolMember[];
-    order: string[];
+    roles: string[];
     color: string;
   };
 } =>
   populateObject(roles, (key, value) => {
     const sortedMembers = allMembers
-      .filter((member) =>
-        key === 'developer'
-          ? member.role === 'developer' || member.role === 'tpm' || member.role === 'dev-advisor'
-          : member.role === key
-      )
-      .sort(
-        (mem1, mem2) =>
-          value.order.indexOf(mem1.roleDescription) - value.order.indexOf(mem2.roleDescription)
-      );
+      .filter((member) => value.roles.includes(member.role))
+      .sort((mem1, mem2) => value.roles.indexOf(mem1.role) - value.roles.indexOf(mem2.role));
     return { ...value, members: sortedMembers };
   });
 
-export const getFullRoleFromDescription = (roleDescription: RoleDescription): string => {
-  switch (roleDescription) {
-    case 'Technical PM':
-      return 'Technical Product Manager';
-    default:
-      return roleDescription;
-  }
-};
-
-export const getGeneralRole = (role: Role): Role => {
+export const getGeneralRole = (role: Role): GeneralRole => {
   switch (role) {
+    case 'ops-lead':
+      return 'lead';
+    case 'product-lead':
+      return 'lead';
+    case 'dev-lead':
+      return 'lead';
+    case 'design-lead':
+      return 'lead';
+    case 'business-lead':
+      return 'lead';
     case 'tpm':
       return 'developer';
+    case 'apm':
+      return 'pm';
+    case 'pm-advisor':
+      return 'pm';
     case 'dev-advisor':
       return 'developer';
+    case 'design-advisor':
+      return 'designer';
+    case 'business-advisor':
+      return 'business';
     default:
       return role;
   }
