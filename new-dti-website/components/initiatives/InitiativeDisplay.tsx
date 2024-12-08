@@ -13,20 +13,10 @@ type InitiativeProps = {
   icon: ImageProps;
   image: ImageProps;
   description: string;
-  eventName: string;
   className?: string;
 };
 
-const Initiative = ({
-  title,
-  subtitle,
-  icon,
-  image,
-  description,
-  eventName,
-  className
-}: InitiativeProps) => {
-  const parts = description.split(new RegExp(`(${eventName})`));
+const Initiative = ({ title, subtitle, icon, image, description, className }: InitiativeProps) => {
   const { width } = useScreenSize();
 
   return (
@@ -49,7 +39,7 @@ const Initiative = ({
           width >= LAPTOP_BREAKPOINT ? inter.className : ibm_plex_mono.className
         }`}
       >
-        {parts.map((part, index) => (part === eventName ? <b key={index}>{part}</b> : part))}
+        {description}
       </p>
     </article>
   );
@@ -58,7 +48,6 @@ const Initiative = ({
 const InitiativeDisplay = () => {
   const { width } = useScreenSize();
   const { featured } = initiatives;
-  const parts = featured.description.split(new RegExp(`(${featured.eventName})`));
 
   return (
     <section id="initiative-display" className="bg-white text-black flex justify-center my-24">
@@ -68,11 +57,7 @@ const InitiativeDisplay = () => {
             <div className="flex flex-col gap-8">
               <h3 className="font-semibold text-[40px] leading-[48px]">{featured.subtitle}</h3>
               <p className="font-semibold text-[22px] leading-[26px]">{featured.title}</p>
-              <p className="section-text !leading-[28px]">
-                {parts.map((part, index) =>
-                  part === featured.eventName ? <b key={index}>{part}</b> : part
-                )}
-              </p>
+              <p className="section-text !leading-[28px]">{featured.description}</p>
             </div>
             <div className="flex items-center">
               <Image {...featured.image} className="rounded-xl" />

@@ -82,9 +82,8 @@ export default function Courses() {
                   </h2>
                   <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
                     A project team is meant, above all, to be a learning experience. Given our
-                    mission of <span className="font-black">community impact</span>, we want to help
-                    everyone <span className="font-black">learn and grow</span> through our training
-                    course in <span className="font-black">product development.</span>
+                    mission of community impact, we want to help everyone learn and grow through our
+                    training course in product development.
                   </p>
                 </div>
               </div>

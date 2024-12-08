@@ -39,8 +39,7 @@ const SponsorHero = () => {
             </h2>
             <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
               The generous contributions of our supporters and sponsors allow our team to continue
-              building products and hosting initiatives to{' '}
-              <span className="font-bold">help the Cornell and Ithaca communities.</span>
+              building products and hosting initiatives to help the Cornell and Ithaca communities.
             </p>
             <a href={config.donationLink} className="primary-button">
               Donate now
@@ -99,10 +98,8 @@ const SponsorPage = () => {
               <h3 className="md:text-4xl xs:text-2xl font-semibold">Become a sponsor!</h3>
               <p className="text-lg mb-4">
                 We would love to partner with organizations that share our vision of changing the
-                world. Together, we can{' '}
-                <span className="font-bold">
-                  harness the power of technology to drive change in our communities.
-                </span>
+                world. Together, we can harness the power of technology to drive change in our
+                communities.
               </p>
               <a href="mailto:hello@cornelldti.org" className="primary-button">
                 Contact us

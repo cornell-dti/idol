@@ -28,9 +28,8 @@ const InitiativeHero = () => (
             Invigorating growth
           </h2>
           <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-            What sets us apart from other project teams is our desire to{' '}
-            <span className="font-bold">share our discoveries</span> with other students and members
-            of the greater Ithaca community.
+            What sets us apart from other project teams is our desire to share our discoveries with
+            other students and members of the greater Ithaca community.
           </p>
         </div>
       </div>
