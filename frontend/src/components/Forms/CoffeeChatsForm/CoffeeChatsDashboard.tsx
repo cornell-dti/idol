@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import { Icon, Loader, Table } from 'semantic-ui-react';
+import { Icon, Table } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
@@ -14,7 +14,8 @@ const CoffeeChatsDashboard = ({
   setPendingChats,
   setApprovedChats,
   bingoBoard,
-  resetState
+  resetState,
+  userInfo
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
@@ -24,6 +25,7 @@ const CoffeeChatsDashboard = ({
   setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   bingoBoard: string[][];
   resetState: () => void;
+  userInfo: IdolMember;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
@@ -111,37 +113,37 @@ const CoffeeChatsDashboard = ({
           <strong style={{ color: '#02c002' }}>green</strong>, rejected chats in{' '}
           <strong style={{ color: '#f23e3e' }}>red</strong>, and pending chats in{' '}
           <strong style={{ color: '#7d7d7d' }}>gray</strong>. Bingo rows, columns, or diagonals will
-          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>. Click on a bingo
-          cell to view more details.
+          be highlighted in <strong style={{ color: '#d4af37' }}>yellow</strong>.{' '}
+          <strong>
+            Click on a bingo cell to view more details, or view coffee chat suggestions.
+          </strong>
         </p>
+      </header>
+
+      <div className={styles.container}>
         <strong>
           {blackout
             ? '🎉 Congratulations! You have achieved a blackout! 🎉'
             : `Bingo Count: ${bingoCount}`}
         </strong>
-      </header>
-
-      <div className={styles.container}>
-        {isChatLoading ? (
-          <Loader active inline />
-        ) : (
-          <CoffeeChatsBingoBoard
-            approvedChats={approvedChats}
-            pendingChats={pendingChats}
-            rejectedChats={rejectedChats}
-            isChatLoading={isChatLoading}
-            bingoBoard={bingoBoard}
-            onCellClick={openChatModal}
-            updateBingoCount={setBingoCount}
-          />
-        )}
+        <CoffeeChatsBingoBoard
+          approvedChats={approvedChats}
+          pendingChats={pendingChats}
+          rejectedChats={rejectedChats}
+          isChatLoading={isChatLoading}
+          bingoBoard={bingoBoard}
+          onCellClick={openChatModal}
+          updateBingoCount={setBingoCount}
+        />
       </div>
 
       <CoffeeChatModal
         coffeeChat={selectedChat}
+        category={selectedChat?.category || ''}
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
+        userInfo={userInfo}
       />
 
       <div className={styles.rejected_section}>

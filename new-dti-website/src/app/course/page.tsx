@@ -2,8 +2,8 @@
 
 // *IMPORTS
 import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, { useRef, useState } from 'react';
 
 // *IMPORT DATA
 import experiencesData from '../../../components/course/data/key_experiences.json';
@@ -43,38 +43,16 @@ export default function Courses() {
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in-animate');
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => {
-      section.classList.add('fade-in');
-      observer.observe(section);
-    });
-
-    return () => {
-      sections.forEach((section) => {
-        observer.unobserve(section);
-      });
-    };
-  }, []);
-
   return (
     <>
       <div
         onClick={(event) => {
           const target = event.target as HTMLElement;
           if (
-            !(target.id === 'memberCard' || target.parentElement?.id === 'memberCard') &&
+            !(
+              target.classList.contains('memberCard') ||
+              target.parentElement?.classList.contains('memberCard')
+            ) &&
             !memberDetailsRef.current?.contains(target)
           )
             setSelectedMember(undefined);
@@ -92,10 +70,7 @@ export default function Courses() {
             >
               <div className="flex flex-col gap-y-8 md:gap-y-0">
                 <div>
-                  <h1
-                    className="font-semibold md:text-[100px] xs:text-[52px] md:leading-[120px] 
-          xs:leading-[63px] whitespace-pre"
-                  >
+                  <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs whitespace-pre">
                     OUR <br />
                     <span className="text-[#FF4C4C]">COURSE</span>
                   </h1>
@@ -103,15 +78,13 @@ export default function Courses() {
               </div>
 
               <div className="flex flex-col justify-center gap-6 ">
-                <h2 className="font-bold md:text-[40px] xs:text-2xl">
-                  <span className="text-[#877B7B]">Teaching the</span>{' '}
-                  <span className="italic">community</span>
+                <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
+                  Teaching the community
                 </h2>
-                <p className="md:text-lg xs:text-sm">
+                <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
                   A project team is meant, above all, to be a learning experience. Given our mission
                   of <span className="font-black">community impact</span>, we want to help everyone{' '}
-                  <span className="font-black">learn and grow</span>
-                  through our training course in{' '}
+                  <span className="font-black">learn and grow</span> through our training course in{' '}
                   <span className="font-black">product development.</span>
                 </p>
               </div>
@@ -125,53 +98,54 @@ export default function Courses() {
         {/* WRAPPER */}
         <div
           id="Wrapper"
-          className="flex flex-col py-10 lg:py-20 gap-y-36 md:gap-y-56 lg:gap-y-80 bg-[#EDEDED] text-black "
+          className="flex flex-col pb-10 gap-y-28 md:gap-y-36 lg:gap-y-44 bg-[#EDEDED] text-black "
         >
           {/* LOGO SECTION */}
           <section id="Trends and Web Development">
-            <div className=" flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
+            <div className="flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
               <div ref={trendsLogoRef} className="sticker">
                 <Image
                   src={'/icons/courses/trends_logo.png'}
                   width={450}
                   height={450}
-                  alt="Trends Logo"
+                  alt="Trends Logo composed of the firebase, react, typescript, nodejs, vscode, and DTI logos."
                   unoptimized
                   className="w-72 md:w-96 lg:w-[450px]"
                 />
               </div>
 
               <div className="flex flex-col lg:w-1/2">
-                <div className="font-black text-sm md:text-xl tracking-wider">
-                  MODERN INDUSTRY-LEADING TECHNOLOGY
+                <div className="font-semibold text-sm md:text-xl uppercase text-[16px] tracking-[1px] text-[#666]">
+                  Modern industry-leading technology
                 </div>
 
-                <div className="font-black text-4xl tracking-wider mt-4 md:text-[45px]">
+                <h2 className="font-bold text-4xl mt-4 md:text-[45px]">
                   Trends in Web Development
-                </div>
+                </h2>
 
-                <div className="text-md md:text-2xl mt-8">
+                <div className="md:text-lg mt-8">
                   Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
                   development and best practices used within industry. We cover technologies like
                   TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed
-                  at scale by leading tech companies
+                  at scale by leading tech companies.
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link
+                  <a
                     key="Trends Application"
                     href={config.trendsApplicationLink}
                     className="primary-button"
                   >
                     Apply Now
-                  </Link>
-                  <Link
+                  </a>
+                  <a
                     key="Trends Website"
                     href={config.trendsWebsiteLink}
-                    className="primary-button"
+                    className="secondary-button secondary-button--red"
+                    aria-label="Trends Website"
                   >
                     Learn More
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -192,17 +166,13 @@ export default function Courses() {
 
           {/* TIMELINE SECTION */}
           <section id="Timeline">
-            <div>
-              <Timeline events={timeline_events} currentDate={new Date()} />
-            </div>
+            <Timeline events={timeline_events} currentDate={new Date()} />
           </section>
 
           {/* COURSE STAFF SECTION */}
           <section id="Course Staff">
             <div className="flex flex-col items-center">
-              <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
-                Course Staff
-              </div>
+              <h2 className="font-bold md:text-[45px] xs:text-4xl">Course Staff</h2>
               <div className="pt-14">
                 <MemberGroup
                   members={trends_instructors}
@@ -218,7 +188,7 @@ export default function Courses() {
           {/* PAST STUDENT EXPERIENCES SECTION */}
           <section id="Past Student Experiences">
             <div className="flex flex-col">
-              <div className="font-black text-4xl tracking-wider pl-10 md:pl-32 md:text-[45px] ">
+              <div className="font-bold text-4xl pl-10 md:pl-32 md:text-[45px] ">
                 Past Student Experiences
               </div>
               <TestimonialSlider testimonials={testimonials} />
@@ -228,9 +198,7 @@ export default function Courses() {
           {/* PAST STUDENT PROJECTS SECTION */}
           <section id="Past Student Projects">
             <div className="flex flex-col px-10 md:px-32">
-              <div className="font-black md:text-[45px] xs:text-4xl tracking-wider">
-                Past Student Projects
-              </div>
+              <div className="font-bold md:text-[45px] xs:text-4xl">Past Student Projects</div>
               <div className="md:text-2xl xs:text-lg pt-8">
                 With the right skills, you will be able to create projects like ours.
               </div>
@@ -246,21 +214,6 @@ export default function Courses() {
             </div>
           </section>
         </div>
-
-        {/* STYLING SECTION */}
-        <style>{`
-
-          .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-          }
-
-          .fade-in-animate {
-            opacity: 1;
-            transform: translateY(0);
-          }
-      `}</style>
       </div>
     </>
   );

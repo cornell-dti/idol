@@ -10,7 +10,7 @@
     },
     "image": {
       "src": "/images/tcpl.jpg",
-      "alt": "tcpl",
+      "alt": "a DTI member teaching members of the Ithaca community about technology at the Tompkins County Public Library",
       "width": 563,
       "height": 328
     },
@@ -30,7 +30,7 @@
       },
       "image": {
         "src": "/images/half-baked.jpg",
-        "alt": "half-baked",
+        "alt": "a DTI member presenting a series of graphs at the Half-Baked event",
         "width": 373,
         "height": 263
       },
@@ -49,7 +49,7 @@
       },
       "image": {
         "src": "/images/bigredhacks.jpg",
-        "alt": "bigredhacks",
+        "alt": "a DTI member presenting code at the Big Red Hacks hackathon event",
         "width": 344,
         "height": 263
       },
@@ -68,7 +68,7 @@
       },
       "image": {
         "src": "/images/millennium.jpg",
-        "alt": "millennium",
+        "alt": "DTI members posing in front of the Millennium logo",
         "width": 345,
         "height": 260
       },

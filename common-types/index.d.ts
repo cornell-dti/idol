@@ -258,3 +258,10 @@ interface MemberProperties {
 }
 type MemberMeetsCategoryStatus = 'pass' | 'fail' | 'no data';
 type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: string };
+
+interface MemberDetails {
+  readonly name: string;
+  readonly netid: string;
+}
+
+type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };

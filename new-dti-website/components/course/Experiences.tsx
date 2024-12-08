@@ -32,11 +32,11 @@ export default function Experiences({ icon, title, description }: IconProps) {
             height={150}
             alt={icon}
             unoptimized
-            className="w-24 md:w-[30%]"
+            className="w-24 md:w-[30%] -translate-x-2.5"
           />
-          <div className="text-4xl font-extrabold">{title}</div>
+          <h3 className="text-4xl font-bold">{title}</h3>
         </div>
-        <div className="mt-8 text-lg md:text-md lg:text-2xl">{description}</div>
+        <div className="mt-8 md:text-lg">{description}</div>
       </div>
     </>
   );

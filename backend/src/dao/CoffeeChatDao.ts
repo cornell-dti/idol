@@ -3,7 +3,8 @@ import {
   memberCollection,
   coffeeChatsCollection,
   db,
-  memberPropertiesCollection
+  memberPropertiesCollection,
+  coffeeChatSuggestionsCollection
 } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
@@ -85,12 +86,12 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
   /**
    * Gets all coffee chat that a user has submitted
-   * @param submitter - submitter whose coffee chats should be fetched
+   * @param submitterEmail - email of submitter whose coffee chats should be fetched
    * @param status - the status of fetched coffee chats (optional)
    * @param otherMember - additional filter for coffee chats with otherMember (optional)
    */
   async getCoffeeChatsByUser(
-    submitter: IdolMember,
+    submitterEmail: string,
     status?: Status,
     otherMember?: IdolMember
   ): Promise<CoffeeChat[]> {
@@ -98,7 +99,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
       {
         field: 'submitter',
         comparisonOperator: '==',
-        value: memberCollection.doc(submitter.email)
+        value: memberCollection.doc(submitterEmail)
       }
     ];
 
@@ -171,5 +172,19 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async deleteMemberProperties(email: string): Promise<void> {
     memberPropertiesCollection.doc(email).delete();
+  }
+
+  /**
+   * Gets coffee chat suggestions for a specifc member
+   * @param email - the email of the member
+   * @returns A promise that resolves to a CoffeeChatSuggestions object, or undefined.
+   * Note: This data can be stale, so changes made to member or coffee chat info are not immediately reflected.
+   * The data is currently being updated manually.
+   */
+  static async getCoffeeChatSuggestions(email: string): Promise<CoffeeChatSuggestions | undefined> {
+    return coffeeChatSuggestionsCollection
+      .doc(email)
+      .get()
+      .then((docRef) => docRef.data());
   }
 }

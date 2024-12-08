@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 type Icon = {
   src: string;
@@ -51,12 +50,14 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
       theme === 'dark' ? 'bg-black text-neutral-50' : 'bg-[#F5F5F5] text-[#0C0404]'
     } w-full h-[146px] md:px-10 lg:px-[60px] flex justify-between items-center md:flex-row flex-col`}
   >
-    <div className="sm:w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-sm font-medium flex items-center ">
+    <div
+      className={`sm:w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-sm font-medium flex items-center ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}
+    >
       © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
     </div>
     <div className="flex gap-5 md:h-fit h-screen">
       {socialIcons.map((icon, index) => (
-        <Link
+        <a
           key={index}
           href={icon.link}
           target="_blank"
@@ -70,7 +71,7 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
             height={36}
             alt={icon.alt}
           />
-        </Link>
+        </a>
       ))}
     </div>
   </div>

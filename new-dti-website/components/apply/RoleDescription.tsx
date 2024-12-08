@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import applicationData from './data/applications.json';
 import config from '../../config.json';
 import RedBlob from '../blob';
@@ -16,10 +16,10 @@ const applications = applicationData as {
 };
 
 const RoleDescriptions = () => {
-  const [role, setRole] = useState<string>('product');
+  const [role, setRole] = useState<string>('development');
 
   return (
-    <div className="relative flex justify-center text-[#FEFEFE]">
+    <section id="Role Descriptions" className="relative flex justify-center text-[#FEFEFE]">
       <RedBlob className="top-[-250px] right-[-350px] z-0" intensity={0.5} />
       <div className="relative flex flex-col max-w-5xl w-full gap-11 lg:px-5 md:px-[60px] xs:px-6 z-10">
         <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
@@ -29,7 +29,12 @@ const RoleDescriptions = () => {
           {Object.keys(applications).map((application) => {
             const { icon } = applications[application];
             return (
-              <div className="flex flex-col items-center gap-7" key={application}>
+              <button
+                onClick={() => setRole(application)}
+                aria-label={`Show ${application} questions`}
+                className="flex flex-col items-center gap-7"
+                key={application}
+              >
                 <h3
                   className={`lg:text-[24px] lg:leading-[29px] md:text-[18px] md:leading-[22px] 
                     xs:text-[16px] xs:leading-[19px] ${
@@ -40,23 +45,22 @@ const RoleDescriptions = () => {
                 </h3>
                 <Image
                   src={icon.src}
-                  alt={application}
+                  alt=""
                   width={icon.width}
                   height={icon.height}
-                  className={`${role === application ? '' : 'brightness-50'} cursor-pointer 
-                    lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
-                  onClick={() => setRole(application)}
+                  className={`${role === application ? '' : 'brightness-50'}
+                      lg:h-[90px] md:h-[73px] xs:h-[44px] w-auto`}
                 />
-              </div>
+              </button>
             );
           })}
         </div>
         <div className="flex flex-col gap-5">
-          {Object.keys(applications).map((application) => {
+          {Object.keys(applications).map((application, index) => {
             const roleApplication = applications[application];
             return (
               role === application && (
-                <>
+                <div key={index}>
                   <h3
                     className="font-semibold lg:text-[32px] lg:leading-[38px] md:text-[24px] 
                     md:leading-[29px] xs:text-[22px]"
@@ -71,8 +75,11 @@ const RoleDescriptions = () => {
                       What we're looking for...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
-                      {roleApplication.skills.map((skill) => (
-                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                      {roleApplication.skills.map((skill, index) => (
+                        <li
+                          className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]"
+                          key={index}
+                        >
                           {skill}
                         </li>
                       ))}
@@ -86,36 +93,38 @@ const RoleDescriptions = () => {
                       Responsibilities at a glance...
                     </h3>
                     <ul className="marker:text-[#FEFEFE] list-disc pl-8">
-                      {roleApplication.responsibilities.map((resp) => (
-                        <li className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]">
+                      {roleApplication.responsibilities.map((resp, index) => (
+                        <li
+                          className="md:text-[22px] md:leading-[28px] xs:text-[12px] xs:leading-[14px]"
+                          key={index}
+                        >
                           {resp}
                         </li>
                       ))}
                     </ul>
                   </div>
-                </>
+                </div>
               )
             );
           })}
         </div>
         {isAppOpen() ? (
-          <Link key="Apply Page" href={config.applicationLink} className="primary-button">
+          <a key="Apply Page" href={config.applicationLink} className="primary-button">
             Apply now
-          </Link>
+          </a>
         ) : (
-          <Link
+          <button
             key="Apply Page"
-            href="#"
             className="primary-button opacity-50 cursor-not-allowed"
             onClick={(e) => e.preventDefault()}
             aria-disabled="true"
           >
             Apply now
-          </Link>
+          </button>
         )}
       </div>
       <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />
-    </div>
+    </section>
   );
 };
 

@@ -42,7 +42,10 @@ const MemberDisplay: React.FC = () => {
       onClick={(event) => {
         const target = event.target as HTMLElement;
         if (
-          !(target.id === 'memberCard' || target.parentElement?.id === 'memberCard') &&
+          !(
+            target.classList.contains('memberCard') ||
+            target.parentElement?.classList.contains('memberCard')
+          ) &&
           !memberDetailsRef.current?.contains(target)
         )
           setSelectedMember(undefined);
@@ -51,7 +54,7 @@ const MemberDisplay: React.FC = () => {
       <div className="xs:mx-5 md:mx-10 lg:mx-20 xl:mx-30">
         <div className="flex flex-col gap-[72px] max-w-5xl">
           <div className="flex flex-col lg:w-4/5 md:w-full mt-[100px]">
-            <h1 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h1>
+            <h2 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h2>
             <p className="mt-6 md:text-lg xs:text-sm">
               Learn more about the team at DTI and what we do behind the scenes. Our design,
               development, business, and product teams all strive to use creativity and innovation
@@ -67,22 +70,27 @@ const MemberDisplay: React.FC = () => {
                 key={role.altText}
               >
                 <h3 className="font-semibold md:text-xl xs:text-base mb-4">{role.altText}</h3>
-                <Icon
-                  icon={`${role.src}_base.svg`}
-                  hoverIcon={`${role.src}_sticker.svg`}
-                  activeIcon={`${role.src}_shadow.svg`}
-                  altText={role.altText}
-                  isActive={selectedRole === role.altText}
+                <button
                   onClick={() => {
                     setSelectedRole(role.altText);
                     setSelectedMember(undefined);
                   }}
-                  width={role.width}
-                  height={role.height}
-                  className={`lg:h-[66px] xs:h-[50px] w-auto ${
-                    selectedRole === role.altText ? 'scale-125' : ''
-                  } hover:scale-125`}
-                />
+                  aria-label={`select ${role.altText} role`}
+                >
+                  <Icon
+                    icon={`${role.src}_base.svg`}
+                    hoverIcon={`${role.src}_sticker.svg`}
+                    activeIcon={`${role.src}_shadow.svg`}
+                    altText={''}
+                    ariaLabel={`Show ${role.altText}`}
+                    isActive={selectedRole === role.altText}
+                    width={role.width}
+                    height={role.height}
+                    className={`lg:h-[66px] xs:h-[50px] w-auto ${
+                      selectedRole === role.altText ? 'scale-125' : ''
+                    } hover:scale-125`}
+                  />
+                </button>
               </div>
             ))}
           </div>
