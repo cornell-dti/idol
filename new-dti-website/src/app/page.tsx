@@ -6,6 +6,7 @@ import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import RedBlob from '../../components/blob';
 import { ibm_plex_mono } from './layout';
+import Line from '../../components/home/Line';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
@@ -140,6 +141,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div ref={scrollRef} className="min-h-[10vh]"></div>
+      <Line />
       <Bottom />
     </>
   );
