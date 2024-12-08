@@ -199,7 +199,7 @@ const TeamHero = () => {
                   }`}
                 >
                   <button
-                    className="relative z-10"
+                    className="relative z-10 custom-focus-state team-carousel-button"
                     onClick={() =>
                       setModalShown(index === carouselIndex && width >= TABLET_BREAKPOINT)
                     }

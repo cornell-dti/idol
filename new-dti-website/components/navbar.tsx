@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
           <div className="hidden !justify-self-end w-fit lg:inline-flex flex-row">
             {navbarItems.map((item) => (
               <a
-                className={`hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white ${
+                className={`hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white h-[48px] flex items-center ${
                   pathname === item.url ? 'underline' : ''
                 }`}
                 href={item.url}

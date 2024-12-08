@@ -207,7 +207,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
         </div>
         <button
           onClick={props.onClose}
-          className="cursor-pointer h-min"
+          className="cursor-pointer h-min rounded-md"
           aria-label="Close member details"
         >
           <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
@@ -317,7 +317,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <>
           <button
             onClick={() => onMemberCardClick(member)}
-            className="memberCard"
+            className="memberCard custom-focus-state"
             aria-label={`open ${member.firstName} ${member.lastName}'s details`}
           >
             <MemberCard
@@ -354,7 +354,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <>
               <button
                 onClick={() => onMemberCardClick(member)}
-                className="memberCard"
+                className="memberCard custom-focus-state"
                 aria-label={`open ${member.firstName} ${member.lastName}'s details`}
               >
                 <MemberCard
