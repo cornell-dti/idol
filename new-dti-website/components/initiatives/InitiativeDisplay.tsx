@@ -32,7 +32,7 @@ const Initiative = ({
   return (
     <article className={`flex flex-col gap-10 ${className}`}>
       <div className="flex flex-col gap-[14px]">
-        <div className="flex gap-2 min-h-10 xs:flex-col lg:flex-row">
+        <div className="flex-col gap-2 min-h-10">
           <Image {...icon} />
           <h3 className="font-semibold text-[32px] leading-10">{title}</h3>
         </div>
