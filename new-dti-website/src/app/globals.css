@@ -302,7 +302,6 @@ details[open] > summary::after {
 
 .team-carousel-button:focus-visible::after {
   height: 317px;
-  z-index: 5;
   width: calc(100% + 26px);
   left: -13px;
   border-radius: 16px;
