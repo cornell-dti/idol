@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
+import { getLinesFromBoard } from '../../../utils';
 
 interface CoffeeChatsBingoBoardProps {
   approvedChats: CoffeeChat[];
@@ -8,7 +9,7 @@ interface CoffeeChatsBingoBoardProps {
   rejectedChats: CoffeeChat[];
   isChatLoading: boolean;
   bingoBoard: string[][];
-  onCellClick: (category: string) => void;
+  onCellClick?: (category: string) => void;
   updateBingoCount?: (count: number) => void;
 }
 
@@ -44,14 +45,6 @@ const CoffeeChatsBingoBoard = ({
 
     const isApprovedLine = (categories: string[]) =>
       categories.every((category) => approvedChats.some((chat) => chat.category === category));
-
-    const getLinesFromBoard = (board: string[][]): string[][] => {
-      const rows = board;
-      const cols = board[0].map((_, colIndex) => board.map((row) => row[colIndex]));
-      const diag1 = board.map((row, i) => row[i]);
-      const diag2 = board.map((row, i) => row[row.length - 1 - i]);
-      return [...rows, ...cols, diag1, diag2];
-    };
 
     const linesToCheck = getLinesFromBoard(bingoBoard);
 
@@ -103,7 +96,7 @@ const CoffeeChatsBingoBoard = ({
     <div className={styles.bingo_board}>
       {bingoBoard.flat().map((category, index) => (
         <div key={index} className={getAppearance(category)}>
-          <div className={styles.bingo_cell} onClick={() => onCellClick(category)}>
+          <div className={styles.bingo_cell} onClick={() => onCellClick?.(category)}>
             <div className={styles.bingo_text}>{category}</div>
           </div>
         </div>

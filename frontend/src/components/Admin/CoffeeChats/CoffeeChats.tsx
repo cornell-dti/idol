@@ -11,7 +11,6 @@ const CoffeeChats: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pendingChats, setPendingChats] = useState<CoffeeChat[]>([]);
-  const [specificBingoBoard, setSpecificBingoBoard] = useState<string[][]>([[]]);
   const [specificApprovedChats, setSpecificApprovedChats] = useState<CoffeeChat[]>([]);
   const [specificPendingChats, setSpecificPendingChats] = useState<CoffeeChat[]>([]);
   const [specificRejectedChats, setSpecificRejectedChats] = useState<CoffeeChat[]>([]);
@@ -53,7 +52,7 @@ const CoffeeChats: React.FC = () => {
       setIsChatLoading(false);
     });
 
-    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setSpecificBingoBoard(board));
+    CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   };
 
   return (
@@ -69,8 +68,7 @@ const CoffeeChats: React.FC = () => {
               pendingChats={specificPendingChats}
               rejectedChats={specificRejectedChats}
               isChatLoading={isChatLoading}
-              bingoBoard={specificBingoBoard}
-              onCellClick={() => { }}
+              bingoBoard={bingoBoard}
             />
           </div>
         ) : (
