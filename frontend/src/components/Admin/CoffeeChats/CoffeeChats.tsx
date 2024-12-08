@@ -119,7 +119,7 @@ const CoffeeChats: React.FC = () => {
               setDisplayMembers(!displayMembers);
             }}
           >
-            {!selectedMember ? "View Member Bingo Board" : "Review All Coffee Chats"}
+            {!selectedMember ? 'View Member Bingo Board' : 'Review All Coffee Chats'}
           </button>
           {displayMembers && (
             <ul className={styles.dropdownMenu}>
