@@ -57,19 +57,23 @@ const CoffeeChats: React.FC = () => {
 
   return (
     <div className={styles.flexContainer}>
-      <div className="main-content">
+      <div>
         {selectedMember ? (
-          <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
-            <h2>
-              Bingo Board for {selectedMember.firstName} {selectedMember.lastName}
-            </h2>
-            <CoffeeChatsBingoBoard
-              approvedChats={specificApprovedChats}
-              pendingChats={specificPendingChats}
-              rejectedChats={specificRejectedChats}
-              isChatLoading={isChatLoading}
-              bingoBoard={bingoBoard}
-            />
+          <div>
+            <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
+              <h1>
+                Bingo Board for {selectedMember.firstName} {selectedMember.lastName}
+              </h1>
+            </div>
+            <div className={styles.bingoBoardWrapper}>
+              <CoffeeChatsBingoBoard
+                approvedChats={specificApprovedChats}
+                pendingChats={specificPendingChats}
+                rejectedChats={specificRejectedChats}
+                isChatLoading={isChatLoading}
+                bingoBoard={bingoBoard}
+              />
+            </div>
           </div>
         ) : (
           <div>
@@ -108,7 +112,7 @@ const CoffeeChats: React.FC = () => {
           </Link>
         </div>
       </div>
-      <div className="dropdown-column">
+      <div>
         <div className={styles.dropdownContainer}>
           <button
             className={styles.dropdownButton}
