@@ -44,7 +44,10 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
       <h3
         className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
       >{`${firstName} ${lastName}`}</h3>
-      <p className="w-fit px-3 py-1 rounded-2xl" style={{ backgroundColor: chipColor }}>
+      <p
+        className="w-fit h-[32px] flex items-center px-[12px] py-[4px] rounded-2xl text-[14px]"
+        style={{ backgroundColor: chipColor }}
+      >
         {roleDescription}
       </p>
     </div>
@@ -204,7 +207,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
         </div>
         <button
           onClick={props.onClose}
-          className="cursor-pointer h-min"
+          className="cursor-pointer h-min rounded-md"
           aria-label="Close member details"
         >
           <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
@@ -314,7 +317,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <>
           <button
             onClick={() => onMemberCardClick(member)}
-            className="memberCard"
+            className="memberCard custom-focus-state"
             aria-label={`open ${member.firstName} ${member.lastName}'s details`}
           >
             <MemberCard
@@ -351,7 +354,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <>
               <button
                 onClick={() => onMemberCardClick(member)}
-                className="memberCard"
+                className="memberCard custom-focus-state"
                 aria-label={`open ${member.firstName} ${member.lastName}'s details`}
               >
                 <MemberCard

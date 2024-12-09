@@ -2,11 +2,15 @@
 
 import React from 'react';
 import Image from 'next/image';
+import SectionWrapper from './hoc/SectionWrapper';
 
 const Bottom: React.FC = () => (
   <div className="flex flex-col w-screen h-fit text-white justify-center">
-    <div className="flex flex-col h-fit justify-center items-start px-8 md:flex-row md:px-14 lg:gap-x-12">
-      <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 max-w-[609px] z-10">
+    <SectionWrapper
+      id={'Home Page Bottom section Wrapper 1'}
+      className="flex flex-col h-fit justify-center items-start md:flex-row lg:gap-x-12"
+    >
+      <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 z-10">
         <Image
           className="w-5/12"
           src="/images/teaching_1.svg"
@@ -33,7 +37,9 @@ const Bottom: React.FC = () => (
       </div>
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-y-1 pb-3 md:gap-y-2">
-          <p className="text-neutral-200 text-xs font-bold lg:text-lg">Courses</p>
+          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">
+            Courses
+          </p>
           <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
             Teaching the Cornell Community
           </h2>
@@ -76,9 +82,13 @@ const Bottom: React.FC = () => (
           </a>
         </div>
       </div>
-    </div>
-    <div className="flex flex-col h-fit justify-center items-start py-10 px-8 md:flex-row md:py-20 md:px-16">
-      <div className="flex flex-col w-full py-10 gap-y-10 h-fit max-w-[578px]">
+    </SectionWrapper>
+
+    <SectionWrapper
+      id={'Home Page Bottom section Wrapper 2'}
+      className="flex flex-col h-fit justify-center items-start py-10 md:flex-row md:py-20"
+    >
+      <div className="flex flex-col w-full py-10 gap-y-10 h-fit">
         <Image
           className="w-3/4 self-center"
           src="/images/outreach_1.svg"
@@ -103,41 +113,48 @@ const Bottom: React.FC = () => (
           />
         </div>
       </div>
-      <div className="text-left w-full md:py-10 max-w-[559px]">
+      <div className="text-left w-full md:py-10">
         <div className="flex flex-col gap-y-3 md:gap-y-4">
           <div className="flex flex-col gap-y-1 md:gap-y-2">
-            <p className="text-neutral-200 text-xs font-bold lg:text-lg">Outreach</p>
+            <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">
+              Outreach
+            </p>
             <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
               Expanding reach to our community
             </h2>
           </div>
           <p className="md:text-xs lg:text-lg">
-            We strive to build initiatives not only at Cornell, but also in the{' '}
-            <span className="font-bold">Ithaca community and beyond</span>.
+            We strive to build initiatives not only at Cornell, but also in the Ithaca community and
+            beyond.
           </p>
           <a href="/initiatives" className="primary-button">
             How we give back
           </a>
         </div>
       </div>
-    </div>
-    <div className="flex flex-col h-fit justify-center items-start px-8 py-20 md:flex-row gap-x-10 md:py-24 md:px-16">
+    </SectionWrapper>
+
+    <SectionWrapper
+      id={'Home Page Bottom section Wrapper 3'}
+      className="flex flex-col h-fit justify-center items-start py-20 md:flex-row gap-x-10 md:py-24"
+    >
       <Image
-        className="w-full py-10 md:self-cente md:order-last max-w-[662px]"
+        className="w-full py-10 md:self-cente md:order-last "
         src="/images/team.svg"
         width={377}
         height={286}
         alt="team photo of DTI members"
       />
-      <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 max-w-[389px]">
+      <div className="text-left w-full flex flex-col gap-y-3 md:self-center md:gap-y-5 ">
         <div className="flex flex-col gap-y-1 md:gap-y-2">
-          <p className="text-neutral-200 text-xs font-bold lg:text-lg">Team</p>
+          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium lg:text-lg">
+            Team
+          </p>
           <h3 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h3>
         </div>
         <p className="md:text-xs lg:text-lg">
-          We <span className="font-bold">solve real problems around us</span> to make our community
-          better, while fostering our personal growth to{' '}
-          <span className="font-bold">teach others from our experience.</span>
+          We solve real problems around us to make our community better, while fostering our
+          personal growth to teach others from our experience.
         </p>
         <div className="flex flex-row gap-x-3">
           <a href="/team" className="primary-button">
@@ -148,7 +165,7 @@ const Bottom: React.FC = () => (
           </a>
         </div>
       </div>
-    </div>
+    </SectionWrapper>
   </div>
 );
 

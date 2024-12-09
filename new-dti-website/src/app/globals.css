@@ -186,6 +186,13 @@
   background-color: #d63d3d;
 }
 
+.primary-button:focus-visible,
+.secondary-button--red:focus-visible {
+  outline: 3px solid #d63d3d !important;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
 .secondary-button {
   color: #fefefe;
   background-color: black;
@@ -218,7 +225,27 @@
   background-color: #d63d3d;
 }
 
+.secondary-button:focus-visible {
+  outline: 3px solid #fefefe;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+a:focus-visible {
+  outline: 3px solid #d63d3d;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #d63d3d;
+  outline-offset: 3px;
+  transition: outline 0s;
+}
+
 summary {
+  border-radius: 8px;
   padding-top: 1rem;
   padding-bottom: 1rem;
   list-style: none;
@@ -239,4 +266,43 @@ summary::after {
 
 details[open] > summary::after {
   rotate: 180deg;
+}
+
+.custom-focus-state:focus-visible {
+  outline: none;
+  position: relative;
+}
+
+.custom-focus-state:focus-visible::after {
+  content: '';
+  width: calc(100% + 75px);
+  height: 123px;
+  top: -50px;
+  left: -37px;
+  border-radius: 8px;
+  position: absolute;
+  outline: 3px solid #d63d3d;
+}
+
+.memberCard:focus-visible::after {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+}
+
+.application-role-tab {
+  border-radius: 8px;
+}
+
+.team-carousel-button {
+  position: static;
+}
+
+.team-carousel-button:focus-visible::after {
+  height: 317px;
+  width: calc(100% + 26px);
+  left: -13px;
+  border-radius: 16px;
 }

@@ -3,9 +3,13 @@ import TestimonialCard, { TestimonialCardProps } from './TestimonialCard';
 
 interface TestimonialSliderProps {
   testimonials: TestimonialCardProps[];
+  className?: string;
 }
 
-export default function TestimonialSlider({ testimonials }: TestimonialSliderProps) {
+export default function TestimonialSlider({
+  testimonials,
+  className = ''
+}: TestimonialSliderProps) {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const [scrollAtEnd, setScrollAtEnd] = useState(false);
@@ -45,12 +49,12 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
 
   return (
     <div
-      className="overflow-x-auto pt-14"
+      className={`overflow-x-auto pt-14 ${className}`}
       ref={sliderRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="flex gap-x-12 px-10 sm:px-32 flex-nowrap">
+      <div className="flex gap-x-12 flex-nowrap">
         {testimonials.map((testimonial, index) => (
           <TestimonialCard
             key={index}

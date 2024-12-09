@@ -4,6 +4,7 @@ import ImageCarousel from '../../../components/products/imageCarousel';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import RedBlob from '../../../components/blob';
+import SectionWrapper from '../../../components/hoc/SectionWrapper';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -12,37 +13,27 @@ export default function Page() {
   }));
 
   return (
-    <div className="overflow-x-hidden">
-      <div className="flex justify-center">
-        <div className="flex lg:flex-row flex-col relative lg:px-[10vw] lg:my-24 lg:gap-20 md:space-y-10 h-fit md:my-[130px] md:px-[67px] px-10 md:py-0 py-20">
-          <RedBlob
-            className="-left-[250px] -top-24 scale-50 sm:scale-75 md:scale-100"
-            intensity={0.4}
-          />
-          <div className="md:w-fit md:max-w-[558px] xs:max-w-none z-10">
-            <h1 className="md:text-header md:leading-header text-[48px] font-semibold xs:leading-header-xs">
-              <span className="text-white">OUR </span>
-              <span className="text-red-500">PRODUCTS</span>
+    <div className="overflow-x-hidden md:pt-[100px] xs:pt-9">
+      <SectionWrapper id={'Products Page Hero Section'} className="mb-20 lg:mb-20">
+        <div className="flex lg:flex-row xs:flex-col relative z-10">
+          <div className="mr-24">
+            <h1 className="font-semibold text-white md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
+              OUR <span className="text-[#FF4C4C]">PRODUCTS</span>
             </h1>
           </div>
-          <div className="flex flex-col justify-center w-fit gap-y-6 z-10">
-            <div className="flex flex-row">
-              <h2 className="text-[24px] font-bold md:text-subheader md:leading-subheader text-hero-primary">
-                Real impact
-              </h2>
-            </div>
-            <p className="text-hero-secondary xs:max-w-none md:text-lg md:leading-body-text xs:text-sm md:max-w-md max-w-[314px] z-10">
+          <div className="flex flex-col justify-center gap-6">
+            <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
+              Real impact
+            </h2>
+            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
               Each of our projects address an unfulfilled need that exists in our community using
-              <span className="font-semibold">
-                {' '}
-                human-centered design and software engineering.
-              </span>
+              human-centered design and software engineering.
             </p>
           </div>
         </div>
-      </div>
+      </SectionWrapper>
+
       <ImageCarousel items={productIcons} />
-      <div className="w-full py-12" />
 
       {products.current.map((product, index) => (
         <div key={product.alt}>

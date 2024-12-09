@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react';
 
 import config from '../../config.json';
 import interviewPrep from './data/interviewPrep.json';
+import SectionWrapper from '../hoc/SectionWrapper';
 
 type FAQAccordionProps = {
   header: string;
@@ -9,7 +10,7 @@ type FAQAccordionProps = {
 };
 
 const FAQAccordion = ({ header, children }: FAQAccordionProps) => (
-  <details className="border-transparent border-b-black border-2 cursor-pointer">
+  <details className="border-transparent border-b-[#d5d5d5] border-2 cursor-pointer hover:border-b-[#000000]">
     <summary className="section-subheading">{header}</summary>
     <div className="md:py-5 xs:py-3">{children}</div>
   </details>
@@ -35,12 +36,10 @@ const ApplyFAQ = () => {
 
   return (
     <section id="Apply FAQ" className="relative flex justify-center bg-[#f6f6f6] py-24">
-      <div className="flex flex-col max-w-5xl w-full gap-6 lg:px-5 md:px-[60px] xs:px-6 relative z-10">
+      <SectionWrapper id={'Apply FAQ Wrapper'} className="flex flex-col w-full gap-6 relative z-10">
         <h2 className="font-semibold md:text-[32px] xs:text-[22px]">What's next?</h2>
         <div className="flex flex-col gap-5">
-          <h3 className="section-heading">
-            Learn more about DTI's core values and processes below.
-          </h3>
+          <h3 className="section-heading">Learn more about DTI's application below.</h3>
           <div className="flex md:gap-4 xs:gap-1">{buttons}</div>
         </div>
         <div className="flex flex-col gap-6">
@@ -120,7 +119,7 @@ const ApplyFAQ = () => {
             </div>
           )}
         </div>
-      </div>
+      </SectionWrapper>
     </section>
   );
 };

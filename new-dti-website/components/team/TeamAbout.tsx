@@ -4,6 +4,7 @@ import { ibm_plex_mono } from '../../src/app/layout';
 import members from './data/all-members.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import RedBlob from '../blob';
+import SectionWrapper from '../hoc/SectionWrapper';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 import { getGeneralRole, populateObject } from '../../src/utils/memberUtils';
 import config from '../../config.json';
@@ -167,7 +168,7 @@ const TeamStatistics = () => {
   });
 
   return (
-    <div className="flex md:flex-row xs:flex-col items-center justify-between lg:ml-6 relative z-10">
+    <div className="flex md:flex-row xs:flex-col items-center justify-between relative z-10">
       <div className="flex md:flex-col xs:flex-row lg:gap-y-10 md:gap-y-[30px]">
         <div className="md:pl-6 xs:w-1/3 md:border-l-red-600 md:border-2 border-transparent md:w-fit xs:text-center md:text-left">
           <p className="font-semibold lg:text-[52px] lg:leading-[52px] md:text-[40px] md:leading-[40px] xs:text-[32px] xs:leading-[32px]">
@@ -233,60 +234,57 @@ const TeamStatistics = () => {
 };
 
 const TeamAbout = () => (
-  <div className="relative flex justify-center text-white bg-black overflow-hidden">
+  <div className="relative flex justify-center text-white bg-black overflow-hidden mt-10 lg:mt-20">
     <RedBlob intensity={0.6} className="left-[-200px] top-[200px]" />
-    <div
-      className="flex flex-col gap-12 xs:mx-4 xs:my-[60px]  md:mx-10 md:my-24 
-    lg:m-[70px_100px] xl:m-[115px_240px] 2xl:my-[115px] max-w-5xl relative z-10"
-    >
-      <div className="flex flex-col items-center xs:gap-[30px_0px]">
-        <div className="flex md:flex-row xs:flex-col justify-between gap-[30px] items-center">
-          <div className="flex flex-col md:w-1/2 gap-6">
-            <h2 className="font-semibold text-[32px]">We are Cornell DTI</h2>
-            <p className="md:text-lg xs:text-sm">
-              Founded in 2017, DTI is a project team of{' '}
-              <span className="font-bold">
-                80+ designers, developers, product managers, and business members
-              </span>{' '}
-              passionate about making change on campus and beyond.
-            </p>
+    <SectionWrapper id={'Team Page About Section information'}>
+      <div className="flex flex-col gap-12 relative z-10">
+        <div className="flex flex-col items-center">
+          <div className="flex md:flex-row xs:flex-col justify-between gap-[30px] items-center">
+            <div className="flex flex-col md:w-1/2 gap-6">
+              <h2 className="font-semibold text-[32px]">We are Cornell DTI</h2>
+              <p className="md:text-lg xs:text-sm">
+                Founded in 2017, DTI is a project team of 80+ designers, developers, product
+                managers, and business members passionate about making change on campus and beyond.
+              </p>
+            </div>
+            <div className={`${ibm_plex_mono.className} text-sm`}>
+              <p className="text-left mb-3">@2024</p>
+              <Image
+                src="/images/dti_2024.png"
+                alt="2024 DTI Team"
+                width={490}
+                height={370}
+                className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
+              />
+            </div>
           </div>
-          <div className={`${ibm_plex_mono.className} text-sm`}>
-            <p className="text-left mb-3">@2024</p>
+          <div className={`${ibm_plex_mono.className} text-sm relative w-fit xl:bottom-[84px]`}>
+            <p className="mb-3 text-sm">@2017</p>
             <Image
-              src="/images/dti_2024.png"
-              alt="2024 DTI Team"
-              width={490}
-              height={370}
+              src="/images/dti_2017.png"
+              alt="2017 DTI Team"
+              width={453}
+              height={305}
               className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
             />
           </div>
         </div>
-        <div className={`${ibm_plex_mono.className} text-sm relative w-fit xl:bottom-[84px]`}>
-          <p className="mb-3 text-sm">@2017</p>
-          <Image
-            src="/images/dti_2017.png"
-            alt="2017 DTI Team"
-            width={453}
-            height={305}
-            className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
-          />
+
+        {/* TODO Wrap */}
+        <RedBlob intensity={0.7} className="right-[-500px] top-[600px]" />
+        <div className="lg:w-2/3 md:w-full relative z-10 flex flex-col gap-6">
+          <h2 className="font-semibold text-[32px]">Who we are</h2>
+          <p className="text-lg leading-6">
+            More than just being inclusive, our team strives to bring many backgrounds and
+            perspectives together solve community problems. These statistics come from recruiting
+            across campus and seeking applicants with the best skills and potential for growth on
+            the team. Updated {config.semester}.
+          </p>
         </div>
+        <TeamStatistics />
+        <RedBlob intensity={0.6} className="bottom-[-100px] left-[-400px]" />
       </div>
-      <RedBlob intensity={0.7} className="right-[-500px] top-[600px]" />
-      <div className="lg:w-2/3 md:w-full mt-[63px] relative z-10 flex flex-col gap-6">
-        <h2 className="font-semibold text-[32px]">Who we are</h2>
-        <p className="text-lg leading-6">
-          More than just being inclusive, our team strives to{' '}
-          <span className="font-bold">bring many backgrounds and perspectives together</span> to
-          solve community problems. These statistics come from recruiting across campus and seeking
-          applicants with the best skills and potential for growth on the team. Updated{' '}
-          {config.semester}.
-        </p>
-      </div>
-      <TeamStatistics />
-      <RedBlob intensity={0.6} className="bottom-[-100px] left-[-400px]" />
-    </div>
+    </SectionWrapper>
   </div>
 );
 export default TeamAbout;
