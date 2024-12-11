@@ -221,8 +221,8 @@
 }
 
 .secondary-button--red:hover {
-  color: #fefefe;
-  background-color: #d63d3d;
+  color: #d63d3d;
+  background-color: #f7d8d8;
 }
 
 .secondary-button:focus-visible {
