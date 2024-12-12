@@ -47,11 +47,7 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
       </div>
 
       {/* Smooth transition for the Additional Content onClick */}
-      <div
-        className={`overflow-hidden transition-all motion-reduce:duration-[1500ms] duration-700 motion-safe:ease-in-out ${
-          isOpen ? 'opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
+      <div className={`overflow-hidden ${isOpen ? 'opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="mt-4">
           <p className="text-white text-lg">{description}</p>
           <img src={imageSrc} alt={title} className="mt-4 w-full object-cover rounded-lg" />
