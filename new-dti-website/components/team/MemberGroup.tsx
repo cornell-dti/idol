@@ -30,20 +30,22 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 
   return (
     <div
-      className={`memberCard flex flex-col md:gap-3 xs:gap-2 xs:text-[16px] ${
+      className={`memberCard flex h-full flex-col md:gap-3 xs:gap-2 xs:text-[16px] justify-between ${
         enlarged ? 'md:text-2xl' : 'md:text-lg'
       }`}
     >
-      <img
-        src={image}
-        alt={`${firstName}-${lastName}`}
-        className={`rounded-md ${
-          enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'
-        } object-cover`}
-      />
-      <h3
-        className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
-      >{`${firstName} ${lastName}`}</h3>
+      <div className="flex flex-col md:gap-3 xs:gap-2 justify-between">
+        <img
+          src={image}
+          alt={`${firstName}-${lastName}`}
+          className={`rounded-md ${
+            enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'
+          } object-cover`}
+        />
+        <h3
+          className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
+        >{`${firstName} ${lastName}`}</h3>
+      </div>
       <p
         className="w-fit h-[32px] flex items-center px-[12px] py-[4px] rounded-2xl text-[14px]"
         style={{ backgroundColor: chipColor }}
@@ -65,7 +67,7 @@ type MemberCardProps = {
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
   <Card
-    className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
+    className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit grow ${
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
     }`}
   >
@@ -101,7 +103,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
     : { name: 'No Subteam', link: '' };
 
   return (
-    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px]">
+    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-lg">
       <div className="flex lg:gap-10">
         <div className="w-3/12 lg:flex xs:hidden">
           <MemberSummary {...props} enlarged={true} />
@@ -155,13 +157,13 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                 }`}
               >
                 {link ? (
-                  <a href={link} className="whitespace-nowrap">
+                  <a href={link} className="flex whitespace-nowrap">
                     {name}
+                    {link && <Image src="/icons/link.svg" alt="link" height={20} width={20} />}
                   </a>
                 ) : (
                   <p>{name}</p>
                 )}
-                {link && <Image src="/icons/link.svg" alt="link" height={20} width={20} />}
               </div>
             </div>
             <div className="flex flex-col gap-2 md:w-1/3 xs:w-1/2">
@@ -302,11 +304,12 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   const onMemberCardClick = (member: IdolMember) => {
     setSelectedMember(member.netid === selectedMember?.netid ? undefined : member);
     if (member.netid !== selectedMember?.netid) {
-      requestAnimationFrame(() =>
-        memberDetailsRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        })
+      requestAnimationFrame(
+        () =>
+          memberDetailsRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          })
       );
     }
   };
@@ -317,7 +320,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <>
           <button
             onClick={() => onMemberCardClick(member)}
-            className="memberCard custom-focus-state"
+            className="memberCard flex flex-col items-center custom-focus-state"
             aria-label={`open ${member.firstName} ${member.lastName}'s details`}
           >
             <MemberCard
@@ -354,7 +357,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <>
               <button
                 onClick={() => onMemberCardClick(member)}
-                className="memberCard custom-focus-state"
+                className="memberCard flex flex-col items-center custom-focus-state"
                 aria-label={`open ${member.firstName} ${member.lastName}'s details`}
               >
                 <MemberCard
