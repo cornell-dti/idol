@@ -239,7 +239,7 @@ const TeamAbout = () => (
     <SectionWrapper id={'Team Page About Section information'}>
       <div className="flex flex-col gap-12 relative z-10">
         <div className="flex flex-col items-center">
-          <div className="flex md:flex-row xs:flex-col justify-between gap-[30px] items-center">
+          <div className="flex md:flex-row xs:flex-col justify-between gap-[30px] items-center xs:mb-8 md:mb-0">
             <div className="flex flex-col md:w-1/2 gap-6">
               <h2 className="font-semibold text-[32px]">We are Cornell DTI</h2>
               <p className="md:text-lg xs:text-sm">
@@ -248,7 +248,6 @@ const TeamAbout = () => (
               </p>
             </div>
             <div className={`${ibm_plex_mono.className} text-sm`}>
-              <p className="text-left mb-3">@2024</p>
               <Image
                 src="/images/dti_2024.png"
                 alt="2024 DTI Team"
@@ -256,10 +255,10 @@ const TeamAbout = () => (
                 height={370}
                 className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
               />
+              <p className="text-left mt-3 text-right">@2024</p>
             </div>
           </div>
           <div className={`${ibm_plex_mono.className} text-sm relative w-fit xl:bottom-[84px]`}>
-            <p className="mb-3 text-sm">@2017</p>
             <Image
               src="/images/dti_2017.png"
               alt="2017 DTI Team"
@@ -267,6 +266,7 @@ const TeamAbout = () => (
               height={305}
               className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
             />
+            <p className="mt-3 text-sm text-right">@2017</p>
           </div>
         </div>
 
