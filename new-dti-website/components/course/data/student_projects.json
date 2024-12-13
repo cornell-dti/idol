@@ -17,12 +17,12 @@
     },
     {
       "title": "Off Campus Groups",
-      "description": "Centralized platform to find, join & create new events for OFF-campus events",
+      "description": "Centralized platform to find, join & create new events for OFF-campus events.",
       "imageSrc": "/course/projects/offcampusgroups.jpg"
     },
     {
       "title": "CU Lost and Found",
-      "description": "A platform that helps students recover their lost belongings through crowdsourced data",
+      "description": "A platform that helps students recover their lost belongings through crowdsourced data.",
       "imageSrc": "/course/projects/culostandfound.jpg"
     }
   ]

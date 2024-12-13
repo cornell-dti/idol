@@ -31,9 +31,8 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
 
   return (
     <button
-      className={`transition-all duration-300 ease-in-out text-left ${
-        isOpen ? 'bg-red-500' : 'bg-white'
-      } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
+      className={`transition-all duration-300 ease-in-out text-left bg-white
+         w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
       onClick={toggleCard}
       aria-label={`${isOpen ? 'Minimize' : 'Expand'} ${title} student project`}
     >
@@ -46,7 +45,6 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
         </p>
       </div>
 
-      {/* Smooth transition for the Additional Content onClick */}
       <div className={`overflow-hidden ${isOpen ? 'opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="mt-4">
           <p className="text-white text-lg">{description}</p>
