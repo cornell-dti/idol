@@ -104,7 +104,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
 
   return (
     <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-lg">
-      <div className="flex lg:gap-10">
+      <div className="flex gap-10">
         <div className="w-3/12 lg:flex xs:hidden">
           <MemberSummary {...props} enlarged={true} />
         </div>
@@ -349,10 +349,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
           roleName !== 'Leads' ? '' : 'Team'
         }`}</h2>
         <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
-        <div
-          className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-        >
+        <div className="member-grid">
           {members.map((member, index) => (
             <>
               <button

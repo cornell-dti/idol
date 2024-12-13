@@ -120,10 +120,7 @@ const MemberDisplay: React.FC = () => {
               <h2 className="font-semibold md:text-[32px] xs:text-2xl">
                 Alumni & Inactive Members
               </h2>
-              <div
-                className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-                xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-              >
+              <div className="member-grid">
                 {orderedAlumni.map((member, index) => (
                   <a
                     href={!member.linkedin ? undefined : member.linkedin}
