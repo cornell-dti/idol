@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { createHash } from 'crypto';
-import { Button } from 'semantic-ui-react';
+import { Button, Dropdown } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
@@ -15,7 +15,6 @@ const CoffeeChats: React.FC = () => {
   const [specificPendingChats, setSpecificPendingChats] = useState<CoffeeChat[]>([]);
   const [specificRejectedChats, setSpecificRejectedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
-  const [displayMembers, setDisplayMembers] = useState<boolean>(false);
   const [selectedMember, setSelectedMember] = useState<IdolMember | null>(null);
 
   const allMembers = useMembers();
@@ -54,6 +53,12 @@ const CoffeeChats: React.FC = () => {
 
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   };
+
+  const memberOptions = allMembers.map((member) => ({
+    key: member.netid,
+    text: `${member.firstName} ${member.lastName}`,
+    value: member.netid
+  }));
 
   return (
     <div className={styles.flexContainer}>
@@ -114,28 +119,24 @@ const CoffeeChats: React.FC = () => {
       </div>
       <div>
         <div className={styles.dropdownContainer}>
-          <button
-            className={styles.dropdownButton}
-            onClick={() => {
-              if (selectedMember) {
-                setSelectedMember(null);
-              }
-              setDisplayMembers(!displayMembers);
-            }}
-          >
-            {!selectedMember ? 'View Member Bingo Board' : 'Review All Coffee Chats'}
-          </button>
-          {displayMembers && (
-            <ul className={styles.dropdownMenu}>
-              {allMembers.map((member, index) => (
-                <li key={index}>
-                  <button className={styles.memberButton} onClick={() => handleMemberClick(member)}>
-                    {member.firstName} {member.lastName}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+          <Button onClick={() => setSelectedMember(null)} disabled={selectedMember == null}>
+            Review All Coffee Chats
+          </Button>
+          <div className={styles.dropdownButton}>
+            <Dropdown
+              placeholder={'View Member Bingo Board'}
+              fluid
+              selection
+              value={selectedMember ? selectedMember.netid : undefined}
+              options={memberOptions}
+              onChange={(_, data) => {
+                const selectedId = data.value as string | null;
+                const selected = allMembers.find((member) => member.netid === selectedId) || null;
+                setSelectedMember(selected);
+                if (selected != null) handleMemberClick(selected);
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
