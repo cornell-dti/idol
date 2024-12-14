@@ -240,7 +240,7 @@ const ApplicationTimeline = () => {
   });
 
   return (
-    <section id="Application Timeline" className="flex justify-center relative">
+    <section id="Application Timeline" className="flex justify-center relative z-10">
       <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
       <SectionWrapper id={'Application Timeline'}>
         <div className="relative z-10w-full">
