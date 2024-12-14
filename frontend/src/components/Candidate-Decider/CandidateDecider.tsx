@@ -19,8 +19,12 @@ type CandidateDeciderProps = {
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isBypassingModal, setIsBypassingModal] = useState(false);
-  const [navigationDirection, setNavigationDirection] = useState<'next' | 'previous' | 'other' | null>(null);
-  const [navigationDirectionCandidate, setNavigationDirectionCandidate] = useState<number | null>(null);
+  const [navigationDirection, setNavigationDirection] = useState<
+    'next' | 'previous' | 'other' | null
+  >(null);
+  const [navigationDirectionCandidate, setNavigationDirectionCandidate] = useState<number | null>(
+    null
+  );
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
@@ -50,7 +54,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [defaultCurrentRating, setDefaultCurrentRating] = useState<Rating>();
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
-  const isSaved = currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
+  const isSaved =
+    currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
 
   const populateReviewForCandidate = (candidate: number) => {
     const rating = getRating(candidate);
