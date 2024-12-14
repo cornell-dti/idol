@@ -17,6 +17,7 @@ const CoffeeChats: React.FC = () => {
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [selectedMember, setSelectedMember] = useState<IdolMember | null>(null);
 
+  const DEAFAULT_MEMBER_DROPDOWN_TEXT: string = 'View Member Bingo Board';
   const allMembers = useMembers();
 
   const chatCount = useMemo(
@@ -124,10 +125,10 @@ const CoffeeChats: React.FC = () => {
           </Button>
           <div className={styles.dropdownButton}>
             <Dropdown
-              placeholder={'View Member Bingo Board'}
+              placeholder={DEAFAULT_MEMBER_DROPDOWN_TEXT}
               fluid
               selection
-              value={selectedMember ? selectedMember.netid : 'View Member Bingo Board'}
+              value={selectedMember ? selectedMember.netid : DEAFAULT_MEMBER_DROPDOWN_TEXT}
               options={memberOptions}
               search
               onChange={(_, data) => {
