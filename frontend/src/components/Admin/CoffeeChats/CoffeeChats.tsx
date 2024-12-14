@@ -56,7 +56,7 @@ const CoffeeChats: React.FC = () => {
 
   const memberOptions = allMembers.map((member) => ({
     key: member.netid,
-    text: `${member.firstName} ${member.lastName} ${member.netid}`,
+    text: `${member.firstName} ${member.lastName} (${member.netid})`,
     value: member.netid
   }));
 
@@ -127,11 +127,11 @@ const CoffeeChats: React.FC = () => {
               placeholder={'View Member Bingo Board'}
               fluid
               selection
-              value={selectedMember ? selectedMember.netid : undefined}
+              value={selectedMember ? selectedMember.netid : 'View Member Bingo Board'}
               options={memberOptions}
               search
               onChange={(_, data) => {
-                const selectedId = data.value as string | null;
+                const selectedId = data.value as string | undefined;
                 const selected = allMembers.find((member) => member.netid === selectedId) || null;
                 setSelectedMember(selected);
                 if (selected != null) handleMemberClick(selected);
