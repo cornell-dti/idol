@@ -37,17 +37,13 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
       aria-label={`${isOpen ? 'Minimize' : 'Expand'} ${title} student project`}
     >
       <div className="flex justify-between items-center">
-        <h3 className={`md:text-2xl text-lg font-semibold ${isOpen ? 'text-white' : 'text-black'}`}>
-          {title}
-        </h3>
-        <p className={`md:text-3xl text-xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}>
-          {isOpen ? '−' : '+'}
-        </p>
+        <h3 className={`md:text-2xl text-lg font-semibold text-black`}>{title}</h3>
+        <p className={`md:text-3xl text-xl font-thin 'text-gray-700`}>{isOpen ? '−' : '+'}</p>
       </div>
 
       <div className={`overflow-hidden ${isOpen ? 'opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="mt-4">
-          <p className="text-white text-lg">{description}</p>
+          <p className="text-lg">{description}</p>
           <img src={imageSrc} alt={title} className="mt-4 w-full object-cover rounded-lg" />
         </div>
       </div>
