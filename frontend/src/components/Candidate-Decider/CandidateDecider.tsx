@@ -109,7 +109,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       if (direction === 'next') next(true);
       else previous(true);
     }, 0);
-  }
+  };
 
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
     CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
@@ -136,22 +136,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   };
 
   useEffect(() => {
-    setIsSaved(
-      currentComment === defaultCurrentComment &&
-      currentRating === defaultCurrentRating
-    );
+    setIsSaved(currentComment === defaultCurrentComment && currentRating === defaultCurrentRating);
   }, [currentComment, currentRating, defaultCurrentComment, defaultCurrentRating]);
 
   return instance.candidates.length === 0 ? (
     <div></div>
   ) : (
-
     <div className={styles.candidateDeciderContainer}>
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        size="small"
-      >
+      <Modal open={isOpen} onClose={() => setIsOpen(false)} size="small">
         <Modal.Header>Don't Forget To Save!</Modal.Header>
         <Modal.Content>
           <p>You have unsaved changes. Do you want to save them before navigating?</p>
@@ -166,13 +158,11 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentComment ?? ''
               );
               confirmNavigation(navigationDirection!);
-            }}>
+            }}
+          >
             Save and {navigationDirection === 'next' ? 'Proceed' : 'Go Back'}
           </Button>
-          <Button
-            primary
-            onClick={() => confirmNavigation(navigationDirection!)}
-          >
+          <Button primary onClick={() => confirmNavigation(navigationDirection!)}>
             Discard and {navigationDirection === 'next' ? 'Proceed' : 'Go Back'}
           </Button>
         </Modal.Actions>
@@ -206,7 +196,12 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
           <Button.Group className={styles.previousNextButtonContainer}>
-            <Button basic color="blue" disabled={currentCandidate === 0} onClick={() => previous(isSaved)}>
+            <Button
+              basic
+              color="blue"
+              disabled={currentCandidate === 0}
+              onClick={() => previous(isSaved)}
+            >
               PREVIOUS
             </Button>
             <Button
