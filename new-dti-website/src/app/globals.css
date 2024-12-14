@@ -326,3 +326,7 @@ details[open] > summary::after {
   display: grid;
   justify-content: space-between;
 }
+
+.icons:focus-visible {
+  opacity: 0.6;
+}
