@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import { Icon, Loader, Table } from 'semantic-ui-react';
+import { Icon, Table } from 'semantic-ui-react';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
-import { Emitters, getLinesFromBoard } from '../../../utils';
+import { Emitters } from '../../../utils';
 import CoffeeChatModal from '../../Modals/CoffeeChatDetailsModal';
+import CoffeeChatsBingoBoard from './CoffeeChatsBingoBoard';
 
 const CoffeeChatsDashboard = ({
   approvedChats,
@@ -28,13 +29,21 @@ const CoffeeChatsDashboard = ({
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [openRejected, setOpenRejected] = useState(false);
   const [bingoCount, setBingoCount] = useState(0);
 
   const allChats = useMemo(
     () => [...approvedChats, ...pendingChats, ...rejectedChats],
     [approvedChats, pendingChats, rejectedChats]
+  );
+
+  const openChatModal = useCallback(
+    (category: string) => {
+      const chat = allChats.find((chat) => chat.category === category);
+      setSelectedChat(chat);
+      setOpen(true);
+    },
+    [allChats]
   );
 
   const categoryStatus = useMemo(
@@ -52,35 +61,6 @@ const CoffeeChatsDashboard = ({
     () => rejectedChats.filter((chat) => categoryStatus.get(chat.category)?.uuid !== chat.uuid),
     [categoryStatus, rejectedChats]
   );
-
-  const isBingoCell = useMemo(() => {
-    const map = new Map<string, boolean>();
-
-    const isApprovedLine = (categories: string[]) =>
-      categories.every((category) => approvedChats.some((chat) => chat.category === category));
-
-    const linesToCheck = getLinesFromBoard(bingoBoard);
-
-    let newBingoCount = 0;
-    linesToCheck.forEach((line) => {
-      if (isApprovedLine(line)) {
-        newBingoCount += 1;
-        line.forEach((category) => map.set(category, true));
-      }
-    });
-
-    if (newBingoCount !== bingoCount) {
-      setBingoCount(newBingoCount);
-    }
-
-    bingoBoard.flat().forEach((category) => {
-      if (!map.has(category)) {
-        map.set(category, false);
-      }
-    });
-
-    return map;
-  }, [bingoBoard, approvedChats, bingoCount]);
 
   const blackout = useMemo(
     () =>
@@ -124,22 +104,6 @@ const CoffeeChatsDashboard = ({
       });
   };
 
-  const openChatModal = useCallback(
-    (category: string) => {
-      const chat = allChats.find((chat) => chat.category === category);
-      setSelectedChat(chat);
-      setSelectedCategory(category);
-      setOpen(true);
-    },
-    [allChats]
-  );
-
-  const getAppearance = (category: string) => {
-    if (blackout) return styles.blackout_display;
-    if (isBingoCell.get(category)) return styles.bingo_display;
-    return styles[categoryStatus.get(category)?.status || 'default'];
-  };
-
   return (
     <>
       <header className={styles.header}>
@@ -157,31 +121,25 @@ const CoffeeChatsDashboard = ({
       </header>
 
       <div className={styles.container}>
-        {isChatLoading ? (
-          <Loader active inline />
-        ) : (
-          <>
-            <strong>
-              {blackout
-                ? '🎉 Congratulations! You have achieved a blackout! 🎉'
-                : `Bingo Count: ${bingoCount}`}
-            </strong>
-            <div className={styles.bingo_board}>
-              {bingoBoard.flat().map((category, index) => (
-                <div key={index} className={getAppearance(category)}>
-                  <div className={styles.bingo_cell} onClick={() => openChatModal(category)}>
-                    <div className={styles.bingo_text}>{category}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        <strong>
+          {blackout
+            ? '🎉 Congratulations! You have achieved a blackout! 🎉'
+            : `Bingo Count: ${bingoCount}`}
+        </strong>
+        <CoffeeChatsBingoBoard
+          approvedChats={approvedChats}
+          pendingChats={pendingChats}
+          rejectedChats={rejectedChats}
+          isChatLoading={isChatLoading}
+          bingoBoard={bingoBoard}
+          onCellClick={openChatModal}
+          updateBingoCount={setBingoCount}
+        />
       </div>
 
       <CoffeeChatModal
         coffeeChat={selectedChat}
-        category={selectedCategory}
+        category={selectedChat?.category || ''}
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
