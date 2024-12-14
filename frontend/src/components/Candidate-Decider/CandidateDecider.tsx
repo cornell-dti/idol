@@ -17,10 +17,10 @@ type CandidateDeciderProps = {
 };
 
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
-  const [isSaved, setIsSaved] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [isBypassingModal, setIsBypassingModal] = useState(false);
-  const [navigationDirection, setNavigationDirection] = useState<'next' | 'previous' | null>(null);
+  const [navigationDirection, setNavigationDirection] = useState<'next' | 'previous' | 'other' | null>(null);
+  const [navigationDirectionCandidate, setNavigationDirectionCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
@@ -49,6 +49,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [currentComment, setCurrentComment] = useState<string>();
   const [defaultCurrentRating, setDefaultCurrentRating] = useState<Rating>();
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
+
+  const isSaved = currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
 
   const populateReviewForCandidate = (candidate: number) => {
     const rating = getRating(candidate);
@@ -102,12 +104,18 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     });
   };
 
-  const confirmNavigation = (direction: 'next' | 'previous') => {
+  const confirmNavigation = (direction: 'next' | 'previous' | 'other') => {
     setIsOpen(false);
     setIsBypassingModal(true);
     setTimeout(() => {
       if (direction === 'next') next(true);
-      else previous(true);
+      else if (direction === 'previous') previous(true);
+      else if (direction === 'other') {
+        if (navigationDirectionCandidate) {
+          setCurrentCandidate(navigationDirectionCandidate);
+          populateReviewForCandidate(navigationDirectionCandidate);
+        }
+      }
     }, 0);
   };
 
@@ -131,13 +139,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           uuid: ''
         }
       ]);
-      setIsSaved(true);
     }
   };
-
-  useEffect(() => {
-    setIsSaved(currentComment === defaultCurrentComment && currentRating === defaultCurrentRating);
-  }, [currentComment, currentRating, defaultCurrentComment, defaultCurrentRating]);
 
   return instance.candidates.length === 0 ? (
     <div></div>
@@ -149,7 +152,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <p>You have unsaved changes. Do you want to save them before navigating?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => setIsOpen(false)}>Clancel</Button>
+          <Button onClick={() => setIsOpen(false)}>Cancel</Button>
           <Button
             onClick={() => {
               handleRatingAndCommentChange(
@@ -160,10 +163,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               confirmNavigation(navigationDirection!);
             }}
           >
-            Save and {navigationDirection === 'next' ? 'Proceed' : 'Go Back'}
+            Save and {navigationDirection === 'previous' ? 'Go Back' : 'Proceed'}
           </Button>
           <Button primary onClick={() => confirmNavigation(navigationDirection!)}>
-            Discard and {navigationDirection === 'next' ? 'Proceed' : 'Go Back'}
+            Discard and {navigationDirection === 'previous' ? 'Go Back' : 'Proceed'}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -172,8 +175,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <SearchBar
             instance={instance}
             setCurrentCandidate={(candidate) => {
-              setCurrentCandidate(candidate);
-              populateReviewForCandidate(candidate);
+              if (!isSaved) {
+                setNavigationDirection('other');
+                setNavigationDirectionCandidate(candidate);
+                setIsOpen(true);
+              } else {
+                setCurrentCandidate(candidate);
+                populateReviewForCandidate(candidate);
+              }
             }}
             currentCandidate={currentCandidate}
           />
@@ -190,8 +199,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               text: candidate.id
             }))}
             onChange={(_, data) => {
-              setCurrentCandidate(data.value as number);
-              populateReviewForCandidate(data.value as number);
+              if (!isSaved) {
+                setNavigationDirection('other');
+                setNavigationDirectionCandidate(data.value as number);
+                setIsOpen(true);
+              } else {
+                setCurrentCandidate(data.value as number);
+                populateReviewForCandidate(data.value as number);
+              }
             }}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
