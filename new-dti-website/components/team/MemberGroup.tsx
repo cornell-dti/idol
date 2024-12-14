@@ -173,12 +173,17 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   const link = props[icon.alt as keyof typeof props] as string | null;
                   return (
                     link && (
-                      <a href={icon.alt === 'email' ? `mailto:${link}` : `${link}`} key={icon.alt}>
+                      <a
+                        href={icon.alt === 'email' ? `mailto:${link}` : `${link}`}
+                        key={icon.alt}
+                        className="icons"
+                      >
                         <Image
                           src={icon.src}
                           alt={icon.alt}
                           height={icon.height}
                           width={icon.width}
+                          className="opacity-100 hover:opacity-60"
                         />
                       </a>
                     )
