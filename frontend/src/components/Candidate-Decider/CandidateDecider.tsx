@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
+import { Button, Dropdown, Checkbox, Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -17,6 +17,10 @@ type CandidateDeciderProps = {
 };
 
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
+  const [isSaved, setIsSaved] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isBypassingModal, setIsBypassingModal] = useState(false);
+  const [navigationDirection, setNavigationDirection] = useState<'next' | 'previous' | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
@@ -68,7 +72,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates, reviews]);
 
-  const next = () => {
+  const next = (force = false) => {
+    if (!force && !isSaved && !isBypassingModal) {
+      setNavigationDirection('next');
+      setIsOpen(true);
+      return;
+    }
+    setIsBypassingModal(false);
     if (currentCandidate === instance.candidates.length - 1) return;
     setCurrentCandidate((prev) => {
       const nextCandidate = prev + 1;
@@ -77,7 +87,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     });
   };
 
-  const previous = () => {
+  const previous = (force = false) => {
+    if (!force && !isBypassingModal) {
+      setNavigationDirection('previous');
+      setIsOpen(true);
+      return;
+    }
+    setIsBypassingModal(false);
     if (currentCandidate === 0) return;
     setCurrentCandidate((prev) => {
       const prevCandidate = prev - 1;
@@ -85,6 +101,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       return prevCandidate;
     });
   };
+
+  const confirmNavigation = (direction: 'next' | 'previous') => {
+    setIsOpen(false);
+    setIsBypassingModal(true);
+    setTimeout(() => {
+      if (direction === 'next') next(true);
+      else previous(true);
+    }, 0);
+  }
 
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
     CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
@@ -106,13 +131,52 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           uuid: ''
         }
       ]);
+      setIsSaved(true);
     }
   };
+
+  useEffect(() => {
+    setIsSaved(
+      currentComment === defaultCurrentComment &&
+      currentRating === defaultCurrentRating
+    );
+  }, [currentComment, currentRating, defaultCurrentComment, defaultCurrentRating]);
 
   return instance.candidates.length === 0 ? (
     <div></div>
   ) : (
+
     <div className={styles.candidateDeciderContainer}>
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        size="small"
+      >
+        <Modal.Header>Don't Forget To Save!</Modal.Header>
+        <Modal.Content>
+          <p>You have unsaved changes. Do you want to save them before navigating?</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={() => setIsOpen(false)}>Clancel</Button>
+          <Button
+            onClick={() => {
+              handleRatingAndCommentChange(
+                currentCandidate,
+                currentRating ?? 0,
+                currentComment ?? ''
+              );
+              confirmNavigation(navigationDirection!);
+            }}>
+            Save and {navigationDirection === 'next' ? 'Proceed' : 'Go Back'}
+          </Button>
+          <Button
+            primary
+            onClick={() => confirmNavigation(navigationDirection!)}
+          >
+            Discard and {navigationDirection === 'next' ? 'Proceed' : 'Go Back'}
+          </Button>
+        </Modal.Actions>
+      </Modal>
       <div className={styles.applicationContainer}>
         <div className={styles.searchBar}>
           <SearchBar
@@ -142,23 +206,21 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
           <Button.Group className={styles.previousNextButtonContainer}>
-            <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
+            <Button basic color="blue" disabled={currentCandidate === 0} onClick={() => previous(isSaved)}>
               PREVIOUS
             </Button>
             <Button
               basic
               color="blue"
               disabled={currentCandidate === instance.candidates.length - 1}
-              onClick={next}
+              onClick={() => next(isSaved)}
             >
               NEXT
             </Button>
           </Button.Group>
           <Button
             className="ui blue button"
-            disabled={
-              currentComment === defaultCurrentComment && currentRating === defaultCurrentRating
-            }
+            disabled={isSaved}
             onClick={() => {
               handleRatingAndCommentChange(
                 currentCandidate,
