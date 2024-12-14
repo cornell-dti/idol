@@ -56,7 +56,7 @@ const CoffeeChats: React.FC = () => {
 
   const memberOptions = allMembers.map((member) => ({
     key: member.netid,
-    text: `${member.firstName} ${member.lastName}`,
+    text: `${member.firstName} ${member.lastName} ${member.netid}`,
     value: member.netid
   }));
 
@@ -129,6 +129,7 @@ const CoffeeChats: React.FC = () => {
               selection
               value={selectedMember ? selectedMember.netid : undefined}
               options={memberOptions}
+              search
               onChange={(_, data) => {
                 const selectedId = data.value as string | null;
                 const selected = allMembers.find((member) => member.netid === selectedId) || null;
