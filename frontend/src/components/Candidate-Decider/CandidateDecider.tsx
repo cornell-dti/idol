@@ -112,16 +112,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const confirmNavigation = (direction: 'next' | 'previous' | 'other') => {
     setIsOpen(false);
     setIsBypassingModal(true);
-    setTimeout(() => {
-      if (direction === 'next') next(true);
-      else if (direction === 'previous') previous(true);
-      else if (direction === 'other') {
-        if (navigationDirectionCandidate) {
-          setCurrentCandidate(navigationDirectionCandidate);
-          populateReviewForCandidate(navigationDirectionCandidate);
-        }
+    if (direction === 'next') next(true);
+    else if (direction === 'previous') previous(true);
+    else if (direction === 'other') {
+      if (navigationDirectionCandidate) {
+        setCurrentCandidate(navigationDirectionCandidate);
+        populateReviewForCandidate(navigationDirectionCandidate);
       }
-    }, 0);
+    }
   };
 
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
@@ -147,6 +145,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     }
   };
 
+  const handleCandiateChange = (candidate: number) => {
+    if (!isSaved) {
+      setNavigationDirection('other');
+      setNavigationDirectionCandidate(candidate);
+      setIsOpen(true);
+    } else {
+      setCurrentCandidate(candidate);
+      populateReviewForCandidate(candidate);
+    }
+  };
+
   return instance.candidates.length === 0 ? (
     <div></div>
   ) : (
@@ -168,10 +177,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               confirmNavigation(navigationDirection!);
             }}
           >
-            Save and {navigationDirection === 'previous' ? 'Go Back' : 'Proceed'}
+            Save
           </Button>
           <Button primary onClick={() => confirmNavigation(navigationDirection!)}>
-            Discard and {navigationDirection === 'previous' ? 'Go Back' : 'Proceed'}
+            Discard
           </Button>
         </Modal.Actions>
       </Modal>
@@ -180,14 +189,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <SearchBar
             instance={instance}
             setCurrentCandidate={(candidate) => {
-              if (!isSaved) {
-                setNavigationDirection('other');
-                setNavigationDirectionCandidate(candidate);
-                setIsOpen(true);
-              } else {
-                setCurrentCandidate(candidate);
-                populateReviewForCandidate(candidate);
-              }
+              handleCandiateChange(candidate);
             }}
             currentCandidate={currentCandidate}
           />
@@ -204,14 +206,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               text: candidate.id
             }))}
             onChange={(_, data) => {
-              if (!isSaved) {
-                setNavigationDirection('other');
-                setNavigationDirectionCandidate(data.value as number);
-                setIsOpen(true);
-              } else {
-                setCurrentCandidate(data.value as number);
-                populateReviewForCandidate(data.value as number);
-              }
+              handleCandiateChange(data.value as number);
             }}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
