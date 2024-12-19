@@ -308,8 +308,8 @@ loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
   return {};
 });
 
-loginCheckedGet('/coffee-chat/:email', async (_, user) => {
-  const coffeeChats = await getCoffeeChatsByUser(user);
+loginCheckedGet('/coffee-chat/:email', async (req, user) => {
+  const coffeeChats = await getCoffeeChatsByUser(user, req.params.email);
   return { coffeeChats };
 });
 

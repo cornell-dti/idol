@@ -95,6 +95,20 @@ describe('User is not lead or admin', () => {
       new PermissionError('Clearing all Coffee Chats is disabled')
     );
   });
+
+  test('getCoffeeChatsByUser user can fetch own coffee chats', async () => {
+    const coffeeChats = await getCoffeeChatsByUser(user, user.email);
+    expect(coffeeChats.length).toBeGreaterThan(0);
+    expect(CoffeeChatDao.prototype.getCoffeeChatsByUser).toBeCalled();
+  });
+
+  test("getCoffeeChatsByUser should throw error if non-admin requests for other user's coffee chats", async () => {
+    expect(getCoffeeChatsByUser(user, user2.email)).rejects.toThrow(
+      new PermissionError(
+        `User with email ${user.email} does not have permissions to get coffee chats for user with email ${user2.email}.`
+      )
+    );
+  });
 });
 
 describe('User is lead or admin', () => {
@@ -142,7 +156,7 @@ describe('User is lead or admin', () => {
   });
 
   test('getCoffeeChatsByUser should return user coffee chats', async () => {
-    const coffeeChats = await getCoffeeChatsByUser(adminUser);
+    const coffeeChats = await getCoffeeChatsByUser(adminUser, user.email);
     expect(coffeeChats.length).toBeGreaterThan(0);
     expect(CoffeeChatDao.prototype.getCoffeeChatsByUser).toBeCalled();
   });
@@ -180,7 +194,7 @@ describe('More complicated member meets category checks', () => {
   const user1 = { ...fakeIdolMember(), subteams: ['team1'], role: 'developer' as Role };
   const user2 = { ...fakeIdolMember(), role: 'pm' as Role, subteams: ['team2'] };
   const user3 = { ...fakeIdolMember(), role: 'pm' as Role, subteams: ['team1'] };
-  const user4 = { ...fakeIdolMember(), role: 'business' };
+  const user4 = { ...fakeIdolMember(), role: 'business' as Role };
   const user5 = { ...fakeIdolMember(), role: 'tpm' as Role, subteams: ['team3'] };
   const user6 = { ...fakeIdolMember(), role: 'tpm' as Role, subteams: ['team1'] };
   const user7 = { ...fakeIdolMember(), role: 'product-lead' as Role };

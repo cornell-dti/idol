@@ -15,18 +15,17 @@
       "height": 328
     },
     "description": "At the Tompkins County Public Library, our members give children in the Ithaca community the opportunity to grow and learn about other technical careers. We introduce code and design through beginner-friendly, interactive workshops with Cornell students, providing individualized feedback. Young students can learn Scratch to create their own games and animations, and Figma to make eye-catching visuals with shapes, colors, and more!",
-    "mobileDescription": "@Tompkins County Public Library, we introduced code & design with workshops that taught Figma and Sketch.",
-    "eventName": "Tompkins County Public Library"
+    "mobileDescription": "@Tompkins County Public Library, we introduced code & design with workshops that taught Figma and Sketch."
   },
   "standard": [
     {
       "title": "Events",
       "subtitle": "Our presence on campus.",
       "icon": {
-        "src": "/icons/pin.svg",
-        "alt": "location",
-        "width": 23,
-        "height": 32
+        "src": "/icons/events.png",
+        "alt": "handshake icon representing events",
+        "width": 80,
+        "height": 64
       },
       "image": {
         "src": "/images/half-baked.jpg",
@@ -35,17 +34,16 @@
         "height": 263
       },
       "description": "Our team helps host Half-Baked, an open space for individuals, project teams and organizations to present their \"half-baked\" ideas for further interdisciplinary collaboration. Past pitches have been about founding new student organizations, food truck ideas, dog parades, phone apps in-the-making, or ideas for social good. Any and all ideas are welcome!",
-      "mobileDescription": "@Half-Baked, individuals or teams present their \"half-baked\" ideas for further collaboration. Past pitches include food truck ideas, dog parades, or phone apps. All ideas are welcome!",
-      "eventName": "Half-Baked"
+      "mobileDescription": "@Half-Baked, individuals or teams present their \"half-baked\" ideas for further collaboration. Past pitches include food truck ideas, dog parades, or phone apps. All ideas are welcome!"
     },
     {
       "title": "Workshops",
       "subtitle": "Enriching the community.",
       "icon": {
-        "src": "/icons/yellow_star.svg",
-        "alt": "star",
-        "width": 29,
-        "height": 28
+        "src": "/icons/workshops.png",
+        "alt": "person teaching icon representing workshops",
+        "width": 66,
+        "height": 64
       },
       "image": {
         "src": "/images/bigredhacks.jpg",
@@ -54,17 +52,16 @@
         "height": 263
       },
       "description": "BigRed//Hacks is Cornell's largest and most established student-run hackathon. It features various seminars about best practices in the industry and a competition where teams of students enter a programming project around a theme. Our workshop in web development provides the foundation that helps students bring their ideas to life.",
-      "mobileDescription": "@BigRed//Hacks, students enter a programming project centered around a theme. Our workshop in web development supports those ideas and their skills.",
-      "eventName": "BigRed//Hacks"
+      "mobileDescription": "@BigRed//Hacks, students enter a programming project centered around a theme. Our workshop in web development supports those ideas and their skills."
     },
     {
       "title": "Initiatives",
       "subtitle": "Empowering the future.",
       "icon": {
-        "src": "/icons/rocket.svg",
-        "alt": "rocket",
-        "width": 28,
-        "height": 32
+        "src": "/icons/initiatives.png",
+        "alt": "lightbulb icon representing initiatives",
+        "width": 54,
+        "height": 61
       },
       "image": {
         "src": "/images/millennium.jpg",
@@ -73,8 +70,7 @@
         "height": 260
       },
       "description": "We collaborated with Millennium Management in Spring 2024. Members of Cornell DTI volunteered to participate in projects created by Millennium professionals introducing the team to relevant problems tackled in the industry, like building a value-at-risk model and developing an AI powered document summarizer.",
-      "mobileDescription": "@Millennium Management in Spring 2024, we worked with professionals to build a value-at-risk model and an AI powered document summarizer.",
-      "eventName": "Millennium Management"
+      "mobileDescription": "@Millennium Management in Spring 2024, we worked with professionals to build a value-at-risk model and an AI powered document summarizer."
     }
   ]
 }

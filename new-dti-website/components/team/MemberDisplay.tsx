@@ -5,8 +5,8 @@ import members from './data/all-members.json';
 import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import { populateMembers } from '../../src/utils/memberUtils';
-
 import alumniMembers from './data/alumni.json';
+import SectionWrapper from '../hoc/SectionWrapper';
 
 const allMembers = members as IdolMember[];
 
@@ -51,8 +51,8 @@ const MemberDisplay: React.FC = () => {
           setSelectedMember(undefined);
       }}
     >
-      <div className="xs:mx-5 md:mx-10 lg:mx-20 xl:mx-30">
-        <div className="flex flex-col gap-[72px] max-w-5xl">
+      <SectionWrapper id={'Member display wrapper'}>
+        <div className="flex flex-col gap-[72px]">
           <div className="flex flex-col lg:w-4/5 md:w-full mt-[100px]">
             <h2 className="md:text-4xl xs:text-2xl font-semibold">Introducing the team</h2>
             <p className="mt-6 md:text-lg xs:text-sm">
@@ -76,6 +76,7 @@ const MemberDisplay: React.FC = () => {
                     setSelectedMember(undefined);
                   }}
                   aria-label={`select ${role.altText} role`}
+                  className="custom-focus-state"
                 >
                   <Icon
                     icon={`${role.src}_base.svg`}
@@ -143,7 +144,7 @@ const MemberDisplay: React.FC = () => {
             </div>
           )}
         </div>
-      </div>
+      </SectionWrapper>
     </div>
   );
 };

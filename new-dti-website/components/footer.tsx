@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import SectionWrapper from './hoc/SectionWrapper';
 
 type Icon = {
   src: string;
@@ -46,36 +46,40 @@ type FooterProps = {
 };
 
 const Footer: React.FC<FooterProps> = ({ theme }) => (
-  <div
-    className={`${
-      theme === 'dark' ? 'bg-black text-neutral-50' : 'bg-[#F5F5F5] text-[#0C0404]'
-    } w-full h-[146px] md:px-10 lg:px-[60px] flex justify-between items-center md:flex-row flex-col`}
-  >
+  <SectionWrapper id={'Website Footer'}>
     <div
-      className={`sm:w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-sm font-medium flex items-center ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}
+      className={`${
+        theme === 'dark' ? 'bg-black text-neutral-50' : 'bg-[#F5F5F5] text-[#0C0404]'
+      } w-full h-[146px]  flex justify-between items-center md:flex-row flex-col`}
     >
-      © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
+      <div
+        className={`sm:w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-sm font-medium flex items-center ${
+          theme === 'dark' ? 'text-gray-300' : 'text-black'
+        }`}
+      >
+        © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
+      </div>
+      <div className="flex gap-5 md:h-fit h-screen">
+        {socialIcons.map((icon, index) => (
+          <a
+            key={index}
+            href={icon.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-9 h-9 relative"
+          >
+            <Image
+              className={`${theme === 'dark' ? 'invert-0' : 'invert'} w-full h-full`}
+              src={icon.src}
+              width={36}
+              height={36}
+              alt={icon.alt}
+            />
+          </a>
+        ))}
+      </div>
     </div>
-    <div className="flex gap-5 md:h-fit h-screen">
-      {socialIcons.map((icon, index) => (
-        <Link
-          key={index}
-          href={icon.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-9 h-9 relative"
-        >
-          <Image
-            className={`${theme === 'dark' ? 'invert-0' : 'invert'} w-full h-full`}
-            src={icon.src}
-            width={36}
-            height={36}
-            alt={icon.alt}
-          />
-        </Link>
-      ))}
-    </div>
-  </div>
+  </SectionWrapper>
 );
 
 export default Footer;

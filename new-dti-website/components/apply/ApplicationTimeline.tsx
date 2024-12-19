@@ -1,6 +1,6 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import config from '../../config.json';
 import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
@@ -8,18 +8,22 @@ import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 import RedBlob from '../blob';
 import { extractEndDate, extractEndTime, parseDate } from '../../src/utils/dateUtils';
+import SectionWrapper from '../hoc/SectionWrapper';
 
 type TabProps = {
   isSelected: boolean;
   text: string;
   onClick?: () => void;
+  isSingleTab?: boolean;
 };
 
-const Tab: React.FC<TabProps> = ({ isSelected, text, onClick }) => (
+const Tab: React.FC<TabProps> = ({ isSelected, text, onClick, isSingleTab }) => (
   <button
     className={`flex items-center lg:px-5 lg:py-4 md:px-4 md:py-3 xs:px-2 md:rounded-t-xl xs:rounded-t-lg ${
       isSelected ? 'bg-[#FEFEFE] text-[#A52424]' : 'text-[#FEFEFE]'
-    } hover:cursor-pointer md:h-min xs:h-full`}
+    } hover:cursor-pointer md:h-min xs:h-full ${
+      isSingleTab ? '!bg-[#A52424] text-[#FEFEFE] !h-full' : ''
+    }`}
     onClick={onClick}
     role="tab"
     tabIndex={isSelected ? 0 : -1}
@@ -174,7 +178,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
                 className={`${isNextEvent ? 'brightness-0' : ''}`}
               />
               <p className={event.link ? 'underline text-[#D63D3D]' : ''}>
-                {event.link ? <Link href={event.link}>{event.location}</Link> : event.location}
+                {event.link ? <a href={event.link}>{event.location}</a> : event.location}
               </p>
             </div>
           )}
@@ -238,59 +242,61 @@ const ApplicationTimeline = () => {
   return (
     <section id="Application Timeline" className="flex justify-center relative">
       <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
-      <div className="relative z-10 max-w-5xl w-full lg:px-0 md:px-[60px] xs:px-0">
-        <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
-          <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
-          <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">
-            Developing, designing, delivering.
-          </p>
-        </div>
-        <div className="bg-white md:rounded-[20px] xs:rounded-lg">
-          <div className="bg-[#A52424] md:rounded-t-[20px] xs:rounded-t-lg text-[#FEFEFE] flex justify-between">
-            <p
-              className={`md:py-[26px] md:pl-9 xs:py-5 xs:pl-3 lg:text-[22px] lg:leading-[28px] md:text-[16px] md:leading-[20px] 
-                xs:text-[10px] xs:leading-[13px] ${ibm_plex_mono.className}`}
-            >
-              cornell-dti/timeline
+      <SectionWrapper id={'Application Timeline'}>
+        <div className="relative z-10w-full">
+          <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
+            <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
+            <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">
+              Developing, designing, delivering.
             </p>
-            <div className="flex items-end" role="tablist" onKeyDown={handleKeyDown}>
-              {isFall ? (
-                <>
-                  <Tab
-                    isSelected={cycle === 'upperclassmen'}
-                    text={'Upperclassmen'}
-                    onClick={() => setCycle('upperclassmen')}
+          </div>
+          <div className="bg-white md:rounded-[20px] xs:rounded-lg">
+            <div className="bg-[#A52424] md:rounded-t-[20px] xs:rounded-t-lg text-[#FEFEFE] flex justify-between">
+              <p
+                className={`md:py-[26px] md:pl-9 xs:py-5 xs:pl-3 lg:text-[22px] lg:leading-[28px] md:text-[16px] md:leading-[20px] 
+                xs:text-[10px] xs:leading-[13px] ${ibm_plex_mono.className}`}
+              >
+                cornell-dti/timeline
+              </p>
+              <div className="flex items-end" role="tablist" onKeyDown={handleKeyDown}>
+                {isFall ? (
+                  <>
+                    <Tab
+                      isSelected={cycle === 'upperclassmen'}
+                      text={'Upperclassmen'}
+                      onClick={() => setCycle('upperclassmen')}
+                    />
+                    <Tab
+                      isSelected={cycle === 'freshmen'}
+                      text={'Freshmen/Transfer'}
+                      onClick={() => setCycle('freshmen')}
+                    />
+                  </>
+                ) : (
+                  <Tab isSelected={true} text={'All Students'} isSingleTab={true} />
+                )}
+              </div>
+            </div>
+            <div
+              className="flex flex-col md:gap-10 xs:gap-7 md:max-h-[600px] md:overflow-y-scroll 
+            xs:overflow-y-hidden py-8"
+              ref={timelineRef}
+            >
+              {sortedEvents.map((event, index) => (
+                <div key={index} ref={index === scrollToIndex ? selectedNodeRef : undefined}>
+                  <TimelineNode
+                    event={event}
+                    index={index}
+                    nextEventIndex={nextEventIndex}
+                    isLast={index === filteredEvents.length - 1}
+                    dateTime={getDate(event)}
                   />
-                  <Tab
-                    isSelected={cycle === 'freshmen'}
-                    text={'Freshmen/Transfer'}
-                    onClick={() => setCycle('freshmen')}
-                  />
-                </>
-              ) : (
-                <Tab isSelected={true} text={'All Students'} />
-              )}
+                </div>
+              ))}
             </div>
           </div>
-          <div
-            className="flex flex-col md:gap-10 xs:gap-7 md:max-h-[600px] md:overflow-y-scroll 
-            xs:overflow-y-hidden py-8"
-            ref={timelineRef}
-          >
-            {sortedEvents.map((event, index) => (
-              <div key={index} ref={index === scrollToIndex ? selectedNodeRef : undefined}>
-                <TimelineNode
-                  event={event}
-                  index={index}
-                  nextEventIndex={nextEventIndex}
-                  isLast={index === filteredEvents.length - 1}
-                  dateTime={getDate(event)}
-                />
-              </div>
-            ))}
-          </div>
         </div>
-      </div>
+      </SectionWrapper>
     </section>
   );
 };

@@ -1,6 +1,6 @@
 import { useState, RefObject } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import { Card } from '../ui/card';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
@@ -44,7 +44,10 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
       <h3
         className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
       >{`${firstName} ${lastName}`}</h3>
-      <p className="w-fit px-3 py-1 rounded-2xl" style={{ backgroundColor: chipColor }}>
+      <p
+        className="w-fit h-[32px] flex items-center px-[12px] py-[4px] rounded-2xl text-[14px]"
+        style={{ backgroundColor: chipColor }}
+      >
         {roleDescription}
       </p>
     </div>
@@ -139,7 +142,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold md:text-xl xs:text-base">About</h2>
-            <p className="md:text-lg xs:text-sm">{props.about || 'An amazing member of DTI.'}</p>
+            <p className="md:text-lg xs:text-sm whitespace-pre-wrap">
+              {props.about || 'An amazing member of DTI.'}
+            </p>
           </div>
           <div className="flex justify-around">
             <div className="flex flex-col gap-2 md:w-1/3 xs:w-1/2">
@@ -150,9 +155,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                 }`}
               >
                 {link ? (
-                  <Link href={link} className="whitespace-nowrap">
+                  <a href={link} className="whitespace-nowrap">
                     {name}
-                  </Link>
+                  </a>
                 ) : (
                   <p>{name}</p>
                 )}
@@ -166,24 +171,21 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   const link = props[icon.alt as keyof typeof props] as string | null;
                   return (
                     link && (
-                      <Link
-                        href={icon.alt === 'email' ? `mailto:${link}` : `${link}`}
-                        key={icon.alt}
-                      >
+                      <a href={icon.alt === 'email' ? `mailto:${link}` : `${link}`} key={icon.alt}>
                         <Image
                           src={icon.src}
                           alt={icon.alt}
                           height={icon.height}
                           width={icon.width}
                         />
-                      </Link>
+                      </a>
                     )
                   );
                 })}
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <Link
+              <a
                 href={props.coffeeChatLink ?? `mailto:${props.email}`}
                 onMouseEnter={mouseHandler}
                 onMouseLeave={mouseHandler}
@@ -199,20 +201,20 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   className={hover ? 'brightness-0 invert' : ''}
                 />
                 <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
         <button
           onClick={props.onClose}
-          className="cursor-pointer h-min"
+          className="cursor-pointer h-min rounded-md"
           aria-label="Close member details"
         >
           <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
         </button>
       </div>
       <div className="md:hidden xs:block">
-        <Link
+        <a
           href={props.coffeeChatLink ?? `mailto:${props.email}`}
           onMouseEnter={mouseHandler}
           onMouseLeave={mouseHandler}
@@ -230,7 +232,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
             />
             <p className="font-bold text-base text-inherit whitespace-nowrap">Chat with me</p>
           </div>
-        </Link>
+        </a>
       </div>
     </Card>
   );
@@ -315,7 +317,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <>
           <button
             onClick={() => onMemberCardClick(member)}
-            className="memberCard"
+            className="memberCard custom-focus-state"
             aria-label={`open ${member.firstName} ${member.lastName}'s details`}
           >
             <MemberCard
@@ -352,7 +354,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             <>
               <button
                 onClick={() => onMemberCardClick(member)}
-                className="memberCard"
+                className="memberCard custom-focus-state"
                 aria-label={`open ${member.firstName} ${member.lastName}'s details`}
               >
                 <MemberCard
