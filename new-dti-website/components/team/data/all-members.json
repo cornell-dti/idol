@@ -619,7 +619,9 @@
     "netid": "ejc264",
     "graduation": "May 2027",
     "firstName": "Eric",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "coffeeChatLink": null
   },
   {
     "formerSubteams": [],
@@ -1340,12 +1342,14 @@
     "doubleMajor": null,
     "roleDescription": "Developer",
     "firstName": "Kevin",
-    "about": "",
     "role": "developer",
     "subteams": [
       "idol"
     ],
-    "lastName": "Ram"
+    "lastName": "Ram",
+    "college": "eng",
+    "coffeeChatLink": null,
+    "about": "My technical interests and industry experiences are in full-stack development and machine learning. Fun Fact: I beat two U.S. Navy Officers in a pull-up competition (and denied their offer to recruit me)."
   },
   {
     "formerSubteams": [],
@@ -1830,7 +1834,9 @@
     "pronouns": "he/him",
     "hometown": "Gainesville, Florida",
     "minor": null,
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "coffeeChatLink": null
   },
   {
     "formerSubteams": [],
