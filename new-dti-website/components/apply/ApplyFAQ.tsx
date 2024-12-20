@@ -11,7 +11,7 @@ type FAQAccordionProps = {
 
 const FAQAccordion = ({ header, children }: FAQAccordionProps) => (
   <details className="border-transparent border-b-[#d5d5d5] border-2 cursor-pointer hover:border-b-[#000000]">
-    <summary className="section-subheading">{header}</summary>
+    <summary className="section-subheading text-left">{header}</summary>
     <div className="md:py-5 xs:py-3">{children}</div>
   </details>
 );

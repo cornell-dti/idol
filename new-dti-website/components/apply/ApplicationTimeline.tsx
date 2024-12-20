@@ -202,6 +202,7 @@ const TimelineNode: React.FC<RecruitmentEventProps> = ({
 
 const ApplicationTimeline = () => {
   const [cycle, setCycle] = useState<'freshmen' | 'upperclassmen'>('upperclassmen');
+  const [scroll, setScroll] = useState<number[]>([0, 0]);
   const timelineRef = useRef<HTMLDivElement>(null);
   const selectedNodeRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
@@ -225,25 +226,43 @@ const ApplicationTimeline = () => {
   const scrollToIndex =
     nextEventIndex === sortedEvents.length ? nextEventIndex - 1 : nextEventIndex;
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-      setCycle(cycle === 'freshmen' ? 'upperclassmen' : 'freshmen');
+  const onTabSwitch = (nextTab: 'freshmen' | 'upperclassmen') => {
+    if (nextTab === cycle) return;
+    const tabIndex = cycle === 'upperclassmen' ? 0 : 1;
+    setCycle(nextTab);
+    if (timelineRef.current) {
+      const newScroll = [...scroll];
+      newScroll[tabIndex] = timelineRef.current.scrollTop;
+      setScroll(newScroll);
     }
   };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (isFall && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+      onTabSwitch(cycle === 'freshmen' ? 'upperclassmen' : 'freshmen');
+    }
+  };
+
+  useEffect(() => {
+    if (timelineRef.current) {
+      timelineRef.current.scrollTop = scroll[cycle === 'upperclassmen' ? 0 : 1];
+    }
+  }, [cycle]);
 
   useEffect(() => {
     if (timelineRef.current && selectedNodeRef.current && width >= TABLET_BREAKPOINT) {
       const innerDiv = selectedNodeRef.current.getBoundingClientRect().top;
       const outerDiv = timelineRef.current.getBoundingClientRect().top;
       timelineRef.current.scrollTop += innerDiv - outerDiv;
+      setScroll([timelineRef.current.scrollTop, 0]);
     }
-  });
+  }, []);
 
   return (
     <section id="Application Timeline" className="flex justify-center relative z-10">
       <RedBlob intensity={0.5} className="left-[-150px] bottom-[-50px] z-0" />
       <SectionWrapper id={'Application Timeline'}>
-        <div className="relative z-10w-full">
+        <div className="relative w-full">
           <div className="flex flex-col gap-6 my-12 text-white md:px-0 xs:px-6">
             <p className="font-semibold md:text-[32px] xs:text-[24px]">This is DTI.</p>
             <p className="md:font-semibold lg:text-[28px] xs:text-[20px]">
@@ -264,12 +283,12 @@ const ApplicationTimeline = () => {
                     <Tab
                       isSelected={cycle === 'upperclassmen'}
                       text={'Upperclassmen'}
-                      onClick={() => setCycle('upperclassmen')}
+                      onClick={() => onTabSwitch('upperclassmen')}
                     />
                     <Tab
                       isSelected={cycle === 'freshmen'}
                       text={'Freshmen/Transfer'}
-                      onClick={() => setCycle('freshmen')}
+                      onClick={() => onTabSwitch('freshmen')}
                     />
                   </>
                 ) : (
