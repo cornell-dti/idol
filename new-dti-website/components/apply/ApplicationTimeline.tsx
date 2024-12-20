@@ -72,7 +72,11 @@ const getEndTime = ({ date, time }: DateTime): number => {
     endTime = extractEndTime(time);
   }
 
-  return parseDate(endDate, '11:59:59 PM', endTime).getTime();
+  return parseDate(
+    `${endDate}, ${config.semester.split(' ')[1]}`,
+    '11:59:59 PM',
+    endTime
+  ).getTime();
 };
 
 type RecruitmentEventProps = {
