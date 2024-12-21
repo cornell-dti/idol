@@ -256,7 +256,7 @@ summary {
   padding-right: 1rem;
 }
 
-summary::webkit-details-marker {
+summary::-webkit-details-marker {
   display: none 
 }
 
