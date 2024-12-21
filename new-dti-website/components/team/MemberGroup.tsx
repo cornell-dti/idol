@@ -310,10 +310,10 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     setSelectedMember(member.netid === selectedMember?.netid ? undefined : member);
     if (member.netid !== selectedMember?.netid) {
       requestAnimationFrame(() =>
-          memberDetailsRef.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          })
+        memberDetailsRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
       );
     }
   };
