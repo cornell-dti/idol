@@ -307,11 +307,6 @@ details[open] > summary::after {
   border-radius: 16px;
 }
 
-.member-grid {
-  display: grid;
-  justify-content: space-between;
-}
-
 .icons:focus-visible {
   opacity: 0.6;
 }
