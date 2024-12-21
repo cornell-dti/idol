@@ -309,8 +309,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
   const onMemberCardClick = (member: IdolMember) => {
     setSelectedMember(member.netid === selectedMember?.netid ? undefined : member);
     if (member.netid !== selectedMember?.netid) {
-      requestAnimationFrame(
-        () =>
+      requestAnimationFrame(() =>
           memberDetailsRef.current?.scrollIntoView({
             behavior: 'smooth',
             block: 'center'
