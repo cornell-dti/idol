@@ -24,7 +24,7 @@ const ImageCarousel = (props: { items: carouselItem[] }) => {
   const highlightIndex = React.useMemo(() => (width < 1024 ? 1 : 3), [width]);
 
   return (
-    <div className="flex relative bg-transparent overflow-x-hidden ">
+    <div className="flex relative bg-transparent overflow-x-hidden z-10">
       <Carousel
         className="grow h-36 md:h-72 lg:h-80 mb-24 md:mb-0 lg:-ml-[105px] pointer-events-none"
         opts={{
