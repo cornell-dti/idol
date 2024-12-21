@@ -257,7 +257,7 @@ summary {
 }
 
 summary::-webkit-details-marker {
-  display: none 
+  display: none;
 }
 
 summary::after {
