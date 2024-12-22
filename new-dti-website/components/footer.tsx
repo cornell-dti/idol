@@ -66,7 +66,7 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
             href={icon.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 relative"
+            className="w-9 h-9 relative hover:opacity-60"
           >
             <Image
               className={`${theme === 'dark' ? 'invert-0' : 'invert'} w-full h-full`}
