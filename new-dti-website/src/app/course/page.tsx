@@ -97,7 +97,7 @@ export default function Courses() {
         {/* WRAPPER */}
         <div
           id="Wrapper"
-          className="flex flex-col pb-10 gap-y-28 md:gap-y-36 lg:gap-y-44 bg-[#EDEDED] text-black "
+          className="flex flex-col pb-10 gap-y-24 md:gap-y-32 lg:gap-y-40 bg-[#EDEDED] text-black "
         >
           <SectionWrapper id={'Products Page Logo Section'}>
             <div className="flex flex-col pt-20 lg:flex-row lg:items-center lg:justify-around">
@@ -163,9 +163,9 @@ export default function Courses() {
           </SectionWrapper>
 
           {/* TIMELINE SECTION */}
-          <section id="Timeline">
+          <SectionWrapper id={`Timeline`}>
             <Timeline events={timeline_events} currentDate={new Date()} />
-          </section>
+          </SectionWrapper>
 
           {/* COURSE STAFF SECTION */}
           <SectionWrapper id={'Course Staff'}>
@@ -184,12 +184,12 @@ export default function Courses() {
           </SectionWrapper>
 
           {/* PAST STUDENT EXPERIENCES SECTION */}
-          <SectionWrapper id={'Past Student Experiences'}>
-            <div className="font-bold text-4xl md:text-[40px] w-[1200px]">
-              Past Student Experiences
-            </div>
-            <TestimonialSlider testimonials={testimonials} className="w-screen" />
-          </SectionWrapper>
+          <section id={'Past Student Experiences'}>
+            <SectionWrapper id={'Past Student Experiences Wrapper'}>
+              <div className="font-bold text-4xl md:text-[40px]">Past Student Experiences</div>
+            </SectionWrapper>
+            <TestimonialSlider testimonials={testimonials} className="pt-14" />
+          </section>
 
           {/* PAST STUDENT PROJECTS SECTION */}
           <SectionWrapper id={'Past Student Projects'}>
