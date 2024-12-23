@@ -3,8 +3,15 @@
     "roleName": "Leads",
     "description": "Striving to connect and mentor our members for their best growth.",
     "members": [],
-    "roles": ["lead", "ops-lead", "product-lead", "dev-lead", "design-lead", "business-lead"],
+    "roles": ["lead", "ops-lead", "dev-lead", "design-lead", "business-lead", "product-lead"],
     "color": "#FFD0D0"
+  },
+  "developer": {
+    "roleName": "Development",
+    "description": "Building, testing, and optimizing our applications.",
+    "members": [],
+    "roles": ["dev-lead", "tpm", "developer", "dev-advisor"],
+    "color": "#BCECC3"
   },
   "designer": {
     "roleName": "Design",
@@ -13,13 +20,6 @@
     "roles": ["design-lead", "designer", "design-advisor"],
     "color": "#ADD3F9"
   },
-  "pm": {
-    "roleName": "Product",
-    "description": "Leading product development to positively impact the community.",
-    "members": [],
-    "roles": ["product-lead", "pm", "apm", "pm-advisor"],
-    "color": "#DEBDFE"
-  },
   "business": {
     "roleName": "Business",
     "description": "Bringing products and events to the community.",
@@ -27,11 +27,11 @@
     "roles": ["business-lead", "business", "business-advisor"],
     "color": "#F9D6AD"
   },
-  "developer": {
-    "roleName": "Development",
-    "description": "Building, testing, and optimizing our applications.",
+  "pm": {
+    "roleName": "Product",
+    "description": "Leading product development to positively impact the community.",
     "members": [],
-    "roles": ["dev-lead", "tpm", "developer", "dev-advisor"],
-    "color": "#BCECC3"
+    "roles": ["product-lead", "pm", "apm", "pm-advisor"],
+    "color": "#DEBDFE"
   }
 }

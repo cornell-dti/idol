@@ -256,6 +256,10 @@ summary {
   padding-right: 1rem;
 }
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
 summary::after {
   content: '';
   width: 13px;
@@ -305,4 +309,13 @@ details[open] > summary::after {
   width: calc(100% + 26px);
   left: -13px;
   border-radius: 16px;
+}
+
+.icons:focus-visible {
+  opacity: 0.6;
+}
+
+.coffee-calendar-hover {
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
 }
