@@ -310,3 +310,8 @@ details[open] > summary::after {
 .icons:focus-visible {
   opacity: 0.6;
 }
+
+.coffee-calendar-hover {
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
+}

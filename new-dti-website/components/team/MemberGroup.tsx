@@ -30,16 +30,16 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 
   return (
     <div
-      className={`memberCard flex h-full flex-col md:gap-3 xs:gap-2 xs:text-[16px] justify-between ${
+      className={`memberCard card-clickable flex h-full flex-col md:gap-3 xs:gap-2 xs:text-[16px] justify-between ${
         enlarged ? 'md:text-2xl' : 'md:text-lg'
       }`}
     >
-      <div className="flex flex-col md:gap-3 xs:gap-2 justify-between">
+      <div className="card-clickable flex flex-col md:gap-3 xs:gap-2 justify-between">
         <img
           src={image}
           alt={`${firstName}-${lastName}`}
           className={`rounded-md ${
-            enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'
+            enlarged ? 'h-[244px] w-[244px]' : 'md:h-[238px] xs:h-[202px] w-full'
           } object-cover`}
         />
         <h3
@@ -67,7 +67,7 @@ type MemberCardProps = {
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
   <Card
-    className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit grow ${
+    className={`memberCard card-clickable w-full md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit grow ${
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
     }`}
   >
@@ -205,7 +205,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   alt="calendar"
                   width={24}
                   height={24}
-                  className={hover ? 'brightness-0 invert' : ''}
+                  className={hover ? 'coffee-calendar-hover' : ''}
                 />
                 <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
               </a>
@@ -231,11 +231,11 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
         >
           <div className="flex gap-3 w-max">
             <Image
-              src="/icons/calendar.svg"
+              src="/icons/red_calendar.svg"
               alt="calendar"
               width={24}
               height={24}
-              className={hover ? 'brightness-0 invert' : ''}
+              className={hover ? 'coffee-calendar-hover' : ''}
             />
             <p className="font-bold text-base text-inherit whitespace-nowrap">Chat with me</p>
           </div>
@@ -324,7 +324,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <>
           <button
             onClick={() => onMemberCardClick(member)}
-            className="memberCard flex flex-col items-center custom-focus-state"
+            className="memberCard card-clickable flex flex-col items-center custom-focus-state"
             aria-label={`open ${member.firstName} ${member.lastName}'s details`}
           >
             <MemberCard
@@ -335,7 +335,7 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             />
           </button>
           {selectedMember && canInsertMemberDetails(index) && (
-            <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
+            <div className="lg:col-span-4 md:col-span-3 xs:col-span-2 rounded-lg" ref={memberDetailsRef}>
               <MemberDetails
                 {...selectedMember}
                 image={`team/${selectedMember.netid}.jpg`}
@@ -355,13 +355,13 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
         <div
           className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+              xs:gap-5 md:mt-10 xs:mt-5"
         >
           {members.map((member, index) => (
             <>
               <button
                 onClick={() => onMemberCardClick(member)}
-                className="memberCard flex flex-col items-center custom-focus-state"
+                className="memberCard card-clickable flex flex-col items-center custom-focus-state"
                 aria-label={`open ${member.firstName} ${member.lastName}'s details`}
               >
                 <MemberCard

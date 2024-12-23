@@ -51,8 +51,8 @@ export default function Courses() {
           const target = event.target as HTMLElement;
           if (
             !(
-              target.classList.contains('memberCard') ||
-              target.parentElement?.classList.contains('memberCard')
+              target.classList.contains('card-clickable') ||
+              target.parentElement?.classList.contains('card-clickable')
             ) &&
             !memberDetailsRef.current?.contains(target)
           )
