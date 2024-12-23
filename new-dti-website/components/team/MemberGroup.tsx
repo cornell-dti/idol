@@ -335,7 +335,10 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             />
           </button>
           {selectedMember && canInsertMemberDetails(index) && (
-            <div className="lg:col-span-4 md:col-span-3 xs:col-span-2 rounded-lg" ref={memberDetailsRef}>
+            <div
+              className="lg:col-span-4 md:col-span-3 xs:col-span-2 rounded-lg"
+              ref={memberDetailsRef}
+            >
               <MemberDetails
                 {...selectedMember}
                 image={`team/${selectedMember.netid}.jpg`}
