@@ -25,7 +25,7 @@ const InitiativeHero = () => (
             className="font-bold md:text-subheader xs:text-[24px] md:leading-subheader
           xs:leading-[29px] text-hero-primary"
           >
-            Invigorating growth
+            Making impact
           </h2>
           <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
             What sets us apart from other project teams is our desire to share our discoveries with
@@ -46,7 +46,7 @@ const InitiativePage = () => (
     <SectionWrapper id={'Initiatives Display'}>
       <InitiativeDisplay />
     </SectionWrapper>
-    <div className="bg-[#F5F5F5] ">
+    <div className="bg-[#F6F6F6] ">
       <SectionWrapper id={'initiative-footer'} className="flex justify-center lg:py-32 xs:py-16">
         <div className="w-full flex flex-col lg:gap-6 xs:gap-3">
           <h3 className="font-semibold md:text-[32px] xs:text-[22px] leading-10">
