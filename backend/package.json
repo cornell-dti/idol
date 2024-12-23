@@ -15,7 +15,8 @@
     "create-idol-images-pr": "esr scripts/create-idol-images-pr.ts",
     "backup-prod-db": "esr scripts/backup-prod-db.ts",
     "restore-from-backup": "esr scripts/restore-from-backup.ts",
-    "shoutout-leaderboard": "esr scripts/shoutout-leaderboard.ts"
+    "shoutout-leaderboard": "esr scripts/shoutout-leaderboard.ts",
+    "create-member-archive": "esr scripts/create-member-archive.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {
