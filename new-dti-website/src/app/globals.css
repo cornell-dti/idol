@@ -256,6 +256,10 @@ summary {
   padding-right: 1rem;
 }
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
 summary::after {
   content: '';
   width: 13px;

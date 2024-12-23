@@ -76,10 +76,13 @@ const ApplyCoffeeChat = () => (
         Feel free to chat with any of us over email, coffee, lunch-we're happy to help!
       </p>
       <div className="flex md:flex-row xs:flex-col gap-3">
-        <a href={config.coffeeChatLink} className="primary-button">
+        <a href={config.coffeeChatLink} className="primary-button xs:w-full md:w-fit text-center">
           Coffee chat with us
         </a>
-        <a href={config.coffeeChatFormLink} className="secondary-button secondary-button--red">
+        <a
+          href={config.coffeeChatFormLink}
+          className="secondary-button secondary-button--red xs:w-full md:w-fit text-center"
+        >
           Don't know who to chat with?
         </a>
       </div>

@@ -57,19 +57,19 @@ const RoleDescriptions = () => {
               );
             })}
           </div>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
             {Object.keys(applications).map((application, index) => {
               const roleApplication = applications[application];
               return (
                 role === application && (
-                  <div key={index}>
+                  <div key={index} className="flex flex-col md:gap-6 xs:gap-4">
                     <h3
                       className="font-semibold lg:text-[32px] lg:leading-[38px] md:text-[24px] 
                     md:leading-[29px] xs:text-[22px]"
                     >
                       {roleApplication.roleName} Application
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h3
                         className="font-semibold lg:text-[24px] lg:leading-[29px] md:text-[20px] 
                       md:leading-[24px] xs:text-[14px] xs:leading-[17px]"
@@ -87,7 +87,7 @@ const RoleDescriptions = () => {
                         ))}
                       </ul>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h3
                         className="font-semibold lg:text-[24px] lg:leading-[29px] md:text-[20px] 
                       md:leading-[24px] xs:text-[14px] xs:leading-[17px]"
