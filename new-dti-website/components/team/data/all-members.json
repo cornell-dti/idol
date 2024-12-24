@@ -1482,23 +1482,25 @@
     "subteams": [
       "carriage"
     ],
-    "about": "",
-    "pronouns": "",
     "graduation": "May 2026",
     "lastName": "Choi",
-    "github": "",
     "minor": "Business",
     "role": "pm",
-    "linkedin": "",
     "email": "mc2852@cornell.edu",
-    "doubleMajor": "",
     "major": "Information Science",
     "roleDescription": "Product Manager",
     "firstName": "Matthias",
-    "website": "",
     "netid": "mc2852",
-    "hometown": "",
-    "semesterJoined": "Spring 2024"
+    "semesterJoined": "Spring 2024",
+    "college": "cals",
+    "github": null,
+    "hometown": "Norwood, NJ",
+    "website": null,
+    "doubleMajor": null,
+    "coffeeChatLink": null,
+    "about": "Hi I'm Matthias! I'm a junior studying Information Science with a concentration in Data Science and minoring in Business. I first joined DTI in Spring 2024 as an APM on Carriage and now I'm currently PM of Carriage. In my free time you can find me cooking or watching soccer!",
+    "pronouns": "He/Him",
+    "linkedin": "https://www.linkedin.com/in/matthias-choi/"
   },
   {
     "formerSubteams": [],
