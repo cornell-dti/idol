@@ -18,9 +18,7 @@ type CandidateDeciderProps = {
 
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [nextCandidate, setNextCandidate] = useState<number | null>(
-    null
-  );
+  const [nextCandidate, setNextCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
 
@@ -99,12 +97,23 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   };
 
   const handleCandidateChange = (candidate: number) => {
+    if (candidate < 0 || candidate >= instance.candidates.length) {
+      return;
+    }
     if (!isSaved) {
+      setNextCandidate(candidate);
       setIsModalOpen(true);
     } else {
       setCurrentCandidate(candidate);
       populateReviewForCandidate(candidate);
     }
+  };
+
+  const navigateToNextCandidate = (candidate: number) => {
+    setCurrentCandidate(candidate);
+    populateReviewForCandidate(candidate);
+    setNextCandidate(null);
+    setIsModalOpen(false);
   };
 
   return instance.candidates.length === 0 ? (
@@ -126,11 +135,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentComment ?? ''
               );
               if (nextCandidate !== null) {
-                setCurrentCandidate(nextCandidate);
-                populateReviewForCandidate(nextCandidate);
-                setNextCandidate(null);
+                navigateToNextCandidate(nextCandidate);
               }
-              setIsModalOpen(false);
             }}
           >
             Save
@@ -139,11 +145,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             primary
             onClick={() => {
               if (nextCandidate !== null) {
-                setCurrentCandidate(nextCandidate);
-                populateReviewForCandidate(nextCandidate);
-                setNextCandidate(null);
+                navigateToNextCandidate(nextCandidate);
               }
-              setIsModalOpen(false);
             }}
           >
             Discard
@@ -182,8 +185,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               color="blue"
               disabled={currentCandidate === 0}
               onClick={() => {
-                if (currentCandidate === 0) return;
-                setNextCandidate(currentCandidate - 1);
                 handleCandidateChange(currentCandidate - 1);
               }}
             >
@@ -194,8 +195,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               color="blue"
               disabled={currentCandidate === instance.candidates.length - 1}
               onClick={() => {
-                if (currentCandidate === instance.candidates.length - 1) return;
-                setNextCandidate(currentCandidate + 1);
                 handleCandidateChange(currentCandidate + 1);
               }}
             >
