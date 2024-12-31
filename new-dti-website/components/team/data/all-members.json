@@ -1207,26 +1207,28 @@
   },
   {
     "formerSubteams": [],
-    "website": "",
     "email": "kl2246@cornell.edu",
-    "hometown": "",
-    "doubleMajor": "",
-    "minor": "",
     "roleDescription": "Business",
-    "major": "",
     "firstName": "Darin",
-    "linkedin": "",
-    "github": "",
     "role": "business",
-    "about": "",
-    "pronouns": "",
     "subteams": [
       "carriage"
     ],
     "graduation": "May 2028",
     "lastName": "Lee",
     "netid": "kl2246",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cals",
+    "github": null,
+    "hometown": "Hong Kong",
+    "website": null,
+    "minor": null,
+    "major": "Global Development",
+    "doubleMajor": null,
+    "coffeeChatLink": null,
+    "about": "Hi everyone, my name is Darin and I am a freshman studying Global Development in CALS. I am the PMM for Carriage and am part of the business team. Outside of DTI, I am also involved with the Social Enterprise Group at Cornell, Hong Kong Students' Association, and International Students Union. I am passionate about finance, impact investing, social entrepreneurship, and watching all sports. Please feel free to reach out to me!",
+    "pronouns": "He/Him",
+    "linkedin": "https://www.linkedin.com/in/darinlee1"
   },
   {
     "roleDescription": "Business Advisor",
@@ -1454,7 +1456,6 @@
   },
   {
     "formerSubteams": [],
-    "hometown": "Malaysia",
     "netid": "may52",
     "github": null,
     "pronouns": "she/her",
@@ -1475,7 +1476,8 @@
     "lastName": "Yap",
     "major": "Computer Science",
     "roleDescription": "Product Lead",
-    "linkedin": "https://www.linkedin.com/in/megan-qz-yap/"
+    "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
+    "hometown": "Kuala Lumpur, Malaysia"
   },
   {
     "formerSubteams": [],
@@ -1531,24 +1533,26 @@
     "formerSubteams": [],
     "role": "developer",
     "roleDescription": "Developer",
-    "hometown": "",
-    "pronouns": "",
-    "about": "",
     "firstName": "Matthew",
-    "major": "",
     "graduation": "May 2028",
     "subteams": [
       "reviews"
     ],
     "lastName": "Kim",
     "email": "mk2672@cornell.edu",
-    "minor": "",
-    "website": "",
-    "linkedin": "",
     "netid": "mk2672",
-    "github": "",
-    "doubleMajor": "",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "github": null,
+    "hometown": "Bay Area, California",
+    "website": null,
+    "minor": "Creative Writing",
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "coffeeChatLink": "calendly.com/mattkimcornell",
+    "about": "I'm a developer on CUReviews! Hit me up if you're passionate about ethical AI, Rubik's Cube speedsolving, pop music criticism, contemporary poetry, student journalism, or US politics. I'm a nerd about a lot of things, evidently.",
+    "pronouns": "he/him",
+    "linkedin": "https://www.linkedin.com/in/matthew-kim-10a314235/"
   },
   {
     "formerSubteams": [],
@@ -1706,9 +1710,7 @@
     "role": "business-lead",
     "firstName": "Olina",
     "website": null,
-    "about": "Hi! I am on the Internal Business team and I am so excited to get to know everyone and work together :)!",
     "roleDescription": "Business Lead",
-    "doubleMajor": "Economics",
     "pronouns": "She/Her",
     "github": null,
     "graduation": "May 2027",
@@ -1718,7 +1720,11 @@
     "semesterJoined": "Spring 2024",
     "email": "oz36@cornell.edu",
     "linkedin": null,
-    "lastName": "Zheng"
+    "lastName": "Zheng",
+    "college": "cas",
+    "doubleMajor": null,
+    "coffeeChatLink": null,
+    "about": "Hi! I am one of the Business Leads and I am so excited to make a great impact on DTI! :)))"
   },
   {
     "formerSubteams": [],
