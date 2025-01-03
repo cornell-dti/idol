@@ -2,7 +2,7 @@
   "semester": "Spring 2025",
   "applicationDeadline": "January 30, 2025 11:59:59 PM",
   "freshmanAppDeadline": "October 24, 2024 11:59:59 PM",
-  "applicationLink": "https://forms.gle/F9tFrW88a2Xoa9D49",
+  "applicationLink": "https://forms.gle/4n6JHcSjoKsK1Z1R6",
   "coffeeChatLink": "https://docs.google.com/spreadsheets/d/1jDrkQ61h41w0kw6gITUJJiJ-yQtE_WfBZbHvVow17ik",
   "coffeeChatFormLink": "https://docs.google.com/forms/d/e/1FAIpQLSdAX0T_H0h9qpXSo6aeM-azFbAgIfOCOlXByHpf2HkHi8XTnw/viewform",
   "donationLink": "https://securelb.imodules.com/s/1717/giving/interior.aspx?sid=1717&gid=2&pgid=16421&bledit=1&dids=2215",
@@ -20,7 +20,7 @@
     {
       "title": "Information Session 1",
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can’t make this session, check out the Information Session 2 below.",
-      "location": "Goldwin Smith Hall G26",
+      "location": "TBD",
       "type": "info",
       "freshmen": { "date": "September 30", "isTentative": false, "time": "5-6PM" },
       "upperclassmen": { "date": "August 27", "isTentative": false, "time": "5-6PM" },
@@ -29,7 +29,7 @@
     {
       "title": "Information Session 2",
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
-      "location": "Goldwin Smith Hall G22",
+      "location": "TBD",
       "type": "info",
       "freshmen": { "date": "October 12", "isTentative": false, "time": "11AM-12PM" },
       "upperclassmen": { "date": "September 2", "isTentative": false, "time": "6:30-7:30PM" },
