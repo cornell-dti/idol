@@ -1,7 +1,6 @@
 [
   {
     "formerSubteams": [],
-    "hometown": "Bryn Mawr",
     "website": null,
     "role": "business",
     "firstName": "Arsh",
@@ -14,14 +13,16 @@
       "cuapts"
     ],
     "linkedin": "https://www.linkedin.com/in/arshagga/",
-    "about": "Freshman in CAS studying Mathematics with a concentration in Economics. From Bryn Mawr, PA which is 30 minutes outside of Philadelphia. Things I do for fun are play golf and tennis, follow F1, woodworking, DJing. ",
     "minor": null,
     "pronouns": "he/him",
     "lastName": "Aggarwal",
     "doubleMajor": null,
     "roleDescription": "Business",
     "graduation": "May 2028",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "hometown": "Bryn Mawr, PA",
+    "about": "Freshman studying Mathematics with a minor in Biomedical Engineering. Apart from DTI, I'm involved in Pi Sigma Epsilon, a business fraternity on campus and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. "
   },
   {
     "formerSubteams": [],
@@ -220,30 +221,30 @@
   },
   {
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/",
-    "website": null,
-    "roleDescription": "Technical PM",
-    "doubleMajor": null,
-    "coffeeChatLink": "https://calendly.com/axc2-cornell/30min",
-    "github ": "https://github.com/andrew032011",
     "pronouns": "he/him/his",
-    "semesterJoined": "Spring 2022",
-    "isAdvisor": false,
+    "college": "eng",
     "firstName": "Andrew",
-    "about": "Hello! I'm Andrew, a senior studying CS. My interests are mainly in software development and computer science education. I enjoy teaching, speedsolving the Rubik's Cube, and playing percussion. I'm always looking to learn more and take on new challenges.",
+    "coffeeChatLink": "https://calendly.com/axc2-cornell/30min",
+    "lastName": "Chen",
+    "graduation": "December 2024",
+    "role": "dev-advisor",
+    "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/",
+    "major": "Computer Science",
+    "semesterJoined": "Spring 2022",
+    "netid": "axc2",
+    "roleDescription": "Dev Advisor",
+    "minor": "",
+    "website": null,
+    "github": "https://github.com/andrew032011",
+    "email": "axc2@cornell.edu",
+    "isAdvisor": false,
     "hometown": "Boston, MA",
-    "role": "tpm",
     "subteams": [
       "idol"
     ],
-    "email": "axc2@cornell.edu",
-    "netid": "axc2",
-    "lastName": "Chen",
-    "graduation": "December 2024",
-    "github": "https://github.com/andrew032011",
-    "major": "Computer Science",
-    "minor": "",
-    "college": "eng"
+    "doubleMajor": null,
+    "about": "Hello! I'm Andrew, a senior studying CS. My interests are mainly in software development and computer science education. I enjoy teaching, speedsolving the Rubik's Cube, and playing percussion. I'm always looking to learn more and take on new challenges.",
+    "github ": "https://github.com/andrew032011"
   },
   {
     "role": "pm-advisor",
@@ -1061,11 +1062,9 @@
     "graduation": "May 2028",
     "lastName": "Crane",
     "doubleMajor": "Mathematics",
-    "minor": "Computer Science",
     "netid": "jlc565",
     "pronouns": "she/her",
     "email": "jlc565@cornell.edu",
-    "major": "Economics",
     "role": "developer",
     "hometown": "Ithaca NY",
     "subteams": [
@@ -1078,7 +1077,9 @@
     "semesterJoined": "Fall 2024",
     "college": "cas",
     "coffeeChatLink": null,
-    "about": "Hi! I'm Juju, a freshman at Cornell. I'm double majoring in Math and Econ and minoring in CS. Outside of academics, I play hockey on the Cornell Women's Club Hockey team and French horn in the Cornell Symphony Orchestra."
+    "minor": null,
+    "major": "Computer Science",
+    "about": "Hi! I'm Juju, a freshman at Cornell. I'm double majoring in CS and Math. Outside of academics, I play hockey on the Cornell Women's Club Hockey team and French horn in the Cornell Symphony Orchestra. Feel free to reach out to me at jlc565@cornell.edu!"
   },
   {
     "formerSubteams": [],
@@ -1469,7 +1470,6 @@
     "subteams": [
       "reviews"
     ],
-    "about": "I am passionate about the intersection of tech, design, and business! Having knowledge of code through my CS journey, business principles through my experience founding an e-commerce small business selling self-designed stickers, and UI/UX design through my time at Design Consulting at Cornell, I am excited about using my shared skillset to build products with tangible impacts.\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)",
     "role": "product-lead",
     "doubleMajor": null,
     "minor": "Linguistics",
@@ -1477,7 +1477,8 @@
     "major": "Computer Science",
     "roleDescription": "Product Lead",
     "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
-    "hometown": "Kuala Lumpur, Malaysia"
+    "hometown": "Kuala Lumpur, Malaysia",
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design on DCC)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)"
   },
   {
     "formerSubteams": [],
@@ -1934,7 +1935,6 @@
     "github": "https://github.com/Destaq",
     "email": "sci24@cornell.edu",
     "minor": "Linguistics",
-    "about": "Serial builder, language learner, and digger-upper of interesting tidbits of knowledge.",
     "roleDescription": "Developer Lead",
     "linkedin": "https://linkedin.com/in/simon-ilincev/",
     "website": "https://simonilincev.com",
@@ -1947,7 +1947,8 @@
     "pronouns": "he/him",
     "college": "eng",
     "semesterJoined": "Fall 2023",
-    "netid": "sci24"
+    "netid": "sci24",
+    "about": "Serial builder, language learner, and digger-upper of interesting tidbits of knowledge. Always free for a coffee chat :)"
   },
   {
     "formerSubteams": [],
