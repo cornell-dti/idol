@@ -48,6 +48,10 @@ export default class ShoutoutsAPI {
     return APIWrapper.put(`${backendURL}/shoutout`, { uuid, hide }).then((res) => res.data);
   }
 
+  public static updateShoutout(uuid: string, shoutout: Shoutout): Promise<ShoutoutResponseObj> {
+    return APIWrapper.put(`${backendURL}/shoutout/${uuid}`, shoutout).then((res) => res.data);
+  }
+
   public static async deleteShoutout(uuid: string): Promise<void> {
     await APIWrapper.delete(`${backendURL}/shoutout/${uuid}`);
   }
