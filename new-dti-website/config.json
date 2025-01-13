@@ -2,7 +2,7 @@
   "semester": "Spring 2025",
   "applicationDeadline": "January 30, 2025 11:59:59 PM",
   "freshmanAppDeadline": "October 24, 2024 11:59:59 PM",
-  "applicationLink": "https://forms.gle/4n6JHcSjoKsK1Z1R6",
+  "applicationLink": "https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link",
   "coffeeChatLink": "https://docs.google.com/spreadsheets/d/1jDrkQ61h41w0kw6gITUJJiJ-yQtE_WfBZbHvVow17ik",
   "coffeeChatFormLink": "https://docs.google.com/forms/d/e/1FAIpQLSdAX0T_H0h9qpXSo6aeM-azFbAgIfOCOlXByHpf2HkHi8XTnw/viewform",
   "donationLink": "https://securelb.imodules.com/s/1717/giving/interior.aspx?sid=1717&gid=2&pgid=16421&bledit=1&dids=2215",
@@ -12,7 +12,7 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "application",
-      "link": "https://forms.gle/F9tFrW88a2Xoa9D49",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link",
       "freshmen": { "date": "August 21", "isTentative": false },
       "upperclassmen": { "date": "August 21", "isTentative": false },
       "spring": { "date": "January 3", "isTentative": false }
@@ -40,7 +40,7 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "deadline",
-      "link": "https://forms.gle/F9tFrW88a2Xoa9D49",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link",
       "freshmen": { "date": "October 17", "isTentative": false },
       "upperclassmen": { "date": "September 4", "isTentative": false },
       "spring": { "date": "January 30", "isTentative": false }
