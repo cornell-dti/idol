@@ -40,7 +40,7 @@ type RoleDescription =
   | 'Business Advisor';
 
 /** The possible colleges an IDOL member could be. */
-type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks';
+type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks' | 'aap';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
