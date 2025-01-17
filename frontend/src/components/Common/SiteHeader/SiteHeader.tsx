@@ -28,7 +28,7 @@ const SiteHeader: React.FC = () => {
               <Icon size="big" className={styles.menu_icon} name="bars" />
             </div>
           )}
-          <Link href="/">
+          <Link href={hasMemberPermissions ? '/' : '/applicant'}>
             <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
           </Link>
           <div className={styles.title_container} onMouseLeave={() => setIdolOpen(false)}>
