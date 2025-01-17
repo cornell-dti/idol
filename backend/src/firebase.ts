@@ -7,8 +7,7 @@ import {
   DevPortfolioSubmissionRequestLog,
   DBTeamEventAttendance,
   DBCandidateDeciderReview,
-  DBCoffeeChat,
-  DBInterviewScheduler
+  DBCoffeeChat
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -184,12 +183,12 @@ export const candidateDeciderReviewCollection: admin.firestore.CollectionReferen
     }
   });
 
-export const interviewSchedulerCollection: admin.firestore.CollectionReference<DBInterviewScheduler> =
+export const interviewSchedulerCollection: admin.firestore.CollectionReference<InterviewScheduler> =
   db.collection('interview-scheduler').withConverter({
-    fromFirestore(snapshot): DBInterviewScheduler {
-      return snapshot.data() as DBInterviewScheduler;
+    fromFirestore(snapshot): InterviewScheduler {
+      return snapshot.data() as InterviewScheduler;
     },
-    toFirestore(interviewSchedulerData: DBInterviewScheduler) {
+    toFirestore(interviewSchedulerData: InterviewScheduler) {
       return interviewSchedulerData;
     }
   });
