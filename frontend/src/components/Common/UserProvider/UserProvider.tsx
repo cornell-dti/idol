@@ -80,7 +80,6 @@ export default function UserProvider({ children }: { readonly children: ReactNod
   }
 
   if (!router.pathname.startsWith('/applicant') && !isMember) {
-    console.log(isMember);
     router.push('/applicant');
   }
 
