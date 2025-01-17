@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Sidebar, Menu, Icon } from 'semantic-ui-react';
+import { useRouter } from 'next/router';
 import UserProvider from '../components/Common/UserProvider/UserProvider';
 import FirestoreDataProvider, {
   useHasAdminPermission,
@@ -34,9 +35,11 @@ export default function AppTemplate(props: AppProps): JSX.Element {
       </Head>
       <UserProvider>
         <FirestoreDataProvider>
-          <AppContent>
-            <Component {...pageProps} />
-          </AppContent>
+          <RoutingMiddleware>
+            <AppContent>
+              <Component {...pageProps} />
+            </AppContent>
+          </RoutingMiddleware>
         </FirestoreDataProvider>
       </UserProvider>
     </>
@@ -134,3 +137,14 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
     </Link>
   </>
 );
+
+const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const router = useRouter();
+  const hasMemberPermissions = useHasMemberPermission();
+
+  if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
+    router.push('/applicant');
+  }
+
+  return <>{children}</>;
+};

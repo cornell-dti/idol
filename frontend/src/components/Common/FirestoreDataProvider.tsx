@@ -112,15 +112,29 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
     MembersAPI.hasIDOLAccess(userEmail, 'applicants-included').then((hasIDOLAccess) => {
       setHasIDOLAccess(hasIDOLAccess);
     });
-    const unsubscriberOfAdminEmails = onSnapshot(adminsCollection, (snapshot) => {
-      setAdminEmails(snapshot.docs.map((it) => it.id));
-    });
-    const unsubscriberOfMembers = onSnapshot(membersCollection, (snapshot) => {
-      setMembers(snapshot.docs.map((it) => it.data()));
-    });
-    const unsubscriberOfApprovedMembers = onSnapshot(approvedMembersCollection, (snapshot) => {
-      setApprovedMembers(snapshot.docs.map((it) => it.data()));
-    });
+    const unsubscriberOfAdminEmails = onSnapshot(
+      adminsCollection,
+      (snapshot) => {
+        setAdminEmails(snapshot.docs.map((it) => it.id));
+      },
+      (error) => {
+        setAdminEmails([]);
+      }
+    );
+    const unsubscriberOfMembers = onSnapshot(
+      membersCollection,
+      (snapshot) => {
+        setMembers(snapshot.docs.map((it) => it.data()));
+      },
+      (error) => setMembers([])
+    );
+    const unsubscriberOfApprovedMembers = onSnapshot(
+      approvedMembersCollection,
+      (snapshot) => {
+        setApprovedMembers(snapshot.docs.map((it) => it.data()));
+      },
+      (error) => setApprovedMembers([])
+    );
     return () => {
       unsubscriberOfAdminEmails();
       unsubscriberOfMembers();
@@ -139,7 +153,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         /* Always render children under test environment */
         process.env.NODE_ENV === 'test' && children
       }
-      {!hasIDOLAccess ? (
+      {adminEmails == null || members == null || approvedMembers == null ? (
         <div>
           <Loader active size="massive" />
           {!hasIDOLAccess && (
