@@ -5,8 +5,11 @@ import styles from './SiteHeader.module.css';
 import { auth } from '../../../firebase';
 import dti_logo from '../../../static/images/dti-logo.png';
 import { Emitters } from '../../../utils';
+import { useHasMemberPermission } from '../FirestoreDataProvider';
 
 const SiteHeader: React.FC = () => {
+  const hasMemberPermissions = useHasMemberPermission();
+
   const onSignOut = () => {
     auth.signOut();
   };
@@ -15,14 +18,14 @@ const SiteHeader: React.FC = () => {
     <div className={styles.SiteHeader} data-testid="SiteHeader">
       <div className={styles.content}>
         <div className={styles.logo_and_title}>
-          <div
+          {hasMemberPermissions && <div
             className={styles.menu_icon_container}
             onClick={() => {
               Emitters.navOpenEmitter.emit(true);
             }}
           >
             <Icon size="big" className={styles.menu_icon} name="bars" />
-          </div>
+          </div>}
           <Link href="/">
             <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
           </Link>

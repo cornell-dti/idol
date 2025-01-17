@@ -1,11 +1,13 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
 import { User } from 'firebase/auth';
+import { useRouter } from 'next/router';
 import { auth } from '../../../firebase';
 import SignIn from '../SignIn/SignIn.lazy';
 import EmailNotFoundErrorModal from '../../Modals/EmailNotFoundErrorModal';
 
 import styles from './UserProvider.module.css';
+import { useHasMemberPermission } from '../FirestoreDataProvider';
 
 type UserContextType = { readonly email: string } | 'INIT' | null;
 
@@ -38,6 +40,9 @@ export const getUserIdToken = async (): Promise<string | null> => {
 
 export default function UserProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const [user, setUser] = useState<UserContextType>('INIT');
+  const router = useRouter();
+  const isMember = useHasMemberPermission();
+
   useEffect(
     () =>
       process.env.NODE_ENV === 'test'
@@ -72,6 +77,11 @@ export default function UserProvider({ children }: { readonly children: ReactNod
         <SignIn />
       </div>
     );
+  }
+
+  if (!router.pathname.startsWith('/applicant') && !isMember) {
+    console.log(isMember);
+    router.push('/applicant');
   }
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
