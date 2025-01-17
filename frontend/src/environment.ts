@@ -20,8 +20,8 @@ export const allowAdmin: boolean = process.env.NEXT_PUBLIC_ALLOW_ADMIN
   : true;
 
 /** Switch to true to test IDOL as an applicant user. */
-export const allowApplicant: boolean = process.env.NEXT_PUBLIC_IS_APPLICANT ?
-  JSON.parse(process.env.NEXT_PUBLIC_IS_APPLICANT as string)
+export const allowApplicant: boolean = process.env.NEXT_PUBLIC_IS_APPLICANT
+  ? JSON.parse(process.env.NEXT_PUBLIC_IS_APPLICANT as string)
   : false;
 
 export const backendURL =

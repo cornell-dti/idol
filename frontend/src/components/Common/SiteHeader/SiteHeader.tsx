@@ -18,22 +18,20 @@ const SiteHeader: React.FC = () => {
     <div className={styles.SiteHeader} data-testid="SiteHeader">
       <div className={styles.content}>
         <div className={styles.logo_and_title}>
-          {hasMemberPermissions && <div
-            className={styles.menu_icon_container}
-            onClick={() => {
-              Emitters.navOpenEmitter.emit(true);
-            }}
-          >
-            <Icon size="big" className={styles.menu_icon} name="bars" />
-          </div>}
+          {hasMemberPermissions && (
+            <div
+              className={styles.menu_icon_container}
+              onClick={() => {
+                Emitters.navOpenEmitter.emit(true);
+              }}
+            >
+              <Icon size="big" className={styles.menu_icon} name="bars" />
+            </div>
+          )}
           <Link href="/">
             <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
           </Link>
-          <div
-            className={styles.title_container}
-            onMouseEnter={() => setIdolOpen(true)}
-            onMouseLeave={() => setIdolOpen(false)}
-          >
+          <div className={styles.title_container} onMouseLeave={() => setIdolOpen(false)}>
             <Header className={styles.title} as="h1">
               I
               <div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>
