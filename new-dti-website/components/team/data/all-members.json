@@ -146,28 +146,28 @@
   },
   {
     "formerSubteams": [],
-    "linkedin": "https://www.linkedin.com/in/amelie-rosso-5b9034296",
-    "role": "apm",
+    "email": "ar2345@cornell.edu",
+    "firstName": "Amelie",
+    "semesterJoined": "Fall 2024",
+    "lastName": "Rosso",
+    "website": null,
+    "about": "Hi, I'm Amelie. I am a sophomore studying Information Science, Systems, and Technology in the College of Engineering and minoring in Artificial Intelligence. After college, I am interested in pursuing a career in Product Engineering. I joined DTI Fall 2024 and am currently PM of IDOL.\n\nIn my free time, I love to read, travel, craft, cook/bake, and go on fall walks! Feel free to reach out if you want to coffee chat :)",
     "subteams": [
       "idol"
     ],
-    "github": null,
+    "role": "pm",
+    "coffeeChatLink": "https://calendar.google.com/calendar/embed?src=amelie.rosso%40gmail.com&ctz=America%2FNew_York",
     "pronouns": "she/her",
-    "roleDescription": "Associate PM",
-    "netid": "ar2345",
+    "college": "eng",
+    "github": null,
+    "linkedin": "https://www.linkedin.com/in/amelie-rosso-5b9034296",
+    "roleDescription": "Product Manager",
+    "doubleMajor": null,
+    "hometown": "Redlands, CA",
     "graduation": "May 2027",
     "major": "ISST",
-    "doubleMajor": null,
-    "lastName": "Rosso",
-    "email": "ar2345@cornell.edu",
-    "website": null,
-    "hometown": "Redlands, CA",
-    "firstName": "Amelie",
-    "semesterJoined": "Fall 2024",
-    "college": "eng",
     "minor": "AI",
-    "coffeeChatLink": "https://calendar.google.com/calendar/embed?src=amelie.rosso%40gmail.com&ctz=America%2FNew_York",
-    "about": "Hi, I'm Amelie. I am a sophomore studying Information Science, Systems, and Technology in the College of Engineering and minoring in Artificial Intelligence. After college, I am interested in pursuing a career in Product Engineering. I joined DTI Fall 2024 and am currently PM of IDOL.\n\nIn my free time, I love to read, travel, craft, cook/bake, and go on fall walks! Feel free to reach out if you want to coffee chat :)"
+    "netid": "ar2345"
   },
   {
     "formerSubteams": [],
@@ -369,22 +369,24 @@
       "cornellgo"
     ],
     "lastName": "Lan",
-    "linkedin": "",
-    "doubleMajor": "",
-    "pronouns": "",
-    "minor": "",
     "role": "business",
-    "hometown": "",
-    "github": "",
-    "website": "",
     "netid": "cl2683",
     "email": "cl2683@cornell.edu",
     "graduation": "May 2027",
-    "major": "",
-    "about": "",
     "firstName": "Cynthia",
     "roleDescription": "Business",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cals",
+    "github": null,
+    "hometown": "San Jose, CA",
+    "website": null,
+    "minor": "Business",
+    "major": "Information Science",
+    "doubleMajor": null,
+    "coffeeChatLink": null,
+    "about": "Product Marketing Manager @ CornellGO\nHi! I’m a sophomore majoring in Info Sci + minoring in Business, with interests in marketing and product management. Outside of DTI, I’m also involved in CUSD and WICC! ",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/cynthia-lan-0b845a203?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
   },
   {
     "formerSubteams": [],
@@ -1463,7 +1465,6 @@
     "firstName": "Megan",
     "semesterJoined": "Spring 2024",
     "graduation": "May 2027",
-    "website": null,
     "college": "cas",
     "email": "may52@cornell.edu",
     "coffeeChatLink": null,
@@ -1478,7 +1479,8 @@
     "roleDescription": "Product Lead",
     "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
     "hometown": "Kuala Lumpur, Malaysia",
-    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design on DCC)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)"
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design on DCC)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)",
+    "website": "https://meganyap.me"
   },
   {
     "formerSubteams": [],
@@ -1680,7 +1682,6 @@
     "college": "cas",
     "github": "https://github.com/oscarwang20",
     "firstName": "Oscar",
-    "coffeeChatLink": null,
     "email": "ow39@cornell.edu",
     "netid": "ow39",
     "subteams": [
@@ -1689,7 +1690,6 @@
     "graduation": "May 2026",
     "major": "Computer Science",
     "minor": "AI",
-    "about": "",
     "roleDescription": "Developer Lead",
     "formerSubteams": [
       "idol"
@@ -1700,7 +1700,9 @@
     "website": null,
     "role": "dev-lead",
     "hometown": "Elmhurst, NY",
-    "pronouns": "he/him"
+    "pronouns": "he/him",
+    "coffeeChatLink": "https://calendly.com/ow39/coffee-chat-with-oscar",
+    "about": "I like doing a hamiltonian tour of the west houses each Wednesday with Chris."
   },
   {
     "formerSubteams": [],
