@@ -40,7 +40,7 @@
       "description": "Helping students prepare for our application by reviewing their resumes and giving them interview tips!",
       "location": "Upson 142",
       "type": "application",
-      "freshman": { "date": "January 1", "isTentative": true },
+      "freshmen": { "date": "January 1", "isTentative": true },
       "upperclassmen": { "date": "January 1", "isTentative": true },
       "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00PM" }
     },
@@ -49,7 +49,7 @@
       "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
       "location": "Upson 216",
       "type": "info",
-      "freshman": { "date": "January 1", "isTentative": true },
+      "freshmen": { "date": "January 1", "isTentative": true },
       "upperclassmen": { "date": "January 1", "isTentative": true },
       "spring": { "date": "January 24", "isTentative": false, "time": "5:00-6:15PM" }
     },
@@ -58,7 +58,7 @@
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
       "location": "Upson 222",
       "type": "info",
-      "freshman": { "date": "January 1", "isTentative": true },
+      "freshmen": { "date": "January 1", "isTentative": true },
       "upperclassmen": { "date": "January 1", "isTentative": true },
       "spring": { "date": "January 28", "isTentative": false, "time": "6:00-7:00PM" }
     },
