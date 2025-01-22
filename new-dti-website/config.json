@@ -63,15 +63,6 @@
       "spring": { "date": "January 28", "isTentative": false, "time": "6:00-7:00PM" }
     },
     {
-      "title": "Get to Know the DTI'ers",
-      "description": "Get to know DTI and its members through casual chats, games, product demos, and get your resume reviewed!",
-      "location": "Willard Straight Hall 407 (Memorial Room)",
-      "type": "info",
-      "freshmen": { "date": "January 1", "isTentative": true },
-      "upperclassmen": { "date": "January 1", "isTentative": true },
-      "spring": { "date": "January 29", "isTentative": false, "time": "5:00-6:30PM" }
-    },
-    {
       "title": "Applications due",
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
