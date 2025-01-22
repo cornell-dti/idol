@@ -94,6 +94,7 @@ import { getWriteSignedURL, getReadSignedURL, deleteImage } from './API/imageAPI
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
+import { getAllApplicants } from './API/interviewSchedulerAPI';
 
 // Constants and configurations
 const app = express();
@@ -211,12 +212,24 @@ router.get('/member', async (req, res) => {
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const member = await MembersDao.getCurrentOrPastMemberByEmail(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
+  const applicants = await getAllApplicants();
+
+  const type = req.query.type as string | undefined;
+  let hasIDOLAccess: boolean;
+
+  switch (type) {
+    case 'applicants-included':
+      hasIDOLAccess = member !== undefined || applicants.includes(req.params.email);
+      break;
+    default:
+      hasIDOLAccess = member !== undefined;
+  }
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
     res.status(200).json({ hasIDOLAccess: false });
   }
   res.status(200).json({
-    hasIDOLAccess: member !== undefined
+    hasIDOLAccess
   });
 });
 

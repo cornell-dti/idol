@@ -265,3 +265,22 @@ interface MemberDetails {
 }
 
 type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
+
+interface InterviewScheduler {
+  readonly name: string;
+  readonly duration: number;
+  readonly membersPerSlot: number;
+  readonly isOpen: boolean;
+  readonly isArchived: boolean;
+  readonly deadline: number;
+  readonly applicants: string[];
+}
+
+interface InterviewSlot {
+  readonly interviewSchedulerUuid: string;
+  readonly startTime: number;
+  readonly room: string;
+  readonly lead: IdolMember;
+  readonly members: string[];
+  readonly applicant: string;
+}

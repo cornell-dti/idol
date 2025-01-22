@@ -119,3 +119,12 @@ export type DBCoffeeChat = {
   reason?: string;
   errorMessage?: string;
 };
+
+export type DBInterviewSlot = {
+  readonly interviewSchedulerUuid: string;
+  readonly startTime: number;
+  readonly room: string;
+  lead: firestore.DocumentReference;
+  members: string[];
+  applicant: string;
+};

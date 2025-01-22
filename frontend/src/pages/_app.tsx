@@ -3,9 +3,11 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Sidebar, Menu, Icon } from 'semantic-ui-react';
+import { useRouter } from 'next/router';
 import UserProvider from '../components/Common/UserProvider/UserProvider';
 import FirestoreDataProvider, {
-  useHasAdminPermission
+  useHasAdminPermission,
+  useHasMemberPermission
 } from '../components/Common/FirestoreDataProvider';
 import SiteHeader from '../components/Common/SiteHeader/SiteHeader';
 import { Emitters } from '../utils';
@@ -33,9 +35,11 @@ export default function AppTemplate(props: AppProps): JSX.Element {
       </Head>
       <UserProvider>
         <FirestoreDataProvider>
-          <AppContent>
-            <Component {...pageProps} />
-          </AppContent>
+          <RoutingMiddleware>
+            <AppContent>
+              <Component {...pageProps} />
+            </AppContent>
+          </RoutingMiddleware>
         </FirestoreDataProvider>
       </UserProvider>
     </>
@@ -45,6 +49,7 @@ export default function AppTemplate(props: AppProps): JSX.Element {
 function AppContent({ children }: { readonly children: ReactNode }): JSX.Element {
   const [navVisible, setNavVisible] = useState(false);
   const hasAdminPermission = useHasAdminPermission();
+  const hasMemberPermissions = useHasMemberPermission();
   useEffect(() => {
     const cb = (isOpen: boolean) => {
       setNavVisible(isOpen);
@@ -63,27 +68,33 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
       <div className="App">
         <SiteHeader />
         <div className="appSidebarContainer">
-          <Sidebar
-            as={Menu}
-            animation="overlay"
-            icon="labeled"
-            inverted
-            onHide={() => setNavVisible(false)}
-            vertical
-            visible={navVisible}
-            width="thin"
-            onClick={() => {
-              Emitters.navOpenEmitter.emit(false);
-            }}
-            className="appSidebar"
-          >
-            <MenuContent hasAdminPermission={hasAdminPermission} />
-          </Sidebar>
-          <Sidebar.Pushable>
-            <Sidebar.Pusher dimmed={navVisible}>
-              <div className="appSidebarDimmer">{children}</div>
-            </Sidebar.Pusher>
-          </Sidebar.Pushable>
+          {!hasMemberPermissions ? (
+            <div className="appSidebarDimmer">{children}</div>
+          ) : (
+            <>
+              <Sidebar
+                as={Menu}
+                animation="overlay"
+                icon="labeled"
+                inverted
+                onHide={() => setNavVisible(false)}
+                vertical
+                visible={navVisible}
+                width="thin"
+                onClick={() => {
+                  Emitters.navOpenEmitter.emit(false);
+                }}
+                className="appSidebar"
+              >
+                <MenuContent hasAdminPermission={hasAdminPermission} />
+              </Sidebar>
+              <Sidebar.Pushable>
+                <Sidebar.Pusher dimmed={navVisible}>
+                  <div className="appSidebarDimmer">{children}</div>
+                </Sidebar.Pusher>
+              </Sidebar.Pushable>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -120,3 +131,14 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
     </Link>
   </>
 );
+
+const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const router = useRouter();
+  const hasMemberPermissions = useHasMemberPermission();
+
+  if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
+    router.push('/applicant');
+  }
+
+  return <>{children}</>;
+};
