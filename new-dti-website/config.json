@@ -60,7 +60,16 @@
       "type": "info",
       "freshmen": { "date": "January 1", "isTentative": true },
       "upperclassmen": { "date": "January 1", "isTentative": true },
-      "spring": { "date": "January 28", "isTentative": false, "time": "6:00-7:00PM" }
+      "spring": { "date": "January 28", "isTentative": false, "time": "4:30-5:30PM" }
+    },
+    {
+      "title": "Get to Know the DTI'ers",
+      "description": "Get to know DTI and its members through casual chats, games, product demos, and get your resume reviewed!",
+      "location": "Willard Straight Hall 407 (Memorial Room)",
+      "type": "info",
+      "freshmen": { "date": "January 1", "isTentative": true },
+      "upperclassmen": { "date": "January 1", "isTentative": true },
+      "spring": { "date": "January 29", "isTentative": false, "time": "6:30-8:00PM" }
     },
     {
       "title": "Applications due",
