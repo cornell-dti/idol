@@ -15,9 +15,21 @@ export default class InterviewSchedulerDao extends BaseDao<InterviewScheduler, I
     return this.getDocuments();
   }
 
+  async getInstance(uuid: string): Promise<InterviewScheduler | null> {
+    return this.getDocument(uuid);
+  }
+
   async createInstance(instance: InterviewScheduler): Promise<string> {
     const uuid = uuidv4();
-    this.createDocument(uuid, instance);
+    this.createDocument(uuid, { ...instance, uuid });
     return uuid;
+  }
+
+  async updateInstance(instance: InterviewScheduler): Promise<InterviewScheduler> {
+    return this.updateDocument(instance.uuid, instance);
+  }
+
+  async deleteInstance(uuid: string): Promise<void> {
+    this.deleteDocument(uuid);
   }
 }

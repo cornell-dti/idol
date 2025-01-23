@@ -279,8 +279,8 @@ interface InterviewScheduler {
   readonly isOpen: boolean;
   readonly startDate: number;
   readonly endDate: number;
-  readonly deadline: number;
   readonly applicants: Applicant[];
+  readonly uuid: string;
 }
 
 interface InterviewSlot {
@@ -290,4 +290,11 @@ interface InterviewSlot {
   readonly lead: IdolMember;
   readonly members: string[];
   readonly applicant: string;
+}
+
+interface InterviewSchedulerEdit {
+  readonly uuid: string;
+  isOpen?: boolean;
+  startDate?: number;
+  endDate?: number;
 }

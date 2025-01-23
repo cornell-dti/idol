@@ -94,7 +94,13 @@ import { getWriteSignedURL, getReadSignedURL, deleteImage } from './API/imageAPI
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
-import { createInterviewScheduler, getAllApplicants } from './API/interviewSchedulerAPI';
+import {
+  createInterviewScheduler,
+  deleteInterviewSchedulerInstance,
+  getAllApplicants,
+  getAllInterviewSchedulerInstances,
+  updateInterviewSchedulerInstance
+} from './API/interviewSchedulerAPI';
 
 // Constants and configurations
 const app = express();
@@ -498,9 +504,28 @@ loginCheckedPut('/dev-portfolio/:uuid/submission', async (req, user) => ({
 }));
 
 // Interview Scheduler
+router.get(`/interview-scheduler/applicant`, async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    instances: await getAllInterviewSchedulerInstances(userEmail ?? '', true)
+  });
+});
+
+loginCheckedGet('/interview-scheduler', async (req, user) => ({
+  instances: await getAllInterviewSchedulerInstances(user.email, false)
+}));
+
 loginCheckedPost('/interview-scheduler', async (req, user) => ({
   uuid: await createInterviewScheduler(req.body, user)
 }));
+
+loginCheckedPut('/interview-scheduler/:uuid', async (req, user) => ({
+  instance: await updateInterviewSchedulerInstance(user, req.body)
+}));
+
+loginCheckedDelete('/interview-scheduler/:uuid', async (req, user) =>
+  deleteInterviewSchedulerInstance(req.params.uuid, user).then(() => ({}))
+);
 
 app.use('/.netlify/functions/api', router);
 
