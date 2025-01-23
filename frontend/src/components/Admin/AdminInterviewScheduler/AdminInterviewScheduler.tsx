@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Button, Form, Header } from 'semantic-ui-react';
+import { Button, Card, Checkbox, Form, Header, Loader } from 'semantic-ui-react';
 import styles from './AdminInterviewScheduler.module.css';
 import InterviewSchedulerAPI from '../../../API/InterviewSchedulerAPI';
+import InterviewSchedulerDeleteModal from '../../Modals/InterviewSchedulerDeleteModal';
 
 type UploadStatus = {
   readonly status?: 'success' | 'error';
@@ -13,10 +14,8 @@ type UploadStatus = {
 const InterviewSchedulerCreator = () => {
   const [name, setName] = useState<string>('');
   const [csv, setCsv] = useState<File>();
-  const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [deadline, setDeadline] = useState<Date>(new Date());
   const [duration, setDuration] = useState<number>(30);
   const [membersPerSlot, setMembersPerSlot] = useState<number>(1);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>({
@@ -66,33 +65,29 @@ const InterviewSchedulerCreator = () => {
       return;
     }
 
-    setApplicants(
-      responses.map((response) => ({
-        firstName: response[columnHeaders.indexOf('first name')],
-        lastName: response[columnHeaders.indexOf('last name')],
-        email: response[columnHeaders.indexOf('email')]
-      }))
-    );
-
-    const uuid = await InterviewSchedulerAPI.createNewInstance({
+    await InterviewSchedulerAPI.createNewInstance({
       name,
       duration,
       membersPerSlot,
       startDate: startDate.getTime(),
       endDate: endDate.getTime(),
-      deadline: deadline.getTime(),
       isOpen: false,
-      applicants
+      uuid: '',
+      applicants:       responses.map((response) => ({
+        firstName: response[columnHeaders.indexOf('first name')],
+        lastName: response[columnHeaders.indexOf('last name')],
+        email: response[columnHeaders.indexOf('email')]
+      }))
     });
 
     setUploadStatus({
-      errs: [uuid],
+      errs: [],
       status: 'success'
     });
   };
 
   return (
-    <div className={styles.creatorContainer}>
+    <div>
       <Header as="h2">Create a new Interview Scheduler instance</Header>
       <Form>
         <Form.Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -120,12 +115,6 @@ const InterviewSchedulerCreator = () => {
             setEndDate(end);
           }}
         />
-        <Header as="h4">Deadline</Header>
-        <DatePicker
-          selected={deadline}
-          dateFormat="MMMM do yyyy"
-          onChange={(date: Date) => setDeadline(date)}
-        />
         <Header as="h4">Duration</Header>
         <input
           type="number"
@@ -139,7 +128,7 @@ const InterviewSchedulerCreator = () => {
           onChange={(e) => setMembersPerSlot(Number(e.target.value))}
         />
         <Button onClick={onSubmit} className={styles.submitButton}>
-          Submit
+          Create Interview Scheduler Instance
         </Button>
         {uploadStatus.status && (
           <div
@@ -166,9 +155,71 @@ const InterviewSchedulerCreator = () => {
   );
 };
 
+const InterviewSchedulerEditor = () => {
+  const [instances, setInstances] = useState<InterviewScheduler[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    InterviewSchedulerAPI.getAllInstances(false).then((instances) => {
+      setInstances(instances);
+      setIsLoading(false);
+    });
+  }, []);
+
+  const toggleIsOpen = async (uuid: string) => {
+    const newInstances = await Promise.all(
+      instances.map(async (instance) => {
+        if (instance.uuid === uuid) {
+          await InterviewSchedulerAPI.updateInstance({
+            uuid: instance.uuid,
+            isOpen: !instance.isOpen
+          });
+          return { ...instance, isOpen: !instance.isOpen };
+        }
+        return instance;
+      })
+    );
+    setInstances(newInstances);
+  };
+
+  return (
+    <div className={styles.editorContainer}>
+      <Header as="h2">All Interview Scheduler Instances</Header>
+      {isLoading ? (
+        <Loader size="large" />
+      ) : (
+        <Card.Group>
+          {instances.map((instance) => (
+            <Card key={instance.uuid}>
+              <Card.Content>
+                <Card.Header>{instance.name}</Card.Header>
+                <Card.Meta>{instance.isOpen ? 'Open' : 'Closed'}</Card.Meta>
+                <div>
+                  <Checkbox
+                    toggle
+                    defaultChecked={instance.isOpen}
+                    onChange={() => toggleIsOpen(instance.uuid)}
+                  />
+                  <div>
+                    <InterviewSchedulerDeleteModal
+                      setInstances={setInstances}
+                      uuid={instance.uuid}
+                    />
+                  </div>
+                </div>
+              </Card.Content>
+            </Card>
+          ))}
+        </Card.Group>
+      )}
+    </div>
+  );
+};
+
 const AdminInterviewSchedulerBase = () => (
-  <div>
+  <div className={styles.creatorContainer}>
     <InterviewSchedulerCreator />
+    <InterviewSchedulerEditor />
   </div>
 );
 
