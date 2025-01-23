@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
             <a href="/">
               <Image
                 className="md:h-12 h-8 w-auto"
-                src="/dti_logo.svg"
+                src="/dti_logo2.svg"
                 width={280}
                 height={62}
                 alt="DTI Logo"
