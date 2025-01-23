@@ -94,7 +94,7 @@ import { getWriteSignedURL, getReadSignedURL, deleteImage } from './API/imageAPI
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
-import { getAllApplicants } from './API/interviewSchedulerAPI';
+import { createInterviewScheduler, getAllApplicants } from './API/interviewSchedulerAPI';
 
 // Constants and configurations
 const app = express();
@@ -495,6 +495,11 @@ loginCheckedPut('/dev-portfolio/:uuid/submission/regrade', async (req, user) => 
 }));
 loginCheckedPut('/dev-portfolio/:uuid/submission', async (req, user) => ({
   portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
+}));
+
+// Interview Scheduler
+loginCheckedPost('/interview-scheduler', async (req, user) => ({
+  uuid: await createInterviewScheduler(req.body, user)
 }));
 
 app.use('/.netlify/functions/api', router);
