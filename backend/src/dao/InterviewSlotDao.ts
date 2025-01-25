@@ -6,14 +6,18 @@ import BaseDao from './BaseDao';
 async function serializeInterviewSlot(instance: InterviewSlot): Promise<DBInterviewSlot> {
   return {
     ...instance,
-    lead: memberCollection.doc(instance.lead.email)
+    lead: instance.lead ? memberCollection.doc(instance.lead.email) : null,
+    members: instance.members.map((member) => (member ? memberCollection.doc(member.email) : null))
   };
 }
 
 async function materializeInterviewSlot(dbInstance: DBInterviewSlot): Promise<InterviewSlot> {
   return {
     ...dbInstance,
-    lead: await getMemberFromDocumentReference(dbInstance.lead)
+    lead: dbInstance.lead ? await getMemberFromDocumentReference(dbInstance.lead) : null,
+    members: await Promise.all(
+      dbInstance.members.map((member) => (member ? getMemberFromDocumentReference(member) : null))
+    )
   };
 }
 

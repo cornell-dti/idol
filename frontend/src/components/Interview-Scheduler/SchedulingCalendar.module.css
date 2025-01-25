@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.calendarContainer {
+  width: 60%;
+}
+
 .columnContainer {
   display: flex;
   margin-top: 2rem;
@@ -22,17 +26,19 @@
   text-align: right;
   width: 100px;
   padding-right: 10px;
-  margin-top: 30px
+  margin-top: 30px;
 }
 
 .timeLabel {
   height: var(--hour-block-height);
-  margin: 0
+  margin: 0;
 }
 
 .slotButton {
   position: absolute;
   width: var(--hour-block-width);
+  padding: 0 !important;
+  border-radius: 0 !important;
 }
 
 .roomName {

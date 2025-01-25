@@ -287,9 +287,10 @@ interface InterviewSlot {
   readonly interviewSchedulerUuid: string;
   readonly startTime: number;
   readonly room: string;
-  readonly lead: IdolMember;
-  readonly members: string[];
-  readonly applicant: string;
+  readonly lead: IdolMember | null;
+  readonly members: (IdolMember | null)[];
+  readonly applicant: Applicant | null;
+  readonly uuid: string;
 }
 
 interface InterviewSchedulerEdit {

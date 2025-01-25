@@ -6,6 +6,12 @@ import PermissionsManager from '../utils/permissionsManager';
 const interviewSchedulerDao = new InterviewSchedulerDao();
 const interviewSlotDao = new InterviewSlotDao();
 
+const censoredApplicant: Applicant = {
+  email: '',
+  firstName: '',
+  lastName: ''
+};
+
 export const getAllApplicants = async (): Promise<string[]> => {
   const instances = await interviewSchedulerDao.getAllInstances();
   const applicants = new Set<string>();
@@ -110,25 +116,14 @@ export const getInterviewSlots = async (
   if (isApplicant) {
     return slots.map((slot) => ({
       ...slot,
-      lead: {
-        netid: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        pronouns: '',
-        semesterJoined: '',
-        graduation: '',
-        major: '',
-        hometown: '',
-        about: '',
-        subteams: [],
-        role: 'ops-lead',
-        roleDescription: 'Full Team Lead'
-      },
-      members: [],
-      applicant: slot.applicant === email ? email : ''
+      lead: null,
+      members: slot.members.map((_) => null),
+      applicant:
+        slot.applicant === null || slot.applicant.email === email
+          ? slot.applicant
+          : censoredApplicant
     }));
   }
-  
+
   return slots;
 };

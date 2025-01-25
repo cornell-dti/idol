@@ -1,12 +1,8 @@
 .schedulerContainer {
   padding: 2%;
+}
+
+.contentContainer {
   display: flex;
-}
-
-.calendarContainer {
-  width: 60%;
-}
-
-.sidebarContainer {
-  width: 40%;
+  gap: 3%;
 }

@@ -71,7 +71,7 @@ const InterviewSchedulerCreator = () => {
 
     await InterviewSchedulerAPI.createNewInstance({
       name,
-      duration,
+      duration: duration * 60000, // convert to milliseconds
       membersPerSlot,
       startDate: (startDate as Date).getTime(),
       endDate: (endDate as Date).getTime(),
