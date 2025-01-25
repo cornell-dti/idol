@@ -2,6 +2,7 @@ import InterviewSchedulerDao from '../dao/InterviewSchedulerDao';
 import InterviewSlotDao from '../dao/InterviewSlotDao';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
+import { getMember } from './memberAPI';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
 const interviewSlotDao = new InterviewSlotDao();
@@ -126,4 +127,42 @@ export const getInterviewSlots = async (
   }
 
   return slots;
+};
+
+export const updateInterviewSlot = async (
+  edits: InterviewSlotEdit,
+  email: string,
+  isApplicant: boolean
+): Promise<boolean> => {
+  const slot = await interviewSlotDao.getSlot(edits.uuid);
+
+  if (!slot) throw new NotFoundError(`Interview slot with uuid ${edits.uuid} does not exist!`);
+  const scheduler = await getInterviewSchedulerInstance(edits.uuid, email, isApplicant);
+
+  if (
+    isApplicant &&
+    (!scheduler.applicants.some((applicant) => applicant.email === email) || // Applicants should be an applicant of the scheduler instance
+      (slot.applicant && slot.applicant.email !== email) || // Applicants may not edit an occupied slot
+      (edits.applicant && edits.applicant.email !== email)) // Applicants may not sign up or cancel other applicants
+  )
+    throw new PermissionError('User does not have permission to edit this interview slot.');
+
+  const newSlot: InterviewSlot = {
+    ...slot,
+    ...edits
+  };
+
+  const user = await getMember(email);
+
+  return interviewSlotDao.updateSlot(
+    newSlot,
+    user !== undefined && (await PermissionsManager.isLeadOrAdmin(user))
+  );
+};
+
+export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promise<void> => {
+  if (!PermissionsManager.isLeadOrAdmin(user))
+    throw new PermissionError('User does not have permission to update interview slot.');
+
+  return interviewSlotDao.deleteSlot(uuid);
 };

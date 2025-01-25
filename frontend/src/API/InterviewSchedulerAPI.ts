@@ -22,7 +22,7 @@ export default class InterviewSchedulerAPI {
   }
 
   static async updateInstance(instance: InterviewSchedulerEdit): Promise<InterviewScheduler> {
-    const response = APIWrapper.put(`${backendURL}/interview-scheduler/${instance.uuid}`, instance);
+    const response = APIWrapper.put(`${backendURL}/interview-scheduler`, instance);
     return response.then((val) => val.data.instance);
   }
 
@@ -32,7 +32,18 @@ export default class InterviewSchedulerAPI {
 
   static async getSlots(uuid: string, isApplicant: boolean): Promise<InterviewSlot[]> {
     return APIWrapper.get(
-      `${backendURL}/interview-scheduler${isApplicant ? '/applicant' : ''}/${uuid}/slots`
+      `${backendURL}/interview-slots${isApplicant ? '/applicant' : ''}/${uuid}`
     ).then((val) => val.data.slots);
+  }
+
+  static async updateSlot(edits: InterviewSlotEdit, isApplicant: boolean): Promise<InterviewSlot> {
+    return APIWrapper.put(
+      `${backendURL}/interview-slots${isApplicant ? '/applicant' : ''}`,
+      edits
+    ).then((val) => val.data.success);
+  }
+
+  static async deleteSlot(uuid: string): Promise<void> {
+    APIWrapper.delete(`${backendURL}/interview-slots/${uuid}`);
   }
 }

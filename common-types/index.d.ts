@@ -299,3 +299,10 @@ interface InterviewSchedulerEdit {
   startDate?: number;
   endDate?: number;
 }
+
+interface InterviewSlotEdit {
+  readonly uuid: string;
+  lead?: IdolMember | null;
+  members?: (IdolMember | null)[];
+  applicant?: Applicant | null;
+}
