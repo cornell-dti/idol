@@ -182,3 +182,15 @@ export const formatLink = (link: string, linkType?: LinkType): string | undefine
 
   return extractedLink;
 };
+
+export const getDayNameFromDate = (date: Date) => {
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return dayNames[date.getDay()];
+};
+
+export const hourIndexToString = (hourIndex: number, minute?: number): string => {
+  const hour = hourIndex % 12 || 12;
+  const suffix = hourIndex < 12 ? 'AM' : 'PM';
+
+  return `${hour}:${minute ? String(minute).padStart(2, '0') : '00'} ${suffix}`;
+};

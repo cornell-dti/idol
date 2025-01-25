@@ -1,0 +1,12 @@
+.schedulerContainer {
+  padding: 2%;
+  display: flex;
+}
+
+.calendarContainer {
+  width: 60%;
+}
+
+.sidebarContainer {
+  width: 40%;
+}

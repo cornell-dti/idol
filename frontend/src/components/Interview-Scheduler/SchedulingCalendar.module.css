@@ -1,0 +1,41 @@
+.timeslot {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 1px solid black;
+  height: 15px;
+  width: 150px;
+}
+
+.column {
+  position: relative;
+}
+
+.columnContainer {
+  display: flex;
+  margin-top: 2rem;
+  --hour-block-width: 150px;
+  --hour-block-height: 60px;
+}
+
+.timeLabelColumn {
+  text-align: right;
+  width: 100px;
+  padding-right: 10px;
+  margin-top: 30px
+}
+
+.timeLabel {
+  height: var(--hour-block-height);
+  margin: 0
+}
+
+.slotButton {
+  position: absolute;
+  width: var(--hour-block-width);
+}
+
+.roomName {
+  text-align: center;
+  margin-bottom: 5px;
+}

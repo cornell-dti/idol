@@ -99,6 +99,8 @@ import {
   deleteInterviewSchedulerInstance,
   getAllApplicants,
   getAllInterviewSchedulerInstances,
+  getInterviewSchedulerInstance,
+  getInterviewSlots,
   updateInterviewSchedulerInstance
 } from './API/interviewSchedulerAPI';
 
@@ -511,8 +513,30 @@ router.get(`/interview-scheduler/applicant`, async (req, res) => {
   });
 });
 
+router.get(`/interview-scheduler/applicant/:uuid`, async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    instance: await getInterviewSchedulerInstance(req.params.uuid, userEmail ?? '', true)
+  });
+});
+
+router.get('/interview-scheduler/applicant/:uuid/slots', async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    slots: await getInterviewSlots(req.params.uuid, userEmail ?? '', true)
+  });
+});
+
 loginCheckedGet('/interview-scheduler', async (req, user) => ({
   instances: await getAllInterviewSchedulerInstances(user.email, false)
+}));
+
+loginCheckedGet('/interview-scheduler/:uuid', async (req, user) => ({
+  instance: await getInterviewSchedulerInstance(req.params.uuid, user.email, false)
+}));
+
+loginCheckedGet('/interview-scheduler/:uuid/slots', async (req, user) => ({
+  slots: await getInterviewSlots(req.params.uuid, user.email, false)
 }));
 
 loginCheckedPost('/interview-scheduler', async (req, user) => ({

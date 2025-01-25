@@ -14,8 +14,8 @@ type UploadStatus = {
 const InterviewSchedulerCreator = () => {
   const [name, setName] = useState<string>('');
   const [csv, setCsv] = useState<File>();
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const [duration, setDuration] = useState<number>(30);
   const [membersPerSlot, setMembersPerSlot] = useState<number>(1);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>({
@@ -60,6 +60,10 @@ const InterviewSchedulerCreator = () => {
       errs.push('Members per slot must be positive.');
     }
 
+    if (!startDate || !endDate) {
+      errs.push('Start date and end date are undefined.');
+    }
+
     if (errs.length > 0) {
       setUploadStatus({ status: 'error', errs });
       return;
@@ -69,11 +73,11 @@ const InterviewSchedulerCreator = () => {
       name,
       duration,
       membersPerSlot,
-      startDate: startDate.getTime(),
-      endDate: endDate.getTime(),
+      startDate: (startDate as Date).getTime(),
+      endDate: (endDate as Date).getTime(),
       isOpen: false,
       uuid: '',
-      applicants:       responses.map((response) => ({
+      applicants: responses.map((response) => ({
         firstName: response[columnHeaders.indexOf('first name')],
         lastName: response[columnHeaders.indexOf('last name')],
         email: response[columnHeaders.indexOf('email')]
@@ -110,12 +114,15 @@ const InterviewSchedulerCreator = () => {
           startDate={startDate}
           endDate={endDate}
           onChange={(date) => {
-            const [start, end] = date as [Date, Date];
+            const [start, end] = date as [Date | null, Date | null];
+            if (start) {
+              start.setHours(0, 0, 0, 0);
+            }
             setStartDate(start);
             setEndDate(end);
           }}
         />
-        <Header as="h4">Duration</Header>
+        <Header as="h4">Duration (in minutes)</Header>
         <input
           type="number"
           defaultValue={30}

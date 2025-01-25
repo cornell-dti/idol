@@ -1,8 +1,10 @@
 import InterviewSchedulerDao from '../dao/InterviewSchedulerDao';
+import InterviewSlotDao from '../dao/InterviewSlotDao';
 import { NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
+const interviewSlotDao = new InterviewSlotDao();
 
 export const getAllApplicants = async (): Promise<string[]> => {
   const instances = await interviewSchedulerDao.getAllInstances();
@@ -96,4 +98,37 @@ export const deleteInterviewSchedulerInstance = async (
     );
 
   return interviewSchedulerDao.deleteInstance(uuid);
+};
+
+export const getInterviewSlots = async (
+  uuid: string,
+  email: string,
+  isApplicant: boolean
+): Promise<InterviewSlot[]> => {
+  const slots = await interviewSlotDao.getSlotsForScheduler(uuid);
+
+  if (isApplicant) {
+    return slots.map((slot) => ({
+      ...slot,
+      lead: {
+        netid: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        pronouns: '',
+        semesterJoined: '',
+        graduation: '',
+        major: '',
+        hometown: '',
+        about: '',
+        subteams: [],
+        role: 'ops-lead',
+        roleDescription: 'Full Team Lead'
+      },
+      members: [],
+      applicant: slot.applicant === email ? email : ''
+    }));
+  }
+  
+  return slots;
 };

@@ -14,6 +14,13 @@ export default class InterviewSchedulerAPI {
     return response.then((val) => val.data.instances);
   }
 
+  static async getInstance(uuid: string, isApplicant: boolean): Promise<InterviewScheduler> {
+    const response = APIWrapper.get(
+      `${backendURL}/interview-scheduler${isApplicant ? '/applicant' : ''}/${uuid}`
+    );
+    return response.then((val) => val.data.instance);
+  }
+
   static async updateInstance(instance: InterviewSchedulerEdit): Promise<InterviewScheduler> {
     const response = APIWrapper.put(`${backendURL}/interview-scheduler/${instance.uuid}`, instance);
     return response.then((val) => val.data.instance);
@@ -21,5 +28,11 @@ export default class InterviewSchedulerAPI {
 
   static async deleteInstance(uuid: string): Promise<void> {
     APIWrapper.delete(`${backendURL}/interview-scheduler/${uuid}`);
+  }
+
+  static async getSlots(uuid: string, isApplicant: boolean): Promise<InterviewSlot[]> {
+    return APIWrapper.get(
+      `${backendURL}/interview-scheduler${isApplicant ? '/applicant' : ''}/${uuid}/slots`
+    ).then((val) => val.data.slots);
   }
 }
