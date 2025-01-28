@@ -156,7 +156,6 @@
       "idol"
     ],
     "role": "pm",
-    "coffeeChatLink": "https://calendar.google.com/calendar/embed?src=amelie.rosso%40gmail.com&ctz=America%2FNew_York",
     "pronouns": "she/her",
     "college": "eng",
     "github": null,
@@ -167,7 +166,8 @@
     "graduation": "May 2027",
     "major": "ISST",
     "minor": "AI",
-    "netid": "ar2345"
+    "netid": "ar2345",
+    "coffeeChatLink": "https://calendly.com/amelie-rosso/dti-coffee-chat"
   },
   {
     "formerSubteams": [],
@@ -603,13 +603,11 @@
   },
   {
     "formerSubteams": [],
-    "about": "Product Designer on CURaise",
     "hometown": "Brooklyn, NY",
     "github": null,
     "pronouns": "She/her",
     "roleDescription": "Designer",
     "doubleMajor": null,
-    "linkedin": null,
     "major": "Information Science",
     "minor": null,
     "role": "designer",
@@ -622,7 +620,11 @@
     "firstName": "Evelyn",
     "lastName": "Mai",
     "email": "em849@cornell.edu",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
+    "about": "Hi everyone! I'm a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a 1 year old hamster named hammy (I love showing pictures of her so feel free to ask hehe). Feel free to chat with me :))",
+    "linkedin": "https://www.linkedin.com/in/evelyn-mai1/"
   },
   {
     "formerSubteams": [],
@@ -1626,9 +1628,9 @@
     "college": "cas",
     "minor": "Computer Science & Artificial Intelligence",
     "major": "Information Science",
-    "graduation": "December 2026",
-    "coffeeChatLink": null,
-    "about": "Hey, I'm Nitya! I'm a sophomore concentrating in Data Science and UX Research, with minors in CS and AI! I am super interested in the intersection between tech, product, and business, and curious into how we can leverage technology to unite and empower communities. I joined DTI my freshman fall as a developer on Cornell Go, and transferred to CoursePlan as an APM (and now PM!) in Fall 2024.  \n"
+    "about": "Hey, I'm Nitya! I'm a sophomore concentrating in Data Science and UX Research, with minors in CS and AI! I am super interested in the intersection between tech, product, and business, and curious into how we can leverage technology to unite and empower communities. I joined DTI my freshman fall as a developer on Cornell Go, and transferred to CoursePlan as an APM (and now PM!) in Fall 2024.  \n",
+    "graduation": "Spring 2027",
+    "coffeeChatLink": "https://calendly.com/nmp79-cornell/30min"
   },
   {
     "formerSubteams": [],
