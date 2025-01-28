@@ -129,6 +129,12 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
         Candidate Decider
       </Menu.Item>
     </Link>
+    <Link href="/interview-scheduler">
+      <Menu.Item>
+        <Icon name="users" />
+        Interview Scheduler
+      </Menu.Item>
+    </Link>
   </>
 );
 

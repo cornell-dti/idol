@@ -1,3 +1,3 @@
-const Page = () => <div>Interview Scheduler Page</div>;
+import InterviewSchedulerList from "../../components/Interview-Scheduler/InterviewSchedulerList";
 
-export default Page;
+export default InterviewSchedulerList;
