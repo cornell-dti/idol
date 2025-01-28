@@ -270,7 +270,10 @@ type Applicant = {
   firstName: string;
   lastName: string;
   email: string;
+  netid: string;
 };
+
+type SlotStatus = 'vacant' | 'occupied' | 'possessed';
 
 interface InterviewScheduler {
   readonly name: string;
@@ -302,6 +305,7 @@ interface InterviewSchedulerEdit {
 
 interface InterviewSlotEdit {
   readonly uuid: string;
+  readonly interviewSchedulerUuid: string;
   lead?: IdolMember | null;
   members?: (IdolMember | null)[];
   applicant?: Applicant | null;

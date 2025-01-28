@@ -10,7 +10,8 @@ const interviewSlotDao = new InterviewSlotDao();
 const censoredApplicant: Applicant = {
   email: '',
   firstName: '',
-  lastName: ''
+  lastName: '',
+  netid: ''
 };
 
 export const getAllApplicants = async (): Promise<string[]> => {
@@ -137,7 +138,7 @@ export const updateInterviewSlot = async (
   const slot = await interviewSlotDao.getSlot(edits.uuid);
 
   if (!slot) throw new NotFoundError(`Interview slot with uuid ${edits.uuid} does not exist!`);
-  const scheduler = await getInterviewSchedulerInstance(edits.uuid, email, isApplicant);
+  const scheduler = await getInterviewSchedulerInstance(edits.interviewSchedulerUuid, email, isApplicant);
 
   if (
     isApplicant &&

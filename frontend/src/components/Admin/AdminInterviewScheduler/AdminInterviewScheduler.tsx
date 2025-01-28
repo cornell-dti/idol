@@ -38,7 +38,7 @@ const InterviewSchedulerCreator = () => {
 
     const columnHeaders = rows[0].split(',').map((header) => header.toLowerCase());
     const responses = rows.splice(1).map((row) => row.split(','));
-    const requiredHeaders = ['first name', 'last name', 'email'];
+    const requiredHeaders = ['first name', 'last name', 'email', 'netid'];
 
     const errs = [];
 
@@ -80,7 +80,8 @@ const InterviewSchedulerCreator = () => {
       applicants: responses.map((response) => ({
         firstName: response[columnHeaders.indexOf('first name')],
         lastName: response[columnHeaders.indexOf('last name')],
-        email: response[columnHeaders.indexOf('email')]
+        email: response[columnHeaders.indexOf('email')],
+        netid: response[columnHeaders.indexOf('netid')]
       }))
     });
 
@@ -105,7 +106,8 @@ const InterviewSchedulerCreator = () => {
         />
         <label>
           {' '}
-          Format: .csv with at least a "Email", "First Name", and "Last Name" column.{' '}
+          Format: .csv with at least a "Email", "NetID", "First Name", and "Last Name" column (case
+          insensitive).{' '}
           <a href="/sample_interview_scheduler_input.csv">Download sample file here.</a>
         </label>
         <Header as="h4">Start and end date</Header>

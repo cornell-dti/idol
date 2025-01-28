@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Button, Dropdown } from 'semantic-ui-react';
 import styles from './SchedulingCalendar.module.css';
 import { getDateString, hourIndexToString } from '../../utils';
+import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
+import { useInterviewSlotStatus, useSetSlotsContext } from './SlotHooks';
 
 const PIXEL_PER_MINUTE = 1;
 
@@ -31,55 +33,63 @@ const TimeBlock = () => (
   </>
 );
 
-const SchedulerColumn: React.FC<{
-  hours: number[];
-  room: string;
-  slots: InterviewSlot[];
-  duration: number;
-  setSelectedSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
-  setHoveredSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
-}> = ({ hours, duration, room, slots, setSelectedSlot, setHoveredSlot }) => {
+const SlotButton: React.FC<{ slot: InterviewSlot; duration: number; startHour: number }> = ({
+  slot,
+  duration,
+  startHour
+}) => {
+  const { setHoveredSlot, setSelectedSlot } = useSetSlotsContext();
+  const slotStatus = useInterviewSlotStatus(slot);
+  const isAdmin = useHasAdminPermission();
+
   const getMinutesFromStartOfDay = (unixTime: number) => {
     const date = new Date(unixTime);
     return date.getHours() * 60 + date.getMinutes();
   };
 
   return (
-    <div>
-      <p className={styles.roomName}>{room}</p>
-      <div className={styles.column}>
-        <div>
-          {hours.map((_) => (
-            <TimeBlock />
-          ))}
-        </div>
-        <div>
-          {slots.map((slot) => (
-            <div
-              onMouseEnter={() => setHoveredSlot(slot)}
-              onMouseLeave={() => setHoveredSlot(undefined)}
-            >
-              <Button
-                className={styles.slotButton}
-                style={{
-                  top:
-                    PIXEL_PER_MINUTE * (getMinutesFromStartOfDay(slot.startTime) - hours[0] * 60),
-                  height: duration / 60000
-                }}
-                onClick={() => setSelectedSlot(slot)}
-              >
-                {hourIndexToString(
-                  new Date(slot.startTime).getHours(),
-                  new Date(slot.startTime).getMinutes()
-                )}
-              </Button>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div onMouseEnter={() => setHoveredSlot(slot)} onMouseLeave={() => setHoveredSlot(undefined)}>
+      <Button
+        className={styles.slotButton}
+        style={{
+          top: PIXEL_PER_MINUTE * (getMinutesFromStartOfDay(slot.startTime) - startHour * 60),
+          height: duration / 60000
+        }}
+        onClick={() => setSelectedSlot(slot)}
+        disabled={!isAdmin && slotStatus === 'occupied'}
+        color={slotStatus === 'possessed' ? 'green' : undefined}
+      >
+        {hourIndexToString(
+          new Date(slot.startTime).getHours(),
+          new Date(slot.startTime).getMinutes()
+        )}
+      </Button>
     </div>
   );
 };
+
+const SchedulerColumn: React.FC<{
+  hours: number[];
+  room: string;
+  slots: InterviewSlot[];
+  duration: number;
+}> = ({ hours, duration, room, slots }) => (
+  <div>
+    <p className={styles.roomName}>{room}</p>
+    <div className={styles.column}>
+      <div>
+        {hours.map((_) => (
+          <TimeBlock />
+        ))}
+      </div>
+      <div>
+        {slots.map((slot) => (
+          <SlotButton slot={slot} duration={duration} startHour={hours[0]} key={slot.uuid} />
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 const MILLISECONDS_PER_DAY = 86400000;
 
@@ -87,9 +97,8 @@ const SchedulingCalendar: React.FC<{
   scheduler: InterviewScheduler;
   slots: InterviewSlot[];
   setSlots: Dispatch<SetStateAction<InterviewSlot[]>>;
-  setSelectedSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
-  setHoveredSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
-}> = ({ scheduler, slots, setSlots, setSelectedSlot, setHoveredSlot }) => {
+}> = ({ scheduler, slots, setSlots }) => {
+  const { setSelectedSlot } = useSetSlotsContext();
   const [day, setDay] = useState(scheduler.startDate);
 
   const filteredSlots = slots.filter(
@@ -113,8 +122,7 @@ const SchedulingCalendar: React.FC<{
 
   const minHour = new Date(Math.min(...filteredSlots.map((slot) => slot.startTime))).getHours();
   const maxHour = new Date(
-    scheduler.duration +
-      Math.max(...filteredSlots.map((slot) => slot.startTime))
+    scheduler.duration + Math.max(...filteredSlots.map((slot) => slot.startTime))
   ).getHours();
   const hours = Array.from({ length: maxHour - minHour + 1 }, (_, i) => minHour + i);
 
@@ -126,6 +134,7 @@ const SchedulingCalendar: React.FC<{
         options={options}
         onChange={(_, data) => {
           setDay(data.value as number);
+          setSelectedSlot(undefined);
         }}
       />
       <div className={styles.columnContainer}>
@@ -140,8 +149,6 @@ const SchedulingCalendar: React.FC<{
             slots={roomSlots}
             duration={scheduler.duration}
             hours={hours}
-            setSelectedSlot={setSelectedSlot}
-            setHoveredSlot={setHoveredSlot}
           />
         ))}
       </div>
