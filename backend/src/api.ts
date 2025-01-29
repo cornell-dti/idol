@@ -95,6 +95,7 @@ import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
 import {
+  addInterviewSlots,
   createInterviewScheduler,
   deleteInterviewSchedulerInstance,
   deleteInterviewSlot,
@@ -558,6 +559,10 @@ router.put('/interview-slot/applicant', async (req, res) => {
 
 loginCheckedGet('/interview-slots/:uuid', async (req, user) => ({
   slots: await getInterviewSlots(req.params.uuid, user.email, false)
+}));
+
+loginCheckedPost('/interview-slots/:uuid', async (req, user) => ({
+  slots: await addInterviewSlots(req.body.slots, user)
 }));
 
 loginCheckedPut('/interview-slots', async (req, user) => ({

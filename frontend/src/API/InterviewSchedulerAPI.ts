@@ -36,6 +36,12 @@ export default class InterviewSchedulerAPI {
     ).then((val) => val.data.slots);
   }
 
+  static async createSlots(slots: InterviewSlot[]): Promise<InterviewSlot[]> {
+    return APIWrapper.post(`${backendURL}/interview-slots`, { slots }).then(
+      (val) => val.data.slots
+    );
+  }
+
   static async updateSlot(edits: InterviewSlotEdit, isApplicant: boolean): Promise<boolean> {
     return APIWrapper.put(
       `${backendURL}/interview-slots${isApplicant ? '/applicant' : ''}`,

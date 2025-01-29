@@ -138,7 +138,11 @@ export const updateInterviewSlot = async (
   const slot = await interviewSlotDao.getSlot(edits.uuid);
 
   if (!slot) throw new NotFoundError(`Interview slot with uuid ${edits.uuid} does not exist!`);
-  const scheduler = await getInterviewSchedulerInstance(edits.interviewSchedulerUuid, email, isApplicant);
+  const scheduler = await getInterviewSchedulerInstance(
+    edits.interviewSchedulerUuid,
+    email,
+    isApplicant
+  );
 
   if (
     isApplicant &&
@@ -163,7 +167,17 @@ export const updateInterviewSlot = async (
 
 export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.isLeadOrAdmin(user))
-    throw new PermissionError('User does not have permission to update interview slot.');
+    throw new PermissionError('User does not have permission to update interview slots.');
 
   return interviewSlotDao.deleteSlot(uuid);
+};
+
+export const addInterviewSlots = async (
+  slots: InterviewSlot[],
+  user: IdolMember
+): Promise<InterviewSlot[]> => {
+  if (!PermissionsManager.isLeadOrAdmin(user))
+    throw new PermissionError('User does not have permission to create interview slots.');
+
+  return interviewSlotDao.addSlots(slots);
 };
