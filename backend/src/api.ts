@@ -94,7 +94,18 @@ import { getWriteSignedURL, getReadSignedURL, deleteImage } from './API/imageAPI
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
-import { getAllApplicants } from './API/interviewSchedulerAPI';
+import {
+  addInterviewSlots,
+  createInterviewScheduler,
+  deleteInterviewSchedulerInstance,
+  deleteInterviewSlot,
+  getAllApplicants,
+  getAllInterviewSchedulerInstances,
+  getInterviewSchedulerInstance,
+  getInterviewSlots,
+  updateInterviewSchedulerInstance,
+  updateInterviewSlot
+} from './API/interviewSchedulerAPI';
 
 // Constants and configurations
 const app = express();
@@ -496,6 +507,71 @@ loginCheckedPut('/dev-portfolio/:uuid/submission/regrade', async (req, user) => 
 loginCheckedPut('/dev-portfolio/:uuid/submission', async (req, user) => ({
   portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
 }));
+
+// Interview Scheduler
+router.get(`/interview-scheduler/applicant`, async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    instances: await getAllInterviewSchedulerInstances(userEmail ?? '', true)
+  });
+});
+
+router.get(`/interview-scheduler/applicant/:uuid`, async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    instance: await getInterviewSchedulerInstance(req.params.uuid, userEmail ?? '', true)
+  });
+});
+
+loginCheckedGet('/interview-scheduler', async (req, user) => ({
+  instances: await getAllInterviewSchedulerInstances(user.email, false)
+}));
+
+loginCheckedGet('/interview-scheduler/:uuid', async (req, user) => ({
+  instance: await getInterviewSchedulerInstance(req.params.uuid, user.email, false)
+}));
+
+loginCheckedPost('/interview-scheduler', async (req, user) => ({
+  uuid: await createInterviewScheduler(req.body, user)
+}));
+
+loginCheckedPut('/interview-scheduler', async (req, user) => ({
+  instance: await updateInterviewSchedulerInstance(user, req.body)
+}));
+
+loginCheckedDelete('/interview-scheduler/:uuid', async (req, user) =>
+  deleteInterviewSchedulerInstance(req.params.uuid, user).then(() => ({}))
+);
+
+router.get('/interview-slots/applicant/:uuid', async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    slots: await getInterviewSlots(req.params.uuid, userEmail ?? '', true)
+  });
+});
+
+router.put('/interview-slot/applicant', async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    success: await updateInterviewSlot(req.body, userEmail ?? '', true)
+  });
+});
+
+loginCheckedGet('/interview-slots/:uuid', async (req, user) => ({
+  slots: await getInterviewSlots(req.params.uuid, user.email, false)
+}));
+
+loginCheckedPost('/interview-slots', async (req, user) => ({
+  slots: await addInterviewSlots(req.body.slots, user)
+}));
+
+loginCheckedPut('/interview-slots', async (req, user) => ({
+  success: await updateInterviewSlot(req.body, user.email, false)
+}));
+
+loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
+  deleteInterviewSlot(req.params.uuid, user).then(() => ({}))
+);
 
 app.use('/.netlify/functions/api', router);
 

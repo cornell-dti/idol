@@ -153,7 +153,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         /* Always render children under test environment */
         process.env.NODE_ENV === 'test' && children
       }
-      {adminEmails == null || members == null || approvedMembers == null ? (
+      {!hasIDOLAccess || adminEmails == null || members == null || approvedMembers == null ? (
         <div>
           <Loader active size="massive" />
           {!hasIDOLAccess && (

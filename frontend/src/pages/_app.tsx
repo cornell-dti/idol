@@ -129,6 +129,12 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
         Candidate Decider
       </Menu.Item>
     </Link>
+    <Link href="/interview-scheduler">
+      <Menu.Item>
+        <Icon name="users" />
+        Interview Scheduler
+      </Menu.Item>
+    </Link>
   </>
 );
 
@@ -136,8 +142,8 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const hasMemberPermissions = useHasMemberPermission();
 
-  if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
-    router.push('/applicant');
+  if (!router.pathname.startsWith('/interview-scheduler') && !hasMemberPermissions) {
+    router.push('/interview-scheduler');
   }
 
   return <>{children}</>;
