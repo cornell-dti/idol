@@ -265,7 +265,7 @@ const SchedulingSidePanel: React.FC<{
             )}
           </>
         )}
-        {!isLead && (slotStatus === 'possessed' || slotStatus === 'vacant') && (
+        {scheduler.isOpen && !isLead && (slotStatus === 'possessed' || slotStatus === 'vacant') && (
           <Button
             basic
             color={slotStatus === 'possessed' ? 'red' : undefined}

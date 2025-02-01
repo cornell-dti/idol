@@ -148,7 +148,8 @@ export const updateInterviewSlot = async (
 
   if (
     isApplicant &&
-    (!scheduler.applicants.some((applicant) => applicant.email === email) || // Applicants should be an applicant of the scheduler instance
+    (!scheduler.isOpen ||
+      !scheduler.applicants.some((applicant) => applicant.email === email) || // Applicants should be an applicant of the scheduler instance
       (slot.applicant && slot.applicant.email !== email) || // Applicants may not edit an occupied slot
       (edits.applicant && edits.applicant.email !== email)) // Applicants may not sign up or cancel other applicants
   )

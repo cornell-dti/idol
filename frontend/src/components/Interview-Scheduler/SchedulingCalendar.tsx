@@ -191,9 +191,6 @@ const SchedulerColumn: React.FC<{
 
   return (
     <div>
-      {/* <p>
-        {bar} | {foo}
-      </p> */}
       <p className={styles.roomName}>{room}</p>
       <div className={styles.column} ref={columnRef}>
         <div

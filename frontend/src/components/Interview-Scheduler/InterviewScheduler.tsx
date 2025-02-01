@@ -10,21 +10,34 @@ import SchedulingSidePanel from './SchedulingSidePanel';
 import { EditAvailabilityContext, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 
-const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot: InterviewSlot }> = ({
+const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot }> = ({
   scheduler,
   slot
 }) => (
   <div className={styles.inviteCardContainer}>
     <Card className={styles.inviteCard}>
       <Card.Content>
-        <Card.Header className={styles.inviteHeader}>Thank you for signing up!</Card.Header>
-        <div>
-          <p>{scheduler.name}</p>
-          <p>
-            {getTimeString(slot.startTime)} - {getTimeString(slot.startTime + scheduler.duration)}
-          </p>
-          <p>{slot.room}</p>
-        </div>
+        {slot ? (
+          <>
+            <Card.Header className={styles.inviteHeader}>Thank you for signing up!</Card.Header>
+            <div>
+              <p>{scheduler.name}</p>
+              <p>
+                {getTimeString(slot.startTime)} -{' '}
+                {getTimeString(slot.startTime + scheduler.duration)}
+              </p>
+              <p>{slot.room}</p>
+            </div>
+          </>
+        ) : (
+          <>
+            <Card.Header>Could not find time slot.</Card.Header>
+            <p>
+              We could not find a time slot that you signed up for. For assistance, please contact
+              the email below.
+            </p>
+          </>
+        )}
       </Card.Content>
       <Card.Content extra>
         Need help? Send a message to{' '}
@@ -78,7 +91,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
     }
   };
 
-  if (!isMember && possessedSlot && scheduler)
+  if (scheduler && !scheduler.isOpen && !isMember)
     return <InviteCard scheduler={scheduler} slot={possessedSlot} />;
 
   return (
