@@ -561,7 +561,7 @@ loginCheckedGet('/interview-slots/:uuid', async (req, user) => ({
   slots: await getInterviewSlots(req.params.uuid, user.email, false)
 }));
 
-loginCheckedPost('/interview-slots/:uuid', async (req, user) => ({
+loginCheckedPost('/interview-slots', async (req, user) => ({
   slots: await addInterviewSlots(req.body.slots, user)
 }));
 

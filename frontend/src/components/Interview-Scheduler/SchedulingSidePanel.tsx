@@ -1,5 +1,5 @@
 import { Button, Dropdown } from 'semantic-ui-react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LEAD_ROLES } from 'common-types/constants';
 import { Emitters, getDateString, getTimeString } from '../../utils';
 import {
@@ -17,9 +17,8 @@ import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
 const SchedulingSidePanel: React.FC<{
   displayedSlot: InterviewSlot;
   scheduler: InterviewScheduler;
-  setSlots: Dispatch<SetStateAction<InterviewSlot[]>>;
   refresh: () => Promise<void>;
-}> = ({ displayedSlot, scheduler, setSlots, refresh }) => {
+}> = ({ displayedSlot, scheduler, refresh }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [lead, setLead] = useState(displayedSlot.lead);
   const [slotMembers, setSlotMembers] = useState(displayedSlot.members);
@@ -33,7 +32,7 @@ const SchedulingSidePanel: React.FC<{
   const isLead = self && LEAD_ROLES.includes(self.role);
 
   const slotStatus = useInterviewSlotStatus(displayedSlot);
-  const { setSelectedSlot } = useSetSlotsContext();
+  const { setSlots, setSelectedSlot } = useSetSlotsContext();
 
   useEffect(() => {
     setIsEditing(false);
@@ -201,6 +200,7 @@ const SchedulingSidePanel: React.FC<{
               {displayedSlot.members.map((member, index) =>
                 isEditing ? (
                   <Dropdown
+                    key={member?.netid}
                     selection
                     value={slotMembers[index]?.email}
                     options={memberOptions}
@@ -218,7 +218,7 @@ const SchedulingSidePanel: React.FC<{
                     }
                   />
                 ) : (
-                  <li>{displayNameOrVacant(member)}</li>
+                  <li key={member?.netid}>{displayNameOrVacant(member)}</li>
                 )
               )}
             </ul>
@@ -254,16 +254,13 @@ const SchedulingSidePanel: React.FC<{
       <div className={styles.buttonContainer}>
         {isAdmin && (
           <>
-            <InterviewSlotDeleteModal
-              slot={displayedSlot}
-              setSlots={setSlots}
-            />
+            <InterviewSlotDeleteModal slot={displayedSlot} setSlots={setSlots} />
             <Button basic onClick={handleAdminEditSave}>
               {isEditing ? 'Save' : 'Edit'}
             </Button>
             {isEditing && (
               <Button basic color="red" onClick={() => setIsEditing(false)}>
-                Cancel
+                Cancel Editing
               </Button>
             )}
           </>

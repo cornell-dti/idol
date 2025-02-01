@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Card, Header } from 'semantic-ui-react';
+import { Button, Card, Header } from 'semantic-ui-react';
 import Link from 'next/link';
 import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
-import { useHasMemberPermission } from '../Common/FirestoreDataProvider';
+import { useHasAdminPermission, useHasMemberPermission } from '../Common/FirestoreDataProvider';
 import styles from './InterviewScheduler.module.css';
 import SchedulingCalendar from './SchedulingCalendar';
-import { getDateString, getTimeString } from '../../utils';
+import { Emitters, getDateString, getTimeString } from '../../utils';
 import SchedulingSidePanel from './SchedulingSidePanel';
-import { SetSlotsContext } from './SlotHooks';
+import { EditAvailabilityContext, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 
 const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot: InterviewSlot }> = ({
@@ -40,14 +40,16 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
   const [selectedSlot, setSelectedSlot] = useState<InterviewSlot | undefined>();
   const [hoveredSlot, setHoveredSlot] = useState<InterviewSlot | undefined>();
   const [possessedSlot, setPossessedSlot] = useState<InterviewSlot | undefined>();
+  const [isEditing, setIsEditing] = useState(false);
+  const [tentativeSlots, setTentativeSlots] = useState<InterviewSlot[]>([]);
 
   const isMember = useHasMemberPermission();
+  const isAdmin = useHasAdminPermission();
   const userEmail = useUserEmail();
 
   const refreshSlots = () =>
     InterviewSchedulerAPI.getSlots(uuid, !isMember).then((res) => {
       setSlots(res);
-      setPossessedSlot(slots.find((slot) => slot.applicant && slot.applicant.email === userEmail));
     });
 
   useEffect(() => {
@@ -58,34 +60,85 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setPossessedSlot(slots.find((slot) => slot.applicant && slot.applicant.email === userEmail));
+  }, [userEmail, slots]);
+
+  const handleSaveSlots = () => {
+    if (slots.length !== 0) {
+      InterviewSchedulerAPI.createSlots(tentativeSlots).then((val) => {
+        setSlots([...slots, ...val]);
+        setIsEditing(false);
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Create Interview Slots',
+          contentMsg: `You have successfully added ${tentativeSlots.length} slots.`
+        });
+        setTentativeSlots([]);
+      });
+    }
+  };
+
   if (!isMember && possessedSlot && scheduler)
     return <InviteCard scheduler={scheduler} slot={possessedSlot} />;
 
   return (
     <div className={styles.schedulerContainer}>
-      {!scheduler || !slots ? (
+      {!scheduler || slots.length === 0 ? (
         <p>Loading...</p>
       ) : (
-        <SetSlotsContext.Provider value={{ setSelectedSlot, setHoveredSlot }}>
-          <div>
-            <Header as="h2">{scheduler.name}</Header>
-            <p>{`${getDateString(scheduler.startDate, false)} - ${getDateString(scheduler.endDate, false)}`}</p>
+        <SetSlotsContext.Provider value={{ setSlots, setSelectedSlot, setHoveredSlot }}>
+          <div className={styles.headerContainer}>
+            <div>
+              <Header as="h2">{scheduler.name}</Header>
+              <p>{`${getDateString(scheduler.startDate, false)} - ${getDateString(scheduler.endDate, false)}`}</p>
+            </div>
+            {isAdmin && (
+              <div>
+                {isEditing ? (
+                  <div>
+                    <Button
+                      basic
+                      color="red"
+                      onClick={() => {
+                        setIsEditing(false);
+                        setTentativeSlots([]);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button basic onClick={handleSaveSlots}>
+                      Save
+                    </Button>
+                  </div>
+                ) : (
+                  <Button basic onClick={() => {setIsEditing(true); setSelectedSlot(undefined)}}>
+                    Add availabilities
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
           <div className={styles.contentContainer}>
-            <SchedulingCalendar scheduler={scheduler} slots={slots} setSlots={setSlots} />
-            <div className={styles.sidebarContainer}>
-              <p>
-                Hover over to review time slots. Click to show more information, sign up, or cancel.
-              </p>
-              {(hoveredSlot || selectedSlot) && (
-                <SchedulingSidePanel
-                  displayedSlot={(hoveredSlot || selectedSlot) as InterviewSlot}
-                  scheduler={scheduler}
-                  setSlots={setSlots}
-                  refresh={refreshSlots}
-                />
-              )}
-            </div>
+            <EditAvailabilityContext.Provider
+              value={{ isEditing, setIsEditing, tentativeSlots, setTentativeSlots }}
+            >
+              <SchedulingCalendar scheduler={scheduler} slots={slots} />
+            </EditAvailabilityContext.Provider>
+            {!isEditing && (
+              <div className={styles.sidebarContainer}>
+                <p>
+                  Hover over to review time slots. Click to show more information, sign up, or
+                  cancel.
+                </p>
+                {(hoveredSlot || selectedSlot) && (
+                  <SchedulingSidePanel
+                    displayedSlot={(hoveredSlot || selectedSlot) as InterviewSlot}
+                    scheduler={scheduler}
+                    refresh={refreshSlots}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </SetSlotsContext.Provider>
       )}

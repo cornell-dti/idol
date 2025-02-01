@@ -4,8 +4,16 @@ import { useHasMemberPermission, useMember } from '../Common/FirestoreDataProvid
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 
 export const SetSlotsContext = createContext<{
+  setSlots: Dispatch<SetStateAction<InterviewSlot[]>>;
   setSelectedSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
   setHoveredSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
+} | null>(null);
+
+export const EditAvailabilityContext = createContext<{
+  isEditing: boolean;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+  tentativeSlots: InterviewSlot[];
+  setTentativeSlots: Dispatch<SetStateAction<InterviewSlot[]>>;
 } | null>(null);
 
 export const useInterviewSlotStatus = (slot: InterviewSlot): SlotStatus => {
@@ -33,4 +41,10 @@ export const useSetSlotsContext = () => {
   const setSlotsContext = useContext(SetSlotsContext);
   if (!setSlotsContext) throw new Error('No SetSlotsContext value provided.');
   return setSlotsContext;
+};
+
+export const useEditAvailabilityContext = () => {
+  const editAvailabilityContext = useContext(EditAvailabilityContext);
+  if (!editAvailabilityContext) throw new Error('No EditAvailabilityContext value provided.');
+  return editAvailabilityContext;
 };

@@ -14,6 +14,13 @@
 .calendarContainer {
   width: 60%;
   margin-top: 2em;
+  overflow-x: auto;
+}
+
+.calendarContainerFull {
+  width: 100%;
+  margin-top: 2em;
+  overflow-x: auto;
 }
 
 .columnContainer {
@@ -27,7 +34,6 @@
   text-align: right;
   width: 100px;
   padding-right: 10px;
-  margin-top: 30px;
 }
 
 .timeLabel {
@@ -45,4 +51,10 @@
 .roomName {
   text-align: center;
   margin-bottom: 5px;
+}
+
+.roomForm {
+  display: flex;
+  gap: 1em;
+  margin-top: 1em;
 }

@@ -105,6 +105,8 @@ export const deleteInterviewSchedulerInstance = async (
       'User does not have permission to update interview scheduler instance.'
     );
 
+  const slots = await getInterviewSlots(uuid, user.email, false);
+  await Promise.all(slots.map((slot) => interviewSlotDao.deleteSlot(slot.uuid)));
   return interviewSchedulerDao.deleteInstance(uuid);
 };
 

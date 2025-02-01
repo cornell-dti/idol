@@ -26,3 +26,8 @@
 .inviteHeader {
   margin-bottom: 1em;
 }
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+}
