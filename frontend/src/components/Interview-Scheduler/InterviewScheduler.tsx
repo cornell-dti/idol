@@ -96,7 +96,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
 
   return (
     <div className={styles.schedulerContainer}>
-      {!scheduler || slots.length === 0 ? (
+      {!scheduler ? (
         <p>Loading...</p>
       ) : (
         <SetSlotsContext.Provider value={{ setSlots, setSelectedSlot, setHoveredSlot }}>
