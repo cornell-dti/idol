@@ -111,7 +111,13 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
                     </Button>
                   </div>
                 ) : (
-                  <Button basic onClick={() => {setIsEditing(true); setSelectedSlot(undefined)}}>
+                  <Button
+                    basic
+                    onClick={() => {
+                      setIsEditing(true);
+                      setSelectedSlot(undefined);
+                    }}
+                  >
                     Add availabilities
                   </Button>
                 )}

@@ -1,3 +1,3 @@
-import AdminInterviewSchedulerBase from "../../components/Admin/AdminInterviewScheduler/AdminInterviewScheduler";
+import AdminInterviewSchedulerBase from '../../components/Admin/AdminInterviewScheduler/AdminInterviewScheduler';
 
 export default AdminInterviewSchedulerBase;
