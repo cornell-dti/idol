@@ -172,7 +172,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             options={instance.candidates.map((candidate) => ({
               value: candidate.id,
               key: candidate.id,
-              text: candidate.id
+              text: candidate.id + 1 // offset by 1 to account for 0-indexed array
             }))}
             onChange={(_, data) => {
               handleCandidateChange(data.value as number);

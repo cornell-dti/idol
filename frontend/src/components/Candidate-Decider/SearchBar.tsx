@@ -22,7 +22,8 @@ const SearchBar: React.FC<Props> = ({ instance, setCurrentCandidate, currentCand
         options={instance.candidates.map((candidate) => ({
           value: candidate.id,
           key: candidate.id,
-          text: `${candidate.id} - ${
+          text: `${candidate.id + 1} - ${
+            // offset by 1 to account for 0-indexed array
             candidate.responses[firstNameIndex] !== '#N/A' &&
             candidate.responses[lastNameIndex] !== '#N/A'
               ? `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]} (${candidate.responses[netIDIndex]})`
