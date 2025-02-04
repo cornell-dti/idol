@@ -30,21 +30,41 @@ const ApplicantCredentials: React.FC<Props> = ({
     <p>{email}</p>
     <p>Class of {gradYear}</p>
     <div className={styles.iconsContainer}>
-      <a className={styles.icon} href={formatLink(resumeURL)}>
+      <a
+        className={styles.icon}
+        href={formatLink(resumeURL)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FileIcon />
       </a>
       {githubURL && (
-        <a className={styles.icon} href={formatLink(githubURL, 'github')}>
+        <a
+          className={styles.icon}
+          href={formatLink(githubURL)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <GithubIcon />
         </a>
       )}
       {linkedinURL && (
-        <a className={styles.icon} href={formatLink(linkedinURL, 'linkedin')}>
+        <a
+          className={styles.icon}
+          href={formatLink(linkedinURL, 'linkedin')}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <LinkedinIcon />
         </a>
       )}
       {portfolioURL && (
-        <a className={styles.icon} href={formatLink(portfolioURL)}>
+        <a
+          className={styles.icon}
+          href={formatLink(portfolioURL)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <GlobeIcon />
         </a>
       )}

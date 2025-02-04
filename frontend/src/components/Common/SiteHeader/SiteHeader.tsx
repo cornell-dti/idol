@@ -5,8 +5,11 @@ import styles from './SiteHeader.module.css';
 import { auth } from '../../../firebase';
 import dti_logo from '../../../static/images/dti-logo.png';
 import { Emitters } from '../../../utils';
+import { useHasMemberPermission } from '../FirestoreDataProvider';
 
 const SiteHeader: React.FC = () => {
+  const hasMemberPermissions = useHasMemberPermission();
+
   const onSignOut = () => {
     auth.signOut();
   };
@@ -15,22 +18,20 @@ const SiteHeader: React.FC = () => {
     <div className={styles.SiteHeader} data-testid="SiteHeader">
       <div className={styles.content}>
         <div className={styles.logo_and_title}>
-          <div
-            className={styles.menu_icon_container}
-            onClick={() => {
-              Emitters.navOpenEmitter.emit(true);
-            }}
-          >
-            <Icon size="big" className={styles.menu_icon} name="bars" />
-          </div>
-          <Link href="/">
+          {hasMemberPermissions && (
+            <div
+              className={styles.menu_icon_container}
+              onClick={() => {
+                Emitters.navOpenEmitter.emit(true);
+              }}
+            >
+              <Icon size="big" className={styles.menu_icon} name="bars" />
+            </div>
+          )}
+          <Link href={hasMemberPermissions ? '/' : '/applicant'}>
             <img className={styles.dti_logo} src={dti_logo.src} alt="DTI logo" />
           </Link>
-          <div
-            className={styles.title_container}
-            onMouseEnter={() => setIdolOpen(true)}
-            onMouseLeave={() => setIdolOpen(false)}
-          >
+          <div className={styles.title_container} onMouseLeave={() => setIdolOpen(false)}>
             <Header className={styles.title} as="h1">
               I
               <div className={idolOpen ? styles.subtitleOpen : styles.subtitleClosed}>

@@ -10,7 +10,7 @@ import {
 } from '../../firebase';
 import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
-import { isProduction, allowAdmin, environment } from '../../environment';
+import { isProduction, allowAdmin, environment, allowApplicant } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
 
 type ListenedFirestoreData = {
@@ -46,6 +46,13 @@ export const useHasAdminPermission = (): boolean => {
     (isProduction || allowAdmin) &&
     ((self && LEAD_ROLES.includes(self.role)) || adminEmails.includes(userEmail))
   );
+};
+
+/** @returns whether the current user has member permissions */
+export const useHasMemberPermission = (): boolean => {
+  const userEmail = useUserEmail();
+  const members = useMembers();
+  return (isProduction || !allowApplicant) && members.some((member) => member.email === userEmail);
 };
 
 export const useTeamNames = (): readonly string[] => {
@@ -102,16 +109,32 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
         // Do not run firestore listeners in test environment.
       };
     }
-    MembersAPI.hasIDOLAccess(userEmail).then((hasIDOLAccess) => setHasIDOLAccess(hasIDOLAccess));
-    const unsubscriberOfAdminEmails = onSnapshot(adminsCollection, (snapshot) => {
-      setAdminEmails(snapshot.docs.map((it) => it.id));
+    MembersAPI.hasIDOLAccess(userEmail, 'applicants-included').then((hasIDOLAccess) => {
+      setHasIDOLAccess(hasIDOLAccess);
     });
-    const unsubscriberOfMembers = onSnapshot(membersCollection, (snapshot) => {
-      setMembers(snapshot.docs.map((it) => it.data()));
-    });
-    const unsubscriberOfApprovedMembers = onSnapshot(approvedMembersCollection, (snapshot) => {
-      setApprovedMembers(snapshot.docs.map((it) => it.data()));
-    });
+    const unsubscriberOfAdminEmails = onSnapshot(
+      adminsCollection,
+      (snapshot) => {
+        setAdminEmails(snapshot.docs.map((it) => it.id));
+      },
+      (error) => {
+        setAdminEmails([]);
+      }
+    );
+    const unsubscriberOfMembers = onSnapshot(
+      membersCollection,
+      (snapshot) => {
+        setMembers(snapshot.docs.map((it) => it.data()));
+      },
+      (error) => setMembers([])
+    );
+    const unsubscriberOfApprovedMembers = onSnapshot(
+      approvedMembersCollection,
+      (snapshot) => {
+        setApprovedMembers(snapshot.docs.map((it) => it.data()));
+      },
+      (error) => setApprovedMembers([])
+    );
     return () => {
       unsubscriberOfAdminEmails();
       unsubscriberOfMembers();

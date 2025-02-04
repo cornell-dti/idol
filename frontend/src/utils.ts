@@ -171,10 +171,7 @@ export const formatLink = (link: string, linkType?: LinkType): string | undefine
     return undefined;
   }
 
-  const extractedLink = matches[0]
-    .trim()
-    .replace(/[.,)]+$/, '') // removes any trailing punctuation
-    .toLowerCase();
+  const extractedLink = matches[0].trim().replace(/[.,)]+$/, ''); // removes any trailing punctuation
 
   if (!extractedLink.startsWith('https://') && !extractedLink.startsWith('http://')) {
     return `https://${extractedLink}`;

@@ -40,7 +40,7 @@ type RoleDescription =
   | 'Business Advisor';
 
 /** The possible colleges an IDOL member could be. */
-type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks';
+type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks' | 'aap';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -265,3 +265,22 @@ interface MemberDetails {
 }
 
 type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
+
+interface InterviewScheduler {
+  readonly name: string;
+  readonly duration: number;
+  readonly membersPerSlot: number;
+  readonly isOpen: boolean;
+  readonly isArchived: boolean;
+  readonly deadline: number;
+  readonly applicants: string[];
+}
+
+interface InterviewSlot {
+  readonly interviewSchedulerUuid: string;
+  readonly startTime: number;
+  readonly room: string;
+  readonly lead: IdolMember;
+  readonly members: string[];
+  readonly applicant: string;
+}

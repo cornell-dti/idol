@@ -182,3 +182,13 @@ export const candidateDeciderReviewCollection: admin.firestore.CollectionReferen
       return candidateDeciderReviewData;
     }
   });
+
+export const interviewSchedulerCollection: admin.firestore.CollectionReference<InterviewScheduler> =
+  db.collection('interview-scheduler').withConverter({
+    fromFirestore(snapshot): InterviewScheduler {
+      return snapshot.data() as InterviewScheduler;
+    },
+    toFirestore(interviewSchedulerData: InterviewScheduler) {
+      return interviewSchedulerData;
+    }
+  });
