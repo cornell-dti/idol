@@ -123,7 +123,6 @@
     "formerSubteams": [],
     "roleDescription": "Developer",
     "major": "Computer Science",
-    "about": "Hi! I'm Annie and I'm a sophomore majoring in CS and minoring in ORIE!",
     "graduation": "May 2027",
     "coffeeChatLink": null,
     "college": "eng",
@@ -142,7 +141,8 @@
       "queuemein"
     ],
     "lastName": "Chen",
-    "role": "developer"
+    "role": "developer",
+    "about": "Hi! I'm Annie and I'm a sophomore majoring in CS and minoring in ORIE! I'm a developer on Queue Me In and I'm interested in pursuing a career in SWE or Biotech! "
   },
   {
     "formerSubteams": [],
@@ -635,7 +635,6 @@
     "lastName": "Shah",
     "linkedin": "https://www.linkedin.com/in/esha-shah04",
     "roleDescription": "Developer",
-    "graduation": "May 2027",
     "netid": "es999",
     "subteams": [
       "cornellgo"
@@ -649,7 +648,8 @@
     "semesterJoined": "Fall 2024",
     "college": "eng",
     "coffeeChatLink": null,
-    "about": "Esha Shah is a computer science student at Cornell with a passion for coding, problem-solving, and harnessing technology to create meaningful impact. She thrives on exploring new programming languages and tackling projects that push her both creatively and technically. On campus, she holds leadership roles in SWE and HSC, volunteers with Girls Who Code, and contributes to machine learning research in the PoRTaL lab. Beyond academics, she channels her creativity into building intricate miniature models, enjoys singing, and loves sharing her tech skills through teaching and mentorship. Always eager to learn and grow, she is excited to see where her journey in technology will lead her."
+    "graduation": "Dec 2027",
+    "about": "Hi! Thanks for stopping by my profile :) \n\nA little about me: I'm a computer science student at Cornell, hold leadership roles in SWE and HSC, and contribute to machine learning research in the PoRTaL lab. I also adore building intricate miniature models, singing, and Severance (the show). I'm down to chat about literally anything, so feel free to reach out!"
   },
   {
     "formerSubteams": [],
@@ -1124,14 +1124,14 @@
     "website": null,
     "major": "Computer Science",
     "doubleMajor": null,
-    "graduation": "May 2026",
     "pronouns": "she/her",
     "linkedin": "https://www.linkedin.com/in/jacqueline-cai-7a6322203/",
     "semesterJoined": "Spring 2024",
     "college": "eng",
     "minor": null,
     "coffeeChatLink": null,
-    "about": "Hi, my name is Jacqueline Cai, a current junior studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!"
+    "about": "Hi, my name is Jacqueline Cai, a current junior studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!",
+    "graduation": "Dec 2025"
   },
   {
     "about": "I'm a freshman in CS!",
@@ -1642,10 +1642,8 @@
     "lastName": "Soma",
     "github": "https://github.com/NIDHI2023",
     "email": "ns848@cornell.edu",
-    "about": "QMI newbie dev!",
     "hometown": "Downingtown, PA",
     "doubleMajor": null,
-    "minor": null,
     "role": "developer",
     "pronouns": "she/her",
     "subteams": [
@@ -1653,7 +1651,11 @@
     ],
     "firstName": "Nidhi",
     "website": null,
-    "semesterJoined": "Fall 2023"
+    "semesterJoined": "Fall 2023",
+    "college": "eng",
+    "minor": "ORIE & info Science",
+    "coffeeChatLink": null,
+    "about": "QMI TPM"
   },
   {
     "formerSubteams": [],
@@ -1825,8 +1827,9 @@
     "pronouns": "She/her",
     "email": "rcd239@cornell.edu",
     "minor": "Information Science, Entrepreneurship",
-    "about": "Designer on CUReviews",
-    "linkedin": null
+    "linkedin": null,
+    "coffeeChatLink": null,
+    "about": "Product Designer currently on Queue Me In, previously at CU Reviews! One of my favorite parts of the design process is gathering feedback, which DTI makes so fun- I'm always looking forward to design crits with my fellow DTI designers and meetings with my subteam! In my free time, I love ice skating, thrifting, and all types of arts and crafts."
   },
   {
     "formerSubteams": [],
@@ -2097,6 +2100,31 @@
   },
   {
     "formerSubteams": [],
+    "roleDescription": "Developer",
+    "minor": "CS",
+    "about": "",
+    "semesterJoined": "Fall 2021",
+    "github": "",
+    "email": "sz266@cornell.edu",
+    "major": "ORIE",
+    "linkedin": "",
+    "netid": "sz266",
+    "doubleMajor": "",
+    "hometown": "Vancouver",
+    "lastName": "Zhao",
+    "pronouns": "",
+    "coffeeChatLink": "",
+    "graduation": "Spring 2025",
+    "role": "developer",
+    "website": "",
+    "firstName": "Sophie",
+    "subteams": [
+      "idol"
+    ],
+    "college": ""
+  },
+  {
+    "formerSubteams": [],
     "firstName": "Sophie",
     "website": null,
     "role": "developer",
@@ -2170,26 +2198,27 @@
   },
   {
     "formerSubteams": [],
-    "lastName": "Wong",
+    "github": null,
     "firstName": "Vannessa",
-    "linkedin": "https://www.linkedin.com/in/vannessa-wong/",
     "minor": "Creative Writing, Game Design",
-    "netid": "vw77",
-    "doubleMajor": null,
-    "roleDescription": "Designer",
-    "graduation": "May 2025",
-    "major": "Information Science",
-    "website": "https://www.vannessawong.com/",
-    "hometown": "Brooklyn",
-    "about": "Hi! I'm Vannessa! What’s meaningful for me in my work is having a collaborative community to learn from and bounce ideas off of. Creativity and design isn’t possible without the team it’s fostered in and the community it’s for, so it’s of highest value of me to find teamwork and mentorship. I'm interested in pursuing design education, design education experiences, game design, journalism or product design (UI/UX centered)\n\nOutside of design, I’m fond of writing stories, filming video essay and baking pizza & pastries. Let's talk about designing products, reading autobiographies, or soft pop recommendations!",
-    "pronouns": "she/her",
-    "role": "designer",
     "subteams": [
       "idol"
     ],
+    "roleDescription": "Designer",
+    "about": "Hi! I'm Vannessa! What’s meaningful for me in my work is having a collaborative community to learn from and bounce ideas off of. Creativity and design isn’t possible without the team it’s fostered in and the community it’s for, so it’s of highest value of me to find teamwork and mentorship. I'm interested in pursuing design education, design education experiences, game design, journalism or product design (UI/UX centered)\n\nOutside of design, I’m fond of writing stories, filming video essay and baking pizza & pastries. Let's talk about designing products, reading autobiographies, or soft pop recommendations!",
     "email": "vw77@cornell.edu",
-    "github": null,
-    "semesterJoined": "Fall 2023"
+    "website": "https://www.vannessawong.com/",
+    "linkedin": "https://www.linkedin.com/in/vannessa-wong/",
+    "pronouns": "she/her",
+    "netid": "vw77",
+    "doubleMajor": null,
+    "major": "Information Science",
+    "hometown": "Brooklyn",
+    "graduation": "May 2025",
+    "role": "designer",
+    "semesterJoined": "Fall 2023",
+    "lastName": "Wong",
+    "college": "cas"
   },
   {
     "formerSubteams": [
