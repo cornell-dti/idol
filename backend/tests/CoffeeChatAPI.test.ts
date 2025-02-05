@@ -206,26 +206,26 @@ describe('More complicated member meets category checks', () => {
   });
 
   test('is an advisor', async () => {
-    const result = await checkMemberMeetsCategory(user1.email, user2.email, 'is an advisor');
+    const result = await checkMemberMeetsCategory(user2.email, user1.email, 'is an advisor');
     expect(result.status).toBe('pass');
     expect(result.message).toBe('');
   });
 
   test('is not an advisor', async () => {
-    const result = await checkMemberMeetsCategory(user1.email, user3.email, 'is an advisor');
+    const result = await checkMemberMeetsCategory(user3.email, user1.email, 'is an advisor');
     expect(result.status).toBe('fail');
     expect(result.message).toBe(`${user3.firstName} ${user3.lastName} is not an advisor`);
   });
 
   test('is newbie', async () => {
-    const result = await checkMemberMeetsCategory(user1.email, user3.email, 'a newbie');
+    const result = await checkMemberMeetsCategory(user4.email, user1.email, 'a newbie');
     expect(result.status).toBe('pass');
     expect(result.message).toBe('');
   });
-  
+
   test('is newbie', async () => {
-    const result = await checkMemberMeetsCategory(user1.email, user2.email, 'a newbie');
+    const result = await checkMemberMeetsCategory(user2.email, user1.email, 'a newbie');
     expect(result.status).toBe('fail');
-    expect(result.message).toBe(`${user2.firstName} ${user2.lastName} is not an advisor`);
+    expect(result.message).toBe(`${user2.firstName} ${user2.lastName} is not a newbie`);
   });
 });
