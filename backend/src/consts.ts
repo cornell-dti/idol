@@ -2,7 +2,7 @@ const COFFEE_CHAT_BINGO_BOARD = [
   ['has studied abroad', 'a newbie', 'plays DTI on roblox', 'sleeps before 12am'],
   ['double major', 'uses windows', 'is an advisor', 'loves to cook'],
   ['attended a hackathon', 'collects blindboxes', 'lives in ctown', 'plays a sport'],
-  ['lives on west', 'is left handed', 'has a digital camera', 'loves to eat']
+  ['lives on west', 'is left handed', 'has a digital camera', 'loves pineapple on pizza']
 ];
 
 export default COFFEE_CHAT_BINGO_BOARD;

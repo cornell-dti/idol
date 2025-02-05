@@ -65,7 +65,10 @@ export const createCoffeeChat = async (
     'approved',
     coffeeChat.otherMember
   );
-  const prevChats = [...pendingChats, ...approvedChats];
+  const prevChats = [
+    ...pendingChats.filter((chat) => !chat.isArchived),
+    ...approvedChats.filter((chat) => !chat.isArchived)
+  ];
   const chatExists = prevChats.length > 0;
 
   if (chatExists) {
