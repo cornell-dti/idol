@@ -223,6 +223,7 @@ export const fakeCoffeeChat = (): CoffeeChat => {
     category: 'test',
     status: 'pending' as Status,
     date: Date.now(),
+    isArchived: false,
     memberMeetsCategory: 'no data' as MemberMeetsCategoryStatus
   };
   return CC;
