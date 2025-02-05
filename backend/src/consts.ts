@@ -1,8 +1,8 @@
 const COFFEE_CHAT_BINGO_BOARD = [
-  ['an alumni', 'courseplan member', 'a pm (not your team)', 'business member'],
-  ['is/was a TA', 'major/minor that is not cs/infosci', 'idol member', 'a newbie'],
-  ['from a different college', 'curaise member', 'cornellgo member', 'a tpm (not your team)'],
-  ['carriage member', 'qmi member', 'a lead (not your role)', 'cuapts member']
+  ['has studied abroad', 'a newbie', 'plays DTI on roblox', 'sleeps before 12am'],
+  ['double major', 'uses windows', 'is an advisor', 'loves to cook'],
+  ['attended a hackathon', 'collects blindboxes', 'lives in ctown', 'plays a sport'],
+  ['lives on west', 'is left handed', 'has a digital camera', 'loves to eat']
 ];
 
 export default COFFEE_CHAT_BINGO_BOARD;
