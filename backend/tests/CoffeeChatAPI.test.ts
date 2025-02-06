@@ -49,7 +49,7 @@ describe('User is not lead or admin', () => {
   test('createCoffeeChat should throw error if previous chats exist', async () => {
     await expect(createCoffeeChat(coffeeChat, user)).rejects.toThrow(
       new Error(
-        'Cannot create coffee chat with member. Previous coffee chats from previous semesters exist.'
+        'Cannot create coffee chat with member. Coffee chats from current or previous semesters exist.'
       )
     );
   });
