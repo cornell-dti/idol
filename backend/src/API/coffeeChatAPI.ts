@@ -65,15 +65,12 @@ export const createCoffeeChat = async (
     'approved',
     coffeeChat.otherMember
   );
-  const prevChats = [
-    ...pendingChats.filter((chat) => !chat.isArchived),
-    ...approvedChats.filter((chat) => !chat.isArchived)
-  ];
+  const prevChats = [...pendingChats, ...approvedChats];
   const chatExists = prevChats.length > 0;
 
   if (chatExists) {
     throw new Error(
-      'Cannot create coffee chat with member. Previous coffee chats from previous semesters exist.'
+      'Cannot create coffee chat with member. Coffee chats from current or previous semesters exist.'
     );
   }
 
