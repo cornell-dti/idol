@@ -5,12 +5,15 @@ import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import RedBlob from '../../../components/blob';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
+import useTitle from '../../hooks/useTitle';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
     alt: product.alt,
     path: product.iconPath
   }));
+
+  useTitle('Products');
 
   return (
     <div className="overflow-x-hidden md:pt-[100px] xs:pt-9">

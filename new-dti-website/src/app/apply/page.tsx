@@ -8,6 +8,7 @@ import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import Banner from '../../../components/apply/Banner';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import { isAppOpen } from '../../utils/dateUtils';
+import useTitle from '../../hooks/useTitle';
 
 const ApplyHero = () => {
   const isApplicationOpen = isAppOpen();
@@ -90,18 +91,21 @@ const ApplyCoffeeChat = () => (
   </section>
 );
 
-const ApplyPage = () => (
-  <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
-    <div>
-      <ApplyHero />
-      <ApplicationTimeline />
+const ApplyPage = () => {
+  useTitle('Apply');
+  return (
+    <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
+      <div>
+        <ApplyHero />
+        <ApplicationTimeline />
+      </div>
+      <RoleDescriptions />
+      <div>
+        <ApplyFAQ />
+        <ApplyCoffeeChat />
+      </div>
     </div>
-    <RoleDescriptions />
-    <div>
-      <ApplyFAQ />
-      <ApplyCoffeeChat />
-    </div>
-  </div>
-);
+  );
+};
 
 export default ApplyPage;

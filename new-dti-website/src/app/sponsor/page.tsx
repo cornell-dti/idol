@@ -10,6 +10,7 @@ import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import RedBlob from '../../../components/blob';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
+import useTitle from '../../hooks/useTitle';
 
 const { impacts } = impactData;
 const { companies } = companyData;
@@ -81,6 +82,7 @@ const SponsorImpact = () => (
 
 const SponsorPage = () => {
   const { width } = useScreenSize();
+  useTitle('Sponsor');
   return (
     <>
       <SponsorHero />
