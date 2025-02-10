@@ -1,14 +1,14 @@
 {
   "timeline_events": [
     {
+      "title": "First Day",
+      "date": "Feb 10",
+      "time": "7:30 PM"
+    },
+    {
       "title": "Sign-up Deadline",
       "date": "Feb 16",
       "time": "12:00 PM"
-    },
-    {
-      "title": "First Day",
-      "date": "Feb 19",
-      "time": "7:30 PM"
     },
     {
       "title": "Final Project",
