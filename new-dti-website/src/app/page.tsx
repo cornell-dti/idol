@@ -6,10 +6,13 @@ import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import RedBlob from '../../components/blob';
 import { ibm_plex_mono } from './layout';
+import useTitle from '../hooks/useTitle';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+
+  useTitle();
 
   const icons = [
     {

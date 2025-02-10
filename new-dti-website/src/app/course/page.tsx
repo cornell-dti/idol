@@ -23,6 +23,7 @@ import TestimonialSlider from '../../../components/course/TestimonialSlider';
 import DDProjects from '../../../components/course/DDProjects';
 import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
+import useTitle from '../../hooks/useTitle';
 
 //* DATA
 const { key_experiences } = experiencesData;
@@ -43,6 +44,8 @@ export default function Courses() {
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
+
+  useTitle('Course');
 
   return (
     <>
