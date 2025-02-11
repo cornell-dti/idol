@@ -46,9 +46,10 @@ const CoffeeChats: React.FC = () => {
     setSelectedMember(member);
 
     CoffeeChatAPI.getCoffeeChatsByUser(member).then((coffeeChats) => {
-      setSpecificApprovedChats(coffeeChats.filter((chat) => chat.status === 'approved'));
-      setSpecificPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
-      setSpecificRejectedChats(coffeeChats.filter((chat) => chat.status === 'rejected'));
+      const filteredChats = coffeeChats.filter((chat) => !chat.isArchived);
+      setSpecificApprovedChats(filteredChats.filter((chat) => chat.status === 'approved'));
+      setSpecificPendingChats(filteredChats.filter((chat) => chat.status === 'pending'));
+      setSpecificRejectedChats(filteredChats.filter((chat) => chat.status === 'rejected'));
       setIsChatLoading(false);
     });
 

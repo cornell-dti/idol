@@ -2,9 +2,8 @@ import { Request } from 'express';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
-import { getMember, allMembers } from './memberAPI';
-import { LEAD_ROLES } from '../consts';
-import { getGeneralRoleFromLeadType } from '../utils/memberUtil';
+import { getMember } from './memberAPI';
+import { ADVISOR_ROLES } from '../consts';
 import { sendCoffeeChatReminder } from './mailAPI';
 
 const coffeeChatDao = new CoffeeChatDao();
@@ -66,12 +65,15 @@ export const createCoffeeChat = async (
     'approved',
     coffeeChat.otherMember
   );
-  const prevChats = [...pendingChats, ...approvedChats];
+  const prevChats = [
+    ...pendingChats.filter((chat) => !chat.isArchived),
+    ...approvedChats.filter((chat) => !chat.isArchived)
+  ];
   const chatExists = prevChats.length > 0;
 
   if (chatExists) {
     throw new Error(
-      'Cannot create coffee chat with member. Previous coffee chats from previous semesters exist.'
+      'Cannot create coffee chat with member. Coffee chats from current or previous semesters exist.'
     );
   }
 
@@ -203,138 +205,22 @@ export const checkMemberMeetsCategory = async (
   submitterEmail: string,
   category: string
 ): Promise<{ status: MemberMeetsCategoryStatus; message: string }> => {
-  const otherMemberProperties = await CoffeeChatDao.getMemberProperties(otherMemberEmail);
-  const submitterProperties = await CoffeeChatDao.getMemberProperties(submitterEmail);
   const otherMember = await getMember(otherMemberEmail);
   const submitter = await getMember(submitterEmail);
-  const haveNoCommonSubteams = (member1: IdolMember, member2: IdolMember): boolean =>
-    member2.subteams.every((team) => !member1.subteams.includes(team)) &&
-    member1.subteams.every((team) => !member2.subteams.includes(team));
   let status: MemberMeetsCategoryStatus = 'no data';
   let message: string = '';
 
-  // If otherMember doesn't exist in the DB, assume they are an alumni
-  if (!otherMember && category === 'an alumni') {
-    return { status: 'pass', message };
-  }
-
   // If otherMember and submitter don't exist, status should stay undefined
   if (otherMember && submitter) {
-    if (category === 'an alumni') {
-      status = (await allMembers()).every((member) => member.email !== otherMember.email)
-        ? 'pass'
-        : 'fail';
+    if (category === 'a newbie') {
+      status = otherMember.semesterJoined === 'Spring 2025' ? 'pass' : 'fail';
       if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not an alumni`;
+        message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
       }
-    } else if (category === 'courseplan member') {
-      status = otherMember.subteams.includes('courseplan') ? 'pass' : 'fail';
+    } else if (category === 'is an advisor') {
+      status = ADVISOR_ROLES.includes(otherMember.role) ? 'pass' : 'fail';
       if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember?.lastName} is not a CoursePlan member`;
-      }
-    } else if (category === 'business member') {
-      status = otherMember.role === 'business' ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a business member`;
-      }
-    } else if (category === 'idol member') {
-      status = otherMember.subteams.includes('idol') ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not an IDOL member`;
-      }
-    } else if (category === 'curaise member') {
-      status = otherMember.subteams.includes('curaise') ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a CURaise member`;
-      }
-    } else if (category === 'cornellgo member') {
-      status = otherMember.subteams.includes('cornellgo') ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a CornellGo member`;
-      }
-    } else if (category === 'carriage member') {
-      status = otherMember.subteams.includes('carriage') ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a Carriage member`;
-      }
-    } else if (category === 'qmi member') {
-      status = otherMember.subteams.includes('queuemein') ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a QMI member`;
-      }
-    } else if (category === 'cuapts member') {
-      status = otherMember.subteams.includes('cuapts') ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a CUApts member`;
-      }
-    } else if (category === 'a pm (not your team)') {
-      const isPm = otherMember.role === 'pm';
-      const notSameTeam = haveNoCommonSubteams(submitter, otherMember);
-      status = isPm && notSameTeam ? 'pass' : 'fail';
-      if (status === 'fail') {
-        if (!isPm) {
-          message = `${otherMember.firstName} ${otherMember.lastName} is not a PM`;
-        } else {
-          message = `${otherMember.firstName} ${otherMember.lastName} is a PM, but is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
-        }
-      }
-    } else if (category === 'a tpm (not your team)') {
-      const isTpm = otherMember.role === 'tpm';
-      const notSameTeam = haveNoCommonSubteams(submitter, otherMember);
-      status = isTpm && notSameTeam ? 'pass' : 'fail';
-      if (status === 'fail') {
-        if (!isTpm) {
-          message = `${otherMember.firstName} ${otherMember.lastName} is not a TPM`;
-        } else {
-          message = `${otherMember.firstName} ${otherMember.lastName} is a TPM, but is on the same team as ${submitter?.firstName} ${submitter?.lastName}`;
-        }
-      }
-    }
-
-    // If otherMemberProperties doesn't exist, status should stay undefined
-    if (otherMemberProperties) {
-      if (category === 'a newbie') {
-        status = otherMemberProperties.newbie ? 'pass' : 'fail';
-        if (status === 'fail') {
-          message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
-        }
-      } else if (category === 'is/was a TA') {
-        status = otherMemberProperties.ta ? 'pass' : 'fail';
-        if (status === 'fail') {
-          message = `${otherMember.firstName} ${otherMember.lastName} was never a TA`;
-        }
-      } else if (category === 'major/minor that is not cs/infosci') {
-        status = otherMemberProperties.notCsOrInfosci ? 'pass' : 'fail';
-        if (status === 'fail') {
-          message = `${otherMember.firstName} ${otherMember.lastName} is a CS or Infosci major`;
-        }
-      }
-
-      // If submitterProperties doesn't exist, status should stay undefined
-      if (submitterProperties) {
-        if (category === 'from a different college') {
-          status = otherMemberProperties.college !== submitterProperties.college ? 'pass' : 'fail';
-          if (status === 'fail') {
-            message = `${otherMember.firstName} ${otherMember.lastName} is from the same college as ${submitter.firstName} ${submitter.lastName} (${otherMemberProperties.college})`;
-          }
-        }
-      }
-    }
-
-    if (category === 'a lead (not your role)') {
-      const isLead = LEAD_ROLES.includes(otherMember.role);
-      if (!isLead) {
-        status = 'fail';
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a lead`;
-      } else {
-        const diffRole = !LEAD_ROLES.includes(submitter.role)
-          ? getGeneralRoleFromLeadType(otherMember.role) !== submitter.role
-          : getGeneralRoleFromLeadType(otherMember.role) !==
-            getGeneralRoleFromLeadType(submitter.role);
-        status = diffRole ? 'pass' : 'fail';
-        if (!diffRole) {
-          message = `${otherMember.firstName} ${otherMember.lastName} is a lead, but from the same role (${submitter.role}) as ${submitter.firstName} ${submitter.lastName}`;
-        }
+        message = `${otherMember.firstName} ${otherMember.lastName} is not an advisor`;
       }
     }
   }

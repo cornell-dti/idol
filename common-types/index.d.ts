@@ -245,6 +245,7 @@ interface CoffeeChat {
   readonly category: string;
   readonly status: Status;
   readonly date: number;
+  readonly isArchived: boolean;
   readonly memberMeetsCategory: MemberMeetsCategoryStatus;
   readonly reason?: string;
   readonly errorMessage?: string;
