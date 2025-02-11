@@ -10,6 +10,8 @@ type Props = {
   setCurrentRating: Dispatch<SetStateAction<Rating | undefined>>;
   currentComment: string;
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
+  seeApplicantName: boolean;
+  candidate: number;
 };
 
 const ratings = [
@@ -83,16 +85,15 @@ const getCredentials = (headers: string[], responses: string[]) => {
   return credentials;
 };
 
-const nonCredentialResponses = (headers: string[], responses: string[]): string[] =>
-  responses.filter((_, i) => !credentialHeaders.includes(headers[i]));
-
 const ResponsesPanel: React.FC<Props> = ({
   headers,
   responses,
   currentRating,
   setCurrentRating,
   currentComment,
-  setCurrentComment
+  setCurrentComment,
+  seeApplicantName,
+  candidate
 }) => (
   <div>
     <Form>
@@ -112,13 +113,17 @@ const ResponsesPanel: React.FC<Props> = ({
       </Form.Group>
       <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
     </Form>
-    <ApplicantCredentials {...getCredentials(headers, responses)} />
+    <ApplicantCredentials {...getCredentials(headers, responses)} seeApplicantName={seeApplicantName} candidate={candidate} />
     {headers
-      .filter((header) => !credentialHeaders.includes(header))
-      .map((header, i) => (
+      .map((header, i) => ({ header, response: responses[i] }))
+      .filter(({ header }) => 
+        !credentialHeaders.includes(header) && 
+        (seeApplicantName || header !== "Preferred Name (optional)")
+      )
+      .map(({header, response}, i) => (
         <div key={i} className={styles.questionResponseContainer}>
           <h4 className={styles.questionHeader}>{header}</h4>
-          <div className={styles.responseText}>{nonCredentialResponses(headers, responses)[i]}</div>
+          <div className={styles.responseText}>{response}</div>
         </div>
       ))}
   </div>

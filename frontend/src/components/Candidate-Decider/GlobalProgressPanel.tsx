@@ -29,7 +29,7 @@ const GlobalProgressPanel: React.FC<Props> = ({ showOtherVotes, candidates, revi
           {candidates.map((candidate) => (
             <RatingsDisplay
               ratings={reviews.filter((review) => review.candidateId === candidate.id)}
-              header={`Candidate ${candidate.id}`}
+              header={`Candidate ${candidate.id+1}`}
               key={candidate.id}
             />
           ))}
