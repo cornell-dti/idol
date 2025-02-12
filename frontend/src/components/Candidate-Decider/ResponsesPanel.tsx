@@ -113,14 +113,19 @@ const ResponsesPanel: React.FC<Props> = ({
       </Form.Group>
       <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
     </Form>
-    <ApplicantCredentials {...getCredentials(headers, responses)} seeApplicantName={seeApplicantName} candidate={candidate} />
+    <ApplicantCredentials
+      {...getCredentials(headers, responses)}
+      seeApplicantName={seeApplicantName}
+      candidate={candidate}
+    />
     {headers
       .map((header, i) => ({ header, response: responses[i] }))
-      .filter(({ header }) => 
-        !credentialHeaders.includes(header) && 
-        (seeApplicantName || header !== "Preferred Name (optional)")
+      .filter(
+        ({ header }) =>
+          !credentialHeaders.includes(header) &&
+          (seeApplicantName || header !== 'Preferred Name (optional)')
       )
-      .map(({header, response}, i) => (
+      .map(({ header, response }, i) => (
         <div key={i} className={styles.questionResponseContainer}>
           <h4 className={styles.questionHeader}>{header}</h4>
           <div className={styles.responseText}>{response}</div>
