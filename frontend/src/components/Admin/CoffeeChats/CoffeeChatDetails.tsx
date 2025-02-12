@@ -103,8 +103,8 @@ const CoffeeChatDetails: React.FC = () => {
 
   useEffect(() => {
     if (isLoading) {
-      CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
-        setCoffeeChats(chats);
+      CoffeeChatAPI.getAllCoffeeChats().then((chat) => {
+        setCoffeeChats(chat);
         setLoading(false);
       });
     }
@@ -113,10 +113,12 @@ const CoffeeChatDetails: React.FC = () => {
   useEffect(() => {
     const map = new Map<string, CoffeeChat[]>([['default', []]]);
     coffeeChats.forEach((chat) => {
-      if (!map.has(chat.category)) {
-        map.set(chat.category, []);
+      if (!chat.isArchived){
+        if (!map.has(chat.category)) {
+          map.set(chat.category, []);
+        }
+        map.get(chat.category)!.push(chat);
       }
-      map.get(chat.category)!.push(chat);
     });
 
     setCategoryToChats(map);
