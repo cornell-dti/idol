@@ -21,6 +21,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [nextCandidate, setNextCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
+  const [seeApplicantName, setSeeApplicantName] = useState<boolean>(false);
 
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
@@ -161,6 +162,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               handleCandidateChange(candidate);
             }}
             currentCandidate={currentCandidate}
+            seeApplicantName={seeApplicantName}
           />
         </div>
         <div className={styles.controlsContainer}>
@@ -223,6 +225,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               label="Show other people's votes"
             />
           )}
+          {hasAdminPermission && (
+            <Checkbox
+              className={styles.seeApplicantName}
+              toggle
+              checked={seeApplicantName}
+              onChange={() => setSeeApplicantName((prev) => !prev)}
+              label="See applicant name"
+            />
+          )}
         </div>
         <ResponsesPanel
           headers={instance.headers}
@@ -231,6 +242,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           setCurrentComment={setCurrentComment}
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
+          seeApplicantName={seeApplicantName}
+          candidate={instance.candidates[currentCandidate].id}
         />
       </div>
       <div className={styles.progressContainer}>
