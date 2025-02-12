@@ -113,7 +113,7 @@ const CoffeeChatDetails: React.FC = () => {
   useEffect(() => {
     const map = new Map<string, CoffeeChat[]>([['default', []]]);
     coffeeChats.forEach((chat) => {
-      if (!chat.isArchived){
+      if (!chat.isArchived) {
         if (!map.has(chat.category)) {
           map.set(chat.category, []);
         }
