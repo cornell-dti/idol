@@ -17,6 +17,7 @@ const CoffeeChatsForm: React.FC = () => {
   const [approvedChats, setApprovedChats] = useState<CoffeeChat[]>([]);
   const [pendingChats, setPendingChats] = useState<CoffeeChat[]>([]);
   const [rejectedChats, setRejectedChats] = useState<CoffeeChat[]>([]);
+  const [archivedChats, setArchivedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
@@ -31,6 +32,8 @@ const CoffeeChatsForm: React.FC = () => {
       setApprovedChats(filteredChats.filter((chat) => chat.status === 'approved'));
       setPendingChats(filteredChats.filter((chat) => chat.status === 'pending'));
       setRejectedChats(filteredChats.filter((chat) => chat.status === 'rejected'));
+      const archivedChats = coffeeChats.filter((chat) => chat.isArchived);
+      setArchivedChats(archivedChats);
       setIsChatLoading(false);
     });
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
@@ -266,6 +269,7 @@ const CoffeeChatsForm: React.FC = () => {
           approvedChats={approvedChats}
           pendingChats={pendingChats}
           rejectedChats={rejectedChats}
+          archivedChats={archivedChats}
           isChatLoading={isChatLoading}
           setPendingChats={setPendingChats}
           bingoBoard={bingoBoard}
