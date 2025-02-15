@@ -100,17 +100,19 @@ const TeamEventCreditDashboard = (props: {
   let headerString;
   if (!LEAD_ROLES.includes(userRole))
     headerString = `Check your team event credit status for this semester here!  
-    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${INITIATIVE_EVENTS
+    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${
+      INITIATIVE_EVENTS
         ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
-      } 
-    to fulfill this requirement. You must complete at least ${MAX_TEC_PER_5_WEEKS} team event credit every 5 weeks.`;
+    } 
+    to fulfill this requirement, completing at least ${MAX_TEC_PER_5_WEEKS} team event credit every 5 weeks.`;
   else
     headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event 
-    credits${INITIATIVE_EVENTS
+    credits${
+      INITIATIVE_EVENTS
         ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
-      }.`;
+    }.`;
 
   const TecDetailsDisplay = (props: { attendanceList: TeamEventAttendance[] }): JSX.Element => {
     const { attendanceList } = props;
@@ -125,13 +127,15 @@ const TeamEventCreditDashboard = (props: {
                   <Card.Header>{teamEvent.name} </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>
-                    {`Total Credits: ${teamEvent.hasHours
-                      ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
-                      : teamEvent.numCredits
-                      } ${teamEvent.maxCredits === teamEvent.numCredits
+                    {`Total Credits: ${
+                      teamEvent.hasHours
+                        ? getHoursAttended(attendance) * Number(teamEvent.numCredits)
+                        : teamEvent.numCredits
+                    } ${
+                      teamEvent.maxCredits === teamEvent.numCredits
                         ? ''
                         : `(${teamEvent.maxCredits} Max)`
-                      }`}
+                    }`}
                   </Card.Meta>
                   {INITIATIVE_EVENTS && (
                     <Card.Meta>
