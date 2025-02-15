@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Label, Dropdown } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
-import { INITIATIVE_EVENTS } from '../../../consts';
+import { INITIATIVE_EVENTS, TEC_DEADLINES } from '../../../consts';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -30,6 +31,38 @@ const TeamEventCreditForm: React.FC = () => {
       setIsAttendanceLoading(false);
     });
   }, []);
+
+  const isLead: boolean = LEAD_ROLES.includes(useSelf()!.role);
+
+  const approvedTECDates: Date[] = approvedAttendance.map((attendance) => {
+    const matchingEvent = teamEventInfoList.find((event) => event.uuid === attendance.eventUuid);
+    return matchingEvent ? new Date(matchingEvent.date) : null;
+  }).filter((date): date is Date => date !== null); // Filters out null values in case of unmatched events
+
+
+  // Returns the corresponding TEC period index
+  function getTECPeriod(submissionDate: Date) {
+    for (let i = 0; i < TEC_DEADLINES.length; i += 1) {
+      if (submissionDate <= TEC_DEADLINES[i]) return i;
+    }
+    return TEC_DEADLINES.length;
+  }
+
+  function canSubmitTEC(userSubmissions: Date[], newSubmission: Date) {
+    const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);;
+    userSubmissions.forEach((date) => {
+      const period = getTECPeriod(date);
+      if (period < tecCounts.length) tecCounts[period] += 1;
+    });
+    const newPeriod = getTECPeriod(newSubmission);
+
+    // allow member to submit 2 tec if they missed last 5 weeks
+    if (tecCounts[newPeriod] >= 1) {
+      return tecCounts[newPeriod - 1] === 0 && tecCounts[newPeriod] < 2;
+    }
+
+    return true;
+  }
 
   const handleAddIconClick = () => {
     setImages((images) => [...images, '']);
@@ -100,9 +133,8 @@ const TeamEventCreditForm: React.FC = () => {
     } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${
-          submittedCredits + creditsToSubmit
-        } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${submittedCredits + creditsToSubmit
+          } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
@@ -148,6 +180,11 @@ const TeamEventCreditForm: React.FC = () => {
           <label className={styles.bold}>
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
+          <label className={styles.bold}>
+            {!canSubmitTEC(approvedTECDates, new Date()) && (
+              <span className={styles.red_color}>You have already submitted a TEC for this 5-week period.</span>
+            )}
+          </label>
           <div className={styles.center_and_flex}>
             {teamEventInfoList ? (
               <Dropdown
@@ -160,9 +197,8 @@ const TeamEventCreditForm: React.FC = () => {
                 value={teamEvent?.uuid ?? ''}
                 text={
                   teamEvent
-                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${
-                        teamEvent.hasHours ? 'per hour' : ''
-                      }`
+                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${teamEvent.hasHours ? 'per hour' : ''
+                    }`
                     : ''
                 }
                 options={teamEventInfoList
@@ -184,11 +220,9 @@ const TeamEventCreditForm: React.FC = () => {
                           ></Label>
 
                           <Label
-                            content={`${event.numCredits} ${
-                              Number(event.numCredits) === 1 ? 'credit' : 'credits'
-                            } ${
-                              event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
-                            } ${event.hasHours ? 'per hour' : ''}`}
+                            content={`${event.numCredits} ${Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                              } ${event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
+                              } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>
                       </div>
@@ -251,6 +285,7 @@ const TeamEventCreditForm: React.FC = () => {
         </Form.Button>
         <Form.Button
           floated="right"
+          disabled={!canSubmitTEC(approvedTECDates, new Date()) && !isLead}
           onClick={async () => {
             await submitTeamEventCredit();
           }}
