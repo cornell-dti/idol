@@ -56,6 +56,20 @@ const CoffeeChats: React.FC = () => {
     CoffeeChatAPI.getCoffeeChatBingoBoard().then((board) => setBingoBoard(board));
   };
 
+  const handleArchiveAll = async () => {
+    console.log('Archiving all coffee chats...');
+    await CoffeeChatAPI.archiveAllCoffeeChats();
+    console.log('Archived all coffee chats.');
+    setIsLoading(true);
+  };
+
+  const handleUnarchiveAll = async () => {
+    console.log('Unarchiving all coffee chats...');
+    await CoffeeChatAPI.unarchiveAllCoffeeChats();
+    console.log('Unarchived all coffee chats.');
+    setIsLoading(true);
+  };
+
   const memberOptions = allMembers.map((member) => ({
     key: member.netid,
     text: `${member.firstName} ${member.lastName} (${member.netid})`,
@@ -124,6 +138,8 @@ const CoffeeChats: React.FC = () => {
           <Button onClick={() => setSelectedMember(null)} disabled={selectedMember == null}>
             Review All Coffee Chats
           </Button>
+          <Button onClick={handleArchiveAll}>Archive All Coffee Chats</Button>
+          <Button onClick={handleUnarchiveAll}>Unarchive All Coffee Chats</Button>
           <div className={styles.dropdownButton}>
             <Dropdown
               placeholder={DEAFAULT_MEMBER_DROPDOWN_TEXT}

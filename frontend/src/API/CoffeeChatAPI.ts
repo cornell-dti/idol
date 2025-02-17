@@ -77,4 +77,16 @@ export default class CoffeeChatAPI {
       (res) => res.data.suggestions
     );
   }
+
+  public static async archiveAllCoffeeChats(): Promise<void> {
+    console.log('Sending request to archive all coffee chats...');
+    await APIWrapper.post(`${backendURL}/coffee-chat/archive`, {});
+    console.log('Request to archive all coffee chats sent.');
+  }
+
+  public static async unarchiveAllCoffeeChats(): Promise<void> {
+    console.log('Sending request to unarchive all coffee chats...');
+    await APIWrapper.post(`${backendURL}/coffee-chat/unarchive`, {});
+    console.log('Request to unarchive all coffee chats sent.');
+  }
 }

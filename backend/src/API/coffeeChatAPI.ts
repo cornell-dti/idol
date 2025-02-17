@@ -139,6 +139,44 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
 };
 
 /**
+ * Archives all coffee chats (if the user has permission)
+ * @param user - The user that is requesting to archive all coffee chats
+ */
+export const archiveAllCoffeeChats = async (user: IdolMember): Promise<void> => {
+  console.log(`User ${user.email} is archiving all coffee chats...`);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have sufficient permissions to archive all coffee chats.`
+    );
+  }
+  const coffeeChats = await coffeeChatDao.getAllCoffeeChats();
+  await Promise.all(
+    coffeeChats.map((chat) => coffeeChatDao.updateCoffeeChat({ ...chat, isArchived: true }))
+  );
+  console.log('All coffee chats archived.');
+};
+
+/**
+ * Unarchives all coffee chats (if the user has permission)
+ * @param user - The user that is requesting to unarchive all coffee chats
+ */
+export const unarchiveAllCoffeeChats = async (user: IdolMember): Promise<void> => {
+  console.log(`User ${user.email} is unarchiving all coffee chats...`);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have sufficient permissions to unarchive all coffee chats.`
+    );
+  }
+  const coffeeChats = await coffeeChatDao.getAllCoffeeChats();
+  await Promise.all(
+    coffeeChats.map((chat) => coffeeChatDao.updateCoffeeChat({ ...chat, isArchived: false }))
+  );
+  console.log('All coffee chats unarchived.');
+};
+
+/**
  * Gets the coffee chat bingo board
  */
 export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>

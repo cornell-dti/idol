@@ -43,7 +43,9 @@ import {
   checkMemberMeetsCategory,
   runAutoChecker,
   notifyMemberCoffeeChat,
-  getCoffeeChatSuggestions
+  getCoffeeChatSuggestions,
+  archiveAllCoffeeChats,
+  unarchiveAllCoffeeChats
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -355,6 +357,20 @@ loginCheckedPost('/coffee-chat-reminder', async (req, user) => ({
 loginCheckedGet('/coffee-chat-suggestions/:email', async (req) => {
   const suggestions = await getCoffeeChatSuggestions(req.params.email);
   return { suggestions };
+});
+
+loginCheckedPost('/coffee-chat/archive', async (_, user) => {
+  console.log('Received request to archive all coffee chats...');
+  await archiveAllCoffeeChats(user);
+  console.log('Processed request to archive all coffee chats.');
+  return {};
+});
+
+loginCheckedPost('/coffee-chat/unarchive', async (_, user) => {
+  console.log('Received request to unarchive all coffee chats...');
+  await unarchiveAllCoffeeChats(user);
+  console.log('Processed request to unarchive all coffee chats.');
+  return {};
 });
 
 // Pull from IDOL
