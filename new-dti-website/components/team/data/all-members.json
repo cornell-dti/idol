@@ -22,7 +22,7 @@
     "semesterJoined": "Fall 2024",
     "college": "cas",
     "hometown": "Bryn Mawr, PA",
-    "about": "Freshman studying Mathematics with a minor in Biomedical Engineering. Apart from DTI, I'm involved in Pi Sigma Epsilon, a business fraternity on campus and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. "
+    "about": "Freshman studying Mathematics with a minor in Biometry & Statistics. Apart from DTI, I'm involved in Pi Sigma Epsilon, Cornell Venture Capital, and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. "
   },
   {
     "formerSubteams": [],
@@ -1127,7 +1127,6 @@
     "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
     "graduation": "May 2027",
     "college": "cas",
-    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design on DCC)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)",
     "netid": "may52",
     "roleDescription": "Product Lead",
     "pronouns": "she/her",
@@ -1137,7 +1136,8 @@
     "subteams": [
       "leads"
     ],
-    "minor": "Linguistics"
+    "minor": "Linguistics",
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)"
   },
   {
     "formerSubteams": [],
