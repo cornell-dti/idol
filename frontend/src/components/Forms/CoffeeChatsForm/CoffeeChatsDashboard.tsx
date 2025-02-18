@@ -29,6 +29,7 @@ const CoffeeChatsDashboard = ({
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [openRejected, setOpenRejected] = useState(false);
   const [bingoCount, setBingoCount] = useState(0);
 
@@ -41,6 +42,7 @@ const CoffeeChatsDashboard = ({
     (category: string) => {
       const chat = allChats.find((chat) => chat.category === category);
       setSelectedChat(chat);
+      setSelectedCategory(category);
       setOpen(true);
     },
     [allChats]
@@ -139,11 +141,12 @@ const CoffeeChatsDashboard = ({
 
       <CoffeeChatModal
         coffeeChat={selectedChat}
-        category={selectedChat?.category || ''}
+        category={selectedCategory}
         open={open}
         setOpen={setOpen}
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
         userInfo={userInfo}
+        submittedChats={[...pendingChats, ...approvedChats]}
       />
 
       <div className={styles.rejected_section}>
