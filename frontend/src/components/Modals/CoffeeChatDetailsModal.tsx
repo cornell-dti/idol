@@ -45,8 +45,12 @@ const CoffeeChatModal: React.FC<Props> = ({
   }, [userInfo.email]);
 
   useEffect(() => {
+    if (!suggestions || !category) {
+      setMembersInCategory([]);
+      return;
+    }
     setMembersInCategory(
-      suggestions && category in suggestions
+      category in suggestions
         ? suggestions[category].filter((chat) =>
             submittedChats.every((submittedChat) => submittedChat.otherMember.netid !== chat.netid)
           )
