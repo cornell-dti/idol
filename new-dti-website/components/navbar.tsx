@@ -8,33 +8,27 @@ import SectionWrapper from './hoc/SectionWrapper';
 const navbarItems = [
   {
     name: 'Team',
-    url: '/team',
-    special: false
+    url: '/team'
   },
   {
     name: 'Products',
-    url: '/products',
-    special: false
+    url: '/products'
   },
   {
     name: 'Course',
-    url: '/course',
-    special: false
+    url: '/course'
   },
   {
     name: 'Initiatives',
-    url: '/initiatives',
-    special: false
+    url: '/initiatives'
   },
   {
     name: 'Sponsor',
-    url: '/sponsor',
-    special: true
+    url: '/sponsor'
   },
   {
     name: 'Apply',
-    url: '/apply',
-    special: false
+    url: '/apply'
   }
 ];
 
@@ -123,14 +117,36 @@ const Navbar: React.FC = () => {
                   />
                 </button>
               </div>
-              <div className="backdrop-blur-sm w-full px-8 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
+              <div className="backdrop-blur-sm w-full px-4 py-4 md:px-14 md:py-4 h-full flex flex-col gap-y-6 landscape:gap-y-2 md:landscape:gap-y-6 text-right">
                 {navbarItems.map((item) => (
                   <a
                     key={item.name}
                     href={item.url}
-                    className={`hover:underline cursor-pointer text-base md:text-2xl font-normal underline-offset-8 decoration-2`}
+                    className={`group cursor-pointer p-4 underline-offset-8 decoration-2 h-[40px] flex items-center ${
+                      pathname === item.url ? 'underline' : ''
+                    } ${
+                      item.name === 'Sponsor'
+                        ? 'mr-2 rounded-[128px] [transition:50ms_ease-out] border border-[rgba(227,73,73,0.60)] px-4 py-2 hover:bg-[rgba(229,74,74,0.20)] justify-center h-[52px]'
+                        : ''
+                    }  ${
+                      item.name === 'Apply'
+                        ? 'rounded-[128px] [transition:50ms_ease-out] bg-white justify-center h-[52px]'
+                        : ''
+                    }`}
                   >
-                    {item.name}
+                    <span
+                      className={`
+                    ${
+                      item.name === 'Sponsor'
+                        ? 'bg-gradient-to-r from-[#F25454] to-[#D63D3D] bg-clip-text text-transparent'
+                        : 'text-white'
+                    }
+                    ${item.name === 'Apply' ? 'text-[#000000]' : ''}
+                    ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
+                  `}
+                    >
+                      {item.name}
+                    </span>
                   </a>
                 ))}
               </div>
