@@ -89,7 +89,7 @@ const CoffeeChatModal: React.FC<Props> = ({
         <>
           <Modal.Header>No Coffee Chat Submitted</Modal.Header>
           <Modal.Content>
-            <div>
+            <div className={styles.suggestionsList}>
               {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
               {!isLoading && membersInCategory.length === 0 && (
                 <div style={{ marginTop: '5px' }}>
