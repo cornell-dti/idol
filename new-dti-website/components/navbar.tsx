@@ -8,27 +8,33 @@ import SectionWrapper from './hoc/SectionWrapper';
 const navbarItems = [
   {
     name: 'Team',
-    url: '/team'
+    url: '/team',
+    special: false
   },
   {
     name: 'Products',
-    url: '/products'
+    url: '/products',
+    special: false
   },
   {
     name: 'Course',
-    url: '/course'
+    url: '/course',
+    special: false
   },
   {
     name: 'Initiatives',
-    url: '/initiatives'
+    url: '/initiatives',
+    special: false
   },
   {
     name: 'Sponsor',
-    url: '/sponsor'
+    url: '/sponsor',
+    special: true
   },
   {
     name: 'Apply',
-    url: '/apply'
+    url: '/apply',
+    special: false
   }
 ];
 
@@ -59,13 +65,31 @@ const Navbar: React.FC = () => {
           <div className="hidden !justify-self-end w-fit lg:inline-flex flex-row">
             {navbarItems.map((item) => (
               <a
-                className={`hover:underline cursor-pointer text-white p-4 underline-offset-8 decoration-2 decoration-white h-[48px] flex items-center ${
-                  pathname === item.url ? 'underline' : ''
-                }`}
-                href={item.url}
                 key={item.name}
+                href={item.url}
+                className={`group cursor-pointer p-4 underline-offset-8 decoration-2 h-[40px] flex items-center ${
+                  pathname === item.url ? 'underline' : ''
+                } ${
+                  item.name === 'Sponsor'
+                    ? 'mr-2 rounded-[128px] [transition:50ms_ease-out] border border-[rgba(227,73,73,0.60)] px-4 py-2 hover:bg-[rgba(229,74,74,0.20)]'
+                    : ''
+                }  ${
+                  item.name === 'Apply' ? 'rounded-[128px] [transition:50ms_ease-out] bg-white' : ''
+                }`}
               >
-                {item.name}
+                <span
+                  className={`
+                    ${
+                      item.name === 'Sponsor'
+                        ? 'bg-gradient-to-r from-[#F25454] to-[#D63D3D] bg-clip-text text-transparent'
+                        : 'text-white'
+                    }
+                    ${item.name === 'Apply' ? 'text-[#000000]' : ''}
+                    ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
+                  `}
+                >
+                  {item.name}
+                </span>
               </a>
             ))}
           </div>
@@ -103,8 +127,8 @@ const Navbar: React.FC = () => {
                 {navbarItems.map((item) => (
                   <a
                     key={item.name}
-                    className="hover:underline cursor-pointer text-white text-base md:text-2xl font-normal underline-offset-8 decoration-2 decoration-white"
                     href={item.url}
+                    className={`hover:underline cursor-pointer text-base md:text-2xl font-normal underline-offset-8 decoration-2`}
                   >
                     {item.name}
                   </a>
