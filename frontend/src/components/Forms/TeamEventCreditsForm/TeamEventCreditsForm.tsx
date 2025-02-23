@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Label, Dropdown } from 'semantic-ui-react';
-import { LEAD_ROLES } from 'common-types/constants';
 import { Emitters, getNetIDFromEmail } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -32,36 +31,46 @@ const TeamEventCreditForm: React.FC = () => {
     });
   }, []);
 
-  const isLead: boolean = LEAD_ROLES.includes(useSelf()!.role);
-
   const approvedTECDates: Date[] = approvedAttendance
     .map((attendance) => {
       const matchingEvent = teamEventInfoList.find((event) => event.uuid === attendance.eventUuid);
       return matchingEvent ? new Date(matchingEvent.date) : null;
     })
     .filter((date): date is Date => date !== null);
+  console.log(`approved Dates:${approvedTECDates}`);
 
-  function getTECPeriod(submissionDate: Date) {
-    for (let i = 0; i < TEC_DEADLINES.length; i += 1) {
-      if (submissionDate <= TEC_DEADLINES[i]) return i;
+  const getTECPeriod = (submissionDate: Date) => {
+    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+    if (currentPeriodIndex === -1) {
+      return TEC_DEADLINES.length;
     }
-    return TEC_DEADLINES.length;
-  }
+    return currentPeriodIndex;
+  };
 
-  function canSubmitTEC(userSubmissions: Date[], newSubmission: Date) {
-    const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);
-    userSubmissions.forEach((date) => {
-      const period = getTECPeriod(date);
-      if (period < tecCounts.length) tecCounts[period] += 1;
-    });
-    const newPeriod = getTECPeriod(newSubmission);
+  const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);
+  approvedTECDates.forEach((date) => {
+    const period = getTECPeriod(date);
+    if (period < tecCounts.length) tecCounts[period] += 1;
+  });
 
-    if (tecCounts[newPeriod] >= 1) {
-      return tecCounts[newPeriod - 1] === 0 && tecCounts[newPeriod] < 2;
+  const calculateCredits = () => {
+    const currentPeriod = getTECPeriod(new Date());
+    const previousPeriod = currentPeriod > 0 ? currentPeriod - 1 : null;
+
+    const periodCredits = tecCounts[currentPeriod] || 0;
+    const previousPeriodCredits = previousPeriod !== null ? tecCounts[currentPeriod - 1] : 1;
+
+    if (currentPeriod === 0) {
+      return periodCredits < 1 ? 1 : 0;
+    }
+    if (previousPeriodCredits === 0) {
+      return periodCredits < 2 ? 2 - periodCredits : 0;
     }
 
-    return true;
-  }
+    return periodCredits < 1 ? 1 : 0;
+  };
+
+  const requiredCredits = calculateCredits();
 
   const handleAddIconClick = () => {
     setImages((images) => [...images, '']);
@@ -174,14 +183,27 @@ const TeamEventCreditForm: React.FC = () => {
         <h1>Submit Team Event Credits</h1>
         <p>
           Earn team event credits for participating in DTI events! Fill out this form every time and
-          attach a picture of yourself at the event to receive credit.
+          attach a picture of yourself at the event to receive credit. The current 5-week TEC period
+          ends on{' '}
+          {getTECPeriod(new Date()) < TEC_DEADLINES.length
+            ? TEC_DEADLINES[getTECPeriod(new Date())].toDateString()
+            : 'No upcoming period'}
+          .
         </p>
         <div className={styles.inline}>
           <label className={styles.bold}>
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.bold}>
-            {!canSubmitTEC(approvedTECDates, new Date()) && (
+            {requiredCredits === 2 && (
+              <span className={styles.red_color}>
+                You did not submit a TEC last period so you must submit 2 TEC for this 5-week
+                period.
+              </span>
+            )}
+          </div>
+          <div className={styles.bold}>
+            {requiredCredits > 0 && requiredCredits < 2 && (
               <span className={styles.red_color}>
                 You have already submitted a TEC for this 5-week period.
               </span>
@@ -290,7 +312,6 @@ const TeamEventCreditForm: React.FC = () => {
         </Form.Button>
         <Form.Button
           floated="right"
-          disabled={!canSubmitTEC(approvedTECDates, new Date()) && !isLead}
           onClick={async () => {
             await submitTeamEventCredit();
           }}
@@ -304,6 +325,8 @@ const TeamEventCreditForm: React.FC = () => {
           rejectedAttendance={rejectedAttendance}
           isAttendanceLoading={isAttendanceLoading}
           setPendingAttendance={setPendingAttendance}
+          requiredPeriodCredits={requiredCredits}
+          tecCounts={tecCounts}
         />
       </Form>
     </div>

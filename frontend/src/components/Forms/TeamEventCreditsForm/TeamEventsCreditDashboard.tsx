@@ -12,7 +12,8 @@ import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
   INITIATIVE_EVENTS,
-  MAX_TEC_PER_5_WEEKS
+  MAX_TEC_PER_5_WEEKS,
+  TEC_DEADLINES
 } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
@@ -22,6 +23,8 @@ const TeamEventCreditDashboard = (props: {
   rejectedAttendance: TeamEventAttendance[];
   isAttendanceLoading: boolean;
   setPendingAttendance: Dispatch<SetStateAction<TeamEventAttendance[]>>;
+  requiredPeriodCredits: number;
+  tecCounts: number[];
 }): JSX.Element => {
   const {
     allTEC,
@@ -29,7 +32,9 @@ const TeamEventCreditDashboard = (props: {
     pendingAttendance,
     rejectedAttendance,
     isAttendanceLoading,
-    setPendingAttendance
+    setPendingAttendance,
+    requiredPeriodCredits,
+    tecCounts
   } = props;
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
@@ -220,10 +225,15 @@ const TeamEventCreditDashboard = (props: {
       ) : (
         <div>
           <div className={styles.inline}>
-            <label className={styles.bold}>
-              Your Approved Credits:{' '}
-              <span className={styles.dark_grey_color}>{approvedCredits}</span>
-            </label>
+            <label className={styles.bold}>Approved Credits per Period:</label>
+            <ul>
+              {TEC_DEADLINES.map((deadline, index) => (
+                <li key={index}>
+                  Period {index + 1} (Ends: {deadline.toDateString()}):
+                  <span className={styles.dark_grey_color}> {tecCounts[index]}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {INITIATIVE_EVENTS && (
@@ -238,16 +248,18 @@ const TeamEventCreditDashboard = (props: {
           <div className={styles.inline}>
             <label className={styles.bold}>
               Remaining Credits Needed for Current 5-Week Period:{' '}
-              <span className={styles.dark_grey_color}>{remainingCredits}</span>
+              <span className={styles.dark_grey_color}>{requiredPeriodCredits}</span>
             </label>
           </div>
 
-          <div className={styles.inline}>
-            <label className={styles.bold}>
-              Remaining Total Credits Needed:{' '}
-              <span className={styles.dark_grey_color}>{remainingCredits}</span>
-            </label>
-          </div>
+          {LEAD_ROLES.includes(userRole) && (
+            <div className={styles.inline}>
+              <label className={styles.bold}>
+                Remaining Total Credits Needed:{' '}
+                <span className={styles.dark_grey_color}>{remainingCredits}</span>
+              </label>
+            </div>
+          )}
 
           {INITIATIVE_EVENTS && (
             <div className={styles.inline}>
