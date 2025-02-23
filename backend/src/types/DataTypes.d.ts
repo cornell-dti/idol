@@ -125,7 +125,8 @@ export type DBInterviewSlot = {
   readonly interviewSchedulerUuid: string;
   readonly startTime: number;
   readonly room: string;
-  lead: firestore.DocumentReference;
-  members: string[];
-  applicant: string;
+  readonly uuid: string;
+  lead: firestore.DocumentReference | null;
+  members: (firestore.DocumentReference | null)[];
+  applicant: Applicant | null;
 };
