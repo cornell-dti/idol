@@ -203,7 +203,7 @@ const TeamEventCreditForm: React.FC = () => {
             )}
           </div>
           <div className={styles.bold}>
-            {requiredCredits > 0 && requiredCredits < 2 && (
+            {requiredCredits === 0 && (
               <span className={styles.red_color}>
                 You have already submitted a TEC for this 5-week period.
               </span>
