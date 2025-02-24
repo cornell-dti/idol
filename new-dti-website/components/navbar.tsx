@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
                         ? 'bg-gradient-to-r from-[#F25454] to-[#D63D3D] bg-clip-text text-transparent'
                         : 'text-white'
                     }
-                    ${item.name === 'Apply' ? 'text-[#000000]' : ''}
+                    ${item.name === 'Apply' ? '!text-[#000000]' : ''}
                     ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
                   `}
                 >
@@ -141,7 +141,7 @@ const Navbar: React.FC = () => {
                         ? 'bg-gradient-to-r from-[#F25454] to-[#D63D3D] bg-clip-text text-transparent'
                         : 'text-white'
                     }
-                    ${item.name === 'Apply' ? 'text-[#000000]' : ''}
+                    ${item.name === 'Apply' ? '!text-[#000000]' : ''}
                     ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
                   `}
                     >
