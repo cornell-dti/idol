@@ -23,7 +23,7 @@ const Bottom: React.FC = () => (
         <div className="flex flex-col gap-[16px]">
           <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium">Courses</p>
           <div className="flex flex-col gap-[8px]">
-            <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">
+            <h2 className="text-[32px] font-semibold lg:leading-10">
               Teaching the Cornell community
             </h2>
 
@@ -42,7 +42,7 @@ const Bottom: React.FC = () => (
 
     <SectionWrapper
       id={'Home Page Bottom section Wrapper 2'}
-      className="flex flex-col lg:flex-row-reverse h-fit justify-center items-start lg:gap-x-12"
+      className="flex flex-col md:flex-row-reverse h-fit justify-center items-start md:gap-x-12"
     >
       <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 z-10">
         <Image
@@ -59,7 +59,7 @@ const Bottom: React.FC = () => (
             Outreach
           </p>
           <div className="flex flex-col gap-[8px]">
-            <h2 className="text-lg font-semibold md:text-xl lg:text-[32px] lg:leading-10">
+            <h2 className="text-[32px] font-semibold lg:leading-10">
               Expanding reach to our community
             </h2>
 
@@ -93,7 +93,7 @@ const Bottom: React.FC = () => (
         <div className="flex flex-col gap-[16px]">
           <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium">Team</p>
           <div className="flex flex-col gap-[8px]">
-            <h2 className="text-lg font-semibold md:text-xl lg:text-[32px]">We're a family</h2>
+            <h2 className="text-[32px] font-semibold lg:leading-10">We're a family</h2>
 
             <p className="text-[#909090] text-[18px]">
               We solve real-world problems to improve our community while growing personally and
