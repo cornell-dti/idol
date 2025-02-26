@@ -50,7 +50,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 - **Amelie Rosso** - PM
 - **Chris Chen** - TPM
-- **Clément Rozé** - Design
+- **Clément Rozé** - Design/Developer
 - **Jason Mun** - Developer
 - **Kevin Ram** - Developer
 - **Juliet Crane** - Developer
