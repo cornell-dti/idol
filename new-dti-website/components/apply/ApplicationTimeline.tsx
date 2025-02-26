@@ -6,7 +6,6 @@ import timelineIcons from './data/timelineIcons.json';
 import { ibm_plex_mono } from '../../src/app/layout';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
-import RedBlob from '../blob';
 import { extractEndDate, extractEndTime, parseDate } from '../../src/utils/dateUtils';
 import SectionWrapper from '../hoc/SectionWrapper';
 
