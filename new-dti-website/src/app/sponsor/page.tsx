@@ -6,8 +6,7 @@ import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
-import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
-import RedBlob from '../../../components/blob';
+import { LAPTOP_BREAKPOINT } from '../../consts';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
@@ -15,47 +14,38 @@ import useTitle from '../../hooks/useTitle';
 const { impacts } = impactData;
 const { companies } = companyData;
 
-const SponsorHero = () => {
-  const { width } = useScreenSize();
-  return (
-    <div
-      className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-300px)] 
+const SponsorHero = () => (
+  <div
+    className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-300px)] 
     flex items-center w-full overflow-hidden"
-    >
-      <RedBlob className={'left-[-250px] top-[-175px]'} intensity={0.4} />
-      <SectionWrapper id={'Sponsors Page Hero Section'}>
-        <div className="flex lg:flex-row xs:flex-col gap-y-9 gap-x-24 relative z-10">
-          <div className="flex items-center">
-            <h1
-              className="font-semibold md:text-header xs:text-[52px] md:leading-header
+  >
+    <SectionWrapper id={'Sponsors Page Hero Section'}>
+      <div className="flex lg:flex-row xs:flex-col gap-y-9 gap-x-24 relative z-10">
+        <div className="flex items-center">
+          <h1
+            className="font-semibold md:text-header xs:text-[52px] md:leading-header
           xs:leading-header-xs whitespace-pre"
-            >
-              SUPPORT <br />
-              <span className="text-[#FF4C4C]">OUR TEAM</span>
-            </h1>
-          </div>
-          <div className="flex flex-col justify-center gap-6">
-            <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-              Let's collaborate
-            </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              The generous contributions of our supporters and sponsors allow our team to continue
-              building products and hosting initiatives to help the Cornell and Ithaca communities.
-            </p>
-            <a href={config.donationLink} className="primary-button">
-              Donate now
-            </a>
-          </div>
+          >
+            SUPPORT <br />
+            <span className="text-[#FF4C4C]">OUR TEAM</span>
+          </h1>
         </div>
-      </SectionWrapper>
-      {width >= TABLET_BREAKPOINT && (
-        <div className="relative top-[-250px]">
-          <RedBlob className={'right-[-300px]'} intensity={0.3} />
+        <div className="flex flex-col justify-center gap-6">
+          <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
+            Let's collaborate
+          </h2>
+          <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
+            The generous contributions of our supporters and sponsors allow our team to continue
+            building products and hosting initiatives to help the Cornell and Ithaca communities.
+          </p>
+          <a href={config.donationLink} className="primary-button">
+            Donate now
+          </a>
         </div>
-      )}
-    </div>
-  );
-};
+      </div>
+    </SectionWrapper>
+  </div>
+);
 
 const SponsorImpact = () => (
   <div
