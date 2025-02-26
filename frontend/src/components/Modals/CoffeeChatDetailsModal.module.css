@@ -1,3 +1,8 @@
 .modal_content {
   word-wrap: break-word;
 }
+
+.suggestionsList {
+  max-height: 400px;
+  overflow-y: scroll;
+}

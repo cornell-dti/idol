@@ -1,6 +1,5 @@
 'use client';
 
-import RedBlob from '../../../components/blob';
 import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
@@ -35,9 +34,6 @@ const InitiativeHero = () => (
         </div>
       </div>
     </SectionWrapper>
-    <div className="relative">
-      <RedBlob intensity={0.5} className="right-[-300px] bottom-[-600px]" />
-    </div>
   </section>
 );
 

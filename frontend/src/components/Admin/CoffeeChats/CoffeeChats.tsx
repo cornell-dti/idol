@@ -37,7 +37,7 @@ const CoffeeChats: React.FC = () => {
       setIsLoading(false);
     });
     CoffeeChatAPI.getAllCoffeeChats().then((coffeeChats) => {
-      setPendingChats(coffeeChats.filter((chat) => chat.status === 'pending'));
+      setPendingChats(coffeeChats.filter((chat) => !chat.isArchived && chat.status === 'pending'));
     });
   }, [isLoading]);
 

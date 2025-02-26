@@ -3,7 +3,6 @@
 import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
 import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
-import RedBlob from '../../../components/blob';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
 import Banner from '../../../components/apply/Banner';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
@@ -59,9 +58,7 @@ const ApplyHero = () => {
           </div>
         </div>
       </SectionWrapper>
-      <div className="relative">
-        <RedBlob className={'right-[-300px]'} intensity={0.5} />
-      </div>
+      <div className="relative"></div>
     </section>
   );
 };

@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 import applicationData from './data/applications.json';
 import config from '../../config.json';
-import RedBlob from '../blob';
 import { isAppOpen } from '../../src/utils/dateUtils';
 import SectionWrapper from '../hoc/SectionWrapper';
 
@@ -21,7 +20,6 @@ const RoleDescriptions = () => {
 
   return (
     <section id="Role Descriptions" className="relative flex justify-center text-[#FEFEFE]">
-      <RedBlob className="top-[-250px] right-[-350px] z-0" intensity={0.5} />
       <SectionWrapper id={'Apply Page Role Description Wrapper'} className="w-[1200px]">
         <div className="relative flex flex-col w-full gap-11 z-10">
           <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
@@ -126,7 +124,6 @@ const RoleDescriptions = () => {
           )}
         </div>
       </SectionWrapper>
-      <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />
     </section>
   );
 };
