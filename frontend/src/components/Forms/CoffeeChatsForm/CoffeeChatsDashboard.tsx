@@ -10,6 +10,7 @@ const CoffeeChatsDashboard = ({
   approvedChats,
   pendingChats,
   rejectedChats,
+  archivedChats,
   isChatLoading,
   setPendingChats,
   setApprovedChats,
@@ -20,6 +21,7 @@ const CoffeeChatsDashboard = ({
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
   rejectedChats: CoffeeChat[];
+  archivedChats: CoffeeChat[];
   isChatLoading: boolean;
   setPendingChats: Dispatch<SetStateAction<CoffeeChat[]>>;
   setApprovedChats: Dispatch<SetStateAction<CoffeeChat[]>>;
@@ -30,6 +32,7 @@ const CoffeeChatsDashboard = ({
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
   const [openRejected, setOpenRejected] = useState(false);
+  const [openArchived, setOpenArchived] = useState(false);
   const [bingoCount, setBingoCount] = useState(0);
 
   const allChats = useMemo(
@@ -60,6 +63,11 @@ const CoffeeChatsDashboard = ({
   const previouslyRejectedChats = useMemo(
     () => rejectedChats.filter((chat) => categoryStatus.get(chat.category)?.uuid !== chat.uuid),
     [categoryStatus, rejectedChats]
+  );
+
+  const approvedArchivedChats = useMemo(
+    () => archivedChats.filter((chat) => chat.status === 'approved'),
+    [archivedChats]
   );
 
   const blackout = useMemo(
@@ -162,6 +170,23 @@ const CoffeeChatsDashboard = ({
             </div>
           ))}
       </div>
+
+      <br></br>
+
+      <div className={styles.archived_chats_section}>
+        <Icon
+          className={styles.btnContainer}
+          name={openArchived ? 'angle down' : 'angle right'}
+          onClick={() => setOpenArchived((prev) => !prev)}
+        />
+        <span className={styles.bold}>Previous Coffee Chats</span>
+        {openArchived &&
+          (approvedArchivedChats.length > 0 ? (
+            <ArchivedChatsDisplay coffeeChats={approvedArchivedChats} />
+          ) : (
+            <div className={styles.archived_display}>You don't have any previous chats.</div>
+          ))}
+      </div>
     </>
   );
 };
@@ -191,6 +216,36 @@ const RejectedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) =>
               </div>
             </Table.Cell>
             <Table.Cell>{chat.reason}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  </div>
+);
+
+const ArchivedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => (
+  <div className={styles.archived_display}>
+    <Table celled style={{ border: '0.5px solid black' }}>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Chat Details</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {coffeeChats.map((chat) => (
+          <Table.Row key={chat.uuid}>
+            <Table.Cell>
+              <div>
+                Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName} (
+                {chat.otherMember.netid})
+              </div>
+              <div>Category: {chat.category}</div>
+              <div>
+                <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
+                  Slack Link
+                </a>
+              </div>
+            </Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
