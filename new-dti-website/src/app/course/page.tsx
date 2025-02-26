@@ -15,7 +15,6 @@ import allMembers from '../../../components/team/data/all-members.json';
 import config from '../../../components/course/data/config.json';
 
 // *IMPORT COMPONENTS
-import RedBlob from '../../../components/blob';
 import Experiences from '../../../components/course/Experiences';
 import Timeline from '../../../components/course/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
@@ -91,9 +90,6 @@ export default function Courses() {
                 </div>
               </div>
             </SectionWrapper>
-            <div className="relative top-[-250px]">
-              <RedBlob className={'right-[-250px]'} intensity={0.3} />
-            </div>
           </div>
         </section>
 

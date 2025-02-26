@@ -235,7 +235,6 @@ const TeamStatistics = () => {
 
 const TeamAbout = () => (
   <div className="relative flex justify-center text-white bg-black overflow-hidden mt-10 lg:mt-20">
-    <RedBlob intensity={0.6} className="left-[-200px] top-[200px]" />
     <SectionWrapper id={'Team Page About Section information'}>
       <div className="flex flex-col gap-12 relative z-10">
         <div className="flex flex-col items-center">
@@ -271,7 +270,6 @@ const TeamAbout = () => (
         </div>
 
         {/* TODO Wrap */}
-        <RedBlob intensity={0.7} className="right-[-500px] top-[600px]" />
         <div className="lg:w-2/3 md:w-full relative z-10 flex flex-col gap-6">
           <h2 className="font-semibold text-[32px]">Who we are</h2>
           <p className="text-lg leading-6">
@@ -282,7 +280,6 @@ const TeamAbout = () => (
           </p>
         </div>
         <TeamStatistics />
-        <RedBlob intensity={0.6} className="bottom-[-100px] left-[-400px]" />
       </div>
     </SectionWrapper>
   </div>

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import ImageCarousel from '../../../components/products/imageCarousel';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
-import RedBlob from '../../../components/blob';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
 
@@ -81,14 +80,6 @@ export default function Page() {
         className="!w-fit !ml-[50%]"
       />
       <div className="flex relative justify-center lg:my-32 md:my-64 mb-60 mt-40">
-        <RedBlob
-          className={'-left-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
-          intensity={0.3}
-        />
-        <RedBlob
-          className={'-right-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
-          intensity={0.3}
-        />
         <div className="flex flex-col text-white max-w-xl text-center items-center space-y-6">
           <h2 className="font-semibold text-[32px]">Have Any Ideas?</h2>
           <p className="px-20">
@@ -124,14 +115,6 @@ const ProductDisplay = (props: {
     key={props.product.alt}
     className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full"
   >
-    {props.product.blobs &&
-      props.product.blobs.map((blob, index) => (
-        <RedBlob
-          key={index}
-          className={blob.className ? blob.className.trim() : ''}
-          intensity={blob.intensity}
-        />
-      ))}
     <div
       className={`${
         props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'

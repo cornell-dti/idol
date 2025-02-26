@@ -14,7 +14,6 @@ import carouselImages from './data/carousel.json';
 import useCarouselControls from '../ui/carousel/useCarouselControls';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
-import RedBlob from '../blob';
 import SectionWrapper from '../hoc/SectionWrapper';
 import { TABLET_BREAKPOINT } from '../../src/consts';
 
@@ -146,7 +145,6 @@ const TeamHero = () => {
           isShown={modalShown}
         />
       )}
-      <RedBlob intensity={0.7} className="left-[-300px] top-[-100px]" />
       <div className="bg-black text-white md:pt-[100px] xs:pt-9">
         <SectionWrapper id={'Team Page Hero Section'} className="mb-20 lg:mb-20">
           <div className="flex lg:flex-row xs:flex-col relative z-10">

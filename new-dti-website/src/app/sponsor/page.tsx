@@ -7,7 +7,6 @@ import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import useScreenSize from '../../hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
-import RedBlob from '../../../components/blob';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
@@ -22,7 +21,6 @@ const SponsorHero = () => {
       className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-300px)] 
     flex items-center w-full overflow-hidden"
     >
-      <RedBlob className={'left-[-250px] top-[-175px]'} intensity={0.4} />
       <SectionWrapper id={'Sponsors Page Hero Section'}>
         <div className="flex lg:flex-row xs:flex-col gap-y-9 gap-x-24 relative z-10">
           <div className="flex items-center">
@@ -48,11 +46,6 @@ const SponsorHero = () => {
           </div>
         </div>
       </SectionWrapper>
-      {width >= TABLET_BREAKPOINT && (
-        <div className="relative top-[-250px]">
-          <RedBlob className={'right-[-300px]'} intensity={0.3} />
-        </div>
-      )}
     </div>
   );
 };
