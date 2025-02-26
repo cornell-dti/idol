@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ibm_plex_mono } from '../src/app/layout';
 
 interface SlideshowProps {
   selectedImage: number | null;
@@ -15,16 +14,6 @@ const imageNames = [
   'event.png',
   'initiative.png'
 ];
-
-const ImageHeader: React.FC<{ imageName: string }> = ({ imageName }) => (
-  <div className="md:p-4 xs:p-2 flex items-center rounded-[20px] gap-2 w-[100%]">
-    <img src="/images/folder_icon.png" alt="Folder" className="xs:h-3 md:h-6" />
-    <span className={`font-medium text-[16px] ${ibm_plex_mono.className}`}>cornell-dti</span>
-    <span className={`ml-auto font-medium text-[16px] ${ibm_plex_mono.className}`}>
-      {imageName}
-    </span>
-  </div>
-);
 
 const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => {
   const image = imageNames[selectedImage ?? 0];
