@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ibm_plex_mono } from '../../src/app/layout';
 import members from './data/all-members.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
-import RedBlob from '../blob';
 import SectionWrapper from '../hoc/SectionWrapper';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../src/consts';
 import { getGeneralRole, populateObject } from '../../src/utils/memberUtils';

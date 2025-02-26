@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 import applicationData from './data/applications.json';
 import config from '../../config.json';
-import RedBlob from '../blob';
 import { isAppOpen } from '../../src/utils/dateUtils';
 import SectionWrapper from '../hoc/SectionWrapper';
 
