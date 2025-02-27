@@ -1,28 +1,30 @@
 [
   {
-    "formerSubteams": [],
-    "website": null,
-    "role": "business",
-    "firstName": "Arsh",
-    "coffeeChatLink": "https://calendly.com/aa2724-cornell/30min",
-    "github": null,
+    "semesterJoined": "Fall 2024",
     "major": "Mathematics",
+    "subteams": [
+      "courseplan"
+    ],
+    "college": "cas",
+    "firstName": "Arsh",
     "email": "aa2724@cornell.edu",
     "netid": "aa2724",
-    "subteams": [
-      "cuapts"
-    ],
     "linkedin": "https://www.linkedin.com/in/arshagga/",
     "minor": null,
-    "pronouns": "he/him",
-    "lastName": "Aggarwal",
-    "doubleMajor": null,
-    "roleDescription": "Business",
-    "graduation": "May 2028",
-    "semesterJoined": "Fall 2024",
-    "college": "cas",
     "hometown": "Bryn Mawr, PA",
-    "about": "Freshman studying Mathematics with a minor in Biomedical Engineering. Apart from DTI, I'm involved in Pi Sigma Epsilon, a business fraternity on campus and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. "
+    "website": null,
+    "about": "Freshman studying Mathematics with a minor in Biometry & Statistics. Apart from DTI, I'm involved in Pi Sigma Epsilon, Cornell Venture Capital, and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. ",
+    "formerSubteams": [
+      "cuapts"
+    ],
+    "lastName": "Aggarwal",
+    "graduation": "May 2028",
+    "coffeeChatLink": "https://calendly.com/aa2724-cornell/30min",
+    "role": "apm",
+    "roleDescription": "Associate PM",
+    "pronouns": "he/him",
+    "doubleMajor": null,
+    "github": null
   },
   {
     "formerSubteams": [],
@@ -55,7 +57,6 @@
     "roleDescription": "Technical PM",
     "netid": "ajq22",
     "college": "cas",
-    "about": "Developer at CUReviews",
     "website": null,
     "semesterJoined": "Spring 2024",
     "role": "tpm",
@@ -72,7 +73,33 @@
     "github": "https://github.com/qiandrewj",
     "graduation": "May 2027",
     "lastName": "Qian",
-    "linkedin": "https://www.linkedin.com/in/andrew-qian/"
+    "linkedin": "https://www.linkedin.com/in/andrew-qian/",
+    "about": "I love to study in a Duff high chair."
+  },
+  {
+    "formerSubteams": [],
+    "email": "al2589@cornell.edu",
+    "lastName": "Lee",
+    "roleDescription": "Developer",
+    "role": "developer",
+    "netid": "al2589",
+    "subteams": [
+      "idol"
+    ],
+    "firstName": "Adrienne",
+    "semesterJoined": "Spring 2025",
+    "college": "eng",
+    "github": null,
+    "hometown": "Plano, Texas",
+    "website": null,
+    "minor": null,
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "Dev on Idol!",
+    "pronouns": "she/her",
+    "linkedin": "www.linkedin.com/in/adrienne-lee-b71799343"
   },
   {
     "formerSubteams": [],
@@ -126,6 +153,54 @@
   },
   {
     "formerSubteams": [],
+    "pronouns": "",
+    "website": "",
+    "linkedin": "",
+    "lastName": "Sahle",
+    "github": "",
+    "college": "",
+    "graduation": "",
+    "netid": "as3734",
+    "semesterJoined": "Spring 2025",
+    "subteams": [
+      "cornellgo"
+    ],
+    "minor": "",
+    "doubleMajor": "",
+    "coffeeChatLink": "",
+    "roleDescription": "Business",
+    "firstName": "Addis",
+    "role": "business",
+    "about": "",
+    "major": "",
+    "hometown": "",
+    "email": "as3734@cornell.edu"
+  },
+  {
+    "subteams": [],
+    "formerSubteams": [],
+    "firstName": "Arsh",
+    "lastName": "Singh",
+    "email": "as4274@cornell.edu",
+    "role": "developer",
+    "semesterJoined": "Spring 2025",
+    "netid": "as4274",
+    "roleDescription": "Developer",
+    "college": "eng",
+    "github": "https://github.com/Arsh-S",
+    "hometown": "Bethpage, NY",
+    "website": "https://arshsingh.net/",
+    "minor": "Business, AI",
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "hi guys",
+    "pronouns": "he/him",
+    "linkedin": "https://www.linkedin.com/in/arshsingh5/"
+  },
+  {
+    "formerSubteams": [],
     "github": null,
     "hometown": "Queens, NYC ",
     "website": null,
@@ -150,34 +225,83 @@
     "about": "Hello! I'm Amber, a freshman planning to major in CS. I'm a part of CornellGO, and I love to ski, visit new cafes, and read! "
   },
   {
-    "roleDescription": "Business Advisor",
-    "email": "atl82@cornell.edu",
-    "netid": "atl82",
-    "lastName": "Le",
-    "role": "business-advisor",
-    "linkedin": null,
-    "doubleMajor": null,
-    "major": "Information Science",
-    "semesterJoined": "Fall 2023",
-    "about": "business analyst/ social media",
-    "website": null,
-    "firstName": "An",
-    "hometown": "Vietnam",
+    "formerSubteams": [],
+    "email": "asc344@cornell.edu",
     "subteams": [
-      "courseplan"
+      "carriage"
     ],
-    "formerSubteams": [
+    "netid": "asc344",
+    "semesterJoined": "Spring 2025",
+    "roleDescription": "Developer",
+    "firstName": "Anika",
+    "role": "developer",
+    "lastName": "Chandra",
+    "college": "cas",
+    "github": "https://github.com/anika-4444",
+    "hometown": "Vienna, Virginia",
+    "website": null,
+    "minor": "Business",
+    "major": "Computer Science",
+    "doubleMajor": "Italian",
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "Hi! I'm Anika, and I am a developer on Carriage. Aside from coding, I love running, reading, and cooking!",
+    "pronouns": "she/her",
+    "linkedin": "www.linkedin.com/in/anika-chandra44"
+  },
+  {
+    "formerSubteams": [],
+    "firstName": "Andrew",
+    "email": "aw867@cornell.edu",
+    "roleDescription": "Business",
+    "subteams": [
       "business"
     ],
+    "netid": "aw867",
+    "lastName": "Wilmott",
+    "semesterJoined": "Spring 2025",
+    "role": "business",
+    "college": "cas",
     "github": null,
-    "pronouns": "She/Her",
-    "graduation": "December 2025",
-    "minor": null
+    "hometown": "Bronxville NY",
+    "website": null,
+    "minor": "Data Science",
+    "major": "Economics",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "Hi y'all, my name is Andrew and I am a first-year studying Economics in CAS. I am a Corporate & Alumni Relations Manager for the business team, but am also a part of the Cornell Club Lacrosse team, and loosely CSA.",
+    "pronouns": "He/Him",
+    "linkedin": "www.linkedin.com/in/andrewwilmott28"
+  },
+  {
+    "formerSubteams": [],
+    "minor": "",
+    "pronouns": "",
+    "roleDescription": "Developer",
+    "netid": "bek76",
+    "hometown": "",
+    "graduation": "",
+    "website": "",
+    "firstName": "Benjamin",
+    "github": "",
+    "subteams": [
+      "carriage"
+    ],
+    "lastName": "Koppe",
+    "college": "",
+    "doubleMajor": "",
+    "coffeeChatLink": "",
+    "semesterJoined": "Spring 2025",
+    "linkedin": "",
+    "role": "developer",
+    "about": "",
+    "major": "",
+    "email": "bek76@cornell.edu"
   },
   {
     "formerSubteams": [],
     "minor": "ECE",
-    "hometown": "Queens, NY",
     "linkedin": "https://www.linkedin.com/in/cchrischen/",
     "pronouns": "he/him",
     "major": "Computer Science",
@@ -196,7 +320,9 @@
     "website": null,
     "graduation": "May 2027",
     "role": "tpm",
-    "roleDescription": "Technical PM"
+    "roleDescription": "Technical PM",
+    "hometown": "Flushing, NY",
+    "coffeeChatLink": null
   },
   {
     "formerSubteams": [],
@@ -271,6 +397,31 @@
   },
   {
     "formerSubteams": [],
+    "subteams": [
+      "curaise"
+    ],
+    "lastName": "She",
+    "firstName": "Chelsea",
+    "semesterJoined": "Spring 2025",
+    "role": "developer",
+    "netid": "cms556",
+    "email": "cms556@cornell.edu",
+    "roleDescription": "Developer",
+    "college": "cas",
+    "hometown": "Chicago, IL",
+    "website": "https://chelsea-she.github.io/landing_page/",
+    "minor": null,
+    "major": "CS",
+    "doubleMajor": "Cognitive Science",
+    "graduation": "May 2028",
+    "coffeeChatLink": null,
+    "about": "Hello! I am Chelsea. On my free time I like baking/cooking, and am trying to train for a half marathon. I am a dev for CURaise :))\nI am always excited to reach out to new people, so please feel free to reach out!",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/chelsea-she-44344a247/",
+    "github": "https://github.com/chelsea-she"
+  },
+  {
+    "formerSubteams": [],
     "hometown": "New York City",
     "pronouns": "he/him",
     "role": "designer",
@@ -293,6 +444,31 @@
     "github": "https://github.com/Bookie0",
     "lastName": "Rozé",
     "about": "👋 Hi! I’m Clément and I’m a Freshman studying Information Science with a concentration in User Experience Design. \n\n🌐 I was born in New York City and grew up in London. My family is from France and Singapore; je parle français 🇫🇷 and 我在学中文 🇨🇳 (I speak French and I’m learning Chinese).\n\n💼 I started designing when I was 13, creating mock-ups in Google Slides, before I discovered Figma. Since then, I’ve interned and freelanced with companies like Replit, General Counsel AI, and most recently, at a Roblox game called Deadline. My favorite things to design are design systems, presentation decks, and micro-details that make an experience memorable. I also do frontend programming and frequently code my designs.\n\n🎨 For me, design is about building meaningful connection between people and the world around them. I believe in the power of human-centered design and accessibility – ”Solve for one, extend to many.” I aim to balance aesthetics and functionality, ensuring every creation is both beautiful and practical. Quality and attention to detail are central to my work, but I also strive to create moments of joy that elevate the user experience.\n\n🏓 Outside of design, I enjoy playing piano and ping pong, though not at the same time. I’m also an avid reader – whether it’s news or literature, I love staying curious about the world.\n\n📧 Please feel free to get in touch! :)"
+  },
+  {
+    "formerSubteams": [],
+    "subteams": [
+      "cuapts"
+    ],
+    "lastName": "Lee",
+    "semesterJoined": "Spring 2025",
+    "firstName": "Celline",
+    "role": "apm",
+    "netid": "csl238",
+    "email": "csl238@cornell.edu",
+    "roleDescription": "Associate PM",
+    "college": "cals",
+    "github": null,
+    "hometown": "Orange County, California",
+    "website": null,
+    "minor": "Communication",
+    "major": "Information Science",
+    "doubleMajor": null,
+    "graduation": "Spring 2027",
+    "coffeeChatLink": null,
+    "about": "Hi! My name is Celline and I'm an information science major. Some of my passions include fashion, napping, and matcha hunting!",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/celline-lee/"
   },
   {
     "formerSubteams": [],
@@ -389,6 +565,31 @@
   },
   {
     "formerSubteams": [],
+    "email": "drk229@cornell.edu",
+    "netid": "drk229",
+    "semesterJoined": "Spring 2025",
+    "roleDescription": "Business",
+    "firstName": "Daphne",
+    "subteams": [
+      "business"
+    ],
+    "lastName": "Ku",
+    "role": "business",
+    "college": "eng",
+    "github": null,
+    "hometown": "Taipei, Taiwan",
+    "website": null,
+    "minor": null,
+    "major": "Information Science",
+    "doubleMajor": null,
+    "graduation": "Spring 2028",
+    "coffeeChatLink": null,
+    "about": "dfadafdiaj",
+    "pronouns": "she/her",
+    "linkedin": null
+  },
+  {
+    "formerSubteams": [],
     "subteams": [
       "courseplan"
     ],
@@ -462,6 +663,31 @@
     "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
     "about": "Hi everyone! I'm a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a 1 year old hamster named hammy (I love showing pictures of her so feel free to ask hehe). Feel free to chat with me :))",
     "linkedin": "https://www.linkedin.com/in/evelyn-mai1/"
+  },
+  {
+    "formerSubteams": [],
+    "firstName": "Esperanza",
+    "lastName": "Roman-Carrera",
+    "email": "er549@cornell.edu",
+    "role": "business",
+    "semesterJoined": "Spring 2025",
+    "subteams": [
+      "business"
+    ],
+    "netid": "er549",
+    "roleDescription": "Business",
+    "college": "cas",
+    "github": null,
+    "hometown": "Chicago",
+    "website": null,
+    "minor": null,
+    "major": "Information Science",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "Hey! My name is Esperanza and I'm a freshman studying Information Science in CAS. I'm the social media manager and I love music, photography, videography, language learning, and traveling.",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/esperanzarc/"
   },
   {
     "formerSubteams": [],
@@ -560,29 +786,6 @@
     "netid": "hl883",
     "college": "cas",
     "major": "Computer Science"
-  },
-  {
-    "formerSubteams": [],
-    "pronouns": "",
-    "lastName": "Nguyen",
-    "graduation": "May 2025",
-    "email": "hn294@cornell.edu",
-    "github": "",
-    "minor": "",
-    "role": "business",
-    "linkedin": "",
-    "about": "",
-    "hometown": "",
-    "firstName": "Jade",
-    "subteams": [
-      "business"
-    ],
-    "roleDescription": "Business",
-    "netid": "hn294",
-    "website": "",
-    "doubleMajor": "",
-    "major": "",
-    "semesterJoined": "Spring 2024"
   },
   {
     "formerSubteams": [],
@@ -707,6 +910,31 @@
   },
   {
     "formerSubteams": [],
+    "website": null,
+    "pronouns": "she/her/hers",
+    "major": "Computer Science",
+    "firstName": "Jimin",
+    "netid": "jk2756",
+    "email": "jk2756@cornell.edu",
+    "semesterJoined": "Spring 2025",
+    "role": "developer",
+    "coffeeChatLink": "",
+    "subteams": [
+      "cornellgo"
+    ],
+    "doubleMajor": null,
+    "lastName": "Kim",
+    "roleDescription": "Developer",
+    "college": "cas",
+    "about": "Hi there, I'm Jimin! I love listening to a different genres of music and drinking bubble tea :)",
+    "github": null,
+    "graduation": "May 2027",
+    "hometown": "Connecticut/Seoul",
+    "linkedin": "www.linkedin.com/in/ziminyk",
+    "minor": null
+  },
+  {
+    "formerSubteams": [],
     "email": "jl4229@cornell.edu",
     "subteams": [
       "cornellgo"
@@ -781,6 +1009,56 @@
     "minor": null,
     "major": "Computer Science",
     "about": "Hi! I'm Juju, a freshman at Cornell. I'm double majoring in CS and Math. Outside of academics, I play hockey on the Cornell Women's Club Hockey team and French horn in the Cornell Symphony Orchestra. Feel free to reach out to me at jlc565@cornell.edu!"
+  },
+  {
+    "formerSubteams": [],
+    "lastName": "Gerald",
+    "role": "designer",
+    "firstName": "Justina",
+    "netid": "jpg285",
+    "email": "jpg285@cornell.edu",
+    "roleDescription": "Designer",
+    "semesterJoined": "Spring 2025",
+    "subteams": [
+      "curaise"
+    ],
+    "college": "cas",
+    "github": null,
+    "hometown": "Dar es Salaam, Tanzania",
+    "website": null,
+    "minor": "Psychology",
+    "major": "Information Science",
+    "doubleMajor": null,
+    "graduation": "2027",
+    "coffeeChatLink": null,
+    "about": "Hi, I’m Justina! I’m a designer on CURaise, and outside of that, you can probably find me hiking (always looking for new trail recommendations!), practicing Spanish (please speak to me in Spanish—I need the practice), or daydreaming about the beach 🏝️.\n\nI love meeting new people and having great conversations, so please reach out—I’d love to chat!",
+    "pronouns": "she/her/hers",
+    "linkedin": "https://www.linkedin.com/in/justina-gerald/"
+  },
+  {
+    "formerSubteams": [],
+    "role": "business",
+    "firstName": "Jasmine",
+    "subteams": [
+      "business"
+    ],
+    "netid": "jr2293",
+    "semesterJoined": "Spring 2025",
+    "lastName": "Ren",
+    "roleDescription": "Business",
+    "email": "jr2293@cornell.edu",
+    "college": "dyson",
+    "github": null,
+    "hometown": "Richmond, BC",
+    "website": null,
+    "minor": null,
+    "major": "Applied Economics and Management",
+    "doubleMajor": "Information Science",
+    "graduation": "2026",
+    "coffeeChatLink": "https://calendly.com/jr2293-cornell",
+    "about": "Jasmine is a Junior in Dyson and Information Science. She loves to bake anything matcha, make pottery, snowboard and is currently growing her TikTok: @jasminerenn! More professionally, she will be doing investment banking this summer and enjoys learning new languages (currently working on ASL and Spanish) and is always open for some new book recommendations :)",
+    "pronouns": "She/Her",
+    "linkedin": "https://www.linkedin.com/in/jasminejingyiren/"
   },
   {
     "formerSubteams": [],
@@ -909,6 +1187,31 @@
   },
   {
     "formerSubteams": [],
+    "lastName": "Lim",
+    "firstName": "Kathy",
+    "email": "kl2229@cornell.edu",
+    "netid": "kl2229",
+    "role": "apm",
+    "semesterJoined": "Spring 2025",
+    "roleDescription": "Associate PM",
+    "subteams": [
+      "carriage"
+    ],
+    "college": "cas",
+    "github": null,
+    "hometown": "Lexington, MA",
+    "website": null,
+    "minor": null,
+    "major": "CS",
+    "doubleMajor": "Econ",
+    "graduation": "2028",
+    "coffeeChatLink": "kl2229@cornell.edu",
+    "pronouns": "she/her",
+    "linkedin": "https://linkedin.com/in/katherinelim2229",
+    "about": "Hello! My name is Kathy & I'm a freshman studying CS & Econ. I joined DTI Spring of 2025 and am currently the APM on Carriage. On campus, I'm also involved in 180 Degrees Consulting & an a cappella group! In my free time, I love listening to music, working out, reading a good book, watching Nebraska volleyball, & cafe-hopping. Feel free to reach out to chat about anything! :)"
+  },
+  {
+    "formerSubteams": [],
     "email": "kl2246@cornell.edu",
     "roleDescription": "Business",
     "firstName": "Darin",
@@ -962,26 +1265,28 @@
   },
   {
     "formerSubteams": [],
-    "role": "business-advisor",
-    "about": "",
-    "lastName": "Mei",
-    "roleDescription": "Business Advisor",
-    "linkedin": "",
-    "minor": "",
-    "hometown": "",
+    "firstName": "Kaylin",
+    "lastName": "Chan",
     "pronouns": "",
-    "firstName": "Kevin",
-    "website": "",
+    "email": "kmc362@cornell.edu",
+    "role": "pm-advisor",
+    "semesterJoined": "Fall 2023",
+    "graduation": "",
     "major": "",
-    "graduation": "May 2025",
-    "email": "km653@cornell.edu",
-    "github": "",
-    "netid": "km653",
-    "subteams": [
-      "cuapts"
-    ],
     "doubleMajor": "",
-    "semesterJoined": "Fall 2023"
+    "minor": "",
+    "college": "",
+    "website": "",
+    "linkedin": "",
+    "github": "",
+    "coffeeChatLink": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "courseplan"
+    ],
+    "netid": "kmc362",
+    "roleDescription": "PM Advisor"
   },
   {
     "formerSubteams": [],
@@ -1087,6 +1392,31 @@
     "github ": ""
   },
   {
+    "formerSubteams": [],
+    "lastName": "Pothuru",
+    "firstName": "Lauren",
+    "subteams": [
+      "cuapts"
+    ],
+    "roleDescription": "Developer",
+    "semesterJoined": "Spring 2025",
+    "netid": "lsp75",
+    "email": "lsp75@cornell.edu",
+    "role": "developer",
+    "college": "cas",
+    "github": "https://github.com/laurenp-2",
+    "hometown": "Bedford, NH",
+    "website": null,
+    "minor": null,
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "graduation": "Spring 2028",
+    "coffeeChatLink": null,
+    "about": "Hi! I'm Lauren Pothuru, a freshman developer on CUApts. I love exploring new fields of computer science, and outside of academics, I enjoy running and reading!",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/lauren-pothuru"
+  },
+  {
     "roleDescription": "Business Lead",
     "subteams": [
       "leads"
@@ -1127,7 +1457,6 @@
     "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
     "graduation": "May 2027",
     "college": "cas",
-    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design on DCC)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)",
     "netid": "may52",
     "roleDescription": "Product Lead",
     "pronouns": "she/her",
@@ -1137,7 +1466,8 @@
     "subteams": [
       "leads"
     ],
-    "minor": "Linguistics"
+    "minor": "Linguistics",
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)"
   },
   {
     "formerSubteams": [],
@@ -1291,6 +1621,31 @@
   },
   {
     "formerSubteams": [],
+    "roleDescription": "Developer",
+    "semesterJoined": "Spring 2025",
+    "netid": "nsa68",
+    "subteams": [
+      "queuemein"
+    ],
+    "lastName": "Andrew",
+    "firstName": "Nikhill",
+    "role": "developer",
+    "email": "nsa68@cornell.edu",
+    "college": "eng",
+    "hometown": "Eden Prairie, MN",
+    "website": null,
+    "minor": null,
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "Hi! My name is Nikhill Andrew and I am a developer on DTI. In addition to DTI, I am a member of the Cornell Army ROTC. In my free time I like to watch tv shows, listen to music, and eat new foods.",
+    "pronouns": "He/Him",
+    "linkedin": "https://www.linkedin.com/in/nikhill-andrew-28886429a/",
+    "github": "https://github.com/NikhillA"
+  },
+  {
+    "formerSubteams": [],
     "website": null,
     "roleDescription": "Developer",
     "lastName": "Tatem",
@@ -1364,6 +1719,31 @@
     "doubleMajor": null,
     "coffeeChatLink": null,
     "about": "Hi! I am one of the Business Leads and I am so excited to make a great impact on DTI! :)))"
+  },
+  {
+    "formerSubteams": [],
+    "firstName": "Nadia",
+    "subteams": [
+      "queuemein"
+    ],
+    "role": "apm",
+    "semesterJoined": "Spring 2025",
+    "roleDescription": "Associate PM",
+    "email": "pc745@cornell.edu",
+    "lastName": "Choophungart",
+    "netid": "pc745",
+    "college": "cals",
+    "github": null,
+    "hometown": "Bangkok, Thailand",
+    "website": "https://bubbly-individual-0bd.notion.site/Nadia-s-Portfolio-106165bf99ae80f78ef8e94f756ec90a?pvs=74",
+    "minor": null,
+    "major": "Information Science",
+    "doubleMajor": "Global Development",
+    "graduation": "Spring 2028",
+    "coffeeChatLink": null,
+    "about": "Hello! I'm an Associate PM from Bangkok, Thailand, currently a freshman double-majoring in InfoSci and GDev and working on QMI. I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking.\n\nIn my free time, I love photography, music, and exploring new eats.",
+    "pronouns": "she/her/hers",
+    "linkedin": "https://www.linkedin.com/in/pchoop/"
   },
   {
     "formerSubteams": [],
@@ -1441,6 +1821,29 @@
     "about": "Product Designer currently on Queue Me In, previously at CU Reviews! One of my favorite parts of the design process is gathering feedback, which DTI makes so fun- I'm always looking forward to design crits with my fellow DTI designers and meetings with my subteam! In my free time, I love ice skating, thrifting, and all types of arts and crafts.",
     "doubleMajor": null,
     "roleDescription": "Designer"
+  },
+  {
+    "subteams": [],
+    "formerSubteams": [],
+    "firstName": "Rachel",
+    "lastName": "Tay",
+    "email": "rt489@cornell.edu",
+    "role": "business",
+    "semesterJoined": "Spring 2025",
+    "netid": "rt489",
+    "roleDescription": "Business",
+    "college": "cals",
+    "github": null,
+    "hometown": "Ithaca, NY",
+    "website": null,
+    "minor": "Business",
+    "major": "Biological Engineering",
+    "doubleMajor": null,
+    "graduation": "Spring 2028",
+    "coffeeChatLink": null,
+    "about": "Hi! I love stories - feel free to reach out for a coffee chat!",
+    "pronouns": "she/her",
+    "linkedin": "www.linkedin.com/in/racheletay"
   },
   {
     "formerSubteams": [],
@@ -1791,5 +2194,30 @@
     "pronouns": "She/her",
     "github": null,
     "linkedin": null
+  },
+  {
+    "formerSubteams": [],
+    "lastName": "Wu",
+    "semesterJoined": "Spring 2025",
+    "subteams": [
+      "cuapts"
+    ],
+    "roleDescription": "Designer",
+    "netid": "zw757",
+    "role": "designer",
+    "firstName": "May",
+    "email": "zw757@cornell.edu",
+    "college": "aap",
+    "github": null,
+    "hometown": "Shanghai,China",
+    "website": "https://maywu.framer.website/",
+    "minor": "Information Science",
+    "major": "Fine Arts",
+    "doubleMajor": null,
+    "graduation": "Spring2028",
+    "coffeeChatLink": null,
+    "about": "Hi! My name is May and I’m a freshman studying Fine Arts. I am passionate in exploring the intersection of art, design, and technology, and how these fields can combine to create innovative and meaningful projects. Outside of Design, I enjoy art (my main mediums are painting and installation), making bead jewelries, GamePigeon, doing nails, and cooking with friends!!",
+    "pronouns": "She/her",
+    "linkedin": "https://www.linkedin.com/in/zexuanwu/"
   }
 ]

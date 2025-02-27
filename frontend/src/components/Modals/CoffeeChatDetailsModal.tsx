@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import styles from './CoffeeChatDetailsModal.module.css';
 import CoffeeChatAPI from '../../API/CoffeeChatAPI';
+import { Emitters } from '../../utils';
 
 type Props = {
   coffeeChat?: CoffeeChat;
@@ -10,6 +11,7 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
   userInfo: IdolMember;
+  submittedChats: CoffeeChat[];
 };
 
 const CoffeeChatModal: React.FC<Props> = ({
@@ -18,27 +20,43 @@ const CoffeeChatModal: React.FC<Props> = ({
   open,
   setOpen,
   deleteCoffeeChatRequest,
-  userInfo
+  userInfo,
+  submittedChats
 }) => {
+  const [suggestions, setSuggestions] = useState<CoffeeChatSuggestions>();
   const [membersInCategory, setMembersInCategory] = useState<MemberDetails[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchMembers = async () => {
       setIsLoading(true);
-      let suggestions: CoffeeChatSuggestions = {};
       try {
-        suggestions = await CoffeeChatAPI.getCoffeeChatSuggestions(userInfo.email);
+        setSuggestions(await CoffeeChatAPI.getCoffeeChatSuggestions(userInfo.email));
       } catch (error) {
-        suggestions = {};
+        Emitters.generalError.emit({
+          headerMsg: 'Something went wrong',
+          contentMsg: 'Could not retrieve coffee chat suggestions.'
+        });
       }
-      // const categoryMap = new Map<string, MemberDetails[]>(Object.entries(result || {}));
-      setMembersInCategory(suggestions[category] || []);
       setIsLoading(false);
     };
 
     fetchMembers();
-  }, [category, userInfo.email]);
+  }, [userInfo.email]);
+
+  useEffect(() => {
+    if (!suggestions || !category) {
+      setMembersInCategory([]);
+      return;
+    }
+    setMembersInCategory(
+      category in suggestions
+        ? suggestions[category].filter((chat) =>
+            submittedChats.every((submittedChat) => submittedChat.otherMember.netid !== chat.netid)
+          )
+        : []
+    );
+  }, [suggestions, category, submittedChats]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
@@ -75,7 +93,7 @@ const CoffeeChatModal: React.FC<Props> = ({
         <>
           <Modal.Header>No Coffee Chat Submitted</Modal.Header>
           <Modal.Content>
-            <div>
+            <div className={styles.suggestionsList}>
               {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
               {!isLoading && membersInCategory.length === 0 && (
                 <div style={{ marginTop: '5px' }}>

@@ -7,7 +7,8 @@ import {
   DevPortfolioSubmissionRequestLog,
   DBTeamEventAttendance,
   DBCandidateDeciderReview,
-  DBCoffeeChat
+  DBCoffeeChat,
+  DBInterviewSlot
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -190,5 +191,16 @@ export const interviewSchedulerCollection: admin.firestore.CollectionReference<I
     },
     toFirestore(interviewSchedulerData: InterviewScheduler) {
       return interviewSchedulerData;
+    }
+  });
+
+export const interviewSlotCollection: admin.firestore.CollectionReference<DBInterviewSlot> = db
+  .collection('interview-slots')
+  .withConverter({
+    fromFirestore(snapshot): DBInterviewSlot {
+      return snapshot.data() as DBInterviewSlot;
+    },
+    toFirestore(interviewSlotData: DBInterviewSlot) {
+      return interviewSlotData;
     }
   });

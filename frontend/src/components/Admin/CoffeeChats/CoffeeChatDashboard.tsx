@@ -27,7 +27,7 @@ const CoffeeChatDashboard: React.FC = () => {
     });
 
     CoffeeChatAPI.getAllCoffeeChats().then((chats) => {
-      setCoffeeChats(chats.filter((chat) => chat.status === 'approved'));
+      setCoffeeChats(chats.filter((chat) => !chat.isArchived && chat.status === 'approved'));
     });
 
     const date = new Date();

@@ -20,7 +20,7 @@ jobs:
         with:
           node-version-file: .node-version
       - name: Use Yarn Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.cache/yarn
           key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}

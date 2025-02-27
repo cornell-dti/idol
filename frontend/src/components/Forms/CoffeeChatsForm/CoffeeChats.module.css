@@ -99,6 +99,12 @@
   word-wrap: break-word;
 }
 
+.archived_display {
+  padding-top: 15px;
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
 .bingo_display {
   background-color: #fff423;
   border-radius: 5px;

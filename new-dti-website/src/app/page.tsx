@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../../components/icons';
 import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
-import RedBlob from '../../components/blob';
 import { ibm_plex_mono } from './layout';
 import useTitle from '../hooks/useTitle';
 
@@ -91,19 +90,18 @@ const Home: React.FC = () => {
   return (
     <>
       <div className="flex flex-col min-h-[calc(100vh-136px)] justify-between items-center">
-        <RedBlob intensity={0.5} className="left-[-250px] top-[-250px]" />
-        <div className="flex flex-row grow h-full justify-evenly lg:gap-24 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
-          <div className="flex flex-col md:gap-8 xs:gap-4 xs:w-full lg:w-5/12">
-            <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium">
-              Building the Future <br /> of Tech @ Cornell
+        <div className="flex flex-col grow h-full justify-evenly lg:gap-4 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
+          <div className="flex flex-col md:gap-4 xs:gap-4 xs:w-full items-center">
+            <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium lg:max-w-[442px] text-center">
+              Building the Future of Tech @ Cornell
             </h1>
             <div className="flex justify-center lg:hidden">
               <Slideshow selectedImage={selectedIcon} />
             </div>
-            <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 lg:min-h-[100px] xs:min-h-[45px] scale-75 lg:scale-100">
+            <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 min-h-[80px]">
               {icons.map((icon, index) => (
                 <button
-                  className="rounded-md"
+                  className="rounded-md w-[64px]"
                   onClick={() => {
                     setSelectedIcon(index);
                     if (timer) clearTimeout(timer);
@@ -124,13 +122,11 @@ const Home: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="lg:w-7/12 xs:w-none hidden lg:block">
+          <div className="lg:w-[900px] xs:w-none hidden lg:block">
             <Slideshow selectedImage={selectedIcon} />
           </div>
         </div>
-        <RedBlob intensity={0.6} className="left-[800px] top-[100px] hidden lg:block" />
         <div className="relative flex justify-center self-center w-full py-5">
-          <RedBlob intensity={0.5} className="left-[0px] top-[-200px]" />
           <button
             onClick={scrollToContent}
             className={`text-white md:text-lg xs:text-[16px] font-semibold cursor-pointer flex flex-col items-center z-10 ${ibm_plex_mono.className}`}
