@@ -95,7 +95,8 @@ const Home: React.FC = () => {
             <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium lg:max-w-[442px] text-center">
               Building the Future of Tech @ Cornell
             </h1>
-            <div className="flex justify-center lg:hidden">
+            <div className="flex justify-center lg:hidden relative">
+              <div className="left-2/ absolute before:content-[''] before:absolute before:w-[500px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11_/_100%)_0%,_rgba(214,_61,_61,_0.70)_100%)] before:filter blur-[250px] before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2" />
               <Slideshow selectedImage={selectedIcon} />
             </div>
             <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 min-h-[80px]">
@@ -122,7 +123,8 @@ const Home: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="lg:w-[900px] xs:w-none hidden lg:block">
+          <div className="lg:w-[900px] xs:w-none hidden lg:block relative">
+            <div className="before:content-[''] before:absolute before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11_/_100%)_0%,_rgba(214,_61,_61,_0.70)_100%)] before:filter blur-[250px] before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2" />
             <Slideshow selectedImage={selectedIcon} />
           </div>
         </div>
