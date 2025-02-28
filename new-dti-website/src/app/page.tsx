@@ -124,7 +124,7 @@ const Home: React.FC = () => {
             </div>
           </div>
           <div className="lg:w-[900px] xs:w-none hidden lg:block relative">
-            <div className="before:content-[''] before:absolute before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11_/_100%)_0%,_rgba(214,_61,_61,_0.70)_100%)] before:filter blur-[250px] before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2" />
+<div className="absolute before:absolute before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2 before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11)_0%,_rgba(214_61_61_/_70%)_100%)] before:filter before:blur-[250px]" />
             <Slideshow selectedImage={selectedIcon} />
           </div>
         </div>
