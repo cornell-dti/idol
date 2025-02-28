@@ -96,7 +96,7 @@ const Home: React.FC = () => {
               Building the Future of Tech @ Cornell
             </h1>
             <div className="flex justify-center lg:hidden relative">
-<div className="absolute before:absolute before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2 before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11)_0%,_rgba(214_61_61_/_70%)_100%)] before:filter before:blur-[250px]" />
+              <div className="absolute before:absolute before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2 before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11)_0%,_rgba(214_61_61_/_70%)_100%)] before:filter before:blur-[250px]" />
               <Slideshow selectedImage={selectedIcon} />
             </div>
             <div className="flex xs:justify-center lg:justify-normal items-center gap-2 z-10 min-h-[80px]">
@@ -124,7 +124,7 @@ const Home: React.FC = () => {
             </div>
           </div>
           <div className="lg:w-[900px] xs:w-none hidden lg:block relative">
-<div className="absolute before:absolute before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2 before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11)_0%,_rgba(214_61_61_/_70%)_100%)] before:filter before:blur-[250px]" />
+            <div className="before:absolute before:left-2/4 before:-translate-x-1/2 before:translate-y-1/2 before:w-[800px] before:h-[270px] before:rounded-[128px] before:bg-[radial-gradient(50%_50%_at_50%_50%,_rgb(255_11_11)_0%,_rgba(214_61_61_/_70%)_100%)] before:filter before:blur-[250px]" />
             <Slideshow selectedImage={selectedIcon} />
           </div>
         </div>
