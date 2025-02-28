@@ -5,8 +5,6 @@ import Image from 'next/image';
 import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
-import useScreenSize from '../../hooks/useScreenSize';
-import { LAPTOP_BREAKPOINT } from '../../consts';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
@@ -71,28 +69,35 @@ const SponsorImpact = () => (
 );
 
 const SponsorPage = () => {
-  const { width } = useScreenSize();
   useTitle('Sponsor');
   return (
     <>
       <SponsorHero />
       <div className="bg-[#EDEDED] flex justify-center">
-        <SectionWrapper id={'Become a sponsor section'}>
-          <div className="flex justify-center py-12 lg:gap-20 md:gap-10 xs:gap-5 md:flex-row xs:flex-col">
+        <SectionWrapper
+          id={'Become a sponsor section 1'}
+          className="flex flex-col h-fit justify-center items-start md:flex-row lg:gap-x-12"
+        >
+          <div className="flex flex-row justify-start align-middle py-10 md:order-last gap-x-10 md:gap-x-5 z-10 pb-4">
             <Image
+              className="self-center rounded-[16px]"
               src="/images/dti_2024.png"
               alt="2024 DTI Team"
-              width={width >= LAPTOP_BREAKPOINT ? 475 : 350}
-              height={width >= LAPTOP_BREAKPOINT ? 320 : 236}
-              className="rounded-3xl object-cover md:w-5/12"
+              width={576}
+              height={576}
             />
-            <div className="flex flex-col justify-center md:gap-5 xs:gap-3 md:w-7/12">
-              <h3 className="md:text-4xl xs:text-2xl font-semibold">Become a sponsor!</h3>
-              <p className="text-lg mb-4">
-                We would love to partner with organizations that share our vision of changing the
-                world. Together, we can harness the power of technology to drive change in our
-                communities.
-              </p>
+          </div>
+          <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
+            <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[8px]">
+                <h2 className="text-[32px] font-semibold lg:leading-10">Become a sponsor</h2>
+                <p className="text-[#060B12] text-[18px]">
+                  We would love to partner with organizations that share our vision of changing the
+                  world. Together, we can harness the power of technology to drive change in our
+                  communities.
+                </p>
+              </div>
+
               <a href="mailto:hello@cornelldti.org" className="primary-button">
                 Contact us
               </a>
