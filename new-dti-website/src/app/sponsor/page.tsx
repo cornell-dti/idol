@@ -53,18 +53,18 @@ const SponsorImpact = () => (
     md:flex-row"
   >
     {impacts.map((impact) => (
-      <div className="flex flex-col gap-3 md:w-1/3">
-        <div className="flex items-center gap-1">
-          <Image
-            src={impact.image}
-            alt={impact.key}
-            height={impact.height}
-            width={impact.width}
-            className="h-24 h-auto md:w-[30%]"
-          />
-          <h3 className="font-semibold lg:text-xl xs:text-lg text-center">{impact.title}</h3>
+      <div className="flex flex-col gap-4 md:w-1/3">
+        <Image
+          src={impact.image}
+          alt={impact.key}
+          height={impact.height}
+          width={impact.width}
+          className="h-24 h-auto md:w-[30%] w-[20%]"
+        />
+        <div className="flex flex-col gap-2">
+          <h3 className="font-semibold lg:text-xl xs:text-lg">{impact.title}</h3>
+          <p className="lg:text-lg xs:text-sm">{impact.description}</p>
         </div>
-        <p className="lg:text-lg xs:text-sm">{impact.description}</p>
       </div>
     ))}
   </div>
