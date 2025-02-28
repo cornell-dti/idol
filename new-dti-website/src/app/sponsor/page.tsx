@@ -5,8 +5,6 @@ import Image from 'next/image';
 import impactData from '../../../components/sponsor/data/impacts.json';
 import companyData from '../../../components/sponsor/data/sponsors.json';
 import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
-import useScreenSize from '../../hooks/useScreenSize';
-import { LAPTOP_BREAKPOINT } from '../../consts';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
@@ -71,7 +69,6 @@ const SponsorImpact = () => (
 );
 
 const SponsorPage = () => {
-  const { width } = useScreenSize();
   useTitle('Sponsor');
   return (
     <>
