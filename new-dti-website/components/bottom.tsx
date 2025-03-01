@@ -21,13 +21,13 @@ const Bottom: React.FC = () => (
       </div>
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-[16px]">
-          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium">Courses</p>
+          <p className="uppercase text-[16px] tracking-[1px] text-[#A3A3A3] font-medium">Courses</p>
           <div className="flex flex-col gap-[8px]">
             <h2 className="text-[32px] font-semibold lg:leading-10">
               Teaching the Cornell community
             </h2>
 
-            <p className="text-[#909090] text-[18px]">
+            <p className="text-[#A3A3A3] text-[18px]">
               Learn about modern industry-leading technologies with DTI courses, and explore your
               ideas through our incubator program.
             </p>
@@ -55,7 +55,7 @@ const Bottom: React.FC = () => (
       </div>
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-[16px]">
-          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium">
+          <p className="uppercase text-[16px] tracking-[1px] text-[#A3A3A3] font-medium">
             Outreach
           </p>
           <div className="flex flex-col gap-[8px]">
@@ -63,7 +63,7 @@ const Bottom: React.FC = () => (
               Expanding reach to our community
             </h2>
 
-            <p className="text-[#909090] text-[18px]">
+            <p className="text-[#A3A3A3] text-[18px]">
               We strive to build initiatives not only at Cornell, but also in the Ithaca community
               and beyond.
             </p>
@@ -91,11 +91,11 @@ const Bottom: React.FC = () => (
       </div>
       <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
         <div className="flex flex-col gap-[16px]">
-          <p className="uppercase text-[16px] tracking-[1px] text-[#909090] font-medium">Team</p>
+          <p className="uppercase text-[16px] tracking-[1px] text-[#A3A3A3] font-medium">Team</p>
           <div className="flex flex-col gap-[8px]">
             <h2 className="text-[32px] font-semibold lg:leading-10">We're a family</h2>
 
-            <p className="text-[#909090] text-[18px]">
+            <p className="text-[#A3A3A3] text-[18px]">
               We solve real-world problems to improve our community while growing personally and
               sharing our experiences to help others learn.
             </p>
