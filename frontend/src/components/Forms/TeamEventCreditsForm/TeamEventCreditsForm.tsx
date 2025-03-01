@@ -31,13 +31,16 @@ const TeamEventCreditForm: React.FC = () => {
     });
   }, []);
 
-  const approvedTECDates: Date[] = approvedAttendance
+  const approvedTECDates = approvedAttendance
     .map((attendance) => {
       const matchingEvent = teamEventInfoList.find((event) => event.uuid === attendance.eventUuid);
-      return matchingEvent ? new Date(matchingEvent.date) : null;
+      return matchingEvent
+        ? {
+          date: new Date(matchingEvent.date),
+          credits: parseFloat(matchingEvent.numCredits)
+        } : null;
     })
-    .filter((date): date is Date => date !== null);
-  console.log(`approved Dates:${approvedTECDates}`);
+    .filter((entry): entry is { date: Date; credits: number } => entry !== null);
 
   const getTECPeriod = (submissionDate: Date) => {
     const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
@@ -48,9 +51,9 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);
-  approvedTECDates.forEach((date) => {
+  approvedTECDates.forEach(({ date, credits }) => {
     const period = getTECPeriod(date);
-    if (period < tecCounts.length) tecCounts[period] += 1;
+    if (period < tecCounts.length) tecCounts[period] += credits;
   });
 
   const calculateCredits = () => {
@@ -61,13 +64,13 @@ const TeamEventCreditForm: React.FC = () => {
     const previousPeriodCredits = previousPeriod !== null ? tecCounts[currentPeriod - 1] : 1;
 
     if (currentPeriod === 0) {
-      return periodCredits < 1 ? 1 : 0;
+      return periodCredits < 1 ? 1 - periodCredits : 0;
     }
-    if (previousPeriodCredits === 0) {
-      return periodCredits < 2 ? 2 - periodCredits : 0;
+    if (previousPeriodCredits < 1) {
+      return periodCredits + previousPeriodCredits < 2 ? 2 - previousPeriodCredits - periodCredits : 0;
     }
 
-    return periodCredits < 1 ? 1 : 0;
+    return periodCredits < 1 ? 1 - periodCredits : 0;
   };
 
   const requiredCredits = calculateCredits();
@@ -141,9 +144,8 @@ const TeamEventCreditForm: React.FC = () => {
     } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${
-          submittedCredits + creditsToSubmit
-        } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${submittedCredits + creditsToSubmit
+          } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
@@ -195,9 +197,9 @@ const TeamEventCreditForm: React.FC = () => {
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.bold}>
-            {requiredCredits === 2 && (
+            {requiredCredits > 1 && (
               <span className={styles.red_color}>
-                You did not submit a TEC last period so you must submit 2 TEC for this 5-week
+                You submitted {2 - requiredCredits} TEC last period so you must submit at least {requiredCredits} TEC for this 5-week
                 period.
               </span>
             )}
@@ -221,9 +223,8 @@ const TeamEventCreditForm: React.FC = () => {
                 value={teamEvent?.uuid ?? ''}
                 text={
                   teamEvent
-                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${
-                        teamEvent.hasHours ? 'per hour' : ''
-                      }`
+                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${teamEvent.hasHours ? 'per hour' : ''
+                    }`
                     : ''
                 }
                 options={teamEventInfoList
@@ -245,11 +246,9 @@ const TeamEventCreditForm: React.FC = () => {
                           ></Label>
 
                           <Label
-                            content={`${event.numCredits} ${
-                              Number(event.numCredits) === 1 ? 'credit' : 'credits'
-                            } ${
-                              event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
-                            } ${event.hasHours ? 'per hour' : ''}`}
+                            content={`${event.numCredits} ${Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                              } ${event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
+                              } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>
                       </div>
