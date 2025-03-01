@@ -1,0 +1,31 @@
+.uploadStatusSuccess {
+  margin-top: 2em;
+  padding: 1em;
+  color: green;
+  border: 1px black solid;
+  background-color: lightgray;
+}
+
+.uploadStatusError {
+  margin-top: 2em;
+  padding: 1em;
+  color: red;
+  border: 1px black solid;
+  background-color: lightgray;
+}
+
+.creatorContainer {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.submitButton {
+  margin-top: 1em !important;
+}
+
+.editorContainer {
+  margin-top: 3em;
+}

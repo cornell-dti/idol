@@ -70,6 +70,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'Review coffee chat submissions!',
     link: '/admin/coffee-chats',
     adminOnly: true
+  },
+  {
+    header: 'Edit Interview Scheduler',
+    description: 'Create or edit interview scheduler instances',
+    link: '/admin/interview-scheduler',
+    adminOnly: true
   }
 ];
 
