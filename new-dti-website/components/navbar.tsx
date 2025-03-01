@@ -139,7 +139,7 @@ const Navbar: React.FC = () => {
                         : 'text-white'
                     }
                     ${pathname === item.url ? 'underline' : ''} 
-                    ${item.name === 'Apply' ? '!text-[#000000] !no-underline' : ''}
+                    ${item.name === 'Apply' ? '!text-[#000000] no-underline' : ''}
                     ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
                   `}
                     >
