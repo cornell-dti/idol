@@ -136,8 +136,8 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const hasMemberPermissions = useHasMemberPermission();
 
-  if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
-    router.push('/applicant');
+  if (!router.pathname.startsWith('/interview-scheduler') && !hasMemberPermissions) {
+    router.push('/interview-scheduler');
   }
 
   return <>{children}</>;
