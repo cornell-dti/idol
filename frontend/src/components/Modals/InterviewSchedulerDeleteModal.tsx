@@ -1,6 +1,7 @@
 import { Button, Modal } from 'semantic-ui-react';
 import { useState } from 'react';
 import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
+import { Emitters } from '../../utils';
 
 const InterviewSchedulerDeleteModal: React.FC<{
   uuid: string;
@@ -32,6 +33,10 @@ const InterviewSchedulerDeleteModal: React.FC<{
               setInstances((instances) => instances.filter((inst) => inst.uuid !== uuid));
             });
             setIsOpen(false);
+            Emitters.generalSuccess.emit({
+              headerMsg: 'Success.',
+              contentMsg: 'Successfully deleted interview scheduler instance.'
+            });
           }}
         >
           Yes

@@ -5,7 +5,7 @@ import { Button, Card, Checkbox, Form, Header, Loader } from 'semantic-ui-react'
 import styles from './AdminInterviewScheduler.module.css';
 import InterviewSchedulerAPI from '../../../API/InterviewSchedulerAPI';
 import InterviewSchedulerDeleteModal from '../../Modals/InterviewSchedulerDeleteModal';
-import { Emitters } from '../../../utils';
+import { Emitters, parseCsv } from '../../../utils';
 
 const InterviewSchedulerCreator = () => {
   const [name, setName] = useState<string>('');
@@ -24,11 +24,7 @@ const InterviewSchedulerCreator = () => {
       return;
     }
 
-    const text = await csv.text();
-    const rows = text.split('\n').map((row) => row.trim());
-
-    const columnHeaders = rows[0].split(',').map((header) => header.toLowerCase());
-    const responses = rows.splice(1).map((row) => row.split(','));
+    const [columnHeaders, responses] = await parseCsv(csv);
     const requiredHeaders = ['first name', 'last name', 'email', 'netid'];
 
     const missingHeader = requiredHeaders.some((header) => {
