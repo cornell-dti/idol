@@ -62,6 +62,44 @@ const CoffeeChats: React.FC = () => {
     value: member.netid
   }));
 
+  const archiveAllCoffeeChats = async () => {
+    if (
+      !confirm(
+        'Are you sure you want to archive all coffee chats? This action cannot be undone! :)'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await CoffeeChatAPI.archiveCoffeeChats();
+      alert('All coffee chats have been archived successfully.');
+      setIsLoading(true);
+    } catch (error) {
+      console.error('Error archiving coffee chats:', error);
+      alert('Failed to archive coffee chats.');
+    }
+  };
+
+  const unarchiveAllCoffeeChats = async () => {
+    if (
+      !confirm(
+        'Are you sure you want to unarchive all coffee chats? This action cannot be undone! :)'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await CoffeeChatAPI.unarchiveCoffeeChats();
+      alert('All coffee chats have been archived successfully.');
+      setIsLoading(true);
+    } catch (error) {
+      console.error('Error archiving coffee chats:', error);
+      alert('Failed to archive coffee chats.');
+    }
+  };
+
   return (
     <div className={styles.flexContainer}>
       <div>
@@ -123,6 +161,12 @@ const CoffeeChats: React.FC = () => {
         <div className={styles.dropdownContainer}>
           <Button onClick={() => setSelectedMember(null)} disabled={selectedMember == null}>
             Review All Coffee Chats
+          </Button>
+          <Button onClick={archiveAllCoffeeChats} disabled={selectedMember !== null}>
+            Archive All Coffee Chats
+          </Button>
+          <Button onClick={unarchiveAllCoffeeChats} disabled={selectedMember !== null}>
+            Unarchive All Coffee Chats
           </Button>
           <div className={styles.dropdownButton}>
             <Dropdown
