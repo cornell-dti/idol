@@ -138,6 +138,34 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
+   * Archives all coffee chats by setting the isArchived field to true.
+   */
+  async archiveCoffeeChats(): Promise<void> {
+    const coffeeChats = await coffeeChatsCollection.where('isArchived', '==', false).get();
+    const batch = db.batch();
+
+    coffeeChats.docs.forEach((doc) => {
+      batch.update(doc.ref, { isArchived: true });
+    });
+
+    await batch.commit();
+  }
+
+  /**
+   * Unarchives all coffee chats by setting the isArchived field to false.
+   */
+  async unarchiveCoffeeChats(): Promise<void> {
+    const coffeeChats = await coffeeChatsCollection.where('isArchived', '==', true).get();
+    const batch = db.batch();
+
+    coffeeChats.docs.forEach((doc) => {
+      batch.update(doc.ref, { isArchived: false });
+    });
+
+    await batch.commit();
+  }
+
+  /**
    * Gets the coffee chat bingo board
    */
   static async getCoffeeChatBingoBoard(): Promise<string[][]> {

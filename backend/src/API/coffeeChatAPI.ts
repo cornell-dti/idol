@@ -139,6 +139,38 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
 };
 
 /**
+ * Archives all coffee chats by setting the isArchived field to true.
+ * @param user - The user making the request.
+ * @throws PermissionError if the user does not have permissions.
+ */
+export const archiveCoffeeChats = async (user: IdolMember): Promise<void> => {
+  const canArchive = await PermissionsManager.isLeadOrAdmin(user);
+  if (!canArchive) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to archive coffee chats.`
+    );
+  }
+
+  await coffeeChatDao.archiveCoffeeChats();
+};
+
+/**
+ * Unarchives all coffee chats by setting the isArchived field to false.
+ * @param user - The user making the request.
+ * @throws PermissionError if the user does not have permissions.
+ */
+export const unarchiveCoffeeChats = async (user: IdolMember): Promise<void> => {
+  const canUnarchive = await PermissionsManager.isLeadOrAdmin(user);
+  if (!canUnarchive) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to unarchive coffee chats.`
+    );
+  }
+
+  await coffeeChatDao.unarchiveCoffeeChats();
+};
+
+/**
  * Gets the coffee chat bingo board
  */
 export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
