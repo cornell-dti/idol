@@ -78,7 +78,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
   }, [userEmail, slots]);
 
   const handleSaveSlots = () => {
-    if (slots.length !== 0) {
+    if (tentativeSlots.length !== 0) {
       InterviewSchedulerAPI.createSlots(tentativeSlots).then((val) => {
         setSlots([...slots, ...val]);
         setIsEditing(false);
