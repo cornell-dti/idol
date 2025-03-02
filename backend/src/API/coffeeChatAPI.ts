@@ -151,7 +151,7 @@ export const archiveCoffeeChats = async (user: IdolMember): Promise<void> => {
     );
   }
 
-  await coffeeChatDao.archiveCoffeeChats();
+  await CoffeeChatDao.archiveCoffeeChats();
 };
 
 /**
@@ -167,7 +167,7 @@ export const unarchiveCoffeeChats = async (user: IdolMember): Promise<void> => {
     );
   }
 
-  await coffeeChatDao.unarchiveCoffeeChats();
+  await CoffeeChatDao.unarchiveCoffeeChats();
 };
 
 /**
