@@ -63,17 +63,9 @@ const CoffeeChats: React.FC = () => {
   }));
 
   const archiveAllCoffeeChats = async () => {
-    if (
-      !confirm(
-        'Are you sure you want to archive all coffee chats? This action cannot be undone! :)'
-      )
-    ) {
-      return;
-    }
-
     try {
       await CoffeeChatAPI.archiveCoffeeChats();
-      alert('All coffee chats have been archived successfully.');
+      alert('All coffee chats have been archived successfully!! :)');
       setIsLoading(true);
     } catch (error) {
       console.error('Error archiving coffee chats:', error);
@@ -82,17 +74,9 @@ const CoffeeChats: React.FC = () => {
   };
 
   const unarchiveAllCoffeeChats = async () => {
-    if (
-      !confirm(
-        'Are you sure you want to unarchive all coffee chats? This action cannot be undone! :)'
-      )
-    ) {
-      return;
-    }
-
     try {
       await CoffeeChatAPI.unarchiveCoffeeChats();
-      alert('All coffee chats have been archived successfully.');
+      alert('All coffee chats have been archived successfully!! :)');
       setIsLoading(true);
     } catch (error) {
       console.error('Error archiving coffee chats:', error);
