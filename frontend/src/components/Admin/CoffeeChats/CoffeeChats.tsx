@@ -64,7 +64,9 @@ const CoffeeChats: React.FC = () => {
 
   const archiveAllCoffeeChats = async () => {
     if (
-      !confirm('Are you sure you want to archive all coffee chats? This action cannot be undone.')
+      !window.confirm(
+        'Are you sure you want to archive all coffee chats? This action cannot be undone.'
+      )
     ) {
       return;
     }
@@ -81,7 +83,9 @@ const CoffeeChats: React.FC = () => {
 
   const unarchiveAllCoffeeChats = async () => {
     if (
-      !confirm('Are you sure you want to unarchive all coffee chats? This action cannot be undone.')
+      !window.confirm(
+        'Are you sure you want to unarchive all coffee chats? This action cannot be undone.'
+      )
     ) {
       return;
     }
