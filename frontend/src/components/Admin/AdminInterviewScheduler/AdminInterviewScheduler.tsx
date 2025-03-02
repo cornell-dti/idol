@@ -76,6 +76,13 @@ const InterviewSchedulerCreator = () => {
           netid: response[columnHeaders.indexOf('netid')]
         }))
       });
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Successfully created interview scheduler',
+        contentMsg: `Created interview scheduler instance: ${name}`
+      });
+      setName('');
+      setStartDate(null);
+      setEndDate(null);
     }
   };
 
