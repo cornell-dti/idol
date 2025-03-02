@@ -13,6 +13,7 @@ export default class InterviewSchedulerDao extends BaseDao<InterviewScheduler, I
       async (interviewScheduler) => interviewScheduler
     );
   }
+
   /**
    * Gets all instances of Interview Scheduler
    * @returns a promise that resolves to an array of Interview Scheduler objects
@@ -29,11 +30,12 @@ export default class InterviewSchedulerDao extends BaseDao<InterviewScheduler, I
   async getInstance(uuid: string): Promise<InterviewScheduler | null> {
     return this.getDocument(uuid);
   }
-/**
- * Creates an instance of Interview Scheduler with uuid and assigns one if not provided
- * @param instance the Interview Scheduler instance to create
- * @returns uuid of created instance
- */
+
+  /**
+   * Creates an instance of Interview Scheduler with uuid and assigns one if not provided
+   * @param instance the Interview Scheduler instance to create
+   * @returns uuid of created instance
+   */
   async createInstance(instance: InterviewScheduler): Promise<string> {
     const instanceWithUUID = {
       ...instance,
@@ -51,6 +53,7 @@ export default class InterviewSchedulerDao extends BaseDao<InterviewScheduler, I
   async updateInstance(instance: InterviewScheduler): Promise<InterviewScheduler> {
     return this.updateDocument(instance.uuid, instance);
   }
+  
   /**
    * Deletes an instance of Interview Scheduler
    * @param uuid the uuid of the instance to delete
