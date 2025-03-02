@@ -85,6 +85,7 @@ const CoffeeChats: React.FC = () => {
     ) {
       return;
     }
+
     try {
       await CoffeeChatAPI.unarchiveCoffeeChats();
       alert('All coffee chats have been archived successfully!! :)');
