@@ -140,7 +140,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   /**
    * Archives all coffee chats by setting the isArchived field to true.
    */
-  async archiveCoffeeChats(): Promise<void> {
+  static async archiveCoffeeChats(): Promise<void> {
     const coffeeChats = await coffeeChatsCollection.where('isArchived', '==', false).get();
     const batch = db.batch();
 
@@ -154,7 +154,7 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   /**
    * Unarchives all coffee chats by setting the isArchived field to false.
    */
-  async unarchiveCoffeeChats(): Promise<void> {
+  static async unarchiveCoffeeChats(): Promise<void> {
     const coffeeChats = await coffeeChatsCollection.where('isArchived', '==', true).get();
     const batch = db.batch();
 
