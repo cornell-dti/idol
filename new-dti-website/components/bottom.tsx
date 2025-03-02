@@ -85,7 +85,7 @@ const Bottom: React.FC = () => (
       <div className="flex flex-row h-fit justify-start align-middle py-10 w-full md:order-last gap-x-10 md:gap-x-5 z-10">
         <Image
           className="self-center rounded-[16px]"
-          src="/images/home-3.png"
+          src="/images/home-3.jpg"
           width={576}
           height={576}
           alt="DTI members on the slope"
