@@ -1,0 +1,33 @@
+.schedulerContainer {
+  padding: 2%;
+}
+
+.contentContainer {
+  display: flex;
+  gap: 3%;
+}
+
+.sidebarContainer {
+  width: 40%;
+  padding-top: 4em;
+}
+
+.inviteCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
+}
+
+.inviteCard {
+  width: 40% !important;
+}
+
+.inviteHeader {
+  margin-bottom: 1em;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+}
