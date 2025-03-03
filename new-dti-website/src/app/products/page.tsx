@@ -5,7 +5,6 @@ import Image from 'next/image';
 import ImageCarousel from '../../../components/products/imageCarousel';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
-import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
 
