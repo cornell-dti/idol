@@ -14,33 +14,29 @@ const ApplyHero = () => {
   const isApplicationOpen = isAppOpen();
 
   return (
-    <section
-      id="Apply Hero"
-      className="text-[#FEFEFE] min-h-[calc(100vh-136px)] flex items-center relative"
-    >
+    <section id="Apply Hero" className="text-[#FEFEFE] flex items-center relative">
       {!isApplicationOpen && (
         <Banner
           message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
           variant={'accent'}
         />
       )}
-
-      <Hero
-        title={'Join our community'}
-        description={
-          "We strive for inclusivity, and encourage passionate applicants to apply regardless of experience. We'd love to work with someone like you."
-        }
-        image={{
-          src: '/images/apply-hero.png',
-          alt: 'TODO'
-        }}
-        action={{
-          buttonText: 'Apply now',
-          link: config.applicationLink
-        }}
-      />
-
-      <div className="relative"></div>
+      <div className="flex items-center pt-12 w-[100%]">
+        <Hero
+          title={'Join our community'}
+          description={
+            "We strive for inclusivity, and encourage passionate applicants to apply regardless of experience. We'd love to work with someone like you."
+          }
+          image={{
+            src: '/images/apply-hero.png',
+            alt: 'TODO'
+          }}
+          action={{
+            buttonText: 'Apply now',
+            link: config.applicationLink
+          }}
+        />
+      </div>
     </section>
   );
 };

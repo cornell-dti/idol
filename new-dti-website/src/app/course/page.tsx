@@ -62,16 +62,18 @@ export default function Courses() {
             setSelectedMember(undefined);
         }}
       >
-        <Hero
-          title={'Our course'}
-          description={
-            'A project team is meant, above all, to be a learning experience. Given our mission of community impact, we want to help everyone learn and grow through our training course in product development.'
-          }
-          image={{
-            src: '/images/course-hero.png',
-            alt: 'TODO'
-          }}
-        />
+        <div className="pb-24">
+          <Hero
+            title={'Our course'}
+            description={
+              'A project team is meant, above all, to be a learning experience. Given our mission of community impact, we want to help everyone learn and grow through our training course in product development.'
+            }
+            image={{
+              src: '/images/course-hero.png',
+              alt: 'TODO'
+            }}
+          />
+        </div>
 
         {/* WRAPPER */}
         <div

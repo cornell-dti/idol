@@ -9,7 +9,7 @@ const InitiativePage = () => {
   useTitle('Initiatives');
   return (
     <div className="bg-white flex flex-col">
-      <div className="bg-[#000000]">
+      <div className="bg-[#000000] pb-24">
         <Hero
           title={'Inspiring innovation'}
           description={
