@@ -179,3 +179,33 @@ export const formatLink = (link: string, linkType?: LinkType): string | undefine
 
   return extractedLink;
 };
+
+/**
+ * Parses a csv file into a two-length array where the first element is an array of headers and
+ * the second element is an array of responses. The indices of the headers correspond to the
+ * response indices.
+ * @param csv A rectangular csv file
+ * @returns A promise that resolves into an array of headers and responses
+ */
+export const parseCsv = async (csv: File): Promise<[string[], string[][]]> => {
+  const text = await csv.text();
+  const rows = text.split('\n').map((row) => row.trim());
+
+  const headers = rows[0].split(',').map((header) => header.toLowerCase());
+  const responses = rows.splice(1).map((row) => row.split(','));
+  return [headers, responses];
+};
+
+/**
+ *
+ * @param csv
+ * @returns
+ */
+export const fpo = async (csv: File): Promise<[string[], string[][]]> => {
+  const text = await csv.text();
+  const rows = text.split('\n').map((row) => row.trim());
+
+  const headers = rows[0].split(',').map((header) => header.toLowerCase());
+  const responses = rows.splice(1).map((row) => row.split(','));
+  return [headers, responses];
+};

@@ -62,8 +62,6 @@ const Navbar: React.FC = () => {
                 key={item.name}
                 href={item.url}
                 className={`group cursor-pointer p-4 underline-offset-8 decoration-2 h-[40px] flex items-center ${
-                  pathname === item.url ? 'underline' : ''
-                } ${
                   item.name === 'Sponsor'
                     ? 'mr-2 rounded-[128px] [transition:50ms_ease-out] border border-[rgba(227,73,73,0.60)] px-4 py-2 hover:bg-[rgba(229,74,74,0.20)]'
                     : ''
@@ -78,7 +76,8 @@ const Navbar: React.FC = () => {
                         ? 'bg-gradient-to-r from-[#F25454] to-[#D63D3D] bg-clip-text text-transparent'
                         : 'text-white'
                     }
-                    ${item.name === 'Apply' ? '!text-[#000000]' : ''}
+                    ${pathname === item.url ? 'underline' : ''} 
+                    ${item.name === 'Apply' ? '!text-[#000000] no-underline' : ''}
                     ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
                   `}
                 >
@@ -123,8 +122,6 @@ const Navbar: React.FC = () => {
                     key={item.name}
                     href={item.url}
                     className={`group cursor-pointer p-4 underline-offset-8 decoration-2 h-[40px] flex items-center ${
-                      pathname === item.url ? 'underline' : ''
-                    } ${
                       item.name === 'Sponsor'
                         ? 'mr-2 rounded-[128px] [transition:50ms_ease-out] border border-[rgba(227,73,73,0.60)] px-4 py-2 hover:bg-[rgba(229,74,74,0.20)] justify-center h-[52px]'
                         : ''
@@ -141,7 +138,8 @@ const Navbar: React.FC = () => {
                         ? 'bg-gradient-to-r from-[#F25454] to-[#D63D3D] bg-clip-text text-transparent'
                         : 'text-white'
                     }
-                    ${item.name === 'Apply' ? '!text-[#000000]' : ''}
+                    ${pathname === item.url ? 'underline' : ''} 
+                    ${item.name === 'Apply' ? '!text-[#000000] no-underline' : ''}
                     ${item.name !== 'Apply' ? 'group-hover:underline' : ''}
                   `}
                     >
