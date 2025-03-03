@@ -26,18 +26,13 @@ const Hero = ({ title, description, image, action }: HeroProps) => (
       </div>
       {action &&
         (action.disabled ? (
-          <a
-            className={`primary-button ${
-              action.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
-            }`}
-            href={action.link}
-          >
-            {action.buttonText}
-          </a>
-        ) : (
-          <button className="primary-button" disabled={true}>
+          <button className="primary-button opacity-50 cursor-not-allowed" disabled={true}>
             {action.buttonText}
           </button>
+        ) : (
+          <a className="primary-button" href={action.link}>
+            {action.buttonText}
+          </a>
         ))}
     </div>
   </SectionWrapper>
