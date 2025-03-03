@@ -29,7 +29,7 @@ const Hero = ({ title, description, image, action }: HeroProps) => (
           className={`primary-button ${
             action.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
           }`}
-          href={action.disabled ? undefined : action.link}
+          href={action.disabled ? '' : action.link}
           onClick={action.disabled ? (e) => e.preventDefault() : undefined}
         >
           {action.buttonText}
