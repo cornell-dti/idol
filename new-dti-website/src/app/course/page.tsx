@@ -62,7 +62,7 @@ export default function Courses() {
             setSelectedMember(undefined);
         }}
       >
-        <div className="pb-24">
+        <div className="lg:pb-24 pb-12">
           <Hero
             title={'Our course'}
             description={

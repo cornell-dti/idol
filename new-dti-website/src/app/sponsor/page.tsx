@@ -14,7 +14,7 @@ const { impacts } = impactData;
 const { companies } = companyData;
 
 const SponsorHero = () => (
-  <div className="bg-black text-white min-h-[calc(100vh-300px)] pb-24 flex items-center w-full overflow-hidden">
+  <div className="bg-black text-white lg:pb-24 pb-12 items-center w-full overflow-hidden">
     <Hero
       title={'Support our team'}
       description={
