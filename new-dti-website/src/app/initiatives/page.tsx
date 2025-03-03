@@ -17,7 +17,7 @@ const InitiativePage = () => {
           }
           image={{
             src: '/images/initiatives-hero.png',
-            alt: 'TODO'
+            alt: 'DTI member engaging in a workshop with a child'
           }}
         />
       </div>

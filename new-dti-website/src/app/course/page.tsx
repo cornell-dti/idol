@@ -70,7 +70,7 @@ export default function Courses() {
             }
             image={{
               src: '/images/course-hero.png',
-              alt: 'TODO'
+              alt: 'DTI member presenting a course to an auditorium'
             }}
           />
         </div>

@@ -29,7 +29,7 @@ const ApplyHero = () => {
           }
           image={{
             src: '/images/apply-hero.png',
-            alt: 'TODO'
+            alt: 'DTI members hosting a recruitment event with prospective applicants'
           }}
           action={{
             buttonText: 'Apply now',

@@ -22,7 +22,7 @@ const SponsorHero = () => (
       }
       image={{
         src: '/images/sponsor-hero.png',
-        alt: 'TODO'
+        alt: 'DTI members collaborating together'
       }}
       action={{
         buttonText: 'Donate now',

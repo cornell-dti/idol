@@ -26,7 +26,7 @@ export default function Page() {
         }
         image={{
           src: '/images/products-hero.png',
-          alt: 'TODO'
+          alt: 'DTI students brainstorming with sticky notes'
         }}
       />
 

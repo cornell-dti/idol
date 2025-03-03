@@ -17,7 +17,7 @@ const TeamPage = () => {
         }
         image={{
           src: '/images/about-hero.png',
-          alt: 'TODO'
+          alt: 'DTI students posing in front of Gates Hall'
         }}
       />
       <TeamAbout />
