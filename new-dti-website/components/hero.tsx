@@ -15,21 +15,20 @@ type HeroProps = {
 
 const Hero = ({ title, description, image, action }: HeroProps) => (
   <SectionWrapper id={`${title} hero`}>
-    <img
-      src={image.src}
-      alt={image.alt}
-      height={600}
-      className="w-auto lg:w-[600px] xs:w-[300px]"
-    />
-    <h1 className="md:text-[40px] md:leading-[46px] font-bold mt-4 xs:text-[32px] xs:leading-[36.8px]">
-      {title}
-    </h1>
-    <p className="md:text-[18px] md:text-[#A1A1A1] leading-[28.8px]">{description}</p>
-    {action && (
-      <a className="primary-button" href={action.link}>
-        {action.buttonText}
-      </a>
-    )}
+    <img src={image.src} alt={image.alt} height={600} className="w-[100%] rounded-[16px]" />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <h1 className="md:text-[40px] md:leading-[46px] font-bold mt-4 xs:text-[32px] xs:leading-[36.8px] text-[#ffffff]">
+          {title}
+        </h1>
+        <p className="md:text-[18px] text-hero-secondary leading-[28.8px]">{description}</p>
+      </div>
+      {action && (
+        <a className="primary-button" href={action.link}>
+          {action.buttonText}
+        </a>
+      )}
+    </div>
   </SectionWrapper>
 );
 
