@@ -44,6 +44,18 @@ export default class APIWrapper {
       .then((resOrErr) => this.responseMiddleware(resOrErr));
   }
 
+  public static async patch(
+    url: string,
+    body: unknown = {},
+    config = {}
+  ): Promise<APIProcessedResponse> {
+    const idToken = await getUserIDTokenNonNull();
+    return axios
+      .patch(url, body, { headers: { ...config, 'auth-token': idToken } })
+      .catch((err: AxiosError) => err)
+      .then((resOrErr) => this.responseMiddleware(resOrErr));
+  }
+
   private static responseMiddleware(
     resOrErr: AxiosResponse<unknown> | AxiosError
   ): APIProcessedResponse {
