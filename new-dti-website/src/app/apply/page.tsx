@@ -8,7 +8,7 @@ import Banner from '../../../components/apply/Banner';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import { isAppOpen } from '../../utils/dateUtils';
 import useTitle from '../../hooks/useTitle';
-import Hero from '@/components/hero';
+import Hero from '../../../components/hero';
 
 const ApplyHero = () => {
   const isApplicationOpen = isAppOpen();

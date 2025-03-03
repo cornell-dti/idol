@@ -23,7 +23,7 @@ import DDProjects from '../../../components/course/DDProjects';
 import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
-import Hero from '@/components/hero';
+import Hero from '../../../components/hero';
 
 //* DATA
 const { key_experiences } = experiencesData;

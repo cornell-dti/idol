@@ -7,7 +7,7 @@ import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
-import Hero from '@/components/hero';
+import Hero from '../../../components/hero';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({

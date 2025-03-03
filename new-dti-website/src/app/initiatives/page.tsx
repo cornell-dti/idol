@@ -3,7 +3,7 @@
 import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
-import Hero from '@/components/hero';
+import Hero from '../../../components/hero';
 
 const InitiativePage = () => {
   useTitle('Initiatives');

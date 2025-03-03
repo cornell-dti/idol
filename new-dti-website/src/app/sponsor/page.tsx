@@ -8,7 +8,7 @@ import SponsorshipTable from '../../../components/sponsor/SponsorshipTable';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
-import Hero from '@/components/hero';
+import Hero from '../../../components/hero';
 
 const { impacts } = impactData;
 const { companies } = companyData;
