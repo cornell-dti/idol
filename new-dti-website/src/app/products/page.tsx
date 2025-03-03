@@ -29,24 +29,6 @@ export default function Page() {
           alt: 'TODO'
         }}
       />
-      {/* <SectionWrapper id={'Products Page Hero Section'} className="mb-20 lg:mb-20">
-        <div className="flex lg:flex-row xs:flex-col relative z-10">
-          <div className="mr-24">
-            <h1 className="font-semibold text-white md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
-              OUR <span className="text-[#FF4C4C]">PRODUCTS</span>
-            </h1>
-          </div>
-          <div className="flex flex-col justify-center gap-6">
-            <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-              Real impact
-            </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              Each of our projects address an unfulfilled need that exists in our community using
-              human-centered design and software engineering.
-            </p>
-          </div>
-        </div>
-      </SectionWrapper> */}
 
       <ImageCarousel items={productIcons} />
 
