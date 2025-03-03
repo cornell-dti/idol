@@ -8,6 +8,7 @@ import Banner from '../../../components/apply/Banner';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import { isAppOpen } from '../../utils/dateUtils';
 import useTitle from '../../hooks/useTitle';
+import Hero from '@/components/hero';
 
 const ApplyHero = () => {
   const isApplicationOpen = isAppOpen();
@@ -23,41 +24,22 @@ const ApplyHero = () => {
           variant={'accent'}
         />
       )}
-      <SectionWrapper id={'Apply Page Hero Section'} className="translate-y-8">
-        <div className="flex lg:flex-row xs:flex-col gap-x-[60px]">
-          <h1 className="flex items-center md:text-header md:leading-header xs:text-[48px] xs:leading-header-xs font-semibold">
-            <div>
-              JOIN OUR <span className="text-[#FF4C4C]">COMMUNITY</span>
-            </div>
-          </h1>
-          <div className="flex flex-col gap-6">
-            <h2
-              className="font-bold md:text-subheader xs:text-[24px] md:leading-subheader
-          xs:leading-[29px] text-hero-primary"
-            >
-              Down to innovate?
-            </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              We strive for inclusivity, and encourage passionate applicants to apply regardless of
-              experience. We'd love to work with someone like you.
-            </p>
-            {isApplicationOpen ? (
-              <a key="Apply Page" href={config.applicationLink} className="primary-button">
-                Apply now
-              </a>
-            ) : (
-              <button
-                key="Apply Page"
-                className="primary-button opacity-50 cursor-not-allowed"
-                onClick={(e) => e.preventDefault()}
-                aria-disabled="true"
-              >
-                Apply now
-              </button>
-            )}
-          </div>
-        </div>
-      </SectionWrapper>
+
+      <Hero
+        title={'Join our community'}
+        description={
+          "We strive for inclusivity, and encourage passionate applicants to apply regardless of experience. We'd love to work with someone like you."
+        }
+        image={{
+          src: '/images/apply-hero.png',
+          alt: 'TODO'
+        }}
+        action={{
+          buttonText: 'Apply now',
+          link: config.applicationLink
+        }}
+      />
+
       <div className="relative"></div>
     </section>
   );
