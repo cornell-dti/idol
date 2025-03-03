@@ -24,17 +24,21 @@ const Hero = ({ title, description, image, action }: HeroProps) => (
         </h1>
         <p className="md:text-[18px] text-hero-secondary leading-[28.8px]">{description}</p>
       </div>
-      {action && (
-        <a
-          className={`primary-button ${
-            action.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
-          }`}
-          href={action.disabled ? '' : action.link}
-          onClick={action.disabled ? (e) => e.preventDefault() : undefined}
-        >
-          {action.buttonText}
-        </a>
-      )}
+      {action &&
+        (action.disabled ? (
+          <a
+            className={`primary-button ${
+              action.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
+            }`}
+            href={action.link}
+          >
+            {action.buttonText}
+          </a>
+        ) : (
+          <button className="primary-button" disabled={true}>
+            {action.buttonText}
+          </button>
+        ))}
     </div>
   </SectionWrapper>
 );
