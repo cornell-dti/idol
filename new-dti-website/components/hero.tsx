@@ -10,6 +10,7 @@ type HeroProps = {
   action?: {
     buttonText: string;
     link: string;
+    disabled?: boolean;
   };
 };
 
@@ -24,7 +25,13 @@ const Hero = ({ title, description, image, action }: HeroProps) => (
         <p className="md:text-[18px] text-hero-secondary leading-[28.8px]">{description}</p>
       </div>
       {action && (
-        <a className="primary-button" href={action.link}>
+        <a
+          className={`primary-button ${
+            action.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
+          }`}
+          href={action.disabled ? undefined : action.link}
+          onClick={action.disabled ? (e) => e.preventDefault() : undefined}
+        >
           {action.buttonText}
         </a>
       )}

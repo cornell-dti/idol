@@ -33,7 +33,8 @@ const ApplyHero = () => {
           }}
           action={{
             buttonText: 'Apply now',
-            link: config.applicationLink
+            link: config.applicationLink,
+            disabled: true
           }}
         />
       </div>
