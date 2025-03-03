@@ -7,6 +7,7 @@ import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
+import Hero from '@/components/hero';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -17,8 +18,18 @@ export default function Page() {
   useTitle('Products');
 
   return (
-    <div className="overflow-x-hidden md:pt-[100px] xs:pt-9">
-      <SectionWrapper id={'Products Page Hero Section'} className="mb-20 lg:mb-20">
+    <div className="overflow-x-hidden">
+      <Hero
+        title={'Our products'}
+        description={
+          'Each of our projects address an unfulfilled need that exists in our community using human-centered design and software engineering.'
+        }
+        image={{
+          src: '/images/products-hero.png',
+          alt: 'TODO'
+        }}
+      />
+      {/* <SectionWrapper id={'Products Page Hero Section'} className="mb-20 lg:mb-20">
         <div className="flex lg:flex-row xs:flex-col relative z-10">
           <div className="mr-24">
             <h1 className="font-semibold text-white md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
@@ -35,7 +46,7 @@ export default function Page() {
             </p>
           </div>
         </div>
-      </SectionWrapper>
+      </SectionWrapper> */}
 
       <ImageCarousel items={productIcons} />
 
