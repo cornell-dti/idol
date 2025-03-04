@@ -1533,7 +1533,6 @@
     "netid": "mk2672",
     "semesterJoined": "Fall 2024",
     "college": "cas",
-    "github": null,
     "hometown": "Bay Area, California",
     "website": null,
     "minor": "Creative Writing",
@@ -1542,7 +1541,8 @@
     "coffeeChatLink": "calendly.com/mattkimcornell",
     "about": "I'm a developer on CUReviews! Hit me up if you're passionate about ethical AI, Rubik's Cube speedsolving, pop music criticism, contemporary poetry, student journalism, or US politics. I'm a nerd about a lot of things, evidently.",
     "pronouns": "he/him",
-    "linkedin": "https://www.linkedin.com/in/matthew-kim-10a314235/"
+    "linkedin": "https://www.linkedin.com/in/matthew-kim-10a314235/",
+    "github": "https://github.com/mjaydenkim"
   },
   {
     "formerSubteams": [],
@@ -1974,19 +1974,14 @@
     "github": null,
     "firstName": "Sia",
     "netid": "ssh96",
-    "about": "Product designer on QMI!",
     "roleDescription": "Designer",
     "doubleMajor": null,
     "hometown": "Mumbai, India",
-    "graduation": "May 2024",
     "lastName": "Harisingani",
-    "college": "humec",
     "role": "designer",
     "website": null,
     "semesterJoined": "Spring 2024",
-    "minor": "Information Science and Psychology ",
     "pronouns": "she/her",
-    "major": "Design and Environmental Analysis",
     "formerSubteams": [
       "queuemein"
     ],
@@ -1994,7 +1989,13 @@
     "linkedin": "https://www.linkedin.com/in/sia-harisingani-13081b22a",
     "subteams": [
       "cornellgo"
-    ]
+    ],
+    "college": "cals",
+    "minor": "Psychology and Design and Environmental Analysis",
+    "major": "Information Science (UX Concentration) ",
+    "graduation": "May 2026",
+    "coffeeChatLink": null,
+    "about": "👋 Hi, I’m Sia! I’m a junior majoring in Information Science with a UX concentration and minoring in Psychology and Design + Environmental Analysis.\n\n✨ As a designer, I am passionate about bridging the gap between people and technology to empower communities and foster social good.\n\n🌻 Outside of DCC, you can find me DJ’ing, sketching and trying new food!"
   },
   {
     "formerSubteams": [],
