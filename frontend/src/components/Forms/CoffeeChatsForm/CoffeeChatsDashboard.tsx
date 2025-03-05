@@ -68,7 +68,7 @@ const CoffeeChatsDashboard = ({
   );
 
   const approvedArchivedChats = useMemo(
-    () => archivedChats.filter((chat) => chat.status === 'approved'),
+    () => archivedChats.filter((chat) => chat.status === 'approved' && chat.otherMember),
     [archivedChats]
   );
 
@@ -226,41 +226,34 @@ const RejectedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) =>
   </div>
 );
 
-const ArchivedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => {
-  const validChats = coffeeChats.filter((chat) => chat.otherMember && chat.status === 'approved');
-  return (
-    <div className={styles.archived_display}>
-      <Table celled style={{ border: '0.5px solid black' }}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Chat Details</Table.HeaderCell>
+const ArchivedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => (
+  <div className={styles.archived_display}>
+    <Table celled style={{ border: '0.5px solid black' }}>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Chat Details</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {coffeeChats.map((chat) => (
+          <Table.Row key={chat.uuid}>
+            <Table.Cell>
+              <div>
+                Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName} (
+                {chat.otherMember.netid})
+              </div>
+              <div>Category: {chat.category}</div>
+              <div>
+                <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
+                  Slack Link
+                </a>
+              </div>
+            </Table.Cell>
           </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {!validChats.length ? (
-            <Table.Row>No valid coffee chats from last semester.</Table.Row>
-          ) : (
-            validChats.map((chat) => (
-              <Table.Row key={chat.uuid}>
-                <Table.Cell>
-                  <div>
-                    Coffee Chat with {chat.otherMember.firstName} {chat.otherMember.lastName} (
-                    {chat.otherMember.netid})
-                  </div>
-                  <div>Category: {chat.category}</div>
-                  <div>
-                    <a href={chat.slackLink} target="_blank" rel="noopener noreferrer">
-                      Slack Link
-                    </a>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))
-          )}
-        </Table.Body>
-      </Table>
-    </div>
-  );
-};
+        ))}
+      </Table.Body>
+    </Table>
+  </div>
+);
 
 export default CoffeeChatsDashboard;
