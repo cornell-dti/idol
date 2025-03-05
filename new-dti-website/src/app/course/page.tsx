@@ -23,6 +23,7 @@ import DDProjects from '../../../components/course/DDProjects';
 import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
+import Hero from '../../../components/hero';
 
 //* DATA
 const { key_experiences } = experiencesData;
@@ -61,37 +62,18 @@ export default function Courses() {
             setSelectedMember(undefined);
         }}
       >
-        {/* Hero Section */}
-        <section id="Hero Section">
-          <div
-            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-300px)] 
-    flex items-center w-full overflow-hidden"
-          >
-            <SectionWrapper id={'Product Page Hero Section'}>
-              <div className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col relative z-10 md:gap-y-20">
-                <div className="flex flex-col gap-y-8 md:gap-y-0">
-                  <div>
-                    <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs whitespace-pre">
-                      OUR <br />
-                      <span className="text-[#FF4C4C]">COURSE</span>
-                    </h1>
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-center gap-6 ">
-                  <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-                    Teaching the community
-                  </h2>
-                  <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-                    A project team is meant, above all, to be a learning experience. Given our
-                    mission of community impact, we want to help everyone learn and grow through our
-                    training course in product development.
-                  </p>
-                </div>
-              </div>
-            </SectionWrapper>
-          </div>
-        </section>
+        <div className="lg:pb-24 pb-12">
+          <Hero
+            title={'Our course'}
+            description={
+              'A project team is meant, above all, to be a learning experience. Given our mission of community impact, we want to help everyone learn and grow through our training course in product development.'
+            }
+            image={{
+              src: '/images/course-hero.png',
+              alt: 'DTI member presenting a course to an auditorium'
+            }}
+          />
+        </div>
 
         {/* WRAPPER */}
         <div
