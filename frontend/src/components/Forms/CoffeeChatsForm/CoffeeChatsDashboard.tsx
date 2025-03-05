@@ -227,10 +227,7 @@ const RejectedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) =>
 );
 
 const ArchivedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => {
-  const validChats = coffeeChats
-    .filter((chat) => chat.otherMember)
-    .filter((chat) => chat.status === 'approved');
-
+  const validChats = coffeeChats.filter((chat) => chat.otherMember && chat.status === 'approved');
   return (
     <div className={styles.archived_display}>
       <Table celled style={{ border: '0.5px solid black' }}>
@@ -240,8 +237,8 @@ const ArchivedChatsDisplay = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) =>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {validChats.length === 0 ? (
-            <p>No valid coffee chats from last semester.</p>
+          {!validChats.length ? (
+            <Table.Row>No valid coffee chats from last semester.</Table.Row>
           ) : (
             validChats.map((chat) => (
               <Table.Row key={chat.uuid}>
