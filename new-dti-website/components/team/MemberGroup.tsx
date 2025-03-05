@@ -1,6 +1,6 @@
 import { useState, RefObject } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import { Card } from '../ui/card';
 import teamRoles from './data/roles.json';
 import subteams from './data/subteams.json';
@@ -30,21 +30,26 @@ const MemberSummary: React.FC<MemberSummaryProps> = ({
 
   return (
     <div
-      className={`memberCard flex flex-col md:gap-3 xs:gap-2 xs:text-[16px] ${
+      className={`memberCard card-clickable flex h-full flex-col md:gap-3 xs:gap-2 xs:text-[16px] justify-between ${
         enlarged ? 'md:text-2xl' : 'md:text-lg'
       }`}
     >
-      <img
-        src={image}
-        alt={`${firstName}-${lastName}`}
-        className={`rounded-md ${
-          enlarged ? 'h-[244px] w-[244px]' : 'h-[202px] w-[202px]'
-        } object-cover`}
-      />
-      <h3
-        className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
-      >{`${firstName} ${lastName}`}</h3>
-      <p className="w-fit px-3 py-1 rounded-2xl" style={{ backgroundColor: chipColor }}>
+      <div className="card-clickable flex flex-col md:gap-3 xs:gap-2 justify-between">
+        <img
+          src={image}
+          alt={`${firstName}-${lastName}`}
+          className={`rounded-md ${
+            enlarged ? 'h-[244px] w-[244px]' : 'md:h-[238px] xs:h-[202px] w-full'
+          } object-cover`}
+        />
+        <h3
+          className={`text-left font-${enlarged ? 'semibold' : 'bold'}`}
+        >{`${firstName} ${lastName}`}</h3>
+      </div>
+      <p
+        className="w-fit h-[32px] flex items-center px-[12px] py-[4px] rounded-2xl text-[14px]"
+        style={{ backgroundColor: chipColor }}
+      >
         {roleDescription}
       </p>
     </div>
@@ -62,7 +67,7 @@ type MemberCardProps = {
 
 const MemberCard: React.FC<MemberCardProps> = (props: MemberCardProps) => (
   <Card
-    className={`memberCard w-fit md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit justify-self-center ${
+    className={`memberCard card-clickable w-full md:p-3 md:pb-4 xs:p-2 xs:pb-3 h-fit grow ${
       props.cardState ? 'opacity-70 hover:opacity-100' : 'opacity-100'
     }`}
   >
@@ -98,7 +103,7 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
     : { name: 'No Subteam', link: '' };
 
   return (
-    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-[20px]">
+    <Card className="flex flex-col gap-5 md:p-7 xs:p-4 xs:pr-2 rounded-lg">
       <div className="flex lg:gap-10">
         <div className="w-3/12 lg:flex xs:hidden">
           <MemberSummary {...props} enlarged={true} />
@@ -139,7 +144,9 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="font-semibold md:text-xl xs:text-base">About</h2>
-            <p className="md:text-lg xs:text-sm">{props.about || 'An amazing member of DTI.'}</p>
+            <p className="md:text-lg xs:text-sm whitespace-pre-wrap">
+              {props.about || 'An amazing member of DTI.'}
+            </p>
           </div>
           <div className="flex justify-around">
             <div className="flex flex-col gap-2 md:w-1/3 xs:w-1/2">
@@ -150,13 +157,13 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                 }`}
               >
                 {link ? (
-                  <Link href={link} className="whitespace-nowrap">
+                  <a href={link} className="flex whitespace-nowrap">
                     {name}
-                  </Link>
+                    {link && <Image src="/icons/link.svg" alt="link" height={20} width={20} />}
+                  </a>
                 ) : (
                   <p>{name}</p>
                 )}
-                {link && <Image src="/icons/link.svg" alt="link" height={20} width={20} />}
               </div>
             </div>
             <div className="flex flex-col gap-2 md:w-1/3 xs:w-1/2">
@@ -166,68 +173,73 @@ export const MemberDetails: React.FC<MemberDetailsProps> = (props: MemberDetails
                   const link = props[icon.alt as keyof typeof props] as string | null;
                   return (
                     link && (
-                      <Link
+                      <a
                         href={icon.alt === 'email' ? `mailto:${link}` : `${link}`}
                         key={icon.alt}
+                        className="icons"
                       >
                         <Image
                           src={icon.src}
                           alt={icon.alt}
                           height={icon.height}
                           width={icon.width}
+                          className="opacity-100 hover:opacity-60"
                         />
-                      </Link>
+                      </a>
                     )
                   );
                 })}
               </div>
             </div>
             <div className="md:block xs:hidden">
-              <Link
+              <a
                 href={props.coffeeChatLink ?? `mailto:${props.email}`}
                 onMouseEnter={mouseHandler}
                 onMouseLeave={mouseHandler}
                 className="flex items-center justify-center gap-3 py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
              hover:bg-[#A52424] hover:text-white stroke-white w-max"
+                aria-label={`schedule coffee chat with ${props.firstName} ${props.lastName}`}
               >
                 <Image
                   src="/icons/red_calendar.svg"
                   alt="calendar"
                   width={24}
                   height={24}
-                  className={hover ? 'brightness-0 invert' : ''}
+                  className={hover ? 'coffee-calendar-hover' : ''}
                 />
                 <p className="font-bold text-lg text-inherit whitespace-nowrap">Chat with me</p>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
         <button
           onClick={props.onClose}
-          className="cursor-pointer h-min"
+          className="cursor-pointer h-min rounded-md"
           aria-label="Close member details"
         >
           <Image src="/icons/close.svg" width={23} height={23} alt="" className="m-2 xs:w-4" />
         </button>
       </div>
       <div className="md:hidden xs:block">
-        <button
+        <a
+          href={props.coffeeChatLink ?? `mailto:${props.email}`}
           onMouseEnter={mouseHandler}
           onMouseLeave={mouseHandler}
           className="py-3 px-5 bg-white rounded-xl text-[#A52424] border-[3px] border-[#A52424] 
               hover:bg-[#A52424] hover:text-white stroke-white w-full flex justify-center"
+          aria-label={`schedule coffee chat with ${props.firstName} ${props.lastName}`}
         >
           <div className="flex gap-3 w-max">
             <Image
-              src="/icons/calendar.svg"
+              src="/icons/red_calendar.svg"
               alt="calendar"
               width={24}
               height={24}
-              className={hover ? 'brightness-0 invert' : ''}
+              className={hover ? 'coffee-calendar-hover' : ''}
             />
             <p className="font-bold text-base text-inherit whitespace-nowrap">Chat with me</p>
           </div>
-        </button>
+        </a>
       </div>
     </Card>
   );
@@ -310,7 +322,11 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
     <div className="flex flex-row justify-center flex-wrap gap-x-14 gap-y-10">
       {members.map((member, index) => (
         <>
-          <button onClick={() => onMemberCardClick(member)} className="memberCard">
+          <button
+            onClick={() => onMemberCardClick(member)}
+            className="memberCard card-clickable flex flex-col items-center custom-focus-state"
+            aria-label={`open ${member.firstName} ${member.lastName}'s details`}
+          >
             <MemberCard
               {...member}
               key={member.netid}
@@ -319,7 +335,10 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
             />
           </button>
           {selectedMember && canInsertMemberDetails(index) && (
-            <div className="lg:col-span-4 md:col-span-3 xs:col-span-2" ref={memberDetailsRef}>
+            <div
+              className="lg:col-span-4 md:col-span-3 xs:col-span-2 rounded-lg"
+              ref={memberDetailsRef}
+            >
               <MemberDetails
                 {...selectedMember}
                 image={`team/${selectedMember.netid}.jpg`}
@@ -339,11 +358,15 @@ const MemberGroup: React.FC<MemberGroupProps> = ({
         <p className="mt-3 md:text-xl xs:text-sm">{description}</p>
         <div
           className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-              xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+              xs:gap-5 md:mt-10 xs:mt-5"
         >
           {members.map((member, index) => (
             <>
-              <button onClick={() => onMemberCardClick(member)} className="memberCard">
+              <button
+                onClick={() => onMemberCardClick(member)}
+                className="memberCard card-clickable flex flex-col items-center custom-focus-state"
+                aria-label={`open ${member.firstName} ${member.lastName}'s details`}
+              >
                 <MemberCard
                   {...member}
                   key={member.netid}

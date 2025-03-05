@@ -2,7 +2,7 @@
 
 // *IMPORTS
 import Image from 'next/image';
-import Link from 'next/link';
+
 import React, { useRef, useState } from 'react';
 
 // *IMPORT DATA
@@ -15,13 +15,14 @@ import allMembers from '../../../components/team/data/all-members.json';
 import config from '../../../components/course/data/config.json';
 
 // *IMPORT COMPONENTS
-import RedBlob from '../../../components/blob';
 import Experiences from '../../../components/course/Experiences';
 import Timeline from '../../../components/course/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
 import TestimonialSlider from '../../../components/course/TestimonialSlider';
 import DDProjects from '../../../components/course/DDProjects';
 import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
+import SectionWrapper from '../../../components/hoc/SectionWrapper';
+import useTitle from '../../hooks/useTitle';
 
 //* DATA
 const { key_experiences } = experiencesData;
@@ -43,6 +44,8 @@ export default function Courses() {
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
+  useTitle('Course');
+
   return (
     <>
       <div
@@ -50,8 +53,8 @@ export default function Courses() {
           const target = event.target as HTMLElement;
           if (
             !(
-              target.classList.contains('memberCard') ||
-              target.parentElement?.classList.contains('memberCard')
+              target.classList.contains('card-clickable') ||
+              target.parentElement?.classList.contains('card-clickable')
             ) &&
             !memberDetailsRef.current?.contains(target)
           )
@@ -61,67 +64,61 @@ export default function Courses() {
         {/* Hero Section */}
         <section id="Hero Section">
           <div
-            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-336px)] 
+            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-300px)] 
     flex items-center w-full overflow-hidden"
           >
-            <div
-              className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col w-10/12 relative z-10
-      lg:mx-32 md:mx-10 xs:mx-9 md:gap-y-20"
-            >
-              <div className="flex flex-col gap-y-8 md:gap-y-0">
-                <div>
-                  <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs whitespace-pre">
-                    OUR <br />
-                    <span className="text-[#FF4C4C]">COURSE</span>
-                  </h1>
+            <SectionWrapper id={'Product Page Hero Section'}>
+              <div className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col relative z-10 md:gap-y-20">
+                <div className="flex flex-col gap-y-8 md:gap-y-0">
+                  <div>
+                    <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs whitespace-pre">
+                      OUR <br />
+                      <span className="text-[#FF4C4C]">COURSE</span>
+                    </h1>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-center gap-6 ">
+                  <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
+                    Teaching the community
+                  </h2>
+                  <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
+                    A project team is meant, above all, to be a learning experience. Given our
+                    mission of community impact, we want to help everyone learn and grow through our
+                    training course in product development.
+                  </p>
                 </div>
               </div>
-
-              <div className="flex flex-col justify-center gap-6 ">
-                <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-                  Teaching the community
-                </h2>
-                <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-                  A project team is meant, above all, to be a learning experience. Given our mission
-                  of <span className="font-black">community impact</span>, we want to help everyone{' '}
-                  <span className="font-black">learn and grow</span> through our training course in{' '}
-                  <span className="font-black">product development.</span>
-                </p>
-              </div>
-            </div>
-            <div className="relative top-[-250px]">
-              <RedBlob className={'right-[-250px]'} intensity={0.3} />
-            </div>
+            </SectionWrapper>
           </div>
         </section>
 
         {/* WRAPPER */}
         <div
           id="Wrapper"
-          className="flex flex-col pb-10 gap-y-28 md:gap-y-36 lg:gap-y-44 bg-[#EDEDED] text-black "
+          className="flex flex-col pb-10 gap-y-24 md:gap-y-32 lg:gap-y-40 bg-[#EDEDED] text-black "
         >
-          {/* LOGO SECTION */}
-          <section id="Trends and Web Development">
-            <div className="flex flex-col pl-10 pt-20 lg:flex-row lg:items-center lg:justify-around">
-              <div ref={trendsLogoRef} className="sticker">
+          <SectionWrapper id={'Products Page Logo Section'}>
+            <div className="flex flex-col pt-20 lg:flex-row lg:items-center lg:justify-around">
+              <div ref={trendsLogoRef} className="w-1/2">
                 <Image
                   src={'/icons/courses/trends_logo.png'}
                   width={450}
                   height={450}
-                  alt="Trends Logo"
+                  alt="Trends Logo composed of the firebase, react, typescript, nodejs, vscode, and DTI logos."
                   unoptimized
                   className="w-72 md:w-96 lg:w-[450px]"
                 />
               </div>
 
               <div className="flex flex-col lg:w-1/2">
-                <div className="font-semibold text-sm md:text-xl">
-                  MODERN INDUSTRY-LEADING TECHNOLOGY
+                <div className="font-semibold text-sm md:text-xl uppercase !text-[18px] tracking-[1px] text-[#666]">
+                  Modern industry-leading technology
                 </div>
 
-                <div className="font-bold text-4xl mt-4 md:text-[45px]">
+                <h2 className="font-bold text-4xl mt-4 md:text-[40px]">
                   Trends in Web Development
-                </div>
+                </h2>
 
                 <div className="md:text-lg mt-8">
                   Trends in Web Development in a 1-credit S/U course that showcase modern full-stack
@@ -131,28 +128,29 @@ export default function Courses() {
                 </div>
 
                 <div className="flex flex-row gap-x-6 mt-6">
-                  <Link
+                  <a
                     key="Trends Application"
                     href={config.trendsApplicationLink}
                     className="primary-button"
                   >
                     Apply Now
-                  </Link>
-                  <Link
+                  </a>
+                  <a
                     key="Trends Website"
                     href={config.trendsWebsiteLink}
                     className="secondary-button secondary-button--red"
+                    aria-label="Trends Website"
                   >
                     Learn More
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
-          </section>
+          </SectionWrapper>
 
           {/* KEY EXPERIENCES SECTION */}
-          <section id="Key Experiences">
-            <div className="flex flex-col items-center gap-y-20 px-10 lg:px-20 md:gap-x-10 md:flex-row md:items-center md:justify-around">
+          <SectionWrapper id={'Key Experiences'}>
+            <div className="flex flex-col items-center gap-y-20 md:gap-x-10 md:flex-row md:items-center md:justify-around">
               {key_experiences.map((experiences) => (
                 <Experiences
                   icon={experiences.icon}
@@ -161,17 +159,17 @@ export default function Courses() {
                 />
               ))}
             </div>
-          </section>
+          </SectionWrapper>
 
           {/* TIMELINE SECTION */}
-          <section id="Timeline">
+          <SectionWrapper id={`Timeline`}>
             <Timeline events={timeline_events} currentDate={new Date()} />
-          </section>
+          </SectionWrapper>
 
           {/* COURSE STAFF SECTION */}
-          <section id="Course Staff">
+          <SectionWrapper id={'Course Staff'}>
             <div className="flex flex-col items-center">
-              <div className="font-bold md:text-[45px] xs:text-4xl">Course Staff</div>
+              <h2 className="font-bold md:text-[40px] xs:text-4xl">Course Staff</h2>
               <div className="pt-14">
                 <MemberGroup
                   members={trends_instructors}
@@ -182,24 +180,22 @@ export default function Courses() {
                 />
               </div>
             </div>
-          </section>
+          </SectionWrapper>
 
           {/* PAST STUDENT EXPERIENCES SECTION */}
-          <section id="Past Student Experiences">
-            <div className="flex flex-col">
-              <div className="font-bold text-4xl pl-10 md:pl-32 md:text-[45px] ">
-                Past Student Experiences
-              </div>
-              <TestimonialSlider testimonials={testimonials} />
-            </div>
+          <section id={'Past Student Experiences'}>
+            <SectionWrapper id={'Past Student Experiences Wrapper'}>
+              <div className="font-bold text-4xl md:text-[40px]">Past Student Experiences</div>
+            </SectionWrapper>
+            <TestimonialSlider testimonials={testimonials} className="pt-14" />
           </section>
 
           {/* PAST STUDENT PROJECTS SECTION */}
-          <section id="Past Student Projects">
-            <div className="flex flex-col px-10 md:px-32">
-              <div className="font-bold md:text-[45px] xs:text-4xl">Past Student Projects</div>
+          <SectionWrapper id={'Past Student Projects'}>
+            <div className="flex flex-col">
+              <div className="font-bold md:text-[40px] xs:text-4xl">Past Student Projects</div>
               <div className="md:text-2xl xs:text-lg pt-8">
-                With the right skills, you will be able to create projects like ours.
+                See how our course helps students bring their ideas to life.
               </div>
               <div className="space-y-8 pt-20">
                 {student_projects.map((project) => (
@@ -211,7 +207,7 @@ export default function Courses() {
                 ))}
               </div>
             </div>
-          </section>
+          </SectionWrapper>
         </div>
       </div>
     </>

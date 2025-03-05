@@ -1,9 +1,12 @@
 .wrapper {
-  width: 60%;
   margin: auto;
   margin-bottom: 2em;
   justify-content: center;
   align-items: center;
+}
+
+.bingoBoardWrapper {
+  margin-bottom: 2em;
 }
 
 .formWrapper {
@@ -15,11 +18,12 @@
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(5px, 1.5vw, 15px);
   max-width: 600px;
+  justify-content: center;
+  align-items: center;
 }
 
 .bingo_cell {
   aspect-ratio: 1 / 1;
-  max-width: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,4 +57,22 @@
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.dropdownContainer {
+  margin-top: 4rem;
+  padding-left: 4rem;
+  position: relative;
+  width: 100%;
+}
+
+.dropdownButton {
+  margin-top: 2rem;
 }

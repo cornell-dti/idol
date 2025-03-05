@@ -1,5 +1,4 @@
 import React from 'react';
-import useScrollPosition from '../../src/hooks/useScrollPosition';
 
 interface BannerProps {
   message: string;
@@ -37,17 +36,11 @@ export default function Banner({
   className = '',
   navbarHeight = 130
 }: BannerProps) {
-  const { scrollY } = useScrollPosition();
-
-  const isFixed = scrollY > navbarHeight;
-
   const variantClass = variantStyles[variant] || '';
 
   return (
     <div
-      className={`${
-        isFixed ? 'fixed' : 'absolute'
-      } top-0 left-0 w-full text-white text-center text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl px-6 py-4 z-50 ${variantClass} ${className}`}
+      className={`absolute top-0 left-0 w-full text-white text-center text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl px-6 py-4 z-50 ${variantClass} ${className}`}
     >
       {message}
     </div>

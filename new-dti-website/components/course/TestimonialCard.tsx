@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 export interface TestimonialCardProps {
   description: string;
@@ -27,12 +26,20 @@ export default function TestimonialCard({
   profileImage = '/icons/profile_image.svg'
 }: TestimonialCardProps) {
   return (
-    <div className="bg-white max-w-md w-[800px] p-10 rounded-xl drop-shadow-sm flex-shrink-0">
+    <div className="bg-white max-w-md w-[800px] h-[400px] p-10 rounded-xl drop-shadow-sm flex-shrink-0 flex-col flex">
       <div className="text-3xl text-gray-800 mb-4 tracking-wider font-black">❛❛</div>
-      <p className="md:text-lg text-gray-700 mb-6">{description}</p>
-      <Image src={profileImage} alt={`${name}'s profile picture`} width={50} height={50} />
-      <div className="text-gray-900 font-bold pt-2">{name}</div>
-      <div className="text-gray-500">{semesterTaken}</div>
+      <p className="text-gray-700 mb-6">{description}</p>
+      <div className="flex flex-row justify-start gap-4 items-center mt-auto">
+        <img
+          src={profileImage}
+          alt={`${name}'s profile`}
+          className="rounded-full h-[50px] w-[50px] object-cover"
+        />
+        <section className="-translate-y-0.5">
+          <h4 className="text-gray-900 font-bold pt-2">{name}</h4>
+          <p className="text-gray-500">{semesterTaken}</p>
+        </section>
+      </div>
     </div>
   );
 }

@@ -94,7 +94,18 @@ import { getWriteSignedURL, getReadSignedURL, deleteImage } from './API/imageAPI
 import DPSubmissionRequestLogDao from './dao/DPSubmissionRequestLogDao';
 import AdminsDao from './dao/AdminsDao';
 import { sendMail } from './API/mailAPI';
-import { HandlerError } from './utils/errors';
+import {
+  addInterviewSlots,
+  createInterviewScheduler,
+  deleteInterviewSchedulerInstance,
+  deleteInterviewSlot,
+  getAllApplicants,
+  getAllInterviewSchedulerInstances,
+  getInterviewSchedulerInstance,
+  getInterviewSlots,
+  updateInterviewSchedulerInstance,
+  updateInterviewSlot
+} from './API/interviewSchedulerAPI';
 
 // Constants and configurations
 const app = express();
@@ -129,8 +140,7 @@ app.use(
       winston.format.align(),
       winston.format.printf(
         (info) =>
-          `${info.timestamp} ${info.level} - ${info.meta.req.method} ${info.meta.req.originalUrl} ${
-            info.meta.res.statusCode
+          `${info.timestamp} ${info.level} - ${info.meta.req.method} ${info.meta.req.originalUrl} ${info.meta.res.statusCode
           } -- ${JSON.stringify(info.meta.req.body)}`
       )
     ),
@@ -148,30 +158,30 @@ const getUserEmailFromRequest = async (request: Request): Promise<string | undef
 
 const loginCheckedHandler =
   (handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>): RequestHandler =>
-  async (req: Request, res: Response): Promise<void> => {
-    const userEmail = await getUserEmailFromRequest(req);
-    if (userEmail == null) {
-      res.status(440).json({ error: 'Not logged in!' });
-      return;
-    }
-    const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
-    if (!user) {
-      res.status(401).send({ error: `No user with email: ${userEmail}` });
-      return;
-    }
-    if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
-      res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
-    }
-    try {
-      res.status(200).send(await handler(req, user));
-    } catch (error) {
-      if (error instanceof HandlerError) {
-        res.status(error.errorCode).send({ error: error.reason });
+    async (req: Request, res: Response): Promise<void> => {
+      const userEmail = await getUserEmailFromRequest(req);
+      if (userEmail == null) {
+        res.status(440).json({ error: 'Not logged in!' });
         return;
       }
-      res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
-    }
-  };
+      const user = await MembersDao.getCurrentOrPastMemberByEmail(userEmail);
+      if (!user) {
+        res.status(401).send({ error: `No user with email: ${userEmail}` });
+        return;
+      }
+      if (env === 'staging' && !(await PermissionsManager.isAdmin(user))) {
+        res.status(401).json({ error: 'Only admins users have permissions to the staging API!' });
+      }
+      try {
+        res.status(200).send(await handler(req, user));
+      } catch (error) {
+        if (error instanceof HandlerError) {
+          res.status(error.errorCode).send({ error: error.reason });
+          return;
+        }
+        res.status(500).send({ error: `Failed to handle the request due to ${error}.` });
+      }
+    };
 
 const loginCheckedGet = (
   path: string,
@@ -212,12 +222,24 @@ router.get('/member', async (req, res) => {
 router.get('/hasIDOLAccess/:email', async (req, res) => {
   const member = await MembersDao.getCurrentOrPastMemberByEmail(req.params.email);
   const adminEmails = await AdminsDao.getAllAdminEmails();
+  const applicants = await getAllApplicants();
+
+  const type = req.query.type as string | undefined;
+  let hasIDOLAccess: boolean;
+
+  switch (type) {
+    case 'applicants-included':
+      hasIDOLAccess = member !== undefined || applicants.includes(req.params.email);
+      break;
+    default:
+      hasIDOLAccess = member !== undefined;
+  }
 
   if (env === 'staging' && !adminEmails.includes(req.params.email)) {
     res.status(200).json({ hasIDOLAccess: false });
   }
   res.status(200).json({
-    hasIDOLAccess: member !== undefined
+    hasIDOLAccess
   });
 });
 
@@ -314,8 +336,8 @@ loginCheckedDelete('/coffee-chat/:uuid', async (req, user) => {
   return {};
 });
 
-loginCheckedGet('/coffee-chat/:email', async (_, user) => {
-  const coffeeChats = await getCoffeeChatsByUser(user);
+loginCheckedGet('/coffee-chat/:email', async (req, user) => {
+  const coffeeChats = await getCoffeeChatsByUser(user, req.params.email);
   return { coffeeChats };
 });
 
@@ -489,6 +511,71 @@ loginCheckedPut('/dev-portfolio/:uuid/submission/regrade', async (req, user) => 
 loginCheckedPut('/dev-portfolio/:uuid/submission', async (req, user) => ({
   portfolio: await updateSubmissions(req.params.uuid, req.body.updatedSubmissions, user)
 }));
+
+// Interview Scheduler
+router.get(`/interview-scheduler/applicant`, async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    instances: await getAllInterviewSchedulerInstances(userEmail ?? '', true)
+  });
+});
+
+router.get(`/interview-scheduler/applicant/:uuid`, async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    instance: await getInterviewSchedulerInstance(req.params.uuid, userEmail ?? '', true)
+  });
+});
+
+loginCheckedGet('/interview-scheduler', async (req, user) => ({
+  instances: await getAllInterviewSchedulerInstances(user.email, false)
+}));
+
+loginCheckedGet('/interview-scheduler/:uuid', async (req, user) => ({
+  instance: await getInterviewSchedulerInstance(req.params.uuid, user.email, false)
+}));
+
+loginCheckedPost('/interview-scheduler', async (req, user) => ({
+  uuid: await createInterviewScheduler(req.body, user)
+}));
+
+loginCheckedPut('/interview-scheduler', async (req, user) => ({
+  instance: await updateInterviewSchedulerInstance(user, req.body)
+}));
+
+loginCheckedDelete('/interview-scheduler/:uuid', async (req, user) =>
+  deleteInterviewSchedulerInstance(req.params.uuid, user).then(() => ({}))
+);
+
+router.get('/interview-slots/applicant/:uuid', async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    slots: await getInterviewSlots(req.params.uuid, userEmail ?? '', true)
+  });
+});
+
+router.put('/interview-slot/applicant', async (req, res) => {
+  const userEmail = await getUserEmailFromRequest(req);
+  res.status(200).send({
+    success: await updateInterviewSlot(req.body, userEmail ?? '', true)
+  });
+});
+
+loginCheckedGet('/interview-slots/:uuid', async (req, user) => ({
+  slots: await getInterviewSlots(req.params.uuid, user.email, false)
+}));
+
+loginCheckedPost('/interview-slots', async (req, user) => ({
+  slots: await addInterviewSlots(req.body.slots, user)
+}));
+
+loginCheckedPut('/interview-slots', async (req, user) => ({
+  success: await updateInterviewSlot(req.body, user.email, false)
+}));
+
+loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
+  deleteInterviewSlot(req.params.uuid, user).then(() => ({}))
+);
 
 app.use('/.netlify/functions/api', router);
 

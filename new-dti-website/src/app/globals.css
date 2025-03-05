@@ -39,7 +39,7 @@
     --radius: 0.5rem;
 
     --hero-primary: 255, 255, 255;
-    --hero-secondary: 255, 255, 255, 0.7;
+    --hero-secondary: 163, 163, 163;
 
     --hero-leading-header-xs: 63px;
     --hero-leading-header: 120px;
@@ -186,6 +186,13 @@
   background-color: #d63d3d;
 }
 
+.primary-button:focus-visible,
+.secondary-button--red:focus-visible {
+  outline: 3px solid #d63d3d !important;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
 .secondary-button {
   color: #fefefe;
   background-color: black;
@@ -214,11 +221,31 @@
 }
 
 .secondary-button--red:hover {
-  color: #fefefe;
-  background-color: #d63d3d;
+  color: #d63d3d;
+  background-color: #f7d8d8;
+}
+
+.secondary-button:focus-visible {
+  outline: 3px solid #fefefe;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+a:focus-visible {
+  outline: 3px solid #d63d3d;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #d63d3d;
+  outline-offset: 3px;
+  transition: outline 0s;
 }
 
 summary {
+  border-radius: 8px;
   padding-top: 1rem;
   padding-bottom: 1rem;
   list-style: none;
@@ -227,6 +254,10 @@ summary {
   font-weight: bold;
   justify-content: space-between;
   padding-right: 1rem;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 summary::after {
@@ -239,4 +270,52 @@ summary::after {
 
 details[open] > summary::after {
   rotate: 180deg;
+}
+
+.custom-focus-state:focus-visible {
+  outline: none;
+  position: relative;
+}
+
+.custom-focus-state:focus-visible::after {
+  content: '';
+  width: calc(100% + 75px);
+  height: 123px;
+  top: -50px;
+  left: -37px;
+  border-radius: 8px;
+  position: absolute;
+  outline: 3px solid #d63d3d;
+}
+
+.memberCard:focus-visible::after {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+}
+
+.application-role-tab {
+  border-radius: 8px;
+}
+
+.team-carousel-button {
+  position: static;
+}
+
+.team-carousel-button:focus-visible::after {
+  height: 317px;
+  width: calc(100% + 26px);
+  left: -13px;
+  border-radius: 16px;
+}
+
+.icons:focus-visible {
+  opacity: 0.6;
+}
+
+.coffee-calendar-hover {
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
 }

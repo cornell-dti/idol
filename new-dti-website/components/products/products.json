@@ -7,7 +7,7 @@
       "link": "https://cureviews.org/",
       "iconPath": "icons/cureviews_icon.svg",
       "iconDimensions": 90,
-      "imageClassName": "-translate-x-2",
+      "iconClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-3/4 -top-32 scale-50 md:scale-100",
@@ -18,20 +18,9 @@
           "intensity": 0.4
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/cureviews/CuReviews1.png",
-          "alt": "CU Reviews Image 1"
-        },
-        {
-          "src": "/images/products/cureviews/CuReviews2.png",
-          "alt": "CU Reviews Image 2",
-          "bottom": "-5%",
-          "right": "15%",
-          "width": "60%",
-          "direction": "down"
-        }
-      ]
+      "productImage": "/images/products/cureviews.png",
+      "productAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
+      "productImageDimensions": 1500
     },
     {
       "alt": "courseplan",
@@ -40,7 +29,7 @@
       "link": "https://courseplan.io/",
       "iconPath": "icons/courseplan_icon.svg",
       "iconDimensions": 90,
-      "imageClassName": "-translate-x-2",
+      "iconClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-2/4 -top-48 scale-50 md:scale-100",
@@ -51,29 +40,9 @@
           "intensity": 0.4
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/courseplan/courseplan1.png",
-          "alt": "CoursePlan image 1"
-        },
-        {
-          "src": "/images/products/courseplan/courseplan2.png",
-          "alt": "CoursePlan image 2",
-          "bottom": "-11%",
-          "left": "9%",
-          "width": "55%",
-          "direction": "down"
-        },
-        {
-          "src": "/images/products/courseplan/courseplan3.png",
-          "alt": "CoursePlan image 3",
-          "top": "3%",
-          "right": "8%",
-          "width": "30%",
-          "direction": "up",
-          "delay": true
-        }
-      ]
+      "productImage": "/images/products/courseplan.png",
+      "productAlt": "A desktop computer next to a laptop, displaying the planning page and the profile page of the Course Plan website",
+      "productImageDimensions": 1500
     },
     {
       "alt": "queue me in",
@@ -82,7 +51,7 @@
       "link": "https://queueme.in/",
       "iconPath": "icons/qmi_icon.svg",
       "iconDimensions": 90,
-      "imageClassName": "-translate-x-2",
+      "iconClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-0 -top-48 scale-50 md:scale-100",
@@ -93,28 +62,9 @@
           "intensity": 0.4
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/qmi/qmi1.png",
-          "alt": "CoursePlan image 1"
-        },
-        {
-          "src": "/images/products/qmi/qmi2.png",
-          "alt": "QMI image 2",
-          "top": "-2%",
-          "right": "-12%",
-          "width": "30%",
-          "direction": "up",
-          "delay": true
-        },
-        {
-          "src": "/images/products/qmi/qmi3.png",
-          "alt": "QMI image 3",
-          "bottom": "7%",
-          "right": "-11%",
-          "direction": "down"
-        }
-      ]
+      "productImage": "/images/products/qmi.png",
+      "productAlt": "2 phones side by side, displaying the list of available consulting hours screen and the join queue screen of the Queue Me In website",
+      "productImageDimensions": 1000
     },
     {
       "alt": "design at cornell",
@@ -123,44 +73,16 @@
       "link": "https://www.cudesign.io/",
       "iconPath": "icons/dac_icon.svg",
       "iconDimensions": 100,
-      "imageClassName": "-translate-x-0",
+      "iconClassName": "-translate-x-0",
       "blobs": [
         {
           "className": "left-1/3 scale-50 md:scale-100",
           "intensity": 0.3
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/dcc/dcc1.png",
-          "alt": "DCC Image 1"
-        },
-        {
-          "src": "/images/products/dcc/dcc2.png",
-          "alt": "DCC Image 2",
-          "top": "50%",
-          "left": "-7%",
-          "width": "47%",
-          "direction": "down"
-        },
-        {
-          "src": "/images/products/dcc/dcc3.png",
-          "alt": "DCC Image 3",
-          "bottom": "11%",
-          "right": "-10%",
-          "width": "62%",
-          "direction": "down",
-          "delay": true
-        },
-        {
-          "src": "/images/products/dcc/dcc4.png",
-          "alt": "DCC Image 4",
-          "top": "10%",
-          "right": "-16%",
-          "width": "43%",
-          "direction": "right"
-        }
-      ]
+      "productImage": "/images/products/dcc.png",
+      "productAlt": "A browser displaying the hero section of the Design @ Cornell website",
+      "productImageDimensions": 1000
     },
     {
       "alt": "zing",
@@ -169,7 +91,7 @@
       "link": "https://zing-lsc-prod.web.app/",
       "iconPath": "icons/zing_icon.svg",
       "iconDimensions": 80,
-      "imageClassName": "-translate-x-2",
+      "iconClassName": "-translate-x-2",
       "blobs": [
         {
           "className": "left-2/3 scale-50 md:scale-100",
@@ -180,29 +102,9 @@
           "intensity": 0.4
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/zing/zing1.png",
-          "alt": "Zing Image 1"
-        },
-        {
-          "src": "/images/products/zing/zing2.png",
-          "alt": "Zing Image 2",
-          "bottom": "-3%",
-          "left": "2%",
-          "width": "64%",
-          "direction": "down",
-          "delay": true
-        },
-        {
-          "src": "/images/products/zing/zing3.png",
-          "alt": "Zing Image 3",
-          "top": "-13%",
-          "right": "-19%",
-          "width": "80%",
-          "direction": "up"
-        }
-      ]
+      "productImage": "/images/products/zing.png",
+      "productAlt": "A desktop computer next to a tablet, displaying the landing page and questionnaire page of the Zing website",
+      "productImageDimensions": 1500
     },
     {
       "alt": "cuapts",
@@ -221,19 +123,9 @@
           "intensity": 0.3
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/cuapts/cuapts1.png",
-          "alt": "CUApts Image 1"
-        },
-        {
-          "src": "/images/products/cuapts/cuapts2.png",
-          "alt": "CUApts Image 2",
-          "bottom": "4%",
-          "right": "4%",
-          "direction": "down"
-        }
-      ]
+      "productImage": "/images/products/cuapts.png",
+      "productAlt": "A laptop next to a phone, displaying home page and an address page of the CU Apts website",
+      "productImageDimensions": 1500
     }
   ],
   "upcoming": [
@@ -250,12 +142,9 @@
           "intensity": 0.3
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/carriage/Carriage.png",
-          "alt": "Carriage Image 1"
-        }
-      ]
+      "productImage": "/images/products/carriage.png",
+      "productAlt": "A monitor displaying a blurry screen of the Carriage website with the words Coming Soon overlaid on top",
+      "productImageDimensions": 1500
     },
     {
       "alt": "cornellgo",
@@ -274,29 +163,9 @@
           "intensity": 0.4
         }
       ],
-      "images": [
-        {
-          "src": "/images/products/cgo/cgo1.png",
-          "alt": "CGO Image 1"
-        },
-        {
-          "src": "/images/products/cgo/cgo2.png",
-          "alt": "CGO Image 2",
-          "bottom": "1%",
-          "right": "9%",
-          "width": "85%",
-          "direction": "right"
-        },
-        {
-          "src": "/images/products/cgo/cgo3.png",
-          "alt": "CGO Image 3",
-          "bottom": "-9%",
-          "right": "-6%",
-          "width": "29%",
-          "direction": "down",
-          "delay": true
-        }
-      ]
+      "productImage": "/images/products/cornellgo.png",
+      "productAlt": "2 phones side by side, displaying the profile page and map section of the Cornell Go Application",
+      "productImageDimensions": 1500
     }
   ]
 }

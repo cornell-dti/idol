@@ -96,7 +96,7 @@ const SponsorshipTableLaptop = () => (
               key={`${benefit.key}-${tier}`}
             >
               {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) && (
-                <Image src="/icons/check.svg" alt="check" width={30} height={60} />
+                <Image src="/icons/check.svg" alt="checkmark" width={30} height={60} />
               )}
             </div>
           ))}
@@ -109,7 +109,7 @@ const SponsorshipTableLaptop = () => (
 const SponsorshipTable = () => {
   const { width } = useScreenSize();
   return (
-    <div className="max-w-5xl w-full flex flex-col justify-center lg:my-24 md:my-14 xs:my-10 p-5">
+    <div className="w-full flex flex-col justify-center lg:my-24 md:my-14 xs:my-10">
       {width >= TABLET_BREAKPOINT ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
     </div>
   );

@@ -41,9 +41,9 @@ export class MembersAPI {
     return APIWrapper.put(`${backendURL}/member`, member).then((res) => res.data);
   }
 
-  public static hasIDOLAccess(email: string): Promise<boolean> {
-    return APIWrapper.get(`${backendURL}/hasIDOLAccess/${email}`).then(
-      (res) => res.data.isIDOLMember
+  public static hasIDOLAccess(email: string, type?: string): Promise<boolean> {
+    return APIWrapper.get(`${backendURL}/hasIDOLAccess/${email}?type=${type}`).then(
+      (res) => res.data.hasIDOLAccess
     );
   }
 

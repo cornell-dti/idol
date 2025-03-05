@@ -11,9 +11,12 @@ type Props = {
   linkedinURL?: string;
   portfolioURL?: string;
   preferredName?: string;
+  seeApplicantName: boolean;
+  candidate: number;
 };
 
 const ApplicantCredentials: React.FC<Props> = ({
+  seeApplicantName,
   name,
   email,
   gradYear,
@@ -21,34 +24,65 @@ const ApplicantCredentials: React.FC<Props> = ({
   githubURL,
   linkedinURL,
   portfolioURL,
-  preferredName
+  preferredName,
+  candidate
 }) => (
   <Card className={styles.credentialContainer}>
-    <h1>
-      {name} {preferredName && `(${preferredName})`}
-    </h1>
-    <p>{email}</p>
+    {seeApplicantName ? (
+      <>
+        <h1>
+          {name} {preferredName && `(${preferredName})`}
+        </h1>
+        <p>{email}</p>
+      </>
+    ) : (
+      <>
+        <h1>Candidate {candidate + 1}</h1>
+      </>
+    )}
     <p>Class of {gradYear}</p>
-    <div className={styles.iconsContainer}>
-      <a className={styles.icon} href={formatLink(resumeURL)}>
-        <FileIcon />
-      </a>
-      {githubURL && (
-        <a className={styles.icon} href={formatLink(githubURL, 'github')}>
-          <GithubIcon />
+    {seeApplicantName && (
+      <div className={styles.iconsContainer}>
+        <a
+          className={styles.icon}
+          href={formatLink(resumeURL)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FileIcon />
         </a>
-      )}
-      {linkedinURL && (
-        <a className={styles.icon} href={formatLink(linkedinURL, 'linkedin')}>
-          <LinkedinIcon />
-        </a>
-      )}
-      {portfolioURL && (
-        <a className={styles.icon} href={formatLink(portfolioURL)}>
-          <GlobeIcon />
-        </a>
-      )}
-    </div>
+        {githubURL && (
+          <a
+            className={styles.icon}
+            href={formatLink(githubURL)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GithubIcon />
+          </a>
+        )}
+        {linkedinURL && (
+          <a
+            className={styles.icon}
+            href={formatLink(linkedinURL, 'linkedin')}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LinkedinIcon />
+          </a>
+        )}
+        {portfolioURL && (
+          <a
+            className={styles.icon}
+            href={formatLink(portfolioURL)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GlobeIcon />
+          </a>
+        )}
+      </div>
+    )}
   </Card>
 );
 

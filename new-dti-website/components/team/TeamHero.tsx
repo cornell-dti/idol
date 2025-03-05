@@ -14,7 +14,7 @@ import carouselImages from './data/carousel.json';
 import useCarouselControls from '../ui/carousel/useCarouselControls';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import useMediaReduce from '../../src/hooks/useMediaReduce';
-import RedBlob from '../blob';
+import SectionWrapper from '../hoc/SectionWrapper';
 import { TABLET_BREAKPOINT } from '../../src/consts';
 
 type ImageModalProps = {
@@ -47,8 +47,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
         className="flex justify-center items-center h-full gap-[70px] md:scale-75 lg:scale-100"
         onKeyDown={handleKeyDown}
       >
-        <button onClick={handlePrev} ref={modalRef}>
-          <img src="/icons/arrow.svg" alt="left arrow" width={20} className="cursor-pointer" />
+        <button onClick={handlePrev} ref={modalRef} aria-label="navigate to previous photo">
+          <img src="/icons/arrow.svg" alt="" width={20} className="cursor-pointer" />
         </button>
         <Carousel
           opts={{
@@ -145,34 +145,31 @@ const TeamHero = () => {
           isShown={modalShown}
         />
       )}
-      <RedBlob intensity={0.7} className="left-[-300px] top-[-100px]" />
       <div className="bg-black text-white md:pt-[100px] xs:pt-9">
-        <div
-          className="flex lg:flex-row xs:flex-col w-2/3 gap-y-9 relative z-10
-        lg:m-[0_0_106px_152px] md:m-[0_0_140px_40px] xs:m-[0_0_71px_36px]"
-        >
-          <div className="mr-20">
-            <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
-              OUR <span className="text-[#FF4C4C]">TEAM</span>
-            </h1>
+        <SectionWrapper id={'Team Page Hero Section'} className="mb-20 lg:mb-20">
+          <div className="flex lg:flex-row xs:flex-col relative z-10">
+            <div className="mr-24">
+              <h1 className="font-semibold text-white md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
+                OUR <span className="text-[#FF4C4C]">TEAM</span>
+              </h1>
+            </div>
+            <div className="flex flex-col justify-center gap-6">
+              <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
+                Working together
+              </h2>
+              <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
+                We are Cornell DTI. But individually, we are a talented, diverse group of students
+                from different colleges and countries striving to make a difference in the Cornell
+                community and beyond.
+              </p>
+            </div>
           </div>
-          <div className="flex flex-col justify-center gap-6">
-            <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-              Working together
-            </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              We are Cornell DTI. But individually, we are a{' '}
-              <span className="font-bold">talented, diverse group of students</span> from different
-              colleges and countries striving to make a difference in the Cornell community and
-              beyond.
-            </p>
-          </div>
-        </div>
+        </SectionWrapper>
         <div
           className="flex justify-center relative bottom-2 cursor-pointer"
           style={{ pointerEvents: 'none' }}
         >
-          <img src="/images/carousel-frame.png" alt="frame" className="absolute z-10" />
+          <img src="/images/carousel-frame.png" alt="" className="absolute z-10" />
           <div className="absolute z-10 w-[243px] h-[270px]">
             <p className={`absolute bottom-0 py-3 px-2 text-[#877B7B] ${ibm_plex_mono.className}`}>
               {`${carouselImages.images[carouselIndex % carouselLength].alt}.jpg`}
@@ -200,17 +197,18 @@ const TeamHero = () => {
                   }`}
                 >
                   <button
-                    className="relative z-10"
+                    className="relative z-10 custom-focus-state team-carousel-button"
                     onClick={() =>
                       setModalShown(index === carouselIndex && width >= TABLET_BREAKPOINT)
                     }
+                    aria-label="open modal"
                   >
                     <div className="flex justify-center overflow-hidden w-[227px] rounded-md">
                       <img src={image.src} alt={image.alt} className="h-[220px] max-w-none" />
                     </div>
                     <img
                       src={image.icon}
-                      alt="icon"
+                      alt=""
                       width={50}
                       height={50}
                       className="relative bottom-[62px] left-2"
