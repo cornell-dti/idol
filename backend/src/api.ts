@@ -106,6 +106,7 @@ import {
   updateInterviewSchedulerInstance,
   updateInterviewSlot
 } from './API/interviewSchedulerAPI';
+import { HandlerError } from './utils/errors';
 
 // Constants and configurations
 const app = express();
