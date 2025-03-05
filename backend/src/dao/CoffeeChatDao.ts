@@ -141,28 +141,17 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Archives all coffee chats by setting the isArchived field to true.
    */
   static async archiveCoffeeChats(): Promise<void> {
-    const coffeeChats = await coffeeChatsCollection.where('isArchived', '==', false).get();
+    const coffeeChatsToDelete = await coffeeChatsCollection.where('isArchived', '==', true).get();
+    const deletePromises = coffeeChatsToDelete.docs.map((doc) => doc.ref.delete());
+
+    const coffeeChatsToArchive = await coffeeChatsCollection.where('isArchived', '==', false).get();
     const batch = db.batch();
 
-    coffeeChats.docs.forEach((doc) => {
+    coffeeChatsToArchive.docs.forEach((doc) => {
       batch.update(doc.ref, { isArchived: true });
     });
 
-    await batch.commit();
-  }
-
-  /**
-   * Unarchives all coffee chats by setting the isArchived field to false.
-   */
-  static async unarchiveCoffeeChats(): Promise<void> {
-    const coffeeChats = await coffeeChatsCollection.where('isArchived', '==', true).get();
-    const batch = db.batch();
-
-    coffeeChats.docs.forEach((doc) => {
-      batch.update(doc.ref, { isArchived: false });
-    });
-
-    await batch.commit();
+    await Promise.all([Promise.all(deletePromises), batch.commit()]);
   }
 
   /**

@@ -6,6 +6,7 @@ import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import CoffeeChatsBingoBoard from '../../Forms/CoffeeChatsForm/CoffeeChatsBingoBoard';
+import { Emitters } from '../../../utils';
 
 const CoffeeChats: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
@@ -73,30 +74,16 @@ const CoffeeChats: React.FC = () => {
 
     try {
       await CoffeeChatAPI.archiveCoffeeChats();
-      alert('All coffee chats have been archived successfully!! :)');
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Success',
+        contentMsg: 'All coffee chats have been archived successfully!! :)'
+      });
       setIsLoading(true);
     } catch (error) {
-      console.error('Error archiving coffee chats:', error);
-      alert('Failed to archive coffee chats.');
-    }
-  };
-
-  const unarchiveAllCoffeeChats = async () => {
-    if (
-      !window.confirm(
-        'Are you sure you want to unarchive all coffee chats? This action cannot be undone.'
-      )
-    ) {
-      return;
-    }
-
-    try {
-      await CoffeeChatAPI.unarchiveCoffeeChats();
-      alert('All coffee chats have been archived successfully!! :)');
-      setIsLoading(true);
-    } catch (error) {
-      console.error('Error archiving coffee chats:', error);
-      alert('Failed to archive coffee chats.');
+      Emitters.generalError.emit({
+        headerMsg: 'Error',
+        contentMsg: 'Failed to archive the coffee chats'
+      });
     }
   };
 
@@ -164,9 +151,6 @@ const CoffeeChats: React.FC = () => {
           </Button>
           <Button onClick={archiveAllCoffeeChats} disabled={selectedMember !== null}>
             Archive All Coffee Chats
-          </Button>
-          <Button onClick={unarchiveAllCoffeeChats} disabled={selectedMember !== null}>
-            Unarchive All Coffee Chats
           </Button>
           <div className={styles.dropdownButton}>
             <Dropdown

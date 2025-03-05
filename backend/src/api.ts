@@ -44,8 +44,7 @@ import {
   runAutoChecker,
   notifyMemberCoffeeChat,
   getCoffeeChatSuggestions,
-  archiveCoffeeChats,
-  unarchiveCoffeeChats
+  archiveCoffeeChats
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -351,11 +350,6 @@ loginCheckedPut('/coffee-chat', async (req, user) => ({
 loginCheckedPatch('/coffee-chat/archive', async (_, user) => {
   await archiveCoffeeChats(user);
   return { message: 'All coffee chats archived successfully.' };
-});
-
-loginCheckedPatch('/coffee-chat/unarchive', async (_, user) => {
-  await unarchiveCoffeeChats(user);
-  return { message: 'All coffee chats unarchived successfully.' };
 });
 
 loginCheckedGet('/coffee-chat-bingo-board', async () => {
