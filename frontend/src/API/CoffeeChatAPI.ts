@@ -38,6 +38,19 @@ export default class CoffeeChatAPI {
     await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
   }
 
+  public static async archiveCoffeeChats(): Promise<void> {
+    return APIWrapper.patch(`${backendURL}/coffee-chat/archive`).then((res) => {
+      if (res.data.error) {
+        Emitters.generalError.emit({
+          headerMsg: "Couldn't archive coffee chats",
+          contentMsg: `Error: ${res.data.error}`
+        });
+      } else {
+        console.log(res.data.message);
+      }
+    });
+  }
+
   public static async getCoffeeChatBingoBoard(): Promise<string[][]> {
     const res = await APIWrapper.get(`${backendURL}/coffee-chat-bingo-board`).then(
       (res) => res.data
