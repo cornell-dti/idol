@@ -4,6 +4,11 @@ import { DBInterviewSlot } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
 
+/**
+ * Serializes an InterviewSlot instance into a format suitable for Firestore storage.
+ * @param {InterviewSlot} instance - The InterviewSlot instance to serialize.
+ * @returns {Promise<DBInterviewSlot>} - The serialized InterviewSlot object.
+ */
 async function serializeInterviewSlot(instance: InterviewSlot): Promise<DBInterviewSlot> {
   return {
     ...instance,
@@ -12,6 +17,11 @@ async function serializeInterviewSlot(instance: InterviewSlot): Promise<DBInterv
   };
 }
 
+/**
+ * Converts a Firestore document into an InterviewSlot instance by retrieving references.
+ * @param {DBInterviewSlot} dbInstance - The Firestore document to materialize.
+ * @returns {Promise<InterviewSlot>} - The materialized InterviewSlot object.
+ */
 async function materializeInterviewSlot(dbInstance: DBInterviewSlot): Promise<InterviewSlot> {
   return {
     ...dbInstance,
@@ -22,21 +32,39 @@ async function materializeInterviewSlot(dbInstance: DBInterviewSlot): Promise<In
   };
 }
 
+/**
+ * DAO class for managing InterviewSlot objects in Firestore.
+ */
 export default class InterviewSlotDao extends BaseDao<InterviewSlot, DBInterviewSlot> {
   constructor() {
     super(interviewSlotCollection, materializeInterviewSlot, serializeInterviewSlot);
   }
 
+  /**
+   * Retrieves all interview slots associated with a given scheduler UUID.
+   * @param {string} uuid - The UUID of the interview scheduler.
+   * @returns {Promise<InterviewSlot[]>} - A list of InterviewSlot objects.
+   */
   async getSlotsForScheduler(uuid: string): Promise<InterviewSlot[]> {
     return this.getDocuments([
       { field: 'interviewSchedulerUuid', comparisonOperator: '==', value: uuid }
     ]);
   }
 
+  /**
+   * Retrieves a specific interview slot by its UUID.
+   * @param {string} uuid - The UUID of the interview slot.
+   * @returns {Promise<InterviewSlot | null>} - The InterviewSlot object if found, otherwise null.
+   */
   async getSlot(uuid: string): Promise<InterviewSlot | null> {
     return this.getDocument(uuid);
   }
 
+  /**
+   * Adds multiple interview slots to the database.
+   * @param {InterviewSlot[]} slots - The list of InterviewSlot objects to add.
+   * @returns {Promise<InterviewSlot[]>} - The list of created InterviewSlot objects.
+   */
   async addSlots(slots: InterviewSlot[]): Promise<InterviewSlot[]> {
     return Promise.all(
       slots.map((slot) => {
@@ -49,6 +77,12 @@ export default class InterviewSlotDao extends BaseDao<InterviewSlot, DBInterview
     );
   }
 
+  /**
+   * Updates an interview slot, ensuring that only an admin can change the assigned applicant.
+   * @param {InterviewSlot} updatedSlot - The updated InterviewSlot object.
+   * @param {boolean} adminBypass - Whether to bypass applicant change restriction.
+   * @returns {Promise<boolean>} - True if the update was successful, false otherwise.
+   */
   async updateSlot(updatedSlot: InterviewSlot, adminBypass: boolean): Promise<boolean> {
     const wasUpdated: boolean = await db.runTransaction(async (t) => {
       const query = this.collection.where('uuid', '==', updatedSlot.uuid);
@@ -75,6 +109,11 @@ export default class InterviewSlotDao extends BaseDao<InterviewSlot, DBInterview
     return wasUpdated;
   }
 
+  /**
+   * Deletes an interview slot from the database.
+   * @param {string} uuid - The UUID of the interview slot to delete.
+   * @returns {Promise<void>} - Resolves when the deletion is complete.
+   */
   async deleteSlot(uuid: string): Promise<void> {
     return this.deleteDocument(uuid);
   }
