@@ -11,7 +11,7 @@ const imageNames = [
   'full-team.png',
   'family-new.jpeg',
   'collaboration.jpeg',
-  'event.png',
+  'new-event.jpeg',
   'new-initiative.jpeg'
 ];
 
