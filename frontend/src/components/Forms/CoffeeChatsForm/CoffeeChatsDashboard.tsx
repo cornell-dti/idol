@@ -68,7 +68,7 @@ const CoffeeChatsDashboard = ({
   );
 
   const approvedArchivedChats = useMemo(
-    () => archivedChats.filter((chat) => chat.status === 'approved'),
+    () => archivedChats.filter((chat) => chat.status === 'approved' && chat.otherMember),
     [archivedChats]
   );
 
