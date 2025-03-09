@@ -196,16 +196,25 @@ export const parseCsv = async (csv: File): Promise<[string[], string[][]]> => {
   return [headers, responses];
 };
 
-/**
- *
- * @param csv
- * @returns
- */
-export const fpo = async (csv: File): Promise<[string[], string[][]]> => {
-  const text = await csv.text();
-  const rows = text.split('\n').map((row) => row.trim());
+export const hourIndexToString = (hourIndex: number, minute?: number): string => {
+  const hour = hourIndex % 12 || 12;
+  const suffix = hourIndex < 12 ? 'AM' : 'PM';
 
-  const headers = rows[0].split(',').map((header) => header.toLowerCase());
-  const responses = rows.splice(1).map((row) => row.split(','));
-  return [headers, responses];
+  return `${hour}:${minute ? String(minute).padStart(2, '0') : '00'} ${suffix}`;
+};
+
+export const getDateString = (unixTime: number, includeDayName: boolean): string => {
+  const date = new Date(unixTime);
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const dayName = dayNames[date.getDay()];
+  return `${includeDayName ? `${dayName} ` : ''}${1 + date.getMonth()}/${date.getDate()}`;
+};
+
+export const getTimeString = (unixTime: number): string => {
+  const date = new Date(unixTime);
+  const hour = date.getHours() % 12 || 12;
+  const suffix = date.getHours() < 12 ? 'AM' : 'PM';
+  const minute = date.getMinutes();
+
+  return `${hour}:${minute ? String(minute).padStart(2, '0') : '00'} ${suffix}`;
 };
