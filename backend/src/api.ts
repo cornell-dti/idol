@@ -43,7 +43,8 @@ import {
   checkMemberMeetsCategory,
   runAutoChecker,
   notifyMemberCoffeeChat,
-  getCoffeeChatSuggestions
+  getCoffeeChatSuggestions,
+  archiveCoffeeChats
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -204,6 +205,11 @@ const loginCheckedPut = (
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.put(path, loginCheckedHandler(handler));
 
+const loginCheckedPatch = (
+  path: string,
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
+) => router.patch(path, loginCheckedHandler(handler));
+
 // Members
 router.get('/member', async (req, res) => {
   const type = req.query.type as string | undefined;
@@ -340,6 +346,11 @@ loginCheckedGet('/coffee-chat/:email', async (req, user) => {
 loginCheckedPut('/coffee-chat', async (req, user) => ({
   coffeeChat: await updateCoffeeChat(req.body, user)
 }));
+
+loginCheckedPatch('/coffee-chat/archive', async (_, user) => {
+  await archiveCoffeeChats(user);
+  return { message: 'All coffee chats archived successfully.' };
+});
 
 loginCheckedGet('/coffee-chat-bingo-board', async () => {
   const board = await getCoffeeChatBingoBoard();
