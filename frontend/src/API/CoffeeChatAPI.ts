@@ -45,8 +45,6 @@ export default class CoffeeChatAPI {
           headerMsg: "Couldn't archive coffee chats",
           contentMsg: `Error: ${res.data.error}`
         });
-      } else {
-        console.log(res.data.message);
       }
     });
   }
