@@ -66,6 +66,32 @@ export const hideShoutout = async (
 };
 
 /**
+ * Edits a shoutout, ensuring the user has the necessary permissions or ownership.
+ * @throws {NotFoundError} If no shoutout with the provided uuid is found.
+ * @throws {PermissionError} If the user is neither the giver of the shoutout nor an admin or lead.
+ */
+export const editShoutout = async (
+  uuid: string,
+  newMessage: string,
+  user: IdolMember
+): Promise<Shoutout> => {
+  const shoutout = await shoutoutsDao.getShoutout(uuid);
+  if (!shoutout) {
+    throw new NotFoundError(`Shoutout with uuid: ${uuid} does not exist!`);
+  }
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin && shoutout.giver.email !== user.email) {
+    throw new PermissionError(
+      `You are not a lead or admin, so you can't edit a shoutout from a different user!`
+    );
+  }
+  return shoutoutsDao.updateShoutout({
+    ...shoutout,
+    message: newMessage
+  });
+};
+
+/**
  * Deletes a shoutout, ensuring the user has the necessary permissions or ownership.
  * @throws {NotFoundError} If no shoutout with the provided uuid is found.
  * @throws {PermissionError} If the user is neither the giver of the shoutout nor an admin or lead.
