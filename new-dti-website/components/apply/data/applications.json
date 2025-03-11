@@ -5,6 +5,7 @@
     "skills": [
       "A curious, inventive and communicative investigator",
       "Eagerness to learn new technologies and applications",
+      "Conduct code reviews to ensure quality and consistency",
       "Experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required)"
     ],
     "responsibilities": [
@@ -27,7 +28,8 @@
       "Make high-level strategic decisions for the product you're working on",
       "Conduct user and market research, interviewing target audiences",
       "Design low, medium, high fidelity mockups, prototypes",
-      "Iterate based on critique, feedback and user testing"
+      "Iterate based on critique, feedback and user testing",
+      "Important: Only accepting class of 2027 and 2028!"
     ]
   },
   "business": {
@@ -50,16 +52,16 @@
     "roleName": "Product Manager",
     "icon": { "src": "/icons/product_sticker.svg", "width": 90, "height": 90 },
     "skills": [
-      "Excellent organization skills in either Notion, G-Suite, Jira, etc",
-      "Understanding of the product and design cycle as well as the technical stack",
-      "Knowledge of DTI's culture and product branding",
-      "Eagerness to develop and maintain team culture"
+      "Understanding of user needs and product thinking/the product cycle",
+      "Eagerness to lead and build team culture",
+      "Excellent organization, communication, and documentation skills",
+      "Familiarity with coding and/or design recommended but not required"
     ],
     "responsibilities": [
-      "Delivering the product by guiding products throughout their execution cycle",
-      "Bridging the communication gaps between designers and developers",
-      "Prioritizing requirements and tasks for delivery",
-      "Collaborating and working with other student organizations on campus"
+      "Determine high-level product direction based on changing user needs and situations",
+      "Coordinate designers and developers in delivering the product",
+      "Prioritize tasks and requirements, creating semesterly roadmaps accordingly",
+      "Reach out to and liaison with stakeholders (e.g. other Cornell student organizations)"
     ]
   }
 }

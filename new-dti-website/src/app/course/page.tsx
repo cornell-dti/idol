@@ -15,7 +15,6 @@ import allMembers from '../../../components/team/data/all-members.json';
 import config from '../../../components/course/data/config.json';
 
 // *IMPORT COMPONENTS
-import RedBlob from '../../../components/blob';
 import Experiences from '../../../components/course/Experiences';
 import Timeline from '../../../components/course/Timeline';
 import MemberGroup from '../../../components/team/MemberGroup';
@@ -23,6 +22,8 @@ import TestimonialSlider from '../../../components/course/TestimonialSlider';
 import DDProjects from '../../../components/course/DDProjects';
 import { TestimonialCardProps } from '../../../components/course/TestimonialCard';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
+import useTitle from '../../hooks/useTitle';
+import Hero from '../../../components/hero';
 
 //* DATA
 const { key_experiences } = experiencesData;
@@ -44,6 +45,8 @@ export default function Courses() {
 
   const memberDetailsRef = useRef<HTMLInputElement>(null);
 
+  useTitle('Course');
+
   return (
     <>
       <div
@@ -51,53 +54,31 @@ export default function Courses() {
           const target = event.target as HTMLElement;
           if (
             !(
-              target.classList.contains('memberCard') ||
-              target.parentElement?.classList.contains('memberCard')
+              target.classList.contains('card-clickable') ||
+              target.parentElement?.classList.contains('card-clickable')
             ) &&
             !memberDetailsRef.current?.contains(target)
           )
             setSelectedMember(undefined);
         }}
       >
-        {/* Hero Section */}
-        <section id="Hero Section">
-          <div
-            className="bg-black text-white md:my-[100px] xs:my-9 min-h-[calc(100vh-300px)] 
-    flex items-center w-full overflow-hidden"
-          >
-            <SectionWrapper id={'Product Page Hero Section'}>
-              <div className="flex justify-around gap-y-10 md:gap-x-20 lg:flex-row flex-col relative z-10 md:gap-y-20">
-                <div className="flex flex-col gap-y-8 md:gap-y-0">
-                  <div>
-                    <h1 className="font-semibold md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs whitespace-pre">
-                      OUR <br />
-                      <span className="text-[#FF4C4C]">COURSE</span>
-                    </h1>
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-center gap-6 ">
-                  <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-                    Teaching the community
-                  </h2>
-                  <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-                    A project team is meant, above all, to be a learning experience. Given our
-                    mission of community impact, we want to help everyone learn and grow through our
-                    training course in product development.
-                  </p>
-                </div>
-              </div>
-            </SectionWrapper>
-            <div className="relative top-[-250px]">
-              <RedBlob className={'right-[-250px]'} intensity={0.3} />
-            </div>
-          </div>
-        </section>
+        <div className="lg:pb-24 pb-12">
+          <Hero
+            title={'Our course'}
+            description={
+              'A project team is meant, above all, to be a learning experience. Given our mission of community impact, we want to help everyone learn and grow through our training course in product development.'
+            }
+            image={{
+              src: '/images/course-hero.png',
+              alt: 'DTI member presenting a course to an auditorium'
+            }}
+          />
+        </div>
 
         {/* WRAPPER */}
         <div
           id="Wrapper"
-          className="flex flex-col pb-10 gap-y-28 md:gap-y-36 lg:gap-y-44 bg-[#EDEDED] text-black "
+          className="flex flex-col pb-10 gap-y-24 md:gap-y-32 lg:gap-y-40 bg-[#EDEDED] text-black "
         >
           <SectionWrapper id={'Products Page Logo Section'}>
             <div className="flex flex-col pt-20 lg:flex-row lg:items-center lg:justify-around">
@@ -163,9 +144,9 @@ export default function Courses() {
           </SectionWrapper>
 
           {/* TIMELINE SECTION */}
-          <section id="Timeline">
+          <SectionWrapper id={`Timeline`}>
             <Timeline events={timeline_events} currentDate={new Date()} />
-          </section>
+          </SectionWrapper>
 
           {/* COURSE STAFF SECTION */}
           <SectionWrapper id={'Course Staff'}>
@@ -184,12 +165,12 @@ export default function Courses() {
           </SectionWrapper>
 
           {/* PAST STUDENT EXPERIENCES SECTION */}
-          <SectionWrapper id={'Past Student Experiences'}>
-            <div className="font-bold text-4xl md:text-[40px] w-[1200px]">
-              Past Student Experiences
-            </div>
-            <TestimonialSlider testimonials={testimonials} className="w-screen" />
-          </SectionWrapper>
+          <section id={'Past Student Experiences'}>
+            <SectionWrapper id={'Past Student Experiences Wrapper'}>
+              <div className="font-bold text-4xl md:text-[40px]">Past Student Experiences</div>
+            </SectionWrapper>
+            <TestimonialSlider testimonials={testimonials} className="pt-14" />
+          </section>
 
           {/* PAST STUDENT PROJECTS SECTION */}
           <SectionWrapper id={'Past Student Projects'}>

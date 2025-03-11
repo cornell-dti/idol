@@ -31,30 +31,20 @@ export default function DDProjects({ title, description, imageSrc }: DDProjectsP
 
   return (
     <button
-      className={`transition-all duration-300 ease-in-out text-left ${
-        isOpen ? 'bg-red-500' : 'bg-white'
-      } w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
+      className={`transition-all duration-300 ease-in-out text-left bg-white
+         w-full max-w-8xl rounded-xl drop-shadow-sm px-10 py-8 border-1 border-[#E4E4E4]`}
       onClick={toggleCard}
       aria-label={`${isOpen ? 'Minimize' : 'Expand'} ${title} student project`}
     >
       <div className="flex justify-between items-center">
-        <h3 className={`md:text-2xl text-lg font-semibold ${isOpen ? 'text-white' : 'text-black'}`}>
-          {title}
-        </h3>
-        <p className={`md:text-3xl text-xl font-thin ${isOpen ? 'text-white' : 'text-gray-700'}`}>
-          {isOpen ? '−' : '+'}
-        </p>
+        <h3 className={`md:text-2xl text-lg font-semibold text-black`}>{title}</h3>
+        <p className={`md:text-3xl text-xl font-thin 'text-gray-700`}>{isOpen ? '−' : '+'}</p>
       </div>
 
-      {/* Smooth transition for the Additional Content onClick */}
-      <div
-        className={`overflow-hidden transition-all motion-reduce:duration-[1500ms] duration-700 motion-safe:ease-in-out ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
+      <div className={`overflow-hidden ${isOpen ? 'opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="mt-4">
-          <p className="text-white text-lg">{description}</p>
-          <img src={imageSrc} alt={title} className="mt-4 w-full h-48 object-cover rounded-lg" />
+          <p className="text-lg">{description}</p>
+          <img src={imageSrc} alt={title} className="mt-4 w-full object-cover rounded-lg" />
         </div>
       </div>
     </button>

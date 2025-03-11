@@ -43,7 +43,7 @@ describe('formatLink', () => {
 
   test('Extracts non-specific links correctly', () => {
     expect(formatLink('Look at my awesome website https://en.wikipedia.org/wiki/Cat!!')).toEqual(
-      'https://en.wikipedia.org/wiki/cat'
+      'https://en.wikipedia.org/wiki/Cat'
     );
   });
 });

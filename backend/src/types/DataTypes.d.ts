@@ -115,7 +115,18 @@ export type DBCoffeeChat = {
   category: string;
   status: Status;
   date: number;
+  isArchived: boolean;
   memberMeetsCategory: MemberMeetsCategoryStatus;
   reason?: string;
   errorMessage?: string;
+};
+
+export type DBInterviewSlot = {
+  readonly interviewSchedulerUuid: string;
+  readonly startTime: number;
+  readonly room: string;
+  readonly uuid: string;
+  lead: firestore.DocumentReference | null;
+  members: (firestore.DocumentReference | null)[];
+  applicant: Applicant | null;
 };

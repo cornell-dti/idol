@@ -223,7 +223,32 @@ export const fakeCoffeeChat = (): CoffeeChat => {
     category: 'test',
     status: 'pending' as Status,
     date: Date.now(),
+    isArchived: false,
     memberMeetsCategory: 'no data' as MemberMeetsCategoryStatus
   };
   return CC;
+};
+
+export const fakeApplicant = (): Applicant => {
+  const applicant = {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    netid: 'applicant123', // to easily be able to find fake members if needed
+    email: faker.internet.email()
+  };
+  return applicant;
+};
+
+export const fakeInterviewScheduler = (): InterviewScheduler => {
+  const interviewScheduler = {
+    name: '',
+    duration: 30,
+    membersPerSlot: 1,
+    isOpen: false,
+    startDate: 1738386000000, // 2025-02-01T05:00:00.000Z
+    endDate: 1738817999000, // 2025-02-06T04:59:59.000Z,
+    applicants: [fakeApplicant()],
+    uuid: faker.datatype.uuid()
+  };
+  return interviewScheduler;
 };

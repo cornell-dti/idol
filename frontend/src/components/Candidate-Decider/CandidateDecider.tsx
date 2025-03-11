@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Dropdown, Checkbox } from 'semantic-ui-react';
+import { Button, Dropdown, Checkbox, Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -17,8 +17,11 @@ type CandidateDeciderProps = {
 };
 
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [nextCandidate, setNextCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
   const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
+  const [seeApplicantName, setSeeApplicantName] = useState<boolean>(false);
 
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
@@ -46,6 +49,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [defaultCurrentRating, setDefaultCurrentRating] = useState<Rating>();
   const [defaultCurrentComment, setDefaultCurrentComment] = useState<string>();
 
+  const isSaved =
+    currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
+
   const populateReviewForCandidate = (candidate: number) => {
     const rating = getRating(candidate);
     const comment = getComment(candidate);
@@ -67,24 +73,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates, reviews]);
-
-  const next = () => {
-    if (currentCandidate === instance.candidates.length - 1) return;
-    setCurrentCandidate((prev) => {
-      const nextCandidate = prev + 1;
-      populateReviewForCandidate(nextCandidate);
-      return nextCandidate;
-    });
-  };
-
-  const previous = () => {
-    if (currentCandidate === 0) return;
-    setCurrentCandidate((prev) => {
-      const prevCandidate = prev - 1;
-      populateReviewForCandidate(prevCandidate);
-      return prevCandidate;
-    });
-  };
 
   const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
     CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
@@ -109,19 +97,72 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     }
   };
 
+  const handleCandidateChange = (candidate: number) => {
+    if (candidate < 0 || candidate >= instance.candidates.length) {
+      return;
+    }
+    if (!isSaved) {
+      setNextCandidate(candidate);
+      setIsModalOpen(true);
+    } else {
+      setCurrentCandidate(candidate);
+      populateReviewForCandidate(candidate);
+    }
+  };
+
+  const navigateToNextCandidate = (candidate: number) => {
+    setCurrentCandidate(candidate);
+    populateReviewForCandidate(candidate);
+    setNextCandidate(null);
+    setIsModalOpen(false);
+  };
+
   return instance.candidates.length === 0 ? (
     <div></div>
   ) : (
     <div className={styles.candidateDeciderContainer}>
+      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} size="small">
+        <Modal.Header>Don't Forget To Save!</Modal.Header>
+        <Modal.Content>
+          <p>You have unsaved changes. Do you want to save them before navigating?</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+          <Button
+            onClick={() => {
+              handleRatingAndCommentChange(
+                currentCandidate,
+                currentRating ?? 0,
+                currentComment ?? ''
+              );
+              if (nextCandidate !== null) {
+                navigateToNextCandidate(nextCandidate);
+              }
+            }}
+          >
+            Save
+          </Button>
+          <Button
+            primary
+            onClick={() => {
+              if (nextCandidate !== null) {
+                navigateToNextCandidate(nextCandidate);
+              }
+            }}
+          >
+            Discard
+          </Button>
+        </Modal.Actions>
+      </Modal>
       <div className={styles.applicationContainer}>
         <div className={styles.searchBar}>
           <SearchBar
             instance={instance}
             setCurrentCandidate={(candidate) => {
-              setCurrentCandidate(candidate);
-              populateReviewForCandidate(candidate);
+              handleCandidateChange(candidate);
             }}
             currentCandidate={currentCandidate}
+            seeApplicantName={seeApplicantName}
           />
         </div>
         <div className={styles.controlsContainer}>
@@ -133,32 +174,38 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             options={instance.candidates.map((candidate) => ({
               value: candidate.id,
               key: candidate.id,
-              text: candidate.id
+              text: candidate.id + 1 // offset by 1 to account for 0-indexed array
             }))}
             onChange={(_, data) => {
-              setCurrentCandidate(data.value as number);
-              populateReviewForCandidate(data.value as number);
+              handleCandidateChange(data.value as number);
             }}
           />
           <span className={styles.ofNum}>of {instance.candidates.length}</span>
           <Button.Group className={styles.previousNextButtonContainer}>
-            <Button basic color="blue" disabled={currentCandidate === 0} onClick={previous}>
+            <Button
+              basic
+              color="blue"
+              disabled={currentCandidate === 0}
+              onClick={() => {
+                handleCandidateChange(currentCandidate - 1);
+              }}
+            >
               PREVIOUS
             </Button>
             <Button
               basic
               color="blue"
               disabled={currentCandidate === instance.candidates.length - 1}
-              onClick={next}
+              onClick={() => {
+                handleCandidateChange(currentCandidate + 1);
+              }}
             >
               NEXT
             </Button>
           </Button.Group>
           <Button
             className="ui blue button"
-            disabled={
-              currentComment === defaultCurrentComment && currentRating === defaultCurrentRating
-            }
+            disabled={isSaved}
             onClick={() => {
               handleRatingAndCommentChange(
                 currentCandidate,
@@ -178,6 +225,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               label="Show other people's votes"
             />
           )}
+          {hasAdminPermission && (
+            <Checkbox
+              className={styles.seeApplicantName}
+              toggle
+              checked={seeApplicantName}
+              onChange={() => setSeeApplicantName((prev) => !prev)}
+              label="See applicant name"
+            />
+          )}
         </div>
         <ResponsesPanel
           headers={instance.headers}
@@ -186,6 +242,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           setCurrentComment={setCurrentComment}
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
+          seeApplicantName={seeApplicantName}
+          candidate={instance.candidates[currentCandidate].id}
         />
       </div>
       <div className={styles.progressContainer}>

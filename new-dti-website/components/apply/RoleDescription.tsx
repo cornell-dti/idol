@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 import applicationData from './data/applications.json';
 import config from '../../config.json';
-import RedBlob from '../blob';
 import { isAppOpen } from '../../src/utils/dateUtils';
 import SectionWrapper from '../hoc/SectionWrapper';
 
@@ -21,7 +20,6 @@ const RoleDescriptions = () => {
 
   return (
     <section id="Role Descriptions" className="relative flex justify-center text-[#FEFEFE]">
-      <RedBlob className="top-[-250px] right-[-350px] z-0" intensity={0.5} />
       <SectionWrapper id={'Apply Page Role Description Wrapper'} className="w-[1200px]">
         <div className="relative flex flex-col w-full gap-11 z-10">
           <h2 className="font-semibold md:text-[32px] md:leading-[38px] xs:text-[24px] xs:leading-[29px]">
@@ -57,19 +55,19 @@ const RoleDescriptions = () => {
               );
             })}
           </div>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
             {Object.keys(applications).map((application, index) => {
               const roleApplication = applications[application];
               return (
                 role === application && (
-                  <div key={index}>
+                  <div key={index} className="flex flex-col md:gap-6 xs:gap-4">
                     <h3
                       className="font-semibold lg:text-[32px] lg:leading-[38px] md:text-[24px] 
                     md:leading-[29px] xs:text-[22px]"
                     >
                       {roleApplication.roleName} Application
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h3
                         className="font-semibold lg:text-[24px] lg:leading-[29px] md:text-[20px] 
                       md:leading-[24px] xs:text-[14px] xs:leading-[17px]"
@@ -87,7 +85,7 @@ const RoleDescriptions = () => {
                         ))}
                       </ul>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h3
                         className="font-semibold lg:text-[24px] lg:leading-[29px] md:text-[20px] 
                       md:leading-[24px] xs:text-[14px] xs:leading-[17px]"
@@ -126,7 +124,6 @@ const RoleDescriptions = () => {
           )}
         </div>
       </SectionWrapper>
-      <RedBlob className="bottom-[-300px] left-[-350px] z-0" intensity={0.5} />
     </section>
   );
 };

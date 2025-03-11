@@ -137,15 +137,15 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             height: isMobile ? `${lineLength}px` : '6px',
             width: isMobile ? '2px' : `${lineLength}px`,
             left: isMobile ? '65px' : '50%',
-            transform: isMobile ? 'translateY(-10px)' : 'translateX(-50%) translateY(67px)'
+            transform: isMobile ? 'translateY(-10px)' : 'translateX(-51%) translateY(67px)'
           }}
         >
           <div className="absolute sm:h-2 h-full sm:w-full w-2 bg-gray-300 z-10" />
           <div
             className="absolute sm:h-1 h-full sm:w-full w-1 bg-red-500 z-20"
             style={{
-              height: `calc(${progressPercentage}% + 1px)`,
-              width: isMobile ? '6px' : `${progressPercentage}%`
+              height: isMobile ? `${progressPercentage}%` : '6px',
+              width: isMobile ? '2px' : `${progressPercentage}%`
             }}
           />
         </div>

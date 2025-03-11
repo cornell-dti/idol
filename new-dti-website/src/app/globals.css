@@ -39,7 +39,7 @@
     --radius: 0.5rem;
 
     --hero-primary: 255, 255, 255;
-    --hero-secondary: 255, 255, 255, 0.7;
+    --hero-secondary: 163, 163, 163;
 
     --hero-leading-header-xs: 63px;
     --hero-leading-header: 120px;
@@ -221,8 +221,8 @@
 }
 
 .secondary-button--red:hover {
-  color: #fefefe;
-  background-color: #d63d3d;
+  color: #d63d3d;
+  background-color: #f7d8d8;
 }
 
 .secondary-button:focus-visible {
@@ -254,6 +254,10 @@ summary {
   font-weight: bold;
   justify-content: space-between;
   padding-right: 1rem;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 summary::after {
@@ -305,4 +309,13 @@ details[open] > summary::after {
   width: calc(100% + 26px);
   left: -13px;
   border-radius: 16px;
+}
+
+.icons:focus-visible {
+  opacity: 0.6;
+}
+
+.coffee-calendar-hover {
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
 }

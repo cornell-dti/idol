@@ -6,7 +6,7 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
-import { INITIATIVE_EVENTS } from '../../../consts';
+import { INITIATIVE_EVENTS, TEC_DEADLINES } from '../../../consts';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -30,6 +30,53 @@ const TeamEventCreditForm: React.FC = () => {
       setIsAttendanceLoading(false);
     });
   }, []);
+
+  const approvedTECDates = approvedAttendance
+    .map((attendance) => {
+      const matchingEvent = teamEventInfoList.find((event) => event.uuid === attendance.eventUuid);
+      return matchingEvent
+        ? {
+            date: new Date(matchingEvent.date),
+            credits: parseFloat(matchingEvent.numCredits)
+          }
+        : null;
+    })
+    .filter((entry): entry is { date: Date; credits: number } => entry !== null);
+
+  const getTECPeriod = (submissionDate: Date) => {
+    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+    if (currentPeriodIndex === -1) {
+      return TEC_DEADLINES.length;
+    }
+    return currentPeriodIndex;
+  };
+
+  const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);
+  approvedTECDates.forEach(({ date, credits }) => {
+    const period = getTECPeriod(date);
+    if (period < tecCounts.length) tecCounts[period] += credits;
+  });
+
+  const calculateCredits = () => {
+    const currentPeriod = getTECPeriod(new Date());
+    const previousPeriod = currentPeriod > 0 ? currentPeriod - 1 : null;
+
+    const periodCredits = tecCounts[currentPeriod] || 0;
+    const previousPeriodCredits = previousPeriod !== null ? tecCounts[currentPeriod - 1] : 1;
+
+    if (currentPeriod === 0) {
+      return periodCredits < 1 ? 1 - periodCredits : 0;
+    }
+    if (previousPeriodCredits < 1) {
+      return periodCredits + previousPeriodCredits < 2
+        ? 2 - previousPeriodCredits - periodCredits
+        : 0;
+    }
+
+    return periodCredits < 1 ? 1 - periodCredits : 0;
+  };
+
+  const requiredCredits = calculateCredits();
 
   const handleAddIconClick = () => {
     setImages((images) => [...images, '']);
@@ -142,12 +189,32 @@ const TeamEventCreditForm: React.FC = () => {
         <h1>Submit Team Event Credits</h1>
         <p>
           Earn team event credits for participating in DTI events! Fill out this form every time and
-          attach a picture of yourself at the event to receive credit.
+          attach a picture of yourself at the event to receive credit. The current 5-week TEC period
+          ends on{' '}
+          {getTECPeriod(new Date()) < TEC_DEADLINES.length
+            ? TEC_DEADLINES[getTECPeriod(new Date())].toDateString()
+            : 'No upcoming period'}
+          .
         </p>
         <div className={styles.inline}>
           <label className={styles.bold}>
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
+          <div className={styles.bold}>
+            {requiredCredits > 1 && (
+              <span className={styles.red_color}>
+                You submitted {2 - requiredCredits} TEC last period so you must submit at least{' '}
+                {requiredCredits} TEC for this 5-week period.
+              </span>
+            )}
+          </div>
+          <div className={styles.bold}>
+            {requiredCredits === 0 && (
+              <span className={styles.red_color}>
+                You have already submitted a TEC for this 5-week period.
+              </span>
+            )}
+          </div>
           <div className={styles.center_and_flex}>
             {teamEventInfoList ? (
               <Dropdown
@@ -264,6 +331,8 @@ const TeamEventCreditForm: React.FC = () => {
           rejectedAttendance={rejectedAttendance}
           isAttendanceLoading={isAttendanceLoading}
           setPendingAttendance={setPendingAttendance}
+          requiredPeriodCredits={requiredCredits}
+          tecCounts={tecCounts}
         />
       </Form>
     </div>

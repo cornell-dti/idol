@@ -1,10 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 
 import ImageCarousel from '../../../components/products/imageCarousel';
 import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
-import RedBlob from '../../../components/blob';
-import SectionWrapper from '../../../components/hoc/SectionWrapper';
+import useTitle from '../../hooks/useTitle';
+import Hero from '../../../components/hero';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -12,26 +14,20 @@ export default function Page() {
     path: product.iconPath
   }));
 
+  useTitle('Products');
+
   return (
-    <div className="overflow-x-hidden md:pt-[100px] xs:pt-9">
-      <SectionWrapper id={'Products Page Hero Section'} className="mb-20 lg:mb-20">
-        <div className="flex lg:flex-row xs:flex-col relative z-10">
-          <div className="mr-24">
-            <h1 className="font-semibold text-white md:text-header xs:text-[52px] md:leading-header xs:leading-header-xs">
-              OUR <span className="text-[#FF4C4C]">PRODUCTS</span>
-            </h1>
-          </div>
-          <div className="flex flex-col justify-center gap-6">
-            <h2 className="font-bold md:text-subheader xs:text-2xl text-hero-primary md:leading-subheader">
-              Real impact
-            </h2>
-            <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-              Each of our projects address an unfulfilled need that exists in our community using
-              human-centered design and software engineering.
-            </p>
-          </div>
-        </div>
-      </SectionWrapper>
+    <div className="overflow-x-hidden">
+      <Hero
+        title={'Our products'}
+        description={
+          'Each of our projects address an unfulfilled need that exists in our community using human-centered design and software engineering.'
+        }
+        image={{
+          src: '/images/products-hero.png',
+          alt: 'DTI students brainstorming with sticky notes'
+        }}
+      />
 
       <ImageCarousel items={productIcons} />
 
@@ -76,14 +72,6 @@ export default function Page() {
         className="!w-fit !ml-[50%]"
       />
       <div className="flex relative justify-center lg:my-32 md:my-64 mb-60 mt-40">
-        <RedBlob
-          className={'-left-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
-          intensity={0.3}
-        />
-        <RedBlob
-          className={'-right-52 bottom-0 scale-50 sm:scale-75 md:scale-100'}
-          intensity={0.3}
-        />
         <div className="flex flex-col text-white max-w-xl text-center items-center space-y-6">
           <h2 className="font-semibold text-[32px]">Have Any Ideas?</h2>
           <p className="px-20">
@@ -119,14 +107,6 @@ const ProductDisplay = (props: {
     key={props.product.alt}
     className="relative flex lg:flex-row flex-col gap-x-20 lg:justify-center lg:items-center lg:my-10 w-full"
   >
-    {props.product.blobs &&
-      props.product.blobs.map((blob, index) => (
-        <RedBlob
-          key={index}
-          className={blob.className ? blob.className.trim() : ''}
-          intensity={blob.intensity}
-        />
-      ))}
     <div
       className={`${
         props.orientation === 'left' ? 'lg:order-first lg:ml-8' : 'lg:order-last lg:mr-8'

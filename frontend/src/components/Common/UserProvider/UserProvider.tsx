@@ -38,6 +38,7 @@ export const getUserIdToken = async (): Promise<string | null> => {
 
 export default function UserProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const [user, setUser] = useState<UserContextType>('INIT');
+
   useEffect(
     () =>
       process.env.NODE_ENV === 'test'

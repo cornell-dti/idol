@@ -40,7 +40,7 @@ type RoleDescription =
   | 'Business Advisor';
 
 /** The possible colleges an IDOL member could be. */
-type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks';
+type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks' | 'aap';
 
 /** The data type used by IDOL to represent a DTI member. */
 interface IdolMember {
@@ -245,6 +245,7 @@ interface CoffeeChat {
   readonly category: string;
   readonly status: Status;
   readonly date: number;
+  readonly isArchived: boolean;
   readonly memberMeetsCategory: MemberMeetsCategoryStatus;
   readonly reason?: string;
   readonly errorMessage?: string;
@@ -265,3 +266,48 @@ interface MemberDetails {
 }
 
 type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
+
+type Applicant = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  netid: string;
+};
+
+type SlotStatus = 'vacant' | 'occupied' | 'possessed';
+
+interface InterviewScheduler {
+  readonly name: string;
+  readonly duration: number;
+  readonly membersPerSlot: number;
+  readonly isOpen: boolean;
+  readonly startDate: number;
+  readonly endDate: number;
+  readonly applicants: Applicant[];
+  readonly uuid: string;
+}
+
+interface InterviewSlot {
+  readonly interviewSchedulerUuid: string;
+  readonly startTime: number;
+  readonly room: string;
+  readonly lead: IdolMember | null;
+  readonly members: (IdolMember | null)[];
+  readonly applicant: Applicant | null;
+  readonly uuid: string;
+}
+
+interface InterviewSchedulerEdit {
+  readonly uuid: string;
+  isOpen?: boolean;
+  startDate?: number;
+  endDate?: number;
+}
+
+interface InterviewSlotEdit {
+  readonly uuid: string;
+  readonly interviewSchedulerUuid: string;
+  lead?: IdolMember | null;
+  members?: (IdolMember | null)[];
+  applicant?: Applicant | null;
+}
