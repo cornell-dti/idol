@@ -12,6 +12,7 @@ type Props = {
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
   userInfo: IdolMember;
   submittedChats: CoffeeChat[];
+  approvedArchivedChats: CoffeeChat[];
 };
 
 const CoffeeChatModal: React.FC<Props> = ({
@@ -21,7 +22,8 @@ const CoffeeChatModal: React.FC<Props> = ({
   setOpen,
   deleteCoffeeChatRequest,
   userInfo,
-  submittedChats
+  submittedChats,
+  approvedArchivedChats
 }) => {
   const [suggestions, setSuggestions] = useState<CoffeeChatSuggestions>();
   const [membersInCategory, setMembersInCategory] = useState<MemberDetails[]>([]);
@@ -52,11 +54,12 @@ const CoffeeChatModal: React.FC<Props> = ({
     setMembersInCategory(
       category in suggestions
         ? suggestions[category].filter((chat) =>
-            submittedChats.every((submittedChat) => submittedChat.otherMember.netid !== chat.netid)
+            submittedChats.every((submittedChat) => submittedChat.otherMember.netid !== chat.netid) &&
+            approvedArchivedChats.every((approvedArchivedChat) => approvedArchivedChat.otherMember.netid != chat.netid)
           )
         : []
     );
-  }, [suggestions, category, submittedChats]);
+  }, [suggestions, category, submittedChats, approvedArchivedChats]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
