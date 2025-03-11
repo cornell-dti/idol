@@ -143,7 +143,7 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
       return;
     }
     if (router.pathname.startsWith('/admin') && !hasAdminPermission) {
-      router.push('/');
+    if (router.pathname !== '/') router.push('/');
     }
   }, [router.pathname, hasMemberPermissions, hasAdminPermission]);
   return <>{children}</>;
