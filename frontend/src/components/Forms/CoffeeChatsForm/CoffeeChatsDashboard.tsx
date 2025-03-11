@@ -155,7 +155,7 @@ const CoffeeChatsDashboard = ({
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
         userInfo={userInfo}
         submittedChats={[...pendingChats, ...approvedChats]}
-        approvedArchivedChats ={[...approvedArchivedChats]}
+        approvedArchivedChats={[...approvedArchivedChats]}
       />
 
       <div className={styles.rejected_section}>

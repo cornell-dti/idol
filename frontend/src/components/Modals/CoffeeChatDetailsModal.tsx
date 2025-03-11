@@ -53,9 +53,14 @@ const CoffeeChatModal: React.FC<Props> = ({
     }
     setMembersInCategory(
       category in suggestions
-        ? suggestions[category].filter((chat) =>
-            submittedChats.every((submittedChat) => submittedChat.otherMember.netid !== chat.netid) &&
-            approvedArchivedChats.every((approvedArchivedChat) => approvedArchivedChat.otherMember.netid != chat.netid)
+        ? suggestions[category].filter(
+            (chat) =>
+              submittedChats.every(
+                (submittedChat) => submittedChat.otherMember.netid !== chat.netid
+              ) &&
+              approvedArchivedChats.every(
+                (approvedArchivedChat) => approvedArchivedChat.otherMember.netid != chat.netid
+              )
           )
         : []
     );
