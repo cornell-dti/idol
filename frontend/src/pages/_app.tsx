@@ -139,7 +139,7 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
-      router.push('/applicant');
+    if (router.pathname !== '/applicant') router.push('/applicant');
       return;
     }
     if (router.pathname.startsWith('/admin') && !hasAdminPermission) {
