@@ -111,7 +111,9 @@ const CoffeeChatModal: React.FC<Props> = ({
               {!isLoading && membersInCategory.length > 0 && (
                 <div>
                   <div>Member(s) in category '{category}' you haven't coffee chatted yet:</div>
-                  {membersInCategory.map((member) => (
+                  {membersInCategory
+                  .sort((m1,m2) => `${m1.name}`.localeCompare(`${m2.name}`))
+                  .map((member) => (
                     <div key={member?.netid} style={{ marginTop: '5px' }}>
                       {`${member?.name} (${member?.netid})`}
                     </div>
