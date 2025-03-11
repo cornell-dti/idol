@@ -8,7 +8,7 @@ interface SlideshowProps {
 }
 
 const imageNames = [
-  'full-team.png',
+  'full-team-2025.png',
   'family-new.jpeg',
   'collaboration.jpeg',
   'event.png',
