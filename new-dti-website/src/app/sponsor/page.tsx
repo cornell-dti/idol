@@ -68,7 +68,7 @@ const SponsorPage = () => {
           <div className="flex flex-row justify-start align-middle py-10 md:order-last gap-x-10 md:gap-x-5 z-10 pb-4">
             <Image
               className="self-center rounded-[16px]"
-              src="/images/dti_2024.png"
+              src="/images/become-a-sponsor-new.png"
               alt="2024 DTI Team"
               width={576}
               height={576}

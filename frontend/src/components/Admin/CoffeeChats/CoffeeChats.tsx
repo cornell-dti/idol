@@ -6,6 +6,7 @@ import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import CoffeeChatsBingoBoard from '../../Forms/CoffeeChatsForm/CoffeeChatsBingoBoard';
+import { Emitters } from '../../../utils';
 
 const CoffeeChats: React.FC = () => {
   const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
@@ -61,6 +62,30 @@ const CoffeeChats: React.FC = () => {
     text: `${member.firstName} ${member.lastName} (${member.netid})`,
     value: member.netid
   }));
+
+  const archiveAllCoffeeChats = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to archive all coffee chats? This action cannot be undone.'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await CoffeeChatAPI.archiveCoffeeChats();
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Success',
+        contentMsg: 'All coffee chats have been archived successfully!! :)'
+      });
+      setIsLoading(true);
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: 'Error',
+        contentMsg: 'Failed to archive the coffee chats'
+      });
+    }
+  };
 
   return (
     <div className={styles.flexContainer}>
@@ -123,6 +148,9 @@ const CoffeeChats: React.FC = () => {
         <div className={styles.dropdownContainer}>
           <Button onClick={() => setSelectedMember(null)} disabled={selectedMember == null}>
             Review All Coffee Chats
+          </Button>
+          <Button onClick={archiveAllCoffeeChats} disabled={selectedMember !== null}>
+            Archive All Coffee Chats
           </Button>
           <div className={styles.dropdownButton}>
             <Dropdown

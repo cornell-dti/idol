@@ -6,7 +6,6 @@ import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import { app as adminApp, env } from './firebase';
 import PermissionsManager from './utils/permissionsManager';
-import { HandlerError } from './utils/errors';
 import {
   acceptIDOLChanges,
   getIDOLChangesPR,
@@ -30,7 +29,8 @@ import {
   getShoutouts,
   giveShoutout,
   hideShoutout,
-  deleteShoutout
+  deleteShoutout,
+  editShoutout
 } from './API/shoutoutAPI';
 import {
   createCoffeeChat,
@@ -43,7 +43,8 @@ import {
   checkMemberMeetsCategory,
   runAutoChecker,
   notifyMemberCoffeeChat,
-  getCoffeeChatSuggestions
+  getCoffeeChatSuggestions,
+  archiveCoffeeChats
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -106,6 +107,7 @@ import {
   updateInterviewSchedulerInstance,
   updateInterviewSlot
 } from './API/interviewSchedulerAPI';
+import { HandlerError } from './utils/errors';
 
 // Constants and configurations
 const app = express();
@@ -203,6 +205,11 @@ const loginCheckedPut = (
   path: string,
   handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
 ) => router.put(path, loginCheckedHandler(handler));
+
+const loginCheckedPatch = (
+  path: string,
+  handler: (req: Request, user: IdolMember) => Promise<Record<string, unknown>>
+) => router.patch(path, loginCheckedHandler(handler));
 
 // Members
 router.get('/member', async (req, res) => {
@@ -308,6 +315,11 @@ loginCheckedPut('/shoutout', async (req, user) => {
   return {};
 });
 
+loginCheckedPut('/shoutout/:uuid', async (req, user) => {
+  await editShoutout(req.params.uuid, req.body.message, user);
+  return {};
+});
+
 loginCheckedDelete('/shoutout/:uuid', async (req, user) => {
   await deleteShoutout(req.params.uuid, user);
   return {};
@@ -340,6 +352,11 @@ loginCheckedGet('/coffee-chat/:email', async (req, user) => {
 loginCheckedPut('/coffee-chat', async (req, user) => ({
   coffeeChat: await updateCoffeeChat(req.body, user)
 }));
+
+loginCheckedPatch('/coffee-chat/archive', async (_, user) => {
+  await archiveCoffeeChats(user);
+  return { message: 'All coffee chats archived successfully.' };
+});
 
 loginCheckedGet('/coffee-chat-bingo-board', async () => {
   const board = await getCoffeeChatBingoBoard();

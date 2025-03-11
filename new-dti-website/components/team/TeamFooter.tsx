@@ -51,7 +51,7 @@ const TeamFooter = () => {
         <SectionWrapper id={'Team Page Footer Information'}>
           <div className="flex md:flex-row xs:flex-col lg:gap-[60px] md:gap-10 xs:gap-8 items-center">
             <Image
-              src="/images/dti_2024.png"
+              src="/images/become-a-sponsor-new.png"
               alt="2024 DTI Team Picture"
               width={490}
               height={370}
