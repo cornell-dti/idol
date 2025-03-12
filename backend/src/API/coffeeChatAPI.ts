@@ -193,6 +193,20 @@ export const runAutoChecker = async (uuid: string, user: IdolMember): Promise<Co
     throw new BadRequestError(`Coffee chat with uuid: ${uuid} does not exist`);
   }
 
+  const archivedChats = await coffeeChatDao.getCoffeeChatsByUser(
+    coffeeChat.submitter.email,
+    undefined,
+    coffeeChat.otherMember
+  );
+
+  const hasArchivedChat = archivedChats.some((chat) => chat.isArchived);
+
+  if (hasArchivedChat) {
+    throw new BadRequestError(
+      `Coffee chat with uuid: ${uuid} has an archived chat with the same submitter and other member`
+    );
+  }
+
   const result = await checkMemberMeetsCategory(
     coffeeChat.otherMember.email,
     coffeeChat.submitter.email,
