@@ -6,6 +6,7 @@ import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import { ibm_plex_mono } from './layout';
 import useTitle from '../hooks/useTitle';
+import Banner from '@/components/apply/Banner';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);
@@ -88,9 +89,14 @@ const Home: React.FC = () => {
   }, [selectedIcon]);
 
   return (
-    <>
+    <div className="relative">
+      <Banner
+        message={"It's Giving Day – click here to support DTI and make a gift!"}
+        variant={'accent'}
+        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
+      />
       <div className="flex flex-col min-h-[calc(100vh-136px)] justify-between items-center">
-        <div className="flex flex-col grow h-full justify-evenly lg:gap-4 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
+        <div className="pt-24 flex flex-col grow h-full justify-evenly lg:gap-4 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
           <div className="flex flex-col md:gap-4 xs:gap-4 xs:w-full items-center">
             <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium lg:max-w-[442px] text-center">
               Building the Future of Tech @ Cornell
@@ -142,7 +148,7 @@ const Home: React.FC = () => {
       </div>
       <div ref={scrollRef} className="min-h-[10vh]"></div>
       <Bottom />
-    </>
+    </div>
   );
 };
 

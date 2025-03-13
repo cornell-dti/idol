@@ -7,6 +7,7 @@ import Connector from '../../../components/products/lines';
 import products from '../../../components/products/products.json';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
+import Banner from '@/components/apply/Banner';
 
 export default function Page() {
   const productIcons = [...products.current, ...products.upcoming].map((product) => ({
@@ -17,7 +18,12 @@ export default function Page() {
   useTitle('Products');
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden relative">
+      <Banner
+        message={"It's Giving Day – click here to support DTI and make a gift!"}
+        variant={'accent'}
+        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
+      />
       <Hero
         title={'Our products'}
         description={

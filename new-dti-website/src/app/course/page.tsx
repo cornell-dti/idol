@@ -24,6 +24,7 @@ import { TestimonialCardProps } from '../../../components/course/TestimonialCard
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
+import Banner from '@/components/apply/Banner';
 
 //* DATA
 const { key_experiences } = experiencesData;
@@ -48,7 +49,12 @@ export default function Courses() {
   useTitle('Course');
 
   return (
-    <>
+    <div className="relative">
+      <Banner
+        message={"It's Giving Day – click here to support DTI and make a gift!"}
+        variant={'accent'}
+        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
+      />
       <div
         onClick={(event) => {
           const target = event.target as HTMLElement;
@@ -192,6 +198,6 @@ export default function Courses() {
           </SectionWrapper>
         </div>
       </div>
-    </>
+    </div>
   );
 }
