@@ -4,17 +4,11 @@ import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
-import Banner from '../../../components/apply/Banner';
 
 const InitiativePage = () => {
   useTitle('Initiatives');
   return (
-    <div className="bg-white flex flex-col relative">
-      <Banner
-        message={"It's Giving Day – click here to support DTI and make a gift!"}
-        variant={'accent'}
-        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
-      />
+    <div className="bg-white flex flex-col">
       <div className="lg:pb-24 pb-12 bg-[#000000]">
         <Hero
           title={'Inspiring innovation'}

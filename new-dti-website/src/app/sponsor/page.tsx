@@ -9,7 +9,6 @@ import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
-import Banner from '../../../components/apply/Banner';
 
 const { impacts } = impactData;
 const { companies } = companyData;
@@ -59,12 +58,7 @@ const SponsorImpact = () => (
 const SponsorPage = () => {
   useTitle('Sponsor');
   return (
-    <div className="relative">
-      <Banner
-        message={"It's Giving Day – click here to support DTI and make a gift!"}
-        variant={'accent'}
-        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
-      />
+    <>
       <SponsorHero />
       <div className="bg-[#EDEDED] flex justify-center">
         <SectionWrapper
@@ -128,7 +122,7 @@ const SponsorPage = () => {
           Contact us
         </a>
       </div>
-    </div>
+    </>
   );
 };
 

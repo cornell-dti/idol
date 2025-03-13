@@ -5,17 +5,11 @@ import MemberDisplay from '../../../components/team/MemberDisplay';
 import TeamFooter from '../../../components/team/TeamFooter';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
-import Banner from '../../../components/apply/Banner';
 
 const TeamPage = () => {
   useTitle('Team');
   return (
-    <div className="relative">
-      <Banner
-        message={"It's Giving Day – click here to support DTI and make a gift!"}
-        variant={'accent'}
-        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
-      />
+    <>
       <Hero
         title={'Working together'}
         description={
@@ -29,7 +23,7 @@ const TeamPage = () => {
       <TeamAbout />
       <MemberDisplay />
       <TeamFooter />
-    </div>
+    </>
   );
 };
 
