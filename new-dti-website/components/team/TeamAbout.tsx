@@ -247,8 +247,8 @@ const TeamAbout = () => (
             </div>
             <div className={`${ibm_plex_mono.className} text-sm`}>
               <Image
-                src="/images/become-a-sponsor-new.png"
-                alt="2024 DTI Team"
+                src="/images/become-sponsor-new.png"
+                alt="DTI Spring 2025 newbies"
                 width={490}
                 height={370}
                 className="rounded-[23px] lg:w-[490px] md:w-[383px] xs:w-[350px] h-auto"
