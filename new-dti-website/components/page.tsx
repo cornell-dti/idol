@@ -4,7 +4,7 @@ import { ReactNode, useState } from 'react';
 import Navbar from './navbar';
 import Footer from './footer';
 import useThemeContext from '../src/hooks/useThemeContext';
-import Banner from '../components/apply/Banner';
+import Banner from './apply/Banner';
 
 type PageProps = {
   children: ReactNode;
