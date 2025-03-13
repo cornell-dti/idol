@@ -40,9 +40,11 @@ export default function Banner({
   link
 }: BannerProps) {
   const variantClass = variantStyles[variant] || '';
+  const hoverClass = link ? 'hover:bg-red-800' : '';
+
   const bannerContent = (
     <div
-      className={`hover:bg-red-800 absolute top-0 left-0 w-full text-white text-center text-[20px] px-6 py-4 z-50 ${variantClass} ${className}`}
+      className={`absolute top-0 left-0 w-full text-white text-center text-[20px] px-6 py-4 z-50 ${variantClass} ${className} ${hoverClass}`}
     >
       {message}
     </div>
