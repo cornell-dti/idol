@@ -59,78 +59,76 @@ const SponsorImpact = () => (
 const SponsorPage = () => {
   useTitle('Sponsor');
   return (
-    <>
-      <div className="relative">
-        <Banner
-          message={"It's Giving Day – click here to support DTI and make a gift!"}
-          variant={'accent'}
-          link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
-        />
-        <SponsorHero />
-        <div className="bg-[#EDEDED] flex justify-center">
-          <SectionWrapper
-            id={'Become a sponsor section 1'}
-            className="flex flex-col h-fit justify-center items-start md:flex-row lg:gap-x-12"
-          >
-            <div className="flex flex-row justify-start align-middle py-10 md:order-last gap-x-10 md:gap-x-5 z-10 pb-4">
-              <Image
-                className="self-center rounded-[16px]"
-                src="/images/become-sponsor-new.png"
-                alt="2024 DTI Team"
-                width={576}
-                height={576}
-              />
-            </div>
-            <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
-              <div className="flex flex-col gap-[16px]">
-                <div className="flex flex-col gap-[8px]">
-                  <h2 className="text-[32px] font-semibold lg:leading-10">Become a sponsor</h2>
-                  <p className="text-[#060B12] text-[18px]">
-                    We would love to partner with organizations that share our vision of changing
-                    the world. Together, we can harness the power of technology to drive change in
-                    our communities.
-                  </p>
-                </div>
-
-                <a href="mailto:hello@cornelldti.org" className="primary-button">
-                  Contact us
-                </a>
+    <div className="relative">
+      <Banner
+        message={"It's Giving Day – click here to support DTI and make a gift!"}
+        variant={'accent'}
+        link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
+      />
+      <SponsorHero />
+      <div className="bg-[#EDEDED] flex justify-center">
+        <SectionWrapper
+          id={'Become a sponsor section 1'}
+          className="flex flex-col h-fit justify-center items-start md:flex-row lg:gap-x-12"
+        >
+          <div className="flex flex-row justify-start align-middle py-10 md:order-last gap-x-10 md:gap-x-5 z-10 pb-4">
+            <Image
+              className="self-center rounded-[16px]"
+              src="/images/become-sponsor-new.png"
+              alt="2024 DTI Team"
+              width={576}
+              height={576}
+            />
+          </div>
+          <div className="text-left w-full md:self-center max-w-[520px] relative z-10">
+            <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[8px]">
+                <h2 className="text-[32px] font-semibold lg:leading-10">Become a sponsor</h2>
+                <p className="text-[#060B12] text-[18px]">
+                  We would love to partner with organizations that share our vision of changing the
+                  world. Together, we can harness the power of technology to drive change in our
+                  communities.
+                </p>
               </div>
+
+              <a href="mailto:hello@cornelldti.org" className="primary-button">
+                Contact us
+              </a>
             </div>
-          </SectionWrapper>
-        </div>
-        <div className="bg-[#F6F6F6] flex flex-col">
-          <SectionWrapper id={'Sponsors impact and table'} className="items-center">
-            <SponsorImpact />
-            <SponsorshipTable />
-          </SectionWrapper>
-        </div>
-        <div className="bg-[#EDEDED] flex flex-col lg:py-[60px] xs:py-[20px]">
-          <SectionWrapper id={'Sponsors list section'} className="text-center space-y-7">
-            <h3 className="font-semibold md:text-[32px] xs:text-2xl">Thank you to our sponsors!</h3>
-            <div className="grid gap-6 md:grid-cols-6 xs:grid-cols-3 items-center">
-              {companies.map((company) => (
-                <Image
-                  src={company.icon}
-                  alt={company.key}
-                  key={company.key}
-                  width={company.width}
-                  height={company.height}
-                />
-              ))}
-            </div>
-          </SectionWrapper>
-        </div>
-        <div className="bg-[#F6F6F6] flex flex-col items-center gap-5 py-[60px] px-10">
-          <p className="lg:text-[22px] xs:text-lg text-center">
-            Want to learn more about how you can help us make an impact?
-          </p>
-          <a className="primary-button" href="mailto:hello@cornelldti.org">
-            Contact us
-          </a>
-        </div>
+          </div>
+        </SectionWrapper>
       </div>
-    </>
+      <div className="bg-[#F6F6F6] flex flex-col">
+        <SectionWrapper id={'Sponsors impact and table'} className="items-center">
+          <SponsorImpact />
+          <SponsorshipTable />
+        </SectionWrapper>
+      </div>
+      <div className="bg-[#EDEDED] flex flex-col lg:py-[60px] xs:py-[20px]">
+        <SectionWrapper id={'Sponsors list section'} className="text-center space-y-7">
+          <h3 className="font-semibold md:text-[32px] xs:text-2xl">Thank you to our sponsors!</h3>
+          <div className="grid gap-6 md:grid-cols-6 xs:grid-cols-3 items-center">
+            {companies.map((company) => (
+              <Image
+                src={company.icon}
+                alt={company.key}
+                key={company.key}
+                width={company.width}
+                height={company.height}
+              />
+            ))}
+          </div>
+        </SectionWrapper>
+      </div>
+      <div className="bg-[#F6F6F6] flex flex-col items-center gap-5 py-[60px] px-10">
+        <p className="lg:text-[22px] xs:text-lg text-center">
+          Want to learn more about how you can help us make an impact?
+        </p>
+        <a className="primary-button" href="mailto:hello@cornelldti.org">
+          Contact us
+        </a>
+      </div>
+    </div>
   );
 };
 
