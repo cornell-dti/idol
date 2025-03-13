@@ -90,7 +90,7 @@ const Home: React.FC = () => {
   return (
     <>
       <div className="flex flex-col min-h-[calc(100vh-136px)] justify-between items-center">
-        <div className="mt-24 flex flex-col grow h-full justify-evenly lg:gap-4 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
+        <div className="pt-20 flex flex-col grow h-full justify-evenly lg:gap-4 items-center lg:px-24 md:px-10 xs:px-4 mt-5">
           <div className="flex flex-col md:gap-4 xs:gap-4 xs:w-full items-center">
             <h1 className="text-white md:text-[40px] xs:text-[28px] z-10 font-medium lg:max-w-[442px] text-center">
               Building the Future of Tech @ Cornell
