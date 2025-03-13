@@ -6,7 +6,7 @@ import Slideshow from '../../components/slideshow';
 import Bottom from '../../components/bottom';
 import { ibm_plex_mono } from './layout';
 import useTitle from '../hooks/useTitle';
-import Banner from '@/components/apply/Banner';
+import Banner from '../../components/apply/Banner';
 
 const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<number | null>(0);

@@ -24,7 +24,7 @@ import { TestimonialCardProps } from '../../../components/course/TestimonialCard
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
-import Banner from '@/components/apply/Banner';
+import Banner from '../../../components/apply/Banner';
 
 //* DATA
 const { key_experiences } = experiencesData;

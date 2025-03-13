@@ -1,4 +1,3 @@
-import Banner from './apply/Banner';
 import SectionWrapper from './hoc/SectionWrapper';
 
 type HeroProps = {

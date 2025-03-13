@@ -5,7 +5,7 @@ import MemberDisplay from '../../../components/team/MemberDisplay';
 import TeamFooter from '../../../components/team/TeamFooter';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
-import Banner from '@/components/apply/Banner';
+import Banner from '../../../components/apply/Banner';
 
 const TeamPage = () => {
   useTitle('Team');

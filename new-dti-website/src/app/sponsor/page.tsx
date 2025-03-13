@@ -9,7 +9,7 @@ import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import config from '../../../config.json';
 import useTitle from '../../hooks/useTitle';
 import Hero from '../../../components/hero';
-import Banner from '@/components/apply/Banner';
+import Banner from '../../../components/apply/Banner';
 
 const { impacts } = impactData;
 const { companies } = companyData;
