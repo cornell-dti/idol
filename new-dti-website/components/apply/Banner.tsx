@@ -51,7 +51,7 @@ export default function Banner({
   );
 
   return link ? (
-    <a href={link} target="_blank">
+    <a href={link} target="_blank" rel="noreferrer">
       {bannerContent}
     </a>
   ) : (
