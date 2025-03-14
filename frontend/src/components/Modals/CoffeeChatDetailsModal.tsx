@@ -51,17 +51,13 @@ const CoffeeChatModal: React.FC<Props> = ({
       setMembersInCategory([]);
       return;
     }
+    const excludedNetIds = new Set([
+      ...submittedChats.map((chat) => chat.otherMember.netid),
+      ...approvedArchivedChats.map((chat) => chat.otherMember.netid)
+    ]);
     setMembersInCategory(
       category in suggestions
-        ? suggestions[category].filter(
-            (chat) =>
-              submittedChats.every(
-                (submittedChat) => submittedChat.otherMember.netid !== chat.netid
-              ) &&
-              approvedArchivedChats.every(
-                (approvedArchivedChat) => approvedArchivedChat.otherMember.netid != chat.netid
-              )
-          )
+        ? suggestions[category].filter((chat) => !excludedNetIds.has(chat.netid))
         : []
     );
   }, [suggestions, category, submittedChats, approvedArchivedChats]);
@@ -112,12 +108,12 @@ const CoffeeChatModal: React.FC<Props> = ({
                 <div>
                   <div>Member(s) in category '{category}' you haven't coffee chatted yet:</div>
                   {membersInCategory
-                  .sort((m1,m2) => `${m1.name}`.localeCompare(`${m2.name}`))
-                  .map((member) => (
-                    <div key={member?.netid} style={{ marginTop: '5px' }}>
-                      {`${member?.name} (${member?.netid})`}
-                    </div>
-                  ))}
+                    .sort((m1, m2) => `${m1.name}`.localeCompare(`${m2.name}`))
+                    .map((member) => (
+                      <div key={member?.netid} style={{ marginTop: '5px' }}>
+                        {`${member?.name} (${member?.netid})`}
+                      </div>
+                    ))}
                 </div>
               )}
             </div>
