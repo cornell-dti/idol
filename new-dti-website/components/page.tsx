@@ -19,7 +19,9 @@ const Page = ({ children }: PageProps) => {
         <Navbar />
         <div className="relative">
           <Banner
-            message={'Giving Day is today — click here to make a gift and support DTI!'}
+            message={
+              "Thank you for supporting DTI! We appreciate your generosity. Click to see how much we've raised."
+            }
             variant={'accent'}
             link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
           />
