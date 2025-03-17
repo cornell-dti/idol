@@ -10,7 +10,7 @@ const NotifyMemberModal = (props: {
   members?: Member[];
   trigger: JSX.Element;
   endOfSemesterReminder?: boolean;
-  type: 'tec' | 'coffee chat';
+  type: 'tec' | 'coffee chat' | 'period';
 }): JSX.Element => {
   const { member, members, all, trigger, endOfSemesterReminder, type } = props;
   const [open, setOpen] = useState(false);
@@ -19,6 +19,8 @@ const NotifyMemberModal = (props: {
   const notifyMember = async (member: Member) => {
     if (type === 'tec') {
       await MembersAPI.notifyMemberTeamEvents(member, endOfSemesterReminder || false);
+    } else if (type === 'period') {
+      await MembersAPI.notifyMemberPeriod(member);
     } else if (type === 'coffee chat') {
       await MembersAPI.notifyMemberCoffeeChat(member);
     }

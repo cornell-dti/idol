@@ -13,6 +13,7 @@ import {
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
+import { getTECPeriod } from '../../../utils';
 
 interface Period {
   name: string,
@@ -110,14 +111,6 @@ const TeamEventDashboard: React.FC = () => {
     return credPerPeriod;
   }
 
-  const getTECPeriod = (submissionDate: Date) => {
-    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
-    if (currentPeriodIndex === -1) {
-      return TEC_DEADLINES.length;
-    }
-    return currentPeriodIndex;
-  };
-
   const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
     if (prevCredits === null) {
       return currentCredits < 1 ? 1 - currentCredits : 0;
@@ -136,7 +129,7 @@ const TeamEventDashboard: React.FC = () => {
     ? allMembers.filter((member) => {
       const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
       const requiredCredits = LEAD_ROLES.includes(member.role)
-        ? REQUIRED_LEAD_TEC_CREDITS
+        ? 2 - currentPeriodCredits
         : calculateCredits(null, currentPeriodCredits);
 
       return currentPeriodCredits < requiredCredits;
@@ -210,8 +203,7 @@ const TeamEventDashboard: React.FC = () => {
                     </Button>
                   }
                   members={membersNeedingNotification}
-                  endOfSemesterReminder={endOfSemesterReminder}
-                  type={'tec'}
+                  type={'period'}
                 />
                 ) :
                 <NotifyMemberModal

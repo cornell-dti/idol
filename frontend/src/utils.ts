@@ -1,5 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
+import { TEC_DEADLINES } from "./consts";
+
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
 export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
@@ -208,4 +210,18 @@ export const fpo = async (csv: File): Promise<[string[], string[][]]> => {
   const headers = rows[0].split(',').map((header) => header.toLowerCase());
   const responses = rows.splice(1).map((row) => row.split(','));
   return [headers, responses];
+};
+
+/**
+ * Determines the TEC period index for a given submission date.
+ * @param submissionDate The date for which the TEC period is being determined.
+ * @returns The index of the current TEC period in the `TEC_DEADLINES` array.
+ *          If the submission date is after all deadlines, returns the last period index.
+ */
+export const getTECPeriod = (submissionDate: Date) => {
+  const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+  if (currentPeriodIndex === -1) {
+    return TEC_DEADLINES.length;
+  }
+  return currentPeriodIndex;
 };
