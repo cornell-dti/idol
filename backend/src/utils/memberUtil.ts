@@ -105,4 +105,3 @@ export const getGeneralRoleFromLeadType = (role: Role): GeneralRole => {
       throw new Error('Role must be a Lead type');
   }
 };
-

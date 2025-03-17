@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
-import { TEC_DEADLINES } from "./consts";
+import { TEC_DEADLINES } from './consts';
 
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 

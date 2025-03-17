@@ -65,13 +65,8 @@ export class MembersAPI {
     ).then((res) => res.data);
   }
 
-  public static notifyMemberPeriod(
-    member: Member
-  ): Promise<MemberResponseObj> {
-    return APIWrapper.post(
-      `${backendURL}/send-period-reminder`,
-      member
-    ).then((res) => res.data);
+  public static notifyMemberPeriod(member: Member): Promise<MemberResponseObj> {
+    return APIWrapper.post(`${backendURL}/send-period-reminder`, member).then((res) => res.data);
   }
 
   public static notifyMemberCoffeeChat(member: Member): Promise<MemberResponseObj> {

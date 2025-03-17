@@ -203,12 +203,12 @@ export const sendPeriodReminder = async (
   member: IdolMember
 ): Promise<AxiosResponse> => {
   const subject = `This Period's TEC Reminder`;
-  
+
   interface Period {
-    name: string,
-    start: Date,
-    deadline: Date,
-    events: TeamEvent[]
+    name: string;
+    start: Date;
+    deadline: Date;
+    events: TeamEvent[];
   }
 
   const allEvents = await Promise.all(
@@ -226,37 +226,39 @@ export const sendPeriodReminder = async (
     return currentPeriodIndex;
   };
 
-  const calculateCreditsForAllPeriods = (member: IdolMember, periods: Period[], pending: boolean): number[] => {
+  const calculateCreditsForAllPeriods = (
+    member: IdolMember,
+    periods: Period[],
+    pending: boolean
+  ): number[] => {
     const creditsPerPeriod = new Array(periods.length).fill(0);
     const pendingCreditsPerPeriod = new Array(periods.length).fill(0);
 
     memberEventAttendance.forEach((eventAttendance) => {
-      const event = allEvents.find(e => e.uuid === eventAttendance.eventUuid);
+      const event = allEvents.find((e) => e.uuid === eventAttendance.eventUuid);
       if (!event) return;
-  
+
       const eventCredit = Number(event.numCredits ?? 0);
-      const periodIndex = periods.findIndex(period => 
-        new Date(event.date) > period.start && new Date(event.date) <= period.deadline
+      const periodIndex = periods.findIndex(
+        (period) => new Date(event.date) > period.start && new Date(event.date) <= period.deadline
       );
-  
+
       if (periodIndex === -1) return;
-  
+
       if (eventAttendance.status === 'approved') {
         creditsPerPeriod[periodIndex] += eventCredit;
       } else if (eventAttendance.status === 'pending') {
         pendingCreditsPerPeriod[periodIndex] += eventCredit;
       }
     });
-    return pending? pendingCreditsPerPeriod : creditsPerPeriod;
-  }
+    return pending ? pendingCreditsPerPeriod : creditsPerPeriod;
+  };
 
   const getFirstPeriodStart = (): Date => {
     const today = new Date();
     const year = today.getFullYear();
 
-    return today.getMonth() < 7
-      ? new Date(year, 0, 1)
-      : new Date(year, 7, 1);
+    return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
   };
 
   const getPeriodIndex = (date: Date): number => {
@@ -274,9 +276,10 @@ export const sendPeriodReminder = async (
     TEC_DEADLINES.forEach((date) => {
       i += 1;
       const periodIndex = getPeriodIndex(new Date(date.getTime() - 24 * 60 * 60 * 1000));
-      const periodStart = periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
+      const periodStart =
+        periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
       const periodEnd = TEC_DEADLINES[periodIndex];
-      const events = allEvents.filter(event => {
+      const events = allEvents.filter((event) => {
         const eventDate = new Date(event.date);
         return eventDate > periodStart && eventDate <= periodEnd;
       });
@@ -292,9 +295,7 @@ export const sendPeriodReminder = async (
       return currentCredits < 1 ? 1 - currentCredits : 0;
     }
     if (prevCredits < 1) {
-      return currentCredits + prevCredits < 2
-        ? 2 - prevCredits - currentCredits
-        : 0;
+      return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
     }
 
     return currentCredits < 1 ? 1 - currentCredits : 0;
@@ -302,7 +303,7 @@ export const sendPeriodReminder = async (
 
   const currentPeriodIndex = getTECPeriod(new Date());
   if (currentPeriodIndex < 0 || currentPeriodIndex >= periods.length) {
-    return Promise.reject(new Error("No valid TEC period found."));
+    return Promise.reject(new Error('No valid TEC period found.'));
   }
 
   const creditsPerPeriod = calculateCreditsForAllPeriods(member, periods, false);
@@ -315,26 +316,29 @@ export const sendPeriodReminder = async (
   const currentPeriodCredits = creditsPerPeriod[currentPeriodIndex];
   const currentPendingCredits = pendingCreditsPerPeriod[currentPeriodIndex];
   const previousPeriodIndex = currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
-  const previousPeriodCredits = previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
+  const previousPeriodCredits =
+    previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
   const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
 
   const isLead = LEAD_ROLES.includes(member.role);
-  const requiredCredits = isLead ? 2 : calculateCredits(previousPeriodCredits, currentPeriodCredits);
+  const requiredCredits = isLead
+    ? 2
+    : calculateCredits(previousPeriodCredits, currentPeriodCredits);
   const reminder =
-      `This is a reminder to earn at least ${requiredCredits} team event credits by ${periodEnd.toDateString()}.\n` +
-      `\n${
-        periodEvents.length === 0
-          ? 'There are currently no upcoming team events listed on IDOL for this period, but check the #team-events channel for upcoming team events.'
-          : 'Here is a list of upcoming team events this period you can participate in:'
-      } \n` +
-      `${periodEvents
-        .map(
-          (event) =>
-            `${event.name} on ${event.date} (${event.numCredits} ${
-              Number(event.numCredits) !== 1 ? 'credits' : 'credit'
-            })\n`
-        )
-        .join('')}`;
+    `This is a reminder to earn at least ${requiredCredits} team event credits by ${periodEnd.toDateString()}.\n` +
+    `\n${
+      periodEvents.length === 0
+        ? 'There are currently no upcoming team events listed on IDOL for this period, but check the #team-events channel for upcoming team events.'
+        : 'Here is a list of upcoming team events this period you can participate in:'
+    } \n` +
+    `${periodEvents
+      .map(
+        (event) =>
+          `${event.name} on ${event.date} (${event.numCredits} ${
+            Number(event.numCredits) !== 1 ? 'credits' : 'credit'
+          })\n`
+      )
+      .join('')}`;
 
   const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${currentPeriodCredits} team event ${
     currentPeriodCredits !== 1 ? 'credits' : 'credit'

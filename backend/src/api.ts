@@ -440,11 +440,7 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
   )
 }));
 loginCheckedPost('/send-period-reminder', async (req, user) => ({
-  info: await notifyMemberPeriod(
-    req,
-    req.body,
-    user
-  )
+  info: await notifyMemberPeriod(req, req.body, user)
 }));
 
 // Candidate Decider
