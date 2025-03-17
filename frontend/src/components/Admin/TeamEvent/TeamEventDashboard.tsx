@@ -15,10 +15,10 @@ import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 
 interface Period {
-  name: string,
-  start: Date,
-  deadline: Date,
-  events: TeamEvent[]
+  name: string;
+  start: Date;
+  deadline: Date;
+  events: TeamEvent[];
 }
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -70,9 +70,7 @@ const TeamEventDashboard: React.FC = () => {
     const today = new Date();
     const year = today.getFullYear();
 
-    return today.getMonth() < 7
-      ? new Date(year, 0, 1)
-      : new Date(year, 7, 1);
+    return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
   };
 
   const getPeriodIndex = (date: Date): number => {
@@ -90,9 +88,10 @@ const TeamEventDashboard: React.FC = () => {
     TEC_DEADLINES.forEach((date) => {
       i += 1;
       const periodIndex = getPeriodIndex(new Date(date.getTime() - 24 * 60 * 60 * 1000));
-      const periodStart = periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
+      const periodStart =
+        periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
       const periodEnd = TEC_DEADLINES[periodIndex];
-      const events = teamEvents.filter(event => {
+      const events = teamEvents.filter((event) => {
         const eventDate = new Date(event.date);
         return eventDate > periodStart && eventDate <= periodEnd;
       });
@@ -106,9 +105,9 @@ const TeamEventDashboard: React.FC = () => {
     const credPerPeriod: number[] = [];
     periods.forEach((period: Period) => {
       credPerPeriod.push(getTotalCredits(member, period.events));
-    })
+    });
     return credPerPeriod;
-  }
+  };
 
   const getTECPeriod = (submissionDate: Date) => {
     const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
@@ -123,9 +122,7 @@ const TeamEventDashboard: React.FC = () => {
       return currentCredits < 1 ? 1 - currentCredits : 0;
     }
     if (prevCredits < 1) {
-      return currentCredits + prevCredits < 2
-        ? 2 - prevCredits - currentCredits
-        : 0;
+      return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
     }
 
     return currentCredits < 1 ? 1 - currentCredits : 0;
@@ -188,7 +185,7 @@ const TeamEventDashboard: React.FC = () => {
         <div className={styles.csvButton}>
           <div className={styles.displayPeriod}>
             <Button onClick={() => setDisplayPeriod((prev) => !prev)}>
-              {!displayPeriod ? "Display TEC by Period" : "Return to Dashboard"}
+              {!displayPeriod ? 'Display TEC by Period' : 'Return to Dashboard'}
             </Button>
           </div>
           <div className={styles.csvButton}>
@@ -201,8 +198,8 @@ const TeamEventDashboard: React.FC = () => {
           <Table.Header>
             <Table.HeaderCell className={styles.nameCell}>
               Name
-              {displayPeriod && membersNeedingNotification.length > 0 ?
-                (<NotifyMemberModal
+              {displayPeriod && membersNeedingNotification.length > 0 ? (
+                <NotifyMemberModal
                   all={true}
                   trigger={
                     <Button className={styles.remindButton} size="small" color="orange">
@@ -213,7 +210,7 @@ const TeamEventDashboard: React.FC = () => {
                   endOfSemesterReminder={endOfSemesterReminder}
                   type={'tec'}
                 />
-                ) :
+              ) : (
                 <NotifyMemberModal
                   all={true}
                   trigger={
@@ -236,24 +233,24 @@ const TeamEventDashboard: React.FC = () => {
                   })}
                   endOfSemesterReminder={endOfSemesterReminder}
                   type={'tec'}
-                />}
-              <Checkbox
-                className={styles.endOfSemesterCheckbox}
-                label={{ children: 'End of Semester Reminder?' }}
-                checked={endOfSemesterReminder}
-                onChange={() =>
-                  setEndOfSemesterReminder((endOfSemesterReminder) => !endOfSemesterReminder)
-                }
-              />
+                />
+              )}
+              {!displayPeriod && (
+                <Checkbox
+                  className={styles.endOfSemesterCheckbox}
+                  label={{ children: 'End of Semester Reminder?' }}
+                  checked={endOfSemesterReminder}
+                  onChange={() =>
+                    setEndOfSemesterReminder((endOfSemesterReminder) => !endOfSemesterReminder)
+                  }
+                />
+              )}
             </Table.HeaderCell>
-            <Table.HeaderCell>{!displayPeriod ? "Total" : "Required Credits"}</Table.HeaderCell>
+            <Table.HeaderCell>{!displayPeriod ? 'Total' : 'Required Credits'}</Table.HeaderCell>
             {INITIATIVE_EVENTS && <Table.HeaderCell>Total Initiative Credits</Table.HeaderCell>}
-            {!displayPeriod ?
-              teamEvents.map((event) => (
-                <Table.HeaderCell>{event.name}</Table.HeaderCell>
-              )) : periods.map((period) => (
-                <Table.HeaderCell>{period.name}</Table.HeaderCell>
-              ))}
+            {!displayPeriod
+              ? teamEvents.map((event) => <Table.HeaderCell>{event.name}</Table.HeaderCell>)
+              : periods.map((period) => <Table.HeaderCell>{period.name}</Table.HeaderCell>)}
           </Table.Header>
           <Table.Body>
             {!displayPeriod
@@ -299,14 +296,23 @@ const TeamEventDashboard: React.FC = () => {
                     })}
                   </Table.Row>
                 );
-              }) : allMembers.map((member) => {
+              })
+              : allMembers.map((member) => {
                 const currentPeriodIndex = getTECPeriod(new Date());
-                const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
+                const currentPeriodCredits = getTotalCredits(
+                  member,
+                  periods[currentPeriodIndex].events
+                );
                 const creditsPerPeriod = getCreditsPerPeriod(member);
 
-                const previousPeriodIndex = currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
-                const previousPeriodCredits = previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
-                const requiredCredits = calculateCredits(previousPeriodCredits, currentPeriodCredits);
+                const previousPeriodIndex =
+                  currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
+                const previousPeriodCredits =
+                  previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
+                const requiredCredits = calculateCredits(
+                  previousPeriodCredits,
+                  currentPeriodCredits
+                );
 
                 const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
