@@ -17,15 +17,7 @@ const Page = ({ children }: PageProps) => {
     <>
       <ThemeContext.Provider value={{ setFooterTheme: (t) => setFooterTheme(t) }}>
         <Navbar />
-        <div className="relative">
-          <Banner
-            message={
-              "Thank you for supporting DTI! We appreciate your generosity. Click to see how much we've raised."
-            }
-            variant={'accent'}
-            link={'https://givingday.cornell.edu/campaigns/cornell-digital-tech-innovation'}
-          />
-        </div>
+        <div className="relative"></div>
         {children}
         <Footer theme={footerTheme} />
       </ThemeContext.Provider>
