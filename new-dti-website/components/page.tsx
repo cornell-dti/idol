@@ -4,7 +4,6 @@ import { ReactNode, useState } from 'react';
 import Navbar from './navbar';
 import Footer from './footer';
 import useThemeContext from '../src/hooks/useThemeContext';
-import Banner from './apply/Banner';
 
 type PageProps = {
   children: ReactNode;
@@ -17,7 +16,6 @@ const Page = ({ children }: PageProps) => {
     <>
       <ThemeContext.Provider value={{ setFooterTheme: (t) => setFooterTheme(t) }}>
         <Navbar />
-        <div className="relative"></div>
         {children}
         <Footer theme={footerTheme} />
       </ThemeContext.Provider>
