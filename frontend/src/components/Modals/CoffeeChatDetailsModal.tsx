@@ -12,6 +12,7 @@ type Props = {
   deleteCoffeeChatRequest: (coffeeChat: CoffeeChat) => void;
   userInfo: IdolMember;
   submittedChats: CoffeeChat[];
+  approvedArchivedChats: CoffeeChat[];
 };
 
 const CoffeeChatModal: React.FC<Props> = ({
@@ -21,7 +22,8 @@ const CoffeeChatModal: React.FC<Props> = ({
   setOpen,
   deleteCoffeeChatRequest,
   userInfo,
-  submittedChats
+  submittedChats,
+  approvedArchivedChats
 }) => {
   const [suggestions, setSuggestions] = useState<CoffeeChatSuggestions>();
   const [membersInCategory, setMembersInCategory] = useState<MemberDetails[]>([]);
@@ -49,14 +51,16 @@ const CoffeeChatModal: React.FC<Props> = ({
       setMembersInCategory([]);
       return;
     }
+    const excludedNetIds = new Set([
+      ...submittedChats.map((chat) => chat.otherMember.netid),
+      ...approvedArchivedChats.map((chat) => chat.otherMember.netid)
+    ]);
     setMembersInCategory(
       category in suggestions
-        ? suggestions[category].filter((chat) =>
-            submittedChats.every((submittedChat) => submittedChat.otherMember.netid !== chat.netid)
-          )
+        ? suggestions[category].filter((chat) => !excludedNetIds.has(chat.netid))
         : []
     );
-  }, [suggestions, category, submittedChats]);
+  }, [suggestions, category, submittedChats, approvedArchivedChats]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
@@ -103,11 +107,13 @@ const CoffeeChatModal: React.FC<Props> = ({
               {!isLoading && membersInCategory.length > 0 && (
                 <div>
                   <div>Member(s) in category '{category}' you haven't coffee chatted yet:</div>
-                  {membersInCategory.map((member) => (
-                    <div key={member?.netid} style={{ marginTop: '5px' }}>
-                      {`${member?.name} (${member?.netid})`}
-                    </div>
-                  ))}
+                  {membersInCategory
+                    .sort((m1, m2) => `${m1.name}`.localeCompare(`${m2.name}`))
+                    .map((member) => (
+                      <div key={member?.netid} style={{ marginTop: '5px' }}>
+                        {`${member?.name} (${member?.netid})`}
+                      </div>
+                    ))}
                 </div>
               )}
             </div>
