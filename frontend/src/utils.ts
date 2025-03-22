@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
-import { TEC_DEADLINES } from "./consts";
+import { TEC_DEADLINES } from './consts';
 
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
@@ -224,4 +224,15 @@ export const getTECPeriod = (submissionDate: Date) => {
     return TEC_DEADLINES.length - 1;
   }
   return currentPeriodIndex;
+};
+
+export const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
+  if (prevCredits === null) {
+    return currentCredits < 1 ? 1 - currentCredits : 0;
+  }
+  if (prevCredits < 1) {
+    return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
+  }
+
+  return currentCredits < 1 ? 1 - currentCredits : 0;
 };

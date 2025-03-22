@@ -13,7 +13,7 @@ import {
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-import { getTECPeriod } from '../../../utils';
+import { calculateCredits, getTECPeriod } from '../../../utils';
 
 interface Period {
   name: string;
@@ -29,15 +29,15 @@ const calculateMemberCreditsForEvent = (
   isInitiativeEvent && !event.isInitiativeEvent
     ? 0
     : event.requests
-      .filter((req) => req.status === 'approved')
-      .reduce((val: number, attendee) => {
-        if (attendee.member.email !== member.email) {
-          return val;
-        }
-        if (event.hasHours && attendee.hoursAttended)
-          return val + Number(event.numCredits) * attendee.hoursAttended;
-        return val + Number(event.numCredits);
-      }, 0);
+        .filter((req) => req.status === 'approved')
+        .reduce((val: number, attendee) => {
+          if (attendee.member.email !== member.email) {
+            return val;
+          }
+          if (event.hasHours && attendee.hoursAttended)
+            return val + Number(event.numCredits) * attendee.hoursAttended;
+          return val + Number(event.numCredits);
+        }, 0);
 
 const calculateTotalCreditsForEvent = (member: IdolMember, event: TeamEvent): number =>
   calculateMemberCreditsForEvent(member, event, false);
@@ -76,10 +76,8 @@ const TeamEventDashboard: React.FC = () => {
 
   const getPeriods = () =>
     TEC_DEADLINES.map((date, i) => {
-      const periodIndex = getTECPeriod(new Date(date.getTime() - 24 * 60 * 60 * 1000));
-      const periodStart =
-        periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
-      const periodEnd = TEC_DEADLINES[periodIndex];
+      const periodStart = i === 0 ? getFirstPeriodStart() : TEC_DEADLINES[i - 1];
+      const periodEnd = TEC_DEADLINES[i];
       const events = teamEvents.filter((event) => {
         const eventDate = new Date(event.date);
         return eventDate > periodStart && eventDate <= periodEnd;
@@ -96,27 +94,16 @@ const TeamEventDashboard: React.FC = () => {
     return credPerPeriod;
   };
 
-  const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
-    if (prevCredits === null) {
-      return currentCredits < 1 ? 1 - currentCredits : 0;
-    }
-    if (prevCredits < 1) {
-      return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
-    }
-
-    return currentCredits < 1 ? 1 - currentCredits : 0;
-  };
-
   const currentPeriodIndex = getTECPeriod(new Date());
   const membersNeedingNotification = displayPeriod
     ? allMembers.filter((member) => {
-      const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
-      const requiredCredits = LEAD_ROLES.includes(member.role)
-        ? REQUIRED_LEAD_TEC_CREDITS
-        : calculateCredits(null, currentPeriodCredits);
+        const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
+        const requiredCredits = LEAD_ROLES.includes(member.role)
+          ? REQUIRED_LEAD_TEC_CREDITS
+          : calculateCredits(null, currentPeriodCredits);
 
-      return currentPeriodCredits < requiredCredits;
-    })
+        return currentPeriodCredits < requiredCredits;
+      })
     : [];
 
   const handleExportToCsv = () => {
@@ -234,99 +221,99 @@ const TeamEventDashboard: React.FC = () => {
           <Table.Body>
             {!displayPeriod
               ? allMembers.map((member) => {
-                const totalCredits = getTotalCredits(member, teamEvents);
-                const initiativeCredits = getInitiativeCredits(member, teamEvents);
-                const totalCreditsMet =
-                  totalCredits >=
-                  (LEAD_ROLES.includes(member.role)
-                    ? REQUIRED_LEAD_TEC_CREDITS
-                    : REQUIRED_MEMBER_TEC_CREDITS);
-                const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
+                  const totalCredits = getTotalCredits(member, teamEvents);
+                  const initiativeCredits = getInitiativeCredits(member, teamEvents);
+                  const totalCreditsMet =
+                    totalCredits >=
+                    (LEAD_ROLES.includes(member.role)
+                      ? REQUIRED_LEAD_TEC_CREDITS
+                      : REQUIRED_MEMBER_TEC_CREDITS);
+                  const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
 
-                const isAdvisor = ADVISOR_ROLES.includes(member.role);
+                  const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
-                return (
-                  <Table.Row>
-                    <Table.Cell positive={totalCreditsMet} className={styles.nameCell}>
-                      {member.firstName} {member.lastName} ({member.netid})
-                      {!totalCreditsMet && (
-                        <NotifyMemberModal
-                          all={false}
-                          trigger={
-                            isAdvisor ? (
-                              <div />
-                            ) : (
-                              <Icon className={styles.notify} name="exclamation" color="red" />
-                            )
-                          }
-                          member={member}
-                          endOfSemesterReminder={endOfSemesterReminder}
-                          type={'tec'}
-                        />
+                  return (
+                    <Table.Row>
+                      <Table.Cell positive={totalCreditsMet} className={styles.nameCell}>
+                        {member.firstName} {member.lastName} ({member.netid})
+                        {!totalCreditsMet && (
+                          <NotifyMemberModal
+                            all={false}
+                            trigger={
+                              isAdvisor ? (
+                                <div />
+                              ) : (
+                                <Icon className={styles.notify} name="exclamation" color="red" />
+                              )
+                            }
+                            member={member}
+                            endOfSemesterReminder={endOfSemesterReminder}
+                            type={'tec'}
+                          />
+                        )}
+                      </Table.Cell>
+                      <Table.Cell positive={totalCreditsMet}>{totalCredits}</Table.Cell>
+                      {INITIATIVE_EVENTS && (
+                        <Table.Cell positive={initiativeCreditsMet}>{initiativeCredits}</Table.Cell>
                       )}
-                    </Table.Cell>
-                    <Table.Cell positive={totalCreditsMet}>{totalCredits}</Table.Cell>
-                    {INITIATIVE_EVENTS && (
-                      <Table.Cell positive={initiativeCreditsMet}>{initiativeCredits}</Table.Cell>
-                    )}
-                    {teamEvents.map((event) => {
-                      const numCredits = calculateTotalCreditsForEvent(member, event);
-                      return <Table.Cell className={styles.eventCell}>{numCredits}</Table.Cell>;
-                    })}
-                  </Table.Row>
-                );
-              })
+                      {teamEvents.map((event) => {
+                        const numCredits = calculateTotalCreditsForEvent(member, event);
+                        return <Table.Cell className={styles.eventCell}>{numCredits}</Table.Cell>;
+                      })}
+                    </Table.Row>
+                  );
+                })
               : allMembers.map((member) => {
-                const currentPeriodIndex = getTECPeriod(new Date());
-                const currentPeriodCredits = getTotalCredits(
-                  member,
-                  periods[currentPeriodIndex].events
-                );
-                const creditsPerPeriod = getCreditsPerPeriod(member);
+                  const currentPeriodIndex = getTECPeriod(new Date());
+                  const currentPeriodCredits = getTotalCredits(
+                    member,
+                    periods[currentPeriodIndex].events
+                  );
+                  const creditsPerPeriod = getCreditsPerPeriod(member);
 
-                const previousPeriodIndex =
-                  currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
-                const previousPeriodCredits =
-                  previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
-                const requiredCredits = calculateCredits(
-                  previousPeriodCredits,
-                  currentPeriodCredits
-                );
+                  const previousPeriodIndex =
+                    currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
+                  const previousPeriodCredits =
+                    previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
+                  const requiredCredits = calculateCredits(
+                    previousPeriodCredits,
+                    currentPeriodCredits
+                  );
 
-                const isAdvisor = ADVISOR_ROLES.includes(member.role);
+                  const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
-                return (
-                  <Table.Row>
-                    <Table.Cell positive={requiredCredits <= 0} className={styles.nameCell}>
-                      {member.firstName} {member.lastName} ({member.netid})
-                      {requiredCredits > 0 && (
-                        <NotifyMemberModal
-                          all={false}
-                          trigger={
-                            isAdvisor ? (
-                              <div />
-                            ) : (
-                              <Icon className={styles.notify} name="exclamation" color="red" />
-                            )
-                          }
-                          member={member}
-                          endOfSemesterReminder={endOfSemesterReminder}
-                          type={'tec'}
-                        />
-                      )}
-                    </Table.Cell>
-                    <Table.Cell positive={requiredCredits <= 0}>{requiredCredits}</Table.Cell>
-                    {periods.map((period) => {
-                      const numCredits = period.events
-                        .map((event) => calculateTotalCreditsForEvent(member, event))
-                        .filter((credits) => credits != null)
-                        .reduce((sum, credits) => sum + credits, 0);
+                  return (
+                    <Table.Row>
+                      <Table.Cell positive={requiredCredits <= 0} className={styles.nameCell}>
+                        {member.firstName} {member.lastName} ({member.netid})
+                        {requiredCredits > 0 && (
+                          <NotifyMemberModal
+                            all={false}
+                            trigger={
+                              isAdvisor ? (
+                                <div />
+                              ) : (
+                                <Icon className={styles.notify} name="exclamation" color="red" />
+                              )
+                            }
+                            member={member}
+                            endOfSemesterReminder={endOfSemesterReminder}
+                            type={'tec'}
+                          />
+                        )}
+                      </Table.Cell>
+                      <Table.Cell positive={requiredCredits <= 0}>{requiredCredits}</Table.Cell>
+                      {periods.map((period) => {
+                        const numCredits = period.events
+                          .map((event) => calculateTotalCreditsForEvent(member, event))
+                          .filter((credits) => credits != null)
+                          .reduce((sum, credits) => sum + credits, 0);
 
-                      return <Table.Cell className={styles.eventCell}>{numCredits}</Table.Cell>;
-                    })}
-                  </Table.Row>
-                );
-              })}
+                        return <Table.Cell className={styles.eventCell}>{numCredits}</Table.Cell>;
+                      })}
+                    </Table.Row>
+                  );
+                })}
           </Table.Body>
         </Table>
       </div>
