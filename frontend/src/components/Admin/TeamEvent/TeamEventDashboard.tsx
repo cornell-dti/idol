@@ -98,9 +98,7 @@ const TeamEventDashboard: React.FC = () => {
   const membersNeedingNotification = displayPeriod
     ? allMembers.filter((member) => {
         const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
-        const requiredCredits = LEAD_ROLES.includes(member.role)
-          ? REQUIRED_LEAD_TEC_CREDITS
-          : calculateCredits(null, currentPeriodCredits);
+        const requiredCredits = calculateCredits(null, currentPeriodCredits);
 
         return currentPeriodCredits < requiredCredits;
       })
