@@ -86,13 +86,8 @@ const TeamEventDashboard: React.FC = () => {
     });
 
   const periods = getPeriods();
-  const getCreditsPerPeriod = (member: IdolMember) => {
-    const credPerPeriod: number[] = [];
-    periods.forEach((period: Period) => {
-      credPerPeriod.push(getTotalCredits(member, period.events));
-    });
-    return credPerPeriod;
-  };
+  const getCreditsPerPeriod = (member: IdolMember) =>
+    periods.map((period: Period) => getTotalCredits(member, period.events));
 
   const currentPeriodIndex = getTECPeriod(new Date());
   const membersNeedingNotification = displayPeriod
