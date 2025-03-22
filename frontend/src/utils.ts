@@ -226,6 +226,13 @@ export const getTECPeriod = (submissionDate: Date) => {
   return currentPeriodIndex;
 };
 
+/**
+ * Calculates the number of credits needed based on previous and current period credits.
+ * @param prevCredits The number of credits from the previous period. Null if it's the first period.
+ * @param currentCredits The number of credits in the current period.
+ * @returns The number of additional credits needed to meet the requirement.
+ *          Returns 0 if the requirement is already met.
+ */
 export const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
   if (prevCredits === null) {
     return currentCredits < 1 ? 1 - currentCredits : 0;
