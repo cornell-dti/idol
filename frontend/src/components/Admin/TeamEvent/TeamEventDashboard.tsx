@@ -13,6 +13,7 @@ import {
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
+import { getTECPeriod } from '../../../utils';
 
 interface Period {
   name: string;
@@ -73,18 +74,9 @@ const TeamEventDashboard: React.FC = () => {
     return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
   };
 
-  const getPeriodIndex = (date: Date): number => {
-    for (let i = 0; i < TEC_DEADLINES.length; i += 1) {
-      if (date <= TEC_DEADLINES[i]) {
-        return i;
-      }
-    }
-    return TEC_DEADLINES.length - 1;
-  };
-
   const getPeriods = () =>
     TEC_DEADLINES.map((date, i) => {
-      const periodIndex = getPeriodIndex(new Date(date.getTime() - 24 * 60 * 60 * 1000));
+      const periodIndex = getTECPeriod(new Date(date.getTime() - 24 * 60 * 60 * 1000));
       const periodStart =
         periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
       const periodEnd = TEC_DEADLINES[periodIndex];
@@ -102,14 +94,6 @@ const TeamEventDashboard: React.FC = () => {
       credPerPeriod.push(getTotalCredits(member, period.events));
     });
     return credPerPeriod;
-  };
-
-  const getTECPeriod = (submissionDate: Date) => {
-    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
-    if (currentPeriodIndex === -1) {
-      return TEC_DEADLINES.length;
-    }
-    return currentPeriodIndex;
   };
 
   const calculateCredits = (prevCredits: number | null, currentCredits: number) => {

@@ -221,7 +221,7 @@ export const fpo = async (csv: File): Promise<[string[], string[][]]> => {
 export const getTECPeriod = (submissionDate: Date) => {
   const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
   if (currentPeriodIndex === -1) {
-    return TEC_DEADLINES.length;
+    return TEC_DEADLINES.length - 1;
   }
   return currentPeriodIndex;
 };
