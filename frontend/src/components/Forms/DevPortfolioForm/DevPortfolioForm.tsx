@@ -100,14 +100,20 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      (!openedEmpty && isSubmitRepo && finalPRs.some((pr) => pr.match(GITHUB_PERSONAL_REPO_REGEX) === null)) ||
-      (!openedEmpty && !isSubmitRepo && finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!openedEmpty &&
+        isSubmitRepo &&
+        finalPRs.some((pr) => pr.match(GITHUB_PERSONAL_REPO_REGEX) === null)) ||
+      (!openedEmpty &&
+        !isSubmitRepo &&
+        finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
       (!reviewedEmpty && finalReviewedPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
       (!otherEmpty && finalOtherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
-        headerMsg: isSubmitRepo ? "Invalid Personal Repository Link" : "Invalid PR Link",
-        contentMsg: isSubmitRepo ? 'One or more links to Repos and PRs are not valid links.' : 'One or more links to PRs are not valid links.'
+        headerMsg: isSubmitRepo ? 'Invalid Personal Repository Link' : 'Invalid PR Link',
+        contentMsg: isSubmitRepo
+          ? 'One or more links to Repos and PRs are not valid links.'
+          : 'One or more links to PRs are not valid links.'
       });
     } else if (isTpm && textEmpty) {
       Emitters.generalError.emit({
@@ -152,7 +158,7 @@ const DevPortfolioForm: React.FC = () => {
         status: 'pending',
         documentationText,
         ...(text && { text }),
-        submitRepo: isSubmitRepo,
+        submitRepo: isSubmitRepo
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
     }
@@ -188,10 +194,11 @@ const DevPortfolioForm: React.FC = () => {
                     key: assignment.uuid,
                     text: `${assignment.name} (Due:  ${new Date(
                       assignment.deadline
-                    ).toDateString()}) ${assignment.lateDeadline
-                      ? `(Late Due: ${new Date(assignment.lateDeadline).toDateString()})`
-                      : ''
-                      }`,
+                    ).toDateString()}) ${
+                      assignment.lateDeadline
+                        ? `(Late Due: ${new Date(assignment.lateDeadline).toDateString()})`
+                        : ''
+                    }`,
                     value: assignment.uuid
                   }))}
                 onChange={(_, data) => {
@@ -230,12 +237,14 @@ const DevPortfolioForm: React.FC = () => {
           <PRInputs
             prs={openPRs}
             setPRs={setOpenPRs}
-            placeholder={isSubmitRepo ? "Personal Repository" : "Opened PR"}
-            label={isSubmitRepo ? "Personal Repository Github Link:" : "Opened Pull Request Github Link:"}
+            placeholder={isSubmitRepo ? 'Personal Repository' : 'Opened PR'}
+            label={
+              isSubmitRepo ? 'Personal Repository Github Link:' : 'Opened Pull Request Github Link:'
+            }
             openOther={openOther}
             isRequired={!isOpenedPROptional}
-            isRepo = {isSubmitRepo}
-            setRepo = {setIsSubmitRepo}
+            isRepo={isSubmitRepo}
+            setRepo={setIsSubmitRepo}
           />
           <PRInputs
             prs={reviewPRs}
@@ -244,8 +253,8 @@ const DevPortfolioForm: React.FC = () => {
             label="Reviewed Pull Request Github Link:"
             openOther={openOther}
             isRequired={!isDevAdvisor}
-            isRepo = {isSubmitRepo}
-            setRepo = {setIsSubmitRepo}
+            isRepo={isSubmitRepo}
+            setRepo={setIsSubmitRepo}
           />
           {isTpm ? (
             <></>
@@ -317,7 +326,7 @@ const PRInputs = ({
   openOther,
   isRequired,
   isRepo,
-  setRepo 
+  setRepo
 }: {
   prs: string[];
   setPRs: React.Dispatch<React.SetStateAction<string[]>>;
@@ -339,17 +348,17 @@ const PRInputs = ({
         <label className={styles.bold}>
           {label} {isRequired && !openOther && <span className={styles.red_color}>*</span>}
         </label>
-        {(placeholder === 'Opened PR' || placeholder === "Personal Repository") && 
-        <div
-          onClick={() => {
-            setRepo((prev)=>(!prev));
-          }}
-          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-        >
-          <Icon name={isRepo ? 'check square' : 'square outline'} size="small" />
-          Submit personal repository
-        </div>}
-
+        {(placeholder === 'Opened PR' || placeholder === 'Personal Repository') && (
+          <div
+            onClick={() => {
+              setRepo((prev) => !prev);
+            }}
+            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          >
+            <Icon name={isRepo ? 'check square' : 'square outline'} size="small" />
+            Submit personal repository
+          </div>
+        )}
       </div>
 
       {prs.map((pr, index) => (
