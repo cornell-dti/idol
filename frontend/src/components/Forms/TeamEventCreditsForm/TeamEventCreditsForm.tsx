@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Label, Dropdown } from 'semantic-ui-react';
-import { Emitters, getNetIDFromEmail } from '../../../utils';
+import { calculateCredits, Emitters, getNetIDFromEmail, getTECPeriod } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
@@ -43,40 +43,21 @@ const TeamEventCreditForm: React.FC = () => {
     })
     .filter((entry): entry is { date: Date; credits: number } => entry !== null);
 
-  const getTECPeriod = (submissionDate: Date) => {
-    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
-    if (currentPeriodIndex === -1) {
-      return TEC_DEADLINES.length;
-    }
-    return currentPeriodIndex;
-  };
-
   const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);
   approvedTECDates.forEach(({ date, credits }) => {
     const period = getTECPeriod(date);
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
 
-  const calculateCredits = () => {
+  const getCurrentCreditsNeeded = () => {
     const currentPeriod = getTECPeriod(new Date());
-    const previousPeriod = currentPeriod > 0 ? currentPeriod - 1 : null;
+    const currentCredits = tecCounts[currentPeriod] || 0;
+    const previousCredits = currentPeriod > 0 ? tecCounts[currentPeriod - 1] : null;
 
-    const periodCredits = tecCounts[currentPeriod] || 0;
-    const previousPeriodCredits = previousPeriod !== null ? tecCounts[currentPeriod - 1] : 1;
-
-    if (currentPeriod === 0) {
-      return periodCredits < 1 ? 1 - periodCredits : 0;
-    }
-    if (previousPeriodCredits < 1) {
-      return periodCredits + previousPeriodCredits < 2
-        ? 2 - previousPeriodCredits - periodCredits
-        : 0;
-    }
-
-    return periodCredits < 1 ? 1 - periodCredits : 0;
+    return calculateCredits(previousCredits, currentCredits);
   };
 
-  const requiredCredits = calculateCredits();
+  const requiredCredits = getCurrentCreditsNeeded();
 
   const handleAddIconClick = () => {
     setImages((images) => [...images, '']);
