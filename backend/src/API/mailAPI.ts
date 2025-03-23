@@ -221,7 +221,7 @@ export const sendPeriodReminder = async (
   const getTECPeriod = (submissionDate: Date) => {
     const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
     if (currentPeriodIndex === -1) {
-      return TEC_DEADLINES.length;
+      return TEC_DEADLINES.length - 1;
     }
     return currentPeriodIndex;
   };
@@ -257,32 +257,16 @@ export const sendPeriodReminder = async (
     return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
   };
 
-  const getPeriodIndex = (date: Date): number => {
-    for (let i = 0; i < TEC_DEADLINES.length; i += 1) {
-      if (date <= TEC_DEADLINES[i]) {
-        return i;
-      }
-    }
-    return TEC_DEADLINES.length - 1;
-  };
-
-  const getPeriods = () => {
-    const periods: Period[] = [];
-    let i = 0;
-    TEC_DEADLINES.forEach((date) => {
-      i += 1;
-      const periodIndex = getPeriodIndex(new Date(date.getTime() - 24 * 60 * 60 * 1000));
-      const periodStart =
-        periodIndex === 0 ? getFirstPeriodStart() : TEC_DEADLINES[periodIndex - 1];
-      const periodEnd = TEC_DEADLINES[periodIndex];
+  const getPeriods = () =>
+    TEC_DEADLINES.map((date, i) => {
+      const periodStart = i === 0 ? getFirstPeriodStart() : TEC_DEADLINES[i - 1];
+      const periodEnd = TEC_DEADLINES[i];
       const events = allEvents.filter((event) => {
         const eventDate = new Date(event.date);
         return eventDate > periodStart && eventDate <= periodEnd;
       });
-      periods.push({ name: `Period ${i}`, start: periodStart, deadline: date, events });
+      return { name: `Period ${i + 1}`, start: periodStart, deadline: date, events };
     });
-    return periods;
-  };
 
   const periods = getPeriods();
 
