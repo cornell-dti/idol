@@ -227,7 +227,6 @@ export const sendPeriodReminder = async (
   };
 
   const calculateCreditsForAllPeriods = (
-    member: IdolMember,
     periods: Period[],
     pending: boolean
   ): number[] => {
@@ -306,8 +305,8 @@ export const sendPeriodReminder = async (
     return Promise.reject(new Error('No valid TEC period found.'));
   }
 
-  const creditsPerPeriod = calculateCreditsForAllPeriods(member, periods, false);
-  const pendingCreditsPerPeriod = calculateCreditsForAllPeriods(member, periods, true);
+  const creditsPerPeriod = calculateCreditsForAllPeriods(periods, false);
+  const pendingCreditsPerPeriod = calculateCreditsForAllPeriods(periods, true);
 
   const currentPeriod = periods[currentPeriodIndex];
   const periodStart = currentPeriod.start;
