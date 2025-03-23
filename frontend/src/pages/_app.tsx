@@ -135,10 +135,16 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
 const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const hasMemberPermissions = useHasMemberPermission();
+  const hasAdminPermission = useHasAdminPermission();
 
-  if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
-    router.push('/applicant');
-  }
-
+  useEffect(() => {
+    if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
+      if (router.pathname !== '/applicant') router.push('/applicant');
+      return;
+    }
+    if (router.pathname.startsWith('/admin') && !hasAdminPermission) {
+      if (router.pathname !== '/') router.push('/');
+    }
+  }, [router.pathname, hasMemberPermissions, hasAdminPermission]);
   return <>{children}</>;
 };

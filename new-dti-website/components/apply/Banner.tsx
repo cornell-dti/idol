@@ -5,6 +5,7 @@ interface BannerProps {
   variant?: 'default' | 'accent' | 'outlined';
   className?: string;
   navbarHeight?: number;
+  link?: string;
 }
 
 const variantStyles: Record<NonNullable<BannerProps['variant']>, string> = {
@@ -26,23 +27,34 @@ const variantStyles: Record<NonNullable<BannerProps['variant']>, string> = {
  *   - `message` (string): The message to be displayed in the banner. *(Required)*
  *   - `variant` (`'default' | 'accent' | 'outlined'`, optional): Specifies the banner's style. Defaults to `'default'`.
  *   - `className` (string, optional): Additional classes for custom styling. Defaults to an empty string. This has priority over the
- *     className so you can customizse it to your liking.
+ *     className so you can customize it to your liking.
  *   - `navbarHeight` (number, optional): The height of the navbar. Determines when the banner becomes fixed.
  *     Defaults to `130` for the current navbar.
+ *   - `link` (string, optional): If provided, wraps the banner in an anchor tag.
  */
 export default function Banner({
   message,
   variant = 'default',
   className = '',
-  navbarHeight = 130
+  navbarHeight = 130,
+  link
 }: BannerProps) {
   const variantClass = variantStyles[variant] || '';
+  const hoverClass = link ? 'hover:bg-red-800' : '';
 
-  return (
+  const bannerContent = (
     <div
-      className={`absolute top-0 left-0 w-full text-white text-center text-xs sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl px-6 py-4 z-50 ${variantClass} ${className}`}
+      className={`absolute top-0 left-0 w-full text-white text-center text-[20px] px-6 py-4 z-50 ${variantClass} ${className} ${hoverClass}`}
     >
       {message}
     </div>
+  );
+
+  return link ? (
+    <a href={link} target="_blank" rel="noreferrer">
+      {bannerContent}
+    </a>
+  ) : (
+    bannerContent
   );
 }

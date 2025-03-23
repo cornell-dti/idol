@@ -59,18 +59,41 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       return aDate.getTime() - bDate.getTime();
     });
 
-    const firstEventDate = parseDate(sortedEvents[0].date, '11:59:59 PM', sortedEvents[0].time);
-    const lastEventDate = parseDate(
-      sortedEvents[sortedEvents.length - 1].date,
+    const currentEventIndex = sortedEvents.findIndex((event) => {
+      const eventDate = parseDate(event.date, '11:59:59 PM', event.time);
+      return eventDate > currentDate;
+    });
+
+    if (currentEventIndex === -1) {
+      // All events are in the past
+      return 100;
+    }
+
+    if (currentEventIndex === 0) {
+      // Current date is before the first event
+      return 0;
+    }
+
+    const lastCompletedEventDate = parseDate(
+      sortedEvents[currentEventIndex - 1].date,
       '11:59:59 PM',
-      sortedEvents[sortedEvents.length - 1].time
+      sortedEvents[currentEventIndex - 1].time
+    );
+    const nextEventDate = parseDate(
+      sortedEvents[currentEventIndex].date,
+      '11:59:59 PM',
+      sortedEvents[currentEventIndex].time
     );
 
-    const totalTimeSpan = lastEventDate.getTime() - firstEventDate.getTime();
-    const timeElapsed = Math.max(0, currentDate.getTime() - firstEventDate.getTime());
-    const progress = (timeElapsed / totalTimeSpan) * 100;
+    const segmentTimeSpan = nextEventDate.getTime() - lastCompletedEventDate.getTime();
+    const timeElapsedInSegment = Math.max(
+      0,
+      currentDate.getTime() - lastCompletedEventDate.getTime()
+    );
+    const segmentProgress = (timeElapsedInSegment / segmentTimeSpan) * 100;
 
-    return Math.min(100, Math.max(0, progress));
+    const totalProgress = ((currentEventIndex - 1) / (sortedEvents.length - 1)) * 100;
+    return Math.min(100, totalProgress + segmentProgress / (sortedEvents.length - 1));
   };
 
   const progressPercentage = getProgressPercentage();

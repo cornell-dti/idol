@@ -68,7 +68,7 @@ const CoffeeChatsDashboard = ({
   );
 
   const approvedArchivedChats = useMemo(
-    () => archivedChats.filter((chat) => chat.status === 'approved'),
+    () => archivedChats.filter((chat) => chat.status === 'approved' && chat.otherMember),
     [archivedChats]
   );
 
@@ -155,6 +155,7 @@ const CoffeeChatsDashboard = ({
         deleteCoffeeChatRequest={deleteCoffeeChatRequest}
         userInfo={userInfo}
         submittedChats={[...pendingChats, ...approvedChats]}
+        approvedArchivedChats={[...approvedArchivedChats]}
       />
 
       <div className={styles.rejected_section}>

@@ -42,14 +42,14 @@
     "college": "cals",
     "github": null,
     "hometown": "Fairfax, VA",
-    "website": null,
     "minor": null,
     "major": "Information Science",
     "doubleMajor": null,
     "coffeeChatLink": null,
-    "about": "i love design and matcha",
     "pronouns": "she/her",
-    "linkedin": null
+    "website": "https://ashleypaik.framer.website/",
+    "about": "Hi! I'm Ashley and I'm a sophomore studying Information Science with concentrations in UX and Data Science. I'm currently a designer on CornellGo 🧸\n\nFeel free to reach out and chat!  🍵\n",
+    "linkedin": "https://www.linkedin.com/in/ashleypaik401/"
   },
   {
     "formerSubteams": [],
@@ -195,9 +195,9 @@
     "doubleMajor": null,
     "graduation": "2028",
     "coffeeChatLink": null,
-    "about": "hi guys",
     "pronouns": "he/him",
-    "linkedin": "https://www.linkedin.com/in/arshsingh5/"
+    "linkedin": "https://www.linkedin.com/in/arshsingh5/",
+    "about": "Hey! I'm Arsh, and I'm a developer at CURaise (coming soon :0)! I love playing tennis and baking, and if you wanna chat or play smash, hmu!"
   },
   {
     "formerSubteams": [],
@@ -861,26 +861,28 @@
   },
   {
     "formerSubteams": [],
-    "hometown": "",
-    "pronouns": "",
     "role": "developer",
     "subteams": [
       "idol"
     ],
     "email": "jjm493@cornell.edu",
     "github": "https://github.com/JasonMun7",
-    "minor": "",
-    "website": "",
     "firstName": "Jason",
     "lastName": "Mun",
-    "major": "",
-    "about": "",
-    "linkedin": "",
-    "doubleMajor": "",
     "roleDescription": "Developer",
     "netid": "jjm493",
     "graduation": "May 2026",
-    "semesterJoined": "Spring 2023"
+    "semesterJoined": "Spring 2023",
+    "college": "cas",
+    "hometown": "Utah",
+    "website": null,
+    "minor": "Artificial Intelligence",
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "coffeeChatLink": null,
+    "about": "I love to play volleyball and Ski!",
+    "pronouns": "He/Him",
+    "linkedin": "https://www.linkedin.com/in/jason-mun-25181b1b9/"
   },
   {
     "hometown": "San Francisco",
@@ -1823,27 +1825,29 @@
     "roleDescription": "Designer"
   },
   {
-    "subteams": [],
     "formerSubteams": [],
-    "firstName": "Rachel",
-    "lastName": "Tay",
-    "email": "rt489@cornell.edu",
-    "role": "business",
-    "semesterJoined": "Spring 2025",
-    "netid": "rt489",
-    "roleDescription": "Business",
-    "college": "cals",
-    "github": null,
-    "hometown": "Ithaca, NY",
-    "website": null,
-    "minor": "Business",
-    "major": "Biological Engineering",
-    "doubleMajor": null,
     "graduation": "Spring 2028",
-    "coffeeChatLink": null,
+    "email": "rt489@cornell.edu",
+    "major": "Biological Engineering",
     "about": "Hi! I love stories - feel free to reach out for a coffee chat!",
+    "semesterJoined": "Spring 2025",
+    "hometown": "Ithaca, NY",
+    "roleDescription": "Business",
+    "firstName": "Rachel",
+    "subteams": [
+      "business"
+    ],
     "pronouns": "she/her",
-    "linkedin": "www.linkedin.com/in/racheletay"
+    "college": "cals",
+    "netid": "rt489",
+    "coffeeChatLink": null,
+    "lastName": "Tay",
+    "minor": "Business",
+    "linkedin": "www.linkedin.com/in/racheletay",
+    "doubleMajor": null,
+    "website": null,
+    "role": "business",
+    "github": null
   },
   {
     "formerSubteams": [],
