@@ -36,9 +36,9 @@ const TeamEventCreditForm: React.FC = () => {
       const matchingEvent = teamEventInfoList.find((event) => event.uuid === attendance.eventUuid);
       return matchingEvent
         ? {
-          date: new Date(matchingEvent.date),
-          credits: parseFloat(matchingEvent.numCredits)
-        }
+            date: new Date(matchingEvent.date),
+            credits: parseFloat(matchingEvent.numCredits)
+          }
         : null;
     })
     .filter((entry): entry is { date: Date; credits: number } => entry !== null);
@@ -128,8 +128,9 @@ const TeamEventCreditForm: React.FC = () => {
     } else if (submittedCredits + creditsToSubmit > Number(teamEvent.maxCredits)) {
       Emitters.generalError.emit({
         headerMsg: 'Maximum Credits Violated',
-        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${submittedCredits + creditsToSubmit
-          } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
+        contentMsg: `You have ${submittedCredits} pending or approved credit(s) for the event! Submitting a total of ${
+          submittedCredits + creditsToSubmit
+        } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
       await Promise.all(
@@ -207,8 +208,9 @@ const TeamEventCreditForm: React.FC = () => {
                 value={teamEvent?.uuid ?? ''}
                 text={
                   teamEvent
-                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${teamEvent.hasHours ? 'per hour' : ''
-                    }`
+                    ? `${teamEvent.name} - ${teamEvent.numCredits} credit(s) ${
+                        teamEvent.hasHours ? 'per hour' : ''
+                      }`
                     : ''
                 }
                 options={teamEventInfoList
@@ -230,9 +232,11 @@ const TeamEventCreditForm: React.FC = () => {
                           ></Label>
 
                           <Label
-                            content={`${event.numCredits} ${Number(event.numCredits) === 1 ? 'credit' : 'credits'
-                              } ${event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
-                              } ${event.hasHours ? 'per hour' : ''}`}
+                            content={`${event.numCredits} ${
+                              Number(event.numCredits) === 1 ? 'credit' : 'credits'
+                            } ${
+                              event.maxCredits > event.numCredits ? `(${event.maxCredits} max)` : ''
+                            } ${event.hasHours ? 'per hour' : ''}`}
                           ></Label>
                         </div>
                       </div>
