@@ -226,10 +226,7 @@ export const sendPeriodReminder = async (
     return currentPeriodIndex;
   };
 
-  const calculateCreditsForAllPeriods = (
-    periods: Period[],
-    pending: boolean
-  ): number[] => {
+  const calculateCreditsForAllPeriods = (periods: Period[], pending: boolean): number[] => {
     const creditsPerPeriod = new Array(periods.length).fill(0);
     const pendingCreditsPerPeriod = new Array(periods.length).fill(0);
 
