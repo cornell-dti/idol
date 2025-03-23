@@ -358,7 +358,7 @@ const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, s
       <>
         <Icon color={isValid ? 'green' : 'red'} name={isValid ? 'checkmark' : 'x'} />
         <p>{prSubmission.reason ? `(${prSubmission.reason})` : ''}</p>
-        {(submitRepo !== undefined) && <p>{'Submitted a Personal Repository'}</p>}
+        {(submitRepo !== undefined) && submitRepo && <p>{'Submitted a Personal Repository'}</p>}
       </>
     </>
   );

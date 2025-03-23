@@ -55,6 +55,7 @@ const DevPortfolioForm: React.FC = () => {
           setText('');
           setDocumentationText('');
           setOpenOther(false);
+          setIsSubmitRepo(false);
           refreshDevPortfolios();
         }
       }
