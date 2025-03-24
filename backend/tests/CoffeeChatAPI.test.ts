@@ -213,19 +213,24 @@ describe('runAutoChecker tests', () => {
     );
   });
 
-  test('runAutoChecker should throw error if archived chat exists with same submitter and other member', async () => {
+  test('runAutoChecker should mark memberMeetsCategory as fail if archived chat exists', async () => {
     const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
     const mockGetCoffeeChatsByUser = jest
       .fn()
       .mockResolvedValue([{ ...coffeeChat, isArchived: true }]);
+    const mockUpdateCoffeeChat = jest.fn().mockResolvedValue({
+      ...coffeeChat,
+      memberMeetsCategory: 'fail',
+      errorMessage: `An archived chat already exists between ${coffeeChat.submitter.firstName} and ${coffeeChat.otherMember.firstName}.`
+    });
+
     CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
     CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
+    CoffeeChatDao.prototype.updateCoffeeChat = mockUpdateCoffeeChat;
 
-    await expect(runAutoChecker(coffeeChat.uuid, adminUser)).rejects.toThrow(
-      new BadRequestError(
-        `Coffee chat with uuid: ${coffeeChat.uuid} has an archived chat with the same submitter and other member`
-      )
-    );
+    const result = await runAutoChecker(coffeeChat.uuid, adminUser);
+    expect(result.memberMeetsCategory).toBe('fail');
+    expect(result.errorMessage).toContain('archived chat');
   });
 
   test('runAutoChecker should update coffee chat if no archived chat exists', async () => {
