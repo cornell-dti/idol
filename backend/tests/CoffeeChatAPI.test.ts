@@ -8,10 +8,11 @@ import {
   updateCoffeeChat,
   deleteCoffeeChat,
   clearAllCoffeeChats,
-  checkMemberMeetsCategory
+  checkMemberMeetsCategory,
+  runAutoChecker
 } from '../src/API/coffeeChatAPI';
 import { setMember, deleteMember } from '../src/API/memberAPI';
-import { PermissionError } from '../src/utils/errors';
+import { BadRequestError, PermissionError } from '../src/utils/errors';
 
 const user = fakeIdolMember();
 const user2 = fakeIdolMember();
@@ -188,11 +189,69 @@ describe('User is lead or admin', () => {
   });
 });
 
+describe('runAutoChecker tests', () => {
+  const adminUser = fakeIdolLead();
+  const submitter = fakeIdolMember();
+  const otherMember = fakeIdolMember();
+  const coffeeChat = { ...fakeCoffeeChat(), submitter, otherMember };
+
+  beforeAll(() => {
+    const mockIsLeadOrAdmin = jest.fn().mockResolvedValue(true);
+    PermissionsManager.isLeadOrAdmin = mockIsLeadOrAdmin;
+  });
+
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
+
+  test('runAutoChecker should throw error if coffee chat does not exist', async () => {
+    const mockGetCoffeeChat = jest.fn().mockResolvedValue(null);
+    CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
+
+    await expect(runAutoChecker('fake-uuid', adminUser)).rejects.toThrow(
+      new BadRequestError(`Coffee chat with uuid: fake-uuid does not exist`)
+    );
+  });
+
+  test('runAutoChecker should mark memberMeetsCategory as fail if archived chat exists', async () => {
+    const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
+    const mockGetCoffeeChatsByUser = jest
+      .fn()
+      .mockResolvedValue([{ ...coffeeChat, isArchived: true }]);
+    const mockUpdateCoffeeChat = jest.fn().mockResolvedValue({
+      ...coffeeChat,
+      memberMeetsCategory: 'fail',
+      errorMessage: `An archived chat already exists between ${coffeeChat.submitter.firstName} and ${coffeeChat.otherMember.firstName}.`
+    });
+
+    CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
+    CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
+    CoffeeChatDao.prototype.updateCoffeeChat = mockUpdateCoffeeChat;
+
+    const result = await runAutoChecker(coffeeChat.uuid, adminUser);
+    expect(result.memberMeetsCategory).toBe('fail');
+    expect(result.errorMessage).toContain('archived chat');
+  });
+
+  test('runAutoChecker should update coffee chat if no archived chat exists', async () => {
+    const mockGetCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
+    const mockGetCoffeeChatsByUser = jest.fn().mockResolvedValue([]);
+    const mockUpdateCoffeeChat = jest.fn().mockResolvedValue(coffeeChat);
+    CoffeeChatDao.prototype.getCoffeeChat = mockGetCoffeeChat;
+    CoffeeChatDao.prototype.getCoffeeChatsByUser = mockGetCoffeeChatsByUser;
+    CoffeeChatDao.prototype.updateCoffeeChat = mockUpdateCoffeeChat;
+
+    const result = await runAutoChecker(coffeeChat.uuid, adminUser);
+    expect(result).toBeDefined();
+    expect(CoffeeChatDao.prototype.updateCoffeeChat).toBeCalled();
+  });
+});
+
 describe('More complicated member meets category checks', () => {
   const admin = { ...fakeIdolLead() };
   const user1 = fakeIdolMember();
-  const user2 = { ...fakeIdolMember(), role: 'dev-advisor' as Role };
-  const user3 = { ...fakeIdolMember(), role: 'tpm' as Role };
+  const user2 = { ...fakeIdolMember(), role: 'dev-advisor' };
+  const user3 = { ...fakeIdolMember(), role: 'tpm' };
   const user4 = { ...fakeIdolMember(), semesterJoined: 'Spring 2025' };
 
   beforeAll(async () => {
