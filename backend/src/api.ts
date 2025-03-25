@@ -67,7 +67,8 @@ import {
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
   deleteTeamEventAttendance,
-  notifyMemberTeamEvents
+  notifyMemberTeamEvents,
+  notifyMemberPeriod
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -454,6 +455,9 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
     req.body,
     user
   )
+}));
+loginCheckedPost('/send-period-reminder', async (req, user) => ({
+  info: await notifyMemberPeriod(req, req.body, user)
 }));
 
 // Candidate Decider
