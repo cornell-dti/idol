@@ -1,12 +1,14 @@
 .headerContainer {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.csvButton {
-  padding-left: 30%;
-  padding-right: 5%;
-  padding-bottom: 0.5em;
+.csvButton,
+.displayPeriod {
+  padding: 0.5em 5%;
+  display: inline-block;
 }
 
 .dashboardContainer {
@@ -25,11 +27,11 @@
 }
 
 .nameCell {
-  position: sticky;
-  left: 0;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: white;
-  min-width: 250px;
+  gap: 10px;
 }
 
 .nameHeaderCell {
@@ -38,13 +40,12 @@
 }
 
 .remindButton {
-  position: sticky;
-  left: 35%;
+  position: inline-block;
+  margin-left: 15px;
 }
 
 .notify {
-  position: absolute;
-  right: 1%;
+  right: 10px;
 }
 
 .endOfSemesterCheckbox {

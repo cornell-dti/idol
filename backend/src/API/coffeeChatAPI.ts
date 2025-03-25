@@ -193,19 +193,37 @@ export const runAutoChecker = async (uuid: string, user: IdolMember): Promise<Co
     throw new BadRequestError(`Coffee chat with uuid: ${uuid} does not exist`);
   }
 
-  const result = await checkMemberMeetsCategory(
-    coffeeChat.otherMember.email,
+  const archivedChats = await coffeeChatDao.getCoffeeChatsByUser(
     coffeeChat.submitter.email,
-    coffeeChat.category
+    'approved',
+    coffeeChat.otherMember
   );
 
-  const updatedCC = {
-    ...coffeeChat,
-    memberMeetsCategory: result.status,
-    errorMessage: result.message
-  };
-  await coffeeChatDao.updateCoffeeChat(updatedCC);
+  const hasArchivedChat = archivedChats.some((chat) => chat.isArchived);
 
+  let updatedCC: CoffeeChat;
+
+  if (hasArchivedChat) {
+    updatedCC = {
+      ...coffeeChat,
+      memberMeetsCategory: 'fail',
+      errorMessage: `An archived chat already exists between ${coffeeChat.submitter.firstName} and ${coffeeChat.otherMember.firstName}.`
+    };
+  } else {
+    const result = await checkMemberMeetsCategory(
+      coffeeChat.otherMember.email,
+      coffeeChat.submitter.email,
+      coffeeChat.category
+    );
+
+    updatedCC = {
+      ...coffeeChat,
+      memberMeetsCategory: result.status,
+      errorMessage: result.message
+    };
+  }
+
+  await coffeeChatDao.updateCoffeeChat(updatedCC);
   return updatedCC;
 };
 
