@@ -184,7 +184,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <Button.Group className={styles.previousNextButtonContainer}>
             <Button
               basic
-              color="red"
+              color="blue"
               disabled={currentCandidate === 0}
               onClick={() => {
                 handleCandidateChange(currentCandidate - 1);
