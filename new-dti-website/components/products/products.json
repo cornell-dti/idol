@@ -23,6 +23,28 @@
       "productImageDimensions": 1500
     },
     {
+      "alt": "james",
+      "name": "CU Reviews",
+      "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
+      "link": "https://cureviews.org/",
+      "iconPath": "/icons/james.png",
+      "iconDimensions": 90,
+      "iconClassName": "-translate-x-2",
+      "blobs": [
+        {
+          "className": "left-3/4 -top-32 scale-50 md:scale-100",
+          "intensity": 0.4
+        },
+        {
+          "className": "-left-20 scale-50 md:scale-100",
+          "intensity": 0.4
+        }
+      ],
+      "productImage": "/images/products/cureviews.png",
+      "productAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
+      "productImageDimensions": 1500
+    },
+    {
       "alt": "courseplan",
       "name": "Course Plan",
       "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
