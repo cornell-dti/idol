@@ -24,9 +24,9 @@
     },
     {
       "alt": "james",
-      "name": "CU Reviews",
-      "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
-      "link": "https://cureviews.org/",
+      "name": "james",
+      "description": "james is bald",
+      "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "iconPath": "/icons/james.png",
       "iconDimensions": 90,
       "iconClassName": "-translate-x-2",
@@ -41,7 +41,7 @@
         }
       ],
       "productImage": "/images/products/cureviews.png",
-      "productAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
+      "productAlt": "james",
       "productImageDimensions": 1500
     },
     {
