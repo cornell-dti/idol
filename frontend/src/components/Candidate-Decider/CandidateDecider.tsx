@@ -48,6 +48,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nextCandidate, setNextCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
+  const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
   const [seeApplicantName, setSeeApplicantName] = useState<boolean>(false);
 
   const userInfo = useSelf();
