@@ -27,7 +27,7 @@ const ApplicantCredentials: React.FC<Props> = ({
   preferredName,
   candidate
 }) => (
-  <Card className={styles.credentialContainer}>
+  <div className={styles.credentialContainer}>
     {seeApplicantName ? (
       <>
         <h1>
@@ -83,7 +83,7 @@ const ApplicantCredentials: React.FC<Props> = ({
         )}
       </div>
     )}
-  </Card>
+  </div>
 );
 
 const FileIcon = () => (

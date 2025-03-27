@@ -22,7 +22,7 @@ const GlobalProgressPanel: React.FC<Props> = ({ showOtherVotes, candidates, revi
         size="tiny"
         color="blue"
       >{`${reviews.length}/${candidates.length * allReviewers.length}`}</Progress>
-      <RatingsDisplay ratings={reviews} header="Global Rating Statistics" />
+      {/* <RatingsDisplay ratings={reviews} header="Global Rating Statistics" /> */}
       {showOtherVotes ? (
         <>
           <h3>Per-person Ratings</h3>

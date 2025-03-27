@@ -11,10 +11,42 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import { Dispatch, SetStateAction } from 'react';
+import { Form, Radio } from 'semantic-ui-react';
+import ApplicantCredentials from './ApplicantCredentials';
 
 type CandidateDeciderProps = {
   uuid: string;
 };
+
+const ratings = [
+  { value: 1, text: 'Strong No', color: 'red' },
+  { value: 2, text: 'No', color: 'orange' },
+  { value: 3, text: 'Maybe', color: 'yellow' },
+  { value: 4, text: 'Yes', color: 'green' },
+  { value: 5, text: 'Strong Yes', color: 'green ' },
+  { value: 0, text: 'Undecided', color: 'grey' }
+];
+
+type CommentEditorProps = {
+  currentComment: string | undefined;
+  setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
+};
+
+const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
+  <div style={{ width: '100%' }}>
+    <h4>Comments</h4>
+    <Form.Group inline>
+      <Form.Input
+        style={{ height: 256, width: '100%' }}
+        className="fifteen wide field"
+        placeholder={'Comment...'}
+        onChange={(_, data) => setCurrentComment(data.value)}
+        value={currentComment}
+      />
+    </Form.Group>
+  </div>
+);
 
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -154,19 +186,58 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           </Button>
         </Modal.Actions>
       </Modal>
-      <div className={styles.applicationContainer}>
-        <div className={styles.searchBar}>
-          <SearchBar
-            instance={instance}
-            setCurrentCandidate={(candidate) => {
-              handleCandidateChange(candidate);
-            }}
-            currentCandidate={currentCandidate}
-            seeApplicantName={seeApplicantName}
-          />
-        </div>
-        <div className={styles.controlsContainer}>
-          <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
+      <div className={styles.leftColumn}>
+        <div className={styles.top}>
+          <div className={styles.navigation}>
+            <div className={styles.progressContainer}>
+              <LocalProgressPanel
+                showOtherVotes={showOtherVotes}
+                candidates={instance.candidates}
+                currentCandidate={currentCandidate}
+                reviews={completedReviews}
+              />
+              {/* <GlobalProgressPanel
+            showOtherVotes={showOtherVotes}
+            candidates={instance.candidates}
+            reviews={completedReviews}
+          /> */}
+            </div>
+
+            <div className={styles.searchBar}>
+              <Button
+                basic
+                color="blue"
+                disabled={currentCandidate === 0}
+                onClick={() => {
+                  handleCandidateChange(currentCandidate - 1);
+                }}
+              >
+                PREVIOUS
+              </Button>
+              <SearchBar
+                instance={instance}
+                setCurrentCandidate={(candidate) => {
+                  handleCandidateChange(candidate);
+                }}
+                currentCandidate={currentCandidate}
+                seeApplicantName={seeApplicantName}
+              />
+              <Button.Group className={styles.previousNextButtonContainer}>
+                <Button
+                  basic
+                  color="blue"
+                  disabled={currentCandidate === instance.candidates.length - 1}
+                  onClick={() => {
+                    handleCandidateChange(currentCandidate + 1);
+                  }}
+                >
+                  NEXT
+                </Button>
+              </Button.Group>
+            </div>
+
+            <div className={styles.controlsContainer}>
+              {/* <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
           <Dropdown
             compact
             value={currentCandidate}
@@ -180,43 +251,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               handleCandidateChange(data.value as number);
             }}
           />
-          <span className={styles.ofNum}>of {instance.candidates.length}</span>
-          <Button.Group className={styles.previousNextButtonContainer}>
-            <Button
-              basic
-              color="blue"
-              disabled={currentCandidate === 0}
-              onClick={() => {
-                handleCandidateChange(currentCandidate - 1);
-              }}
-            >
-              PREVIOUS
-            </Button>
-            <Button
-              basic
-              color="blue"
-              disabled={currentCandidate === instance.candidates.length - 1}
-              onClick={() => {
-                handleCandidateChange(currentCandidate + 1);
-              }}
-            >
-              NEXT
-            </Button>
-          </Button.Group>
-          <Button
-            className="ui blue button"
-            disabled={isSaved}
-            onClick={() => {
-              handleRatingAndCommentChange(
-                currentCandidate,
-                currentRating ?? 0,
-                currentComment ?? ''
-              );
-            }}
-          >
-            Save
-          </Button>
-          {hasAdminPermission && (
+          <span className={styles.ofNum}>of {instance.candidates.length}</span> */}
+
+              {/* {hasAdminPermission && (
             <Checkbox
               className={styles.showOtherVotes}
               toggle
@@ -224,17 +261,61 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               onChange={() => setShowOtherVotes((prev) => !prev)}
               label="Show other people's votes"
             />
-          )}
-          {hasAdminPermission && (
-            <Checkbox
-              className={styles.seeApplicantName}
-              toggle
-              checked={seeApplicantName}
-              onChange={() => setSeeApplicantName((prev) => !prev)}
-              label="See applicant name"
-            />
-          )}
+          )} */}
+            </div>
+          </div>
+          <div className={styles.commentEditorWrapper}>
+            <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
+          </div>
         </div>
+        <div className={styles.bottom}>
+          <div className={styles.ratingSelectorWrapper}>
+            <h4>Final selection</h4>
+
+            <Form>
+              <Form.Group inline>
+                {ratings.map((rt) => (
+                  <Form.Field key={rt.value}>
+                    <Radio
+                      label={rt.text}
+                      name="rating-group"
+                      value={rt.value}
+                      color={rt.color}
+                      checked={rt.value === currentRating}
+                      onClick={() => setCurrentRating(rt.value as Rating)}
+                    />
+                  </Form.Field>
+                ))}
+              </Form.Group>
+            </Form>
+          </div>
+          <div className={styles.saveButtonWrapper}>
+            <Button
+              className="ui blue button"
+              disabled={isSaved}
+              onClick={() => {
+                handleRatingAndCommentChange(
+                  currentCandidate,
+                  currentRating ?? 0,
+                  currentComment ?? ''
+                );
+              }}
+            >
+              Save
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className={styles.responsesContainer}>
+        {hasAdminPermission && (
+          <Checkbox
+            className={styles.seeApplicantName}
+            toggle
+            checked={seeApplicantName}
+            onChange={() => setSeeApplicantName((prev) => !prev)}
+            label="See applicant name"
+          />
+        )}
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
@@ -244,19 +325,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
           candidate={instance.candidates[currentCandidate].id}
-        />
-      </div>
-      <div className={styles.progressContainer}>
-        <LocalProgressPanel
-          showOtherVotes={showOtherVotes}
-          candidates={instance.candidates}
-          currentCandidate={currentCandidate}
-          reviews={completedReviews}
-        />
-        <GlobalProgressPanel
-          showOtherVotes={showOtherVotes}
-          candidates={instance.candidates}
-          reviews={completedReviews}
         />
       </div>
     </div>

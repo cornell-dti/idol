@@ -96,7 +96,7 @@ const ResponsesPanel: React.FC<Props> = ({
   candidate
 }) => (
   <div>
-    <Form>
+    {/* <Form>
       <Form.Group inline>
         {ratings.map((rt) => (
           <Form.Field key={rt.value}>
@@ -112,7 +112,7 @@ const ResponsesPanel: React.FC<Props> = ({
         ))}
       </Form.Group>
       <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
-    </Form>
+    </Form> */}
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}
@@ -134,21 +134,4 @@ const ResponsesPanel: React.FC<Props> = ({
   </div>
 );
 
-type CommentEditorProps = {
-  currentComment: string;
-  setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
-};
-
-const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
-  <div>
-    <Form.Group inline>
-      <Form.Input
-        className="fifteen wide field"
-        placeholder={'Comment...'}
-        onChange={(_, data) => setCurrentComment(data.value)}
-        value={currentComment}
-      />
-    </Form.Group>
-  </div>
-);
 export default ResponsesPanel;
