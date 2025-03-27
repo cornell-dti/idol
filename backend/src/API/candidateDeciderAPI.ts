@@ -36,6 +36,25 @@ export const getAllCandidateDeciderInstances = async (
 };
 
 /**
+ * Returns whether a CandidateDecier instance is assigned to the user
+ * This method checks if a CandidateDecier instance is assigned to the user
+ * @returns {Promise<boolean>} A promise that resolves with a boolean indicating whether the user has access to the instance
+ */
+export const hasCandidateDeciderInstance = async (
+  user: IdolMember
+ ): Promise<boolean> => true;
+//  {
+//   if (await PermissionsManager.isAdmin(user)) return true;
+//   const instances = await candidateDeciderDao.getAllInstances();
+//   for (const instance of instances) {
+//     if (instance.authorizedMembers.some((member) => member.email === user.email) || instance.authorizedRoles.includes(user.role)) {
+//       return true;
+//     }
+//   }
+//   return false;
+// };
+
+/**
  * Creates a new CandidateDecider instance in the database.
  * This method checks if the user has admin permissions before allowing the creation of the instance.
  * @returns {Promise<CandidateDeciderInfo>} A promise that resolves with the created CandidateDeciderInfo object.

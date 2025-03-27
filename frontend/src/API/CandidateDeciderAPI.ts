@@ -7,6 +7,12 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instances);
   }
 
+  static async hasCandidateDeciderInstance(user: IdolMember): Promise<boolean> {
+    const response = APIWrapper.get(`${backendURL}/candidate-decider-instance/`);
+    // console.log(`info: ${(await response).data.hasInstance}`)
+    return response.then((val) => val.data.hasInstance);
+  }
+
   static async getInstance(uuid: string): Promise<CandidateDeciderInstance> {
     const response = APIWrapper.get(`${backendURL}/candidate-decider/${uuid}`);
     return response.then((val) => val.data.instance);
