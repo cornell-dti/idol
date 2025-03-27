@@ -34,7 +34,6 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
         color="blue"
       >{`${myRatings.length}/${candidates.length}`}</Progress>
 
-      {/* <RatingsDisplay ratings={myRatings} header="My Rating Statistics" /> */}
       {showOtherVotes && userInfo && LEAD_ROLES.includes(userInfo.role) ? (
         <>
           <RatingsDisplay

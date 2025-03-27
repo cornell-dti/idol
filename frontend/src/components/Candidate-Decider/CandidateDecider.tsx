@@ -226,8 +226,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 </Button>
               </Button.Group>
             </div>
-
-            <div className={styles.controlsContainer}></div>
           </div>
           <div className={styles.commentEditorWrapper}>
             <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
