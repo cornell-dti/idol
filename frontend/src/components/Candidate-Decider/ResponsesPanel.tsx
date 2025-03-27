@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
 
@@ -13,15 +12,6 @@ type Props = {
   seeApplicantName: boolean;
   candidate: number;
 };
-
-const ratings = [
-  { value: 1, text: 'Strong No', color: 'red' },
-  { value: 2, text: 'No', color: 'orange' },
-  { value: 3, text: 'Maybe', color: 'yellow' },
-  { value: 4, text: 'Yes', color: 'green' },
-  { value: 5, text: 'Strong Yes', color: 'green ' },
-  { value: 0, text: 'Undecided', color: 'grey' }
-];
 
 const credentialHeaders = [
   'Email Address',
@@ -96,23 +86,6 @@ const ResponsesPanel: React.FC<Props> = ({
   candidate
 }) => (
   <div>
-    {/* <Form>
-      <Form.Group inline>
-        {ratings.map((rt) => (
-          <Form.Field key={rt.value}>
-            <Radio
-              label={rt.text}
-              name="rating-group"
-              value={rt.value}
-              color={rt.color}
-              checked={rt.value === currentRating}
-              onClick={() => setCurrentRating(rt.value as Rating)}
-            />
-          </Form.Field>
-        ))}
-      </Form.Group>
-      <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
-    </Form> */}
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}

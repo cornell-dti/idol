@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Button, Dropdown, Checkbox, Modal } from 'semantic-ui-react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { Button, Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
-import GlobalProgressPanel from './GlobalProgressPanel';
 import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
@@ -11,9 +10,6 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
-import { Dispatch, SetStateAction } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
-import ApplicantCredentials from './ApplicantCredentials';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -52,7 +48,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nextCandidate, setNextCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
-  const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
   const [seeApplicantName, setSeeApplicantName] = useState<boolean>(false);
 
   const userInfo = useSelf();
@@ -196,11 +191,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentCandidate={currentCandidate}
                 reviews={completedReviews}
               />
-              {/* <GlobalProgressPanel
-            showOtherVotes={showOtherVotes}
-            candidates={instance.candidates}
-            reviews={completedReviews}
-          /> */}
             </div>
 
             <div className={styles.searchBar}>
@@ -236,33 +226,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
               </Button.Group>
             </div>
 
-            <div className={styles.controlsContainer}>
-              {/* <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
-          <Dropdown
-            compact
-            value={currentCandidate}
-            selection
-            options={instance.candidates.map((candidate) => ({
-              value: candidate.id,
-              key: candidate.id,
-              text: candidate.id + 1 // offset by 1 to account for 0-indexed array
-            }))}
-            onChange={(_, data) => {
-              handleCandidateChange(data.value as number);
-            }}
-          />
-          <span className={styles.ofNum}>of {instance.candidates.length}</span> */}
-
-              {/* {hasAdminPermission && (
-            <Checkbox
-              className={styles.showOtherVotes}
-              toggle
-              checked={showOtherVotes}
-              onChange={() => setShowOtherVotes((prev) => !prev)}
-              label="Show other people's votes"
-            />
-          )} */}
-            </div>
+            <div className={styles.controlsContainer}></div>
           </div>
           <div className={styles.commentEditorWrapper}>
             <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />

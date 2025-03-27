@@ -1,4 +1,3 @@
-import { Card } from 'semantic-ui-react';
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
 
