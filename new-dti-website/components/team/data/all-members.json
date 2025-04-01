@@ -1658,7 +1658,6 @@
     ],
     "minor": "ORIE",
     "hometown": "Frisco, Texas",
-    "github": null,
     "email": "nt387@cornell.edu",
     "role": "developer",
     "doubleMajor": null,
@@ -1667,8 +1666,10 @@
     "firstName": "Nigel",
     "netid": "nt387",
     "coffeeChatLink": null,
-    "about": "Hey I am Nigel Tatem! Newbie on CoursePlan",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "github": "https://github.com/NigelTatem",
+    "about": "Hey I am Nigel Tatem! Developer on CoursePlan"
   },
   {
     "linkedin": "https://www.linkedin.com/in/oscar-wang04/",
