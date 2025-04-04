@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -12,17 +12,55 @@ export default function Home() {
           height={38}
           priority
         />
+        <div className="flex flex-col gap-8">
+          <h1>Building the Future of Tech @ Cornell</h1>
+          <h2>Building the Future of Tech @ Cornell</h2>
+          <h3>Building the Future of Tech @ Cornell</h3>
+          <h4>Building the Future of Tech @ Cornell</h4>
+          <h5>Building the Future of Tech @ Cornell</h5>
+          <h6>Building the Future of Tech @ Cornell</h6>
+          <p>Building the Future of Tech @ Cornello</p>
+          <p className="small">Building the Future of Tech @ Cornell</p>
+          <p className="caps">Building the Future of Tech @ Cornell</p>
+          <p className="caps small">Building the Future of Tech @ Cornell</p>
+        </div>
+
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-4">
+            <div className="bg-background-1 w-16 h-16 rounded-md border border-border-1"></div>
+            <div className="bg-background-2 w-16 h-16 rounded-md"></div>
+            <div className="bg-background-3 w-16 h-16 rounded-md"></div>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="bg-foreground-1 w-16 h-16 rounded-md"></div>
+            <div className="bg-foreground-2 w-16 h-16 rounded-md"></div>
+            <div className="bg-foreground-3 w-16 h-16 rounded-md"></div>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="bg-border-1 w-16 h-16 rounded-md"></div>
+            <div className="bg-border-2 w-16 h-16 rounded-md"></div>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="bg-accent-red w-16 h-16 rounded-md"></div>
+            <div className="bg-accent-green w-16 h-16 rounded-md"></div>
+            <div className="bg-accent-blue w-16 h-16 rounded-md"></div>
+            <div className="bg-accent-yellow w-16 h-16 rounded-md"></div>
+            <div className="bg-accent-purple w-16 h-16 rounded-md"></div>
+          </div>
+        </div>
+
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
+            Get started by editing{' '}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
               src/app/page.tsx
             </code>
             .
           </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
+          <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
@@ -58,13 +96,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
           Learn
         </a>
         <a
@@ -73,13 +105,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
           Examples
         </a>
         <a
@@ -88,13 +114,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
           Go to nextjs.org →
         </a>
       </footer>
