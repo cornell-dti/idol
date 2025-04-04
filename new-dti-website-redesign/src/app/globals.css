@@ -56,8 +56,6 @@ body {
 }
 
 h1 {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 47.78px;
   font-style: normal;
   font-weight: 700;
@@ -65,9 +63,14 @@ h1 {
   letter-spacing: -0.48px;
 }
 
+@media (max-width: 390px) {
+  h1 {
+    font-size: 39.81px;
+    line-height: 115%;
+  }
+}
+
 h2 {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 39.81px;
   font-style: normal;
   font-weight: 700;
@@ -75,9 +78,14 @@ h2 {
   letter-spacing: -0.48px;
 }
 
+@media (max-width: 390px) {
+  h2 {
+    font-size: 39.81px;
+    line-height: 115%;
+  }
+}
+
 h3 {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 33.18px;
   font-style: normal;
   font-weight: 600;
@@ -85,18 +93,21 @@ h3 {
   letter-spacing: -0.48px;
 }
 
+@media (max-width: 390px) {
+  h3 {
+    font-size: 27.65px;
+    line-height: 115%;
+  }
+}
+
 h4 {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 27.65px;
   font-style: normal;
   font-weight: 600;
-  line-height: 116%;
+  line-height: 115%;
 }
 
 h5 {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 23.04px;
   font-style: normal;
   font-weight: 600;
@@ -104,8 +115,6 @@ h5 {
 }
 
 h6 {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 19.2px;
   font-style: normal;
   font-weight: 500;
@@ -113,8 +122,6 @@ h6 {
 }
 
 p {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -122,8 +129,6 @@ p {
 }
 
 p.small {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 13.33px;
   font-style: normal;
   font-weight: 500;
@@ -131,8 +136,6 @@ p.small {
 }
 
 p.caps {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -142,8 +145,6 @@ p.caps {
 }
 
 p.caps.small {
-  color: var(--foreground-1);
-  font-family: Inter, sans-serif;
   font-size: 13.33px;
   font-style: normal;
   font-weight: 500;
