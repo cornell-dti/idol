@@ -1,0 +1,55 @@
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.dashboardContainer {
+  margin: 2rem auto;
+  padding: 1rem;
+  overflow-x: auto;
+  max-width: 1200px;
+}
+
+.csvButton {
+  padding: 0.5rem 1rem;
+}
+
+.dropdownContainer {
+  margin-bottom: 1rem;
+}
+
+.ui.dropdown{
+  width: 100%;
+  max-width: 400px;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.ui.table th,
+.ui.table td {
+  text-align: left;
+}
+
+.ui.table th{
+  background-color: #f9f9f9;
+}
+
+.ui.table tr:nth-child(even) {
+  background-color: #f4f4f4; /* Light gray background for alternate rows */
+}
+
+.eventCell {
+  min-width: 50px;
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+

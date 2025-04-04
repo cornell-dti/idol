@@ -1,0 +1,173 @@
+import React, { useState, useEffect } from 'react';
+import { Table, Header, Loader, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
+import styles from './InterviewStatusDashboard.module.css';
+
+interface Applicant {
+  name: string;
+  netid: string;
+  roles: string[];
+  round: string;
+  status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
+}
+
+const InterviewStatusDashboard: React.FC = () => {
+  const [applicants, setApplicants] = useState<Applicant[]>([]);
+  const [filteredApplicants, setFilteredApplicants] = useState<Applicant[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedRound, setSelectedRound] = useState<string | null>('All Rounds');
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Simulate fetching applicant data
+    const fetchApplicants = async () => {
+      const data: Applicant[] = [
+        {
+          name: 'John Doe',
+          netid: 'jd123',
+          roles: ['Developer', 'Designer'],
+          round: 'Behavioral',
+          status: 'Accepted',
+        },
+        {
+          name: 'Jane Smith',
+          netid: 'js456',
+          roles: ['Business'],
+          round: 'Technical',
+          status: 'Waitlisted',
+        },
+        {
+          name: 'Alice Johnson',
+          netid: 'aj789',
+          roles: ['Product Manager', 'Business'],
+          round: 'Resume',
+          status: 'Undecided',
+        },
+      ];
+      setApplicants(data);
+      setFilteredApplicants(data);
+      setIsLoading(false);
+    };
+
+    fetchApplicants();
+  }, []);
+
+  const handleRoundChange = (_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+    const { value } = data;
+    if (typeof value === 'string') {
+      setSelectedRound(value);
+      applyFilters(value, selectedFilters);
+    }
+  };
+
+  const handleFilterChange = (_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+    const { value } = data;
+    if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
+      setSelectedFilters(value);
+      applyFilters(selectedRound, value);
+    }
+  };
+
+  const applyFilters = (roundFilter: string | null, applicantFilters: string[]) => {
+    let filtered = applicants;
+
+    if (roundFilter && roundFilter !== 'All Rounds') {
+      filtered = filtered.filter((applicant) => applicant.round === roundFilter);
+    }
+
+    if (applicantFilters.length > 0) {
+      filtered = filtered.filter((applicant) =>
+        applicantFilters.every(
+          (filter) =>
+            applicant.status === filter || applicant.roles.includes(filter)
+        )
+      );
+    }
+
+    setFilteredApplicants(filtered);
+  };
+
+  const handleCopyEmails = () => {
+    const emailList = filteredApplicants
+      .map((applicant) => `${applicant.netid}@cornell.edu`)
+      .join(', ');
+    navigator.clipboard.writeText(emailList).then(() => {
+      console.log('Emails copied to clipboard:', emailList);
+    });
+  };
+
+  if (isLoading) return <Loader active>Loading applicant data...</Loader>;
+
+  const filterOptions = [
+    { key: 'accepted', text: 'Accepted', value: 'Accepted' },
+    { key: 'rejected', text: 'Rejected', value: 'Rejected' },
+    { key: 'waitlisted', text: 'Waitlisted', value: 'Waitlisted' },
+    { key: 'undecided', text: 'Undecided', value: 'Undecided' },
+    { key: 'developer', text: 'Developer', value: 'Developer' },
+    { key: 'business', text: 'Business', value: 'Business' },
+    { key: 'designer', text: 'Designer', value: 'Designer' },
+    { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' },
+  ];
+
+  const roundOptions = [
+    { key: 'all_rounds', text: 'All Rounds', value: 'All Rounds' },
+    { key: 'behavioral', text: 'Behavioral', value: 'Behavioral' },
+    { key: 'technical', text: 'Technical', value: 'Technical' },
+    { key: 'resume', text: 'Resume', value: 'Resume' },
+  ];
+
+  return (
+    <div className={styles.dashboardContainer}>
+      <Header as="h1">Interview Status Dashboard</Header>
+      <div className={styles.dropdownContainer}>
+        <h3>Recruitment Round</h3>
+        <Dropdown
+          placeholder="Select Recruitment Round"
+          fluid
+          selection
+          search
+          options={roundOptions}
+          onChange={handleRoundChange}
+        />
+      </div>
+      <div className={styles.dropdownContainer}>
+        <h3>Filter Applicants</h3>
+        <Dropdown
+          placeholder="Select Filters"
+          fluid
+          multiple
+          selection
+          search
+          options={filterOptions}
+          onChange={handleFilterChange}
+        />
+      </div>
+      <div className={styles.csvButton}>
+        <Button onClick={handleCopyEmails}>Copy Emails</Button>
+      </div>
+      <Table celled selectable striped>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Roles</Table.HeaderCell>
+            <Table.HeaderCell>Round</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {filteredApplicants.map((applicant, index) => (
+            <Table.Row key={index}>
+              <Table.Cell>{applicant.name}</Table.Cell>
+              <Table.Cell>{`${applicant.netid}@cornell.edu`}</Table.Cell>
+              <Table.Cell>{applicant.roles.join(', ')}</Table.Cell>
+              <Table.Cell>{applicant.round}</Table.Cell>
+              <Table.Cell>{applicant.status}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    </div>
+  );
+};
+
+export default InterviewStatusDashboard;
