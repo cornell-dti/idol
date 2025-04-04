@@ -29,5 +29,102 @@
 body {
   background: var(--background-1);
   color: var(--foreground-1);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, sans-serif;
+}
+
+h1 {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 47.78px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 115%;
+  letter-spacing: -0.48px;
+}
+
+h2 {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 39.81px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 115%;
+  letter-spacing: -0.48px;
+}
+
+h3 {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 33.18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 115%;
+  letter-spacing: -0.48px;
+}
+
+h4 {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 27.65px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 116%;
+}
+
+h5 {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 23.04px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+}
+
+h6 {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 19.2px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+}
+
+p {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+}
+
+p.small {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 13.33px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+}
+
+p.caps {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+  letter-spacing: 5%;
+  text-transform: uppercase;
+}
+
+p.caps.small {
+  color: var(--foreground-1);
+  font-family: Inter, sans-serif;
+  font-size: 13.33px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+  letter-spacing: 5%;
+  text-transform: uppercase;
 }
