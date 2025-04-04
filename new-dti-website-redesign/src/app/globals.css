@@ -27,7 +27,7 @@
 }
 
 /* This is so we can use the variables inline in the className attribute
-Usage examples:
+Usage examples (remove the "color-" prefix when using in className): 
 - For background color: className="bg-background-1"
 - For text color: className="text-foreground-1"
  */
