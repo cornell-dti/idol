@@ -7,7 +7,7 @@ export default function TestPage() {
         Back
       </Link>
 
-      <h1>TEST PAGE WITH STYLES & COMPONENTS</h1>
+      <h3 className="text-accent-blue">TEST PAGE WITH STYLES & COMPONENTS:</h3>
 
       <div className="flex flex-col gap-8">
         <h1>Building the Future of Tech @ Cornell</h1>
