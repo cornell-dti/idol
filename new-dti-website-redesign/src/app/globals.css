@@ -1,22 +1,29 @@
 @import 'tailwindcss';
 
 :root {
-  --background-1: #0d0d0d;
-  --background-2: #181818;
-  --background-3: #292929;
+  /* BACKGROUND */
+  --background-1: #0d0d0d; /* Use as default background page background color */
+  --background-2: #181818; /* Use for an elevated surface, or for hover states */
+  --background-3: #292929; /* Use for highest elevated surfaces, or for higher hover states */
 
-  --foreground-1: #ffffff;
-  --foreground-2: #cccccc;
-  --foreground-3: #a1a1a1;
+  /* FOREGROUND */
+  --foreground-1: #ffffff; /* Use for default text color */
+  --foreground-2: #cccccc; /* Slightly less emphasis than foreground-1
+                                Use for secondary text when foreground-3 is too subtle
+                                Also used for the hover state of the Button (primary variant) */
+  --foreground-3: #a1a1a1; /* Use as default color for all secondary text */
 
-  --border-1: #2e2e2e;
-  --border-2: #454545;
+  /* BORDER */
+  --border-1: #2e2e2e; /* Use as default color for borders */
+  --border-2: #454545; /* Use as secondary border color (for emphasis).
+                            This color is also used specifically for the Textfield component border hover state. */
 
-  --accent-red: #ff575e;
-  --accent-green: #00ca51;
-  --accent-blue: #47a8ff;
-  --accent-yellow: #ff9300;
-  --accent-purple: #c372fc;
+  /* ACCENT */
+  --accent-red: #ff575e; /* General DTI accent/full team color */
+  --accent-green: #00ca51; /* Development team color */
+  --accent-blue: #47a8ff; /* Design team color */
+  --accent-yellow: #ff9300; /* Business team color */
+  --accent-purple: #c372fc; /* Product team color */
 }
 
 body {
