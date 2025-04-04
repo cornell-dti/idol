@@ -26,6 +26,11 @@
   --accent-purple: #c372fc; /* Product team color */
 }
 
+/* This is so we can use the variables inline in the className attribute
+Usage examples:
+- For background color: className="bg-background-1"
+- For text color: className="text-foreground-1"
+ */
 @theme inline {
   /* BACKGROUND */
   --color-background-1: var(--background-1);
