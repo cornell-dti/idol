@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
 
-interface Applicant {
+interface InterviewStatus {
+  uuid?: string;
   name: string;
   netid: string;
   role: string;
@@ -11,8 +12,8 @@ interface Applicant {
 }
 
 const InterviewStatusDashboard: React.FC = () => {
-  const [applicants, setApplicants] = useState<Applicant[]>([]);
-  const [filteredApplicants, setFilteredApplicants] = useState<Applicant[]>([]);
+  const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
+  const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRound, setSelectedRound] = useState<string | null>('All Rounds');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -20,7 +21,7 @@ const InterviewStatusDashboard: React.FC = () => {
   useEffect(() => {
     // Simulate fetching applicant data
     const fetchApplicants = async () => {
-      const data: Applicant[] = [
+      const data: InterviewStatus[] = [
         {
           name: 'John Doe',
           netid: 'jd123',
