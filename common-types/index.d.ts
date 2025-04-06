@@ -311,3 +311,12 @@ interface InterviewSlotEdit {
   members?: (IdolMember | null)[];
   applicant?: Applicant | null;
 }
+
+interface InterviewStatus {
+  name: string;
+  netid: string;
+  role: string;
+  round: string;
+  status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
+  readonly uuid: string;
+}

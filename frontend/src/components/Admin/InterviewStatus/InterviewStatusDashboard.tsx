@@ -5,7 +5,7 @@ import styles from './InterviewStatusDashboard.module.css';
 interface Applicant {
   name: string;
   netid: string;
-  roles: string[];
+  role: string;
   round: string;
   status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
 }
@@ -24,21 +24,21 @@ const InterviewStatusDashboard: React.FC = () => {
         {
           name: 'John Doe',
           netid: 'jd123',
-          roles: ['Developer', 'Designer'],
+          role: 'Developer',
           round: 'Behavioral',
           status: 'Accepted',
         },
         {
           name: 'Jane Smith',
           netid: 'js456',
-          roles: ['Business'],
+          role: 'Business',
           round: 'Technical',
           status: 'Waitlisted',
         },
         {
           name: 'Alice Johnson',
           netid: 'aj789',
-          roles: ['Product Manager', 'Business'],
+          role: 'Product Manager',
           round: 'Resume',
           status: 'Undecided',
         },
@@ -78,7 +78,7 @@ const InterviewStatusDashboard: React.FC = () => {
       filtered = filtered.filter((applicant) =>
         applicantFilters.every(
           (filter) =>
-            applicant.status === filter || applicant.roles.includes(filter)
+            applicant.status === filter || applicant.role === filter
         )
       );
     }
@@ -159,7 +159,7 @@ const InterviewStatusDashboard: React.FC = () => {
             <Table.Row key={index}>
               <Table.Cell>{applicant.name}</Table.Cell>
               <Table.Cell>{`${applicant.netid}@cornell.edu`}</Table.Cell>
-              <Table.Cell>{applicant.roles.join(', ')}</Table.Cell>
+              <Table.Cell>{applicant.role}</Table.Cell>
               <Table.Cell>{applicant.round}</Table.Cell>
               <Table.Cell>{applicant.status}</Table.Cell>
             </Table.Row>

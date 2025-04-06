@@ -8,7 +8,8 @@ import {
   DBTeamEventAttendance,
   DBCandidateDeciderReview,
   DBCoffeeChat,
-  DBInterviewSlot
+  DBInterviewSlot,
+  DBInterviewStatus
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -202,5 +203,15 @@ export const interviewSlotCollection: admin.firestore.CollectionReference<DBInte
     },
     toFirestore(interviewSlotData: DBInterviewSlot) {
       return interviewSlotData;
+    }
+  });
+
+  export const interviewStatusCollection: admin.firestore.CollectionReference<DBInterviewStatus> =
+  db.collection('interview-status').withConverter({
+    fromFirestore(snapshot): DBInterviewStatus {
+      return snapshot.data() as DBInterviewStatus;
+    },
+    toFirestore(interviewStatusData: DBInterviewStatus) {
+      return interviewStatusData;
     }
   });
