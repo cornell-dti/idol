@@ -7,19 +7,28 @@ const interviewStatusDao = new InterviewStatusDao();
 /**
  * Fetch all interview statuses.
  */
-export const getAllInterviewStatuses = async (): Promise<InterviewStatus[]> => interviewStatusDao.getAllInterviewStatuses();
+export const getAllInterviewStatuses = async (user : IdolMember): Promise<InterviewStatus[]> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin){
+    throw new PermissionError(`User with email ${user.email} cannot get all interview statuses`);
+  }
+  return interviewStatusDao.getAllInterviewStatuses();
+}
 
 /**
  * Fetch a specific interview status by UUID.
  * @param uuid The UUID of the interview status document.
+ * @param user - The user getting the interview status.
  */
-export const getInterviewStatus = async (uuid: string): Promise<InterviewStatus> => {
+export const getInterviewStatus = async (uuid: string, user : IdolMember): Promise<InterviewStatus> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatus(uuid);
-
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin){
+    throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
+  }
   if (!interviewStatus){
     throw new NotFoundError(`Interview status with UUID ${uuid} does not exist!`);
   }
-
   return interviewStatus;
 }
 
@@ -89,7 +98,7 @@ export const deleteInterviewStatus = async (
       'User does not have permission to delete an interview status.'
     );
 
-  const existing = await getInterviewStatus(uuid);
+  const existing = await getInterviewStatus(uuid, user);
 
   if (!existing) {
     throw new NotFoundError(`Interview status with UUID ${uuid} does not exist!`);
@@ -101,17 +110,47 @@ export const deleteInterviewStatus = async (
  * Fetch all interview statuses for a specific netid.
  * @param netid - The NetID of the applicant.
  */
-export const getInterviewStatusesByNetId = async (netid: string): Promise<InterviewStatus[]> => interviewStatusDao.getInterviewStatusesByNetId(netid);
+export const getInterviewStatusesByNetId = async (netid: string, user : IdolMember): Promise<InterviewStatus[]> => {
+  const interviewStatus = await interviewStatusDao.getInterviewStatusesByNetId(netid);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin){
+    throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
+  }
+  if (!interviewStatus){
+    throw new NotFoundError(`Interview status with netid ${netid} does not exist!`);
+  }
+  return interviewStatus;
+}
 
 /**
  * Fetch all interview statuses for a specific round.
  * @param round - The round name.
  */
-export const getInterviewStatusesByRound = async (round: string): Promise<InterviewStatus[]> => interviewStatusDao.getInterviewStatusesByRound(round);
+export const getInterviewStatusesByRound = async (round: string, user : IdolMember): Promise<InterviewStatus[]> => {
+  const interviewStatus = await interviewStatusDao.getInterviewStatusesByRound(round);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin){
+    throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
+  }
+  if (!interviewStatus){
+    throw new NotFoundError(`Interview status with for ${round} does not exist!`);
+  }
+  return interviewStatus;
+}
 
 /**
  * Fetch all interview statuses for a specific role.
  * @param role - The role name.
  */
-export const getInterviewStatusesByRole = async (role: string): Promise<InterviewStatus[]> => interviewStatusDao.getInterviewStatusesByRole(role);
+export const getInterviewStatusesByRole = async (role: string, user : IdolMember): Promise<InterviewStatus[]> => {
+  const interviewStatus = await interviewStatusDao.getInterviewStatusesByRole(role);
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin){
+    throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
+  }
+  if (!interviewStatus){
+    throw new NotFoundError(`Interview status with role ${role} does not exist!`);
+  }
+  return interviewStatus;
+}
 

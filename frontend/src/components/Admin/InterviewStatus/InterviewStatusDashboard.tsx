@@ -31,32 +31,6 @@ const InterviewStatusDashboard: React.FC = () => {
       } finally {
         setIsLoading(false);
       }
-      // const data: InterviewStatus[] = [
-      //   {
-      //     name: 'John Doe',
-      //     netid: 'jd123',
-      //     role: 'Developer',
-      //     round: 'Behavioral',
-      //     status: 'Accepted',
-      //   },
-      //   {
-      //     name: 'Jane Smith',
-      //     netid: 'js456',
-      //     role: 'Business',
-      //     round: 'Technical',
-      //     status: 'Waitlisted',
-      //   },
-      //   {
-      //     name: 'Alice Johnson',
-      //     netid: 'aj789',
-      //     role: 'Product Manager',
-      //     round: 'Resume',
-      //     status: 'Undecided',
-      //   },
-      // ];
-      // setApplicants(data);
-      // setFilteredApplicants(data);
-      // setIsLoading(false);
     };
 
     fetchApplicants();

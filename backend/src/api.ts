@@ -115,7 +115,7 @@ import {
   deleteInterviewStatus,
   getInterviewStatusesByNetId,
   getInterviewStatusesByRound,
-  getInterviewStatusesByRole
+  getInterviewStatusesByRole,
 } from './API/interviewStatusAPI';
 
 import { HandlerError } from './utils/errors';
@@ -602,50 +602,26 @@ loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
 );
 
 // Interview Status Dashboard
-router.get('/interview-status', async (req, res) => {
-  try{
-    const statuses = await getAllInterviewStatuses();
-  res.status(200).json({ interviewStatuses: statuses });
-  } catch (error) {
-    console.error('Error fetching all interview statuses:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
-router.get('/interview-status/:uuid', async (req, res) => {
-  const status = await getInterviewStatus(req.params.uuid);
-  res.status(200).json({ interviewStatus: status });
-});
+loginCheckedGet('/interview-status', async (_, user) => ({
+  instances: await getAllInterviewStatuses(user)
+}));
 
-router.get('/interview-status/netid/:netid', async (req, res) => {
-  try {
-    const statuses = await getInterviewStatusesByNetId(req.params.netid);
-    res.status(200).json({ interviewStatuses: statuses });
-  } catch (error) {
-    console.error(`Error fetching interview statuses for NetID ${req.params.netid}:`, error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+loginCheckedGet('/interview-status/:uuid', async (req, user) => ({
+  instances: await getInterviewStatus(req.params.uuid, user)
+}));
 
-router.get('/interview-status/round/:round', async (req, res) => {
-  try {
-    const statuses = await getInterviewStatusesByRound(req.params.round);
-    res.status(200).json({ interviewStatuses: statuses });
-  } catch (error) {
-    console.error(`Error fetching interview statuses for round ${req.params.round}:`, error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+loginCheckedGet('/interview-status/:netid', async (req, user) => ({
+  instances: await getInterviewStatusesByNetId(req.params.netid, user)
+}));
 
-router.get('/interview-status/role/:role', async (req, res) => {
-  try {
-    const statuses = await getInterviewStatusesByRole(req.params.role);
-    res.status(200).json({ interviewStatuses: statuses });
-  } catch (error) {
-    console.error(`Error fetching interview statuses for role ${req.params.role}:`, error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+loginCheckedGet('/interview-status/:round', async (req, user) => ({
+  instances: await getInterviewStatusesByRound(req.params.round, user)
+}));
+
+loginCheckedGet('/interview-status/:role', async (req, user) => ({
+  instances: await getInterviewStatusesByRole(req.params.role, user)
+}));
 
 loginCheckedPost('/interview-status', async (req, user) => ({
   newStatus: await createInterviewStatus(req.body, user)
