@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
+import AddInterviewStatusForm from './AddInterviewStatusForm';
 
 interface InterviewStatus {
   uuid?: string;
@@ -19,19 +20,19 @@ const InterviewStatusDashboard: React.FC = () => {
   const [selectedRound, setSelectedRound] = useState<string | null>('All Rounds');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchApplicants = async () => {
-      try {
-        const data = await InterviewStatusAPI.getAllInterviewStatuses();
-        setApplicants(data || []);
-        setFilteredApplicants(data || []);
-      } catch (error) {
-        console.error('Error fetching interview statuses:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchApplicants = async () => {
+    try {
+      const data = await InterviewStatusAPI.getAllInterviewStatuses();
+      setApplicants(data || []);
+      setFilteredApplicants(data || []);
+    } catch (error) {
+      console.error('Error fetching interview statuses:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchApplicants();
   }, []);
 
@@ -80,8 +81,6 @@ const InterviewStatusDashboard: React.FC = () => {
   };
 
   if (isLoading) return <Loader active>Loading applicant data...</Loader>;
-
-  if (filteredApplicants.length === 0) return <div>No applicants exist</div>
 
   const filterOptions = [
     { key: 'accepted', text: 'Accepted', value: 'Accepted' },
@@ -152,6 +151,9 @@ const InterviewStatusDashboard: React.FC = () => {
           ))}
         </Table.Body>
       </Table>
+      <div style={{ marginBottom: "2rem" }}>
+        <AddInterviewStatusForm onSuccess={fetchApplicants} />
+      </div>
     </div>
   );
 };
