@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Header, Loader, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
+import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 
 interface InterviewStatus {
   uuid?: string;
@@ -21,32 +22,41 @@ const InterviewStatusDashboard: React.FC = () => {
   useEffect(() => {
     // Simulate fetching applicant data
     const fetchApplicants = async () => {
-      const data: InterviewStatus[] = [
-        {
-          name: 'John Doe',
-          netid: 'jd123',
-          role: 'Developer',
-          round: 'Behavioral',
-          status: 'Accepted',
-        },
-        {
-          name: 'Jane Smith',
-          netid: 'js456',
-          role: 'Business',
-          round: 'Technical',
-          status: 'Waitlisted',
-        },
-        {
-          name: 'Alice Johnson',
-          netid: 'aj789',
-          role: 'Product Manager',
-          round: 'Resume',
-          status: 'Undecided',
-        },
-      ];
-      setApplicants(data);
-      setFilteredApplicants(data);
-      setIsLoading(false);
+      try {
+        const data = await InterviewStatusAPI.getAllInterviewStatuses();
+        setApplicants(data);
+        setFilteredApplicants(data);
+      } catch (error) {
+        console.error('Error fetching interview statuses:', error);
+      } finally {
+        setIsLoading(false);
+      }
+      // const data: InterviewStatus[] = [
+      //   {
+      //     name: 'John Doe',
+      //     netid: 'jd123',
+      //     role: 'Developer',
+      //     round: 'Behavioral',
+      //     status: 'Accepted',
+      //   },
+      //   {
+      //     name: 'Jane Smith',
+      //     netid: 'js456',
+      //     role: 'Business',
+      //     round: 'Technical',
+      //     status: 'Waitlisted',
+      //   },
+      //   {
+      //     name: 'Alice Johnson',
+      //     netid: 'aj789',
+      //     role: 'Product Manager',
+      //     round: 'Resume',
+      //     status: 'Undecided',
+      //   },
+      // ];
+      // setApplicants(data);
+      // setFilteredApplicants(data);
+      // setIsLoading(false);
     };
 
     fetchApplicants();

@@ -44,7 +44,7 @@ export class InterviewStatusAPI {
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't fetch interview status",
-          contentMsg: `Error was: ${val.eror}`
+          contentMsg: `Error was: ${val.error}`
         });
         throw new Error(val.error);
       }

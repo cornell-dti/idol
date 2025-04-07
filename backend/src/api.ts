@@ -107,6 +107,17 @@ import {
   updateInterviewSchedulerInstance,
   updateInterviewSlot
 } from './API/interviewSchedulerAPI';
+import {
+  getAllInterviewStatuses,
+  getInterviewStatus,
+  createInterviewStatus,
+  updateInterviewStatus,
+  deleteInterviewStatus,
+  getInterviewStatusesByNetId,
+  getInterviewStatusesByRound,
+  getInterviewStatusesByRole
+} from './API/interviewStatusAPI';
+
 import { HandlerError } from './utils/errors';
 
 // Constants and configurations
@@ -589,6 +600,65 @@ loginCheckedPut('/interview-slots', async (req, user) => ({
 loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
   deleteInterviewSlot(req.params.uuid, user).then(() => ({}))
 );
+
+// Interview Status Dashboard
+router.get('/interview-status', async (req, res) => {
+  try{
+    const statuses = await getAllInterviewStatuses();
+  res.status(200).json({ interviewStatuses: statuses });
+  } catch (error) {
+    console.error('Error fetching all interview statuses:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/interview-status/:uuid', async (req, res) => {
+  const status = await getInterviewStatus(req.params.uuid);
+  res.status(200).json({ interviewStatus: status });
+});
+
+router.get('/interview-status/netid/:netid', async (req, res) => {
+  try {
+    const statuses = await getInterviewStatusesByNetId(req.params.netid);
+    res.status(200).json({ interviewStatuses: statuses });
+  } catch (error) {
+    console.error(`Error fetching interview statuses for NetID ${req.params.netid}:`, error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/interview-status/round/:round', async (req, res) => {
+  try {
+    const statuses = await getInterviewStatusesByRound(req.params.round);
+    res.status(200).json({ interviewStatuses: statuses });
+  } catch (error) {
+    console.error(`Error fetching interview statuses for round ${req.params.round}:`, error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/interview-status/role/:role', async (req, res) => {
+  try {
+    const statuses = await getInterviewStatusesByRole(req.params.role);
+    res.status(200).json({ interviewStatuses: statuses });
+  } catch (error) {
+    console.error(`Error fetching interview statuses for role ${req.params.role}:`, error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+loginCheckedPost('/interview-status', async (req, user) => ({
+  newStatus: await createInterviewStatus(req.body, user)
+}));
+
+loginCheckedPut('/interview-status', async (req, user) => ({
+  success: await updateInterviewStatus(user, req.body, req.body.uuid)
+}));
+
+loginCheckedDelete('/interview-status/:uuid', async (req, user) =>
+  deleteInterviewStatus(req.params.uuid, user).then(() => ({}))
+);
+
 
 app.use('/.netlify/functions/api', router);
 
