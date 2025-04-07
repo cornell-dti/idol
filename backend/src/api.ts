@@ -602,7 +602,6 @@ loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
 );
 
 // Interview Status Dashboard
-
 loginCheckedGet('/interview-status', async (_, user) => ({
   instances: await getAllInterviewStatuses(user)
 }));

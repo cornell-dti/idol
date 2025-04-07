@@ -20,12 +20,11 @@ const InterviewStatusDashboard: React.FC = () => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   useEffect(() => {
-    // Simulate fetching applicant data
     const fetchApplicants = async () => {
       try {
         const data = await InterviewStatusAPI.getAllInterviewStatuses();
-        setApplicants(data);
-        setFilteredApplicants(data);
+        setApplicants(data || []);
+        setFilteredApplicants(data || []);
       } catch (error) {
         console.error('Error fetching interview statuses:', error);
       } finally {
@@ -81,6 +80,8 @@ const InterviewStatusDashboard: React.FC = () => {
   };
 
   if (isLoading) return <Loader active>Loading applicant data...</Loader>;
+
+  if (filteredApplicants.length === 0) return <div>No applicants exist</div>
 
   const filterOptions = [
     { key: 'accepted', text: 'Accepted', value: 'Accepted' },

@@ -30,7 +30,7 @@ export class InterviewStatusAPI {
         });
         return [];
       }
-      return val.interviewStatuses as InterviewStatus[];
+      return val.instances as InterviewStatus[];
     });
   }
 
