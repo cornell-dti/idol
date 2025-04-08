@@ -433,7 +433,7 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
 loginCheckedGet('/candidate-decider', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
 }));
-loginCheckedGet('/candidate-decider-instance/', async (_, user) => ({
+loginCheckedGet('/candidate-decider-instance', async (_, user) => ({
   hasInstance: await hasCandidateDeciderInstance(user)
   // console.log(`info: ${hasInstance}`)
 }));

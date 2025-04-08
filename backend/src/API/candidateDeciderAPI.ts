@@ -42,17 +42,17 @@ export const getAllCandidateDeciderInstances = async (
  */
 export const hasCandidateDeciderInstance = async (
   user: IdolMember
- ): Promise<boolean> => true;
-//  {
-//   if (await PermissionsManager.isAdmin(user)) return true;
-//   const instances = await candidateDeciderDao.getAllInstances();
-//   for (const instance of instances) {
-//     if (instance.authorizedMembers.some((member) => member.email === user.email) || instance.authorizedRoles.includes(user.role)) {
-//       return true;
-//     }
-//   }
-//   return false;
-// };
+ ): Promise<boolean> => 
+ {
+  if (await PermissionsManager.isAdmin(user)) return true;
+  const instances = await candidateDeciderDao.getAllInstances();
+  for (const instance of instances) {
+    if (instance.authorizedMembers.some((member) => member.email === user.email) || instance.authorizedRoles.includes(user.role)) {
+      return true;
+    }
+  }
+  return false;
+};
 
 /**
  * Creates a new CandidateDecider instance in the database.
