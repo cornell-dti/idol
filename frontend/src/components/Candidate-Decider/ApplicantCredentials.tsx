@@ -1,4 +1,3 @@
-import { Card } from 'semantic-ui-react';
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
 
@@ -27,7 +26,7 @@ const ApplicantCredentials: React.FC<Props> = ({
   preferredName,
   candidate
 }) => (
-  <Card className={styles.credentialContainer}>
+  <div className={styles.credentialContainer}>
     {seeApplicantName ? (
       <>
         <h1>
@@ -83,7 +82,7 @@ const ApplicantCredentials: React.FC<Props> = ({
         )}
       </div>
     )}
-  </Card>
+  </div>
 );
 
 const FileIcon = () => (
