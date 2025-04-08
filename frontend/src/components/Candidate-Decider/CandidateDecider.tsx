@@ -37,7 +37,7 @@ const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurren
         style={{ height: 256, width: '100%' }}
         className="fifteen wide field"
         placeholder={'Comment...'}
-        onChange={(_, data) => setCurrentComment(data.value)}
+        onChange={(event) => setCurrentComment(event.target.value)}
         value={currentComment}
       />
     </Form.Group>
@@ -59,8 +59,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     const rating = reviews.find(
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
-    if (rating) return rating.rating;
-    return undefined;
+    return rating ? rating.rating : undefined;
   };
 
   const getComment = (candidate: number) => {
@@ -80,8 +79,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
 
   const populateReviewForCandidate = (candidate: number) => {
-    const rating = getRating(candidate);
-    const comment = getComment(candidate);
+    const rating = getRating(candidate) ?? 0;
+    const comment = getComment(candidate) ?? '';
     setCurrentRating(rating);
     setCurrentComment(comment);
     setDefaultCurrentRating(rating);
