@@ -16,7 +16,7 @@ const TeamPage = () => {
           'We are Cornell DTI. But individually, we are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community and beyond.'
         }
         image={{
-          src: '/images/about-hero.png',
+          src: '/images/about-hero.jpg',
           alt: 'DTI students posing in front of Gates Hall'
         }}
       />
