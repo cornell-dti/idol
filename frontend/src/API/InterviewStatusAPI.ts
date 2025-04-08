@@ -3,6 +3,7 @@ import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
 export type InterviewStatus = {
+  uuid?: string;
   name: string;
   netid: string;
   role: string;
@@ -36,7 +37,7 @@ export class InterviewStatusAPI {
 
   /**
    * Fetch a specific interview status by its UUID.
-   * @param uuid - UUID of the interview status document.
+   * @param uuid - UUID of the interview status document
    */
   public static getInterviewStatus(uuid: string): Promise<InterviewStatus> {
     const res = APIWrapper.get(`${backendURL}/interview-status/${uuid}`).then((res) => res.data);
@@ -54,7 +55,7 @@ export class InterviewStatusAPI {
 
   /**
    * Update an existing interview status record.
-   * @param interviewStatusData - Update data for the interview status.
+   * @param interviewStatusData - update data for the interview status
    */
   public static updateInterviewStatus(interviewStatusData: InterviewStatus): Promise<InterviewStatusResponseObj> {
     return APIWrapper.put(`${backendURL}/interview-status`, interviewStatusData).then((res) => res.data);
@@ -62,7 +63,7 @@ export class InterviewStatusAPI {
 
   /**
    * Create a new interview status record.
-   * @param interviewStatusData Data for the new interview status.
+   * @param interviewStatusData - data for the new interview status
    */
   public static createInterviewStatus(interviewStatusData: InterviewStatus): Promise<InterviewStatusResponseObj> {
     return APIWrapper.post(`${backendURL}/interview-status`, interviewStatusData).then((res) => res.data);
@@ -70,7 +71,7 @@ export class InterviewStatusAPI {
 
   /**
    * Delete an interview status record by its UUID.
-   * @param uuid - UUID of the document to delete.
+   * @param uuid - UUID of the document to delete
    */
   public static async deleteInterviewStatus(uuid: string): Promise<void> {
     await APIWrapper.delete(`${backendURL}/interview-status/${uuid}`);
@@ -78,7 +79,7 @@ export class InterviewStatusAPI {
 
   /**
    * Fetch all interview statuses for a specific round.
-   * @param round - Name of the round.
+   * @param round - name of the round
    */
   public static getInterviewStatusesByRound(round: string): Promise<InterviewStatus[]> {
     const res = APIWrapper.get(`${backendURL}/interview-status?round=${round}`).then((res) => res.data);
@@ -96,7 +97,7 @@ export class InterviewStatusAPI {
 
   /**
    * Fetch all interview statuses for a specific netid.
-   * @param netid - NetID of the applicant.
+   * @param netid - netID of the applicant
    * @returns 
    */
   public static getInterviewStatusesByNetId(netid: string): Promise<InterviewStatus[]> {
@@ -115,7 +116,7 @@ export class InterviewStatusAPI {
 
   /**
    * Fetch all interview statuses for a specific role.
-   * @param role - Role of the applicant.
+   * @param role - role of the applicant
    * @returns 
    */
   public static getInterviewStatusesByRole(role: string): Promise<InterviewStatus[]> {

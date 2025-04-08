@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Header, Loader, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
+import { Table, Header, Loader, Button, Dropdown, DropdownProps, Checkbox } from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
@@ -19,6 +19,7 @@ const InterviewStatusDashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRound, setSelectedRound] = useState<string | null>('All Rounds');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedApplicants, setSelectedApplicants] = useState<Set<string>>(new Set());
 
   const fetchApplicants = async () => {
     try {
@@ -36,7 +37,19 @@ const InterviewStatusDashboard: React.FC = () => {
     fetchApplicants();
   }, []);
 
-  const handleRoundChange = (_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+  const handleSelect = (applicantUuid: string) => {
+    setSelectedApplicants((prev: Set<string>) => {
+      const updatedSet = new Set(prev);
+      if (updatedSet.has(applicantUuid)) {
+        updatedSet.delete(applicantUuid);
+      } else {
+        updatedSet.add(applicantUuid);
+      }
+      return updatedSet;
+    });
+  };
+
+  const handleRoundChange = (data: DropdownProps) => {
     const { value } = data;
     if (typeof value === 'string') {
       setSelectedRound(value);
@@ -44,7 +57,7 @@ const InterviewStatusDashboard: React.FC = () => {
     }
   };
 
-  const handleFilterChange = (_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+  const handleFilterChange = (data: DropdownProps) => {
     const { value } = data;
     if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
       setSelectedFilters(value);
@@ -72,12 +85,40 @@ const InterviewStatusDashboard: React.FC = () => {
   };
 
   const handleCopyEmails = () => {
-    const emailList = filteredApplicants
-      .map((applicant) => `${applicant.netid}@cornell.edu`)
-      .join(', ');
+    let emailList = '';
+    if (selectedApplicants.size > 0) {
+      emailList = Array.from(selectedApplicants)
+        .map((uuid: string) => {
+          const applicant = applicants.find((a) => a.uuid === uuid);
+          return `${applicant?.netid}@cornell.edu`;
+        }).join(', ');
+    } else {
+      emailList = filteredApplicants.map((applicant) => `${applicant.netid}@cornell.edu`).join(', ');
+    }
     navigator.clipboard.writeText(emailList).then(() => {
-      console.log('Emails copied to clipboard:', emailList);
+      console.log('emails copied to clipboard:', emailList);
     });
+  };
+
+  const handleDeleteStatus = async () => {
+    if (selectedApplicants.size === 0) {
+      alert('No applicants are selected.');
+    } else {
+      try {
+        const deletePromises = Array.from(selectedApplicants).map((uuid) =>
+          InterviewStatusAPI.deleteInterviewStatus(uuid).then(() =>
+            console.log(`Successfully deleted status for ${uuid}`))
+            .catch((error) => {
+              alert(`Could not delete status for ${uuid}.`);
+            })
+        );
+        await Promise.all(deletePromises);
+        setSelectedApplicants(new Set());
+        fetchApplicants();
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    }
   };
 
   if (isLoading) return <Loader active>Loading applicant data...</Loader>;
@@ -128,6 +169,7 @@ const InterviewStatusDashboard: React.FC = () => {
       </div>
       <div className={styles.csvButton}>
         <Button onClick={handleCopyEmails}>Copy Emails</Button>
+        <Button onClick={handleDeleteStatus}>Delete Status</Button>
       </div>
       <Table celled selectable striped>
         <Table.Header>
@@ -137,6 +179,7 @@ const InterviewStatusDashboard: React.FC = () => {
             <Table.HeaderCell>Roles</Table.HeaderCell>
             <Table.HeaderCell>Round</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Select</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -147,6 +190,12 @@ const InterviewStatusDashboard: React.FC = () => {
               <Table.Cell>{applicant.role}</Table.Cell>
               <Table.Cell>{applicant.round}</Table.Cell>
               <Table.Cell>{applicant.status}</Table.Cell>
+              <Table.Cell>{
+                <Checkbox
+                  checked={selectedApplicants.has(applicant.uuid!)}
+                  onChange={() => handleSelect(applicant.uuid!)}
+                />}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

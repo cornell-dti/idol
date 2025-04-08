@@ -17,8 +17,8 @@ export const getAllInterviewStatuses = async (user : IdolMember): Promise<Interv
 
 /**
  * Fetch a specific interview status by UUID.
- * @param uuid The UUID of the interview status document.
- * @param user - The user getting the interview status.
+ * @param uuid the UUID of the interview status document
+ * @param user - the user getting the interview status
  */
 export const getInterviewStatus = async (uuid: string, user : IdolMember): Promise<InterviewStatus> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatus(uuid);
@@ -34,8 +34,8 @@ export const getInterviewStatus = async (uuid: string, user : IdolMember): Promi
 
 /**
  * Create a new interview status.
- * @param data - The data for the new interview status.
- * @param user - The user creating the interview status.
+ * @param data - the data for the new interview status
+ * @param user - the user creating the interview status
  */
 export const createInterviewStatus = async (
   data: InterviewStatus,
@@ -54,9 +54,9 @@ export const createInterviewStatus = async (
 
 /**
  * Update an existing interview status by UUID.
- * @param user - The user updating the interview status.
- * @param updates - The updated fields for the interview status.
- * @param uuid - The UUID of the document to update.
+ * @param user - the user updating the interview status
+ * @param updates - the updated fields for the interview status
+ * @param uuid - the UUID of the document to update
  */
 export const updateInterviewStatus = async (
   user: IdolMember,
@@ -86,8 +86,8 @@ export const updateInterviewStatus = async (
 
 /**
  * Delete an existing interview status by UUID.
- * @param uuid - The UUID of the document to delete.
- * @param user - The user deleting the interview status.
+ * @param uuid - the UUID of the document to delete
+ * @param user - the user deleting the interview status
  */
 export const deleteInterviewStatus = async (
   uuid: string,
@@ -108,7 +108,7 @@ export const deleteInterviewStatus = async (
 
 /**
  * Fetch all interview statuses for a specific netid.
- * @param netid - The NetID of the applicant.
+ * @param netid - the NetID of the applicant
  */
 export const getInterviewStatusesByNetId = async (netid: string, user : IdolMember): Promise<InterviewStatus[]> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatusesByNetId(netid);
@@ -124,7 +124,7 @@ export const getInterviewStatusesByNetId = async (netid: string, user : IdolMemb
 
 /**
  * Fetch all interview statuses for a specific round.
- * @param round - The round name.
+ * @param round - the round name
  */
 export const getInterviewStatusesByRound = async (round: string, user : IdolMember): Promise<InterviewStatus[]> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatusesByRound(round);
@@ -140,7 +140,7 @@ export const getInterviewStatusesByRound = async (round: string, user : IdolMemb
 
 /**
  * Fetch all interview statuses for a specific role.
- * @param role - The role name.
+ * @param role - the role name
  */
 export const getInterviewStatusesByRole = async (role: string, user : IdolMember): Promise<InterviewStatus[]> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatusesByRole(role);

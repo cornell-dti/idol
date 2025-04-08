@@ -48,13 +48,12 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         netid,
         round: normalizedRound,
         role,
-        status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided', // Ensure correct type
+        status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided',
       });
       alert('Interview status added successfully!');
       onSuccess();
     } catch (error) {
-      console.error('Error adding interview status:', error);
-      alert('Failed to add interview status.');
+      alert('Failed to add interview status of applicant.');
     } finally {
       setIsSubmitting(false);
     }
@@ -77,7 +76,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
       />
       <Form.Input
         label="Round"
-        placeholder="Enter round (e.g., Technical)"
+        placeholder="Enter round"
         value={round}
         onChange={(e) => setRound(e.target.value)}
       />
@@ -89,7 +88,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={roleOptions}
           value={role}
-          onChange={(_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) =>
+          onChange={(e, data: DropdownProps) =>
             setRole(data.value as string)
           }
         />
@@ -102,7 +101,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={statusOptions}
           value={status}
-          onChange={(_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) =>
+          onChange={(e, data: DropdownProps) =>
             setStatus(data.value as string)
           }
         />

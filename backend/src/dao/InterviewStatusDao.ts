@@ -5,7 +5,7 @@ import BaseDao from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
 
 /**
- * Materializes InterviewStatus from DB format to application format
+ * Materializes InterviewStatus from DB format to application format.
  * @param dbInterviewStatus - DB representation of InterviewStatus
  */
 async function materializeInterviewStatus(
@@ -15,8 +15,8 @@ async function materializeInterviewStatus(
 }
 
 /**
- * Serializes InterviewStatus from application format to DB format
- * @param interviewStatus - Application representation of InterviewStatus
+ * Serializes InterviewStatus from application format to DB format.
+ * @param interviewStatus - application representation of InterviewStatus
  */
 async function serializeInterviewStatus(
   interviewStatus: InterviewStatus
@@ -38,8 +38,8 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Creates a new Interview Status entry for a candidate.
-   * @param interviewStatus - Newly created InterviewStatus object.
-   * If provided, the object uuid will be used. If not, a new one will be generated.
+   * @param interviewStatus - newly created InterviewStatus object
+   * If provided, the object uuid will be used and if not a new one will be generated.
    */
   async createInterviewStatus(
     interviewStatus: InterviewStatus
@@ -53,7 +53,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Updates an existing Interview Status entry.
-   * @param interviewStatus - Updated Interview Status object.
+   * @param interviewStatus - updated Interview Status object
    */
   async updateInterviewStatus(
     interviewStatus: InterviewStatus
@@ -63,7 +63,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Deletes an Interview Status entry.
-   * @param uuid - DB uuid of Interview Status entry.
+   * @param uuid - uuid of Interview Status entry
    */
   async deleteInterviewStatus(uuid: string): Promise<void> {
     await this.deleteDocument(uuid);
@@ -78,7 +78,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Gets an Interview Status entry by its uuid.
-   * @param uuid - DB uuid of Interview Status entry.
+   * @param uuid - uuid of Interview Status entry
    */
   async getInterviewStatus(uuid: string): Promise<InterviewStatus | null> {
     return this.getDocument(uuid);
@@ -86,7 +86,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Gets all Interview Status entries for a given netid.
-   * @param netid - NetID of the candidate whose interview status should be fetched.
+   * @param netid - netID of the candidate whose interview status should be fetched
    */
   async getInterviewStatusesByNetId(netid: string): Promise<InterviewStatus[]> {
     return this.getDocuments([
@@ -100,7 +100,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Gets all Interview Status entries for a specific round.
-   * @param round - Round name
+   * @param round - round name
    */
   async getInterviewStatusesByRound(round: string): Promise<InterviewStatus[]> {
     return this.getDocuments([
@@ -114,7 +114,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Gets all Interview Status entries with a specific status.
-   * @param status - Status ("Waitlisted", "Accepted", "Rejected", "Undecided")
+   * @param status - status ("Waitlisted", "Accepted", "Rejected", "Undecided")
    */
   async getInterviewStatusesByStatus(status: string): Promise<InterviewStatus[]> {
     return this.getDocuments([
@@ -128,7 +128,7 @@ export default class InterviewStatusDao extends BaseDao<
 
   /**
    * Gets all Interview Status entries with a specific role.
-   * @param status - role ("Developer", "Product Manager", "Designer", "Bussiness")
+   * @param status - role ("Developer", "Product Manager", "Design", "Bussiness")
    */
   async getInterviewStatusesByRole(role: string): Promise<InterviewStatus[]> {
     return this.getDocuments([
