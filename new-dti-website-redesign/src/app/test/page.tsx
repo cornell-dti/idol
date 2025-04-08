@@ -31,9 +31,9 @@ export default function TestPage() {
       <div className="flex flex-col gap-6">
         <h4>Colors</h4>
         <div className="flex gap-4">
-          <div className="bg-background-root w-24 h-24 rounded-md border border-border-1"></div>
-          <div className="bg-background-default w-24 h-24 rounded-md"></div>
-          <div className="bg-background-dimmer w-24 h-24 rounded-md"></div>
+          <div className="bg-background-1 w-24 h-24 rounded-md border border-border-1"></div>
+          <div className="bg-background-2 w-24 h-24 rounded-md"></div>
+          <div className="bg-background-3 w-24 h-24 rounded-md"></div>
         </div>
 
         <div className="flex gap-4">
