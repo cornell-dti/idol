@@ -110,7 +110,7 @@ const DevPortfolioForm: React.FC = () => {
       (!otherEmpty && finalOtherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
-        headerMsg: isSubmitRepo ? 'Invalid Personal Repository Link' : 'Invalid PR Link',
+        headerMsg: isSubmitRepo ? 'Invalid Personal Repository/PR Link' : 'Invalid PR Link',
         contentMsg: isSubmitRepo
           ? 'One or more links to Repos and PRs are not valid links.'
           : 'One or more links to PRs are not valid links.'
