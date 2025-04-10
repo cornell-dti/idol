@@ -1,6 +1,6 @@
+import { Checkbox } from 'semantic-ui-react';
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
-import { Checkbox } from 'semantic-ui-react';
 import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
 
 type Props = {
