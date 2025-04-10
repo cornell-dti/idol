@@ -60,46 +60,51 @@ const ApplicantCredentials: React.FC<Props> = ({
         )}
       </div>
 
-      {/* {seeApplicantName && ( */}
-      <div className={styles.documents}>
-        <h3>Documents</h3>
-        <div className={styles.iconsContainer}>
-          <a
-            className={styles.icon}
-            href={formatLink(resumeURL)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FileIcon />
-          </a>
-          <a
-            className={styles.icon}
-            href={formatLink(githubURL)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GithubIcon />
-          </a>
-
-          <a
-            className={styles.icon}
-            href={formatLink(linkedinURL, 'linkedin')}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <LinkedinIcon />
-          </a>
-          <a
-            className={styles.icon}
-            href={formatLink(portfolioURL)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GlobeIcon />
-          </a>
+      {seeApplicantName && (
+        <div className={styles.documents}>
+          <h3>Documents</h3>
+          <div className={styles.iconsContainer}>
+            <a
+              className={styles.icon}
+              href={formatLink(resumeURL)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FileIcon />
+            </a>
+            {githubURL && (
+              <a
+                className={styles.icon}
+                href={formatLink(githubURL)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GithubIcon />
+              </a>
+            )}
+            {linkedinURL && (
+              <a
+                className={styles.icon}
+                href={formatLink(linkedinURL, 'linkedin')}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkedinIcon />
+              </a>
+            )}
+            {portfolioURL && (
+              <a
+                className={styles.icon}
+                href={formatLink(portfolioURL)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GlobeIcon />
+              </a>
+            )}
+          </div>
         </div>
-        {/* // )} */}
-      </div>
+      )}
     </div>
   );
 };
