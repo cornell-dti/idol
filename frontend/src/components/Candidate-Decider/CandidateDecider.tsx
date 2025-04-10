@@ -31,7 +31,7 @@ type CommentEditorProps = {
 
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
   <div style={{ width: '100%' }}>
-    <h4>Comments</h4>
+    <h4 className={styles.h4}>Comments</h4>
     <Form.Group inline>
       <Form.Input
         style={{ height: 256, width: '100%' }}
@@ -267,15 +267,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         </div>
       </div>
       <div className={styles.responsesContainer}>
-        {hasAdminPermission && (
-          <Checkbox
-            className={styles.seeApplicantName}
-            toggle
-            checked={seeApplicantName}
-            onChange={() => setSeeApplicantName((prev) => !prev)}
-            label="See applicant name"
-          />
-        )}
+        {/* TODO: Move CheckBox into ResponsesPanel */}
+
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
@@ -284,6 +277,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
+          setSeeApplicantName={setSeeApplicantName}
           candidate={instance.candidates[currentCandidate].id}
         />
       </div>

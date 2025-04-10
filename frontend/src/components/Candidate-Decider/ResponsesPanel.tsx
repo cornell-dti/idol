@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
+import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
 
 type Props = {
   headers: string[];
@@ -10,6 +11,7 @@ type Props = {
   currentComment: string;
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
   seeApplicantName: boolean;
+  setSeeApplicantName: Dispatch<SetStateAction<boolean>>;
   candidate: number;
 };
 
@@ -83,27 +85,31 @@ const ResponsesPanel: React.FC<Props> = ({
   currentComment,
   setCurrentComment,
   seeApplicantName,
+  setSeeApplicantName,
   candidate
 }) => (
   <div>
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}
+      setSeeApplicantName={setSeeApplicantName}
       candidate={candidate}
     />
-    {headers
-      .map((header, i) => ({ header, response: responses[i] }))
-      .filter(
-        ({ header }) =>
-          !credentialHeaders.includes(header) &&
-          (seeApplicantName || header !== 'Preferred Name (optional)')
-      )
-      .map(({ header, response }, i) => (
-        <div key={i} className={styles.questionResponseContainer}>
-          <h4 className={styles.questionHeader}>{header}</h4>
-          <div className={styles.responseText}>{response}</div>
-        </div>
-      ))}
+    <div className={styles.applicantResponses}>
+      {headers
+        .map((header, i) => ({ header, response: responses[i] }))
+        .filter(
+          ({ header }) =>
+            !credentialHeaders.includes(header) &&
+            (seeApplicantName || header !== 'Preferred Name (optional)')
+        )
+        .map(({ header, response }, i) => (
+          <div key={i} className={styles.questionResponseContainer}>
+            <h4 className={styles.questionHeader}>{header}</h4>
+            <div className={styles.responseText}>{response}</div>
+          </div>
+        ))}
+    </div>
   </div>
 );
 

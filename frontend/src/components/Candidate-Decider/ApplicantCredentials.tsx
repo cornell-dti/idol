@@ -1,5 +1,7 @@
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
+import { Checkbox } from 'semantic-ui-react';
+import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
 
 type Props = {
   name: string;
@@ -11,11 +13,13 @@ type Props = {
   portfolioURL?: string;
   preferredName?: string;
   seeApplicantName: boolean;
+  setSeeApplicantName: (value: boolean) => void;
   candidate: number;
 };
 
 const ApplicantCredentials: React.FC<Props> = ({
   seeApplicantName,
+  setSeeApplicantName,
   name,
   email,
   gradYear,
@@ -25,32 +29,49 @@ const ApplicantCredentials: React.FC<Props> = ({
   portfolioURL,
   preferredName,
   candidate
-}) => (
-  <div className={styles.credentialContainer}>
-    {seeApplicantName ? (
-      <>
-        <h1>
-          {name} {preferredName && `(${preferredName})`}
-        </h1>
-        <p>{email}</p>
-      </>
-    ) : (
-      <>
-        <h1>Candidate {candidate + 1}</h1>
-      </>
-    )}
-    <p>Class of {gradYear}</p>
-    {seeApplicantName && (
-      <div className={styles.iconsContainer}>
-        <a
-          className={styles.icon}
-          href={formatLink(resumeURL)}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FileIcon />
-        </a>
-        {githubURL && (
+}) => {
+  const hasAdminPermission = useHasAdminPermission();
+
+  return (
+    <div className={styles.credentialContainer}>
+      <div className={styles.header}>
+        <div className={styles.applicantInformation}>
+          {seeApplicantName ? (
+            <>
+              <h1>
+                {name} {preferredName && `(${preferredName})`}
+              </h1>
+              <p>{email}</p>
+            </>
+          ) : (
+            <h1>Candidate {candidate + 1}</h1>
+          )}
+          <p>Class of {gradYear}</p>
+        </div>
+
+        {hasAdminPermission && (
+          <Checkbox
+            className={styles.seeApplicantName}
+            toggle
+            checked={seeApplicantName}
+            onChange={() => setSeeApplicantName(!seeApplicantName)}
+            label="See applicant name"
+          />
+        )}
+      </div>
+
+      {/* {seeApplicantName && ( */}
+      <div className={styles.documents}>
+        <h3>Documents</h3>
+        <div className={styles.iconsContainer}>
+          <a
+            className={styles.icon}
+            href={formatLink(resumeURL)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FileIcon />
+          </a>
           <a
             className={styles.icon}
             href={formatLink(githubURL)}
@@ -59,8 +80,7 @@ const ApplicantCredentials: React.FC<Props> = ({
           >
             <GithubIcon />
           </a>
-        )}
-        {linkedinURL && (
+
           <a
             className={styles.icon}
             href={formatLink(linkedinURL, 'linkedin')}
@@ -69,8 +89,6 @@ const ApplicantCredentials: React.FC<Props> = ({
           >
             <LinkedinIcon />
           </a>
-        )}
-        {portfolioURL && (
           <a
             className={styles.icon}
             href={formatLink(portfolioURL)}
@@ -79,11 +97,12 @@ const ApplicantCredentials: React.FC<Props> = ({
           >
             <GlobeIcon />
           </a>
-        )}
+        </div>
+        {/* // )} */}
       </div>
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 const FileIcon = () => (
   <svg
