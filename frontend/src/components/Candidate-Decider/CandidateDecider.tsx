@@ -31,7 +31,7 @@ type CommentEditorProps = {
 
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
   <div style={{ width: '100%' }}>
-    <h4 className={styles.h4}>Comments</h4>
+    <h4>Comments</h4>
     <Form.Group inline>
       <Form.Input
         style={{ height: 256, width: '100%' }}
