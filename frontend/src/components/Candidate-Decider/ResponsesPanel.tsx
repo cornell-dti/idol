@@ -1,7 +1,6 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
-import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
 
 type Props = {
   headers: string[];
