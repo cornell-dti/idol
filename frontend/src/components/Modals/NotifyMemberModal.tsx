@@ -29,13 +29,17 @@ const NotifyMemberModal = (props: {
       await Promise.all(members.map(notifyMember));
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
+        contentMsg: `A ${
+          type === 'tec' ? 'TEC' : 'coffee chat'
+        } email reminder was successfully sent to everyone!`
       });
     } else if (member) {
       await notifyMember(member);
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
+        contentMsg: `A ${
+          type === 'tec' ? 'TEC' : 'coffee chat'
+        } email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
       });
     }
     setOpen(false);
