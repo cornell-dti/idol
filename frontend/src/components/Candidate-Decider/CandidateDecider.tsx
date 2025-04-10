@@ -267,8 +267,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         </div>
       </div>
       <div className={styles.responsesContainer}>
-        {/* TODO: Move CheckBox into ResponsesPanel */}
-
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
