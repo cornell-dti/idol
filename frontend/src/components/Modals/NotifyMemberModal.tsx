@@ -31,13 +31,13 @@ const NotifyMemberModal = (props: {
       await Promise.all(members.map(notifyMember));
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
+        contentMsg: `A ${type === 'tec' || type === 'period' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
       });
     } else if (member) {
       await notifyMember(member);
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A ${type === 'tec' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
+        contentMsg: `A ${type === 'tec' || type === 'period' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
       });
     }
     setOpen(false);
@@ -53,10 +53,9 @@ const NotifyMemberModal = (props: {
       <Modal.Header> Are you sure you want to notify {subject}?</Modal.Header>
       <Modal.Content>
         This will send an email to {subject} reminding them that they{' '}
-        {type === 'tec'
-          ? 'do not have enough TEC Credits completed yet this semester'
-          : 'should submit coffee chats'}
-        .
+        {type === 'tec' && 'do not have enough TEC Credits completed yet this semester'}
+        {type === 'coffee chat' && 'should submit coffee chats'}
+        {type === 'period' && 'do not have enough TEC Credits completed yet this period'}.
         <Form>
           <div className={styles.buttonsWrapper}>
             <Form.Button onClick={() => setOpen(false)}>Cancel</Form.Button>

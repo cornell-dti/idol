@@ -4,7 +4,7 @@ import getEmailTransporter from '../nodemailer';
 import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 import PermissionsManager from '../utils/permissionsManager';
-import { PermissionError } from '../utils/errors';
+import { BadRequestError, PermissionError } from '../utils/errors';
 import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
@@ -283,16 +283,17 @@ export const sendPeriodReminder = async (
 
   const currentPeriodIndex = getTECPeriod(new Date());
   if (currentPeriodIndex < 0 || currentPeriodIndex >= periods.length) {
-    return Promise.reject(new Error('No valid TEC period found.'));
+    return Promise.reject(new BadRequestError('No valid TEC period found.'));
   }
 
   const creditsPerPeriod = calculateCreditsForAllPeriods(periods, false);
   const pendingCreditsPerPeriod = calculateCreditsForAllPeriods(periods, true);
 
-  const currentPeriod = periods[currentPeriodIndex];
-  const periodStart = currentPeriod.start;
-  const periodEnd = currentPeriod.deadline;
-  const periodEvents = currentPeriod.events;
+  const {
+    start: periodStart,
+    deadline: periodEnd,
+    events: periodEvents
+  } = periods[currentPeriodIndex];
   const currentPeriodCredits = creditsPerPeriod[currentPeriodIndex];
   const currentPendingCredits = pendingCreditsPerPeriod[currentPeriodIndex];
   const previousPeriodIndex = currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
