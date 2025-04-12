@@ -311,3 +311,10 @@ interface InterviewSlotEdit {
   members?: (IdolMember | null)[];
   applicant?: Applicant | null;
 }
+
+interface Period {
+  name: string;
+  start: Date;
+  deadline: Date;
+  events: TeamEvent[];
+}
