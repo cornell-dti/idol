@@ -3,14 +3,20 @@ import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export type InterviewStatus = {
   uuid?: string;
 =======
+=======
+>>>>>>> Stashed changes
 export interface InterviewStatus extends DBInterviewStatus = {
   uuid: string;
 };
 
 export interface DBInterviewStatus = {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   name: string;
   netid: string;
@@ -20,6 +26,10 @@ export interface DBInterviewStatus = {
 };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -78,7 +88,11 @@ export class InterviewStatusAPI {
    * @param interviewStatusData - data for the new interview status
    */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   public static createInterviewStatus(interviewStatusData: InterviewStatus): Promise<InterviewStatusResponseObj> {
+=======
+  public static createInterviewStatus(interviewStatusData: DBInterviewStatus): Promise<InterviewStatusResponseObj> {
+>>>>>>> Stashed changes
 =======
   public static createInterviewStatus(interviewStatusData: DBInterviewStatus): Promise<InterviewStatusResponseObj> {
 >>>>>>> Stashed changes
