@@ -61,6 +61,9 @@ const InterviewStatusDashboard: React.FC = () => {
       setSelectedRound(value);
       applyFilters(value, selectedFilters);
     }
+    filteredApplicants.map((applicant) => {
+      console.log(`name: ${applicant.name}, round: ${applicant.round}`)
+    });
   };
 
   const handleFilterChange = (data: DropdownProps) => {
@@ -68,10 +71,16 @@ const InterviewStatusDashboard: React.FC = () => {
     if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
       setSelectedFilters(value);
       applyFilters(selectedRound, value);
+    } else {
+      console.log("error with data");
     }
+    filteredApplicants.map((applicant) => {
+      console.log(`name: ${applicant.name}, round: ${applicant.role}`)
+    });
   };
 
   const applyFilters = (roundFilter: string | null, applicantFilters: string[]) => {
+    console.log("filtering")
     let filtered = applicants;
 
     if (roundFilter && roundFilter !== 'All Rounds') {
@@ -86,6 +95,10 @@ const InterviewStatusDashboard: React.FC = () => {
         )
       );
     }
+
+    filteredApplicants.map((applicant) => {
+      console.log(`applying filter; name: ${applicant.name}, round: ${applicant.round}`)
+    });
 
     setFilteredApplicants(filtered);
   };
@@ -124,6 +137,52 @@ const InterviewStatusDashboard: React.FC = () => {
       } catch (error) {
         console.log("Error: ", error);
       }
+    }
+  };
+
+  const handleProceed = async () => {
+    if (selectedApplicants.size === 0) {
+      alert('No applicants are selected.');
+      return;
+    }
+    const names: string[] = [];
+    try {
+      const updatePromises = Array.from(selectedApplicants).map(async (uuid) => {
+        const applicant = applicants.find((applicant) => applicant.uuid === uuid);
+        if (!applicant) return;
+
+        const { name, round, status, role } = applicant;
+
+        if (status !== ('Accepted')) {
+          alert(`${name} has not been accepted so they may not move onto the next round.`);
+          return;
+        }
+
+        if (round === 'Technical') {
+          alert(`${role} ${name} is already at the final round.`);
+          return;
+        }
+
+        const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
+
+        const updatedStatus = { ...applicant, uuid: applicant.uuid!, round: newRound, };
+        InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
+          names.push(name);
+          console.log(`Successfully updated round for ${uuid}`);
+        })
+
+          .catch((error) => {
+            alert(`Could not update round for ${uuid}.`);
+          })
+      });
+      await Promise.all(updatePromises);
+      setSelectedApplicants(new Set());
+      fetchApplicants();
+      if (names.length !== 0) {
+        alert(`Promoted ${names.join(', ')} to next round`);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
     }
   };
 
@@ -176,6 +235,7 @@ const InterviewStatusDashboard: React.FC = () => {
       <div className={styles.csvButton}>
         <Button onClick={handleCopyEmails}>Copy Emails</Button>
         <Button onClick={handleDeleteStatus}>Delete Status</Button>
+        <Button onClick={handleProceed}>Proceed to Next Round</Button>
       </div>
       <Table celled selectable striped>
         <Table.Header>
