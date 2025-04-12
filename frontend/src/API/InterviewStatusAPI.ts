@@ -4,9 +4,12 @@ import APIWrapper from './APIWrapper';
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export type InterviewStatus = {
   uuid?: string;
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 export interface InterviewStatus extends DBInterviewStatus = {
@@ -15,6 +18,9 @@ export interface InterviewStatus extends DBInterviewStatus = {
 
 export interface DBInterviewStatus = {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -27,6 +33,10 @@ export interface DBInterviewStatus = {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -89,7 +99,11 @@ export class InterviewStatusAPI {
    */
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   public static createInterviewStatus(interviewStatusData: InterviewStatus): Promise<InterviewStatusResponseObj> {
+=======
+  public static createInterviewStatus(interviewStatusData: DBInterviewStatus): Promise<InterviewStatusResponseObj> {
+>>>>>>> Stashed changes
 =======
   public static createInterviewStatus(interviewStatusData: DBInterviewStatus): Promise<InterviewStatusResponseObj> {
 >>>>>>> Stashed changes
