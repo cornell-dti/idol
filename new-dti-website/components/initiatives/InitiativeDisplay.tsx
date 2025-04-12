@@ -1,11 +1,8 @@
 import Image, { ImageProps } from 'next/image';
-import { Inter } from 'next/font/google';
 import initiatives from './data/initiatives.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT } from '../../src/consts';
 import { ibm_plex_mono } from '../../src/app/layout';
-
-const inter = Inter({ subsets: ['latin'] });
 
 type InitiativeProps = {
   title: string;
@@ -34,13 +31,7 @@ const Initiative = ({ title, subtitle, icon, image, description, className }: In
           />
         </div>
       </div>
-      <p
-        className={`text-lg ${
-          width >= LAPTOP_BREAKPOINT ? inter.className : ibm_plex_mono.className
-        }`}
-      >
-        {description}
-      </p>
+      <p>{description}</p>
     </article>
   );
 };
