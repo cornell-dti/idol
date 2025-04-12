@@ -7,7 +7,7 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instances);
   }
 
-  static async hasCandidateDeciderInstance(user: IdolMember): Promise<boolean> {
+  static async hasCandidateDeciderInstance(): Promise<boolean> {
     const response = APIWrapper.get(`${backendURL}/candidate-decider-instance/`);
     return response.then((val) => val.data.hasInstance);
   }
