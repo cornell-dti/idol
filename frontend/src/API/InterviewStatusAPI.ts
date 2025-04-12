@@ -4,7 +4,7 @@ import APIWrapper from './APIWrapper';
 
 export interface InterviewStatus extends DBInterviewStatus {
   uuid: string;
-};
+}
 
 export interface DBInterviewStatus {
   name: string;
@@ -12,7 +12,7 @@ export interface DBInterviewStatus {
   role: string;
   round: string;
   status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
-};
+}
 
 export interface InterviewStatusResponseObj {
   interviewStatus: InterviewStatus;
@@ -20,7 +20,6 @@ export interface InterviewStatusResponseObj {
 }
 
 export class InterviewStatusAPI {
-  
   /**
    * Fetch all interview statuses from the backend.
    */
@@ -60,16 +59,24 @@ export class InterviewStatusAPI {
    * Update an existing interview status record.
    * @param interviewStatusData - update data for the interview status
    */
-  public static updateInterviewStatus(interviewStatusData: InterviewStatus): Promise<InterviewStatusResponseObj> {
-    return APIWrapper.put(`${backendURL}/interview-status`, interviewStatusData).then((res) => res.data);
+  public static updateInterviewStatus(
+    interviewStatusData: InterviewStatus
+  ): Promise<InterviewStatusResponseObj> {
+    return APIWrapper.put(`${backendURL}/interview-status`, interviewStatusData).then(
+      (res) => res.data
+    );
   }
 
   /**
    * Create a new interview status record.
    * @param interviewStatusData - data for the new interview status
    */
-  public static createInterviewStatus(interviewStatusData: DBInterviewStatus): Promise<InterviewStatusResponseObj> {
-    return APIWrapper.post(`${backendURL}/interview-status`, interviewStatusData).then((res) => res.data);
+  public static createInterviewStatus(
+    interviewStatusData: DBInterviewStatus
+  ): Promise<InterviewStatusResponseObj> {
+    return APIWrapper.post(`${backendURL}/interview-status`, interviewStatusData).then(
+      (res) => res.data
+    );
   }
 
   /**
@@ -85,7 +92,9 @@ export class InterviewStatusAPI {
    * @param round - name of the round
    */
   public static getInterviewStatusesByRound(round: string): Promise<InterviewStatus[]> {
-    const res = APIWrapper.get(`${backendURL}/interview-status?round=${round}`).then((res) => res.data);
+    const res = APIWrapper.get(`${backendURL}/interview-status?round=${round}`).then(
+      (res) => res.data
+    );
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -101,10 +110,12 @@ export class InterviewStatusAPI {
   /**
    * Fetch all interview statuses for a specific netid.
    * @param netid - netID of the applicant
-   * @returns 
+   * @returns
    */
   public static getInterviewStatusesByNetId(netid: string): Promise<InterviewStatus[]> {
-    const res = APIWrapper.get(`${backendURL}/interview-status?netid=${netid}`).then((res) => res.data);
+    const res = APIWrapper.get(`${backendURL}/interview-status?netid=${netid}`).then(
+      (res) => res.data
+    );
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({
@@ -120,10 +131,12 @@ export class InterviewStatusAPI {
   /**
    * Fetch all interview statuses for a specific role.
    * @param role - role of the applicant
-   * @returns 
+   * @returns
    */
   public static getInterviewStatusesByRole(role: string): Promise<InterviewStatus[]> {
-    const res = APIWrapper.get(`${backendURL}/interview-status?role=${role}`).then((res) => res.data);
+    const res = APIWrapper.get(`${backendURL}/interview-status?role=${role}`).then(
+      (res) => res.data
+    );
     return res.then((val) => {
       if (val.error) {
         Emitters.generalError.emit({

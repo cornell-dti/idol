@@ -7,30 +7,33 @@ const interviewStatusDao = new InterviewStatusDao();
 /**
  * Fetch all interview statuses.
  */
-export const getAllInterviewStatuses = async (user : IdolMember): Promise<InterviewStatus[]> => {
+export const getAllInterviewStatuses = async (user: IdolMember): Promise<InterviewStatus[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin){
+  if (!isLeadOrAdmin) {
     throw new PermissionError(`User with email ${user.email} cannot get all interview statuses`);
   }
   return interviewStatusDao.getAllInterviewStatuses();
-}
+};
 
 /**
  * Fetch a specific interview status by UUID.
  * @param uuid the UUID of the interview status document
  * @param user - the user getting the interview status
  */
-export const getInterviewStatus = async (uuid: string, user : IdolMember): Promise<InterviewStatus> => {
+export const getInterviewStatus = async (
+  uuid: string,
+  user: IdolMember
+): Promise<InterviewStatus> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatus(uuid);
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin){
+  if (!isLeadOrAdmin) {
     throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
   }
-  if (!interviewStatus){
+  if (!interviewStatus) {
     throw new NotFoundError(`Interview status with UUID ${uuid} does not exist!`);
   }
   return interviewStatus;
-}
+};
 
 /**
  * Create a new interview status.
@@ -64,21 +67,17 @@ export const updateInterviewStatus = async (
   uuid: string
 ): Promise<InterviewStatus> => {
   if (!PermissionsManager.isLeadOrAdmin(user))
-    throw new PermissionError(
-      'User does not have permission to update interview status instance.'
-    );
+    throw new PermissionError('User does not have permission to update interview status instance.');
 
   const instance = await interviewStatusDao.getInterviewStatus(uuid);
 
   if (!instance)
-    throw new NotFoundError(
-      `Interview status instance with uuid ${uuid} does not exist!`
-    );
+    throw new NotFoundError(`Interview status instance with uuid ${uuid} does not exist!`);
 
   const updatedData: InterviewStatus = {
     ...instance,
     ...updates,
-    uuid,
+    uuid
   };
 
   return interviewStatusDao.updateInterviewStatus(updatedData);
@@ -89,14 +88,9 @@ export const updateInterviewStatus = async (
  * @param uuid - the UUID of the document to delete
  * @param user - the user deleting the interview status
  */
-export const deleteInterviewStatus = async (
-  uuid: string,
-  user: IdolMember
-): Promise<void> => {
+export const deleteInterviewStatus = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.isLeadOrAdmin(user))
-    throw new PermissionError(
-      'User does not have permission to delete an interview status.'
-    );
+    throw new PermissionError('User does not have permission to delete an interview status.');
 
   const existing = await getInterviewStatus(uuid, user);
 
@@ -110,47 +104,55 @@ export const deleteInterviewStatus = async (
  * Fetch all interview statuses for a specific netid.
  * @param netid - the NetID of the applicant
  */
-export const getInterviewStatusesByNetId = async (netid: string, user : IdolMember): Promise<InterviewStatus[]> => {
+export const getInterviewStatusesByNetId = async (
+  netid: string,
+  user: IdolMember
+): Promise<InterviewStatus[]> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatusesByNetId(netid);
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin){
+  if (!isLeadOrAdmin) {
     throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
   }
-  if (!interviewStatus){
+  if (!interviewStatus) {
     throw new NotFoundError(`Interview status with netid ${netid} does not exist!`);
   }
   return interviewStatus;
-}
+};
 
 /**
  * Fetch all interview statuses for a specific round.
  * @param round - the round name
  */
-export const getInterviewStatusesByRound = async (round: string, user : IdolMember): Promise<InterviewStatus[]> => {
+export const getInterviewStatusesByRound = async (
+  round: string,
+  user: IdolMember
+): Promise<InterviewStatus[]> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatusesByRound(round);
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin){
+  if (!isLeadOrAdmin) {
     throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
   }
-  if (!interviewStatus){
+  if (!interviewStatus) {
     throw new NotFoundError(`Interview status with for ${round} does not exist!`);
   }
   return interviewStatus;
-}
+};
 
 /**
  * Fetch all interview statuses for a specific role.
  * @param role - the role name
  */
-export const getInterviewStatusesByRole = async (role: string, user : IdolMember): Promise<InterviewStatus[]> => {
+export const getInterviewStatusesByRole = async (
+  role: string,
+  user: IdolMember
+): Promise<InterviewStatus[]> => {
   const interviewStatus = await interviewStatusDao.getInterviewStatusesByRole(role);
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  if (!isLeadOrAdmin){
+  if (!isLeadOrAdmin) {
     throw new PermissionError(`User with email ${user.email} cannot get an interview status`);
   }
-  if (!interviewStatus){
+  if (!interviewStatus) {
     throw new NotFoundError(`Interview status with role ${role} does not exist!`);
   }
   return interviewStatus;
-}
-
+};

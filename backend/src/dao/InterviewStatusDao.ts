@@ -24,16 +24,9 @@ async function serializeInterviewStatus(
   return interviewStatus;
 }
 
-export default class InterviewStatusDao extends BaseDao<
-  InterviewStatus,
-  DBInterviewStatus
-> {
+export default class InterviewStatusDao extends BaseDao<InterviewStatus, DBInterviewStatus> {
   constructor() {
-    super(
-      interviewStatusCollection,
-      materializeInterviewStatus,
-      serializeInterviewStatus
-    );
+    super(interviewStatusCollection, materializeInterviewStatus, serializeInterviewStatus);
   }
 
   /**
@@ -41,9 +34,7 @@ export default class InterviewStatusDao extends BaseDao<
    * @param interviewStatus - newly created InterviewStatus object
    * If provided, the uuid will be used and if not a new one will be generated.
    */
-  async createInterviewStatus(
-    interviewStatus: InterviewStatus
-  ): Promise<InterviewStatus> {
+  async createInterviewStatus(interviewStatus: InterviewStatus): Promise<InterviewStatus> {
     const interviewStatusWithUUID = {
       ...interviewStatus,
       uuid: interviewStatus.uuid ? interviewStatus.uuid : uuidv4()
@@ -55,9 +46,7 @@ export default class InterviewStatusDao extends BaseDao<
    * Updates an existing Interview Status entry.
    * @param interviewStatus - updated Interview Status object
    */
-  async updateInterviewStatus(
-    interviewStatus: InterviewStatus
-  ): Promise<InterviewStatus> {
+  async updateInterviewStatus(interviewStatus: InterviewStatus): Promise<InterviewStatus> {
     return this.updateDocument(interviewStatus.uuid, interviewStatus);
   }
 
@@ -93,7 +82,7 @@ export default class InterviewStatusDao extends BaseDao<
       {
         field: 'netid',
         comparisonOperator: '==',
-        value: netid,
+        value: netid
       }
     ]);
   }
@@ -107,7 +96,7 @@ export default class InterviewStatusDao extends BaseDao<
       {
         field: 'round',
         comparisonOperator: '==',
-        value: round,
+        value: round
       }
     ]);
   }
@@ -121,7 +110,7 @@ export default class InterviewStatusDao extends BaseDao<
       {
         field: 'status',
         comparisonOperator: '==',
-        value: status,
+        value: status
       }
     ]);
   }
@@ -135,7 +124,7 @@ export default class InterviewStatusDao extends BaseDao<
       {
         field: 'role',
         comparisonOperator: '==',
-        value: role,
+        value: role
       }
     ]);
   }

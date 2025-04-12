@@ -17,21 +17,21 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
   const roundOptions = [
     { key: 'resume', text: 'Resume', value: 'Resume' },
     { key: 'behavioral', text: 'Behavioral', value: 'Behavioral' },
-    { key: 'technical', text: 'Technical', value: 'Technical' },
+    { key: 'technical', text: 'Technical', value: 'Technical' }
   ];
 
   const statusOptions = [
     { key: 'accepted', text: 'Accepted', value: 'Accepted' },
     { key: 'rejected', text: 'Rejected', value: 'Rejected' },
     { key: 'waitlisted', text: 'Waitlisted', value: 'Waitlisted' },
-    { key: 'undecided', text: 'Undecided', value: 'Undecided' },
+    { key: 'undecided', text: 'Undecided', value: 'Undecided' }
   ];
 
   const roleOptions = [
     { key: 'developer', text: 'Developer', value: 'Developer' },
     { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' },
     { key: 'business', text: 'Business', value: 'Business' },
-    { key: 'design', text: 'Design', value: 'Design' },
+    { key: 'design', text: 'Design', value: 'Design' }
   ];
 
   const handleSubmit = async () => {
@@ -47,7 +47,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         netid,
         round,
         role,
-        status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided',
+        status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided'
       });
       alert('Interview status added successfully!');
       onSuccess();
@@ -57,7 +57,6 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
       setIsSubmitting(false);
     }
   };
-
 
   return (
     <Form>
@@ -81,9 +80,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={roundOptions}
           value={round}
-          onChange={(e, data: DropdownProps) =>
-            setRound(data.value as string)
-          }
+          onChange={(e, data: DropdownProps) => setRound(data.value as string)}
         />
       </Form.Field>
       <Form.Field>
@@ -94,9 +91,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={roleOptions}
           value={role}
-          onChange={(e, data: DropdownProps) =>
-            setRole(data.value as string)
-          }
+          onChange={(e, data: DropdownProps) => setRole(data.value as string)}
         />
       </Form.Field>
       <Form.Field>
@@ -107,17 +102,10 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={statusOptions}
           value={status}
-          onChange={(e, data: DropdownProps) =>
-            setStatus(data.value as string)
-          }
+          onChange={(e, data: DropdownProps) => setStatus(data.value as string)}
         />
       </Form.Field>
-      <Button
-        primary
-        loading={isSubmitting}
-        disabled={isSubmitting}
-        onClick={handleSubmit}
-      >
+      <Button primary loading={isSubmitting} disabled={isSubmitting} onClick={handleSubmit}>
         Add Interview Status
       </Button>
     </Form>

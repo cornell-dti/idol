@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Header, Loader, Button, Dropdown, DropdownProps, Checkbox } from 'semantic-ui-react';
+import {
+  Table,
+  Header,
+  Loader,
+  Button,
+  Dropdown,
+  DropdownProps,
+  Checkbox
+} from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
@@ -39,8 +47,8 @@ const InterviewStatusDashboard: React.FC = () => {
 
   useEffect(() => {
     Array.from(selectedApplicants).forEach((applicant) => {
-      console.log(`selected applicant: ${applicant}`)
-    })
+      console.log(`selected applicant: ${applicant}`);
+    });
   }, [selectedApplicants]);
 
   const handleSelect = (applicantUuid: string) => {
@@ -80,10 +88,7 @@ const InterviewStatusDashboard: React.FC = () => {
 
     if (applicantFilters.length > 0) {
       filtered = filtered.filter((applicant) =>
-        applicantFilters.every(
-          (filter) =>
-            applicant.status === filter || applicant.role === filter
-        )
+        applicantFilters.every((filter) => applicant.status === filter || applicant.role === filter)
       );
     }
 
@@ -97,9 +102,12 @@ const InterviewStatusDashboard: React.FC = () => {
         .map((uuid: string) => {
           const applicant = applicants.find((a) => a.uuid === uuid);
           return `${applicant?.netid}@cornell.edu`;
-        }).join(', ');
+        })
+        .join(', ');
     } else {
-      emailList = filteredApplicants.map((applicant) => `${applicant.netid}@cornell.edu`).join(', ');
+      emailList = filteredApplicants
+        .map((applicant) => `${applicant.netid}@cornell.edu`)
+        .join(', ');
     }
     navigator.clipboard.writeText(emailList).then(() => {
       console.log('emails copied to clipboard:', emailList);
@@ -112,8 +120,8 @@ const InterviewStatusDashboard: React.FC = () => {
     } else {
       try {
         const deletePromises = Array.from(selectedApplicants).map((uuid) =>
-          InterviewStatusAPI.deleteInterviewStatus(uuid).then(() =>
-            console.log(`Successfully deleted status for ${uuid}`))
+          InterviewStatusAPI.deleteInterviewStatus(uuid)
+            .then(() => console.log(`Successfully deleted status for ${uuid}`))
             .catch((error) => {
               alert(`Could not delete status for ${uuid}.`);
             })
@@ -122,7 +130,7 @@ const InterviewStatusDashboard: React.FC = () => {
         setSelectedApplicants(new Set());
         fetchApplicants();
       } catch (error) {
-        console.log("Error: ", error);
+        console.log('Error: ', error);
       }
     }
   };
@@ -140,7 +148,7 @@ const InterviewStatusDashboard: React.FC = () => {
 
         const { name, round, status, role } = applicant;
 
-        if (status !== ('Accepted')) {
+        if (status !== 'Accepted') {
           alert(`${name} has not been accepted so they may not move onto the next round.`);
           return;
         }
@@ -152,15 +160,16 @@ const InterviewStatusDashboard: React.FC = () => {
 
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
 
-        const updatedStatus = { ...applicant, uuid: applicant.uuid!, round: newRound, };
-        InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
-          names.push(name);
-          console.log(`Successfully updated round for ${uuid}`);
-        })
+        const updatedStatus = { ...applicant, uuid: applicant.uuid!, round: newRound };
+        InterviewStatusAPI.updateInterviewStatus(updatedStatus)
+          .then(() => {
+            names.push(name);
+            console.log(`Successfully updated round for ${uuid}`);
+          })
 
           .catch((error) => {
             alert(`Could not update round for ${uuid}.`);
-          })
+          });
       });
       await Promise.all(updatePromises);
       setSelectedApplicants(new Set());
@@ -169,7 +178,7 @@ const InterviewStatusDashboard: React.FC = () => {
         alert(`Promoted ${names.join(', ')} to next round`);
       }
     } catch (error) {
-      console.log("Error: ", error);
+      console.log('Error: ', error);
     }
   };
 
@@ -183,14 +192,14 @@ const InterviewStatusDashboard: React.FC = () => {
     { key: 'developer', text: 'Developer', value: 'Developer' },
     { key: 'business', text: 'Business', value: 'Business' },
     { key: 'designer', text: 'Designer', value: 'Designer' },
-    { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' },
+    { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' }
   ];
 
   const roundOptions = [
     { key: 'all_rounds', text: 'All Rounds', value: 'All Rounds' },
     { key: 'behavioral', text: 'Behavioral', value: 'Behavioral' },
     { key: 'technical', text: 'Technical', value: 'Technical' },
-    { key: 'resume', text: 'Resume', value: 'Resume' },
+    { key: 'resume', text: 'Resume', value: 'Resume' }
   ];
 
   return (
@@ -243,17 +252,19 @@ const InterviewStatusDashboard: React.FC = () => {
               <Table.Cell>{applicant.role}</Table.Cell>
               <Table.Cell>{applicant.round}</Table.Cell>
               <Table.Cell>{applicant.status}</Table.Cell>
-              <Table.Cell>{
-                <Checkbox
-                  checked={selectedApplicants.has(applicant.uuid!)}
-                  onChange={() => handleSelect(applicant.uuid!)}
-                />}
+              <Table.Cell>
+                {
+                  <Checkbox
+                    checked={selectedApplicants.has(applicant.uuid!)}
+                    onChange={() => handleSelect(applicant.uuid!)}
+                  />
+                }
               </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
       </Table>
-      <div style={{ marginBottom: "2rem" }}>
+      <div style={{ marginBottom: '2rem' }}>
         <AddInterviewStatusForm onSuccess={fetchApplicants} />
       </div>
     </div>

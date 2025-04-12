@@ -206,8 +206,9 @@ export const interviewSlotCollection: admin.firestore.CollectionReference<DBInte
     }
   });
 
-  export const interviewStatusCollection: admin.firestore.CollectionReference<DBInterviewStatus> =
-  db.collection('interview-status').withConverter({
+export const interviewStatusCollection: admin.firestore.CollectionReference<DBInterviewStatus> = db
+  .collection('interview-status')
+  .withConverter({
     fromFirestore(snapshot): DBInterviewStatus {
       return snapshot.data() as DBInterviewStatus;
     },
