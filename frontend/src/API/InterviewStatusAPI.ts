@@ -6,28 +6,7 @@ import APIWrapper from './APIWrapper';
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 export type InterviewStatus = {
-<<<<<<< Updated upstream
-  uuid?: string;
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-export interface InterviewStatus extends DBInterviewStatus = {
   uuid: string;
-};
-
-export interface DBInterviewStatus = {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
-  uuid: string;
->>>>>>> Stashed changes
   name: string;
   netid: string;
   role: string;
