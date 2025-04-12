@@ -88,7 +88,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
                 }}
                 className="appSidebar"
               >
-                <MenuContent hasAdminPermission={hasAdminPermission}/>
+                <MenuContent hasAdminPermission={hasAdminPermission} />
               </Sidebar>
               <Sidebar.Pushable>
                 <Sidebar.Pusher dimmed={navVisible}>
@@ -108,10 +108,9 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
   const self = useSelf();
   useEffect(() => {
     if (self) {
-      CandidateDeciderAPI.hasCandidateDeciderInstance(self)
-        .then((result) => {
-          setHasInstance(result)
-    });
+      CandidateDeciderAPI.hasCandidateDeciderInstance(self).then((result) => {
+        setHasInstance(result);
+      });
     }
   }, [self]);
   return (
@@ -137,12 +136,12 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
         </Menu.Item>
       </Link>
       {hasInstance && (
-      <Link href="/candidate-decider">
-        <Menu.Item>
-          <Icon name="chart bar outline" />
-          Candidate Decider
-        </Menu.Item>
-      </Link>
+        <Link href="/candidate-decider">
+          <Menu.Item>
+            <Icon name="chart bar outline" />
+            Candidate Decider
+          </Menu.Item>
+        </Link>
       )}
     </>
   );
