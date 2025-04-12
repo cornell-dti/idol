@@ -55,32 +55,23 @@ const InterviewStatusDashboard: React.FC = () => {
     });
   };
 
-  const handleRoundChange = (data: DropdownProps) => {
+  const handleRoundChange = (_: unknown, data: DropdownProps) => {
     const { value } = data;
     if (typeof value === 'string') {
       setSelectedRound(value);
       applyFilters(value, selectedFilters);
     }
-    filteredApplicants.map((applicant) => {
-      console.log(`name: ${applicant.name}, round: ${applicant.round}`)
-    });
   };
 
-  const handleFilterChange = (data: DropdownProps) => {
+  const handleFilterChange = (_: unknown, data: DropdownProps) => {
     const { value } = data;
     if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
       setSelectedFilters(value);
       applyFilters(selectedRound, value);
-    } else {
-      console.log("error with data");
     }
-    filteredApplicants.map((applicant) => {
-      console.log(`name: ${applicant.name}, round: ${applicant.role}`)
-    });
   };
 
   const applyFilters = (roundFilter: string | null, applicantFilters: string[]) => {
-    console.log("filtering")
     let filtered = applicants;
 
     if (roundFilter && roundFilter !== 'All Rounds') {
@@ -95,10 +86,6 @@ const InterviewStatusDashboard: React.FC = () => {
         )
       );
     }
-
-    filteredApplicants.map((applicant) => {
-      console.log(`applying filter; name: ${applicant.name}, round: ${applicant.round}`)
-    });
 
     setFilteredApplicants(filtered);
   };
