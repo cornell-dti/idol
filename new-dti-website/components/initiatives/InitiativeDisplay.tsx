@@ -2,7 +2,6 @@ import Image, { ImageProps } from 'next/image';
 import initiatives from './data/initiatives.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT } from '../../src/consts';
-import { ibm_plex_mono } from '../../src/app/layout';
 
 type InitiativeProps = {
   title: string;
@@ -14,8 +13,6 @@ type InitiativeProps = {
 };
 
 const Initiative = ({ title, subtitle, icon, image, description, className }: InitiativeProps) => {
-  const { width } = useScreenSize();
-
   return (
     <article className={`flex flex-col gap-10 ${className}`}>
       <div className="flex flex-col gap-[14px]">
