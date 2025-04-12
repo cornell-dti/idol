@@ -2,8 +2,16 @@ import { backendURL } from '../environment';
 import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
+<<<<<<< Updated upstream
 export type InterviewStatus = {
   uuid?: string;
+=======
+export interface InterviewStatus extends DBInterviewStatus = {
+  uuid: string;
+};
+
+export interface DBInterviewStatus = {
+>>>>>>> Stashed changes
   name: string;
   netid: string;
   role: string;
@@ -11,6 +19,10 @@ export type InterviewStatus = {
   status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
 };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 export type InterviewStatusResponseObj = {
   interviewStatus: InterviewStatus;
   error?: string;
@@ -65,7 +77,11 @@ export class InterviewStatusAPI {
    * Create a new interview status record.
    * @param interviewStatusData - data for the new interview status
    */
+<<<<<<< Updated upstream
   public static createInterviewStatus(interviewStatusData: InterviewStatus): Promise<InterviewStatusResponseObj> {
+=======
+  public static createInterviewStatus(interviewStatusData: DBInterviewStatus): Promise<InterviewStatusResponseObj> {
+>>>>>>> Stashed changes
     return APIWrapper.post(`${backendURL}/interview-status`, interviewStatusData).then((res) => res.data);
   }
 
