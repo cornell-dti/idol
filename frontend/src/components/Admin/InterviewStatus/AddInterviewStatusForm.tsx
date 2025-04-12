@@ -50,6 +50,11 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided'
       });
       alert('Interview status added successfully!');
+      setName('');
+      setNetid('');
+      setRound('');
+      setRole('');
+      setStatus('');
       onSuccess();
     } catch (error) {
       alert('Failed to add interview status of applicant.');
