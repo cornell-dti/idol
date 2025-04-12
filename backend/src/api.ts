@@ -435,7 +435,6 @@ loginCheckedGet('/candidate-decider', async (_, user) => ({
 }));
 loginCheckedGet('/candidate-decider-instance', async (_, user) => ({
   hasInstance: await hasCandidateDeciderInstance(user)
-  // console.log(`info: ${hasInstance}`)
 }));
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)

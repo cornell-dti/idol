@@ -9,7 +9,6 @@ export default class CandidateDeciderAPI {
 
   static async hasCandidateDeciderInstance(user: IdolMember): Promise<boolean> {
     const response = APIWrapper.get(`${backendURL}/candidate-decider-instance/`);
-    // console.log(`info: ${(await response).data.hasInstance}`)
     return response.then((val) => val.data.hasInstance);
   }
 
