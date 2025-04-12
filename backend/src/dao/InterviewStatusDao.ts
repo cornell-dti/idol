@@ -39,7 +39,7 @@ export default class InterviewStatusDao extends BaseDao<
   /**
    * Creates a new Interview Status entry for a candidate.
    * @param interviewStatus - newly created InterviewStatus object
-   * If provided, the object uuid will be used and if not a new one will be generated.
+   * If provided, the uuid will be used and if not a new one will be generated.
    */
   async createInterviewStatus(
     interviewStatus: InterviewStatus

@@ -6,6 +6,7 @@ import APIWrapper from './APIWrapper';
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 export type InterviewStatus = {
+<<<<<<< Updated upstream
   uuid?: string;
 =======
 =======
@@ -23,6 +24,9 @@ export interface DBInterviewStatus = {
 =======
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+  uuid: string;
 >>>>>>> Stashed changes
   name: string;
   netid: string;

@@ -37,6 +37,12 @@ const InterviewStatusDashboard: React.FC = () => {
     fetchApplicants();
   }, []);
 
+  useEffect(() => {
+    Array.from(selectedApplicants).forEach((applicant) => {
+      console.log(`selected applicant: ${applicant}`)
+    })
+  }, [selectedApplicants]);
+
   const handleSelect = (applicantUuid: string) => {
     setSelectedApplicants((prev: Set<string>) => {
       const updatedSet = new Set(prev);
@@ -183,8 +189,8 @@ const InterviewStatusDashboard: React.FC = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {filteredApplicants.map((applicant, index) => (
-            <Table.Row key={index}>
+          {filteredApplicants.map((applicant) => (
+            <Table.Row key={applicant.uuid}>
               <Table.Cell>{applicant.name}</Table.Cell>
               <Table.Cell>{`${applicant.netid}@cornell.edu`}</Table.Cell>
               <Table.Cell>{applicant.role}</Table.Cell>

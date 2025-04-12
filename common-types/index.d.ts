@@ -313,6 +313,7 @@ interface InterviewSlotEdit {
 }
 
 interface InterviewStatus {
+  uuid: string;
   name: string;
   netid: string;
   role: string;
