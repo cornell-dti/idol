@@ -14,6 +14,12 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const roundOptions = [
+    { key: 'resume', text: 'Resume', value: 'Resume' },
+    { key: 'behavioral', text: 'Behavioral', value: 'Behavioral' },
+    { key: 'technical', text: 'Technical', value: 'Technical' },
+  ];
+
   const statusOptions = [
     { key: 'accepted', text: 'Accepted', value: 'Accepted' },
     { key: 'rejected', text: 'Rejected', value: 'Rejected' },
@@ -28,25 +34,18 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
     { key: 'design', text: 'Design', value: 'Design' },
   ];
 
-  const capitalizeWords = (input: string): string => input
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-
   const handleSubmit = async () => {
     if (!name || !netid || !round || !role || !status) {
       alert('Please fill out all fields.');
       return;
     }
 
-    const normalizedRound = capitalizeWords(round);
-
     setIsSubmitting(true);
     try {
       await InterviewStatusAPI.createInterviewStatus({
         name,
         netid,
-        round: normalizedRound,
+        round,
         role,
         status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided',
       });
@@ -74,12 +73,19 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         value={netid}
         onChange={(e) => setNetid(e.target.value)}
       />
-      <Form.Input
-        label="Round"
-        placeholder="Enter round"
-        value={round}
-        onChange={(e) => setRound(e.target.value)}
-      />
+      <Form.Field>
+        <label>Round</label>
+        <Dropdown
+          placeholder="Select round"
+          fluid
+          selection
+          options={roundOptions}
+          value={round}
+          onChange={(e, data: DropdownProps) =>
+            setRound(data.value as string)
+          }
+        />
+      </Form.Field>
       <Form.Field>
         <label>Role</label>
         <Dropdown
