@@ -1,0 +1,33 @@
+name: Update Alumni JSON
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-alumni:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run TypeScript to update alumni.json
+        run: |
+          # Run the TypeScript script to update alumni.json
+          npx ts-node ./new-dti-website/member-archive.ts
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add alumni.json
+          git commit -m "Update alumni.json with the latest two semesters"
+          git push
