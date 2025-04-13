@@ -4,17 +4,18 @@ import styles from './Switch.module.css';
 type SwitchProps = {
   checked: boolean;
   onChange: () => void;
-  label?: string;
+  label: string;
   className?: string;
 };
 
-const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, className }) => {
+const Switch = ({ checked, onChange, label, className = '' }: SwitchProps) => {
   return (
     <label className={`${styles.switchWrapper} ${className}`}>
-      <div className={styles.switch} onClick={onChange}>
-        <div className={`${styles.thumb} ${checked ? styles.checked : ''}`} />
+      <div className={styles.switch}>
+        <input type="checkbox" checked={checked} onChange={onChange} />
+        <span className={styles.slider} />
       </div>
-      <span className={styles.label}>{label}</span>
+      <span className={styles.labelText}>{label}</span>
     </label>
   );
 };
