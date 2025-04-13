@@ -4,11 +4,11 @@ import getEmailTransporter from '../nodemailer';
 import { isProd } from '../api';
 import AdminsDao from '../dao/AdminsDao';
 import PermissionsManager from '../utils/permissionsManager';
-import { PermissionError } from '../utils/errors';
+import { BadRequestError, PermissionError } from '../utils/errors';
 import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { LEAD_ROLES } from '../consts';
+import { LEAD_ROLES, TEC_DEADLINES } from '../consts';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 
@@ -189,6 +189,143 @@ export const sendTECReminder = async (
   } approved and ${pendingCount} team event ${
     pendingCount !== 1 ? 'credits' : 'credit'
   } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
+  return emailMember(req, member, subject, text);
+};
+
+/**
+ * Send an email reminder to members who do not have enough TEC credits for the current TEC period
+ * @param req - The request made when sending the email
+ * @param member - The member being sent the email
+ * @returns - The response body containing information of the member being sent the email
+ */
+export const sendPeriodReminder = async (
+  req: Request,
+  member: IdolMember
+): Promise<AxiosResponse> => {
+  const subject = `This Period's TEC Reminder`;
+
+  interface Period {
+    name: string;
+    start: Date;
+    deadline: Date;
+    events: TeamEvent[];
+  }
+
+  const allEvents = await Promise.all(
+    (await TeamEventsDao.getAllTeamEvents()).map(async (event) => ({
+      ...event,
+      requests: await teamEventAttendanceDao.getTeamEventAttendanceByEventId(event.uuid)
+    }))
+  );
+
+  const getTECPeriod = (submissionDate: Date) => {
+    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+    if (currentPeriodIndex === -1) {
+      return TEC_DEADLINES.length - 1;
+    }
+    return currentPeriodIndex;
+  };
+
+  const calculateCreditsForAllPeriods = (periods: Period[], pending: boolean): number[] => {
+    const creditsPerPeriod = new Array(periods.length).fill(0);
+    const pendingCreditsPerPeriod = new Array(periods.length).fill(0);
+
+    memberEventAttendance.forEach((eventAttendance) => {
+      const event = allEvents.find((e) => e.uuid === eventAttendance.eventUuid);
+      if (!event) return;
+
+      const eventCredit = Number(event.numCredits ?? 0);
+      const periodIndex = periods.findIndex(
+        (period) => new Date(event.date) > period.start && new Date(event.date) <= period.deadline
+      );
+
+      if (periodIndex === -1) return;
+
+      if (eventAttendance.status === 'approved') {
+        creditsPerPeriod[periodIndex] += eventCredit;
+      } else if (eventAttendance.status === 'pending') {
+        pendingCreditsPerPeriod[periodIndex] += eventCredit;
+      }
+    });
+    return pending ? pendingCreditsPerPeriod : creditsPerPeriod;
+  };
+
+  const getFirstPeriodStart = (): Date => {
+    const today = new Date();
+    const year = today.getFullYear();
+
+    return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
+  };
+
+  const getPeriods = () =>
+    TEC_DEADLINES.map((date, i) => {
+      const periodStart = i === 0 ? getFirstPeriodStart() : TEC_DEADLINES[i - 1];
+      const periodEnd = TEC_DEADLINES[i];
+      const events = allEvents.filter((event) => {
+        const eventDate = new Date(event.date);
+        return eventDate > periodStart && eventDate <= periodEnd;
+      });
+      return { name: `Period ${i + 1}`, start: periodStart, deadline: date, events };
+    });
+
+  const periods = getPeriods();
+
+  const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
+    if (prevCredits === null) {
+      return currentCredits < 1 ? 1 - currentCredits : 0;
+    }
+    if (prevCredits < 1) {
+      return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
+    }
+
+    return currentCredits < 1 ? 1 - currentCredits : 0;
+  };
+
+  const currentPeriodIndex = getTECPeriod(new Date());
+  if (currentPeriodIndex < 0 || currentPeriodIndex >= periods.length) {
+    return Promise.reject(new BadRequestError('No valid TEC period found.'));
+  }
+
+  const creditsPerPeriod = calculateCreditsForAllPeriods(periods, false);
+  const pendingCreditsPerPeriod = calculateCreditsForAllPeriods(periods, true);
+
+  const {
+    start: periodStart,
+    deadline: periodEnd,
+    events: periodEvents
+  } = periods[currentPeriodIndex];
+  const currentPeriodCredits = creditsPerPeriod[currentPeriodIndex];
+  const currentPendingCredits = pendingCreditsPerPeriod[currentPeriodIndex];
+  const previousPeriodIndex = currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
+  const previousPeriodCredits =
+    previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
+  const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
+
+  const isLead = LEAD_ROLES.includes(member.role);
+  const requiredCredits = isLead
+    ? 2
+    : calculateCredits(previousPeriodCredits, currentPeriodCredits);
+  const reminder =
+    `This is a reminder to earn at least ${requiredCredits} team event credits by ${periodEnd.toDateString()}.\n` +
+    `\n${
+      periodEvents.length === 0
+        ? 'There are currently no upcoming team events listed on IDOL for this period, but check the #team-events channel for upcoming team events.'
+        : 'Here is a list of upcoming team events this period you can participate in:'
+    } \n` +
+    `${periodEvents
+      .map(
+        (event) =>
+          `${event.name} on ${event.date} (${event.numCredits} ${
+            Number(event.numCredits) !== 1 ? 'credits' : 'credit'
+          })\n`
+      )
+      .join('')}`;
+
+  const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${currentPeriodCredits} team event ${
+    currentPeriodCredits !== 1 ? 'credits' : 'credit'
+  } approved and ${currentPendingCredits} team event ${
+    currentPendingCredits !== 1 ? 'credits' : 'credit'
+  } for this period (${periodStart.toDateString()} - ${periodEnd.toDateString()}).\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
   return emailMember(req, member, subject, text);
 };
 

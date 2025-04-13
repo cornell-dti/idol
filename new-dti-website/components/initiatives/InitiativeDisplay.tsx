@@ -1,11 +1,7 @@
 import Image, { ImageProps } from 'next/image';
-import { Inter } from 'next/font/google';
 import initiatives from './data/initiatives.json';
 import useScreenSize from '../../src/hooks/useScreenSize';
 import { LAPTOP_BREAKPOINT } from '../../src/consts';
-import { ibm_plex_mono } from '../../src/app/layout';
-
-const inter = Inter({ subsets: ['latin'] });
 
 type InitiativeProps = {
   title: string;
@@ -16,34 +12,24 @@ type InitiativeProps = {
   className?: string;
 };
 
-const Initiative = ({ title, subtitle, icon, image, description, className }: InitiativeProps) => {
-  const { width } = useScreenSize();
-
-  return (
-    <article className={`flex flex-col gap-10 ${className}`}>
-      <div className="flex flex-col gap-[14px]">
-        <div className="flex-col gap-2 min-h-10">
-          <Image {...icon} />
-          <h3 className="font-semibold text-[32px] leading-10">{title}</h3>
-        </div>
-        <p className="font-semibold text-[22px] leading-[26px]">{subtitle}</p>
-        <div className="flex justify-center">
-          <Image
-            {...image}
-            className="xs:h-[260px] md:h-[375px] lg:h-[260px] w-full object-cover rounded-xl"
-          />
-        </div>
+const Initiative = ({ title, subtitle, icon, image, description, className }: InitiativeProps) => (
+  <article className={`flex flex-col gap-10 ${className}`}>
+    <div className="flex flex-col gap-[14px]">
+      <div className="flex-col gap-2 min-h-10">
+        <Image {...icon} />
+        <h3 className="font-semibold text-[32px] leading-10">{title}</h3>
       </div>
-      <p
-        className={`text-lg ${
-          width >= LAPTOP_BREAKPOINT ? inter.className : ibm_plex_mono.className
-        }`}
-      >
-        {description}
-      </p>
-    </article>
-  );
-};
+      <p className="font-semibold text-[22px] leading-[26px]">{subtitle}</p>
+      <div className="flex justify-center">
+        <Image
+          {...image}
+          className="xs:h-[260px] md:h-[375px] lg:h-[260px] w-full object-cover rounded-xl"
+        />
+      </div>
+    </div>
+    <p>{description}</p>
+  </article>
+);
 
 const InitiativeDisplay = () => {
   const { width } = useScreenSize();

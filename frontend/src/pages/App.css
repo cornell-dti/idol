@@ -21,6 +21,7 @@
 
 * {
   box-sizing: border-box;
+  color: var(--fg-default);
 }
 
 /* =========== TYPOGRAPHY ===========  */
@@ -70,6 +71,7 @@ p.small {
   max-height: 100vh;
   min-width: 100vw;
   position: relative;
+  background: var(--bg-dimmer);
 }
 
 .appSidebarContainer {
@@ -81,6 +83,10 @@ p.small {
 .appSidebar {
   height: calc(100vh - 80px);
   padding-top: 80px;
+}
+
+.appSidebarContainer .item i {
+  color: var(--bg-default);
 }
 
 .appSidebarDimmer {
