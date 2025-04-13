@@ -10,6 +10,7 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import Switch from '../Common/Switch/Switch';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -268,12 +269,11 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       </div>
       <div className={styles.responsesContainer}>
         {hasAdminPermission && (
-          <Checkbox
-            className={styles.seeApplicantName}
-            toggle
+          <Switch
             checked={seeApplicantName}
             onChange={() => setSeeApplicantName((prev) => !prev)}
             label="See applicant name"
+            className={styles.seeApplicantName}
           />
         )}
         <ResponsesPanel
