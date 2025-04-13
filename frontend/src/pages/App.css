@@ -1,3 +1,27 @@
+:root {
+  --fg-default: #171717;
+  --fg-dimmer: #333333;
+  --fg-dimmest: #666666;
+
+  --bg-default: #ffffff;
+  --bg-dimmer: #fafafa;
+  --bg-dimmest: #f2f2f2;
+
+  --border-default: #ebebeb;
+  --border-dimmer: #c9c9c9;
+
+  --accent-focus: #0e4dd4;
+  --accent-strong-no: #d8001b;
+  --accent-no: #ff676c;
+  --accent-maybe: #ff9300;
+  --accent-yes: #28a948;
+  --accent-strong-yes: #0a6e29;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: left;
   min-height: 100vh;

@@ -320,4 +320,10 @@ interface InterviewStatus {
   round: string;
   status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
   readonly uuid: string;
+  
+interface Period {
+  name: string;
+  start: Date;
+  deadline: Date;
+  events: TeamEvent[];
 }

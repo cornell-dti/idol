@@ -89,7 +89,6 @@
     "firstName": "Adrienne",
     "semesterJoined": "Spring 2025",
     "college": "eng",
-    "github": null,
     "hometown": "Plano, Texas",
     "website": null,
     "minor": null,
@@ -99,7 +98,8 @@
     "coffeeChatLink": null,
     "about": "Dev on Idol!",
     "pronouns": "she/her",
-    "linkedin": "www.linkedin.com/in/adrienne-lee-b71799343"
+    "linkedin": "www.linkedin.com/in/adrienne-lee-b71799343",
+    "github": "https://github.com/ladriennel"
   },
   {
     "formerSubteams": [],
@@ -1658,7 +1658,6 @@
     ],
     "minor": "ORIE",
     "hometown": "Frisco, Texas",
-    "github": null,
     "email": "nt387@cornell.edu",
     "role": "developer",
     "doubleMajor": null,
@@ -1667,8 +1666,10 @@
     "firstName": "Nigel",
     "netid": "nt387",
     "coffeeChatLink": null,
-    "about": "Hey I am Nigel Tatem! Newbie on CoursePlan",
-    "semesterJoined": "Fall 2024"
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "github": "https://github.com/NigelTatem",
+    "about": "Hey I am Nigel Tatem! Developer on CoursePlan"
   },
   {
     "linkedin": "https://www.linkedin.com/in/oscar-wang04/",
@@ -2149,7 +2150,6 @@
   },
   {
     "formerSubteams": [],
-    "github": null,
     "firstName": "Layla",
     "minor": "Business",
     "hometown": "Boston",
@@ -2170,7 +2170,8 @@
     "graduation": "May 2028",
     "netid": "xl989",
     "lastName": "Liu",
-    "about": "Hi! I'm Layla Liu, a freshman planning to double major in Computer Science and Operations Research and Engineering (ORIE), with a minor in Business. In my free time, I like skiing, exploring new cities, visiting great bakeries, and binge-watching Netflix shows.\n\n"
+    "about": "Hi! I'm Layla Liu, a freshman planning to double major in Computer Science and Operations Research and Engineering (ORIE), with a minor in Business. In my free time, I like skiing, exploring new cities, visiting great bakeries, and binge-watching Netflix shows.\n\n",
+    "github": "https://github.com/laylaliuuu"
   },
   {
     "major": "Information Science",

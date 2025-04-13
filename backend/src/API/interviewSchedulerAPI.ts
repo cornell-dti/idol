@@ -14,6 +14,10 @@ const censoredApplicant: Applicant = {
   netid: ''
 };
 
+/**
+ * Gets all Applicants
+ * @returns - emails of all applicants
+ */
 export const getAllApplicants = async (): Promise<string[]> => {
   const instances = await interviewSchedulerDao.getAllInstances();
   const applicants = new Set<string>();
@@ -21,6 +25,13 @@ export const getAllApplicants = async (): Promise<string[]> => {
   return Array.from(applicants);
 };
 
+/**
+ * Creates a new Interview Scheduler
+ * @param instane - newly created InterviewScheduler object
+ * @param user - user who is creating the instance
+ * @return - uuid of the created instance.
+ * The user must be an admin to create instance
+ */
 export const createInterviewScheduler = async (
   instance: InterviewScheduler,
   user: IdolMember
@@ -33,6 +44,13 @@ export const createInterviewScheduler = async (
   return interviewSchedulerDao.createInstance(instance);
 };
 
+/**
+ * Gets all interview scheduler instances
+ * If user is an applicant, filters instances to just instances they applied to
+ * @param email - the users email
+ * @param isApplicant - whether the user is an applicant
+ * @returns - all interview scheduler instances
+ */
 export const getAllInterviewSchedulerInstances = async (
   email: string,
   isApplicant: boolean
@@ -52,6 +70,13 @@ export const getAllInterviewSchedulerInstances = async (
   return filteredInstances;
 };
 
+/**
+ * Gets a specific interview scheduler instance
+ * @param uuid - the instances uuid
+ * @param email - the users email
+ * @param isApplicant - whether the user is an applicant
+ * @returns - the requested interview scheduler instance
+ */
 export const getInterviewSchedulerInstance = async (
   uuid: string,
   email: string,
@@ -72,6 +97,13 @@ export const getInterviewSchedulerInstance = async (
   return instance;
 };
 
+/**
+ * Updates an interview scheduler instance
+ * The user must be an admin or lead to update
+ * @param user - member making the update
+ * @param updates - the updates to apply to instance
+ * @returns - the updated instance of interview scheduler
+ */
 export const updateInterviewSchedulerInstance = async (
   user: IdolMember,
   updates: InterviewSchedulerEdit
@@ -96,6 +128,12 @@ export const updateInterviewSchedulerInstance = async (
   return interviewSchedulerDao.updateInstance(newInstance);
 };
 
+/**
+ * Deletes an interview scheduler instance
+ * The user must be a lead or admin to delete
+ * @param uuid - the uuid of the instance to delete
+ * @param user - the user deleting the instance
+ */
 export const deleteInterviewSchedulerInstance = async (
   uuid: string,
   user: IdolMember
@@ -110,6 +148,13 @@ export const deleteInterviewSchedulerInstance = async (
   return interviewSchedulerDao.deleteInstance(uuid);
 };
 
+/**
+ * Gets interview slots for a given scheduler
+ * @param uuid - the uuid of the scheduler
+ * @param email - the email of user
+ * @param isApplicant - whether the user is an applicant
+ * @returns - list of interview slots
+ */
 export const getInterviewSlots = async (
   uuid: string,
   email: string,
@@ -132,6 +177,14 @@ export const getInterviewSlots = async (
   return slots;
 };
 
+/**
+ * Updates an interview slot
+ * Users can't update slots that are occupied or if they aren't an applicant of the scheduler instance
+ * @param edits - the updates or edits to apply
+ * @param email - email of the user
+ * @param isApplicant - whether the user is an applicant
+ * @returns - whether the update was successful
+ */
 export const updateInterviewSlot = async (
   edits: InterviewSlotEdit,
   email: string,
@@ -168,6 +221,12 @@ export const updateInterviewSlot = async (
   );
 };
 
+/**
+ * Deletes a specific interview slot
+ * User must be a lead of admin to delete
+ * @param uuid - the uuid of slot
+ * @param user - the user deleting the slot
+ */
 export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promise<void> => {
   if (!PermissionsManager.isLeadOrAdmin(user))
     throw new PermissionError('User does not have permission to update interview slots.');
@@ -175,6 +234,13 @@ export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promi
   return interviewSlotDao.deleteSlot(uuid);
 };
 
+/**
+ * Adds new interview slots to instance
+ * User must be an admin or lead to add slots, slots are added to database
+ * @param slots - the slots to add
+ * @param user - the user adding the slots
+ * @returns - the new interview slots
+ */
 export const addInterviewSlots = async (
   slots: InterviewSlot[],
   user: IdolMember
