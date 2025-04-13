@@ -78,10 +78,6 @@ const getCredentials = (headers: string[], responses: string[]) => {
 const ResponsesPanel: React.FC<Props> = ({
   headers,
   responses,
-  currentRating,
-  setCurrentRating,
-  currentComment,
-  setCurrentComment,
   seeApplicantName,
   candidate
 }) => (
