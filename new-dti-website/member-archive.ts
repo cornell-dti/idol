@@ -15,8 +15,8 @@ function getSemesters() {
   let previousSemesterOne: string;
   let previousSemesterTwo: string;
 
-  const currentYear = now.getFullYear() % 100; // Get last two digits of the current year
-  const currentMonth = now.getMonth() + 1; // Months are 0-indexed in JavaScript (0 = January)
+  const currentYear = now.getFullYear() % 100;
+  const currentMonth = now.getMonth() + 1;
 
   if (currentMonth >= 1 && currentMonth <= 5) {
     // It's Spring (sp)
