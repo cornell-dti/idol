@@ -182,6 +182,41 @@ const InterviewStatusDashboard: React.FC = () => {
     }
   };
 
+  const updateStatus = async (newStatus: "Accepted" | "Rejected" | "Waitlisted" | "Undecided") => {
+    if (selectedApplicants.size === 0) {
+      alert('No applicants are selected.');
+      return;
+    }
+    const names: string[] = [];
+    try {
+      const updatePromises = Array.from(selectedApplicants).map(async (uuid) => {
+        const applicant = applicants.find((applicant) => applicant.uuid === uuid);
+        if (!applicant) return;
+
+        const { name } = applicant;
+
+        const updatedStatus = { ...applicant, uuid: applicant.uuid!, status: newStatus };
+        InterviewStatusAPI.updateInterviewStatus(updatedStatus)
+          .then(() => {
+            names.push(name);
+            console.log(`Successfully updated status for ${uuid}`);
+          })
+
+          .catch((error) => {
+            alert(`Could not update status for ${uuid}.`);
+          });
+      });
+      await Promise.all(updatePromises);
+      setSelectedApplicants(new Set());
+      fetchApplicants();
+      if (names.length !== 0) {
+        alert(`${newStatus} ${names.join(', ')}!`);
+      }
+    } catch (error) {
+      console.log('Error: ', error);
+    }
+  };
+
   if (isLoading) return <Loader active>Loading applicant data...</Loader>;
 
   const filterOptions = [
@@ -232,6 +267,18 @@ const InterviewStatusDashboard: React.FC = () => {
         <Button onClick={handleCopyEmails}>Copy Emails</Button>
         <Button onClick={handleDeleteStatus}>Delete Status</Button>
         <Button onClick={handleProceed}>Proceed to Next Round</Button>
+        <Button style={{
+          color: 'green'
+        }} onClick={() => updateStatus('Accepted')}>Accept</Button>
+        <Button style={{
+          color: 'red'
+        }} onClick={() => updateStatus('Rejected')}>Reject</Button>
+        <Button style={{
+          color: 'white'
+        }} onClick={() => updateStatus('Waitlisted')}>Waitlist</Button>
+        <Button style={{
+          color: 'orange'
+        }} onClick={() => updateStatus('Undecided')}>Undecide</Button>
       </div>
       <Table celled selectable striped>
         <Table.Header>
@@ -251,7 +298,15 @@ const InterviewStatusDashboard: React.FC = () => {
               <Table.Cell>{`${applicant.netid}@cornell.edu`}</Table.Cell>
               <Table.Cell>{applicant.role}</Table.Cell>
               <Table.Cell>{applicant.round}</Table.Cell>
-              <Table.Cell>{applicant.status}</Table.Cell>
+              <Table.Cell
+                style={{
+                  color:
+                    applicant.status === 'Accepted' ? 'green'
+                      : applicant.status === 'Undecided' ? 'orange'
+                        : applicant.status === 'Rejected' ? 'red'
+                          : 'inherit',
+                }}
+              >{applicant.status}</Table.Cell>
               <Table.Cell>
                 {
                   <Checkbox
