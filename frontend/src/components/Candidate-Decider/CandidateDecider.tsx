@@ -1,5 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Button, Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
+import { Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -10,7 +10,7 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
-import Button2 from '../Common/Button2/Button2';
+import Button from '../Common/Button/Button';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -154,8 +154,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           <p>You have unsaved changes. Do you want to save them before navigating?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
           <Button
+            label="Cancel"
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+            variant="negative"
+          />
+          <Button
+            label='Save'
             onClick={() => {
               handleRatingAndCommentChange(
                 currentCandidate,
@@ -166,19 +173,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 navigateToNextCandidate(nextCandidate);
               }
             }}
-          >
-            Save
-          </Button>
+            variant='negative'
+          />
           <Button
-            primary
+            label='Discard'
             onClick={() => {
               if (nextCandidate !== null) {
                 navigateToNextCandidate(nextCandidate);
-              }
-            }}
-          >
-            Discard
-          </Button>
+              }}
+            }
+            variant='primary'
+          />
         </Modal.Actions>
       </Modal>
       <div className={styles.leftColumn}>
@@ -193,23 +198,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             </div>
 
             <div className={styles.searchBar}>
-              {/* <Button
-                basic
-                color="blue"
-                disabled={currentCandidate === 0}
-                onClick={() => {
-                  handleCandidateChange(currentCandidate - 1);
-                }}
-              >
-                PREVIOUS
-              </Button> */}
-              <Button2
+              <Button
                 label="PREVIOUS"
                 disabled={currentCandidate === 0}
                 onClick={() => {
                   handleCandidateChange(currentCandidate - 1);
                 }}
-                variant="negative"
+                variant="default"
               />
               <SearchBar
                 instance={instance}
@@ -219,26 +214,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentCandidate={currentCandidate}
                 seeApplicantName={seeApplicantName}
               />
-              <Button2
+              <Button
                 label="NEXT"
                 disabled={currentCandidate === instance.candidates.length - 1}
                 onClick={() => {
                   handleCandidateChange(currentCandidate + 1);}}
-                variant="negative"
+                variant="default"
               />
-              {/* <Button.Group className={styles.previousNextButtonContainer}>
-                <Button
-                  basic
-                  color="blue"
-                  disabled={currentCandidate === instance.candidates.length - 1}
-                  onClick={() => {
-                    handleCandidateChange(currentCandidate + 1);
-                  }}
-                >
-                
-                  NEXT
-                </Button>
-              </Button.Group> */}
             </div>
           </div>
           <div className={styles.commentEditorWrapper}>
@@ -268,7 +250,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           </div>
           <div className={styles.saveButtonWrapper}>
             <Button
-              className="ui blue button"
+              label="Save"
               disabled={isSaved}
               onClick={() => {
                 handleRatingAndCommentChange(
@@ -277,6 +259,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                   currentComment ?? ''
                 );
               }}
+              variant='primary'
             >
               Save
             </Button>

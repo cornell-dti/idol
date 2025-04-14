@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Button2.module.css'; // Import the CSS file
+import styles from './Button.module.css'; // Import the CSS file
 
 type ButtonProps = {
   label?: string;
@@ -9,7 +9,7 @@ type ButtonProps = {
   variant?: 'default' | 'primary' | 'negative';
 }
 
-const Button2: React.FC<ButtonProps> = ({ label, disabled = false, onClick, icon, variant='default'}) => (
+const Button: React.FC<ButtonProps> = ({ label, disabled = false, onClick, icon, variant='default'}) => (
   <button
     disabled={disabled}
     onClick={onClick}
@@ -20,4 +20,4 @@ const Button2: React.FC<ButtonProps> = ({ label, disabled = false, onClick, icon
   </button>
 );
 
-export default Button2;
+export default Button;
