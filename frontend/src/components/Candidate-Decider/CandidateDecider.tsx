@@ -273,7 +273,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             checked={seeApplicantName}
             onChange={() => setSeeApplicantName((prev) => !prev)}
             label="See applicant name"
-            className={styles.seeApplicantName}
           />
         )}
         <ResponsesPanel
