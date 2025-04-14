@@ -1,0 +1,90 @@
+.custom-button {
+  padding: 16px 24px;
+  border-radius: 6px;
+  border: 1px solid var(--border-default, #EBEBEB);
+  background: var(--bg-default, #FFF);
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.2s;
+}
+
+/* Variants */
+.default {
+color: var(--fg-default, #171717);
+border-radius: 6px;
+border: 1px solid var(--border-default, #EBEBEB);
+background: var(--bg-default, #FFF);
+}
+
+.default:hover {
+color: var(--fg-default, #171717);
+background: var(--bg-dimmer, #FAFAFA);
+}
+
+.default:focus {
+border: 2px solid var(--accent-focus, #0E4DD4);
+}
+
+.primary {
+color: var(--bg-default, #FFF);
+border-radius: 6px;
+background: var(--fg-default, #171717); 
+}
+
+.primary:hover {
+background: var(--fg-dimmer, #333);
+}
+
+.primary:focus {
+border: 2px solid var(--accent-focus, #0E4DD4);
+}
+
+.negative {
+color: #FC0036;
+border-radius: 6px;
+border: 1px solid var(--border-default, #EBEBEB);
+background: var(--bg-default, #FFF);
+}
+
+.negative:hover {
+background: var(--bg-dimmer, #FAFAFA);
+}
+
+.negative:focus {
+border: 2px solid var(--accent-focus, #0E4DD4);
+}
+
+/* Disabled State */
+.custom-button:disabled {
+border-radius: 6px;
+opacity: 0.5;
+cursor: not-allowed;
+}
+
+.default:disabled {
+border: 1px solid var(--border-default, #EBEBEB);
+background: var(--bg-default, #FFF);
+}
+
+.primary:disabled {
+color: var(--bg-default, #FFF);
+background: var(--fg-default, #171717);
+}
+
+.negative:disabled {
+color: #FC0036;
+border: 1px solid var(--border-default, #EBEBEB);
+background: var(--bg-default, #FFF);
+}
+
+/* States */
+.icon {
+width: 16px;
+height: 16px;
+display: flex;
+align-items: center;
+}

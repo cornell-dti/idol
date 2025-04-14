@@ -1,5 +1,6 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { Button, Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
+import { Accessibility } from 'lucide-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -10,6 +11,7 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import Button2 from '../Common/Button2/Button2';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -192,7 +194,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             </div>
 
             <div className={styles.searchBar}>
-              <Button
+              {/* <Button
                 basic
                 color="blue"
                 disabled={currentCandidate === 0}
@@ -201,7 +203,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 }}
               >
                 PREVIOUS
-              </Button>
+              </Button> */}
+              <Button2
+                label="PREV"
+                disabled={currentCandidate === 0}
+                onClick={() => {
+                  handleCandidateChange(currentCandidate - 1);
+                }}
+                variant="negative"
+              />
               <SearchBar
                 instance={instance}
                 setCurrentCandidate={(candidate) => {
@@ -210,7 +220,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentCandidate={currentCandidate}
                 seeApplicantName={seeApplicantName}
               />
-              <Button.Group className={styles.previousNextButtonContainer}>
+              <Button2
+                label="NEXT"
+                disabled={currentCandidate === instance.candidates.length - 1}
+                onClick={() => {
+                  handleCandidateChange(currentCandidate + 1);}}
+                variant="negative"
+              />
+              {/* <Button.Group className={styles.previousNextButtonContainer}>
                 <Button
                   basic
                   color="blue"
@@ -219,9 +236,10 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                     handleCandidateChange(currentCandidate + 1);
                   }}
                 >
+                
                   NEXT
                 </Button>
-              </Button.Group>
+              </Button.Group> */}
             </div>
           </div>
           <div className={styles.commentEditorWrapper}>
