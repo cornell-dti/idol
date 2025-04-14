@@ -1,6 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { Button, Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
-import { Accessibility } from 'lucide-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -205,7 +204,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 PREVIOUS
               </Button> */}
               <Button2
-                label="PREV"
+                label="PREVIOUS"
                 disabled={currentCandidate === 0}
                 onClick={() => {
                   handleCandidateChange(currentCandidate - 1);
