@@ -1,3 +1,4 @@
+/* =========== COLORS =========== */
 :root {
   --fg-default: #171717;
   --fg-dimmer: #333333;
@@ -21,6 +22,47 @@
 * {
   box-sizing: border-box;
   color: var(--fg-default);
+}
+
+/* =========== TYPOGRAPHY ===========  */
+/* Heading large */
+h1 {
+  font-size: 32px;
+  line-height: 115%;
+  font-weight: 700;
+}
+
+/* Heading regular */
+h2 {
+  font-size: 28px;
+  line-height: 115%;
+  font-weight: 700;
+}
+
+/* Subheading large */
+h3 {
+  font-size: 24px;
+  line-height: 120%;
+  font-weight: 700;
+}
+
+/* Subheading regular */
+h4 {
+  font-size: 16px;
+  line-height: 130%;
+  font-weight: 700;
+}
+
+/* Paragraph */
+p {
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 500;
+}
+
+/* Paragraph small */
+p.small {
+  font-size: 14px;
 }
 
 .App {
