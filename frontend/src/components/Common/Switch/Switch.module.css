@@ -78,6 +78,10 @@
   background-color: var(--fg-default);
 }
 
+.switch:hover input:checked + .slider {
+  background-color: var(--fg-dimmer);
+}
+
 .switch input:checked + .slider::before {
   transform: translateX(18px);
 }
