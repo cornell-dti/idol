@@ -3,13 +3,14 @@ import { Button, Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
-import { useSelf } from '../Common/FirestoreDataProvider';
+import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
 import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import Switch from '../Common/Switch/Switch';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -142,6 +143,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setIsModalOpen(false);
   };
 
+  const hasAdminPermission = useHasAdminPermission();
+
   return instance.candidates.length === 0 ? (
     <div></div>
   ) : (
@@ -266,6 +269,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         </div>
       </div>
       <div className={styles.responsesContainer}>
+        {hasAdminPermission && (
+          <Switch
+            checked={seeApplicantName}
+            onChange={() => setSeeApplicantName((prev) => !prev)}
+            label="See applicant name"
+          />
+        )}
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
@@ -274,7 +284,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
-          setSeeApplicantName={setSeeApplicantName}
           candidate={instance.candidates[currentCandidate].id}
         />
       </div>
