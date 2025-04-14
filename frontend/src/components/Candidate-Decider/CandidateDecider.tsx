@@ -3,7 +3,7 @@ import { Button, Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
-import { useSelf } from '../Common/FirestoreDataProvider';
+import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
 import {
@@ -142,6 +142,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setNextCandidate(null);
     setIsModalOpen(false);
   };
+
+  const hasAdminPermission = useHasAdminPermission();
 
   return instance.candidates.length === 0 ? (
     <div></div>
