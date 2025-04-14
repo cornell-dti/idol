@@ -11,13 +11,11 @@ type Props = {
   portfolioURL?: string;
   preferredName?: string;
   seeApplicantName: boolean;
-  setSeeApplicantName: (value: boolean) => void;
   candidate: number;
 };
 
 const ApplicantCredentials: React.FC<Props> = ({
   seeApplicantName,
-  setSeeApplicantName,
   name,
   email,
   gradYear,
