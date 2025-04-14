@@ -68,7 +68,9 @@ export default class CoffeeChatAPI {
     category: string
   ): Promise<MemberMeetsCategoryType> {
     const res = APIWrapper.get(
-      `${backendURL}/coffee-chat/${otherMember.email}/${submitter.email}/${encodeURIComponent(category)}`
+      `${backendURL}/coffee-chat/${otherMember.email}/${submitter.email}/${encodeURIComponent(
+        category
+      )}`
     ).then((res) => res.data);
     return res.then((val) => {
       if (val.error) {

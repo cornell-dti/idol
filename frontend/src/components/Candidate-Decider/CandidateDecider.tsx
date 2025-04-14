@@ -3,7 +3,7 @@ import { Button, Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
-import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
+import { useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
 import {
@@ -54,7 +54,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
-  const hasAdminPermission = useHasAdminPermission();
 
   const getRating = (candidate: number) => {
     const rating = reviews.find(
@@ -283,6 +282,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
+          setSeeApplicantName={setSeeApplicantName}
           candidate={instance.candidates[currentCandidate].id}
         />
       </div>

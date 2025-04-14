@@ -24,7 +24,7 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
   );
   return (
     <div className={styles.progressContainer}>
-      <h3>My Progress</h3>
+      <h4>My Progress</h4>
       <Progress
         value={myRatings.length}
         total={candidates.length}
