@@ -23,6 +23,7 @@
   width: 0;
   height: 0;
   position: relative;
+  opacity: 0;
 }
 
 /* This is the focus state element. It's a <span> that is hidden by default, but shows on :focus-visible */
