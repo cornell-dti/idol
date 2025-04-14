@@ -8,6 +8,7 @@ type InputProps = {
   multiline?: boolean;
   maxHeight?: number;
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
+  disabled?: boolean;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -16,7 +17,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   multiline = false,
   maxHeight,
-  resize = 'none'
+  resize = 'none',
+  disabled = false
 }) => {
   const style = {
     ...(maxHeight ? { maxHeight } : { height: 48 }),
@@ -31,6 +33,7 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         className={styles.input}
         style={style}
+        disabled={disabled}
       />
     );
   }
@@ -43,6 +46,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       className={styles.input}
       style={style}
+      disabled={disabled}
     />
   );
 };
