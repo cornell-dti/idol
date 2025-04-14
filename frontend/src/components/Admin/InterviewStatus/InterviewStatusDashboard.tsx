@@ -182,7 +182,7 @@ const InterviewStatusDashboard: React.FC = () => {
     }
   };
 
-  const updateStatus = async (newStatus: "Accepted" | "Rejected" | "Waitlisted" | "Undecided") => {
+  const updateStatus = async (newStatus: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided') => {
     if (selectedApplicants.size === 0) {
       alert('No applicants are selected.');
       return;
@@ -267,18 +267,38 @@ const InterviewStatusDashboard: React.FC = () => {
         <Button onClick={handleCopyEmails}>Copy Emails</Button>
         <Button onClick={handleDeleteStatus}>Delete Status</Button>
         <Button onClick={handleProceed}>Proceed to Next Round</Button>
-        <Button style={{
-          color: 'green'
-        }} onClick={() => updateStatus('Accepted')}>Accept</Button>
-        <Button style={{
-          color: 'red'
-        }} onClick={() => updateStatus('Rejected')}>Reject</Button>
-        <Button style={{
-          color: 'white'
-        }} onClick={() => updateStatus('Waitlisted')}>Waitlist</Button>
-        <Button style={{
-          color: 'orange'
-        }} onClick={() => updateStatus('Undecided')}>Undecide</Button>
+        <Button
+          style={{
+            color: 'green'
+          }}
+          onClick={() => updateStatus('Accepted')}
+        >
+          Accept
+        </Button>
+        <Button
+          style={{
+            color: 'red'
+          }}
+          onClick={() => updateStatus('Rejected')}
+        >
+          Reject
+        </Button>
+        <Button
+          style={{
+            color: 'white'
+          }}
+          onClick={() => updateStatus('Waitlisted')}
+        >
+          Waitlist
+        </Button>
+        <Button
+          style={{
+            color: 'orange'
+          }}
+          onClick={() => updateStatus('Undecided')}
+        >
+          Undecide
+        </Button>
       </div>
       <Table celled selectable striped>
         <Table.Header>
@@ -301,12 +321,17 @@ const InterviewStatusDashboard: React.FC = () => {
               <Table.Cell
                 style={{
                   color:
-                    applicant.status === 'Accepted' ? 'green'
-                      : applicant.status === 'Undecided' ? 'orange'
-                        : applicant.status === 'Rejected' ? 'red'
-                          : 'inherit',
+                    applicant.status === 'Accepted'
+                      ? 'green'
+                      : applicant.status === 'Undecided'
+                        ? 'orange'
+                        : applicant.status === 'Rejected'
+                          ? 'red'
+                          : 'inherit'
                 }}
-              >{applicant.status}</Table.Cell>
+              >
+                {applicant.status}
+              </Table.Cell>
               <Table.Cell>
                 {
                   <Checkbox
