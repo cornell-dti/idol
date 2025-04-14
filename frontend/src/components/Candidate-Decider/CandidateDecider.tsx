@@ -284,7 +284,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
-          setSeeApplicantName={setSeeApplicantName}
           candidate={instance.candidates[currentCandidate].id}
         />
       </div>

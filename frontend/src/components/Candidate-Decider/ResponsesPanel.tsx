@@ -10,7 +10,6 @@ type Props = {
   currentComment: string;
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
   seeApplicantName: boolean;
-  setSeeApplicantName: Dispatch<SetStateAction<boolean>>;
   candidate: number;
 };
 
@@ -84,14 +83,12 @@ const ResponsesPanel: React.FC<Props> = ({
   currentComment,
   setCurrentComment,
   seeApplicantName,
-  setSeeApplicantName,
   candidate
 }) => (
   <div>
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}
-      setSeeApplicantName={setSeeApplicantName}
       candidate={candidate}
     />
     <div className={styles.applicantResponses}>
