@@ -1,4 +1,3 @@
-import { Checkbox } from 'semantic-ui-react';
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
 import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
@@ -48,16 +47,6 @@ const ApplicantCredentials: React.FC<Props> = ({
           )}
           <p>Class of {gradYear}</p>
         </div>
-
-        {hasAdminPermission && (
-          <Checkbox
-            className={styles.seeApplicantName}
-            toggle
-            checked={seeApplicantName}
-            onChange={() => setSeeApplicantName(!seeApplicantName)}
-            label="See applicant name"
-          />
-        )}
       </div>
 
       {seeApplicantName && (
