@@ -1,5 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
+import { TEC_DEADLINES } from './consts';
+
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
 export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
@@ -217,4 +219,36 @@ export const getTimeString = (unixTime: number): string => {
   const minute = date.getMinutes();
 
   return `${hour}:${minute ? String(minute).padStart(2, '0') : '00'} ${suffix}`;
+};
+
+/**
+ * Determines the TEC period index for a given submission date.
+ * @param submissionDate The date for which the TEC period is being determined.
+ * @returns The index of the current TEC period in the `TEC_DEADLINES` array.
+ *          If the submission date is after all deadlines, returns the last period index.
+ */
+export const getTECPeriod = (submissionDate: Date) => {
+  const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+  if (currentPeriodIndex === -1) {
+    return TEC_DEADLINES.length - 1;
+  }
+  return currentPeriodIndex;
+};
+
+/**
+ * Calculates the number of credits needed based on previous and current period credits.
+ * @param prevCredits The number of credits from the previous period. Null if it's the first period.
+ * @param currentCredits The number of credits in the current period.
+ * @returns The number of additional credits needed to meet the requirement.
+ *          Returns 0 if the requirement is already met.
+ */
+export const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
+  if (prevCredits === null) {
+    return currentCredits < 1 ? 1 - currentCredits : 0;
+  }
+  if (prevCredits < 1) {
+    return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
+  }
+
+  return currentCredits < 1 ? 1 - currentCredits : 0;
 };

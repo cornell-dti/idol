@@ -8,11 +8,11 @@ interface SlideshowProps {
 }
 
 const imageNames = [
-  'full-team.png',
-  'family.png',
-  'collaboration.png',
-  'event.png',
-  'initiative.png'
+  'new-full-team-pic-3.jpg',
+  'family-new.jpeg',
+  'collaboration.jpeg',
+  'course.jpeg',
+  'new-initiative.jpeg'
 ];
 
 const Slideshow: React.FC<SlideshowProps> = ({ selectedImage }) => {

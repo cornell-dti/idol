@@ -3,45 +3,24 @@
 import InitiativeDisplay from '../../../components/initiatives/InitiativeDisplay';
 import SectionWrapper from '../../../components/hoc/SectionWrapper';
 import useTitle from '../../hooks/useTitle';
-
-const InitiativeHero = () => (
-  <section
-    id="initiative-hero"
-    className="bg-black text-[#FEFEFE] min-h-[calc(100vh-100px)] h-full flex items-center
-    relative overflow-hidden"
-  >
-    <SectionWrapper id={'Initiatives Pages Hero Section'}>
-      <div className="flex lg:flex-row xs:flex-col gap-x-[60px] relative z-10 md:items-center">
-        <h1
-          className="flex items-center md:text-header md:leading-header xs:leading-header-xs 
-        xs:text-[48px] font-semibold"
-        >
-          <div>
-            INSPIRING <span className="text-[#FF4C4C]">INNOVATION</span>
-          </div>
-        </h1>
-        <div className="flex flex-col gap-6">
-          <h2
-            className="font-bold md:text-subheader xs:text-[24px] md:leading-subheader
-          xs:leading-[29px] text-hero-primary"
-          >
-            Making impact
-          </h2>
-          <p className="md:text-lg xs:text-sm text-hero-secondary md:leading-body-text">
-            What sets us apart from other project teams is our desire to share our discoveries with
-            other students and members of the greater Ithaca community.
-          </p>
-        </div>
-      </div>
-    </SectionWrapper>
-  </section>
-);
+import Hero from '../../../components/hero';
 
 const InitiativePage = () => {
   useTitle('Initiatives');
   return (
     <div className="bg-white flex flex-col">
-      <InitiativeHero />
+      <div className="lg:pb-24 pb-12 bg-[#000000]">
+        <Hero
+          title={'Inspiring innovation'}
+          description={
+            'What sets us apart from other project teams is our desire to share our discoveries with other students and members of the greater Ithaca community.'
+          }
+          image={{
+            src: '/images/initiatives-hero.png',
+            alt: 'DTI members engaging with the community'
+          }}
+        />
+      </div>
       <SectionWrapper id={'Initiatives Display'}>
         <InitiativeDisplay />
       </SectionWrapper>

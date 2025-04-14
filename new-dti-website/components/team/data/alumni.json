@@ -359,32 +359,6 @@
     "email": "nk495@cornell.edu"
   },
   {
-    "formerSubteams": [],
-    "email": "sz266@cornell.edu",
-    "lastName": "Zhao",
-    "roleDescription": "Full Team Lead",
-    "role": "ops-lead",
-    "subteams": [
-      "leads"
-    ],
-    "firstName": "Sophie",
-    "graduation": "May 2025",
-    "netid": "sz266",
-    "semesterJoined": "Fall 2021",
-    "college": "eng",
-    "github": null,
-    "hometown": "Vancouver, Canada",
-    "website": null,
-    "minor": "CS",
-    "major": "ORIE",
-    "doubleMajor": null,
-    "coffeeChatLink": null,
-    "about": "Hello! I'm a senior in ORIE, previously the Community and Initiatives Lead then Full-Team Lead on DTI. My career experiences are in data analytics and modeling, and I also love music outside of academics. Feel free to reach out and chat about anything :)",
-    "pronouns": "she/her",
-    "linkedin": "https://www.linkedin.com/in/sophiezhao219/"
-  },
-
-{
     "roleDescription": "Developer Lead",
     "major": "Computer Science",
     "email": "tpp38@cornell.edu",
@@ -395,12 +369,8 @@
     "graduation": "May 2025",
     "github ": "",
     "hometown": "Ho Chi Minh, Vietnam",
-    "subteams": [
-      "leads"
-    ],
-    "formerSubteams": [
-      "cuapts"
-    ],
+    "subteams": ["leads"],
+    "formerSubteams": ["cuapts"],
     "firstName": "Sophia",
     "minor": "Entrepreneur",
     "github": "https://github.com/thuypham03",
@@ -410,12 +380,9 @@
     "netid": "tpp38",
     "semesterJoined": "Fall 2021"
   },
-{
+  {
     "formerSubteams": [],
-    "subteams": [
-      "leads",
-      "cuapts"
-    ],
+    "subteams": ["leads", "cuapts"],
     "about": "Hey, I'm Ella! I'm a junior studying Computer Science in the College of Engineering and minoring in Business. I joined DTI Fall 2023 as a sophomore, and started out as the APM of CUApts. I was then the PM of CUApts for all of 2024, and Product Lead in Fall 2024. \n\nI'm interested in SWE and Product Engineering in my career, but am always eager to talk about DTI PM. I'm also always down to chat about dance, baking/cooking, books, music, theater, Cornell fun facts, or anything else! \n\nPlease reach out if you want to coffee chat (though I may be in Italy eating pizza by now...)",
     "hometown": "Brooklyn, NY",
     "firstName": "Ella",
@@ -436,8 +403,7 @@
     "pronouns": "she/her",
     "linkedin": "https://www.linkedin.com/in/ella-krechmer-a9360923a/"
   },
-
-{
+  {
     "major": "",
     "firstName": "Brandon",
     "lastName": "Lee",
@@ -446,9 +412,7 @@
     "email": "bl628@cornell.edu",
     "linkedin": "",
     "website": "",
-    "formerSubteams": [
-      "queuemein"
-    ],
+    "formerSubteams": ["queuemein"],
     "pronouns": "",
     "about": "",
     "github": "",
@@ -456,10 +420,56 @@
     "minor": "",
     "doubleMajor": "",
     "hometown": "",
-    "subteams": [
-      "leads"
-    ],
+    "subteams": ["leads"],
     "graduation": "May 2026",
     "semesterJoined": "Spring 2023"
+  },
+  {
+    "lastName": "Dai",
+    "website": "https://michelledai.com",
+    "github": null,
+    "hometown": "New York City, New York",
+    "formerSubteams": [],
+    "role": "lead",
+    "minor": "Fine Arts",
+    "doubleMajor": null,
+    "netid": "mhd65",
+    "about": "Hey party people! I'm Michelle, a designer, gamer, and artist. When I'm not doing school stuff, you can find me playing guitar, malding in Valorant (I'm bronze don't judge), and editing Youtube videos! Add me on insta @michellehdai @elphinny",
+    "linkedin": "https://www.linkedin.com/in/michelle-dai-749705212/",
+    "firstName": "Michelle",
+    "major": "Information Science",
+    "graduation": "May 2025",
+    "pronouns": "she/her",
+    "subteams": ["courseplan"],
+    "roleDescription": "Lead",
+    "email": "mhd65@cornell.edu",
+    "github ": "",
+    "image": "https://storage.googleapis.com/idol-b6c68.appspot.com/images/mhd65.jpg?GoogleAccessId=firebase-adminsdk-h4e6t%40idol-b6c68.iam.gserviceaccount.com&Expires=1724696495&Signature=aKrQctK06nKyuueY3zrJxcD1Gb0qws6t0zDJ4PuFc7%2FlZeZlOhBRDW7uhJtdrpaiBi3DZSwx8e3loX%2BMEr9%2Bq2BluNAmk4pY6MhUqwBInoh8iQdaiDW93JfiAdkAHLqoiw6%2B7d5bn%2FRPX9s2b7ILu7hoJb044mGxYOplWWWhbEU%2BJtddMXSpiDjF7aj248FUWlwNk9lKvIaxBIlTe%2Bn9j%2F15fxnmx7AV8Qyq2CzjCoAVdzSN8yiUwNgXAtAdAkH%2BTbzkyo0EoJYOOXdaiXocxvfNpwxvpk%2Fp9MQK1uK70DPmX2lmfUbH81lXCHPcTKge5U4A9yIyBMo1Ns4Dn4KWDQ%3D%3D",
+    "coffeeChatLink": "mailto:mhd65@cornell.edu"
+  },
+  {
+    "formerSubteams": [],
+    "linkedin": "https://www.linkedin.com/in/andrew-chen-210a72146/",
+    "website": null,
+    "roleDescription": "Technical PM",
+    "doubleMajor": null,
+    "coffeeChatLink": "https://calendly.com/axc2-cornell/30min",
+    "github ": "https://github.com/andrew032011",
+    "pronouns": "he/him/his",
+    "semesterJoined": "Spring 2022",
+    "isAdvisor": false,
+    "firstName": "Andrew",
+    "about": "Hello! I'm Andrew, a senior studying CS. My interests are mainly in software development and computer science education. I enjoy teaching, speedsolving the Rubik's Cube, and playing percussion. I'm always looking to learn more and take on new challenges.",
+    "hometown": "Boston, MA",
+    "role": "tpm",
+    "subteams": ["idol"],
+    "email": "axc2@cornell.edu",
+    "netid": "axc2",
+    "lastName": "Chen",
+    "graduation": "December 2024",
+    "github": "https://github.com/andrew032011",
+    "major": "Computer Science",
+    "minor": "",
+    "college": "eng"
   }
 ]

@@ -6,14 +6,12 @@ import RatingsDisplay from './RatingsDisplay';
 import { ratingToString } from './ratings-utils';
 
 type ProgressPanelProps = {
-  showOtherVotes: boolean;
   candidates: CandidateDeciderCandidate[];
   currentCandidate: number;
   reviews: CandidateDeciderReview[];
 };
 
 const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
-  showOtherVotes,
   candidates,
   currentCandidate,
   reviews
@@ -26,15 +24,15 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
   );
   return (
     <div className={styles.progressContainer}>
-      <h3>My Progress</h3>
+      <h4>My Progress</h4>
       <Progress
         value={myRatings.length}
         total={candidates.length}
         size="tiny"
         color="blue"
       >{`${myRatings.length}/${candidates.length}`}</Progress>
-      <RatingsDisplay ratings={myRatings} header="My Rating Statistics" />
-      {showOtherVotes && userInfo && LEAD_ROLES.includes(userInfo.role) ? (
+
+      {userInfo && LEAD_ROLES.includes(userInfo.role) ? (
         <>
           <RatingsDisplay
             ratings={currentCandidateReviews}
