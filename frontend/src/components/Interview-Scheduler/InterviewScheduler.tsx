@@ -15,7 +15,7 @@ const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot
   slot
 }) => (
   <div className={styles.inviteCardContainer}>
-    <Card className={styles.inviteCard}>
+    <Card>
       <Card.Content>
         {slot ? (
           <>
@@ -91,7 +91,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
     }
   };
 
-  if (scheduler && !scheduler.isOpen && !isMember)
+  if (scheduler && (!scheduler.isOpen || possessedSlot) && !isMember)
     return <InviteCard scheduler={scheduler} slot={possessedSlot} />;
 
   return (

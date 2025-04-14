@@ -19,10 +19,6 @@
   height: calc(100vh - 80px);
 }
 
-.inviteCard {
-  width: 40% !important;
-}
-
 .inviteHeader {
   margin-bottom: 1em;
 }
