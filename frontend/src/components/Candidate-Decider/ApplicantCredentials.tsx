@@ -1,6 +1,5 @@
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
-import { useHasAdminPermission } from '../Common/FirestoreDataProvider';
 
 type Props = {
   name: string;
@@ -28,75 +27,71 @@ const ApplicantCredentials: React.FC<Props> = ({
   portfolioURL,
   preferredName,
   candidate
-}) => {
-  const hasAdminPermission = useHasAdminPermission();
-
-  return (
-    <div className={styles.credentialContainer}>
-      <div className={styles.header}>
-        <div className={styles.applicantInformation}>
-          {seeApplicantName ? (
-            <>
-              <h1>
-                {name} {preferredName && `(${preferredName})`}
-              </h1>
-              <p>{email}</p>
-            </>
-          ) : (
-            <h1>Candidate {candidate + 1}</h1>
-          )}
-          <p>Class of {gradYear}</p>
-        </div>
+}) => (
+  <div className={styles.credentialContainer}>
+    <div className={styles.header}>
+      <div className={styles.applicantInformation}>
+        {seeApplicantName ? (
+          <>
+            <h1>
+              {name} {preferredName && `(${preferredName})`}
+            </h1>
+            <p>{email}</p>
+          </>
+        ) : (
+          <h1>Candidate {candidate + 1}</h1>
+        )}
+        <p>Class of {gradYear}</p>
       </div>
+    </div>
 
-      {seeApplicantName && (
-        <div className={styles.documents}>
-          <h3>Documents</h3>
-          <div className={styles.iconsContainer}>
+    {seeApplicantName && (
+      <div className={styles.documents}>
+        <h3>Documents</h3>
+        <div className={styles.iconsContainer}>
+          <a
+            className={styles.icon}
+            href={formatLink(resumeURL)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FileIcon />
+          </a>
+          {githubURL && (
             <a
               className={styles.icon}
-              href={formatLink(resumeURL)}
+              href={formatLink(githubURL)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FileIcon />
+              <GithubIcon />
             </a>
-            {githubURL && (
-              <a
-                className={styles.icon}
-                href={formatLink(githubURL)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GithubIcon />
-              </a>
-            )}
-            {linkedinURL && (
-              <a
-                className={styles.icon}
-                href={formatLink(linkedinURL, 'linkedin')}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <LinkedinIcon />
-              </a>
-            )}
-            {portfolioURL && (
-              <a
-                className={styles.icon}
-                href={formatLink(portfolioURL)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GlobeIcon />
-              </a>
-            )}
-          </div>
+          )}
+          {linkedinURL && (
+            <a
+              className={styles.icon}
+              href={formatLink(linkedinURL, 'linkedin')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LinkedinIcon />
+            </a>
+          )}
+          {portfolioURL && (
+            <a
+              className={styles.icon}
+              href={formatLink(portfolioURL)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GlobeIcon />
+            </a>
+          )}
         </div>
-      )}
-    </div>
-  );
-};
+      </div>
+    )}
+  </div>
+);
 
 const FileIcon = () => (
   <svg
