@@ -14,8 +14,9 @@ const Switch = ({ checked, onChange, label, className = '' }: SwitchProps) => {
       <div className={styles.switch}>
         <input type="checkbox" checked={checked} onChange={onChange} />
         <span className={styles.slider} />
+        <span className={styles.focusState} />
       </div>
-      <span className={styles.labelText}>{label}</span>
+      <p className={styles.labelText}>{label}</p>
     </label>
   );
 };
