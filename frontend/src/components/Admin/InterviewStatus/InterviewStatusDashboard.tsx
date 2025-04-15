@@ -269,7 +269,7 @@ const InterviewStatusDashboard: React.FC = () => {
         <Button onClick={handleProceed}>Proceed to Next Round</Button>
         <Button
           style={{
-            color: 'green'
+            color: 'var(--accent-yes)'
           }}
           onClick={() => updateStatus('Accepted')}
         >
@@ -277,7 +277,7 @@ const InterviewStatusDashboard: React.FC = () => {
         </Button>
         <Button
           style={{
-            color: 'red'
+            color: 'var(--accent-no)'
           }}
           onClick={() => updateStatus('Rejected')}
         >
@@ -293,7 +293,7 @@ const InterviewStatusDashboard: React.FC = () => {
         </Button>
         <Button
           style={{
-            color: 'orange'
+            color: 'var(--accent-maybe)'
           }}
           onClick={() => updateStatus('Undecided')}
         >
@@ -322,11 +322,11 @@ const InterviewStatusDashboard: React.FC = () => {
                 style={{
                   color:
                     applicant.status === 'Accepted'
-                      ? 'green'
+                      ? 'var(--accent-yes)'
                       : applicant.status === 'Undecided'
-                        ? 'orange'
+                        ? 'var(--accent-maybe)'
                         : applicant.status === 'Rejected'
-                          ? 'red'
+                          ? 'var(--accent-no)'
                           : 'inherit'
                 }}
               >
