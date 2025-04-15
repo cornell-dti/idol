@@ -7,7 +7,6 @@ type ButtonProps = {
   onClick?: () => void;
   icon?: React.ReactNode;
   variant?: 'default' | 'primary' | 'negative';
-  className?: string;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,7 +15,6 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   icon,
   variant = 'default',
-  className = ''
 }) => (
   <button
     disabled={disabled}
