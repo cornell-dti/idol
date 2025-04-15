@@ -75,12 +75,7 @@ const getCredentials = (headers: string[], responses: string[]) => {
   return credentials;
 };
 
-const ResponsesPanel: React.FC<Props> = ({
-  headers,
-  responses,
-  seeApplicantName,
-  candidate
-}) => (
+const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName, candidate }) => (
   <div>
     <ApplicantCredentials
       {...getCredentials(headers, responses)}

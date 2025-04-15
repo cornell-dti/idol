@@ -1,8 +1,8 @@
 .custom-button {
   padding: 16px 24px;
   border-radius: 6px;
-  border: 1px solid var(--border-default, #EBEBEB);
-  background: var(--bg-default, #FFF);
+  border: 1px solid var(--border-default);
+  background: var(--bg-default, #fff);
   font-size: 14px;
   cursor: pointer;
   display: inline-flex;
@@ -14,77 +14,77 @@
 
 /* Variants */
 .default {
-color: var(--fg-default, #171717);
-border-radius: 6px;
-border: 1px solid var(--border-default, #EBEBEB);
-background: var(--bg-default, #FFF);
+  color: var(--fg-default);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
 }
 
 .default:hover {
-color: var(--fg-default, #171717);
-background: var(--bg-dimmer, #FAFAFA);
+  color: var(--fg-default);
+  background: var(--bg-dimmer);
 }
 
-.default:focus {
-border: 2px solid var(--accent-focus, #0E4DD4);
+.default:focus-visible {
+  outline: 2px solid var(--accent-focus);
 }
 
 .primary {
-color: var(--bg-default, #FFF);
-border-radius: 6px;
-background: var(--fg-default, #171717); 
+  color: var(--bg-default);
+  border-radius: 6px;
+  background: var(--fg-default);
 }
 
 .primary:hover {
-background: var(--fg-dimmer, #333);
+  background: var(--fg-dimmer);
 }
 
-.primary:focus {
-border: 2px solid var(--accent-focus, #0E4DD4);
+.primary:focus-visible {
+  outline: 2px solid var(--accent-focus);
 }
 
 .negative {
-color: #FC0036;
-border-radius: 6px;
-border: 1px solid var(--border-default, #EBEBEB);
-background: var(--bg-default, #FFF);
+  color: var(--accent-strong-no);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
 }
 
 .negative:hover {
-background: var(--bg-dimmer, #FAFAFA);
+  background: var(--bg-dimmer);
 }
 
-.negative:focus {
-border: 2px solid var(--accent-focus, #0E4DD4);
+.negative:focus-visible {
+  outline: 2px solid var(--accent-focus);
 }
 
 /* Disabled State */
 .custom-button:disabled {
-border-radius: 6px;
-opacity: 0.5;
-cursor: not-allowed;
+  border-radius: 6px;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .default:disabled {
-border: 1px solid var(--border-default, #EBEBEB);
-background: var(--bg-default, #FFF);
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
 }
 
 .primary:disabled {
-color: var(--bg-default, #FFF);
-background: var(--fg-default, #171717);
+  color: var(--bg-default);
+  background: var(--fg-default);
 }
 
 .negative:disabled {
-color: #FC0036;
-border: 1px solid var(--border-default, #EBEBEB);
-background: var(--bg-default, #FFF);
+  color: #fc0036;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
 }
 
 /* States */
 .icon {
-width: 16px;
-height: 16px;
-display: flex;
-align-items: center;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
 }

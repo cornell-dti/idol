@@ -153,7 +153,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <Modal.Content>
           <p>You have unsaved changes. Do you want to save them before navigating?</p>
         </Modal.Content>
-        <Modal.Actions>
+        <Modal.Actions className={styles.modalActions}>
           <Button
             label="Cancel"
             onClick={() => {
@@ -162,7 +162,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             variant="negative"
           />
           <Button
-            label='Save'
+            label="Save"
             onClick={() => {
               handleRatingAndCommentChange(
                 currentCandidate,
@@ -173,16 +173,16 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 navigateToNextCandidate(nextCandidate);
               }
             }}
-            variant='negative'
+            variant="negative"
           />
           <Button
-            label='Discard'
+            label="Discard"
             onClick={() => {
               if (nextCandidate !== null) {
                 navigateToNextCandidate(nextCandidate);
-              }}
-            }
-            variant='primary'
+              }
+            }}
+            variant="primary"
           />
         </Modal.Actions>
       </Modal>
@@ -218,7 +218,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 label="NEXT"
                 disabled={currentCandidate === instance.candidates.length - 1}
                 onClick={() => {
-                  handleCandidateChange(currentCandidate + 1);}}
+                  handleCandidateChange(currentCandidate + 1);
+                }}
                 variant="default"
               />
             </div>
@@ -259,7 +260,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                   currentComment ?? ''
                 );
               }}
-              variant='primary'
+              variant="primary"
             >
               Save
             </Button>
