@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Input.module.css';
 
 type InputProps = {
-  value: string | undefined;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   multiline?: boolean;
