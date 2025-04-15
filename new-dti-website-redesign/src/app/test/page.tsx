@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
+import FAQAccordian from '../components/FAQAccordian';
 
 export default function TestPage() {
   return (
@@ -81,6 +82,22 @@ export default function TestPage() {
           <IconButton aria-label="Create" variant="tertiary">
             <Plus />
           </IconButton>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>FAQ Accordian</h4>
+        <div className="flex gap-4">
+          <FAQAccordian header="When will I hear back about a decision?">
+            <p>
+              Shortly after applications close, we will offer interviews to candidates we are
+              interested in. These interviews serve as a chance to get to know you in person. We
+              have one behavioral and one technical round for each role interview. During these
+              interviews, talk about your past experience and interest in our team. Then, we will
+              initiate some role-specific exercises to further gauge your thought process and skill
+              set.
+            </p>
+          </FAQAccordian>
         </div>
       </div>
     </div>
