@@ -108,7 +108,7 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
   const self = useSelf();
   useEffect(() => {
     if (self) {
-      CandidateDeciderAPI.hasCandidateDeciderInstance(self).then((result) => {
+      CandidateDeciderAPI.hasCandidateDeciderInstance().then((result) => {
         setHasInstance(result);
       });
     }
