@@ -10,6 +10,7 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import Input from '../Common/Input/Input';
 import Switch from '../Common/Switch/Switch';
 
 type CandidateDeciderProps = {
@@ -33,15 +34,13 @@ type CommentEditorProps = {
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
   <div style={{ width: '100%' }}>
     <h4>Comments</h4>
-    <Form.Group inline>
-      <Form.Input
-        style={{ height: 256, width: '100%' }}
-        className="fifteen wide field"
-        placeholder={'Comment...'}
-        onChange={(event) => setCurrentComment(event.target.value)}
-        value={currentComment}
-      />
-    </Form.Group>
+    <Input
+      value={currentComment}
+      onChange={(event) => setCurrentComment(event.target.value)}
+      placeholder="Comment..."
+      multiline
+      maxHeight={256}
+    />
   </div>
 );
 
