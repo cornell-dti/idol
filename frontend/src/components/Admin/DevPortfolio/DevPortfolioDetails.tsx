@@ -250,6 +250,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
         <Table.Cell>
           <PullRequestDisplay
             prSubmission={submission.openedPRs.length > 0 ? submission.openedPRs[0] : undefined}
+            submitRepo={submission.submitRepo}
           />
         </Table.Cell>
         <Table.Cell>
@@ -317,6 +318,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
       <Table.Cell>
         <PullRequestDisplay
           prSubmission={i >= remainingOpenedPRs.length ? undefined : remainingOpenedPRs[i]}
+          submitRepo={submission.submitRepo}
         />
       </Table.Cell>
       <Table.Cell>
@@ -341,11 +343,13 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
 
 type PullRequestDisplayProps = {
   prSubmission: PullRequestSubmission | undefined;
+  submitRepo?: boolean;
 };
 
-const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission }) => {
+const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission, submitRepo }) => {
   if (prSubmission === undefined || !prSubmission.url) return <></>;
   const isValid = prSubmission.status === 'valid';
+
   return (
     <>
       <a href={prSubmission.url} target="_blank" rel="noreferrer noopener">
@@ -354,6 +358,7 @@ const PullRequestDisplay: React.FC<PullRequestDisplayProps> = ({ prSubmission })
       <>
         <Icon color={isValid ? 'green' : 'red'} name={isValid ? 'checkmark' : 'x'} />
         <p>{prSubmission.reason ? `(${prSubmission.reason})` : ''}</p>
+        {submitRepo && <p>{'Submitted a Personal Repository'}</p>}
       </>
     </>
   );
