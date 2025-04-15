@@ -1,5 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Button, Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
+import { Button, Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -11,6 +11,7 @@ import {
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
 import Input from '../Common/Input/Input';
+import Switch from '../Common/Switch/Switch';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -52,7 +53,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
-  const hasAdminPermission = useHasAdminPermission();
 
   const getRating = (candidate: number) => {
     const rating = reviews.find(
@@ -141,6 +141,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setNextCandidate(null);
     setIsModalOpen(false);
   };
+
+  const hasAdminPermission = useHasAdminPermission();
 
   return instance.candidates.length === 0 ? (
     <div></div>
@@ -267,9 +269,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       </div>
       <div className={styles.responsesContainer}>
         {hasAdminPermission && (
-          <Checkbox
-            className={styles.seeApplicantName}
-            toggle
+          <Switch
             checked={seeApplicantName}
             onChange={() => setSeeApplicantName((prev) => !prev)}
             label="See applicant name"
