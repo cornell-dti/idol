@@ -241,7 +241,7 @@ const InterviewStatusDashboard: React.FC = () => {
     Accepted: 'var(--accent-yes)',
     Undecided: 'var(--accent-maybe)',
     Rejected: 'var(--accent-no)',
-    Waitlisted: 'inherit',
+    Waitlisted: 'inherit'
   };
 
   const getColor = (status: InterviewStatus): string => colors[status.status] || 'inherit';
@@ -329,7 +329,7 @@ const InterviewStatusDashboard: React.FC = () => {
               <Table.Cell>{applicant.round}</Table.Cell>
               <Table.Cell
                 style={{
-                  color: getColor(applicant),
+                  color: getColor(applicant)
                 }}
               >
                 {applicant.status}
