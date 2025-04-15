@@ -44,12 +44,12 @@ export const hasCandidateDeciderInstance = async (user: IdolMember): Promise<boo
   if (await PermissionsManager.isLeadOrAdmin(user)) return true;
   const instances = await candidateDeciderDao.getAllInstances();
   if (
-      instances.some(
-        (instance) =>
-          instance.authorizedMembers.some((member) => member.email === user.email) ||
-          instance.authorizedRoles.includes(user.role)
-      )
-    ) {
+    instances.some(
+      (instance) =>
+        instance.authorizedMembers.some((member) => member.email === user.email) ||
+        instance.authorizedRoles.includes(user.role)
+    )
+  ) {
     return true;
   }
   return false;
