@@ -237,6 +237,15 @@ const InterviewStatusDashboard: React.FC = () => {
     { key: 'resume', text: 'Resume', value: 'Resume' }
   ];
 
+  const colors = {
+    Accepted: 'var(--accent-yes)',
+    Undecided: 'var(--accent-maybe)',
+    Rejected: 'var(--accent-no)',
+    Waitlisted: 'inherit',
+  };
+
+  const getColor = (status: InterviewStatus): string => colors[status.status] || 'inherit';
+
   return (
     <div className={styles.dashboardContainer}>
       <Header as="h1">Interview Status Dashboard</Header>
@@ -320,14 +329,7 @@ const InterviewStatusDashboard: React.FC = () => {
               <Table.Cell>{applicant.round}</Table.Cell>
               <Table.Cell
                 style={{
-                  color:
-                    applicant.status === 'Accepted'
-                      ? 'var(--accent-yes)'
-                      : applicant.status === 'Undecided'
-                        ? 'var(--accent-maybe)'
-                        : applicant.status === 'Rejected'
-                          ? 'var(--accent-no)'
-                          : 'inherit'
+                  color: getColor(applicant),
                 }}
               >
                 {applicant.status}
