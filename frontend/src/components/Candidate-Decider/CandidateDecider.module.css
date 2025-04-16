@@ -53,6 +53,7 @@
 .previousNextButtonContainer {
   margin-right: 0.5% !important;
 }
+
 .modalActions {
   display: flex;
   gap: 16px;

@@ -159,6 +159,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
             onClick={() => {
               setIsModalOpen(false);
             }}
+            variant="default"
+          />
+          <Button
+            label="Discard"
+            onClick={() => {
+              if (nextCandidate !== null) {
+                navigateToNextCandidate(nextCandidate);
+              }
+            }}
             variant="negative"
           />
           <Button
@@ -169,15 +178,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentRating ?? 0,
                 currentComment ?? ''
               );
-              if (nextCandidate !== null) {
-                navigateToNextCandidate(nextCandidate);
-              }
-            }}
-            variant="negative"
-          />
-          <Button
-            label="Discard"
-            onClick={() => {
               if (nextCandidate !== null) {
                 navigateToNextCandidate(nextCandidate);
               }
