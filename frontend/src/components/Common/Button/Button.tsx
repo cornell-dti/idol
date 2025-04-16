@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   <button
     disabled={disabled}
     onClick={onClick}
-    className={`${styles['custom-button']} ${styles[variant]} ${disabled ? styles.disabled : ''}`}
+    className={`${styles['base-styles']} ${styles[variant]} ${disabled ? styles.disabled : ''}`}
   >
     {icon && <span className="icon">{icon}</span>}
     {iconLeft && <span className="icon">{icon}</span>}
