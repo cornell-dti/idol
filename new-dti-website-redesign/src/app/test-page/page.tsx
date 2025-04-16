@@ -33,6 +33,31 @@ export default function TestPage() {
         image="/heroImages/team.png"
         imageAlt="DTI members in front of Gates Hall"
       />
+
+      <Hero
+        heading="Heading over here"
+        subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+        button1Label="Meet the team"
+        button1Link="/team"
+        image="/heroImages/team.png"
+        imageAlt="DTI members in front of Gates Hall"
+      />
+
+      <Hero
+        heading="Heading over here"
+        subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+        button2Label="Meet the team"
+        button2Link="/team"
+        image="/heroImages/team.png"
+        imageAlt="DTI members in front of Gates Hall"
+      />
+
+      <Hero
+        heading="Heading over here"
+        subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+        image="/heroImages/team.png"
+        imageAlt="DTI members in front of Gates Hall"
+      />
       <section className="h-128" />
     </Layout>
   );

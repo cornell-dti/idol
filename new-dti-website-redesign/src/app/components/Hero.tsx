@@ -81,24 +81,26 @@ const Hero = ({
           <h6 className="text-foreground-3">{subheading}</h6>
         </div>
 
-        <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center">
-          {button1Label && button1Link && (
-            <Button
-              variant="primary"
-              label={button1Label}
-              href={button1Link}
-              className="md:w-full"
-            />
-          )}
-          {button2Label && button2Link && (
-            <Button
-              variant="secondary"
-              label={button2Label}
-              href={button2Link}
-              className="md:w-full"
-            />
-          )}
-        </div>
+        {(button1Label && button1Link) || (button2Label && button2Link) ? (
+          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center">
+            {button1Label && button1Link && (
+              <Button
+                variant="primary"
+                label={button1Label}
+                href={button1Link}
+                className="md:w-full"
+              />
+            )}
+            {button2Label && button2Link && (
+              <Button
+                variant="secondary"
+                label={button2Label}
+                href={button2Link}
+                className="md:w-full"
+              />
+            )}
+          </div>
+        ) : null}
       </div>
     </section>
   );
