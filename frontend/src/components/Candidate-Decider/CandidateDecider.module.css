@@ -15,7 +15,8 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  border: 1px solid #666;
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
 }
 
 .progressContainer {
@@ -45,11 +46,6 @@
   margin-left: 1%;
 }
 
-.seeApplicantName {
-  margin-bottom: 1%;
-  margin-left: 1%;
-}
-
 .previousNextButtonContainer {
   margin-right: 0.5% !important;
 }
@@ -66,6 +62,9 @@
   width: 100%;
   flex: 1;
   border: 1px solid #666;
+  background: var(--bg-default);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
   padding: 24px;
 }
 
@@ -86,7 +85,7 @@
   justify-content: center;
   align-items: center;
   padding: 24px;
-  border-top: 1px solid #666;
+  border-top: 1px solid var(--border-default);
 }
 
 .saveButtonWrapper button {
@@ -97,7 +96,7 @@
   display: flex;
   flex-direction: column;
   padding: 24px;
-  border-top: 1px solid #666;
+  border-top: 1px solid var(--border-default);
 }
 
 .commentEditorWrapper {
@@ -105,7 +104,7 @@
   justify-content: center;
   align-items: center;
   padding: 24px;
-  border-top: 1px solid #666;
+  border-top: 1px solid var(--border-default);
 }
 
 .navigation {

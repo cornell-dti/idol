@@ -33,15 +33,13 @@ type CommentEditorProps = {
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
   <div style={{ width: '100%' }}>
     <h4>Comments</h4>
-    <Form.Group inline>
-      <Form.Input
-        style={{ height: 256, width: '100%' }}
-        className="fifteen wide field"
-        placeholder={'Comment...'}
-        onChange={(event) => setCurrentComment(event.target.value)}
-        value={currentComment}
-      />
-    </Form.Group>
+    <Input
+      value={currentComment}
+      onChange={(event) => setCurrentComment(event.target.value)}
+      placeholder="Comment..."
+      multiline
+      maxHeight={256}
+    />
   </div>
 );
 
@@ -54,7 +52,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
-  const hasAdminPermission = useHasAdminPermission();
 
   const getRating = (candidate: number) => {
     const rating = reviews.find(
@@ -143,6 +140,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setNextCandidate(null);
     setIsModalOpen(false);
   };
+
+  const hasAdminPermission = useHasAdminPermission();
 
   return instance.candidates.length === 0 ? (
     <div></div>
@@ -269,9 +268,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       </div>
       <div className={styles.responsesContainer}>
         {hasAdminPermission && (
-          <Checkbox
-            className={styles.seeApplicantName}
-            toggle
+          <Switch
             checked={seeApplicantName}
             onChange={() => setSeeApplicantName((prev) => !prev)}
             label="See applicant name"

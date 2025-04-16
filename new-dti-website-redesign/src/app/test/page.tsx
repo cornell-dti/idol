@@ -1,4 +1,11 @@
+'use client';
+
 import Link from 'next/link';
+import { Plus } from 'lucide-react';
+import Button from '../components/Button';
+import IconButton from '../components/IconButton';
+import Input from '../components/Input';
+import LabeledInput from '../components/LabeledInput';
 
 export default function TestPage() {
   return (
@@ -10,6 +17,7 @@ export default function TestPage() {
       <h3 className="text-accent-blue">TEST PAGE WITH STYLES & COMPONENTS:</h3>
 
       <div className="flex flex-col gap-8">
+        <h4>Typography</h4>
         <h1>Building the Future of Tech @ Cornell</h1>
         <h2>Building the Future of Tech @ Cornell</h2>
         <h3>Building the Future of Tech @ Cornell</h3>
@@ -23,6 +31,7 @@ export default function TestPage() {
       </div>
 
       <div className="flex flex-col gap-6">
+        <h4>Colors</h4>
         <div className="flex gap-4">
           <div className="bg-background-1 w-24 h-24 rounded-md border border-border-1"></div>
           <div className="bg-background-2 w-24 h-24 rounded-md"></div>
@@ -46,6 +55,95 @@ export default function TestPage() {
           <div className="bg-accent-blue w-24 h-24 rounded-md"></div>
           <div className="bg-accent-yellow w-24 h-24 rounded-md"></div>
           <div className="bg-accent-purple w-24 h-24 rounded-md"></div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Buttons</h4>
+        <div className="flex gap-4">
+          <Button label="Apply today" />
+
+          <Button label="Apply" badge="12D 2H" />
+
+          <Button label="Apply today" variant="secondary" />
+
+          <Button label="Apply today" variant="tertiary" />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Icon buttons</h4>
+        <div className="flex gap-4">
+          <IconButton aria-label="Create">
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Create" variant="secondary">
+            <Plus />
+          </IconButton>
+          <IconButton aria-label="Create" variant="tertiary">
+            <Plus />
+          </IconButton>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Inputs</h4>
+        <div className="flex gap-8">
+          <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
+
+          <Input
+            placeholder="Input placeholder"
+            onChange={() => {}}
+            multiline
+            height={256}
+            className="w-128"
+          />
+        </div>
+
+        <div className="flex gap-8">
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder'
+            }}
+          />
+
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder',
+              multiline: true,
+              height: 256
+            }}
+          />
+        </div>
+
+        <div className="flex gap-8">
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder'
+            }}
+            error="Input error message"
+          />
+
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder',
+              multiline: true,
+              height: 256
+            }}
+            error="Input error message"
+          />
         </div>
       </div>
     </div>

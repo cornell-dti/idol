@@ -82,19 +82,21 @@ const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName,
       seeApplicantName={seeApplicantName}
       candidate={candidate}
     />
-    {headers
-      .map((header, i) => ({ header, response: responses[i] }))
-      .filter(
-        ({ header }) =>
-          !credentialHeaders.includes(header) &&
-          (seeApplicantName || header !== 'Preferred Name (optional)')
-      )
-      .map(({ header, response }, i) => (
-        <div key={i} className={styles.questionResponseContainer}>
-          <h4 className={styles.questionHeader}>{header}</h4>
-          <div className={styles.responseText}>{response}</div>
-        </div>
-      ))}
+    <div className={styles.applicantResponses}>
+      {headers
+        .map((header, i) => ({ header, response: responses[i] }))
+        .filter(
+          ({ header }) =>
+            !credentialHeaders.includes(header) &&
+            (seeApplicantName || header !== 'Preferred Name (optional)')
+        )
+        .map(({ header, response }, i) => (
+          <div key={i} className={styles.questionResponseContainer}>
+            <h4 className={styles.questionHeader}>{header}</h4>
+            <div className={styles.responseText}>{response}</div>
+          </div>
+        ))}
+    </div>
   </div>
 );
 

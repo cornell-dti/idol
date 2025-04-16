@@ -138,13 +138,14 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   const hasAdminPermission = useHasAdminPermission();
 
   useEffect(() => {
-    if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
-      if (router.pathname !== '/applicant') router.push('/applicant');
+    if (!router.pathname.startsWith('/interview-scheduler') && !hasMemberPermissions) {
+      if (router.pathname !== '/interview-scheduler') router.push('/interview-scheduler');
       return;
     }
     if (router.pathname.startsWith('/admin') && !hasAdminPermission) {
       if (router.pathname !== '/') router.push('/');
     }
-  }, [router.pathname, hasMemberPermissions, hasAdminPermission]);
+  }, [router, router.pathname, hasMemberPermissions, hasAdminPermission]);
+
   return <>{children}</>;
 };

@@ -1,0 +1,99 @@
+/* Wrapper styles (input + label) */
+.switchWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.labelText {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Base layout */
+.switch {
+  position: relative;
+  width: 36px;
+  height: 18px;
+}
+
+.switch input {
+  width: 0;
+  height: 0;
+  position: relative;
+  opacity: 0;
+}
+
+/* This is the focus state element. It's a <span> that is hidden by default, but shows on :focus-visible */
+.switch .focusState {
+  content: '';
+  outline: 2px solid var(--accent-focus);
+  outline-offset: 2px;
+  border-radius: 128px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 18px;
+  display: block;
+  opacity: 0;
+}
+
+/* Shows focus state (outline) is tab'ed on */
+.switch input:focus-visible ~ .focusState {
+  opacity: 1;
+}
+
+/* Slider track and thumb */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-dimmer);
+  border-radius: 34px;
+  transition: background-color 0.2s;
+}
+
+.switch:hover .slider {
+  background-color: var(--fg-dimmest);
+}
+
+.slider::before {
+  position: absolute;
+  content: '';
+  height: 16px;
+  width: 16px;
+  left: 1px;
+  bottom: 1px;
+  background-color: var(--bg-default);
+  border-radius: 8px;
+  transition: 50ms ease-in-out;
+}
+
+.switch input:checked + .slider {
+  background-color: var(--fg-default);
+}
+
+.switch:hover input:checked + .slider {
+  background-color: var(--fg-dimmer);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+/* These make the thumb of the switch distort a bit when :active for a cool pressed effect */
+.switch:active input + .slider::before {
+  width: 20px;
+  transform: translateX(0);
+}
+
+.switch:active input:checked + .slider::before {
+  width: 20px;
+  transform: translateX(14px);
+}

@@ -254,8 +254,12 @@ const validateOpen = async (
   portfolio: DevPortfolio,
   submission: DevPortfolioSubmission,
   openUrl: string
-): Promise<ValidationResult> =>
-  createValidationResult(async () => {
+): Promise<ValidationResult> => {
+  if (submission.submitRepo) {
+    return { status: 'valid', reason: null };
+  }
+
+  return createValidationResult(async () => {
     // get information from submission
     const { start, end, username } = parsePortfolioSubmission(portfolio, submission);
 
@@ -273,6 +277,7 @@ const validateOpen = async (
       throw new Error(`Pull request ${open.url} was not made between ${startDate} and ${endDate}.`);
     }
   });
+};
 
 /** Determines the overall status of the submission. */
 export const getSubmissionStatus = (submission: DevPortfolioSubmission): SubmissionStatus => {
