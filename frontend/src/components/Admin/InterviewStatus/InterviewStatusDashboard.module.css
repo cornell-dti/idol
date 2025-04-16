@@ -52,3 +52,21 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+/* We are using !important here to override semantic UI styling. Clément approved. */
+button.acceptButton {
+  color: var(--accent-yes) !important;
+}
+
+button.rejectButton {
+  color: var(--accent-no) !important;
+}
+
+button.waitlistButton {
+  color: white !important;
+}
+
+button.undecideButton {
+  color: var(--accent-maybe) !important;
+}
+

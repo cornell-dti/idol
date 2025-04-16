@@ -277,33 +277,25 @@ const InterviewStatusDashboard: React.FC = () => {
         <Button onClick={handleDeleteStatus}>Delete Status</Button>
         <Button onClick={handleProceed}>Proceed to Next Round</Button>
         <Button
-          style={{
-            color: 'var(--accent-yes)'
-          }}
+          className={styles.acceptButton}
           onClick={() => updateStatus('Accepted')}
         >
           Accept
         </Button>
         <Button
-          style={{
-            color: 'var(--accent-no)'
-          }}
+          className={styles.rejectButton}
           onClick={() => updateStatus('Rejected')}
         >
           Reject
         </Button>
         <Button
-          style={{
-            color: 'white'
-          }}
+          className={styles.waitlistButton}
           onClick={() => updateStatus('Waitlisted')}
         >
           Waitlist
         </Button>
         <Button
-          style={{
-            color: 'var(--accent-maybe)'
-          }}
+          className={styles.undecideButton}
           onClick={() => updateStatus('Undecided')}
         >
           Undecide
