@@ -7,11 +7,6 @@ import IconButton from '../components/IconButton';
 import Input from '../components/Input';
 import LabeledInput from '../components/LabeledInput';
 
-export const metadata = {
-  title: 'COMPONENTS TEST PAGE',
-  description: 'DESCRIPTION'
-};
-
 export default function TestComponents() {
   return (
     <div className="p-32 flex flex-col gap-16">

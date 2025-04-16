@@ -3,11 +3,6 @@
 import Hero from '../components/Hero';
 import Layout from '../components/Layout';
 
-export const metadata = {
-  title: 'FULL PAGE TEST PAGE',
-  description: 'DESCRIPTION'
-};
-
 export default function TestPage() {
   return (
     <Layout>
