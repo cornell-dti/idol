@@ -215,7 +215,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 seeApplicantName={seeApplicantName}
               />
               <Button
-                label="NEXT"
+                label="Next"
                 disabled={currentCandidate === instance.candidates.length - 1}
                 onClick={() => {
                   handleCandidateChange(currentCandidate + 1);
