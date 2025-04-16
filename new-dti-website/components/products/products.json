@@ -23,6 +23,28 @@
       "productImageDimensions": 1500
     },
     {
+      "alt": "james",
+      "name": "james",
+      "description": "james is bald",
+      "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "iconPath": "/icons/james.png",
+      "iconDimensions": 90,
+      "iconClassName": "-translate-x-2",
+      "blobs": [
+        {
+          "className": "left-3/4 -top-32 scale-50 md:scale-100",
+          "intensity": 0.4
+        },
+        {
+          "className": "-left-20 scale-50 md:scale-100",
+          "intensity": 0.4
+        }
+      ],
+      "productImage": "/images/products/cureviews.png",
+      "productAlt": "james",
+      "productImageDimensions": 1500
+    },
+    {
       "alt": "courseplan",
       "name": "Course Plan",
       "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
