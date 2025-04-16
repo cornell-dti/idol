@@ -8,6 +8,7 @@ type InputProps = {
   height?: number;
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
   disabled?: boolean;
+  className?: string;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -17,10 +18,11 @@ const Input: React.FC<InputProps> = ({
   multiline = false,
   height,
   resize = 'none',
-  disabled = false
+  disabled = false,
+  className
 }) => {
   const baseStyles = `
-    w-full p-3 text-rg text-foreground-1 placeholder-foreground-3
+    p-3 text-rg text-foreground-1 placeholder-foreground-3
     bg-background-2 rounded-lg border border-border-1
     focus-visible:outline focus-visible:outline-[2px] focus-visible:outline-offset-[-1px] focus-visible:outline-[var(--foreground-1)]
     hover:border-border-2
@@ -48,7 +50,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={textareaStyles}
+        className={`${textareaStyles} ${className ?? ''}`}
         style={{ height, resize }}
         disabled={disabled}
       />
@@ -61,7 +63,7 @@ const Input: React.FC<InputProps> = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className={inputStyles}
+      className={`${inputStyles} ${className ?? ''}`}
       disabled={disabled}
     />
   );

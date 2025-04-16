@@ -91,14 +91,21 @@ export default function TestPage() {
 
       <div className="flex flex-col gap-6">
         <h4>Inputs</h4>
-        <div className="flex gap-4">
-          <Input placeholder="Input placeholder" onChange={() => {}} />
+        <div className="flex gap-8">
+          <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
 
-          <Input placeholder="Input placeholder" onChange={() => {}} multiline height={256} />
+          <Input
+            placeholder="Input placeholder"
+            onChange={() => {}}
+            multiline
+            height={256}
+            className="w-128"
+          />
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-8">
           <LabeledInput
+            className="w-128"
             label="Input label"
             inputProps={{
               onChange: () => {},
@@ -107,6 +114,7 @@ export default function TestPage() {
           />
 
           <LabeledInput
+            className="w-128"
             label="Input label"
             inputProps={{
               onChange: () => {},
@@ -117,8 +125,9 @@ export default function TestPage() {
           />
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-8">
           <LabeledInput
+            className="w-128"
             label="Input label"
             inputProps={{
               onChange: () => {},
@@ -128,6 +137,7 @@ export default function TestPage() {
           />
 
           <LabeledInput
+            className="w-128"
             label="Input label"
             inputProps={{
               onChange: () => {},
