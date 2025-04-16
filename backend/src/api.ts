@@ -77,7 +77,8 @@ import {
   getCandidateDeciderInstance,
   updateCandidateDeciderRatingAndComment,
   updateCandidateDeciderInstance,
-  getCandidateDeciderReviews
+  getCandidateDeciderReviews,
+  hasCandidateDeciderInstance
 } from './API/candidateDeciderAPI';
 import {
   getAllDevPortfolios,
@@ -122,8 +123,8 @@ export const enforceSession = true;
 const allowedOrigins = allowAllOrigins
   ? [/.*/]
   : isProd
-    ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
-    : [/http:\/\/localhost:3000/];
+  ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
+  : [/http:\/\/localhost:3000/];
 
 // Middleware
 app.use(
@@ -463,6 +464,9 @@ loginCheckedPost('/send-period-reminder', async (req, user) => ({
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
+}));
+loginCheckedGet('/candidate-decider-instance', async (_, user) => ({
+  hasInstance: await hasCandidateDeciderInstance(user)
 }));
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
