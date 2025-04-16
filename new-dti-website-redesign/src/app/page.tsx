@@ -21,6 +21,12 @@ export default function Home() {
               View and test components
             </Link>
           </h2>
+
+          <h2>
+            <Link href="/test-page" className="text-accent-red underline">
+              View full test page
+            </Link>
+          </h2>
         </section>
       </Layout>
     </>
