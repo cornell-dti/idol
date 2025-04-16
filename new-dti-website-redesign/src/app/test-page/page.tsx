@@ -9,7 +9,8 @@ export default function TestPage() {
       <Hero
         heading={
           <>
-            <span className="text-accent-red">Building the Future</span> of Tech @ Cornell
+            <span className="block text-accent-red">Building the Future</span>
+            <span className="block">of Tech @ Cornell</span>
           </>
         }
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
@@ -32,6 +33,7 @@ export default function TestPage() {
         image="/heroImages/team.png"
         imageAlt="IMAGE ALT"
       />
+      <section className="h-128" />
     </Layout>
   );
 }
