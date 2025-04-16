@@ -60,7 +60,7 @@
 }
 
 /* Disabled State */
-.custom-button:disabled {
+.base-styles:disabled {
   border-radius: 6px;
   opacity: 0.5;
   cursor: not-allowed;
