@@ -1,15 +1,16 @@
-.custom-button {
+.base-styles {
   padding: 16px 24px;
+  height: 48px;
   border-radius: 6px;
   border: 1px solid var(--border-default);
-  background: var(--bg-default, #fff);
-  font-size: 14px;
+  background: var(--bg-default);
+  font-size: 16px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: background-color 0.2s;
+  transition: background-color 50ms ease-out;
 }
 
 /* Variants */
