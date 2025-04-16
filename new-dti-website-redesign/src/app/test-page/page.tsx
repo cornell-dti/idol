@@ -15,6 +15,7 @@ export default function TestPage() {
         button2Link="/team"
         image="/heroImages/team.png"
         imageAlt="IMAGE ALT"
+        centered
       />
       <section className="bg-background-2 h-[400px]">
         <h2>section</h2>
