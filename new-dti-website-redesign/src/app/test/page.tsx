@@ -4,8 +4,13 @@ import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
+import LabeledInput from '../components/LabeledInput';
+import { useState } from 'react';
+import Input from '../components/Input';
 
 export default function TestPage() {
+  const [email, setEmail] = useState('');
+
   return (
     <div className="p-32 flex flex-col gap-16">
       <Link href="/" className="text-accent-red underline">
@@ -81,6 +86,35 @@ export default function TestPage() {
           <IconButton aria-label="Create" variant="tertiary">
             <Plus />
           </IconButton>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Inputs</h4>
+        <div className="flex gap-4">
+          <Input placeholder="Input placeholder" onChange={() => {}} />
+
+          <Input placeholder="Input placeholder" onChange={() => {}} multiline height={256} />
+        </div>
+
+        <div className="flex gap-4">
+          <LabeledInput
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder'
+            }}
+          />
+
+          <LabeledInput
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder',
+              multiline: true,
+              height: 256
+            }}
+          />
         </div>
       </div>
     </div>
