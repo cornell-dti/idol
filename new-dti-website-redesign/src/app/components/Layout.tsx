@@ -11,7 +11,7 @@ type Props = {
 const Layout = ({ children }: Props): ReactNode => (
   <>
     <Navbar />
-    <main role="main" className="max-w-[1184px] m-auto">
+    <main role="main" className="max-w-[1184px] mx-4 sm:mx-8 lg:mx-auto border border-accent-blue">
       {children}
     </main>
   </>
