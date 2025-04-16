@@ -10,10 +10,8 @@ type Props = {
 
 const Layout = ({ children }: Props): ReactNode => (
   <>
-    <header role="banner">
-      <Navbar />
-    </header>
-    <main role="main" className="min-h-screen p-6">
+    <Navbar />
+    <main role="main" className="max-w-[1184px] m-auto">
       {children}
     </main>
   </>
