@@ -7,7 +7,11 @@ export default function TestPage() {
   return (
     <Layout>
       <Hero
-        heading="Heading test"
+        heading={
+          <h1>
+            <span className="text-accent-red">Building the Future</span> of Tech @ Cornell
+          </h1>
+        }
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
         button1Label="Apply to DTI"
         button1Link="/apply"
@@ -17,19 +21,17 @@ export default function TestPage() {
         imageAlt="IMAGE ALT"
         centered
       />
-      <section className="bg-background-2 h-[400px]">
-        <h2>section</h2>
-        <p className="mt-2">This is the full test page</p>
-      </section>
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the full test page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
 
-        <p className="mt-2">This is the full test page</p>
-      </section>
+      <Hero
+        heading="Heading over here"
+        subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+        image="/heroImages/team.png"
+        imageAlt="IMAGE ALT"
+      />
     </Layout>
   );
 }

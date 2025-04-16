@@ -3,8 +3,9 @@ import Image from 'next/image';
 import Button from './Button';
 
 type Props = {
-  heading: string;
-  subheading: string;
+  // Can be a string or a ReactNode for more complex headings/subheading
+  heading: ReactNode;
+  subheading: ReactNode;
   button1Label?: string;
   button1Link?: string;
   button2Label?: string;
@@ -29,7 +30,7 @@ const Hero = ({
     return (
       <section>
         <div className="flex flex-col p-8 outline-[0.5px] outline-accent-green">
-          <div className="flex flex-col m-auto  items-center gap-4 max-w-128">
+          <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
             <h1 className="text-center">{heading}</h1>
             <h6 className="text-center text-foreground-3">{subheading}</h6>
 
