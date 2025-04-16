@@ -19,7 +19,7 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
         image="/heroImages/team.png"
-        imageAlt="IMAGE ALT"
+        imageAlt="DTI members in front of Gates Hall"
         centered
       />
 
@@ -31,7 +31,7 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
         image="/heroImages/team.png"
-        imageAlt="IMAGE ALT"
+        imageAlt="DTI members in front of Gates Hall"
       />
       <section className="h-128" />
     </Layout>

@@ -17,7 +17,7 @@ export default function Team() {
         button2Label="Meet the team"
         button2Link="/team"
         image="/heroImages/team.png"
-        imageAlt="IMAGE ALT"
+        imageAlt="DTI members in front of Gates Hall"
       />
       <section className="bg-background-2 h-[400px]">
         <h1>Team</h1>
