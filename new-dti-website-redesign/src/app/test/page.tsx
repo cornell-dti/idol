@@ -97,14 +97,6 @@ export default function TestPage() {
             height={256}
             className="w-128"
           />
-
-          <Input
-            placeholder="Input placeholder"
-            onChange={() => {}}
-            multiline
-            height={256}
-            className="w-128"
-          />
         </div>
 
         <div className="flex gap-8">
