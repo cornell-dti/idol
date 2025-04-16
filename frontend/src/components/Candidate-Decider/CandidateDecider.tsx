@@ -199,7 +199,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
             <div className={styles.searchBar}>
               <Button
-                label="PREVIOUS"
+                label="Previous"
                 disabled={currentCandidate === 0}
                 onClick={() => {
                   handleCandidateChange(currentCandidate - 1);
@@ -215,7 +215,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 seeApplicantName={seeApplicantName}
               />
               <Button
-                label="NEXT"
+                label="Next"
                 disabled={currentCandidate === instance.candidates.length - 1}
                 onClick={() => {
                   handleCandidateChange(currentCandidate + 1);
