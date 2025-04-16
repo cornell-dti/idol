@@ -31,8 +31,10 @@ const Hero = ({
       <section className="flex flex-col-reverse md:flex-col">
         <div className="flex flex-col p-4 outline-[0.5px] outline-accent-green sm:p-8">
           <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
-            <h1 className="text-center">{heading}</h1>
-            <h6 className="text-center text-foreground-3">{subheading}</h6>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-center">{heading}</h1>
+              <h6 className="text-center text-foreground-3">{subheading}</h6>
+            </div>
 
             <div className="flex gap-4">
               {button1Label && button1Link && (
@@ -74,12 +76,12 @@ const Hero = ({
         />
       )}
       <div className="flex-col md:flex-row flex">
-        <div className="md:p-8 px-8 pt-8 flex flex-col gap-2 flex-3/4 md:outline-[0.5px] md:outline-accent-green">
+        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-accent-green">
           <h1>{heading}</h1>
           <h6 className="text-foreground-3">{subheading}</h6>
         </div>
 
-        <div className="p-8 flex md:flex-col gap-4 flex-1/4 md:outline-[0.5px] md:outline-accent-green md:justify-center">
+        <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center">
           {button1Label && button1Link && (
             <Button
               variant="primary"
