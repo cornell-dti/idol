@@ -45,11 +45,6 @@ const Input: React.FC<InputProps> = ({
     h-12
   `;
 
-  const style = {
-    ...(height ? { height } : { height: '48px' }),
-    resize
-  };
-
   if (multiline) {
     return (
       <textarea

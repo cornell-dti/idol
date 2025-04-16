@@ -9,7 +9,7 @@ type LabeledInputProps = {
 };
 
 const LabeledInput: React.FC<LabeledInputProps> = ({ label, error, inputProps, className }) => {
-  const id = React.useId();
+  const id = React.useId(); // generating a unique ID for the input
   const errorId = `${id}-error`;
 
   return (
@@ -20,9 +20,9 @@ const LabeledInput: React.FC<LabeledInputProps> = ({ label, error, inputProps, c
         </label>
 
         <Input
-          id={id}
-          aria-invalid={!!error}
-          ariaDescribedby={error ? errorId : undefined}
+          id={id} // input gets the id
+          aria-invalid={!!error} // link to the error
+          ariaDescribedby={error ? errorId : undefined} // so that screen reader can read the error
           {...inputProps}
         />
       </div>
