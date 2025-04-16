@@ -7,7 +7,7 @@ import IconButton from '../components/IconButton';
 import Input from '../components/Input';
 import LabeledInput from '../components/LabeledInput';
 
-export default function TestPage() {
+export default function TestComponents() {
   return (
     <div className="p-32 flex flex-col gap-16">
       <Link href="/" className="text-accent-red underline">
