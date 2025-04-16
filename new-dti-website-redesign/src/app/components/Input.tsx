@@ -10,6 +10,8 @@ type InputProps = {
   disabled?: boolean;
   className?: string;
   id?: string;
+  ariaDescribedby?: string;
+  ariaInvalid?: boolean;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -21,7 +23,9 @@ const Input: React.FC<InputProps> = ({
   resize = 'none',
   disabled = false,
   className,
-  id
+  id,
+  ariaDescribedby,
+  ariaInvalid
 }) => {
   const baseStyles = `
     p-3 text-rg text-foreground-1 placeholder-foreground-3
@@ -56,6 +60,8 @@ const Input: React.FC<InputProps> = ({
         style={{ height, resize }}
         disabled={disabled}
         id={id}
+        aria-describedby={ariaDescribedby}
+        aria-invalid={ariaInvalid}
       />
     );
   }
@@ -69,6 +75,8 @@ const Input: React.FC<InputProps> = ({
       className={`${inputStyles} ${className ?? ''}`}
       disabled={disabled}
       id={id}
+      aria-describedby={ariaDescribedby}
+      aria-invalid={ariaInvalid}
     />
   );
 };
