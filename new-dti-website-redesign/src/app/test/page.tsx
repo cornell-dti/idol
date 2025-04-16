@@ -116,6 +116,28 @@ export default function TestPage() {
             }}
           />
         </div>
+
+        <div className="flex gap-4">
+          <LabeledInput
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder'
+            }}
+            error="Input error message"
+          />
+
+          <LabeledInput
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder',
+              multiline: true,
+              height: 256
+            }}
+            error="Input error message"
+          />
+        </div>
       </div>
     </div>
   );
