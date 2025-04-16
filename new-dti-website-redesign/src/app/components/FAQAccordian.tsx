@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 import * as Accordion from '@radix-ui/react-accordion';
 
