@@ -159,3 +159,9 @@ p.caps.small {
   letter-spacing: 5%;
   text-transform: uppercase;
 }
+
+nav,
+main,
+section {
+  outline: 0.5px solid var(--accent-green);
+}
