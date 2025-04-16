@@ -18,7 +18,7 @@ const LabeledInput: React.FC<LabeledInputProps> = ({ label, error, inputProps, c
           {label}
         </label>
 
-        <Input {...inputProps} />
+        <Input id={id} {...inputProps} />
       </div>
 
       {error && <p className="text-accent-red">{error}</p>}

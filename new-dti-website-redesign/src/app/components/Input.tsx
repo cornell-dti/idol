@@ -9,6 +9,7 @@ type InputProps = {
   resize?: 'none' | 'both' | 'horizontal' | 'vertical';
   disabled?: boolean;
   className?: string;
+  id?: string;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -19,7 +20,8 @@ const Input: React.FC<InputProps> = ({
   height,
   resize = 'none',
   disabled = false,
-  className
+  className,
+  id
 }) => {
   const baseStyles = `
     p-3 text-rg text-foreground-1 placeholder-foreground-3
@@ -53,6 +55,7 @@ const Input: React.FC<InputProps> = ({
         className={`${textareaStyles} ${className ?? ''}`}
         style={{ height, resize }}
         disabled={disabled}
+        id={id}
       />
     );
   }
@@ -65,6 +68,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       className={`${inputStyles} ${className ?? ''}`}
       disabled={disabled}
+      id={id}
     />
   );
 };
