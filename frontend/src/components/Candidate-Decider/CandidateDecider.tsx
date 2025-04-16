@@ -1,5 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Checkbox, Modal, Form, Radio } from 'semantic-ui-react';
+import { Modal, Form, Radio } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -11,6 +11,8 @@ import {
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
 import Button from '../Common/Button/Button';
+import Input from '../Common/Input/Input';
+import Switch from '../Common/Switch/Switch';
 
 type CandidateDeciderProps = {
   uuid: string;
