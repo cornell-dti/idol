@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   iconLeft = false,
   iconRight = false,
-  variant = 'default',
+  variant = 'default'
 }) => (
   <button
     disabled={disabled}
