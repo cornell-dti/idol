@@ -3,7 +3,7 @@ import Button from './Button';
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between p-16 max-w-[1184px] mx-4 sm:mx-8 lg:mx-auto border border-accent-blue">
+    <nav className="flex justify-between p-16 max-w-[1184px] mx-4 md:mx-32 sm:mx-8 lg:mx-auto bg-background-1">
       <p>Logo</p>
 
       <div className="flex gap-8">
