@@ -152,38 +152,40 @@ const InterviewStatusDashboard: React.FC = () => {
 
     const promotedNames: string[] = [];
     const errors: string[] = [];
+    const updatePromises: Promise<void>[] = [];
 
-    try {
-      for (const uuid of selectedApplicants) {
-        const applicant = applicants.find((app) => app.uuid === uuid);
-        if (!applicant) continue;
+    Array.from(selectedApplicants).forEach((uuid) => {
+      const applicant = applicants.find((app) => app.uuid === uuid);
 
-        const { name, round, status, role } = applicant;
+      if (!applicant) {
+        errors.push(`Applicant with ID ${uuid} not found.`);
+        return;
+      }
 
-        if (status !== 'Accepted') {
-          const msg = `${name} has not been accepted and cannot proceed.`;
-          errors.push(msg);
-          continue;
-        }
+      const { name, round, status, role } = applicant;
 
-        if (round === 'Technical') {
-          const msg = `${role} ${name} is already at the final round.`;
-          errors.push(msg);
-          continue;
-        }
-
+      if (status !== 'Accepted') {
+        errors.push(`${name} has not been accepted and cannot proceed.`);
+      } else if (round === 'Technical') {
+        errors.push(`${role} ${name} is already at the final round.`);
+      } else {
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
         const updatedStatus = { ...applicant, uuid: uuid!, round: newRound };
 
-        try {
-          await InterviewStatusAPI.updateInterviewStatus(updatedStatus);
-          promotedNames.push(name);
-        } catch (error) {
-          const msg = `API error: Could not update round for ${name}.`;
-          errors.push(msg);
-        }
-      }
+        const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus)
+          .then(() => {
+            promotedNames.push(name);
+          })
+          .catch(() => {
+            errors.push(`API error: Could not update round for ${name}.`);
+          });
 
+        updatePromises.push(promise);
+      }
+    });
+
+    try {
+      await Promise.all(updatePromises);
       setSelectedApplicants(new Set());
       fetchApplicants();
 
@@ -202,7 +204,7 @@ const InterviewStatusDashboard: React.FC = () => {
         });
       }
     } catch (error) {
-      console.log('Error: ', error);
+      console.log('Unexpected error during round promotion: ', error);
     }
   };
 
