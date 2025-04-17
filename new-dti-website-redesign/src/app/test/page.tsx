@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import IconButton from '../components/IconButton';
 import Input from '../components/Input';
 import LabeledInput from '../components/LabeledInput';
+import TestimonialCard from '../components/TestimonialCard';
 
 export default function TestPage() {
   return (
@@ -143,6 +144,24 @@ export default function TestPage() {
               height: 256
             }}
             error="Input error message"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Testimonial cards</h4>
+        <div className="flex gap-4">
+          <TestimonialCard
+            quote="This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!"
+            picture="/clem.jpg"
+            name="John Doe"
+            date="Fall 2024"
+          />
+          <TestimonialCard
+            quote="This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!"
+            picture="/clem.jpg"
+            name="John Doe"
+            date="Fall 2024"
           />
         </div>
       </div>
