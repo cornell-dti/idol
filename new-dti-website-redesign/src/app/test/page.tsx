@@ -154,13 +154,13 @@ export default function TestPage() {
           <TestimonialCard
             quote="This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!"
             picture="/clem.jpg"
-            name="John Doe"
+            name="Clément Rozé"
             date="Fall 2024"
           />
           <TestimonialCard
             quote="This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!"
             picture="/clem.jpg"
-            name="John Doe"
+            name="Rozé Clément"
             date="Fall 2024"
           />
         </div>
