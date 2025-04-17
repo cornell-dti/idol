@@ -11,6 +11,7 @@ import {
 import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
+import { Emitters } from '../../../utils';
 
 interface InterviewStatus {
   uuid?: string;
@@ -44,12 +45,6 @@ const InterviewStatusDashboard: React.FC = () => {
   useEffect(() => {
     fetchApplicants();
   }, []);
-
-  useEffect(() => {
-    Array.from(selectedApplicants).forEach((applicant) => {
-      console.log(`selected applicant: ${applicant}`);
-    });
-  }, [selectedApplicants]);
 
   const handleSelect = (applicantUuid: string) => {
     setSelectedApplicants((prev: Set<string>) => {
@@ -110,25 +105,36 @@ const InterviewStatusDashboard: React.FC = () => {
         .join(', ');
     }
     navigator.clipboard.writeText(emailList).then(() => {
-      console.log('emails copied to clipboard:', emailList);
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Success!',
+        contentMsg: `Emails copies to clipboard.`
+      });
     });
   };
 
   const handleDeleteStatus = async () => {
     if (selectedApplicants.size === 0) {
-      alert('No applicants are selected.');
+      Emitters.generalError.emit({
+        headerMsg: 'No applicants are selected!',
+        contentMsg: `Please select at least one status to proceed.`
+      });
     } else {
       try {
         const deletePromises = Array.from(selectedApplicants).map((uuid) =>
-          InterviewStatusAPI.deleteInterviewStatus(uuid)
-            .then(() => console.log(`Successfully deleted status for ${uuid}`))
-            .catch((error) => {
-              alert(`Could not delete status for ${uuid}.`);
-            })
+          InterviewStatusAPI.deleteInterviewStatus(uuid).catch(() => {
+            Emitters.generalError.emit({
+              headerMsg: 'Error deleting applicant status.',
+              contentMsg: `Could not delete status for ${uuid}.`
+            });
+          })
         );
         await Promise.all(deletePromises);
         setSelectedApplicants(new Set());
         fetchApplicants();
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Sucess!',
+          contentMsg: `Selected interview statuses are now deleted.`
+        });
       } catch (error) {
         console.log('Error: ', error);
       }
@@ -137,45 +143,63 @@ const InterviewStatusDashboard: React.FC = () => {
 
   const handleProceed = async () => {
     if (selectedApplicants.size === 0) {
-      alert('No applicants are selected.');
+      Emitters.generalError.emit({
+        headerMsg: 'No applicants are selected!',
+        contentMsg: `Please select at least one status to proceed.`
+      });
       return;
     }
-    const names: string[] = [];
+
+    const promotedNames: string[] = [];
+    const errors: string[] = [];
+
     try {
-      const updatePromises = Array.from(selectedApplicants).map(async (uuid) => {
-        const applicant = applicants.find((applicant) => applicant.uuid === uuid);
-        if (!applicant) return;
+      for (const uuid of selectedApplicants) {
+        const applicant = applicants.find((app) => app.uuid === uuid);
+        if (!applicant) continue;
 
         const { name, round, status, role } = applicant;
 
         if (status !== 'Accepted') {
-          alert(`${name} has not been accepted so they may not move onto the next round.`);
-          return;
+          const msg = `${name} has not been accepted and cannot proceed.`;
+          errors.push(msg);
+          continue;
         }
 
         if (round === 'Technical') {
-          alert(`${role} ${name} is already at the final round.`);
-          return;
+          const msg = `${role} ${name} is already at the final round.`;
+          errors.push(msg);
+          continue;
         }
 
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
+        const updatedStatus = { ...applicant, uuid: uuid!, round: newRound };
 
-        const updatedStatus = { ...applicant, uuid: applicant.uuid!, round: newRound };
-        InterviewStatusAPI.updateInterviewStatus(updatedStatus)
-          .then(() => {
-            names.push(name);
-            console.log(`Successfully updated round for ${uuid}`);
-          })
+        try {
+          await InterviewStatusAPI.updateInterviewStatus(updatedStatus);
+          promotedNames.push(name);
+        } catch (error) {
+          const msg = `API error: Could not update round for ${name}.`;
+          errors.push(msg);
+        }
+      }
 
-          .catch((error) => {
-            alert(`Could not update round for ${uuid}.`);
-          });
-      });
-      await Promise.all(updatePromises);
       setSelectedApplicants(new Set());
       fetchApplicants();
-      if (names.length !== 0) {
-        alert(`Promoted ${names.join(', ')} to next round`);
+
+      if (promotedNames.length > 0) {
+        const msg = `Promoted ${promotedNames.join(', ')} to next round`;
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Success!',
+          contentMsg: msg
+        });
+      }
+
+      if (errors.length > 0) {
+        Emitters.generalError.emit({
+          headerMsg: 'Some applicants were not promoted.',
+          contentMsg: errors.join(' ')
+        });
       }
     } catch (error) {
       console.log('Error: ', error);
@@ -184,34 +208,32 @@ const InterviewStatusDashboard: React.FC = () => {
 
   const updateStatus = async (newStatus: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided') => {
     if (selectedApplicants.size === 0) {
-      alert('No applicants are selected.');
+      Emitters.generalError.emit({
+        headerMsg: 'No applicants are selected!',
+        contentMsg: `Please select at least one status to proceed.`
+      });
       return;
     }
-    const names: string[] = [];
     try {
       const updatePromises = Array.from(selectedApplicants).map(async (uuid) => {
         const applicant = applicants.find((applicant) => applicant.uuid === uuid);
         if (!applicant) return;
 
-        const { name } = applicant;
-
         const updatedStatus = { ...applicant, uuid: applicant.uuid!, status: newStatus };
-        InterviewStatusAPI.updateInterviewStatus(updatedStatus)
-          .then(() => {
-            names.push(name);
-            console.log(`Successfully updated status for ${uuid}`);
-          })
-
-          .catch((error) => {
-            alert(`Could not update status for ${uuid}.`);
+        InterviewStatusAPI.updateInterviewStatus(updatedStatus).catch(() => {
+          Emitters.generalError.emit({
+            headerMsg: 'Error',
+            contentMsg: `Could not update status for ${uuid}.`
           });
+        });
       });
       await Promise.all(updatePromises);
       setSelectedApplicants(new Set());
       fetchApplicants();
-      if (names.length !== 0) {
-        alert(`${newStatus} ${names.join(', ')}!`);
-      }
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Success!',
+        contentMsg: `${newStatus} selected applicants.`
+      });
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -276,28 +298,16 @@ const InterviewStatusDashboard: React.FC = () => {
         <Button onClick={handleCopyEmails}>Copy Emails</Button>
         <Button onClick={handleDeleteStatus}>Delete Status</Button>
         <Button onClick={handleProceed}>Proceed to Next Round</Button>
-        <Button
-          className={styles.acceptButton}
-          onClick={() => updateStatus('Accepted')}
-        >
+        <Button className={styles.acceptButton} onClick={() => updateStatus('Accepted')}>
           Accept
         </Button>
-        <Button
-          className={styles.rejectButton}
-          onClick={() => updateStatus('Rejected')}
-        >
+        <Button className={styles.rejectButton} onClick={() => updateStatus('Rejected')}>
           Reject
         </Button>
-        <Button
-          className={styles.waitlistButton}
-          onClick={() => updateStatus('Waitlisted')}
-        >
+        <Button className={styles.waitlistButton} onClick={() => updateStatus('Waitlisted')}>
           Waitlist
         </Button>
-        <Button
-          className={styles.undecideButton}
-          onClick={() => updateStatus('Undecided')}
-        >
+        <Button className={styles.undecideButton} onClick={() => updateStatus('Undecided')}>
           Undecide
         </Button>
       </div>

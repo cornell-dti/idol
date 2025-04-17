@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
+import { Emitters } from '../../../utils';
 
 interface AddInterviewStatusFormProps {
   onSuccess: () => void;
@@ -36,7 +37,10 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
 
   const handleSubmit = async () => {
     if (!name || !netid || !round || !role || !status) {
-      alert('Please fill out all fields.');
+      Emitters.generalError.emit({
+        headerMsg: 'Missing fields!',
+        contentMsg: 'Please fill out all of the fields before adding an Interview Status.'
+      });
       return;
     }
 
@@ -49,7 +53,10 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         role,
         status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided'
       });
-      alert('Interview status added successfully!');
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Interview Status added sucessfully!',
+        contentMsg: 'Proceed to Dashboard to view and update their status.'
+      });
       setName('');
       setNetid('');
       setRound('');
