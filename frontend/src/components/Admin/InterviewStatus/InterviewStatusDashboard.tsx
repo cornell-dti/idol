@@ -69,8 +69,8 @@ const InterviewStatusDashboard: React.FC = () => {
   const handleFilterChange = (_: unknown, data: DropdownProps) => {
     const { value } = data;
     if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
-      setSelectedFilters(value);
-      applyFilters(selectedRound, value);
+      setSelectedFilters(value as string[]);
+      applyFilters(selectedRound, value as string[]);
     }
   };
 
