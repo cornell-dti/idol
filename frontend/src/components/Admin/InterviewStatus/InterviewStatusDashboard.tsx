@@ -107,7 +107,7 @@ const InterviewStatusDashboard: React.FC = () => {
     navigator.clipboard.writeText(emailList).then(() => {
       Emitters.generalSuccess.emit({
         headerMsg: 'Success!',
-        contentMsg: `Emails copies to clipboard.`
+        contentMsg: `Emails copied to clipboard.`
       });
     });
   };
@@ -306,9 +306,7 @@ const InterviewStatusDashboard: React.FC = () => {
         <Button className={styles.rejectButton} onClick={() => updateStatus('Rejected')}>
           Reject
         </Button>
-        <Button className={styles.waitlistButton} onClick={() => updateStatus('Waitlisted')}>
-          Waitlist
-        </Button>
+        <Button onClick={() => updateStatus('Waitlisted')}>Waitlist</Button>
         <Button className={styles.undecideButton} onClick={() => updateStatus('Undecided')}>
           Undecide
         </Button>
@@ -350,7 +348,7 @@ const InterviewStatusDashboard: React.FC = () => {
           ))}
         </Table.Body>
       </Table>
-      <div style={{ marginBottom: '2rem' }}>
+      <div className={styles.addForm}>
         <AddInterviewStatusForm onSuccess={fetchApplicants} />
       </div>
     </div>

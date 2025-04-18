@@ -62,10 +62,10 @@ button.rejectButton {
   color: var(--accent-no) !important;
 }
 
-button.waitlistButton {
-  color: white !important;
-}
-
 button.undecideButton {
   color: var(--accent-maybe) !important;
+}
+
+.addForm {
+  margin-bottom: '2rem';
 }
