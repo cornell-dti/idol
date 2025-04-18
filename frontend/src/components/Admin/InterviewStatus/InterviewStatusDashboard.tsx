@@ -130,7 +130,7 @@ const InterviewStatusDashboard: React.FC = () => {
         );
         await Promise.all(deletePromises);
         setSelectedApplicants(new Set());
-        fetchApplicants();
+        await fetchApplicants();
         Emitters.generalSuccess.emit({
           headerMsg: 'Sucess!',
           contentMsg: `Selected interview statuses are now deleted.`
@@ -187,7 +187,7 @@ const InterviewStatusDashboard: React.FC = () => {
     try {
       await Promise.all(updatePromises);
       setSelectedApplicants(new Set());
-      fetchApplicants();
+      await fetchApplicants();
 
       if (promotedNames.length > 0) {
         const msg = `Promoted ${promotedNames.join(', ')} to next round`;
@@ -231,7 +231,7 @@ const InterviewStatusDashboard: React.FC = () => {
       });
       await Promise.all(updatePromises);
       setSelectedApplicants(new Set());
-      fetchApplicants();
+      await fetchApplicants();
       Emitters.generalSuccess.emit({
         headerMsg: 'Success!',
         contentMsg: `${newStatus} selected applicants.`
