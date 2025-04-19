@@ -5,6 +5,8 @@ import { Plus } from 'lucide-react';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
 import FAQAccordion from '../components/FAQAccordion';
+import Input from '../components/Input';
+import LabeledInput from '../components/LabeledInput';
 
 export default function TestPage() {
   return (
@@ -122,8 +124,68 @@ export default function TestPage() {
               person's experiences first.
             </p>
           </FAQAccordion>
+          </div>
         </div>
-      </div>
+        <h4>Inputs</h4>
+        <div className="flex gap-8">
+          <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
+
+          <Input
+            placeholder="Input placeholder"
+            onChange={() => {}}
+            multiline
+            height={256}
+            className="w-128"
+          />
+        </div>
+
+        <div className="flex gap-8">
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder'
+            }}
+          />
+
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder',
+              multiline: true,
+              height: 256
+            }}
+          />
+        </div>
+
+        <div className="flex gap-8">
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder'
+            }}
+            error="Input error message"
+          />
+
+          <LabeledInput
+            className="w-128"
+            label="Input label"
+            inputProps={{
+              onChange: () => {},
+              placeholder: 'Input placeholder',
+              multiline: true,
+              height: 256
+            }}
+            error="Input error message"
+          />
+
+        </div>
+      
     </div>
   );
 }
