@@ -65,7 +65,8 @@ body {
   font-family: Inter, sans-serif;
 }
 
-h1 {
+h1,
+.h1 {
   font-size: 47.78px;
   font-style: normal;
   font-weight: 700;
@@ -74,12 +75,14 @@ h1 {
 }
 
 @media (max-width: 390px) {
-  h1 {
+  h1,
+  .h1 {
     font-size: 39.81px;
   }
 }
 
-h2 {
+h2,
+.h2 {
   font-size: 39.81px;
   font-style: normal;
   font-weight: 700;
@@ -88,12 +91,14 @@ h2 {
 }
 
 @media (max-width: 390px) {
-  h2 {
+  h2,
+  .h2 {
     font-size: 39.81px;
   }
 }
 
-h3 {
+h3,
+.h3 {
   font-size: 33.18px;
   font-style: normal;
   font-weight: 600;
@@ -102,26 +107,30 @@ h3 {
 }
 
 @media (max-width: 390px) {
-  h3 {
+  h3,
+  .h3 {
     font-size: 27.65px;
   }
 }
 
-h4 {
+h4,
+.h4 {
   font-size: 27.65px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
 }
 
-h5 {
+h5,
+.h5 {
   font-size: 23.04px;
   font-style: normal;
   font-weight: 600;
   line-height: 160%;
 }
 
-h6 {
+h6,
+.h6 {
   font-size: 19.2px;
   font-style: normal;
   font-weight: 500;
