@@ -13,7 +13,7 @@ export default function SectionSep({ grid = false }: SectionSepProps) {
         {Array.from({ length: 16 }).map((_, i) => (
           <div
             key={i}
-            className="aspect-square border border-accent-blue shrink-0
+            className="aspect-square outline-[0.5px] outline-solid outline-border-1 shrink-0
                 w-[calc(100%/8)] 
                 md:w-[calc(100%/16)] 
                 lg:w-[calc(100%/16-8px)] 
