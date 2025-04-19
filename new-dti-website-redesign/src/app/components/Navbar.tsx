@@ -61,7 +61,10 @@ export default function Navbar() {
               aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
               variant="tertiary"
             >
-              <span>{mobileOpen ? 'CLOSE' : 'MENU'}</span>
+              <span className="flex flex-col gap-2">
+                <span className="w-6 h-[1px] bg-foreground-1 rounded-sm transition-all" />
+                <span className="w-6 h-[1px] bg-foreground-1 rounded-sm transition-all" />
+              </span>
             </IconButton>
           </div>
         </div>
