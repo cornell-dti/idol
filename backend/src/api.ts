@@ -108,6 +108,17 @@ import {
   updateInterviewSchedulerInstance,
   updateInterviewSlot
 } from './API/interviewSchedulerAPI';
+import {
+  getAllInterviewStatuses,
+  getInterviewStatus,
+  createInterviewStatus,
+  updateInterviewStatus,
+  deleteInterviewStatus,
+  getInterviewStatusesByNetId,
+  getInterviewStatusesByRound,
+  getInterviewStatusesByRole
+} from './API/interviewStatusAPI';
+
 import { HandlerError } from './utils/errors';
 
 // Constants and configurations
@@ -592,6 +603,39 @@ loginCheckedPut('/interview-slots', async (req, user) => ({
 
 loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
   deleteInterviewSlot(req.params.uuid, user).then(() => ({}))
+);
+
+// Interview Status Dashboard
+loginCheckedGet('/interview-status', async (_, user) => ({
+  instances: await getAllInterviewStatuses(user)
+}));
+
+loginCheckedGet('/interview-status/:uuid', async (req, user) => ({
+  instances: await getInterviewStatus(req.params.uuid, user)
+}));
+
+loginCheckedGet('/interview-status/:netid', async (req, user) => ({
+  instances: await getInterviewStatusesByNetId(req.params.netid, user)
+}));
+
+loginCheckedGet('/interview-status/:round', async (req, user) => ({
+  instances: await getInterviewStatusesByRound(req.params.round, user)
+}));
+
+loginCheckedGet('/interview-status/:role', async (req, user) => ({
+  instances: await getInterviewStatusesByRole(req.params.role, user)
+}));
+
+loginCheckedPost('/interview-status', async (req, user) => ({
+  newStatus: await createInterviewStatus(req.body, user)
+}));
+
+loginCheckedPut('/interview-status', async (req, user) => ({
+  success: await updateInterviewStatus(user, req.body, req.body.uuid)
+}));
+
+loginCheckedDelete('/interview-status/:uuid', async (req, user) =>
+  deleteInterviewStatus(req.params.uuid, user).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);
