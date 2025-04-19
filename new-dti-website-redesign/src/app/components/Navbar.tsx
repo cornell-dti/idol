@@ -34,13 +34,11 @@ export default function Navbar() {
             <li key={href} className="h-full flex items-center">
               <Link
                 href={href}
-                className={`transition-[color] h-full duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-sm
-                  
-                  ${
-                    pathname === href
-                      ? "text-foreground-1 after:content-[''] after:absolute after:bottom-[-16.5px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]"
-                      : 'text-foreground-3'
-                  }`}
+                className={`transition-[color] h-full duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-sm focus-visible:text-foreground-1 ${
+                  pathname === href
+                    ? "text-foreground-1 after:content-[''] after:absolute after:bottom-[-16.5px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]"
+                    : 'text-foreground-3'
+                }`}
               >
                 {label}
               </Link>
