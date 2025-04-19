@@ -18,11 +18,7 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between px-8 py-4 max-w-[1184px] mx-4 md:mx-32 sm:mx-8 lg:mx-auto bg-background-1">
-      <Link
-        href="/"
-        className="focus-visible:outline-[2px] focus-visible:outline-offset-[3px]
-    focus-visible:outline-[var(--foreground-1)] rounded-sm"
-      >
+      <Link href="/" className="focusState rounded-sm">
         <Image
           src="/logo.svg"
           alt="Cornell Digital Tech & Innovation logo"
@@ -38,8 +34,7 @@ export default function Navbar() {
             <li key={href} className="h-full flex items-center">
               <Link
                 href={href}
-                className={`transition-colors h-full duration-[120ms] hover:text-foreground-1 flex items-center relative focus-visible:outline-[2px] focus-visible:outline-offset-[3px]
-    focus-visible:outline-[var(--foreground-1)] rounded-sm
+                className={`transition-[color] h-full duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-sm
                   
                   ${
                     pathname === href

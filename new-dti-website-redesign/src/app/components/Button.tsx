@@ -21,9 +21,7 @@ export default function Button({
 }: ButtonProps) {
   const baseStyles = `
     px-6 h-12 w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
-    transition-colors duration-[120ms]
-    focus-visible:outline focus-visible:outline-[2px] focus-visible:outline-offset-[3px]
-    focus-visible:outline-[var(--foreground-1)]`;
+    transition-[background-color] duration-[120ms] focusState`;
 
   const variantStyles = {
     primary: `bg-foreground-1 text-background-1 hover:bg-foreground-2 ${badge ? 'gap-1 pr-3' : ''}`,
