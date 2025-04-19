@@ -61,9 +61,22 @@ export default function Navbar() {
               aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
               variant="tertiary"
             >
-              <span className="flex flex-col gap-2">
-                <span className="w-6 h-[1px] bg-foreground-1 rounded-sm transition-all" />
-                <span className="w-6 h-[1px] bg-foreground-1 rounded-sm transition-all" />
+              <span className="flex flex-col gap-1 relative w-6 h-6">
+                <span
+                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                    mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'
+                  }`}
+                />
+                <span
+                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
+                    mobileOpen ? 'opacity-0 left-[-16px]' : ''
+                  }`}
+                />
+                <span
+                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                    mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'
+                  }`}
+                />
               </span>
             </IconButton>
           </div>
