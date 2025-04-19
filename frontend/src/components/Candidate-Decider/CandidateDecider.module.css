@@ -50,6 +50,12 @@
   margin-right: 0.5% !important;
 }
 
+.modalActions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
 .responsesContainer {
   display: flex;
   flex-direction: column;
