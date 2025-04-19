@@ -32,7 +32,7 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop Links */}
+        {/* Desktop links */}
         <div className="flex gap-8 items-center">
           <ul className="hidden min-[1200px]:flex gap-8 text-foreground-3 h-10 items-center">
             {navLinks.map(({ href, label }) => (
@@ -54,7 +54,7 @@ export default function Navbar() {
           <div className="flex gap-4">
             <Button variant="primary" href="/apply" label="Apply" className="max-[600px]:hidden" />
 
-            {/* Hamburger (Mobile) */}
+            {/* Hamburger icon button */}
             <IconButton
               className="min-[1200px]:hidden text-foreground-1 focus:outline-none"
               onClick={() => setMobileOpen((prev) => !prev)}
@@ -67,7 +67,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile links */}
       {mobileOpen && (
         <div className="fixed top-[81px] left-4 sm:left-8 md:left-32 w-[calc(100%-32px)] sm:w-[calc(100%-64px)] md:w-[calc(100%-256px)] h-full bg-background-1 z-50 flex flex-col justify-between">
           <ul className="flex flex-col w-full p-2 md:p-4">
