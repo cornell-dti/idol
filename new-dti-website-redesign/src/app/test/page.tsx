@@ -158,9 +158,9 @@ export default function TestPage() {
             date="Fall 2024"
           />
           <TestimonialCard
-            quote="This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!"
-            picture="/clem.jpg"
-            name="Rozé Clément"
+            quote="Trends in Web Development has been an incredibly valuable course, equipping me with practical skills and knowledge that will greatly benefit my future career. The final project was a rewarding experience, allowing me to put my new skills into practice and create a project I'm proud of!"
+            picture="/juju.png"
+            name="Juju Crane"
             date="Fall 2024"
           />
         </div>
