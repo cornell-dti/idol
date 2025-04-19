@@ -83,6 +83,8 @@ export default function TestPage() {
         button2Link="/team"
       />
 
+      <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
+
       <section className="h-128" />
     </Layout>
   );
