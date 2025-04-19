@@ -2,6 +2,7 @@
 
 import Hero from '../components/Hero';
 import Layout from '../components/Layout';
+import SectionSep from '../components/SectionSep';
 
 export default function TestPage() {
   return (
@@ -23,6 +24,8 @@ export default function TestPage() {
         centered
       />
 
+      <SectionSep grid />
+
       <Hero
         heading="Heading over here"
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
@@ -34,6 +37,8 @@ export default function TestPage() {
         imageAlt="DTI members in front of Gates Hall"
       />
 
+      <SectionSep grid />
+
       <Hero
         heading="Heading over here"
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
@@ -43,6 +48,8 @@ export default function TestPage() {
         imageAlt="DTI members in front of Gates Hall"
       />
 
+      <SectionSep />
+
       <Hero
         heading="Heading over here"
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
@@ -51,6 +58,8 @@ export default function TestPage() {
         image="/heroImages/team.png"
         imageAlt="DTI members in front of Gates Hall"
       />
+
+      <SectionSep />
 
       <Hero
         heading="Heading over here"
