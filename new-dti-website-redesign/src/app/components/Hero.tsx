@@ -82,7 +82,7 @@ const Hero = ({
         </div>
 
         {(button1Label && button1Link) || (button2Label && button2Link) ? (
-          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center">
+          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center max-w-1/4">
             {button1Label && button1Link && (
               <Button
                 variant="primary"
