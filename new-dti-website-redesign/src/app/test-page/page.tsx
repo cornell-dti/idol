@@ -1,5 +1,6 @@
 'use client';
 
+import CtaSection from '../components/CtaSection';
 import Hero from '../components/Hero';
 import Layout from '../components/Layout';
 
@@ -58,6 +59,30 @@ export default function TestPage() {
         image="/heroImages/team.png"
         imageAlt="DTI members in front of Gates Hall"
       />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+      />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
       <section className="h-128" />
     </Layout>
   );
