@@ -77,8 +77,19 @@ export default function TestPage() {
       />
 
       <CtaSection
-        heading="Ready to join?"
-        subheading="Be part of something greater today."
+        heading={
+          <>
+            <span className="block text-accent-red">Building the Future</span>
+            <span className="block">of Tech @ Cornell</span>
+          </>
+        }
+        subheading={
+          <>
+            <span>Be part of something </span>
+            <span className="text-accent-blue">greater</span>
+            <span> today</span>
+          </>
+        }
         button2Label="Meet the team"
         button2Link="/team"
       />
