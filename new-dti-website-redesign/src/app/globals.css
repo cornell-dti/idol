@@ -163,5 +163,5 @@ p.caps.small {
 nav,
 main,
 section {
-  outline: 0.5px solid var(--accent-green);
+  outline: 0.5px solid var(--border-1);
 }
