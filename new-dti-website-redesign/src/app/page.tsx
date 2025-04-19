@@ -17,8 +17,14 @@ export default function Home() {
 
         <section className="bg-background-3 h-[400px]">
           <h2>
-            <Link href="/test" className="text-accent-red underline">
-              View Test Page
+            <Link href="/test-components" className="text-accent-red underline">
+              View and test components
+            </Link>
+          </h2>
+
+          <h2>
+            <Link href="/test-page" className="text-accent-red underline">
+              View full test page
             </Link>
           </h2>
         </section>
