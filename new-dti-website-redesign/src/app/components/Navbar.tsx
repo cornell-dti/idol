@@ -18,7 +18,11 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between px-8 py-4 max-w-[1184px] mx-4 md:mx-32 sm:mx-8 lg:mx-auto bg-background-1">
-      <Link href="/">
+      <Link
+        href="/"
+        className="focus-visible:outline-[2px] focus-visible:outline-offset-[3px]
+    focus-visible:outline-[var(--foreground-1)] rounded-sm"
+      >
         <Image
           src="/logo.svg"
           alt="Cornell Digital Tech & Innovation logo"
@@ -34,11 +38,14 @@ export default function Navbar() {
             <li key={href} className="h-full flex items-center">
               <Link
                 href={href}
-                className={`transition-colors h-full duration-[120ms] hover:text-foreground-1 flex items-center relative ${
-                  pathname === href
-                    ? "text-foreground-1 after:content-[''] after:absolute after:bottom-[-16.5px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]"
-                    : 'text-foreground-3'
-                }`}
+                className={`transition-colors h-full duration-[120ms] hover:text-foreground-1 flex items-center relative focus-visible:outline-[2px] focus-visible:outline-offset-[3px]
+    focus-visible:outline-[var(--foreground-1)] rounded-sm
+                  
+                  ${
+                    pathname === href
+                      ? "text-foreground-1 after:content-[''] after:absolute after:bottom-[-16.5px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]"
+                      : 'text-foreground-3'
+                  }`}
               >
                 {label}
               </Link>
