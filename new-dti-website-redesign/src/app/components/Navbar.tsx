@@ -69,20 +69,20 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="fixed top-20 left-32 w-[calc(100%-256px)] h-full bg-background-1 z-50 flex flex-col justify-between">
-          <ul className="flex flex-col w-full">
+        <div className="fixed top-[81px] left-4 sm:left-8 md:left-32 w-[calc(100%-32px)] sm:w-[calc(100%-64px)] md:w-[calc(100%-256px)] h-full bg-background-1 z-50 flex flex-col justify-between">
+          <ul className="flex flex-col w-full p-2 md:p-4">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-6 h5 text-foreground-1"
+                  className="block px-2 md:px-4 py-3 h5 text-foreground-1 hover:bg-background-2 rounded-md transition-[background-color] transition-duration-[50ms] focusState"
                 >
                   {label}
                 </Link>
               </li>
             ))}
-            <li className="flex px-4 py-6 w-full">
+            <li className="flex px-2 md:px-4 py-3 w-full">
               <Button
                 className="w-full"
                 variant="primary"
