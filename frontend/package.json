@@ -19,6 +19,7 @@
     "dotenv": "^16.0.3",
     "export-to-csv": "^0.2.1",
     "firebase": "^9.1.1",
+    "lucide-react": "^0.501.0",
     "luxon": "^3.3.0",
     "next": "^12.0.1",
     "prismjs": "^1.25.0",
