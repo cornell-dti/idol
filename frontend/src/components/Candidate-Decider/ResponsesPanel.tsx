@@ -75,6 +75,7 @@ const getCredentials = (headers: string[], responses: string[]) => {
   });
   return credentials;
 };
+
 const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName, candidate }) => (
   <div>
     <ApplicantCredentials
@@ -94,17 +95,24 @@ const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName,
               !credentialHeaders.includes(header) &&
               (seeApplicantName || header !== 'Preferred Name (optional)')
           )
-          .map(({ header, response }, i) => (
-            <details key={i} className={styles.accordionItem} open={i === 0}>
-              <summary className={styles.accordionSummary}>
-                <h4>{header}</h4>
-                <ChevronDown />
-              </summary>
-              <div className={styles.accordionContent}>
-                <p>{response}</p>
-              </div>
-            </details>
-          ))}
+          .map(({ header, response }, i) => {
+            const wordCount = response.trim().split(/\s+/).length;
+
+            return (
+              <details key={i} className={styles.accordionItem} open={i === 0}>
+                <summary className={styles.accordionSummary}>
+                  <h4>{header}</h4>
+                  <div className={styles.right}>
+                    <p className={`${styles.wordCount} small`}>{wordCount} words</p>
+                    <ChevronDown />
+                  </div>
+                </summary>
+                <div className={styles.accordionContent}>
+                  <p>{response}</p>
+                </div>
+              </details>
+            );
+          })}
       </div>
     </div>
   </div>
