@@ -30,10 +30,11 @@ export default function FeatureSection({
   button2Label,
   button2Link
 }: FeatureSectionProps) {
-  const isImageLeft = imagePosition === 'left';
+  const imageOrder = imagePosition === 'right' ? 'min-[1200px]:order-2' : 'min-[1200px]:order-1';
+  const contentOrder = imagePosition === 'right' ? 'min-[1200px]:order-1' : 'min-[1200px]:order-2';
 
   const content = (
-    <div className="flex flex-col gap-4 p-8">
+    <div className="flex flex-col gap-4 p-4 md:p-8">
       <div className="flex flex-col gap-2">
         {eyebrowIcon && <IconWrapper size="default">{eyebrowIcon}</IconWrapper>}
 
@@ -55,28 +56,18 @@ export default function FeatureSection({
   );
 
   return (
-    <div className="flex flex-col items-center md:flex-row w-ful border-b border-b-accent-green">
-      {isImageLeft && (
-        <Image
-          src={image}
-          alt={imageAlt || 'Section image alt text'}
-          width={592}
-          height={592}
-          className="md:w-1/2 border-1 border-r-accent-green"
-        />
-      )}
+    <div className="flex flex-col min-[1200px]:flex-row w-full border-b border-b-accent-green">
+      <div
+        className={`relative w-full min-[1200px]:w-1/2 ${imageOrder} border-accent-green ${
+          imagePosition === 'right' ? 'min-[1200px]:border-l' : 'min-[1200px]:border-r'
+        }`}
+      >
+        <Image src={image} alt={imageAlt} width={1000} height={1000} />
+      </div>
 
-      <div className="w-full md:w-1/2 h-full flex-1">{content}</div>
-
-      {!isImageLeft && (
-        <Image
-          src={image}
-          alt={imageAlt || 'Section image alt text'}
-          width={592}
-          height={592}
-          className="md:w-1/2 border-1 border-l-accent-green"
-        />
-      )}
+      <div className={`w-full min-[1200px]:w-1/2 flex flex-col justify-center ${contentOrder}`}>
+        {content}
+      </div>
     </div>
   );
 }
