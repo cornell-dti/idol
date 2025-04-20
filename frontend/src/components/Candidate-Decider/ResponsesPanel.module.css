@@ -1,5 +1,14 @@
 .applicantResponses {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   padding: 24px;
+}
+
+.accordionsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .questionHeader {
@@ -12,4 +21,34 @@
 
 .responseText {
   padding-bottom: 10px;
+}
+
+.accordionItem {
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+
+.accordionSummary {
+  cursor: pointer;
+  font-weight: 600;
+  outline: none;
+  list-style: none;
+  background-color: var(--bg-dimmer);
+  border-bottom: 1px solid var(--border-default);
+  padding: 16px;
+  transition: 120ms ease-out;
+  position: relative;
+}
+
+.accordionSummary:hover {
+  background-color: var(--bg-dimmest);
+}
+
+.accordionSummary::-webkit-details-marker {
+  display: none;
+}
+
+.accordionContent {
+  padding: 16px;
 }
