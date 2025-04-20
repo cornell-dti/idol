@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Accordion.module.css';
 import { ChevronDown } from 'lucide-react';
+import styles from './Accordion.module.css';
 
 type QuestionAccordionProps = {
   header: string;
