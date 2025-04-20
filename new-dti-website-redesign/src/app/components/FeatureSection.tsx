@@ -1,3 +1,8 @@
+import React from 'react';
+import { IconWrapper } from './IconWrapper';
+import Button from './Button';
+import Image from 'next/image';
+
 type FeatureSectionProps = {
   image: string;
   imageAlt: string;
@@ -11,11 +16,6 @@ type FeatureSectionProps = {
   button2Label?: string;
   button2Link?: string;
 };
-
-import React from 'react';
-import { IconWrapper } from './IconWrapper';
-import Button from './Button';
-import Image from 'next/image';
 
 export default function FeatureSection({
   image,
@@ -36,10 +36,13 @@ export default function FeatureSection({
     <div className="flex flex-col gap-4 p-8">
       <div className="flex flex-col gap-2">
         {eyebrowIcon && <IconWrapper size="default">{eyebrowIcon}</IconWrapper>}
+
         {eyebrowText && <p className="caps text-foreground-3">{eyebrowText}</p>}
+
         <h2>{heading}</h2>
         <p className="text-foreground-3">{description}</p>
       </div>
+
       <div className="flex gap-4">
         {button1Label && button1Link && (
           <Button variant="primary" label={button1Label} href={button1Link} />
@@ -62,7 +65,9 @@ export default function FeatureSection({
           className="md:w-1/2 border-1 border-r-accent-green"
         />
       )}
+
       <div className="w-full md:w-1/2 h-full flex-1">{content}</div>
+
       {!isImageLeft && (
         <Image
           src={image}
