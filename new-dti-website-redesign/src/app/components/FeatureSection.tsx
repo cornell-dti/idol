@@ -14,6 +14,7 @@ type FeatureSectionProps = {
 };
 
 import React from 'react';
+import { IconWrapper } from './IconWrapper';
 
 export default function FeatureSection({
   image,
@@ -31,8 +32,8 @@ export default function FeatureSection({
   const isImageLeft = imagePosition === 'left';
 
   const renderEyebrow = () => {
-    if (eyebrowType === 'icon' && icon) return <div className="mb-2">{icon}</div>;
-    if (eyebrowType === 'text') return <div className="text-sm uppercase mb-2">{eyebrowText}</div>;
+    if (eyebrowType === 'icon' && icon) return <IconWrapper size="default">{icon}</IconWrapper>;
+    if (eyebrowType === 'text') return <p className="caps">{eyebrowText}</p>;
     return null;
   };
 
