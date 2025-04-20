@@ -34,7 +34,7 @@ export default function FeatureSection({
   const contentOrder = imagePosition === 'right' ? 'min-[1200px]:order-1' : 'min-[1200px]:order-2';
 
   const content = (
-    <div className="flex flex-col gap-4 p-4 md:p-8">
+    <div className="flex flex-col gap-4 p-4 sm:p-8">
       <div className="flex flex-col gap-2">
         {eyebrowIcon && <IconWrapper size="default">{eyebrowIcon}</IconWrapper>}
 
