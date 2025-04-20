@@ -10,7 +10,7 @@ interface AddInterviewStatusFormProps {
 const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSuccess }) => {
   const [name, setName] = useState('');
   const [netid, setNetid] = useState('');
-  const [round, setRound] = useState('');
+  const [round, setRound] = useState<Round | ''>('');
   const [role, setRole] = useState<GeneralRole | ''>('');
   const [status, setStatus] = useState<IntStatus | ''>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,7 +49,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
       await InterviewStatusAPI.createInterviewStatus({
         name,
         netid,
-        round,
+        round: round as Round,
         role: role as GeneralRole,
         status: status as IntStatus
       });
@@ -92,7 +92,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={roundOptions}
           value={round}
-          onChange={(e, data: DropdownProps) => setRound(data.value as string)}
+          onChange={(e, data: DropdownProps) => setRound(data.value as Round)}
         />
       </Form.Field>
       <Form.Field>

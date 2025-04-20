@@ -17,7 +17,7 @@ const InterviewStatusDashboard: React.FC = () => {
   const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
   const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedRound, setSelectedRound] = useState<string | null>('All Rounds');
+  const [selectedRound, setSelectedRound] = useState<RoundFilter>('All Rounds');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedApplicants, setSelectedApplicants] = useState<Set<string>>(new Set());
 
@@ -52,7 +52,7 @@ const InterviewStatusDashboard: React.FC = () => {
   const handleRoundChange = (_: unknown, data: DropdownProps) => {
     const { value } = data;
     if (typeof value === 'string') {
-      setSelectedRound(value);
+      setSelectedRound(value as RoundFilter);
       applyFilters(value, selectedFilters);
     }
   };
@@ -161,7 +161,7 @@ const InterviewStatusDashboard: React.FC = () => {
         errors.push(`${role} ${name} is already at the final round.`);
       } else {
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
-        const updatedStatus = { ...applicant, uuid: uuid!, round: newRound };
+        const updatedStatus = { ...applicant, uuid: uuid!, round: newRound as Round };
 
         const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus)
           .then(() => {

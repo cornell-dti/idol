@@ -130,12 +130,3 @@ export type DBInterviewSlot = {
   members: (firestore.DocumentReference | null)[];
   applicant: Applicant | null;
 };
-
-export type DBInterviewStatus = {
-  name: string;
-  netid: string;
-  role: string;
-  round: string;
-  status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
-  uuid: string;
-};
