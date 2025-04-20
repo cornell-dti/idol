@@ -4,9 +4,6 @@ import Button from './Button';
 import Image from 'next/image';
 
 type FeatureSectionProps = {
-  image: string;
-  imageAlt: string;
-  imagePosition?: 'left' | 'right';
   eyebrowText?: string;
   eyebrowIcon?: React.ReactNode;
   heading: string;
@@ -15,12 +12,12 @@ type FeatureSectionProps = {
   button1Link?: string;
   button2Label?: string;
   button2Link?: string;
+  image: string;
+  imageAlt: string;
+  imagePosition?: 'left' | 'right';
 };
 
 export default function FeatureSection({
-  image,
-  imageAlt,
-  imagePosition = 'left',
   eyebrowText,
   eyebrowIcon,
   heading,
@@ -28,7 +25,10 @@ export default function FeatureSection({
   button1Label,
   button1Link,
   button2Label,
-  button2Link
+  button2Link,
+  image,
+  imageAlt,
+  imagePosition = 'left'
 }: FeatureSectionProps) {
   const imageOrder = imagePosition === 'right' ? 'min-[1200px]:order-2' : 'min-[1200px]:order-1';
   const contentOrder = imagePosition === 'right' ? 'min-[1200px]:order-1' : 'min-[1200px]:order-2';
