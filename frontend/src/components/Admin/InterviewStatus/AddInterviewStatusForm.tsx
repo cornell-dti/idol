@@ -12,7 +12,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
   const [netid, setNetid] = useState('');
   const [round, setRound] = useState('');
   const [role, setRole] = useState<GeneralRole | ''>('');
-  const [status, setStatus] = useState<Status | ''>('');
+  const [status, setStatus] = useState<IntStatus | ''>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const roundOptions = [
@@ -51,7 +51,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         netid,
         round,
         role: role as GeneralRole,
-        status: status as Status
+        status: status as IntStatus
       });
       Emitters.generalSuccess.emit({
         headerMsg: 'Interview Status added sucessfully!',
@@ -114,7 +114,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={statusOptions}
           value={status}
-          onChange={(e, data: DropdownProps) => setStatus(data.value as Status)}
+          onChange={(e, data: DropdownProps) => setStatus(data.value as IntStatus)}
         />
       </Form.Field>
       <Button primary loading={isSubmitting} disabled={isSubmitting} onClick={handleSubmit}>

@@ -4,7 +4,7 @@
 type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
 
 /** Possible statuses for DTI applicants */
-type Status = 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
+type IntStatus = 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
 
 /** All possible roles for a DTI member */
 type Role =
@@ -320,7 +320,7 @@ interface InterviewStatus {
   netid: string;
   role: GeneralRole;
   round: string;
-  status: Status;
+  status: IntStatus;
   readonly uuid?: string;
 }
 

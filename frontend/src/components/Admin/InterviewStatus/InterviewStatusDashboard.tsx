@@ -199,7 +199,7 @@ const InterviewStatusDashboard: React.FC = () => {
     }
   };
 
-  const updateStatus = async (newStatus: Status) => {
+  const updateStatus = async (newStatus: IntStatus) => {
     if (selectedApplicants.size === 0) {
       Emitters.generalError.emit({
         headerMsg: 'No applicants are selected!',
