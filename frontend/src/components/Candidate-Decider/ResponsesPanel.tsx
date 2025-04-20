@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
-import { ChevronDown } from 'lucide-react';
+import QuestionAccordion from '../Common/Accordion/Accordion';
 
 type Props = {
   headers: string[];
@@ -110,22 +110,12 @@ const ResponsesPanel: React.FC<Props> = ({
             const wordCount = response.trim().split(/\s+/).length;
 
             return (
-              <details key={i} className={styles.accordionItem} open={true}>
-                <summary className={styles.accordionSummary}>
-                  <h4>{header}</h4>
-                  <div className={styles.right}>
-                    <p className={`${styles.wordCount} small`}>{wordCount} words</p>
-                    <ChevronDown />
-                  </div>
-                </summary>
-                <div className={styles.accordionContent}>
-                  <p>
-                    {response.split(/\n{1,2}/).map((para, index) => (
-                      <p key={index}>{para.trim()}</p>
-                    ))}
-                  </p>
-                </div>
-              </details>
+              <QuestionAccordion
+                key={i}
+                header={header}
+                response={response}
+                defaultOpen={i === 0}
+              />
             );
           })}
       </div>
