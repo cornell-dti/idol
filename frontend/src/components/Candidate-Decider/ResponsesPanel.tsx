@@ -74,7 +74,6 @@ const getCredentials = (headers: string[], responses: string[]) => {
   });
   return credentials;
 };
-
 const ResponsesPanel: React.FC<Props> = ({
   headers,
   responses,
@@ -91,20 +90,29 @@ const ResponsesPanel: React.FC<Props> = ({
       seeApplicantName={seeApplicantName}
       candidate={candidate}
     />
+
     <div className={styles.applicantResponses}>
-      {headers
-        .map((header, i) => ({ header, response: responses[i] }))
-        .filter(
-          ({ header }) =>
-            !credentialHeaders.includes(header) &&
-            (seeApplicantName || header !== 'Preferred Name (optional)')
-        )
-        .map(({ header, response }, i) => (
-          <div key={i} className={styles.questionResponseContainer}>
-            <h4 className={styles.questionHeader}>{header}</h4>
-            <div className={styles.responseText}>{response}</div>
-          </div>
-        ))}
+      <h3>Questions</h3>
+
+      <div className={styles.accordionsWrapper}>
+        {headers
+          .map((header, i) => ({ header, response: responses[i] }))
+          .filter(
+            ({ header }) =>
+              !credentialHeaders.includes(header) &&
+              (seeApplicantName || header !== 'Preferred Name (optional)')
+          )
+          .map(({ header, response }, i) => (
+            <details key={i} className={styles.accordionItem} open={i === 0}>
+              <summary className={styles.accordionSummary}>
+                <h4>{header}</h4>
+              </summary>
+              <div className={styles.accordionContent}>
+                <p>{response}</p>
+              </div>
+            </details>
+          ))}
+      </div>
     </div>
   </div>
 );
