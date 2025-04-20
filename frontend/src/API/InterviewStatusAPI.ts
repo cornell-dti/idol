@@ -49,7 +49,6 @@ export class InterviewStatusAPI {
           headerMsg: "Couldn't fetch interview status",
           contentMsg: `Error was: ${val.error}`
         });
-        throw new Error(val.error);
       }
       return val.interviewStatus as InterviewStatus;
     });

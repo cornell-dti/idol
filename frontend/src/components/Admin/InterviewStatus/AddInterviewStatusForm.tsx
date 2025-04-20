@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
+import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
 
 interface AddInterviewStatusFormProps {
   onSuccess: () => void;
@@ -14,26 +15,6 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
   const [role, setRole] = useState<GeneralRole | ''>('');
   const [status, setStatus] = useState<IntStatus | ''>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const roundOptions = [
-    { key: 'resume', text: 'Resume', value: 'Resume' },
-    { key: 'behavioral', text: 'Behavioral', value: 'Behavioral' },
-    { key: 'technical', text: 'Technical', value: 'Technical' }
-  ];
-
-  const statusOptions = [
-    { key: 'accepted', text: 'Accepted', value: 'Accepted' },
-    { key: 'rejected', text: 'Rejected', value: 'Rejected' },
-    { key: 'waitlisted', text: 'Waitlisted', value: 'Waitlisted' },
-    { key: 'undecided', text: 'Undecided', value: 'Undecided' }
-  ];
-
-  const roleOptions = [
-    { key: 'developer', text: 'Developer', value: 'developer' },
-    { key: 'pm', text: 'Product Manager', value: 'pm' },
-    { key: 'business', text: 'Business', value: 'business' },
-    { key: 'designer', text: 'Designer', value: 'designer' }
-  ];
 
   const handleSubmit = async () => {
     if (!name || !netid || !round || !role || !status) {
@@ -90,7 +71,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           placeholder="Select round"
           fluid
           selection
-          options={roundOptions}
+          options={ROUND_OPTIONS}
           value={round}
           onChange={(e, data: DropdownProps) => setRound(data.value as Round)}
         />
@@ -101,7 +82,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           placeholder="Select role"
           fluid
           selection
-          options={roleOptions}
+          options={ROLE_OPTIONS}
           value={role}
           onChange={(e, data: DropdownProps) => setRole(data.value as GeneralRole)}
         />
@@ -112,7 +93,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           placeholder="Select status"
           fluid
           selection
-          options={statusOptions}
+          options={STATUS_OPTIONS}
           value={status}
           onChange={(e, data: DropdownProps) => setStatus(data.value as IntStatus)}
         />
