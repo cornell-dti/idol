@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { IconWrapper } from './IconWrapper';
+import IconWrapper from './IconWrapper';
 import Button from './Button';
 
 type FeatureSectionProps = {

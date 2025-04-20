@@ -4,7 +4,11 @@ type IconWrapperProps = {
   className?: string;
 };
 
-export function IconWrapper({ children, size = 'default', className = '' }: IconWrapperProps) {
+export default function IconWrapper({
+  children,
+  size = 'default',
+  className = ''
+}: IconWrapperProps) {
   const wrapperSize = size === 'small' ? 'w-12 h-12' : 'w-16 h-16';
   // default: parent wrapper = 64px, child icon = 32px
   // small: parent wrapper = 48px, child icon = 24px
