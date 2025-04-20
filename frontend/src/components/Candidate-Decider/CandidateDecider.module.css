@@ -59,6 +59,8 @@
   background: var(--bg-default);
   border-radius: 6px;
   border: 1px solid var(--border-default);
+  height: 85vh;
+  overflow-y: scroll;
 }
 
 .top {
