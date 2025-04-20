@@ -110,7 +110,7 @@ const ResponsesPanel: React.FC<Props> = ({
             const wordCount = response.trim().split(/\s+/).length;
 
             return (
-              <details key={i} className={styles.accordionItem} open={i === 0}>
+              <details key={i} className={styles.accordionItem} open={true}>
                 <summary className={styles.accordionSummary}>
                   <h4>{header}</h4>
                   <div className={styles.right}>
