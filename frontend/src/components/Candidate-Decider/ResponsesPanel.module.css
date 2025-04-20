@@ -71,7 +71,7 @@
 }
 
 .accordionSummary h4 {
-  max-width: 90%;
+  max-width: 85%;
 }
 
 .accordionContent {
@@ -86,4 +86,5 @@
 
 .right .wordCount {
   color: var(--fg-dimmest);
+  white-space: nowrap;
 }
