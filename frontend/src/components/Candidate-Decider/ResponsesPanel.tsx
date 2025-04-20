@@ -106,9 +106,9 @@ const ResponsesPanel: React.FC<Props> = ({
               !credentialHeaders.includes(header) &&
               (seeApplicantName || header !== 'Preferred Name (optional)')
           )
-          .map(({ header, response }, i) => {
-            return <Accordion key={i} header={header} response={response} defaultOpen={true} />;
-          })}
+          .map(({ header, response }, i) => (
+            <Accordion key={i} header={header} response={response} defaultOpen={true} />
+          ))}
       </div>
     </div>
   </div>
