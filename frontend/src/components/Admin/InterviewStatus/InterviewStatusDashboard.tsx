@@ -199,7 +199,7 @@ const InterviewStatusDashboard: React.FC = () => {
     }
   };
 
-  const updateStatus = async (newStatus: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided') => {
+  const updateStatus = async (newStatus: Status) => {
     if (selectedApplicants.size === 0) {
       Emitters.generalError.emit({
         headerMsg: 'No applicants are selected!',

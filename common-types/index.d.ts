@@ -3,6 +3,9 @@
 /** Overarching team roles for DTI members */
 type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
 
+/** Possible statuses for DTI applicants */
+type Status = 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
+
 /** All possible roles for a DTI member */
 type Role =
   | 'ops-lead'
@@ -317,7 +320,7 @@ interface InterviewStatus {
   netid: string;
   role: GeneralRole;
   round: string;
-  status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
+  status: Status;
   readonly uuid?: string;
 }
 
