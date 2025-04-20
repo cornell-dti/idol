@@ -108,7 +108,11 @@ const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName,
                   </div>
                 </summary>
                 <div className={styles.accordionContent}>
-                  <p>{response}</p>
+                  <p>
+                    {response.split(/\n{1,2}/).map((para, index) => (
+                      <p key={index}>{para.trim()}</p>
+                    ))}
+                  </p>
                 </div>
               </details>
             );
