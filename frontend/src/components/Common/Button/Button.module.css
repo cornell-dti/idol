@@ -1,0 +1,91 @@
+.base-styles {
+  padding: 16px 24px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 50ms ease-out;
+}
+
+/* Variants */
+.default {
+  color: var(--fg-default);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
+}
+
+.default:hover {
+  color: var(--fg-default);
+  background: var(--bg-dimmer);
+}
+
+.default:focus-visible {
+  outline: 2px solid var(--accent-focus);
+}
+
+.primary {
+  color: var(--bg-default);
+  border-radius: 6px;
+  background: var(--fg-default);
+}
+
+.primary:hover {
+  background: var(--fg-dimmer);
+}
+
+.primary:focus-visible {
+  outline: 2px solid var(--accent-focus);
+}
+
+.negative {
+  color: var(--accent-strong-no);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
+}
+
+.negative:hover {
+  background: var(--bg-dimmer);
+}
+
+.negative:focus-visible {
+  outline: 2px solid var(--accent-focus);
+}
+
+/* Disabled State */
+.base-styles:disabled {
+  border-radius: 6px;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.default:disabled {
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
+}
+
+.primary:disabled {
+  color: var(--bg-default);
+  background: var(--fg-default);
+}
+
+.negative:disabled {
+  color: #fc0036;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
+}
+
+/* States */
+.icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
