@@ -40,7 +40,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
         round: round as Round,
         role: role as GeneralRole,
         status: status as IntStatus
-      }
+      };
       Emitters.generalSuccess.emit({
         headerMsg: 'Interview Status added sucessfully!',
         contentMsg: 'Proceed to Dashboard to view and update their status.'

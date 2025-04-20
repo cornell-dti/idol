@@ -79,7 +79,9 @@ const InterviewStatusDashboard: React.FC = () => {
 
     if (applicantFilters.length > 0) {
       filtered = filtered.filter((applicant) =>
-        applicantFilters.every((filter) => applicant.status === filter || applicant.role === displayToRoleMap[filter])
+        applicantFilters.every(
+          (filter) => applicant.status === filter || applicant.role === displayToRoleMap[filter]
+        )
       );
     }
 
@@ -258,19 +260,19 @@ const InterviewStatusDashboard: React.FC = () => {
   ];
 
   const roleDisplayMap: Record<GeneralRole, string> = {
-    developer: "Developer",
-    designer: "Designer",
-    pm: "Product Manager",
-    business: "Business",
-    lead: "Lead"
+    developer: 'Developer',
+    designer: 'Designer',
+    pm: 'Product Manager',
+    business: 'Business',
+    lead: 'Lead'
   };
 
   const displayToRoleMap: Record<string, GeneralRole> = {
-    Developer: "developer",
-    Designer: "designer",
-    "Product Manager": "pm",
-    Business: "business",
-    Lead: "lead"
+    Developer: 'developer',
+    Designer: 'designer',
+    'Product Manager': 'pm',
+    Business: 'business',
+    Lead: 'lead'
   };
 
   const colors = {
