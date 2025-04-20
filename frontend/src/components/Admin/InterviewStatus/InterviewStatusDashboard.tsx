@@ -250,7 +250,7 @@ const InterviewStatusDashboard: React.FC = () => {
     { key: 'undecided', text: 'Undecided', value: 'Undecided' },
     { key: 'developer', text: 'Developer', value: 'Developer' },
     { key: 'business', text: 'Business', value: 'Business' },
-    { key: 'designer', text: 'Designer', value: 'Designer' },
+    { key: 'design', text: 'Design', value: 'Design' },
     { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' }
   ];
 
