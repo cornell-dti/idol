@@ -12,6 +12,8 @@ type Props = {
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
   seeApplicantName: boolean;
   candidate: number;
+  toggleSeeApplicantName?: () => void;
+  canToggleSeeApplicantName?: boolean;
 };
 
 const credentialHeaders = [
@@ -76,11 +78,20 @@ const getCredentials = (headers: string[], responses: string[]) => {
   return credentials;
 };
 
-const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName, candidate }) => (
+const ResponsesPanel: React.FC<Props> = ({
+  headers,
+  responses,
+  seeApplicantName,
+  candidate,
+  toggleSeeApplicantName,
+  canToggleSeeApplicantName
+}) => (
   <div>
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}
+      toggleSeeApplicantName={toggleSeeApplicantName}
+      canToggleSeeApplicantName={canToggleSeeApplicantName}
       candidate={candidate}
     />
 
