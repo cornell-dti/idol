@@ -16,7 +16,6 @@ export default function SectionSep({ grid = false }: SectionSepProps) {
             className="aspect-square outline-[0.5px] outline-solid outline-border-1 shrink-0
                 w-[calc(100%/8)] 
                 md:w-[calc(100%/16)] 
-                lg:w-[calc(100%/16-8px)] 
                 lg:min-w-[74px]"
           />
         ))}
