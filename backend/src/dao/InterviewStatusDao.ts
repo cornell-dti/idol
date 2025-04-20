@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { db, interviewStatusCollection } from '../firebase';
-import { DBInterviewStatus } from '../types/DataTypes';
 import BaseDao from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
 
@@ -9,7 +8,7 @@ import { deleteCollection } from '../utils/firebase-utils';
  * @param dbInterviewStatus - DB representation of InterviewStatus
  */
 async function materializeInterviewStatus(
-  dbInterviewStatus: DBInterviewStatus
+  dbInterviewStatus: InterviewStatus
 ): Promise<InterviewStatus> {
   return dbInterviewStatus;
 }
@@ -20,11 +19,11 @@ async function materializeInterviewStatus(
  */
 async function serializeInterviewStatus(
   interviewStatus: InterviewStatus
-): Promise<DBInterviewStatus> {
+): Promise<InterviewStatus> {
   return interviewStatus;
 }
 
-export default class InterviewStatusDao extends BaseDao<InterviewStatus, DBInterviewStatus> {
+export default class InterviewStatusDao extends BaseDao<InterviewStatus, InterviewStatus> {
   constructor() {
     super(interviewStatusCollection, materializeInterviewStatus, serializeInterviewStatus);
   }
@@ -47,7 +46,7 @@ export default class InterviewStatusDao extends BaseDao<InterviewStatus, DBInter
    * @param interviewStatus - updated Interview Status object
    */
   async updateInterviewStatus(interviewStatus: InterviewStatus): Promise<InterviewStatus> {
-    return this.updateDocument(interviewStatus.uuid, interviewStatus);
+    return this.updateDocument(interviewStatus.uuid!, interviewStatus);
   }
 
   /**
