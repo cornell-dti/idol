@@ -70,6 +70,10 @@
   display: none;
 }
 
+.accordionSummary h4 {
+  max-width: 90%;
+}
+
 .accordionContent {
   padding: 16px;
 }
