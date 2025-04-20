@@ -42,11 +42,10 @@ export default function FeatureSection({
   };
 
   const content = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-8">
       <div className="flex flex-col gap-2">
         {renderEyebrow()}
-        {/* TODO: Once globals.css heading elements have class, change 'text-2xl' to 'h2' */}
-        <h2 className="text-2xl font-semibold">{heading}</h2>
+        <h2>{heading}</h2>
         <p className="text-foreground-3">{description}</p>
       </div>
       <div className="flex gap-4">
@@ -61,12 +60,26 @@ export default function FeatureSection({
   );
 
   return (
-    <div className="flex flex-col md:flex-row w-full">
+    <div className="flex flex-col items-center md:flex-row w-full">
       {isImageLeft && (
-        <Image src={image} alt={imageAlt || 'Section image alt text'} width={592} height={592} />
+        <Image
+          src={image}
+          alt={imageAlt || 'Section image alt text'}
+          width={592}
+          height={592}
+          className="md:w-1/2 border-1 border-r-accent-green"
+        />
       )}
-      <div className="w-full lg:w-1/2 p-6">{content}</div>
-      <Image src={image} alt={imageAlt || 'Section image alt text'} width={592} height={592} />
+      <div className="w-full md:w-1/2 h-full flex-1">{content}</div>
+      {!isImageLeft && (
+        <Image
+          src={image}
+          alt={imageAlt || 'Section image alt text'}
+          width={592}
+          height={592}
+          className="md:w-1/2 border-1 border-l-accent-green"
+        />
+      )}
     </div>
   );
 }
