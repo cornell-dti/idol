@@ -6,8 +6,8 @@ type ButtonProps = {
   disabled?: boolean;
   onClick?: () => void;
   icon?: React.ReactNode;
-  iconLeft?: boolean;
-  iconRight?: boolean;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
   variant?: 'default' | 'primary' | 'negative';
 };
 
