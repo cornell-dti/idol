@@ -5,10 +5,10 @@ import { Emitters } from '../../../utils';
 import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
 
 interface AddInterviewStatusFormProps {
-  onSuccess: () => void;
+  onAddApplicant: (applicant: InterviewStatus) => void;
 }
 
-const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSuccess }) => {
+const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddApplicant }) => {
   const [name, setName] = useState('');
   const [netid, setNetid] = useState('');
   const [round, setRound] = useState<Round | ''>('');
@@ -34,6 +34,13 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         role: role as GeneralRole,
         status: status as IntStatus
       });
+      const createdApplicant: InterviewStatus = {
+        name,
+        netid,
+        round: round as Round,
+        role: role as GeneralRole,
+        status: status as IntStatus
+      }
       Emitters.generalSuccess.emit({
         headerMsg: 'Interview Status added sucessfully!',
         contentMsg: 'Proceed to Dashboard to view and update their status.'
@@ -43,9 +50,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
       setRound('');
       setRole('');
       setStatus('');
-      onSuccess();
-    } catch (error) {
-      alert('Failed to add interview status of applicant.');
+      onAddApplicant(createdApplicant);
     } finally {
       setIsSubmitting(false);
     }

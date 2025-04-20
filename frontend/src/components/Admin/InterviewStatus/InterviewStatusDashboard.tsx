@@ -37,6 +37,11 @@ const InterviewStatusDashboard: React.FC = () => {
     fetchApplicants();
   }, []);
 
+  const handleAddApplicant = (newApplicant: InterviewStatus) => {
+    setApplicants((prev) => [...prev, newApplicant]);
+    setFilteredApplicants((prev) => [...prev, newApplicant]);
+  };
+
   const handleSelect = (applicantUuid: string) => {
     setSelectedApplicants((prev: Set<string>) => {
       const updatedSet = new Set(prev);
@@ -356,7 +361,7 @@ const InterviewStatusDashboard: React.FC = () => {
         </Table.Body>
       </Table>
       <div className={styles.addForm}>
-        <AddInterviewStatusForm onSuccess={fetchApplicants} />
+        <AddInterviewStatusForm onAddApplicant={handleAddApplicant} />
       </div>
     </div>
   );
