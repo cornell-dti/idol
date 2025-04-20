@@ -112,7 +112,8 @@ const InterviewStatusDashboard: React.FC = () => {
       });
     } else {
       const deletePromises = Array.from(selectedApplicants).map((uuid) =>
-        InterviewStatusAPI.deleteInterviewStatus(uuid));
+        InterviewStatusAPI.deleteInterviewStatus(uuid)
+      );
       await Promise.all(deletePromises);
       setSelectedApplicants(new Set());
       await fetchApplicants();
@@ -154,10 +155,9 @@ const InterviewStatusDashboard: React.FC = () => {
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
         const updatedStatus = { ...applicant, uuid: uuid!, round: newRound as Round };
 
-        const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus)
-          .then(() => {
-            promotedNames.push(name);
-          });
+        const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
+          promotedNames.push(name);
+        });
 
         updatePromises.push(promise);
       }
@@ -195,7 +195,7 @@ const InterviewStatusDashboard: React.FC = () => {
       if (!applicant) return;
 
       const updatedStatus = { ...applicant, uuid: applicant.uuid!, status: newStatus };
-      InterviewStatusAPI.updateInterviewStatus(updatedStatus)
+      InterviewStatusAPI.updateInterviewStatus(updatedStatus);
     });
     await Promise.all(updatePromises);
     setSelectedApplicants(new Set());

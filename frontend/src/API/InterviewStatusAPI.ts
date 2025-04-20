@@ -2,18 +2,6 @@ import { backendURL } from '../environment';
 import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
-export interface InterviewStatus extends DBInterviewStatus {
-  uuid: string;
-}
-
-export interface DBInterviewStatus {
-  name: string;
-  netid: string;
-  role: GeneralRole;
-  round: Round;
-  status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
-}
-
 export interface InterviewStatusResponseObj {
   interviewStatus: InterviewStatus;
   error?: string;
@@ -71,7 +59,7 @@ export class InterviewStatusAPI {
    * @param interviewStatusData - data for the new interview status
    */
   public static createInterviewStatus(
-    interviewStatusData: DBInterviewStatus
+    interviewStatusData: InterviewStatus
   ): Promise<InterviewStatusResponseObj> {
     return APIWrapper.post(`${backendURL}/interview-status`, interviewStatusData).then(
       (res) => res.data
