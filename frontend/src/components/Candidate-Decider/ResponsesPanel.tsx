@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
+import { ChevronDown } from 'lucide-react';
 
 type Props = {
   headers: string[];
@@ -97,6 +98,7 @@ const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName,
             <details key={i} className={styles.accordionItem} open={i === 0}>
               <summary className={styles.accordionSummary}>
                 <h4>{header}</h4>
+                <ChevronDown />
               </summary>
               <div className={styles.accordionContent}>
                 <p>{response}</p>
