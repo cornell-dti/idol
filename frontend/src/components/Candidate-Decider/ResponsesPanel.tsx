@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
-import QuestionAccordion from '../Common/Accordion/Accordion';
+import Accordion from '../Common/Accordion/Accordion';
 
 type Props = {
   headers: string[];
@@ -107,16 +107,7 @@ const ResponsesPanel: React.FC<Props> = ({
               (seeApplicantName || header !== 'Preferred Name (optional)')
           )
           .map(({ header, response }, i) => {
-            const wordCount = response.trim().split(/\s+/).length;
-
-            return (
-              <QuestionAccordion
-                key={i}
-                header={header}
-                response={response}
-                defaultOpen={i === 0}
-              />
-            );
+            return <Accordion key={i} header={header} response={response} defaultOpen={true} />;
           })}
       </div>
     </div>

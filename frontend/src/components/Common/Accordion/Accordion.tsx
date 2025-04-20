@@ -15,7 +15,7 @@ function countWords(text: string): number {
 const QuestionAccordion: React.FC<QuestionAccordionProps> = ({
   header,
   response,
-  defaultOpen = false
+  defaultOpen = true
 }) => {
   const wordCount = countWords(response);
   const paragraphs = response.split(/\n{1,2}/);
