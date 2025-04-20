@@ -2,9 +2,8 @@ type FeatureSectionProps = {
   image: string;
   imageAlt: string;
   imagePosition?: 'left' | 'right';
-  eyebrowType?: 'text' | 'icon' | 'none';
   eyebrowText?: string;
-  icon?: React.ReactNode;
+  eyebrowIcon?: React.ReactNode;
   heading: string;
   description: string;
   button1Label?: string;
@@ -22,9 +21,8 @@ export default function FeatureSection({
   image,
   imageAlt,
   imagePosition = 'left',
-  eyebrowType = 'text',
   eyebrowText,
-  icon,
+  eyebrowIcon,
   heading,
   description,
   button1Label,
@@ -34,17 +32,11 @@ export default function FeatureSection({
 }: FeatureSectionProps) {
   const isImageLeft = imagePosition === 'left';
 
-  // eyebrow is the element (icon or label) sitting right above the section heading
-  const renderEyebrow = () => {
-    if (eyebrowType === 'icon' && icon) return <IconWrapper size="default">{icon}</IconWrapper>;
-    if (eyebrowType === 'text') return <p className="caps">{eyebrowText}</p>;
-    return null;
-  };
-
   const content = (
     <div className="flex flex-col gap-4 p-8">
       <div className="flex flex-col gap-2">
-        {renderEyebrow()}
+        {eyebrowIcon && <IconWrapper size="default">{eyebrowIcon}</IconWrapper>}
+        {eyebrowText && <p className="caps text-foreground-3">{eyebrowText}</p>}
         <h2>{heading}</h2>
         <p className="text-foreground-3">{description}</p>
       </div>
@@ -60,7 +52,7 @@ export default function FeatureSection({
   );
 
   return (
-    <div className="flex flex-col items-center md:flex-row w-full">
+    <div className="flex flex-col items-center md:flex-row w-ful border-b border-b-accent-green">
       {isImageLeft && (
         <Image
           src={image}
