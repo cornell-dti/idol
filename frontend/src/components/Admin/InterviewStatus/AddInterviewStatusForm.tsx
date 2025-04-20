@@ -11,7 +11,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
   const [name, setName] = useState('');
   const [netid, setNetid] = useState('');
   const [round, setRound] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState<GeneralRole | ''>('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,10 +29,10 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
   ];
 
   const roleOptions = [
-    { key: 'developer', text: 'Developer', value: 'Developer' },
-    { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' },
-    { key: 'business', text: 'Business', value: 'Business' },
-    { key: 'design', text: 'Design', value: 'Design' }
+    { key: 'developer', text: 'Developer', value: 'developer' },
+    { key: 'pm', text: 'Product Manager', value: 'pm' },
+    { key: 'business', text: 'Business', value: 'business' },
+    { key: 'designer', text: 'Designer', value: 'designer' }
   ];
 
   const handleSubmit = async () => {
@@ -50,7 +50,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
         name,
         netid,
         round,
-        role,
+        role: role as GeneralRole,
         status: status as 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided'
       });
       Emitters.generalSuccess.emit({
@@ -103,7 +103,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onSucce
           selection
           options={roleOptions}
           value={role}
-          onChange={(e, data: DropdownProps) => setRole(data.value as string)}
+          onChange={(e, data: DropdownProps) => setRole(data.value as GeneralRole)}
         />
       </Form.Field>
       <Form.Field>

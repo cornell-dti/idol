@@ -315,10 +315,10 @@ interface InterviewSlotEdit {
 interface InterviewStatus {
   name: string;
   netid: string;
-  role: string;
+  role: GeneralRole;
   round: string;
   status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
-  readonly uuid: string;
+  readonly uuid?: string;
 }
 
 interface Period {

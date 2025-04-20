@@ -9,7 +9,7 @@ export interface InterviewStatus extends DBInterviewStatus {
 export interface DBInterviewStatus {
   name: string;
   netid: string;
-  role: string;
+  role: GeneralRole;
   round: string;
   status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
 }

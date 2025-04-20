@@ -13,15 +13,6 @@ import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
 import { Emitters } from '../../../utils';
 
-interface InterviewStatus {
-  uuid?: string;
-  name: string;
-  netid: string;
-  role: string;
-  round: string;
-  status: 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
-}
-
 const InterviewStatusDashboard: React.FC = () => {
   const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
   const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
@@ -83,7 +74,7 @@ const InterviewStatusDashboard: React.FC = () => {
 
     if (applicantFilters.length > 0) {
       filtered = filtered.filter((applicant) =>
-        applicantFilters.every((filter) => applicant.status === filter || applicant.role === filter)
+        applicantFilters.every((filter) => applicant.status === filter || applicant.role === displayToRoleMap[filter])
       );
     }
 
@@ -250,7 +241,7 @@ const InterviewStatusDashboard: React.FC = () => {
     { key: 'undecided', text: 'Undecided', value: 'Undecided' },
     { key: 'developer', text: 'Developer', value: 'Developer' },
     { key: 'business', text: 'Business', value: 'Business' },
-    { key: 'design', text: 'Design', value: 'Design' },
+    { key: 'design', text: 'Designer', value: 'Designer' },
     { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' }
   ];
 
@@ -260,6 +251,22 @@ const InterviewStatusDashboard: React.FC = () => {
     { key: 'technical', text: 'Technical', value: 'Technical' },
     { key: 'resume', text: 'Resume', value: 'Resume' }
   ];
+
+  const roleDisplayMap: Record<GeneralRole, string> = {
+    developer: "Developer",
+    designer: "Designer",
+    pm: "Product Manager",
+    business: "Business",
+    lead: "Lead"
+  };
+
+  const displayToRoleMap: Record<string, GeneralRole> = {
+    Developer: "developer",
+    Designer: "designer",
+    "Product Manager": "pm",
+    Business: "business",
+    Lead: "lead"
+  };
 
   const colors = {
     Accepted: 'var(--accent-yes)',
@@ -327,7 +334,7 @@ const InterviewStatusDashboard: React.FC = () => {
             <Table.Row key={applicant.uuid}>
               <Table.Cell>{applicant.name}</Table.Cell>
               <Table.Cell>{`${applicant.netid}@cornell.edu`}</Table.Cell>
-              <Table.Cell>{applicant.role}</Table.Cell>
+              <Table.Cell>{roleDisplayMap[applicant.role as GeneralRole]}</Table.Cell>
               <Table.Cell>{applicant.round}</Table.Cell>
               <Table.Cell
                 style={{
