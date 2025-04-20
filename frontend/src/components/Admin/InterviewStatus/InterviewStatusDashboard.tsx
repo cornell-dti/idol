@@ -26,8 +26,6 @@ const InterviewStatusDashboard: React.FC = () => {
       const data = await InterviewStatusAPI.getAllInterviewStatuses();
       setApplicants(data || []);
       setFilteredApplicants(data || []);
-    } catch (error) {
-      console.error('Error fetching interview statuses:', error);
     } finally {
       setIsLoading(false);
     }
@@ -56,18 +54,14 @@ const InterviewStatusDashboard: React.FC = () => {
 
   const handleRoundChange = (_: unknown, data: DropdownProps) => {
     const { value } = data;
-    if (typeof value === 'string') {
-      setSelectedRound(value as RoundFilter);
-      applyFilters(value, selectedFilters);
-    }
+    setSelectedRound(value as RoundFilter);
+    applyFilters(value as RoundFilter, selectedFilters);
   };
 
   const handleFilterChange = (_: unknown, data: DropdownProps) => {
     const { value } = data;
-    if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
-      setSelectedFilters(value as string[]);
-      applyFilters(selectedRound, value as string[]);
-    }
+    setSelectedFilters(value as string[]);
+    applyFilters(selectedRound, value as string[]);
   };
 
   const applyFilters = (roundFilter: string | null, applicantFilters: string[]) => {
@@ -117,25 +111,15 @@ const InterviewStatusDashboard: React.FC = () => {
         contentMsg: `Please select at least one status to proceed.`
       });
     } else {
-      try {
-        const deletePromises = Array.from(selectedApplicants).map((uuid) =>
-          InterviewStatusAPI.deleteInterviewStatus(uuid).catch(() => {
-            Emitters.generalError.emit({
-              headerMsg: 'Error deleting applicant status.',
-              contentMsg: `Could not delete status for ${uuid}.`
-            });
-          })
-        );
-        await Promise.all(deletePromises);
-        setSelectedApplicants(new Set());
-        await fetchApplicants();
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Sucess!',
-          contentMsg: `Selected interview statuses are now deleted.`
-        });
-      } catch (error) {
-        console.log('Error: ', error);
-      }
+      const deletePromises = Array.from(selectedApplicants).map((uuid) =>
+        InterviewStatusAPI.deleteInterviewStatus(uuid));
+      await Promise.all(deletePromises);
+      setSelectedApplicants(new Set());
+      await fetchApplicants();
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Sucess!',
+        contentMsg: `Selected interview statuses are now deleted.`
+      });
     }
   };
 
@@ -173,36 +157,28 @@ const InterviewStatusDashboard: React.FC = () => {
         const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus)
           .then(() => {
             promotedNames.push(name);
-          })
-          .catch(() => {
-            errors.push(`API error: Could not update round for ${name}.`);
           });
 
         updatePromises.push(promise);
       }
     });
+    await Promise.all(updatePromises);
+    setSelectedApplicants(new Set());
+    await fetchApplicants();
 
-    try {
-      await Promise.all(updatePromises);
-      setSelectedApplicants(new Set());
-      await fetchApplicants();
+    if (promotedNames.length > 0) {
+      const msg = `Promoted ${promotedNames.join(', ')} to next round`;
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Success!',
+        contentMsg: msg
+      });
+    }
 
-      if (promotedNames.length > 0) {
-        const msg = `Promoted ${promotedNames.join(', ')} to next round`;
-        Emitters.generalSuccess.emit({
-          headerMsg: 'Success!',
-          contentMsg: msg
-        });
-      }
-
-      if (errors.length > 0) {
-        Emitters.generalError.emit({
-          headerMsg: 'Some applicants were not promoted.',
-          contentMsg: errors.join(' ')
-        });
-      }
-    } catch (error) {
-      console.log('Unexpected error during round promotion: ', error);
+    if (errors.length > 0) {
+      Emitters.generalError.emit({
+        headerMsg: 'Some applicants were not promoted.',
+        contentMsg: errors.join(' ')
+      });
     }
   };
 
@@ -214,29 +190,20 @@ const InterviewStatusDashboard: React.FC = () => {
       });
       return;
     }
-    try {
-      const updatePromises = Array.from(selectedApplicants).map(async (uuid) => {
-        const applicant = applicants.find((applicant) => applicant.uuid === uuid);
-        if (!applicant) return;
+    const updatePromises = Array.from(selectedApplicants).map(async (uuid) => {
+      const applicant = applicants.find((applicant) => applicant.uuid === uuid);
+      if (!applicant) return;
 
-        const updatedStatus = { ...applicant, uuid: applicant.uuid!, status: newStatus };
-        InterviewStatusAPI.updateInterviewStatus(updatedStatus).catch(() => {
-          Emitters.generalError.emit({
-            headerMsg: 'Error',
-            contentMsg: `Could not update status for ${uuid}.`
-          });
-        });
-      });
-      await Promise.all(updatePromises);
-      setSelectedApplicants(new Set());
-      await fetchApplicants();
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Success!',
-        contentMsg: `${newStatus} selected applicants.`
-      });
-    } catch (error) {
-      console.log('Error: ', error);
-    }
+      const updatedStatus = { ...applicant, uuid: applicant.uuid!, status: newStatus };
+      InterviewStatusAPI.updateInterviewStatus(updatedStatus)
+    });
+    await Promise.all(updatePromises);
+    setSelectedApplicants(new Set());
+    await fetchApplicants();
+    Emitters.generalSuccess.emit({
+      headerMsg: 'Success!',
+      contentMsg: `${newStatus} selected applicants.`
+    });
   };
 
   if (isLoading) return <Loader active>Loading applicant data...</Loader>;
