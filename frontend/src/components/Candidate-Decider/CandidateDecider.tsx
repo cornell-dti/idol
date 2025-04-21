@@ -13,7 +13,7 @@ import {
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
 import Switch from '../Common/Switch/Switch';
-import Selector from '../Common/Selector/Selector'; // adjust path as needed
+import Selector from '../Common/Selector/Selector';
 
 type CandidateDeciderProps = {
   uuid: string;
