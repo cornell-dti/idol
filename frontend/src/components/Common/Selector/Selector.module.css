@@ -8,8 +8,8 @@
   align-items: center;
   flex-shrink: 0;
   border-radius: 6px;
-  border: 1px solid var(--border-default, #ebebeb);
-  background: var(--bg-default, #fff);
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
   white-space: nowrap;
 }
 
@@ -38,27 +38,27 @@
 
 /* Base colors */
 .red {
-  color: var(--accent-dark-red, #d8001b);
+  color: var(--accent-strong-no);
 }
 
 .orange {
-  color: var(--accent-light-red, #ff676c);
+  color: var(--accent-no);
 }
 
 .yellow {
-  color: var(--accent-yellow, #ff9300);
+  color: var(--accent-maybe);
 }
 
 .green {
-  color: var(--accent-light-green, #28a948);
+  color: var(--accent-yes);
 }
 
 .darkgreen {
-  color: var(--accent-dark-green, #0a6e29);
+  color: var(--accent-strong-yes);
 }
 
 .grey {
-  color: var(--fg-dimmest, #666);
+  color: var(--fg-dimmest);
 }
 
 .red:focus-visible,
@@ -78,30 +78,30 @@
   align-items: center;
   gap: 10px;
   padding: 16px;
-  color: var(--bg-default, #fff);
+  color: var(--bg-default);
 }
 
 .redSelected {
-  background: var(--accent-dark-red, #d8001b);
+  background: var(--accent-strong-no);
 }
 
 .orangeSelected {
-  background: var(--accent-light-red, #ff676c);
+  background: var(--accent-no);
 }
 
 .yellowSelected {
-  background: var(--accent-yellow, #ff9300);
+  background: var(--accent-maybe);
 }
 
 .greenSelected {
-  background: var(--accent-light-green, #28a948);
+  background: var(--accent-yes);
 }
 
 .darkgreenSelected {
-  background: var(--accent-dark-green, #0a6e29);
+  background: var(--accent-strong-yes);
 }
 
 .greySelected {
-  background: var(--border-default, #ebebeb);
-  color: var(--fg-default, #171717);
+  background: var(--border-default);
+  color: var(--fg-default);
 }
