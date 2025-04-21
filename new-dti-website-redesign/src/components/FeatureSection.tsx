@@ -56,9 +56,9 @@ export default function FeatureSection({
   );
 
   return (
-    <div className="flex flex-col min-[1200px]:flex-row w-full border-b border-b-accent-green">
+    <section className="flex flex-col min-[1200px]:flex-row w-full border-t border-t-border-1">
       <div
-        className={`relative w-full min-[1200px]:w-1/2 ${imageOrder} border-accent-green ${
+        className={`relative w-full min-[1200px]:w-1/2 ${imageOrder} border-border-1 ${
           imagePosition === 'right' ? 'min-[1200px]:border-l' : 'min-[1200px]:border-r'
         }`}
       >
@@ -68,6 +68,6 @@ export default function FeatureSection({
       <div className={`w-full min-[1200px]:w-1/2 flex flex-col justify-center ${contentOrder}`}>
         {content}
       </div>
-    </div>
+    </section>
   );
 }

@@ -29,7 +29,7 @@ const Hero = ({
   if (centered) {
     return (
       <section className="flex flex-col-reverse md:flex-col">
-        <div className="flex flex-col p-4 outline-[0.5px] outline-accent-green sm:p-8">
+        <div className="flex flex-col p-4 outline-[0.5px] outline-border-1 sm:p-8">
           <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-center">{heading}</h1>
@@ -58,7 +58,13 @@ const Hero = ({
         </div>
 
         {image && (
-          <Image src={image} alt={imageAlt || 'Hero image alt text'} width={1184} height={600} />
+          <Image
+            src={image}
+            alt={imageAlt || 'Hero image alt text'}
+            width={1184}
+            height={600}
+            className="border-t-1 border-t-border-1"
+          />
         )}
       </section>
     );
