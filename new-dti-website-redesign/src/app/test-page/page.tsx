@@ -1,10 +1,10 @@
 'use client';
 
 import { Rocket } from 'lucide-react';
-import FeatureSection from '../components/FeatureSection';
-import CtaSection from '../components/CtaSection';
-import Hero from '../components/Hero';
-import Layout from '../components/Layout';
+import Hero from '../../components/Hero';
+import Layout from '../../components/Layout';
+import CtaSection from '../../components/CtaSection';
+import FeatureSection from '../../components/FeatureSection';
 
 export default function TestPage() {
   return (

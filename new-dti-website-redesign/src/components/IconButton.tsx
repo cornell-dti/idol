@@ -22,9 +22,7 @@ export default function IconButton({
 }: IconButtonProps) {
   const baseStyles = `
     w-12 h-12 rounded-full cursor-pointer inline-flex items-center justify-center
-    transition-colors duration-[120ms]
-    focus-visible:outline focus-visible:outline-[2px] focus-visible:outline-offset-[3px]
-    focus-visible:outline-[var(--foreground-1)]`;
+    transition-[background-color] duration-[120ms] focusState`;
 
   const variantStyles = {
     primary: `bg-foreground-1 text-background-1 hover:bg-foreground-2`,

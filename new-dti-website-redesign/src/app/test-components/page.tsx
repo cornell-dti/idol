@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { Plus, Rocket } from 'lucide-react';
-import Button from '../components/Button';
-import IconButton from '../components/IconButton';
-import Input from '../components/Input';
-import LabeledInput from '../components/LabeledInput';
-import TestimonialCard from '../components/TestimonialCard';
-import IconWrapper from '../components/IconWrapper';
+import Button from '../../components/Button';
+import IconButton from '../../components/IconButton';
+import Input from '../../components/Input';
+import LabeledInput from '../../components/LabeledInput';
+import TestimonialCard from '../../components/TestimonialCard';
+import IconWrapper from '../../components/IconWrapper';
 
 export default function TestComponents() {
   return (
