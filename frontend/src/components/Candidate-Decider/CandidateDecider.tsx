@@ -28,7 +28,6 @@ const ratings: RatingOptions[] = [
   { value: 0, text: 'Undecided', color: 'grey' }
 ];
 
-
 type CommentEditorProps = {
   currentComment: string | undefined;
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
