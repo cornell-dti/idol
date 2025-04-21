@@ -233,7 +233,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <div className={styles.bottom}>
           <div className={styles.ratingSelectorWrapper}>
             <h4>Final selection</h4>
-
             <Selector
               selected={currentRating ?? 0}
               onChange={(value: number) => setCurrentRating(value as Rating)}

@@ -1,6 +1,6 @@
 .selectorContainer {
   display: flex;
-  width: 500px;
+  width: 540px;
   height: 54px;
   padding: 4px;
   justify-content: center;
@@ -19,6 +19,8 @@
   align-items: center;
   gap: 10px;
   flex: 1 0 0;
+  min-width: 0;
+  width: 100%;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -31,7 +33,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: 100%;
-  box-sizing: border-box;
 }
 
 /* Base colors */
@@ -62,7 +63,8 @@
 /* Selected states */
 .selected {
   display: flex;
-  padding: 16px;
+  /* width: 450/6px; */
+  /* padding: 16px; */
   border-radius: 6px;
   justify-content: center;
   align-items: center;
