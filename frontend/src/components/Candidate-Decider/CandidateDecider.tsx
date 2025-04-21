@@ -13,7 +13,6 @@ import {
 import Switch from '../Common/Switch/Switch';
 import Selector from '../Common/Selector/Selector'; // adjust path as needed
 
-
 type CandidateDeciderProps = {
   uuid: string;
 };
@@ -23,7 +22,7 @@ const ratings = [
   { value: 2, text: 'No', color: 'orange' as const },
   { value: 3, text: 'Maybe', color: 'yellow' as const },
   { value: 4, text: 'Yes', color: 'green' as const },
-  { value: 5, text: 'Strong Yes', color: 'green' as const },
+  { value: 5, text: 'Strong Yes', color: 'darkgreen' as const },
   { value: 0, text: 'Undecided', color: 'grey' as const }
 ];
 
