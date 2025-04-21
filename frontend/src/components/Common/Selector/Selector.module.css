@@ -9,6 +9,7 @@
   border-radius: 6px;
   border: 1px solid var(--border-default, #ebebeb);
   background: var(--bg-default, #fff);
+  white-space: nowrap;
 }
 
 .option {
@@ -22,10 +23,15 @@
   border-radius: 8px;
   cursor: pointer;
   background-color: transparent;
-  font-weight: 500;
   transition:
     background-color 50ms,
     color 50ms;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  box-sizing: border-box;
 }
 
 /* Base colors */
@@ -57,6 +63,7 @@
 .selected {
   display: flex;
   padding: 16px;
+  border-radius: 6px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -65,31 +72,26 @@
 }
 
 .redSelected {
-  border-radius: 6px;
   background: var(--accent-dark-red, #d8001b);
 }
 
 .orangeSelected {
-  border-radius: 6px;
   background: var(--accent-light-red, #ff676c);
 }
 
 .yellowSelected {
-  border-radius: 6px;
   background: var(--accent-yellow, #ff9300);
 }
 
 .greenSelected {
-  border-radius: 6px;
   background: var(--accent-light-green, #28a948);
 }
 
 .darkgreenSelected {
-  border-radius: 6px;
   background: var(--accent-dark-green, #0a6e29);
 }
 
 .greySelected {
-  border-radius: 6px;
   background: var(--border-default, #ebebeb);
+  color: var(--fg-default, #171717);
 }
