@@ -7,6 +7,7 @@ import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './DevPortfolioForm.module.css';
 
 const GITHUB_PR_REGEX = /.*github.com\/([._a-zA-Z0-9-]+)\/([._a-zA-Z0-9-]+)\/pull\/([0-9]+).*/;
+const GITHUB_PERSONAL_REPO_REGEX = /.*github.com\/([._a-zA-Z0-9-]+)\/([._a-zA-Z0-9-]+)\/?$/;
 
 const DevPortfolioForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -22,6 +23,7 @@ const DevPortfolioForm: React.FC = () => {
   const [reviewPRs, setReviewedPRs] = useState(['']);
   const [otherPRs, setOtherPRs] = useState(['']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitRepo, setIsSubmitRepo] = useState<boolean>(false);
   const [text, setText] = useState<string | undefined>(undefined);
   const [documentationText, setDocumentationText] = useState<string>('');
   const [openOther, setOpenOther] = useState(false);
@@ -53,6 +55,7 @@ const DevPortfolioForm: React.FC = () => {
           setText('');
           setDocumentationText('');
           setOpenOther(false);
+          setIsSubmitRepo(false);
           refreshDevPortfolios();
         }
       }
@@ -97,13 +100,20 @@ const DevPortfolioForm: React.FC = () => {
         contentMsg: 'Please paste a link to a opened and reviewed PR!'
       });
     } else if (
-      (!openedEmpty && finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
+      (!openedEmpty &&
+        isSubmitRepo &&
+        finalPRs.some((pr) => pr.match(GITHUB_PERSONAL_REPO_REGEX) === null)) ||
+      (!openedEmpty &&
+        !isSubmitRepo &&
+        finalPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
       (!reviewedEmpty && finalReviewedPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null)) ||
       (!otherEmpty && finalOtherPRs.some((pr) => pr.match(GITHUB_PR_REGEX) === null))
     ) {
       Emitters.generalError.emit({
-        headerMsg: 'Invalid PR link',
-        contentMsg: 'One or more links to PRs are not valid links.'
+        headerMsg: isSubmitRepo ? 'Invalid Personal Repository/PR Link' : 'Invalid PR Link',
+        contentMsg: isSubmitRepo
+          ? 'One or more links to Repos and PRs are not valid links.'
+          : 'One or more links to PRs are not valid links.'
       });
     } else if (isTpm && textEmpty) {
       Emitters.generalError.emit({
@@ -147,7 +157,8 @@ const DevPortfolioForm: React.FC = () => {
         })),
         status: 'pending',
         documentationText,
-        ...(text && { text })
+        ...(text && { text }),
+        submitRepo: isSubmitRepo
       };
       sendSubmissionRequest(newDevPortfolioSubmission, devPortfolio);
     }
@@ -226,10 +237,14 @@ const DevPortfolioForm: React.FC = () => {
           <PRInputs
             prs={openPRs}
             setPRs={setOpenPRs}
-            placeholder="Opened PR"
-            label="Opened Pull Request Github Link:"
+            placeholder={isSubmitRepo ? 'Personal Repository' : 'Opened PR'}
+            label={
+              isSubmitRepo ? 'Personal Repository Github Link:' : 'Opened Pull Request Github Link:'
+            }
             openOther={openOther}
             isRequired={!isOpenedPROptional}
+            isRepo={isSubmitRepo}
+            setRepo={setIsSubmitRepo}
           />
           <PRInputs
             prs={reviewPRs}
@@ -238,6 +253,8 @@ const DevPortfolioForm: React.FC = () => {
             label="Reviewed Pull Request Github Link:"
             openOther={openOther}
             isRequired={!isDevAdvisor}
+            isRepo={isSubmitRepo}
+            setRepo={setIsSubmitRepo}
           />
           {isTpm ? (
             <></>
@@ -307,7 +324,9 @@ const PRInputs = ({
   label,
   placeholder,
   openOther,
-  isRequired
+  isRequired,
+  isRepo,
+  setRepo
 }: {
   prs: string[];
   setPRs: React.Dispatch<React.SetStateAction<string[]>>;
@@ -315,6 +334,8 @@ const PRInputs = ({
   placeholder: string;
   openOther: boolean;
   isRequired: boolean;
+  isRepo: boolean;
+  setRepo: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === 'Enter') {
@@ -323,9 +344,23 @@ const PRInputs = ({
   };
   return (
     <div className={styles.inline}>
-      <label className={styles.bold}>
-        {label} {isRequired && !openOther && <span className={styles.red_color}>*</span>}
-      </label>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <label className={styles.bold}>
+          {label} {isRequired && !openOther && <span className={styles.red_color}>*</span>}
+        </label>
+        {(placeholder === 'Opened PR' || placeholder === 'Personal Repository') && (
+          <div
+            onClick={() => {
+              setRepo((prev) => !prev);
+            }}
+            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          >
+            <Icon name={isRepo ? 'check square' : 'square outline'} size="small" />
+            Submit personal repository
+          </div>
+        )}
+      </div>
+
       {prs.map((pr, index) => (
         <div className={styles.prInputContainer} key={index}>
           <input

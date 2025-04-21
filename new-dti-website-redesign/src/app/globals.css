@@ -52,6 +52,11 @@ Usage examples (remove the "color-" prefix when using in className):
   --color-accent-blue: var(--accent-blue);
   --color-accent-yellow: var(--accent-yellow);
   --color-accent-purple: var(--accent-purple);
+
+  /* BREAKPOINT VARIABLES */
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1440px;
 }
 
 body {
@@ -153,4 +158,10 @@ p.caps.small {
   line-height: 160%;
   letter-spacing: 5%;
   text-transform: uppercase;
+}
+
+nav,
+main,
+section {
+  outline: 0.5px solid var(--accent-green);
 }
