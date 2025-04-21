@@ -1,0 +1,70 @@
+.selectorContainer {
+  display: flex;
+  width: 450px;
+  height: 54px;
+  padding: 4px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.option {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: transparent;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  text-transform: capitalize;
+}
+
+/* Base colors */
+.red {
+  color: #c62828;
+}
+
+.orange {
+  color: #ef6c00;
+}
+
+.yellow {
+  color: #f9a825;
+}
+
+.green {
+  color: #2e7d32;
+}
+
+.grey {
+  color: #616161;
+}
+
+/* Selected states */
+.selected {
+  font-weight: bold;
+  color: white;
+}
+
+.redSelected {
+  background-color: #c62828;
+}
+
+.orangeSelected {
+  background-color: #ef6c00;
+}
+
+.yellowSelected {
+  background-color: #f9a825;
+}
+
+.greenSelected {
+  background-color: #2e7d32;
+}
+
+.greySelected {
+  background-color: #e0e0e0;
+  color: #212121;
+}
