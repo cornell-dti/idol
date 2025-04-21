@@ -104,8 +104,12 @@ export default function TestPage() {
         description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
         image="/rock.png"
         imageAlt="DTI members rock climbing"
-       />
-        
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
       <FeatureSection
         eyebrowIcon={<Rocket />}
         heading="We are Cornell DTI, a project team"
@@ -113,8 +117,10 @@ export default function TestPage() {
         image="/rock.png"
         imageAlt="DTI members rock climbing"
         imagePosition="right"
+        button1Label="Apply to DTI"
+        button1Link="/apply"
       />
-        
+
       <FeatureSection
         eyebrowIcon={<Rocket />}
         heading="We are Cornell DTI, a project team"
@@ -124,7 +130,7 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-        
+
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -137,8 +143,8 @@ export default function TestPage() {
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
-        button1Label="Apply to DTI"
-        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
       />
 
       <CtaSection
@@ -155,6 +161,8 @@ export default function TestPage() {
             <span> today</span>
           </>
         }
+        button1Label="Apply to DTI"
+        button1Link="/apply"
         button2Label="Meet the team"
         button2Link="/team"
       />
