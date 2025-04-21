@@ -8,6 +8,7 @@ import Input from '../../components/Input';
 import LabeledInput from '../../components/LabeledInput';
 import TestimonialCard from '../../components/TestimonialCard';
 import IconWrapper from '../../components/IconWrapper';
+import FeatureCard from '../../components/FeatureCard';
 
 export default function TestComponents() {
   return (
@@ -177,6 +178,30 @@ export default function TestComponents() {
           <IconWrapper size="small">
             <Rocket />
           </IconWrapper>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Feature Card</h4>
+        <div className="flex gap-0">
+          <FeatureCard
+            title="Card Title"
+            body="Some more details here. Should be about 2 or 3 lines. Lorem ipsum dolor, sit amet ducet. One more and done."
+          >
+            <Rocket />
+          </FeatureCard>
+          <FeatureCard
+            title="Card Title"
+            body="Some more details here. Should be about 2 or 3 lines. Lorem ipsum dolor, sit amet ducet. One more and done."
+          >
+            <Rocket />
+          </FeatureCard>
+          <FeatureCard
+            title="Card Title"
+            body="Some more details here. Should be about 2 or 3 lines. Lorem ipsum dolor, sit amet ducet. One more and done."
+          >
+            <Rocket />
+          </FeatureCard>
         </div>
       </div>
     </div>
