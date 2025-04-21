@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Selector.module.css';
 
-export interface Rating {
+export interface RatingOptions {
   value: number;
   text: string;
   color: 'red' | 'orange' | 'yellow' | 'green' | 'darkgreen' | 'grey';
@@ -10,7 +10,7 @@ export interface Rating {
 interface SelectorProps {
   selected: number;
   onChange: (value: number) => void;
-  ratings: Rating[];
+  ratings: RatingOptions[];
 }
 
 const Selector: React.FC<SelectorProps> = ({ selected, onChange, ratings }) => (
