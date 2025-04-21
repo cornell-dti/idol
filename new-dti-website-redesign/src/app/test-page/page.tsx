@@ -2,6 +2,7 @@
 
 import { Rocket } from 'lucide-react';
 import FeatureSection from '../components/FeatureSection';
+import CtaSection from '../components/CtaSection';
 import Hero from '../components/Hero';
 import Layout from '../components/Layout';
 
@@ -103,12 +104,8 @@ export default function TestPage() {
         description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
         image="/rock.png"
         imageAlt="DTI members rock climbing"
-        button1Label="Apply to DTI"
-        button1Link="/apply"
-        button2Label="Meet the team"
-        button2Link="/team"
-      />
-
+       />
+        
       <FeatureSection
         eyebrowIcon={<Rocket />}
         heading="We are Cornell DTI, a project team"
@@ -116,10 +113,8 @@ export default function TestPage() {
         image="/rock.png"
         imageAlt="DTI members rock climbing"
         imagePosition="right"
-        button1Label="Apply to DTI"
-        button1Link="/apply"
       />
-
+        
       <FeatureSection
         eyebrowIcon={<Rocket />}
         heading="We are Cornell DTI, a project team"
@@ -129,6 +124,43 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
       />
+        
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+      />
+
+      <CtaSection
+        heading={
+          <>
+            <span className="block text-accent-red">Building the Future</span>
+            <span className="block">of Tech @ Cornell</span>
+          </>
+        }
+        subheading={
+          <>
+            <span>Be part of something </span>
+            <span className="text-accent-blue">greater</span>
+            <span> today</span>
+          </>
+        }
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
+
       <section className="h-128" />
     </Layout>
   );
