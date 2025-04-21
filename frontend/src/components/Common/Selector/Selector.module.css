@@ -3,6 +3,7 @@
   width: 540px;
   height: 54px;
   padding: 4px;
+  gap: 2px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -60,16 +61,23 @@
   color: var(--fg-dimmest, #666);
 }
 
+.red:focus-visible,
+.orange:focus-visible,
+.yellow:focus-visible,
+.green:focus-visible,
+.darkgreen:focus-visible,
+.grey:focus-visible {
+  outline: 2px solid var(--accent-focus);
+}
+
 /* Selected states */
 .selected {
   display: flex;
-  /* width: 450/6px; */
-  /* padding: 16px; */
   border-radius: 6px;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  /* flex: 1 0 0; */
+  padding: 16px;
   color: var(--bg-default, #fff);
 }
 
