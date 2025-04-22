@@ -8,6 +8,7 @@ import SectionSep from '../../components/SectionSep';
 import ScrollingMarquee from '../../components/ScrolllingMarquee';
 import SectionTitle from '../../components/SectionTitle';
 import LogoBox from '../../components/LogoBox';
+import TestimonialCard from '@/components/TestimonialCard';
 
 const logos = [
   { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
@@ -22,6 +23,23 @@ const logos = [
     alt: 'Design @ Cornell logo',
     width: 125,
     height: 52
+  }
+];
+
+const testimonials = [
+  {
+    quote:
+      "This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!",
+    picture: '/clem.jpg',
+    name: 'Clément Rozé',
+    date: 'Fall 2024'
+  },
+  {
+    quote:
+      "Trends in Web Development has been an incredibly valuable course, equipping me with practical skills and knowledge that will greatly benefit my future career. The final project was a rewarding experience, allowing me to put my new skills into practice and create a project I'm proud of!",
+    picture: '/juju.png',
+    name: 'Juju Crane',
+    date: 'Fall 2024'
   }
 ];
 
@@ -50,6 +68,12 @@ export default function TestPage() {
       <ScrollingMarquee>
         {logos.map((logo, index) => (
           <LogoBox key={index} {...logo} />
+        ))}
+      </ScrollingMarquee>
+
+      <ScrollingMarquee>
+        {testimonials.map(({ quote, picture, name, date }, index) => (
+          <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
         ))}
       </ScrollingMarquee>
 
