@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import Image from 'next/image';
 
@@ -38,23 +38,35 @@ const LogoBox: React.FC<Logo> = ({ src, alt, width, height }) => (
   </div>
 );
 
-const ScrollingMarquee = () => (
-  <div className="h-24">
-    <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth">
-      <Marquee
-        gradient={true}
-        gradientWidth={128}
-        gradientColor={'#0D0D0D'}
-        speed={50}
-        pauseOnHover
-        className="flex w-fit"
-      >
-        {logos.map((logo, index) => (
-          <LogoBox key={index} {...logo} />
-        ))}
-      </Marquee>
+const ScrollingMarquee = () => {
+  const [shouldPlay, setShouldPlay] = useState(true);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+      setShouldPlay(false);
+    }
+  }, []);
+
+  return (
+    <div className="h-24">
+      <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth">
+        <Marquee
+          gradient={true}
+          gradientWidth={128}
+          gradientColor={'#0D0D0D'}
+          speed={60}
+          pauseOnHover
+          play={shouldPlay}
+          className="flex w-fit"
+        >
+          {logos.map((logo, index) => (
+            <LogoBox key={index} {...logo} />
+          ))}
+        </Marquee>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ScrollingMarquee;
