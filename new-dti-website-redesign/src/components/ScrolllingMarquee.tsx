@@ -12,7 +12,7 @@ type Logo = {
 const logos: Logo[] = [
   { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
   { src: '/products/logos/queuemein.svg', alt: 'Queue Me In logo', width: 80, height: 80 },
-  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 111, height: 100 },
+  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96 },
   { src: '/products/logos/cureviews.svg', alt: 'CU Reviews logo', width: 80, height: 80 },
   { src: '/products/logos/cornellgo.svg', alt: 'CornellGo logo', width: 80, height: 80 },
   { src: '/products/logos/courseplan.svg', alt: 'Courseplan logo', width: 60, height: 60 },
@@ -50,7 +50,7 @@ const ScrollingMarquee = () => {
 
   return (
     <div className="h-24">
-      <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth">
+      <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth overflow-y-hidden">
         <Marquee
           gradient={true}
           gradientWidth={128}
