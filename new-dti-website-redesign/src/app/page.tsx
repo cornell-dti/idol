@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Layout from '../components/Layout';
-import Hero from '@/components/Hero';
-import FeatureSection from '@/components/FeatureSection';
-import SectionSep from '@/components/SectionSep';
-import CtaSection from '@/components/CtaSection';
+import Hero from '../components/Hero';
+import FeatureSection from '../components/FeatureSection';
+import SectionSep from '../components/SectionSep';
+import CtaSection from '../components/CtaSection';
 
 export const metadata = {
   title: 'DIT HOMEPAGE',
