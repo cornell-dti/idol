@@ -188,16 +188,3 @@ main {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
 }
-
-/* This is class is for the <Banner type="pill"/> component 
-it removes the outline from the next section (and the next section's direct <div> child so that there 
-isn't a divider line between the hero content and the banner 
-also reduces the padding too */
-.remove-next-section-outline + section,
-.remove-next-section-outline + section > div {
-  outline: none;
-}
-
-.remove-next-section-outline + section > div {
-  padding-top: 16px;
-}
