@@ -61,18 +61,18 @@ const Selector: React.FC<SelectorProps> = ({ selected, onChange, ratings }) => (
 
       return (
         <>
-        <label key={value} className={`${styles.option} ${baseClass} ${selectedClass}`}>
-          <input
-            type="radio"
-            name="rating"
-            value={value}
-            checked={isSelected}
-            onChange={() => onChange(value)}
-            className={styles.hiddenInput}
-          />
-          {text}
-          <div className={styles.focusState}/>
-        </label>
+          <label key={value} className={`${styles.option} ${baseClass} ${selectedClass}`}>
+            <input
+              type="radio"
+              name="rating"
+              value={value}
+              checked={isSelected}
+              onChange={() => onChange(value)}
+              className={styles.hiddenInput}
+            />
+            {text}
+            <div className={styles.focusState} />
+          </label>
         </>
       );
     })}

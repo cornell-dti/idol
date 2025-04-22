@@ -99,7 +99,7 @@
   pointer-events: none;
 }
 
-.hiddenInput:focus-visible ~ .focusState{
+.hiddenInput:focus-visible ~ .focusState {
   opacity: 1;
 }
 
