@@ -39,11 +39,15 @@ const LogoBox: React.FC<Logo> = ({ src, alt, width, height }) => (
 );
 
 const ScrollingMarquee = () => (
-  <Marquee gradient={false} speed={40} pauseOnHover className="flex w-fit">
-    {logos.map((logo, index) => (
-      <LogoBox key={index} {...logo} />
-    ))}
-  </Marquee>
+  <div className="h-24">
+    <div className="w-full z-[5] bg-[var(--background-1)] border-t border-b border-[var(--border-1)] absolute left-0">
+      <Marquee gradient={false} speed={40} pauseOnHover className="flex w-fit">
+        {logos.map((logo, index) => (
+          <LogoBox key={index} {...logo} />
+        ))}
+      </Marquee>
+    </div>
+  </div>
 );
 
 export default ScrollingMarquee;
