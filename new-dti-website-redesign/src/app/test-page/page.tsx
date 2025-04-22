@@ -11,10 +11,7 @@ import Banner from '@/components/Banner';
 export default function TestPage() {
   return (
     <Layout>
-      <Banner
-        label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!"
-        type="flushed"
-      />
+      <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
       <Hero
         heading={
           <>
