@@ -78,17 +78,17 @@ const Hero = ({
           alt={imageAlt || 'Hero image alt text'}
           width={1184}
           height={600}
-          className="outline-[0.5px] outline-accent-green md:outline-0"
+          className="outline-[0.5px] outline-accent-red md:outline-0"
         />
       )}
       <div className="flex-col md:flex-row flex">
-        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-accent-green">
+        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-border-1">
           <h1>{heading}</h1>
           <h6 className="text-foreground-3">{subheading}</h6>
         </div>
 
         {(button1Label && button1Link) || (button2Label && button2Link) ? (
-          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center max-w-1/4">
+          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-border-1 md:justify-center max-w-1/4">
             {button1Label && button1Link && (
               <Button
                 variant="primary"
