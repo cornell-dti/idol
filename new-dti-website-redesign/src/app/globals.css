@@ -184,6 +184,10 @@ section {
   outline-offset: 3px;
 }
 
-.remove-next-section-outline + section {
+/* This is class is for the <Banner type="pill"/> component 
+it removes the outline from the next section so that there 
+isn't a divider line between the hero content and the banner */
+*/ .remove-next-section-outline + section,
+.remove-next-section-outline + section > div {
   outline: none;
 }
