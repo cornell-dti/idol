@@ -1,5 +1,6 @@
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
+import Switch from '../Common/Switch/Switch';
 
 type Props = {
   name: string;
@@ -12,6 +13,8 @@ type Props = {
   preferredName?: string;
   seeApplicantName: boolean;
   candidate: number;
+  toggleSeeApplicantName?: () => void;
+  canToggleSeeApplicantName?: boolean;
 };
 
 const ApplicantCredentials: React.FC<Props> = ({
@@ -24,65 +27,82 @@ const ApplicantCredentials: React.FC<Props> = ({
   linkedinURL,
   portfolioURL,
   preferredName,
-  candidate
+  candidate,
+  canToggleSeeApplicantName,
+  toggleSeeApplicantName
 }) => (
-  <div className={styles.credentialContainer}>
-    {seeApplicantName ? (
-      <>
-        <h1>
-          {name} {preferredName && `(${preferredName})`}
-        </h1>
-        <p>{email}</p>
-      </>
-    ) : (
-      <>
-        <h1>Candidate {candidate + 1}</h1>
-      </>
-    )}
-    <p>Class of {gradYear}</p>
+  <>
+    <div className={styles.header}>
+      <div className={styles.applicantInformation}>
+        {seeApplicantName ? (
+          <>
+            <h1>
+              {name} {preferredName && `(${preferredName})`}
+            </h1>
+
+            <p>{email}</p>
+          </>
+        ) : (
+          <h1>Candidate {candidate + 1}</h1>
+        )}
+        <p>Class of {gradYear}</p>
+      </div>
+
+      {canToggleSeeApplicantName && toggleSeeApplicantName && (
+        <Switch
+          checked={seeApplicantName}
+          onChange={toggleSeeApplicantName}
+          label="See applicant name"
+        />
+      )}
+    </div>
+
     {seeApplicantName && (
-      <div className={styles.iconsContainer}>
-        <a
-          className={styles.icon}
-          href={formatLink(resumeURL)}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FileIcon />
-        </a>
-        {githubURL && (
+      <div className={styles.documents}>
+        <h3>Documents</h3>
+        <div className={styles.iconsContainer}>
           <a
             className={styles.icon}
-            href={formatLink(githubURL)}
+            href={formatLink(resumeURL)}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <GithubIcon />
+            <FileIcon />
           </a>
-        )}
-        {linkedinURL && (
-          <a
-            className={styles.icon}
-            href={formatLink(linkedinURL, 'linkedin')}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <LinkedinIcon />
-          </a>
-        )}
-        {portfolioURL && (
-          <a
-            className={styles.icon}
-            href={formatLink(portfolioURL)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GlobeIcon />
-          </a>
-        )}
+          {githubURL && (
+            <a
+              className={styles.icon}
+              href={formatLink(githubURL)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GithubIcon />
+            </a>
+          )}
+          {linkedinURL && (
+            <a
+              className={styles.icon}
+              href={formatLink(linkedinURL, 'linkedin')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LinkedinIcon />
+            </a>
+          )}
+          {portfolioURL && (
+            <a
+              className={styles.icon}
+              href={formatLink(portfolioURL)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GlobeIcon />
+            </a>
+          )}
+        </div>
       </div>
     )}
-  </div>
+  </>
 );
 
 const FileIcon = () => (

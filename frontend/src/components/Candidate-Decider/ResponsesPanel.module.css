@@ -1,3 +1,16 @@
+.applicantResponses {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.accordionsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .questionHeader {
   margin: 12px 0;
 }

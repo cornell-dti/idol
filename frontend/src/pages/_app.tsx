@@ -7,12 +7,14 @@ import { useRouter } from 'next/router';
 import UserProvider from '../components/Common/UserProvider/UserProvider';
 import FirestoreDataProvider, {
   useHasAdminPermission,
-  useHasMemberPermission
+  useHasMemberPermission,
+  useSelf
 } from '../components/Common/FirestoreDataProvider';
 import SiteHeader from '../components/Common/SiteHeader/SiteHeader';
 import { Emitters } from '../utils';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';
+import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
@@ -101,35 +103,47 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
   );
 }
 
-const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermission }) => (
-  <>
-    <Link href="/">
-      <Menu.Item>
-        <Icon name="home" />
-        Home
-      </Menu.Item>
-    </Link>
-    {hasAdminPermission && (
-      <Link href="/admin">
+const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermission }) => {
+  const [hasInstance, setHasInstance] = useState<boolean>(false);
+  const self = useSelf();
+  useEffect(() => {
+    if (self) {
+      CandidateDeciderAPI.hasCandidateDeciderInstance().then((result) => {
+        setHasInstance(result);
+      });
+    }
+  }, [self]);
+  return (
+    <>
+      <Link href="/">
         <Menu.Item>
-          <Icon name="shield" />
-          Admin
+          <Icon name="home" />
+          Home
         </Menu.Item>
       </Link>
-    )}
-    <Link href="/forms">
-      <Menu.Item>
-        <Icon name="file alternate" />
-        Forms
-      </Menu.Item>
-    </Link>
-    <Link href="/candidate-decider">
-      <Menu.Item>
-        <Icon name="chart bar outline" />
-        Candidate Decider
-      </Menu.Item>
-    </Link>
-    {hasAdminPermission && (
+      {hasAdminPermission && (
+        <Link href="/admin">
+          <Menu.Item>
+            <Icon name="shield" />
+            Admin
+          </Menu.Item>
+        </Link>
+      )}
+      <Link href="/forms">
+        <Menu.Item>
+          <Icon name="file alternate" />
+          Forms
+        </Menu.Item>
+      </Link>
+      {hasInstance && (
+        <Link href="/candidate-decider">
+          <Menu.Item>
+            <Icon name="chart bar outline" />
+            Candidate Decider
+          </Menu.Item>
+        </Link>
+      )}
+        {hasAdminPermission && (
       <Link href="/admin/interview-status">
         <Menu.Item>
           <Icon name="briefcase" />
@@ -137,8 +151,9 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
         </Menu.Item>
       </Link>
     )}
-  </>
-);
+    </>
+  );
+};
 
 const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
@@ -146,13 +161,14 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   const hasAdminPermission = useHasAdminPermission();
 
   useEffect(() => {
-    if (!router.pathname.startsWith('/applicant') && !hasMemberPermissions) {
-      if (router.pathname !== '/applicant') router.push('/applicant');
+    if (!router.pathname.startsWith('/interview-scheduler') && !hasMemberPermissions) {
+      if (router.pathname !== '/interview-scheduler') router.push('/interview-scheduler');
       return;
     }
     if (router.pathname.startsWith('/admin') && !hasAdminPermission) {
       if (router.pathname !== '/') router.push('/');
     }
-  }, [router.pathname, hasMemberPermissions, hasAdminPermission]);
+  }, [router, router.pathname, hasMemberPermissions, hasAdminPermission]);
+
   return <>{children}</>;
 };

@@ -220,6 +220,7 @@ interface DevPortfolioSubmission {
   text?: string;
   documentationText?: string;
   status: SubmissionStatus;
+  submitRepo?: boolean;
 }
 
 interface DevPortfolioInfo {
