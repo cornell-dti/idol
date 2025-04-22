@@ -6,6 +6,24 @@ import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
 import ScrollingMarquee from '../../components/ScrolllingMarquee';
+import SectionTitle from '../../components/SectionTitle';
+import LogoBox from '../../components/LogoBox';
+
+const logos = [
+  { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
+  { src: '/products/logos/queuemein.svg', alt: 'Queue Me In logo', width: 80, height: 80 },
+  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96 },
+  { src: '/products/logos/cureviews.svg', alt: 'CU Reviews logo', width: 80, height: 80 },
+  { src: '/products/logos/cornellgo.svg', alt: 'CornellGo logo', width: 80, height: 80 },
+  { src: '/products/logos/courseplan.svg', alt: 'Courseplan logo', width: 60, height: 60 },
+  { src: '/products/logos/carriage.svg', alt: 'Carriage logo', width: 70, height: 70 },
+  {
+    src: '/products/logos/design@cornell.svg',
+    alt: 'Design @ Cornell logo',
+    width: 125,
+    height: 52
+  }
+];
 
 export default function TestPage() {
   return (
@@ -29,7 +47,11 @@ export default function TestPage() {
 
       <SectionSep />
 
-      <ScrollingMarquee />
+      <ScrollingMarquee>
+        {logos.map((logo, index) => (
+          <LogoBox key={index} {...logo} />
+        ))}
+      </ScrollingMarquee>
 
       <SectionSep />
 
@@ -233,6 +255,17 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
       />
+
+      <SectionSep />
+
+      <SectionTitle
+        heading="Who we are"
+        subheading="More than just being inclusive, our team strives to bring many backgrounds and perspectives together solve community problems. These statistics come from recruiting across campus and seeking applicants with the best skills and potential for growth on the team. Updated Spring 2025."
+      />
+
+      <SectionTitle heading="Past student experiences" />
+
+      <SectionSep />
 
       <CtaSection
         heading="Ready to join?"
