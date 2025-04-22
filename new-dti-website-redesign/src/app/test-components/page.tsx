@@ -8,6 +8,8 @@ import Input from '../components/Input';
 import LabeledInput from '../components/LabeledInput';
 import TestimonialCard from '../components/TestimonialCard';
 
+const PlusIcon = Plus as React.FC;
+
 export default function TestComponents() {
   return (
     <div className="p-32 flex flex-col gap-16">
@@ -76,13 +78,13 @@ export default function TestComponents() {
         <h4>Icon buttons</h4>
         <div className="flex gap-4">
           <IconButton aria-label="Create">
-            <Plus />
+            <PlusIcon />
           </IconButton>
           <IconButton aria-label="Create" variant="secondary">
-            <Plus />
+            <PlusIcon />
           </IconButton>
           <IconButton aria-label="Create" variant="tertiary">
-            <Plus />
+            <PlusIcon />
           </IconButton>
         </div>
       </div>
