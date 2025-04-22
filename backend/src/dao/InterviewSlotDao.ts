@@ -102,12 +102,9 @@ export default class InterviewSlotDao extends BaseDao<InterviewSlot, DBInterview
           : oldSlot.applicant.email !== updatedSlot.applicant.email);
 
       const isOverridingMembers = updatedSlot.members.some((member, i) => {
-        if (oldSlot.members[i] === null) {
-          return false;
-        } else {
-          if (member === null) return oldSlot.members[i].email !== email;
-          return member.email !== oldSlot.members[i].email;
-        }
+        if (oldSlot.members[i] === null) return false;
+        if (member === null) return oldSlot.members[i]?.email !== email;
+        return member.email !== oldSlot.members[i]?.email;
       });
 
       if (!adminBypass && (isOverridingApplicant || isOverridingMembers)) {
