@@ -1,14 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Plus } from 'lucide-react';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
 import Input from '../components/Input';
 import LabeledInput from '../components/LabeledInput';
 import TestimonialCard from '../components/TestimonialCard';
-
-const PlusIcon = Plus as React.FC;
 
 export default function TestComponents() {
   return (
@@ -78,13 +75,13 @@ export default function TestComponents() {
         <h4>Icon buttons</h4>
         <div className="flex gap-4">
           <IconButton aria-label="Create">
-            <PlusIcon />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           </IconButton>
           <IconButton aria-label="Create" variant="secondary">
-            <PlusIcon />
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           </IconButton>
           <IconButton aria-label="Create" variant="tertiary">
-            <PlusIcon />
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           </IconButton>
         </div>
       </div>
