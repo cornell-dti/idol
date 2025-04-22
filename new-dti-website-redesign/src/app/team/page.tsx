@@ -1,3 +1,4 @@
+import Banner from '@/components/Banner';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 
@@ -9,6 +10,10 @@ export const metadata = {
 export default function Team() {
   return (
     <Layout>
+      <Banner
+        label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!"
+        type="pill"
+      />
       <Hero
         heading="Team"
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."

@@ -6,10 +6,16 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
+import Banner from '@/components/Banner';
 
 export default function TestPage() {
   return (
     <Layout>
+      <Banner
+        label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!"
+        type="pill"
+      />
+
       <Hero
         heading={
           <>
