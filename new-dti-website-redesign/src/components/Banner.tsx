@@ -18,7 +18,7 @@ const Banner = ({ label, type }: Props): ReactNode => {
 
   // flushed or undefined
   return (
-    <div className="p-6 sticky top-20 bg-background-2 border-t border-b border-border-1 flex items-center justify-center z-10 w-full">
+    <div className="p-4 md:p-6 sticky top-20 bg-background-2 border-t border-b border-border-1 flex items-center justify-center z-10 w-full items-center text-center">
       <p>{label}</p>
     </div>
   );
