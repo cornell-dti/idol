@@ -6,6 +6,7 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
+import ScrollingMarquee from '@/components/ScrolllingMarquee';
 
 export default function TestPage() {
   return (
@@ -177,6 +178,10 @@ export default function TestPage() {
       />
 
       <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
+
+      <section className="h-128" />
+
+      <ScrollingMarquee />
 
       <section className="h-128" />
     </Layout>
