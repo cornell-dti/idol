@@ -30,6 +30,8 @@ const Hero = ({
     return (
       <section className="flex flex-col-reverse md:flex-col">
         <div className="flex flex-col p-4 outline-[0.5px] outline-border-1 sm:p-8">
+          <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
+
           <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-center">{heading}</h1>

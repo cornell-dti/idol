@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import FeatureSection from '@/components/FeatureSection';
 import SectionSep from '@/components/SectionSep';
 import CtaSection from '@/components/CtaSection';
+import Banner from '@/components/Banner';
 
 export const metadata = {
   title: 'DIT HOMEPAGE',
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <>
       <Layout>
+        <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
         <Hero
           heading={
             <>
