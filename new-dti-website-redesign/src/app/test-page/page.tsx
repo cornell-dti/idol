@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
+import ScrollingMarquee from '../../components/ScrolllingMarquee';
 
 export default function TestPage() {
   return (
@@ -26,7 +27,11 @@ export default function TestPage() {
         centered
       />
 
-      <SectionSep grid />
+      <SectionSep />
+
+      <ScrollingMarquee />
+
+      <SectionSep />
 
       <Hero
         heading="Heading over here"

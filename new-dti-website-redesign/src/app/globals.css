@@ -188,3 +188,9 @@ main {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
 }
+
+/* Hacky way to avoid the gap between different
+subsections of the carousel */
+.controlChildDivWidth > div > div {
+  min-width: fit-content;
+}
