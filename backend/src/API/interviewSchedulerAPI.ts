@@ -90,7 +90,10 @@ export const getInterviewSchedulerInstance = async (
 
   if (isApplicant) {
     if (instance.applicants.some((applicant) => applicant.email === email)) {
-      return { ...instance, applicants: [] };
+      return {
+        ...instance,
+        applicants: instance.applicants.filter((applicant) => applicant.email === email)
+      };
     }
     throw new PermissionError('User does not have permission to get interview scheduler instance');
   }
@@ -194,11 +197,7 @@ export const updateInterviewSlot = async (
   const slot = await interviewSlotDao.getSlot(edits.uuid);
 
   if (!slot) throw new NotFoundError(`Interview slot with uuid ${edits.uuid} does not exist!`);
-  const scheduler = await getInterviewSchedulerInstance(
-    edits.interviewSchedulerUuid,
-    email,
-    false
-  );
+  const scheduler = await getInterviewSchedulerInstance(edits.interviewSchedulerUuid, email, false);
 
   const user = await getMember(email);
   const isLeadOrAdmin = user !== undefined && PermissionsManager.isLeadOrAdmin(user);
@@ -210,15 +209,15 @@ export const updateInterviewSlot = async (
   if (isApplicant && scheduler.applicants.every((applicant) => applicant.email !== email))
     throw new PermissionError('User does not have permission to edit this interview scheduler.');
 
-  if ((!isLead && edits.lead) || (isApplicant && (edits.members)))
-    throw new PermissionError('User does not have permission to edit this interview slot.'); 
+  if ((!isLead && edits.lead) || (isApplicant && edits.members))
+    throw new PermissionError('User does not have permission to edit this interview slot.');
 
   const newSlot: InterviewSlot = {
     ...slot,
     ...edits
   };
 
-  return interviewSlotDao.updateSlot(newSlot, isLead);
+  return interviewSlotDao.updateSlot(newSlot, isLead, email);
 };
 
 /**
