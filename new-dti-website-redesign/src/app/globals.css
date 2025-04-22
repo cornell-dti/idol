@@ -175,7 +175,8 @@ p.caps.small {
 
 nav,
 main,
-section {
+section,
+.sectionStyles {
   outline: 0.5px solid var(--border-1);
 }
 
