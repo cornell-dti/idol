@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
-import ScrollingMarquee from '@/components/ScrolllingMarquee';
+import ScrollingMarquee from '../../components/ScrolllingMarquee';
 
 export default function TestPage() {
   return (
