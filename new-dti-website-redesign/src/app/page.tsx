@@ -27,7 +27,7 @@ export default function Home() {
           button2Label="Meet the team"
           button2Link="/team"
           image="/home/hero.png"
-          imageAlt="DTI members in front of Gates Hall"
+          imageAlt="DTI members in front of Duffield Hall"
           centered
         />
 
