@@ -197,7 +197,7 @@ export const updateInterviewSlot = async (
   const scheduler = await getInterviewSchedulerInstance(
     edits.interviewSchedulerUuid,
     email,
-    isApplicant
+    false
   );
 
   const user = await getMember(email);
