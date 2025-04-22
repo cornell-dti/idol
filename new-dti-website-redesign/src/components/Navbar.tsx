@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] mx-4 md:mx-32 sm:mx-8 lg:mx-auto bg-background-1 relative z-10">
+      <nav className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] mx-4 md:mx-32 sm:mx-8 lg:mx-auto bg-background-1 z-10 fixed [width:calc(100%-64px)] md:[width:calc(100%-256px)] lg:left-1/2 lg:-translate-x-1/2 lg:transform">
         <Link href="/" className="focusState rounded-sm">
           <Image
             src="/logo.svg"
