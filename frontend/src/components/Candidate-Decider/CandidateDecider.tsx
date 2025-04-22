@@ -12,7 +12,6 @@ import {
 } from './useCandidateDeciderInstance';
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
-import Switch from '../Common/Switch/Switch';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -269,13 +268,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         </div>
       </div>
       <div className={styles.responsesContainer}>
-        {hasAdminPermission && (
-          <Switch
-            checked={seeApplicantName}
-            onChange={() => setSeeApplicantName((prev) => !prev)}
-            label="See applicant name"
-          />
-        )}
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
@@ -284,6 +276,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
+          toggleSeeApplicantName={() => setSeeApplicantName((prev) => !prev)}
+          canToggleSeeApplicantName={hasAdminPermission}
           candidate={instance.candidates[currentCandidate].id}
         />
       </div>
