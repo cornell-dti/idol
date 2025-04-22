@@ -78,7 +78,7 @@ const Hero = ({
           alt={imageAlt || 'Hero image alt text'}
           width={1184}
           height={600}
-          className="outline-[0.5px] outline-accent-red md:outline-0"
+          className="outline-[0.5px] outline-border-1 md:outline-0"
         />
       )}
       <div className="flex-col md:flex-row flex">
