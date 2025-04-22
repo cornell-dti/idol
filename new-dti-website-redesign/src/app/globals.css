@@ -183,3 +183,7 @@ section {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
 }
+
+.remove-next-section-outline + section {
+  outline: none;
+}
