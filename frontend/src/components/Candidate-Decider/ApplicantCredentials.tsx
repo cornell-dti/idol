@@ -1,5 +1,6 @@
 import styles from './ApplicantCredentials.module.css';
 import { formatLink } from '../../utils';
+import Switch from '../Common/Switch/Switch';
 
 type Props = {
   name: string;
@@ -12,6 +13,8 @@ type Props = {
   preferredName?: string;
   seeApplicantName: boolean;
   candidate: number;
+  toggleSeeApplicantName?: () => void;
+  canToggleSeeApplicantName?: boolean;
 };
 
 const ApplicantCredentials: React.FC<Props> = ({
@@ -24,9 +27,11 @@ const ApplicantCredentials: React.FC<Props> = ({
   linkedinURL,
   portfolioURL,
   preferredName,
-  candidate
+  candidate,
+  canToggleSeeApplicantName,
+  toggleSeeApplicantName
 }) => (
-  <div className={styles.credentialContainer}>
+  <>
     <div className={styles.header}>
       <div className={styles.applicantInformation}>
         {seeApplicantName ? (
@@ -34,6 +39,7 @@ const ApplicantCredentials: React.FC<Props> = ({
             <h1>
               {name} {preferredName && `(${preferredName})`}
             </h1>
+
             <p>{email}</p>
           </>
         ) : (
@@ -41,6 +47,14 @@ const ApplicantCredentials: React.FC<Props> = ({
         )}
         <p>Class of {gradYear}</p>
       </div>
+
+      {canToggleSeeApplicantName && toggleSeeApplicantName && (
+        <Switch
+          checked={seeApplicantName}
+          onChange={toggleSeeApplicantName}
+          label="See applicant name"
+        />
+      )}
     </div>
 
     {seeApplicantName && (
@@ -88,7 +102,7 @@ const ApplicantCredentials: React.FC<Props> = ({
         </div>
       </div>
     )}
-  </div>
+  </>
 );
 
 const FileIcon = () => (

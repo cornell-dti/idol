@@ -50,6 +50,12 @@
   margin-right: 0.5% !important;
 }
 
+.modalActions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
 .responsesContainer {
   display: flex;
   flex-direction: column;
@@ -59,7 +65,8 @@
   background: var(--bg-default);
   border-radius: 6px;
   border: 1px solid var(--border-default);
-  padding: 24px;
+  height: 85vh;
+  overflow-y: scroll;
 }
 
 .top {
