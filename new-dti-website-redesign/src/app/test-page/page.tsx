@@ -184,8 +184,6 @@ export default function TestPage() {
       <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
 
       <section className="h-128" />
-
-      <section className="h-128" />
     </Layout>
   );
 }
