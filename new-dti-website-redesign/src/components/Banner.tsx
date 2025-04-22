@@ -8,7 +8,7 @@ type Props = {
 const Banner = ({ label, type }: Props): ReactNode => {
   if (type === 'pill') {
     return (
-      <div className="flex items-center sticky top-0 z-10 pt-4 remove-next-section-outline">
+      <div className="flex items-center sticky top-20 z-10 pt-4 remove-next-section-outline mt-[-67px]">
         <div className="px-5 py-3  rounded-full border-1 border-border-1-transparent bg-background-3-transparent backdrop-blur-[32px]  mx-auto w-fit">
           <p>{label}</p>
         </div>
