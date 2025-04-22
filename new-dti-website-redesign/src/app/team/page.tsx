@@ -1,5 +1,5 @@
-import Hero from '../components/Hero';
-import Layout from '../components/Layout';
+import Hero from '../../components/Hero';
+import Layout from '../../components/Layout';
 
 export const metadata = {
   title: 'DTI TEAM PAGE',

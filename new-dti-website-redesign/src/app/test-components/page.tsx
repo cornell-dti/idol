@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+  
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
 import Input from '../components/Input';
@@ -162,6 +163,19 @@ export default function TestComponents() {
             name="Juju Crane"
             date="Fall 2024"
           />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Icon wrappers</h4>
+        <div className="flex gap-4">
+          <IconWrapper size="default">
+            <Rocket />
+          </IconWrapper>
+
+          <IconWrapper size="small">
+            <Rocket />
+          </IconWrapper>
         </div>
       </div>
     </div>
