@@ -56,6 +56,23 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
         ))}
       </div>
 
+      {/* IMPORTANT: according to the W3C (official accessibility documentation, https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
+       * When a tabpanel doesn't contain any focusable elements, the rendered should have tabindex="0" so that it's included in the tab sequence of the page. Make sure to also include focusState for the proper outline styling too!
+
+       Example implementation:
+        <Tabs
+          tabs={[
+            {
+              label: 'Tab 1',
+              content: (
+                <div className="focusState" tabIndex={0}>
+                  <p>No interactive content in this tab panel, so need tabIndex</p>
+                </div>
+              )
+            }
+          ]}
+        />
+       */}
       <div role="tabpanel" id={`panel-${activeIndex}`} aria-labelledby={`tab-${activeIndex}`}>
         {tabs[activeIndex]?.content}
       </div>
