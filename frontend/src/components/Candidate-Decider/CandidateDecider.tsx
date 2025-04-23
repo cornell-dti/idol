@@ -32,7 +32,7 @@ type CommentEditorProps = {
 };
 
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
-  <div style={{ width: '100%' }}>
+  <div className={styles.commentEditor}>
     <h4>Comments</h4>
     <Input
       value={currentComment}
