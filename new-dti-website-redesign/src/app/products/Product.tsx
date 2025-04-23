@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Image from 'next/image';
 import Button from '@/components/Button';
+import Chip from '@/components/Chip';
 
 type Props = {
   image: string;
@@ -8,9 +9,10 @@ type Props = {
   name: string;
   description: string;
   link: string;
+  comingSoon?: boolean;
 };
 
-const Product = ({ image, imageAlt, name, description, link }: Props): ReactNode => (
+const Product = ({ image, imageAlt, name, description, link, comingSoon }: Props): ReactNode => (
   <section>
     <div className="bg-background-2">
       <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
@@ -18,7 +20,10 @@ const Product = ({ image, imageAlt, name, description, link }: Props): ReactNode
 
     <div className="p-8 flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <h3>{name}</h3>
+        <div className="flex gap-2 items-center">
+          <h3>{name}</h3>
+          {comingSoon && <Chip label="Coming soon" color="red" />}
+        </div>
         <p className="text-foreground-3">{description}</p>
       </div>
 
