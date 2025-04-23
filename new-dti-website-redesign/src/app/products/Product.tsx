@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import Image from 'next/image';
-import Button from '@/components/Button';
-import Chip from '@/components/Chip';
+import Button from '../../components/Button';
+import Chip from '../../components/Chip';
 
 type Props = {
   image: string;
