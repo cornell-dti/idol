@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, Ref } from 'react';
 import Link from 'next/link';
 
 type ButtonProps = {
@@ -44,14 +44,20 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     if (href) {
       return (
-        <Link href={href} className={sharedClasses} {...rest} ref={ref as any}>
+        <Link href={href} className={sharedClasses} {...rest} ref={ref as Ref<HTMLAnchorElement>}>
           {content}
         </Link>
       );
     }
 
     return (
-      <button onClick={onClick} className={sharedClasses} role={role} {...rest} ref={ref as any}>
+      <button
+        onClick={onClick}
+        className={sharedClasses}
+        role={role}
+        {...rest}
+        ref={ref as Ref<HTMLButtonElement>}
+      >
         {content}
       </button>
     );
