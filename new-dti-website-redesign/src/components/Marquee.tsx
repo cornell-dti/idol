@@ -1,12 +1,12 @@
 import React, { useEffect, useState, ReactNode } from 'react';
-import Marquee from 'react-fast-marquee';
+import ReactFastMarquee from 'react-fast-marquee';
 
-type ScrollingMarqueeProps = {
+type MarqueeProps = {
   children: ReactNode;
   height?: number;
 };
 
-const ScrollingMarquee: React.FC<ScrollingMarqueeProps> = ({ children, height }) => {
+const Marquee: React.FC<MarqueeProps> = ({ children, height }) => {
   const [shouldPlay, setShouldPlay] = useState(true);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ScrollingMarquee: React.FC<ScrollingMarqueeProps> = ({ children, height })
   return (
     <div style={{ height: height }}>
       <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth overflow-y-hidden">
-        <Marquee
+        <ReactFastMarquee
           gradient
           gradientWidth={128}
           gradientColor={'#0D0D0D'}
@@ -29,10 +29,10 @@ const ScrollingMarquee: React.FC<ScrollingMarqueeProps> = ({ children, height })
           className="flex w-fit"
         >
           {children}
-        </Marquee>
+        </ReactFastMarquee>
       </div>
     </div>
   );
 };
 
-export default ScrollingMarquee;
+export default Marquee;
