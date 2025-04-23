@@ -27,6 +27,7 @@ export default function Products() {
             name={product.name}
             description={product.description}
             link={product.link}
+            comingSoon={product.comingSoon}
           />
           {index < products.length - 1 && <SectionSep grid />}
         </>
