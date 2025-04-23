@@ -1,0 +1,39 @@
+.progressBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressBarWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.progressBar {
+  height: 28px;
+  border: 1px solid var(--border-default);
+  width: 100%;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-right: none;
+}
+.progressBar::-webkit-progress-bar {
+  background: var(--bg-default);
+}
+.progressBar::-webkit-progress-value {
+  border-radius: 6px;
+  background: var(--fg-default);
+}
+
+.annotation {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 12px;
+  background: var(--bg-default);
+  border: 1px solid var(--border-default);
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  width: fit-content;
+  height: 28px;
+}
