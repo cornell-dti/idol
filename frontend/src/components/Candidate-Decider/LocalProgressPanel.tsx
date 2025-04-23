@@ -1,4 +1,3 @@
-import { Progress } from 'semantic-ui-react';
 import { LEAD_ROLES } from 'common-types/constants';
 import styles from './ProgressPanel.module.css';
 import { useSelf } from '../Common/FirestoreDataProvider';
