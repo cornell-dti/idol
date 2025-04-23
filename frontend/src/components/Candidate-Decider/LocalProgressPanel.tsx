@@ -4,6 +4,7 @@ import styles from './ProgressPanel.module.css';
 import { useSelf } from '../Common/FirestoreDataProvider';
 import RatingsDisplay from './RatingsDisplay';
 import { ratingToString } from './ratings-utils';
+import ProgressBar from '../Common/ProgressBar/ProgressBar';
 
 type ProgressPanelProps = {
   candidates: CandidateDeciderCandidate[];
@@ -31,6 +32,8 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
         size="tiny"
         color="blue"
       >{`${myRatings.length}/${candidates.length}`}</Progress>
+
+      <ProgressBar value={myRatings.length} total={candidates.length} />
 
       {userInfo && LEAD_ROLES.includes(userInfo.role) ? (
         <>
