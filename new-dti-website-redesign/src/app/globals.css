@@ -22,10 +22,15 @@
 
   /* ACCENT */
   --accent-red: #ff575e; /* General DTI accent/full team color */
+  --accent-red-transparent: rgba(255, 87, 94, 0.2);
   --accent-green: #00ca51; /* Development team color */
+  --accent-green-transparent: rgba(0, 202, 81, 0.2);
   --accent-blue: #47a8ff; /* Design team color */
+  --accent-blue-transparent: rgba(71, 168, 255, 0.2);
   --accent-yellow: #ff9300; /* Business team color */
+  --accent-yellow-transparent: rgba(255, 147, 0, 0.2);
   --accent-purple: #c372fc; /* Product team color */
+  --accent-purple-transparent: rgba(195, 114, 252, 0.2);
 }
 
 /* This is so we can use the variables inline in the className attribute
@@ -52,10 +57,19 @@ Usage examples (remove the "color-" prefix when using in className):
 
   /* ACCENT */
   --color-accent-red: var(--accent-red);
+  --color-accent-red-transparent: var(--accent-red-transparent);
+
   --color-accent-green: var(--accent-green);
+  --color-accent-green-transparent: var(--accent-green-transparent);
+
   --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-transparent: var(--accent-blue-transparent);
+
   --color-accent-yellow: var(--accent-yellow);
+  --color-accent-yellow-transparent: var(--accent-yellow-transparent);
+
   --color-accent-purple: var(--accent-purple);
+  --color-accent-purple-transparent: var(--accent-purple-transparent);
 
   /* BREAKPOINT VARIABLES */
   --breakpoint-sm: 390px;
