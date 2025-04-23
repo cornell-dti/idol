@@ -263,7 +263,7 @@ export default function TestComponents() {
             {
               label: 'Tab 1',
               content: (
-                <div className="w-128 h-128 bg-accent-blue p-8">
+                <div className="w-128 h-128 bg-accent-blue p-8 focusState" tabIndex={0}>
                   <h3>Tab panel 1</h3>
 
                   <p>A lovely tab 1 with just an image</p>
@@ -289,7 +289,7 @@ export default function TestComponents() {
             {
               label: 'Tab 3',
               content: (
-                <div className="w-128 h-128 bg-accent-red p-8">
+                <div className="w-128 h-128 bg-accent-red p-8 focusState" tabIndex={0}>
                   <h3>Tab panel 3</h3>
                   <p className="small caps">helloooo</p>
                 </div>
