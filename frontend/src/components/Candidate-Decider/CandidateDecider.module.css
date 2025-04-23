@@ -33,7 +33,13 @@
 .searchBar {
   display: flex;
   gap: 8px;
-  margin-bottom: 1%;
+  align-items: center;
+}
+
+.searchBar > div {
+  flex: 1;
+  display: flex;
+  height: 48px;
 }
 
 .ofNum {
@@ -110,4 +116,14 @@
 
 .navigation {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.commentEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }
