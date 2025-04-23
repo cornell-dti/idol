@@ -291,6 +291,8 @@ export default function TestPage() {
 
       <SectionTitle heading="Past student experiences" />
 
+      <SectionTitle heading="Our products" smallCaps />
+
       <SectionSep />
 
       <CtaSection
