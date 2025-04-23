@@ -8,6 +8,7 @@ import Input from '../../components/Input';
 import LabeledInput from '../../components/LabeledInput';
 import TestimonialCard from '../../components/TestimonialCard';
 import IconWrapper from '../../components/IconWrapper';
+import Chip from '../../components/Chip';
 
 export default function TestComponents() {
   return (
@@ -251,6 +252,23 @@ export default function TestComponents() {
               <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
             </svg>
           </IconWrapper>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Chip</h4>
+        <div className="flex gap-4">
+          <Chip label="Coming soon" />
+
+          <Chip label="Coming soon" color="red" />
+
+          <Chip label="Coming soon" color="green" />
+
+          <Chip label="Coming soon" color="blue" />
+
+          <Chip label="Coming soon" color="yellow" />
+
+          <Chip label="Coming soon" color="purple" />
         </div>
       </div>
     </div>
