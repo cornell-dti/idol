@@ -17,12 +17,17 @@
   border-bottom-left-radius: 6px;
   border-right: none;
 }
+
 .progressBar::-webkit-progress-bar {
   background: var(--bg-default);
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
+
 .progressBar::-webkit-progress-value {
   border-radius: 6px;
   background: var(--fg-default);
+  transition: 120ms ease-out;
 }
 
 .annotation {
