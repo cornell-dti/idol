@@ -3,9 +3,10 @@ import Marquee from 'react-fast-marquee';
 
 type ScrollingMarqueeProps = {
   children: ReactNode;
+  height?: number;
 };
 
-const ScrollingMarquee: React.FC<ScrollingMarqueeProps> = ({ children }) => {
+const ScrollingMarquee: React.FC<ScrollingMarqueeProps> = ({ children, height }) => {
   const [shouldPlay, setShouldPlay] = useState(true);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const ScrollingMarquee: React.FC<ScrollingMarqueeProps> = ({ children }) => {
   }, []);
 
   return (
-    <div className="h-24">
+    <div style={{ height: height }}>
       <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth overflow-y-hidden">
         <Marquee
           gradient
