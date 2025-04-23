@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
+import Accordion from '../Common/Accordion/Accordion';
 
 type Props = {
   headers: string[];
@@ -11,6 +12,8 @@ type Props = {
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
   seeApplicantName: boolean;
   candidate: number;
+  toggleSeeApplicantName?: () => void;
+  canToggleSeeApplicantName?: boolean;
 };
 
 const credentialHeaders = [
@@ -75,27 +78,38 @@ const getCredentials = (headers: string[], responses: string[]) => {
   return credentials;
 };
 
-const ResponsesPanel: React.FC<Props> = ({ headers, responses, seeApplicantName, candidate }) => (
+const ResponsesPanel: React.FC<Props> = ({
+  headers,
+  responses,
+  seeApplicantName,
+  candidate,
+  toggleSeeApplicantName,
+  canToggleSeeApplicantName
+}) => (
   <div>
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}
+      toggleSeeApplicantName={toggleSeeApplicantName}
+      canToggleSeeApplicantName={canToggleSeeApplicantName}
       candidate={candidate}
     />
+
     <div className={styles.applicantResponses}>
-      {headers
-        .map((header, i) => ({ header, response: responses[i] }))
-        .filter(
-          ({ header }) =>
-            !credentialHeaders.includes(header) &&
-            (seeApplicantName || header !== 'Preferred Name (optional)')
-        )
-        .map(({ header, response }, i) => (
-          <div key={i} className={styles.questionResponseContainer}>
-            <h4 className={styles.questionHeader}>{header}</h4>
-            <div className={styles.responseText}>{response}</div>
-          </div>
-        ))}
+      <h3>Questions</h3>
+
+      <div className={styles.accordionsWrapper}>
+        {headers
+          .map((header, i) => ({ header, response: responses[i] }))
+          .filter(
+            ({ header }) =>
+              !credentialHeaders.includes(header) &&
+              (seeApplicantName || header !== 'Preferred Name (optional)')
+          )
+          .map(({ header, response }, i) => (
+            <Accordion key={i} header={header} response={response} defaultOpen={true} />
+          ))}
+      </div>
     </div>
   </div>
 );

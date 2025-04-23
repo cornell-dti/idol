@@ -1,5 +1,6 @@
-import Hero from '../components/Hero';
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
+import Hero from '../../components/Hero';
+import Banner from '../../components/Banner';
 
 export const metadata = {
   title: 'DTI TEAM PAGE',
@@ -9,6 +10,7 @@ export const metadata = {
 export default function Team() {
   return (
     <Layout>
+      <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
       <Hero
         heading="Team"
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
