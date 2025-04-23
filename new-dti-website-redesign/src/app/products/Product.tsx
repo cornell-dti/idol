@@ -17,12 +17,12 @@ const Product = ({ image, imageAlt, name, description, link }: Props): ReactNode
     </div>
 
     <div className="p-8 flex flex-col gap-4">
-      <div className="p-8 flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
         <h3>{name}</h3>
         <p className="text-foreground-3">{description}</p>
       </div>
 
-      <Button href={link} variant="primary" label="Visit product" />
+      <Button href={link} variant="primary" label="Visit product" newTab />
     </div>
   </section>
 );
