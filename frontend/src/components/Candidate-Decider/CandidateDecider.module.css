@@ -36,6 +36,7 @@
   align-items: center;
 }
 
+/* Selects the wrapper <div> of the combobox element */
 .searchBar > div {
   flex: 1;
   display: flex;
