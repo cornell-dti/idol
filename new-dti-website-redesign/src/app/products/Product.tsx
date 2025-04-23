@@ -18,7 +18,7 @@ const Product = ({ image, imageAlt, name, description, link, comingSoon }: Props
       <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
     </div>
 
-    <div className="p-8 flex flex-col gap-4">
+    <div className="p-4 md:p-8 flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
           <h3>{name}</h3>
