@@ -195,3 +195,8 @@ subsections of the carousel */
 .controlChildDivWidth > div > div {
   min-width: fit-content;
 }
+
+::selection {
+  background: var(--background-3);
+  color: var(--color-foreground-1);
+}
