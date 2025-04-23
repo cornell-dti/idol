@@ -9,6 +9,7 @@ type ButtonProps = {
   className?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
   badge?: React.ReactNode;
+  newTab?: boolean;
 };
 
 export default function Button({
@@ -17,7 +18,8 @@ export default function Button({
   href,
   className = '',
   variant = 'primary',
-  badge
+  badge,
+  newTab = false
 }: ButtonProps) {
   const baseStyles = `
     px-6 h-12 w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
@@ -44,7 +46,7 @@ export default function Button({
 
   if (href) {
     return (
-      <Link href={href} className={sharedClasses}>
+      <Link href={href} className={sharedClasses} target={newTab ? '_blank' : undefined}>
         {content}
       </Link>
     );
