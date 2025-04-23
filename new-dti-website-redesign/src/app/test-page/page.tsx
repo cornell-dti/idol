@@ -65,13 +65,15 @@ export default function TestPage() {
 
       <SectionSep />
 
-      <ScrollingMarquee>
+      <ScrollingMarquee height={96}>
         {logos.map((logo, index) => (
           <LogoBox key={index} {...logo} />
         ))}
       </ScrollingMarquee>
 
-      <ScrollingMarquee>
+      <SectionSep />
+
+      <ScrollingMarquee height={370}>
         {testimonials.map(({ quote, picture, name, date }, index) => (
           <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
         ))}
