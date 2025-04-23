@@ -29,7 +29,7 @@ const Hero = ({
   if (centered) {
     return (
       <section className="flex flex-col-reverse md:flex-col">
-        <div className="flex flex-col p-4 outline-[0.5px] outline-accent-green sm:p-8">
+        <div className="flex flex-col p-4 outline-[0.5px] outline-border-1 sm:p-8">
           <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-center">{heading}</h1>
@@ -58,7 +58,13 @@ const Hero = ({
         </div>
 
         {image && (
-          <Image src={image} alt={imageAlt || 'Hero image alt text'} width={1184} height={600} />
+          <Image
+            src={image}
+            alt={imageAlt || 'Hero image alt text'}
+            width={1184}
+            height={600}
+            className="border-t-1 border-t-border-1"
+          />
         )}
       </section>
     );
@@ -72,17 +78,17 @@ const Hero = ({
           alt={imageAlt || 'Hero image alt text'}
           width={1184}
           height={600}
-          className="outline-[0.5px] outline-accent-green md:outline-0"
+          className="outline-[0.5px] outline-border-1 md:outline-0"
         />
       )}
       <div className="flex-col md:flex-row flex">
-        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-accent-green">
+        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-border-1">
           <h1>{heading}</h1>
           <h6 className="text-foreground-3">{subheading}</h6>
         </div>
 
         {(button1Label && button1Link) || (button2Label && button2Link) ? (
-          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-accent-green md:justify-center max-w-1/4">
+          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-border-1 md:justify-center max-w-1/4">
             {button1Label && button1Link && (
               <Button
                 variant="primary"
