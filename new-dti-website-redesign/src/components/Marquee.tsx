@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState, ReactNode } from 'react';
 import ReactFastMarquee from 'react-fast-marquee';
 
