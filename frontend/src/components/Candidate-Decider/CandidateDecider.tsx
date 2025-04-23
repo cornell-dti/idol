@@ -12,7 +12,6 @@ import {
 } from './useCandidateDeciderInstance';
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
-import Switch from '../Common/Switch/Switch';
 import Selector, { RatingOptions } from '../Common/Selector/Selector';
 
 type CandidateDeciderProps = {
