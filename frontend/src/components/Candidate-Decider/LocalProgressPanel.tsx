@@ -25,14 +25,6 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
   );
   return (
     <div className={styles.progressContainer}>
-      <h4>My Progress</h4>
-      <Progress
-        value={myRatings.length}
-        total={candidates.length}
-        size="tiny"
-        color="blue"
-      >{`${myRatings.length}/${candidates.length}`}</Progress>
-
       <ProgressBar value={myRatings.length} total={candidates.length} />
 
       {userInfo && LEAD_ROLES.includes(userInfo.role) ? (
