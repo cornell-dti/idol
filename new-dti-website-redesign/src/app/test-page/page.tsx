@@ -8,7 +8,7 @@ import SectionSep from '../../components/SectionSep';
 import Marquee from '../../components/Marquee';
 import SectionTitle from '../../components/SectionTitle';
 import LogoBox from '../../components/LogoBox';
-import TestimonialCard from '@/components/TestimonialCard';
+import TestimonialCard from '../../components/TestimonialCard';
 
 const logos = [
   { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
