@@ -17,7 +17,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
 
-  // You should be able to user the left/right arrow keys to navigate between tabs
+  // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
