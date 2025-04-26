@@ -6,6 +6,7 @@ import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
 import ScrollingMarquee from '../../components/ScrolllingMarquee';
+import Footer from '../../components/Footer';
 
 export default function TestPage() {
   return (
@@ -273,6 +274,8 @@ export default function TestPage() {
       <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
 
       <section className="h-128" />
+
+      <Footer />
     </Layout>
   );
 }
