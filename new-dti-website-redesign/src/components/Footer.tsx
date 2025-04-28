@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import Button from './Button';
 
 export default function Footer() {
   const DTILinks = [
@@ -11,6 +12,14 @@ export default function Footer() {
     { href: '/initiatives', label: 'Initiatives' },
     { href: '/sponsor', label: 'Sponsor' },
     { href: '/apply', label: 'Apply' }
+  ];
+  const ProductLinks = [
+    { href: 'https://www.cureviews.org/', label: 'CU Reviews' },
+    { href: 'https://courseplan.io/', label: 'Course Plan' },
+    { href: 'https://queueme.in/', label: 'Queue Me In' },
+    { href: 'https://www.cudesign.io/', label: 'Design @ Cornell' },
+    { href: 'https://zing-lsc-prod.web.app/', label: 'Zing' },
+    { href: 'https://cuapts.org/', label: 'CU Apts' }
   ];
   const SocialLinks = [
     {
@@ -127,6 +136,26 @@ export default function Footer() {
       </ul>
     </div>
   );
+  const ProductLinksSection = () => (
+    <div>
+      <h6 className="text-foreground-1 pb-[8px]">Products</h6>
+      <ul className="flex flex-col list-none">
+        {ProductLinks.map(({ href, label }) => (
+          <li key={href}>
+            <Link href={href} className="text-foreground-3 hover:text-foreground-1">
+              {label}
+            </Link>
+          </li>
+        ))}
+        <li>
+          <span className="text-foreground-3 cursor-default">Carriage</span>
+        </li>
+        <li>
+          <span className="text-foreground-3 cursor-default">Cornell Go</span>
+        </li>
+      </ul>
+    </div>
+  );
 
   const DTILogoSection = () => (
     <div>
@@ -157,49 +186,48 @@ export default function Footer() {
     <div className="bg-background-1">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
         {/* 1) Logo */}
-        <div
-          className="
-            p-8
-            sm:pb-0
-            md:row-start-1 md:col-start-1
-            lg:row-auto lg:col-auto lg:pb-8
-          "
-        >
+        <div className="p-8 sm:pb-0 md:row-start-1 md:col-start-1 lg:row-auto lg:col-auto lg:pb-8">
           <DTILogoSection />
         </div>
 
-        {/* 2) Button */}
-        <div
-          className="
-            p-8
-            sm:hidden
-            md:block md:row-start-1 md:col-start-2
-            lg:row-auto lg:col-auto
-          "
-        >
-          <h6 className="font-semibold mb-4">Button</h6>
-        </div>
-
         {/* 3) Cornell DTI Links */}
-        <div
-          className="
-            p-8
-            md:row-start-2 md:col-start-1
-            lg:row-auto lg:col-auto
-          "
-        >
+        <div className="p-8 md:row-start-2 md:col-start-1 lg:row-auto lg:col-auto">
           <DTILinksSection />
         </div>
 
         {/* 4) Products */}
-        <div
-          className="
-            p-8
-            md:row-start-2 md:col-start-2
-            lg:row-auto lg:col-auto
-          "
-        >
-          <h6 className="font-semibold mb-4">Products</h6>
+        <div className="p-8 sm:pt-0 md:row-start-2 md:col-start-2 md:pt-8 lg:row-auto lg:col-auto">
+          <div className="flex justify-between items-end">
+            <ProductLinksSection />
+            <div className="md:hidden">
+              <Button
+                label="Back to top"
+                variant="secondary"
+                badge={<Image src="/arrowLogo.svg" alt="Arrow Logo" width={25} height={25} />}
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                  });
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 2) Button */}
+        <div className="p-8 hidden md:flex md:justify-end md:block md:row-start-1 md:col-start-2 lg:row-auto lg:col-auto">
+          <Button
+            label="Back to top"
+            variant="secondary"
+            badge={<Image src="/arrowLogo.svg" alt="Arrow Logo" width={25} height={25} />}
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }}
+          />
         </div>
       </div>
     </div>
