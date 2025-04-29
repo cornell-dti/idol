@@ -24,7 +24,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
       e.preventDefault();
       // +1 for going to right, -1 for going to left
       const dir = e.key === 'ArrowRight' ? 1 : -1;
-      const nextIndex = (activeIndex + dir) % tabs.length;
+      const nextIndex = (activeIndex + dir + tabs.length) % tabs.length;
       setActiveIndex(nextIndex);
       tabsRef.current[nextIndex]?.focus(); // Moves focus to next tab
     }
