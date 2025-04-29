@@ -60,14 +60,6 @@
   background: var(--accent-strong-yes);
 }
 
-.gray {
-  color: var(--fg-default);
-}
-.graySelected {
-  background: var(--border-default);
-  color: var(--fg-default);
-}
-
 /* Selected states */
 .selected {
   display: flex;
@@ -76,6 +68,15 @@
   align-items: center;
   gap: 10px;
   padding: 16px;
+  color: var(--bg-default);
+}
+
+.gray {
+  color: var(--fg-dimmest);
+}
+.graySelected {
+  background: var(--border-default);
+  color: var(--fg-default);
 }
 
 .hiddenInput {
