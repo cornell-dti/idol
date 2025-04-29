@@ -1,5 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Modal, Form, Radio } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -12,18 +12,19 @@ import {
 } from './useCandidateDeciderInstance';
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
+import Selector, { RatingOptions } from '../Common/Selector/Selector';
 
 type CandidateDeciderProps = {
   uuid: string;
 };
 
-const ratings = [
+const ratings: RatingOptions[] = [
   { value: 1, text: 'Strong No', color: 'red' },
   { value: 2, text: 'No', color: 'orange' },
   { value: 3, text: 'Maybe', color: 'yellow' },
   { value: 4, text: 'Yes', color: 'green' },
-  { value: 5, text: 'Strong Yes', color: 'green ' },
-  { value: 0, text: 'Undecided', color: 'grey' }
+  { value: 5, text: 'Strong Yes', color: 'darkgreen' },
+  { value: 0, text: 'Undecided', color: 'gray' }
 ];
 
 type CommentEditorProps = {
@@ -231,23 +232,11 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <div className={styles.bottom}>
           <div className={styles.ratingSelectorWrapper}>
             <h4>Final selection</h4>
-
-            <Form>
-              <Form.Group inline>
-                {ratings.map((rt) => (
-                  <Form.Field key={rt.value}>
-                    <Radio
-                      label={rt.text}
-                      name="rating-group"
-                      value={rt.value}
-                      color={rt.color}
-                      checked={rt.value === currentRating}
-                      onClick={() => setCurrentRating(rt.value as Rating)}
-                    />
-                  </Form.Field>
-                ))}
-              </Form.Group>
-            </Form>
+            <Selector
+              selected={currentRating ?? 0}
+              onChange={(value: number) => setCurrentRating(value as Rating)}
+              ratings={ratings}
+            />
           </div>
           <div className={styles.saveButtonWrapper}>
             <Button
