@@ -135,40 +135,40 @@ const InterviewStatusDashboard: React.FC = () => {
 
     const promotedNames: string[] = [];
     const errors: string[] = [];
-    const updatePromises: Promise<void>[] = [];
     const uuidsToPromote: string[] = [];
 
-    Array.from(selectedApplicants).forEach((uuid) => {
+    const updatePromises = Array.from(selectedApplicants).map((uuid) => {
       const applicant = applicants.find((app) => app.uuid === uuid);
 
       if (!applicant) {
         errors.push(`Applicant with ID ${uuid} not found.`);
-        return;
+        return Promise.resolve();
       }
 
       const { name, round, status, role } = applicant;
 
       if (status !== 'Accepted') {
         errors.push(`${name} has not been accepted and cannot proceed.`);
-      } else if (round === 'Technical') {
-        errors.push(`${role} ${name} is already at the final round.`);
-      } else {
-        const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
-        const updatedStatus = {
-          ...applicant,
-          uuid: uuid!,
-          round: newRound as Round,
-          status: 'Undecided' as IntStatus
-        };
-
-        uuidsToPromote.push(uuid);
-
-        const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
-          promotedNames.push(name);
-        });
-
-        updatePromises.push(promise);
+        return Promise.resolve();
       }
+
+      if (round === 'Technical') {
+        errors.push(`${role} ${name} is already at the final round.`);
+        return Promise.resolve();
+      }
+
+      const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
+      const updatedStatus = {
+        ...applicant,
+        uuid,
+        round: newRound as Round,
+        status: 'Undecided' as IntStatus
+      };
+
+      uuidsToPromote.push(uuid);
+      return InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
+        promotedNames.push(name);
+      });
     });
 
     await Promise.all(updatePromises);
