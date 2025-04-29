@@ -23,8 +23,8 @@ export const STATUS_OPTIONS = [
 ];
 
 export const ROLE_OPTIONS = [
-  { key: 'developer', text: 'Developer', value: 'developer' },
-  { key: 'pm', text: 'Product Manager', value: 'pm' },
-  { key: 'business', text: 'Business', value: 'business' },
-  { key: 'designer', text: 'Designer', value: 'designer' }
+  { key: 'developer', text: 'Developer', value: 'Developer' },
+  { key: 'product_manager', text: 'Product Manager', value: 'Product Manager' },
+  { key: 'business', text: 'Business', value: 'Business' },
+  { key: 'designer', text: 'Designer', value: 'Designer' }
 ];

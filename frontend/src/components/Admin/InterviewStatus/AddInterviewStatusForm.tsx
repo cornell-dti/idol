@@ -4,6 +4,14 @@ import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
 import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
 
+const displayToRoleMap: Record<string, GeneralRole> = {
+  Developer: 'developer',
+  Designer: 'designer',
+  'Product Manager': 'pm',
+  Business: 'business',
+  Lead: 'lead',
+};
+
 interface AddInterviewStatusFormProps {
   onAddApplicant: (applicant: InterviewStatus) => void;
 }
@@ -12,6 +20,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
   const [name, setName] = useState('');
   const [netid, setNetid] = useState('');
   const [round, setRound] = useState<Round | ''>('');
+  const [roleDisplay, setRoleDisplay] = useState<string>('');
   const [role, setRole] = useState<GeneralRole | ''>('');
   const [status, setStatus] = useState<IntStatus | ''>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -85,8 +94,12 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
           fluid
           selection
           options={ROLE_OPTIONS}
-          value={role}
-          onChange={(e, data: DropdownProps) => setRole(data.value as GeneralRole)}
+          value={roleDisplay}
+          onChange={(_, { value }) => {
+            const disp = value as string;
+            setRoleDisplay(disp);
+            setRole(displayToRoleMap[disp] || '');
+          }}
         />
       </Form.Field>
       <Form.Field>
