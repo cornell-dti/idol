@@ -10,12 +10,20 @@ import SchedulingSidePanel from './SchedulingSidePanel';
 import { EditAvailabilityContext, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 
+const formatDate = (date: Date): string => {
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  const yyyy = date.getFullYear();
+
+  return `${mm}/${dd}/${yyyy}`;
+};
+
 const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot }> = ({
   scheduler,
   slot
 }) => (
   <div className={styles.inviteCardContainer}>
-    <Card>
+    <Card style={{ width: '30%' }}>
       <Card.Content>
         {slot ? (
           <>
@@ -23,10 +31,17 @@ const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot
             <div>
               <p>{scheduler.name}</p>
               <p>
-                {getTimeString(slot.startTime)} -{' '}
+                <strong>Date: </strong>
+                {`${formatDate(new Date(slot.startTime))}`}
+              </p>
+              <p>
+                <strong>Time: </strong> {getTimeString(slot.startTime)} -{' '}
                 {getTimeString(slot.startTime + scheduler.duration)}
               </p>
-              <p>{slot.room}</p>
+              <p>
+                <strong>Room: </strong>
+                {slot.room}
+              </p>
             </div>
           </>
         ) : (
