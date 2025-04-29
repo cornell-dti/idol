@@ -66,7 +66,7 @@ async function updateAlumniJson(): Promise<void> {
   }
 
   // Combine the members into a single list
-  const alumni: IdolMember[] = [...semesterOne.members, ...semesterTwo.members];
+  const alumni = [...semesterOne.members, ...semesterTwo.members];
 
   const alumniJsonPath = resolve(__dirname, '../new-dti-website/components/team/data/alumni.json');
   const existingContent = readFileSync(alumniJsonPath, 'utf8');
