@@ -152,9 +152,6 @@ async function updateAlumniJson(): Promise<void> {
 }
 
 function runCommand(program: string, ...programArguments: readonly string[]) {
-  const programArgumentsQuoted = programArguments
-    .map((it) => (it.includes(' ') ? `"${it}"` : it))
-    .join(' ');
   return spawnSync(program, programArguments, { stdio: 'inherit' });
 }
 
