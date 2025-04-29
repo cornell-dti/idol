@@ -272,7 +272,7 @@ export default function TestComponents() {
 
           <Chip label="Coming soon" color="purple" />
         </div>
-        
+
         <h4>Tab</h4>
         <Tabs
           tabs={[

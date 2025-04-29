@@ -2,16 +2,18 @@
 
 import { forwardRef } from 'react';
 import Link from 'next/link';
+import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 
 type ButtonProps = {
   label: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void; // <-- define onClick manually
   href?: string;
-  className?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
   badge?: React.ReactNode;
   newTab?: boolean;
-};
+  className?: string;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick'> &
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'type' | 'onClick'>;
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
@@ -30,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       tertiary: `bg-transparent border border-border-1 text-foreground-1 hover:bg-background-2`
     }[variant];
 
-    const sharedClasses = `${baseStyles} ${variantStyles} ${className}`;
+    const sharedClasses = `${baseStyles} ${className} ${variantStyles}`;
 
     const content = (
       <>
@@ -45,14 +47,20 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     if (href) {
       return (
-        <Link href={href} className={sharedClasses} target={newTab ? '_blank' : undefined}>
+        <Link
+          href={href}
+          className={sharedClasses}
+          target={newTab ? '_blank' : undefined}
+          ref={ref as any}
+          {...rest}
+        >
           {content}
         </Link>
       );
     }
 
     return (
-      <button onClick={onClick} className={sharedClasses} type="button">
+      <button type="button" onClick={onClick} className={sharedClasses} ref={ref as any} {...rest}>
         {content}
       </button>
     );
