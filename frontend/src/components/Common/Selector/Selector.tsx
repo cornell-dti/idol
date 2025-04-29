@@ -4,7 +4,7 @@ import styles from './Selector.module.css';
 export interface RatingOptions {
   value: number;
   text: string;
-  color: 'red' | 'orange' | 'yellow' | 'green' | 'darkgreen' | 'grey';
+  color: 'red' | 'orange' | 'yellow' | 'green' | 'darkgreen' | 'gray';
 }
 
 interface SelectorProps {
