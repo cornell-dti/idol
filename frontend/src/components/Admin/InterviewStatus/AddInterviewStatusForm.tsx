@@ -9,7 +9,7 @@ const displayToRoleMap: Record<string, GeneralRole> = {
   Designer: 'designer',
   'Product Manager': 'pm',
   Business: 'business',
-  Lead: 'lead',
+  Lead: 'lead'
 };
 
 interface AddInterviewStatusFormProps {
@@ -35,20 +35,13 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
     }
 
     setIsSubmitting(true);
-    await InterviewStatusAPI.createInterviewStatus({
+    const createdApplicant = await InterviewStatusAPI.createInterviewStatus({
       name,
       netid,
       round: round as Round,
       role: role as GeneralRole,
       status: status as IntStatus
     });
-    const createdApplicant: InterviewStatus = {
-      name,
-      netid,
-      round: round as Round,
-      role: role as GeneralRole,
-      status: status as IntStatus
-    };
     Emitters.generalSuccess.emit({
       headerMsg: 'Interview Status added sucessfully!',
       contentMsg: 'Proceed to Dashboard to view and update their status.'
@@ -56,6 +49,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
     setName('');
     setNetid('');
     setRound('');
+    setRoleDisplay('');
     setRole('');
     setStatus('');
     onAddApplicant(createdApplicant);

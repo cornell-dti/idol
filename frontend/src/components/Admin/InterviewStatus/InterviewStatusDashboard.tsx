@@ -178,10 +178,10 @@ const InterviewStatusDashboard: React.FC = () => {
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-            ...applicant,
-            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-            status: 'Undecided'
-          }
+              ...applicant,
+              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+              status: 'Undecided'
+            }
           : applicant
       )
     );
@@ -189,10 +189,10 @@ const InterviewStatusDashboard: React.FC = () => {
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-            ...applicant,
-            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-            status: 'Undecided'
-          }
+              ...applicant,
+              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+              status: 'Undecided'
+            }
           : applicant
       )
     );
@@ -249,12 +249,11 @@ const InterviewStatusDashboard: React.FC = () => {
 
   if (isLoading) return <Loader active>Loading applicant data...</Loader>;
 
-  const filterOptions = [
-    ...STATUS_OPTIONS, ...ROLE_OPTIONS,
-  ];
+  const filterOptions = [...STATUS_OPTIONS, ...ROLE_OPTIONS];
 
   const roundOptions = [
-    { key: 'all_rounds', text: 'All Rounds', value: 'All Rounds' }, ...ROUND_OPTIONS,
+    { key: 'all_rounds', text: 'All Rounds', value: 'All Rounds' },
+    ...ROUND_OPTIONS
   ];
 
   const roleDisplayMap: Record<GeneralRole, string> = {

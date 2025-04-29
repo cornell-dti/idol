@@ -615,9 +615,10 @@ loginCheckedGet('/interview-status/:uuid', async (req, user) => ({
   instances: await getInterviewStatus(req.params.uuid, user)
 }));
 
-loginCheckedPost('/interview-status', async (req, user) => ({
-  newStatus: await createInterviewStatus(req.body, user)
-}));
+loginCheckedPost('/interview-status', async (req, user) => {
+  const newStatus = await createInterviewStatus(req.body, user);
+  return { newStatus };
+});
 
 loginCheckedPut('/interview-status', async (req, user) => ({
   success: await updateInterviewStatus(user, req.body, req.body.uuid)

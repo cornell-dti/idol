@@ -57,12 +57,13 @@ export class InterviewStatusAPI {
   /**
    * Create a new interview status record.
    * @param interviewStatusData - data for the new interview status
+   * @return the created InterviewStatus (with uuid)
    */
   public static createInterviewStatus(
     interviewStatusData: InterviewStatus
-  ): Promise<InterviewStatusResponseObj> {
+  ): Promise<InterviewStatus> {
     return APIWrapper.post(`${backendURL}/interview-status`, interviewStatusData).then(
-      (res) => res.data
+      (res) => res.data.newStatus
     );
   }
 
