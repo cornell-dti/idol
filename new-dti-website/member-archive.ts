@@ -155,8 +155,6 @@ function runCommand(program: string, ...programArguments: readonly string[]) {
   const programArgumentsQuoted = programArguments
     .map((it) => (it.includes(' ') ? `"${it}"` : it))
     .join(' ');
-  // eslint-disable-next-line no-console
-  console.log(`> ${program} ${programArgumentsQuoted}`);
   return spawnSync(program, programArguments, { stdio: 'inherit' });
 }
 
