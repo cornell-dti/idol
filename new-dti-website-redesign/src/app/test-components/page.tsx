@@ -9,6 +9,7 @@ import Input from '../../components/Input';
 import LabeledInput from '../../components/LabeledInput';
 import TestimonialCard from '../../components/TestimonialCard';
 import IconWrapper from '../../components/IconWrapper';
+import Chip from '../../components/Chip';
 import Tabs from '../../components/Tabs';
 
 export default function TestComponents() {
@@ -257,6 +258,21 @@ export default function TestComponents() {
       </div>
 
       <div className="flex flex-col gap-6">
+        <h4>Chip</h4>
+        <div className="flex gap-4">
+          <Chip label="Coming soon" />
+
+          <Chip label="Coming soon" color="red" />
+
+          <Chip label="Coming soon" color="green" />
+
+          <Chip label="Coming soon" color="blue" />
+
+          <Chip label="Coming soon" color="yellow" />
+
+          <Chip label="Coming soon" color="purple" />
+        </div>
+
         <h4>Tab</h4>
         <Tabs
           tabs={[

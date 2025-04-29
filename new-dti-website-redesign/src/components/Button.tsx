@@ -1,25 +1,27 @@
 'use client';
 
-import { forwardRef, Ref } from 'react';
+import { forwardRef } from 'react';
 import Link from 'next/link';
+import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 
 type ButtonProps = {
   label: string;
   href?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
   badge?: React.ReactNode;
-  role?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement> &
-  React.AnchorHTMLAttributes<HTMLAnchorElement>;
-
+  newTab?: boolean;
+  className?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick'> &
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'type' | 'onClick'>;
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
-    { label, onClick, href, className = '', variant = 'primary', badge, role = 'button', ...rest },
+    { label, onClick, href, className = '', variant = 'primary', badge, newTab = false, ...rest },
     ref
   ) => {
     const baseStyles = `
-      px-6 h-12 w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
-      transition-[background-color] duration-[120ms] focusState text-nowrap`;
+        px-6 h-12 w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
+        transition-[background-color] duration-[120ms] focusState text-nowrap`;
 
     const variantStyles = {
       primary: `bg-foreground-1 text-background-1 hover:bg-foreground-2 ${
@@ -29,7 +31,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       tertiary: `bg-transparent border border-border-1 text-foreground-1 hover:bg-background-2`
     }[variant];
 
-    const sharedClasses = `${baseStyles} ${variantStyles} ${className}`;
+    const sharedClasses = `${baseStyles} ${className} ${variantStyles}`;
 
     const content = (
       <>
@@ -44,7 +46,13 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     if (href) {
       return (
-        <Link href={href} className={sharedClasses} {...rest} ref={ref as Ref<HTMLAnchorElement>}>
+        <Link
+          href={href}
+          className={sharedClasses}
+          target={newTab ? '_blank' : undefined}
+          {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
+          ref={ref as React.Ref<HTMLAnchorElement>}
+        >
           {content}
         </Link>
       );
@@ -52,11 +60,11 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     return (
       <button
+        type="button"
         onClick={onClick}
         className={sharedClasses}
-        role={role}
-        {...rest}
-        ref={ref as Ref<HTMLButtonElement>}
+        {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
+        ref={ref as React.Ref<HTMLButtonElement>}
       >
         {content}
       </button>
