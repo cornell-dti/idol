@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
