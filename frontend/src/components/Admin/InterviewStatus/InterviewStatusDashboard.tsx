@@ -153,7 +153,7 @@ const InterviewStatusDashboard: React.FC = () => {
         errors.push(`${role} ${name} is already at the final round.`);
       } else {
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
-        const updatedStatus = { ...applicant, uuid: uuid!, round: newRound as Round };
+        const updatedStatus = { ...applicant, uuid: uuid!, round: newRound as Round, status: 'Undecided' as IntStatus };
 
         const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
           promotedNames.push(name);
