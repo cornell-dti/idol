@@ -114,7 +114,7 @@ import {
   getInterviewStatus,
   createInterviewStatus,
   updateInterviewStatus,
-  deleteInterviewStatus,
+  deleteInterviewStatus
 } from './API/interviewStatusAPI';
 
 import { HandlerError } from './utils/errors';

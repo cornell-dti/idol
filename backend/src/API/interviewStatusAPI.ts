@@ -99,4 +99,3 @@ export const deleteInterviewStatus = async (uuid: string, user: IdolMember): Pro
   }
   await interviewStatusDao.deleteInterviewStatus(uuid);
 };
-
