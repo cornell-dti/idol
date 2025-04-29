@@ -99,7 +99,7 @@ async function updateAlumniJson(): Promise<void> {
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/update-alumni-json';
   runCommand('git', 'add', '.');
-  runCommand('git', 'fetch', '--all');
+  runCommand('git', 'fetch', 'origin', 'main');
   runCommand('git', 'checkout', 'main');
   runCommand('git', 'checkout', '-b', gitBranch);
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {

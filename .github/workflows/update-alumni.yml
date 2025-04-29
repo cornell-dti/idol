@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
 
@@ -22,6 +22,8 @@ jobs:
         run: yarn install
 
       - name: Run TypeScript to update alumni.json
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           # Run the TypeScript script to update alumni.json
           yarn workspace new-dti-website run member-archive
