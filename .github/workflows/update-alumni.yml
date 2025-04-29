@@ -24,7 +24,7 @@ jobs:
       - name: Run TypeScript to update alumni.json
         run: |
           # Run the TypeScript script to update alumni.json
-          yarn ts-node ./new-dti-website/member-archive.ts
+          yarn workspace new-dti-website run pull-from-idol
 
       - name: Commit changes
         run: |
