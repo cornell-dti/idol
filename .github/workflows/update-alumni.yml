@@ -24,7 +24,7 @@ jobs:
       - name: Run TypeScript to update alumni.json
         run: |
           # Run the TypeScript script to update alumni.json
-          npx ts-node ./new-dti-website/member-archive.ts
+          yarn ts-node ./new-dti-website/member-archive.ts
 
       - name: Commit changes
         run: |
