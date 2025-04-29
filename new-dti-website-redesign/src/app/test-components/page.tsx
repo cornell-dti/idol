@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 import Button from '../../components/Button';
 import IconButton from '../../components/IconButton';
@@ -9,6 +10,7 @@ import LabeledInput from '../../components/LabeledInput';
 import TestimonialCard from '../../components/TestimonialCard';
 import IconWrapper from '../../components/IconWrapper';
 import Chip from '../../components/Chip';
+import Tabs from '../../components/Tabs';
 
 export default function TestComponents() {
   return (
@@ -270,6 +272,47 @@ export default function TestComponents() {
 
           <Chip label="Coming soon" color="purple" />
         </div>
+        
+        <h4>Tab</h4>
+        <Tabs
+          tabs={[
+            {
+              label: 'Tab 1',
+              content: (
+                <div className="w-128 h-128 bg-accent-blue p-8 focusState" tabIndex={0}>
+                  <h3>Tab panel 1</h3>
+
+                  <p>A lovely tab 1 with just an image</p>
+
+                  <Image src="/clem.jpg" alt="Clément's pic" width={128} height={128} />
+                </div>
+              )
+            },
+            {
+              label: 'Tab 2',
+              content: (
+                <div className="w-128 h-128 bg-accent-yellow p-8">
+                  <h3>Tab panel 2</h3>
+
+                  <p>A lovely tab 2 with interactive elements</p>
+
+                  <Input placeholder="Input placeholder" onChange={() => {}} className="w-64" />
+
+                  <Button label="Hey hey" variant="secondary" />
+                </div>
+              )
+            },
+            {
+              label: 'Tab 3',
+              content: (
+                <div className="w-128 h-128 bg-accent-red p-8 focusState" tabIndex={0}>
+                  <h3>Tab panel 3</h3>
+                  <p className="small caps">helloooo</p>
+                </div>
+              )
+            }
+          ]}
+        />
       </div>
     </div>
   );
