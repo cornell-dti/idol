@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
@@ -74,8 +73,7 @@ async function updateAlumniJson(): Promise<void> {
   const newContent = JSON.stringify({ alumni }, null, 2);
 
   if (existingContent === newContent) {
-    console.log('No changes to alumni.json.');
-    return;
+    throw new Error('No changes to alumni.json.');
   }
 
   let diffOutput = '';
@@ -87,8 +85,8 @@ async function updateAlumniJson(): Promise<void> {
   unlinkSync('existing.json');
 
   if (!process.env.CI) {
-    console.log(`\n${diffOutput}`);
-    return;
+    // If you're not in CI, throw an error instead of logging the diff output
+    throw new Error(`Diff Output:\n${diffOutput}`);
   }
 
   writeFileSync(alumniJsonPath, newContent);
@@ -157,6 +155,7 @@ function runCommand(program: string, ...programArguments: readonly string[]) {
   const programArgumentsQuoted = programArguments
     .map((it) => (it.includes(' ') ? `"${it}"` : it))
     .join(' ');
+  // eslint-disable-next-line no-console
   console.log(`> ${program} ${programArgumentsQuoted}`);
   return spawnSync(program, programArguments, { stdio: 'inherit' });
 }
