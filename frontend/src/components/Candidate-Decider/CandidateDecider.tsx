@@ -24,7 +24,7 @@ const ratings: RatingOptions[] = [
   { value: 3, text: 'Maybe', color: 'yellow' },
   { value: 4, text: 'Yes', color: 'green' },
   { value: 5, text: 'Strong Yes', color: 'darkgreen' },
-  { value: 0, text: 'Undecided', color: 'grey' }
+  { value: 0, text: 'Undecided', color: 'gray' }
 ];
 
 type CommentEditorProps = {
