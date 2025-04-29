@@ -73,62 +73,6 @@ export default class InterviewStatusDao extends BaseDao<InterviewStatus, Intervi
   }
 
   /**
-   * Gets all Interview Status entries for a given netid.
-   * @param netid - netID of the candidate whose interview status should be fetched
-   */
-  async getInterviewStatusesByNetId(netid: string): Promise<InterviewStatus[]> {
-    return this.getDocuments([
-      {
-        field: 'netid',
-        comparisonOperator: '==',
-        value: netid
-      }
-    ]);
-  }
-
-  /**
-   * Gets all Interview Status entries for a specific round.
-   * @param round - round name
-   */
-  async getInterviewStatusesByRound(round: string): Promise<InterviewStatus[]> {
-    return this.getDocuments([
-      {
-        field: 'round',
-        comparisonOperator: '==',
-        value: round
-      }
-    ]);
-  }
-
-  /**
-   * Gets all Interview Status entries with a specific status.
-   * @param status - status ("Waitlisted", "Accepted", "Rejected", "Undecided")
-   */
-  async getInterviewStatusesByStatus(status: string): Promise<InterviewStatus[]> {
-    return this.getDocuments([
-      {
-        field: 'status',
-        comparisonOperator: '==',
-        value: status
-      }
-    ]);
-  }
-
-  /**
-   * Gets all Interview Status entries with a specific role.
-   * @param status - role ("Developer", "Product Manager", "Design", "Bussiness")
-   */
-  async getInterviewStatusesByRole(role: string): Promise<InterviewStatus[]> {
-    return this.getDocuments([
-      {
-        field: 'role',
-        comparisonOperator: '==',
-        value: role
-      }
-    ]);
-  }
-
-  /**
    * Gets all Interview Status entries for all candidates.
    */
   async getAllInterviewStatuses(): Promise<InterviewStatus[]> {

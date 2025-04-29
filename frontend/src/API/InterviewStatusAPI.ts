@@ -75,68 +75,6 @@ export class InterviewStatusAPI {
   }
 
   /**
-   * Fetch all interview statuses for a specific round.
-   * @param round - name of the round
-   */
-  public static getInterviewStatusesByRound(round: string): Promise<InterviewStatus[]> {
-    const res = APIWrapper.get(`${backendURL}/interview-status?round=${round}`).then(
-      (res) => res.data
-    );
-    return res.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Coudn't fetch interview statuses for this round",
-          contentMsg: `Error was: ${val.error}`
-        });
-        return [];
-      }
-      return val.interviewStatuses as InterviewStatus[];
-    });
-  }
-
-  /**
-   * Fetch all interview statuses for a specific netid.
-   * @param netid - netID of the applicant
-   * @returns
-   */
-  public static getInterviewStatusesByNetId(netid: string): Promise<InterviewStatus[]> {
-    const res = APIWrapper.get(`${backendURL}/interview-status?netid=${netid}`).then(
-      (res) => res.data
-    );
-    return res.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Coudn't fetch interview statuses for this netid",
-          contentMsg: `Error was: ${val.error}`
-        });
-        return [];
-      }
-      return val.interviewStatuses as InterviewStatus[];
-    });
-  }
-
-  /**
-   * Fetch all interview statuses for a specific role.
-   * @param role - role of the applicant
-   * @returns
-   */
-  public static getInterviewStatusesByRole(role: string): Promise<InterviewStatus[]> {
-    const res = APIWrapper.get(`${backendURL}/interview-status?role=${role}`).then(
-      (res) => res.data
-    );
-    return res.then((val) => {
-      if (val.error) {
-        Emitters.generalError.emit({
-          headerMsg: "Coudn't fetch interview statuses for this role",
-          contentMsg: `Error was: ${val.error}`
-        });
-        return [];
-      }
-      return val.interviewStatuses as InterviewStatus[];
-    });
-  }
-
-  /**
    * Clears all interview statuses.
    */
   public static async clearAllInterviewStatuses(): Promise<void> {
