@@ -19,21 +19,8 @@
   align-items: center;
   position: relative;
   text-align: center;
-  gap: 10px;
-  flex: 1 0 0;
   min-width: 0;
   width: 100%;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: transparent;
-  transition:
-    background-color 50ms,
-    color 50ms;
-  font-family: Inter, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
   line-height: 100%;
 }
 
@@ -77,7 +64,7 @@
   color: var(--fg-dimmest);
 }
 .graySelected {
-  background: var(--border-default);
+  background: var(--fg-default);
   color: var(--fg-default);
 }
 
