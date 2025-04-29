@@ -156,12 +156,12 @@ const SchedulingSidePanel: React.FC<{
         );
         Emitters.generalSuccess.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `You have successfully ${isSigningUp ? 'signed up for this' : 'cancelled'} time slot!`
+          contentMsg: `You have successfully ${isSigningUp ? 'signed up for' : 'cancelled'} this time slot!`
         });
       } else {
         Emitters.generalError.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `Could not ${isSigningUp ? 'sign up for this' : 'cancel'} time slot. Another user may have edited this time slot already.`
+          contentMsg: `Could not ${isSigningUp ? 'sign up for' : 'cancel'} this time slot. Another user may have edited this time slot already.`
         });
         refresh();
         setSelectedSlot(undefined);
@@ -199,24 +199,26 @@ const SchedulingSidePanel: React.FC<{
             <ul>
               {displayedSlot.members.map((member, index) =>
                 isEditing ? (
-                  <Dropdown
-                    key={member?.netid}
-                    selection
-                    value={slotMembers[index]?.email}
-                    options={memberOptions}
-                    onChange={(_, data) =>
-                      setSlotMembers(
-                        slotMembers.map((mem, i) => {
-                          if (i === index) {
-                            return data.value === undefined
-                              ? null
-                              : getMember(data.value as string);
-                          }
-                          return mem;
-                        })
-                      )
-                    }
-                  />
+                  <li key={member?.netid} className={styles.memberListItem}>
+                    <Dropdown
+                      search
+                      selection
+                      value={slotMembers[index]?.email}
+                      options={memberOptions}
+                      onChange={(_, data) =>
+                        setSlotMembers(
+                          slotMembers.map((mem, i) => {
+                            if (i === index) {
+                              return data.value === undefined
+                                ? null
+                                : getMember(data.value as string);
+                            }
+                            return mem;
+                          })
+                        )
+                      }
+                    />
+                  </li>
                 ) : (
                   <li key={member?.netid}>{displayNameOrVacant(member)}</li>
                 )
@@ -230,12 +232,14 @@ const SchedulingSidePanel: React.FC<{
         <div>
           <p>
             Applicant:{' '}
-            {isAdmin && !isEditing
-              ? displayNameOrVacant(displayedSlot.applicant)
-              : displayCensoredName(displayedSlot.applicant)}
+            {!isEditing &&
+              (isAdmin
+                ? displayNameOrVacant(displayedSlot.applicant)
+                : displayCensoredName(displayedSlot.applicant))}
           </p>
           {isEditing && (
             <Dropdown
+              search
               selection
               value={applicant?.email}
               options={applicantOptions}
