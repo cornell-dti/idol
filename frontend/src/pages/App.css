@@ -110,3 +110,9 @@ p.small {
 .ui.dimmer .ui.modalLoader.loader:after {
   border-color: #767676 transparent transparent;
 }
+
+/* Workaround to center the label in candidate switcher combobar
+* Ideally in the future, we use our own custom component */
+.ui.search.dropdown > .text {
+  padding-top: 4px;
+}
