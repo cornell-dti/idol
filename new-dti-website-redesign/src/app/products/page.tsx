@@ -20,15 +20,7 @@ export default function Products() {
 
       {products.map((product, index) => (
         <>
-          <Product
-            key={index}
-            image={product.image}
-            imageAlt={product.imageAlt}
-            name={product.name}
-            description={product.description}
-            link={product.link}
-            comingSoon={product.comingSoon}
-          />
+          <Product key={index} {...product} />
           {index < products.length - 1 && <SectionSep grid />}
         </>
       ))}
