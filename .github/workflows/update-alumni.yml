@@ -21,6 +21,10 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
+      - name: Stash changes before switching branches
+        run: |
+          git stash
+
       - name: Run TypeScript to update alumni.json
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
@@ -32,6 +36,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add alumni.json
+          git add new-dti-website/components/team/data/test-alumni.json
           git commit -m "Update alumni.json with the latest two semesters"
           git push
