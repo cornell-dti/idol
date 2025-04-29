@@ -73,10 +73,10 @@
   background: var(--accent-strong-yes);
 }
 
-.grey {
+.gray {
   color: var(--fg-dimmest);
 }
-.greySelected {
+.graySelected {
   background: var(--border-default);
   color: var(--fg-default);
 }
