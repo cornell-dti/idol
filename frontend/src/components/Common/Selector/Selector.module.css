@@ -61,10 +61,10 @@
 }
 
 .gray {
-  color: var(--fg-dimmest);
+  color: var(--fg-default);
 }
 .graySelected {
-  background: var(--fg-default);
+  background: var(--border-default);
   color: var(--fg-default);
 }
 
@@ -76,7 +76,6 @@
   align-items: center;
   gap: 10px;
   padding: 16px;
-  color: var(--bg-default);
 }
 
 .hiddenInput {
