@@ -26,34 +26,31 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
     }
 
     setIsSubmitting(true);
-    try {
-      await InterviewStatusAPI.createInterviewStatus({
-        name,
-        netid,
-        round: round as Round,
-        role: role as GeneralRole,
-        status: status as IntStatus
-      });
-      const createdApplicant: InterviewStatus = {
-        name,
-        netid,
-        round: round as Round,
-        role: role as GeneralRole,
-        status: status as IntStatus
-      };
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Interview Status added sucessfully!',
-        contentMsg: 'Proceed to Dashboard to view and update their status.'
-      });
-      setName('');
-      setNetid('');
-      setRound('');
-      setRole('');
-      setStatus('');
-      onAddApplicant(createdApplicant);
-    } finally {
-      setIsSubmitting(false);
-    }
+    await InterviewStatusAPI.createInterviewStatus({
+      name,
+      netid,
+      round: round as Round,
+      role: role as GeneralRole,
+      status: status as IntStatus
+    });
+    const createdApplicant: InterviewStatus = {
+      name,
+      netid,
+      round: round as Round,
+      role: role as GeneralRole,
+      status: status as IntStatus
+    };
+    Emitters.generalSuccess.emit({
+      headerMsg: 'Interview Status added sucessfully!',
+      contentMsg: 'Proceed to Dashboard to view and update their status.'
+    });
+    setName('');
+    setNetid('');
+    setRound('');
+    setRole('');
+    setStatus('');
+    onAddApplicant(createdApplicant);
+    setIsSubmitting(false);
   };
 
   return (

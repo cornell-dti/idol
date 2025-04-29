@@ -22,13 +22,10 @@ const InterviewStatusDashboard: React.FC = () => {
   const [selectedApplicants, setSelectedApplicants] = useState<Set<string>>(new Set());
 
   const fetchApplicants = async () => {
-    try {
-      const data = await InterviewStatusAPI.getAllInterviewStatuses();
-      setApplicants(data || []);
-      setFilteredApplicants(data || []);
-    } finally {
-      setIsLoading(false);
-    }
+    const data = await InterviewStatusAPI.getAllInterviewStatuses();
+    setApplicants(data || []);
+    setFilteredApplicants(data || []);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -115,8 +112,9 @@ const InterviewStatusDashboard: React.FC = () => {
         InterviewStatusAPI.deleteInterviewStatus(uuid)
       );
       await Promise.all(deletePromises);
+      setApplicants(prev => prev.filter(applicant => !selectedApplicants.has(applicant.uuid!)));
+      setFilteredApplicants(prev => prev.filter(applicant => !selectedApplicants.has(applicant.uuid!)));
       setSelectedApplicants(new Set());
-      await fetchApplicants();
       Emitters.generalSuccess.emit({
         headerMsg: 'Sucess!',
         contentMsg: `Selected interview statuses are now deleted.`
@@ -136,6 +134,7 @@ const InterviewStatusDashboard: React.FC = () => {
     const promotedNames: string[] = [];
     const errors: string[] = [];
     const updatePromises: Promise<void>[] = [];
+    const uuidsToPromote: string[] = [];
 
     Array.from(selectedApplicants).forEach((uuid) => {
       const applicant = applicants.find((app) => app.uuid === uuid);
@@ -155,6 +154,8 @@ const InterviewStatusDashboard: React.FC = () => {
         const newRound = round === 'Behavioral' ? 'Technical' : 'Behavioral';
         const updatedStatus = { ...applicant, uuid: uuid!, round: newRound as Round, status: 'Undecided' as IntStatus };
 
+        uuidsToPromote.push(uuid);
+
         const promise = InterviewStatusAPI.updateInterviewStatus(updatedStatus).then(() => {
           promotedNames.push(name);
         });
@@ -162,9 +163,24 @@ const InterviewStatusDashboard: React.FC = () => {
         updatePromises.push(promise);
       }
     });
+
     await Promise.all(updatePromises);
+
+    setApplicants(prev =>
+      prev.map(applicant =>
+        uuidsToPromote.includes(applicant.uuid!)
+          ? { ...applicant, round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral', status: 'Undecided' }
+          : applicant
+      )
+    );
+    setFilteredApplicants(prev =>
+      prev.map(applicant =>
+        uuidsToPromote.includes(applicant.uuid!)
+          ? { ...applicant, round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral', status: 'Undecided' }
+          : applicant
+      )
+    );
     setSelectedApplicants(new Set());
-    await fetchApplicants();
 
     if (promotedNames.length > 0) {
       const msg = `Promoted ${promotedNames.join(', ')} to next round`;
@@ -182,6 +198,7 @@ const InterviewStatusDashboard: React.FC = () => {
     }
   };
 
+
   const updateStatus = async (newStatus: IntStatus) => {
     if (selectedApplicants.size === 0) {
       Emitters.generalError.emit({
@@ -198,8 +215,19 @@ const InterviewStatusDashboard: React.FC = () => {
       InterviewStatusAPI.updateInterviewStatus(updatedStatus);
     });
     await Promise.all(updatePromises);
+    setApplicants(prev =>
+      prev.map(applicant =>
+        selectedApplicants.has(applicant.uuid!) ? { ...applicant, status: newStatus }
+          : applicant
+      )
+    );
+    setFilteredApplicants(prev =>
+      prev.map(applicant =>
+        selectedApplicants.has(applicant.uuid!) ? { ...applicant, status: newStatus }
+          : applicant
+      )
+    );
     setSelectedApplicants(new Set());
-    await fetchApplicants();
     Emitters.generalSuccess.emit({
       headerMsg: 'Success!',
       contentMsg: `${newStatus} selected applicants.`
