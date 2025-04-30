@@ -5,7 +5,8 @@
     "name": "CU Reviews",
     "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
     "link": "https://www.cureviews.org/",
-    "comingSoon": false
+    "comingSoon": false,
+    "id": "cureviews"
   },
   {
     "image": "/products/images/cureviews.png",
@@ -13,6 +14,7 @@
     "name": "CU Apts",
     "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
     "link": "https://www.cureviews.org/",
-    "comingSoon": true
+    "comingSoon": true,
+    "id": "cuapts"
   }
 ]
