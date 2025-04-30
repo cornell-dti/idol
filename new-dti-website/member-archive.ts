@@ -2,9 +2,28 @@ import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 import { Octokit } from '@octokit/rest';
+import { join } from 'path';
+
+const DIFF_OUTPUT_LIMIT = 65_000;
 
 function checkFileExists(filePath: string): boolean {
+  console.log(`Checking if file exists: ${filePath}`);
   return existsSync(filePath);
+}
+
+async function getIdolMembers(): Promise<readonly IdolMember[]> {
+  const { members } = await fetch(
+    'https://idol.cornelldti.org/.netlify/functions/api/member?type=approved'
+  ).then((response) => response.json() as Promise<{ members: readonly IdolMember[] }>);
+  return members.filter((it) => it.email.endsWith('@cornell.edu'));
+}
+
+function runCommand(program: string, ...programArguments: readonly string[]) {
+  const programArgumentsQuoted = programArguments
+    .map((it) => (it.includes(' ') ? `"${it}"` : it))
+    .join(' ');
+  console.log(`> ${program} ${programArgumentsQuoted}`);
+  return spawnSync(program, programArguments, { stdio: 'inherit' });
 }
 
 function getSemesters() {
@@ -30,10 +49,14 @@ function getSemesters() {
     throw new Error('Current month does not fall within a valid Spring or Fall semester range.');
   }
 
+  console.log(`Current semester: ${currentSemester}`);
+  console.log(`Previous semesters: ${previousSemesterOne}, ${previousSemesterTwo}`);
+
   return { currentSemester, previousSemesterOne, previousSemesterTwo };
 }
 
 async function updateAlumniJson(): Promise<void> {
+  const idolMembers = await getIdolMembers(); // Get current members from Idol API
   const { previousSemesterOne, previousSemesterTwo } = getSemesters();
 
   // Determine the file paths based on the semesters
@@ -42,6 +65,9 @@ async function updateAlumniJson(): Promise<void> {
 
   const semesterOnePath = resolve(__dirname, `../backend/src/members-archive/${semesterOneFile}`);
   const semesterTwoPath = resolve(__dirname, `../backend/src/members-archive/${semesterTwoFile}`);
+
+  console.log(`Semester One Path: ${semesterOnePath}`);
+  console.log(`Semester Two Path: ${semesterTwoPath}`);
 
   // Check if the files exist
   if (!checkFileExists(semesterOnePath)) {
@@ -65,18 +91,50 @@ async function updateAlumniJson(): Promise<void> {
     );
   }
 
-  // Combine the members into a single list
-  const alumni = [...semesterOne.members, ...semesterTwo.members];
+  const alumniJsonPath = join('components', 'team', 'data', 'test-alumni.json');
+  console.log(`Alumni JSON Path: ${alumniJsonPath}`);
 
-  const alumniJsonPath = resolve(
-    __dirname,
-    '../new-dti-website/components/team/data/test-alumni.json'
-  );
-  const existingContent = readFileSync(alumniJsonPath, 'utf8');
-  const newContent = JSON.stringify({ alumni }, null, 2);
+  const existingContent = readFileSync(alumniJsonPath).toString();
+  const newAlumni = [...semesterOne.members, ...semesterTwo.members];
+
+  let existingAlumni = [];
+  try {
+    existingAlumni = JSON.parse(existingContent);
+  } catch (e) {
+    console.error('Error parsing existing alumni JSON:', e);
+  }
+
+  // Remove duplicates from newAlumni based on both previous semesters and existing alumni
+  const updatedAlumni = [...existingAlumni];
+
+  newAlumni.forEach((member) => {
+    // Check if this member is already in the current members list
+    const existsInCurrentMembers = idolMembers.some(
+      (idolMember) => idolMember.email === member.email
+    );
+
+    // Check if the member is already in the existing alumni JSON
+    const existsInExistingAlumni = existingAlumni.some(
+      (existingMember: any) => existingMember.email === member.email
+    );
+
+    // Check if the member is already in the newAlumni list (to avoid duplicates across semesters)
+    const existsInNewAlumni = updatedAlumni.some(
+      (existingMember: any) => existingMember.email === member.email
+    );
+
+    // Only add the alumni if they are not already in any of the lists
+    if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
+      console.log(`Adding new alumni: ${member.firstName} ${member.lastName}`);
+      updatedAlumni.push(member);
+    }
+  });
+
+  const newContent = JSON.stringify(updatedAlumni, null, 2);
 
   if (existingContent === newContent) {
-    throw new Error('No changes to alumni.json.');
+    console.log('No changes to alumni.json.');
+    return;
   }
 
   let diffOutput = '';
@@ -85,12 +143,8 @@ async function updateAlumniJson(): Promise<void> {
     encoding: 'utf-8'
   });
   diffOutput = output.stdout.toString();
+  console.log('Diff Output:', diffOutput);
   unlinkSync('existing.json');
-
-  if (!process.env.CI) {
-    // If you're not in CI, throw an error instead of logging the diff output
-    throw new Error(`Diff Output:\n${diffOutput}`);
-  }
 
   writeFileSync(alumniJsonPath, newContent);
 
@@ -98,11 +152,13 @@ async function updateAlumniJson(): Promise<void> {
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/update-alumni-json';
-  runCommand('git', 'add', './components/team/data/test-alumni.json');
+  console.log(`Creating new branch: ${gitBranch}`);
+  runCommand('git', 'add', `${alumniJsonPath}`);
   runCommand('git', 'fetch', 'origin', 'main');
   runCommand('git', 'checkout', 'main');
   runCommand('git', 'checkout', '-b', gitBranch);
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
+    console.log('Commit successful, pushing to remote.');
     if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
       runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
     }
@@ -112,6 +168,11 @@ async function updateAlumniJson(): Promise<void> {
     auth: `token ${process.env.BOT_TOKEN}`,
     userAgent: 'cornell-dti/big-diff-warning'
   });
+
+  // Don't place a diff output in PR description if it exceeds the char limit.
+  if (diffOutput.length > DIFF_OUTPUT_LIMIT) {
+    diffOutput = '<Output is too long to put in the PR description. See PR diff for details.>';
+  }
 
   const prBody = `## Diffs
   \`\`\`diff
@@ -152,10 +213,6 @@ async function updateAlumniJson(): Promise<void> {
       body: prBody
     });
   }
-}
-
-function runCommand(program: string, ...programArguments: readonly string[]) {
-  return spawnSync(program, programArguments, { stdio: 'inherit' });
 }
 
 updateAlumniJson();
