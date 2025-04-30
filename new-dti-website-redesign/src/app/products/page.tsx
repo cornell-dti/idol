@@ -22,33 +22,11 @@ type Logo = {
 
 const logos: Logo[] = [
   {
-    src: '/products/logos/cuapts.svg',
-    alt: 'CU Apartments logo',
-    width: 110,
-    height: 80,
-    anchor: '#cuapts'
-  },
-  {
-    src: '/products/logos/queuemein.svg',
-    alt: 'Queue Me In logo',
-    width: 80,
-    height: 80,
-    anchor: '#queuemein'
-  },
-  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96, anchor: '#zing' },
-  {
     src: '/products/logos/cureviews.svg',
     alt: 'CU Reviews logo',
     width: 80,
     height: 80,
     anchor: '#cureviews'
-  },
-  {
-    src: '/products/logos/cornellgo.svg',
-    alt: 'CornellGo logo',
-    width: 80,
-    height: 80,
-    anchor: '#cornellgo'
   },
   {
     src: '/products/logos/courseplan.svg',
@@ -58,11 +36,11 @@ const logos: Logo[] = [
     anchor: '#courseplan'
   },
   {
-    src: '/products/logos/carriage.svg',
-    alt: 'Carriage logo',
-    width: 70,
-    height: 70,
-    anchor: '#carriage'
+    src: '/products/logos/queuemein.svg',
+    alt: 'Queue Me In logo',
+    width: 80,
+    height: 80,
+    anchor: '#queuemein'
   },
   {
     src: '/products/logos/design@cornell.svg',
@@ -70,6 +48,28 @@ const logos: Logo[] = [
     width: 125,
     height: 52,
     anchor: '#design@cornell'
+  },
+  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96, anchor: '#zing' },
+  {
+    src: '/products/logos/cuapts.svg',
+    alt: 'CU Apartments logo',
+    width: 110,
+    height: 80,
+    anchor: '#cuapts'
+  },
+  {
+    src: '/products/logos/carriage.svg',
+    alt: 'Carriage logo',
+    width: 70,
+    height: 70,
+    anchor: '#carriage'
+  },
+  {
+    src: '/products/logos/cornellgo.svg',
+    alt: 'CornellGo logo',
+    width: 80,
+    height: 80,
+    anchor: '#cornellgo'
   }
 ];
 
