@@ -8,7 +8,7 @@ type Props = {
   imageAlt: string;
   name: string;
   description: string;
-  link: string;
+  link?: string;
   comingSoon?: boolean;
   id: string;
 };
@@ -36,7 +36,7 @@ const Product = ({
         <p className="text-foreground-3">{description}</p>
       </div>
 
-      <Button href={link} variant="primary" label="Visit product" newTab />
+      {link && <Button href={link} variant="primary" label="Visit product" newTab />}
     </div>
   </section>
 );
