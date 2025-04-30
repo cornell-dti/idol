@@ -23,8 +23,15 @@ export default function Initiatives() {
         imageAlt="DTI members engaging with the community"
       />
 
+      <SectionSep />
+
       <section>
-        <Image src="" width={1184} height={600} alt="" />
+        <Image
+          src="/initiatives/giving-back.png"
+          width={1184}
+          height={600}
+          alt="A DTI member mentoring children"
+        />
 
         <div className="flex flex-col gap-2 p-8">
           <h2>Giving back to the community</h2>
@@ -35,8 +42,8 @@ export default function Initiatives() {
           </p>
 
           <p className="text-foreground-2">
-            Young students can learn Scratch to create their own games and animations, and Figma to
-            make eye-catching visuals with shapes, colors, and more!
+            We introduce code and design through beginner-friendly, interactive workshops with
+            Cornell students, providing individualized feedback
           </p>
         </div>
       </section>
