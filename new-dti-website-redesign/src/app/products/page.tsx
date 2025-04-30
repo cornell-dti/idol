@@ -1,9 +1,9 @@
+import React from 'react';
 import SectionSep from '../../components/SectionSep';
 import Layout from '../../components/Layout';
 import products from './products.json';
 import Product from './Product';
 import Hero from '../../components/Hero';
-import React from 'react';
 
 export const metadata = {
   title: 'DTI PRODUCTS PAGE',
