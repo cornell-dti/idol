@@ -15,12 +15,6 @@ import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 import { calculateCredits, getTECPeriod } from '../../../utils';
 
-interface Period {
-  name: string;
-  start: Date;
-  deadline: Date;
-  events: TeamEvent[];
-}
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
   event: TeamEvent,
@@ -167,7 +161,7 @@ const TeamEventDashboard: React.FC = () => {
                   }
                   members={membersNeedingNotification}
                   endOfSemesterReminder={endOfSemesterReminder}
-                  type={'tec'}
+                  type={'period'}
                 />
               ) : (
                 <NotifyMemberModal

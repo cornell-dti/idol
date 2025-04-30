@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Form, Radio } from 'semantic-ui-react';
 import styles from './ResponsesPanel.module.css';
 import ApplicantCredentials from './ApplicantCredentials';
+import Accordion from '../Common/Accordion/Accordion';
 
 type Props = {
   headers: string[];
@@ -12,16 +12,9 @@ type Props = {
   setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
   seeApplicantName: boolean;
   candidate: number;
+  toggleSeeApplicantName?: () => void;
+  canToggleSeeApplicantName?: boolean;
 };
-
-const ratings = [
-  { value: 1, text: 'Strong No', color: 'red' },
-  { value: 2, text: 'No', color: 'orange' },
-  { value: 3, text: 'Maybe', color: 'yellow' },
-  { value: 4, text: 'Yes', color: 'green' },
-  { value: 5, text: 'Strong Yes', color: 'green ' },
-  { value: 0, text: 'Undecided', color: 'grey' }
-];
 
 const credentialHeaders = [
   'Email Address',
@@ -88,67 +81,37 @@ const getCredentials = (headers: string[], responses: string[]) => {
 const ResponsesPanel: React.FC<Props> = ({
   headers,
   responses,
-  currentRating,
-  setCurrentRating,
-  currentComment,
-  setCurrentComment,
   seeApplicantName,
-  candidate
+  candidate,
+  toggleSeeApplicantName,
+  canToggleSeeApplicantName
 }) => (
   <div>
-    <Form>
-      <Form.Group inline>
-        {ratings.map((rt) => (
-          <Form.Field key={rt.value}>
-            <Radio
-              label={rt.text}
-              name="rating-group"
-              value={rt.value}
-              color={rt.color}
-              checked={rt.value === currentRating}
-              onClick={() => setCurrentRating(rt.value as Rating)}
-            />
-          </Form.Field>
-        ))}
-      </Form.Group>
-      <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
-    </Form>
     <ApplicantCredentials
       {...getCredentials(headers, responses)}
       seeApplicantName={seeApplicantName}
+      toggleSeeApplicantName={toggleSeeApplicantName}
+      canToggleSeeApplicantName={canToggleSeeApplicantName}
       candidate={candidate}
     />
-    {headers
-      .map((header, i) => ({ header, response: responses[i] }))
-      .filter(
-        ({ header }) =>
-          !credentialHeaders.includes(header) &&
-          (seeApplicantName || header !== 'Preferred Name (optional)')
-      )
-      .map(({ header, response }, i) => (
-        <div key={i} className={styles.questionResponseContainer}>
-          <h4 className={styles.questionHeader}>{header}</h4>
-          <div className={styles.responseText}>{response}</div>
-        </div>
-      ))}
+
+    <div className={styles.applicantResponses}>
+      <h3>Questions</h3>
+
+      <div className={styles.accordionsWrapper}>
+        {headers
+          .map((header, i) => ({ header, response: responses[i] }))
+          .filter(
+            ({ header }) =>
+              !credentialHeaders.includes(header) &&
+              (seeApplicantName || header !== 'Preferred Name (optional)')
+          )
+          .map(({ header, response }, i) => (
+            <Accordion key={i} header={header} response={response} defaultOpen={true} />
+          ))}
+      </div>
+    </div>
   </div>
 );
 
-type CommentEditorProps = {
-  currentComment: string;
-  setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
-};
-
-const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
-  <div>
-    <Form.Group inline>
-      <Form.Input
-        className="fifteen wide field"
-        placeholder={'Comment...'}
-        onChange={(_, data) => setCurrentComment(data.value)}
-        value={currentComment}
-      />
-    </Form.Group>
-  </div>
-);
 export default ResponsesPanel;

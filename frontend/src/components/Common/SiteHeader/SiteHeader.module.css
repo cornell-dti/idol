@@ -1,5 +1,5 @@
 .SiteHeader {
-  background: whitesmoke;
+  background: var(--bg-default);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,7 +7,7 @@
   top: 0;
   height: 80px;
   width: 100%;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.13);
+  border-bottom: 1px solid var(--border-default);
   z-index: 999999;
 }
 

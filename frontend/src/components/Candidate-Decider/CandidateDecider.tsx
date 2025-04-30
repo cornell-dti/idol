@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Button, Dropdown, Checkbox, Modal } from 'semantic-ui-react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
-import GlobalProgressPanel from './GlobalProgressPanel';
 import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
 import styles from './CandidateDecider.module.css';
 import SearchBar from './SearchBar';
@@ -11,29 +10,56 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import Button from '../Common/Button/Button';
+import Input from '../Common/Input/Input';
+import Selector, { RatingOptions } from '../Common/Selector/Selector';
 
 type CandidateDeciderProps = {
   uuid: string;
 };
 
+const ratings: RatingOptions[] = [
+  { value: 1, text: 'Strong No', color: 'red' },
+  { value: 2, text: 'No', color: 'orange' },
+  { value: 3, text: 'Maybe', color: 'yellow' },
+  { value: 4, text: 'Yes', color: 'green' },
+  { value: 5, text: 'Strong Yes', color: 'darkgreen' },
+  { value: 0, text: 'Undecided', color: 'gray' }
+];
+
+type CommentEditorProps = {
+  currentComment: string | undefined;
+  setCurrentComment: Dispatch<SetStateAction<string | undefined>>;
+};
+
+const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
+  <div className={styles.commentEditor}>
+    <h4>Comments</h4>
+    <Input
+      value={currentComment}
+      onChange={(event) => setCurrentComment(event.target.value)}
+      placeholder="Comment..."
+      multiline
+      maxHeight={256}
+    />
+  </div>
+);
+
 const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nextCandidate, setNextCandidate] = useState<number | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<number>(0);
-  const [showOtherVotes, setShowOtherVotes] = useState<boolean>(false);
   const [seeApplicantName, setSeeApplicantName] = useState<boolean>(false);
 
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
-  const hasAdminPermission = useHasAdminPermission();
 
   const getRating = (candidate: number) => {
     const rating = reviews.find(
       (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
     );
-    if (rating) return rating.rating;
-    return undefined;
+    return rating ? rating.rating : undefined;
   };
 
   const getComment = (candidate: number) => {
@@ -53,8 +79,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
 
   const populateReviewForCandidate = (candidate: number) => {
-    const rating = getRating(candidate);
-    const comment = getComment(candidate);
+    const rating = getRating(candidate) ?? 0;
+    const comment = getComment(candidate) ?? '';
     setCurrentRating(rating);
     setCurrentComment(comment);
     setDefaultCurrentRating(rating);
@@ -117,6 +143,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setIsModalOpen(false);
   };
 
+  const hasAdminPermission = useHasAdminPermission();
+
   return instance.candidates.length === 0 ? (
     <div></div>
   ) : (
@@ -126,9 +154,25 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <Modal.Content>
           <p>You have unsaved changes. Do you want to save them before navigating?</p>
         </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+        <Modal.Actions className={styles.modalActions}>
           <Button
+            label="Cancel"
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+            variant="default"
+          />
+          <Button
+            label="Discard"
+            onClick={() => {
+              if (nextCandidate !== null) {
+                navigateToNextCandidate(nextCandidate);
+              }
+            }}
+            variant="negative"
+          />
+          <Button
+            label="Save"
             onClick={() => {
               handleRatingAndCommentChange(
                 currentCandidate,
@@ -139,102 +183,80 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 navigateToNextCandidate(nextCandidate);
               }
             }}
-          >
-            Save
-          </Button>
-          <Button
-            primary
-            onClick={() => {
-              if (nextCandidate !== null) {
-                navigateToNextCandidate(nextCandidate);
-              }
-            }}
-          >
-            Discard
-          </Button>
+            variant="primary"
+          />
         </Modal.Actions>
       </Modal>
-      <div className={styles.applicationContainer}>
-        <div className={styles.searchBar}>
-          <SearchBar
-            instance={instance}
-            setCurrentCandidate={(candidate) => {
-              handleCandidateChange(candidate);
-            }}
-            currentCandidate={currentCandidate}
-            seeApplicantName={seeApplicantName}
-          />
+      <div className={styles.leftColumn}>
+        <div className={styles.top}>
+          <div className={styles.navigation}>
+            <div className={styles.progressContainer}>
+              <LocalProgressPanel
+                candidates={instance.candidates}
+                currentCandidate={currentCandidate}
+                reviews={completedReviews}
+              />
+            </div>
+
+            <div className={styles.searchBar}>
+              <Button
+                label="Previous"
+                disabled={currentCandidate === 0}
+                onClick={() => {
+                  handleCandidateChange(currentCandidate - 1);
+                }}
+                variant="default"
+              />
+              <SearchBar
+                instance={instance}
+                setCurrentCandidate={(candidate) => {
+                  handleCandidateChange(candidate);
+                }}
+                currentCandidate={currentCandidate}
+                seeApplicantName={seeApplicantName}
+              />
+              <Button
+                label="Next"
+                disabled={currentCandidate === instance.candidates.length - 1}
+                onClick={() => {
+                  handleCandidateChange(currentCandidate + 1);
+                }}
+                variant="default"
+              />
+            </div>
+          </div>
+          <div className={styles.commentEditorWrapper}>
+            <CommentEditor currentComment={currentComment} setCurrentComment={setCurrentComment} />
+          </div>
         </div>
-        <div className={styles.controlsContainer}>
-          <h4 className={styles.candidateIDTitle}>Candidate ID:</h4>
-          <Dropdown
-            compact
-            value={currentCandidate}
-            selection
-            options={instance.candidates.map((candidate) => ({
-              value: candidate.id,
-              key: candidate.id,
-              text: candidate.id + 1 // offset by 1 to account for 0-indexed array
-            }))}
-            onChange={(_, data) => {
-              handleCandidateChange(data.value as number);
-            }}
-          />
-          <span className={styles.ofNum}>of {instance.candidates.length}</span>
-          <Button.Group className={styles.previousNextButtonContainer}>
-            <Button
-              basic
-              color="blue"
-              disabled={currentCandidate === 0}
-              onClick={() => {
-                handleCandidateChange(currentCandidate - 1);
-              }}
-            >
-              PREVIOUS
-            </Button>
-            <Button
-              basic
-              color="blue"
-              disabled={currentCandidate === instance.candidates.length - 1}
-              onClick={() => {
-                handleCandidateChange(currentCandidate + 1);
-              }}
-            >
-              NEXT
-            </Button>
-          </Button.Group>
-          <Button
-            className="ui blue button"
-            disabled={isSaved}
-            onClick={() => {
-              handleRatingAndCommentChange(
-                currentCandidate,
-                currentRating ?? 0,
-                currentComment ?? ''
-              );
-            }}
-          >
-            Save
-          </Button>
-          {hasAdminPermission && (
-            <Checkbox
-              className={styles.showOtherVotes}
-              toggle
-              checked={showOtherVotes}
-              onChange={() => setShowOtherVotes((prev) => !prev)}
-              label="Show other people's votes"
+        <div className={styles.bottom}>
+          <div className={styles.ratingSelectorWrapper}>
+            <h4>Final selection</h4>
+            <Selector
+              selected={currentRating ?? 0}
+              onChange={(value: number) => setCurrentRating(value as Rating)}
+              ratings={ratings}
             />
-          )}
-          {hasAdminPermission && (
-            <Checkbox
-              className={styles.seeApplicantName}
-              toggle
-              checked={seeApplicantName}
-              onChange={() => setSeeApplicantName((prev) => !prev)}
-              label="See applicant name"
-            />
-          )}
+          </div>
+          <div className={styles.saveButtonWrapper}>
+            <Button
+              label="Save"
+              disabled={isSaved}
+              onClick={() => {
+                handleRatingAndCommentChange(
+                  currentCandidate,
+                  currentRating ?? 0,
+                  currentComment ?? ''
+                );
+              }}
+              variant="primary"
+            >
+              Save
+            </Button>
+          </div>
         </div>
+      </div>
+      <div className={styles.responsesContainer}>
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
@@ -243,20 +265,9 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
+          toggleSeeApplicantName={() => setSeeApplicantName((prev) => !prev)}
+          canToggleSeeApplicantName={hasAdminPermission}
           candidate={instance.candidates[currentCandidate].id}
-        />
-      </div>
-      <div className={styles.progressContainer}>
-        <LocalProgressPanel
-          showOtherVotes={showOtherVotes}
-          candidates={instance.candidates}
-          currentCandidate={currentCandidate}
-          reviews={completedReviews}
-        />
-        <GlobalProgressPanel
-          showOtherVotes={showOtherVotes}
-          candidates={instance.candidates}
-          reviews={completedReviews}
         />
       </div>
     </div>

@@ -67,7 +67,8 @@ import {
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
   deleteTeamEventAttendance,
-  notifyMemberTeamEvents
+  notifyMemberTeamEvents,
+  notifyMemberPeriod
 } from './API/teamEventsAPI';
 import {
   getAllCandidateDeciderInstances,
@@ -76,7 +77,8 @@ import {
   getCandidateDeciderInstance,
   updateCandidateDeciderRatingAndComment,
   updateCandidateDeciderInstance,
-  getCandidateDeciderReviews
+  getCandidateDeciderReviews,
+  hasCandidateDeciderInstance
 } from './API/candidateDeciderAPI';
 import {
   getAllDevPortfolios,
@@ -107,6 +109,14 @@ import {
   updateInterviewSchedulerInstance,
   updateInterviewSlot
 } from './API/interviewSchedulerAPI';
+import {
+  getAllInterviewStatuses,
+  getInterviewStatus,
+  createInterviewStatus,
+  updateInterviewStatus,
+  deleteInterviewStatus
+} from './API/interviewStatusAPI';
+
 import { HandlerError } from './utils/errors';
 
 // Constants and configurations
@@ -455,10 +465,16 @@ loginCheckedPost('/team-event-reminder', async (req, user) => ({
     user
   )
 }));
+loginCheckedPost('/send-period-reminder', async (req, user) => ({
+  info: await notifyMemberPeriod(req, req.body, user)
+}));
 
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({
   instances: await getAllCandidateDeciderInstances(user)
+}));
+loginCheckedGet('/candidate-decider-instance', async (_, user) => ({
+  hasInstance: await hasCandidateDeciderInstance(user)
 }));
 loginCheckedGet('/candidate-decider/:uuid', async (req, user) => ({
   instance: await getCandidateDeciderInstance(req.params.uuid, user)
@@ -588,6 +604,28 @@ loginCheckedPut('/interview-slots', async (req, user) => ({
 
 loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
   deleteInterviewSlot(req.params.uuid, user).then(() => ({}))
+);
+
+// Interview Status Dashboard
+loginCheckedGet('/interview-status', async (_, user) => ({
+  instances: await getAllInterviewStatuses(user)
+}));
+
+loginCheckedGet('/interview-status/:uuid', async (req, user) => ({
+  instances: await getInterviewStatus(req.params.uuid, user)
+}));
+
+loginCheckedPost('/interview-status', async (req, user) => {
+  const newStatus = await createInterviewStatus(req.body, user);
+  return { newStatus };
+});
+
+loginCheckedPut('/interview-status', async (req, user) => ({
+  success: await updateInterviewStatus(user, req.body, req.body.uuid)
+}));
+
+loginCheckedDelete('/interview-status/:uuid', async (req, user) =>
+  deleteInterviewStatus(req.params.uuid, user).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);

@@ -3,21 +3,23 @@
 }
 
 .candidateDeciderContainer {
-  padding: 2%;
   display: flex;
+  height: 100%;
+  gap: 32px;
+  padding: 32px;
 }
 
-.applicationContainer {
-  width: 150em;
-  border-right: solid;
-  border-color: lightgrey;
-  padding: 1%;
-  overflow-wrap: break-word;
-  overflow: hidden;
+.leftColumn {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
 }
 
 .progressContainer {
-  padding: 1%;
   display: flex;
   width: 100%;
 }
@@ -29,7 +31,16 @@
 }
 
 .searchBar {
-  margin-bottom: 1%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Selects the wrapper <div> of the combobox element */
+.searchBar > div {
+  flex: 1;
+  display: flex;
+  height: 48px;
 }
 
 .ofNum {
@@ -42,11 +53,78 @@
   margin-left: 1%;
 }
 
-.seeApplicantName {
-  margin-bottom: 1%;
-  margin-left: 1%;
-}
-
 .previousNextButtonContainer {
   margin-right: 0.5% !important;
+}
+
+.modalActions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+.responsesContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  border: 1px solid #666;
+  background: var(--bg-default);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  height: 85vh;
+  overflow-y: scroll;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.saveButtonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  border-top: 1px solid var(--border-default);
+}
+
+.saveButtonWrapper button {
+  flex: 1;
+}
+
+.ratingSelectorWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-top: 1px solid var(--border-default);
+}
+
+.commentEditorWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  border-top: 1px solid var(--border-default);
+}
+
+.navigation {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.commentEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }

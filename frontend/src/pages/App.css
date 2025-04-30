@@ -1,9 +1,82 @@
+/* =========== COLORS =========== */
+:root {
+  --fg-default: #171717;
+  --fg-dimmer: #333333;
+  --fg-dimmest: #666666;
+
+  --bg-default: #ffffff;
+  --bg-default-transparent: #ffffff50;
+  --bg-dimmer: #fafafa;
+  --bg-dimmest: #f2f2f2;
+
+  --border-default: #ebebeb;
+  --border-dimmer: #c9c9c9;
+
+  --accent-focus: #0e4dd4;
+  --accent-strong-no: #d8001b;
+  --accent-no: #ff676c;
+  --accent-maybe: #ff9300;
+  --accent-yes: #28a948;
+  --accent-strong-yes: #0a6e29;
+}
+
+* {
+  box-sizing: border-box;
+  color: var(--fg-default);
+}
+
+/* =========== TYPOGRAPHY ===========  */
+/* Heading large */
+h1 {
+  font-size: 32px;
+  line-height: 115%;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+/* Heading regular */
+h2 {
+  font-size: 28px;
+  line-height: 115%;
+  font-weight: 700;
+}
+
+/* Subheading large */
+h3 {
+  font-size: 24px;
+  line-height: 120%;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+/* Subheading regular */
+h4 {
+  font-size: 16px;
+  line-height: 130%;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+/* Paragraph */
+p {
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 500;
+}
+
+/* Paragraph small */
+p.small {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
 .App {
   text-align: left;
   min-height: 100vh;
   max-height: 100vh;
   min-width: 100vw;
   position: relative;
+  background: var(--bg-dimmer);
 }
 
 .appSidebarContainer {
@@ -15,6 +88,10 @@
 .appSidebar {
   height: calc(100vh - 80px);
   padding-top: 80px;
+}
+
+.appSidebarContainer .item i {
+  color: var(--bg-default);
 }
 
 .appSidebarDimmer {
@@ -32,4 +109,10 @@
 
 .ui.dimmer .ui.modalLoader.loader:after {
   border-color: #767676 transparent transparent;
+}
+
+/* Workaround to center the label in candidate switcher combobar
+* Ideally in the future, we use our own custom component */
+.ui.search.dropdown > .text {
+  padding-top: 4px;
 }
