@@ -148,17 +148,17 @@ async function updateAlumniJson(): Promise<void> {
 
   writeFileSync(alumniJsonPath, newContent);
 
+  const gitBranch = 'dti-github-bot/update-alumni-json';
   const commitMessage = '[bot] Automatically update alumni.json with latest semester data';
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
-  const gitBranch = 'dti-github-bot/update-alumni-json';
-  console.log(`Creating new branch: ${gitBranch}`);
-  runCommand('git', 'add', `${alumniJsonPath}`);
-  runCommand('git', 'fetch', 'origin', 'main');
+  runCommand('git', 'add', '.');
+  runCommand('git', 'fetch', '--all');
   runCommand('git', 'checkout', 'main');
+  runCommand('git', 'branch', '-D', gitBranch);
+  runCommand('git', 'push', 'origin', '--delete', gitBranch);
   runCommand('git', 'checkout', '-b', gitBranch);
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
-    console.log('Commit successful, pushing to remote.');
     if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
       runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
     }
