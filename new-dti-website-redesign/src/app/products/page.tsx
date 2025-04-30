@@ -75,7 +75,7 @@ const logos: Logo[] = [
 
 const LogoBox: React.FC<Logo> = ({ src, alt, width, height, anchor }) => (
   <Link
-    className="flex items-center justify-center w-1/4 h-24 border border-border-1"
+    className="flex items-center justify-center w-1/4 h-24 border border-border-1 hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
     href={anchor}
   >
     <Image
