@@ -12,7 +12,7 @@
     "image": "/products/images/courseplan.png",
     "imageAlt": "Screenshot of CoursePlan scheduling tool",
     "name": "CoursePlan",
-    "description": "CoursePlan is a visual scheduling tool designed to help Cornell students easily plan their courses each semester, check for conflicts, and share their schedules.",
+    "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
     "link": "https://www.courseplan.io/",
     "comingSoon": false,
     "id": "courseplan"
@@ -21,7 +21,7 @@
     "image": "/products/images/queuemein.png",
     "imageAlt": "Screenshot of Queue Me In app",
     "name": "Queue Me In",
-    "description": "Queue Me In simplifies office hour queues. Students can join virtual queues, track their position, and receive notifications when it's their turn.",
+    "description": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their classes.",
     "link": "https://queueme.in/",
     "comingSoon": false,
     "id": "queuemein"
@@ -29,9 +29,9 @@
   {
     "image": "/products/images/designatcornell.png",
     "imageAlt": "Screenshot of Design at Cornell website",
-    "name": "Design at Cornell",
-    "description": "Design at Cornell is an interactive resource that connects students interested in design with clubs, classes, and events across the Cornell community.",
-    "link": "https://www.designatcornell.com/",
+    "name": "Design @ Cornell",
+    "description": "Design @ Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
+    "link": "https://www.cudesign.io/",
     "comingSoon": false,
     "id": "designatcornell"
   },
@@ -39,8 +39,8 @@
     "image": "/products/images/zing.png",
     "imageAlt": "Screenshot of Zing food-ordering app",
     "name": "Zing",
-    "description": "Zing streamlines dining on campus by allowing Cornell students to quickly order ahead at campus eateries and avoid long waits.",
-    "link": "https://zingapp.io/",
+    "description": "Collaborating with The Learning Strategies Center (LSC) at Cornell, Zing is an all-in-one web interface to create optimal groups for class projects based on students' study preferences.",
+    "link": "https://zing-lsc-prod.web.app/",
     "comingSoon": false,
     "id": "zing"
   },
@@ -48,17 +48,16 @@
     "image": "/products/images/cuapts.png",
     "imageAlt": "Screenshot preview of CU Apts housing platform",
     "name": "CU Apts",
-    "description": "CU Apts helps Cornell students find off-campus housing easily. Browse listings, filter options, and read reviews from fellow students.",
-    "link": "https://www.cuapts.com/",
-    "comingSoon": true,
+    "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
+    "link": "https://www.cuapts.org/",
+    "comingSoon": false,
     "id": "cuapts"
   },
   {
     "image": "/products/images/carriage.png",
     "imageAlt": "Screenshot preview of Carriage ridesharing service",
     "name": "Carriage",
-    "description": "Carriage is a ridesharing platform tailored for the Cornell community, enabling safe, affordable, and convenient transportation around Ithaca.",
-    "link": "https://www.carriageapp.io/",
+    "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching next semester.",
     "comingSoon": true,
     "id": "carriage"
   },
@@ -66,8 +65,7 @@
     "image": "/products/images/cornellgo.png",
     "imageAlt": "Screenshot preview of CornellGO campus navigation app",
     "name": "CornellGO",
-    "description": "CornellGO provides real-time navigation, event discovery, and campus resource mapping for students navigating Cornell's expansive campus.",
-    "link": "https://www.cornellgo.io/",
+    "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
     "comingSoon": true,
     "id": "cornellgo"
   }
