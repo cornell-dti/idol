@@ -12,11 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
+
+      - name: Use Yarn Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: yarn-
 
       - name: Install Dependencies
         run: yarn install
