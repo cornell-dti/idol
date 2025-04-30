@@ -10,10 +10,19 @@ type Props = {
   description: string;
   link: string;
   comingSoon?: boolean;
+  id: string;
 };
 
-const Product = ({ image, imageAlt, name, description, link, comingSoon }: Props): ReactNode => (
-  <section>
+const Product = ({
+  image,
+  imageAlt,
+  name,
+  description,
+  link,
+  comingSoon,
+  id
+}: Props): ReactNode => (
+  <section id={id} className="scroll-mt-20">
     <div className="bg-background-2">
       <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
     </div>
