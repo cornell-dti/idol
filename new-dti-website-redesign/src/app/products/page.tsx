@@ -3,6 +3,7 @@ import Layout from '../../components/Layout';
 import products from './products.json';
 import Product from './Product';
 import Hero from '../../components/Hero';
+import React from 'react';
 
 export const metadata = {
   title: 'DTI PRODUCTS PAGE',
@@ -26,10 +27,10 @@ export default function Products() {
       <SectionSep />
 
       {products.map((product, index) => (
-        <>
-          <Product key={index} {...product} />
+        <React.Fragment key={product.name}>
+          <Product {...product} />
           {index < products.length - 1 && <SectionSep grid />}
-        </>
+        </React.Fragment>
       ))}
 
       <section className="bg-background-3 h-[800px]">
