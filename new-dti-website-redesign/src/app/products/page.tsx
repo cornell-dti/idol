@@ -2,6 +2,7 @@ import SectionSep from '../../components/SectionSep';
 import Layout from '../../components/Layout';
 import products from './products.json';
 import Product from './Product';
+import Hero from '@/components/Hero';
 
 export const metadata = {
   title: 'DTI PRODUCTS PAGE',
@@ -11,10 +12,16 @@ export const metadata = {
 export default function Products() {
   return (
     <Layout>
-      <section className="bg-background-2 h-[400px]">
-        <h1>PRODUCTS</h1>
-        <p className="mt-2">This is the PRODUCTS page</p>
-      </section>
+      <Hero
+        heading="Products"
+        subheading="Each of our projects address an unfulfilled need that exists in our community using human-centered design and software engineering."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="View products"
+        button2Link="/"
+        image="/products/hero.png"
+        imageAlt="DTI students brainstorming with sticky notes"
+      />
 
       <SectionSep />
 
