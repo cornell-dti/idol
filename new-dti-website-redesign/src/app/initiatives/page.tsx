@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
-import SectionSep from '@/components/SectionSep';
-import FeatureSection from '@/components/FeatureSection';
+import SectionSep from '../../components/SectionSep';
+import FeatureSection from '../../components/FeatureSection';
 
 export const metadata = {
   title: 'DTI INITIATIVES PAGE',
