@@ -1,19 +1,22 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import IconWrapper from './IconWrapper';
 
 type FeatureCardProps = {
   title: string;
   body: string;
-  children: React.ReactNode;
+  icon?: ReactNode;
 };
 
-export default function FeatureCard({ title, body, children }: FeatureCardProps) {
+export default function FeatureCard({ title, body, icon }: FeatureCardProps) {
   return (
-    <div className="p-[32px] max-w-[395px] border border-border-1 flex flex-col">
-      <IconWrapper className="icon-wrapper">{children}</IconWrapper>
-      <h5 className="text-foreground-1 pt-[16px]">{title}</h5>
-      <p className="text-foreground-3">{body}</p>
-    </div>
+    <article className="p-8 max-1/3 border border-border-1 flex flex-col gap-4">
+      {icon && <IconWrapper>{icon}</IconWrapper>}
+      <div className="flex flex-col gap-1">
+        <h5>{title}</h5>
+        <p className="text-foreground-3">{body}</p>
+      </div>
+    </article>
   );
 }
