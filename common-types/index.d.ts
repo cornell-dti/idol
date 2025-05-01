@@ -3,6 +3,15 @@
 /** Overarching team roles for DTI members */
 type GeneralRole = 'lead' | 'designer' | 'pm' | 'business' | 'developer';
 
+/** Possible statuses for DTI applicants */
+type IntStatus = 'Accepted' | 'Rejected' | 'Waitlisted' | 'Undecided';
+
+/** All possible rounds for DTI applicants */
+type Round = 'Behavioral' | 'Resume' | 'Technical';
+
+/** Round filters for InterviewStatusDashboard */
+type RoundFilter = 'All Rounds' | Round;
+
 /** All possible roles for a DTI member */
 type Role =
   | 'ops-lead'
@@ -311,6 +320,15 @@ interface InterviewSlotEdit {
   lead?: IdolMember | null;
   members?: (IdolMember | null)[];
   applicant?: Applicant | null;
+}
+
+interface InterviewStatus {
+  name: string;
+  netid: string;
+  role: GeneralRole;
+  round: Round;
+  status: IntStatus;
+  readonly uuid?: string;
 }
 
 interface Period {

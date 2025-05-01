@@ -10,7 +10,7 @@
 }
 
 .leftColumn {
-  width: 500px;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -33,7 +33,14 @@
 .searchBar {
   display: flex;
   gap: 8px;
-  margin-bottom: 1%;
+  align-items: center;
+}
+
+/* Selects the wrapper <div> of the combobox element */
+.searchBar > div {
+  flex: 1;
+  display: flex;
+  height: 48px;
 }
 
 .ofNum {
@@ -110,4 +117,14 @@
 
 .navigation {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.commentEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }

@@ -204,3 +204,14 @@ export const interviewSlotCollection: admin.firestore.CollectionReference<DBInte
       return interviewSlotData;
     }
   });
+
+export const interviewStatusCollection: admin.firestore.CollectionReference<InterviewStatus> = db
+  .collection('interview-status')
+  .withConverter({
+    fromFirestore(snapshot): InterviewStatus {
+      return snapshot.data() as InterviewStatus;
+    },
+    toFirestore(interviewStatusData: InterviewStatus) {
+      return interviewStatusData;
+    }
+  });

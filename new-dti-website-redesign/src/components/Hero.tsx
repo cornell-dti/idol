@@ -33,7 +33,7 @@ const Hero = ({
           <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-center">{heading}</h1>
-              <h6 className="text-center text-foreground-3">{subheading}</h6>
+              <p className="h6 text-center text-foreground-3">{subheading}</p>
             </div>
 
             <div className="flex gap-4">
@@ -84,7 +84,7 @@ const Hero = ({
       <div className="flex-col md:flex-row flex">
         <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-border-1">
           <h1>{heading}</h1>
-          <h6 className="text-foreground-3">{subheading}</h6>
+          <p className="h6 text-foreground-3">{subheading}</p>
         </div>
 
         {(button1Label && button1Link) || (button2Label && button2Link) ? (
