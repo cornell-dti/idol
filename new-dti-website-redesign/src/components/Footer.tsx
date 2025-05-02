@@ -14,6 +14,7 @@ export default function Footer() {
     { href: '/sponsor', label: 'Sponsor' },
     { href: '/apply', label: 'Apply' }
   ];
+
   const ProductLinks = [
     { href: 'https://www.cureviews.org/', label: 'CU Reviews' },
     { href: 'https://courseplan.io/', label: 'Course Plan' },
@@ -24,6 +25,7 @@ export default function Footer() {
     { href: '', label: 'Carriage' },
     { href: '', label: 'Cornell Go' }
   ];
+
   const SocialLinks = [
     {
       href: 'mailto:hello@cornelldti.org',
@@ -125,6 +127,7 @@ export default function Footer() {
       )
     }
   ];
+
   const DTILinksSection = () => (
     <div className="flex flex-col gap-2">
       <h6 className="text-foreground-1">Cornell DTI</h6>
@@ -133,7 +136,8 @@ export default function Footer() {
           <li key={href}>
             <Link
               href={href}
-              className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState">
+              className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState transition-[color] duration-[120ms]"
+            >
               {label}
             </Link>
           </li>
@@ -141,22 +145,23 @@ export default function Footer() {
       </ul>
     </div>
   );
+
   const ProductLinksSection = () => (
     <div className="flex flex-col gap-2">
       <h6 className="text-foreground-1">Products</h6>
       <ul className="flex flex-col gap-1 list-none">
         {ProductLinks.map(({ href, label }) => (
-          <li key={href}>
+          <li key={label}>
             {href ? (
               <Link
                 href={href}
-                className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState">
+                target="_blank"
+                className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState transition-[color] duration-[120ms]"
+              >
                 {label}
               </Link>
             ) : (
-              <span className="text-foreground-3 cursor-default font-medium">
-                {label}
-              </span>
+              <span className="text-foreground-3 cursor-default font-medium">{label}</span>
             )}
           </li>
         ))}
@@ -166,17 +171,16 @@ export default function Footer() {
 
   const DTILogoSection = () => (
     <div>
-      <Link href={'/'}>
-
-        {<Image
-          src="/logo.svg"
-          alt="Cornell Digital Tech & Innovation logo"
-          width={220}
-          height={50}
-          className="min-w-[100px]"
-        />}
+      <Link href={'/'} className="inline-flex rounded-sm focusState">
+        {
+          <Image
+            src="/logo.svg"
+            alt="Cornell Digital Tech & Innovation logo"
+            width={220}
+            height={50}
+          />
+        }
       </Link>
-
 
       <ul className="flex max-w-[220px] justify-between list-none pt-4">
         {SocialLinks.map(({ href, label, icon }) => (
@@ -209,11 +213,11 @@ export default function Footer() {
           <ProductLinksSection />
         </div>
 
-        <div className="sm:absolute bottom-4 right-4 md:top-8 md:right-8">
+        <div className="sm:absolute bottom-4 right-4 md:top-8 md:right-8 md:bottom-auto">
           <Button
             label="Back to top"
             variant="secondary"
-            badge={<Image src="/arrowLogo.svg" alt="Arrow Logo" width={25} height={25} />}
+            backToTop={<Image src="/arrowLogo.svg" alt="" width={25} height={25} />}
             onClick={() => {
               window.scrollTo({
                 top: 0,

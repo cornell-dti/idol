@@ -173,6 +173,10 @@ p.caps.small {
   text-transform: uppercase;
 }
 
+a {
+  line-height: 160%;
+}
+
 nav,
 main,
 section {

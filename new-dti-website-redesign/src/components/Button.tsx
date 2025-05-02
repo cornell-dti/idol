@@ -9,6 +9,7 @@ type ButtonProps = {
   className?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
   badge?: React.ReactNode;
+  backToTop?: React.ReactNode;
 };
 
 export default function Button({
@@ -17,7 +18,8 @@ export default function Button({
   href,
   className = '',
   variant = 'primary',
-  badge
+  badge,
+  backToTop
 }: ButtonProps) {
   const baseStyles = `
     px-6 h-12 w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
@@ -33,6 +35,7 @@ export default function Button({
 
   const content = (
     <>
+      {backToTop && <span>{backToTop}</span>}
       <span className="text-rg font-medium">{label}</span>
       {badge && (
         <span className="p-2 bg-[#0000001a] text-background-1 rounded-full text-xs font-medium uppercase tracking-wider">
