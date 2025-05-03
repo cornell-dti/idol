@@ -1,22 +1,21 @@
-import Link from 'next/link';
 import React from 'react';
 import Sidebar from './Sidebar';
-import { CardLink } from './CardLink'; // Ensure this path is correct
+import { CardLink } from './CardLink';
 
 export default function DesignSystem() {
   const styles = [
     {
-      href: '/design-system/color',
+      href: '/design-system/styles/color',
       title: 'Color',
       description: 'Usage, tokens, and accessibility.'
     },
     {
-      href: '/design-system/typography',
+      href: '/design-system/styles/typography',
       title: 'Typography',
       description: 'Font styles, weights, hierarchy.'
     },
     {
-      href: '/design-system/layout',
+      href: '/design-system/styles/layout',
       title: 'Layout',
       description: 'Grids, spacing, and structure.'
     }
@@ -24,16 +23,15 @@ export default function DesignSystem() {
 
   const components = [
     {
-      href: '/design-system/button',
+      href: '/design-system/components/button',
       title: 'Button',
       description: 'Primary, secondary, icon buttons.'
     },
     {
-      href: '/design-system/input',
+      href: '/design-system/components/input',
       title: 'Input',
       description: 'Forms, fields, and validations.'
-    },
-    { href: '/design-system/card', title: 'Card', description: 'Containers for content.' }
+    }
   ];
 
   return (
