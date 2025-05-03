@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import React from 'react';
-import Sidebar from './../Sidebar';
+import Sidebar from './../../Sidebar';
 
-export default function Typography() {
+export default function Color() {
   return (
     <div className="flex">
       <Sidebar />
 
       <main className="flex-1 !pt-0">
         <section className="p-12 flex flex-col gap-2">
-          <h1>TYPOGRAPHY</h1>
+          <h1>COLOR</h1>
           <p className="text-foreground-3">xxx</p>
         </section>
 

@@ -15,17 +15,16 @@ export default function DesignSystem() {
     {
       category: 'Styles',
       items: [
-        { href: '/design-system/color', label: 'Color' },
-        { href: '/design-system/typography', label: 'Typography' },
-        { href: '/design-system/layout', label: 'Layout' }
+        { href: '/design-system/styles/color', label: 'Color' },
+        { href: '/design-system/styles/typography', label: 'Typography' },
+        { href: '/design-system/styles/layout', label: 'Layout' }
       ]
     },
     {
       category: 'Components',
       items: [
-        { href: '/design-system/button', label: 'Button' },
-        { href: '/design-system/input', label: 'Input' },
-        { href: '/design-system/card', label: 'Card' }
+        { href: '/design-system/components/button', label: 'Button' },
+        { href: '/design-system/components/input', label: 'Input' }
       ]
     }
   ];
