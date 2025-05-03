@@ -2,12 +2,7 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
 import { LEAD_ROLES } from 'common-types/constants';
 import { Emitters, getDateString, getTimeString } from '../../utils';
-import {
-  useHasAdminPermission,
-  useHasMemberPermission,
-  useMember,
-  useMembers
-} from '../Common/FirestoreDataProvider';
+import { useHasMemberPermission, useMember, useMembers } from '../Common/FirestoreDataProvider';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 import InterviewSlotDeleteModal from '../Modals/InterviewSlotDeleteModal';
 import styles from './SchedulingSidePanel.module.css';
@@ -24,7 +19,6 @@ const SchedulingSidePanel: React.FC<{
   const [slotMembers, setSlotMembers] = useState(displayedSlot.members);
   const [applicant, setApplicant] = useState(displayedSlot.applicant);
 
-  const isAdmin = useHasAdminPermission();
   const isMember = useHasMemberPermission();
   const userEmail = useUserEmail();
   const members = useMembers();
@@ -152,7 +146,16 @@ const SchedulingSidePanel: React.FC<{
       setSelectedSlot(undefined);
       if (val) {
         setSlots((prev) =>
-          prev.map((slot) => (slot.uuid === edits.uuid ? { ...slot, ...edits } : slot))
+          prev.map((slot) =>
+            slot.uuid === edits.uuid
+              ? {
+                  ...slot,
+                  lead: edits.lead ?? slot.lead,
+                  applicant: edits.applicant ?? slot.applicant,
+                  members: edits.members ?? slot.members
+                }
+              : slot
+          )
         );
         Emitters.generalSuccess.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
@@ -228,12 +231,12 @@ const SchedulingSidePanel: React.FC<{
           <hr />
         </>
       )}
-      {(isAdmin || !isMember) && (
+      {(isLead || !isMember) && (
         <div>
           <p>
             Applicant:{' '}
             {!isEditing &&
-              (isAdmin
+              (isLead
                 ? displayNameOrVacant(displayedSlot.applicant)
                 : displayCensoredName(displayedSlot.applicant))}
           </p>
@@ -256,7 +259,7 @@ const SchedulingSidePanel: React.FC<{
         </div>
       )}
       <div className={styles.buttonContainer}>
-        {isAdmin && (
+        {isLead && (
           <>
             <InterviewSlotDeleteModal slot={displayedSlot} setSlots={setSlots} />
             <Button basic onClick={handleAdminEditSave}>
@@ -275,7 +278,7 @@ const SchedulingSidePanel: React.FC<{
             color={slotStatus === 'possessed' ? 'red' : undefined}
             onClick={() => handleSignUpCancel(slotStatus === 'vacant')}
           >
-            {slotStatus === 'possessed' ? 'Cancel' : 'Sign Up'}
+            {slotStatus === 'possessed' ? 'Cancel Sign Up' : 'Sign Up'}
           </Button>
         )}
       </div>
