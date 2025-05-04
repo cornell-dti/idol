@@ -81,7 +81,7 @@ async function updateAlumniJson(): Promise<void> {
     );
   }
 
-  const alumniJsonPath = join('components', 'team', 'data', 'test-alumni.json');
+  const alumniJsonPath = join('components', 'team', 'data', 'alumni.json');
 
   const existingContent = readFileSync(alumniJsonPath).toString();
   const newAlumni = [...semesterOne.members, ...semesterTwo.members];
@@ -109,7 +109,7 @@ async function updateAlumniJson(): Promise<void> {
     );
 
     if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
-      console.log(`➕ Adding alumni: ${member.firstName} ${member.lastName} (${member.email})`);
+      console.log(`+ Adding alumni: ${member.firstName} ${member.lastName} (${member.email})`);
       updatedAlumni.push(member);
     }
   });

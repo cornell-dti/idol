@@ -1,9 +1,7 @@
 name: Update Alumni JSON
 
 on:
-  push:
-    branches:
-      - jjm493/member-archive-script
+  workflow_dispatch:
 
 jobs:
   update-alumni:
