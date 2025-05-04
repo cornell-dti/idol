@@ -9,6 +9,7 @@ type ButtonProps = {
   href?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
   badge?: React.ReactNode;
+  backToTop?: React.ReactNode;
   newTab?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
@@ -16,7 +17,17 @@ type ButtonProps = {
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'type' | 'onClick'>;
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
-    { label, onClick, href, className = '', variant = 'primary', badge, newTab = false, ...rest },
+    {
+      label,
+      onClick,
+      href,
+      className = '',
+      variant = 'primary',
+      badge,
+      backToTop,
+      newTab = false,
+      ...rest
+    },
     ref
   ) => {
     const baseStyles = `
@@ -35,6 +46,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     const content = (
       <>
+        {backToTop && <span>{backToTop}</span>}
         <span className="text-rg font-medium">{label}</span>
         {badge && (
           <span className="p-2 bg-[#0000001a] text-background-1 rounded-full text-xs font-medium uppercase tracking-wider">
