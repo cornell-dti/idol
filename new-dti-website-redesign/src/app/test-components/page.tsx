@@ -12,13 +12,10 @@ import IconWrapper from '../../components/IconWrapper';
 import FeatureCard from '../../components/FeatureCard';
 import Chip from '../../components/Chip';
 import Tabs from '../../components/Tabs';
-import DevNavbar from '@/components/DevNavbar';
 
 export default function TestComponents() {
   return (
     <div className="p-32 flex flex-col gap-16">
-      <DevNavbar className="!top-0 !left-0" />
-
       <Link href="/" className="text-accent-red underline">
         Back
       </Link>
