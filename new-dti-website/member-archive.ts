@@ -109,7 +109,7 @@ async function updateAlumniJson(): Promise<void> {
     );
 
     if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
-      console.log(`➕ Adding alumni: ${member.name} (${member.email})`);
+      console.log(`➕ Adding alumni: ${member.firstName} ${member.lastName} (${member.email})`);
       updatedAlumni.push(member);
     }
   });
@@ -128,8 +128,12 @@ async function updateAlumniJson(): Promise<void> {
     encoding: 'utf-8'
   });
   diffOutput = output.stdout.toString();
-  console.log('Diff Output:', diffOutput);
   unlinkSync('existing.json');
+
+  if (!process.env.CI) {
+    console.log(`\n${diffOutput}`);
+    return;
+  }
 
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
