@@ -5,7 +5,6 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
-import ScrollingMarquee from '../../components/ScrolllingMarquee';
 import Footer from '../../components/Footer';
 import Marquee from '../../components/Marquee';
 import SectionTitle from '../../components/SectionTitle';
