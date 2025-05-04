@@ -134,7 +134,7 @@ async function updateAlumniJson(): Promise<void> {
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/update-alumni-json';
   const commitMessage = '[bot] Automatically update alumni.json with latest semester data';
-  runCommand('git', 'add', '.');
+  runCommand('git', 'add', alumniJsonPath);
   runCommand('git', 'fetch', '--all');
   runCommand('git', 'checkout', 'main');
   runCommand('git', 'checkout', '-b', gitBranch);

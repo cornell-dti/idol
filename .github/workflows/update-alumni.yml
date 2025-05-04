@@ -24,9 +24,6 @@ jobs:
           restore-keys: yarn-
       - name: Install Dependencies
         run: yarn install
-      - name: Stash changes before switching branches
-        run: |
-          git stash
       - name: Run TypeScript to update alumni.json
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
