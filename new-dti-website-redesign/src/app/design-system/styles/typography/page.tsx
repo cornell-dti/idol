@@ -10,7 +10,7 @@ export default function Typography() {
       <PageLayout title="Typography" description="Guidelines for font usage and hierarchy.">
         <section className="p-12 flex flex-col gap-6">
           <h2>Font Styles</h2>
-          <p>Here's how we use different font styles.</p>
+          <p>Description blah.</p>
         </section>
         <section className="p-12 flex flex-col gap-6">
           <h2>Hierarchy</h2>
