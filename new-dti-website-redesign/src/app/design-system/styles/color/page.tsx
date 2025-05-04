@@ -45,8 +45,6 @@ export default function Color() {
 
   return (
     <div className="flex">
-      <Sidebar />
-
       <PageLayout title="Color" description="Description of color.">
         {Object.entries(grouped).map(([type, items]) => (
           <section key={type} className="p-12 flex flex-col gap-4">
