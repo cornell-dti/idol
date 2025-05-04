@@ -56,10 +56,9 @@ function getSemesters() {
 }
 
 async function updateAlumniJson(): Promise<void> {
-  const idolMembers = await getIdolMembers(); // Get current members from Idol API
+  const idolMembers = await getIdolMembers();
   const { previousSemesterOne, previousSemesterTwo } = getSemesters();
 
-  // Determine the file paths based on the semesters
   const semesterOneFile = `${previousSemesterOne}.json`;
   const semesterTwoFile = `${previousSemesterTwo}.json`;
 
@@ -69,7 +68,6 @@ async function updateAlumniJson(): Promise<void> {
   console.log(`Semester One Path: ${semesterOnePath}`);
   console.log(`Semester Two Path: ${semesterTwoPath}`);
 
-  // Check if the files exist
   if (!checkFileExists(semesterOnePath)) {
     throw new Error(
       `Missing JSON file: ${semesterOneFile}. Please include it in the member-archive directory.`
@@ -104,26 +102,21 @@ async function updateAlumniJson(): Promise<void> {
     console.error('Error parsing existing alumni JSON:', e);
   }
 
-  // Remove duplicates from newAlumni based on both previous semesters and existing alumni
   const updatedAlumni = [...existingAlumni];
 
   newAlumni.forEach((member) => {
-    // Check if this member is already in the current members list
     const existsInCurrentMembers = idolMembers.some(
       (idolMember) => idolMember.email === member.email
     );
 
-    // Check if the member is already in the existing alumni JSON
     const existsInExistingAlumni = existingAlumni.some(
       (existingMember: any) => existingMember.email === member.email
     );
 
-    // Check if the member is already in the newAlumni list (to avoid duplicates across semesters)
     const existsInNewAlumni = updatedAlumni.some(
       (existingMember: any) => existingMember.email === member.email
     );
 
-    // Only add the alumni if they are not already in any of the lists
     if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
       console.log(`Adding new alumni: ${member.firstName} ${member.lastName}`);
       updatedAlumni.push(member);
@@ -150,18 +143,40 @@ async function updateAlumniJson(): Promise<void> {
 
   const gitBranch = 'dti-github-bot/update-alumni-json';
   const commitMessage = '[bot] Automatically update alumni.json with latest semester data';
+
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   runCommand('git', 'add', '.');
   runCommand('git', 'fetch', '--all');
-  runCommand('git', 'checkout', 'main');
-  runCommand('git', 'branch', '-D', gitBranch);
-  runCommand('git', 'push', 'origin', '--delete', gitBranch);
-  runCommand('git', 'checkout', '-b', gitBranch);
+
+  runCommand('git', 'stash', '--include-untracked');
+
+  if (runCommand('git', 'checkout', 'main').status !== 0) {
+    throw new Error('Failed to checkout main');
+  }
+
+  if (runCommand('git', 'rev-parse', '--verify', gitBranch).status === 0) {
+    runCommand('git', 'branch', '-D', gitBranch);
+  }
+
+  const remoteBranchCheck = spawnSync('git', ['ls-remote', '--heads', 'origin', gitBranch], {
+    encoding: 'utf-8'
+  });
+  if (remoteBranchCheck.stdout.includes(gitBranch)) {
+    runCommand('git', 'push', 'origin', '--delete', gitBranch);
+  }
+
+  if (runCommand('git', 'checkout', '-b', gitBranch).status !== 0) {
+    throw new Error(`Failed to create branch: ${gitBranch}`);
+  }
+
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
-    if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
+    const pushResult = runCommand('git', 'push', '-f', 'origin', gitBranch);
+    if (pushResult.status !== 0) {
       runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
     }
+  } else {
+    console.log('No changes to commit.');
   }
 
   const octokit = new Octokit({
@@ -169,7 +184,6 @@ async function updateAlumniJson(): Promise<void> {
     userAgent: 'cornell-dti/big-diff-warning'
   });
 
-  // Don't place a diff output in PR description if it exceeds the char limit.
   if (diffOutput.length > DIFF_OUTPUT_LIMIT) {
     diffOutput = '<Output is too long to put in the PR description. See PR diff for details.>';
   }
