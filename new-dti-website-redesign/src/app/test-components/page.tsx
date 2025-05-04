@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 import Button from '../../components/Button';
 import IconButton from '../../components/IconButton';
@@ -8,6 +9,9 @@ import Input from '../../components/Input';
 import LabeledInput from '../../components/LabeledInput';
 import TestimonialCard from '../../components/TestimonialCard';
 import IconWrapper from '../../components/IconWrapper';
+import FeatureCard from '../../components/FeatureCard';
+import Chip from '../../components/Chip';
+import Tabs from '../../components/Tabs';
 
 export default function TestComponents() {
   return (
@@ -252,6 +256,141 @@ export default function TestComponents() {
             </svg>
           </IconWrapper>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Feature Card</h4>
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          <FeatureCard
+            title="Card Title"
+            body="Some more details here. Should be about 2 or 3 lines. Lorem ipsum dolor, sit amet ducet. One more and done."
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="lucide lucide-rocket-icon lucide-rocket"
+              >
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+              </svg>
+            }
+          />
+
+          <FeatureCard
+            title="Card Title"
+            body="Some more details here. Should be about 2 or 3 lines. Lorem ipsum dolor, sit amet ducet. One more and done."
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="lucide lucide-rocket-icon lucide-rocket"
+              >
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+              </svg>
+            }
+          />
+
+          <FeatureCard
+            title="Card Title"
+            body="Some more details here. Should be about 2 or 3 lines. Lorem ipsum dolor, sit amet ducet. One more and done."
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="lucide lucide-rocket-icon lucide-rocket"
+              >
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+              </svg>
+            }
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h4>Chip</h4>
+        <div className="flex gap-4">
+          <Chip label="Coming soon" />
+
+          <Chip label="Coming soon" color="red" />
+
+          <Chip label="Coming soon" color="green" />
+
+          <Chip label="Coming soon" color="blue" />
+
+          <Chip label="Coming soon" color="yellow" />
+
+          <Chip label="Coming soon" color="purple" />
+        </div>
+
+        <h4>Tab</h4>
+        <Tabs
+          tabs={[
+            {
+              label: 'Tab 1',
+              content: (
+                <div className="w-128 h-128 bg-accent-blue p-8 focusState" tabIndex={0}>
+                  <h3>Tab panel 1</h3>
+
+                  <p>A lovely tab 1 with just an image</p>
+
+                  <Image src="/clem.jpg" alt="Clément's pic" width={128} height={128} />
+                </div>
+              )
+            },
+            {
+              label: 'Tab 2',
+              content: (
+                <div className="w-128 h-128 bg-accent-yellow p-8">
+                  <h3>Tab panel 2</h3>
+
+                  <p>A lovely tab 2 with interactive elements</p>
+
+                  <Input placeholder="Input placeholder" onChange={() => {}} className="w-64" />
+
+                  <Button label="Hey hey" variant="secondary" />
+                </div>
+              )
+            },
+            {
+              label: 'Tab 3',
+              content: (
+                <div className="w-128 h-128 bg-accent-red p-8 focusState" tabIndex={0}>
+                  <h3>Tab panel 3</h3>
+                  <p className="small caps">helloooo</p>
+                </div>
+              )
+            }
+          ]}
+        />
       </div>
     </div>
   );
