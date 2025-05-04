@@ -1,21 +1,29 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export function CardLink({
   href,
   title,
-  description
+  description,
+  thumbnail = '/design-system/thumb.jpg'
 }: {
   href: string;
   title: string;
   description?: string;
+  thumbnail?: string;
 }) {
   return (
     <Link
       href={href}
-      className="block rounded-xl border border-border-1 p-6 transition hover:shadow-md hover:bg-background-2"
+      className="focusState rounded-md border border-border-1 overflow-hidden transition hover:shadow-md hover:bg-background-2"
     >
-      <h3 className="text-lg font-medium mb-1">{title}</h3>
-      {description && <p className="text-sm text-foreground-3">{description}</p>}
+      <div className="h-40 w-full relative">
+        <Image src={thumbnail} alt={`${title} thumbnail`} fill className="object-cover" />
+      </div>
+      <div className="p-4 flex flex-col gap-1">
+        <h5>{title}</h5>
+        {description && <p className="text-sm text-foreground-3">{description}</p>}
+      </div>
     </Link>
   );
 }

@@ -1,68 +1,38 @@
-import React from 'react';
-import Sidebar from './Sidebar';
+import { navItems } from './nav.config';
 import { CardLink } from './CardLink';
+import Sidebar from './Sidebar';
 
 export default function DesignSystem() {
-  const styles = [
-    {
-      href: '/design-system/styles/color',
-      title: 'Color',
-      description: 'Usage, tokens, and accessibility.'
-    },
-    {
-      href: '/design-system/styles/typography',
-      title: 'Typography',
-      description: 'Font styles, weights, hierarchy.'
-    },
-    {
-      href: '/design-system/styles/layout',
-      title: 'Layout',
-      description: 'Grids, spacing, and structure.'
-    }
-  ];
+  const intro = navItems.find((group) => group.category === null)?.items[0];
 
-  const components = [
-    {
-      href: '/design-system/components/button',
-      title: 'Button',
-      description: 'Primary, secondary, icon buttons.'
-    },
-    {
-      href: '/design-system/components/input',
-      title: 'Input',
-      description: 'Forms, fields, and validations.'
-    }
-  ];
+  const sections = navItems.filter((group) => group.category !== null);
 
   return (
-    <div className="flex">
+    <div className="flex h-full">
       <Sidebar />
 
-      <main className="flex-1 !pt-0">
-        <section className="p-12 flex flex-col gap-2">
-          <h1>Introduction</h1>
-          <p className="text-foreground-3">
+      <main className="!pt-0 flex flex-col flex-1">
+        <section className="flex flex-col gap-2 p-12">
+          <h1>DTI Design System</h1>
+          <h5 className="text-foreground-3">
             Design system for the Digital Tech & Innovation's website.
-          </p>
+          </h5>
         </section>
-
-        <section className="p-12 flex flex-col gap-6">
-          <h2>Styles</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {styles.map(({ href, title, description }) => (
-              <CardLink key={href} href={href} title={title} description={description} />
-            ))}
-          </div>
-        </section>
-
-        <section className="p-12 flex flex-col gap-6">
-          <h2>Components</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {components.map(({ href, title, description }) => (
-              <CardLink key={href} href={href} title={title} description={description} />
-            ))}
-          </div>
-        </section>
+        {sections.map((section) => (
+          <section key={section.category} className="p-12 flex flex-col gap-6">
+            <h2>{section.category}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {section.items.map((item) => (
+                <CardLink
+                  key={item.href}
+                  href={item.href}
+                  title={item.label}
+                  description={item.description}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
       </main>
     </div>
   );
