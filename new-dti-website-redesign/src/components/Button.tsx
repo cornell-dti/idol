@@ -17,7 +17,17 @@ type ButtonProps = {
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'type' | 'onClick'>;
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
-    { label, onClick, href, className = '', variant = 'primary', badge, backToTop, newTab = false, ...rest },
+    {
+      label,
+      onClick,
+      href,
+      className = '',
+      variant = 'primary',
+      badge,
+      backToTop,
+      newTab = false,
+      ...rest
+    },
     ref
   ) => {
     const baseStyles = `
