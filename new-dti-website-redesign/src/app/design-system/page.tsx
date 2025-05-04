@@ -1,6 +1,7 @@
 import { navItems } from './nav.config';
 import { CardLink } from './CardLink';
 import Sidebar from './Sidebar';
+import PageLayout from './PageLayout';
 
 export default function DesignSystem() {
   const intro = navItems.find((group) => group.category === null)?.items[0];
@@ -11,13 +12,10 @@ export default function DesignSystem() {
     <div className="flex h-full">
       <Sidebar />
 
-      <main className="!pt-0 flex flex-col flex-1">
-        <section className="flex flex-col gap-2 p-12">
-          <h1>DTI Design System</h1>
-          <h5 className="text-foreground-3">
-            Design system for the Digital Tech & Innovation's website.
-          </h5>
-        </section>
+      <PageLayout
+        title="DTI Design System"
+        description="Design system for the Digital Tech & Innovation's website."
+      >
         {sections.map((section) => (
           <section key={section.category} className="p-12 flex flex-col gap-6">
             <h2>{section.category}</h2>
@@ -33,7 +31,7 @@ export default function DesignSystem() {
             </div>
           </section>
         ))}
-      </main>
+      </PageLayout>
     </div>
   );
 }

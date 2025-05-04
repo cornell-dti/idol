@@ -17,19 +17,19 @@ export const navItems = [
         thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/styles/color',
         label: 'Color',
-        description: 'Usage, tokens, and accessibility.'
+        description: 'Color description blah.'
       },
       {
         thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/styles/typography',
         label: 'Typography',
-        description: 'Font styles, weights, hierarchy.'
+        description: 'Typography description blah.'
       },
       {
         thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/styles/layout',
         label: 'Layout',
-        description: 'Grids, spacing, and structure.'
+        description: 'Layout description blah.'
       }
     ]
   },
@@ -40,13 +40,13 @@ export const navItems = [
         thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/components/button',
         label: 'Button',
-        description: 'Primary, secondary, icon buttons.'
+        description: 'Buttons description bruh.'
       },
       {
         thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/components/input',
         label: 'Input',
-        description: 'Forms, fields, and validations.'
+        description: 'Input description bruh.'
       }
     ]
   }

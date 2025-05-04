@@ -9,7 +9,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="h-full border-l border-border-1 bg-background-1">
+    <aside className="h-full border-l border-border-1 bg-background-1 fixed w-[260px]">
       <nav className="flex flex-col">
         <div className="p-4 border-b-1 border-border-1">
           <h5>IDOL Design System</h5>
@@ -26,7 +26,7 @@ export default function Sidebar() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className={`block focusState px-4 py-2 rounded-md transition-colors transition-duration-[120ms] hover:bg-background-2 ${
+                    className={`block focusState px-4 py-2 rounded-lg transition-colors transition-duration-[120ms] hover:bg-background-2 ${
                       pathname === href ? 'bg-background-2' : 'bg-background-1 text-foreground-3'
                     }`}
                   >
