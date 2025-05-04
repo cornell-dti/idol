@@ -1,13 +1,11 @@
 import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import { Octokit } from '@octokit/rest';
-import { join } from 'path';
 
 const DIFF_OUTPUT_LIMIT = 65_000;
 
 function checkFileExists(filePath: string): boolean {
-  console.log(`Checking if file exists: ${filePath}`);
   return existsSync(filePath);
 }
 
@@ -49,9 +47,6 @@ function getSemesters() {
     throw new Error('Current month does not fall within a valid Spring or Fall semester range.');
   }
 
-  console.log(`Current semester: ${currentSemester}`);
-  console.log(`Previous semesters: ${previousSemesterOne}, ${previousSemesterTwo}`);
-
   return { currentSemester, previousSemesterOne, previousSemesterTwo };
 }
 
@@ -64,9 +59,6 @@ async function updateAlumniJson(): Promise<void> {
 
   const semesterOnePath = resolve(__dirname, `../backend/src/members-archive/${semesterOneFile}`);
   const semesterTwoPath = resolve(__dirname, `../backend/src/members-archive/${semesterTwoFile}`);
-
-  console.log(`Semester One Path: ${semesterOnePath}`);
-  console.log(`Semester Two Path: ${semesterTwoPath}`);
 
   if (!checkFileExists(semesterOnePath)) {
     throw new Error(
@@ -90,12 +82,11 @@ async function updateAlumniJson(): Promise<void> {
   }
 
   const alumniJsonPath = join('components', 'team', 'data', 'test-alumni.json');
-  console.log(`Alumni JSON Path: ${alumniJsonPath}`);
 
   const existingContent = readFileSync(alumniJsonPath).toString();
   const newAlumni = [...semesterOne.members, ...semesterTwo.members];
 
-  let existingAlumni = [];
+  let existingAlumni: IdolMember[] = [];
   try {
     existingAlumni = JSON.parse(existingContent);
   } catch (e) {
@@ -110,15 +101,14 @@ async function updateAlumniJson(): Promise<void> {
     );
 
     const existsInExistingAlumni = existingAlumni.some(
-      (existingMember: any) => existingMember.email === member.email
+      (existingMember) => existingMember.email === member.email
     );
 
     const existsInNewAlumni = updatedAlumni.some(
-      (existingMember: any) => existingMember.email === member.email
+      (existingMember) => existingMember.email === member.email
     );
 
     if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
-      console.log(`Adding new alumni: ${member.firstName} ${member.lastName}`);
       updatedAlumni.push(member);
     }
   });
@@ -126,7 +116,6 @@ async function updateAlumniJson(): Promise<void> {
   const newContent = JSON.stringify(updatedAlumni, null, 2);
 
   if (existingContent === newContent) {
-    console.log('No changes to alumni.json.');
     return;
   }
 
@@ -143,40 +132,19 @@ async function updateAlumniJson(): Promise<void> {
 
   const gitBranch = 'dti-github-bot/update-alumni-json';
   const commitMessage = '[bot] Automatically update alumni.json with latest semester data';
-
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   runCommand('git', 'add', '.');
   runCommand('git', 'fetch', '--all');
-
   runCommand('git', 'stash', '--include-untracked');
-
-  if (runCommand('git', 'checkout', 'main').status !== 0) {
-    throw new Error('Failed to checkout main');
-  }
-
-  if (runCommand('git', 'rev-parse', '--verify', gitBranch).status === 0) {
-    runCommand('git', 'branch', '-D', gitBranch);
-  }
-
-  const remoteBranchCheck = spawnSync('git', ['ls-remote', '--heads', 'origin', gitBranch], {
-    encoding: 'utf-8'
-  });
-  if (remoteBranchCheck.stdout.includes(gitBranch)) {
-    runCommand('git', 'push', 'origin', '--delete', gitBranch);
-  }
-
-  if (runCommand('git', 'checkout', '-b', gitBranch).status !== 0) {
-    throw new Error(`Failed to create branch: ${gitBranch}`);
-  }
-
+  runCommand('git', 'checkout', 'main');
+  runCommand('git', 'branch', '-D', gitBranch);
+  runCommand('git', 'push', 'origin', '--delete', gitBranch);
+  runCommand('git', 'checkout', '-b', gitBranch);
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
-    const pushResult = runCommand('git', 'push', '-f', 'origin', gitBranch);
-    if (pushResult.status !== 0) {
+    if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
       runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
     }
-  } else {
-    console.log('No changes to commit.');
   }
 
   const octokit = new Octokit({
