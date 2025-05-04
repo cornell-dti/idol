@@ -109,6 +109,7 @@ async function updateAlumniJson(): Promise<void> {
     );
 
     if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
+      console.log(`➕ Adding alumni: ${member.name} (${member.email})`);
       updatedAlumni.push(member);
     }
   });
