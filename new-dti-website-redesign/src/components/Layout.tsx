@@ -5,10 +5,10 @@ import Navbar from './Navbar';
 import DevNavbar from './DevNavbar';
 
 type Props = {
-  readonly children?: ReactNode;
+  children?: ReactNode;
 };
 
-const Layout = ({ children }: Props): JSX.Element => (
+const Layout = ({ children }: Props): React.ReactElement => (
   <>
     <Navbar />
 
