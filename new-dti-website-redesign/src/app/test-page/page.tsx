@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
+import Footer from '../../components/Footer';
 import Marquee from '../../components/Marquee';
 import SectionTitle from '../../components/SectionTitle';
 import LogoBox from '../../components/LogoBox';
@@ -334,6 +335,8 @@ export default function TestPage() {
       <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
 
       <section className="h-128" />
+
+      <Footer />
     </Layout>
   );
 }
