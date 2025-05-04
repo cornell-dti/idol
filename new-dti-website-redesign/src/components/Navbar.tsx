@@ -27,17 +27,15 @@ export default function Navbar() {
         [width:calc(100%-2rem)] sm:[width:calc(100%-4rem)] md:[width:calc(100%-16rem)] 
         lg:left-1/2 lg:-translate-x-1/2 lg:transform"
       >
-        <div className="flex gap-8 items-center">
-          <Link href="/" className="focusState rounded-sm">
-            <Image
-              src="/logo.svg"
-              alt="Cornell Digital Tech & Innovation logo"
-              width={269}
-              height={48}
-              className="md:min-w-[269px] h-10 md:h-12 w-auto"
-            />
-          </Link>
-        </div>
+        <Link href="/" className="focusState rounded-sm">
+          <Image
+            src="/logo.svg"
+            alt="Cornell Digital Tech & Innovation logo"
+            width={269}
+            height={48}
+            className="md:min-w-[269px] h-10 md:h-12 w-auto"
+          />
+        </Link>
 
         {/* Desktop links */}
         <div className="flex gap-8 items-center">
