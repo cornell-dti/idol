@@ -2,7 +2,6 @@
 
 import { ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
-import * as Accordion from '@radix-ui/react-accordion';
 
 // Props type for the FAQAccordion component
 type FAQAccordionProps = {
@@ -18,22 +17,19 @@ type FAQAccordionProps = {
  */
 export default function FAQAccordion({ header, children }: FAQAccordionProps) {
   return (
-    <Accordion.Root type="single" collapsible>
-      <Accordion.Item value="item-1" className="group w-[880px] border border-border-1">
-        <Accordion.Header>
-          <Accordion.Trigger
-            className="w-full focus-visible:outline focus-visible:outline-[2px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--foreground-1)] focus-visible:relative focus-visible:z-10 
-          p-[32px] group-data-[state=open]:pb-[16px] bg-background-1 group-data-[state=open]:bg-background-2 hover:bg-background-2 group-data-[state=open]:hover:bg-background-3 
+    <details className="group border border-border-1">
+      <summary
+        className="
+          list-none p-8
+          focus-visible:outline focus-visible:outline-[2px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--foreground-1)] focus-visible:relative 
+          group-open:pb-[16px] bg-background-1 group-open:bg-background-2 hover:bg-background-2 group-open:hover:bg-background-3
           flex justify-between items-center cursor-pointer"
-          >
-            <h6>{header}</h6>
-            <ChevronDown className="group-data-[state=open]:rotate-180 [transition:200ms_ease-out] flex-shrink-0" />
-          </Accordion.Trigger>
-        </Accordion.Header>
-        <Accordion.Content className="p-[32px] pt-0 text-base text-foreground-3 bg-background-2">
-          {children}
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion.Root>
+      >
+        <h6>{header}</h6>
+        <ChevronDown className="group-open:rotate-180 [transition:200ms_ease-out]" />
+      </summary>
+
+      <div className="p-[32px] pt-0 text-base text-foreground-3 bg-background-2">{children}</div>
+    </details>
   );
 }

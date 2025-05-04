@@ -124,68 +124,66 @@ export default function TestPage() {
               person's experiences first.
             </p>
           </FAQAccordion>
-          </div>
         </div>
-        <h4>Inputs</h4>
-        <div className="flex gap-8">
-          <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
+      </div>
+      <h4>Inputs</h4>
+      <div className="flex gap-8">
+        <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
 
-          <Input
-            placeholder="Input placeholder"
-            onChange={() => {}}
-            multiline
-            height={256}
-            className="w-128"
-          />
-        </div>
+        <Input
+          placeholder="Input placeholder"
+          onChange={() => {}}
+          multiline
+          height={256}
+          className="w-128"
+        />
+      </div>
 
-        <div className="flex gap-8">
-          <LabeledInput
-            className="w-128"
-            label="Input label"
-            inputProps={{
-              onChange: () => {},
-              placeholder: 'Input placeholder'
-            }}
-          />
+      <div className="flex gap-8">
+        <LabeledInput
+          className="w-128"
+          label="Input label"
+          inputProps={{
+            onChange: () => {},
+            placeholder: 'Input placeholder'
+          }}
+        />
 
-          <LabeledInput
-            className="w-128"
-            label="Input label"
-            inputProps={{
-              onChange: () => {},
-              placeholder: 'Input placeholder',
-              multiline: true,
-              height: 256
-            }}
-          />
-        </div>
+        <LabeledInput
+          className="w-128"
+          label="Input label"
+          inputProps={{
+            onChange: () => {},
+            placeholder: 'Input placeholder',
+            multiline: true,
+            height: 256
+          }}
+        />
+      </div>
 
-        <div className="flex gap-8">
-          <LabeledInput
-            className="w-128"
-            label="Input label"
-            inputProps={{
-              onChange: () => {},
-              placeholder: 'Input placeholder'
-            }}
-            error="Input error message"
-          />
+      <div className="flex gap-8">
+        <LabeledInput
+          className="w-128"
+          label="Input label"
+          inputProps={{
+            onChange: () => {},
+            placeholder: 'Input placeholder'
+          }}
+          error="Input error message"
+        />
 
-          <LabeledInput
-            className="w-128"
-            label="Input label"
-            inputProps={{
-              onChange: () => {},
-              placeholder: 'Input placeholder',
-              multiline: true,
-              height: 256
-            }}
-            error="Input error message"
-          />
-
-        </div>
-      
+        <LabeledInput
+          className="w-128"
+          label="Input label"
+          inputProps={{
+            onChange: () => {},
+            placeholder: 'Input placeholder',
+            multiline: true,
+            height: 256
+          }}
+          error="Input error message"
+        />
+      </div>
     </div>
   );
 }
