@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
@@ -334,6 +335,14 @@ export default function TestPage() {
       <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
 
       <section className="h-128" />
+
+      <h2 className="text-accent-purple">
+        NOTE: this page will soon be deprecated in favor of the
+        <Link href="/design-system" className="text-accent-red underline">
+          Design System library
+        </Link>
+        !
+      </h2>
     </Layout>
   );
 }
