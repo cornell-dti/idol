@@ -1,4 +1,4 @@
-export const colors = [
+const colors = [
   // Background
   { type: 'Background', name: 'Background-1', variable: '--background-1' },
   { type: 'Background', name: 'Background-2', variable: '--background-2' },
@@ -20,3 +20,5 @@ export const colors = [
   { type: 'Accent', name: 'Accent-Yellow', variable: '--accent-yellow' },
   { type: 'Accent', name: 'Accent-Purple', variable: '--accent-purple' }
 ];
+
+export default colors;

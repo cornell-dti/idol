@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function CardLink({
+export default function CardLink({
   href,
   title,
   description,

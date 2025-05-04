@@ -1,4 +1,4 @@
-export const navItems = [
+const navItems = [
   {
     category: null,
     items: [
@@ -51,3 +51,5 @@ export const navItems = [
     ]
   }
 ];
+
+export default navItems;

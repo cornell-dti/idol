@@ -1,5 +1,5 @@
 import { navItems } from './nav.config';
-import { CardLink } from './CardLink';
+import CardLink from './CardLink';
 import Sidebar from './Sidebar';
 import PageLayout from './PageLayout';
 
