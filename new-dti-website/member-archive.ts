@@ -119,6 +119,8 @@ async function updateAlumniJson(): Promise<void> {
     return;
   }
 
+  writeFileSync(alumniJsonPath, newContent);
+
   let diffOutput = '';
   writeFileSync('existing.json', existingContent);
   const output = spawnSync('diff', ['--unified=0', 'existing.json', alumniJsonPath], {
@@ -128,16 +130,17 @@ async function updateAlumniJson(): Promise<void> {
   console.log('Diff Output:', diffOutput);
   unlinkSync('existing.json');
 
-  writeFileSync(alumniJsonPath, newContent);
-
   runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
   runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
   const gitBranch = 'dti-github-bot/update-alumni-json';
   const commitMessage = '[bot] Automatically update alumni.json with latest semester data';
-  runCommand('git', 'add', alumniJsonPath);
   runCommand('git', 'fetch', '--all');
+  runCommand('git', 'stash', '--include-untracked');
   runCommand('git', 'checkout', 'main');
   runCommand('git', 'checkout', '-b', gitBranch);
+  runCommand('git', 'stash', 'pop');
+  runCommand('git', 'add', alumniJsonPath);
+
   if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
     if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
       runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
