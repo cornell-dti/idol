@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../../Sidebar';
 import colors from './colors';
 import PageLayout from '../../PageLayout';
 
