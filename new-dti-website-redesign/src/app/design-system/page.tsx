@@ -4,8 +4,6 @@ import Sidebar from './Sidebar';
 import PageLayout from './PageLayout';
 
 export default function DesignSystem() {
-  const intro = navItems.find((group) => group.category === null)?.items[0];
-
   const sections = navItems.filter((group) => group.category !== null);
 
   return (

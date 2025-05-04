@@ -13,6 +13,9 @@ export default function Sidebar() {
       <nav className="flex flex-col">
         <div className="p-4 border-b-1 border-border-1">
           <h5>IDOL Design System</h5>
+          <Link href="/" className="text-accent-red underline">
+            Back to home
+          </Link>
         </div>
 
         {navItems.map(({ category, items }) => (

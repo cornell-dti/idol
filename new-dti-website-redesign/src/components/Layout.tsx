@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import Navbar from './Navbar';
 import DevNavbar from './DevNavbar';
 
@@ -9,13 +9,11 @@ type Props = {
 };
 
 const Layout = ({ children }: Props): ReactNode => {
-  const [devMode, setdevMode] = useState(false);
-
   return (
     <>
-      <Navbar enabled={devMode} setEnabled={setdevMode} />
+      <Navbar />
 
-      {devMode && <DevNavbar enabled={devMode} />}
+      <DevNavbar />
 
       <main role="main" className="max-w-[1184px] mx-4 sm:mx-8 md:mx-32 lg:mx-auto">
         {children}
