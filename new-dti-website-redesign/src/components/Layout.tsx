@@ -8,18 +8,16 @@ type Props = {
   readonly children?: ReactNode;
 };
 
-const Layout = ({ children }: Props): ReactNode => {
-  return (
-    <>
-      <Navbar />
+const Layout = ({ children }: Props): JSX.Element => (
+  <>
+    <Navbar />
 
-      <DevNavbar />
+    <DevNavbar />
 
-      <main role="main" className="max-w-[1184px] mx-4 sm:mx-8 md:mx-32 lg:mx-auto">
-        {children}
-      </main>
-    </>
-  );
-};
+    <main role="main" className="max-w-[1184px] mx-4 sm:mx-8 md:mx-32 lg:mx-auto">
+      {children}
+    </main>
+  </>
+);
 
 export default Layout;
