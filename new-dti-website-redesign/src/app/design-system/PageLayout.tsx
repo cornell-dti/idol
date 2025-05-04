@@ -13,7 +13,7 @@ export default function PageLayout({ title, description, children }: PageLayoutP
 
       <main className="flex-1 !pt-0 ml-[261px]">
         <section className="p-12 flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold">{title}</h1>
+          <h1>{title}</h1>
           {description && <p className="text-foreground-3">{description}</p>}
         </section>
 
