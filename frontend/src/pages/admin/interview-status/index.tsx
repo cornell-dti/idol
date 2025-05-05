@@ -1,3 +1,6 @@
-import InterviewStatusDashboard from '../../../components/Admin/InterviewStatus/InterviewStatusDashboard';
+import InterviewStatusBase from "../../../components/Admin/InterviewStatus/InterviewStatusBase";
 
-export default InterviewStatusDashboard;
+
+const InterviewStatusList: React.FC = () => <InterviewStatusBase />;
+
+export default InterviewStatusList;
