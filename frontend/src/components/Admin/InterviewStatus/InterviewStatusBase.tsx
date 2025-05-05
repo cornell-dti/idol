@@ -22,10 +22,11 @@ const InterviewStatusBase: React.FC = () => {
           .sort(([a], [b]) => a.localeCompare(b))
           .map(([instanceName, statuses]) => ({
             instanceName,
-            statuses,
+            statuses
           }));
         setGroups(grouped);
-      }).finally(() => setIsLoading(false));
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {

@@ -21,7 +21,7 @@ interface InterviewStatusDashboardProps {
 
 const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
   instanceName,
-  statuses,
+  statuses
 }) => {
   const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
   const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
@@ -181,10 +181,10 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-            ...applicant,
-            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-            status: 'Undecided'
-          }
+              ...applicant,
+              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+              status: 'Undecided'
+            }
           : applicant
       )
     );
@@ -192,10 +192,10 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-            ...applicant,
-            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-            status: 'Undecided'
-          }
+              ...applicant,
+              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+              status: 'Undecided'
+            }
           : applicant
       )
     );

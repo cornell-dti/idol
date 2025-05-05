@@ -1,5 +1,4 @@
-import InterviewStatusBase from "../../../components/Admin/InterviewStatus/InterviewStatusBase";
-
+import InterviewStatusBase from '../../../components/Admin/InterviewStatus/InterviewStatusBase';
 
 const InterviewStatusList: React.FC = () => <InterviewStatusBase />;
 

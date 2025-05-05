@@ -17,7 +17,10 @@ interface AddInterviewStatusFormProps {
   instanceName: string;
 }
 
-const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddApplicant, instanceName }) => {
+const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({
+  onAddApplicant,
+  instanceName
+}) => {
   const [name, setName] = useState('');
   const [netid, setNetid] = useState('');
   const [round, setRound] = useState<Round | ''>('');
