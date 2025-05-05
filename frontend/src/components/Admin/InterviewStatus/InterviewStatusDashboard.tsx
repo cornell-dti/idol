@@ -14,7 +14,15 @@ import AddInterviewStatusForm from './AddInterviewStatusForm';
 import { Emitters } from '../../../utils';
 import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
 
-const InterviewStatusDashboard: React.FC = () => {
+interface InterviewStatusDashboardProps {
+  instanceName: string;
+  statuses: InterviewStatus[];
+}
+
+const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
+  instanceName,
+  statuses
+}) => {
   const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
   const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,16 +30,11 @@ const InterviewStatusDashboard: React.FC = () => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedApplicants, setSelectedApplicants] = useState<Set<string>>(new Set());
 
-  const fetchApplicants = async () => {
-    const data = await InterviewStatusAPI.getAllInterviewStatuses();
-    setApplicants(data || []);
-    setFilteredApplicants(data || []);
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    fetchApplicants();
-  }, []);
+    setApplicants(statuses);
+    setFilteredApplicants(statuses);
+    setIsLoading(false);
+  }, [statuses]);
 
   const handleAddApplicant = (newApplicant: InterviewStatus) => {
     setApplicants((prev) => [...prev, newApplicant]);
@@ -119,8 +122,8 @@ const InterviewStatusDashboard: React.FC = () => {
       );
       setSelectedApplicants(new Set());
       Emitters.generalSuccess.emit({
-        headerMsg: 'Sucess!',
-        contentMsg: `Selected interview statuses are now deleted.`
+        headerMsg: 'Deleted!',
+        contentMsg: `Selected interview statuses removed.`
       });
     }
   };
@@ -360,7 +363,7 @@ const InterviewStatusDashboard: React.FC = () => {
         </Table.Body>
       </Table>
       <div className={styles.addForm}>
-        <AddInterviewStatusForm onAddApplicant={handleAddApplicant} />
+        <AddInterviewStatusForm onAddApplicant={handleAddApplicant} instanceName={instanceName} />
       </div>
     </div>
   );

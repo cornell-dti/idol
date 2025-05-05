@@ -322,7 +322,13 @@ interface InterviewSlotEdit {
   applicant?: Applicant | null;
 }
 
+interface StatusInstance {
+  instanceName: string;
+  statuses: InterviewStatus[];
+}
+
 interface InterviewStatus {
+  instance: string;
   name: string;
   netid: string;
   role: GeneralRole;

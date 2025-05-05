@@ -14,9 +14,13 @@ const displayToRoleMap: Record<string, GeneralRole> = {
 
 interface AddInterviewStatusFormProps {
   onAddApplicant: (applicant: InterviewStatus) => void;
+  instanceName: string;
 }
 
-const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddApplicant }) => {
+const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({
+  onAddApplicant,
+  instanceName
+}) => {
   const [name, setName] = useState('');
   const [netid, setNetid] = useState('');
   const [round, setRound] = useState<Round | ''>('');
@@ -36,6 +40,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({ onAddAp
 
     setIsSubmitting(true);
     const createdApplicant = await InterviewStatusAPI.createInterviewStatus({
+      instance: instanceName,
       name,
       netid,
       round: round as Round,

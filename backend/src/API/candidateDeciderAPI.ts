@@ -37,7 +37,7 @@ export const getAllCandidateDeciderInstances = async (
 
 /**
  * Returns whether a CandidateDecier instance is assigned to the user
- * This method checks if a CandidateDecier instance is assigned to the user
+ * This method checks if a CandidateDecider instance is assigned to the user
  * @returns {Promise<boolean>} A promise that resolves with a boolean indicating whether the user has access to the instance
  */
 export const hasCandidateDeciderInstance = async (user: IdolMember): Promise<boolean> => {
