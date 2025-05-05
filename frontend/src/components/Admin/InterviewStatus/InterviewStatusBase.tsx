@@ -27,7 +27,7 @@ const InterviewStatusBase: React.FC = () => {
         setGroups(grouped);
       })
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [selected]);
 
   const handleNewEmptyInstance = async () => {
     const name = window.prompt('Enter a name for your new instance:');
@@ -36,7 +36,7 @@ const InterviewStatusBase: React.FC = () => {
     const emptyInstance: StatusInstance = { instanceName: name, statuses: [] };
     setSelected(emptyInstance);
     setIsLoading(false);
-  }
+  };
 
   if (isLoading) {
     return <div className={styles.loading}>Loading...</div>;
@@ -45,8 +45,7 @@ const InterviewStatusBase: React.FC = () => {
   if (selected) {
     return (
       <div>
-        <Button
-          onClick={() => setSelected(null)} basic>
+        <Button onClick={() => setSelected(null)} basic>
           Back to Instances
         </Button>
         <InterviewStatusDashboard
@@ -68,15 +67,20 @@ const InterviewStatusBase: React.FC = () => {
       ) : (
         <Card.Group>
           {groups.map((group) => (
-            <Card onClick={() => setSelected(group)} key={group.instanceName}
-              className={styles.card}>
+            <Card
+              onClick={() => setSelected(group)}
+              key={group.instanceName}
+              className={styles.card}
+            >
               <Card.Content>
                 <Card.Header>{group.instanceName}</Card.Header>
               </Card.Content>
             </Card>
           ))}
-          <Card onClick={handleNewEmptyInstance}
-            className={`${styles.card} ${styles.newInstanceCard}`}>
+          <Card
+            onClick={handleNewEmptyInstance}
+            className={`${styles.card} ${styles.newInstanceCard}`}
+          >
             <Card.Content>
               <Card.Header>{'+ New Empty Instance'}</Card.Header>
             </Card.Content>
