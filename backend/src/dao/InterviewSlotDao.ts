@@ -78,23 +78,36 @@ export default class InterviewSlotDao extends BaseDao<InterviewSlot, DBInterview
   }
 
   /**
-   * Updates an interview slot, ensuring that only an admin can change the assigned applicant.
+   * Updates an interview slot serially. Ensures that users may not override each other's changes.
+   * Only leads may override other members' changes.
    * @param {InterviewSlot} updatedSlot - The updated InterviewSlot object.
    * @param {boolean} adminBypass - Whether to bypass applicant change restriction.
+   * @param {string} email - The email of the user making the update.
    * @returns {Promise<boolean>} - True if the update was successful, false otherwise.
    */
-  async updateSlot(updatedSlot: InterviewSlot, adminBypass: boolean): Promise<boolean> {
+  async updateSlot(
+    updatedSlot: InterviewSlot,
+    adminBypass: boolean,
+    email: string
+  ): Promise<boolean> {
     const wasUpdated: boolean = await db.runTransaction(async (t) => {
       const query = this.collection.where('uuid', '==', updatedSlot.uuid);
       const snapshot = await t.get(query);
       const oldSlot = await materializeInterviewSlot(snapshot.docs[0].data());
 
-      if (
-        !adminBypass &&
-        oldSlot.applicant &&
-        updatedSlot.applicant &&
-        oldSlot.applicant.email !== updatedSlot.applicant.email
-      ) {
+      const isOverridingApplicant =
+        oldSlot.applicant !== null &&
+        (updatedSlot.applicant === null
+          ? oldSlot.applicant.email !== email
+          : oldSlot.applicant.email !== updatedSlot.applicant.email);
+
+      const isOverridingMembers = updatedSlot.members.some((member, i) => {
+        if (oldSlot.members[i] === null) return false;
+        if (member === null) return oldSlot.members[i]?.email !== email;
+        return member.email !== oldSlot.members[i]?.email;
+      });
+
+      if (!adminBypass && (isOverridingApplicant || isOverridingMembers)) {
         return false;
       }
 
