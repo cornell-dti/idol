@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import InterviewStatusDashboard from './InterviewStatusDashboard';
 import styles from './InterviewStatusBase.module.css';
+import { Emitters } from '../../../utils';
 
 const InterviewStatusBase: React.FC = () => {
   const [groups, setGroups] = useState<StatusInstance[]>([]);
@@ -30,8 +31,16 @@ const InterviewStatusBase: React.FC = () => {
   }, [selected]);
 
   const handleNewEmptyInstance = async () => {
-    const name = window.prompt('Enter a name for your new instance:');
-    if (!name?.trim()) return;
+    const raw = window.prompt('Enter a name for your new instance:');
+    const name = raw?.trim();
+    if (!name) return;
+    if (groups.some((g) => g.instanceName === name)) {
+      Emitters.generalError.emit({
+        headerMsg: `${name} Instance Already Exists`,
+        contentMsg: `Please choose a different name to proceed.`
+      });
+      return;
+    }
     setIsLoading(true);
     const emptyInstance: StatusInstance = { instanceName: name, statuses: [] };
     setSelected(emptyInstance);
