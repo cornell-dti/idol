@@ -20,7 +20,15 @@ export default function TestComponents() {
         Back
       </Link>
 
-      <h3 className="text-accent-blue">TEST PAGE WITH STYLES & COMPONENTS:</h3>
+      <h3 className="text-accent-blue">Test page with styles + components:</h3>
+
+      <h2 className="text-accent-purple">
+        NOTE: this page will soon be deprecated in favor of the
+        <Link href="/design-system" className="text-accent-red underline">
+          Design System library
+        </Link>
+        !
+      </h2>
 
       <div className="flex flex-col gap-8">
         <h4>Typography</h4>
