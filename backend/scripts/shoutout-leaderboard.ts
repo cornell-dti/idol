@@ -4,6 +4,8 @@ import { configureAccount } from '../src/utils/firebase-utils';
 import { DBShoutout } from '../src/types/DataTypes';
 import { getMemberFromDocumentReference } from '../src/utils/memberUtil';
 
+require('dotenv').config();
+
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
 admin.initializeApp({
@@ -13,7 +15,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-const QUERY_DATE = '2023-08-01';
+const QUERY_DATE = '2025-01-01';
 
 const main = async () => {
   console.log(`Collecting all shoutouts from ${QUERY_DATE} until now...`);
