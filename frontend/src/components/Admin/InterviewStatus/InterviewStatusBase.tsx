@@ -49,19 +49,18 @@ const InterviewStatusBase: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>
-      <p>Loading...</p>
-    </div>;
+    return (
+      <div className={styles.loading}>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   if (selected) {
     return (
       <div className={styles.selectedView}>
         <div className={styles.buttonRow}>
-          <Button
-            label="Back to Instances"
-            onClick={() => setSelected(null)}
-          />
+          <Button label="Back to Instances" onClick={() => setSelected(null)} />
         </div>
         <InterviewStatusDashboard
           instanceName={selected.instanceName}
