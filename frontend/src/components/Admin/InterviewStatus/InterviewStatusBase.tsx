@@ -31,6 +31,17 @@ const InterviewStatusBase: React.FC = () => {
       .finally(() => setIsLoading(false));
   }, [selected]);
 
+  const handleDeleteInstance = async (instanceName: string) => {
+    if (!window.confirm(`Really delete instance “${instanceName}” and all its statuses?`)) {
+      return;
+    }
+    setIsLoading(true);
+    await InterviewStatusAPI.deleteInterviewStatusInstance(instanceName);
+    setGroups((prev) => prev.filter((g) => g.instanceName !== instanceName));
+    setSelected(null);
+    setIsLoading(false);
+  };
+
   const handleNewEmptyInstance = async () => {
     const raw = window.prompt('Enter a name for your new instance:');
     const name = raw?.trim();
@@ -61,6 +72,11 @@ const InterviewStatusBase: React.FC = () => {
       <div className={styles.selectedView}>
         <div className={styles.buttonRow}>
           <Button label="Back to Instances" onClick={() => setSelected(null)} />
+          <Button
+            label="Delete Instance"
+            onClick={() => handleDeleteInstance(selected.instanceName)}
+            variant="negative"
+          />
         </div>
         <InterviewStatusDashboard
           instanceName={selected.instanceName}

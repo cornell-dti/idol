@@ -76,6 +76,14 @@ export class InterviewStatusAPI {
   }
 
   /**
+   * Delete an interview status instance by its instanceName.
+   * @param instanceName - name of the instance to delete
+   */
+  public static async deleteInterviewStatusInstance(instanceName: string): Promise<void> {
+    await APIWrapper.delete(`${backendURL}/interview-status/instance/${instanceName}`);
+  }
+
+  /**
    * Clears all interview statuses.
    */
   public static async clearAllInterviewStatuses(): Promise<void> {
