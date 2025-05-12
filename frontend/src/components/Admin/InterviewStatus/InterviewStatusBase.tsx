@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Button, Card } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import Link from 'next/link';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import InterviewStatusDashboard from './InterviewStatusDashboard';
 import styles from './InterviewStatusBase.module.css';
 import { Emitters } from '../../../utils';
+import Button from '../../Common/Button/Button';
 
 const InterviewStatusBase: React.FC = () => {
   const [groups, setGroups] = useState<StatusInstance[]>([]);
@@ -48,15 +49,20 @@ const InterviewStatusBase: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading...</div>;
+    return <div className={styles.loading}>
+      <p>Loading...</p>
+    </div>;
   }
 
   if (selected) {
     return (
-      <div>
-        <Button onClick={() => setSelected(null)} basic>
-          Back to Instances
-        </Button>
+      <div className={styles.selectedView}>
+        <div className={styles.buttonRow}>
+          <Button
+            label="Back to Instances"
+            onClick={() => setSelected(null)}
+          />
+        </div>
         <InterviewStatusDashboard
           instanceName={selected.instanceName}
           statuses={selected.statuses}
@@ -80,6 +86,8 @@ const InterviewStatusBase: React.FC = () => {
               onClick={() => setSelected(group)}
               key={group.instanceName}
               className={styles.card}
+              as="button"
+              type="button"
             >
               <Card.Content>
                 <Card.Header>{group.instanceName}</Card.Header>
@@ -89,6 +97,8 @@ const InterviewStatusBase: React.FC = () => {
           <Card
             onClick={handleNewEmptyInstance}
             className={`${styles.card} ${styles.newInstanceCard}`}
+            as="button"
+            type="button"
           >
             <Card.Content>
               <Card.Header>{'+ New Empty Instance'}</Card.Header>
