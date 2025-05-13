@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Button, Card, Checkbox, Form, Header, Loader } from 'semantic-ui-react';
+import { Button, Card, Checkbox, Form, Header, Loader, Message } from 'semantic-ui-react';
 import styles from './AdminInterviewScheduler.module.css';
 import InterviewSchedulerAPI from '../../../API/InterviewSchedulerAPI';
 import InterviewSchedulerDeleteModal from '../../Modals/InterviewSchedulerDeleteModal';
@@ -126,6 +126,12 @@ const InterviewSchedulerCreator = ({
             setEndDate(end);
           }}
         />
+        <Message info>
+          <Message.Header>Please note</Message.Header>
+          For non-consecutive days, please use the tightest range possible, such that the start date
+          is the first possible interview day. Days with no slots will not be displayed on the
+          applicant side.
+        </Message>
         <Header as="h4">Duration (in minutes)</Header>
         <input
           type="number"
@@ -177,11 +183,15 @@ const InterviewSchedulerEditor = ({ instances, setInstances }: InterviewSchedule
     setInstances(newInstances);
   };
 
+  if (isLoading) {
+    return <Loader size="large" />;
+  }
+
   return (
     <div className={styles.editorContainer}>
       <Header as="h2">All Interview Scheduler Instances</Header>
-      {isLoading ? (
-        <Loader size="large" />
+      {instances.length === 0 ? (
+        <p>No interview scheduler instances found.</p>
       ) : (
         <Card.Group>
           {instances.map((instance) => (
