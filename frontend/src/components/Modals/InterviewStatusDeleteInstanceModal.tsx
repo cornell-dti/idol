@@ -1,6 +1,7 @@
-import { Button, Modal } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import { useState } from 'react';
 import { InterviewStatusAPI } from '../../API/InterviewStatusAPI';
+import Button from '../Common/Button/Button';
 
 export interface DeleteInstanceModalProps {
   instanceName: string;
@@ -32,12 +33,16 @@ const InterviewStatusDeleteInstanceModal: React.FC<DeleteInstanceModalProps> = (
         <p>Are you sure you want to delete instance “{instanceName}” and all its statuses?</p>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={onClose} disabled={isDeleting}>
-          Cancel
-        </Button>
-        <Button negative onClick={handleDelete} loading={isDeleting}>
-          Delete instance
-        </Button>
+        <Button
+          label="Cancel"
+          variant="primary"
+          onClick={onClose}
+          disabled={isDeleting} />
+        <Button
+          label="Delete instance"
+          variant="negative"
+          onClick={handleDelete}
+        />
       </Modal.Actions>
     </Modal>
   );

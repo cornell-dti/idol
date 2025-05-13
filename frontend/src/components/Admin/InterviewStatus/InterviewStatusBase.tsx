@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'semantic-ui-react';
-import Link from 'next/link';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import InterviewStatusDashboard from './InterviewStatusDashboard';
 import styles from './InterviewStatusBase.module.css';
@@ -66,7 +65,10 @@ const InterviewStatusBase: React.FC = () => {
     return (
       <div className={styles.container}>
         <div className={styles.buttonRow}>
-          <Button label="Back to Instances" onClick={() => setSelected(null)} />
+          <Button
+            label="Back to Instances"
+            onClick={() => setSelected(null)}
+          />
           <Button
             label="Delete Instance"
             onClick={() => openDeleteModal(selected.instanceName)}
@@ -91,40 +93,32 @@ const InterviewStatusBase: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      {!groups || groups.length === 0 ? (
-        <h1>
-          You currently do not have access to any interview status instances! Please contact{' '}
-          <Link href="https://cornelldti.slack.com/channels/idol-support">#idol-support</Link> if
-          you think this is a mistake.
-        </h1>
-      ) : (
-        <Card.Group>
-          {groups.map((group) => (
-            <Card
-              onClick={() => setSelected(group)}
-              key={group.instanceName}
-              className={styles.card}
-              as="button"
-              type="button"
-            >
-              <Card.Content>
-                <Card.Header>{group.instanceName}</Card.Header>
-              </Card.Content>
-            </Card>
-          ))}
+      <Card.Group>
+        {groups.map((group) => (
           <Card
-            key="new-instance"
-            onClick={() => setShowNewInstanceModal(true)}
-            className={`${styles.card} ${styles.newInstanceCard}`}
+            onClick={() => setSelected(group)}
+            key={group.instanceName}
+            className={styles.card}
             as="button"
             type="button"
           >
             <Card.Content>
-              <Card.Header>{'+ New Empty Instance'}</Card.Header>
+              <Card.Header>{group.instanceName}</Card.Header>
             </Card.Content>
           </Card>
-        </Card.Group>
-      )}
+        ))}
+        <Card
+          key="new-instance"
+          onClick={() => setShowNewInstanceModal(true)}
+          className={`${styles.card} ${styles.newInstanceCard}`}
+          as="button"
+          type="button"
+        >
+          <Card.Content>
+            <Card.Header>{'+ New Empty Instance'}</Card.Header>
+          </Card.Content>
+        </Card>
+      </Card.Group>
 
       <InterviewStatusNewInstanceModal
         open={showNewInstanceModal}

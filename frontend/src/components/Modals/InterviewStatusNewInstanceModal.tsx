@@ -47,10 +47,16 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleCreate}>
-          Create
-        </Button>
+        <Button
+          label="Cancel"
+          variant="negative"
+          onClick={onClose}
+        />
+        <Button
+          label="Create"
+          variant="primary"
+          onClick={handleCreate}
+        />
       </Modal.Actions>
     </Modal>
   );
