@@ -16,6 +16,10 @@ const InterviewStatusBase: React.FC = () => {
   const [instanceToDelete, setInstanceToDelete] = useState<string>('');
 
   useEffect(() => {
+    refresh();
+  }, [selected]);
+
+  const refresh = async () => {
     InterviewStatusAPI.getAllInterviewStatuses()
       .then((all: InterviewStatus[]) => {
         const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
@@ -32,7 +36,7 @@ const InterviewStatusBase: React.FC = () => {
         setGroups(grouped);
       })
       .finally(() => setIsLoading(false));
-  }, [selected]);
+  }
 
   const openDeleteModal = (name: string) => {
     setInstanceToDelete(name);
@@ -75,6 +79,7 @@ const InterviewStatusBase: React.FC = () => {
         <InterviewStatusDashboard
           instanceName={selected.instanceName}
           statuses={selected.statuses}
+          refresh={refresh}
         />
         <InterviewStatusDeleteInstanceModal
           open={deleteModalOpen}

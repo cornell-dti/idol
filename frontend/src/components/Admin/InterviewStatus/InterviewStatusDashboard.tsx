@@ -13,15 +13,18 @@ import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
 import { Emitters } from '../../../utils';
 import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
+import CSVUploadInterviewStatus from './CSVUploadInterviewStatus';
 
 interface InterviewStatusDashboardProps {
   instanceName: string;
   statuses: InterviewStatus[];
+  refresh: () => void
 }
 
 const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
   instanceName,
-  statuses
+  statuses,
+  refresh
 }) => {
   const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
   const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
@@ -181,10 +184,10 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-              ...applicant,
-              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-              status: 'Undecided'
-            }
+            ...applicant,
+            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+            status: 'Undecided'
+          }
           : applicant
       )
     );
@@ -192,10 +195,10 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-              ...applicant,
-              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-              status: 'Undecided'
-            }
+            ...applicant,
+            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+            status: 'Undecided'
+          }
           : applicant
       )
     );
@@ -363,7 +366,12 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         </Table.Body>
       </Table>
       <div className={styles.addForm}>
-        <AddInterviewStatusForm onAddApplicant={handleAddApplicant} instanceName={instanceName} />
+        <AddInterviewStatusForm
+          onAddApplicant={handleAddApplicant}
+          instanceName={instanceName} />
+        <CSVUploadInterviewStatus
+          instanceName={instanceName}
+          onDone={refresh} />
       </div>
     </div>
   );
