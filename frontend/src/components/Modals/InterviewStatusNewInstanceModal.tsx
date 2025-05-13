@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Input } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
+import Button from '../Common/Button/Button';
+import Input from '../Common/Input/Input';
 
 export interface NewInstanceModalProps {
   open: boolean;
@@ -39,7 +41,6 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
       <Modal.Header>Create New Instance</Modal.Header>
       <Modal.Content>
         <Input
-          fluid
           placeholder="Enter instance name..."
           value={name}
           onChange={(e) => setName(e.currentTarget.value)}
@@ -47,7 +48,7 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button positive onClick={handleCreate}>
+        <Button onClick={handleCreate}>
           Create
         </Button>
       </Modal.Actions>
