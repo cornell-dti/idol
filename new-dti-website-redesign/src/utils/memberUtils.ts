@@ -41,51 +41,51 @@ export const getColorClass = (role: Role): string => {
 
 export const productLinks: { [key: string]: { name: string; link: string } } = {
   courseplan: {
-    name: "CoursePlan",
-    link: "https://courseplan.io/"
+    name: 'CoursePlan',
+    link: 'https://courseplan.io/'
   },
   reviews: {
-    name: "CUReviews",
-    link: "https://www.cureviews.org/"
+    name: 'CUReviews',
+    link: 'https://www.cureviews.org/'
   },
   queuemein: {
-    name: "Queue Me In",
-    link: "https://queueme.in/"
+    name: 'Queue Me In',
+    link: 'https://queueme.in/'
   },
   cuapts: {
-    name: "CU Apts",
-    link: "https://www.cuapts.org/"
+    name: 'CU Apts',
+    link: 'https://www.cuapts.org/'
   },
   idol: {
-    name: "IDOL",
-    link: "https://www.cornelldti.org"
+    name: 'IDOL',
+    link: 'https://www.cornelldti.org'
   },
   cornellgo: {
-    name: "Cornell GO",
-    link: ""
+    name: 'Cornell GO',
+    link: ''
   },
   carriage: {
-    name: "Carriage",
-    link: ""
+    name: 'Carriage',
+    link: ''
   },
   leads: {
-    name: "Lead",
-    link: ""
+    name: 'Lead',
+    link: ''
   },
   business: {
-    name: "Business",
-    link: ""
+    name: 'Business',
+    link: ''
   },
   curaise: {
-    name: "CU Raise",
-    link: ""
+    name: 'CU Raise',
+    link: ''
   },
   zing: {
-    name: "Zing",
-    link: "https://zing-lsc-prod.web.app/"
+    name: 'Zing',
+    link: 'https://zing-lsc-prod.web.app/'
   },
   dac: {
-    name: "Design @ Cornell",
-    link: "https://www.cudesign.io/"
+    name: 'Design @ Cornell',
+    link: 'https://www.cudesign.io/'
   }
 };
