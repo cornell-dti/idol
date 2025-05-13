@@ -17,25 +17,28 @@ const InterviewStatusBase: React.FC = () => {
 
   useEffect(() => {
     refresh();
-  }, [selected]);
+  }, []);
 
   const refresh = async () => {
-    InterviewStatusAPI.getAllInterviewStatuses()
-      .then((all: InterviewStatus[]) => {
-        const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
-          (acc[st.instance] ||= []).push(st);
-          return acc;
-        }, {});
+    setIsLoading(true)
+    const all = await InterviewStatusAPI.getAllInterviewStatuses()
+    const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
+      (acc[st.instance] ||= []).push(st);
+      return acc;
+    }, {});
 
-        const grouped: StatusInstance[] = Object.entries(map)
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([instanceName, statuses]) => ({
-            instanceName,
-            statuses
-          }));
-        setGroups(grouped);
-      })
-      .finally(() => setIsLoading(false));
+    const grouped: StatusInstance[] = Object.entries(map)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([instanceName, statuses]) => ({
+        instanceName,
+        statuses
+      }));
+    setGroups(grouped);
+    if (selected) {
+      const fresh = all.filter((st) => st.instance === selected.instanceName)
+      setSelected({ instanceName: selected.instanceName, statuses: fresh })
+    }
+    setIsLoading(false);
   }
 
   const openDeleteModal = (name: string) => {

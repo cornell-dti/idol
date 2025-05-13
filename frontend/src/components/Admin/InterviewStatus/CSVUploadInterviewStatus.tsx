@@ -1,23 +1,13 @@
 import React, { useState } from 'react'
-import { Form, Dropdown, Message } from 'semantic-ui-react'
+import { Button, Form, Dropdown, Message } from 'semantic-ui-react'
 import csv from 'csvtojson'
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI'
 import { Emitters } from '../../../utils'
-import { ROUND_OPTIONS } from '../../../consts'
-import Button from '../../Common/Button/Button'
+import { DISPLAY_TO_ROLE_MAP, ROUND_OPTIONS } from '../../../consts'
 
 interface CSVUploadProps {
   instanceName: string
   onDone: () => void
-}
-
-// Move this to consts
-const displayToRole: Record<string, string> = {
-  Developer: 'developer',
-  Designer: 'designer',
-  'Product Manager': 'pm',
-  Business: 'business',
-  Lead: 'lead',
 }
 
 export default function CSVUploadInterviewStatus({
@@ -76,8 +66,8 @@ export default function CSVUploadInterviewStatus({
           name: `${first} ${last}`,
           netid: NetID,
           round: selectedRound,
-          role: displayToRole[Role] as GeneralRole,
-          status: 'undecided' as IntStatus,
+          role: DISPLAY_TO_ROLE_MAP[Role] as GeneralRole,
+          status: 'Undecided' as IntStatus,
         })
       })
     )
@@ -97,7 +87,25 @@ export default function CSVUploadInterviewStatus({
   }
 
   return (
-    <Form sucess={success}>
+    <Form success={success}>
+      <h1>Upload Applicants with a CSV</h1>
+      <p>
+        CSV must have at least columns: <code>NetID</code>,{' '}
+        <code>First Name</code>, <code>Last Name</code>,{' '}
+        <code>Role</code>
+      </p>
+      <Form.Field>
+        <Button
+          as="a"
+          href="/Interview Status Input.csv"
+          download
+        >
+          Download Sample CSV
+        </Button>
+      </Form.Field>
+      <p>
+        Please select the current interview round and then proceed to upload.
+      </p>
       <Form.Field>
         <label>Round</label>
         <Dropdown
@@ -120,11 +128,10 @@ export default function CSVUploadInterviewStatus({
       <Message
         success
         header="Upload complete"
-        content={`All candidates created for ${selectedRound} with status "undecided".`}
+        content={`All candidates created with status "undecided".`}
       />
 
       <Button
-        variant="primary"
         onClick={handleSubmit}
         disabled={loading || rows.length === 0 || !selectedRound}
       >

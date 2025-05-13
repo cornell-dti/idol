@@ -366,12 +366,13 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         </Table.Body>
       </Table>
       <div className={styles.addForm}>
-        <AddInterviewStatusForm
-          onAddApplicant={handleAddApplicant}
-          instanceName={instanceName} />
         <CSVUploadInterviewStatus
           instanceName={instanceName}
           onDone={refresh} />
+        <h1>Add Applicants One At a Time</h1>
+        <AddInterviewStatusForm
+          onAddApplicant={handleAddApplicant}
+          instanceName={instanceName} />
       </div>
     </div>
   );
