@@ -70,18 +70,20 @@ const InterviewStatusBase: React.FC = () => {
   if (selected) {
     return (
       <div className={styles.selectedView}>
-        <div className={styles.buttonRow}>
-          <Button label="Back to Instances" onClick={() => setSelected(null)} />
-          <Button
-            label="Delete Instance"
-            onClick={() => handleDeleteInstance(selected.instanceName)}
-            variant="negative"
+        <div className={styles.container}>
+          <div className={styles.buttonRow}>
+            <Button label="Back to Instances" onClick={() => setSelected(null)} />
+            <Button
+              label="Delete Instance"
+              onClick={() => handleDeleteInstance(selected.instanceName)}
+              variant="negative"
+            />
+          </div>
+          <InterviewStatusDashboard
+            instanceName={selected.instanceName}
+            statuses={selected.statuses}
           />
         </div>
-        <InterviewStatusDashboard
-          instanceName={selected.instanceName}
-          statuses={selected.statuses}
-        />
       </div>
     );
   }
