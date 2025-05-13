@@ -9,7 +9,7 @@ export interface NewInstanceModalProps {
   existingNames: string[];
 }
 
-const NewInstanceModal: React.FC<NewInstanceModalProps> = ({
+const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
   open,
   onClose,
   onCreate,
@@ -58,4 +58,4 @@ const NewInstanceModal: React.FC<NewInstanceModalProps> = ({
   );
 };
 
-export default NewInstanceModal;
+export default InterviewStatusNewInstanceModal;
