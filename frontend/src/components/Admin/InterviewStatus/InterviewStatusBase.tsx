@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import InterviewStatusDashboard from './InterviewStatusDashboard';
 import styles from './InterviewStatusBase.module.css';
-import { Emitters } from '../../../utils';
 import Button from '../../Common/Button/Button';
+import InterviewStatusNewInstanceModal from '../../Modals/InterviewStatusNewInstanceModal';
 
 const InterviewStatusBase: React.FC = () => {
   const [groups, setGroups] = useState<StatusInstance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selected, setSelected] = useState<StatusInstance | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     InterviewStatusAPI.getAllInterviewStatuses()
@@ -42,21 +43,11 @@ const InterviewStatusBase: React.FC = () => {
     setIsLoading(false);
   };
 
-  const handleNewEmptyInstance = async () => {
-    const raw = window.prompt('Enter a name for your new instance:');
-    const name = raw?.trim();
-    if (!name) return;
-    if (groups.some((g) => g.instanceName === name)) {
-      Emitters.generalError.emit({
-        headerMsg: `${name} Instance Already Exists`,
-        contentMsg: `Please choose a different name to proceed.`
-      });
-      return;
-    }
+  const handleCreateInstance = (name: string) => {
     setIsLoading(true);
-    const emptyInstance: StatusInstance = { instanceName: name, statuses: [] };
-    setSelected(emptyInstance);
+    setSelected({ instanceName: name, statuses: [] });
     setIsLoading(false);
+    setShowModal(false);
   };
 
   if (isLoading) {
@@ -86,6 +77,8 @@ const InterviewStatusBase: React.FC = () => {
     );
   }
 
+  const existingNames = groups.map((g) => g.instanceName);
+
   return (
     <div className={styles.container}>
       {!groups || groups.length === 0 ? (
@@ -110,7 +103,8 @@ const InterviewStatusBase: React.FC = () => {
             </Card>
           ))}
           <Card
-            onClick={handleNewEmptyInstance}
+            key="new-instance"
+            onClick={() => setShowModal(true)}
             className={`${styles.card} ${styles.newInstanceCard}`}
             as="button"
             type="button"
@@ -121,6 +115,13 @@ const InterviewStatusBase: React.FC = () => {
           </Card>
         </Card.Group>
       )}
+
+      <InterviewStatusNewInstanceModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onCreate={handleCreateInstance}
+        existingNames={existingNames}
+      />
     </div>
   );
 };
