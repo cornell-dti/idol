@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Button, Card, Checkbox, Form, Header, Loader } from 'semantic-ui-react';
@@ -7,7 +7,11 @@ import InterviewSchedulerAPI from '../../../API/InterviewSchedulerAPI';
 import InterviewSchedulerDeleteModal from '../../Modals/InterviewSchedulerDeleteModal';
 import { Emitters, parseCsv } from '../../../utils';
 
-const InterviewSchedulerCreator = () => {
+const InterviewSchedulerCreator = ({
+  setInstances
+}: {
+  setInstances: Dispatch<SetStateAction<InterviewScheduler[]>>;
+}) => {
   const [name, setName] = useState<string>('');
   const [csv, setCsv] = useState<File>();
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -61,7 +65,7 @@ const InterviewSchedulerCreator = () => {
         contentMsg: 'Start date and end date are undefined.'
       });
     } else {
-      await InterviewSchedulerAPI.createNewInstance({
+      const newInstance = {
         name,
         duration: duration * 60000, // convert to milliseconds
         membersPerSlot,
@@ -75,7 +79,8 @@ const InterviewSchedulerCreator = () => {
           email: response[columnHeaders.indexOf('email')],
           netid: response[columnHeaders.indexOf('netid')]
         }))
-      });
+      };
+      const uuid = await InterviewSchedulerAPI.createNewInstance(newInstance);
       Emitters.generalSuccess.emit({
         headerMsg: 'Successfully created interview scheduler',
         contentMsg: `Created interview scheduler instance: ${name}`
@@ -83,6 +88,8 @@ const InterviewSchedulerCreator = () => {
       setName('');
       setStartDate(null);
       setEndDate(null);
+      setCsv(undefined);
+      setInstances((prev) => [...prev, { ...newInstance, uuid }]);
     }
   };
 
@@ -139,8 +146,12 @@ const InterviewSchedulerCreator = () => {
   );
 };
 
-const InterviewSchedulerEditor = () => {
-  const [instances, setInstances] = useState<InterviewScheduler[]>([]);
+type InterviewSchedulerEditorProps = {
+  instances: InterviewScheduler[];
+  setInstances: Dispatch<SetStateAction<InterviewScheduler[]>>;
+};
+
+const InterviewSchedulerEditor = ({ instances, setInstances }: InterviewSchedulerEditorProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -200,11 +211,15 @@ const InterviewSchedulerEditor = () => {
   );
 };
 
-const AdminInterviewSchedulerBase = () => (
-  <div className={styles.creatorContainer}>
-    <InterviewSchedulerCreator />
-    <InterviewSchedulerEditor />
-  </div>
-);
+const AdminInterviewSchedulerBase = () => {
+  const [instances, setInstances] = useState<InterviewScheduler[]>([]);
+
+  return (
+    <div className={styles.creatorContainer}>
+      <InterviewSchedulerCreator setInstances={setInstances} />
+      <InterviewSchedulerEditor instances={instances} setInstances={setInstances} />
+    </div>
+  );
+};
 
 export default AdminInterviewSchedulerBase;
