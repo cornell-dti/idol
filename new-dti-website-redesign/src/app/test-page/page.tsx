@@ -5,7 +5,44 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
-import ScrollingMarquee from '../../components/ScrolllingMarquee';
+import Footer from '../../components/Footer';
+import Marquee from '../../components/Marquee';
+import SectionTitle from '../../components/SectionTitle';
+import LogoBox from '../../components/LogoBox';
+import TestimonialCard from '../../components/TestimonialCard';
+
+const logos = [
+  { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
+  { src: '/products/logos/queuemein.svg', alt: 'Queue Me In logo', width: 80, height: 80 },
+  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96 },
+  { src: '/products/logos/cureviews.svg', alt: 'CU Reviews logo', width: 80, height: 80 },
+  { src: '/products/logos/cornellgo.svg', alt: 'CornellGo logo', width: 80, height: 80 },
+  { src: '/products/logos/courseplan.svg', alt: 'Courseplan logo', width: 60, height: 60 },
+  { src: '/products/logos/carriage.svg', alt: 'Carriage logo', width: 70, height: 70 },
+  {
+    src: '/products/logos/design@cornell.svg',
+    alt: 'Design @ Cornell logo',
+    width: 125,
+    height: 52
+  }
+];
+
+const testimonials = [
+  {
+    quote:
+      "This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!",
+    picture: '/clem.jpg',
+    name: 'Clément Rozé',
+    date: 'Fall 2024'
+  },
+  {
+    quote:
+      "Trends in Web Development has been an incredibly valuable course, equipping me with practical skills and knowledge that will greatly benefit my future career. The final project was a rewarding experience, allowing me to put my new skills into practice and create a project I'm proud of!",
+    picture: '/juju.png',
+    name: 'Juju Crane',
+    date: 'Fall 2024'
+  }
+];
 
 export default function TestPage() {
   return (
@@ -29,7 +66,19 @@ export default function TestPage() {
 
       <SectionSep />
 
-      <ScrollingMarquee />
+      <Marquee height={96}>
+        {logos.map((logo, index) => (
+          <LogoBox key={index} {...logo} />
+        ))}
+      </Marquee>
+
+      <SectionSep />
+
+      <Marquee height={370}>
+        {testimonials.map(({ quote, picture, name, date }, index) => (
+          <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
+        ))}
+      </Marquee>
 
       <SectionSep />
 
@@ -234,6 +283,19 @@ export default function TestPage() {
         button2Link="/team"
       />
 
+      <SectionSep />
+
+      <SectionTitle
+        heading="Who we are"
+        subheading="More than just being inclusive, our team strives to bring many backgrounds and perspectives together solve community problems. These statistics come from recruiting across campus and seeking applicants with the best skills and potential for growth on the team. Updated Spring 2025."
+      />
+
+      <SectionTitle heading="Past student experiences" />
+
+      <SectionTitle heading="Our products" smallCaps />
+
+      <SectionSep />
+
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -273,6 +335,8 @@ export default function TestPage() {
       <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
 
       <section className="h-128" />
+
+      <Footer />
     </Layout>
   );
 }

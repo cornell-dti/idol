@@ -8,12 +8,21 @@ type Props = {
   imageAlt: string;
   name: string;
   description: string;
-  link: string;
+  link?: string;
   comingSoon?: boolean;
+  id: string;
 };
 
-const Product = ({ image, imageAlt, name, description, link, comingSoon }: Props): ReactNode => (
-  <section>
+const Product = ({
+  image,
+  imageAlt,
+  name,
+  description,
+  link,
+  comingSoon,
+  id
+}: Props): ReactNode => (
+  <section id={id} className="scroll-mt-20">
     <div className="bg-background-2">
       <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
     </div>
@@ -27,7 +36,7 @@ const Product = ({ image, imageAlt, name, description, link, comingSoon }: Props
         <p className="text-foreground-3">{description}</p>
       </div>
 
-      <Button href={link} variant="primary" label="Visit product" newTab />
+      {link && <Button href={link} variant="primary" label="Visit product" newTab />}
     </div>
   </section>
 );

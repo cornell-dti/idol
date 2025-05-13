@@ -43,6 +43,10 @@ const InterviewStatusBase: React.FC = () => {
   const handleDeleted = (name: string) => {
     setIsLoading(true);
     setGroups((prev) => prev.filter((g) => g.instanceName !== name));
+    
+  const handleDeleteInstance = async (instanceName: string) => {
+    setIsLoading(true);
+    setGroups((prev) => prev.filter((g) => g.instanceName !== name));
     setSelected(null);
     setIsLoading(false);
   };
@@ -64,29 +68,30 @@ const InterviewStatusBase: React.FC = () => {
 
   if (selected) {
     return (
-      <div className={styles.selectedView}>
-        <div className={styles.buttonRow}>
-          <Button label="Back to Instances" onClick={() => setSelected(null)} />
-          <Button
-            label="Delete Instance"
-            onClick={() => openDeleteModal(selected.instanceName)}
-            variant="negative"
+        <div className={styles.container}>
+          <div className={styles.buttonRow}>
+            <Button label="Back to Instances" onClick={() => setSelected(null)} />
+            <Button
+              label="Delete Instance"
+              onClick={() => handleDeleteInstance(selected.instanceName)}
+              variant="negative"
+            />
+          </div>
+          <InterviewStatusDashboard
+            instanceName={selected.instanceName}
+            statuses={selected.statuses}
           />
-        </div>
-        <InterviewStatusDashboard
-          instanceName={selected.instanceName}
-          statuses={selected.statuses}
-        />
-        <InterviewStatusDeleteInstanceModal
+          <InterviewStatusDeleteInstanceModal
           open={deleteModalOpen}
           instanceName={instanceToDelete}
           onClose={() => setDeleteModalOpen(false)}
           onDeleted={handleDeleted}
         />
+        </div>
       </div>
     );
   }
-
+    
   const existingNames = groups.map((g) => g.instanceName);
 
   return (
@@ -125,7 +130,7 @@ const InterviewStatusBase: React.FC = () => {
           </Card>
         </Card.Group>
       )}
-
+      
       <InterviewStatusNewInstanceModal
         open={showNewInstanceModal}
         onClose={() => setShowNewInstanceModal(false)}
