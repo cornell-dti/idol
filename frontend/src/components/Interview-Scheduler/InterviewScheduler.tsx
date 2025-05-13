@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Header } from 'semantic-ui-react';
 import Link from 'next/link';
+import { LEAD_ROLES } from 'common-types/constants';
 import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
-import {
-  useHasAdminPermission,
-  useHasMemberPermission,
-  useMember
-} from '../Common/FirestoreDataProvider';
+import { useHasMemberPermission, useMember } from '../Common/FirestoreDataProvider';
 import styles from './InterviewScheduler.module.css';
 import SchedulingCalendar from './SchedulingCalendar';
 import { Emitters, getDateString, getTimeString } from '../../utils';
 import SchedulingSidePanel from './SchedulingSidePanel';
 import { EditAvailabilityContext, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
-import { LEAD_ROLES } from 'common-types/constants';
 
 const formatDate = (date: Date): string => {
   const mm = String(date.getMonth() + 1).padStart(2, '0');

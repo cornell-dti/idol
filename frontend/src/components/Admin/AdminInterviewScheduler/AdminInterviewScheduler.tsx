@@ -165,7 +165,7 @@ const InterviewSchedulerEditor = ({ instances, setInstances }: InterviewSchedule
       setInstances(instances);
       setIsLoading(false);
     });
-  }, []);
+  }, [setInstances]);
 
   const toggleIsOpen = async (uuid: string) => {
     const newInstances = await Promise.all(
