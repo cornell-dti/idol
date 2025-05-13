@@ -6,12 +6,15 @@ import InterviewStatusDashboard from './InterviewStatusDashboard';
 import styles from './InterviewStatusBase.module.css';
 import Button from '../../Common/Button/Button';
 import InterviewStatusNewInstanceModal from '../../Modals/InterviewStatusNewInstanceModal';
+import InterviewStatusDeleteInstanceModal from '../../Modals/InterviewStatusDeleteInstanceModal';
 
 const InterviewStatusBase: React.FC = () => {
   const [groups, setGroups] = useState<StatusInstance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selected, setSelected] = useState<StatusInstance | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showNewInstanceModal, setShowNewInstanceModal] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [instanceToDelete, setInstanceToDelete] = useState<string>('');
 
   useEffect(() => {
     InterviewStatusAPI.getAllInterviewStatuses()
@@ -32,13 +35,14 @@ const InterviewStatusBase: React.FC = () => {
       .finally(() => setIsLoading(false));
   }, [selected]);
 
-  const handleDeleteInstance = async (instanceName: string) => {
-    if (!window.confirm(`Really delete instance “${instanceName}” and all its statuses?`)) {
-      return;
-    }
+  const openDeleteModal = (name: string) => {
+    setInstanceToDelete(name);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleted = (name: string) => {
     setIsLoading(true);
-    await InterviewStatusAPI.deleteInterviewStatusInstance(instanceName);
-    setGroups((prev) => prev.filter((g) => g.instanceName !== instanceName));
+    setGroups((prev) => prev.filter((g) => g.instanceName !== name));
     setSelected(null);
     setIsLoading(false);
   };
@@ -47,7 +51,7 @@ const InterviewStatusBase: React.FC = () => {
     setIsLoading(true);
     setSelected({ instanceName: name, statuses: [] });
     setIsLoading(false);
-    setShowModal(false);
+    setShowNewInstanceModal(false);
   };
 
   if (isLoading) {
@@ -65,13 +69,19 @@ const InterviewStatusBase: React.FC = () => {
           <Button label="Back to Instances" onClick={() => setSelected(null)} />
           <Button
             label="Delete Instance"
-            onClick={() => handleDeleteInstance(selected.instanceName)}
+            onClick={() => openDeleteModal(selected.instanceName)}
             variant="negative"
           />
         </div>
         <InterviewStatusDashboard
           instanceName={selected.instanceName}
           statuses={selected.statuses}
+        />
+        <InterviewStatusDeleteInstanceModal
+          open={deleteModalOpen}
+          instanceName={instanceToDelete}
+          onClose={() => setDeleteModalOpen(false)}
+          onDeleted={handleDeleted}
         />
       </div>
     );
@@ -104,7 +114,7 @@ const InterviewStatusBase: React.FC = () => {
           ))}
           <Card
             key="new-instance"
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowNewInstanceModal(true)}
             className={`${styles.card} ${styles.newInstanceCard}`}
             as="button"
             type="button"
@@ -117,8 +127,8 @@ const InterviewStatusBase: React.FC = () => {
       )}
 
       <InterviewStatusNewInstanceModal
-        open={showModal}
-        onClose={() => setShowModal(false)}
+        open={showNewInstanceModal}
+        onClose={() => setShowNewInstanceModal(false)}
         onCreate={handleCreateInstance}
         existingNames={existingNames}
       />

@@ -13,7 +13,7 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
   open,
   onClose,
   onCreate,
-  existingNames,
+  existingNames
 }) => {
   const [name, setName] = useState<string>('');
 
@@ -27,7 +27,7 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
     if (existingNames.includes(trimmed)) {
       Emitters.generalError.emit({
         headerMsg: `${trimmed} Instance Already Exists`,
-        contentMsg: `Please choose a different name to proceed.`,
+        contentMsg: `Please choose a different name to proceed.`
       });
       return;
     }
@@ -35,12 +35,7 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
     onClose();
   };
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      size="small"
-      closeIcon
-    >
+    <Modal open={open} onClose={onClose} size="small" closeIcon>
       <Modal.Header>Create New Instance</Modal.Header>
       <Modal.Content>
         <Input
@@ -52,7 +47,9 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button positive onClick={handleCreate}>Create</Button>
+        <Button positive onClick={handleCreate}>
+          Create
+        </Button>
       </Modal.Actions>
     </Modal>
   );

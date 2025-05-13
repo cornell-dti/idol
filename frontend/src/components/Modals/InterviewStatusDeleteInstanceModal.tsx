@@ -13,7 +13,7 @@ const InterviewStatusDeleteInstanceModal: React.FC<DeleteInstanceModalProps> = (
   instanceName,
   open,
   onClose,
-  onDeleted,
+  onDeleted
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -29,16 +29,14 @@ const InterviewStatusDeleteInstanceModal: React.FC<DeleteInstanceModalProps> = (
     <Modal open={open} onClose={onClose} size="small" closeIcon>
       <Modal.Header>Confirm Delete</Modal.Header>
       <Modal.Content>
-        <p>
-          Are you sure you want to delete instance “{instanceName}” and all its statuses?
-        </p>
+        <p>Are you sure you want to delete instance “{instanceName}” and all its statuses?</p>
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={onClose} disabled={isDeleting}>
           No
         </Button>
         <Button negative onClick={handleDelete} loading={isDeleting}>
-          Yes, Delete
+          Yes, delete
         </Button>
       </Modal.Actions>
     </Modal>
