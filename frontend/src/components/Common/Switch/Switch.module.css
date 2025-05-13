@@ -5,6 +5,7 @@
   gap: 8px;
   cursor: pointer;
   user-select: none;
+  height: fit-content;
 }
 
 .labelText {

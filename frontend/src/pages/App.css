@@ -5,6 +5,7 @@
   --fg-dimmest: #666666;
 
   --bg-default: #ffffff;
+  --bg-default-transparent: #ffffff50;
   --bg-dimmer: #fafafa;
   --bg-dimmest: #f2f2f2;
 
@@ -30,6 +31,7 @@ h1 {
   font-size: 32px;
   line-height: 115%;
   font-weight: 700;
+  margin-bottom: 0;
 }
 
 /* Heading regular */
@@ -44,6 +46,7 @@ h3 {
   font-size: 24px;
   line-height: 120%;
   font-weight: 700;
+  margin-bottom: 0;
 }
 
 /* Subheading regular */
@@ -51,6 +54,7 @@ h4 {
   font-size: 16px;
   line-height: 130%;
   font-weight: 700;
+  margin-bottom: 0;
 }
 
 /* Paragraph */
@@ -63,6 +67,7 @@ p {
 /* Paragraph small */
 p.small {
   font-size: 14px;
+  margin-bottom: 0;
 }
 
 .App {
@@ -104,4 +109,10 @@ p.small {
 
 .ui.dimmer .ui.modalLoader.loader:after {
   border-color: #767676 transparent transparent;
+}
+
+/* Workaround to center the label in candidate switcher combobar
+* Ideally in the future, we use our own custom component */
+.ui.search.dropdown > .text {
+  padding-top: 4px;
 }

@@ -5,6 +5,7 @@
   --background-1: #0d0d0d; /* Use as default background page background color */
   --background-2: #181818; /* Use for an elevated surface, or for hover states */
   --background-3: #292929; /* Use for highest elevated surfaces, or for higher hover states */
+  --background-3-transparent: rgba(41 41 41 / 0.4); /* Use for overlays (eg: <Banner>) */
 
   /* FOREGROUND */
   --foreground-1: #ffffff; /* Use for default text color */
@@ -15,15 +16,21 @@
 
   /* BORDER */
   --border-1: #2e2e2e; /* Use as default color for borders */
+  --border-1-transparent: rgba(255 255 255 / 0.1); /* Use to pair with overlays (eg: <Banner>) */
   --border-2: #454545; /* Use as secondary border color (for emphasis).
                             This color is also used specifically for the Textfield component border hover state. */
 
   /* ACCENT */
   --accent-red: #ff575e; /* General DTI accent/full team color */
+  --accent-red-transparent: rgba(255, 87, 94, 0.2);
   --accent-green: #00ca51; /* Development team color */
+  --accent-green-transparent: rgba(0, 202, 81, 0.2);
   --accent-blue: #47a8ff; /* Design team color */
+  --accent-blue-transparent: rgba(71, 168, 255, 0.2);
   --accent-yellow: #ff9300; /* Business team color */
+  --accent-yellow-transparent: rgba(255, 147, 0, 0.2);
   --accent-purple: #c372fc; /* Product team color */
+  --accent-purple-transparent: rgba(195, 114, 252, 0.2);
 }
 
 /* This is so we can use the variables inline in the className attribute
@@ -36,6 +43,7 @@ Usage examples (remove the "color-" prefix when using in className):
   --color-background-1: var(--background-1);
   --color-background-2: var(--background-2);
   --color-background-3: var(--background-3);
+  --color-background-3-transparent: var(--background-3-transparent);
 
   /* FOREGROUND */
   --color-foreground-1: var(--foreground-1);
@@ -44,14 +52,29 @@ Usage examples (remove the "color-" prefix when using in className):
 
   /* BORDER */
   --color-border-1: var(--border-1);
+  --color-border-1-transparent: var(--border-1-transparent);
   --color-border-2: var(--border-2);
 
   /* ACCENT */
   --color-accent-red: var(--accent-red);
+  --color-accent-red-transparent: var(--accent-red-transparent);
+
   --color-accent-green: var(--accent-green);
+  --color-accent-green-transparent: var(--accent-green-transparent);
+
   --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-transparent: var(--accent-blue-transparent);
+
   --color-accent-yellow: var(--accent-yellow);
+  --color-accent-yellow-transparent: var(--accent-yellow-transparent);
+
   --color-accent-purple: var(--accent-purple);
+  --color-accent-purple-transparent: var(--accent-purple-transparent);
+
+  /* BREAKPOINT VARIABLES */
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1440px;
 }
 
 body {
@@ -60,7 +83,8 @@ body {
   font-family: Inter, sans-serif;
 }
 
-h1 {
+h1,
+.h1 {
   font-size: 47.78px;
   font-style: normal;
   font-weight: 700;
@@ -69,12 +93,14 @@ h1 {
 }
 
 @media (max-width: 390px) {
-  h1 {
+  h1,
+  .h1 {
     font-size: 39.81px;
   }
 }
 
-h2 {
+h2,
+.h2 {
   font-size: 39.81px;
   font-style: normal;
   font-weight: 700;
@@ -83,12 +109,14 @@ h2 {
 }
 
 @media (max-width: 390px) {
-  h2 {
+  h2,
+  .h2 {
     font-size: 39.81px;
   }
 }
 
-h3 {
+h3,
+.h3 {
   font-size: 33.18px;
   font-style: normal;
   font-weight: 600;
@@ -97,26 +125,30 @@ h3 {
 }
 
 @media (max-width: 390px) {
-  h3 {
+  h3,
+  .h3 {
     font-size: 27.65px;
   }
 }
 
-h4 {
+h4,
+.h4 {
   font-size: 27.65px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
 }
 
-h5 {
+h5,
+.h5 {
   font-size: 23.04px;
   font-style: normal;
   font-weight: 600;
   line-height: 160%;
 }
 
-h6 {
+h6,
+.h6 {
   font-size: 19.2px;
   font-style: normal;
   font-weight: 500;
@@ -153,4 +185,36 @@ p.caps.small {
   line-height: 160%;
   letter-spacing: 5%;
   text-transform: uppercase;
+}
+
+a {
+  line-height: 160%;
+}
+
+nav,
+main,
+section,
+.sectionStyles {
+  outline: 0.5px solid var(--border-1);
+}
+
+main {
+  /* offset by height of navbar */
+  padding-top: 80px;
+}
+
+.focusState:focus-visible {
+  outline: 2px solid var(--foreground-1);
+  outline-offset: 3px;
+}
+
+/* Hacky way to avoid the gap between different
+subsections of the carousel */
+.controlChildDivWidth > div > div {
+  min-width: fit-content;
+}
+
+::selection {
+  background: var(--background-3);
+  color: var(--color-foreground-1);
 }

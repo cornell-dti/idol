@@ -1,5 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Button, Modal, Form, Radio } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
@@ -10,20 +10,21 @@ import {
   useCandidateDeciderInstance,
   useCandidateDeciderReviews
 } from './useCandidateDeciderInstance';
+import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
-import Switch from '../Common/Switch/Switch';
+import Selector, { RatingOptions } from '../Common/Selector/Selector';
 
 type CandidateDeciderProps = {
   uuid: string;
 };
 
-const ratings = [
+const ratings: RatingOptions[] = [
   { value: 1, text: 'Strong No', color: 'red' },
   { value: 2, text: 'No', color: 'orange' },
   { value: 3, text: 'Maybe', color: 'yellow' },
   { value: 4, text: 'Yes', color: 'green' },
-  { value: 5, text: 'Strong Yes', color: 'green ' },
-  { value: 0, text: 'Undecided', color: 'grey' }
+  { value: 5, text: 'Strong Yes', color: 'darkgreen' },
+  { value: 0, text: 'Undecided', color: 'gray' }
 ];
 
 type CommentEditorProps = {
@@ -32,7 +33,7 @@ type CommentEditorProps = {
 };
 
 const CommentEditor: React.FC<CommentEditorProps> = ({ currentComment, setCurrentComment }) => (
-  <div style={{ width: '100%' }}>
+  <div className={styles.commentEditor}>
     <h4>Comments</h4>
     <Input
       value={currentComment}
@@ -153,9 +154,25 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <Modal.Content>
           <p>You have unsaved changes. Do you want to save them before navigating?</p>
         </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+        <Modal.Actions className={styles.modalActions}>
           <Button
+            label="Cancel"
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+            variant="default"
+          />
+          <Button
+            label="Discard"
+            onClick={() => {
+              if (nextCandidate !== null) {
+                navigateToNextCandidate(nextCandidate);
+              }
+            }}
+            variant="negative"
+          />
+          <Button
+            label="Save"
             onClick={() => {
               handleRatingAndCommentChange(
                 currentCandidate,
@@ -166,19 +183,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 navigateToNextCandidate(nextCandidate);
               }
             }}
-          >
-            Save
-          </Button>
-          <Button
-            primary
-            onClick={() => {
-              if (nextCandidate !== null) {
-                navigateToNextCandidate(nextCandidate);
-              }
-            }}
-          >
-            Discard
-          </Button>
+            variant="primary"
+          />
         </Modal.Actions>
       </Modal>
       <div className={styles.leftColumn}>
@@ -194,15 +200,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
             <div className={styles.searchBar}>
               <Button
-                basic
-                color="blue"
+                label="Previous"
                 disabled={currentCandidate === 0}
                 onClick={() => {
                   handleCandidateChange(currentCandidate - 1);
                 }}
-              >
-                PREVIOUS
-              </Button>
+                variant="default"
+              />
               <SearchBar
                 instance={instance}
                 setCurrentCandidate={(candidate) => {
@@ -211,18 +215,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 currentCandidate={currentCandidate}
                 seeApplicantName={seeApplicantName}
               />
-              <Button.Group className={styles.previousNextButtonContainer}>
-                <Button
-                  basic
-                  color="blue"
-                  disabled={currentCandidate === instance.candidates.length - 1}
-                  onClick={() => {
-                    handleCandidateChange(currentCandidate + 1);
-                  }}
-                >
-                  NEXT
-                </Button>
-              </Button.Group>
+              <Button
+                label="Next"
+                disabled={currentCandidate === instance.candidates.length - 1}
+                onClick={() => {
+                  handleCandidateChange(currentCandidate + 1);
+                }}
+                variant="default"
+              />
             </div>
           </div>
           <div className={styles.commentEditorWrapper}>
@@ -232,27 +232,15 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         <div className={styles.bottom}>
           <div className={styles.ratingSelectorWrapper}>
             <h4>Final selection</h4>
-
-            <Form>
-              <Form.Group inline>
-                {ratings.map((rt) => (
-                  <Form.Field key={rt.value}>
-                    <Radio
-                      label={rt.text}
-                      name="rating-group"
-                      value={rt.value}
-                      color={rt.color}
-                      checked={rt.value === currentRating}
-                      onClick={() => setCurrentRating(rt.value as Rating)}
-                    />
-                  </Form.Field>
-                ))}
-              </Form.Group>
-            </Form>
+            <Selector
+              selected={currentRating ?? 0}
+              onChange={(value: number) => setCurrentRating(value as Rating)}
+              ratings={ratings}
+            />
           </div>
           <div className={styles.saveButtonWrapper}>
             <Button
-              className="ui blue button"
+              label="Save"
               disabled={isSaved}
               onClick={() => {
                 handleRatingAndCommentChange(
@@ -261,6 +249,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                   currentComment ?? ''
                 );
               }}
+              variant="primary"
             >
               Save
             </Button>
@@ -268,13 +257,6 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
         </div>
       </div>
       <div className={styles.responsesContainer}>
-        {hasAdminPermission && (
-          <Switch
-            checked={seeApplicantName}
-            onChange={() => setSeeApplicantName((prev) => !prev)}
-            label="See applicant name"
-          />
-        )}
         <ResponsesPanel
           headers={instance.headers}
           responses={instance.candidates[currentCandidate].responses}
@@ -283,6 +265,8 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
           currentRating={currentRating ?? 0}
           setCurrentRating={setCurrentRating}
           seeApplicantName={seeApplicantName}
+          toggleSeeApplicantName={() => setSeeApplicantName((prev) => !prev)}
+          canToggleSeeApplicantName={hasAdminPermission}
           candidate={instance.candidates[currentCandidate].id}
         />
       </div>
