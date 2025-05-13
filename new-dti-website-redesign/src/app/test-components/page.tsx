@@ -12,8 +12,21 @@ import IconWrapper from '../../components/IconWrapper';
 import FeatureCard from '../../components/FeatureCard';
 import Chip from '../../components/Chip';
 import Tabs from '../../components/Tabs';
+import TimelineCard, { RecruitmentEvent } from '../../components/TimelineCard';
 
 export default function TestComponents() {
+  const mockEvent: RecruitmentEvent = {
+    title: 'Applications open!',
+    description:
+      "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+    location: 'Application Link',
+    type: 'application',
+    link: 'https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link',
+    freshmen: { date: 'August 21', isTentative: false, time: '5-6PM' },
+    upperclassmen: { date: 'August 21', isTentative: false },
+    spring: { date: 'January 3', isTentative: false }
+  };
+
   return (
     <div className="p-32 flex flex-col gap-16">
       <Link href="/" className="text-accent-red underline">
@@ -391,6 +404,17 @@ export default function TestComponents() {
             }
           ]}
         />
+      </div>
+      <div className="flex flex-col gap-6">
+        <h4>Timeline Card</h4>
+        <div className="flex flex-col gap-4">
+          <TimelineCard event={mockEvent} cycle="freshmen" />
+          <TimelineCard event={{ ...mockEvent, location: undefined }} cycle="freshmen" />
+          <TimelineCard
+            event={{ ...mockEvent, link: undefined, location: 'Upson 102' }}
+            cycle="freshmen"
+          />
+        </div>
       </div>
     </div>
   );
