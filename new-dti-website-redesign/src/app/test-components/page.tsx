@@ -12,7 +12,7 @@ import IconWrapper from '../../components/IconWrapper';
 import FeatureCard from '../../components/FeatureCard';
 import Chip from '../../components/Chip';
 import Tabs from '../../components/Tabs';
-import { MemberCard, MemberDetailsCard } from '@/components/TeamCard';
+import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
 
 export default function TestComponents() {
   const mockUser: IdolMember = {
@@ -29,7 +29,7 @@ export default function TestComponents() {
     subteams: ['idol'],
     role: 'ops-lead',
     roleDescription: 'Full Team Lead',
-    doubleMajor: "Economics"
+    doubleMajor: 'Economics'
   };
 
   return (

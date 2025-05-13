@@ -1,6 +1,6 @@
-import { getColorClass, productLinks } from '@/utils/memberUtils';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getColorClass, productLinks } from '../utils/memberUtils';
 
 const MemberSummary = ({
   user,
