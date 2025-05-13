@@ -65,10 +65,7 @@ const InterviewStatusBase: React.FC = () => {
     return (
       <div className={styles.container}>
         <div className={styles.buttonRow}>
-          <Button
-            label="Back to Instances"
-            onClick={() => setSelected(null)}
-          />
+          <Button label="Back to Instances" onClick={() => setSelected(null)} />
           <Button
             label="Delete Instance"
             onClick={() => openDeleteModal(selected.instanceName)}

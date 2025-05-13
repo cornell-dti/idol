@@ -33,16 +33,8 @@ const InterviewStatusDeleteInstanceModal: React.FC<DeleteInstanceModalProps> = (
         <p>Are you sure you want to delete instance “{instanceName}” and all its statuses?</p>
       </Modal.Content>
       <Modal.Actions>
-        <Button
-          label="Cancel"
-          variant="primary"
-          onClick={onClose}
-          disabled={isDeleting} />
-        <Button
-          label="Delete instance"
-          variant="negative"
-          onClick={handleDelete}
-        />
+        <Button label="Cancel" variant="primary" onClick={onClose} disabled={isDeleting} />
+        <Button label="Delete instance" variant="negative" onClick={handleDelete} />
       </Modal.Actions>
     </Modal>
   );
