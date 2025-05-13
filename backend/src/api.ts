@@ -114,7 +114,8 @@ import {
   getInterviewStatus,
   createInterviewStatus,
   updateInterviewStatus,
-  deleteInterviewStatus
+  deleteInterviewStatus,
+  deleteInterviewStatusInstance
 } from './API/interviewStatusAPI';
 
 import { HandlerError } from './utils/errors';
@@ -626,6 +627,10 @@ loginCheckedPut('/interview-status', async (req, user) => ({
 
 loginCheckedDelete('/interview-status/:uuid', async (req, user) =>
   deleteInterviewStatus(req.params.uuid, user).then(() => ({}))
+);
+
+loginCheckedDelete('/interview-status/instance/:instanceName', async (req, user) =>
+  deleteInterviewStatusInstance(req.params.instanceName, user).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);

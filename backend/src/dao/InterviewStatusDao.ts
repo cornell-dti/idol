@@ -78,4 +78,14 @@ export default class InterviewStatusDao extends BaseDao<InterviewStatus, Intervi
   async getAllInterviewStatuses(): Promise<InterviewStatus[]> {
     return this.getDocuments();
   }
+
+  /**
+   * Deletes all Interview Statuses of an instance
+   */
+  static async deleteByInstance(instanceName: string): Promise<void> {
+    const toDelete = await interviewStatusCollection.where('instance', '==', instanceName).get();
+    const batch = db.batch();
+    toDelete.forEach((doc) => batch.delete(doc.ref));
+    await batch.commit();
+  }
 }

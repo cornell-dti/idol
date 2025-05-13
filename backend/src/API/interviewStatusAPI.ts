@@ -99,3 +99,15 @@ export const deleteInterviewStatus = async (uuid: string, user: IdolMember): Pro
   }
   await interviewStatusDao.deleteInterviewStatus(uuid);
 };
+
+/**
+ * Delete an entire instance
+ */
+export const deleteInterviewStatusInstance = async (
+  instanceName: string,
+  user: IdolMember
+): Promise<void> => {
+  if (!PermissionsManager.isLeadOrAdmin(user))
+    throw new PermissionError('User does not have permission to delete an interview status.');
+  await InterviewStatusDao.deleteByInstance(instanceName);
+};
