@@ -81,7 +81,11 @@ export const MemberDetailsCard = ({ user, image }: MemberDetailsProps) => {
           <div className="w-1/2">
             <p className="text-foreground-3">Subteam</p>
             {user.subteams[0] in productLinks ? (
-              <Link className="flex gap-2 items-center" href={productLinks[user.subteams[0]].link}>
+              <Link
+                className="flex gap-2 items-center"
+                target="_blank"
+                href={productLinks[user.subteams[0]].link}
+              >
                 <p className="underline">{productLinks[user.subteams[0]].name}</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
