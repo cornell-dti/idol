@@ -4,6 +4,7 @@ import csv from 'csvtojson';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
 import { DISPLAY_TO_ROLE_MAP, ROUND_OPTIONS } from '../../../consts';
+import styles from "./CSVUploadInterviewStatus.module.css";
 
 interface CSVUploadProps {
   instanceName: string;
@@ -27,7 +28,11 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
       csv({ output: 'csv', noheader: true })
         .fromString(reader.result as string)
         .then((parsed) => {
-          setHeaders(parsed[0]);
+          /* strip quotes and trim whitespace */
+          const cleanHeaders = parsed[0].map((h: string) =>
+            h.trim().replace(/^["']|["']$/g, '')
+          )
+          setHeaders(cleanHeaders)
           setRows(parsed.slice(1));
         });
     };
@@ -49,25 +54,47 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
       return;
     }
 
-    setLoading(true);
-    await Promise.all(
-      rows.map((row) => {
-        // match headers and values : obj -> accumulator, h -> current element in headers array, i -> index of element
-        const record = headers.reduce<Record<string, string>>(
-          (obj, h, i) => ({ ...obj, [h]: row[i] }),
-          {}
-        );
-        const { NetID, 'First Name': first, 'Last Name': last, Role } = record;
-        return InterviewStatusAPI.createInterviewStatus({
-          instance: instanceName,
-          name: `${first} ${last}`,
-          netid: NetID,
-          round: selectedRound,
-          role: DISPLAY_TO_ROLE_MAP[Role],
-          status: 'Undecided' as IntStatus
-        });
+    const required = ['NetID', 'First Name', 'Last Name', 'Role']
+    const missing = required.filter((h) => !headers.includes(h))
+    if (missing.length) {
+      Emitters.generalError.emit({
+        headerMsg: `Missing column${missing.length > 1 ? 's' : ''}: ${missing.join(
+          ', '
+        )}`,
+        contentMsg: 'Please include all required headers before uploading.'
       })
-    );
+      return
+    }
+
+    setLoading(true);
+    try {
+      await Promise.all(
+        rows.map((row) => {
+          // match headers and values : obj -> accumulator, h -> current element in headers array, i -> index of element
+          const record = headers.reduce<Record<string, string>>(
+            (obj, h, i) => ({ ...obj, [h]: row[i] }),
+            {}
+          );
+          const { NetID, 'First Name': first, 'Last Name': last, Role } = record;
+          return InterviewStatusAPI.createInterviewStatus({
+            instance: instanceName,
+            name: `${first} ${last}`,
+            netid: NetID,
+            round: selectedRound,
+            role: DISPLAY_TO_ROLE_MAP[Role],
+            status: 'Undecided' as IntStatus
+          });
+        })
+      );
+    } catch (error) {
+      console.error(error)
+      Emitters.generalError.emit({
+        headerMsg: 'Upload failed',
+        contentMsg: 'One of the entries could not be created.'
+      })
+      setLoading(false)
+      return
+    }
 
     setSuccess(true);
     Emitters.generalSuccess.emit({
@@ -115,10 +142,12 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         header="Upload complete"
         content={`All candidates created with status "undecided".`}
       />
-
-      <Button onClick={handleSubmit} disabled={loading || rows.length === 0 || !selectedRound}>
-        Upload Interview Statuses
-      </Button>
+      <div className={styles.csvButton}>
+        <Button onClick={handleSubmit} disabled={loading || rows.length === 0 || !selectedRound}>
+          Upload Interview Statuses
+        </Button>
+        {!selectedRound && <p className={styles.notSelected}>No round selected!</p>}
+      </div>
     </Form>
   );
 }
