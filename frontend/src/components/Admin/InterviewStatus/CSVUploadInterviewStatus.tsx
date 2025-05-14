@@ -4,7 +4,7 @@ import csv from 'csvtojson';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
 import { DISPLAY_TO_ROLE_MAP, ROUND_OPTIONS } from '../../../consts';
-import styles from "./CSVUploadInterviewStatus.module.css";
+import styles from './CSVUploadInterviewStatus.module.css';
 
 interface CSVUploadProps {
   instanceName: string;
@@ -29,10 +29,8 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         .fromString(reader.result as string)
         .then((parsed) => {
           /* strip quotes and trim whitespace */
-          const cleanHeaders = parsed[0].map((h: string) =>
-            h.trim().replace(/^["']|["']$/g, '')
-          )
-          setHeaders(cleanHeaders)
+          const cleanHeaders = parsed[0].map((h: string) => h.trim().replace(/^["']|["']$/g, ''));
+          setHeaders(cleanHeaders);
           setRows(parsed.slice(1));
         });
     };
@@ -54,16 +52,14 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
       return;
     }
 
-    const required = ['NetID', 'First Name', 'Last Name', 'Role']
-    const missing = required.filter((h) => !headers.includes(h))
+    const required = ['NetID', 'First Name', 'Last Name', 'Role'];
+    const missing = required.filter((h) => !headers.includes(h));
     if (missing.length) {
       Emitters.generalError.emit({
-        headerMsg: `Missing column${missing.length > 1 ? 's' : ''}: ${missing.join(
-          ', '
-        )}`,
+        headerMsg: `Missing column${missing.length > 1 ? 's' : ''}: ${missing.join(', ')}`,
         contentMsg: 'Please include all required headers before uploading.'
-      })
-      return
+      });
+      return;
     }
 
     setLoading(true);
@@ -87,13 +83,13 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         })
       );
     } catch (error) {
-      console.error(error)
+      console.error(error);
       Emitters.generalError.emit({
         headerMsg: 'Upload failed',
         contentMsg: 'One of the entries could not be created.'
-      })
-      setLoading(false)
-      return
+      });
+      setLoading(false);
+      return;
     }
 
     setSuccess(true);
