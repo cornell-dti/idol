@@ -26,7 +26,6 @@ const InterviewStatusBase: React.FC = () => {
       (acc[st.instance] ||= []).push(st);
       return acc;
     }, {});
-
     const grouped: StatusInstance[] = Object.entries(map)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([instanceName, statuses]) => ({

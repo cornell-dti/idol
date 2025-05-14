@@ -290,6 +290,7 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
   return (
     <div className={styles.dashboardContainer}>
       <Header as="h1">Interview Status Dashboard</Header>
+      <h2>Instance: {instanceName}</h2>
       <div className={styles.dropdownContainer}>
         <h3>Recruitment Round</h3>
         <Dropdown
