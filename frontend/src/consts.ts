@@ -34,5 +34,5 @@ export const DISPLAY_TO_ROLE_MAP: Record<string, string> = {
   Designer: 'designer',
   'Product Manager': 'pm',
   Business: 'business',
-  Lead: 'lead',
-}
+  Lead: 'lead'
+};

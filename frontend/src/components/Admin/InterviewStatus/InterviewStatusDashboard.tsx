@@ -18,7 +18,7 @@ import CSVUploadInterviewStatus from './CSVUploadInterviewStatus';
 interface InterviewStatusDashboardProps {
   instanceName: string;
   statuses: InterviewStatus[];
-  refresh: () => void
+  refresh: () => void;
 }
 
 const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
@@ -184,10 +184,10 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-            ...applicant,
-            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-            status: 'Undecided'
-          }
+              ...applicant,
+              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+              status: 'Undecided'
+            }
           : applicant
       )
     );
@@ -195,10 +195,10 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       prev.map((applicant) =>
         uuidsToPromote.includes(applicant.uuid!)
           ? {
-            ...applicant,
-            round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
-            status: 'Undecided'
-          }
+              ...applicant,
+              round: applicant.round === 'Behavioral' ? 'Technical' : 'Behavioral',
+              status: 'Undecided'
+            }
           : applicant
       )
     );
@@ -366,13 +366,9 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         </Table.Body>
       </Table>
       <div className={styles.addForm}>
-        <CSVUploadInterviewStatus
-          instanceName={instanceName}
-          onDone={refresh} />
+        <CSVUploadInterviewStatus instanceName={instanceName} onDone={refresh} />
         <h1>Add Applicants One At a Time</h1>
-        <AddInterviewStatusForm
-          onAddApplicant={handleAddApplicant}
-          instanceName={instanceName} />
+        <AddInterviewStatusForm onAddApplicant={handleAddApplicant} instanceName={instanceName} />
       </div>
     </div>
   );

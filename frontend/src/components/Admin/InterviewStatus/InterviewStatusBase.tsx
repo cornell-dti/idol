@@ -20,8 +20,8 @@ const InterviewStatusBase: React.FC = () => {
   }, []);
 
   const refresh = async () => {
-    setIsLoading(true)
-    const all = await InterviewStatusAPI.getAllInterviewStatuses()
+    setIsLoading(true);
+    const all = await InterviewStatusAPI.getAllInterviewStatuses();
     const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
       (acc[st.instance] ||= []).push(st);
       return acc;
@@ -35,11 +35,11 @@ const InterviewStatusBase: React.FC = () => {
       }));
     setGroups(grouped);
     if (selected) {
-      const fresh = all.filter((st) => st.instance === selected.instanceName)
-      setSelected({ instanceName: selected.instanceName, statuses: fresh })
+      const fresh = all.filter((st) => st.instance === selected.instanceName);
+      setSelected({ instanceName: selected.instanceName, statuses: fresh });
     }
     setIsLoading(false);
-  }
+  };
 
   const openDeleteModal = (name: string) => {
     setInstanceToDelete(name);
