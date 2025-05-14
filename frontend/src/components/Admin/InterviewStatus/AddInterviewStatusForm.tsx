@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
-import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
-
-const displayToRoleMap: Record<string, GeneralRole> = {
-  Developer: 'developer',
-  Designer: 'designer',
-  'Product Manager': 'pm',
-  Business: 'business',
-  Lead: 'lead'
-};
+import { DISPLAY_TO_ROLE_MAP, ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
 
 interface AddInterviewStatusFormProps {
   onAddApplicant: (applicant: InterviewStatus) => void;
@@ -97,7 +89,7 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({
           onChange={(_, { value }) => {
             const disp = value as string;
             setRoleDisplay(disp);
-            setRole(displayToRoleMap[disp] || '');
+            setRole(DISPLAY_TO_ROLE_MAP[disp] || '');
           }}
         />
       </Form.Field>

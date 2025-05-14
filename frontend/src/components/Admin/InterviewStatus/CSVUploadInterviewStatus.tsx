@@ -63,7 +63,7 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
           name: `${first} ${last}`,
           netid: NetID,
           round: selectedRound,
-          role: DISPLAY_TO_ROLE_MAP[Role] as GeneralRole,
+          role: DISPLAY_TO_ROLE_MAP[Role],
           status: 'Undecided' as IntStatus
         });
       })
