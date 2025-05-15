@@ -29,7 +29,7 @@ export default function Sidebar() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className={`block focusState px-4 py-2 rounded-lg transition-colors transition-duration-[120ms] hover:bg-background-2 ${
+                    className={`block focusState px-4 py-2 rounded-lg hover:bg-background-2 ${
                       pathname === href ? 'bg-background-2' : 'bg-background-1 text-foreground-3'
                     }`}
                   >
