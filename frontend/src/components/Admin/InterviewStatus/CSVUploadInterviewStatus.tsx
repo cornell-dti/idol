@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Form, Dropdown, Message } from 'semantic-ui-react';
+import { Button as SemanticButton, Form, Dropdown, Message } from 'semantic-ui-react';
 import csv from 'csvtojson';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
 import { DISPLAY_TO_ROLE_MAP, ROUND_OPTIONS } from '../../../consts';
 import styles from './CSVUploadInterviewStatus.module.css';
+import Button from '../../Common/Button/Button';
 
 interface CSVUploadProps {
   instanceName: string;
@@ -29,7 +30,9 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         .fromString(reader.result as string)
         .then((parsed) => {
           /* strip quotes and trim whitespace */
-          const cleanHeaders = parsed[0].map((h: string) => h.trim().replace(/^[\u201C\u201D"'`]+|[\u201C\u201D"'`]+$/g, ''));
+          const cleanHeaders = parsed[0].map((h: string) =>
+            h.trim().replace(/^[\u201C\u201D"'`]+|[\u201C\u201D"'`]+$/g, '')
+          );
           setHeaders(cleanHeaders);
           setRows(parsed.slice(1));
         });
@@ -108,15 +111,15 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
 
   return (
     <Form success={success}>
-      <h1>Upload Applicants with a CSV</h1>
+      <h3>Upload applicants with a CSV</h3>
       <p>
         CSV must have at least columns: <code>NetID</code>, <code>First Name</code>,{' '}
         <code>Last Name</code>, <code>Role</code>
       </p>
       <Form.Field>
-        <Button as="a" href="/Interview Status Input.csv" download>
+        <SemanticButton as="a" href="/Interview Status Input.csv" download>
           Download Sample CSV
-        </Button>
+        </SemanticButton>
       </Form.Field>
       <p>Please select the current interview round and then proceed to upload.</p>
       <Form.Field>
@@ -139,10 +142,10 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         content={`All candidates created with status "undecided".`}
       />
       <div className={styles.csvButton}>
-        <Button onClick={handleSubmit} disabled={loading || rows.length === 0 || !selectedRound}>
-          Upload Interview Statuses
-        </Button>
-        {!selectedRound && rows.length != 0 && <p className={styles.notSelected}>No round selected!</p>}
+        <Button variant="primary" label="Upload Interview Statuses" onClick={handleSubmit} />
+        {!selectedRound && rows.length != 0 && (
+          <p className={styles.notSelected}>No round selected!</p>
+        )}
       </div>
     </Form>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Form, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
+import { Form, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
 import { DISPLAY_TO_ROLE_MAP, ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
+import Button from '../../Common/Button/Button';
 
 interface AddInterviewStatusFormProps {
   onAddApplicant: (applicant: InterviewStatus) => void;
@@ -104,9 +105,12 @@ const AddInterviewStatusForm: React.FC<AddInterviewStatusFormProps> = ({
           onChange={(e, data: DropdownProps) => setStatus(data.value as IntStatus)}
         />
       </Form.Field>
-      <Button primary loading={isSubmitting} disabled={isSubmitting} onClick={handleSubmit}>
-        Add Interview Status
-      </Button>
+      <Button
+        label="Add Interview Status"
+        variant="primary"
+        disabled={isSubmitting}
+        onClick={handleSubmit}
+      />
     </Form>
   );
 };

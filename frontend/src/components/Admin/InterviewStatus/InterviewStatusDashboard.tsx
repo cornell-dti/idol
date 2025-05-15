@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Table,
-  Header,
-  Loader,
-  Button,
-  Dropdown,
-  DropdownProps,
-  Checkbox
-} from 'semantic-ui-react';
+import { Table, Header, Loader, Dropdown, DropdownProps, Checkbox } from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
 import { Emitters } from '../../../utils';
 import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
 import CSVUploadInterviewStatus from './CSVUploadInterviewStatus';
+import Button from '../../Common/Button/Button';
 
 interface InterviewStatusDashboardProps {
   instanceName: string;
@@ -315,19 +308,13 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         />
       </div>
       <div className={styles.csvButton}>
-        <Button onClick={handleCopyEmails}>Copy Emails</Button>
-        <Button onClick={handleDeleteStatus}>Delete Status</Button>
-        <Button onClick={handleProceed}>Proceed to Next Round</Button>
-        <Button className={styles.acceptButton} onClick={() => updateStatus('Accepted')}>
-          Accept
-        </Button>
-        <Button className={styles.rejectButton} onClick={() => updateStatus('Rejected')}>
-          Reject
-        </Button>
-        <Button onClick={() => updateStatus('Waitlisted')}>Waitlist</Button>
-        <Button className={styles.undecideButton} onClick={() => updateStatus('Undecided')}>
-          Undecide
-        </Button>
+        <Button variant="primary" label="Copy Emails" onClick={handleCopyEmails} />
+        <Button variant="negative" label="Delete Status" onClick={handleDeleteStatus} />
+        <Button label="Proceed to Next Round" onClick={handleProceed} />
+        <Button label="Accept" onClick={() => updateStatus('Accepted')} />
+        <Button label="Reject" onClick={() => updateStatus('Rejected')} />
+        <Button label="Waitlist" onClick={() => updateStatus('Waitlisted')} />
+        <Button label="Undecide" onClick={() => updateStatus('Undecided')} />
       </div>
       <Table celled selectable striped>
         <Table.Header>
@@ -368,7 +355,7 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
       </Table>
       <div className={styles.addForm}>
         <CSVUploadInterviewStatus instanceName={instanceName} onDone={refresh} />
-        <h1>Add Applicants One At a Time</h1>
+        <h3>Add applicants one at a time</h3>
         <AddInterviewStatusForm onAddApplicant={handleAddApplicant} instanceName={instanceName} />
       </div>
     </div>
