@@ -29,7 +29,7 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         .fromString(reader.result as string)
         .then((parsed) => {
           /* strip quotes and trim whitespace */
-          const cleanHeaders = parsed[0].map((h: string) => h.trim().replace(/^["']|["']$/g, ''));
+          const cleanHeaders = parsed[0].map((h: string) => h.trim().replace(/^[\u201C\u201D"'`]+|[\u201C\u201D"'`]+$/g, ''));
           setHeaders(cleanHeaders);
           setRows(parsed.slice(1));
         });
@@ -142,7 +142,7 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         <Button onClick={handleSubmit} disabled={loading || rows.length === 0 || !selectedRound}>
           Upload Interview Statuses
         </Button>
-        {!selectedRound && <p className={styles.notSelected}>No round selected!</p>}
+        {!selectedRound && rows.length != 0 && <p className={styles.notSelected}>No round selected!</p>}
       </div>
     </Form>
   );
