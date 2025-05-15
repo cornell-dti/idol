@@ -2,6 +2,7 @@ import { Modal } from 'semantic-ui-react';
 import { useState } from 'react';
 import { InterviewStatusAPI } from '../../API/InterviewStatusAPI';
 import Button from '../Common/Button/Button';
+import styles from './InterviewStatusDeleteInstanceModal.module.css';
 
 export interface DeleteInstanceModalProps {
   instanceName: string;
@@ -32,7 +33,7 @@ const InterviewStatusDeleteInstanceModal: React.FC<DeleteInstanceModalProps> = (
       <Modal.Content>
         <p>Are you sure you want to delete instance “{instanceName}” and all its statuses?</p>
       </Modal.Content>
-      <Modal.Actions>
+      <Modal.Actions className={styles.deleteModalActions}>
         <Button label="Cancel" variant="primary" onClick={onClose} disabled={isDeleting} />
         <Button label="Delete instance" variant="negative" onClick={handleDelete} />
       </Modal.Actions>
