@@ -47,6 +47,12 @@ const navItems = [
         href: '/design-system/components/input',
         label: 'Input',
         description: 'Input description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/card',
+        label: 'Card',
+        description: 'Card description bruh.'
       }
     ]
   }
