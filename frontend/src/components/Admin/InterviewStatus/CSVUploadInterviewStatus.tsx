@@ -17,7 +17,6 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
   const [headers, setHeaders] = useState<string[]>([]);
   const [rows, setRows] = useState<string[][]>([]);
   const [selectedRound, setSelectedRound] = useState<Round | ''>('');
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +64,6 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
       return;
     }
 
-    setLoading(true);
     try {
       await Promise.all(
         rows.map((row) => {
@@ -91,7 +89,6 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         headerMsg: 'Upload failed',
         contentMsg: 'One of the entries could not be created.'
       });
-      setLoading(false);
       return;
     }
 
@@ -106,7 +103,6 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
     setRows([]);
     setSelectedRound('');
     setFileKey(Date.now().toString());
-    setLoading(false);
   };
 
   return (
@@ -143,7 +139,7 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
       />
       <div className={styles.csvButton}>
         <Button variant="primary" label="Upload Interview Statuses" onClick={handleSubmit} />
-        {!selectedRound && rows.length != 0 && (
+        {!selectedRound && rows.length !== 0 && (
           <p className={styles.notSelected}>No round selected!</p>
         )}
       </div>
