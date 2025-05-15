@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from './Button';
+import Chip from './Chip';
 
 export default function Footer() {
   const DTILinks = [
@@ -12,7 +13,8 @@ export default function Footer() {
     { href: '/course', label: 'Course' },
     { href: '/initiatives', label: 'Initiatives' },
     { href: '/sponsor', label: 'Sponsor' },
-    { href: '/apply', label: 'Apply' }
+    { href: '/apply', label: 'Apply' },
+    { href: '/design-system', label: 'Design system' }
   ];
 
   const ProductLinks = [
@@ -133,13 +135,15 @@ export default function Footer() {
       <h6 className="text-foreground-1">Cornell DTI</h6>
       <ul className="flex flex-col gap-1 list-none">
         {DTILinks.map(({ href, label }) => (
-          <li key={href}>
+          <li key={href} className="flex gap-2 items-center">
             <Link
               href={href}
               className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState transition-[color] duration-[120ms]"
             >
               {label}
             </Link>
+
+            {label === 'Design system' && <Chip label="beta" />}
           </li>
         ))}
       </ul>
