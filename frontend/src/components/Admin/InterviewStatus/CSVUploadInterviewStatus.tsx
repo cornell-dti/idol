@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button as SemanticButton, Form, Dropdown, Message } from 'semantic-ui-react';
+import { Form, Dropdown, Message } from 'semantic-ui-react';
 import csv from 'csvtojson';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import { Emitters } from '../../../utils';
@@ -113,9 +113,9 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
         <code>Last Name</code>, <code>Role</code>
       </p>
       <Form.Field>
-        <SemanticButton as="a" href="/Interview Status Input.csv" download>
-          Download Sample CSV
-        </SemanticButton>
+        <form action="/Interview Status Input.csv" method="get">
+          <Button label="Download Sample CSV" />
+        </form>
       </Form.Field>
       <p>Please select the current interview round and then proceed to upload.</p>
       <Form.Field>
