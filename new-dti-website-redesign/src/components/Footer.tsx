@@ -203,7 +203,7 @@ export default function Footer() {
   );
 
   return (
-    <div className="bg-background-1 relative">
+    <footer className="bg-background-1 relative">
       <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div className="md:p-8 md:pb-0 md:row-start-1 md:col-start-1 lg:row-auto lg:col-auto lg:pb-8">
           <DTILogoSection />
@@ -231,6 +231,6 @@ export default function Footer() {
           />
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
