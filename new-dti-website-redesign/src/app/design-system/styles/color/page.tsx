@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import colors from './colors';
 import PageLayout from '../../PageLayout';
+import PageSection from '../../PageSection';
 
 interface ColorCardProps {
   color: string;
@@ -21,7 +22,7 @@ function ColorCard({ color, name }: ColorCardProps) {
   );
 }
 
-export default function Color() {
+export default function ColorPage() {
   const [resolvedColors, setResolvedColors] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -46,14 +47,13 @@ export default function Color() {
     <div className="flex">
       <PageLayout title="Color" description="Description of color.">
         {Object.entries(grouped).map(([type, items]) => (
-          <section key={type} className="p-12 flex flex-col gap-4">
-            <h2>{type}</h2>
+          <PageSection key={type} title={type} description="">
             <div className="flex gap-6">
               {items.map(({ name, variable }) => (
                 <ColorCard key={name} name={name} color={resolvedColors[variable]} />
               ))}
             </div>
-          </section>
+          </PageSection>
         ))}
       </PageLayout>
     </div>

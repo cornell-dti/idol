@@ -15,13 +15,13 @@ export default function CardLink({
   return (
     <Link
       href={href}
-      className="focusState rounded-md border border-border-1 overflow-hidden transition hover:shadow-md hover:bg-background-2"
+      className="focusState rounded-lg border border-border-1 overflow-hidden transition hover:shadow-md hover:bg-background-2"
     >
       <div className="h-40 w-full relative">
         <Image src={thumbnail} alt={`${title} thumbnail`} fill className="object-cover" />
       </div>
       <div className="p-4 flex flex-col gap-1">
-        <h5>{title}</h5>
+        <h3 className="h5">{title}</h3>
         {description && <p className="text-sm text-foreground-3">{description}</p>}
       </div>
     </Link>
