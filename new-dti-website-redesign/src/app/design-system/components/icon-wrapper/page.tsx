@@ -2,7 +2,7 @@ import React from 'react';
 import PageLayout from '../../PageLayout';
 import PageSection from '../../PageSection';
 import IconWrapper from '../../../../components/IconWrapper';
-import { RocketIcon } from '../icon/RocketIcon';
+import RocketIcon from '../icon/RocketIcon';
 
 export default function IconWrapperPage() {
   return (

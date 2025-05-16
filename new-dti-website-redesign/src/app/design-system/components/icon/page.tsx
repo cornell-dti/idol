@@ -1,6 +1,6 @@
 import React from 'react';
 import PageLayout from '../../PageLayout';
-import { icons } from './icons';
+import icons from './icons';
 
 export default function IconPage() {
   return (
