@@ -16,8 +16,8 @@ const InterviewStatusBase: React.FC = () => {
   const [instanceToDelete, setInstanceToDelete] = useState<string>('');
 
   useEffect(() => {
-    refresh();
-  }, []);
+    loadGroups();
+  }, [selected]);
 
   const refresh = async () => {
     setIsLoading(true);
@@ -37,6 +37,23 @@ const InterviewStatusBase: React.FC = () => {
       const fresh = all.filter((st) => st.instance === selected.instanceName);
       setSelected({ instanceName: selected.instanceName, statuses: fresh });
     }
+    setIsLoading(false);
+  };
+
+  const loadGroups = async () => {
+    setIsLoading(true);
+    const all = await InterviewStatusAPI.getAllInterviewStatuses();
+    const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
+      (acc[st.instance] ||= []).push(st);
+      return acc;
+    }, {});
+    const grouped: StatusInstance[] = Object.entries(map)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([instanceName, statuses]) => ({
+        instanceName,
+        statuses
+      }));
+    setGroups(grouped);
     setIsLoading(false);
   };
 
