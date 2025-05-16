@@ -4,7 +4,9 @@ import PageLayout from './PageLayout';
 import PageSection from './PageSection';
 
 export default function DesignSystem() {
-  const sections = navItems.filter((group) => group.category !== null);
+  const sections = navItems.filter(
+    (group): group is { category: string; items: any[] } => group.category !== null
+  );
 
   return (
     <PageLayout
