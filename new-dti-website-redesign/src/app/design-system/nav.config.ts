@@ -59,6 +59,12 @@ const navItems = [
         href: '/design-system/components/chip',
         label: 'Chip',
         description: 'Chip description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/icon',
+        label: 'Icon',
+        description: 'Icon description bruh.'
       }
     ]
   }
