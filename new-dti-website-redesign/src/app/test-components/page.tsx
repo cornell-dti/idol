@@ -29,7 +29,10 @@ export default function TestComponents() {
     subteams: ['idol'],
     role: 'ops-lead',
     roleDescription: 'Full Team Lead',
-    doubleMajor: 'Economics'
+    doubleMajor: 'Economics',
+    linkedin: "https://www.linkedin.com/",
+    github: "https://github.com/",
+    website: "https://google.com/"
   };
 
   return (
@@ -413,7 +416,7 @@ export default function TestComponents() {
       <div className="flex flex-col gap-6">
         <h4>Member Cards</h4>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <MemberCard
               key={i}
               user={{
