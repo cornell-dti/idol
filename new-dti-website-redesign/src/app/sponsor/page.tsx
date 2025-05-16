@@ -25,25 +25,25 @@ export default function Sponsor() {
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Become a sponsor!" section</h4>
+        <h4>Become a sponsor! section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"row of 3 cards" section</h4>
+        <h4>row of 3 cards section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Sponsorship benefits" section</h4>
+        <h4>Sponsorship benefits section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Thank you to our sponsors!" section</h4>
+        <h4>Thank you to our sponsors! section</h4>
       </section>
 
       <SectionSep />

@@ -25,31 +25,31 @@ export default function Course() {
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Trends in Web Development" section</h4>
+        <h4>Trends in Web Development section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Details about Trends" section</h4>
+        <h4>Details about Trends section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Course staff" section</h4>
+        <h4>Course staff section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Past student experiences" section</h4>
+        <h4>Past student experiences section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Past student projects" section</h4>
+        <h4>Past student projects section</h4>
       </section>
 
       <SectionSep />

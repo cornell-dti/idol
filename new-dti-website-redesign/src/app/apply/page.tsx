@@ -28,19 +28,19 @@ export default function Apply() {
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Application timeline" section</h4>
+        <h4>Application timeline section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Role descriptions" section</h4>
+        <h4>Role descriptions section</h4>
       </section>
 
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>"Frequently Asked Questions" section</h4>
+        <h4>Frequently Asked Questions section</h4>
       </section>
 
       <SectionSep />
