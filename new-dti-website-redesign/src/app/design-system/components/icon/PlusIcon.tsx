@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const PlusIcon = ({ size = 24 }) => (
+const PlusIcon = ({ size = 24 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -16,3 +16,5 @@ export const PlusIcon = ({ size = 24 }) => (
     <path d="M12 5v14" />
   </svg>
 );
+
+export default PlusIcon;

@@ -4,7 +4,7 @@ import PageSection from '../../PageSection';
 import TestimonialCard from '../../../../components/TestimonialCard';
 import FeatureCard from '../../../../components/FeatureCard';
 import Marquee from '../../../../components/Marquee';
-import { RocketIcon } from '../icon/RocketIcon';
+import RocketIcon from '../icon/RocketIcon';
 
 const features = [
   {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const RocketIcon = ({ size = 24 }) => (
+const RocketIcon = ({ size = 24 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -18,3 +18,5 @@ export const RocketIcon = ({ size = 24 }) => (
     <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
   </svg>
 );
+
+export default RocketIcon;

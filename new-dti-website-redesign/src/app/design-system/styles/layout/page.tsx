@@ -11,14 +11,15 @@ type LayoutSectionProps = {
 };
 function LayoutSection({ title, width, height, lines }: LayoutSectionProps) {
   // Additional styling based on width of mocked up layout
-  const containerClasses =
-    width >= 1800
-      ? 'flex items-center'
-      : width >= 768 && width < 1400
-        ? 'px-8 flex justify-between'
-        : width < 768
-          ? 'px-4 flex justify-between'
-          : '';
+  let containerClasses = '';
+
+  if (width >= 1800) {
+    containerClasses = 'flex items-center';
+  } else if (width >= 768 && width < 1400) {
+    containerClasses = 'px-8 flex justify-between';
+  } else if (width < 768) {
+    containerClasses = 'px-4 flex justify-between';
+  }
 
   // Decide if inner wrapper is needed (for large desktop layouts where content is centered)
   const shouldUseInnerWrapper = width >= 1400;

@@ -3,7 +3,7 @@ import PageLayout from '../../PageLayout';
 import PageSection from '../../PageSection';
 import Button from '../../../../components/Button';
 import IconButton from '../../../../components/IconButton';
-import { PlusIcon } from '../icon/PlusIcon';
+import PlusIcon from '../icon/PlusIcon';
 
 export default function ButtonPage() {
   return (

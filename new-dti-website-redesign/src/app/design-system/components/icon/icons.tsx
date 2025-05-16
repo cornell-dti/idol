@@ -1,8 +1,8 @@
 import React from 'react';
-import { RocketIcon } from './RocketIcon';
-import { PlusIcon } from './PlusIcon';
+import RocketIcon from './RocketIcon';
+import PlusIcon from './PlusIcon';
 
-export const icons = [
+const icons = [
   { label: 'Rocket', svg: <RocketIcon /> },
   { label: 'Plus', svg: <PlusIcon /> },
   { label: 'Rocket', svg: <RocketIcon /> },
@@ -11,3 +11,5 @@ export const icons = [
   { label: 'Plus', svg: <PlusIcon /> },
   { label: 'Rocket', svg: <RocketIcon /> }
 ];
+
+export default icons;
