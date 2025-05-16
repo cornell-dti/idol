@@ -1,7 +1,7 @@
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
-import CtaSection from '@/components/CtaSection';
-import SectionSep from '@/components/SectionSep';
+import CtaSection from '../../components/CtaSection';
+import SectionSep from '../../components/SectionSep';
 
 export const metadata = {
   title: 'DTI TEAM PAGE',
