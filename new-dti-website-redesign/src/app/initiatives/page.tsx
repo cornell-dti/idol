@@ -3,6 +3,7 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import SectionSep from '../../components/SectionSep';
 import FeatureSection from '../../components/FeatureSection';
+import CtaSection from '../../components/CtaSection';
 
 export const metadata = {
   title: 'DTI INITIATIVES PAGE',
@@ -128,15 +129,18 @@ export default function Initiatives() {
         imageAlt="DTI members at the Millenium office"
       />
 
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the INITIATIVES page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
+      <SectionSep />
 
-        <p className="mt-2">This is the INITIATIVES page</p>
-      </section>
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }
