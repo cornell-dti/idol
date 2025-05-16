@@ -1,5 +1,7 @@
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
+import CtaSection from '../../components/CtaSection';
+import SectionSep from '../../components/SectionSep';
 
 export const metadata = {
   title: 'DTI SPONSOR PAGE',
@@ -20,15 +22,42 @@ export default function Sponsor() {
         imageAlt="DTI members collaborating together in front of a laptop"
       />
 
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the SPONSOR page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
+      <SectionSep />
 
-        <p className="mt-2">This is the SPONSOR page</p>
+      <section className="temporarySection">
+        <h4>"Become a sponsor!" section</h4>
       </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"row of 3 cards" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"Sponsorship benefits" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"Thank you to our sponsors!" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }
