@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
@@ -106,24 +105,7 @@ export default function Home() {
           button2Link="/team"
         />
 
-        <section className="bg-background-2 h-[400px]">
-          <h1>Welcome</h1>
-          <p className="mt-2">testing testing 123</p>
-        </section>
-
-        <section className="bg-background-3 h-[400px]">
-          <h2>
-            <Link href="/test-components" className="text-accent-red underline">
-              View and test components
-            </Link>
-          </h2>
-
-          <h2>
-            <Link href="/test-page" className="text-accent-red underline">
-              View full test page
-            </Link>
-          </h2>
-        </section>
+        <SectionSep />
       </Layout>
     </>
   );

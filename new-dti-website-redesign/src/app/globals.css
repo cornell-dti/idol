@@ -204,6 +204,13 @@ subsections of the carousel */
   min-width: fit-content;
 }
 
+/* Temporary styles for skeleton UI */
+.temporarySection {
+  padding: 32px;
+  height: 500px;
+  background: var(--background-2);
+}
+
 ::selection {
   background: var(--background-3);
   color: var(--color-foreground-1);

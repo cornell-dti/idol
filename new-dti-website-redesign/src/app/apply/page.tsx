@@ -1,6 +1,8 @@
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import Banner from '../../components/Banner';
+import CtaSection from '../../components/CtaSection';
+import SectionSep from '../../components/SectionSep';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',
@@ -23,15 +25,36 @@ export default function Apply() {
         imageAlt="DTI members hosting a recruitment event with prospective applicants"
       />
 
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the apply page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
+      <SectionSep />
 
-        <p className="mt-2">This is the apply page</p>
+      <section className="temporarySection">
+        <h4>Application timeline section</h4>
       </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>Role descriptions section</h4>
+      </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>Frequently Asked Questions section</h4>
+      </section>
+
+      <SectionSep />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }
