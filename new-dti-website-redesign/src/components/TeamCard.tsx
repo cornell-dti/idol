@@ -45,15 +45,18 @@ type MemberCardProps = {
 
 export const MemberCard = ({ user, image, selected, onClick }: MemberCardProps) => {
   const baseStyles =
-    'p-8 border border-border-1 flex flex-col gap-4 focusState hover:bg-background-2 transition-[background-color] duration-[120ms]';
+    'relative p-8 border border-border-1 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus]:outline-2 has-[:focus]:outline-offset-3 has-[:focus]:z-10';
 
   return (
-    <button
-      className={`${baseStyles} ${selected ? `relative bg-background-2 border-b-foreground-1 after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full` : ''}`}
-      onClick={onClick}
+    <article
+      className={`${baseStyles} ${selected ? `bg-background-2 border-b-foreground-1 after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full` : ''}`}
     >
       <MemberSummary user={user} image={image} />
-    </button>
+      <button
+        className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full focus:outline-4"
+        onClick={onClick}
+      />
+    </article>
   );
 };
 
