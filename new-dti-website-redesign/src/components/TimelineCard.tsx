@@ -71,7 +71,7 @@ const TimelineCard = ({
             <Link
               href={event.link}
               target="_blank"
-              className="flex justify-between md:w-1/2 p-4 md:rounded-bl-lg border border-border-1 hover:bg-background-2 underline underline-offset-3"
+              className="flex justify-between md:w-1/2 p-4 md:rounded-bl-lg border border-border-1 md:border-r-0 border-b-0 md:border-b-1 hover:bg-background-2 underline underline-offset-3 focusState"
             >
               <div className="flex items-center gap-2">
                 <svg
@@ -103,7 +103,7 @@ const TimelineCard = ({
                     </clipPath>
                   </defs>
                 </svg>
-                <p>{event.location}</p>
+                <p>{datetime.isTentative ? "TBD" : event.location}</p>
               </div>
               <IconWrapper className="p-2 !w-8 !h-8 ![&>svg]:w-4 ![&>svg]:h-4">
                 <svg
@@ -131,7 +131,7 @@ const TimelineCard = ({
               </IconWrapper>
             </Link>
           ) : (
-            <div className="flex items-center gap-2 md:w-1/2 p-4 md:rounded-bl-lg border border-border-1">
+            <div className="flex items-center gap-2 md:w-1/2 p-4 md:rounded-bl-lg border border-border-1 md:border-r-0 border-b-0 md:border-b-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
