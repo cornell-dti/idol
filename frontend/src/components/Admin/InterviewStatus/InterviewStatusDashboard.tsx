@@ -4,7 +4,7 @@ import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
 import { Emitters } from '../../../utils';
-import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
+import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS, DISPLAY_TO_ROLE_MAP } from '../../../consts';
 import CSVUploadInterviewStatus from './CSVUploadInterviewStatus';
 import Button from '../../Common/Button/Button';
 
@@ -71,7 +71,7 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
     if (applicantFilters.length > 0) {
       filtered = filtered.filter((applicant) =>
         applicantFilters.every(
-          (filter) => applicant.status === filter || applicant.role === displayToRoleMap[filter]
+          (filter) => applicant.status === filter || applicant.role === DISPLAY_TO_ROLE_MAP[filter]
         )
       );
     }
@@ -261,14 +261,6 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
     pm: 'Product Manager',
     business: 'Business',
     lead: 'Lead'
-  };
-
-  const displayToRoleMap: Record<string, GeneralRole> = {
-    Developer: 'developer',
-    Designer: 'designer',
-    'Product Manager': 'pm',
-    Business: 'business',
-    Lead: 'lead'
   };
 
   const colors = {

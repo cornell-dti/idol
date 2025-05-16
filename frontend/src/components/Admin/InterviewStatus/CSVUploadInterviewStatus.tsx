@@ -64,33 +64,24 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
       return;
     }
 
-    try {
-      await Promise.all(
-        rows.map((row) => {
-          // match headers and values : obj -> accumulator, h -> current element in headers array, i -> index of element
-          const record = headers.reduce<Record<string, string>>(
-            (obj, h, i) => ({ ...obj, [h]: row[i] }),
-            {}
-          );
-          const { NetID, 'First Name': first, 'Last Name': last, Role } = record;
-          return InterviewStatusAPI.createInterviewStatus({
-            instance: instanceName,
-            name: `${first} ${last}`,
-            netid: NetID,
-            round: selectedRound,
-            role: DISPLAY_TO_ROLE_MAP[Role],
-            status: 'Undecided' as IntStatus
-          });
-        })
-      );
-    } catch (error) {
-      console.error(error);
-      Emitters.generalError.emit({
-        headerMsg: 'Upload failed',
-        contentMsg: 'One of the entries could not be created.'
-      });
-      return;
-    }
+    await Promise.all(
+      rows.map((row) => {
+        // match headers and values : obj -> accumulator, h -> current element in headers array, i -> index of element
+        const record = headers.reduce<Record<string, string>>(
+          (obj, h, i) => ({ ...obj, [h]: row[i] }),
+          {}
+        );
+        const { NetID, 'First Name': first, 'Last Name': last, Role } = record;
+        return InterviewStatusAPI.createInterviewStatus({
+          instance: instanceName,
+          name: `${first} ${last}`,
+          netid: NetID,
+          round: selectedRound,
+          role: DISPLAY_TO_ROLE_MAP[Role],
+          status: 'Undecided' as IntStatus
+        });
+      })
+    );
 
     setSuccess(true);
     Emitters.generalSuccess.emit({
