@@ -21,7 +21,7 @@ export default function CardLink({
         <Image src={thumbnail} alt={`${title} thumbnail`} fill className="object-cover" />
       </div>
       <div className="p-4 flex flex-col gap-1">
-        <h5>{title}</h5>
+        <h3 className="h5">{title}</h3>
         {description && <p className="text-sm text-foreground-3">{description}</p>}
       </div>
     </Link>
