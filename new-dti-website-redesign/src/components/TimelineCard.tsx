@@ -103,7 +103,7 @@ const TimelineCard = ({
                     </clipPath>
                   </defs>
                 </svg>
-                <p>{datetime.isTentative ? "TBD" : event.location}</p>
+                <p>{datetime.isTentative ? 'TBD' : event.location}</p>
               </div>
               <IconWrapper className="p-2 !w-8 !h-8 ![&>svg]:w-4 ![&>svg]:h-4">
                 <svg
