@@ -27,21 +27,19 @@ export default function TypographyPage() {
 
       <PageSection title="Body">
         <div className="flex flex-col gap-6">
-          {typographyStyles
-            .filter((style) => style.type === 'Body')
-            .map((style, index) => (
-              <div key={index} className="flex items-center gap-8">
-                <div key={index} className="w-20 flex flex-col items-end">
-                  <p className="caps">{style.variant}</p>
-                  <p className="caps text-foreground-3">{style.context}</p>
-                </div>
-                {React.createElement(
-                  style.html,
-                  { className: style.transform === 'uppercase' ? 'uppercase' : '' },
-                  'Building the Future of Tech @ Cornell'
-                )}
+          {bodyStyles.map((style, index) => (
+            <div key={index} className="flex items-center gap-8">
+              <div key={index} className="w-20 flex flex-col items-end">
+                <p className="caps">{style.variant}</p>
+                <p className="caps text-foreground-3">{style.context}</p>
               </div>
-            ))}
+              {React.createElement(
+                style.html,
+                { className: style.transform === 'uppercase' ? 'uppercase' : '' },
+                'Building the Future of Tech @ Cornell'
+              )}
+            </div>
+          ))}
         </div>
       </PageSection>
     </PageLayout>
