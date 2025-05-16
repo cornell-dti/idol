@@ -28,10 +28,8 @@ export const useInterviewSlotStatus = (slot: InterviewSlot): SlotStatus => {
     return slot.lead !== null && slot.lead.email === userEmail ? 'possessed' : 'occupied';
   }
   if (isMember) {
-    if (slot.members.some((mem) => mem === null)) return 'vacant';
-    return slot.members.some((mem) => mem !== null && mem.email === userEmail)
-      ? 'possessed'
-      : 'occupied';
+    if (slot.members.some((mem) => mem && mem.email === userEmail)) return 'possessed';
+    return slot.members.some((mem) => mem === null) ? 'vacant' : 'occupied';
   }
   if (slot.applicant === null) return 'vacant';
   return slot.applicant !== null && slot.applicant.email === userEmail ? 'possessed' : 'occupied';

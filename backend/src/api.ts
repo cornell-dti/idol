@@ -584,7 +584,7 @@ router.get('/interview-slots/applicant/:uuid', async (req, res) => {
   });
 });
 
-router.put('/interview-slot/applicant', async (req, res) => {
+router.put('/interview-slots/applicant', async (req, res) => {
   const userEmail = await getUserEmailFromRequest(req);
   res.status(200).send({
     success: await updateInterviewSlot(req.body, userEmail ?? '', true)

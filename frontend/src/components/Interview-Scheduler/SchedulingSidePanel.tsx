@@ -2,12 +2,7 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
 import { LEAD_ROLES } from 'common-types/constants';
 import { Emitters, getDateString, getTimeString } from '../../utils';
-import {
-  useHasAdminPermission,
-  useHasMemberPermission,
-  useMember,
-  useMembers
-} from '../Common/FirestoreDataProvider';
+import { useHasMemberPermission, useMember, useMembers } from '../Common/FirestoreDataProvider';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 import InterviewSlotDeleteModal from '../Modals/InterviewSlotDeleteModal';
 import styles from './SchedulingSidePanel.module.css';
@@ -24,7 +19,6 @@ const SchedulingSidePanel: React.FC<{
   const [slotMembers, setSlotMembers] = useState(displayedSlot.members);
   const [applicant, setApplicant] = useState(displayedSlot.applicant);
 
-  const isAdmin = useHasAdminPermission();
   const isMember = useHasMemberPermission();
   const userEmail = useUserEmail();
   const members = useMembers();
@@ -152,16 +146,25 @@ const SchedulingSidePanel: React.FC<{
       setSelectedSlot(undefined);
       if (val) {
         setSlots((prev) =>
-          prev.map((slot) => (slot.uuid === edits.uuid ? { ...slot, ...edits } : slot))
+          prev.map((slot) =>
+            slot.uuid === edits.uuid
+              ? {
+                  ...slot,
+                  lead: edits.lead ?? slot.lead,
+                  applicant: edits.applicant ?? slot.applicant,
+                  members: edits.members ?? slot.members
+                }
+              : slot
+          )
         );
         Emitters.generalSuccess.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `You have successfully ${isSigningUp ? 'signed up for this' : 'cancelled'} time slot!`
+          contentMsg: `You have successfully ${isSigningUp ? 'signed up for' : 'cancelled'} this time slot!`
         });
       } else {
         Emitters.generalError.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `Could not ${isSigningUp ? 'sign up for this' : 'cancel'} time slot. Another user may have edited this time slot already.`
+          contentMsg: `Could not ${isSigningUp ? 'sign up for' : 'cancel'} this time slot. Another user may have edited this time slot already.`
         });
         refresh();
         setSelectedSlot(undefined);
@@ -199,24 +202,26 @@ const SchedulingSidePanel: React.FC<{
             <ul>
               {displayedSlot.members.map((member, index) =>
                 isEditing ? (
-                  <Dropdown
-                    key={member?.netid}
-                    selection
-                    value={slotMembers[index]?.email}
-                    options={memberOptions}
-                    onChange={(_, data) =>
-                      setSlotMembers(
-                        slotMembers.map((mem, i) => {
-                          if (i === index) {
-                            return data.value === undefined
-                              ? null
-                              : getMember(data.value as string);
-                          }
-                          return mem;
-                        })
-                      )
-                    }
-                  />
+                  <li key={member?.netid} className={styles.memberListItem}>
+                    <Dropdown
+                      search
+                      selection
+                      value={slotMembers[index]?.email}
+                      options={memberOptions}
+                      onChange={(_, data) =>
+                        setSlotMembers(
+                          slotMembers.map((mem, i) => {
+                            if (i === index) {
+                              return data.value === undefined
+                                ? null
+                                : getMember(data.value as string);
+                            }
+                            return mem;
+                          })
+                        )
+                      }
+                    />
+                  </li>
                 ) : (
                   <li key={member?.netid}>{displayNameOrVacant(member)}</li>
                 )
@@ -226,16 +231,18 @@ const SchedulingSidePanel: React.FC<{
           <hr />
         </>
       )}
-      {(isAdmin || !isMember) && (
+      {(isLead || !isMember) && (
         <div>
           <p>
             Applicant:{' '}
-            {isAdmin && !isEditing
-              ? displayNameOrVacant(displayedSlot.applicant)
-              : displayCensoredName(displayedSlot.applicant)}
+            {!isEditing &&
+              (isLead
+                ? displayNameOrVacant(displayedSlot.applicant)
+                : displayCensoredName(displayedSlot.applicant))}
           </p>
           {isEditing && (
             <Dropdown
+              search
               selection
               value={applicant?.email}
               options={applicantOptions}
@@ -252,7 +259,7 @@ const SchedulingSidePanel: React.FC<{
         </div>
       )}
       <div className={styles.buttonContainer}>
-        {isAdmin && (
+        {isLead && (
           <>
             <InterviewSlotDeleteModal slot={displayedSlot} setSlots={setSlots} />
             <Button basic onClick={handleAdminEditSave}>
@@ -271,7 +278,7 @@ const SchedulingSidePanel: React.FC<{
             color={slotStatus === 'possessed' ? 'red' : undefined}
             onClick={() => handleSignUpCancel(slotStatus === 'vacant')}
           >
-            {slotStatus === 'possessed' ? 'Cancel' : 'Sign Up'}
+            {slotStatus === 'possessed' ? 'Cancel Sign Up' : 'Sign Up'}
           </Button>
         )}
       </div>
