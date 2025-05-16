@@ -65,6 +65,12 @@ const navItems = [
         href: '/design-system/components/icon',
         label: 'Icon',
         description: 'Icon description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/icon-wrapper',
+        label: 'Icon wrapper',
+        description: 'Icon wrapper description bruh.'
       }
     ]
   }
