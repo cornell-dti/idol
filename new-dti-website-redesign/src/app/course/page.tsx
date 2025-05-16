@@ -1,5 +1,7 @@
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
+import CtaSection from '../../components/CtaSection';
+import SectionSep from '../../components/SectionSep';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
@@ -20,15 +22,48 @@ export default function Course() {
         imageAlt="DTI member presenting a course to an auditorium"
       />
 
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the COURSE page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
+      <SectionSep />
 
-        <p className="mt-2">This is the COURSE page</p>
+      <section className="temporarySection">
+        <h4>"Trends in Web Development" section</h4>
       </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"Details about Trends" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"Course staff" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"Past student experiences" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <section className="temporarySection">
+        <h4>"Past student projects" section</h4>
+      </section>
+
+      <SectionSep />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }
