@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from 'semantic-ui-react';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import InterviewStatusDashboard from './InterviewStatusDashboard';
@@ -15,8 +15,11 @@ const InterviewStatusBase: React.FC = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [instanceToDelete, setInstanceToDelete] = useState<string>('');
 
+  useEffect(() => {
+    refresh();
+  }, []);
 
-  const refresh = useCallback(async () => {
+  const refresh = async () => {
     setIsLoading(true);
     const all = await InterviewStatusAPI.getAllInterviewStatuses();
     const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
@@ -35,11 +38,7 @@ const InterviewStatusBase: React.FC = () => {
       setSelected({ instanceName: selected.instanceName, statuses: fresh });
     }
     setIsLoading(false);
-  }, [selected]);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+  };
 
   const openDeleteModal = (name: string) => {
     setInstanceToDelete(name);
