@@ -1,0 +1,72 @@
+[
+  {
+    "image": "/products/images/cureviews.png",
+    "imageAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
+    "name": "CU Reviews",
+    "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
+    "link": "https://www.cureviews.org/",
+    "comingSoon": false,
+    "id": "cureviews"
+  },
+  {
+    "image": "/products/images/courseplan.png",
+    "imageAlt": "A desktop computer next to a laptop, displaying the planning page and the profile page of the Course Plan website",
+    "name": "CoursePlan",
+    "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
+    "link": "https://www.courseplan.io/",
+    "comingSoon": false,
+    "id": "courseplan"
+  },
+  {
+    "image": "/products/images/queuemein.png",
+    "imageAlt": "2 phones side by side, displaying the list of available consulting hours screen and the join queue screen of the Queue Me In website",
+    "name": "Queue Me In",
+    "description": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their classes.",
+    "link": "https://queueme.in/",
+    "comingSoon": false,
+    "id": "queuemein"
+  },
+  {
+    "image": "/products/images/designatcornell.png",
+    "imageAlt": "A browser displaying the hero section of the Design @ Cornell website",
+    "name": "Design @ Cornell",
+    "description": "Design @ Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
+    "link": "https://www.cudesign.io/",
+    "comingSoon": false,
+    "id": "designatcornell"
+  },
+  {
+    "image": "/products/images/zing.png",
+    "imageAlt": "A desktop computer next to a tablet, displaying the landing page and questionnaire page of the Zing website",
+    "name": "Zing",
+    "description": "Collaborating with The Learning Strategies Center (LSC) at Cornell, Zing is an all-in-one web interface to create optimal groups for class projects based on students' study preferences.",
+    "link": "https://zing-lsc-prod.web.app/",
+    "comingSoon": false,
+    "id": "zing"
+  },
+  {
+    "image": "/products/images/cuapts.png",
+    "imageAlt": "A laptop next to a phone, displaying home page and an address page of the CU Apts website",
+    "name": "CU Apts",
+    "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
+    "link": "https://www.cuapts.org/",
+    "comingSoon": false,
+    "id": "cuapts"
+  },
+  {
+    "image": "/products/images/carriage.png",
+    "imageAlt": "A monitor displaying a blurry screen of the Carriage website with the words Coming Soon overlaid on top",
+    "name": "Carriage",
+    "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching next semester.",
+    "comingSoon": true,
+    "id": "carriage"
+  },
+  {
+    "image": "/products/images/cornellgo.png",
+    "imageAlt": "2 phones side by side, displaying the profile page and map section of the Cornell Go Application",
+    "name": "CornellGO",
+    "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
+    "comingSoon": true,
+    "id": "cornellgo"
+  }
+]

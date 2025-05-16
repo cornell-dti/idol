@@ -1,0 +1,103 @@
+.selectorContainer {
+  display: flex;
+  width: 540px;
+  height: 54px;
+  padding: 4px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-default);
+  white-space: nowrap;
+}
+
+.option {
+  display: flex;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  min-width: 0;
+  width: 100%;
+  line-height: 100%;
+  cursor: pointer;
+}
+
+/* Base colors */
+.red {
+  color: var(--accent-strong-no);
+}
+.redSelected {
+  background: var(--accent-strong-no);
+}
+
+.orange {
+  color: var(--accent-no);
+}
+.orangeSelected {
+  background: var(--accent-no);
+}
+
+.yellow {
+  color: var(--accent-maybe);
+}
+.yellowSelected {
+  background: var(--accent-maybe);
+}
+
+.green {
+  color: var(--accent-yes);
+}
+.greenSelected {
+  background: var(--accent-yes);
+}
+
+.darkgreen {
+  color: var(--accent-strong-yes);
+}
+.darkgreenSelected {
+  background: var(--accent-strong-yes);
+}
+
+/* Selected states */
+.selected {
+  display: flex;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  color: var(--bg-default);
+}
+
+.gray {
+  color: var(--fg-dimmest);
+}
+.graySelected {
+  background: var(--border-default);
+  color: var(--fg-default);
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hiddenInput:focus-visible ~ .focusState {
+  opacity: 1;
+}
+
+.focusState {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 6px;
+  outline: 2px solid var(--accent-focus);
+  outline-offset: 2px;
+  opacity: 0;
+}

@@ -23,7 +23,7 @@ const CtaSection = ({
       <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
         <div className="flex flex-col items-center gap-2">
           <h2 className="text-center">{heading}</h2>
-          <h6 className="text-center text-foreground-3">{subheading}</h6>
+          <p className="h6 text-center text-foreground-3">{subheading}</p>
         </div>
 
         <div className="flex gap-4">

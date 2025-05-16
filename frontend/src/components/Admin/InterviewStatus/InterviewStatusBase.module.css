@@ -1,0 +1,38 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.selectedView {
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--fg-dimmest);
+}
+
+.newInstanceCard {
+  border: 2px dashed #ccc !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card {
+  cursor: pointer;
+}
