@@ -24,26 +24,26 @@ export default function Team() {
 
       <SectionSep />
 
-      <section className="h-128">
-        <h2>"We are Cornell DTI" section</h2>
+      <section className="temporarySection">
+        <h4>"We are Cornell DTI" section</h4>
       </section>
 
       <SectionSep />
 
-      <section className="h-128">
-        <h2>"Who we are" section</h2>
+      <section className="temporarySection">
+        <h4>"Who we are" section</h4>
       </section>
 
       <SectionSep />
 
-      <section className="h-128">
-        <h2>"Introducing the team" section</h2>
+      <section className="temporarySection">
+        <h4>"Introducing the team" section</h4>
       </section>
 
       <SectionSep />
 
-      <section className="h-128">
-        <h2>"Beyond DTI" section</h2>
+      <section className="temporarySection">
+        <h4>"Beyond DTI" section</h4>
       </section>
 
       <SectionSep />
