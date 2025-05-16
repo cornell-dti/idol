@@ -1,11 +1,11 @@
-import navItems from './nav.config';
+import navItems, { NavGroup } from './nav.config';
 import CardLink from './CardLink';
 import PageLayout from './PageLayout';
 import PageSection from './PageSection';
 
 export default function DesignSystem() {
-  const sections = navItems.filter(
-    (group): group is { category: string; items: any[] } => group.category !== null
+  const sections: NavGroup[] = navItems.filter(
+    (group): group is NavGroup & { category: string } => group.category !== null
   );
 
   return (

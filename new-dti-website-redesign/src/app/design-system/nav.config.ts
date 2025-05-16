@@ -1,4 +1,16 @@
-const navItems = [
+export type NavItem = {
+  thumbnail: string;
+  href: string;
+  label: string;
+  description: string;
+};
+
+export type NavGroup = {
+  category: string | null;
+  items: NavItem[];
+};
+
+const navItems: NavGroup[] = [
   {
     category: null,
     items: [
