@@ -22,7 +22,7 @@ function ColorCard({ color, name }: ColorCardProps) {
   );
 }
 
-export default function Color() {
+export default function ColorPage() {
   const [resolvedColors, setResolvedColors] = useState<Record<string, string>>({});
 
   useEffect(() => {
