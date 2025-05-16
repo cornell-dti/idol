@@ -6,6 +6,7 @@ import Layout from '../../components/Layout';
 import products from './products.json';
 import Product from './Product';
 import Hero from '../../components/Hero';
+import CtaSection from '../../components/CtaSection';
 
 export const metadata = {
   title: 'DTI PRODUCTS PAGE',
@@ -121,15 +122,18 @@ export default function Products() {
         </React.Fragment>
       ))}
 
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the PRODUCTS page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
+      <SectionSep />
 
-        <p className="mt-2">This is the PRODUCTS page</p>
-      </section>
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }

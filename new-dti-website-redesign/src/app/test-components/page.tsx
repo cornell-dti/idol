@@ -33,7 +33,15 @@ export default function TestComponents() {
         Back
       </Link>
 
-      <h3 className="text-accent-blue">TEST PAGE WITH STYLES & COMPONENTS:</h3>
+      <h3 className="text-accent-blue">Test page with styles + components:</h3>
+
+      <h2 className="text-accent-purple">
+        NOTE: this page will soon be deprecated in favor of the
+        <Link href="/design-system" className="text-accent-red underline">
+          Design System library
+        </Link>
+        !
+      </h2>
 
       <div className="flex flex-col gap-8">
         <h4>Typography</h4>
@@ -229,7 +237,7 @@ export default function TestComponents() {
       <div className="flex flex-col gap-6">
         <h4>Icon wrappers</h4>
         <div className="flex gap-4">
-          <IconWrapper size="default">
+          <IconWrapper size="default" type="primary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -249,7 +257,49 @@ export default function TestComponents() {
             </svg>
           </IconWrapper>
 
-          <IconWrapper size="small">
+          <IconWrapper size="small" type="primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-rocket-icon lucide-rocket"
+            >
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+            </svg>
+          </IconWrapper>
+        </div>
+
+        <div className="flex gap-4">
+          <IconWrapper size="default" type="default">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-rocket-icon lucide-rocket"
+            >
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+            </svg>
+          </IconWrapper>
+
+          <IconWrapper size="small" type="default">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

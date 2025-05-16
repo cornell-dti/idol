@@ -1,11 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
-import Footer from '../../components/Footer';
 import Marquee from '../../components/Marquee';
 import SectionTitle from '../../components/SectionTitle';
 import LogoBox from '../../components/LogoBox';
@@ -336,7 +336,13 @@ export default function TestPage() {
 
       <section className="h-128" />
 
-      <Footer />
+      <h2 className="text-accent-purple">
+        NOTE: this page will soon be deprecated in favor of the
+        <Link href="/design-system" className="text-accent-red underline">
+          Design System library
+        </Link>
+        !
+      </h2>
     </Layout>
   );
 }

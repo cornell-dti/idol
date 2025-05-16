@@ -87,7 +87,7 @@ h1,
 .h1 {
   font-size: 47.78px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
 }
@@ -103,7 +103,7 @@ h2,
 .h2 {
   font-size: 39.81px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
 }
@@ -158,33 +158,23 @@ h6,
 p {
   font-size: 16px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 160%;
 }
 
 p.small {
   font-size: 13.33px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 160%;
 }
 
 p.caps {
   font-size: 16px;
   font-style: normal;
-  font-weight: 500;
-  line-height: 160%;
   letter-spacing: 5%;
   text-transform: uppercase;
 }
 
 p.caps.small {
   font-size: 13.33px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 160%;
-  letter-spacing: 5%;
-  text-transform: uppercase;
 }
 
 a {
@@ -212,6 +202,13 @@ main {
 subsections of the carousel */
 .controlChildDivWidth > div > div {
   min-width: fit-content;
+}
+
+/* Temporary styles for skeleton UI */
+.temporarySection {
+  padding: 32px;
+  height: 500px;
+  background: var(--background-2);
 }
 
 ::selection {
