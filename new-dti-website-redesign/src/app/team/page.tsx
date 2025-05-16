@@ -1,5 +1,7 @@
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
+import CtaSection from '@/components/CtaSection';
+import SectionSep from '@/components/SectionSep';
 
 export const metadata = {
   title: 'DTI TEAM PAGE',
@@ -19,19 +21,43 @@ export default function Team() {
         image="/team/hero.png"
         imageAlt="DTI members in front of Duffield hall"
       />
-      <section className="bg-background-2 h-[400px]">
-        <h1>Team</h1>
-        <p className="mt-2">This is the team page</p>
-      </section>
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the team page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
 
-        <p className="mt-2">This is the team page</p>
+      <SectionSep />
+
+      <section className="h-128">
+        <h2>"We are Cornell DTI" section</h2>
       </section>
+
+      <SectionSep />
+
+      <section className="h-128">
+        <h2>"Who we are" section</h2>
+      </section>
+
+      <SectionSep />
+
+      <section className="h-128">
+        <h2>"Introducing the team" section</h2>
+      </section>
+
+      <SectionSep />
+
+      <section className="h-128">
+        <h2>"Beyond DTI" section</h2>
+      </section>
+
+      <SectionSep />
+
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }
