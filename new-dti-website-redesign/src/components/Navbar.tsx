@@ -50,11 +50,12 @@ export default function Navbar() {
       const { offsetLeft, offsetWidth } = linkEl;
       const newStyle = { left: offsetLeft, width: offsetWidth };
 
+      // avoid animating from a stale position when coming from Home or Apply
       const cameFromHomeOrApply = prevPathname.current === '/' || prevPathname.current === '/apply';
       const nowIsNavLink = navLinks.some((link) => link.href === pathname);
 
       if (cameFromHomeOrApply && nowIsNavLink) {
-        // just set highlight directly with fade-in (no slide animation)
+        // just set highlight directly  (no slide animation)
         setHighlightStyle(newStyle);
         prevHighlight.current = newStyle;
       } else {
