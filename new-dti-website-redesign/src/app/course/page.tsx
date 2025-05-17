@@ -22,8 +22,6 @@ export default function Course() {
         imageAlt="DTI member presenting a course to an auditorium"
       />
 
-      <SectionSep />
-
       <section className="temporarySection">
         <h4>Trends in Web Development section</h4>
       </section>

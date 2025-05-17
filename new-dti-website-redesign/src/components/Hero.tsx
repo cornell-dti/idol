@@ -71,7 +71,7 @@ const Hero = ({
   }
 
   return (
-    <section className="hero [&+*]:rounded-t-lg mb-1">
+    <section className="hero [&+*]:rounded-t-lg [&+*]:overflow-hidden mb-1">
       {image && (
         <div
           className="flex items-end h-[800px] relative bg-no-repeat bg-center bg-cover"

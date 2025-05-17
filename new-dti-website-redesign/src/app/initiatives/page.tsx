@@ -24,8 +24,6 @@ export default function Initiatives() {
         imageAlt="DTI members engaging with the community"
       />
 
-      <SectionSep />
-
       <section>
         <Image
           src="/initiatives/giving-back.png"
