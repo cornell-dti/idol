@@ -84,14 +84,14 @@ const Hero = ({
             bg-[linear-gradient(180deg,rgba(13,13,13,0.8)_0%,rgba(13,13,13,0)_43.85%),radial-gradient(116.68%_116.67%_at_50%_-16.67%,rgba(13,13,13,0)_40%,#0D0D0D_100%)]"
           ></div>
 
-          <div className="flex z-10 items-center w-full p-8 pb-16 max-w-[1184px] mx-auto">
-            <div className="max-w-1/2">
+          <div className="flex flex-col md:flex-row z-10 md:items-center w-full p-8 pb-16 max-w-[1184px] mx-auto gap-4">
+            <div className="md:max-w-1/2">
               <h1>{heading}</h1>
               <p className="h6 text-foreground-3">{subheading}</p>
             </div>
 
             {(button1Label && button1Link) || (button2Label && button2Link) ? (
-              <div className="flex flex-1/2 gap-4 justify-end">
+              <div className="flex md:flex-1/2 gap-4 md:justify-end">
                 {button1Label && button1Link && (
                   <Button
                     variant="primary"
