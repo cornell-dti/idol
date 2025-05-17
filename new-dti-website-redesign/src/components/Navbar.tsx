@@ -34,6 +34,9 @@ export default function Navbar() {
   // old one to the new one smoothly
   const prevHighlight = useRef<{ left: number; width: number } | null>(null);
 
+  // to track previous path
+  const prevPathname = useRef<string | null>(null);
+
   // using useLayoutEffect instead of useEffect to ensure that the layout reads and
   // updates the position/width before the screen repaints (to prevent flicker and
   // achieve the smooth animation
@@ -47,21 +50,36 @@ export default function Navbar() {
       const { offsetLeft, offsetWidth } = linkEl;
       const newStyle = { left: offsetLeft, width: offsetWidth };
 
-      // all of this animates movement of highlight from old link to new link smoothly
-      // if there's a previous highlight position, jump to it first, then animate to new one
-      // otherwise set new position directly
-      if (prevHighlight.current) {
-        setHighlightStyle(prevHighlight.current);
+      const cameFromHomeOrApply = prevPathname.current === '/' || prevPathname.current === '/apply';
+      const nowIsNavLink = navLinks.some((link) => link.href === pathname);
 
-        requestAnimationFrame(() => {
-          setHighlightStyle(newStyle);
-          prevHighlight.current = newStyle;
-        });
-      } else {
+      if (cameFromHomeOrApply && nowIsNavLink) {
+        // just set highlight directly with fade-in (no slide animation)
         setHighlightStyle(newStyle);
         prevHighlight.current = newStyle;
+      } else {
+        // all of this animates movement of highlight from old link to new link smoothly
+        // if there's a previous highlight position, jump to it first, then animate to new one
+        // otherwise set new position directly
+        if (prevHighlight.current) {
+          setHighlightStyle(prevHighlight.current);
+
+          requestAnimationFrame(() => {
+            setHighlightStyle(newStyle);
+            prevHighlight.current = newStyle;
+          });
+        } else {
+          setHighlightStyle(newStyle);
+          prevHighlight.current = newStyle;
+        }
       }
+    } else {
+      // no highlight for current pathname (/home and /apply)
+      setHighlightStyle(null);
+      prevHighlight.current = null;
     }
+
+    prevPathname.current = pathname;
   }, [pathname]);
 
   return (
