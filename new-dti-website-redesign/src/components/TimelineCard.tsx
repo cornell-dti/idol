@@ -29,7 +29,7 @@ const TimelineCard = ({
   return (
     <div className="max-w-[504px]">
       <div className="flex flex-col gap-2 p-4 rounded-t-lg border border-border-1 border-b-transparent">
-        <IconWrapper size="small">
+        <IconWrapper>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -105,7 +105,7 @@ const TimelineCard = ({
                 </svg>
                 <p>{datetime.isTentative ? 'TBD' : event.location}</p>
               </div>
-              <IconWrapper className="p-2 !w-8 !h-8 ![&>svg]:w-4 ![&>svg]:h-4">
+              <IconWrapper size="small">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
