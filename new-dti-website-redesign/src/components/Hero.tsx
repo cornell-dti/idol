@@ -13,6 +13,7 @@ type Props = {
   image?: string;
   imageAlt?: string;
   centered?: boolean;
+  className?: string;
 };
 
 const Hero = ({
@@ -24,11 +25,12 @@ const Hero = ({
   button2Link,
   image,
   imageAlt,
-  centered = false
+  centered = false,
+  className
 }: Props): ReactNode => {
   if (centered) {
     return (
-      <section className="flex flex-col-reverse md:flex-col">
+      <section className={`flex flex-col-reverse md:flex-col ${className}`}>
         <div className="flex flex-col p-4 outline-[0.5px] outline-border-1 sm:p-8">
           <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
             <div className="flex flex-col items-center gap-2">
@@ -71,7 +73,7 @@ const Hero = ({
   }
 
   return (
-    <section className="hero [&+*]:rounded-t-lg [&+*]:overflow-hidden mb-1">
+    <section className={`${className} hero [&+*]:rounded-t-lg [&+*]:overflow-hidden mb-1`}>
       {image && (
         <div
           className="flex items-end h-[800px] relative bg-no-repeat bg-center bg-cover"

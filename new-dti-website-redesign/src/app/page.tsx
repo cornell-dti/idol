@@ -48,6 +48,7 @@ export default function Home() {
           image="/home/hero.png"
           imageAlt="DTI members in front of Duffield Hall"
           centered
+          className="pt-20"
         />
 
         <SectionTitle heading="Our products" smallCaps />
