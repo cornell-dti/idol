@@ -10,9 +10,12 @@ type Props = {
 
 const Layout = ({ children }: Props): React.ReactElement => (
   <>
-    <DevNavbar />
+    {/* <DevNavbar /> */}
 
-    <main role="main" className="max-w-[1184px] mx-4 sm:mx-8 md:mx-32 lg:mx-auto">
+    <main
+      role="main"
+      // className="max-w-[1184px] mx-4 sm:mx-8 md:mx-32 lg:mx-auto"
+    >
       {children}
     </main>
 

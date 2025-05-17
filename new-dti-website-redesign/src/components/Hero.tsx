@@ -71,43 +71,46 @@ const Hero = ({
   }
 
   return (
-    <section>
+    <section className="hero">
       {image && (
-        <Image
-          src={image}
-          alt={imageAlt || 'Hero image alt text'}
-          width={1184}
-          height={600}
-          className="outline-[0.5px] outline-border-1 md:outline-0"
-        />
-      )}
-      <div className="flex-col md:flex-row flex">
-        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-border-1">
-          <h1>{heading}</h1>
-          <p className="h6 text-foreground-3">{subheading}</p>
-        </div>
+        <div
+          className="flex items-end h-[700px] relative bg-no-repeat bg-center bg-cover"
+          style={{ backgroundImage: `url('${image}')` }}
+        >
+          <div
+            className="absolute inset-0 w-full h-full z-5
+            bg-[linear-gradient(180deg,rgba(13,13,13,0.8)_0%,rgba(13,13,13,0)_43.85%),radial-gradient(116.68%_116.67%_at_50%_-16.67%,rgba(13,13,13,0)_40%,#0D0D0D_100%)]"
+          ></div>
 
-        {(button1Label && button1Link) || (button2Label && button2Link) ? (
-          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-border-1 md:justify-center max-w-1/4">
-            {button1Label && button1Link && (
-              <Button
-                variant="primary"
-                label={button1Label}
-                href={button1Link}
-                className="md:w-full"
-              />
-            )}
-            {button2Label && button2Link && (
-              <Button
-                variant="secondary"
-                label={button2Label}
-                href={button2Link}
-                className="md:w-full"
-              />
-            )}
+          <div className="flex z-10 items-center w-full p-8 max-w-[1184px] mx-auto">
+            <div className="max-w-1/2">
+              <h1>{heading}</h1>
+              <p className="h6 text-foreground-3">{subheading}</p>
+            </div>
+
+            {(button1Label && button1Link) || (button2Label && button2Link) ? (
+              <div className="flex flex-1/2 gap-4 justify-end">
+                {button1Label && button1Link && (
+                  <Button
+                    variant="primary"
+                    label={button1Label}
+                    href={button1Link}
+                    className="w-fit"
+                  />
+                )}
+                {button2Label && button2Link && (
+                  <Button
+                    variant="secondary"
+                    label={button2Label}
+                    href={button2Link}
+                    className="w-fit"
+                  />
+                )}
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
+        </div>
+      )}
     </section>
   );
 };

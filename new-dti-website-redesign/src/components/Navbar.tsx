@@ -84,7 +84,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-10 bg-background-1 
+        className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-10 
         mx-4 sm:mx-8 md:mx-32 lg:mx-auto 
         [width:calc(100%-2rem)] sm:[width:calc(100%-4rem)] md:[width:calc(100%-16rem)] 
         lg:left-1/2 lg:-translate-x-1/2 lg:transform"
