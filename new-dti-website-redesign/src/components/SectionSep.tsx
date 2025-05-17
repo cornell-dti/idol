@@ -8,7 +8,7 @@ export default function SectionSep({ grid = false }: SectionSepProps) {
   }
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden sectionSep border-border-1 border-l-1 border-r-1">
       <div className="flex justify-center">
         {Array.from({ length: 16 }).map((_, i) => (
           <div
