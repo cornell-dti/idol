@@ -102,10 +102,7 @@ export default function Products() {
         button2Label="View products"
         button2Link="/"
         image="/products/hero.png"
-        imageAlt="DTI students brainstorming with sticky notes"
       />
-
-      {/* <SectionSep /> */}
 
       <section className="flex flex-wrap [&>*:nth-child(4)]:border-r-0 [&>*:nth-child(8)]:border-r-0">
         {logos.map((logo, index) => (

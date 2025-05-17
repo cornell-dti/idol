@@ -10,7 +10,6 @@ type Props = {
   button2Label?: string;
   button2Link?: string;
   image?: string;
-  imageAlt?: string;
   centered?: boolean;
   className?: string;
 };
@@ -23,7 +22,6 @@ const Hero = ({
   button2Label,
   button2Link,
   image,
-  imageAlt,
   className
 }: Props): ReactNode => {
   return (

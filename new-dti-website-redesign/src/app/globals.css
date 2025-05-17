@@ -187,11 +187,6 @@ section:not(.hero),
   outline: 0.5px solid var(--border-1);
 }
 
-main {
-  /* offset by height of navbar */
-  /* padding-top: 80px; */
-}
-
 section:not(.hero),
 .sectionSep {
   max-width: 1184px;

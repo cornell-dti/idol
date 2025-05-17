@@ -19,7 +19,6 @@ export default function Course() {
         button2Label="Apply to DTI"
         button2Link="/apply"
         image="/course/hero.png"
-        imageAlt="DTI member presenting a course to an auditorium"
       />
 
       <section className="temporarySection">

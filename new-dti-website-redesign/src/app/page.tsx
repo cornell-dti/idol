@@ -70,7 +70,6 @@ export default function Home() {
           button2Label="Meet the team"
           button2Link="/team"
           image="/home/hero.png"
-          imageAlt="DTI members in front of Duffield Hall"
         />
 
         <section className="flex border-1 border-border-1 border-b-0 flex-wrap">
