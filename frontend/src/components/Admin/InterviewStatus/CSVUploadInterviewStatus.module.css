@@ -1,0 +1,8 @@
+.csvButton {
+  display: inline-flex;
+  align-items: center;
+}
+.notSelected {
+  color: var(--accent-no);
+  margin: 0 0 0 8px;
+}

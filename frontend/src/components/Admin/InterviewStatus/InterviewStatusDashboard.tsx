@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Table,
-  Header,
-  Loader,
-  Button,
-  Dropdown,
-  DropdownProps,
-  Checkbox
-} from 'semantic-ui-react';
+import { Table, Header, Loader, Dropdown, DropdownProps, Checkbox } from 'semantic-ui-react';
 import styles from './InterviewStatusDashboard.module.css';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import AddInterviewStatusForm from './AddInterviewStatusForm';
 import { Emitters } from '../../../utils';
-import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS } from '../../../consts';
+import { ROLE_OPTIONS, ROUND_OPTIONS, STATUS_OPTIONS, DISPLAY_TO_ROLE_MAP } from '../../../consts';
+import CSVUploadInterviewStatus from './CSVUploadInterviewStatus';
+import Button from '../../Common/Button/Button';
 
 interface InterviewStatusDashboardProps {
   instanceName: string;
   statuses: InterviewStatus[];
+  refresh: () => void;
 }
 
 const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
   instanceName,
-  statuses
+  statuses,
+  refresh
 }) => {
   const [applicants, setApplicants] = useState<InterviewStatus[]>([]);
   const [filteredApplicants, setFilteredApplicants] = useState<InterviewStatus[]>([]);
@@ -75,7 +71,7 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
     if (applicantFilters.length > 0) {
       filtered = filtered.filter((applicant) =>
         applicantFilters.every(
-          (filter) => applicant.status === filter || applicant.role === displayToRoleMap[filter]
+          (filter) => applicant.status === filter || applicant.role === DISPLAY_TO_ROLE_MAP[filter]
         )
       );
     }
@@ -267,14 +263,6 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
     lead: 'Lead'
   };
 
-  const displayToRoleMap: Record<string, GeneralRole> = {
-    Developer: 'developer',
-    Designer: 'designer',
-    'Product Manager': 'pm',
-    Business: 'business',
-    Lead: 'lead'
-  };
-
   const colors = {
     Accepted: 'var(--accent-yes)',
     Undecided: 'var(--accent-maybe)',
@@ -312,19 +300,13 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         />
       </div>
       <div className={styles.csvButton}>
-        <Button onClick={handleCopyEmails}>Copy Emails</Button>
-        <Button onClick={handleDeleteStatus}>Delete Status</Button>
-        <Button onClick={handleProceed}>Proceed to Next Round</Button>
-        <Button className={styles.acceptButton} onClick={() => updateStatus('Accepted')}>
-          Accept
-        </Button>
-        <Button className={styles.rejectButton} onClick={() => updateStatus('Rejected')}>
-          Reject
-        </Button>
-        <Button onClick={() => updateStatus('Waitlisted')}>Waitlist</Button>
-        <Button className={styles.undecideButton} onClick={() => updateStatus('Undecided')}>
-          Undecide
-        </Button>
+        <Button variant="primary" label="Copy Emails" onClick={handleCopyEmails} />
+        <Button variant="negative" label="Delete Status" onClick={handleDeleteStatus} />
+        <Button label="Proceed to Next Round" onClick={handleProceed} />
+        <Button label="Accept" onClick={() => updateStatus('Accepted')} />
+        <Button label="Reject" onClick={() => updateStatus('Rejected')} />
+        <Button label="Waitlist" onClick={() => updateStatus('Waitlisted')} />
+        <Button label="Undecide" onClick={() => updateStatus('Undecided')} />
       </div>
       <Table celled selectable striped>
         <Table.Header>
@@ -364,6 +346,8 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         </Table.Body>
       </Table>
       <div className={styles.addForm}>
+        <CSVUploadInterviewStatus instanceName={instanceName} onDone={refresh} />
+        <h3>Add applicants one at a time</h3>
         <AddInterviewStatusForm onAddApplicant={handleAddApplicant} instanceName={instanceName} />
       </div>
     </div>
