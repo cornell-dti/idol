@@ -24,7 +24,8 @@ const Hero = ({
   image,
   className
 }: Props): ReactNode => (
-  <section className={`${className} hero [&+*]:rounded-t-lg [&+*]:overflow-hidden mb-1`}>
+  // sets border radius for the sibling element right after it
+  <section className={`${className} hero [&+*]:rounded-t-2xl [&+*]:overflow-hidden mb-1`}>
     {image && (
       <div
         className="flex items-end h-[800px] relative bg-no-repeat bg-center bg-cover"

@@ -46,6 +46,7 @@ function StatItem({ value, label, reverse = false }: StatItemProps) {
   );
 }
 
+// TODO: finalize these values with actual, real numbers lol
 const stats = [
   { value: '23,000', label: 'users' },
   { value: '11', label: 'products' },
