@@ -19,6 +19,10 @@ export default function Navbar() {
     { href: '/sponsor', label: 'Sponsor' }
   ];
 
+  // ######################################
+  // NAVBAR LINK HIGHLIGHT ANIMATION LOGIC:
+  // ######################################
+
   // to only show the highlight on the links above (not on Home or Apply)
   const isNavLink = navLinks.some((link) => link.href === pathname);
 
@@ -81,15 +85,21 @@ export default function Navbar() {
     prevPathname.current = pathname;
   }, [pathname]);
 
+  // ####################################
+  // NAVBAR CHANGE COLOR ON SCROLL LOGIC:
+  // ####################################
+
   const [scrolledPast, setScrolledPast] = useState(false);
 
+  // tracks if user has scrolled past treshold and updates state accordingly
   useEffect(() => {
+    const scrollThreshold = 770;
     let ticking = false;
 
     const onScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrolledPast(window.scrollY > 770);
+          setScrolledPast(window.scrollY > scrollThreshold);
           ticking = false;
         });
         ticking = true;
@@ -98,8 +108,7 @@ export default function Navbar() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Initial check in case user reloads mid-scroll
-    setScrolledPast(window.scrollY > 770);
+    setScrolledPast(window.scrollY > scrollThreshold);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -126,7 +135,7 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <div className="flex gap-2 items-center">
-          <ul className="hidden min-[1200px]:flex text-foreground-3 h-10 items-center relative">
+          <ul className="hidden min-[1200px]:flex h-10 items-center relative">
             {navLinks.map(({ href, label }, i) => (
               <li key={href} className="h-10 flex items-center">
                 <Link
@@ -152,7 +161,6 @@ export default function Navbar() {
                   left: highlightStyle.left,
                   width: highlightStyle.width,
                   opacity: isNavLink ? 1 : 0,
-                  pointerEvents: isNavLink ? 'auto' : 'none',
                   transition:
                     'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1), opacity 0.3s ease'
                 }}
