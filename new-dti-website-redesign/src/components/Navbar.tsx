@@ -19,6 +19,9 @@ export default function Navbar() {
     { href: '/sponsor', label: 'Sponsor' }
   ];
 
+  // to only show the highlight on the links above (not on Home or Apply)
+  const isNavLink = navLinks.some((link) => link.href === pathname);
+
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLSpanElement>(null);
 
@@ -97,6 +100,7 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+
             {highlightStyle && (
               <span
                 className="bottom-0 absolute -z-10 rounded-full h-10 bg-background-2"
@@ -104,8 +108,10 @@ export default function Navbar() {
                 style={{
                   left: highlightStyle.left - 16,
                   width: highlightStyle.width + 32,
+                  opacity: isNavLink ? 1 : 0,
+                  pointerEvents: isNavLink ? 'auto' : 'none',
                   transition:
-                    'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1)'
+                    'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1), opacity 0.3s ease'
                 }}
               />
             )}
