@@ -40,7 +40,7 @@ export default function FeatureSection({
 
         {eyebrowText && <p className="caps text-foreground-3">{eyebrowText}</p>}
 
-        <h2>{heading}</h2>
+        <h2 className="h3">{heading}</h2>
         <p className="text-foreground-3">{description}</p>
       </div>
 

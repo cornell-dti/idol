@@ -35,7 +35,7 @@ export default function Initiatives() {
         />
 
         <div className="flex flex-col gap-2 p-8">
-          <h2>Giving back to the community</h2>
+          <h2 className="h3">Giving back to the community</h2>
 
           <p className="text-foreground-2">
             Young students can learn Scratch to create their own games and animations, and Figma to
