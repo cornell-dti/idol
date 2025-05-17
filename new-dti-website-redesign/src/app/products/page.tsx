@@ -76,7 +76,7 @@ const logos: Logo[] = [
 
 const LogoBox: React.FC<Logo> = ({ src, alt, width, height, anchor }) => (
   <Link
-    className="flex items-center justify-center w-1/4 h-24 border border-border-1 hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
+    className="flex items-center justify-center w-1/4 h-24 border-border-1 border-r-1 border-b-1 hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
     href={anchor}
     aria-label={`Jump to ${alt.replace(/ logo$/i, '')} product`}
   >
@@ -105,13 +105,13 @@ export default function Products() {
         imageAlt="DTI students brainstorming with sticky notes"
       />
 
-      <SectionSep />
+      {/* <SectionSep /> */}
 
-      <div className="flex flex-wrap">
+      <section className="flex flex-wrap [&>*:nth-child(4)]:border-r-0 [&>*:nth-child(8)]:border-r-0">
         {logos.map((logo, index) => (
           <LogoBox key={index} {...logo} />
         ))}
-      </div>
+      </section>
 
       <SectionSep />
 
