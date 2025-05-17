@@ -66,7 +66,6 @@ export default function CSVUploadInterviewStatus({ instanceName, onDone }: CSVUp
 
     await Promise.all(
       rows.map((row) => {
-        // match headers and values : obj -> accumulator, h -> current element in headers array, i -> index of element
         const record = headers.reduce<Record<string, string>>(
           (obj, h, i) => ({ ...obj, [h]: row[i] }),
           {}
