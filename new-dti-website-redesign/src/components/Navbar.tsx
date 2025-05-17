@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useRef, useState, useLayoutEffect } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
 
@@ -18,6 +18,10 @@ export default function Navbar() {
     { href: '/initiatives', label: 'Initiatives' },
     { href: '/sponsor', label: 'Sponsor' }
   ];
+
+  // ######################################
+  // NAVBAR LINK HIGHLIGHT ANIMATION LOGIC:
+  // ######################################
 
   // to only show the highlight on the links above (not on Home or Apply)
   const isNavLink = navLinks.some((link) => link.href === pathname);
@@ -81,13 +85,43 @@ export default function Navbar() {
     prevPathname.current = pathname;
   }, [pathname]);
 
+  // ####################################
+  // NAVBAR CHANGE COLOR ON SCROLL LOGIC:
+  // ####################################
+
+  const [scrolledPast, setScrolledPast] = useState(false);
+
+  // tracks if user has scrolled past treshold and updates state accordingly
+  useEffect(() => {
+    const scrollThreshold = 770;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolledPast(window.scrollY > scrollThreshold);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    setScrolledPast(window.scrollY > scrollThreshold);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
     <>
       <nav
-        className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-10 bg-background-1 
-        mx-4 sm:mx-8 md:mx-32 lg:mx-auto 
-        [width:calc(100%-2rem)] sm:[width:calc(100%-4rem)] md:[width:calc(100%-16rem)] 
-        lg:left-1/2 lg:-translate-x-1/2 lg:transform"
+        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-20 w-full left-1/2 translate-x-[-50%] transform
+        transition-[background-color] duration-[300ms]
+        ${scrolledPast ? 'bg-background-1' : ''}
+        `}
       >
         <Link href="/" className="focusState rounded-sm">
           <Image
@@ -101,7 +135,7 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <div className="flex gap-2 items-center">
-          <ul className="hidden min-[1200px]:flex text-foreground-3 h-10 items-center relative">
+          <ul className="hidden min-[1200px]:flex h-10 items-center relative">
             {navLinks.map(({ href, label }, i) => (
               <li key={href} className="h-10 flex items-center">
                 <Link
@@ -121,13 +155,12 @@ export default function Navbar() {
             {/* Gray pill shape that highlights currently selected page */}
             {highlightStyle && (
               <span
-                className="bottom-0 absolute -z-10 rounded-full h-10 bg-background-2"
+                className="bottom-0 absolute -z-10 rounded-full h-10 bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px]"
                 ref={highlightRef}
                 style={{
                   left: highlightStyle.left,
                   width: highlightStyle.width,
                   opacity: isNavLink ? 1 : 0,
-                  pointerEvents: isNavLink ? 'auto' : 'none',
                   transition:
                     'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1), opacity 0.3s ease'
                 }}

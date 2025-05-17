@@ -21,10 +21,7 @@ export default function Initiatives() {
         button2Label="Learn more"
         button2Link="/"
         image="/initiatives/hero.png"
-        imageAlt="DTI members engaging with the community"
       />
-
-      <SectionSep />
 
       <section>
         <Image

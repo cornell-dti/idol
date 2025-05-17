@@ -19,10 +19,7 @@ export default function Sponsor() {
         button2Label="Get in touch"
         button2Link="/"
         image="/sponsor/hero.png"
-        imageAlt="DTI members collaborating together in front of a laptop"
       />
-
-      <SectionSep />
 
       <section className="temporarySection">
         <h4>Become a sponsor! section</h4>

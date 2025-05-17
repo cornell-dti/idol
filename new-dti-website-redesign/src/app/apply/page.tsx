@@ -22,10 +22,7 @@ export default function Apply() {
         button2Label="Role descriptions"
         button2Link="/"
         image="/apply/hero.png"
-        imageAlt="DTI members hosting a recruitment event with prospective applicants"
       />
-
-      <SectionSep />
 
       <section className="temporarySection">
         <h4>Application timeline section</h4>
