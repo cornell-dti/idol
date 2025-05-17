@@ -73,7 +73,7 @@ export default function Home() {
           imageAlt="DTI members in front of Duffield Hall"
         />
 
-        <section className="flex border-1 border-border-1 flex-wrap">
+        <section className="flex border-1 border-border-1 border-b-0 flex-wrap">
           {stats.map((stat, index) => (
             <StatItem key={index} value={stat.value} label={stat.label} />
           ))}
