@@ -30,7 +30,7 @@ const Product = ({
     <div className="p-4 md:p-8 flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
-          <h3>{name}</h3>
+          <h2 className="h3">{name}</h2>
           {comingSoon && <Chip label="Coming soon" color="red" />}
         </div>
         <p className="text-foreground-3">{description}</p>
