@@ -101,8 +101,8 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="flex gap-6 items-center">
-          <ul className="hidden min-[1200px]:flex gap-6 text-foreground-3 h-10 items-center relative">
+        <div className="flex gap-2 items-center">
+          <ul className="hidden min-[1200px]:flex text-foreground-3 h-10 items-center relative">
             {navLinks.map(({ href, label }, i) => (
               <li key={href} className="h-10 flex items-center">
                 <Link
@@ -110,7 +110,7 @@ export default function Navbar() {
                   ref={(el) => {
                     linkRefs.current[i] = el;
                   }}
-                  className={`transition-[color] h-10 duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-sm font-medium ${
+                  className={`transition-[color] h-10 px-4 duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-full font-medium ${
                     pathname === href ? 'text-foreground-1' : 'text-foreground-3'
                   }`}
                 >
@@ -125,8 +125,8 @@ export default function Navbar() {
                 className="bottom-0 absolute -z-10 rounded-full h-10 bg-background-2"
                 ref={highlightRef}
                 style={{
-                  left: highlightStyle.left - 16,
-                  width: highlightStyle.width + 32,
+                  left: highlightStyle.left,
+                  width: highlightStyle.width,
                   opacity: isNavLink ? 1 : 0,
                   pointerEvents: isNavLink ? 'auto' : 'none',
                   transition:
