@@ -58,21 +58,19 @@ export default function Navbar() {
         // just set highlight directly  (no slide animation)
         setHighlightStyle(newStyle);
         prevHighlight.current = newStyle;
-      } else {
+      } else if (prevHighlight.current) {
         // all of this animates movement of highlight from old link to new link smoothly
         // if there's a previous highlight position, jump to it first, then animate to new one
         // otherwise set new position directly
-        if (prevHighlight.current) {
-          setHighlightStyle(prevHighlight.current);
+        setHighlightStyle(prevHighlight.current);
 
-          requestAnimationFrame(() => {
-            setHighlightStyle(newStyle);
-            prevHighlight.current = newStyle;
-          });
-        } else {
+        requestAnimationFrame(() => {
           setHighlightStyle(newStyle);
           prevHighlight.current = newStyle;
-        }
+        });
+      } else {
+        setHighlightStyle(newStyle);
+        prevHighlight.current = newStyle;
       }
     } else {
       // no highlight for current pathname (/home and /apply)
