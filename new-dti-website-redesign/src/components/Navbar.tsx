@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useRef, useState, useLayoutEffect } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
 
@@ -81,13 +81,38 @@ export default function Navbar() {
     prevPathname.current = pathname;
   }, [pathname]);
 
+  const [scrolledPast, setScrolledPast] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolledPast(window.scrollY > 770);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Initial check in case user reloads mid-scroll
+    setScrolledPast(window.scrollY > 770);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
     <>
       <nav
-        className="top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-20 
-        mx-4 sm:mx-8 md:mx-32 lg:mx-auto 
-        [width:calc(100%-2rem)] sm:[width:calc(100%-4rem)] md:[width:calc(100%-16rem)] 
-        lg:left-1/2 lg:-translate-x-1/2 lg:transform"
+        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-20 w-full left-1/2 translate-x-[-50%] transform
+        transition-[background-color] duration-[300ms]
+        ${scrolledPast ? 'bg-background-1' : ''}
+        `}
       >
         <Link href="/" className="focusState rounded-sm">
           <Image
