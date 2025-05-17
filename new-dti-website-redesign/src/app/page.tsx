@@ -4,7 +4,6 @@ import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
 import SectionSep from '../components/SectionSep';
 import CtaSection from '../components/CtaSection';
-import SectionTitle from '../components/SectionTitle';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
 
@@ -29,6 +28,31 @@ const logos = [
   }
 ];
 
+interface StatItemProps {
+  value: string;
+  label: string;
+  reverse?: boolean;
+}
+
+function StatItem({ value, label, reverse = false }: StatItemProps) {
+  const valueClass = reverse ? 'text-foreground-3' : 'text-foreground';
+  const labelClass = reverse ? 'text-foreground' : 'text-foreground-3';
+
+  return (
+    <div className="flex justify-center gap-1 flex-1/4 px-8 py-4">
+      <p className={valueClass}>{value}</p>
+      <p className={labelClass}>{label}</p>
+    </div>
+  );
+}
+
+const stats = [
+  { value: '23,000', label: 'users' },
+  { value: '11', label: 'products' },
+  { value: '2017', label: 'founded', reverse: true },
+  { value: '89', label: 'members' }
+];
+
 export default function Home() {
   return (
     <>
@@ -47,11 +71,13 @@ export default function Home() {
           button2Link="/team"
           image="/home/hero.png"
           imageAlt="DTI members in front of Duffield Hall"
-          centered
-          className="pt-20"
         />
 
-        <SectionTitle heading="Our products" smallCaps />
+        <section className="flex border-1 border-border-1 flex-wrap">
+          {stats.map((stat, index) => (
+            <StatItem key={index} value={stat.value} label={stat.label} />
+          ))}
+        </section>
 
         <Marquee height={96}>
           {logos.map((logo, index) => (
