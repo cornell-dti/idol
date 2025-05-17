@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
 
@@ -19,13 +19,55 @@ export default function Navbar() {
     { href: '/sponsor', label: 'Sponsor' }
   ];
 
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const highlightRef = useRef<HTMLSpanElement>(null);
+
+  // current position + width of the highlight
+  const [highlightStyle, setHighlightStyle] = useState<{ left: number; width: number } | null>(
+    null
+  );
+
+  // we need previous position + width of highlight to animate the highlight from the
+  // old one to the new one smoothly
+  const prevHighlight = useRef<{ left: number; width: number } | null>(null);
+
+  // using useLayoutEffect instead of useEffect to ensure that the layout reads and
+  // updates the position/width before the screen repaints (to prevent flicker and
+  // achieve the smooth animation
+  useLayoutEffect(() => {
+    const idx = navLinks.findIndex((link) => link.href === pathname);
+    const linkEl = linkRefs.current[idx];
+
+    if (linkEl) {
+      // measure position + width of actual link
+      // and then create new style for positioning the new highlight
+      const { offsetLeft, offsetWidth } = linkEl;
+      const newStyle = { left: offsetLeft, width: offsetWidth };
+
+      // all of this animates movement of highlight from old link to new link smoothly
+      // if there's a previous highlight position, jump to it first, then animate to new one
+      // otherwise set new position directly
+      if (prevHighlight.current) {
+        setHighlightStyle(prevHighlight.current);
+
+        requestAnimationFrame(() => {
+          setHighlightStyle(newStyle);
+          prevHighlight.current = newStyle;
+        });
+      } else {
+        setHighlightStyle(newStyle);
+        prevHighlight.current = newStyle;
+      }
+    }
+  }, [pathname]);
+
   return (
     <>
       <nav
         className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-10 bg-background-1 
         mx-4 sm:mx-8 md:mx-32 lg:mx-auto 
         [width:calc(100%-2rem)] sm:[width:calc(100%-4rem)] md:[width:calc(100%-16rem)] 
-        lg:left-1/2 lg:-translate-x-1/2 lg:transform"
+        lg:left-1/2 lg:-translate-x-1/2 lg:transform border-b-1 border-border-1"
       >
         <Link href="/" className="focusState rounded-sm">
           <Image
@@ -38,26 +80,45 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="flex gap-8 items-center">
-          <ul className="hidden min-[1200px]:flex gap-8 text-foreground-3 h-10 items-center">
-            {navLinks.map(({ href, label }) => (
+        <div className="flex gap-6 items-center">
+          <ul className="hidden min-[1200px]:flex gap-6 text-foreground-3 h-10 items-center relative">
+            {navLinks.map(({ href, label }, i) => (
               <li key={href} className="h-10 flex items-center">
                 <Link
                   href={href}
+                  ref={(el) => {
+                    linkRefs.current[i] = el;
+                  }}
                   className={`transition-[color] h-10 duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-sm font-medium ${
-                    pathname === href
-                      ? "text-foreground-1 after:content-[''] after:absolute after:bottom-[-21px] after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full"
-                      : 'text-foreground-3'
+                    pathname === href ? 'text-foreground-1' : 'text-foreground-3'
                   }`}
                 >
                   {label}
                 </Link>
               </li>
             ))}
+            {highlightStyle && (
+              <span
+                className="bottom-0 absolute -z-10 rounded-full h-10 bg-background-2"
+                ref={highlightRef}
+                style={{
+                  left: highlightStyle.left - 16,
+                  width: highlightStyle.width + 32,
+                  transition:
+                    'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1)'
+                }}
+              />
+            )}
           </ul>
 
           <div className="flex gap-4">
-            <Button variant="primary" href="/apply" label="Apply" className="max-[600px]:hidden" />
+            <Button
+              variant="primary"
+              size="small"
+              href="/apply"
+              label="Apply"
+              className="max-[600px]:hidden"
+            />
 
             {/* Hamburger icon button */}
             <IconButton
