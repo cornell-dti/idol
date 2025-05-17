@@ -71,10 +71,10 @@ const Hero = ({
   }
 
   return (
-    <section className="hero">
+    <section className="hero [&+*]:rounded-t-lg mb-1">
       {image && (
         <div
-          className="flex items-end h-[700px] relative bg-no-repeat bg-center bg-cover"
+          className="flex items-end h-[800px] relative bg-no-repeat bg-center bg-cover"
           style={{ backgroundImage: `url('${image}')` }}
         >
           <div
@@ -82,7 +82,7 @@ const Hero = ({
             bg-[linear-gradient(180deg,rgba(13,13,13,0.8)_0%,rgba(13,13,13,0)_43.85%),radial-gradient(116.68%_116.67%_at_50%_-16.67%,rgba(13,13,13,0)_40%,#0D0D0D_100%)]"
           ></div>
 
-          <div className="flex z-10 items-center w-full p-8 max-w-[1184px] mx-auto">
+          <div className="flex z-10 items-center w-full p-8 pb-16 max-w-[1184px] mx-auto">
             <div className="max-w-1/2">
               <h1>{heading}</h1>
               <p className="h6 text-foreground-3">{subheading}</p>
