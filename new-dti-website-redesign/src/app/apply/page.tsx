@@ -25,8 +25,6 @@ export default function Apply() {
         imageAlt="DTI members hosting a recruitment event with prospective applicants"
       />
 
-      <SectionSep />
-
       <section className="temporarySection">
         <h4>Application timeline section</h4>
       </section>

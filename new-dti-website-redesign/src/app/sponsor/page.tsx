@@ -22,8 +22,6 @@ export default function Sponsor() {
         imageAlt="DTI members collaborating together in front of a laptop"
       />
 
-      <SectionSep />
-
       <section className="temporarySection">
         <h4>Become a sponsor! section</h4>
       </section>
