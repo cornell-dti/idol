@@ -22,7 +22,7 @@ export default function Team() {
         imageAlt="DTI members in front of Duffield hall"
       />
 
-      <SectionSep />
+      {/* <SectionSep /> */}
 
       <section className="temporarySection">
         <h4>We are Cornell DTI section</h4>
