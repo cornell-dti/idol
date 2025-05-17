@@ -39,7 +39,11 @@ export default function IconButton({
 
   const sharedClasses = `${baseStyles} ${variantStyles} ${className} ${sizeStyles}`;
 
-  const iconContent = <span className="w-6 h-6 flex items-center justify-center">{children}</span>;
+  const iconSize = size === 'small' ? 'w-5 !h-5' : 'w-6 h-6';
+
+  const iconContent = (
+    <span className={`${iconSize} flex items-center justify-center`}>{children}</span>
+  );
 
   if (href) {
     return (
