@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import Image from 'next/image';
 import Button from './Button';
 
 type Props = {
@@ -25,53 +24,8 @@ const Hero = ({
   button2Link,
   image,
   imageAlt,
-  centered = false,
   className
 }: Props): ReactNode => {
-  if (centered) {
-    return (
-      <section className={`flex flex-col-reverse md:flex-col ${className}`}>
-        <div className="flex flex-col p-4 outline-[0.5px] outline-border-1 sm:p-8">
-          <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
-            <div className="flex flex-col items-center gap-2">
-              <h1 className="text-center">{heading}</h1>
-              <p className="h6 text-center text-foreground-3">{subheading}</p>
-            </div>
-
-            <div className="flex gap-4">
-              {button1Label && button1Link && (
-                <Button
-                  variant="primary"
-                  label={button1Label}
-                  href={button1Link}
-                  className="w-full"
-                />
-              )}
-              {button2Label && button2Link && (
-                <Button
-                  variant="secondary"
-                  label={button2Label}
-                  href={button2Link}
-                  className="w-full"
-                />
-              )}
-            </div>
-          </div>
-        </div>
-
-        {image && (
-          <Image
-            src={image}
-            alt={imageAlt || 'Hero image alt text'}
-            width={1184}
-            height={600}
-            className="border-t-1 border-t-border-1"
-          />
-        )}
-      </section>
-    );
-  }
-
   return (
     <section className={`${className} hero [&+*]:rounded-t-lg [&+*]:overflow-hidden mb-1`}>
       {image && (
