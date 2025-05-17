@@ -203,6 +203,7 @@ main {
   padding-top: 80px;
 }
 
+a:focus-visible,
 .focusState:focus-visible {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
