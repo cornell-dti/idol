@@ -121,7 +121,7 @@ export default function Navbar() {
             {/* Gray pill shape that highlights currently selected page */}
             {highlightStyle && (
               <span
-                className="bottom-0 absolute -z-10 rounded-full h-10 bg-background-2"
+                className="bottom-0 absolute -z-10 rounded-full h-10 bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px]"
                 ref={highlightRef}
                 style={{
                   left: highlightStyle.left,
