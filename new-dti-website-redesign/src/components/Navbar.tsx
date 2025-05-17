@@ -119,6 +119,7 @@ export default function Navbar() {
               </li>
             ))}
 
+            {/* Gray pill shape that highlights currently selected page */}
             {highlightStyle && (
               <span
                 className="bottom-0 absolute -z-10 rounded-full h-10 bg-background-2"
