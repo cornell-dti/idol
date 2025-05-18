@@ -187,35 +187,29 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               className="flex flex-row pl-[53px] space-x-10 sm:pl-0 sm:flex-col sm:items-center sm:justify-end sm:h-40 z-30"
               ref={eventRef}
             >
-              {/* Mobile Dot */}
-              <IconWrapper
-                size="small"
-                type={isPast ? 'primary' : 'default'}
-                className="sm:hidden block"
-              >
-                <DotIcon />
-              </IconWrapper>
-
-              {/* Content */}
+              {/* Red Dot for Completed / Grey Dot for Mobile */}
+              <div
+                className={`w-[26px] h-[26px] rounded-full ${isPast ? 'bg-red-500' : 'bg-gray-300'
+                  } sm:hidden block`}
+              />
+              {/* Title and Date */}
               <div className="sm:text-center sm:mb-4">
                 <p className="font-bold lg:text-3xl text-xl">{event.title}</p>
                 <div className="flex flex-row gap-x-2 sm:flex-col">
                   {event.time ? (
-                    <p className="text-md lg:text-lg">{event.date} @ {event.time}</p>
+                    <p className="text-md lg:text-lg">
+                      {event.date} @ {event.time}
+                    </p>
                   ) : (
-                    <p className="text-md lg:text-lg">{event.date}</p>
+                    <p className="text-md lg:text-lg">{event.date} </p>
                   )}
                 </div>
               </div>
-
-              {/* Desktop Dot */}
-              <IconWrapper
-                size="small"
-                type={isPast ? 'primary' : 'default'}
-                className="hidden sm:block"
-              >
-                <DotIcon />
-              </IconWrapper>
+              {/* Red Dot for Completed / Grey Dot for Tablet/Laptop */}
+              <div
+                className={`w-[26px] h-[26px] rounded-full ${isPast ? 'bg-red-500' : 'bg-gray-300'
+                  } hidden sm:block`}
+              />
             </div>
           );
         })}
