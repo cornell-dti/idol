@@ -50,7 +50,7 @@ function StatItem({ value, label, reverse = false }: StatItemProps) {
 const stats = [
   { value: '23,000', label: 'users' },
   { value: '11', label: 'products' },
-  { value: '2017', label: 'founded', reverse: true },
+  { value: 'founded', label: '2017', reverse: true },
   { value: '89', label: 'members' }
 ];
 
@@ -75,7 +75,7 @@ export default function Home() {
 
         <section className="flex border-1 border-border-1 border-b-0 flex-wrap">
           {stats.map((stat, index) => (
-            <StatItem key={index} value={stat.value} label={stat.label} />
+            <StatItem key={index} value={stat.value} label={stat.label} reverse={stat.reverse} />
           ))}
         </section>
 
