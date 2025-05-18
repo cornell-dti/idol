@@ -79,13 +79,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       <div ref={containerRef} className="relative w-full flex flex-col sm:flex-row items-center py-8">
         {/*Track*/}
         <div
-          className={`absolute bg-gray-300`}
+          className={`absolute bg-[var(--foreground-3,#A1A1A1)]`}
           style={
             isMobile
               ? { top: 0, bottom: 0, left: '2rem', width: '2px' }
               : { left: 0, right: 0, top: '3rem', height: '2px' }
           } />
-        <div className={`absolute bg-red-500`}
+        <div className={`absolute bg-[var(--accent-Red,#FF575E)]`}
           style={
             isMobile
               ? {
@@ -108,20 +108,20 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             key={i}
             className="flex-1 flex flex-col items-center sm:items-center mb-8 sm:mb-0 px-4">
             {/* Title */}
-            <h2 className="text-white font-semibold mb-1 text-center">{ev.title}</h2>
+            <h3 className="h5 text-white font-semibold mb-1 text-center">{ev.title}</h3>
             {/* Date */}
-            <h3>{ev.date} {ev.time ? ` · ${ev.time}` : ''}</h3>
+            <p className="text-[var(--foreground-3,#A1A1A1)]">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
 
             {/* Point + Ring */}
             <div className="relative">
               {/* outer ring */}
               <div
-                className={`w-5 h-5 rounded-full border-2 ${isPassed(ev) ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-5 h-5 rounded-full border-2 ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
               />
               {/* inner dot */}
               <div
                 className={`w-2.5 h-2.5 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-                ${isPassed(ev) ? 'bg-red-500' : 'bg-gray-300'}`} />
+                ${isPassed(ev) ? 'bg-[var(--accent-Red,#FF575E)]' : 'bg-[var(--foreground-3,#A1A1A1)]'}`} />
             </div>
           </div>
         ))}
