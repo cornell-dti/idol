@@ -65,7 +65,7 @@ export default function Home() {
               <span className="block">of Tech @ Cornell</span>
             </>
           }
-          subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+          subheading="We are a talented, diverse group of students striving to make a difference in the Cornell community."
           button1Label="Apply to DTI"
           button1Link="/apply"
           button2Label="Meet the team"

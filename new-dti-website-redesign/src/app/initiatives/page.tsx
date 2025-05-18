@@ -15,7 +15,7 @@ export default function Initiatives() {
     <Layout>
       <Hero
         heading="Inspiring innovation"
-        subheading="What sets us apart from other project teams is our desire to share our discoveries with other students and members of the Ithaca community."
+        subheading="We stand out by sharing our discoveries with fellow students and the Ithaca community."
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Learn more"

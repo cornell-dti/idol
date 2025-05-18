@@ -16,7 +16,7 @@ export default function Apply() {
 
       <Hero
         heading="Join our community"
-        subheading="We strive for inclusivity, and encourage passionate applicants to apply regardless of experience. We'd love to work with someone like you."
+        subheading="We value inclusivity and welcome passionate applicants of all experience levels. We’d love to work with you."
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Role descriptions"

@@ -96,7 +96,7 @@ export default function Products() {
     <Layout>
       <Hero
         heading="Products"
-        subheading="Each of our projects address an unfulfilled need that exists in our community using human-centered design and software engineering."
+        subheading="Each project addresses a community need through human-centered design and software engineering."
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="View products"
