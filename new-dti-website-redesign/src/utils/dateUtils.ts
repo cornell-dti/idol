@@ -1,4 +1,4 @@
-import config from '../../config.json';
+
 
 /**
  * Parses a date and time to a `Date` object.
@@ -56,7 +56,7 @@ export const extractEndTime = (timeInterval: string) => {
   return endHourMin + (endHourMin.indexOf(':') === -1 ? ':00 ' : ' ') + suffix;
 };
 
-export const isGenAppOpen = () => Date.parse(config.applicationDeadline) >= Date.now();
-export const isFreshAppOpen = () => Date.parse(config.freshmanAppDeadline) >= Date.now();
-export const isFall = () => config.semester.startsWith('Fall');
-export const isAppOpen = () => (isFall() && isFreshAppOpen()) || (!isFall() && isGenAppOpen());
+// export const isGenAppOpen = () => Date.parse(config.applicationDeadline) >= Date.now();
+// export const isFreshAppOpen = () => Date.parse(config.freshmanAppDeadline) >= Date.now();
+// export const isFall = () => config.semester.startsWith('Fall');
+// export const isAppOpen = () => (isFall() && isFreshAppOpen()) || (!isFall() && isGenAppOpen());

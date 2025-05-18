@@ -1,5 +1,6 @@
-//I got errors so i asked chat and he said use this 
+//tells Next that this file must be bundled for the browser so client-only hooks will work
 'use client';
+
 import IconWrapper from '@/components/IconWrapper';
 import useScreenSize from '@/hooks/useScreenSize';
 import { parseDate } from '@/utils/dateUtils';
