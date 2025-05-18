@@ -33,7 +33,7 @@ const Hero = ({
       >
         <div
           className="absolute inset-0 w-full h-full z-5
-            bg-[linear-gradient(180deg,rgba(13,13,13,0.8)_0%,rgba(13,13,13,0)_43.85%),radial-gradient(116.68%_116.67%_at_50%_-16.67%,rgba(13,13,13,0)_40%,#0D0D0D_100%)]"
+            bg-[linear-gradient(180deg,rgba(13,13,13,0.8)_10%,rgba(13,13,13,0)_43.85%),radial-gradient(116.68%_116.67%_at_50%_-16.67%,rgba(13,13,13,0)_40%,#0D0D0D_100%)]"
         ></div>
 
         <div className="flex flex-col md:flex-row z-10 md:items-center w-full p-8 pb-16 max-w-[1184px] mx-auto gap-4">
