@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react';
-
 type RoleDescriptionCardProps = {
   role: string;
-  skills: string;
-  responsibilities: string;
+  skills: string[];
+  responsibilities: string[];
 };
 
 export default function RoleDescriptionCard({
@@ -12,22 +10,30 @@ export default function RoleDescriptionCard({
   responsibilities
 }: RoleDescriptionCardProps) {
   return (
-    <div className="rounded-lg border-1 border-border-1 flex flex-col">
-      <div className="p-4 bg-background-2">
+    <div className="w-200 border-1 border-border-1 rounded-lg flex flex-col overflow-hidden">
+      <div className="p-4 bg-background-2 border-b-1 border-border-1">
         <h3 className="h5">{role} application</h3>
       </div>
 
-      <div className="p-4">
-        <h4 className="p">Skills</h4>
-        <ul>
-          <li>{skills}</li>
+      <div className="flex flex-col gap-1 p-4 border-b-1 border-border-1">
+        <h4 className="h6">What we're looking for</h4>
+        <ul className="list-disc list-inside pl-2">
+          {skills.map((skill, index) => (
+            <li key={index} className="text-foreground-3">
+              {skill}
+            </li>
+          ))}
         </ul>
       </div>
 
-      <div className="p-4">
-        <h4 className="p">Responsibilities</h4>
-        <ul>
-          <li>{responsibilities}</li>
+      <div className="flex flex-col gap-1 p-4">
+        <h4 className="h6">Responsibilities at a glance:</h4>
+        <ul className="list-disc list-inside pl-2">
+          {responsibilities.map((resp, index) => (
+            <li key={index} className="text-foreground-3">
+              {resp}
+            </li>
+          ))}
         </ul>
       </div>
     </div>
