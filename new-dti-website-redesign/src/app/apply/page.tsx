@@ -36,22 +36,20 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex flex-col gap-8 items-center p-8">
-        <h2>Role descriptions</h2>
+      <section className="flex flex-col gap-8 items-center md:p-8">
+        <h2 className="md:p-0 pt-4">Role descriptions</h2>
 
         <Tabs
           center
           tabs={roles.map((role, index) => ({
             label: role.role,
             content: (
-              <div className="p-4">
-                <RoleDescriptionCard
-                  key={index}
-                  role={role.role}
-                  skills={role.skills}
-                  responsibilities={role.responsibilities}
-                />
-              </div>
+              <RoleDescriptionCard
+                key={index}
+                role={role.role}
+                skills={role.skills}
+                responsibilities={role.responsibilities}
+              />
             )
           }))}
         />

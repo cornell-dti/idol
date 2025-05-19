@@ -32,9 +32,9 @@ export default function Tabs({ tabs, className = '', center }: TabsProps) {
   };
 
   return (
-    <div className={`flex flex-col gap-4 ${className} ${center ? 'items-center' : ''}`}>
+    <div className={`flex flex-col gap-8 ${className} ${center ? 'items-center' : ''}`}>
       <div
-        className="flex flex-wrap gap-4 w-fit"
+        className={`flex flex-wrap gap-4 w-fit ${className} ${center ? 'justify-center' : ''}`}
         role="tablist"
         aria-label="Tabbed content"
         onKeyDown={handleKeyDown}
