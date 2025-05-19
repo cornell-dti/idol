@@ -106,14 +106,16 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         {events.map((ev, i) => (
           <div
             key={i}
-            className="flex-1 flex flex-col items-center sm:items-center mb-8 sm:mb-0 px-4">
-            {/* Title */}
-            <h3 className="h5 text-white font-semibold mb-1 text-center">{ev.title}</h3>
-            {/* Date */}
-            <p className="text-[var(--foreground-3,#A1A1A1)]">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
+            className="relative flex-1 flex flex-col items-center sm:items-center mb-8 sm:mb-0 px-4">
 
             {/* Point + Ring */}
-            <div className="relative">
+            <div className={`
+    absolute
+    ${isMobile
+                ? 'top-1/2 left-8 transform -translate-y-1/2'            // mobile: vertical center of container, x=2rem
+                : 'top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2' // desktop: y=1rem (→ line at 3rem), centered in its column
+              }
+  `}>
               {/* outer ring */}
               <div
                 className={`w-5 h-5 rounded-full border-2 ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
@@ -123,6 +125,10 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 className={`w-2.5 h-2.5 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
                 ${isPassed(ev) ? 'bg-[var(--accent-Red,#FF575E)]' : 'bg-[var(--foreground-3,#A1A1A1)]'}`} />
             </div>
+            {/* Title */}
+            <h3 className="h5 text-white font-semibold mt-6 mb-1 text-center">{ev.title}</h3>
+            {/* Date */}
+            <p className="text-[var(--foreground-3,#A1A1A1)] mb-4">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
           </div>
         ))}
 
