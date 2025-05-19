@@ -107,8 +107,11 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         {events.map((ev, i) => (
           <div
             key={i}
-            className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''}  relative flex-1 flex flex-col items-center sm:items-center mb-8 sm:mb-0 px-4`}>
-
+            className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''}  relative flex-1 flex flex-col items-center sm:items-center px-4`}>
+            {/* Title */}
+            <h3 className="h5 text-white font-semibold mb-1 text-center">{ev.title}</h3>
+            {/* Date */}
+            <p className="text-[var(--foreground-3,#A1A1A1)] mb-0">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
             {/* Point + Ring */}
             <div className={`
               absolute
@@ -126,10 +129,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
                 ${isPassed(ev) ? 'bg-[var(--accent-Red,#FF575E)]' : 'bg-[var(--foreground-3,#A1A1A1)]'}`} />
             </div>
-            {/* Title */}
-            <h3 className="h5 text-white font-semibold mt-6 mb-1 text-center">{ev.title}</h3>
-            {/* Date */}
-            <p className="text-[var(--foreground-3,#A1A1A1)] mb-8">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
           </div>
         ))}
 
