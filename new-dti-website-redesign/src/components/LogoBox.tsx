@@ -10,9 +10,19 @@ type Logo = {
   fillWidth?: boolean;
   href?: string;
   noLink?: boolean;
+  ariaLabel?: string;
 };
 
-const LogoBox: React.FC<Logo> = ({ src, alt, width, height, fillWidth, href, noLink }) => {
+const LogoBox: React.FC<Logo> = ({
+  src,
+  alt,
+  width,
+  height,
+  fillWidth,
+  href,
+  noLink,
+  ariaLabel
+}) => {
   const content = (
     <div
       className="flex items-center justify-center h-24 border-border-1 border-l-1 border-b-1 p-4"
@@ -37,6 +47,7 @@ const LogoBox: React.FC<Logo> = ({ src, alt, width, height, fillWidth, href, noL
     <Link
       href={href}
       className="hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
+      {...(ariaLabel ? { 'aria-label': ariaLabel } : {})}
     >
       {content}
     </Link>
