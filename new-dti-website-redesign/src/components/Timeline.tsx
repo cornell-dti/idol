@@ -110,12 +110,12 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
             {/* Point + Ring */}
             <div className={`
-    absolute
-    ${isMobile
+              absolute
+              ${isMobile
                 ? 'top-1/2 left-8 transform -translate-y-1/2'            // mobile: vertical center of container, x=2rem
                 : 'top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2' // desktop: y=1rem (→ line at 3rem), centered in its column
               }
-  `}>
+            `}>
               {/* outer ring */}
               <div
                 className={`w-5 h-5 rounded-full border-2 ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
