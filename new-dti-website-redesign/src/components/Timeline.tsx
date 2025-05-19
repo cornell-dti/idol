@@ -77,7 +77,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   return (
     <>
-      <div ref={containerRef} className={`${styles.timeline} relative w-full flex flex-col sm:flex-row sm:items-start items-center py-8`}>
+      <div ref={containerRef} className={`${styles.timeline} relative w-full flex flex-col sm:flex-row`}>
         {/*Track*/}
         {/* <div
           className={`absolute bg-[var(--foreground-3,#A1A1A1)]`}
