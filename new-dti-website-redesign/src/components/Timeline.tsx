@@ -113,7 +113,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             <div className={`
               absolute
               ${isMobile
-                ? 'top-1/2 left-8 transform -translate-y-1/2'            // mobile: vertical center of container, x=2rem
+                ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'            // mobile: vertical center of container, x=2rem
                 : 'top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2' // desktop: y=1rem (→ line at 3rem), centered in its column
               }
             `}>

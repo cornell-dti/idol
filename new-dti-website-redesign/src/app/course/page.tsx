@@ -13,7 +13,7 @@ export const metadata = {
 const events: Event[] = [
   { title: 'Lecture 0', date: 'Feb 9' },
   { title: 'Lecture 1 (async)', date: 'Feb 17' },
-  { title: 'Sign-up Deadline', date: 'Feb 21' },
+  { title: 'Sign-up Deadline', date: 'June 1' },
   { title: 'Project Presentation', date: 'June 2' },
 ];
 

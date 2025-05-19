@@ -1,45 +1,91 @@
 .timeline {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
 }
 
-/* each event becomes the anchor for its left/right track segments */
+/* Each event becomes the anchor for its up/down track segments */
 .timeline-event {
   position: relative;
-  z-index: 10;        /* make sure dots sit on top */
+  z-index: 10;
+  padding-left: 2rem; /* room for dot at left:2rem */
+  margin-bottom: 2rem;
 }
+
+/* draw the up/down halves */
 .timeline-event::before,
-.timeline-event::after {
+.timeline-event::after{
   content: '';
   position: absolute;
-  height: 3px;        /* same as your strokeW */
-  background: var(--foreground-3,#A1A1A1);
+
+  /* center horizontally under the dot */
+  left: 2rem;
+  transform: translateX(-50%);
+
+  width: 3px; /* strokeW */
+  background: var(--foreground-3);
 }
 
-/* the left half of the track leading into this point */
+/* up half leading into this point */
 .timeline-event::before {
-  top: 1rem;                          /* match desktop top:3rem–1/2 dot */
-  left: 0;
-  width: calc(50% - 12px);             /* half the gap minus dot-radius */
+  top: 0;
+  height: calc(50% - 12px); /* half gap minus 2x dot radius */
+  border-top-left-radius: 1.5px;
   border-top-right-radius: 1.5px;
+}
+
+/* down half toward the next point */
+.timeline-event::after {
+  bottom: 0;
+  height: calc(50% - 12px);
+  border-bottom-left-radius: 1.5px;
   border-bottom-right-radius: 1.5px;
 }
-/* the right half going out toward the next point */
-.timeline-event::after {
-  top: 1rem;
-  right: 0;
-  width: calc(50% - 12px);
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+
+/* remove overflow on first and last */
+.timeline-event:first-child::before {height: 0; }
+.timeline-event:last-child::after {height: 0; }
+
+/* passed events go red */
+.passed::before,
+.passed::after {
+  background: var(--accent-Red, #FF575E);
 }
 
-/* kill the overflow on first/last */
-.timeline-event:first-child::before { width: 0; }
-.timeline-event:last-child::after  { width: 0; }
 
-/* for passed events turn those halves red */
-.timeline-event.passed::before,
-.timeline-event.passed::after {
-  background: var(--accent-Red,#FF575E);
+/* ---------------------------------------------------------------- */
+/* Desktop (apply at ≥640px) → switch to horizontal, row layout:   */
+/* ---------------------------------------------------------------- */
+@media (min-width: 640px){
+/* each event becomes the anchor for its left/right track segments */
+
+.timeline{
+  flex-direction: row;
+  align-items: center;
+}
+.timeline-event {
+    padding: 0 1rem;
+    padding-top: 3rem;   /* to clear the horizontal bar */
+    margin: 0;
+  }
+.timeline-event::before,
+  .timeline-event::after {
+    left: auto;
+    transform: translateY(-50%);
+    top: 1rem;
+    width: calc(50% - 12px);
+    height: 3px;
+  }
+  
+  .timeline-event::before {
+    left: 0;
+    border-top-right-radius: 1.5px;
+    border-bottom-right-radius: 1.5px;
+  }
+  .timeline-event::after {
+    right: 0;
+    border-top-left-radius: 1.5px;
+    border-bottom-left-radius: 1.5px;
+  }
 }
