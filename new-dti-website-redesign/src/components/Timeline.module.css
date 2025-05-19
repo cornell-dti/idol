@@ -1,0 +1,45 @@
+.timeline {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* each event becomes the anchor for its left/right track segments */
+.timeline-event {
+  position: relative;
+  z-index: 10;        /* make sure dots sit on top */
+}
+.timeline-event::before,
+.timeline-event::after {
+  content: '';
+  position: absolute;
+  height: 3px;        /* same as your strokeW */
+  background: var(--foreground-3,#A1A1A1);
+}
+
+/* the left half of the track leading into this point */
+.timeline-event::before {
+  top: 1rem;                          /* match desktop top:3rem–1/2 dot */
+  left: 0;
+  width: calc(50% - 12px);             /* half the gap minus dot-radius */
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+/* the right half going out toward the next point */
+.timeline-event::after {
+  top: 1rem;
+  right: 0;
+  width: calc(50% - 12px);
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+/* kill the overflow on first/last */
+.timeline-event:first-child::before { width: 0; }
+.timeline-event:last-child::after  { width: 0; }
+
+/* for passed events turn those halves red */
+.timeline-event.passed::before,
+.timeline-event.passed::after {
+  background: var(--accent-Red,#FF575E);
+}

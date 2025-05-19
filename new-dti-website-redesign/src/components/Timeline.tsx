@@ -4,6 +4,7 @@
 import useScreenSize from '@/hooks/useScreenSize';
 import { parseDate } from '@/utils/dateUtils';
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import styles from './Timeline.module.css';
 
 export type Event = {
   title: string;
@@ -76,9 +77,9 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   return (
     <>
-      <div ref={containerRef} className="relative w-full flex flex-col sm:flex-row sm:items-start items-center py-8">
+      <div ref={containerRef} className={`${styles.timeline} relative w-full flex flex-col sm:flex-row sm:items-start items-center py-8`}>
         {/*Track*/}
-        <div
+        {/* <div
           className={`absolute bg-[var(--foreground-3,#A1A1A1)]`}
           style={
             isMobile
@@ -100,13 +101,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 height: '3px',
                 width: `${progress}%`,
               }
-          } />
+          } /> */}
 
         {/* Events */}
         {events.map((ev, i) => (
           <div
             key={i}
-            className="relative flex-1 flex flex-col items-center sm:items-center mb-8 sm:mb-0 px-4">
+            className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''}  relative flex-1 flex flex-col items-center sm:items-center mb-8 sm:mb-0 px-4`}>
 
             {/* Point + Ring */}
             <div className={`
