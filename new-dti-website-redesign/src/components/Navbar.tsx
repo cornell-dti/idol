@@ -118,7 +118,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-20 w-full left-1/2 translate-x-[-50%] transform
+        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-60 w-full left-1/2 translate-x-[-50%] transform
         transition-[background-color] duration-[300ms]
         ${scrolledPast ? 'bg-background-1' : ''}
         `}
@@ -135,7 +135,7 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <div className="flex gap-2 items-center">
-          <ul className="hidden min-[1200px]:flex h-10 items-center relative">
+          <ul className="hidden min-[900px]:flex h-10 items-center relative">
             {navLinks.map(({ href, label }, i) => (
               <li key={href} className="h-10 flex items-center">
                 <Link
@@ -169,17 +169,19 @@ export default function Navbar() {
           </ul>
 
           <div className="flex gap-4">
-            <Button
-              variant="primary"
-              size="small"
-              href="/apply"
-              label="Apply"
-              className="max-[600px]:hidden"
-            />
+            {!mobileOpen && (
+              <Button
+                variant="primary"
+                size="small"
+                href="/apply"
+                label="Apply"
+                className="max-[600px]:hidden"
+              />
+            )}
 
             {/* Hamburger icon button */}
             <IconButton
-              className="min-[1200px]:hidden text-foreground-1 focus:outline-none"
+              className="min-[900px]:hidden text-foreground-1 focus:outline-none"
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
               variant="tertiary"
@@ -208,7 +210,7 @@ export default function Navbar() {
 
       {/* Mobile links */}
       {mobileOpen && (
-        <div className="fixed top-[81px] left-4 sm:left-8 md:left-32 w-[calc(100%-32px)] sm:w-[calc(100%-64px)] md:w-[calc(100%-256px)] h-full bg-background-1 z-50 flex flex-col justify-between">
+        <div className="fixed top-0 w-full h-full bg-background-1 z-50 flex flex-col justify-between pt-20 min-[900px]:hidden">
           <ul className="flex flex-col w-full p-2 md:p-4">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
