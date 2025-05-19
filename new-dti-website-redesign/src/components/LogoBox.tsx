@@ -11,7 +11,7 @@ type Logo = {
 
 const LogoBox: React.FC<Logo> = ({ src, alt, width, height, fillWidth }) => (
   <div
-    className="flex items-center justify-center h-24 border-border-1 border-l-1 border-b-1"
+    className="flex items-center justify-center h-24 border-border-1 border-l-1 border-b-1 p-4"
     style={{ width: fillWidth ? `100%` : '160px' }}
   >
     <Image

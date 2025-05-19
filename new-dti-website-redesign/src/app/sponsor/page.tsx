@@ -53,9 +53,9 @@ export default function Sponsor() {
       <SectionSep />
 
       <section>
-        <div className="grid grid-cols-4">
-          <div className="col-span-2 flex items-center justify-center border-b-1 border-border-1">
-            <h2 className="h4">Thank you to our sponsors!</h2>
+        <div className="grid min-[1000px]:grid-cols-4">
+          <div className="col-span-2 flex items-center justify-center border-b-1 border-border-1 min-[1000px]:p-0 p-8">
+            <h2 className="h4 text-center">Thank you to our sponsors!</h2>
           </div>
           {logos.map((logo, index) => (
             <LogoBox key={index} {...logo} fillWidth />
