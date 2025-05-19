@@ -135,7 +135,7 @@ export default function Navbar() {
             )}
           </ul>
 
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <Button
               variant="primary"
               size="small"
@@ -150,21 +150,22 @@ export default function Navbar() {
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
               variant="tertiary"
+              size="small"
             >
-              <span className="flex flex-col gap-1 relative w-6 h-6">
+              <span className="flex flex-col gap-1 relative w-4 h-4">
                 <span
-                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
-                    mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'
+                  className={`absolute top-2.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                    mobileOpen ? 'rotate-45 translate-y-[-2px]' : '-translate-y-2'
                   }`}
                 />
                 <span
-                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
+                  className={`absolute top-1/2 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
                     mobileOpen ? 'opacity-0 left-[-16px]' : ''
                   }`}
                 />
                 <span
-                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
-                    mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'
+                  className={`absolute top-1.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                    mobileOpen ? '-rotate-45 translate-y-[2px]' : 'translate-y-2'
                   }`}
                 />
               </span>
