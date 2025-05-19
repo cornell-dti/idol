@@ -7,64 +7,12 @@ import Product from './Product';
 import Hero from '../../components/Hero';
 import CtaSection from '../../components/CtaSection';
 import LogoBox from '../../components/LogoBox';
+import logos from './logos.json';
 
 export const metadata = {
   title: 'DTI PRODUCTS PAGE',
   description: 'DESCRIPTION'
 };
-
-export const logos = [
-  {
-    src: '/products/logos/cureviews.svg',
-    alt: 'CU Reviews logo',
-    width: 80,
-    height: 80,
-    href: '#cureviews'
-  },
-  {
-    src: '/products/logos/courseplan.svg',
-    alt: 'Courseplan logo',
-    width: 60,
-    height: 60,
-    href: '#courseplan'
-  },
-  {
-    src: '/products/logos/queuemein.svg',
-    alt: 'Queue Me In logo',
-    width: 80,
-    height: 80,
-    href: '#queuemein'
-  },
-  {
-    src: '/products/logos/design@cornell.svg',
-    alt: 'Design @ Cornell logo',
-    width: 125,
-    height: 52,
-    href: '#design@cornell'
-  },
-  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96, href: '#zing' },
-  {
-    src: '/products/logos/cuapts.svg',
-    alt: 'CU Apartments logo',
-    width: 110,
-    height: 80,
-    href: '#cuapts'
-  },
-  {
-    src: '/products/logos/carriage.svg',
-    alt: 'Carriage logo',
-    width: 70,
-    height: 70,
-    href: '#carriage'
-  },
-  {
-    src: '/products/logos/cornellgo.svg',
-    alt: 'CornellGo logo',
-    width: 80,
-    height: 80,
-    href: '#cornellgo'
-  }
-];
 
 export default function Products() {
   return (

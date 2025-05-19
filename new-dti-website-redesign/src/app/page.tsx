@@ -7,27 +7,12 @@ import CtaSection from '../components/CtaSection';
 import SectionTitle from '../components/SectionTitle';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
+import logos from './products/logos.json';
 
 export const metadata = {
   title: 'DIT HOMEPAGE',
   description: 'DESCRIPTION'
 };
-
-export const logos = [
-  { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
-  { src: '/products/logos/queuemein.svg', alt: 'Queue Me In logo', width: 80, height: 80 },
-  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96 },
-  { src: '/products/logos/cureviews.svg', alt: 'CU Reviews logo', width: 80, height: 80 },
-  { src: '/products/logos/cornellgo.svg', alt: 'CornellGo logo', width: 80, height: 80 },
-  { src: '/products/logos/courseplan.svg', alt: 'Courseplan logo', width: 60, height: 60 },
-  { src: '/products/logos/carriage.svg', alt: 'Carriage logo', width: 70, height: 70 },
-  {
-    src: '/products/logos/design@cornell.svg',
-    alt: 'Design @ Cornell logo',
-    width: 125,
-    height: 52
-  }
-];
 
 export default function Home() {
   return (
@@ -54,7 +39,7 @@ export default function Home() {
 
         <Marquee height={96}>
           {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} />
+            <LogoBox key={index} {...logo} noLink />
           ))}
         </Marquee>
 
