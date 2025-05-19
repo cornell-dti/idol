@@ -76,14 +76,14 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   return (
     <>
-      <div ref={containerRef} className="relative w-full flex flex-col sm:flex-row items-center py-8">
+      <div ref={containerRef} className="relative w-full flex flex-col sm:flex-row sm:items-start items-center py-8">
         {/*Track*/}
         <div
           className={`absolute bg-[var(--foreground-3,#A1A1A1)]`}
           style={
             isMobile
-              ? { top: 0, bottom: 0, left: '2rem', width: '2px' }
-              : { left: 0, right: 0, top: '3rem', height: '2px' }
+              ? { top: 0, bottom: 0, left: '2rem', width: '3px' }
+              : { left: 0, right: 0, top: '3rem', height: '3px' }
           } />
         <div className={`absolute bg-[var(--accent-Red,#FF575E)]`}
           style={
@@ -91,13 +91,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               ? {
                 top: 0,
                 left: '2rem',
-                width: '2px',
+                width: '3px',
                 height: `${progress}%`,
               }
               : {
                 left: 0,
                 top: '3rem',
-                height: '2px',
+                height: '3px',
                 width: `${progress}%`,
               }
           } />
@@ -118,17 +118,17 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             `}>
               {/* outer ring */}
               <div
-                className={`w-5 h-5 rounded-full border-2 ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
+                className={`w-[12px] h-[12px] rounded-full border-[1px] ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
               />
               {/* inner dot */}
               <div
-                className={`w-2.5 h-2.5 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
                 ${isPassed(ev) ? 'bg-[var(--accent-Red,#FF575E)]' : 'bg-[var(--foreground-3,#A1A1A1)]'}`} />
             </div>
             {/* Title */}
             <h3 className="h5 text-white font-semibold mt-6 mb-1 text-center">{ev.title}</h3>
             {/* Date */}
-            <p className="text-[var(--foreground-3,#A1A1A1)] mb-4">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
+            <p className="text-[var(--foreground-3,#A1A1A1)] mb-8">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
           </div>
         ))}
 

@@ -14,7 +14,7 @@ const events: Event[] = [
   { title: 'Lecture 0', date: 'Feb 9' },
   { title: 'Lecture 1 (async)', date: 'Feb 17' },
   { title: 'Sign-up Deadline', date: 'Feb 21' },
-  { title: 'Project Presentation', date: 'May 4' },
+  { title: 'Project Presentation', date: 'June 2' },
 ];
 
 export default function Course() {
