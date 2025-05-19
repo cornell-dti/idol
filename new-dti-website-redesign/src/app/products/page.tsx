@@ -7,89 +7,65 @@ import products from './products.json';
 import Product from './Product';
 import Hero from '../../components/Hero';
 import CtaSection from '../../components/CtaSection';
+import LogoBox from '../../components/LogoBox';
 
 export const metadata = {
   title: 'DTI PRODUCTS PAGE',
   description: 'DESCRIPTION'
 };
 
-type Logo = {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  anchor: string;
-};
-
-const logos: Logo[] = [
+const logos = [
   {
     src: '/products/logos/cureviews.svg',
     alt: 'CU Reviews logo',
     width: 80,
     height: 80,
-    anchor: '#cureviews'
+    href: '#cureviews'
   },
   {
     src: '/products/logos/courseplan.svg',
     alt: 'Courseplan logo',
     width: 60,
     height: 60,
-    anchor: '#courseplan'
+    href: '#courseplan'
   },
   {
     src: '/products/logos/queuemein.svg',
     alt: 'Queue Me In logo',
     width: 80,
     height: 80,
-    anchor: '#queuemein'
+    href: '#queuemein'
   },
   {
     src: '/products/logos/design@cornell.svg',
     alt: 'Design @ Cornell logo',
     width: 125,
     height: 52,
-    anchor: '#design@cornell'
+    href: '#design@cornell'
   },
-  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96, anchor: '#zing' },
+  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96, href: '#zing' },
   {
     src: '/products/logos/cuapts.svg',
     alt: 'CU Apartments logo',
     width: 110,
     height: 80,
-    anchor: '#cuapts'
+    href: '#cuapts'
   },
   {
     src: '/products/logos/carriage.svg',
     alt: 'Carriage logo',
     width: 70,
     height: 70,
-    anchor: '#carriage'
+    href: '#carriage'
   },
   {
     src: '/products/logos/cornellgo.svg',
     alt: 'CornellGo logo',
     width: 80,
     height: 80,
-    anchor: '#cornellgo'
+    href: '#cornellgo'
   }
 ];
-
-const LogoBox: React.FC<Logo> = ({ src, alt, width, height, anchor }) => (
-  <Link
-    className="flex items-center justify-center w-1/4 h-24 border border-border-1 hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
-    href={anchor}
-    aria-label={`Jump to ${alt.replace(/ logo$/i, '')} product`}
-  >
-    <Image
-      src={src}
-      alt={alt}
-      unoptimized
-      width={width}
-      height={height}
-      style={{ width: `${width}px`, height: `${height ?? 'auto'}px` }}
-    />
-  </Link>
-);
 
 export default function Products() {
   return (
@@ -107,9 +83,9 @@ export default function Products() {
 
       <SectionSep />
 
-      <div className="flex flex-wrap">
+      <div className="grid grid-cols-4 border-t-1 border-border-1">
         {logos.map((logo, index) => (
-          <LogoBox key={index} {...logo} />
+          <LogoBox key={index} {...logo} fillWidth />
         ))}
       </div>
 
