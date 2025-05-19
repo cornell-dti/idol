@@ -2,7 +2,7 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
-import LogoBox from '@/components/LogoBox';
+import LogoBox from '../../components/LogoBox';
 
 export const metadata = {
   title: 'DTI SPONSOR PAGE',
