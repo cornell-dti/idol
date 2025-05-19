@@ -13,7 +13,7 @@ export const metadata = {
   description: 'DESCRIPTION'
 };
 
-const logos = [
+export const logos = [
   { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
   { src: '/products/logos/queuemein.svg', alt: 'Queue Me In logo', width: 80, height: 80 },
   { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96 },

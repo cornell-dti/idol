@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import SectionSep from '../../components/SectionSep';
 import Layout from '../../components/Layout';
 import products from './products.json';
@@ -14,7 +13,7 @@ export const metadata = {
   description: 'DESCRIPTION'
 };
 
-const logos = [
+export const logos = [
   {
     src: '/products/logos/cureviews.svg',
     alt: 'CU Reviews logo',
