@@ -85,55 +85,55 @@ body {
 
 h1,
 .h1 {
-  font-size: 47.78px;
+  font-size: 48px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 768px) {
   h1,
   .h1 {
-    font-size: 39.81px;
+    font-size: 40px;
   }
 }
 
 h2,
 .h2 {
-  font-size: 39.81px;
+  font-size: 40px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 768px) {
   h2,
   .h2 {
-    font-size: 39.81px;
+    font-size: 32px;
   }
 }
 
 h3,
 .h3 {
-  font-size: 33.18px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 768px) {
   h3,
   .h3 {
-    font-size: 27.65px;
+    font-size: 28px;
   }
 }
 
 h4,
 .h4 {
-  font-size: 27.65px;
+  font-size: 28px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
@@ -141,7 +141,7 @@ h4,
 
 h5,
 .h5 {
-  font-size: 23.04px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 160%;
@@ -149,7 +149,7 @@ h5,
 
 h6,
 .h6 {
-  font-size: 19.2px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: 160%;
