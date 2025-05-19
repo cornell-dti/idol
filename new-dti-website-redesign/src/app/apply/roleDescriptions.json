@@ -1,6 +1,6 @@
 [
   {
-    "role": "Developer",
+    "role": "Development",
     "skills": [
       "A curious, inventive and communicative investigator",
       "Eagerness to learn new technologies and applications",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "role": "Designer",
+    "role": "Design",
     "skills": [
       "Knowledge of product thinking, empathy and creativity to solve problems",
       "Openness to feedback and willingness to critique",
@@ -31,7 +31,7 @@
     ]
   },
   {
-    "role": "Strategist",
+    "role": "Business",
     "skills": [
       "Passion for projects that focus on impact and initiative",
       "Creativity to create new product visions with innovation",
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "role": "Product Manager",
+    "role": "Product",
     "skills": [
       "Understanding of user needs and product thinking/the product cycle",
       "Eagerness to lead and build team culture",
