@@ -35,34 +35,9 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
-  const [progress, setProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const { width } = useScreenSize();
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // (Re-)compute progress whenever events or currentDate change
-  useLayoutEffect(() => {
-    if (events.length < 2) {
-      setProgress(0);
-      return;
-    }
-    // sort
-    const sorted = [...events].sort((a, b) =>
-      parseDate(a.date, '12:00 AM', a.time).getTime() -
-      parseDate(b.date, '12:00 AM', b.time).getTime()
-    );
-
-    const times = sorted.map(e => parseDate(e.date, '12:00 AM', e.time).getTime());
-    const start = times[0], end = times[times.length - 1];
-    const now = currentDate.getTime();
-    if (now <= start) {
-      setProgress(0);
-    } else if (now >= end) {
-      setProgress(100);
-    } else {
-      setProgress(((now - start) / (end - start)) * 100);
-    }
-  }, [events, currentDate]);
 
   // Detect mobile vs desktop
   useLayoutEffect(() => {

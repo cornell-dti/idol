@@ -103,6 +103,7 @@
 .timeline{
   flex-direction: row;
   align-items: center;
+  padding-top: 6rem;
 }
 
 .content {
