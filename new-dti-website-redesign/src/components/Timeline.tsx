@@ -78,31 +78,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   return (
     <>
       <div ref={containerRef} className={`${styles.timeline}`}>
-        {/*Track*/}
-        {/* <div
-          className={`absolute bg-[var(--foreground-3,#A1A1A1)]`}
-          style={
-            isMobile
-              ? { top: 0, bottom: 0, left: '2rem', width: '3px' }
-              : { left: 0, right: 0, top: '3rem', height: '3px' }
-          } />
-        <div className={`absolute bg-[var(--accent-Red,#FF575E)]`}
-          style={
-            isMobile
-              ? {
-                top: 0,
-                left: '2rem',
-                width: '3px',
-                height: `${progress}%`,
-              }
-              : {
-                left: 0,
-                top: '3rem',
-                height: '3px',
-                width: `${progress}%`,
-              }
-          } /> */}
-
         {/* Events */}
         {events.map((ev, i) => (
           <div
@@ -120,7 +95,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               absolute
               ${isMobile
                   ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'            // mobile: vertical center of container, x=2rem
-                  : 'top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2' // desktop: y=1rem (→ line at 3rem), centered in its column
+                  : 'bottom-[calc(1rem-5px)] left-1/2 transform -translate-x-1/2'
                 }
             `}>
                 {/* outer ring */}

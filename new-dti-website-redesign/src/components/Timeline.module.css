@@ -111,19 +111,22 @@
     height: 67px;
     flex: 0 0 auto;          
     margin: 0 auto; 
+    padding: 0;
   }
 
 .timeline-event {
     height: 8rem;
     padding: 0 1rem;
-    padding-top: 3rem;   /* to clear the horizontal bar */
+    padding-bottom: 3rem;   /* to clear the horizontal bar */
+    padding-top: 0;
     margin: 0;
   }
 .timeline-event::before,
   .timeline-event::after {
     left: auto;
-    transform: translateY(-50%);
-    top: 1rem;
+    top: auto;
+    transform: translateY(50%);
+    bottom: 1rem; 
     width: calc(50% - 12px);
     height: 3px;
   }
