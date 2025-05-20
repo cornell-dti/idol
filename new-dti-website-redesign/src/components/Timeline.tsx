@@ -84,18 +84,30 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             key={i}
             className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''}  relative flex-1 flex flex-col items-center sm:items-center px-4`}>
             <div className={styles.content}>
-              <div className="" >
+              <div
+                className="
+              md:mt-0 
+              ml-4 
+              md:ml-0
+              md:absolute
+              md:bottom-[calc(1rem+1.5px+76px)]
+              md:left-1/2
+              transform
+              md:-translate-x-1/2
+              md:text-center
+              lg:whitespace-nowrap
+              " >
                 {/* Title */}
-                <h3 className="h5 text-white font-semibold mb-1 text-center">{ev.title}</h3>
+                <h3 className="h5 text-white font-semibold mb-1">{ev.title}</h3>
                 {/* Date */}
-                <p className="text-[var(--foreground-3,#A1A1A1)] mb-0">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
+                <p className="text-[var(--foreground-3,#A1A1A1)]">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
               </div>
               {/* Point + Ring */}
               <div className={`
               absolute
               ${isMobile
                   ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'
-                  : 'bottom-[calc(1rem-4.5px)] left-1/2 transform -translate-x-1/2'  //1rem (16px) + 1/2 track height (1.5px) -> 17.5 px up from bottom -> 17.5px - 6px = 11.5px
+                  : 'bottom-[calc(1rem-4.5px+64px)] left-1/2 transform -translate-x-1/2'  //1rem (16px) + 1/2 track height (1.5px) -> 17.5 px up from bottom -> 17.5px - 6px = 11.5px
                 }
             `}>
                 {/* outer ring */}
