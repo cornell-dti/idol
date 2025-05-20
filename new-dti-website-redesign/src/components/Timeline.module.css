@@ -5,6 +5,15 @@
   position: relative;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 64px;
+  padding: 32px 16px;
+}
+
 /* Each event becomes the anchor for its up/down track segments */
 .timeline-event {
   height: 6rem;
@@ -95,6 +104,15 @@
   flex-direction: row;
   align-items: center;
 }
+
+.content {
+    flex-direction: column;  
+    align-items: flex-start;
+    height: 67px;
+    flex: 0 0 auto;          
+    margin: 0 auto; 
+  }
+
 .timeline-event {
     height: 8rem;
     padding: 0 1rem;

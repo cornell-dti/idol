@@ -77,7 +77,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   return (
     <>
-      <div ref={containerRef} className={`${styles.timeline} relative w-full flex flex-col sm:flex-row`}>
+      <div ref={containerRef} className={`${styles.timeline}`}>
         {/*Track*/}
         {/* <div
           className={`absolute bg-[var(--foreground-3,#A1A1A1)]`}
@@ -108,26 +108,30 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           <div
             key={i}
             className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''}  relative flex-1 flex flex-col items-center sm:items-center px-4`}>
-            {/* Title */}
-            <h3 className="h5 text-white font-semibold mb-1 text-center">{ev.title}</h3>
-            {/* Date */}
-            <p className="text-[var(--foreground-3,#A1A1A1)] mb-0">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
-            {/* Point + Ring */}
-            <div className={`
+            <div className={styles.content}>
+              <div className="" >
+                {/* Title */}
+                <h3 className="h5 text-white font-semibold mb-1 text-center">{ev.title}</h3>
+                {/* Date */}
+                <p className="text-[var(--foreground-3,#A1A1A1)] mb-0">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
+              </div>
+              {/* Point + Ring */}
+              <div className={`
               absolute
               ${isMobile
-                ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'            // mobile: vertical center of container, x=2rem
-                : 'top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2' // desktop: y=1rem (→ line at 3rem), centered in its column
-              }
+                  ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'            // mobile: vertical center of container, x=2rem
+                  : 'top-4 left-1/2 transform -translate-x-1/2 -translate-y-1/2' // desktop: y=1rem (→ line at 3rem), centered in its column
+                }
             `}>
-              {/* outer ring */}
-              <div
-                className={`w-[12px] h-[12px] rounded-full border-[1px] ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
-              />
-              {/* inner dot */}
-              <div
-                className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                {/* outer ring */}
+                <div
+                  className={`w-[12px] h-[12px] rounded-full border-[1px] ${isPassed(ev) ? 'border-[var(--accent-Red,#FF575E)]' : 'border-[var(--foreground-3,#A1A1A1)]'}`}
+                />
+                {/* inner dot */}
+                <div
+                  className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
                 ${isPassed(ev) ? 'bg-[var(--accent-Red,#FF575E)]' : 'bg-[var(--foreground-3,#A1A1A1)]'}`} />
+              </div>
             </div>
           </div>
         ))}
