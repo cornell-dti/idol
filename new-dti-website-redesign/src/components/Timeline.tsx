@@ -85,18 +85,10 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''}  relative flex-1 flex flex-col items-center sm:items-center px-4`}>
             <div className={styles.content}>
               <div
-                className="
-              md:mt-0 
-              ml-4 
-              md:ml-0
-              md:absolute
-              md:bottom-[calc(1rem+1.5px+76px)]
-              md:left-1/2
-              transform
-              md:-translate-x-1/2
-              md:text-center
-              lg:whitespace-nowrap
-              " >
+                className={` ${isMobile ? 'ml-4' : ' mt-0 absolute bottom-[calc(1rem+1.5px+76px)] left-1/2 transform -translate-x-1/2'
+                  + ' text-center'
+                  + ' lg:whitespace-nowrap'}
+              `}>
                 {/* Title */}
                 <h3 className="h5 text-white font-semibold mb-1">{ev.title}</h3>
                 {/* Date */}
