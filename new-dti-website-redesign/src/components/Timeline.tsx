@@ -94,8 +94,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               <div className={`
               absolute
               ${isMobile
-                  ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'            // mobile: vertical center of container, x=2rem
-                  : 'bottom-[calc(1rem-5px)] left-1/2 transform -translate-x-1/2'
+                  ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'
+                  : 'bottom-[calc(1rem-4.5px)] left-1/2 transform -translate-x-1/2'  //1rem (16px) + 1/2 track height (1.5px) -> 17.5 px up from bottom -> 17.5px - 6px = 11.5px
                 }
             `}>
                 {/* outer ring */}
