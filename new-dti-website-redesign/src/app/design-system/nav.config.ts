@@ -89,6 +89,12 @@ const navItems: NavGroup[] = [
         href: '/design-system/components/tabs',
         label: 'Tabs',
         description: 'Tabs description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/logo-box',
+        label: 'Logo box',
+        description: 'Logo box description bruh.'
       }
     ]
   }

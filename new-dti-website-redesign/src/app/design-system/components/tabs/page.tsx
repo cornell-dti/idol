@@ -9,7 +9,7 @@ import Tabs from '../../../../components/Tabs';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 
-export default function TabsPAge() {
+export default function TabsPage() {
   return (
     <PageLayout title="Tabs" description="Guidelines for tabs component.">
       <PageSection title="" description="">
