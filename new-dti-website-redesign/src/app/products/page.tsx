@@ -28,7 +28,7 @@ export default function Products() {
 
       <SectionSep />
 
-      <div className="grid grid-cols-4 border-t-1 border-border-1">
+      <section className="grid grid-cols-4">
         {logos.map((logo, index) => (
           <LogoBox
             key={index}
@@ -37,7 +37,7 @@ export default function Products() {
             ariaLabel={`Jump to ${logo.alt.replace(/ logo$/i, '')} product`}
           />
         ))}
-      </div>
+      </section>
 
       <SectionSep />
 
