@@ -218,6 +218,7 @@ export default function Navbar() {
                 <Link
                   href={href}
                   className="block px-2 md:px-4 py-3 h5 text-foreground-1 hover:bg-background-2 rounded-md transition-[background-color] transition-duration-[50ms] focusState"
+                  onClick={() => setMobileOpen(false)}
                 >
                   {label}
                 </Link>
