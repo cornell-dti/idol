@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import Image from 'next/image';
 import Button from './Button';
 
 type Props = {
@@ -11,8 +10,8 @@ type Props = {
   button2Label?: string;
   button2Link?: string;
   image?: string;
-  imageAlt?: string;
   centered?: boolean;
+  className?: string;
 };
 
 const Hero = ({
@@ -23,26 +22,31 @@ const Hero = ({
   button2Label,
   button2Link,
   image,
-  imageAlt,
-  centered = false
-}: Props): ReactNode => {
-  if (centered) {
-    return (
-      <section className="flex flex-col-reverse md:flex-col">
-        <div className="flex flex-col p-4 outline-[0.5px] outline-border-1 sm:p-8">
-          <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
-            <div className="flex flex-col items-center gap-2">
-              <h1 className="text-center">{heading}</h1>
-              <p className="h6 text-center text-foreground-3">{subheading}</p>
-            </div>
+  className
+}: Props): ReactNode => (
+  // sets border radius for the sibling element right after it
+  <section className={`${className} hero [&+*]:rounded-t-2xl [&+*]:overflow-hidden mb-1`}>
+    {image && (
+      <div
+        className="flex items-end h-[800px] relative bg-no-repeat bg-center bg-cover"
+        style={{ backgroundImage: `url('${image}')` }}
+      >
+        <div className="absolute inset-0 w-full h-full z-5 bg-[linear-gradient(181.82deg,rgba(13,13,13,0.9)_1.54%,rgba(13,13,13,0.2)_75.51%),radial-gradient(116.68%_116.67%_at_50%_-16.67%,rgba(13,13,13,0)_40%,#0D0D0D_100%)]"></div>
 
-            <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row z-10 md:items-center w-full p-8 pb-16 max-w-[1184px] mx-auto gap-4">
+          <div className="flex flex-col gap-1 md:max-w-1/2">
+            <h1>{heading}</h1>
+            <p className="h6 text-foreground-3">{subheading}</p>
+          </div>
+
+          {(button1Label && button1Link) || (button2Label && button2Link) ? (
+            <div className="flex md:flex-1/2 gap-4 md:justify-end">
               {button1Label && button1Link && (
                 <Button
                   variant="primary"
                   label={button1Label}
                   href={button1Link}
-                  className="w-full"
+                  className="w-fit"
                 />
               )}
               {button2Label && button2Link && (
@@ -50,66 +54,15 @@ const Hero = ({
                   variant="secondary"
                   label={button2Label}
                   href={button2Link}
-                  className="w-full"
+                  className="w-fit"
                 />
               )}
             </div>
-          </div>
+          ) : null}
         </div>
-
-        {image && (
-          <Image
-            src={image}
-            alt={imageAlt || 'Hero image alt text'}
-            width={1184}
-            height={600}
-            className="border-t-1 border-t-border-1"
-          />
-        )}
-      </section>
-    );
-  }
-
-  return (
-    <section>
-      {image && (
-        <Image
-          src={image}
-          alt={imageAlt || 'Hero image alt text'}
-          width={1184}
-          height={600}
-          className="outline-[0.5px] outline-border-1 md:outline-0"
-        />
-      )}
-      <div className="flex-col md:flex-row flex">
-        <div className="p-4 sm:p-4 md:p-8 flex flex-col gap-2 md:flex-[3] md:outline-[0.5px] md:outline-border-1">
-          <h1>{heading}</h1>
-          <p className="h6 text-foreground-3">{subheading}</p>
-        </div>
-
-        {(button1Label && button1Link) || (button2Label && button2Link) ? (
-          <div className="p-4 pt-0 sm:p-4 sm:pt-0 md:p-8 md:pt-8 flex md:flex-col gap-4 md:flex-[1] md:outline-[0.5px] md:outline-border-1 md:justify-center max-w-1/4">
-            {button1Label && button1Link && (
-              <Button
-                variant="primary"
-                label={button1Label}
-                href={button1Link}
-                className="md:w-full"
-              />
-            )}
-            {button2Label && button2Link && (
-              <Button
-                variant="secondary"
-                label={button2Label}
-                href={button2Link}
-                className="md:w-full"
-              />
-            )}
-          </div>
-        ) : null}
       </div>
-    </section>
-  );
-};
+    )}
+  </section>
+);
 
 export default Hero;

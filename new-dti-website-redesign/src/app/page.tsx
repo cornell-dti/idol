@@ -4,7 +4,6 @@ import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
 import SectionSep from '../components/SectionSep';
 import CtaSection from '../components/CtaSection';
-import SectionTitle from '../components/SectionTitle';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
 import logos from './products/logos.json';
@@ -13,6 +12,32 @@ export const metadata = {
   title: 'DIT HOMEPAGE',
   description: 'DESCRIPTION'
 };
+
+interface StatItemProps {
+  value: string;
+  label: string;
+  reverse?: boolean;
+}
+
+function StatItem({ value, label, reverse = false }: StatItemProps) {
+  const valueClass = reverse ? 'text-foreground-3' : 'text-foreground';
+  const labelClass = reverse ? 'text-foreground' : 'text-foreground-3';
+
+  return (
+    <div className="flex justify-center gap-1 flex-1/4 px-8 py-4">
+      <p className={valueClass}>{value}</p>
+      <p className={labelClass}>{label}</p>
+    </div>
+  );
+}
+
+// TODO: finalize these values with actual, real numbers lol
+const stats = [
+  { value: '23,000', label: 'users' },
+  { value: '11', label: 'products' },
+  { value: 'founded', label: '2017', reverse: true },
+  { value: '89', label: 'members' }
+];
 
 export default function Home() {
   return (
@@ -25,17 +50,19 @@ export default function Home() {
               <span className="block">of Tech @ Cornell</span>
             </>
           }
-          subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+          subheading="We are a talented, diverse group of students striving to make a difference in the Cornell community."
           button1Label="Apply to DTI"
           button1Link="/apply"
           button2Label="Meet the team"
           button2Link="/team"
           image="/home/hero.png"
-          imageAlt="DTI members in front of Duffield Hall"
-          centered
         />
 
-        <SectionTitle heading="Our products" smallCaps />
+        <section className="flex border-1 border-border-1 border-b-0 flex-wrap">
+          {stats.map((stat, index) => (
+            <StatItem key={index} value={stat.value} label={stat.label} reverse={stat.reverse} />
+          ))}
+        </section>
 
         <Marquee height={96}>
           {logos.map((logo, index) => (
