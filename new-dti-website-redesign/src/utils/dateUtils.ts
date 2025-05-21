@@ -8,10 +8,10 @@
  * @param time (Optional) The time of the event in the format `hh:mm AM/PM`, where seconds are optional.
  * @returns A `Date` object corresponding to the event's date and time.
  */
-
-export const parseDate = (date: string, defaultTime: string, time?: string) => {
+const parseDate = (date: string, defaultTime: string, time?: string): Date => {
   const tokens = date.split(', ');
   const year = tokens.length === 2 ? tokens[1] : new Date().getFullYear();
-  const parsedDate = new Date(`${date} ${year} ${time || defaultTime}`);
-  return parsedDate;
+  return new Date(`${date} ${year} ${time || defaultTime}`);
 };
+
+export default parseDate;
