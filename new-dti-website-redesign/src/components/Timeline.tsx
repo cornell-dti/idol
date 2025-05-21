@@ -1,8 +1,8 @@
 'use client';
 
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import useScreenSize from '../hooks/useScreenSize';
 import { parseDate } from '../utils/dateUtils';
-import React, { useLayoutEffect, useRef, useState } from 'react';
 import styles from './Timeline.module.css';
 
 export type Event = {
@@ -43,9 +43,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     setIsMobile(width < 640);
   }, [width]);
 
-  const isPassed = (e: Event) => {
-    return parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
-  };
+  const isPassed = (e: Event) =>
+    parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
   return (
     <>
@@ -54,17 +53,14 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           <div
             key={i}
             className={`${styles['timeline-event']} ${isPassed(ev) ? styles.passed : ''
-              }  relative flex-1 flex flex-col items-center sm:items-center px-4`}
+              } relative flex-1 flex flex-col items-center sm:items-center px-4`}
           >
             <div className={styles.content}>
               <div
-                className={` ${isMobile
+                className={`${isMobile
                     ? 'ml-4'
-                    : ' mt-0 absolute bottom-[calc(1rem+1.5px+76px)] left-1/2 transform -translate-x-1/2' +
-                    ' text-center' +
-                    ' lg:whitespace-nowrap'
-                  }
-              `}
+                    : 'mt-0 absolute bottom-[calc(1rem+1.5px+76px)] left-1/2 transform -translate-x-1/2 text-center lg:whitespace-nowrap'
+                  }`}
               >
                 <h3 className="h5 text-white font-semibold mb-1">{ev.title}</h3>
                 <p className="text-[var(--foreground-3,#A1A1A1)]">
@@ -73,13 +69,10 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               </div>
               {/* Point + Ring */}
               <div
-                className={`
-              absolute
-              ${isMobile
+                className={`absolute ${isMobile
                     ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'
-                    : 'bottom-[calc(1rem-4.5px+64px)] left-1/2 transform -translate-x-1/2' //1rem (16px) + 1/2 track height (1.5px) -> 17.5 px up from bottom -> 17.5px - 6px = 11.5px
-                  }
-            `}
+                    : 'bottom-[calc(1rem-4.5px+64px)] left-1/2 transform -translate-x-1/2' // 1rem (16px) + 1/2 track height (1.5px) -> 17.5px up from bottom -> 17.5px - 6px = 11.5px
+                  }`}
               >
                 {/* outer ring */}
                 <div
@@ -90,8 +83,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 />
                 {/* inner dot */}
                 <div
-                  className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-                ${isPassed(ev)
+                  className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${isPassed(ev)
                       ? 'bg-[var(--accent-Red,#FF575E)]'
                       : 'bg-[var(--foreground-3,#A1A1A1)]'
                     }`}
