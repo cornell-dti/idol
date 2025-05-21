@@ -29,7 +29,7 @@ export default function LogoBoxPage() {
         </div>
       </PageSection>
 
-      <PageSection title="Logo box width fixed width" description="">
+      <PageSection title="Logo box with fixed width" description="">
         <div className="flex flex-wrap">
           {logos.map((logo, index) => (
             <LogoBox key={index} {...logo} noLink />
