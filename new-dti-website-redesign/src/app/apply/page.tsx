@@ -16,16 +16,13 @@ export default function Apply() {
 
       <Hero
         heading="Join our community"
-        subheading="We strive for inclusivity, and encourage passionate applicants to apply regardless of experience. We'd love to work with someone like you."
+        subheading="We value inclusivity and welcome passionate applicants of all experience levels. We’d love to work with you."
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Role descriptions"
         button2Link="/"
         image="/apply/hero.png"
-        imageAlt="DTI members hosting a recruitment event with prospective applicants"
       />
-
-      <SectionSep />
 
       <section className="temporarySection">
         <h4>Application timeline section</h4>

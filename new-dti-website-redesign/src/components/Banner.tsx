@@ -5,7 +5,7 @@ type Props = {
 };
 
 const Banner = ({ label }: Props): ReactNode => (
-  <div className="flex items-center justify-center sticky top-20 z-10 min-[1200px]:pt-4 min-[1200px]:mt-[-67px]">
+  <div className="flex items-center justify-center sticky top-20 z-20 min-[1200px]:pt-4 min-[1200px]:mt-[-67px]">
     <div
       className="
         px-5 py-4 md:py-3 text-center w-full min-[1200px]:w-fit

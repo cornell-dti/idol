@@ -13,16 +13,13 @@ export default function Course() {
     <Layout>
       <Hero
         heading="Course"
-        subheading="Given our mission of community impact, we want to help everyone learn and grow through our training course in product development."
+        subheading="Driven by our mission of community impact, we offer a product development course to help everyone learn."
         button1Label="Apply to course"
         button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
         button2Label="Apply to DTI"
         button2Link="/apply"
         image="/course/hero.png"
-        imageAlt="DTI member presenting a course to an auditorium"
       />
-
-      <SectionSep />
 
       <section className="temporarySection">
         <h4>Trends in Web Development section</h4>

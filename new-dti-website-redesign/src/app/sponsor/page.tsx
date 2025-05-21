@@ -13,16 +13,13 @@ export default function Sponsor() {
     <Layout>
       <Hero
         heading="Support our team"
-        subheading="The generous contributions of our supporters and sponsors allow our team to continue building products and hosting initiatives."
+        subheading="The generous support of our sponsors enables us to keep building products and leading initiatives."
         button1Label="Donate to DTI"
         button1Link="https://securelb.imodules.com/s/1717/giving/interior.aspx?sid=1717&gid=2&pgid=16421&bledit=1&dids=2215"
         button2Label="Get in touch"
         button2Link="/"
         image="/sponsor/hero.png"
-        imageAlt="DTI members collaborating together in front of a laptop"
       />
-
-      <SectionSep />
 
       <section className="temporarySection">
         <h4>Become a sponsor! section</h4>
