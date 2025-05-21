@@ -3,6 +3,9 @@ import Layout from '../../components/Layout';
 import Banner from '../../components/Banner';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
+import roles from './roleDescriptions.json';
+import RoleDescriptionCard from './RoleDescriptionCard';
+import Tabs from '../../components/Tabs';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',
@@ -30,8 +33,23 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Role descriptions section</h4>
+      <section className="flex flex-col gap-8 items-center md:p-8">
+        <h2 className="md:p-0 pt-4">Role descriptions</h2>
+
+        <Tabs
+          center
+          tabs={roles.map((role, index) => ({
+            label: role.role,
+            content: (
+              <RoleDescriptionCard
+                key={index}
+                role={role.role}
+                skills={role.skills}
+                responsibilities={role.responsibilities}
+              />
+            )
+          }))}
+        />
       </section>
 
       <SectionSep />
