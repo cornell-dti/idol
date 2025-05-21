@@ -2,7 +2,7 @@
 
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import useScreenSize from '../hooks/useScreenSize';
-import { parseDate } from '../utils/dateUtils';
+import parseDate from '../utils/dateUtils';
 import styles from './Timeline.module.css';
 
 export type Event = {
