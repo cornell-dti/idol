@@ -1,5 +1,3 @@
-
-
 /**
  * Parses a date and time to a `Date` object.
  *
@@ -17,4 +15,3 @@ export const parseDate = (date: string, defaultTime: string, time?: string) => {
   const parsedDate = new Date(`${date} ${year} ${time || defaultTime}`);
   return parsedDate;
 };
-
