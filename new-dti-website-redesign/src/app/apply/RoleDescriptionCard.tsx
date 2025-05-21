@@ -17,7 +17,7 @@ export default function RoleDescriptionCard({
 
       <div className="flex flex-col gap-1 p-4 border-b-1 border-border-1">
         <h4 className="h6">{`What we're looking for`}</h4>
-        <ul className="list-disc list-inside pl-2">
+        <ul className="list-disc pl-5">
           {skills.map((skill, index) => (
             <li key={index} className="text-foreground-3">
               {skill}
@@ -28,7 +28,7 @@ export default function RoleDescriptionCard({
 
       <div className="flex flex-col gap-1 p-4">
         <h4 className="h6">Responsibilities at a glance:</h4>
-        <ul className="list-disc list-inside pl-2">
+        <ul className="list-disc pl-5">
           {responsibilities.map((resp, index) => (
             <li key={index} className="text-foreground-3">
               {resp}
