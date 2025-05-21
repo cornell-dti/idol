@@ -1,4 +1,3 @@
-//tells Next that this file must be bundled for the browser so client-only hooks will work
 'use client';
 
 import useScreenSize from '@/hooks/useScreenSize';
@@ -39,13 +38,11 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   const { width } = useScreenSize();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Detect mobile vs desktop
   useLayoutEffect(() => {
     if (!width) return;
     setIsMobile(width < 640);
   }, [width]);
 
-  // Helper to know if an event is passed
   const isPassed = (e: Event) => {
     return parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
   };
@@ -53,7 +50,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   return (
     <>
       <div ref={containerRef} className={`${styles.timeline}`}>
-        {/* Events */}
         {events.map((ev, i) => (
           <div
             key={i}
@@ -64,9 +60,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                   + ' text-center'
                   + ' lg:whitespace-nowrap'}
               `}>
-                {/* Title */}
                 <h3 className="h5 text-white font-semibold mb-1">{ev.title}</h3>
-                {/* Date */}
                 <p className="text-[var(--foreground-3,#A1A1A1)]">{ev.date} {ev.time ? ` · ${ev.time}` : ''}</p>
               </div>
               {/* Point + Ring */}
