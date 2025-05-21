@@ -66,6 +66,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       return (
         <Link
           href={href}
+          onClick={onClick}
           className={sharedClasses}
           target={newTab ? '_blank' : undefined}
           {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
