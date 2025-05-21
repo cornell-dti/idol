@@ -2,7 +2,7 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
-import Timeline, { Event } from '@/components/Timeline';
+import Timeline, { Event } from '../../components/Timeline';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
