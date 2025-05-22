@@ -106,8 +106,6 @@ export default function Home() {
           button2Link="/apply"
         />
 
-        <SectionSep />
-
         <CtaSection
           heading="Ready to join?"
           subheading="Be part of something greater today."
@@ -116,8 +114,6 @@ export default function Home() {
           button2Label="Meet the team"
           button2Link="/team"
         />
-
-        <SectionSep />
       </Layout>
     </>
   );

@@ -49,8 +49,6 @@ export default function Course() {
         <h4>Past student projects section</h4>
       </section>
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -59,8 +57,6 @@ export default function Course() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }

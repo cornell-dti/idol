@@ -48,8 +48,6 @@ export default function Products() {
         </React.Fragment>
       ))}
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -58,8 +56,6 @@ export default function Products() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }
