@@ -12,7 +12,9 @@ const Layout = ({ children }: Props): React.ReactElement => (
   <>
     <DevNavbar />
 
-    <main role="main">{children}</main>
+    <main role="main" id="main-content">
+      {children}
+    </main>
 
     <Footer />
   </>
