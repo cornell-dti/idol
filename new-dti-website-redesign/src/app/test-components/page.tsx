@@ -27,7 +27,7 @@ export default function TestComponents() {
     upperclassmen: { date: 'August 21', isTentative: false },
     spring: { date: 'January 3', isTentative: false }
   };
-  
+
   const mockUser: IdolMember = {
     netid: 'abc123',
     email: 'abc123@cornell.edu',
@@ -43,9 +43,9 @@ export default function TestComponents() {
     role: 'ops-lead',
     roleDescription: 'Full Team Lead',
     doubleMajor: 'Economics',
-    linkedin: "https://www.linkedin.com/",
-    github: "https://github.com/",
-    website: "https://google.com/"
+    linkedin: 'https://www.linkedin.com/',
+    github: 'https://github.com/',
+    website: 'https://google.com/'
   };
 
   return (
