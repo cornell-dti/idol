@@ -536,7 +536,7 @@ export default function TestComponents() {
           </FAQAccordion>
         </div>
       </div>
-        
+
       <div className="flex flex-col gap-6">
         <h4>Timeline Card</h4>
         <div className="flex flex-col gap-4">
