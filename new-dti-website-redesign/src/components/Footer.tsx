@@ -205,7 +205,6 @@ export default function Footer() {
   return (
     <footer
       className="max-w-[1184px] sm:mx-8 md:mx-32 lg:mx-auto sm:rounded-t-2xl bg-[linear-gradient(to_bottom,#121212,#0D0D0D)] mt-1
-    
     relative before:content-[''] before:absolute before:-top-px before:-left-px before:w-[calc(100%+2px)] before:h-[calc(100%+1px)] before:z-[-2] before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.1),rgba(255,255,255,0.02))] before:sm:rounded-t-2xl"
     >
       <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
