@@ -1,33 +1,42 @@
 import React from 'react';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
 import SectionSep from '../components/SectionSep';
 import CtaSection from '../components/CtaSection';
-import SectionTitle from '../components/SectionTitle';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
+import logos from './products/logos.json';
 
 export const metadata = {
   title: 'DIT HOMEPAGE',
   description: 'DESCRIPTION'
 };
 
-const logos = [
-  { src: '/products/logos/cuapts.svg', alt: 'CU Apartments logo', width: 110, height: 80 },
-  { src: '/products/logos/queuemein.svg', alt: 'Queue Me In logo', width: 80, height: 80 },
-  { src: '/products/logos/zing.svg', alt: 'Zing logo', width: 96, height: 96 },
-  { src: '/products/logos/cureviews.svg', alt: 'CU Reviews logo', width: 80, height: 80 },
-  { src: '/products/logos/cornellgo.svg', alt: 'CornellGo logo', width: 80, height: 80 },
-  { src: '/products/logos/courseplan.svg', alt: 'Courseplan logo', width: 60, height: 60 },
-  { src: '/products/logos/carriage.svg', alt: 'Carriage logo', width: 70, height: 70 },
-  {
-    src: '/products/logos/design@cornell.svg',
-    alt: 'Design @ Cornell logo',
-    width: 125,
-    height: 52
-  }
+interface StatItemProps {
+  value: string;
+  label: string;
+  reverse?: boolean;
+}
+
+function StatItem({ value, label, reverse = false }: StatItemProps) {
+  const valueClass = reverse ? 'text-foreground-3' : 'text-foreground';
+  const labelClass = reverse ? 'text-foreground' : 'text-foreground-3';
+
+  return (
+    <div className="flex justify-center gap-1 flex-1/4 px-8 py-4">
+      <p className={valueClass}>{value}</p>
+      <p className={labelClass}>{label}</p>
+    </div>
+  );
+}
+
+// TODO: finalize these values with actual, real numbers lol
+const stats = [
+  { value: '23,000', label: 'users' },
+  { value: '11', label: 'products' },
+  { value: 'founded', label: '2017', reverse: true },
+  { value: '89', label: 'members' }
 ];
 
 export default function Home() {
@@ -41,21 +50,23 @@ export default function Home() {
               <span className="block">of Tech @ Cornell</span>
             </>
           }
-          subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
+          subheading="We are a talented, diverse group of students striving to make a difference in the Cornell community."
           button1Label="Apply to DTI"
           button1Link="/apply"
           button2Label="Meet the team"
           button2Link="/team"
           image="/home/hero.png"
-          imageAlt="DTI members in front of Duffield Hall"
-          centered
         />
 
-        <SectionTitle heading="Our products" smallCaps />
+        <section className="flex border-1 border-border-1 border-b-0 flex-wrap">
+          {stats.map((stat, index) => (
+            <StatItem key={index} value={stat.value} label={stat.label} reverse={stat.reverse} />
+          ))}
+        </section>
 
         <Marquee height={96}>
           {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} />
+            <LogoBox key={index} {...logo} noLink />
           ))}
         </Marquee>
 
@@ -106,24 +117,7 @@ export default function Home() {
           button2Link="/team"
         />
 
-        <section className="bg-background-2 h-[400px]">
-          <h1>Welcome</h1>
-          <p className="mt-2">testing testing 123</p>
-        </section>
-
-        <section className="bg-background-3 h-[400px]">
-          <h2>
-            <Link href="/test-components" className="text-accent-red underline">
-              View and test components
-            </Link>
-          </h2>
-
-          <h2>
-            <Link href="/test-page" className="text-accent-red underline">
-              View full test page
-            </Link>
-          </h2>
-        </section>
+        <SectionSep />
       </Layout>
     </>
   );

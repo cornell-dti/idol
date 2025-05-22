@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
 
@@ -19,13 +19,109 @@ export default function Navbar() {
     { href: '/sponsor', label: 'Sponsor' }
   ];
 
+  // ######################################
+  // NAVBAR LINK HIGHLIGHT ANIMATION LOGIC:
+  // ######################################
+
+  // to only show the highlight on the links above (not on Home or Apply)
+  const isNavLink = navLinks.some((link) => link.href === pathname);
+
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const highlightRef = useRef<HTMLSpanElement>(null);
+
+  // current position + width of the highlight
+  const [highlightStyle, setHighlightStyle] = useState<{ left: number; width: number } | null>(
+    null
+  );
+
+  // we need previous position + width of highlight to animate the highlight from the
+  // old one to the new one smoothly
+  const prevHighlight = useRef<{ left: number; width: number } | null>(null);
+
+  // to track previous path
+  const prevPathname = useRef<string | null>(null);
+
+  // using useLayoutEffect instead of useEffect to ensure that the layout reads and
+  // updates the position/width before the screen repaints (to prevent flicker and
+  // achieve the smooth animation
+  useLayoutEffect(() => {
+    const idx = navLinks.findIndex((link) => link.href === pathname);
+    const linkEl = linkRefs.current[idx];
+
+    if (linkEl) {
+      // measure position + width of actual link
+      // and then create new style for positioning the new highlight
+      const { offsetLeft, offsetWidth } = linkEl;
+      const newStyle = { left: offsetLeft, width: offsetWidth };
+
+      // avoid animating from a stale position when coming from Home or Apply
+      const cameFromHomeOrApply = prevPathname.current === '/' || prevPathname.current === '/apply';
+      const nowIsNavLink = navLinks.some((link) => link.href === pathname);
+
+      if (cameFromHomeOrApply && nowIsNavLink) {
+        // just set highlight directly  (no slide animation)
+        setHighlightStyle(newStyle);
+        prevHighlight.current = newStyle;
+      } else if (prevHighlight.current) {
+        // all of this animates movement of highlight from old link to new link smoothly
+        // if there's a previous highlight position, jump to it first, then animate to new one
+        // otherwise set new position directly
+        setHighlightStyle(prevHighlight.current);
+
+        requestAnimationFrame(() => {
+          setHighlightStyle(newStyle);
+          prevHighlight.current = newStyle;
+        });
+      } else {
+        setHighlightStyle(newStyle);
+        prevHighlight.current = newStyle;
+      }
+    } else {
+      // no highlight for current pathname (/home and /apply)
+      setHighlightStyle(null);
+      prevHighlight.current = null;
+    }
+
+    prevPathname.current = pathname;
+  }, [pathname]);
+
+  // ####################################
+  // NAVBAR CHANGE COLOR ON SCROLL LOGIC:
+  // ####################################
+
+  const [scrolledPast, setScrolledPast] = useState(false);
+
+  // tracks if user has scrolled past treshold and updates state accordingly
+  useEffect(() => {
+    const scrollThreshold = 770;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolledPast(window.scrollY > scrollThreshold);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    setScrolledPast(window.scrollY > scrollThreshold);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
     <>
       <nav
-        className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-10 bg-background-1 
-        mx-4 sm:mx-8 md:mx-32 lg:mx-auto 
-        [width:calc(100%-2rem)] sm:[width:calc(100%-4rem)] md:[width:calc(100%-16rem)] 
-        lg:left-1/2 lg:-translate-x-1/2 lg:transform"
+        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-60 w-full left-1/2 translate-x-[-50%] transform
+        transition-[background-color] duration-[300ms]
+        ${scrolledPast ? 'bg-background-1' : ''}
+        `}
       >
         <Link href="/" className="focusState rounded-sm">
           <Image
@@ -38,48 +134,73 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="flex gap-8 items-center">
-          <ul className="hidden min-[1200px]:flex gap-8 text-foreground-3 h-10 items-center">
-            {navLinks.map(({ href, label }) => (
+        <div className="flex gap-2 items-center">
+          <ul className="hidden min-[900px]:flex h-10 items-center relative">
+            {navLinks.map(({ href, label }, i) => (
               <li key={href} className="h-10 flex items-center">
                 <Link
                   href={href}
-                  className={`transition-[color] h-10 duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-sm focus-visible:text-foreground-1 font-medium ${
-                    pathname === href
-                      ? "text-foreground-1 after:content-[''] after:absolute after:bottom-[-21px] after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full"
-                      : 'text-foreground-3'
+                  ref={(el) => {
+                    linkRefs.current[i] = el;
+                  }}
+                  className={`transition-[color] h-10 px-4 duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-full font-medium ${
+                    pathname === href ? 'text-foreground-1' : 'text-foreground-3'
                   }`}
                 >
                   {label}
                 </Link>
               </li>
             ))}
+
+            {/* Gray pill shape that highlights currently selected page */}
+            {highlightStyle && (
+              <span
+                className="bottom-0 absolute -z-10 rounded-full h-10 bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px]"
+                ref={highlightRef}
+                style={{
+                  left: highlightStyle.left,
+                  width: highlightStyle.width,
+                  opacity: isNavLink ? 1 : 0,
+                  transition:
+                    'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1), opacity 0.3s ease'
+                }}
+              />
+            )}
           </ul>
 
-          <div className="flex gap-4">
-            <Button variant="primary" href="/apply" label="Apply" className="max-[600px]:hidden" />
+          <div className="flex gap-3">
+            {!mobileOpen && (
+              <Button
+                variant="primary"
+                size="small"
+                href="/apply"
+                label="Apply"
+                className="max-[600px]:hidden"
+              />
+            )}
 
             {/* Hamburger icon button */}
             <IconButton
-              className="min-[1200px]:hidden text-foreground-1 focus:outline-none"
+              className="min-[900px]:hidden text-foreground-1 focus:outline-none"
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
               variant="tertiary"
+              size="small"
             >
-              <span className="flex flex-col gap-1 relative w-6 h-6">
+              <span className="flex flex-col gap-1 relative w-4 h-4">
                 <span
-                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
-                    mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'
+                  className={`absolute top-2.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                    mobileOpen ? 'rotate-45 translate-y-[-2px]' : '-translate-y-2'
                   }`}
                 />
                 <span
-                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
+                  className={`absolute top-1/2 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
                     mobileOpen ? 'opacity-0 left-[-16px]' : ''
                   }`}
                 />
                 <span
-                  className={`absolute top-1/2 left-0 w-6 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
-                    mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'
+                  className={`absolute top-1.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                    mobileOpen ? '-rotate-45 translate-y-[2px]' : 'translate-y-2'
                   }`}
                 />
               </span>
@@ -90,13 +211,14 @@ export default function Navbar() {
 
       {/* Mobile links */}
       {mobileOpen && (
-        <div className="fixed top-[81px] left-4 sm:left-8 md:left-32 w-[calc(100%-32px)] sm:w-[calc(100%-64px)] md:w-[calc(100%-256px)] h-full bg-background-1 z-50 flex flex-col justify-between">
+        <div className="fixed top-0 w-full h-full bg-background-1 z-50 flex flex-col justify-between pt-20 min-[900px]:hidden">
           <ul className="flex flex-col w-full p-2 md:p-4">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
                   className="block px-2 md:px-4 py-3 h5 text-foreground-1 hover:bg-background-2 rounded-md transition-[background-color] transition-duration-[50ms] focusState"
+                  onClick={() => setMobileOpen(false)}
                 >
                   {label}
                 </Link>

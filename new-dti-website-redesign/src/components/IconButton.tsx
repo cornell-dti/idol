@@ -9,6 +9,7 @@ type IconButtonProps = {
   href?: string;
   className?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'default' | 'small';
   children: ReactNode;
 };
 
@@ -18,10 +19,11 @@ export default function IconButton({
   href,
   className = '',
   variant = 'primary',
+  size = 'default',
   children
 }: IconButtonProps) {
   const baseStyles = `
-    w-12 h-12 rounded-full cursor-pointer inline-flex items-center justify-center
+    rounded-full cursor-pointer inline-flex items-center justify-center
     transition-[background-color] duration-[120ms] focusState`;
 
   const variantStyles = {
@@ -30,9 +32,18 @@ export default function IconButton({
     tertiary: `bg-transparent border border-border-1 text-foreground-1 hover:bg-background-2`
   }[variant];
 
-  const sharedClasses = `${baseStyles} ${variantStyles} ${className}`;
+  const sizeStyles = {
+    default: 'w-12 h-12',
+    small: 'w-10 h-10'
+  }[size];
 
-  const iconContent = <span className="w-6 h-6 flex items-center justify-center">{children}</span>;
+  const sharedClasses = `${baseStyles} ${variantStyles} ${className} ${sizeStyles}`;
+
+  const iconSize = size === 'small' ? 'w-5 !h-5' : 'w-6 h-6';
+
+  const iconContent = (
+    <span className={`${iconSize} flex items-center justify-center`}>{children}</span>
+  );
 
   if (href) {
     return (

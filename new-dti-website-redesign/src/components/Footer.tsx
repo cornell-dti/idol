@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from './Button';
+import Chip from './Chip';
 
 export default function Footer() {
   const DTILinks = [
@@ -12,7 +13,8 @@ export default function Footer() {
     { href: '/course', label: 'Course' },
     { href: '/initiatives', label: 'Initiatives' },
     { href: '/sponsor', label: 'Sponsor' },
-    { href: '/apply', label: 'Apply' }
+    { href: '/apply', label: 'Apply' },
+    { href: '/design-system', label: 'Design system' }
   ];
 
   const ProductLinks = [
@@ -133,13 +135,15 @@ export default function Footer() {
       <h6 className="text-foreground-1">Cornell DTI</h6>
       <ul className="flex flex-col gap-1 list-none">
         {DTILinks.map(({ href, label }) => (
-          <li key={href}>
+          <li key={href} className="flex gap-2 items-center">
             <Link
               href={href}
               className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState transition-[color] duration-[120ms]"
             >
               {label}
             </Link>
+
+            {label === 'Design system' && <Chip label="beta" />}
           </li>
         ))}
       </ul>
@@ -199,7 +203,7 @@ export default function Footer() {
   );
 
   return (
-    <div className="bg-background-1 relative">
+    <footer className="bg-background-1 relative max-w-[1184px] mx-4 sm:mx-8 md:mx-32 lg:mx-auto border-1 border-b-0 border-border-1">
       <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div className="md:p-8 md:pb-0 md:row-start-1 md:col-start-1 lg:row-auto lg:col-auto lg:pb-8">
           <DTILogoSection />
@@ -227,6 +231,6 @@ export default function Footer() {
           />
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

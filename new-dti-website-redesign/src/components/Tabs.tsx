@@ -11,9 +11,10 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
+  center?: boolean;
 };
 
-export default function Tabs({ tabs, className = '' }: TabsProps) {
+export default function Tabs({ tabs, className = '', center }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
 
@@ -31,9 +32,9 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
   };
 
   return (
-    <div className={`flex flex-col gap-8 ${className}`}>
+    <div className={`flex flex-col gap-8 ${className} ${center ? 'items-center' : ''}`}>
       <div
-        className="flex flex-wrap gap-4"
+        className={`flex flex-wrap gap-4 w-fit ${className} ${center ? 'justify-center' : ''}`}
         role="tablist"
         aria-label="Tabbed content"
         onKeyDown={handleKeyDown}

@@ -8,6 +8,7 @@ type ButtonProps = {
   label: string;
   href?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'default' | 'small';
   badge?: React.ReactNode;
   backToTop?: React.ReactNode;
   newTab?: boolean;
@@ -23,6 +24,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       href,
       className = '',
       variant = 'primary',
+      size = 'default',
       badge,
       backToTop,
       newTab = false,
@@ -30,8 +32,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles = `
-        px-6 h-12 w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
+    const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
         transition-[background-color] duration-[120ms] focusState text-nowrap`;
 
     const variantStyles = {
@@ -42,7 +43,12 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       tertiary: `bg-transparent border border-border-1 text-foreground-1 hover:bg-background-2`
     }[variant];
 
-    const sharedClasses = `${baseStyles} ${className} ${variantStyles}`;
+    const sizeStyles = {
+      default: 'px-6 h-12',
+      small: 'px-4 h-10'
+    }[size];
+
+    const sharedClasses = `${baseStyles} ${className} ${variantStyles} ${sizeStyles}`;
 
     const content = (
       <>
@@ -60,6 +66,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       return (
         <Link
           href={href}
+          onClick={onClick}
           className={sharedClasses}
           target={newTab ? '_blank' : undefined}
           {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}

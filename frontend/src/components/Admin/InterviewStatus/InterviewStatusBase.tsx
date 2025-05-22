@@ -1,62 +1,79 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'semantic-ui-react';
-import Link from 'next/link';
 import { InterviewStatusAPI } from '../../../API/InterviewStatusAPI';
 import InterviewStatusDashboard from './InterviewStatusDashboard';
 import styles from './InterviewStatusBase.module.css';
-import { Emitters } from '../../../utils';
 import Button from '../../Common/Button/Button';
+import InterviewStatusNewInstanceModal from '../../Modals/InterviewStatusNewInstanceModal';
+import InterviewStatusDeleteInstanceModal from '../../Modals/InterviewStatusDeleteInstanceModal';
 
 const InterviewStatusBase: React.FC = () => {
   const [groups, setGroups] = useState<StatusInstance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selected, setSelected] = useState<StatusInstance | null>(null);
+  const [showNewInstanceModal, setShowNewInstanceModal] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [instanceToDelete, setInstanceToDelete] = useState<string>('');
 
   useEffect(() => {
-    InterviewStatusAPI.getAllInterviewStatuses()
-      .then((all: InterviewStatus[]) => {
-        const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
-          (acc[st.instance] ||= []).push(st);
-          return acc;
-        }, {});
-
-        const grouped: StatusInstance[] = Object.entries(map)
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([instanceName, statuses]) => ({
-            instanceName,
-            statuses
-          }));
-        setGroups(grouped);
-      })
-      .finally(() => setIsLoading(false));
+    loadGroups();
   }, [selected]);
 
-  const handleDeleteInstance = async (instanceName: string) => {
-    if (!window.confirm(`Really delete instance “${instanceName}” and all its statuses?`)) {
-      return;
-    }
+  const refresh = async () => {
     setIsLoading(true);
-    await InterviewStatusAPI.deleteInterviewStatusInstance(instanceName);
-    setGroups((prev) => prev.filter((g) => g.instanceName !== instanceName));
+    const all = await InterviewStatusAPI.getAllInterviewStatuses();
+    const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
+      (acc[st.instance] ||= []).push(st);
+      return acc;
+    }, {});
+    const grouped: StatusInstance[] = Object.entries(map)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([instanceName, statuses]) => ({
+        instanceName,
+        statuses
+      }));
+    setGroups(grouped);
+    if (selected) {
+      const fresh = all.filter((st) => st.instance === selected.instanceName);
+      setSelected({ instanceName: selected.instanceName, statuses: fresh });
+    }
+    setIsLoading(false);
+  };
+
+  const loadGroups = async () => {
+    setIsLoading(true);
+    const all = await InterviewStatusAPI.getAllInterviewStatuses();
+    const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
+      (acc[st.instance] ||= []).push(st);
+      return acc;
+    }, {});
+    const grouped: StatusInstance[] = Object.entries(map)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([instanceName, statuses]) => ({
+        instanceName,
+        statuses
+      }));
+    setGroups(grouped);
+    setIsLoading(false);
+  };
+
+  const openDeleteModal = (name: string) => {
+    setInstanceToDelete(name);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleted = (name: string) => {
+    setIsLoading(true);
+    setGroups((prev) => prev.filter((g) => g.instanceName !== name));
     setSelected(null);
     setIsLoading(false);
   };
 
-  const handleNewEmptyInstance = async () => {
-    const raw = window.prompt('Enter a name for your new instance:');
-    const name = raw?.trim();
-    if (!name) return;
-    if (groups.some((g) => g.instanceName === name)) {
-      Emitters.generalError.emit({
-        headerMsg: `${name} Instance Already Exists`,
-        contentMsg: `Please choose a different name to proceed.`
-      });
-      return;
-    }
+  const handleCreateInstance = (name: string) => {
     setIsLoading(true);
-    const emptyInstance: StatusInstance = { instanceName: name, statuses: [] };
-    setSelected(emptyInstance);
+    setSelected({ instanceName: name, statuses: [] });
     setIsLoading(false);
+    setShowNewInstanceModal(false);
   };
 
   if (isLoading) {
@@ -69,60 +86,67 @@ const InterviewStatusBase: React.FC = () => {
 
   if (selected) {
     return (
-      <div className={styles.selectedView}>
-        <div className={styles.container}>
-          <div className={styles.buttonRow}>
-            <Button label="Back to Instances" onClick={() => setSelected(null)} />
-            <Button
-              label="Delete Instance"
-              onClick={() => handleDeleteInstance(selected.instanceName)}
-              variant="negative"
-            />
-          </div>
-          <InterviewStatusDashboard
-            instanceName={selected.instanceName}
-            statuses={selected.statuses}
+      <div className={styles.container}>
+        <div className={styles.buttonRow}>
+          <Button label="Back to Instances" onClick={() => setSelected(null)} />
+          <Button
+            label="Delete Instance"
+            onClick={() => openDeleteModal(selected.instanceName)}
+            variant="negative"
           />
         </div>
+        <InterviewStatusDashboard
+          instanceName={selected.instanceName}
+          statuses={selected.statuses}
+          refresh={refresh}
+        />
+        <InterviewStatusDeleteInstanceModal
+          open={deleteModalOpen}
+          instanceName={instanceToDelete}
+          onClose={() => setDeleteModalOpen(false)}
+          onDeleted={handleDeleted}
+        />
       </div>
     );
   }
 
+  const existingNames = groups.map((g) => g.instanceName);
+
   return (
     <div className={styles.container}>
-      {!groups || groups.length === 0 ? (
-        <h1>
-          You currently do not have access to any interview status instances! Please contact{' '}
-          <Link href="https://cornelldti.slack.com/channels/idol-support">#idol-support</Link> if
-          you think this is a mistake.
-        </h1>
-      ) : (
-        <Card.Group>
-          {groups.map((group) => (
-            <Card
-              onClick={() => setSelected(group)}
-              key={group.instanceName}
-              className={styles.card}
-              as="button"
-              type="button"
-            >
-              <Card.Content>
-                <Card.Header>{group.instanceName}</Card.Header>
-              </Card.Content>
-            </Card>
-          ))}
+      <Card.Group>
+        {groups.map((group) => (
           <Card
-            onClick={handleNewEmptyInstance}
-            className={`${styles.card} ${styles.newInstanceCard}`}
+            onClick={() => setSelected(group)}
+            key={group.instanceName}
+            className={styles.card}
             as="button"
             type="button"
           >
             <Card.Content>
-              <Card.Header>{'+ New Empty Instance'}</Card.Header>
+              <Card.Header>{group.instanceName}</Card.Header>
             </Card.Content>
           </Card>
-        </Card.Group>
-      )}
+        ))}
+        <Card
+          key="new-instance"
+          onClick={() => setShowNewInstanceModal(true)}
+          className={`${styles.card} ${styles.newInstanceCard}`}
+          as="button"
+          type="button"
+        >
+          <Card.Content>
+            <Card.Header>{'+ New Empty Instance'}</Card.Header>
+          </Card.Content>
+        </Card>
+      </Card.Group>
+
+      <InterviewStatusNewInstanceModal
+        open={showNewInstanceModal}
+        onClose={() => setShowNewInstanceModal(false)}
+        onCreate={handleCreateInstance}
+        existingNames={existingNames}
+      />
     </div>
   );
 };

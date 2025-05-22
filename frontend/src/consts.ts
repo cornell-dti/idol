@@ -28,3 +28,11 @@ export const ROLE_OPTIONS = [
   { key: 'business', text: 'Business', value: 'Business' },
   { key: 'designer', text: 'Designer', value: 'Designer' }
 ];
+
+export const DISPLAY_TO_ROLE_MAP: Record<string, GeneralRole> = {
+  Developer: 'developer',
+  Designer: 'designer',
+  'Product Manager': 'pm',
+  Business: 'business',
+  Lead: 'lead'
+};

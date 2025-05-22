@@ -14,7 +14,11 @@
 }
 
 .csvButton {
-  padding: 0.5rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+  padding: 0.5rem;
 }
 
 .dropdownContainer {
@@ -51,19 +55,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-/* We are using !important here to override semantic UI styling. Clément approved. */
-button.acceptButton {
-  color: var(--accent-yes) !important;
-}
-
-button.rejectButton {
-  color: var(--accent-no) !important;
-}
-
-button.undecideButton {
-  color: var(--accent-maybe) !important;
 }
 
 .addForm {

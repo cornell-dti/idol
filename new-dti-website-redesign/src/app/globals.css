@@ -85,55 +85,55 @@ body {
 
 h1,
 .h1 {
-  font-size: 47.78px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 115%;
-  letter-spacing: -0.48px;
-}
-
-@media (max-width: 390px) {
-  h1,
-  .h1 {
-    font-size: 39.81px;
-  }
-}
-
-h2,
-.h2 {
-  font-size: 39.81px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 115%;
-  letter-spacing: -0.48px;
-}
-
-@media (max-width: 390px) {
-  h2,
-  .h2 {
-    font-size: 39.81px;
-  }
-}
-
-h3,
-.h3 {
-  font-size: 33.18px;
+  font-size: 48px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 768px) {
+  h1,
+  .h1 {
+    font-size: 40px;
+  }
+}
+
+h2,
+.h2 {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 115%;
+  letter-spacing: -0.48px;
+}
+
+@media (max-width: 768px) {
+  h2,
+  .h2 {
+    font-size: 32px;
+  }
+}
+
+h3,
+.h3 {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 115%;
+  letter-spacing: -0.48px;
+}
+
+@media (max-width: 768px) {
   h3,
   .h3 {
-    font-size: 27.65px;
+    font-size: 28px;
   }
 }
 
 h4,
 .h4 {
-  font-size: 27.65px;
+  font-size: 28px;
   font-style: normal;
   font-weight: 600;
   line-height: 115%;
@@ -141,7 +141,7 @@ h4,
 
 h5,
 .h5 {
-  font-size: 23.04px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 160%;
@@ -149,7 +149,7 @@ h5,
 
 h6,
 .h6 {
-  font-size: 19.2px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: 160%;
@@ -158,49 +158,39 @@ h6,
 p {
   font-size: 16px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 160%;
 }
 
 p.small {
   font-size: 13.33px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 160%;
 }
 
 p.caps {
   font-size: 16px;
   font-style: normal;
-  font-weight: 500;
-  line-height: 160%;
   letter-spacing: 5%;
   text-transform: uppercase;
 }
 
 p.caps.small {
   font-size: 13.33px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 160%;
-  letter-spacing: 5%;
-  text-transform: uppercase;
 }
 
 a {
   line-height: 160%;
 }
 
-nav,
 main,
-section,
+section:not(.hero),
 .sectionStyles {
   outline: 0.5px solid var(--border-1);
 }
 
-main {
-  /* offset by height of navbar */
-  padding-top: 80px;
+section:not(.hero),
+.sectionSep {
+  max-width: 1184px;
+  margin: auto;
 }
 
 a:focus-visible,
@@ -213,6 +203,13 @@ a:focus-visible,
 subsections of the carousel */
 .controlChildDivWidth > div > div {
   min-width: fit-content;
+}
+
+/* Temporary styles for skeleton UI */
+.temporarySection {
+  padding: 32px;
+  height: 500px;
+  background: var(--background-2);
 }
 
 ::selection {
