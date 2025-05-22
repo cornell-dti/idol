@@ -1,6 +1,6 @@
 type IconWrapperProps = {
   children: React.ReactNode;
-  size?: 'default' | 'small';
+  size?: 'large' | 'default' | 'small';
   type?: 'primary' | 'default';
   className?: string;
 };
@@ -11,14 +11,29 @@ export default function IconWrapper({
   type = 'default',
   className = ''
 }: IconWrapperProps) {
-  const wrapperSize = size === 'small' ? 'w-12 h-12' : 'w-16 h-16';
+  let wrapperSize = '';
+  let iconSize = '';
+
+  switch (size) {
+    case 'large':
+      wrapperSize = 'w-16 h-16'; // 64px
+      iconSize = '[&>svg]:w-8 [&>svg]:h-8'; // 32px
+      break;
+    case 'default':
+      wrapperSize = 'w-12 h-12'; // 48px
+      iconSize = '[&>svg]:w-6 [&>svg]:h-6'; // 24px
+      break;
+    case 'small':
+    default:
+      wrapperSize = 'w-8 h-8'; // 32px
+      iconSize = '[&>svg]:w-4 [&>svg]:h-4'; // 16px
+      break;
+  }
+
   const wrapperColor =
     type === 'primary'
       ? 'bg-foreground-1 text-background-1'
       : 'bg-background-2 border border-border-1';
-  // default: parent wrapper = 64px, child icon = 32px
-  // small: parent wrapper = 48px, child icon = 24px
-  const iconSize = size === 'small' ? '[&>svg]:w-6 [&>svg]:h-6' : '[&>svg]:w-8 [&>svg]:h-8';
 
   return (
     <div

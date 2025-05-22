@@ -16,6 +16,8 @@ export default function Chip({ label, color = 'default' }: Props) {
   const chipColor = colorMap[color] ?? colorMap.default;
 
   return (
-    <p className={`rounded-full whitespace-nowrap px-3 py-1 caps small ${chipColor}`}>{label}</p>
+    <p className={`rounded-full whitespace-nowrap px-3 py-1 caps small w-fit ${chipColor}`}>
+      {label}
+    </p>
   );
 }

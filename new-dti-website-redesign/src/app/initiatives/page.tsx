@@ -3,6 +3,7 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import SectionSep from '../../components/SectionSep';
 import FeatureSection from '../../components/FeatureSection';
+import CtaSection from '../../components/CtaSection';
 
 export const metadata = {
   title: 'DTI INITIATIVES PAGE',
@@ -14,16 +15,13 @@ export default function Initiatives() {
     <Layout>
       <Hero
         heading="Inspiring innovation"
-        subheading="What sets us apart from other project teams is our desire to share our discoveries with other students and members of the Ithaca community."
+        subheading="We stand out by sharing our discoveries with fellow students and the Ithaca community."
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Learn more"
         button2Link="/"
         image="/initiatives/hero.png"
-        imageAlt="DTI members engaging with the community"
       />
-
-      <SectionSep />
 
       <section>
         <Image
@@ -34,7 +32,7 @@ export default function Initiatives() {
         />
 
         <div className="flex flex-col gap-2 p-8">
-          <h2>Giving back to the community</h2>
+          <h2 className="h3">Giving back to the community</h2>
 
           <p className="text-foreground-2">
             Young students can learn Scratch to create their own games and animations, and Figma to
@@ -128,15 +126,18 @@ export default function Initiatives() {
         imageAlt="DTI members at the Millenium office"
       />
 
-      <section className="bg-background-3 h-[800px]">
-        <h2>title</h2>
-        <p className="mt-2">This is the INITIATIVES page</p>
-      </section>
-      <section className="bg-border-2 h-[800px]">
-        <h2>title</h2>
+      <SectionSep />
 
-        <p className="mt-2">This is the INITIATIVES page</p>
-      </section>
+      <CtaSection
+        heading="Ready to join?"
+        subheading="Be part of something greater today."
+        button1Label="Apply to DTI"
+        button1Link="/apply"
+        button2Label="Meet the team"
+        button2Link="/team"
+      />
+
+      <SectionSep />
     </Layout>
   );
 }

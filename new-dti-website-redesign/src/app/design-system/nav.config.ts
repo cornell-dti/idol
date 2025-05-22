@@ -1,4 +1,16 @@
-const navItems = [
+export type NavItem = {
+  thumbnail: string;
+  href: string;
+  label: string;
+  description: string;
+};
+
+export type NavGroup = {
+  category: string | null;
+  items: NavItem[];
+};
+
+const navItems: NavGroup[] = [
   {
     category: null,
     items: [
@@ -47,6 +59,42 @@ const navItems = [
         href: '/design-system/components/input',
         label: 'Input',
         description: 'Input description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/card',
+        label: 'Card',
+        description: 'Card description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/chip',
+        label: 'Chip',
+        description: 'Chip description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/icon',
+        label: 'Icon',
+        description: 'Icon description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/icon-wrapper',
+        label: 'Icon wrapper',
+        description: 'Icon wrapper description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/tabs',
+        label: 'Tabs',
+        description: 'Tabs description bruh.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/components/logo-box',
+        label: 'Logo box',
+        description: 'Logo box description bruh.'
       }
     ]
   }

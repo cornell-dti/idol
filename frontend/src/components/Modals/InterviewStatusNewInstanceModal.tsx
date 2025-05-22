@@ -3,6 +3,7 @@ import { Modal } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
+import styles from './InterviewStatusNewInstanceModal.module.css';
 
 export interface NewInstanceModalProps {
   open: boolean;
@@ -46,7 +47,7 @@ const InterviewStatusNewInstanceModal: React.FC<NewInstanceModalProps> = ({
           onChange={(e) => setName(e.currentTarget.value)}
         />
       </Modal.Content>
-      <Modal.Actions>
+      <Modal.Actions className={styles.deleteModalActions}>
         <Button label="Cancel" variant="negative" onClick={onClose} />
         <Button label="Create" variant="primary" onClick={handleCreate} />
       </Modal.Actions>

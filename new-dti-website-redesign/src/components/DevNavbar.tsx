@@ -37,7 +37,7 @@ export default function DevNavbar({ className = '' }: DevNavbarProps) {
               <li key={href} className="h-10 flex items-center">
                 <Link
                   href={href}
-                  className="transition-[color] text-foreground-1 h-10 duration-[120ms] flex items-center relative focusState rounded-sm font-medium"
+                  className="transition-[color] text-foreground-1 h-10 duration-[120ms] flex items-center relative focusState rounded-sm font-medium underline"
                 >
                   {label}
                 </Link>

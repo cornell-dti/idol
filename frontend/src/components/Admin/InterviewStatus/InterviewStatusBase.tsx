@@ -16,23 +16,46 @@ const InterviewStatusBase: React.FC = () => {
   const [instanceToDelete, setInstanceToDelete] = useState<string>('');
 
   useEffect(() => {
-    InterviewStatusAPI.getAllInterviewStatuses()
-      .then((all: InterviewStatus[]) => {
-        const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
-          (acc[st.instance] ||= []).push(st);
-          return acc;
-        }, {});
-
-        const grouped: StatusInstance[] = Object.entries(map)
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([instanceName, statuses]) => ({
-            instanceName,
-            statuses
-          }));
-        setGroups(grouped);
-      })
-      .finally(() => setIsLoading(false));
+    loadGroups();
   }, [selected]);
+
+  const refresh = async () => {
+    setIsLoading(true);
+    const all = await InterviewStatusAPI.getAllInterviewStatuses();
+    const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
+      (acc[st.instance] ||= []).push(st);
+      return acc;
+    }, {});
+    const grouped: StatusInstance[] = Object.entries(map)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([instanceName, statuses]) => ({
+        instanceName,
+        statuses
+      }));
+    setGroups(grouped);
+    if (selected) {
+      const fresh = all.filter((st) => st.instance === selected.instanceName);
+      setSelected({ instanceName: selected.instanceName, statuses: fresh });
+    }
+    setIsLoading(false);
+  };
+
+  const loadGroups = async () => {
+    setIsLoading(true);
+    const all = await InterviewStatusAPI.getAllInterviewStatuses();
+    const map = all.reduce<Record<string, InterviewStatus[]>>((acc, st) => {
+      (acc[st.instance] ||= []).push(st);
+      return acc;
+    }, {});
+    const grouped: StatusInstance[] = Object.entries(map)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([instanceName, statuses]) => ({
+        instanceName,
+        statuses
+      }));
+    setGroups(grouped);
+    setIsLoading(false);
+  };
 
   const openDeleteModal = (name: string) => {
     setInstanceToDelete(name);
@@ -75,6 +98,7 @@ const InterviewStatusBase: React.FC = () => {
         <InterviewStatusDashboard
           instanceName={selected.instanceName}
           statuses={selected.statuses}
+          refresh={refresh}
         />
         <InterviewStatusDeleteInstanceModal
           open={deleteModalOpen}

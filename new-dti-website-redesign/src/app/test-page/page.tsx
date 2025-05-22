@@ -6,7 +6,6 @@ import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import FeatureSection from '../../components/FeatureSection';
 import SectionSep from '../../components/SectionSep';
-import Footer from '../../components/Footer';
 import Marquee from '../../components/Marquee';
 import SectionTitle from '../../components/SectionTitle';
 import LogoBox from '../../components/LogoBox';
@@ -61,7 +60,6 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
         image="/heroImages/team.png"
-        imageAlt="DTI members in front of Gates Hall"
         centered
       />
 
@@ -91,7 +89,6 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
         image="/heroImages/team.png"
-        imageAlt="DTI members in front of Gates Hall"
       />
 
       <SectionSep grid />
@@ -102,7 +99,6 @@ export default function TestPage() {
         button1Label="Meet the team"
         button1Link="/team"
         image="/heroImages/team.png"
-        imageAlt="DTI members in front of Gates Hall"
       />
 
       <SectionSep />
@@ -113,7 +109,6 @@ export default function TestPage() {
         button2Label="Meet the team"
         button2Link="/team"
         image="/heroImages/team.png"
-        imageAlt="DTI members in front of Gates Hall"
       />
 
       <SectionSep />
@@ -122,7 +117,6 @@ export default function TestPage() {
         heading="Heading over here"
         subheading="We are a talented, diverse group of students from different colleges and countries striving to make a difference in the Cornell community."
         image="/heroImages/team.png"
-        imageAlt="DTI members in front of Gates Hall"
       />
 
       <section className="h-128" />
@@ -344,8 +338,6 @@ export default function TestPage() {
         </Link>
         !
       </h2>
-
-      <Footer />
     </Layout>
   );
 }
