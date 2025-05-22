@@ -12,8 +12,21 @@ import IconWrapper from '../../components/IconWrapper';
 import FeatureCard from '../../components/FeatureCard';
 import Chip from '../../components/Chip';
 import Tabs from '../../components/Tabs';
+import TimelineCard, { RecruitmentEvent } from '../../components/TimelineCard';
 
 export default function TestComponents() {
+  const mockEvent: RecruitmentEvent = {
+    title: 'Applications open!',
+    description:
+      "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
+    location: 'Application Link',
+    type: 'application',
+    link: 'https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link',
+    freshmen: { date: 'August 21', isTentative: false, time: '5-6PM' },
+    upperclassmen: { date: 'August 21', isTentative: false },
+    spring: { date: 'January 3', isTentative: false }
+  };
+
   return (
     <div className="p-32 flex flex-col gap-16">
       <Link href="/" className="text-accent-red underline">
@@ -224,6 +237,26 @@ export default function TestComponents() {
       <div className="flex flex-col gap-6">
         <h4>Icon wrappers</h4>
         <div className="flex gap-4">
+          <IconWrapper size="large" type="primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-rocket-icon lucide-rocket"
+            >
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+            </svg>
+          </IconWrapper>
+
           <IconWrapper size="default" type="primary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -266,6 +299,26 @@ export default function TestComponents() {
         </div>
 
         <div className="flex gap-4">
+          <IconWrapper size="large" type="default">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-rocket-icon lucide-rocket"
+            >
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+            </svg>
+          </IconWrapper>
+
           <IconWrapper size="default" type="default">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -441,6 +494,17 @@ export default function TestComponents() {
             }
           ]}
         />
+      </div>
+      <div className="flex flex-col gap-6">
+        <h4>Timeline Card</h4>
+        <div className="flex flex-col gap-4">
+          <TimelineCard event={mockEvent} cycle="freshmen" />
+          <TimelineCard event={{ ...mockEvent, location: undefined }} cycle="freshmen" />
+          <TimelineCard
+            event={{ ...mockEvent, link: undefined, location: 'Upson 102' }}
+            cycle="freshmen"
+          />
+        </div>
       </div>
     </div>
   );
