@@ -79,7 +79,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               >
                 {/* outer ring */}
                 <div
-                  className={`w-[12px] h-[12px] rounded-full border-[1px] ${
+                  className={`w-3 h-3 rounded-full border-1 ${
                     isPassed(ev)
                       ? 'border-[var(--accent-Red,#FF575E)]'
                       : 'border-[var(--foreground-3,#A1A1A1)]'
