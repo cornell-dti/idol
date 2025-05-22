@@ -28,7 +28,7 @@ export default function RootLayout({
           id="skip-to-main"
           href="#main-content"
           className="absolute -inset-4 opacity-0 z-50 p-2
-          focus-visible:opacity-100 focus-visible:top-4 focus-visible:left-4 transition-[top] duration-[120ms] px-6 h-12 bg-foreground-1 text-background-1 hover:bg-foreground-2 w-fit rounded-full flex items-center justify-center font-medium focusState"
+          focus-visible:opacity-100 focus-visible:top-4 focus-visible:left-4 transition-[top, background-color] duration-[120ms] px-6 h-12 bg-foreground-1 text-background-1 hover:bg-foreground-2 w-fit rounded-full flex items-center justify-center font-medium focusState "
         >
           Skip to main content
         </a>
