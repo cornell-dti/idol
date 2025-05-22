@@ -81,8 +81,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 <div
                   className={`w-3 h-3 rounded-full border-1 ${
                     isPassed(ev)
-                      ? 'border-[var(--accent-Red,#FF575E)]'
-                      : 'border-[var(--foreground-3,#A1A1A1)]'
+                      ? 'border-accent-red'
+                      : 'border-foreground-3'
                   }`}
                 />
                 {/* inner dot */}
