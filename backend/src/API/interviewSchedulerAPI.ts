@@ -1,6 +1,7 @@
+import { LEAD_ROLES } from '../consts';
 import InterviewSchedulerDao from '../dao/InterviewSchedulerDao';
 import InterviewSlotDao from '../dao/InterviewSlotDao';
-import { NotFoundError, PermissionError } from '../utils/errors';
+import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 import { getMember } from './memberAPI';
 
@@ -36,7 +37,7 @@ export const createInterviewScheduler = async (
   instance: InterviewScheduler,
   user: IdolMember
 ): Promise<string> => {
-  if (!(await PermissionsManager.isAdmin(user)))
+  if (!(await PermissionsManager.isLeadOrAdmin(user)))
     throw new PermissionError(
       'User does not have permission to create new Candidate Decider instances.'
     );
@@ -89,7 +90,10 @@ export const getInterviewSchedulerInstance = async (
 
   if (isApplicant) {
     if (instance.applicants.some((applicant) => applicant.email === email)) {
-      return { ...instance, applicants: [] };
+      return {
+        ...instance,
+        applicants: instance.applicants.filter((applicant) => applicant.email === email)
+      };
     }
     throw new PermissionError('User does not have permission to get interview scheduler instance');
   }
@@ -193,19 +197,19 @@ export const updateInterviewSlot = async (
   const slot = await interviewSlotDao.getSlot(edits.uuid);
 
   if (!slot) throw new NotFoundError(`Interview slot with uuid ${edits.uuid} does not exist!`);
-  const scheduler = await getInterviewSchedulerInstance(
-    edits.interviewSchedulerUuid,
-    email,
-    isApplicant
-  );
+  const scheduler = await getInterviewSchedulerInstance(edits.interviewSchedulerUuid, email, false);
 
-  if (
-    isApplicant &&
-    (!scheduler.isOpen ||
-      !scheduler.applicants.some((applicant) => applicant.email === email) || // Applicants should be an applicant of the scheduler instance
-      (slot.applicant && slot.applicant.email !== email) || // Applicants may not edit an occupied slot
-      (edits.applicant && edits.applicant.email !== email)) // Applicants may not sign up or cancel other applicants
-  )
+  const user = await getMember(email);
+  const isLeadOrAdmin = user !== undefined && PermissionsManager.isLeadOrAdmin(user);
+  const isLead = user !== undefined && LEAD_ROLES.includes(user.role);
+
+  if (!isLeadOrAdmin && !scheduler.isOpen)
+    throw new BadRequestError('This interview scheduler is closed.');
+
+  if (isApplicant && scheduler.applicants.every((applicant) => applicant.email !== email))
+    throw new PermissionError('User does not have permission to edit this interview scheduler.');
+
+  if ((!isLead && edits.lead) || (isApplicant && edits.members))
     throw new PermissionError('User does not have permission to edit this interview slot.');
 
   const newSlot: InterviewSlot = {
@@ -213,12 +217,7 @@ export const updateInterviewSlot = async (
     ...edits
   };
 
-  const user = await getMember(email);
-
-  return interviewSlotDao.updateSlot(
-    newSlot,
-    user !== undefined && (await PermissionsManager.isLeadOrAdmin(user))
-  );
+  return interviewSlotDao.updateSlot(newSlot, isLead, email);
 };
 
 /**
