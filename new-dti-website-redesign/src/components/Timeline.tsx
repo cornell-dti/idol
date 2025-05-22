@@ -48,6 +48,36 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   return (
     <>
+      <div className="flex flex-row-reverse justify-end md:flex-col gap-4 my-64">
+        <div className="flex flex-col md:flex-row w-full">
+          {events.map((event, index) => (
+            <div
+              className="flex-1 md:items-center md:justify-center flex flex-col min-h-32 pt-11 md:pt-0"
+              key={index}
+            >
+              <h3 className="h5">{event.title}</h3>
+              <p>{event.date}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col md:flex-row">
+          {events.map((ev, index) => (
+            <div className="flex-1 flex flex-col md:flex-row gap-2 items-center" key={index}>
+              <div
+                className={`${isPassed(ev) ? 'bg-accent-red' : 'bg-foreground-3'} md:h-[3px] h-full md:w-full w-[3px]`}
+              />
+              <div
+                className={`${isPassed(ev) ? 'bg-accent-red' : 'bg-foreground-3'} min-h-4 min-w-4 rounded-full`}
+              />
+              <div
+                className={`${isPassed(ev) ? 'bg-accent-red' : 'bg-foreground-3'} md:h-[3px] h-full md:w-full w-[3px]`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div ref={containerRef} className={`${styles.timeline}`}>
         {events.map((ev, i) => (
           <div
@@ -80,17 +110,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 {/* outer ring */}
                 <div
                   className={`w-3 h-3 rounded-full border-1 ${
-                    isPassed(ev)
-                      ? 'border-accent-red'
-                      : 'border-foreground-3'
+                    isPassed(ev) ? 'border-accent-red' : 'border-foreground-3'
                   }`}
                 />
                 {/* inner dot */}
                 <div
                   className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
-                    isPassed(ev)
-                      ? 'bg-accent-red'
-                      : 'bg-foreground-3'
+                    isPassed(ev) ? 'bg-accent-red' : 'bg-foreground-3'
                   }`}
                 />
               </div>
