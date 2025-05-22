@@ -89,8 +89,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 <div
                   className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
                     isPassed(ev)
-                      ? 'bg-[var(--accent-Red,#FF575E)]'
-                      : 'bg-[var(--foreground-3,#A1A1A1)]'
+                      ? 'bg-accent-red'
+                      : 'bg-foreground-3'
                   }`}
                 />
               </div>
