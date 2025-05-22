@@ -35,7 +35,7 @@ const Hero = ({
           className="absolute inset-0 w-full h-full z-[5]"
           style={{
             backgroundImage: `
-            linear-gradient(181.82deg,
+          linear-gradient(181.82deg,
               color-mix(in srgb, var(--background-1) 90%, transparent) 1.54%,
               color-mix(in srgb, var(--background-1) 20%, transparent) 75.51%
             ),
@@ -65,7 +65,7 @@ const Hero = ({
               )}
               {button2Label && button2Link && (
                 <Button
-                  variant="secondary"
+                  variant="transparent"
                   label={button2Label}
                   href={button2Link}
                   className="w-fit"
