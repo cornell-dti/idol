@@ -16,7 +16,7 @@ export default function RootLayout({
 
   // Focus <body> on route change to reset tab order
   useEffect(() => {
-    const body = document.body;
+    const { body } = document;
     if (body) {
       body.focus();
     }
