@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import useScreenSize from '../hooks/useScreenSize';
+// import React, { useLayoutEffect, useState } from 'react';
+// import useScreenSize from '../hooks/useScreenSize';
 import parseDate from '../utils/dateUtils';
-import styles from './Timeline.module.css';
 
 export type Event = {
   title: string;
@@ -34,26 +33,25 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
-  const [isMobile, setIsMobile] = useState(false);
-  const { width } = useScreenSize();
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const [isMobile, setIsMobile] = useState(false);
+  // const { width } = useScreenSize();
 
-  useLayoutEffect(() => {
-    if (!width) return;
-    setIsMobile(width < 640);
-  }, [width]);
+  // useLayoutEffect(() => {
+  //   if (!width) return;
+  //   setIsMobile(width < 640);
+  // }, [width]);
 
   const isPassed = (e: Event) =>
     parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
   return (
-    <div className="flex md:flex-col md:space-y-6 sm:flex-row">
+    <div className="flex sm:flex-col sm:space-y-2 flex-row">
       {/* Text Row */}
       <div className="flex w-full">
         {events.map((ev, i) => (
-          <div key={i} className="flex-1 flex flex-row md:flex-col items-center">
+          <div key={i} className="flex-1 flex flex-row sm:flex-col items-center">
             <h3 className="h5">{ev.title}</h3>
-            <p className="text-sm text-[var(--foreground-3)]">
+            <p className="text-[var(--foreground-3)]">
               {ev.date}
               {ev.time && ` · ${ev.time}`}
             </p>
