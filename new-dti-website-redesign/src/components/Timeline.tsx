@@ -77,22 +77,29 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
               {/* left segment (hidden on first) */}
               <div
-                className={`h-[3px] flex-1 ${i === 0 ?
+                className={`rounded-b-full w-[2px] sm:rounded-b-none sm:w-full sm:h-[3px] sm:rounded-r-full h-[3px] flex-1 ${i === 0 ?
                   `bg-gradient-to-t sm:bg-gradient-to-l ${fromVar} to-transparent`
                   : base
                   }`} />
 
-              {/* dot */}
-              <div
-                className={`w-[6px] h-[6px] rounded-full border-[2px] ${passed
-                  ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
-                  : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
-                  } mx-2`}
-              />
+              {/* outer ring */}
+              <div className={`mx-[12px] w-[12px] h-[12px] rounded-full border-[1px] flex items-center justify-center ${passed
+                ? 'border-[var(--accent-red)]'
+                : 'border-[var(--foreground-3)]'}`}>
+
+
+                {/* dot */}
+                <div
+                  className={`w-[6px] h-[6px] rounded-full box-border ${passed
+                    ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
+                    : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
+                    }`}
+                />
+              </div>
 
               {/* right segment (hidden on last) */}
               <div
-                className={`h-[3px] flex-1 ${i === events.length - 1
+                className={` w-[2px] rounded-t-full sm:rounded-t-none sm:w-full  sm:h-[3px] sm:rounded-l-full flex-1 ${i === events.length - 1
                   ? `bg-gradient-to-b sm:bg-gradient-to-r ${fromVar} to-transparent`
                   : base
                   }`}
