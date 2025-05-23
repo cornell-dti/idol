@@ -1,142 +1,15 @@
-.timeline {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 64px;
-  padding: 32px 16px;
-}
-
-/* Each event becomes the anchor for its up/down track segments */
-.timeline-event {
-  height: 6rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: column;
-  z-index: 10;
-}
-
-/* draw the up/down halves */
-.timeline-event::before,
-.timeline-event::after {
-  content: '';
-  position: absolute;
-
-  /* center horizontally under the dot */
-  left: 2rem;
-  transform: translateX(-50%);
-
-  width: 3px; /* strokeW */
-  background: var(--foreground-3);
-}
-
-/* up half leading into this point */
-.timeline-event::before {
-  top: 0;
-  height: calc(50% - 12px); /* half gap minus 2x dot radius */
-  border-bottom-left-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
-}
-
-/* down half toward the next point */
-.timeline-event::after {
-  bottom: 0;
-  height: calc(50% - 12px);
-  border-top-left-radius: 1.5px;
-  border-top-right-radius: 1.5px;
-}
-
-/* fade out on first and last */
-.timeline-event:first-child::before {
-  height: calc(50% - 12px);
+.fade-in {
   background: linear-gradient(to top, var(--foreground-3), transparent);
 }
-.timeline-event:last-child::after {
-  height: calc(50% - 12px);
+.fade-out {
   background: linear-gradient(to bottom, var(--foreground-3), transparent);
 }
 
-.passed::before,
-.passed::after {
-  background: var(--accent-Red, #ff575e);
-}
-
-.timeline-event.passed:first-child::before {
-  background: linear-gradient(to top, var(--accent-Red, #ff575e), transparent);
-}
-.timeline-event.passed:last-child::after {
-  background: linear-gradient(to bottom, var(--accent-Red, #ff575e), transparent);
-}
-
-/*Switch to horizontal layout for desktop*/
 @media (min-width: 640px) {
-  .timeline {
-    flex-direction: row;
-    align-items: center;
-    padding-top: 6rem;
+  .fade-in {
+    background: linear-gradient(to left, var(--accent-red), transparent);
   }
-
-  .content {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    height: 67px;
-    flex: 0 0 auto;
-    margin: 0 auto;
-    padding: 0;
-  }
-
-  .timeline-event {
-    height: 8rem;
-    padding: 0 1rem;
-    padding-bottom: 3rem;
-    padding-top: 0;
-    margin: 0;
-  }
-  .timeline-event::before,
-  .timeline-event::after {
-    left: auto;
-    top: auto;
-    transform: translateY(50%);
-    bottom: 1rem;
-    width: calc(50% - 12px);
-    height: 3px;
-    margin-bottom: 64px;
-  }
-
-  .timeline-event::before {
-    left: 0;
-    border-top-right-radius: 1.5px;
-    border-bottom-right-radius: 1.5px;
-  }
-  .timeline-event::after {
-    right: 0;
-    border-top-left-radius: 1.5px;
-    border-bottom-left-radius: 1.5px;
-  }
-
-  .timeline-event:first-child::before {
-    height: 3px;
-    width: calc(50% - 12px);
-    background: linear-gradient(to left, var(--foreground-3), transparent);
-  }
-  .timeline-event:last-child::after {
-    height: 3px;
-    width: calc(50% - 12px);
-    background: linear-gradient(to right, var(--foreground-3), transparent);
-  }
-
-  .timeline-event.passed:first-child::before {
-    background: linear-gradient(to left, var(--accent-Red, #ff575e), transparent);
-  }
-  .timeline-event.passed:last-child::after {
-    background: linear-gradient(to right, var(--accent-Red, #ff575e), transparent);
+  .fade-out {
+    background: linear-gradient(to right, var(--accent-red), transparent);
   }
 }

@@ -47,57 +47,60 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
   return (
-    <>
-      <div ref={containerRef} className={`${styles.timeline}`}>
+    <div className="flex md:flex-col md:space-y-6 sm:flex-row">
+      {/* Text Row */}
+      <div className="flex w-full">
         {events.map((ev, i) => (
-          <div
-            key={i}
-            className={`${styles['timeline-event']} ${
-              isPassed(ev) ? styles.passed : ''
-            } relative flex-1 flex flex-col items-center sm:items-center px-4`}
-          >
-            <div className={styles.content}>
-              <div
-                className={`${
-                  isMobile
-                    ? 'ml-4 mt-7'
-                    : 'mt-0 absolute bottom-[calc(1rem+1.5px+76px)] left-1/2 transform -translate-x-1/2 text-center lg:whitespace-nowrap'
-                }`}
-              >
-                <h3 className="h5 text-white font-semibold mb-1">{ev.title}</h3>
-                <p className="text-[var(--foreground-3,#A1A1A1)]">
-                  {ev.date} {ev.time ? ` · ${ev.time}` : ''}
-                </p>
-              </div>
-              {/* Point + Ring */}
-              <div
-                className={`absolute ${
-                  isMobile
-                    ? 'top-1/2 left-8 transform -translate-x-1/2 -translate-y-1/2'
-                    : 'bottom-[calc(1rem-4.5px+64px)] left-1/2 transform -translate-x-1/2' // 1rem (16px) + 1/2 track height (1.5px) -> 17.5px up from bottom -> 17.5px - 6px = 11.5px
-                }`}
-              >
-                {/* outer ring */}
-                <div
-                  className={`w-3 h-3 rounded-full border-1 ${
-                    isPassed(ev)
-                      ? 'border-accent-red'
-                      : 'border-foreground-3'
-                  }`}
-                />
-                {/* inner dot */}
-                <div
-                  className={`w-[6px] h-[6px] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
-                    isPassed(ev)
-                      ? 'bg-accent-red'
-                      : 'bg-foreground-3'
-                  }`}
-                />
-              </div>
-            </div>
+          <div key={i} className="flex-1 flex flex-row md:flex-col items-center">
+            <h3 className="h5">{ev.title}</h3>
+            <p className="text-sm text-[var(--foreground-3)]">
+              {ev.date}
+              {ev.time && ` · ${ev.time}`}
+            </p>
           </div>
         ))}
       </div>
-    </>
+
+      {/* Line Row */}
+      <div className="flex w-full items-center">
+        {events.map((ev, i) => {
+          const passed = isPassed(ev);
+          const base = passed ? 'bg-[var(--accent-red)]' : 'bg-[var(--foreground-3)]';
+
+          //graident "from" var
+          const fromVar = passed
+            ? 'from-[var(--accent-red)]'
+            : 'from-[var(--foreground-3)]';
+
+          return (
+            <div key={i} className="flex-1 flex items-center">
+
+              {/* left segment (hidden on first) */}
+              <div
+                className={`h-[3px] flex-1 ${i === 0 ?
+                  `bg-gradient-to-t sm:bg-gradient-to-l ${fromVar} to-transparent`
+                  : base
+                  }`} />
+
+              {/* dot */}
+              <div
+                className={`w-[6px] h-[6px] rounded-full border-[2px] ${passed
+                  ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
+                  : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
+                  } mx-2`}
+              />
+
+              {/* right segment (hidden on last) */}
+              <div
+                className={`h-[3px] flex-1 ${i === events.length - 1
+                  ? `bg-gradient-to-b sm:bg-gradient-to-r ${fromVar} to-transparent`
+                  : base
+                  }`}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
