@@ -48,6 +48,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
   return (
     <>
+      {/* TIMELINE TRY (Clément): */}
       <div className="flex flex-row-reverse justify-end md:flex-col gap-4 my-64">
         <div className="flex flex-col md:flex-row w-full">
           {events.map((event, index) => (
@@ -77,6 +78,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           ))}
         </div>
       </div>
+      {/* TIMELINE END */}
 
       <div ref={containerRef} className={`${styles.timeline}`}>
         {events.map((ev, i) => (
