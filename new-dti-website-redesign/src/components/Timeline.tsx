@@ -45,11 +45,11 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
   return (
-    <div className="flex sm:flex-col sm:space-y-2 flex-row">
-      {/* Text Row */}
-      <div className="flex w-full">
+    <div className="flex flex-col space-y-4">
+      {/* Desktop: dates above */}
+      <div className="hidden sm:flex w-full">
         {events.map((ev, i) => (
-          <div key={i} className="flex-1 flex flex-row sm:flex-col items-center">
+          <div key={i} className="flex-1 flex flex-col items-center text-center">
             <h3 className="h5">{ev.title}</h3>
             <p className="text-[var(--foreground-3)]">
               {ev.date}
@@ -58,50 +58,56 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           </div>
         ))}
       </div>
-
       {/* Line Row */}
-      <div className="flex w-full items-center">
+      <div className="flex flex-col sm:flex-row w-full">
         {events.map((ev, i) => {
           const passed = isPassed(ev);
           const base = passed ? 'bg-[var(--accent-red)]' : 'bg-[var(--foreground-3)]';
 
           //graident "from" var
-          const fromVar = passed
-            ? 'from-[var(--accent-red)]'
-            : 'from-[var(--foreground-3)]';
+          const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
 
           return (
-            <div key={i} className="flex-1 flex items-center">
-
-              {/* left segment (hidden on first) */}
+            <div key={i} className="relative flex flex-row sm:flex-col flex-1 items-center">
+              {/* left segment (gradient on first) */}
               <div
-                className={`rounded-b-full w-[2px] sm:rounded-b-none sm:w-full sm:h-[3px] sm:rounded-r-full h-[3px] flex-1 ${i === 0 ?
-                  `bg-gradient-to-t sm:bg-gradient-to-l ${fromVar} to-transparent`
-                  : base
-                  }`} />
+                className={`rounded-b-full h-full w-[2px] sm:rounded-b-none sm:w-full sm:h-[3px] sm:rounded-r-full ${
+                  i === 0 ? `bg-gradient-to-t sm:bg-gradient-to-l ${fromVar} to-transparent` : base
+                }`}
+              />
 
               {/* outer ring */}
-              <div className={`mx-[12px] w-[12px] h-[12px] rounded-full border-[1px] flex items-center justify-center ${passed
-                ? 'border-[var(--accent-red)]'
-                : 'border-[var(--foreground-3)]'}`}>
-
-
+              <div
+                className={`mx-[12px] w-[12px] h-[12px] rounded-full border-[1px] flex items-center justify-center ${
+                  passed ? 'border-[var(--accent-red)]' : 'border-[var(--foreground-3)]'
+                }`}
+              >
                 {/* dot */}
                 <div
-                  className={`w-[6px] h-[6px] rounded-full box-border ${passed
-                    ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
-                    : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
-                    }`}
+                  className={`w-[6px] h-[6px] rounded-full ${
+                    passed
+                      ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
+                      : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
+                  }`}
                 />
               </div>
 
-              {/* right segment (hidden on last) */}
+              {/* right segment (gradient on last) */}
               <div
-                className={` w-[2px] rounded-t-full sm:rounded-t-none sm:w-full  sm:h-[3px] sm:rounded-l-full flex-1 ${i === events.length - 1
-                  ? `bg-gradient-to-b sm:bg-gradient-to-r ${fromVar} to-transparent`
-                  : base
-                  }`}
+                className={`w-[2px] h-full rounded-t-full sm:rounded-t-none sm:w-full  sm:h-[3px] sm:rounded-l-full ${
+                  i === events.length - 1
+                    ? `bg-gradient-to-b sm:bg-gradient-to-r ${fromVar} to-transparent`
+                    : base
+                }`}
               />
+              {/* Mobile: inline text next to each dot */}
+              <div className="ml-3 flex flex-col sm:hidden">
+                <h3 className="h5">{ev.title}</h3>
+                <p className="text-[var(--foreground-3)]">
+                  {ev.date}
+                  {ev.time && ` · ${ev.time}`}
+                </p>
+              </div>
             </div>
           );
         })}
