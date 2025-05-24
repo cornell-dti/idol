@@ -41,7 +41,7 @@ export default function BeyondDTI() {
     arr.map((filename: React.Key | null | undefined) => (
       <div className="flex justify-center items-center">
         <Image
-          width={160}
+          width={150}
           height={64}
           key={filename}
           src={`/team/companies/${filename}.svg`}
@@ -50,26 +50,37 @@ export default function BeyondDTI() {
       </div>
     ));
 
+  const colCss = 'flex flex-1 flex-row min-[1000px]:flex-col gap-8 justify-between flex-wrap';
+
   return (
-    <section>
-      <div className="flex relative p-8 gap-8">
-        {cols.map((col, idx) => {
-          return (
-            <div key={idx} className="flex flex-1 flex-col gap-8 justify-between">
-              {renderImages(col)}
-            </div>
-          );
-        })}
-
-        <div className="flex flex-col gap-2 absolute items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[320px]">
-          <h2 className="h3">Beyond DTI</h2>
-
-          <p className="text-foreground-3 text-center">
-            Our members and alumni are all over the world, but here are just a few places you'll
-            find the DTI family continue their success into industry.
-          </p>
+    <section className="flex flex-col min-[1000px]:flex-row relative p-4 md:p-8 gap-8">
+      {/* First 3 columns */}
+      {cols.slice(0, 3).map((col, idx) => (
+        <div key={idx} className={colCss}>
+          {renderImages(col)}
         </div>
+      ))}
+
+      {/* Text container placed between cols 3 and 4 */}
+      <div
+        className="flex flex-col gap-2 items-center
+      min-[630px]:absolute min-[630px]:top-1/2 min-[630px]:left-1/2
+      min-[630px]:-translate-x-1/2 min-[630px]:-translate-y-1/2
+      min-[630px]:max-w-[320px]"
+      >
+        <h2 className="h3">Beyond DTI</h2>
+        <p className="text-foreground-3 text-center">
+          Our members and alumni are all over the world, but here are just a few places you'll find
+          the DTI family continue their success into industry.
+        </p>
       </div>
+
+      {/* Last columns */}
+      {cols.slice(3).map((col, idx) => (
+        <div key={idx + 3} className={colCss}>
+          {renderImages(col)}
+        </div>
+      ))}
     </section>
   );
 }
