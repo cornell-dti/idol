@@ -1,7 +1,6 @@
 'use client';
 
-import { ReactNode, useRef, useState, useEffect } from 'react';
-import { useId } from 'react';
+import { ReactNode, useRef, useState, useEffect, useId } from 'react';
 
 type FAQAccordionProps = {
   header: string;

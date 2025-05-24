@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown';
+import Link from 'next/link';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import Banner from '../../components/Banner';
@@ -7,9 +9,7 @@ import roles from './roleDescriptions.json';
 import faqs from './faqs.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
 import Tabs from '../../components/Tabs';
-import Accordion from '@/components/Accordion';
-import ReactMarkdown from 'react-markdown';
-import Link from 'next/link';
+import Accordion from '../../components/Accordion';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',
