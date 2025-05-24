@@ -26,8 +26,6 @@ export default function Products() {
         image="/products/hero.png"
       />
 
-      <SectionSep />
-
       <section className="grid grid-cols-4">
         {logos.map((logo, index) => (
           <LogoBox
