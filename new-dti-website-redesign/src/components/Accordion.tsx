@@ -24,7 +24,7 @@ export default function Accordion({ header, children }: FAQAccordionProps) {
   const contentId = `accordion-content-${id}`;
 
   return (
-    <div className="border border-border-1 border-b-0 last:border-b">
+    <div className="border-t-1 border-border-1">
       <h3 className="h6">
         <button
           id={`${contentId}-header`} // unique ID for the header, referenced by aria-labelledby in <div>
@@ -43,8 +43,8 @@ export default function Accordion({ header, children }: FAQAccordionProps) {
             width="24"
             height="25"
             viewBox="0 0 24 25"
-            className={`w-6 h-6 flex-shrink-0 transform transition-transform duration-[120ms] ease-out ${
-              isOpen ? '-rotate-180' : ''
+            className={`w-6 h-6 flex-shrink-0 transform transition-transform duration-200 ease-out ${
+              isOpen ? 'rotate-180' : ''
             }`}
             fill="none"
           >
@@ -68,7 +68,7 @@ export default function Accordion({ header, children }: FAQAccordionProps) {
         style={{
           height: isOpen ? `${height}px` : '0px'
         }}
-        className="overflow-hidden transition-all duration-300 ease-in-out bg-background-2"
+        className="overflow-hidden transition-all duration-200 ease-in-out bg-background-2"
       >
         <div className="p-[32px] pt-0 text-base text-foreground-3">{children}</div>
       </div>
