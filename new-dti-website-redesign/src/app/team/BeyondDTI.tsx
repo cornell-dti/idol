@@ -39,11 +39,10 @@ export default function BeyondDTI() {
 
   const renderImages = (arr: (React.Key | null | undefined)[]) =>
     arr.map((filename: React.Key | null | undefined) => (
-      <div className="flex justify-center items-center">
+      <div key={filename} className="flex justify-center items-center">
         <Image
           width={150}
           height={64}
-          key={filename}
           src={`/team/companies/${filename}.svg`}
           alt={`${filename} logo`}
         />
