@@ -49,7 +49,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       {/* Desktop: dates above */}
       <div className="flex flex-col md:flex-row w-full">
         {events.map((ev, i) => (
-          <div key={i} className="flex-1 md:items-center md:justify-center flex flex-col">
+          <div key={i} className="min-h-32 pt-11 md:pt-0 flex-1 md:items-center md:justify-center flex flex-col">
             <h3 className="h5">{ev.title}</h3>
             <p className="text-[var(--foreground-3)]">
               {ev.date}
@@ -59,7 +59,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         ))}
       </div>
       {/* Line Row */}
-      <div className="flex flex-col md:flex-row w-full">
+      <div className="flex flex-col md:flex-row">
         {events.map((ev, i) => {
           const passed = isPassed(ev);
           const base = passed ? 'bg-[var(--accent-red)]' : 'bg-[var(--foreground-3)]';
@@ -68,7 +68,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
 
           return (
-            <div key={i} className="flex-1 flex items-center md:flex-col">
+            <div key={i} className="flex-1 flex flex-col gap-2 items-center md:flex-row">
               {/* left segment (gradient on first) */}
               <div
                 className={`rounded-b-full h-full w-[2px] md:rounded-b-none md:w-full md:h-[3px] md:rounded-r-full ${i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
