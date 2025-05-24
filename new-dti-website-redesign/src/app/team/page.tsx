@@ -2,6 +2,7 @@ import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
+import BeyondDTI from './BeyondDTI';
 
 export const metadata = {
   title: 'DTI TEAM PAGE',
@@ -39,9 +40,7 @@ export default function Team() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Beyond DTI section</h4>
-      </section>
+      <BeyondDTI />
 
       <SectionSep />
 
