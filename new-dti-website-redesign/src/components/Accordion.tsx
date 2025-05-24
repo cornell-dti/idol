@@ -31,7 +31,7 @@ export default function Accordion({ header, children }: FAQAccordionProps) {
           aria-controls={contentId} // points to ID of controlled content region (the sibling <div>)
           aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full p-8 flex justify-between items-center cursor-pointer bg-background-1 hover:bg-background-2 transition-colors duration-[120ms] focusState"
+          className="w-full p-4 sm:p-8 flex justify-between items-center cursor-pointer bg-background-1 hover:bg-background-2 transition-colors duration-[120ms] focusState text-left"
           style={{
             background: isOpen ? `var(--background-2)` : ''
           }}
@@ -70,7 +70,7 @@ export default function Accordion({ header, children }: FAQAccordionProps) {
         }}
         className="overflow-hidden transition-all duration-200 ease-in-out bg-background-2"
       >
-        <div className="p-[32px] pt-0 text-base text-foreground-3">{children}</div>
+        <div className="p-4 pt-0 sm:p-8 sm:pt-0 text-base text-foreground-3">{children}</div>
       </div>
     </div>
   );

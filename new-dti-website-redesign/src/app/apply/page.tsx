@@ -85,8 +85,8 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex">
-        <div className="flex flex-1 p-8">
+      <section className="flex flex-col md:flex-row">
+        <div className="flex flex-1 p-4 pb-0 sm:p-8 sm:pb-0">
           <h2>Frequently Asked Questions</h2>
         </div>
 
