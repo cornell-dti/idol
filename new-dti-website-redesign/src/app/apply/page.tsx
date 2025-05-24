@@ -16,10 +16,15 @@ export const metadata = {
   description: 'DESCRIPTION'
 };
 
-const renderFaqContent = (items: typeof faqs.General) => (
+type FAQ = {
+  question: string;
+  answer: string;
+  icon?: string;
+};
+const renderFaqContent = (section: FAQ[]) => (
   <>
-    {items.map(({ question, answer }) => (
-      <Accordion key={question} header={question}>
+    {section.map(({ question, answer, icon }) => (
+      <Accordion key={question} header={question} icon={icon}>
         <div className="flex flex-col gap-4">
           <ReactMarkdown
             components={{
