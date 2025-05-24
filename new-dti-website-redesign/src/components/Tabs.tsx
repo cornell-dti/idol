@@ -34,7 +34,7 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
 
   return (
     <div
-      className={`flex flex-col ${className} ${center ? 'items-center' : ''}${tabsContainerPadding ? '' : 'gap-8'}`}
+      className={`flex flex-col ${className} ${center ? 'items-center' : ''} ${tabsContainerPadding ? '' : 'gap-8'}`}
     >
       <div
         className={`flex flex-wrap gap-4 w-fit ${className} ${center ? 'justify-center' : ''} ${tabsContainerPadding ? 'p-8' : ''}`}
