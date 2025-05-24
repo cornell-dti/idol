@@ -69,8 +69,8 @@ export default function BeyondDTI() {
       >
         <h2 className="h3">Beyond DTI</h2>
         <p className="text-foreground-3 text-center">
-          Our members and alumni are all over the world, but here are just a few places you'll find
-          the DTI family continue their success into industry.
+          Our members and alumni are all over the world, but here are just a few places you&#39;ll
+          find the DTI family continue their success into industry.
         </p>
       </div>
 
