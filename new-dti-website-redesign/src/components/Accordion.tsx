@@ -6,9 +6,10 @@ import { useId } from 'react';
 type FAQAccordionProps = {
   header: string;
   children: ReactNode;
+  icon?: string;
 };
 
-export default function Accordion({ header, children }: FAQAccordionProps) {
+export default function Accordion({ header, children, icon }: FAQAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -36,7 +37,10 @@ export default function Accordion({ header, children }: FAQAccordionProps) {
             background: isOpen ? `var(--background-2)` : ''
           }}
         >
-          {header}
+          <div className="flex items-center gap-4">
+            {icon && <img src={icon} alt="" className="w-5 h-5 sm:w-6 sm:h-6" />}
+            {header}
+          </div>
 
           <svg
             xmlns="http://www.w3.org/2000/svg"
