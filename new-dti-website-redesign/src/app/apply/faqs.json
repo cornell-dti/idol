@@ -1,0 +1,38 @@
+{
+  "General": [
+    {
+      "question": "How do we evaluate applications?",
+      "answer": "We look through every single application we receive. ..."
+    },
+    {
+      "question": "How can I prepare for the interview process?",
+      "answer": "Shortly after applications close, ..."
+    },
+    {
+      "question": "What could I do to learn more about DTI?",
+      "answer": "Coffee chats are casual conversations ..."
+    },
+    {
+      "question": "When will I hear back about a decision?",
+      "answer": "Whether or not you receive an interview invitation, ..."
+    }
+  ],
+  "TechnicalPrep": [
+    {
+      "question": "Designer Role",
+      "answer": "The design technical interview consists of 15 minutes behavioral questions ..."
+    },
+    {
+      "question": "Developer Role",
+      "answer": "To prepare for this interview, we recommend reviewing data structures (OOP) ..."
+    },
+    {
+      "question": "Business Role",
+      "answer": "Our technical interview questions will comprise of business case studies ..."
+    },
+    {
+      "question": "Product Manager Role",
+      "answer": "Our technical interview questions are similar to questions real product managers get asked ..."
+    }
+  ]
+}
