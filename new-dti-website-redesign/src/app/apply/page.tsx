@@ -4,8 +4,10 @@ import Banner from '../../components/Banner';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
 import roles from './roleDescriptions.json';
+import faqs from './faqs.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
 import Tabs from '../../components/Tabs';
+import Accordion from '@/components/Accordion';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',
@@ -54,8 +56,43 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Frequently Asked Questions section</h4>
+      <section className="flex">
+        <div className="flex flex-1 p-8">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div className="flex flex-col flex-3 border-l-1 border-border-1">
+          <Tabs
+            tabsContainerPadding
+            tabs={[
+              {
+                label: 'General',
+                content: (
+                  <>
+                    {faqs.General.map(({ question, answer }) => (
+                      <Accordion key={question} header={question}>
+                        {answer}
+                      </Accordion>
+                    ))}
+                  </>
+                )
+              },
+              {
+                label: 'Technical Prep',
+                content: (
+                  <>
+                    {faqs.TechnicalPrep.map(({ question, answer }) => (
+                      <Accordion key={question} header={question}>
+                        {answer}
+                      </Accordion>
+                    ))}
+                  </>
+                )
+              }
+            ]}
+          />
+          {/* <div className="flex p-8 border-b-1 border-border-1"></div> */}
+        </div>
       </section>
 
       <SectionSep />
