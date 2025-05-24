@@ -13,32 +13,6 @@ export const metadata = {
   description: 'DESCRIPTION'
 };
 
-interface StatItemProps {
-  value: string;
-  label: string;
-  reverse?: boolean;
-}
-
-function StatItem({ value, label, reverse = false }: StatItemProps) {
-  const valueClass = reverse ? 'text-foreground-3' : 'text-foreground';
-  const labelClass = reverse ? 'text-foreground' : 'text-foreground-3';
-
-  return (
-    <div className="flex justify-center gap-1 flex-1/4 px-8 py-4">
-      <p className={valueClass}>{value}</p>
-      <p className={labelClass}>{label}</p>
-    </div>
-  );
-}
-
-// TODO: finalize these values with actual, real numbers lol
-const stats = [
-  { value: '23,000', label: 'users' },
-  { value: '11', label: 'products' },
-  { value: 'founded', label: '2017', reverse: true },
-  { value: '89', label: 'members' }
-];
-
 export default function Home() {
   return (
     <>
@@ -58,15 +32,9 @@ export default function Home() {
           image="/home/hero.png"
         />
 
-        <section className="flex border-1 border-border-1 border-b-0 flex-wrap">
-          {stats.map((stat, index) => (
-            <StatItem key={index} value={stat.value} label={stat.label} reverse={stat.reverse} />
-          ))}
-        </section>
-
         <Marquee height={96}>
           {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} noLink />
+            <LogoBox key={index} {...logo} noLink border={false} />
           ))}
         </Marquee>
 
