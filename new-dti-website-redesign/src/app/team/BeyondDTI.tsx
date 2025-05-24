@@ -54,14 +54,14 @@ export default function BeyondDTI() {
 
   return (
     <section className="flex flex-col min-[1000px]:flex-row relative p-4 md:p-8 gap-8">
-      {/* First 3 columns */}
+      {/* first 3 columns */}
       {cols.slice(0, 3).map((col, idx) => (
         <div key={idx} className={colCss}>
           {renderImages(col)}
         </div>
       ))}
 
-      {/* Text container placed between cols 3 and 4 */}
+      {/* text container placed between cols 3 and 4 */}
       <div
         className="flex flex-col gap-2 items-center
       min-[630px]:absolute min-[630px]:top-1/2 min-[630px]:left-1/2
@@ -75,7 +75,7 @@ export default function BeyondDTI() {
         </p>
       </div>
 
-      {/* Last columns */}
+      {/* last 3 columns */}
       {cols.slice(3).map((col, idx) => (
         <div key={idx + 3} className={colCss}>
           {renderImages(col)}
