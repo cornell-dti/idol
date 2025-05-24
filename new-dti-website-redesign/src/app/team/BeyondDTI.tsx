@@ -14,17 +14,20 @@ const companies = [
   'salesforce',
   'apple',
   'linkedin',
-  'goldman',
-  'yc',
+  'goldman-sachs',
+  'y-combinator',
   'uber',
   'amazon',
-  'mckinsey',
-  'capitalone',
+  'mckinsey-&-company',
+  'capital-one',
   'mongodb',
   'datadog'
 ];
 
 export default function BeyondDTI() {
+  // On desktop, splits into 6 columns
+  // 4 companies in first and last 2 columns
+  // 2 companies in 2 middle columns
   const cols = [
     companies.slice(0, 4),
     companies.slice(4, 8),
