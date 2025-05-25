@@ -58,8 +58,6 @@ export default function Apply() {
         <h4>Frequently Asked Questions section</h4>
       </section>
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -68,8 +66,6 @@ export default function Apply() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }

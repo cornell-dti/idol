@@ -7,7 +7,7 @@ import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 type ButtonProps = {
   label: string;
   href?: string;
-  variant?: 'primary' | 'secondary' | 'tertiary';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'transparent';
   size?: 'default' | 'small';
   badge?: React.ReactNode;
   backToTop?: React.ReactNode;
@@ -40,7 +40,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
         badge ? 'gap-1 pr-3' : ''
       }`,
       secondary: `bg-background-2 border border-border-1 text-foreground-1 hover:bg-background-3`,
-      tertiary: `bg-transparent border border-border-1 text-foreground-1 hover:bg-background-2`
+      tertiary: `bg-transparent border border-border-1 text-foreground-1 hover:bg-background-2`,
+      transparent: `bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px] hover:bg-[rgba(255,255,255,0.15)]`
     }[variant];
 
     const sizeStyles = {
