@@ -33,14 +33,6 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
-  // const [isMobile, setIsMobile] = useState(false);
-  // const { width } = useScreenSize();
-
-  // useLayoutEffect(() => {
-  //   if (!width) return;
-  //   setIsMobile(width < 640);
-  // }, [width]);
-
   const isPassed = (e: Event) =>
     parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
@@ -74,30 +66,34 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             <div key={i} className="flex-1 flex flex-col gap-2 items-center md:flex-row">
               {/* left segment (gradient on first) */}
               <div
-                className={`rounded-b-full h-full w-[2px] md:rounded-b-none md:w-full md:h-[3px] md:rounded-r-full ${i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
-                  }`}
+                className={`rounded-b-full h-full w-[2px] md:rounded-b-none md:w-full md:h-[3px] md:rounded-r-full ${
+                  i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
+                }`}
               />
 
               {/* outer ring */}
               <div
-                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${passed ? 'border-[var(--accent-red)]' : 'border-[var(--foreground-3)]'
-                  }`}
+                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${
+                  passed ? 'border-[var(--accent-red)]' : 'border-[var(--foreground-3)]'
+                }`}
               >
                 {/* dot */}
                 <div
-                  className={`w-[6px] h-[6px] rounded-full ${passed
-                    ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
-                    : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
-                    }`}
+                  className={`w-[6px] h-[6px] rounded-full ${
+                    passed
+                      ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
+                      : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
+                  }`}
                 />
               </div>
 
               {/* right segment (gradient on last) */}
               <div
-                className={`w-[2px] h-full rounded-t-full md:rounded-t-none md:w-full  md:h-[3px] md:rounded-l-full ${i === events.length - 1
-                  ? `bg-gradient-to-b md:bg-gradient-to-r ${fromVar} to-transparent`
-                  : base
-                  }`}
+                className={`w-[2px] h-full rounded-t-full md:rounded-t-none md:w-full  md:h-[3px] md:rounded-l-full ${
+                  i === events.length - 1
+                    ? `bg-gradient-to-b md:bg-gradient-to-r ${fromVar} to-transparent`
+                    : base
+                }`}
               />
             </div>
           );
