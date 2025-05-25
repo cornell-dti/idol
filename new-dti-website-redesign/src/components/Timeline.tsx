@@ -49,7 +49,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       {/* Desktop: dates above */}
       <div className="flex flex-col md:flex-row w-full">
         {events.map((ev, i) => (
-          <div key={i} className="md:text-center min-h-18 pt-11 md:pt-0 flex-1 md:items-center md:justify-center flex flex-col">
+          <div key={i} className="md:text-center min-h-26 pt-11 md:pt-0 flex-1 md:items-center md:justify-center flex flex-col">
             <h3 className="h5">{ev.title}</h3>
             <p className="text-[var(--foreground-3)]">
               {ev.date}
@@ -77,7 +77,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
               {/* outer ring */}
               <div
-                className={`shrink-0 mx-[1px] w-4 h-4 rounded-full border-[2px] border-solid flex items-center justify-center ${passed ? 'border-[var(--accent-red)]' : 'border-[var(--foreground-3)]'
+                className={`shrink-0 mx-[1px] w-3 h-3 rounded-full border-1 border-solid flex items-center justify-center ${passed ? 'border-[var(--accent-red)]' : 'border-[var(--foreground-3)]'
                   }`}
               >
                 {/* dot */}
