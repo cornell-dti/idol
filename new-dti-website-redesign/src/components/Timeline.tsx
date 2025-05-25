@@ -20,7 +20,7 @@ type TimelineProps = {
  *
  * @remarks
  * This component is used to render the timeline with all the events. The timeline automatically adjusts based on screen size
- * (mobile vs. desktop) via a useEffect and displays a progress line showing how far along the current date is relative to the events.
+ * (mobile vs. desktop) and displays a progress line showing how far along the current date is relative to the events.
  * Each event includes a title, date, and time. The date string should be formatted with the month (abbreviated), day, and
  * optionally, the time (formatted as `hh:mm AM/PM`). If no time is provided, the default will be 12:00 AM.
  * If no Year is provided, the default will be the Current Year
