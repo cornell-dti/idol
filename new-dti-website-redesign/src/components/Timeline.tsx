@@ -59,7 +59,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           const passed = isPassed(ev);
           const base = passed ? 'bg-[var(--accent-red)]' : 'bg-[var(--foreground-3)]';
 
-          //graident "from" var
+          // graident "from" var
           const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
 
           return (
