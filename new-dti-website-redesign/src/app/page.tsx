@@ -80,7 +80,7 @@ export default function Home() {
           imagePosition="right"
           imageAlt="DTI members in front of a whiteboard pasting sticky notes in a brainstorming session"
           button2Label="Learn more"
-          button2Link="/courses"
+          button2Link="/course"
         />
 
         <FeatureSection

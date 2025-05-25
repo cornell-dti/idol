@@ -4,6 +4,8 @@ import { forwardRef } from 'react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 
+export const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2 transition-[background-color] duration-[120ms] focusState text-nowrap`;
+
 type ButtonProps = {
   label: string;
   href?: string;
@@ -32,9 +34,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2
-        transition-[background-color] duration-[120ms] focusState text-nowrap`;
-
     const variantStyles = {
       primary: `bg-foreground-1 text-background-1 hover:bg-foreground-2 ${
         badge ? 'gap-1 pr-3' : ''

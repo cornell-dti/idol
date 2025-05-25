@@ -115,6 +115,23 @@ export default function Navbar() {
     };
   }, []);
 
+  // ############################################
+  // REMOVE SCROLL ON BODY WHEN MOBILE MENU OPEN:
+  // ############################################
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Clean up on component unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       <nav
