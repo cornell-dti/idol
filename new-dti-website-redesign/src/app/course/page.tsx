@@ -2,6 +2,7 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
+import FeatureSection from '@/components/FeatureSection';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
@@ -23,6 +24,18 @@ export default function Course() {
 
       <section className="temporarySection">
         <h4>Trends in Web Development section</h4>
+        <FeatureSection
+          eyebrowText="Modern industry-leading technology"
+          heading="Trends in Web Development"
+          description="Trends in Web Development is a 1-credit S/U course that showcases modern full-stack development and the best practices used in industry. We cover technologies like TypeScript, React, Node.js, Firebase, Express and more—everything deployed at scale by leading tech companies."
+          button1Label="Course Details"
+          button1Link="#"
+          button2Label="Enroll Now"
+          button2Link="#"
+          image="/course/Trends.png"
+          imageAlt="Screenshot showing Trends in Web Development course technologies"
+          imagePosition="left"
+        />
       </section>
 
       <SectionSep />
