@@ -39,7 +39,10 @@ export default function BeyondDTI() {
 
   const renderImages = (arr: (React.Key | null | undefined)[]) =>
     arr.map((filename: React.Key | null | undefined) => (
-      <div key={filename} className="flex justify-center items-center">
+      <div
+        key={filename}
+        className="flex justify-center items-center max-[660px]:w-[35%] max-[500px]:w-[49%]"
+      >
         <Image
           width={150}
           height={64}
@@ -49,7 +52,8 @@ export default function BeyondDTI() {
       </div>
     ));
 
-  const colCss = 'flex flex-1 flex-row min-[1000px]:flex-col gap-8 justify-between flex-wrap';
+  const colCss =
+    'flex flex-1 flex-row min-[1000px]:flex-col gap-1 md:gap-8 justify-between flex-wrap';
 
   return (
     <section className="flex flex-col min-[1000px]:flex-row relative p-4 md:p-8 gap-8">
