@@ -169,7 +169,7 @@ export default function Course() {
 
       <section>
         <div className="p-8">
-          <h4>Past student projects section</h4>
+          <h2>Past student projects section</h2>
           <p className="pt-1 text-base text-[var(--foreground-3)]">
             See how our course helps students bring their ideas to life.
           </p>
