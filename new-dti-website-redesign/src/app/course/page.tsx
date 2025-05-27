@@ -154,7 +154,7 @@ export default function Course() {
       <SectionSep />
 
       <section className="temporarySection">
-        <h4 className="p-8">Course staff</h4>
+        <h2 className="p-8">Course staff</h2>
       </section>
 
       <SectionSep />
