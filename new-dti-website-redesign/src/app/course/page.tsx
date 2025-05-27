@@ -159,7 +159,7 @@ export default function Course() {
 
       <SectionSep />
       <section>
-        <h4 className="p-8">Past student experiences</h4>
+        <h2 className="p-8">Past student experiences</h2>
         <Marquee height={370}>
           {testimonials.map(({ quote, picture, name, date }, index) => (
             <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
