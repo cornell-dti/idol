@@ -9,6 +9,14 @@ export default function ButtonPage() {
   return (
     <PageLayout title="Button" description="Guidelines for buttons.">
       <PageSection title="Regular button" description="Use for regular buttons">
+        <Button label="Apply today" />
+
+        <Button label="Apply" badge="12D 2H" />
+
+        <Button label="Apply today" variant="secondary" />
+
+        <Button label="Apply today" variant="tertiary" />
+
         <Button label="Apply today" disabled />
 
         <Button label="Apply" badge="12D 2H" disabled />
