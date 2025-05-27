@@ -56,7 +56,7 @@ export default function Course() {
         button1Label="Apply to Trends"
         button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
         button2Label="Learn more"
-        button2Link="#"
+        button2Link="https://webdev.cornelldti.org/"
         image="/course/trendsLogo.png"
         imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
         imagePosition="left"
@@ -93,12 +93,12 @@ export default function Course() {
       <SectionSep />
 
       <section className="temporarySection">
-        <h4 className="p-8">Course staff</h4>
+        <h2 className="p-8">Course staff</h2>
       </section>
 
       <SectionSep />
       <section>
-        <h4 className="p-8">Past student experiences</h4>
+        <h2 className="p-8">Past student experiences</h2>
         <Marquee height={370}>
           {testimonials.map(({ quote, picture, name, date }, index) => (
             <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
@@ -108,7 +108,7 @@ export default function Course() {
 
       <section>
         <div className="p-8">
-          <h4>Past student projects section</h4>
+          <h2>Past student projects section</h2>
           <p className="pt-1 text-base text-[var(--foreground-3)]">
             See how our course helps students bring their ideas to life.
           </p>
