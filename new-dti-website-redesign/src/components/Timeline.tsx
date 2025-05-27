@@ -1,7 +1,5 @@
 'use client';
 
-// import React, { useLayoutEffect, useState } from 'react';
-// import useScreenSize from '../hooks/useScreenSize';
 import parseDate from '../utils/dateUtils';
 
 export type Event = {
@@ -21,7 +19,7 @@ type TimelineProps = {
  * @remarks
  * This component is used to render the timeline with all the events. The timeline automatically adjusts based on screen size
  * (mobile vs. desktop) and displays a progress line showing how far along the current date is relative to the events.
- * Each event includes a title, date, and time. The date string should be formatted with the month (abbreviated), day, and
+ * Each event includes a title, date, and optional time. The date string should be formatted with the month (abbreviated), day, and
  * optionally, the time (formatted as `hh:mm AM/PM`). If no time is provided, the default will be 12:00 AM.
  * If no Year is provided, the default will be the Current Year
  *
@@ -66,7 +64,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             <div key={i} className="flex-1 flex flex-col gap-2 items-center md:flex-row">
               {/* left segment (gradient on first) */}
               <div
-                className={`rounded-b-full md:rounded-r-full h-full w-[2px] md:w-full md:h-[3px] ${
+                className={`rounded-b-full md:rounded-r-full h-full w-[3px] md:w-full md:h-[3px] ${
                   i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
                 }`}
               />
@@ -89,7 +87,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
               {/* right segment (gradient on last) */}
               <div
-                className={`w-[2px] h-full rounded-t-full md:rounded-l-full md:w-full  md:h-[3px] ${
+                className={`w-[3px] h-full rounded-t-full md:rounded-l-full md:w-full  md:h-[3px] ${
                   i === events.length - 1
                     ? `bg-gradient-to-b md:bg-gradient-to-r ${fromVar} to-transparent`
                     : base
