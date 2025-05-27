@@ -56,7 +56,7 @@ export default function Course() {
         button1Label="Apply to Trends"
         button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
         button2Label="Learn more"
-        button2Link="#"
+        button2Link="https://webdev.cornelldti.org/"
         image="/course/trendsLogo.png"
         imageAlt="Screenshot showing Trends in Web Development course technologies"
         imagePosition="left"
