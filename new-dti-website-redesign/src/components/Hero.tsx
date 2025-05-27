@@ -7,8 +7,10 @@ type Props = {
   subheading: ReactNode;
   button1Label?: string;
   button1Link?: string;
+  button1Disabled?: boolean;
   button2Label?: string;
   button2Link?: string;
+  button2Disabled?: boolean;
   image?: string;
   centered?: boolean;
   className?: string;
@@ -19,8 +21,10 @@ const Hero = ({
   subheading,
   button1Label,
   button1Link,
+  button1Disabled,
   button2Label,
   button2Link,
+  button2Disabled,
   image,
   className
 }: Props): ReactNode => (
@@ -61,6 +65,7 @@ const Hero = ({
                   label={button1Label}
                   href={button1Link}
                   className="w-fit"
+                  disabled={button1Disabled}
                 />
               )}
               {button2Label && button2Link && (
@@ -69,6 +74,7 @@ const Hero = ({
                   label={button2Label}
                   href={button2Link}
                   className="w-fit"
+                  disabled={button2Disabled}
                 />
               )}
             </div>

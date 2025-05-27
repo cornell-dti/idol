@@ -9,13 +9,13 @@ export default function ButtonPage() {
   return (
     <PageLayout title="Button" description="Guidelines for buttons.">
       <PageSection title="Regular button" description="Use for regular buttons">
-        <Button label="Apply today" />
+        <Button label="Apply today" disabled />
 
-        <Button label="Apply" badge="12D 2H" />
+        <Button label="Apply" badge="12D 2H" disabled />
 
-        <Button label="Apply today" variant="secondary" />
+        <Button label="Apply today" variant="secondary" disabled />
 
-        <Button label="Apply today" variant="tertiary" />
+        <Button label="Apply today" variant="tertiary" disabled />
 
         <div className="flex w-100 h-50 items-center justify-center bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover">
           <Button label="Apply today" variant="transparent" />
