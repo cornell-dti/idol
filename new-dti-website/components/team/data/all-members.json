@@ -301,28 +301,28 @@
   },
   {
     "formerSubteams": [],
-    "minor": "ECE",
-    "linkedin": "https://www.linkedin.com/in/cchrischen/",
-    "pronouns": "he/him",
-    "major": "Computer Science",
     "firstName": "Chris",
+    "linkedin": "https://www.linkedin.com/in/cchrischen/",
+    "coffeeChatLink": null,
+    "semesterJoined": "Spring 2024",
     "lastName": "Chen",
     "netid": "cc2785",
-    "doubleMajor": null,
+    "roleDescription": "Developer Lead",
+    "website": null,
+    "graduation": "May 2027",
     "about": "I enjoy hitting all 5 house dinners each Wednesday.",
+    "hometown": "Flushing, NY",
+    "pronouns": "he/him",
+    "major": "Computer Science",
+    "college": "eng",
+    "role": "dev-lead",
+    "email": "cc2785@cornell.edu",
+    "github": "https://github.com/cchrischen",
     "subteams": [
       "idol"
     ],
-    "github": "https://github.com/cchrischen",
-    "email": "cc2785@cornell.edu",
-    "semesterJoined": "Spring 2024",
-    "college": "eng",
-    "website": null,
-    "graduation": "May 2027",
-    "role": "tpm",
-    "roleDescription": "Technical PM",
-    "hometown": "Flushing, NY",
-    "coffeeChatLink": null
+    "minor": "ECE",
+    "doubleMajor": null
   },
   {
     "formerSubteams": [],
@@ -441,9 +441,9 @@
     "website": "https://clementroze.com/",
     "firstName": "Clément",
     "minor": null,
-    "github": "https://github.com/Bookie0",
     "lastName": "Rozé",
-    "about": "👋 Hi! I’m Clément and I’m a Freshman studying Information Science with a concentration in User Experience Design. \n\n🌐 I was born in New York City and grew up in London. My family is from France and Singapore; je parle français 🇫🇷 and 我在学中文 🇨🇳 (I speak French and I’m learning Chinese).\n\n💼 I started designing when I was 13, creating mock-ups in Google Slides, before I discovered Figma. Since then, I’ve interned and freelanced with companies like Replit, General Counsel AI, and most recently, at a Roblox game called Deadline. My favorite things to design are design systems, presentation decks, and micro-details that make an experience memorable. I also do frontend programming and frequently code my designs.\n\n🎨 For me, design is about building meaningful connection between people and the world around them. I believe in the power of human-centered design and accessibility – ”Solve for one, extend to many.” I aim to balance aesthetics and functionality, ensuring every creation is both beautiful and practical. Quality and attention to detail are central to my work, but I also strive to create moments of joy that elevate the user experience.\n\n🏓 Outside of design, I enjoy playing piano and ping pong, though not at the same time. I’m also an avid reader – whether it’s news or literature, I love staying curious about the world.\n\n📧 Please feel free to get in touch! :)"
+    "github": "https://github.com/clementroze",
+    "about": "Hi! I’m Clément, a freshman studying Info Sci with a concentration in UX Design.\n\nI’m passionate about all things design – I’ll happily debate Helvetica vs. Inter, obsess over CSS pseudo-elements, or rave about my favorite Figma shortcuts. I believe great design should be both accessible and beautiful, so you’ll often find me deep-diving into the latest ARIA specs or dissecting the visual details that make an interface feel just right.\n\nWhen I’m not up at 4 a.m. fine-tuning pixels, I’m probably playing piano or ping pong (though not at the same time). And if I have some time after that, I’m also a big fan of reading the news!\n\nFeel free to reach out; I love meeting new people! :)\n\n"
   },
   {
     "formerSubteams": [],
