@@ -42,7 +42,7 @@ export default function Course() {
     <Layout>
       <Hero
         heading="Course"
-        subheading="Given our mission of community impact, we want to help everyone learn and grow through our training course in product development."
+        subheading="Driven by our mission of community impact, we offer a product development course to help everyone learn."
         button1Label="Apply to course"
         button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
         button2Label="Apply to DTI"
@@ -58,44 +58,20 @@ export default function Course() {
         button2Label="Learn more"
         button2Link="#"
         image="/course/trendsLogo.png"
-        imageAlt="Screenshot showing Trends in Web Development course technologies"
+        imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
         imagePosition="left"
       />
 
       <SectionSep />
 
       <section>
-        <h4 className="p-8">Details about Trends</h4>
 
         <div className="grid grid-cols-1 md:grid-cols-3">
           <FeatureCard
             title="Best Practices"
             body="We emphasize best engineering practices for every element, from API design to frontend modularization."
             icon={
-              <svg
-                width="64"
-                height="64"
-                viewBox="0 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="0.5" y="0.5" width="63" height="63" rx="31.5" fill="#181818" />
-                <rect x="0.5" y="0.5" width="63" height="63" rx="31.5" stroke="#2E2E2E" />
-                <path
-                  d="M44.2313 25.0835C44.9362 24.3787 45.3323 23.4228 45.3324 22.426C45.3326 21.4292 44.9367 20.4731 44.2319 19.7682C43.5272 19.0632 42.5712 18.6671 41.5744 18.667C40.5776 18.6669 39.6215 19.0627 38.9166 19.7675L21.1219 37.5662C20.8124 37.8748 20.5834 38.2549 20.4553 38.6728L18.6939 44.4755C18.6595 44.5908 18.6569 44.7133 18.6864 44.83C18.7159 44.9466 18.7765 45.0531 18.8617 45.1382C18.9468 45.2232 19.0534 45.2836 19.1701 45.3129C19.2869 45.3423 19.4093 45.3395 19.5246 45.3048L25.3286 43.5448C25.7462 43.4178 26.1262 43.1903 26.4353 42.8822L44.2313 25.0835Z"
-                  stroke="white"
-                  stroke-width="2.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M36 22.667L41.3333 28.0003"
-                  stroke="white"
-                  stroke-width="2.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg>
             }
           />
 
@@ -109,44 +85,7 @@ export default function Course() {
             title="Final Project"
             body="The class ends with a final project project consolidating all class topics, which can be used on your resume or portfolio."
             icon={
-              <svg
-                width="65"
-                height="64"
-                viewBox="0 0 65 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="0.833252" y="0.5" width="63" height="63" rx="31.5" fill="#181818" />
-                <rect x="0.833252" y="0.5" width="63" height="63" rx="31.5" stroke="#2E2E2E" />
-                <path
-                  d="M29.6672 26.3331C29.6676 26.1555 29.7152 25.9812 29.8052 25.8281C29.8953 25.6749 30.0245 25.5486 30.1795 25.462C30.3346 25.3753 30.5099 25.3316 30.6875 25.3352C30.8651 25.3388 31.0385 25.3896 31.1899 25.4824L36.0752 28.4811C36.2208 28.5706 36.3411 28.6959 36.4245 28.845C36.5079 28.9942 36.5517 29.1622 36.5517 29.3331C36.5517 29.504 36.5079 29.672 36.4245 29.8212C36.3411 29.9703 36.2208 30.0956 36.0752 30.1851L31.1899 33.1851C31.0383 33.278 30.8646 33.3289 30.6868 33.3324C30.509 33.3358 30.3335 33.2918 30.1784 33.2049C30.0232 33.118 29.8941 32.9912 29.8042 32.8377C29.7144 32.6843 29.6671 32.5096 29.6672 32.3318V26.3331Z"
-                  stroke="white"
-                  stroke-width="2.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M32.3333 38.667V44.0003"
-                  stroke="white"
-                  stroke-width="2.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M26.9993 44H37.6659"
-                  stroke="white"
-                  stroke-width="2.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M42.9993 20H21.6659C20.1932 20 18.9993 21.1939 18.9993 22.6667V36C18.9993 37.4728 20.1932 38.6667 21.6659 38.6667H42.9993C44.472 38.6667 45.6659 37.4728 45.6659 36V22.6667C45.6659 21.1939 44.472 20 42.9993 20Z"
-                  stroke="white"
-                  stroke-width="2.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7.75a.75.75 0 0 1 1.142-.638l3.664 2.249a.75.75 0 0 1 0 1.278l-3.664 2.25a.75.75 0 0 1-1.142-.64z" /><path d="M12 17v4" /><path d="M8 21h8" /><rect x="2" y="3" width="20" height="14" rx="2" /></svg>
             }
           />
         </div>
