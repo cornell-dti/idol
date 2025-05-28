@@ -64,7 +64,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             <div key={i} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
               {/* left segment (gradient on first) */}
               <div
-                className={`rounded-b-full md:rounded-r-full h-full w-[3px] md:w-full md:h-[3px] ${
+                className={`rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] ${
                   i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
                 }`}
               />
@@ -87,7 +87,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
               {/* right segment (gradient on last) */}
               <div
-                className={`w-[3px] h-full rounded-t-full md:rounded-l-full md:w-full  md:h-[3px] ${
+                className={`w-[3px] h-16 rounded-t-full md:rounded-l-full md:w-full  md:h-[3px] ${
                   i === events.length - 1
                     ? `bg-gradient-to-b md:bg-gradient-to-r ${fromVar} to-transparent`
                     : base
