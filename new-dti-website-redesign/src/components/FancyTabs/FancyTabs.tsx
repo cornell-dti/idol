@@ -43,7 +43,7 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
 
   useEffect(() => {
     const el = tabListRef.current;
-    if (!el) return;
+    if (!el) return undefined;
 
     const handleScroll = () => {
       setShowLeftGradient(el.scrollLeft > 0);
