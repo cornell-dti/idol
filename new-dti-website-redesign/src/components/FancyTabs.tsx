@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, React } from "react";
+import { useState, useRef } from "react";
 
 type Tab = {
   label: string;
