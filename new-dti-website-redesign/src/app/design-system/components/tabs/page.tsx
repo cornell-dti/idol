@@ -57,7 +57,7 @@ export default function TabsPage() {
 
        <PageSection title="Fancy tabs" description="A different style of tabs">
         <FancyTabs
-          width={600}
+          className='w-150'
           tabs={[
             {
               label: 'Tab 1',

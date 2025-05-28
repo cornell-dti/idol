@@ -33,11 +33,11 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex flex-col gap-8 items-center md:p-8">
+      <section className="flex flex-col gap-8 items-center p-4">
         <h2 className="md:p-0 pt-4">Role descriptions</h2>
 
          <FancyTabs
-         className='mx-4'
+          className="md:w-200 w-full"
           tabs={roles.map((role, index) => ({
             label: role.role,
             content: (

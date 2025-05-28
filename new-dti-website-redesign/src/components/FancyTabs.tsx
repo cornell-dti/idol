@@ -11,10 +11,9 @@ type Tab = {
 export type TabsProps = {
   tabs: Tab[];
   className?: string;
-  width?: number;
 };
 
-export default function Tabs({ tabs, className = "", width }: TabsProps) {
+export default function Tabs({ tabs, className = "" }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
 
@@ -32,9 +31,9 @@ export default function Tabs({ tabs, className = "", width }: TabsProps) {
   };
 
   return (
-    <div className={`flex flex-col ${className}`} style={{ width: width }}>
+    <div className={`flex flex-col ${className}`}>
       <div
-        className="flex flex-wrap z-20 mb-[-2px]"
+        className="fancyTabsContainer flex z-20 mb-[-2px] overflow-auto"
         role="tablist"
         aria-label="Tabbed content"
         onKeyDown={handleKeyDown}

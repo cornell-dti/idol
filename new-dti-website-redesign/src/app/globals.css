@@ -215,3 +215,8 @@ subsections of the carousel */
   background: var(--background-3);
   color: var(--color-foreground-1);
 }
+
+/* Remove scrollbar on FancyTabs container to create cleaner UI */
+.fancyTabsContainer::-webkit-scrollbar {
+  display: none;
+}
