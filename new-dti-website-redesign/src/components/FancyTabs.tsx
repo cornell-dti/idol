@@ -251,7 +251,6 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
         role="tabpanel"
         id={`panel-${activeIndex}`}
         aria-labelledby={`tab-${activeIndex}`}
-        //   className={`${activeIndex === 0 ? '[&>div]:rounded-tr-md' : '[&>div]:rounded-t-md'}  border-border-1 border-1 rounded-lg'`}
         className={`${
           activeIndex === 0 ? "rounded-b-2xl rounded-tr-2xl" : "rounded-2xl"
         } border-border-1 border-1 bg-background-1 overflow-hidden`}
