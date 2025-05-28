@@ -6,6 +6,7 @@ import SectionSep from '../../components/SectionSep';
 import roles from './roleDescriptions.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
 import Tabs from '../../components/Tabs';
+import FancyTabs from '@/components/FancyTabs';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',
@@ -47,6 +48,29 @@ export default function Apply() {
                 skills={role.skills}
                 responsibilities={role.responsibilities}
               />
+            )
+          }))}
+        />
+
+         <FancyTabs
+          tabs={roles.map((role, index) => ({
+            label: role.role,
+            content: (
+              <RoleDescriptionCard
+                key={index}
+                role={role.role}
+                skills={role.skills}
+                responsibilities={role.responsibilities}
+              />
+            )
+          }))}
+        />
+
+          <FancyTabs
+          tabs={roles.map((role, index) => ({
+            label: role.role,
+            content: (
+              <p>boiiiii</p>
             )
           }))}
         />
