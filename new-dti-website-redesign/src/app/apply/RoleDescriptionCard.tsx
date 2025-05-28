@@ -10,7 +10,7 @@ export default function RoleDescriptionCard({
   responsibilities
 }: RoleDescriptionCardProps) {
   return (
-    <div className="md:w-200 w-fill flex flex-col overflow-hidden">
+    <div className="md:w-200 w-fill flex flex-col">
       <div className="p-4 bg-background-2 border-b-1 border-border-1">
         <h3 className="h5">{role} application</h3>
       </div>
