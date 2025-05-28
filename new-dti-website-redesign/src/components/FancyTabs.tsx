@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Button from "./Button";
 import React from "react";
 
 type Tab = {
@@ -12,9 +11,10 @@ type Tab = {
 export type TabsProps = {
   tabs: Tab[];
   className?: string;
+  width?: number;
 };
 
-export default function Tabs({ tabs, className = "" }: TabsProps) {
+export default function Tabs({ tabs, className = "", width }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
 
@@ -32,7 +32,8 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
   };
 
   return (
-    <div className={`flex flex-col w-200 ${className}`}>
+    <div className={`flex flex-col ${className}`}
+    style={{ width: width}}>
       <div
         className="flex flex-wrap z-20 mb-[-2px]"
         role="tablist"
@@ -140,10 +141,13 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
               className={`${
                 activeIndex === index
                   ? "bg-background-1 border-t-1 border-border-1"
-                  : "rounded-t-md px-7"
-              } relative
+                  : `rounded-t-md px-7
+              
+                   `
+              }
+              
             
-            relative focusState before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-[40px] before:bg-[var(--background-2)] before:rounded-t-lg before:z-[-1] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-[120ms] before:ease-out
+            relative focusState before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-[var(--background-2)] before:rounded-t-lg before:z-[-3] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-[120ms] before:ease-out
             `}
               ref={(el) => {
                 tabsRef.current[index] = el;
@@ -162,6 +166,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
               <div className="w-7">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
+                  className="transform translate-x-[-1px]"
                   width="60"
                   height="42"
                   viewBox="0 0 60 42"
@@ -250,7 +255,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
         //   className={`${activeIndex === 0 ? '[&>div]:rounded-tr-md' : '[&>div]:rounded-t-md'}  border-border-1 border-1 rounded-lg'`}
         className={`${
           activeIndex === 0 ? "rounded-b-2xl rounded-tr-2xl" : "rounded-2xl"
-        } border-border-1 border-1`}
+        } border-border-1 border-1 bg-background-1`}
       >
         {tabs[activeIndex]?.content}
       </div>
