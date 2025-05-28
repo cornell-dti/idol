@@ -39,11 +39,11 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
       >
         {tabs.map((tab, index) => (
           <div className="flex" key={tab.label}>
-            {activeIndex === index ? (
-              index === 0 ? (
-                <div className="h-[42px] w-7 bg-background-2 border-border-1 border-l-1 border-t-1 rounded-tl-2xl" />
-              ) : (
-                <>
+            {activeIndex === index && (
+              <>
+                {index === 0 ? (
+                  <div className="h-[42px] w-7 bg-background-2 border-border-1 border-l-1 border-t-1 rounded-tl-2xl" />
+                ) : (
                   <div className="w-7">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -128,11 +128,12 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
                         </clipPath>
                       </defs>
                     </svg>
+                           {" "}
                   </div>
-                </>
-              )
-            ) : null}
-
+                )}
+                   {" "}
+              </>
+            )}
             <button
               className={`${
                 activeIndex === index
@@ -160,7 +161,6 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
             >
               {tab.label}
             </button>
-
             {activeIndex === index ? (
               <div className="w-7">
                 <svg
