@@ -62,7 +62,7 @@ export default function TabsPage() {
             {
               label: 'Tab 1',
               content: (
-                <div className="w-128 h-96 bg-background-2 p-8 focusState" tabIndex={0}>
+                <div className="h-96 bg-background-2 p-8 focusState" tabIndex={0}>
                   <h3>Tab panel 1</h3>
 
                   <p>A lovely tab 1 with just an image</p>
@@ -74,7 +74,7 @@ export default function TabsPage() {
             {
               label: 'Tab 2',
               content: (
-                <div className="w-128 h-96 bg-background-2 p-8">
+                <div className="h-96 bg-background-2 p-8">
                   <h3>Tab panel 2</h3>
 
                   <p>A lovely tab 2 with interactive elements</p>
@@ -88,7 +88,7 @@ export default function TabsPage() {
             {
               label: 'Tab 3',
               content: (
-                <div className="w-128 h-96  bg-background-2 p-8 focusState" tabIndex={0}>
+                <div className="h-96  bg-background-2 p-8 focusState" tabIndex={0}>
                   <h3>Tab panel 3</h3>
                   <p className="small caps">helloooo</p>
                 </div>
