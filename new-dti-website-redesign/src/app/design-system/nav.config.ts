@@ -97,7 +97,18 @@ const navItems: NavGroup[] = [
         description: 'Logo box description bruh.'
       }
     ]
-  }
+  },
+   {
+    category: 'Page sections',
+    items: [
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/navbar',
+        label: 'Navbar',
+        description: 'Navbar description blah.'
+      }
+    ]
+  },
 ];
 
 export default navItems;

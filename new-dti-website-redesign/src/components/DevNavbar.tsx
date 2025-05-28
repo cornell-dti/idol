@@ -12,7 +12,6 @@ export default function DevNavbar({ className = '' }: DevNavbarProps) {
   const [visible, setVisible] = useState(true);
 
   const navLinks = [
-    { href: '/test-components', label: 'Components [TEST]' },
     { href: '/test-page', label: 'Full page [TEST]' },
     { href: '/design-system', label: 'Design system' }
   ];
