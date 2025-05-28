@@ -35,16 +35,16 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
   return (
-    <div className="flex flex-row-reverse justify-end md:flex-col gap-4 md:gap-0 my-4">
+    <div className="flex flex-row-reverse justify-end md:flex-col gap-4 md:gap-y-3 my-4 md:pt-8 md:pb-16">
       {/* Desktop: dates above */}
       <div className="flex flex-col md:flex-row w-full">
         {events.map((ev, i) => (
           <div
             key={i}
-            className="md:text-center min-h-32 md:min-h-0 md:pb-3 pt-11 md:pt-0 flex-1 md:items-center md:justify-center flex flex-col"
+            className="md:text-center min-h-35 md:min-h-0 justify-center pt-6.5 md:pt-0 flex-1 md:items-center flex flex-col md:gap-y-1"
           >
             <h3 className="h5">{ev.title}</h3>
-            <p className="text-[var(--foreground-3)] md:pt-1">
+            <p className="text-[var(--foreground-3)]">
               {ev.date}
               {ev.time && ` · ${ev.time}`}
             </p>

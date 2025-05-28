@@ -39,7 +39,7 @@ export default function Course() {
       <SectionSep />
 
       <section>
-        <h2>Details about Trends</h2>
+        <h2 className="p-8">Details about Trends</h2>
         <Timeline events={events} currentDate={new Date()} />
       </section>
 
