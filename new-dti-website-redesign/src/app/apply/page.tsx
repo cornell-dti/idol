@@ -37,7 +37,7 @@ export default function Apply() {
         <h2 className="md:p-0 pt-4">Role descriptions</h2>
 
          <FancyTabs
-          width={800}
+         className='mx-4'
           tabs={roles.map((role, index) => ({
             label: role.role,
             content: (
