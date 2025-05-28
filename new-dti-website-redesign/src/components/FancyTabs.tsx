@@ -128,10 +128,8 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
                         </clipPath>
                       </defs>
                     </svg>
-                           {" "}
                   </div>
                 )}
-                   {" "}
               </>
             )}
             <button
