@@ -47,7 +47,6 @@ export default function Tabs({ tabs, className = "", width }: TabsProps) {
                 <div className="h-[42px] w-7 bg-background-1 border-border-1 border-l-1 border-t-1 rounded-tl-2xl" />
               ) : (
                 <>
-                   
                   <div className="w-7">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -140,14 +139,27 @@ export default function Tabs({ tabs, className = "", width }: TabsProps) {
             <button
               className={`${
                 activeIndex === index
-                  ? "bg-background-1 border-t-1 border-border-1"
-                  : `rounded-t-md px-7
-              
-                   `
-              }
-              
-            
-            relative focusState before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-[var(--background-2)] before:rounded-t-lg before:z-[-3] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-[120ms] before:ease-out
+                  ? 'bg-background-1 border-t-1 border-border-1'
+                  : 'rounded-t-md px-7'
+              } relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-lg before:z-[-3] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-[120ms] before:ease-out
+
+        
+focus:outline-hidden
+  after:content-['']
+  after:absolute
+  after:top-1
+  after:-left-2
+after:w-[calc(100%+16px)]
+
+after:h-8
+after:rounded-sm
+after:z-2
+  focus-visible:after:outline
+  focus-visible:after:outline-[2px]
+  focus-visible:after:outline-[var(--foreground-1)]
+  focus-visible:after:outline-offset-[3px]
+
+
             `}
               ref={(el) => {
                 tabsRef.current[index] = el;
