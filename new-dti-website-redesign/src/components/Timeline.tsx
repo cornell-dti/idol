@@ -55,13 +55,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       <div className="flex flex-col md:flex-row">
         {events.map((ev, i) => {
           const passed = isPassed(ev);
-          const base = passed ? 'bg-[var(--accent-red)]' : 'bg-[var(--foreground-3)]';
+          const base = passed ? 'bg-accent-red' : 'bg-foreground-3';
 
-          // graident "from" var
+          // gradient "from" var
           const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
 
           return (
-            <div key={i} className="flex-1 flex flex-col gap-2 items-center md:flex-row">
+            <div key={i} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
               {/* left segment (gradient on first) */}
               <div
                 className={`rounded-b-full md:rounded-r-full h-full w-[3px] md:w-full md:h-[3px] ${
