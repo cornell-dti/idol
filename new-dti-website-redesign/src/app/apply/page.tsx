@@ -33,7 +33,7 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex flex-col gap-8 items-center p-4">
+      <section className="flex flex-col gap-8 items-center md:p-8 p-4">
         <h2 className="md:p-0 pt-4">Role descriptions</h2>
 
          <FancyTabs
