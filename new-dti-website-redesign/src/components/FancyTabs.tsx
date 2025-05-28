@@ -13,7 +13,7 @@ export type TabsProps = {
   className?: string;
 };
 
-export default function Tabs({ tabs, className = "" }: TabsProps) {
+export default function FancyTabs({ tabs, className = "" }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
 
