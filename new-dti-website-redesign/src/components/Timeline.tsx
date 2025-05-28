@@ -61,7 +61,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
 
           return (
-            <div key={i} className="flex-1 flex flex-col gap-2 items-center md:flex-row">
+            <div key={i} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
               {/* left segment (gradient on first) */}
               <div
                 className={`rounded-b-full md:rounded-r-full h-full w-[3px] md:w-full md:h-[3px] ${
