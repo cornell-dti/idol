@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
+import { useState, useRef } from 'react';
 
 type Tab = {
   label: string;
@@ -12,17 +12,17 @@ type TabsProps = {
   className?: string;
 };
 
-export default function FancyTabs({ tabs, className = "" }: TabsProps) {
+export default function FancyTabs({ tabs, className = '' }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
       // +1 for going to right, -1 for going to left
-      const dir = e.key === "ArrowRight" ? 1 : -1;
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
       const nextIndex = (activeIndex + dir + tabs.length) % tabs.length;
       setActiveIndex(nextIndex);
       tabsRef.current[nextIndex]?.focus(); // Moves focus to next tab
@@ -100,10 +100,7 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
                             width="60"
                             height="44"
                           >
-                            <path
-                              d="M1 0.0244141H61V43.0244H1V0.0244141Z"
-                              fill="white"
-                            />
+                            <path d="M1 0.0244141H61V43.0244H1V0.0244141Z" fill="white" />
                             <path
                               d="M60 1.02441H52.9217C45.228 1.02441 38.2164 5.43765 34.889 12.3746L26.1111 30.6743C22.7836 37.6112 15.772 42.0244 8.0783 42.0244H1H60V1.02441Z"
                               fill="var(--background-2)"
@@ -135,8 +132,8 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
             <button
               className={`${
                 activeIndex === index
-                  ? "bg-background-2 border-t-1 border-border-1"
-                  : "rounded-t-md px-7"
+                  ? 'bg-background-2 border-t-1 border-border-1'
+                  : 'rounded-t-md px-7'
               } relative hover:before:opacity-100 focus:outline-hidden
               
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-lg before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
@@ -216,10 +213,7 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
                         width="60"
                         height="44"
                       >
-                        <path
-                          d="M59 0.0244141H-1V43.0244H59V0.0244141Z"
-                          fill="white"
-                        />
+                        <path d="M59 0.0244141H-1V43.0244H59V0.0244141Z" fill="white" />
                         <path
                           d="M0 1.02441H7.0783C14.772 1.02441 21.7836 5.43765 25.111 12.3746L33.8889 30.6743C37.2164 37.6112 44.228 42.0244 51.9217 42.0244H59H0V1.02441Z"
                           fill="var(--background-2)"
@@ -250,7 +244,7 @@ export default function FancyTabs({ tabs, className = "" }: TabsProps) {
         id={`panel-${activeIndex}`}
         aria-labelledby={`tab-${activeIndex}`}
         className={`${
-          activeIndex === 0 ? "rounded-b-2xl rounded-tr-2xl" : "rounded-2xl"
+          activeIndex === 0 ? 'rounded-b-2xl rounded-tr-2xl' : 'rounded-2xl'
         } border-border-1 border-1 bg-background-1 overflow-hidden`}
       >
         {tabs[activeIndex]?.content}
