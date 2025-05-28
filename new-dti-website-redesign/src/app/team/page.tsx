@@ -43,8 +43,6 @@ export default function Team() {
         <h4>Beyond DTI section</h4>
       </section>
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -53,8 +51,6 @@ export default function Team() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }

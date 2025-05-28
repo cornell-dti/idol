@@ -80,7 +80,7 @@ export default function Home() {
           imagePosition="right"
           imageAlt="DTI members in front of a whiteboard pasting sticky notes in a brainstorming session"
           button2Label="Learn more"
-          button2Link="/courses"
+          button2Link="/course"
         />
 
         <FeatureSection
@@ -106,8 +106,6 @@ export default function Home() {
           button2Link="/apply"
         />
 
-        <SectionSep />
-
         <CtaSection
           heading="Ready to join?"
           subheading="Be part of something greater today."
@@ -116,8 +114,6 @@ export default function Home() {
           button2Label="Meet the team"
           button2Link="/team"
         />
-
-        <SectionSep />
       </Layout>
     </>
   );

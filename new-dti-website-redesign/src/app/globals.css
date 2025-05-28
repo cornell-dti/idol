@@ -181,13 +181,12 @@ a {
   line-height: 160%;
 }
 
-main,
-section:not(.hero),
+section:not(.hero):not(.ctaSection),
 .sectionStyles {
   outline: 0.5px solid var(--border-1);
 }
 
-section:not(.hero),
+section:not(.hero):not(.ctaSection),
 .sectionSep {
   max-width: 1184px;
   margin: auto;
