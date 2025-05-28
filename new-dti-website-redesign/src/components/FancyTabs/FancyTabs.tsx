@@ -36,6 +36,8 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
   const gradientRight = `${gradientEdgeBase} right-0 bg-[linear-gradient(to_left,var(--background-1),transparent)]`;
 
   // logic to show the left gradient when the tab list is scrolled
+  // by default it hides the left gradient (opacity 0) since we don't want it to show when the tabs are not scrolled
+  // this is because the gradient is meant to indicate overflow, yet there isn't overflow on the left (only the right)
   const tabListRef = useRef<HTMLDivElement>(null);
   const [showLeftGradient, setShowLeftGradient] = useState(false);
 
