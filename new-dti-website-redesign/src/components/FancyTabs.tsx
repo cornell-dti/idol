@@ -32,8 +32,7 @@ export default function Tabs({ tabs, className = "", width }: TabsProps) {
   };
 
   return (
-    <div className={`flex flex-col ${className}`}
-    style={{ width: width}}>
+    <div className={`flex flex-col ${className}`} style={{ width: width }}>
       <div
         className="flex flex-wrap z-20 mb-[-2px]"
         role="tablist"
@@ -139,28 +138,18 @@ export default function Tabs({ tabs, className = "", width }: TabsProps) {
             <button
               className={`${
                 activeIndex === index
-                  ? 'bg-background-1 border-t-1 border-border-1'
-                  : 'rounded-t-md px-7'
-              } relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-lg before:z-[-3] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-[120ms] before:ease-out
-
-        
-focus:outline-hidden
-  after:content-['']
-  after:absolute
-  after:top-1
-  after:-left-2
-after:w-[calc(100%+16px)]
-
-after:h-8
-after:rounded-sm
-after:z-2
-  focus-visible:after:outline
-  focus-visible:after:outline-[2px]
-  focus-visible:after:outline-[var(--foreground-1)]
-  focus-visible:after:outline-offset-[3px]
-
-
-            `}
+                  ? "bg-background-1 border-t-1 border-border-1"
+                  : "rounded-t-md px-7"
+              } relative hover:before:opacity-100 focus:outline-hidden
+              
+              before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-lg before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
+              
+              after:content-[''] after:absolute after:-left-2 after:top-1 after:w-[calc(100%+16px)] after:rounded-sm after:h-8 after:z-2
+              
+              focus-visible:after:outline
+              focus-visible:after:outline-[var(--foreground-1)]
+              focus-visible:after:outline-[2px]
+              focus-visible:after:outline-offset-[3px]`}
               ref={(el) => {
                 tabsRef.current[index] = el;
               }}
