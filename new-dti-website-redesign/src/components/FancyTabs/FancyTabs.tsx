@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import TabEdge from './TabEdges';
 
 type Tab = {
@@ -30,13 +30,45 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
     }
   };
 
+  // gradients on sides to indicate overflow
+  const gradientEdgeBase = 'absolute top-0 w-8 h-10 z-35 pointer-events-none';
+  const gradientLeft = `${gradientEdgeBase} left-0 bg-[linear-gradient(to_right,var(--background-1),transparent)]`;
+  const gradientRight = `${gradientEdgeBase} right-0 bg-[linear-gradient(to_left,var(--background-1),transparent)]`;
+
+  // logic to show the left gradient when the tab list is scrolled
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const [showLeftGradient, setShowLeftGradient] = useState(false);
+
+  useEffect(() => {
+    const el = tabListRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      setShowLeftGradient(el.scrollLeft > 0);
+    };
+
+    const onFrame = () => handleScroll();
+
+    requestAnimationFrame(onFrame);
+    el.addEventListener('scroll', handleScroll);
+
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex flex-col relative ${className}`}>
+      <div
+        className={`transition-opacity transition-120 ${gradientLeft} ${
+          showLeftGradient ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+
       <div
         className="fancyTabsContainer flex z-20 mb-[-2px] overflow-auto"
         role="tablist"
         aria-label="Tabbed content"
         onKeyDown={handleKeyDown}
+        ref={tabListRef}
       >
         {tabs.map((tab, index) => (
           <div className="flex" key={tab.label}>
@@ -85,6 +117,8 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
           </div>
         ))}
       </div>
+
+      <div className={gradientRight} />
 
       <div
         role="tabpanel"
