@@ -158,7 +158,9 @@ const TimelineCard = ({
             </div>
           ))}
         <div
-          className={`flex gap-2 items-center p-4 border border-border-1 rounded-b-lg ${event.location ? 'md:w-1/2  md:rounded-bl-none' : 'w-full'}`}
+          className={`flex gap-2 items-center p-4 border border-border-1 rounded-b-lg ${
+            event.location ? 'md:w-1/2  md:rounded-bl-none' : 'w-full'
+          }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

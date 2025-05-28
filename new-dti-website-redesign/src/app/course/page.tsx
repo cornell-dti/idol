@@ -7,35 +7,12 @@ import FeatureCard from '@/components/FeatureCard';
 import RocketIcon from '../design-system/components/icon/RocketIcon';
 import Marquee from '@/components/Marquee';
 import TestimonialCard from '@/components/TestimonialCard';
+import testimonialData from './data/testimonialData.json';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
   description: 'DESCRIPTION'
 };
-
-const testimonials = [
-  {
-    quote:
-      "Trends in Web Development has been an incredibly valuable course, equipping me with practical skills and knowledge that will greatly benefit my future career. The final project was a rewarding experience, allowing me to put my new skills into practice and create a project I'm proud of!",
-    picture: '/juju.png',
-    name: 'Juju Crane',
-    date: 'Fall 2024'
-  },
-  {
-    quote:
-      "This course was really helpful and enjoyable. The lessons were clear and easy to follow, and I learned a lot about web development. The project especially helped put everything together. I'd recommend it to anyone looking to learn web development!",
-    picture: '/course/ryan.jpg',
-    name: 'Ryan Qiu',
-    date: 'Fall 2024'
-  },
-  {
-    quote:
-      'Trends taught the foundations for being a full-stack web developer. Some units required an additional bit of understanding of other languages like HTML and CSS, but overall the class gave a good starting point to learning web development.',
-    picture: '/course/katie.jpg',
-    name: 'Katie Xiao',
-    date: 'Fall 2024'
-  }
-];
 
 export default function Course() {
   return (
@@ -57,7 +34,7 @@ export default function Course() {
         button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
         button2Label="Learn more"
         button2Link="https://webdev.cornelldti.org/"
-        image="/course/trendsLogo.png"
+        image="/course/trendsIcon.png"
         imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
         imagePosition="left"
       />
@@ -65,13 +42,25 @@ export default function Course() {
       <SectionSep />
 
       <section>
-
         <div className="grid grid-cols-1 md:grid-cols-3">
           <FeatureCard
             title="Best Practices"
             body="We emphasize best engineering practices for every element, from API design to frontend modularization."
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                <path d="m15 5 4 4" />
+              </svg>
             }
           />
 
@@ -85,7 +74,22 @@ export default function Course() {
             title="Final Project"
             body="The class ends with a final project project consolidating all class topics, which can be used on your resume or portfolio."
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7.75a.75.75 0 0 1 1.142-.638l3.664 2.249a.75.75 0 0 1 0 1.278l-3.664 2.25a.75.75 0 0 1-1.142-.64z" /><path d="M12 17v4" /><path d="M8 21h8" /><rect x="2" y="3" width="20" height="14" rx="2" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M10 7.75a.75.75 0 0 1 1.142-.638l3.664 2.249a.75.75 0 0 1 0 1.278l-3.664 2.25a.75.75 0 0 1-1.142-.64z" />
+                <path d="M12 17v4" />
+                <path d="M8 21h8" />
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+              </svg>
             }
           />
         </div>
@@ -100,16 +104,24 @@ export default function Course() {
       <section>
         <h2 className="p-8">Past student experiences</h2>
         <Marquee height={370}>
-          {testimonials.map(({ quote, picture, name, date }, index) => (
-            <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
-          ))}
+          {testimonialData.testimonials.map(
+            ({ description, profileImage, name, semesterTaken }, index) => (
+              <TestimonialCard
+                key={index}
+                quote={description}
+                picture={profileImage}
+                name={name}
+                date={semesterTaken}
+              />
+            )
+          )}
         </Marquee>
       </section>
 
       <section>
-        <div className="p-8">
+        <div className="flex flex-col gap-y-3 p-8">
           <h2>Past student projects section</h2>
-          <p className="pt-1 text-base text-[var(--foreground-3)]">
+          <p className="text-base text-foreground-3">
             See how our course helps students bring their ideas to life.
           </p>
         </div>
