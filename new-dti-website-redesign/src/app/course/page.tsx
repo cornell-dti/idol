@@ -2,11 +2,19 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
+import Timeline, { Event } from '../../components/Timeline';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
   description: 'DESCRIPTION'
 };
+
+const events: Event[] = [
+  { title: 'Lecture 0', date: 'Feb 9' },
+  { title: 'Lecture 1 (async)', date: 'Feb 17' },
+  { title: 'Sign-up Deadline', date: 'June 1' },
+  { title: 'Project Presentation', date: 'June 2' }
+];
 
 export default function Course() {
   return (
@@ -27,8 +35,9 @@ export default function Course() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Details about Trends section</h4>
+      <section>
+        <h2 className="p-8">Details about Trends</h2>
+        <Timeline events={events} currentDate={new Date()} />
       </section>
 
       <SectionSep />
