@@ -44,7 +44,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             className="md:text-center min-h-35 md:min-h-0 justify-center pt-6.5 md:pt-0 flex-1 md:items-center flex flex-col md:gap-y-1"
           >
             <h3 className="h5">{ev.title}</h3>
-            <p className="text-[var(--foreground-3)]">
+            <p className="text-foreground-3">
               {ev.date}
               {ev.time && ` · ${ev.time}`}
             </p>
@@ -58,7 +58,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           const base = passed ? 'bg-accent-red' : 'bg-foreground-3';
 
           // gradient "from" var
-          const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
+          const fromVar = passed ? 'from-accent-red' : 'from-foreground-3';
 
           return (
             <div key={i} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
@@ -72,15 +72,15 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               {/* outer ring */}
               <div
                 className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${
-                  passed ? 'border-[var(--accent-red)]' : 'border-[var(--foreground-3)]'
+                  passed ? 'border-accent-red' : 'border-foreground-3'
                 }`}
               >
                 {/* dot */}
                 <div
                   className={`w-[6px] h-[6px] rounded-full ${
                     passed
-                      ? 'border-[var(--accent-red)] bg-[var(--accent-red)]'
-                      : 'border-[var(--foreground-3)] bg-[var(--foreground-3)]'
+                      ? 'border-accent-red bg-accent-red'
+                      : 'border-foreground-3 bg-foreground-3'
                   }`}
                 />
               </div>
