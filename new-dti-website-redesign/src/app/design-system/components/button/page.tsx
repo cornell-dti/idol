@@ -17,6 +17,20 @@ export default function ButtonPage() {
 
         <Button label="Apply today" variant="tertiary" />
 
+        <Button label="Apply today" disabled />
+
+        <Button label="Apply" badge="12D 2H" disabled />
+
+        <Button label="Apply today" variant="secondary" disabled />
+
+        <Button label="Apply today" variant="tertiary" disabled />
+
+        <div className="flex w-100 h-50 items-center justify-center bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover">
+          <Button label="Apply today" variant="transparent" />
+        </div>
+
+        <Button label="Apply today" variant="tertiary" />
+
         <Button label="Apply today" size="small" />
 
         <Button label="Apply" badge="12D 2H" size="small" />
@@ -24,6 +38,10 @@ export default function ButtonPage() {
         <Button label="Apply today" variant="secondary" size="small" />
 
         <Button label="Apply today" variant="tertiary" size="small" />
+
+        <div className="flex w-100 h-50 items-center justify-center bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover">
+          <Button label="Apply today" variant="transparent" size="small" />
+        </div>
       </PageSection>
 
       <PageSection title="Icon button" description="Use when you just need an icon">

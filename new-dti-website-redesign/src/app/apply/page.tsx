@@ -48,16 +48,21 @@ const renderFaqContent = (section: FAQ[]) => (
   </>
 );
 
+const applicationsOpen = false;
+
 export default function Apply() {
   return (
     <Layout>
-      <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
+      {!applicationsOpen && (
+        <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
+      )}
 
       <Hero
         heading="Join our community"
         subheading="We value inclusivity and welcome passionate applicants of all experience levels. We’d love to work with you."
         button1Label="Apply to DTI"
         button1Link="/apply"
+        button1Disabled={!applicationsOpen}
         button2Label="Role descriptions"
         button2Link="/"
         image="/apply/hero.png"
@@ -122,8 +127,6 @@ export default function Apply() {
         </div>
       </section>
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -132,8 +135,6 @@ export default function Apply() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }

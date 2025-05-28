@@ -51,7 +51,7 @@ export default function Sponsor() {
 
       <section>
         <div className="grid min-[1000px]:grid-cols-4">
-          <div className="col-span-2 flex items-center justify-center border-b-1 border-border-1 min-[1000px]:p-0 p-8">
+          <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-8">
             <h2 className="h4 text-center">Thank you to our sponsors!</h2>
           </div>
           {logos.map((logo, index) => (
@@ -59,8 +59,6 @@ export default function Sponsor() {
           ))}
         </div>
       </section>
-
-      <SectionSep />
 
       <CtaSection
         heading="Ready to join?"
@@ -70,8 +68,6 @@ export default function Sponsor() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }

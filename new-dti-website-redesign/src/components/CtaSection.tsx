@@ -1,4 +1,6 @@
-import React, { ReactNode } from 'react';
+'use client';
+
+import React, { ReactNode, useEffect, useRef } from 'react';
 import Button from './Button';
 
 type Props = {
@@ -6,8 +8,10 @@ type Props = {
   subheading: ReactNode;
   button1Label?: string;
   button1Link?: string;
+  button1LinkNewTab?: boolean;
   button2Label?: string;
   button2Link?: string;
+  button2LinkNewTab?: boolean;
 };
 
 const CtaSection = ({
@@ -15,12 +19,40 @@ const CtaSection = ({
   subheading,
   button1Label,
   button1Link,
+  button1LinkNewTab = false,
   button2Label,
-  button2Link
-}: Props): ReactNode => (
-  <section className="flex flex-col-reverse md:flex-col">
-    <div className="flex flex-col outline-[0.5px] outline-accent-green  p-4 sm:px-8 sm:py-16">
-      <div className="flex flex-col m-auto  items-center gap-4 max-w-120">
+  button2Link,
+  button2LinkNewTab = false
+}: Props): ReactNode => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Adds bottom border radius and overflow hidden to the previous sibling element
+  useEffect(() => {
+    if (sectionRef.current) {
+      const prevSibling = sectionRef.current.previousElementSibling as HTMLElement | null;
+      if (prevSibling) {
+        prevSibling.classList.add('rounded-b-2xl', 'overflow-hidden');
+      }
+    }
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="ctaSection flex flex-col-reverse md:flex-col h-125 justify-center
+  bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover relative mt-8"
+    >
+      <div
+        className="absolute inset-0 w-full h-full z-[5]"
+        style={{
+          backgroundImage: `
+      radial-gradient(262.42% 155.53% at 50% 153.47%, color-mix(in srgb, var(--background-1) 0%, transparent) 11.11%, var(--background-1) 100%),
+      radial-gradient(95.79% 95.78% at 50% 0%, color-mix(in srgb, var(--background-1) 0%, transparent) 21.15%, var(--background-1) 100%)
+    `
+        }}
+      ></div>
+
+      <div className="z-10 flex flex-col m-auto p-4 sm:px-8 sm:py-16 items-center gap-4 max-w-120">
         <div className="flex flex-col items-center gap-2">
           <h2 className="text-center">{heading}</h2>
           <p className="h6 text-center text-foreground-3">{subheading}</p>
@@ -28,20 +60,27 @@ const CtaSection = ({
 
         <div className="flex gap-4">
           {button1Label && button1Link && (
-            <Button variant="primary" label={button1Label} href={button1Link} className="w-full" />
+            <Button
+              variant="primary"
+              label={button1Label}
+              href={button1Link}
+              className="w-full"
+              newTab={button1LinkNewTab}
+            />
           )}
           {button2Label && button2Link && (
             <Button
-              variant="secondary"
+              variant="transparent"
               label={button2Label}
               href={button2Link}
               className="w-full"
+              newTab={button2LinkNewTab}
             />
           )}
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default CtaSection;

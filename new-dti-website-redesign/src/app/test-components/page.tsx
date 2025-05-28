@@ -13,6 +13,7 @@ import FeatureCard from '../../components/FeatureCard';
 import Chip from '../../components/Chip';
 import Tabs from '../../components/Tabs';
 import Accordion from '../../components/Accordion';
+import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
 import TimelineCard, { RecruitmentEvent } from '../../components/TimelineCard';
 
 export default function TestComponents() {
@@ -26,6 +27,26 @@ export default function TestComponents() {
     freshmen: { date: 'August 21', isTentative: false, time: '5-6PM' },
     upperclassmen: { date: 'August 21', isTentative: false },
     spring: { date: 'January 3', isTentative: false }
+  };
+
+  const mockUser: IdolMember = {
+    netid: 'abc123',
+    email: 'abc123@cornell.edu',
+    firstName: 'John',
+    lastName: 'Doe',
+    pronouns: '',
+    semesterJoined: '',
+    graduation: 'May 2028',
+    major: 'Information Science',
+    hometown: 'New York, NY',
+    about: `According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyways. Because bees don't care what humans think is impossible.\nCrazy? I Was Crazy Once. They Locked Me In A Room. A Rubber Room. A Rubber Room With Rats. And Rats Make Me Crazy.`,
+    subteams: ['idol'],
+    role: 'ops-lead',
+    roleDescription: 'Full Team Lead',
+    doubleMajor: 'Economics',
+    linkedin: 'https://www.linkedin.com/',
+    github: 'https://github.com/',
+    website: 'https://google.com/'
   };
 
   return (
@@ -537,6 +558,30 @@ export default function TestComponents() {
         </div>
       </div>
 
+      <div className="flex flex-col gap-6">
+        <h4>Member Cards</h4>
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <MemberCard
+              key={i}
+              user={{
+                ...mockUser,
+                role: ['ops-lead', 'tpm', 'designer', 'business', 'pm-advisor'][i % 5] as Role,
+                roleDescription: [
+                  'Full Team Lead',
+                  'Technical PM',
+                  'Designer',
+                  'Business',
+                  'PM Advisor'
+                ][i % 5] as RoleDescription
+              }}
+              image={'/clem.jpg'}
+              selected={i > 4}
+            />
+          ))}
+        </div>
+        <MemberDetailsCard user={mockUser} image="/clem.jpg" />
+      </div>
       <div className="flex flex-col gap-6">
         <h4>Timeline Card</h4>
         <div className="flex flex-col gap-4">

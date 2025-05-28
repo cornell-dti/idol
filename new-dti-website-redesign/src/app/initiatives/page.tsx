@@ -126,8 +126,6 @@ export default function Initiatives() {
         imageAlt="DTI members at the Millenium office"
       />
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -136,8 +134,6 @@ export default function Initiatives() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }

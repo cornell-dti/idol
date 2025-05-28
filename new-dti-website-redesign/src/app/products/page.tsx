@@ -26,8 +26,6 @@ export default function Products() {
         image="/products/hero.png"
       />
 
-      <SectionSep />
-
       <section className="grid grid-cols-4">
         {logos.map((logo, index) => (
           <LogoBox
@@ -48,8 +46,6 @@ export default function Products() {
         </React.Fragment>
       ))}
 
-      <SectionSep />
-
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."
@@ -58,8 +54,6 @@ export default function Products() {
         button2Label="Meet the team"
         button2Link="/team"
       />
-
-      <SectionSep />
     </Layout>
   );
 }
