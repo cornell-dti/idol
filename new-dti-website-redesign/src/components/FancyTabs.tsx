@@ -134,7 +134,7 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
                 activeIndex === index
                   ? 'bg-background-2 border-t-1 border-border-1'
                   : 'rounded-t-md px-7'
-              } relative hover:before:opacity-100 focus:outline-hidden
+              } relative hover:before:opacity-100 focus:outline-hidden cursor-pointer
               
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-lg before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
               
