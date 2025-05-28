@@ -8,7 +8,7 @@ type Tab = {
   content: React.ReactNode;
 };
 
-type TabsProps = {
+export type TabsProps = {
   tabs: Tab[];
   className?: string;
   center?: boolean;
