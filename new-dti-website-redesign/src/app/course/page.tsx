@@ -8,11 +8,19 @@ import RocketIcon from '../design-system/components/icon/RocketIcon';
 import Marquee from '@/components/Marquee';
 import TestimonialCard from '@/components/TestimonialCard';
 import testimonialData from './data/testimonialData.json';
+import Timeline, { Event } from '../../components/Timeline';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
   description: 'DESCRIPTION'
 };
+
+const events: Event[] = [
+  { title: 'Lecture 0', date: 'Feb 9' },
+  { title: 'Lecture 1 (async)', date: 'Feb 17' },
+  { title: 'Sign-up Deadline', date: 'June 1' },
+  { title: 'Project Presentation', date: 'June 2' }
+];
 
 export default function Course() {
   return (
@@ -65,13 +73,14 @@ export default function Course() {
               </svg>
             }
           />
-
+        <h2 className="p-8">Details about Trends</h2>
+        <Timeline events={events} currentDate={new Date()} />
+      </section>
           <FeatureCard
             title="Deploy"
             body="Learn how to deploy your web applications ot the cloud using service provider such as Heroku or the Google Cloud Platform."
             icon={<RocketIcon />}
           />
-
           <FeatureCard
             title="Final Project"
             body="The class ends with a final project project consolidating all class topics, which can be used on your resume or portfolio."
@@ -97,7 +106,6 @@ export default function Course() {
         </div>
       </section>
       <SectionSep />
-
       <section className="temporarySection">
         <h2 className="p-8">Course staff</h2>
       </section>

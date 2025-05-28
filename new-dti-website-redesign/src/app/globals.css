@@ -192,6 +192,7 @@ section:not(.hero):not(.ctaSection),
   margin: auto;
 }
 
+a:focus-visible,
 .focusState:focus-visible {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
