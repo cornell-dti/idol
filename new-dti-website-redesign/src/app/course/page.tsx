@@ -1,14 +1,14 @@
+import CtaSection from '../../components/CtaSection';
+import FeatureCard from '../../components/FeatureCard';
+import FeatureSection from '../../components/FeatureSection';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
-import CtaSection from '../../components/CtaSection';
+import Marquee from '../../components/Marquee';
 import SectionSep from '../../components/SectionSep';
-import FeatureSection from '@/components/FeatureSection';
-import FeatureCard from '@/components/FeatureCard';
-import RocketIcon from '../design-system/components/icon/RocketIcon';
-import Marquee from '@/components/Marquee';
-import TestimonialCard from '@/components/TestimonialCard';
-import testimonialData from './data/testimonialData.json';
+import TestimonialCard from '../../components/TestimonialCard';
 import Timeline, { Event } from '../../components/Timeline';
+import RocketIcon from '../design-system/components/icon/RocketIcon';
+import testimonialData from './data/testimonialData.json';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
@@ -52,6 +52,8 @@ export default function Course() {
       <SectionSep />
 
       <section>
+        <h2 className="p-8">Details about Trends</h2>
+        <Timeline events={events} currentDate={new Date()} />
         <div className="grid grid-cols-1 md:grid-cols-3">
           <FeatureCard
             title="Best Practices"
@@ -73,9 +75,6 @@ export default function Course() {
               </svg>
             }
           />
-        <h2 className="p-8">Details about Trends</h2>
-        <Timeline events={events} currentDate={new Date()} />
-      </section>
           <FeatureCard
             title="Deploy"
             body="Learn how to deploy your web applications ot the cloud using service provider such as Heroku or the Google Cloud Platform."

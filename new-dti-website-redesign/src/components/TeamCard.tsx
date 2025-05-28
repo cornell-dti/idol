@@ -49,7 +49,11 @@ export const MemberCard = ({ user, image, selected, onClick }: MemberCardProps) 
 
   return (
     <article
-      className={`${baseStyles} ${selected ? `bg-background-2 border-b-foreground-1 after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full` : ''}`}
+      className={`${baseStyles} ${
+        selected
+          ? `bg-background-2 border-b-foreground-1 after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full`
+          : ''
+      }`}
     >
       <MemberSummary user={user} image={image} />
       <button
