@@ -10,8 +10,10 @@ type FeatureSectionProps = {
   description: string;
   button1Label?: string;
   button1Link?: string;
+  button1LinkNewTab?: boolean;
   button2Label?: string;
   button2Link?: string;
+  button2LinkNewTab?: boolean;
   image: string;
   imageAlt: string;
   imagePosition?: 'left' | 'right';
@@ -24,8 +26,10 @@ export default function FeatureSection({
   description,
   button1Label,
   button1Link,
+  button1LinkNewTab = false,
   button2Label,
   button2Link,
+  button2LinkNewTab = false,
   image,
   imageAlt,
   imagePosition = 'left'
@@ -46,10 +50,20 @@ export default function FeatureSection({
 
       <div className="flex gap-4">
         {button1Label && button1Link && (
-          <Button variant="primary" label={button1Label} href={button1Link} />
+          <Button
+            variant="primary"
+            label={button1Label}
+            href={button1Link}
+            newTab={button1LinkNewTab}
+          />
         )}
         {button2Label && button2Link && (
-          <Button variant="secondary" label={button2Label} href={button2Link} />
+          <Button
+            variant="secondary"
+            label={button2Label}
+            href={button2Link}
+            newTab={button2LinkNewTab}
+          />
         )}
       </div>
     </div>
