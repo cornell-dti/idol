@@ -1,0 +1,29 @@
+{
+  "student_projects": [
+    {
+      "title": "Auto Note",
+      "description": "AutoNote is a web app that helps users quickly create summarized notes from PDF files. Using React for the frontend and Express for the backend, it allows users to upload files, generate Markdown summaries with OpenAI's API, and manage their notes securely with Firebase. The app features a simple, user-friendly interface for uploading, viewing, downloading, and deleting notes.",
+      "imageSrc": "/course/projects/autonote.jpg"
+    },
+    {
+      "title": "SavorStats",
+      "description": "SavorStats is a social media site for foodies! You can upload your latest cooking adventures, see what your friends are making, and discover great recipes for your next dish. Whether you're looking for inspiration to cook at home or want to brag about your latest soufflé, SavorStats is the site for you!",
+      "imageSrc": "/course/projects/savorstats.jpg"
+    },
+    {
+      "title": "IKanji",
+      "description": "IKanji is a web app that enhances the learning of Japanese Kanji. It allows users to create custom lessons or use existing ones from the Genki Textbook that can be studied with IKanji's flashcards and multiple choice features. Additionally, it integrates AI to further enhance the educational experience.",
+      "imageSrc": "/course/projects/ikanji.jpg"
+    },
+    {
+      "title": "Off Campus Groups",
+      "description": "Centralized platform to find, join & create new events for OFF-campus events.",
+      "imageSrc": "/course/projects/offcampusgroups.jpg"
+    },
+    {
+      "title": "CU Lost and Found",
+      "description": "A platform that helps students recover their lost belongings through crowdsourced data.",
+      "imageSrc": "/course/projects/culostandfound.jpg"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "courseplan": {
+    "name": "CoursePlan",
+    "link": "https://courseplan.io/"
+  },
+  "reviews": {
+    "name": "CUReviews",
+    "link": "https://www.cureviews.org/"
+  },
+  "queuemein": {
+    "name": "Queue Me In",
+    "link": "https://queueme.in/"
+  },
+  "cuapts": {
+    "name": "CU Apts",
+    "link": "https://www.cuapts.org/"
+  },
+  "idol": {
+    "name": "IDOL",
+    "link": "https://www.cornelldti.org"
+  },
+  "cornellgo": {
+    "name": "Cornell GO",
+    "link": ""
+  },
+  "carriage": {
+    "name": "Carriage",
+    "link": ""
+  },
+  "leads": {
+    "name": "Lead",
+    "link": ""
+  },
+  "business": {
+    "name": "Business",
+    "link": ""
+  },
+  "curaise": {
+    "name": "CU Raise",
+    "link": ""
+  },
+  "zing": {
+    "name": "Zing",
+    "link": "https://zing-lsc-prod.web.app/"
+  },
+  "dac": {
+    "name": "Design @ Cornell",
+    "link": "https://www.cudesign.io/"
+  }
+}

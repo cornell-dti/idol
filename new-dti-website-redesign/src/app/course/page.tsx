@@ -6,30 +6,45 @@ import Layout from '../../components/Layout';
 import Marquee from '../../components/Marquee';
 import SectionSep from '../../components/SectionSep';
 import TestimonialCard from '../../components/TestimonialCard';
-import Timeline, { Event } from '../../components/Timeline';
+import Timeline from '../../components/Timeline';
 import RocketIcon from '../design-system/components/icon/RocketIcon';
+
 import testimonialData from './data/testimonialData.json';
+import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
+import studentProjectData from './data/student_projects.json';
+import trendsData from '../../../config.json';
+import allMembers from './../team/data/all-members.json';
+import config from './data/config.json';
+import timelineData from './data/timeline_events.json';
+import Button from '@/components/Button';
+import { useState } from 'react';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
   description: 'DESCRIPTION'
 };
 
-const events: Event[] = [
-  { title: 'Lecture 0', date: 'Feb 9' },
-  { title: 'Lecture 1 (async)', date: 'Feb 17' },
-  { title: 'Sign-up Deadline', date: 'June 1' },
-  { title: 'Project Presentation', date: 'June 2' }
-];
+//* DATA
+const { timeline_events } = timelineData;
+const { student_projects } = studentProjectData;
+const courseStaff = allMembers
+  .filter((member) => trendsData.trends_instructors.includes(member.netid))
+  .sort(
+    (instructor1, instructor2) =>
+      trendsData.trends_instructors.findIndex((netid) => netid === instructor1.netid) -
+      trendsData.trends_instructors.findIndex((netid) => netid === instructor2.netid)
+  ) as IdolMember[];
 
 export default function Course() {
+  const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
+
   return (
     <Layout>
       <Hero
         heading="Course"
         subheading="Driven by our mission of community impact, we offer a product development course to help everyone learn."
         button1Label="Apply to course"
-        button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
+        button1Link={config.trendsApplicationLink}
         button2Label="Apply to DTI"
         button2Link="/apply"
         image="/course/hero.png"
@@ -39,10 +54,10 @@ export default function Course() {
         heading="Trends in Web Development"
         description="Trends in Web Development in a 1-credit S/U course that showcase modern full-stack development and best practices used within industry. We cover technologies like TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed at scale by leading tech companies."
         button1Label="Apply to Trends"
-        button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
+        button1Link={config.trendsApplicationLink}
         button1LinkNewTab={true}
         button2Label="Learn more"
-        button2Link="https://webdev.cornelldti.org/"
+        button2Link={config.trendsWebsiteLink}
         button2LinkNewTab={true}
         image="/course/trendsIcon.png"
         imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
@@ -53,7 +68,7 @@ export default function Course() {
 
       <section>
         <h2 className="p-8">Details about Trends</h2>
-        <Timeline events={events} currentDate={new Date()} />
+        <Timeline events={timeline_events} currentDate={new Date()} />
         <div className="grid grid-cols-1 md:grid-cols-3">
           <FeatureCard
             title="Best Practices"
@@ -105,8 +120,34 @@ export default function Course() {
         </div>
       </section>
       <SectionSep />
-      <section className="temporarySection">
+      <section>
         <h2 className="p-8">Course staff</h2>
+        {selectedMember ? (
+          <div className="px-4">
+            <MemberDetailsCard
+              user={selectedMember}
+              image={`/team/${selectedMember.netid}.jpg`}
+            />
+            <div className="mt-4 px-8">
+              <Button label="Back to staff list" onClick={() => setSelectedMember(null)} />
+            </div>
+          </div>
+        ) : (
+          <div
+            className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
+        xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
+          >
+            {courseStaff.map((member) => (
+              <MemberCard
+                key={member.netid}
+                user={member}
+                image={`/team/${member.netid}.jpg`}
+                selected={false}
+                onClick={() => setSelectedMember(member)}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       <SectionSep />

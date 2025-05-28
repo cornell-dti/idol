@@ -1,0 +1,24 @@
+{
+  "timeline_events": [
+    {
+      "title": "Lecture 0",
+      "date": "Feb 10",
+      "time": "7:30 PM"
+    },
+    {
+      "title": "Sign-up Deadline",
+      "date": "Feb 21",
+      "time": "12:00 PM"
+    },
+    {
+      "title": "Lecture 1 (async)",
+      "date": "Feb 17",
+      "time": ""
+    },
+    {
+      "title": "Project Presentation",
+      "date": "May 5",
+      "time": ""
+    }
+  ]
+}
