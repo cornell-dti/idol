@@ -11,6 +11,7 @@ type Logo = {
   href?: string;
   noLink?: boolean;
   ariaLabel?: string;
+  border?: boolean;
 };
 
 const LogoBox: React.FC<Logo> = ({
@@ -21,11 +22,14 @@ const LogoBox: React.FC<Logo> = ({
   fillWidth,
   href,
   noLink,
-  ariaLabel
+  ariaLabel,
+  border = true
 }) => {
   const content = (
     <div
-      className="flex items-center justify-center h-24 border-border-1 border-l-1 border-b-1 p-4"
+      className={`flex items-center justify-center h-24 p-4 border-r-0 ${
+        border ? 'border-border-1 border-l-1 border-b-1' : ''
+      }`}
       style={{ width: fillWidth ? '100%' : '160px' }}
     >
       <Image
