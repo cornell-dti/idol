@@ -5,7 +5,7 @@ import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
 import roles from './roleDescriptions.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
-import FancyTabs from '../../components/FancyTabs';
+import FancyTabs from '../../components/FancyTabs/FancyTabs';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',

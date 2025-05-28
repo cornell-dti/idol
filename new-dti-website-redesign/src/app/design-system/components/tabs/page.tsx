@@ -8,7 +8,7 @@ import PageSection from '../../PageSection';
 import Tabs from '../../../../components/Tabs';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
-import FancyTabs from '../../../../components/FancyTabs';
+import FancyTabs from '../../../../components/FancyTabs/FancyTabs';
 
 export default function TabsPage() {
   return (
