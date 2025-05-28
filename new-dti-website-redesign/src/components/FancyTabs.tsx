@@ -136,11 +136,10 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
                   : 'rounded-t-md px-7'
               } relative hover:before:opacity-100 focus:outline-hidden cursor-pointer
               
-              before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-lg before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
+              before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-3xl before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
               
               after:content-[''] after:absolute after:-left-2 after:top-1 after:w-[calc(100%+16px)] after:rounded-sm after:h-8 after:z-2
               
-              focus-visible:after:outline
               focus-visible:after:outline-[var(--foreground-1)]
               focus-visible:after:outline-[2px]
               focus-visible:after:outline-offset-[3px]`}
