@@ -8,8 +8,10 @@ type Props = {
   subheading: ReactNode;
   button1Label?: string;
   button1Link?: string;
+  button1LinkNewTab?: boolean;
   button2Label?: string;
   button2Link?: string;
+  button2LinkNewTab?: boolean;
 };
 
 const CtaSection = ({
@@ -17,8 +19,10 @@ const CtaSection = ({
   subheading,
   button1Label,
   button1Link,
+  button1LinkNewTab = false,
   button2Label,
-  button2Link
+  button2Link,
+  button2LinkNewTab = false
 }: Props): ReactNode => {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -56,7 +60,13 @@ const CtaSection = ({
 
         <div className="flex gap-4">
           {button1Label && button1Link && (
-            <Button variant="primary" label={button1Label} href={button1Link} className="w-full" />
+            <Button
+              variant="primary"
+              label={button1Label}
+              href={button1Link}
+              className="w-full"
+              newTab={button1LinkNewTab}
+            />
           )}
           {button2Label && button2Link && (
             <Button
@@ -64,6 +74,7 @@ const CtaSection = ({
               label={button2Label}
               href={button2Link}
               className="w-full"
+              newTab={button2LinkNewTab}
             />
           )}
         </div>

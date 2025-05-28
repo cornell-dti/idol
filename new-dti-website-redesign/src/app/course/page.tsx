@@ -32,8 +32,10 @@ export default function Course() {
         description="Trends in Web Development in a 1-credit S/U course that showcase modern full-stack development and best practices used within industry. We cover technologies like TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed at scale by leading tech companies."
         button1Label="Apply to Trends"
         button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdIQoS1ScMQuzLFIdC3ITsz7rpLS_qg_CBymSHp8Bcl-x4ITQ/viewform"
+        button1LinkNewTab={true}
         button2Label="Learn more"
         button2Link="https://webdev.cornelldti.org/"
+        button2LinkNewTab={true}
         image="/course/trendsIcon.png"
         imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
         imagePosition="left"
