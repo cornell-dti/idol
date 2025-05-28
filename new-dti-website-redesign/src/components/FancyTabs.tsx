@@ -42,7 +42,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
           <div className="flex" key={tab.label}>
             {activeIndex === index ? (
               index === 0 ? (
-                <div className="h-[42px] w-7 bg-background-1 border-border-1 border-l-1 border-t-1 rounded-tl-2xl" />
+                <div className="h-[42px] w-7 bg-background-2 border-border-1 border-l-1 border-t-1 rounded-tl-2xl" />
               ) : (
                 <>
                   <div className="w-7">
@@ -78,20 +78,20 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
                             <path d="M0 -1H60V42H0V-1Z" fill="white" />
                             <path
                               d="M59 0H51.9217C44.228 0 37.2164 4.41324 33.889 11.3501L25.1111 29.6498C21.7836 36.5868 14.772 41 7.0783 41H0H59V0Z"
-                              fill="var(--background-1)"
+                              fill="var(--background-2)"
                             />
                           </mask>
                           <g mask="url(#mask1_2816_5179)">
                             <path
                               d="M59 0V-1H60V0H59ZM59 41H60V42H59V41ZM59 1H51.9217V-1H59V1ZM0 40H59V42H0V40ZM58 41V0H60V41H58ZM34.7906 11.7826L26.0127 30.0823L24.2094 29.2174L32.9873 10.9177L34.7906 11.7826ZM7.0783 42H0V40H7.0783V42ZM26.0127 30.0823C22.5189 37.3661 15.1567 42 7.0783 42V40C14.3873 40 21.0483 35.8074 24.2094 29.2174L26.0127 30.0823ZM51.9217 1C44.6127 1 37.9517 5.19257 34.7906 11.7826L32.9873 10.9177C36.4812 3.6339 43.8433 -1 51.9217 -1V1Z"
-                              fill="var(--background-1)"
+                              fill="var(--background-2)"
                             />
                           </g>
                         </mask>
                         <g mask="url(#mask0_2816_5179)">
                           <path
                             d="M60 1.02441H52.9217C45.228 1.02441 38.2164 5.43765 34.889 12.3746L26.1111 30.6743C22.7836 37.6112 15.772 42.0244 8.0783 42.0244H1H60V1.02441Z"
-                            fill="var(--background-1)"
+                            fill="var(--background-2)"
                           />
                           <mask
                             id="mask2_2816_5179"
@@ -107,7 +107,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
                             />
                             <path
                               d="M60 1.02441H52.9217C45.228 1.02441 38.2164 5.43765 34.889 12.3746L26.1111 30.6743C22.7836 37.6112 15.772 42.0244 8.0783 42.0244H1H60V1.02441Z"
-                              fill="var(--background-1)"
+                              fill="var(--background-2)"
                             />
                           </mask>
                           <g mask="url(#mask2_2816_5179)">
@@ -137,7 +137,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
             <button
               className={`${
                 activeIndex === index
-                  ? "bg-background-1 border-t-1 border-border-1"
+                  ? "bg-background-2 border-t-1 border-border-1"
                   : "rounded-t-md px-7"
               } relative hover:before:opacity-100 focus:outline-hidden
               
@@ -196,20 +196,20 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
                         <path d="M60 -1H0V42H60V-1Z" fill="white" />
                         <path
                           d="M1 0H8.0783C15.772 0 22.7836 4.41324 26.111 11.3501L34.8889 29.6498C38.2164 36.5868 45.228 41 52.9217 41H60H1V0Z"
-                          fill="var(--background-1)"
+                          fill="var(--background-2)"
                         />
                       </mask>
                       <g mask="url(#mask1_2816_5162)">
                         <path
                           d="M1 0V-1H0V0H1ZM1 41H0V42H1V41ZM1 1H8.0783V-1H1V1ZM60 40H1V42H60V40ZM2 41V0H0V41H2ZM25.2094 11.7826L33.9873 30.0823L35.7906 29.2174L27.0127 10.9177L25.2094 11.7826ZM52.9217 42H60V40H52.9217V42ZM33.9873 30.0823C37.4811 37.3661 44.8433 42 52.9217 42V40C45.6127 40 38.9517 35.8074 35.7906 29.2174L33.9873 30.0823ZM8.0783 1C15.3873 1 22.0483 5.19257 25.2094 11.7826L27.0127 10.9177C23.5188 3.6339 16.1567 -1 8.0783 -1V1Z"
-                          fill="var(--background-1)"
+                          fill="var(--background-2)"
                         />
                       </g>
                     </mask>
                     <g mask="url(#mask0_2816_5162)">
                       <path
                         d="M0 1.02441H7.0783C14.772 1.02441 21.7836 5.43765 25.111 12.3746L33.8889 30.6743C37.2164 37.6112 44.228 42.0244 51.9217 42.0244H59H0V1.02441Z"
-                        fill="var(--background-1)"
+                        fill="var(--background-2)"
                       />
                       <mask
                         id="mask2_2816_5162"
@@ -225,7 +225,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
                         />
                         <path
                           d="M0 1.02441H7.0783C14.772 1.02441 21.7836 5.43765 25.111 12.3746L33.8889 30.6743C37.2164 37.6112 44.228 42.0244 51.9217 42.0244H59H0V1.02441Z"
-                          fill="var(--background-1)"
+                          fill="var(--background-2)"
                         />
                       </mask>
                       <g mask="url(#mask2_2816_5162)">
@@ -255,7 +255,7 @@ export default function Tabs({ tabs, className = "" }: TabsProps) {
         //   className={`${activeIndex === 0 ? '[&>div]:rounded-tr-md' : '[&>div]:rounded-t-md'}  border-border-1 border-1 rounded-lg'`}
         className={`${
           activeIndex === 0 ? "rounded-b-2xl rounded-tr-2xl" : "rounded-2xl"
-        } border-border-1 border-1 bg-background-1`}
+        } border-border-1 border-1 bg-background-1 overflow-hidden`}
       >
         {tabs[activeIndex]?.content}
       </div>
