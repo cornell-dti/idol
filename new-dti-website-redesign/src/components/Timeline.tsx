@@ -55,7 +55,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       <div className="flex flex-col md:flex-row">
         {events.map((ev, i) => {
           const passed = isPassed(ev);
-          const base = passed ? 'bg-[var(--accent-red)]' : 'bg-[var(--foreground-3)]';
+          const base = passed ? 'bg-accent-red' : 'bg-foreground-3';
 
           // graident "from" var
           const fromVar = passed ? 'from-[var(--accent-red)]' : 'from-[var(--foreground-3)]';
