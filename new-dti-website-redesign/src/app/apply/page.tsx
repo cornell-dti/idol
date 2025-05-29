@@ -8,6 +8,7 @@ import SectionSep from '../../components/SectionSep';
 import roles from './roleDescriptions.json';
 import faqs from './faqs.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
+import FancyTabs from '../../components/FancyTabs/FancyTabs';
 import Tabs from '../../components/Tabs';
 import Accordion from '../../components/Accordion';
 
@@ -74,11 +75,11 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex flex-col gap-8 items-center md:p-8">
+      <section className="flex flex-col gap-8 items-center md:p-8 p-4">
         <h2 className="md:p-0 pt-4">Role descriptions</h2>
 
-        <Tabs
-          center
+        <FancyTabs
+          className="md:w-200 w-full"
           tabs={roles.map((role, index) => ({
             label: role.role,
             content: (
