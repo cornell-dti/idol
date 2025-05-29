@@ -40,10 +40,11 @@ type MemberCardProps = {
   user: IdolMember;
   image: string;
   selected: boolean;
+  className?: string;
   onClick?: () => void;
 };
 
-export const MemberCard = ({ user, image, selected, onClick }: MemberCardProps) => {
+export const MemberCard = ({ user, image, selected, onClick, className = '' }: MemberCardProps) => {
   const baseStyles =
     'relative p-8 border border-border-1 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:z-10';
 
@@ -53,7 +54,7 @@ export const MemberCard = ({ user, image, selected, onClick }: MemberCardProps) 
         selected
           ? `bg-background-2 border-b-foreground-1 after:content-[''] after:absolute after:bottom-[-1px] after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full`
           : ''
-      }`}
+      } ${className}`}
     >
       <MemberSummary user={user} image={image} />
       <button
@@ -71,7 +72,7 @@ type MemberDetailsProps = {
 export const MemberDetailsCard = ({ user, image }: MemberDetailsProps) => {
   const baseStyles = 'md:w-1/2 border border-border-1 flex flex-col';
   return (
-    <div className="flex w-full flex-col md:flex-row">
+    <div className="card-clickable flex w-full flex-col md:flex-row">
       <div className={`${baseStyles} p-8 gap-4 border-r-0`}>
         <MemberSummary user={user} image={image} enlarged />
       </div>

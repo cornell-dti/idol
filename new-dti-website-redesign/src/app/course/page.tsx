@@ -10,14 +10,12 @@ import Timeline from '../../components/course/Timeline';
 import RocketIcon from '../design-system/components/icon/RocketIcon';
 
 import testimonialData from './data/testimonialData.json';
-import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
 import studentProjectData from './data/student_projects.json';
 import trendsData from '../../../config.json';
 import allMembers from './../team/data/all-members.json';
 import config from './data/config.json';
 import timelineData from './data/timeline_events.json';
-import Button from '@/components/Button';
-import { useState } from 'react';
+import CourseStaff from '../../components/course/CourseStaff';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
@@ -36,8 +34,6 @@ const courseStaff = allMembers
   ) as IdolMember[];
 
 export default function Course() {
-  const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
-
   return (
     <Layout>
       <Hero
@@ -122,32 +118,7 @@ export default function Course() {
       <SectionSep />
       <section>
         <h2 className="p-8">Course staff</h2>
-        {selectedMember ? (
-          <div className="px-4">
-            <MemberDetailsCard
-              user={selectedMember}
-              image={`/team/${selectedMember.netid}.jpg`}
-            />
-            <div className="mt-4 px-8">
-              <Button label="Back to staff list" onClick={() => setSelectedMember(null)} />
-            </div>
-          </div>
-        ) : (
-          <div
-            className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 md:gap-10 
-        xs:gap-x-1.5 xs:gap-y-5 md:mt-10 xs:mt-5"
-          >
-            {courseStaff.map((member) => (
-              <MemberCard
-                key={member.netid}
-                user={member}
-                image={`/team/${member.netid}.jpg`}
-                selected={false}
-                onClick={() => setSelectedMember(member)}
-              />
-            ))}
-          </div>
-        )}
+        <CourseStaff courseStaff={courseStaff} />
       </section>
 
       <SectionSep />

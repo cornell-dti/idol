@@ -1,6 +1,6 @@
 'use client';
 
-import parseDate from '../utils/dateUtils';
+import parseDate from '../../utils/dateUtils';
 
 export type Event = {
   title: string;
