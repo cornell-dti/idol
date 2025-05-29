@@ -26,7 +26,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
     <div>
       <div className="flex flex-col md:flex-row w-full">
         {courseStaff.map((member) => (
-          <div key={member.netid} className="md:w-1/3">
+          <div key={member.netid} className="w-full md:w-1/3">
             <MemberCard
               key={member.netid}
               user={member}
@@ -36,7 +36,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             />
 
             {/* Mobile view: render directly under selected card */}
-            {isMobile && selectedMember === member && (
+            {isMobile && selectedMember?.netid === member.netid && (
               <div ref={memberDetailsRef}>
                 <MemberDetailsCard
                   user={member}
