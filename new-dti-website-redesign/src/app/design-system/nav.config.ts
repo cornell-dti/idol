@@ -112,6 +112,12 @@ const navItems: NavGroup[] = [
         href: '/design-system/page-sections/feature-section',
         label: 'Feature section',
         description: 'Feature Section description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/cta-section',
+        label: 'CTA section',
+        description: 'CTA section description blah.'
       }
     ]
   }
