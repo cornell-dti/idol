@@ -28,6 +28,8 @@ export default function DevNavbar({ className = '' }: DevNavbarProps) {
 
       <div className="flex gap-8 items-center align-items-center">
         <div className="flex gap-8 items-center">
+          <p>Components and page sections are here --&gt;</p>
+
           <ul className="hidden min-[1200px]:flex gap-8 text-foreground-3 h-10 items-center">
             {navLinks.map(({ href, label }) => (
               <li key={href} className="h-10 flex items-center">
