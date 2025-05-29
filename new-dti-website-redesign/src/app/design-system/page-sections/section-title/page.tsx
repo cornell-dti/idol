@@ -9,6 +9,8 @@ export default function SectionTitlePage() {
   return (
     <PageLayout title="Section title" description="Guidelines for Section title component.">
       <PageSection title="Default" description="Section title with heading and subheading">
+        @CLEMENT ROZE TODO MAKE BORDER-1 INTO COMPONENT @CLEMENT ROZE ADD NAVBAR @CLEMENT ROZE
+        RENAME PAGES TO BETTER SEMANTICS FIX RESPONSIVENESS OF SIDEBAR
         <div className="border-1 border-border-1">
           <SectionTitle
             heading="Who we are"
