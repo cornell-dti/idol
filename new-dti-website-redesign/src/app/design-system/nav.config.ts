@@ -98,17 +98,23 @@ const navItems: NavGroup[] = [
       }
     ]
   },
-   {
+  {
     category: 'Page sections',
     items: [
       {
         thumbnail: '/design-system/thumb.jpg',
-        href: '/design-system/page-sections/navbar',
-        label: 'Navbar',
-        description: 'Navbar description blah.'
+        href: '/design-system/page-sections/hero',
+        label: 'Hero',
+        description: 'Hero description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/feature-section',
+        label: 'Feature section',
+        description: 'Feature Section description blah.'
       }
     ]
-  },
+  }
 ];
 
 export default navItems;
