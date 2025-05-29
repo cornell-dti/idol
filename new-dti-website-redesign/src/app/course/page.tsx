@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 import Marquee from '../../components/Marquee';
 import SectionSep from '../../components/SectionSep';
 import TestimonialCard from '../../components/TestimonialCard';
-import Timeline from '../../components/Timeline';
+import Timeline from '../../components/course/Timeline';
 import RocketIcon from '../design-system/components/icon/RocketIcon';
 
 import testimonialData from './data/testimonialData.json';
