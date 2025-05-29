@@ -10,7 +10,7 @@ import Timeline from '../../components/course/Timeline';
 import RocketIcon from '../design-system/components/icon/RocketIcon';
 
 import testimonialData from './data/testimonialData.json';
-import studentProjectData from './data/student_projects.json';
+// import studentProjectData from './data/student_projects.json';
 import trendsData from '../../../config.json';
 import allMembers from './../team/data/all-members.json';
 import config from './data/config.json';
@@ -24,7 +24,7 @@ export const metadata = {
 
 //* DATA
 const { timeline_events } = timelineData;
-const { student_projects } = studentProjectData;
+// const { student_projects } = studentProjectData; <- will use this when implementing student proj section
 const courseStaff = allMembers
   .filter((member) => trendsData.trends_instructors.includes(member.netid))
   .sort(

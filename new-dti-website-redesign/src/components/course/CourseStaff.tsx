@@ -20,7 +20,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
 
   return (
     <div>
-      <div className="flex flex-row w-full">
+      <div className="flex flex-col md:flex-row w-full">
         {courseStaff.map((member) => (
           <MemberCard
             key={member.netid}
@@ -28,12 +28,12 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             image={`/team/teamHeadshots/${member.netid}.jpg`}
             selected={selectedMember == member}
             onClick={() => setSelectedMember(member)}
-            className="w-1/3"
+            className="md:w-1/3"
           />
         ))}
       </div>
       {selectedMember && (
-        <div className="px-4" ref={memberDetailsRef}>
+        <div className="" ref={memberDetailsRef}>
           <MemberDetailsCard
             user={selectedMember}
             image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
