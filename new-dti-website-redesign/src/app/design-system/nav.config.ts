@@ -124,6 +124,12 @@ const navItems: NavGroup[] = [
         href: '/design-system/page-sections/footer',
         label: 'Footer',
         description: 'Footer description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/section-title',
+        label: 'Section title',
+        description: 'Section title description blah.'
       }
     ]
   }
