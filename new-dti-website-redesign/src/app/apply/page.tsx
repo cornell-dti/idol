@@ -81,6 +81,7 @@ export default function Apply() {
         <FancyTabs
           className="md:w-200 w-full"
           tabs={roles.map((role, index) => ({
+            icon: role.icon,
             label: role.role,
             content: (
               <RoleDescriptionCard
