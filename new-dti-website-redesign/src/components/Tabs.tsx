@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Button from './Button';
 
 type Tab = {
   label: string;
