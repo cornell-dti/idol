@@ -11,10 +11,9 @@ type TabsProps = {
   tabs: Tab[];
   className?: string;
   center?: boolean;
-  tabsContainerPadding?: boolean;
 };
 
-export default function Tabs({ tabs, className = '', center, tabsContainerPadding }: TabsProps) {
+export default function Tabs({ tabs, className = '', center }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
