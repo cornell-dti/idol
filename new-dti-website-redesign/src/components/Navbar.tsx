@@ -163,6 +163,7 @@ export default function Navbar() {
                   className={`transition-[color] h-10 px-4 duration-[120ms] hover:text-foreground-1 flex items-center relative focusState rounded-full font-medium ${
                     pathname === href ? 'text-foreground-1' : 'text-foreground-3'
                   }`}
+                  aria-current={pathname === href ? 'page' : undefined}
                 >
                   {label}
                 </Link>
