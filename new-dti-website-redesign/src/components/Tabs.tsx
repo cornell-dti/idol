@@ -33,31 +33,36 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
   };
 
   return (
-    <div
-      className={`flex flex-col ${className} ${center ? 'items-center' : ''} ${tabsContainerPadding ? '' : 'gap-8'}`}
-    >
-      <div
-        className={`flex flex-wrap gap-4 w-fit ${className} ${center ? 'justify-center' : ''} ${tabsContainerPadding ? 'p-4 sm:p-8' : ''}`}
-        role="tablist"
-        aria-label="Tabbed content"
-        onKeyDown={handleKeyDown}
-      >
-        {tabs.map((tab, index) => (
-          <Button
-            key={tab.label}
-            ref={(el) => {
-              tabsRef.current[index] = el;
-            }}
-            label={tab.label}
-            onClick={() => setActiveIndex(index)}
-            variant={activeIndex === index ? 'primary' : 'tertiary'}
-            role="tab"
-            aria-selected={activeIndex === index}
-            aria-controls={`panel-${index}`}
-            id={`tab-${index}`}
-            tabIndex={activeIndex === index ? 0 : -1}
-          />
-        ))}
+    <div className={`flex flex-col ${className} ${center ? 'items-center' : ''}`}>
+      <div className="flex p-4">
+        <div
+          className={`flex flex-wrap w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className} ${
+            center ? 'justify-center' : ''
+          }`}
+          role="tablist"
+          aria-label="Tabbed content"
+          onKeyDown={handleKeyDown}
+        >
+          {tabs.map((tab, index) => (
+            <button
+              className={`${
+                activeIndex === index ? 'bg-background-2' : ''
+              } h-12 rounded-full px-6 cursor-pointer focusState transition-[background-color] duration-[120ms] hover:bg-background-2 `}
+              key={tab.label}
+              ref={(el) => {
+                tabsRef.current[index] = el;
+              }}
+              onClick={() => setActiveIndex(index)}
+              role="tab"
+              aria-selected={activeIndex === index}
+              aria-controls={`panel-${index}`}
+              id={`tab-${index}`}
+              tabIndex={activeIndex === index ? 0 : -1}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* IMPORTANT: according to the W3C (official accessibility documentation, https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
