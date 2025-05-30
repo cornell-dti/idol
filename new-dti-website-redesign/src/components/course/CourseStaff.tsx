@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
+import { MemberCard, MemberDetailsCard } from '../TeamCard';
 import useClickOutside from '../../hooks/useClickOutside';
 import useScreenSize from '../../hooks/useScreenSize';
 import useIsMobile from '../../hooks/useIsMobile';

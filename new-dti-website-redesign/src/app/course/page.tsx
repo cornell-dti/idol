@@ -12,7 +12,7 @@ import RocketIcon from '../design-system/components/icon/RocketIcon';
 import testimonialData from './data/testimonialData.json';
 // import studentProjectData from './data/student_projects.json';
 import trendsData from '../../../config.json';
-import allMembers from './../team/data/all-members.json';
+import allMembers from '../team/data/all-members.json';
 import config from './data/config.json';
 import timelineData from './data/timeline_events.json';
 import CourseStaff from '../../components/course/CourseStaff';
