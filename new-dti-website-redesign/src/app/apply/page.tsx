@@ -104,7 +104,6 @@ export default function Apply() {
 
         <div className="flex flex-col flex-3 border-l-1 border-border-1">
           <Tabs
-            tabsContainerPadding
             tabs={[
               {
                 label: 'General Questions',

@@ -50,13 +50,11 @@ export default function Tabs({ tabs, className = '', center }: TabsProps) {
   };
 
   return (
-    <div className={`flex flex-col ${className} ${center ? 'items-center' : ''}`}>
+    <div className={`flex flex-col ${className}`}>
       <div className="flex p-4">
         <div
           ref={containerRef}
-          className={`flex flex-1 relative w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className} ${
-            center ? 'justify-center' : ''
-          }`}
+          className={`flex flex-1 relative w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className}`}
           role="tablist"
           aria-label="Tabbed content"
           onKeyDown={handleKeyDown}
