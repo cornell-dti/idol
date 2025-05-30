@@ -5,20 +5,21 @@ import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
 import SectionTitle from '@/components/SectionTitle';
 import SectionSep from '@/components/SectionSep';
+import SectionWrapper from '../../util/SectionWrapper';
 
 export default function SectionSepPage() {
   return (
     <PageLayout title="Section separator" description="Guidelines for Section separator component.">
       <PageSection title="Default" description="Section separator with just an open space">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <SectionSep />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection title="Grid" description="Section separator with grid pattern">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <SectionSep grid />
-        </div>
+        </SectionWrapper>
       </PageSection>
     </PageLayout>
   );

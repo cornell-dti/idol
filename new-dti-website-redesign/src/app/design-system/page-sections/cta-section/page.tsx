@@ -3,12 +3,13 @@ import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
 import FeatureSection from '@/components/FeatureSection';
 import CtaSection from '@/components/CtaSection';
+import SectionWrapper from '../../util/SectionWrapper';
 
 export default function CtaSectionPage() {
   return (
     <PageLayout title="CTA section" description="Guidelines for CTA section component.">
       <PageSection title="Default" description="Regular CTA section used on most pages">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <CtaSection
             heading="Ready to join?"
             subheading="Be part of something greater today."
@@ -17,14 +18,14 @@ export default function CtaSectionPage() {
             button2Label="Meet the team"
             button2Link="/team"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection
         title="Custom text"
         description="CTA section with custom styles on heading and subheading"
       >
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <CtaSection
             heading={
               <>
@@ -44,13 +45,13 @@ export default function CtaSectionPage() {
             button2Label="Meet the team"
             button2Link="/team"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection title="No buttons" description="CTA Section without any buttons">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
-        </div>
+        </SectionWrapper>
       </PageSection>
     </PageLayout>
   );

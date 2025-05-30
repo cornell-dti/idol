@@ -4,6 +4,7 @@ import PageSection from '../../util/PageSection';
 import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
 import FeatureSection from '@/components/FeatureSection';
+import SectionWrapper from '../../util/SectionWrapper';
 
 export default function FeatureSectionPage() {
   return (
@@ -12,7 +13,7 @@ export default function FeatureSectionPage() {
         title="Eyebrow, image left"
         description="Feature section with eyebrow text and image on the left"
       >
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             eyebrowText="We're pretty dope, actually"
             heading="We are Cornell DTI, a project team"
@@ -20,14 +21,14 @@ export default function FeatureSectionPage() {
             image="/rock.png"
             imageAlt="DTI members rock climbing"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection
         title="Eyebrow, image right"
         description="Feature section with eyebrow text and image on the right"
       >
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             eyebrowText="We're pretty dope, actually"
             heading="We are Cornell DTI, a project team"
@@ -36,14 +37,14 @@ export default function FeatureSectionPage() {
             imageAlt="DTI members rock climbing"
             imagePosition="right"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection
         title="Icon, image left"
         description="Feature section with icon and image on the left"
       >
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             eyebrowIcon={
               <svg
@@ -69,14 +70,14 @@ export default function FeatureSectionPage() {
             image="/rock.png"
             imageAlt="DTI members rock climbing"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection
         title="Icon, image right"
         description="Feature section with icon and image on the right"
       >
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             eyebrowIcon={
               <svg
@@ -103,11 +104,11 @@ export default function FeatureSectionPage() {
             imageAlt="DTI members rock climbing"
             imagePosition="right"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection title="2 buttons" description="Feature section with 2 buttons (CTA & secondary)">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             heading="We are Cornell DTI, a project team"
             description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
@@ -118,11 +119,11 @@ export default function FeatureSectionPage() {
             button2Label="Meet the team"
             button2Link="/team"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection title="CTA button" description="Feature section with 1 call to action button">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             heading="We are Cornell DTI, a project team"
             description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
@@ -131,11 +132,11 @@ export default function FeatureSectionPage() {
             button1Label="Apply to DTI"
             button1Link="/apply"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
 
       <PageSection title="Secondary button" description="Feature section with 1 secondary button">
-        <div className="border-1 border-border-1">
+        <SectionWrapper>
           <FeatureSection
             heading="We are Cornell DTI, a project team"
             description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
@@ -144,7 +145,7 @@ export default function FeatureSectionPage() {
             button2Label="Meet the team"
             button2Link="/team"
           />
-        </div>
+        </SectionWrapper>
       </PageSection>
     </PageLayout>
   );
