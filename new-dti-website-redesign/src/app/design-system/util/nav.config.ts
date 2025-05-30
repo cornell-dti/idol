@@ -133,6 +133,12 @@ const navItems: NavGroup[] = [
       },
       {
         thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/navbar',
+        label: 'Navbar',
+        description: 'Navbar description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/page-sections/section-sep',
         label: 'Section separator',
         description: 'Section separator description blah.'

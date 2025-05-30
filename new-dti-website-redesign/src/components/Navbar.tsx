@@ -7,7 +7,11 @@ import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
 
-export default function Navbar() {
+type NavbarProps = {
+  demo?: boolean;
+};
+
+export default function Navbar({ demo }: NavbarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -135,9 +139,10 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] fixed z-60 w-full left-1/2 translate-x-[-50%] transform
+        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] z-60 w-full 
         transition-[background-color] duration-[300ms]
         ${scrolledPast ? 'bg-background-1' : ''}
+        ${demo ? '' : 'fixed left-1/2 translate-x-[-50%] transform'}
         `}
       >
         <Link href="/" className="focusState rounded-sm">
@@ -229,7 +234,11 @@ export default function Navbar() {
 
       {/* Mobile links */}
       {mobileOpen && (
-        <div className="fixed top-0 w-full h-full bg-background-1 z-50 flex flex-col justify-between pt-20 min-[900px]:hidden">
+        <div
+          className={`${
+            demo ? '' : 'fixed'
+          } top-0 w-full h-full bg-background-1 z-50 flex flex-col justify-between pt-20 min-[900px]:hidden`}
+        >
           <ul className="flex flex-col w-full p-2 md:p-4">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
