@@ -1,6 +1,6 @@
 import React from 'react';
-import PageLayout from '../../PageLayout';
-import PageSection from '../../PageSection';
+import PageLayout from '../../util/PageLayout';
+import PageSection from '../../util/PageSection';
 import TestimonialCard from '../../../../components/TestimonialCard';
 import FeatureCard from '../../../../components/FeatureCard';
 import Marquee from '../../../../components/Marquee';
@@ -104,16 +104,16 @@ export default function CardPage() {
       </PageSection>
 
       <PageSection title="Timeline card" description="Use on the timeline in 'Apply' page">
-         <TimelineCard event={mockEvent} cycle="freshmen" />
-          <TimelineCard event={{ ...mockEvent, location: undefined }} cycle="freshmen" />
-          <TimelineCard
-            event={{ ...mockEvent, link: undefined, location: 'Upson 102' }}
-            cycle="freshmen"
-          />
+        <TimelineCard event={mockEvent} cycle="freshmen" />
+        <TimelineCard event={{ ...mockEvent, location: undefined }} cycle="freshmen" />
+        <TimelineCard
+          event={{ ...mockEvent, link: undefined, location: 'Upson 102' }}
+          cycle="freshmen"
+        />
       </PageSection>
 
       <PageSection title="Team card" description="Use in the 'Team' page">
-         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <MemberCard
               key={i}

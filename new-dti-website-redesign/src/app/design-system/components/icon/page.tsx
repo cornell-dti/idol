@@ -1,5 +1,5 @@
 import React from 'react';
-import PageLayout from '../../PageLayout';
+import PageLayout from '../../util/PageLayout';
 import icons from './icons';
 
 export default function IconPage() {

@@ -23,7 +23,7 @@ export default function Sidebar() {
             key={category ?? null}
             className="p-4 border-b-1 border-border-1 flex flex-col gap-2"
           >
-            {category && <p className="ml-4 font-medium">{category}</p>}
+            {category && <p className="ml-4 !font-medium">{category}</p>}
             <ul className="flex flex-col gap-1">
               {items.map(({ href, label }) => (
                 <li key={href}>
