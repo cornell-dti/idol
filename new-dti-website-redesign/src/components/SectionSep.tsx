@@ -1,20 +1,18 @@
 import XIcon from '../app/design-system/components/icon/XIcon';
-import useIsMobile from '../hooks/useIsMobile';
-import useScreenSize from '../hooks/useScreenSize';
 
 type SectionSepProps = {
   grid?: boolean;
   hasX?: boolean;
+  isMobile?: boolean;
   onClickX?: () => void;
 };
 
 export default function SectionSep({
   grid = false,
   hasX = false,
+  isMobile = false,
   onClickX = () => {}
 }: SectionSepProps) {
-  const { width } = useScreenSize();
-  const isMobile = useIsMobile(width);
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
 

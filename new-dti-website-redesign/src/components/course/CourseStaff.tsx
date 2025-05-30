@@ -39,7 +39,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             {/* Mobile view: render directly under selected card */}
             {isMobile && selectedMember?.netid === member.netid && (
               <div>
-                <SectionSep grid={true} hasX={true} />
+                <SectionSep grid={true} hasX={true} isMobile={true} />
                 <div ref={memberDetailsRef}>
                   <MemberDetailsCard
                     user={member}
