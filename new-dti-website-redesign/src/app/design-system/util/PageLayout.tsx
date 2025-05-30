@@ -1,4 +1,4 @@
-import Sidebar from '../Sidebar';
+import Sidebar from './Sidebar';
 
 interface PageLayoutProps {
   title: string;

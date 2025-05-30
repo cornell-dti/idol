@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import navItems from './util/nav.config';
+import navItems from './nav.config';
 
 export default function Sidebar() {
   const pathname = usePathname();
