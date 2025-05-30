@@ -28,8 +28,9 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
       const tabRect = currentTab.getBoundingClientRect();
       const containerRect = containerRef.current?.getBoundingClientRect();
       if (containerRect) {
-        const left = tabRect.left - containerRect.left;
-        const width = tabRect.width;
+        const { left: tabLeft, width } = tabRect;
+        const { left: containerLeft } = containerRect;
+        const left = tabLeft - containerLeft;
         highlight.style.transform = `translateX(${left}px)`;
         highlight.style.width = `${width}px`;
       }
