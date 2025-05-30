@@ -20,6 +20,7 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
   const highlightRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // This is for the highlight effect (the filled pill) behind the selected tab
   useEffect(() => {
     const currentTab = tabsRef.current[activeIndex];
     const highlight = highlightRef.current;
