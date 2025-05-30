@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 export default function FooterPage() {
   return (
     <PageLayout title="Footer" description="Guidelines for footer component.">
-      <PageSection title="Default" description="Regular CTA section used on most pages">
+      <PageSection title="" description="">
         <Footer />
       </PageSection>
     </PageLayout>
