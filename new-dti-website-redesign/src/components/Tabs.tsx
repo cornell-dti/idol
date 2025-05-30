@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 
 type Tab = {
@@ -18,6 +18,23 @@ type TabsProps = {
 export default function Tabs({ tabs, className = '', center, tabsContainerPadding }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
+  const highlightRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const currentTab = tabsRef.current[activeIndex];
+    const highlight = highlightRef.current;
+    if (currentTab && highlight) {
+      const tabRect = currentTab.getBoundingClientRect();
+      const containerRect = containerRef.current?.getBoundingClientRect();
+      if (containerRect) {
+        const left = tabRect.left - containerRect.left;
+        const width = tabRect.width;
+        highlight.style.transform = `translateX(${left}px)`;
+        highlight.style.width = `${width}px`;
+      }
+    }
+  }, [activeIndex]);
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
@@ -36,18 +53,22 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
     <div className={`flex flex-col ${className} ${center ? 'items-center' : ''}`}>
       <div className="flex p-4">
         <div
-          className={`flex flex-wrap w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className} ${
+          ref={containerRef}
+          className={`flex flex-1 relative w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className} ${
             center ? 'justify-center' : ''
           }`}
           role="tablist"
           aria-label="Tabbed content"
           onKeyDown={handleKeyDown}
         >
+          <div
+            ref={highlightRef}
+            className="absolute top-[2px] left-0 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0 h-12"
+          />
+
           {tabs.map((tab, index) => (
             <button
-              className={`${
-                activeIndex === index ? 'bg-background-2' : ''
-              } h-12 rounded-full px-6 cursor-pointer focusState transition-[background-color] duration-[120ms] hover:bg-background-2 `}
+              className="flex-1 h-12 rounded-full px-6 cursor-pointer focusState transition-[background-color] duration-[120ms]  z-1"
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;
