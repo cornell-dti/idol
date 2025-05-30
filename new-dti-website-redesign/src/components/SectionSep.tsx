@@ -13,14 +13,14 @@ export default function SectionSep({
   hasX = false,
   onClickX = () => {}
 }: SectionSepProps) {
-  if (!grid) {
-    return <div className="w-full h-16 md:h-32 sectionSep border-border-1 border-l-1 border-r-1" />;
-  }
-
   const { width } = useScreenSize();
   const isMobile = useIsMobile(width);
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
+
+  if (!grid) {
+    return <div className="w-full h-16 md:h-32 sectionSep border-border-1 border-l-1 border-r-1" />;
+  }
 
   return (
     <div className="w-full overflow-hidden sectionSep border-border-1 border-l-1 border-r-1">
