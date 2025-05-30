@@ -10,10 +10,9 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
-  center?: boolean;
 };
 
-export default function Tabs({ tabs, className = '', center }: TabsProps) {
+export default function Tabs({ tabs, className = '' }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
