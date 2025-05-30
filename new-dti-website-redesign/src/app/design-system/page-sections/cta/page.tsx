@@ -1,8 +1,7 @@
 import React from 'react';
 import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
-import FeatureSection from '@/components/FeatureSection';
-import CtaSection from '@/components/CtaSection';
+import CtaSection from '../../../../components/CtaSection';
 import SectionWrapper from '../../util/SectionWrapper';
 
 export default function CtaSectionPage() {

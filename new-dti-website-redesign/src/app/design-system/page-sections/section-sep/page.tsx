@@ -1,10 +1,7 @@
 import React from 'react';
 import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
-import Hero from '@/components/Hero';
-import Navbar from '@/components/Navbar';
-import SectionTitle from '@/components/SectionTitle';
-import SectionSep from '@/components/SectionSep';
+import SectionSep from '../../../../components/SectionSep';
 import SectionWrapper from '../../util/SectionWrapper';
 
 export default function SectionSepPage() {

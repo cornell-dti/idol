@@ -5,8 +5,8 @@ import TestimonialCard from '../../../../components/TestimonialCard';
 import FeatureCard from '../../../../components/FeatureCard';
 import Marquee from '../../../../components/Marquee';
 import RocketIcon from '../icon/RocketIcon';
-import TimelineCard, { RecruitmentEvent } from '@/components/TimelineCard';
-import { MemberCard, MemberDetailsCard } from '@/components/TeamCard';
+import TimelineCard, { RecruitmentEvent } from '../../../../components/TimelineCard';
+import { MemberCard, MemberDetailsCard } from '../../../../components/TeamCard';
 
 const features = [
   {
