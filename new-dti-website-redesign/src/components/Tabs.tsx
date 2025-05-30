@@ -60,12 +60,12 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
         >
           <div
             ref={highlightRef}
-            className="absolute top-[2px] left-0 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0 h-12"
+            className="absolute -left-[1px] top-0.5 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0 h-[calc(100%-4px)] w-full"
           />
 
           {tabs.map((tab, index) => (
             <button
-              className="flex-1 h-12 rounded-full px-6 cursor-pointer focusState z-1"
+              className="flex items-center justify-center no-wrap flex-1 h-fit rounded-full py-3 px-6 cursor-pointer focusState z-1"
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;
