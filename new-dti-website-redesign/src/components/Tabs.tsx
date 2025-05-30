@@ -65,7 +65,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
 
           {tabs.map((tab, index) => (
             <button
-              className="flex items-center justify-center no-wrap flex-1 h-fit rounded-full py-3 px-6 cursor-pointer focusState z-1"
+              className="flex items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1"
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;
