@@ -68,7 +68,7 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
 
           {tabs.map((tab, index) => (
             <button
-              className="flex-1 h-12 rounded-full px-6 cursor-pointer focusState transition-[background-color] duration-[120ms]  z-1"
+              className="flex-1 h-12 rounded-full px-6 cursor-pointer focusState z-1"
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;
