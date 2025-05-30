@@ -32,7 +32,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
               key={member.netid}
               user={member}
               image={`/team/teamHeadshots/${member.netid}.jpg`}
-              selected={selectedMember == member}
+              selected={selectedMember === member}
               onClick={() => setSelectedMember(member)}
             />
 
