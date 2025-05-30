@@ -5,6 +5,7 @@ import { MemberCard, MemberDetailsCard } from '../TeamCard';
 import useClickOutside from '../../hooks/useClickOutside';
 import useScreenSize from '../../hooks/useScreenSize';
 import useIsMobile from '../../hooks/useIsMobile';
+import SectionSep from '../SectionSep';
 
 type Props = {
   courseStaff: IdolMember[];
@@ -37,11 +38,14 @@ export default function CourseStaffSection({ courseStaff }: Props) {
 
             {/* Mobile view: render directly under selected card */}
             {isMobile && selectedMember?.netid === member.netid && (
-              <div ref={memberDetailsRef}>
-                <MemberDetailsCard
-                  user={member}
-                  image={`/team/teamHeadshots/${member.netid}.jpg`}
-                />
+              <div>
+                <SectionSep grid={true} hasX={true} />
+                <div ref={memberDetailsRef}>
+                  <MemberDetailsCard
+                    user={member}
+                    image={`/team/teamHeadshots/${member.netid}.jpg`}
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -50,11 +54,14 @@ export default function CourseStaffSection({ courseStaff }: Props) {
 
       {/* Desktop view: render below the full row */}
       {!isMobile && selectedMember && (
-        <div className="" ref={memberDetailsRef}>
-          <MemberDetailsCard
-            user={selectedMember}
-            image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
-          />
+        <div>
+          <div className="" ref={memberDetailsRef}>
+            <SectionSep grid={true} hasX={true} onClickX={() => setSelectedMember(undefined)} />
+            <MemberDetailsCard
+              user={selectedMember}
+              image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
+            />
+          </div>
         </div>
       )}
     </div>

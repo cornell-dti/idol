@@ -1,3 +1,5 @@
+'use client';
+
 import { useLayoutEffect, useState } from 'react';
 
 const useIsMobile = (width: number | undefined) => {
