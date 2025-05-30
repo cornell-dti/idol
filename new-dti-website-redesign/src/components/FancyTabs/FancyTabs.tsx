@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import TabEdge from './TabEdges';
-import Image from 'next/image';
 
 type Tab = {
   icon?: string;
