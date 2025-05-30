@@ -1,27 +1,69 @@
+import ReactMarkdown from 'react-markdown';
+import Link from 'next/link';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import Banner from '../../components/Banner';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
 import roles from './roleDescriptions.json';
+import faqs from './faqs.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
+import FancyTabs from '../../components/FancyTabs/FancyTabs';
 import Tabs from '../../components/Tabs';
+import Accordion from '../../components/Accordion';
 
 export const metadata = {
   title: 'DTI APPLY PAGE',
   description: 'DESCRIPTION'
 };
 
+type FAQ = {
+  question: string;
+  answer: string;
+  icon?: string;
+};
+const renderFaqContent = (section: FAQ[]) => (
+  <>
+    {section.map(({ question, answer, icon }) => (
+      <Accordion key={question} header={question} icon={icon}>
+        <div className="flex flex-col gap-4">
+          <ReactMarkdown
+            components={{
+              p: ({ children }) => <p>{children}</p>,
+              a: ({ href = '#', children }) => (
+                <Link
+                  href={href}
+                  target="_blank"
+                  className="text-foreground-1 underline underline-offset-3"
+                >
+                  {children}
+                </Link>
+              )
+            }}
+          >
+            {answer}
+          </ReactMarkdown>
+        </div>
+      </Accordion>
+    ))}
+  </>
+);
+
+const applicationsOpen = false;
+
 export default function Apply() {
   return (
     <Layout>
-      <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
+      {!applicationsOpen && (
+        <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
+      )}
 
       <Hero
         heading="Join our community"
         subheading="We value inclusivity and welcome passionate applicants of all experience levels. We’d love to work with you."
         button1Label="Apply to DTI"
         button1Link="/apply"
+        button1Disabled={!applicationsOpen}
         button2Label="Role descriptions"
         button2Link="/"
         image="/apply/hero.png"
@@ -33,11 +75,11 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex flex-col gap-8 items-center md:p-8">
+      <section className="flex flex-col gap-8 items-center md:p-8 p-4">
         <h2 className="md:p-0 pt-4">Role descriptions</h2>
 
-        <Tabs
-          center
+        <FancyTabs
+          className="md:w-200 w-full"
           tabs={roles.map((role, index) => ({
             label: role.role,
             content: (
@@ -54,8 +96,36 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Frequently Asked Questions section</h4>
+      <section className="flex flex-col md:flex-row">
+        <div className="flex flex-1 p-4 pb-0 sm:p-8 sm:pb-0">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div className="flex flex-col flex-3 border-l-1 border-border-1">
+          <Tabs
+            tabsContainerPadding
+            tabs={[
+              {
+                label: 'General Questions',
+                content: renderFaqContent(faqs.General)
+              },
+              {
+                label: 'Behavioral Prep',
+                content: (
+                  <ul className="flex flex-col gap-4 p-8 pl-12 border-t-1 border-border-1 list-disc">
+                    {faqs.BehavioralPrep.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                )
+              },
+              {
+                label: 'Technical Prep',
+                content: renderFaqContent(faqs.TechnicalPrep)
+              }
+            ]}
+          />
+        </div>
       </section>
 
       <CtaSection
