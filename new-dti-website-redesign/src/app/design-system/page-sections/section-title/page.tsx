@@ -10,7 +10,6 @@ export default function SectionTitlePage() {
   return (
     <PageLayout title="Section title" description="Guidelines for Section title component.">
       <PageSection title="Default" description="Section title with heading and subheading">
-        @CLEMENT ROZE ADD NAVBAR @CLEMENT ROZE RENAME PAGES TO BETTER SEMANTICS
         <SectionWrapper>
           <SectionTitle
             heading="Who we are"
