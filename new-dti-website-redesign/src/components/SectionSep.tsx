@@ -1,4 +1,5 @@
 import XIcon from '../app/design-system/components/icon/XIcon';
+import IconButton from './IconButton';
 
 type SectionSepProps = {
   grid?: boolean;
@@ -11,7 +12,7 @@ export default function SectionSep({
   grid = false,
   hasX = false,
   isMobile = false,
-  onClickX = () => {}
+  onClickX = () => { }
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
@@ -31,12 +32,14 @@ export default function SectionSep({
                   md:w-[calc(100%/16)] ${hasX && i === lastIndex ? 'relative' : ''}`}
           >
             {hasX && i === lastIndex && (
-              <div
-                className="absolute cursor-pointer inset-0 flex items-center justify-center"
+              <IconButton
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-none hover:bg-transparent"
                 onClick={onClickX}
+                variant="tertiary"
+                aria-label="Close"
               >
                 <XIcon />
-              </div>
+              </IconButton>
             )}
           </div>
         ))}
