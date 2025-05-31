@@ -33,10 +33,10 @@ export default function SectionSep({
           >
             {hasX && i === lastIndex && (
               <IconButton
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-none hover:bg-transparent"
+                className="absolute w-full h-full rounded-none border-none"
                 onClick={onClickX}
                 variant="tertiary"
-                aria-label="Close"
+                aria-label="Close profile card"
               >
                 <XIcon />
               </IconButton>
