@@ -1,5 +1,6 @@
 [
   {
+    "icon": "/apply/roles/development.svg",
     "role": "Development",
     "skills": [
       "A curious, inventive and communicative investigator",
@@ -15,6 +16,7 @@
     ]
   },
   {
+    "icon": "/apply/roles/design.svg",
     "role": "Design",
     "skills": [
       "Knowledge of product thinking, empathy and creativity to solve problems",
@@ -31,6 +33,7 @@
     ]
   },
   {
+    "icon": "/apply/roles/business.svg",
     "role": "Business",
     "skills": [
       "Passion for projects that focus on impact and initiative",
@@ -46,6 +49,7 @@
     ]
   },
   {
+    "icon": "/apply/roles/product.svg",
     "role": "Product",
     "skills": [
       "Understanding of user needs and product thinking/the product cycle",

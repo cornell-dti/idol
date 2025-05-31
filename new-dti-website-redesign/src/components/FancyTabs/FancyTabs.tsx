@@ -1,9 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import TabEdge from './TabEdges';
 
 type Tab = {
+  icon?: string;
   label: string;
   content: React.ReactNode;
 };
@@ -89,8 +91,8 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
               className={`${
                 activeIndex === index
                   ? 'bg-background-2 border-t-1 border-border-1'
-                  : 'rounded-t-md px-7'
-              } relative hover:before:opacity-100 focus:outline-hidden cursor-pointer
+                  : 'rounded-t-md px-7 text-foreground-3 [&>img]:opacity-50'
+              } relative hover:before:opacity-100 focus:outline-hidden cursor-pointer flex gap-2 align-center items-center min-w-fit
               
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-3xl before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
               
@@ -109,7 +111,8 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
               id={`tab-${index}`}
               tabIndex={activeIndex === index ? 0 : -1}
             >
-              {tab.label}
+              {tab.icon && <Image width={16} height={16} src={tab.icon} alt="" className="h-fit" />}
+              <span className="h-fit">{tab.label}</span>
             </button>
             {activeIndex === index ? (
               <div className="w-7">

@@ -81,6 +81,7 @@ export default function Apply() {
         <FancyTabs
           className="md:w-200 w-full"
           tabs={roles.map((role, index) => ({
+            icon: role.icon,
             label: role.role,
             content: (
               <RoleDescriptionCard
@@ -103,7 +104,6 @@ export default function Apply() {
 
         <div className="flex flex-col flex-3 border-l-1 border-border-1">
           <Tabs
-            tabsContainerPadding
             tabs={[
               {
                 label: 'General Questions',

@@ -24,14 +24,14 @@
   ],
   "TechnicalPrep": [
     {
-      "question": "Designer Role",
-      "answer": "The design technical interview consists of 15 minutes behavioral questions that are more design focused. Then, a 15 minutes portfolio review + 5 minutes of questions. You will present a slide deck on one of your past projects. We'll end with a 25 minute whiteboard challenge where we'll present you with a problem space and you will create a solution solving it.",
-      "icon": "/apply/roles/designer.svg"
-    },
-    {
       "question": "Developer Role",
       "answer": "To prepare for this interview, we recommend reviewing data structures (OOP) and system design. You're expected to perform white-board challenges (yes, no code!) to design features of a website. Ultimately, we want to see how you think and solve problems.",
-      "icon": "/apply/roles/developer.svg"
+      "icon": "/apply/roles/development.svg"
+    },
+    {
+      "question": "Designer Role",
+      "answer": "The design technical interview consists of 15 minutes behavioral questions that are more design focused. Then, a 15 minutes portfolio review + 5 minutes of questions. You will present a slide deck on one of your past projects. We'll end with a 25 minute whiteboard challenge where we'll present you with a problem space and you will create a solution solving it.",
+      "icon": "/apply/roles/design.svg"
     },
     {
       "question": "Business Role",
@@ -41,7 +41,7 @@
     {
       "question": "Product Manager Role",
       "answer": "Our technical interview questions are similar to questions real product managers get asked in industry. If you google “PM interview questions” you'll find a lot of helpful resources! We recommend following the CIRCLES framework. We'll also send materials to help you prepare at that stage.",
-      "icon": "/apply/roles/pm.svg"
+      "icon": "/apply/roles/product.svg"
     }
   ]
 }
