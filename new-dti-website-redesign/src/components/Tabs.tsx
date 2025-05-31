@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import Button from './Button';
+import { useState, useRef, useEffect } from 'react';
 
 type Tab = {
   label: string;
@@ -11,13 +10,30 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
-  center?: boolean;
-  tabsContainerPadding?: boolean;
 };
 
-export default function Tabs({ tabs, className = '', center, tabsContainerPadding }: TabsProps) {
+export default function Tabs({ tabs, className = '' }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
+  const highlightRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // This is for the highlight effect (the filled pill) behind the selected tab
+  useEffect(() => {
+    const currentTab = tabsRef.current[activeIndex];
+    const highlight = highlightRef.current;
+    if (currentTab && highlight) {
+      const tabRect = currentTab.getBoundingClientRect();
+      const containerRect = containerRef.current?.getBoundingClientRect();
+      if (containerRect) {
+        const { left: tabLeft, width } = tabRect;
+        const { left: containerLeft } = containerRect;
+        const left = tabLeft - containerLeft;
+        highlight.style.transform = `translateX(${left}px)`;
+        highlight.style.width = `${width}px`;
+      }
+    }
+  }, [activeIndex]);
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
@@ -33,31 +49,38 @@ export default function Tabs({ tabs, className = '', center, tabsContainerPaddin
   };
 
   return (
-    <div
-      className={`flex flex-col ${className} ${center ? 'items-center' : ''} ${tabsContainerPadding ? '' : 'gap-8'}`}
-    >
-      <div
-        className={`flex flex-wrap gap-4 w-fit ${className} ${center ? 'justify-center' : ''} ${tabsContainerPadding ? 'p-4 sm:p-8' : ''}`}
-        role="tablist"
-        aria-label="Tabbed content"
-        onKeyDown={handleKeyDown}
-      >
-        {tabs.map((tab, index) => (
-          <Button
-            key={tab.label}
-            ref={(el) => {
-              tabsRef.current[index] = el;
-            }}
-            label={tab.label}
-            onClick={() => setActiveIndex(index)}
-            variant={activeIndex === index ? 'primary' : 'tertiary'}
-            role="tab"
-            aria-selected={activeIndex === index}
-            aria-controls={`panel-${index}`}
-            id={`tab-${index}`}
-            tabIndex={activeIndex === index ? 0 : -1}
+    <div className={`flex flex-col ${className}`}>
+      <div className="flex p-4">
+        <div
+          ref={containerRef}
+          className={`flex flex-1 relative w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className}`}
+          role="tablist"
+          aria-label="Tabbed content"
+          onKeyDown={handleKeyDown}
+        >
+          <div
+            ref={highlightRef}
+            className="absolute -left-[1px] top-0.5 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0 h-[calc(100%-4px)] w-full"
           />
-        ))}
+
+          {tabs.map((tab, index) => (
+            <button
+              className="flex items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1"
+              key={tab.label}
+              ref={(el) => {
+                tabsRef.current[index] = el;
+              }}
+              onClick={() => setActiveIndex(index)}
+              role="tab"
+              aria-selected={activeIndex === index}
+              aria-controls={`panel-${index}`}
+              id={`tab-${index}`}
+              tabIndex={activeIndex === index ? 0 : -1}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* IMPORTANT: according to the W3C (official accessibility documentation, https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
