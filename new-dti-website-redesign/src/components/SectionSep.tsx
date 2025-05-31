@@ -12,7 +12,7 @@ export default function SectionSep({
   grid = false,
   hasX = false,
   isMobile = false,
-  onClickX = () => { }
+  onClickX = () => {}
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;

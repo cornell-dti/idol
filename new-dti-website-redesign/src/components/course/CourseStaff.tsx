@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MemberCard, MemberDetailsCard } from '../TeamCard';
 import useClickOutside from '../../hooks/useClickOutside';
 import useScreenSize from '../../hooks/useScreenSize';
@@ -23,13 +23,16 @@ export default function CourseStaffSection({ courseStaff }: Props) {
     onClickOutside: () => setSelectedMember(undefined)
   });
 
+  useEffect(() => {
+    setSelectedMember(undefined);
+  }, [isMobile]);
+
   return (
     <div>
-      <div className="flex flex-col md:flex-row w-full">
+      <div className={` flex w-full ${isMobile ? 'flex-col' : 'flex-row'}`}>
         {courseStaff.map((member) => (
-          <div key={member.netid} className="w-full md:w-1/3">
+          <div key={member.netid} className={`w-full ${isMobile ? '' : 'w-1/3'}`}>
             <MemberCard
-              key={member.netid}
               user={member}
               image={`/team/teamHeadshots/${member.netid}.jpg`}
               selected={selectedMember === member}
@@ -44,6 +47,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
                   <MemberDetailsCard
                     user={member}
                     image={`/team/teamHeadshots/${member.netid}.jpg`}
+                    showImage={false}
                   />
                 </div>
               </div>

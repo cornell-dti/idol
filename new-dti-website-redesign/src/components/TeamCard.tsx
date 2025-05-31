@@ -68,13 +68,14 @@ export const MemberCard = ({ user, image, selected, onClick, className = '' }: M
 type MemberDetailsProps = {
   user: IdolMember;
   image: string;
+  showImage?: boolean;
 };
-export const MemberDetailsCard = ({ user, image }: MemberDetailsProps) => {
+export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetailsProps) => {
   const baseStyles = 'md:w-1/2 border border-border-1 flex flex-col';
   return (
     <div className="card-clickable flex w-full flex-col md:flex-row">
       <div className={`${baseStyles} p-8 gap-4 border-r-0`}>
-        <MemberSummary user={user} image={image} enlarged />
+        {showImage !== false && <MemberSummary user={user} image={image} enlarged />}
       </div>
       <div className={`${baseStyles} justify-between`}>
         <div className="flex flex-col p-8 gap-8">
