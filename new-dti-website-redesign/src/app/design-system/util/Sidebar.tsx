@@ -9,7 +9,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="h-full border-l border-border-1 bg-background-1 fixed w-[260px] z-10 overflow-scroll">
+    <aside className="h-full border-l border-border-1 bg-background-1 fixed w-[260px] z-10 overflow-auto">
       <nav className="flex flex-col">
         <div className="p-4 border-b-1 border-border-1">
           <h3 className="h6">IDOL Design System</h3>
