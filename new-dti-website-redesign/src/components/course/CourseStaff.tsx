@@ -16,6 +16,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
   const memberDetailsRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
   const isMobile = useIsMobile(width);
+  const isCompactLayout = width < 800;
 
   useClickOutside({
     refs: [memberDetailsRef],
@@ -42,7 +43,12 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             {/* Mobile view: render directly under selected card */}
             {isMobile && selectedMember?.netid === member.netid && (
               <div>
-                <SectionSep grid={true} hasX={true} isMobile={true} />
+                <SectionSep
+                  grid={true}
+                  hasX={true}
+                  isMobile={true}
+                  onClickX={() => setSelectedMember(undefined)}
+                />
                 <div ref={memberDetailsRef}>
                   <MemberDetailsCard
                     user={member}
@@ -60,7 +66,12 @@ export default function CourseStaffSection({ courseStaff }: Props) {
       {!isMobile && selectedMember && (
         <div>
           <div className="" ref={memberDetailsRef}>
-            <SectionSep grid={true} hasX={true} onClickX={() => setSelectedMember(undefined)} />
+            <SectionSep
+              grid={true}
+              hasX={true}
+              isMobile={isCompactLayout}
+              onClickX={() => setSelectedMember(undefined)}
+            />
             <MemberDetailsCard
               user={selectedMember}
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
