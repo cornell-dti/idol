@@ -14,7 +14,7 @@ export default function PageLayout({
   className = ''
 }: PageLayoutProps) {
   return (
-    <div className="flex flex-1">
+    <div className="flex mx-auto max-w-[1184px]">
       <Sidebar />
 
       <main className={`flex-1 !pt-0 ml-[261px] ${className}`} id="main-content">

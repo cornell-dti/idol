@@ -3,8 +3,8 @@
 import React from 'react';
 import Image from 'next/image';
 
-import PageLayout from '../../PageLayout';
-import PageSection from '../../PageSection';
+import PageLayout from '../../util/PageLayout';
+import PageSection from '../../util/PageSection';
 import Tabs from '../../../../components/Tabs';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';

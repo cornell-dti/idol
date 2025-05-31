@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import PageLayout from '../../PageLayout';
-import PageSection from '../../PageSection';
+import PageLayout from '../../util/PageLayout';
+import PageSection from '../../util/PageSection';
 import Input from '../../../../components/Input';
 import LabeledInput from '../../../../components/LabeledInput';
 

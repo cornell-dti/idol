@@ -1,6 +1,6 @@
 import React from 'react';
-import PageLayout from '../../PageLayout';
-import PageSection from '../../PageSection';
+import PageLayout from '../../util/PageLayout';
+import PageSection from '../../util/PageSection';
 import layouts from './layouts';
 
 type LayoutSectionProps = {

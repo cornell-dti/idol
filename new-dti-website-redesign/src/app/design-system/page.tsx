@@ -1,7 +1,7 @@
-import navItems, { NavGroup } from './nav.config';
-import CardLink from './CardLink';
-import PageLayout from './PageLayout';
-import PageSection from './PageSection';
+import navItems, { NavGroup } from './util/nav.config';
+import CardLink from './util/CardLink';
+import PageLayout from './util/PageLayout';
+import PageSection from './util/PageSection';
 
 export default function DesignSystem() {
   const sections = navItems.filter(

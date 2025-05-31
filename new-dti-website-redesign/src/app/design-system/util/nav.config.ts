@@ -33,15 +33,15 @@ const navItems: NavGroup[] = [
       },
       {
         thumbnail: '/design-system/thumb.jpg',
-        href: '/design-system/styles/typography',
-        label: 'Typography',
-        description: 'Typography description blah.'
-      },
-      {
-        thumbnail: '/design-system/thumb.jpg',
         href: '/design-system/styles/layout',
         label: 'Layout',
         description: 'Layout description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/styles/typography',
+        label: 'Typography',
+        description: 'Typography description blah.'
       }
     ]
   },
@@ -50,15 +50,15 @@ const navItems: NavGroup[] = [
     items: [
       {
         thumbnail: '/design-system/thumb.jpg',
-        href: '/design-system/components/button',
-        label: 'Button',
-        description: 'Buttons description bruh.'
+        href: '/design-system/components/accordion',
+        label: 'Accordion',
+        description: 'Accordion description bruh.'
       },
       {
         thumbnail: '/design-system/thumb.jpg',
-        href: '/design-system/components/input',
-        label: 'Input',
-        description: 'Input description bruh.'
+        href: '/design-system/components/button',
+        label: 'Button',
+        description: 'Buttons description bruh.'
       },
       {
         thumbnail: '/design-system/thumb.jpg',
@@ -86,9 +86,9 @@ const navItems: NavGroup[] = [
       },
       {
         thumbnail: '/design-system/thumb.jpg',
-        href: '/design-system/components/tabs',
-        label: 'Tabs',
-        description: 'Tabs description bruh.'
+        href: '/design-system/components/input',
+        label: 'Input',
+        description: 'Input description bruh.'
       },
       {
         thumbnail: '/design-system/thumb.jpg',
@@ -98,9 +98,56 @@ const navItems: NavGroup[] = [
       },
       {
         thumbnail: '/design-system/thumb.jpg',
-        href: '/design-system/components/accordion',
-        label: 'Accordion',
-        description: 'Accordion description bruh.'
+        href: '/design-system/components/tabs',
+        label: 'Tabs',
+        description: 'Tabs description bruh.'
+      }
+    ]
+  },
+  {
+    category: 'Page sections',
+    items: [
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/cta',
+        label: 'CTA',
+        description: 'CTA description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/feature',
+        label: 'Feature',
+        description: 'Feature description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/footer',
+        label: 'Footer',
+        description: 'Footer description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/hero',
+        label: 'Hero',
+        description: 'Hero description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/navbar',
+        label: 'Navbar',
+        description: 'Navbar description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/section-sep',
+        label: 'Section separator',
+        description: 'Section separator description blah.'
+      },
+      {
+        thumbnail: '/design-system/thumb.jpg',
+        href: '/design-system/page-sections/section-title',
+        label: 'Section title',
+        description: 'Section title description blah.'
       }
     ]
   }

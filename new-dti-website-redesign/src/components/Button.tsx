@@ -48,7 +48,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       }`,
       transparent: `bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px] ${
         !disabled ? 'hover:bg-[rgba(255,255,255,0.15)]' : ''
-      },`
+      }`
     }[variant];
 
     const sizeStyles = {

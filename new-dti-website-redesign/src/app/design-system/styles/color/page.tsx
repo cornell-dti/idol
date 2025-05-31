@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import colors from './colors';
-import PageLayout from '../../PageLayout';
-import PageSection from '../../PageSection';
+import PageLayout from '../../util/PageLayout';
+import PageSection from '../../util/PageSection';
 
 interface ColorCardProps {
   color: string;
@@ -44,18 +44,16 @@ export default function ColorPage() {
   );
 
   return (
-    <div className="flex">
-      <PageLayout title="Color" description="Description of color.">
-        {Object.entries(grouped).map(([type, items]) => (
-          <PageSection key={type} title={type} description="">
-            <div className="flex gap-6">
-              {items.map(({ name, variable }) => (
-                <ColorCard key={name} name={name} color={resolvedColors[variable]} />
-              ))}
-            </div>
-          </PageSection>
-        ))}
-      </PageLayout>
-    </div>
+    <PageLayout title="Color" description="Description of color.">
+      {Object.entries(grouped).map(([type, items]) => (
+        <PageSection key={type} title={type} description="">
+          <div className="flex gap-6">
+            {items.map(({ name, variable }) => (
+              <ColorCard key={name} name={name} color={resolvedColors[variable]} />
+            ))}
+          </div>
+        </PageSection>
+      ))}
+    </PageLayout>
   );
 }
