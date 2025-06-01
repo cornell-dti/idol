@@ -178,7 +178,7 @@ export default function Footer() {
       <Link href={'/'} className="inline-flex rounded-sm focusState">
         {
           <Image
-            src="/logo.svg"
+            src="/wordmark.svg"
             alt="Cornell Digital Tech & Innovation logo"
             width={220}
             height={50}

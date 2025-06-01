@@ -147,7 +147,7 @@ export default function Navbar({ demo }: NavbarProps) {
       >
         <Link href="/" className="focusState rounded-sm">
           <Image
-            src="/logo.svg"
+            src="/wordmark.svg"
             alt="Cornell Digital Tech & Innovation logo"
             width={269}
             height={48}

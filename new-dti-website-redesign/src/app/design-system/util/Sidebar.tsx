@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -11,11 +12,12 @@ export default function Sidebar() {
   return (
     <aside className="h-full border-l border-border-1 bg-background-1 fixed w-[260px] z-10 overflow-auto">
       <nav className="flex flex-col">
-        <div className="p-4 border-b-1 border-border-1">
-          <h3 className="h6">IDOL Design System</h3>
-          <Link href="/" className="text-accent-red underline">
-            Back to home
+        <div className="flex gap-2 p-4 border-b-1 border-border-1">
+          <Link href="/" className="rounded-sm" aria-label="Back to DTI homepage">
+            <Image src="/logo.svg" alt="" width={32} height={32} />
           </Link>
+          <div className="w-[1px] h-8 bg-border-1 rounded-full" />
+          <h3 className="h6">Design System</h3>
         </div>
 
         {navItems.map(({ category, items }) => (
