@@ -10,12 +10,12 @@ import Timeline from '../../components/course/Timeline';
 import RocketIcon from '../design-system/components/icon/RocketIcon';
 
 import testimonialData from './data/testimonialData.json';
-// import studentProjectData from './data/student_projects.json';
 import trendsData from '../../../config.json';
 import allMembers from '../team/data/all-members.json';
 import config from './data/config.json';
 import timelineData from './data/timeline_events.json';
 import CourseStaff from '../../components/course/CourseStaff';
+import StudentProjectsSection from '../../components/course/StudentProjectsSection';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',
@@ -24,7 +24,6 @@ export const metadata = {
 
 //* DATA
 const { timeline_events } = timelineData;
-// const { student_projects } = studentProjectData; <- will use this when implementing student proj section
 const courseStaff = allMembers
   .filter((member) => trendsData.trends_instructors.includes(member.netid))
   .sort(
@@ -140,11 +139,9 @@ export default function Course() {
       </section>
 
       <section>
-        <div className="flex flex-col gap-y-3 p-8">
-          <h2>Past student projects section</h2>
-          <p className="text-base text-foreground-3">
-            See how our course helps students bring their ideas to life.
-          </p>
+        <div className="flex flex-col gap-y-8 p-4 sm:py-14 sm:px-16">
+          <h2>Past student projects</h2>
+          <StudentProjectsSection />
         </div>
       </section>
 
