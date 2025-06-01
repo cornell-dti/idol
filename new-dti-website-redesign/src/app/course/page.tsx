@@ -15,7 +15,7 @@ import allMembers from '../team/data/all-members.json';
 import config from './data/config.json';
 import timelineData from './data/timeline_events.json';
 import CourseStaff from '../../components/course/CourseStaff';
-import StudentProjectsSection from '@/components/course/StudentProjectsSection';
+import StudentProjectsSection from '../../components/course/StudentProjectsSection';
 
 export const metadata = {
   title: 'DTI COURSE PAGE',

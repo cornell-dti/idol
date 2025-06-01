@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import FancyTabs from '../FancyTabs/FancyTabs';
 import studentProjectData from '../../app/course/data/student_projects.json';
-import Image from 'next/image';
 import Button from '../Button';
 
 type Project = {
