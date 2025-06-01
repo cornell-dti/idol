@@ -1,7 +1,5 @@
-import Image from 'next/image';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
-import SectionSep from '../../components/SectionSep';
 import FeatureSection from '../../components/FeatureSection';
 import CtaSection from '../../components/CtaSection';
 
