@@ -3,6 +3,7 @@ import Hero from '../../components/Hero';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
 import BeyondDTI from './BeyondDTI';
+import FeatureSection from '../../components/FeatureSection';
 
 export const metadata = {
   title: 'DTI TEAM PAGE',
@@ -22,9 +23,12 @@ export default function Team() {
         image="/team/hero.png"
       />
 
-      <section className="temporarySection">
-        <h4>We are Cornell DTI section</h4>
-      </section>
+      <FeatureSection
+        heading="We are Cornell DTI"
+        description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
+        image="/team/we-are-cornell-dti.png"
+        imageAlt="Spring 2025 new members of DTI posing together"
+      />
 
       <SectionSep />
 
