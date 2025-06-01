@@ -38,13 +38,13 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ) => {
     const variantStyles = {
       primary: `bg-foreground-1 text-background-1 ${badge ? 'gap-1 pr-3' : ''} ${
-        !disabled ? 'hover:bg-foreground-2' : ''
+        !disabled ? 'hover:bg-foreground-2 hover:shadow-[0_0_16px_rgba(255,255,255,0.24)]' : ''
       }`,
       secondary: `bg-background-2 border border-border-1 text-foreground-1 ${
         !disabled ? 'hover:bg-background-3' : ''
       }`,
       tertiary: `bg-transparent border border-border-1 text-foreground-1 ${
-        !disabled ? 'hover:bg-background-2 ' : ''
+        !disabled ? 'hover:bg-background-2' : ''
       }`,
       transparent: `bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px] ${
         !disabled ? 'hover:bg-[rgba(255,255,255,0.15)]' : ''

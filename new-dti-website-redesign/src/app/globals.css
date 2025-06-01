@@ -8,10 +8,8 @@
   --background-3-transparent: rgba(41 41 41 / 0.4); /* Use for overlays (eg: <Banner>) */
 
   /* FOREGROUND */
-  --foreground-1: #ffffff; /* Use for default text color */
-  --foreground-2: #cccccc; /* Slightly less emphasis than foreground-1
-                                Use for secondary text when foreground-3 is too subtle
-                                Also used for the hover state of the Button (primary variant) */
+  --foreground-1: #e6e6e6; /* Use for default text color */
+  --foreground-2: #ffffff; /* Used for the hover state of the Button (primary variant) */
   --foreground-3: #a1a1a1; /* Use as default color for all secondary text */
 
   /* BORDER */
@@ -194,6 +192,7 @@ section:not(.hero):not(.ctaSection),
 
 .interactive {
   transition:
+    box-shadow 120ms ease-in-out,
     background-color 120ms ease-in-out,
     transform 120ms ease-in-out,
     filter 120ms ease-in-out;
