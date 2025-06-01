@@ -192,10 +192,22 @@ section:not(.hero):not(.ctaSection),
   margin: auto;
 }
 
+.interactive {
+  transition:
+    background-color 120ms ease-in-out,
+    transform 120ms ease-in-out,
+    filter 120ms ease-in-out;
+}
+
 a:focus-visible,
 .focusState:focus-visible {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
+}
+
+.activeState:active {
+  transform: scale(0.97);
+  filter: brightness(80%);
 }
 
 /* Hacky way to avoid the gap between different

@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 
-export const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2 transition-[background-color] duration-[120ms] focusState text-nowrap`;
+export const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2 interactive activeState focusState text-nowrap`;
 
 type ButtonProps = {
   label: string;
