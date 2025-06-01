@@ -15,7 +15,7 @@ export default function CardLink({
   return (
     <Link
       href={href}
-      className="focusState rounded-lg border border-border-1 overflow-hidden transition hover:shadow-md hover:bg-background-2"
+      className="focusState rounded-lg border border-border-1 overflow-hidden hover:shadow-md hover:bg-background-2 interactive activeState"
     >
       <div className="h-40 w-full relative">
         <Image src={thumbnail} alt={`${title} thumbnail`} fill className="object-cover" />

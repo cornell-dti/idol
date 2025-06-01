@@ -17,7 +17,9 @@ export default function Sidebar() {
             <Image src="/logo.svg" alt="" width={32} height={32} />
           </Link>
           <div className="w-[1px] h-8 bg-border-1 rounded-full" />
-          <h3 className="h6">Design System</h3>
+          <Link href="/design-system" className="rounded-sm">
+            <h3 className="h6">Design System</h3>
+          </Link>
         </div>
 
         {navItems.map(({ category, items }) => (

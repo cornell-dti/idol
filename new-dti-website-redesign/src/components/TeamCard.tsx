@@ -98,7 +98,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
               <p className="text-foreground-3">Subteam</p>
               {user.subteams[0] in productLinks ? (
                 <Link
-                  className="flex gap-2 items-center focusState w-fit"
+                  className="flex gap-2 items-center focusState w-fit rounded-sm"
                   target="_blank"
                   href={productLinks[user.subteams[0]].link}
                 >
@@ -152,7 +152,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
         <div className="flex justify-between p-8 border border-transparent border-t-border-1 ">
           <div className="flex gap-4 items-center">
             {user.website && (
-              <Link href={user.website}>
+              <Link href={user.website} className="rounded-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -184,7 +184,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
                 </svg>
               </Link>
             )}
-            <Link href={user.email}>
+            <Link href={user.email} className="rounded-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -209,7 +209,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
               </svg>
             </Link>
             {user.linkedin && (
-              <Link href={user.linkedin}>
+              <Link href={user.linkedin} className="rounded-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -225,7 +225,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
               </Link>
             )}
             {user.github && (
-              <Link href={user.github}>
+              <Link href={user.github} className="rounded-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

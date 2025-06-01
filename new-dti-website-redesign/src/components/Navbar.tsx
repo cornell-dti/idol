@@ -145,7 +145,7 @@ export default function Navbar({ demo }: NavbarProps) {
         ${demo ? '' : 'fixed left-1/2 translate-x-[-50%] transform'}
         `}
       >
-        <Link href="/" className="focusState rounded-sm">
+        <Link href="/" className="focusState rounded-sm interactive activeState">
           <Image
             src="/wordmark.svg"
             alt="Cornell Digital Tech & Innovation logo"
