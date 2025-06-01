@@ -139,8 +139,8 @@ export default function Course() {
       </section>
 
       <section>
-        <div className="flex flex-col gap-y-8 py-14 px-16">
-          <h2 className="text-center">Past student projects</h2>
+        <div className="flex flex-col gap-y-8 p-4 sm:py-14 sm:px-16">
+          <h2>Past student projects</h2>
           <StudentProjectsSection />
         </div>
       </section>

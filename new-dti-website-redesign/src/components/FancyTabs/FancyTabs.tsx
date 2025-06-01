@@ -62,8 +62,9 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
   return (
     <div className={`flex flex-col relative ${className}`}>
       <div
-        className={`transition-opacity transition-120 ${gradientLeft} ${showLeftGradient ? 'opacity-100' : 'opacity-0'
-          }`}
+        className={`transition-opacity transition-120 ${gradientLeft} ${
+          showLeftGradient ? 'opacity-100' : 'opacity-0'
+        }`}
       />
 
       <div
@@ -87,10 +88,11 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
               </>
             )}
             <button
-              className={`${activeIndex === index
+              className={`${
+                activeIndex === index
                   ? 'bg-background-2 border-t-1 border-border-1'
                   : 'rounded-t-md px-7 text-foreground-3 [&>img]:opacity-50'
-                } relative hover:before:opacity-100 focus:outline-hidden cursor-pointer flex gap-2 align-center items-center min-w-fit
+              } relative hover:before:opacity-100 focus:outline-hidden cursor-pointer flex gap-2 align-center items-center min-w-fit h-[41px]
               
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-10 before:bg-background-2 before:rounded-t-3xl before:z-[-3] before:opacity-0  before:transition-opacity before:duration-[120ms] before:ease-out
               
@@ -127,8 +129,9 @@ export default function FancyTabs({ tabs, className = '' }: TabsProps) {
         role="tabpanel"
         id={`panel-${activeIndex}`}
         aria-labelledby={`tab-${activeIndex}`}
-        className={`${activeIndex === 0 ? 'rounded-b-2xl rounded-tr-2xl' : 'rounded-2xl'
-          } border-border-1 border-1 bg-background-1 overflow-hidden`}
+        className={`${
+          activeIndex === 0 ? 'rounded-b-2xl rounded-tr-2xl' : 'rounded-2xl'
+        } border-border-1 border-1 bg-background-1 overflow-hidden`}
       >
         {tabs[activeIndex]?.content}
       </div>
