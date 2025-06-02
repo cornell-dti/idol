@@ -29,20 +29,24 @@ export default function CourseStaffSection({ courseStaff }: Props) {
   }, [isMobile]);
 
   return (
-    <div>
-      <div className={` flex w-full ${isMobile ? 'flex-col' : 'flex-row'}`}>
+    <>
+      <div
+        className={`flex w-full border-t-1 border-border-1 ${isMobile ? 'flex-col' : 'flex-row'}`}
+      >
         {courseStaff.map((member) => (
-          <div key={member.netid} className={`w-full ${isMobile ? '' : 'w-1/3'}`}>
+          <>
             <MemberCard
+              key={member.netid}
               user={member}
               image={`/team/teamHeadshots/${member.netid}.jpg`}
               selected={selectedMember === member}
               onClick={() => setSelectedMember(member)}
+              className={`w-full ${isMobile ? '' : 'w-1/3'}`}
             />
 
             {/* Mobile view: render directly under selected card */}
             {isMobile && selectedMember?.netid === member.netid && (
-              <div>
+              <div className="border-t-1 border-border-1">
                 <SectionSep
                   grid={true}
                   hasX={true}
@@ -58,13 +62,13 @@ export default function CourseStaffSection({ courseStaff }: Props) {
                 </div>
               </div>
             )}
-          </div>
+          </>
         ))}
       </div>
 
       {/* Desktop view: render below the full row */}
       {!isMobile && selectedMember && (
-        <div>
+        <div className="border-t-1 border-border-1">
           <div className="" ref={memberDetailsRef}>
             <SectionSep
               grid={true}
@@ -79,6 +83,6 @@ export default function CourseStaffSection({ courseStaff }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

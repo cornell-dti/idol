@@ -41,7 +41,7 @@ export default function Sponsor() {
           alt="A DTI information session presenting the project team"
         />
 
-        <div className="flex flex-col gap-2 p-8">
+        <div className="flex flex-col gap-2 p-8 border-t-1 border-border-1">
           <h2 className="h3">Become a sponsor!</h2>
 
           <p className="text-foreground-2">
@@ -123,12 +123,6 @@ export default function Sponsor() {
       <SectionSep />
 
       <section className="temporarySection">
-        <h4>row of 3 cards section</h4>
-      </section>
-
-      <SectionSep />
-
-      <section className="temporarySection">
         <h4>Sponsorship benefits section</h4>
       </section>
 
@@ -136,11 +130,20 @@ export default function Sponsor() {
 
       <section>
         <div className="grid min-[1000px]:grid-cols-4">
-          <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-8">
+          <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-8 border-b-1 border-border-1">
             <h2 className="h4 text-center">Thank you to our sponsors!</h2>
           </div>
           {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} fillWidth />
+            <LogoBox
+              key={index}
+              {...logo}
+              fillWidth
+              // remove left border on 3rd logo
+              // remove bottom border on 3rd to 6th logos
+              className={`border-l border-b border-border-1 
+              ${index === 2 ? '!border-l-0' : ''} 
+              ${index >= 2 && index <= 5 ? '!border-b-0' : ''}`}
+            />
           ))}
         </div>
       </section>

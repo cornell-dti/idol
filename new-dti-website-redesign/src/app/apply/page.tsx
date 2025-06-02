@@ -69,7 +69,7 @@ export default function Apply() {
         image="/apply/hero.png"
       />
 
-      <section className="temporarySection">
+      <section className="temporarySection border-t-1 border-border-1">
         <h4>Application timeline section</h4>
       </section>
 

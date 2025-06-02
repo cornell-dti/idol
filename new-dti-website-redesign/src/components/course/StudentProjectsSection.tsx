@@ -22,7 +22,7 @@ export default function StudentProjectsSection() {
         <div className="relative w-full h-[256px] md:h-[582px]">
           <Image src={project.imageSrc} alt={project.title} fill className="object-cover" />
         </div>
-        <div className="p-4 flex flex-col gap-2">
+        <div className="p-8 flex flex-col gap-2">
           <h3>{project.title}</h3>
           <div className="flex flex-col gap-4">
             <p className="text-foreground-3">{project.description}</p>

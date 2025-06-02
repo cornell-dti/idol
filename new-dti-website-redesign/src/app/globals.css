@@ -181,7 +181,13 @@ a {
 
 section:not(.hero):not(.ctaSection),
 .sectionStyles {
-  outline: 0.5px solid var(--border-1);
+  border-left: 1px solid var(--border-1);
+  border-right: 1px solid var(--border-1);
+  border-bottom: 1px solid var(--border-1);
+}
+
+.sectionSep {
+  border-bottom: 1px solid var(--border-1);
 }
 
 section:not(.hero):not(.ctaSection),
@@ -230,4 +236,15 @@ subsections of the carousel */
 /* Remove scrollbar on FancyTabs container to create cleaner UI */
 .fancyTabsContainer::-webkit-scrollbar {
   display: none;
+}
+
+article:not(:last-child) {
+  border-right: 1px solid var(--border-1);
+}
+
+@media only screen and (max-width: 768px) {
+  article:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid var(--border-1);
+  }
 }

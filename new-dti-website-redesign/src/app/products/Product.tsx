@@ -23,7 +23,7 @@ const Product = ({
   id
 }: Props): ReactNode => (
   <section id={id} className="scroll-mt-20">
-    <div className="bg-background-2">
+    <div className="bg-background-2 border-b-1 border-border-1">
       <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
     </div>
 

@@ -32,13 +32,13 @@ export default function Home() {
           image="/home/hero.png"
         />
 
-        <Marquee height={96}>
-          {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} noLink border={false} />
-          ))}
-        </Marquee>
-
-        <SectionSep />
+        <div className="[&+*]:rounded-t-2xl [&+*]:overflow-hidden mb-16">
+          <Marquee height={96}>
+            {logos.map((logo, index) => (
+              <LogoBox key={index} {...logo} noLink border={false} />
+            ))}
+          </Marquee>
+        </div>
 
         <FeatureSection
           eyebrowText="Courses"

@@ -46,7 +46,7 @@ type MemberCardProps = {
 
 export const MemberCard = ({ user, image, selected, onClick, className = '' }: MemberCardProps) => {
   const baseStyles =
-    'relative p-8 border border-border-1 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:z-10';
+    'relative p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:z-10';
 
   return (
     <article
@@ -71,10 +71,10 @@ type MemberDetailsProps = {
   showImage?: boolean;
 };
 export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetailsProps) => {
-  const baseStyles = 'md:w-1/2 border border-border-1 flex flex-col';
+  const baseStyles = 'md:w-1/2 flex flex-col';
   return (
     <div className="card-clickable flex w-full flex-col md:flex-row">
-      <div className={`${baseStyles} p-8 gap-4 border-r-0`}>
+      <div className={`${baseStyles} p-8 gap-4 border-r-1 border-border-1`}>
         {showImage !== false && <MemberSummary user={user} image={image} enlarged />}
       </div>
       <div className={`${baseStyles} justify-between`}>

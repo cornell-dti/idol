@@ -17,6 +17,7 @@ type FeatureSectionProps = {
   image: string;
   imageAlt: string;
   imagePosition?: 'left' | 'right';
+  className?: string;
 };
 
 export default function FeatureSection({
@@ -32,7 +33,8 @@ export default function FeatureSection({
   button2LinkNewTab = false,
   image,
   imageAlt,
-  imagePosition = 'left'
+  imagePosition = 'left',
+  className
 }: FeatureSectionProps) {
   const imageOrder = imagePosition === 'right' ? 'min-[1200px]:order-2' : 'min-[1200px]:order-1';
   const contentOrder = imagePosition === 'right' ? 'min-[1200px]:order-1' : 'min-[1200px]:order-2';
@@ -70,7 +72,9 @@ export default function FeatureSection({
   );
 
   return (
-    <section className="flex flex-col min-[1200px]:flex-row w-full border-t border-t-border-1">
+    <section
+      className={`flex flex-col min-[1200px]:flex-row w-full border-t border-t-border-1 ${className}`}
+    >
       <div
         className={`relative w-full min-[1200px]:w-1/2 ${imageOrder} border-border-1 ${
           imagePosition === 'right' ? 'min-[1200px]:border-l' : 'min-[1200px]:border-r'
