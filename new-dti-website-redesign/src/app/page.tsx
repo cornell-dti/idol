@@ -30,9 +30,10 @@ export default function Home() {
           button2Label="Meet the team"
           button2Link="/team"
           image="/home/hero.png"
+          nextSectionCurved={false}
         />
 
-        <div className="[&+*]:rounded-t-2xl [&+*]:overflow-hidden mb-16">
+        <div className="[&+*]:rounded-t-2xl [&+*]:overflow-hidden [&+*]:border-t-1 [&+*]:border-border-1 mb-16">
           <Marquee height={96}>
             {logos.map((logo, index) => (
               <LogoBox key={index} {...logo} noLink border={false} />

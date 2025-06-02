@@ -139,94 +139,96 @@ export default function Navbar({ demo }: NavbarProps) {
   return (
     <>
       <nav
-        className={`top-0 flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] z-60 w-full 
-        transition-[background-color] duration-[300ms]
-        ${scrolledPast ? 'bg-background-1' : ''}
+        className={`top-0 z-60 w-full 
+          transition-colors transition-border duration-300 border-b-1 border-transparent
+        ${scrolledPast ? 'bg-background-1 !border-border-1' : ''}
         ${demo ? '' : 'fixed left-1/2 translate-x-[-50%] transform'}
         `}
       >
-        <Link href="/" className="focusState rounded-sm interactive activeState">
-          <Image
-            src="/wordmark.svg"
-            alt="Cornell Digital Tech & Innovation logo"
-            width={269}
-            height={48}
-            className="md:min-w-[269px] h-10 md:h-12 w-auto"
-          />
-        </Link>
+        <div className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] mx-auto">
+          <Link href="/" className="focusState rounded-sm interactive activeState">
+            <Image
+              src="/wordmark.svg"
+              alt="Cornell Digital Tech & Innovation logo"
+              width={269}
+              height={48}
+              className="md:min-w-[269px] h-10 md:h-12 w-auto"
+            />
+          </Link>
 
-        {/* Desktop links */}
-        <div className="flex gap-2 items-center">
-          <ul className="hidden min-[900px]:flex h-10 items-center relative">
-            {navLinks.map(({ href, label }, i) => (
-              <li key={href} className="h-10 flex items-center">
-                <Link
-                  href={href}
-                  ref={(el) => {
-                    linkRefs.current[i] = el;
-                  }}
-                  className={` h-10 px-4 duration-[120ms] hover:text-foreground-1 flex items-center relative interactive activeState focusState rounded-full font-medium 
+          {/* Desktop links */}
+          <div className="flex gap-2 items-center">
+            <ul className="hidden min-[900px]:flex h-10 items-center relative">
+              {navLinks.map(({ href, label }, i) => (
+                <li key={href} className="h-10 flex items-center">
+                  <Link
+                    href={href}
+                    ref={(el) => {
+                      linkRefs.current[i] = el;
+                    }}
+                    className={` h-10 px-4 duration-[120ms] hover:text-foreground-1 flex items-center relative interactive activeState focusState rounded-full font-medium 
                     ${pathname === href ? 'text-foreground-1' : 'text-foreground-3'}`}
-                  aria-current={pathname === href ? 'page' : undefined}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+                    aria-current={pathname === href ? 'page' : undefined}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
 
-            {/* Gray pill shape that highlights currently selected page */}
-            {highlightStyle && (
-              <span
-                className="bottom-0 absolute -z-10 rounded-full h-10 bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px]"
-                ref={highlightRef}
-                style={{
-                  left: highlightStyle.left,
-                  width: highlightStyle.width,
-                  opacity: isNavLink ? 1 : 0,
-                  transition:
-                    'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1), opacity 0.3s ease'
-                }}
-              />
-            )}
-          </ul>
+              {/* Gray pill shape that highlights currently selected page */}
+              {highlightStyle && (
+                <span
+                  className="bottom-0 absolute -z-10 rounded-full h-10 bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px]"
+                  ref={highlightRef}
+                  style={{
+                    left: highlightStyle.left,
+                    width: highlightStyle.width,
+                    opacity: isNavLink ? 1 : 0,
+                    transition:
+                      'left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s cubic-bezier(.4,0,.2,1), opacity 0.3s ease'
+                  }}
+                />
+              )}
+            </ul>
 
-          <div className="flex gap-3">
-            {!mobileOpen && (
-              <Button
-                variant="primary"
+            <div className="flex gap-3">
+              {!mobileOpen && (
+                <Button
+                  variant="primary"
+                  size="small"
+                  href="/apply"
+                  label="Apply"
+                  className="max-[600px]:hidden"
+                />
+              )}
+
+              {/* Hamburger icon button */}
+              <IconButton
+                className="min-[900px]:hidden text-foreground-1 focus:outline-none"
+                onClick={() => setMobileOpen((prev) => !prev)}
+                aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
+                variant="tertiary"
                 size="small"
-                href="/apply"
-                label="Apply"
-                className="max-[600px]:hidden"
-              />
-            )}
-
-            {/* Hamburger icon button */}
-            <IconButton
-              className="min-[900px]:hidden text-foreground-1 focus:outline-none"
-              onClick={() => setMobileOpen((prev) => !prev)}
-              aria-label={mobileOpen ? 'Close mobile menu' : 'Open mobile menu'}
-              variant="tertiary"
-              size="small"
-            >
-              <span className="flex flex-col gap-1 relative w-4 h-4">
-                <span
-                  className={`absolute top-2.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
-                    mobileOpen ? 'rotate-45 translate-y-[-2px]' : '-translate-y-2'
-                  }`}
-                />
-                <span
-                  className={`absolute top-1/2 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
-                    mobileOpen ? 'opacity-0 left-[-16px]' : ''
-                  }`}
-                />
-                <span
-                  className={`absolute top-1.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
-                    mobileOpen ? '-rotate-45 translate-y-[2px]' : 'translate-y-2'
-                  }`}
-                />
-              </span>
-            </IconButton>
+              >
+                <span className="flex flex-col gap-1 relative w-4 h-4">
+                  <span
+                    className={`absolute top-2.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                      mobileOpen ? 'rotate-45 translate-y-[-2px]' : '-translate-y-2'
+                    }`}
+                  />
+                  <span
+                    className={`absolute top-1/2 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-left duration-300 ease-in-out ${
+                      mobileOpen ? 'opacity-0 left-[-16px]' : ''
+                    }`}
+                  />
+                  <span
+                    className={`absolute top-1.5 left-0 w-4 h-[1px] bg-foreground-1 rounded-sm transition-transform duration-300 ease-in-out ${
+                      mobileOpen ? '-rotate-45 translate-y-[2px]' : 'translate-y-2'
+                    }`}
+                  />
+                </span>
+              </IconButton>
+            </div>
           </div>
         </div>
       </nav>

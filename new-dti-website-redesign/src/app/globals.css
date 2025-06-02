@@ -196,6 +196,14 @@ section:not(.hero):not(.ctaSection),
   margin: auto;
 }
 
+/* Makes the first section right after hero have a curver border */
+.nextSectionCurved + * {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  overflow: hidden;
+  border-top: 1px solid var(--border-1);
+}
+
 .interactive {
   transition:
     box-shadow 120ms ease-in-out,
