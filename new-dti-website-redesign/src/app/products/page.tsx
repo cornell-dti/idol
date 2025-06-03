@@ -40,6 +40,9 @@ export default function Products() {
             ${index === 0 || index === 4 ? '!border-l-0' : ''}
             ${index >= 4 && index <= 8 ? '!border-b-0' : ''}
             `}
+            outerLinkClassName={
+              index === 0 ? 'onFocusRounded-t-l' : index === 3 ? 'onFocusRounded-t-r' : ''
+            }
           />
         ))}
       </section>

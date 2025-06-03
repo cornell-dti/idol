@@ -232,6 +232,20 @@ a:focus-visible,
   outline-offset: -2px;
 }
 
+/* So that the focus state outline isn't clipped when the 
+parent container is rounded */
+.onFocusRounded-t-l:focus-visible {
+  border-top-left-radius: 16px;
+}
+
+.onFocusRounded-t-r:focus-visible {
+  border-top-right-radius: 16px;
+}
+
+.onFocusRounded-b-r:focus-visible {
+  border-bottom-right-radius: 16px;
+}
+
 .activeState:active:not(:disabled):not([aria-disabled='true']) {
   transform: scale(0.97);
   filter: brightness(80%);

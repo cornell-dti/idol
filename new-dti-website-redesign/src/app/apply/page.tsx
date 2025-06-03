@@ -22,10 +22,16 @@ type FAQ = {
   answer: string;
   icon?: string;
 };
+
 const renderFaqContent = (section: FAQ[]) => (
-  <>
-    {section.map(({ question, answer, icon }) => (
-      <Accordion key={question} header={question} icon={icon}>
+  <div className="onFocusRounded-b-r">
+    {section.map(({ question, answer, icon }, index) => (
+      <Accordion
+        key={question}
+        header={question}
+        icon={icon}
+        className={index === section.length - 1 ? 'onFocusRounded-b-r' : ''}
+      >
         <div className="flex flex-col gap-4">
           <ReactMarkdown
             components={{
@@ -46,7 +52,7 @@ const renderFaqContent = (section: FAQ[]) => (
         </div>
       </Accordion>
     ))}
-  </>
+  </div>
 );
 
 const applicationsOpen = false;

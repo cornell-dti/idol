@@ -12,7 +12,8 @@ type Logo = {
   noLink?: boolean;
   ariaLabel?: string;
   border?: boolean;
-  className?: string;
+  outerLinkClassName?: string; // applies classes on the wrapping <a>
+  className?: string; // applies classes on <div> in const content
   noFocus?: boolean;
 };
 
@@ -26,6 +27,7 @@ const LogoBox: React.FC<Logo> = ({
   noLink,
   ariaLabel,
   border = true,
+  outerLinkClassName,
   className,
   noFocus
 }) => {
@@ -54,7 +56,7 @@ const LogoBox: React.FC<Logo> = ({
   return (
     <Link
       href={href}
-      className="hover:bg-background-2 transition-[background-color] duration-[120ms] innerFocusState"
+      className={`hover:bg-background-2 transition-[background-color] duration-[120ms] innerFocusState ${outerLinkClassName}`}
       {...(ariaLabel ? { 'aria-label': ariaLabel } : {})}
     >
       {content}

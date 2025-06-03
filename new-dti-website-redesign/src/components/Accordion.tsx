@@ -6,9 +6,10 @@ type FAQAccordionProps = {
   header: string;
   children: ReactNode;
   icon?: string;
+  className?: string;
 };
 
-export default function Accordion({ header, children, icon }: FAQAccordionProps) {
+export default function Accordion({ header, children, icon, className }: FAQAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -31,7 +32,7 @@ export default function Accordion({ header, children, icon }: FAQAccordionProps)
           aria-controls={contentId} // points to ID of controlled content region (the sibling <div>)
           aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full p-4 sm:p-8 flex justify-between items-center cursor-pointer bg-background-1 hover:bg-background-2 transition-colors duration-[120ms] innerFocusState text-left"
+          className={`w-full p-4 sm:p-8 flex justify-between items-center cursor-pointer bg-background-1 hover:bg-background-2 transition-colors duration-[120ms] innerFocusState text-left ${className}`}
           style={{
             background: isOpen ? `var(--background-2)` : ''
           }}
