@@ -223,7 +223,7 @@ a:focus-visible,
   outline-offset: 3px;
 }
 
-.activeState:active {
+.activeState:active:not(:disabled):not([aria-disabled="true"]) {
   transform: scale(0.97);
   filter: brightness(80%);
 }
