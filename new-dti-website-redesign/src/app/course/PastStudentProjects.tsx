@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import FancyTabs from '../../components/FancyTabs/FancyTabs';
-import studentProjectData from '../../app/course/data/student_projects.json';
+import studentProjectData from './data/student_projects.json';
 import Button from '../../components/Button';
 
 type Project = {

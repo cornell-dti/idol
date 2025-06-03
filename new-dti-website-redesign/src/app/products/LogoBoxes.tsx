@@ -4,6 +4,12 @@ import React from 'react';
 import LogoBox from '../../components/LogoBox';
 import logos from './logos.json';
 
+const getOuterLinkClassName = (index: number) => {
+  if (index === 0) return 'onFocusRounded-t-l';
+  if (index === 3) return 'onFocusRounded-t-r';
+  return '';
+};
+
 export default function LogoGrid() {
   return (
     <section className="grid grid-cols-4 border-border-1 border-t-1">
@@ -17,9 +23,7 @@ export default function LogoGrid() {
             ${index === 0 || index === 4 ? '!border-l-0' : ''}
             ${index >= 4 && index <= 8 ? '!border-b-0' : ''}
           `}
-          outerLinkClassName={
-            index === 0 ? 'onFocusRounded-t-l' : index === 3 ? 'onFocusRounded-t-r' : ''
-          }
+          outerLinkClassName={getOuterLinkClassName(index)}
         />
       ))}
     </section>

@@ -3,8 +3,6 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
-import LogoBox from '../../components/LogoBox';
-import FeatureCard from '../../components/FeatureCard';
 import SponsorsList from './SponsorsList';
 import SponsorFeatures from './SponsorFeatures';
 
