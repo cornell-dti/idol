@@ -73,6 +73,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
               hasX={true}
               isMobile={isCompactLayout}
               onClickX={() => setSelectedMember(undefined)}
+              xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
             />
             <MemberDetailsCard
               user={selectedMember}

@@ -6,6 +6,7 @@ type SectionSepProps = {
   hasX?: boolean;
   isMobile?: boolean;
   onClickX?: () => void;
+  xAriaLabel?: string;
   className?: string;
 };
 
@@ -14,6 +15,7 @@ export default function SectionSep({
   hasX = false,
   isMobile = false,
   onClickX = () => {},
+  xAriaLabel,
   className
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
@@ -39,10 +41,10 @@ export default function SectionSep({
           >
             {hasX && i === lastIndex && (
               <IconButton
-                className="absolute w-full h-full rounded-none border-none"
+                className="absolute w-full h-full rounded-none border-none innerFocusState"
                 onClick={onClickX}
                 variant="tertiary"
-                aria-label="Close profile card"
+                aria-label={xAriaLabel ?? ''}
               >
                 <XIcon />
               </IconButton>

@@ -160,10 +160,9 @@ export default function Navbar({ demo }: NavbarProps) {
     if (mobileOpen) {
       const timeout = setTimeout(() => setShowContent(true), 50);
       return () => clearTimeout(timeout);
-    } else {
-      setShowContent(false);
-      return undefined; 
     }
+    setShowContent(false);
+    return undefined;
   }, [mobileOpen]);
 
   return (

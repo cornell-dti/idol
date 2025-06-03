@@ -54,7 +54,7 @@ const LogoBox: React.FC<Logo> = ({
   return (
     <Link
       href={href}
-      className="hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
+      className="hover:bg-background-2 transition-[background-color] duration-[120ms] innerFocusState"
       {...(ariaLabel ? { 'aria-label': ariaLabel } : {})}
     >
       {content}
