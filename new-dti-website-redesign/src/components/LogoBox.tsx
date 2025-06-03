@@ -13,6 +13,7 @@ type Logo = {
   ariaLabel?: string;
   border?: boolean;
   className?: string;
+  noFocus?: boolean;
 };
 
 const LogoBox: React.FC<Logo> = ({
@@ -25,7 +26,8 @@ const LogoBox: React.FC<Logo> = ({
   noLink,
   ariaLabel,
   border = true,
-  className
+  className,
+  noFocus
 }) => {
   const content = (
     <div
@@ -36,7 +38,7 @@ const LogoBox: React.FC<Logo> = ({
     >
       <Image
         src={src}
-        alt={alt}
+        alt={noFocus ? '' : alt}
         unoptimized
         width={width}
         height={height}

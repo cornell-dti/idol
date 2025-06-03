@@ -161,7 +161,7 @@ p {
 }
 
 p.small {
-  font-size: 13.33px;
+  font-size: 14px;
 }
 
 p.caps {
@@ -210,6 +210,11 @@ section:not(.hero):not(.ctaSection),
     transform 120ms ease-in-out,
     filter 120ms ease-in-out,
     color 120ms ease-in-out;
+}
+
+.interactive::before {
+  will-change: opacity !important;
+  transform: translateZ(0) !important;
 }
 
 a:focus-visible,
