@@ -24,8 +24,8 @@ export default function Footer() {
     { href: 'https://www.cudesign.io/', label: 'Design @ Cornell' },
     { href: 'https://zing-lsc-prod.web.app/', label: 'Zing' },
     { href: 'https://cuapts.org/', label: 'CU Apts' },
-    { href: '', label: 'Carriage' },
-    { href: '', label: 'Cornell Go' }
+    { href: '/products#carriage', label: 'Carriage' },
+    { href: '/products#cornellgo', label: 'Cornell Go' }
   ];
 
   const SocialLinks = [
