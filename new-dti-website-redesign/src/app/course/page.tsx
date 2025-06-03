@@ -63,7 +63,7 @@ export default function Course() {
       <SectionSep />
 
       <section>
-        <h2 className="p-8">Details about Trends</h2>
+        <h2 className="p-4 sm:p-8">Details about Trends</h2>
         <Timeline events={timeline_events} currentDate={new Date()} />
         <div className="grid grid-cols-1 md:grid-cols-3">
           <FeatureCard
@@ -117,13 +117,13 @@ export default function Course() {
       </section>
       <SectionSep />
       <section>
-        <h2 className="p-8">Course staff</h2>
+        <h2 className="p-4 sm:p-8">Course staff</h2>
         <CourseStaff courseStaff={courseStaff} />
       </section>
 
       <SectionSep />
       <section>
-        <h2 className="p-8">Past student experiences</h2>
+        <h2 className="p-4 sm:p-8">Past student experiences</h2>
         <Marquee height={370}>
           {testimonialData.testimonials.map(
             ({ description, profileImage, name, semesterTaken }, index) => (
@@ -140,9 +140,14 @@ export default function Course() {
       </section>
 
       <section>
-        <div className="flex flex-col gap-y-8 p-4 sm:py-14 sm:px-16">
-          <h2>Past student projects</h2>
-          <StudentProjectsSection />
+        <div className="flex flex-col gap">
+          <div className="p-4 sm:p-8 pb-8 md:pb-0">
+            <h2>Past student projects</h2>
+          </div>
+
+          <div className="p-0 md:p-8">
+            <StudentProjectsSection />
+          </div>
         </div>
       </section>
 

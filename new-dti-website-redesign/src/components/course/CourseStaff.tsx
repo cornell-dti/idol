@@ -68,7 +68,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
       {/* Desktop view: render below the full row */}
       {!isMobile && selectedMember && (
         <div className="border-t-1 border-border-1">
-          <div className="" ref={memberDetailsRef}>
+          <div ref={memberDetailsRef}>
             <SectionSep
               grid={true}
               hasX={true}

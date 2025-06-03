@@ -36,8 +36,8 @@ export default function FeatureSection({
   imagePosition = 'left',
   className
 }: FeatureSectionProps) {
-  const imageOrder = imagePosition === 'right' ? 'min-[1200px]:order-2' : 'min-[1200px]:order-1';
-  const contentOrder = imagePosition === 'right' ? 'min-[1200px]:order-1' : 'min-[1200px]:order-2';
+  const imageOrder = imagePosition === 'right' ? 'md:order-2' : 'md:order-1';
+  const contentOrder = imagePosition === 'right' ? 'md:order-1' : 'md:order-2';
 
   const content = (
     <div className="flex flex-col gap-4 p-4 sm:p-8">
@@ -72,16 +72,16 @@ export default function FeatureSection({
   );
 
   return (
-    <section className={`flex flex-col min-[1200px]:flex-row w-full ${className}`}>
+    <section className={`flex flex-col md:flex-row w-full ${className}`}>
       <div
-        className={`relative w-full min-[1200px]:w-1/2 ${imageOrder} border-border-1 ${
-          imagePosition === 'right' ? 'min-[1200px]:border-l' : 'min-[1200px]:border-r'
+        className={`relative w-full md:w-1/2 ${imageOrder} border-border-1 ${
+          imagePosition === 'right' ? 'md:border-l' : 'md:border-r'
         }`}
       >
         <Image src={image} alt={imageAlt} width={1000} height={1000} />
       </div>
 
-      <div className={`w-full min-[1200px]:w-1/2 flex flex-col justify-center ${contentOrder}`}>
+      <div className={`w-full md:w-1/2 flex flex-col justify-center ${contentOrder}`}>
         {content}
       </div>
     </section>

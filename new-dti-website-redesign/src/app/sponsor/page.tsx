@@ -42,7 +42,7 @@ export default function Sponsor() {
           alt="A DTI information session presenting the project team"
         />
 
-        <div className="flex flex-col gap-2 p-8 border-t-1 border-border-1">
+        <div className="flex flex-col gap-2 p-4 sm:p-8 border-t-1 border-border-1">
           <h2 className="h3">Become a sponsor!</h2>
 
           <p className="text-foreground-2">
@@ -131,7 +131,7 @@ export default function Sponsor() {
 
       <section>
         <div className="grid min-[1000px]:grid-cols-4">
-          <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-8 border-b-1 border-border-1">
+          <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-4 sm:p-8 border-b-1 border-border-1">
             <h2 className="h4 text-center">Thank you to our sponsors!</h2>
           </div>
           {logos.map((logo, index) => (

@@ -29,6 +29,11 @@
   --accent-yellow-transparent: rgba(255, 147, 0, 0.2);
   --accent-purple: #c372fc; /* Product team color */
   --accent-purple-transparent: rgba(195, 114, 252, 0.2);
+
+  /* BREAKPOINT VARIABLES */
+  --breakpoint-sm: 380px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1440px;
 }
 
 /* This is so we can use the variables inline in the className attribute
@@ -70,7 +75,7 @@ Usage examples (remove the "color-" prefix when using in className):
   --color-accent-purple-transparent: var(--accent-purple-transparent);
 
   /* BREAKPOINT VARIABLES */
-  --breakpoint-sm: 390px;
+  --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1440px;
 }
@@ -255,9 +260,34 @@ article:not(:last-child) {
   border-right: 1px solid var(--border-1);
 }
 
+@media only screen and (max-width: 1184px) {
+  section:not(.hero):not(.ctaSection),
+  .sectionSep,
+  footer {
+    margin: 0 32px;
+    width: calc(100% - 64px);
+  }
+}
+
 @media only screen and (max-width: 768px) {
   article:not(:last-child) {
     border-right: none;
     border-bottom: 1px solid var(--border-1);
+  }
+}
+
+@media only screen and (max-width: 640px) {
+}
+
+@media only screen and (max-width: 480px) {
+  footer {
+    margin: 0;
+    width: 100%;
+  }
+
+  section:not(.hero):not(.ctaSection),
+  .sectionSep {
+    margin: 0 16px;
+    width: calc(100% - 32px);
   }
 }

@@ -174,7 +174,7 @@ export default function Navbar({ demo }: NavbarProps) {
         ${demo ? '' : 'fixed left-1/2 translate-x-[-50%] transform'}
         `}
       >
-        <div className="flex justify-between items-center px-4 md:px-8 py-4 max-w-[1184px] mx-auto">
+        <div className="flex justify-between items-center px-4 sm:px-8 py-4 max-w-[1184px] mx-auto">
           <Link href="/" className="focusState rounded-sm interactive activeState">
             <Image
               src="/wordmark.svg"
@@ -290,7 +290,9 @@ export default function Navbar({ demo }: NavbarProps) {
             ))}
             <li className="flex px-2 md:px-4 py-3 w-full">
               <Button
-                className={`w-full !transition-all !duration-300 ease-out transform ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                className={`w-full !transition-all !duration-300 ease-out transform ${
+                  showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
                 variant="primary"
                 href="/apply"
                 label="Apply"

@@ -46,7 +46,7 @@ type MemberCardProps = {
 
 export const MemberCard = ({ user, image, selected, onClick, className = '' }: MemberCardProps) => {
   const baseStyles =
-    'relative p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:z-10';
+    'relative p-4 sm:p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:z-10';
 
   return (
     <article

@@ -60,7 +60,7 @@ export default function Apply() {
 
       <Hero
         heading="Join our community"
-        subheading="We value inclusivity and welcome passionate applicants of all experience levels. We’d love to work with you."
+        subheading="We value inclusivity and welcome passionate applicants of all experience levels. We'd love to work with you."
         button1Label="Apply to DTI"
         button1Link="/apply"
         button1Disabled={!applicationsOpen}
@@ -75,24 +75,28 @@ export default function Apply() {
 
       <SectionSep />
 
-      <section className="flex flex-col gap-8 items-center md:p-8 p-4">
-        <h2 className="md:p-0 pt-4">Role descriptions</h2>
+      <section className="flex flex-col md:items-center">
+        <div className="p-4 pb-8 sm:p-8">
+          <h2>Role descriptions</h2>
+        </div>
 
-        <FancyTabs
-          className="md:w-200 w-full"
-          tabs={roles.map((role, index) => ({
-            icon: role.icon,
-            label: role.role,
-            content: (
-              <RoleDescriptionCard
-                key={index}
-                role={role.role}
-                skills={role.skills}
-                responsibilities={role.responsibilities}
-              />
-            )
-          }))}
-        />
+        <div className="md:p-8 !pt-0">
+          <FancyTabs
+            className="min-[940px]:w-200 w-full [&>div:last-child]:rounded-b-none md:[&>div:last-child]:rounded-b-2xl"
+            tabs={roles.map((role, index) => ({
+              icon: role.icon,
+              label: role.role,
+              content: (
+                <RoleDescriptionCard
+                  key={index}
+                  role={role.role}
+                  skills={role.skills}
+                  responsibilities={role.responsibilities}
+                />
+              )
+            }))}
+          />
+        </div>
       </section>
 
       <SectionSep />
@@ -102,7 +106,7 @@ export default function Apply() {
           <h2>Frequently Asked Questions</h2>
         </div>
 
-        <div className="flex flex-col flex-3 border-l-1 border-border-1">
+        <div className="flex flex-col flex-3 md:border-l-1 border-border-1">
           <Tabs
             tabs={[
               {
