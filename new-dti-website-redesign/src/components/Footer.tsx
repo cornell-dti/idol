@@ -175,7 +175,7 @@ export default function Footer() {
 
   const DTILogoSection = () => (
     <div>
-      <Link href={'/'} className="inline-flex rounded-sm focusState">
+      <Link href={'/'} className="inline-flex rounded-sm focusState activeState interactive">
         {
           <Image
             src="/wordmark.svg"
