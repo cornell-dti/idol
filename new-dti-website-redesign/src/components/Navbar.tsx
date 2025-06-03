@@ -162,6 +162,7 @@ export default function Navbar({ demo }: NavbarProps) {
       return () => clearTimeout(timeout);
     } else {
       setShowContent(false);
+      return undefined; 
     }
   }, [mobileOpen]);
 

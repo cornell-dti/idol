@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
@@ -7,7 +6,7 @@ import CtaSection from '../components/CtaSection';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
 import logos from './products/logos.json';
-import Button from '@/components/Button';
+import Button from '../components/Button';
 
 export const metadata = {
   title: 'Cornell DTI',

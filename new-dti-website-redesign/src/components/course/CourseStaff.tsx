@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MemberCard, MemberDetailsCard } from '../TeamCard';
 import useClickOutside from '../../hooks/useClickOutside';
 import useScreenSize from '../../hooks/useScreenSize';

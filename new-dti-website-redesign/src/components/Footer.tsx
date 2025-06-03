@@ -138,7 +138,7 @@ export default function Footer() {
           <li key={href} className="flex gap-2 items-center">
             <Link
               href={href}
-              className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState transition-[color] duration-[120ms]"
+              className="text-foreground-3 hover:text-foreground-1 font-medium rounded-sm focusState transition-[color] duration-[120ms] whitespace-nowrap"
             >
               {label}
             </Link>
@@ -207,24 +207,34 @@ export default function Footer() {
       className="max-w-[1184px] mx-auto sm:rounded-t-2xl bg-[linear-gradient(to_bottom,#121212,#0D0D0D)] !mt-px
     relative before:content-[''] before:absolute before:-top-px before:-left-px before:w-[calc(100%+2px)] before:h-[calc(100%+1px)] before:z-[-2] before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.1),rgba(255,255,255,0.02))] before:sm:rounded-t-2xl"
     >
-      <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <div className="md:p-8 md:pb-0 md:row-start-1 md:col-start-1 lg:row-auto lg:col-auto lg:pb-8">
+      <div className="flex flex-col min-[1000px]:flex-row ">
+        <div className="w-full sm:w-3/4 min-[1000px]:w-1/4 p-4 sm:p-8">
           <DTILogoSection />
         </div>
 
-        <div className="pt-8 pb-8 md:p-8 md:row-start-2 md:col-start-1 lg:row-auto lg:col-auto">
-          <DTILinksSection />
+        <div className="flex min-[1000px]:w-1/2 max-[480px]:flex-col">
+          <div className="flex-1 p-4 sm:p-8">
+            <DTILinksSection />
+          </div>
+
+          <div className="flex-1 p-4 sm:p-8">
+            <ProductLinksSection />
+          </div>
         </div>
 
-        <div className="md:p-8 md:row-start-2 md:col-start-2 lg:row-auto lg:col-auto">
-          <ProductLinksSection />
-        </div>
-
-        <div className="sm:absolute bottom-4 right-4 md:top-8 md:right-8 md:bottom-auto">
+        <div className="w-1/4 min-[1000px]:p-8 flex justify-end max-[1000px]:absolute sm:top-8 sm:right-8 right-4 bottom-4">
           <Button
             label="Back to top"
             variant="secondary"
-            backToTop={<Image src="/arrowLogo.svg" alt="" width={25} height={25} />}
+            backToTop={
+              <Image
+                src="/arrowLogo.svg"
+                alt=""
+                width={20}
+                height={20}
+                className="min-w-5 min-h-5"
+              />
+            }
             onClick={() => {
               window.scrollTo({
                 top: 0,
