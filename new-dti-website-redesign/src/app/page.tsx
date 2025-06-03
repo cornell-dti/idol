@@ -8,8 +8,8 @@ import LogoBox from '../components/LogoBox';
 import logos from './products/logos.json';
 
 export const metadata = {
-  title: 'DIT HOMEPAGE',
-  description: 'DESCRIPTION'
+  title: 'Cornell DTI',
+  description: "Cornell Digital Tech & Innovation (DTI) is a student-led team building impactful tech, teaching modern dev skills, and driving innovation at Cornell and beyond."
 };
 
 export default function Home() {

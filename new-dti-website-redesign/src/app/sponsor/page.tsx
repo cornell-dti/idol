@@ -7,8 +7,8 @@ import LogoBox from '../../components/LogoBox';
 import FeatureCard from '../../components/FeatureCard';
 
 export const metadata = {
-  title: 'DTI SPONSOR PAGE',
-  description: 'DESCRIPTION'
+  title: 'Sponsor - Cornell DTI',
+  description: "Support Cornell DTI to fuel student innovation and tech education, while connecting with top talent and building your brand."
 };
 
 const logos = [

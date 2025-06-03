@@ -18,8 +18,8 @@ import CourseStaff from '../../components/course/CourseStaff';
 import StudentProjectsSection from '../../components/course/StudentProjectsSection';
 
 export const metadata = {
-  title: 'DTI COURSE PAGE',
-  description: 'DESCRIPTION'
+  title: 'Course - Cornell DTI',
+  description: "Explore Cornell DTI's 1-credit course on full-stack web development using React, Node.js, and Firebase. Learn best practices and build real projects."
 };
 
 //* DATA

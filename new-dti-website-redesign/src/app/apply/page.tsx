@@ -13,8 +13,8 @@ import Tabs from '../../components/Tabs';
 import Accordion from '../../components/Accordion';
 
 export const metadata = {
-  title: 'DTI APPLY PAGE',
-  description: 'DESCRIPTION'
+  title: 'Apply - Cornell DTI',
+  description: "Apply to Cornell DTI and join a diverse team of students building tech for impact."
 };
 
 type FAQ = {

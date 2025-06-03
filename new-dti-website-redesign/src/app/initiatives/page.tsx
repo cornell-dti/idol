@@ -4,8 +4,8 @@ import FeatureSection from '../../components/FeatureSection';
 import CtaSection from '../../components/CtaSection';
 
 export const metadata = {
-  title: 'DTI INITIATIVES PAGE',
-  description: 'DESCRIPTION'
+  title: 'Initiatives - Cornell DTI',
+  description: "Engage with Cornell DTI's initiatives, where we empower the Cornell and Ithaca communities through tech education, outreach, and real-world collaboration."
 };
 
 export default function Initiatives() {

@@ -9,9 +9,10 @@ import LogoBox from '../../components/LogoBox';
 import logos from './logos.json';
 
 export const metadata = {
-  title: 'DTI PRODUCTS PAGE',
-  description: 'DESCRIPTION'
+  title: 'Products - Cornell DTI',
+  description: "Discover student-built products from Cornell DTI: tools that solve real problems through human-centered design and modern software engineering."
 };
+
 
 export default function Products() {
   return (
