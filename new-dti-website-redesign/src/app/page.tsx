@@ -50,6 +50,8 @@ export default function Home() {
               className="transform scale-95 group-hover:scale-100 group-active:scale-[0.97] group-active:brightness-[0.8]focus-visible:opacity-100 !transition-all !duration-300"
             />
 
+            {/* We can put tabIndex={-1} and disable this link from being accessible from screen readers here
+            because we already have the Button that is keyboard focusable */}
             <a href="/products" className="absolute inset-0 z-0" tabIndex={-1} aria-disabled />
           </div>
         </div>
