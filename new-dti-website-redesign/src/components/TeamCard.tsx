@@ -16,7 +16,7 @@ const MemberSummary = ({
     <Image
       src={image}
       alt={`${user.firstName} ${user.lastName}'s profile picture`}
-      className="rounded-lg w-auto h-auto"
+      className="rounded-lg w-auto h-auto transform transition-all duration-120 ease-in-out group-active:scale-97"
       width={232}
       height={232}
     />
@@ -50,7 +50,7 @@ export const MemberCard = ({ user, image, selected, onClick, className = '' }: M
 
   return (
     <article
-      className={`${baseStyles} relative overflow-hidden ${
+      className={`${baseStyles} relative overflow-hidden group ${
         selected
           ? 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full after:transform after:scale-x-100 after:origin-center after:transition-transform after:duration-200 bg-background-2'
           : 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:rounded-full after:transform after:scale-x-0 after:origin-center after:transition-transform after:duration-200'
@@ -60,6 +60,7 @@ export const MemberCard = ({ user, image, selected, onClick, className = '' }: M
       <button
         className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
         onClick={onClick}
+        aria-label={`View ${user.firstName} ${user.lastName}'s profile`}
       />
     </article>
   );
@@ -67,10 +68,12 @@ export const MemberCard = ({ user, image, selected, onClick, className = '' }: M
 
 const IconLink = ({
   href,
-  children
+  children,
+  label
 }: {
   href: string | null | undefined;
   children: React.ReactNode;
+  label: string;
 }) => {
   if (!href) return null;
 
@@ -78,16 +81,19 @@ const IconLink = ({
     <Link
       href={href}
       className="interactive activeState rounded-sm text-foreground-1 hover:text-foreground-2"
+      aria-label={label}
     >
       {children}
     </Link>
   );
 };
+
 type MemberDetailsProps = {
   user: IdolMember;
   image: string;
   showImage?: boolean;
 };
+
 export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetailsProps) => {
   const baseStyles = 'md:w-1/2 flex flex-col';
   return (
@@ -170,7 +176,10 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
         <div className="flex justify-between p-8 border border-transparent border-t-border-1 ">
           <div className="flex gap-4 items-center">
             {user.website && (
-              <IconLink href={user.website}>
+              <IconLink
+                href={user.website}
+                label={`Link to ${user.firstName} ${user.lastName}'s website`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -189,7 +198,10 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
               </IconLink>
             )}
 
-            <IconLink href={`mailto:${user.email}`}>
+            <IconLink
+              href={`mailto:${user.email}`}
+              label={`Email ${user.firstName} ${user.lastName}`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -207,7 +219,10 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
             </IconLink>
 
             {user.linkedin && (
-              <IconLink href={user.website}>
+              <IconLink
+                href={user.website}
+                label={`Link to ${user.firstName} ${user.lastName}'s LinkedIn`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -223,7 +238,10 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
               </IconLink>
             )}
             {user.github && (
-              <IconLink href={user.website}>
+              <IconLink
+                href={user.website}
+                label={`Link to ${user.firstName} ${user.lastName}'s GitHub`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
