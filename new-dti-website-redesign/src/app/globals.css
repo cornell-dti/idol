@@ -80,6 +80,10 @@ Usage examples (remove the "color-" prefix when using in className):
   --breakpoint-lg: 1440px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background-1);
   color: var(--foreground-1);
@@ -221,6 +225,11 @@ a:focus-visible,
 .focusState:focus-visible {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
+}
+
+.innerFocusState:focus-visible {
+  outline: 2px solid var(--foreground-1);
+  outline-offset: -2px;
 }
 
 .activeState:active:not(:disabled):not([aria-disabled='true']) {
