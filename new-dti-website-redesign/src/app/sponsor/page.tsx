@@ -45,7 +45,7 @@ export default function Sponsor() {
         <div className="flex flex-col gap-2 p-4 sm:p-8 border-t-1 border-border-1">
           <h2 className="h3">Become a sponsor!</h2>
 
-          <p className="text-foreground-2">
+          <p className="text-foreground-3">
             We would love to partner with organizations that share our vision of changing the world.
             Together, we can harness the power of technology to drive change in our communities.
           </p>
