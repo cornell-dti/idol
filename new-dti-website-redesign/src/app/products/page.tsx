@@ -7,6 +7,7 @@ import Hero from '../../components/Hero';
 import CtaSection from '../../components/CtaSection';
 import LogoBox from '../../components/LogoBox';
 import LogoBoxes from './LogoBoxes';
+import ProductsList from './ProductsList';
 
 export const metadata = {
   title: 'Products - Cornell DTI',
@@ -31,14 +32,7 @@ export default function Products() {
 
       <SectionSep />
 
-      {products.map((product, index) => (
-        <React.Fragment key={product.name}>
-          <Product {...product} />
-          {index < products.length - 1 && (
-            <SectionSep grid className="border-x-1 border-border-1" />
-          )}
-        </React.Fragment>
-      ))}
+      <ProductsList />
 
       <CtaSection
         heading="Ready to join?"
