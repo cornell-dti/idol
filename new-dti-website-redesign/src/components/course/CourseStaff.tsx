@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { MemberCard, MemberDetailsCard } from '../TeamCard';
 import useClickOutside from '../../hooks/useClickOutside';
@@ -34,9 +35,8 @@ export default function CourseStaffSection({ courseStaff }: Props) {
         className={`flex w-full border-t-1 border-border-1 ${isMobile ? 'flex-col' : 'flex-row'}`}
       >
         {courseStaff.map((member) => (
-          <>
+          <React.Fragment key={member.netid}>
             <MemberCard
-              key={member.netid}
               user={member}
               image={`/team/teamHeadshots/${member.netid}.jpg`}
               selected={selectedMember === member}
@@ -44,7 +44,6 @@ export default function CourseStaffSection({ courseStaff }: Props) {
               className={`w-full ${isMobile ? '' : 'w-1/3'}`}
             />
 
-            {/* Mobile view: render directly under selected card */}
             {isMobile && selectedMember?.netid === member.netid && (
               <div className="border-t-1 border-border-1">
                 <SectionSep
@@ -62,7 +61,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
                 </div>
               </div>
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
 

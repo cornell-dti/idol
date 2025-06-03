@@ -13,11 +13,15 @@ export default function Sidebar() {
     <aside className="h-full border-l border-border-1 bg-background-1 fixed w-[260px] z-10 overflow-auto">
       <nav className="flex flex-col">
         <div className="flex gap-2 p-4 border-b-1 border-border-1">
-          <Link href="/" className="rounded-sm" aria-label="Back to DTI homepage">
+          <Link
+            href="/"
+            className="rounded-sm interactive activeState"
+            aria-label="Back to DTI homepage"
+          >
             <Image src="/logo.svg" alt="" width={32} height={32} />
           </Link>
           <div className="w-[1px] h-8 bg-border-1 rounded-full" />
-          <Link href="/design-system" className="rounded-sm">
+          <Link href="/design-system" className="rounded-sm interactive activeState">
             <h3 className="h6">Design System</h3>
           </Link>
         </div>
@@ -33,7 +37,7 @@ export default function Sidebar() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className={`block focusState px-4 py-2 rounded-lg hover:bg-background-2 ${
+                    className={`block focusState px-4 py-2 rounded-lg hover:bg-background-2 interactive activeState ${
                       pathname === href ? 'bg-background-2' : 'bg-background-1 text-foreground-3'
                     }`}
                     aria-current={pathname === href ? 'page' : undefined}

@@ -180,8 +180,8 @@ export default function Footer() {
           <Image
             src="/wordmark.svg"
             alt="Cornell Digital Tech & Innovation logo"
-            width={220}
-            height={50}
+            width={269}
+            height={48}
           />
         }
       </Link>
@@ -191,7 +191,7 @@ export default function Footer() {
           <li key={href}>
             <Link
               href={href}
-              className="text-foreground-3 hover:text-foreground-1 inline-flex rounded-sm focusState transition-[color] duration-[120ms]"
+              className="text-foreground-3 hover:text-foreground-1 inline-flex rounded-sm focusState activeState interactive"
               aria-label={label}
             >
               {icon}

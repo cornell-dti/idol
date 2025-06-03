@@ -206,10 +206,10 @@ section:not(.hero):not(.ctaSection),
 
 .interactive {
   transition:
-    box-shadow 120ms ease-in-out,
     background-color 120ms ease-in-out,
     transform 120ms ease-in-out,
-    filter 120ms ease-in-out;
+    filter 120ms ease-in-out,
+    color 120ms ease-in-out;
 }
 
 a:focus-visible,

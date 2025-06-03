@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
-import SectionSep from '../components/SectionSep';
 import CtaSection from '../components/CtaSection';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';

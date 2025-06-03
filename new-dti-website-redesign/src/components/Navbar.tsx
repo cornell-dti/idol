@@ -166,7 +166,7 @@ export default function Navbar({ demo }: NavbarProps) {
                     ref={(el) => {
                       linkRefs.current[i] = el;
                     }}
-                    className={` h-10 px-4 duration-[120ms] hover:text-foreground-1 flex items-center relative interactive activeState focusState rounded-full font-medium 
+                    className={` h-10 px-4  hover:text-foreground-1 flex items-center relative interactive activeState focusState rounded-full font-medium
                     ${pathname === href ? 'text-foreground-1' : 'text-foreground-3'}`}
                     aria-current={pathname === href ? 'page' : undefined}
                   >
