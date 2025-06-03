@@ -200,7 +200,8 @@ section:not(.hero):not(.ctaSection),
 }
 
 section:not(.hero):not(.ctaSection),
-.sectionSep {
+.sectionSep,
+.sectionStyles {
   max-width: 1184px;
   margin: auto;
 }
@@ -281,6 +282,7 @@ article:not(:last-child) {
 @media only screen and (max-width: 1184px) {
   section:not(.hero):not(.ctaSection),
   .sectionSep,
+  .sectionStyles,
   footer {
     margin: 0 32px;
     width: calc(100% - 64px);
@@ -288,7 +290,7 @@ article:not(:last-child) {
 }
 
 @media only screen and (max-width: 768px) {
-  article:not(:last-child) {
+  article:not(:last-child):not(.sectionStyles) {
     border-right: none;
     border-bottom: 1px solid var(--border-1);
   }
@@ -304,7 +306,8 @@ article:not(:last-child) {
   }
 
   section:not(.hero):not(.ctaSection),
-  .sectionSep {
+  .sectionSep,
+  .sectionStyles {
     margin: 0 16px;
     width: calc(100% - 32px);
   }
