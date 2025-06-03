@@ -23,8 +23,8 @@ const MemberSummary = ({
     <div className="text-left">
       {enlarged ? (
         <>
-          <h3>{`${user.firstName} ${user.lastName}`}</h3>
-          <h5 className={`text-${getColorClass(user.role)}`}>{user.roleDescription}</h5>
+          <h3 className="h4">{`${user.firstName} ${user.lastName}`}</h3>
+          <p className={`text-${getColorClass(user.role)} h6`}>{user.roleDescription}</p>
         </>
       ) : (
         <>
