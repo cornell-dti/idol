@@ -136,6 +136,35 @@ export default function Navbar({ demo }: NavbarProps) {
     };
   }, [mobileOpen]);
 
+  // #######################
+  // MOBILE ANIMATION LOGIC:
+  // #######################
+
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // mobile menu height state
+  const [, setMenuHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    if (mobileOpen && mobileMenuRef.current) {
+      setMenuHeight(mobileMenuRef.current.scrollHeight);
+    } else {
+      setMenuHeight(0);
+    }
+  }, [mobileOpen]);
+
+  // mobile menu links state
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      const timeout = setTimeout(() => setShowContent(true), 50);
+      return () => clearTimeout(timeout);
+    } else {
+      setShowContent(false);
+    }
+  }, [mobileOpen]);
+
   return (
     <>
       <nav
@@ -234,18 +263,25 @@ export default function Navbar({ demo }: NavbarProps) {
       </nav>
 
       {/* Mobile links */}
-      {mobileOpen && (
+      <div
+        className={`${
+          demo ? '' : 'fixed'
+        } top-0 w-full z-50 bg-background-1 overflow-hidden transition-[height] duration-400 ease-in-out min-[900px]:hidden`}
+        style={{ height: mobileOpen ? `100%` : '0px' }}
+      >
         <div
-          className={`${
-            demo ? '' : 'fixed'
-          } top-0 w-full h-full bg-background-1 z-50 flex flex-col justify-between pt-20 min-[900px]:hidden`}
+          ref={mobileMenuRef}
+          className={`pt-20 flex flex-col justify-between transition-opacity duration-500 ease-in-out ${
+            showContent ? 'opacity-100' : 'opacity-0'
+          }`}
         >
           <ul className="flex flex-col w-full p-2 md:p-4">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className="block px-2 md:px-4 py-3 h5 text-foreground-1 hover:bg-background-2 rounded-md transition-[background-color] transition-duration-[50ms] focusState"
+                  className={`block px-4 md:px-4 py-3 h6 text-foreground-1 hover:bg-background-2 rounded-md transition-all duration-300 ease-out transform
+                  ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {label}
@@ -254,7 +290,7 @@ export default function Navbar({ demo }: NavbarProps) {
             ))}
             <li className="flex px-2 md:px-4 py-3 w-full">
               <Button
-                className="w-full"
+                className={`w-full !transition-all !duration-300 ease-out transform ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                 variant="primary"
                 href="/apply"
                 label="Apply"
@@ -263,7 +299,7 @@ export default function Navbar({ demo }: NavbarProps) {
             </li>
           </ul>
         </div>
-      )}
+      </div>
     </>
   );
 }

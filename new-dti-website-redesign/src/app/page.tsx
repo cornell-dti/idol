@@ -50,7 +50,7 @@ export default function Home() {
               size="small"
               className="transform scale-95 group-hover:scale-100 group-active:scale-[0.97] group-active:brightness-[0.8]focus-visible:opacity-100 !transition-all !duration-300"
             />
-            
+
             <a href="/products" className="absolute inset-0 z-0" tabIndex={-1} aria-disabled></a>
           </div>
         </div>
