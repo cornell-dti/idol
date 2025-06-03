@@ -7,9 +7,9 @@ import FeatureSection from '../../components/FeatureSection';
 
 export const metadata = {
   title: 'Team - Cornell DTI',
-  description: "Meet Cornell DTI's team of 80+ student designers, developers, PMs, and marketers building tech and driving innovation at Cornell and beyond."
+  description:
+    "Meet Cornell DTI's team of 80+ student designers, developers, PMs, and marketers building tech and driving innovation at Cornell and beyond."
 };
-
 
 export default function Team() {
   return (

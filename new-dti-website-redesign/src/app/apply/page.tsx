@@ -14,7 +14,7 @@ import Accordion from '../../components/Accordion';
 
 export const metadata = {
   title: 'Apply - Cornell DTI',
-  description: "Apply to Cornell DTI and join a diverse team of students building tech for impact."
+  description: 'Apply to Cornell DTI and join a diverse team of students building tech for impact.'
 };
 
 type FAQ = {
