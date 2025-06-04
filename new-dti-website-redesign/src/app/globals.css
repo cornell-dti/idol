@@ -3,8 +3,8 @@
 :root {
   /* BACKGROUND */
   --background-1: #0d0d0d; /* Use as default background page background color */
-  --background-2: #181818; /* Use for an elevated surface, or for hover states */
-  --background-3: #242424; /* Use for highest elevated surfaces, or for higher hover states */
+  --background-2: #202020; /* Use for an elevated surface, or for hover states */
+  --background-3: #282828; /* Use for highest elevated surfaces, or for higher hover states */
   --background-3-transparent: rgba(41 41 41 / 0.4); /* Use for overlays (eg: <Banner>) */
 
   /* FOREGROUND */
@@ -31,7 +31,7 @@
   --accent-purple-transparent: rgba(195, 114, 252, 0.2);
 
   /* BREAKPOINT VARIABLES */
-  --breakpoint-sm: 380px;
+  --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1440px;
 }
