@@ -2,7 +2,7 @@
 module.exports = {
   theme: {
     screens: {
-      sm: '480px',
+      sm: '480px'
     }
   }
 };
