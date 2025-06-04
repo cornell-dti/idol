@@ -296,9 +296,6 @@ article:not(:last-child) {
   }
 }
 
-@media only screen and (max-width: 640px) {
-}
-
 @media only screen and (max-width: 480px) {
   footer {
     margin: 0;
