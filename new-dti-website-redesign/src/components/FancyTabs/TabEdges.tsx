@@ -15,7 +15,7 @@ const TabEdge: React.FC<TabEdgeProps> = ({ variant }) => {
         viewBox="0 0 60 42"
         fill="none"
       >
-        <g clip-path="url(#clip0_2816_5179)">
+        <g clipPath="url(#clip0_2816_5179)">
           <mask id="mask0_2816_5179" maskUnits="userSpaceOnUse" x="0" y="-1" width="60" height="43">
             <path
               d="M59 0H51.9217C44.228 0 37.2164 4.41324 33.889 11.3501L25.1111 29.6498C21.7836 36.5868 14.772 41 7.0783 41H0H59V0Z"
@@ -87,7 +87,7 @@ const TabEdge: React.FC<TabEdgeProps> = ({ variant }) => {
       viewBox="0 0 60 42"
       fill="none"
     >
-      <g clip-path="url(#clip0_2816_5162)">
+      <g clipPath="url(#clip0_2816_5162)">
         <mask id="mask0_2816_5162" maskUnits="userSpaceOnUse" x="0" y="-1" width="60" height="43">
           <path
             d="M1 0H8.0783C15.772 0 22.7836 4.41324 26.111 11.3501L34.8889 29.6498C38.2164 36.5868 45.228 41 52.9217 41H60H1V0Z"

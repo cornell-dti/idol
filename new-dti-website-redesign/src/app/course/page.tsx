@@ -1,29 +1,24 @@
 import CtaSection from '../../components/CtaSection';
-import FeatureCard from '../../components/FeatureCard';
 import FeatureSection from '../../components/FeatureSection';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
-import Marquee from '../../components/Marquee';
 import SectionSep from '../../components/SectionSep';
-import TestimonialCard from '../../components/TestimonialCard';
-import Timeline from '../../components/course/Timeline';
-import RocketIcon from '../design-system/components/icon/RocketIcon';
-
-import testimonialData from './data/testimonialData.json';
 import trendsData from '../../../config.json';
 import allMembers from '../team/data/all-members.json';
 import config from './data/config.json';
 import timelineData from './data/timeline_events.json';
 import CourseStaff from '../../components/course/CourseStaff';
-import StudentProjectsSection from '../../components/course/StudentProjectsSection';
+import PastStudentExperiences from './PastStudentExperiences';
+import PastStudentProjects from './PastStudentProjects';
+import DetailsAboutTrends from './DetailsAboutTrends';
 
 export const metadata = {
-  title: 'DTI COURSE PAGE',
-  description: 'DESCRIPTION'
+  title: 'Course - Cornell DTI',
+  description:
+    "Explore Cornell DTI's 1-credit course on full-stack web development using React, Node.js, and Firebase. Learn best practices and build real projects."
 };
 
 //* DATA
-const { timeline_events } = timelineData;
 const courseStaff = allMembers
   .filter((member) => trendsData.trends_instructors.includes(member.netid))
   .sort(
@@ -61,89 +56,21 @@ export default function Course() {
 
       <SectionSep />
 
-      <section>
-        <h2 className="p-8">Details about Trends</h2>
-        <Timeline events={timeline_events} currentDate={new Date()} />
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <FeatureCard
-            title="Best Practices"
-            body="We emphasize best engineering practices for every element, from API design to frontend modularization."
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-                <path d="m15 5 4 4" />
-              </svg>
-            }
-          />
-          <FeatureCard
-            title="Deploy"
-            body="Learn how to deploy your web applications ot the cloud using service provider such as Heroku or the Google Cloud Platform."
-            icon={<RocketIcon />}
-          />
-          <FeatureCard
-            title="Final Project"
-            body="The class ends with a final project project consolidating all class topics, which can be used on your resume or portfolio."
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M10 7.75a.75.75 0 0 1 1.142-.638l3.664 2.249a.75.75 0 0 1 0 1.278l-3.664 2.25a.75.75 0 0 1-1.142-.64z" />
-                <path d="M12 17v4" />
-                <path d="M8 21h8" />
-                <rect x="2" y="3" width="20" height="14" rx="2" />
-              </svg>
-            }
-          />
-        </div>
-      </section>
+      <DetailsAboutTrends timelineEvents={timelineData.timeline_events} />
+
       <SectionSep />
       <section>
-        <h2 className="p-8">Course staff</h2>
+        <h2 className="p-4 sm:p-8">Course staff</h2>
         <CourseStaff courseStaff={courseStaff} />
       </section>
 
       <SectionSep />
-      <section>
-        <h2 className="p-8">Past student experiences</h2>
-        <Marquee height={370}>
-          {testimonialData.testimonials.map(
-            ({ description, profileImage, name, semesterTaken }, index) => (
-              <TestimonialCard
-                key={index}
-                quote={description}
-                picture={profileImage}
-                name={name}
-                date={semesterTaken}
-              />
-            )
-          )}
-        </Marquee>
-      </section>
 
-      <section>
-        <div className="flex flex-col gap-y-8 p-4 sm:py-14 sm:px-16">
-          <h2>Past student projects</h2>
-          <StudentProjectsSection />
-        </div>
-      </section>
+      <PastStudentExperiences />
+
+      <SectionSep />
+
+      <PastStudentProjects />
 
       <CtaSection
         heading="Ready to join?"

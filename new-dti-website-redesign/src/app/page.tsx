@@ -2,15 +2,16 @@ import React from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import FeatureSection from '../components/FeatureSection';
-import SectionSep from '../components/SectionSep';
 import CtaSection from '../components/CtaSection';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
 import logos from './products/logos.json';
+import Button from '../components/Button';
 
 export const metadata = {
-  title: 'DIT HOMEPAGE',
-  description: 'DESCRIPTION'
+  title: 'Cornell DTI',
+  description:
+    'Cornell Digital Tech & Innovation (DTI) is a student-led team building impactful tech, teaching modern dev skills, and driving innovation at Cornell and beyond.'
 };
 
 export default function Home() {
@@ -30,15 +31,30 @@ export default function Home() {
           button2Label="Meet the team"
           button2Link="/team"
           image="/home/hero.png"
+          nextSectionCurved={false}
         />
 
-        <Marquee height={96}>
-          {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} noLink border={false} />
-          ))}
-        </Marquee>
+        <div className="[&+*]:rounded-t-2xl [&+*]:overflow-hidden [&+*]:border-t-1 [&+*]:border-border-1 mb-16 relative group">
+          <Marquee height={96}>
+            {logos.map((logo, index) => (
+              <LogoBox key={index} {...logo} noLink border={false} noFocus={true} />
+            ))}
+          </Marquee>
 
-        <SectionSep />
+          <div className="opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300 bg-background-1/30 backdrop-blur-[10px] absolute inset-0 z-10 flex items-center justify-center group">
+            <Button
+              label="Explore our products"
+              href="/products"
+              variant="transparent"
+              size="small"
+              className="transform scale-95 group-hover:scale-100 group-active:scale-[0.97] group-active:brightness-[0.8]focus-visible:opacity-100 !transition-all !duration-300"
+            />
+
+            {/* We can put tabIndex={-1} and disable this link from being accessible from screen readers here
+            because we already have the Button that is keyboard focusable */}
+            <a href="/products" className="absolute inset-0 z-0" tabIndex={-1} aria-disabled />
+          </div>
+        </div>
 
         <FeatureSection
           eyebrowText="Courses"

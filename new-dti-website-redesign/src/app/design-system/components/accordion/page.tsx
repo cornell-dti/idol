@@ -15,7 +15,7 @@ const testAccordions = [
         exercises to further gauge your thought process and skill set.
       </p>
     ),
-    icon: '/apply/roles/designer.svg'
+    icon: '/apply/roles/design.svg'
   },
   {
     header: 'How do we evaluate the applications?',
@@ -34,7 +34,7 @@ const testAccordions = [
         </p>
       </>
     ),
-    icon: '/apply/roles/developer.svg'
+    icon: '/apply/roles/deveopment.svg'
   },
   {
     header: 'What could I do to learn more about DTI?',
@@ -47,7 +47,7 @@ const testAccordions = [
         person&apos;s experiences first.
       </p>
     ),
-    icon: '/apply/roles/pm.svg'
+    icon: '/apply/roles/product.svg'
   }
 ];
 

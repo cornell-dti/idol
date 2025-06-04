@@ -1,13 +1,12 @@
-import Image from 'next/image';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
-import SectionSep from '../../components/SectionSep';
 import FeatureSection from '../../components/FeatureSection';
 import CtaSection from '../../components/CtaSection';
 
 export const metadata = {
-  title: 'DTI INITIATIVES PAGE',
-  description: 'DESCRIPTION'
+  title: 'Initiatives - Cornell DTI',
+  description:
+    "Engage with Cornell DTI's initiatives, where we empower the Cornell and Ithaca communities through tech education, outreach, and real-world collaboration."
 };
 
 export default function Initiatives() {
@@ -23,30 +22,32 @@ export default function Initiatives() {
         image="/initiatives/hero.png"
       />
 
-      <section>
-        <Image
-          src="/initiatives/giving-back.png"
-          width={1184}
-          height={600}
-          alt="A DTI member mentoring children"
-        />
-
-        <div className="flex flex-col gap-2 p-8">
-          <h2 className="h3">Giving back to the community</h2>
-
-          <p className="text-foreground-2">
-            Young students can learn Scratch to create their own games and animations, and Figma to
-            make eye-catching visuals with shapes, colors, and more!
-          </p>
-
-          <p className="text-foreground-2">
-            We introduce code and design through beginner-friendly, interactive workshops with
-            Cornell students, providing individualized feedback
-          </p>
-        </div>
-      </section>
-
-      <SectionSep />
+      <FeatureSection
+        eyebrowIcon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-hand-heart-icon lucide-hand-heart"
+          >
+            <path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16" />
+            <path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+            <path d="m2 15 6 6" />
+            <path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z" />
+          </svg>
+        }
+        heading="Giving back to the community"
+        description="We introduce code and design through beginner-friendly, interactive workshops with Cornell students, providing individualized feedback."
+        image="/initiatives/giving-back.png"
+        imagePosition="right"
+        imageAlt="A DTI member mentoring children"
+      />
 
       <FeatureSection
         eyebrowIcon={
@@ -57,9 +58,9 @@ export default function Initiatives() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="lucide lucide-users-icon lucide-users"
           >
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -71,7 +72,6 @@ export default function Initiatives() {
         heading="Events"
         description='Our team helps host Half-Baked, an open space for individuals, project teams and organizations to present their "half-baked" ideas for further interdisciplinary collaboration.'
         image="/initiatives/courses.png"
-        imagePosition="right"
         imageAlt="A DTI member presenting at Half-Baked"
       />
 
@@ -84,9 +84,9 @@ export default function Initiatives() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="lucide lucide-presentation-icon lucide-presentation"
           >
             <path d="M2 3h20" />
@@ -97,6 +97,7 @@ export default function Initiatives() {
         heading="Workshops"
         description="BigRed//Hacks is Cornell's largest and most established student-run hackathon. It features various seminars about best practices in the industry and a competition where teams of students enter a programming project around a theme."
         image="/initiatives/workshops.png"
+        imagePosition="right"
         imageAlt="A DTI member holding a resume building workshop"
       />
 
@@ -109,9 +110,9 @@ export default function Initiatives() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="lucide lucide-lightbulb-icon lucide-lightbulb"
           >
             <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
@@ -122,7 +123,6 @@ export default function Initiatives() {
         heading="Initiatives"
         description="We collaborated with Millennium Management in Spring 2024. Members of Cornell DTI volunteered to participate in projects created by Millennium professionals introducing the team to relevant problems tackled in the industry."
         image="/initiatives/initiatives.png"
-        imagePosition="right"
         imageAlt="DTI members at the Millenium office"
       />
 

@@ -31,7 +31,12 @@ const CtaSection = ({
     if (sectionRef.current) {
       const prevSibling = sectionRef.current.previousElementSibling as HTMLElement | null;
       if (prevSibling) {
-        prevSibling.classList.add('rounded-b-2xl', 'overflow-hidden');
+        prevSibling.classList.add(
+          'rounded-b-2xl',
+          'overflow-hidden',
+          'border-b-1',
+          'border-border-1'
+        );
       }
     }
   }, []);
@@ -40,7 +45,7 @@ const CtaSection = ({
     <section
       ref={sectionRef}
       className="ctaSection flex flex-col-reverse md:flex-col h-125 justify-center
-  bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover relative mt-8"
+  bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover relative mt-16"
     >
       <div
         className="absolute inset-0 w-full h-full z-[5]"

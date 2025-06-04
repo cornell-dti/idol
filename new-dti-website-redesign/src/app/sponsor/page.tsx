@@ -1,22 +1,16 @@
+import Image from 'next/image';
 import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
-import LogoBox from '../../components/LogoBox';
+import SponsorsList from './SponsorsList';
+import SponsorFeatures from './SponsorFeatures';
 
 export const metadata = {
-  title: 'DTI SPONSOR PAGE',
-  description: 'DESCRIPTION'
+  title: 'Sponsor - Cornell DTI',
+  description:
+    'Support Cornell DTI to fuel student innovation and tech education, while connecting with top talent and building your brand.'
 };
-
-const logos = [
-  { src: '/sponsor/logos/google.svg', alt: 'Google logo', width: 130, height: 42 },
-  { src: '/sponsor/logos/asana.svg', alt: 'Asana logo', width: 190, height: 74 },
-  { src: '/sponsor/logos/zeplin.svg', alt: 'Zeplin logo', width: 200, height: 100 },
-  { src: '/sponsor/logos/capital-one.svg', alt: 'Capital One logo', width: 172, height: 60 },
-  { src: '/sponsor/logos/invision.svg', alt: 'InVision logo', width: 155, height: 52 },
-  { src: '/sponsor/logos/millennium.svg', alt: 'Millennium logo', width: 206, height: 32 }
-];
 
 export default function Sponsor() {
   return (
@@ -31,15 +25,27 @@ export default function Sponsor() {
         image="/sponsor/hero.png"
       />
 
-      <section className="temporarySection">
-        <h4>Become a sponsor! section</h4>
+      <section>
+        <Image
+          src="/sponsor/become-a-sponsor.png"
+          width={1184}
+          height={600}
+          alt="A DTI information session presenting the project team"
+        />
+
+        <div className="flex flex-col gap-2 p-4 sm:p-8 border-t-1 border-border-1">
+          <h2 className="h3">Become a sponsor!</h2>
+
+          <p className="text-foreground-3">
+            We would love to partner with organizations that share our vision of changing the world.
+            Together, we can harness the power of technology to drive change in our communities.
+          </p>
+        </div>
       </section>
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>row of 3 cards section</h4>
-      </section>
+      <SponsorFeatures />
 
       <SectionSep />
 
@@ -49,16 +55,7 @@ export default function Sponsor() {
 
       <SectionSep />
 
-      <section>
-        <div className="grid min-[1000px]:grid-cols-4">
-          <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-8">
-            <h2 className="h4 text-center">Thank you to our sponsors!</h2>
-          </div>
-          {logos.map((logo, index) => (
-            <LogoBox key={index} {...logo} fillWidth />
-          ))}
-        </div>
-      </section>
+      <SponsorsList />
 
       <CtaSection
         heading="Ready to join?"

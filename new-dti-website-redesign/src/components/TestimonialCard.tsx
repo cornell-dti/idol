@@ -17,7 +17,9 @@ export default function TestimonialCard({
 }: testimonialCardProps) {
   const sharedClasses = `${className}`;
   return (
-    <article className={`p-8 max-w-[480px] h-[370px] border border-border-1 ${sharedClasses}`}>
+    <article
+      className={`p-8 max-w-[480px] h-[371px] border-r-1  border-y-1 border-border-1 ${sharedClasses}`}
+    >
       <figure className="flex flex-col gap-8 justify-between h-full">
         <div className="flex flex-col gap-8">
           <svg
