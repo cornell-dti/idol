@@ -3,15 +3,13 @@
 :root {
   /* BACKGROUND */
   --background-1: #0d0d0d; /* Use as default background page background color */
-  --background-2: #181818; /* Use for an elevated surface, or for hover states */
-  --background-3: #292929; /* Use for highest elevated surfaces, or for higher hover states */
+  --background-2: #202020; /* Use for an elevated surface, or for hover states */
+  --background-3: #282828; /* Use for highest elevated surfaces, or for higher hover states */
   --background-3-transparent: rgba(41 41 41 / 0.4); /* Use for overlays (eg: <Banner>) */
 
   /* FOREGROUND */
-  --foreground-1: #ffffff; /* Use for default text color */
-  --foreground-2: #cccccc; /* Slightly less emphasis than foreground-1
-                                Use for secondary text when foreground-3 is too subtle
-                                Also used for the hover state of the Button (primary variant) */
+  --foreground-1: #e6e6e6; /* Use for default text color */
+  --foreground-2: #ffffff; /* Used for the hover state of the Button (primary variant) */
   --foreground-3: #a1a1a1; /* Use as default color for all secondary text */
 
   /* BORDER */
@@ -31,6 +29,11 @@
   --accent-yellow-transparent: rgba(255, 147, 0, 0.2);
   --accent-purple: #c372fc; /* Product team color */
   --accent-purple-transparent: rgba(195, 114, 252, 0.2);
+
+  /* BREAKPOINT VARIABLES */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1440px;
 }
 
 /* This is so we can use the variables inline in the className attribute
@@ -72,9 +75,13 @@ Usage examples (remove the "color-" prefix when using in className):
   --color-accent-purple-transparent: var(--accent-purple-transparent);
 
   /* BREAKPOINT VARIABLES */
-  --breakpoint-sm: 390px;
+  --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1440px;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -163,7 +170,7 @@ p {
 }
 
 p.small {
-  font-size: 13.33px;
+  font-size: 14px;
 }
 
 p.caps {
@@ -183,19 +190,66 @@ a {
 
 section:not(.hero):not(.ctaSection),
 .sectionStyles {
-  outline: 0.5px solid var(--border-1);
+  border-left: 1px solid var(--border-1);
+  border-right: 1px solid var(--border-1);
+  border-bottom: 1px solid var(--border-1);
+}
+
+.sectionSep {
+  border-bottom: 1px solid var(--border-1);
 }
 
 section:not(.hero):not(.ctaSection),
-.sectionSep {
+.sectionSep,
+.sectionStyles {
   max-width: 1184px;
   margin: auto;
+}
+
+/* Makes the first section right after hero have a curver border */
+.nextSectionCurved + * {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  overflow: hidden;
+  border-top: 1px solid var(--border-1);
+}
+
+.interactive {
+  transition:
+    background-color 120ms ease-in-out,
+    transform 120ms ease-in-out,
+    filter 120ms ease-in-out,
+    color 120ms ease-in-out;
 }
 
 a:focus-visible,
 .focusState:focus-visible {
   outline: 2px solid var(--foreground-1);
   outline-offset: 3px;
+}
+
+.innerFocusState:focus-visible {
+  outline: 2px solid var(--foreground-1);
+  outline-offset: -2px;
+}
+
+/* So that the focus state outline isn't clipped when the 
+parent container is rounded */
+.onFocusRounded-t-l:focus-visible {
+  border-top-left-radius: 16px;
+}
+
+.onFocusRounded-t-r:focus-visible {
+  border-top-right-radius: 16px;
+}
+
+.onFocusRounded-b-r:focus-visible {
+  border-bottom-right-radius: 16px;
+}
+
+.activeState:active:not(:disabled):not([aria-disabled='true']) {
+  transform: scale(0.97);
+  filter: brightness(80%);
 }
 
 /* Hacky way to avoid the gap between different
@@ -219,4 +273,39 @@ subsections of the carousel */
 /* Remove scrollbar on FancyTabs container to create cleaner UI */
 .fancyTabsContainer::-webkit-scrollbar {
   display: none;
+}
+
+article:not(:last-child) {
+  border-right: 1px solid var(--border-1);
+}
+
+@media only screen and (max-width: 1184px) {
+  section:not(.hero):not(.ctaSection),
+  .sectionSep,
+  .sectionStyles,
+  footer {
+    margin: 0 32px;
+    width: calc(100% - 64px);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  article:not(:last-child):not(.sectionStyles) {
+    border-right: none;
+    border-bottom: 1px solid var(--border-1);
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  footer {
+    margin: 0;
+    width: 100%;
+  }
+
+  section:not(.hero):not(.ctaSection),
+  .sectionSep,
+  .sectionStyles {
+    margin: 0 16px;
+    width: calc(100% - 32px);
+  }
 }

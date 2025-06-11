@@ -33,10 +33,10 @@ export default function RootLayout({
         <a
           id="skip-to-main"
           href="#main-content"
-          className={`${baseStyles} absolute -inset-4 opacity-0 z-70
+          className={`${baseStyles} absolute -inset-4 opacity-0 z-[-1]
           focus-visible:opacity-100 ${
             skipToMainOffset ? 'focus-visible:top-20' : 'focus-visible:top-4'
-          } focus-visible:left-4 transition-all duration-[120ms] px-6 h-12 bg-foreground-1 text-background-1 hover:bg-foreground-2 w-fit`}
+          } focus-visible:left-4 focus-visible:z-70 transition-all duration-[120ms] px-6 h-12 bg-foreground-1 text-background-1 hover:bg-foreground-2 w-fit`}
         >
           Skip to main content
         </a>

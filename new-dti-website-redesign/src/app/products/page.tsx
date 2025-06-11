@@ -1,16 +1,15 @@
 import React from 'react';
 import SectionSep from '../../components/SectionSep';
 import Layout from '../../components/Layout';
-import products from './products.json';
-import Product from './Product';
 import Hero from '../../components/Hero';
 import CtaSection from '../../components/CtaSection';
-import LogoBox from '../../components/LogoBox';
-import logos from './logos.json';
+import LogoBoxes from './LogoBoxes';
+import ProductsList from './ProductsList';
 
 export const metadata = {
-  title: 'DTI PRODUCTS PAGE',
-  description: 'DESCRIPTION'
+  title: 'Products - Cornell DTI',
+  description:
+    'Discover student-built products from Cornell DTI: tools that solve real problems through human-centered design and modern software engineering.'
 };
 
 export default function Products() {
@@ -26,25 +25,11 @@ export default function Products() {
         image="/products/hero.png"
       />
 
-      <section className="grid grid-cols-4">
-        {logos.map((logo, index) => (
-          <LogoBox
-            key={index}
-            {...logo}
-            fillWidth
-            ariaLabel={`Jump to ${logo.alt.replace(/ logo$/i, '')} product`}
-          />
-        ))}
-      </section>
+      <LogoBoxes />
 
       <SectionSep />
 
-      {products.map((product, index) => (
-        <React.Fragment key={product.name}>
-          <Product {...product} />
-          {index < products.length - 1 && <SectionSep grid />}
-        </React.Fragment>
-      ))}
+      <ProductsList />
 
       <CtaSection
         heading="Ready to join?"

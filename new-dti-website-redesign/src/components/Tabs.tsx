@@ -50,7 +50,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <div className="flex p-4">
+      <div className="flex p-4 !pt-8 sm:p-8">
         <div
           ref={containerRef}
           className={`flex flex-1 relative w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className}`}

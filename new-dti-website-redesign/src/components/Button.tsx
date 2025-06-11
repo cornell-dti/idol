@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 
-export const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2 transition-[background-color] duration-[120ms] focusState text-nowrap`;
+export const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2 interactive activeState focusState text-nowrap`;
 
 type ButtonProps = {
   label: string;
@@ -44,7 +44,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
         !disabled ? 'hover:bg-background-3' : ''
       }`,
       tertiary: `bg-transparent border border-border-1 text-foreground-1 ${
-        !disabled ? 'hover:bg-background-2 ' : ''
+        !disabled ? 'hover:bg-background-2' : ''
       }`,
       transparent: `bg-[rgba(255,255,255,0.1)] border-1 border-[rgba(255,255,255,0.1)] backdrop-blur-[32px] ${
         !disabled ? 'hover:bg-[rgba(255,255,255,0.15)]' : ''

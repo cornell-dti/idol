@@ -12,6 +12,9 @@ type Logo = {
   noLink?: boolean;
   ariaLabel?: string;
   border?: boolean;
+  outerLinkClassName?: string; // applies classes on the wrapping <a>
+  className?: string; // applies classes on <div> in const content
+  noFocus?: boolean;
 };
 
 const LogoBox: React.FC<Logo> = ({
@@ -23,18 +26,21 @@ const LogoBox: React.FC<Logo> = ({
   href,
   noLink,
   ariaLabel,
-  border = true
+  border = true,
+  outerLinkClassName,
+  className,
+  noFocus
 }) => {
   const content = (
     <div
       className={`flex items-center justify-center h-24 p-4 border-r-0 ${
         border ? 'border-border-1 border-l-1 border-b-1' : ''
-      }`}
+      } ${className}`}
       style={{ width: fillWidth ? '100%' : '160px' }}
     >
       <Image
         src={src}
-        alt={alt}
+        alt={noFocus ? '' : alt}
         unoptimized
         width={width}
         height={height}
@@ -50,7 +56,7 @@ const LogoBox: React.FC<Logo> = ({
   return (
     <Link
       href={href}
-      className="hover:bg-background-2 transition-[background-color] duration-[120ms] focusState"
+      className={`hover:bg-background-2 transition-[background-color] duration-[120ms] innerFocusState ${outerLinkClassName}`}
       {...(ariaLabel ? { 'aria-label': ariaLabel } : {})}
     >
       {content}

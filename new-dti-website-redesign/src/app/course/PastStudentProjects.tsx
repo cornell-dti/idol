@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import FancyTabs from '../FancyTabs/FancyTabs';
-import studentProjectData from '../../app/course/data/student_projects.json';
-import Button from '../Button';
+import FancyTabs from '../../components/FancyTabs/FancyTabs';
+import studentProjectData from './data/student_projects.json';
+import Button from '../../components/Button';
 
 type Project = {
   title: string;
@@ -12,7 +12,7 @@ type Project = {
   link?: string;
 };
 
-export default function StudentProjectsSection() {
+export default function PastStudentProjects() {
   const { student_projects }: { student_projects: Project[] } = studentProjectData;
 
   const tabs = student_projects.map((project) => ({
@@ -22,7 +22,7 @@ export default function StudentProjectsSection() {
         <div className="relative w-full h-[256px] md:h-[582px]">
           <Image src={project.imageSrc} alt={project.title} fill className="object-cover" />
         </div>
-        <div className="p-4 flex flex-col gap-2">
+        <div className="p-8 flex flex-col gap-2">
           <h3>{project.title}</h3>
           <div className="flex flex-col gap-4">
             <p className="text-foreground-3">{project.description}</p>
@@ -38,5 +38,16 @@ export default function StudentProjectsSection() {
     )
   }));
 
-  return <FancyTabs tabs={tabs} />;
+  return (
+    <section>
+      <div className="flex flex-col gap">
+        <div className="p-4 sm:p-8 pb-8 md:pb-0">
+          <h2>Past student projects</h2>
+        </div>
+        <div className="p-0 md:p-8">
+          <FancyTabs tabs={tabs} />
+        </div>
+      </div>
+    </section>
+  );
 }

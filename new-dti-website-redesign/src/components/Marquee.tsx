@@ -20,7 +20,7 @@ const Marquee: React.FC<MarqueeProps> = ({ children, height }) => {
 
   return (
     <div style={{ height }}>
-      <div className="w-full z-5 bg-background-1 border-t border-b border-border-1 absolute left-0 controlChildDivWidth overflow-y-hidden">
+      <div className="w-full z-5 bg-background-1 absolute left-0 controlChildDivWidth overflow-y-hidden">
         <ReactFastMarquee
           gradient
           gradientWidth={128}
