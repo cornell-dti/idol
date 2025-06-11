@@ -1,5 +1,5 @@
 import FancyTabs from '../../components/FancyTabs/FancyTabs';
-import { applicationsOpen } from './page';
+import config from '../../../config.json';
 import RoleDescriptionCard from './RoleDescriptionCard';
 import roles from './roleDescriptions.json';
 
@@ -7,7 +7,7 @@ export default function RoleDescriptionsSection() {
   return (
     <section
       className={`flex flex-col md:items-center ${
-        applicationsOpen ? 'scroll-mt-18' : 'scroll-mt-32'
+        config.applicationsOpen ? 'scroll-mt-18' : 'scroll-mt-32'
       }`}
       id="role-descriptions"
     >
