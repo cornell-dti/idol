@@ -11,7 +11,7 @@ export const metadata = {
   description: 'Apply to Cornell DTI and join a diverse team of students building tech for impact.'
 };
 
-const applicationsOpen = false;
+export const applicationsOpen = false;
 
 export default function Apply() {
   return (
@@ -27,7 +27,7 @@ export default function Apply() {
         button1Link="/apply"
         button1Disabled={!applicationsOpen}
         button2Label="Role descriptions"
-        button2Link="/"
+        button2Link="#role-descriptions"
         image="/apply/hero.png"
       />
 
