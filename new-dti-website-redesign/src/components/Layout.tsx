@@ -9,7 +9,7 @@ type Props = {
 
 const Layout = ({ children }: Props): React.ReactElement => (
   <>
-    <main role="main" id="main-content">
+    <main role="main" id="main-content" className="relative">
       {children}
     </main>
 
