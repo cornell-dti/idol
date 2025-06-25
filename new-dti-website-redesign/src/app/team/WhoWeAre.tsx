@@ -85,7 +85,7 @@ const generateRoleStats = (members: IdolMember[]): RoleStatistics => {
     }, baseStats);
 };
 
-   
+
 const PieChart = ({
     width,
     height,
@@ -155,7 +155,7 @@ const PieChart = ({
                         <text
                             x={textLocation[0]}
                             y={textLocation[1]}
-                            className={`font-bold text-lg fill-white`}
+                            className={`font-bold text-xl ${getColorClass(roleKey as Role).replace('accent-', 'fill-accent-')}`}
                             style={{ textAnchor: 'middle' }}
                         >
                             {`${Math.round(percentage * 100)}%`}
@@ -173,8 +173,8 @@ export default function WhoWeAre() {
     const roleStats = generateRoleStats(allMembers);
 
     return (
-        <section>
-            <div className="flex flex-col gap-2 p-8">
+        <div>
+            <section className="flex flex-col gap-2 p-8">
                 <h2>Who we are</h2>
                 <p className="text-foreground-3">
                     More than just being inclusive, our team strives to bring many backgrounds and
@@ -182,8 +182,30 @@ export default function WhoWeAre() {
                     across campus and seeking applicants with the best skills and potential for growth on
                     the team. Updated {config.semester}.
                 </p>
-            </div>
-            <div className="flex justify-center">
+            </section>
+            <section className="flex md:flex-row flex-col items-center justify-between">
+                <div className="flex md:flex-col flex-row basis-1/4 w-full">
+                    <div className="text-left p-2 md:p-8 basis-1/3">
+                        <h1>
+                            {chartSection ? roleStats[chartSection].people : allMembers.length}
+                        </h1>
+                        <h5 className="text-foreground-3">Members</h5>
+                    </div>
+                    <div className="text-left p-2 md:p-8 basis-1/3">
+                        <h1>
+                            {chartSection ? roleStats[chartSection].majors.size : countMajors(allMembers).size}
+                        </h1>
+                        <h5 className="text-foreground-3">Different majors</h5>
+                    </div>
+                    <div className="text-left p-2 md:p-8 basis-1/3">
+                        <h1>
+                            {chartSection ? roleStats[chartSection].colleges.size : countColleges(allMembers).size}
+                        </h1>
+                        <h5 className="text-foreground-3">
+                            Represented colleges
+                        </h5>
+                    </div>
+                </div>
                 <PieChart
                     width={400}
                     height={400}
@@ -192,8 +214,39 @@ export default function WhoWeAre() {
                     roleStats={roleStats}
                     allMembers={allMembers}
                 />
-            </div>
-        </section>
+
+
+                <div className="md:basis-1/4 p-4 md:p-8 flex flex-col gap-4 w-full">
+                    {(Object.keys(roleStats) as GeneralRole[]).map((role) => {
+                        const rawRole = allMembers.find((m) => getGeneralRole(m.role) === role)?.role;
+                        return (
+                            <div
+                                key={role}
+                                className="flex gap-4 items-center"
+                                onMouseEnter={() => setChartSection(role)}
+                                onMouseLeave={() => setChartSection(undefined)}
+                            >
+                                <div
+                                    className={`w-8 h-8 rounded-sm border-[1px] ${getColorClass(rawRole as Role).replace('accent-', 'border-accent-')}`}
+                                    style={{
+                                        backgroundColor: roleStats[role].color
+                                    }}
+                                />
+                                <h5
+                                    className={`${chartSection === role
+                                            ? getColorClass(rawRole as Role).replace('accent-', 'text-accent-')
+                                            : 'text-foreground-3'
+                                        }`}
+                                >
+                                    {roleStats[role].name}
+                                </h5>
+                            </div>
+                        );
+                    })}
+                </div>
+            </section>
+        </div>
+
 
     );
 
