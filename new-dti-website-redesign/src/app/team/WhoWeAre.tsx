@@ -158,7 +158,7 @@ const PieChart = ({
                             y1="0"
                             x2={point2[0]}
                             y2={point2[1]}
-                            stroke={`var(--${getColorClass(roleKey as Role).replace('accent-', 'accent-')})`}
+                            stroke={getColorClass(roleKey as Role).replace('accent-', 'var(--accent-')}
                             strokeWidth="1"
                         />
                         <text
