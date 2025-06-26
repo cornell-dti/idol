@@ -17,13 +17,6 @@ type RoleStatistics = {
     };
 };
 
-const roleNames: { [key in GeneralRole]: string } = {
-    lead: 'Leads',
-    developer: 'Development',
-    designer: 'Design',
-    business: 'Business',
-    pm: 'Product',
-};
 
 const countMajors = (members: IdolMember[], role?: GeneralRole): Set<string> => {
     return members.reduce((acc, val) => {
@@ -74,7 +67,7 @@ const generateRoleStats = (members: IdolMember[]): RoleStatistics => {
     };
 
     return (Object.keys(baseStats) as GeneralRole[]).reduce((acc, role) => {
-        const peopleCount = members.filter((m) => getGeneralRole(m.role) === role).length;
+        const peopleCount = members.filter((mem) => getGeneralRole(mem.role) === role).length;
         acc[role] = {
             ...baseStats[role],
             people: peopleCount,
@@ -152,6 +145,22 @@ const PieChart = ({
                                 } 1 ${pointAsString(point2)} L 0 0`}
                             fill={roleStats[role].color}
                         />
+                        <path
+                            d={`M ${pointAsString(point1)} A ${currentRadius} ${currentRadius} 0 ${theta > Math.PI ? `1` : `0`
+                                } 1 ${pointAsString(point2)}`}
+                            fill="none"
+                            stroke={getColorClass(roleKey as Role).replace('accent-', 'var(--accent-')}
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                        />
+                        <line
+                            x1="0"
+                            y1="0"
+                            x2={point2[0]}
+                            y2={point2[1]}
+                            stroke={`var(--${getColorClass(roleKey as Role).replace('accent-', 'accent-')})`}
+                            strokeWidth="1"
+                        />
                         <text
                             x={textLocation[0]}
                             y={textLocation[1]}
@@ -183,21 +192,27 @@ export default function WhoWeAre() {
                     the team. Updated {config.semester}.
                 </p>
             </section>
-            <section className="flex md:flex-row flex-col items-center justify-between">
+            <section className="flex md:flex-row flex-col items-center justify-between" style={{ border: 'none !important' }}>
                 <div className="flex md:flex-col flex-row basis-1/4 w-full">
-                    <div className="text-left p-2 md:p-8 basis-1/3">
+                    <div className="text-left p-2 md:p-8 basis-1/3 border-r border-b border-l" style={{
+                        borderColor: 'var(--border-1, #2E2E2E)',
+                    }}>
                         <h1>
                             {chartSection ? roleStats[chartSection].people : allMembers.length}
                         </h1>
                         <h5 className="text-foreground-3">Members</h5>
                     </div>
-                    <div className="text-left p-2 md:p-8 basis-1/3">
+                    <div className="text-left p-2 md:p-8 basis-1/ border-r border-b md:border-l" style={{
+                        borderColor: 'var(--border-1, #2E2E2E)',
+                    }}>
                         <h1>
                             {chartSection ? roleStats[chartSection].majors.size : countMajors(allMembers).size}
                         </h1>
                         <h5 className="text-foreground-3">Different majors</h5>
                     </div>
-                    <div className="text-left p-2 md:p-8 basis-1/3">
+                    <div className="text-left p-2 md:p-8 basis-1/ border-r border-b md:border-l" style={{
+                        borderColor: 'var(--border-1, #2E2E2E)',
+                    }}>
                         <h1>
                             {chartSection ? roleStats[chartSection].colleges.size : countColleges(allMembers).size}
                         </h1>
@@ -206,19 +221,24 @@ export default function WhoWeAre() {
                         </h5>
                     </div>
                 </div>
-                <PieChart
-                    width={400}
-                    height={400}
-                    chartSection={chartSection}
-                    setChartSection={setChartSection}
-                    roleStats={roleStats}
-                    allMembers={allMembers}
-                />
+                <div className="md:basis-1/2 flex justify-center items-center self-stretch justify-center border-b border-l border-r md:border-r-0 md:border-l-0" style={{
+                    borderColor: 'var(--border-1, #2E2E2E)',
+                }}>
+                    <PieChart
+                        width={400}
+                        height={400}
+                        chartSection={chartSection}
+                        setChartSection={setChartSection}
+                        roleStats={roleStats}
+                        allMembers={allMembers}
+                    />
+                </div>
 
-
-                <div className="md:basis-1/4 p-4 md:p-8 flex flex-col gap-4 w-full">
+                <div className="md:basis-1/4 p-4 md:p-8 flex flex-col gap-4 self-stretch justify-center border-l border-b border-r" style={{
+                    borderColor: 'var(--border-1, #2E2E2E)',
+                }}>
                     {(Object.keys(roleStats) as GeneralRole[]).map((role) => {
-                        const rawRole = allMembers.find((m) => getGeneralRole(m.role) === role)?.role;
+                        const rawRole = allMembers.find((mem) => getGeneralRole(mem.role) === role)?.role;
                         return (
                             <div
                                 key={role}
@@ -234,8 +254,8 @@ export default function WhoWeAre() {
                                 />
                                 <h5
                                     className={`${chartSection === role
-                                            ? getColorClass(rawRole as Role).replace('accent-', 'text-accent-')
-                                            : 'text-foreground-3'
+                                        ? getColorClass(rawRole as Role).replace('accent-', 'text-accent-')
+                                        : 'text-foreground-3'
                                         }`}
                                 >
                                     {roleStats[role].name}
