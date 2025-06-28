@@ -3,6 +3,12 @@ import React, { useState } from 'react';
 import members from './data/all-members.json';
 import config from '../../../config.json';
 import { getGeneralRole, getColorClass } from '../../utils/memberUtils';
+import useScreenSize from '../../hooks/useScreenSize';
+
+const LAPTOP_BREAKPOINT = 948;
+
+const LARGE_CHART_SIZE = 400;
+const SMALL_CHART_SIZE = 300;
 
 const chartRadius = 175;
 const chartHoverRadius = 190;
@@ -124,7 +130,12 @@ const PieChart = ({
     return [arcPoint1, arcPoint2, textLocation];
   };
   return (
-    <svg height={height} width={width} viewBox="-200 -200 400 400">
+    <svg
+      height={height}
+      width={width}
+      viewBox="-200 -200 400 400"
+      className="max-w-full max-h-full"
+    >
       {Object.keys(roleStats).map((roleKey) => {
         const role = roleKey as GeneralRole;
         const percentage = roleStats[role].people / allMembers.length;
@@ -179,7 +190,10 @@ const PieChart = ({
 export default function WhoWeAre() {
   const [chartSection, setChartSection] = useState<GeneralRole | undefined>(undefined);
   const allMembers = members as IdolMember[];
+  const { width } = useScreenSize();
   const roleStats = generateRoleStats(allMembers);
+
+  const chartSize = width >= LAPTOP_BREAKPOINT ? LARGE_CHART_SIZE : SMALL_CHART_SIZE;
 
   return (
     <div>
@@ -196,9 +210,9 @@ export default function WhoWeAre() {
         className="flex md:flex-row flex-col items-center justify-between"
         style={{ border: 'none !important' }}
       >
-        <div className="flex md:flex-col flex-row basis-1/4 w-full">
+        <div className="md:basis-1/4 flex md:flex-col flex-row flex-wrap w-full max-w-full">
           <div
-            className="text-left p-2 md:p-8 basis-1/3 border-r border-b border-l"
+            className="text-left p-2 md:p-8 basis-1/3 min-w-0 border-r border-b border-l"
             style={{
               borderColor: 'var(--border-1, #2E2E2E)'
             }}
@@ -207,7 +221,7 @@ export default function WhoWeAre() {
             <h5 className="text-foreground-3">Members</h5>
           </div>
           <div
-            className="text-left p-2 md:p-8 basis-1/ border-r border-b md:border-l"
+            className="text-left p-2 md:p-8 basis-1/3 min-w-0 border-r border-b md:border-l"
             style={{
               borderColor: 'var(--border-1, #2E2E2E)'
             }}
@@ -218,7 +232,7 @@ export default function WhoWeAre() {
             <h5 className="text-foreground-3">Different majors</h5>
           </div>
           <div
-            className="text-left p-2 md:p-8 basis-1/ border-r border-b md:border-l"
+            className="text-left p-2 md:p-8 basis-1/3 min-w-0 border-r border-b md:border-l"
             style={{
               borderColor: 'var(--border-1, #2E2E2E)'
             }}
@@ -232,14 +246,14 @@ export default function WhoWeAre() {
           </div>
         </div>
         <div
-          className="md:basis-1/2 flex justify-center items-center self-stretch justify-center border-b border-l border-r md:border-r-0 md:border-l-0"
+          className="md:basis-1/2 flex justify-center items-center self-stretch border-b border-l border-r md:border-r-0 md:border-l-0"
           style={{
             borderColor: 'var(--border-1, #2E2E2E)'
           }}
         >
           <PieChart
-            width={400}
-            height={400}
+            width={chartSize}
+            height={chartSize}
             chartSection={chartSection}
             setChartSection={setChartSection}
             roleStats={roleStats}
@@ -263,7 +277,7 @@ export default function WhoWeAre() {
                 onMouseLeave={() => setChartSection(undefined)}
               >
                 <div
-                  className={`w-8 h-8 rounded-sm border-[1px] ${getColorClass(rawRole as Role).replace('accent-', 'border-accent-')}`}
+                  className={`w-8 h-8 rounded-sm border-[1px] flex-shrink-0 ${getColorClass(rawRole as Role).replace('accent-', 'border-accent-')}`}
                   style={{
                     backgroundColor: roleStats[role].color
                   }}
