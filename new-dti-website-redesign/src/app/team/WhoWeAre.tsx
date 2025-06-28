@@ -72,16 +72,18 @@ const generateRoleStats = (members: IdolMember[]): RoleStatistics => {
     pm: { name: 'Product', color: '#C372FC33', people: 0, majors: new Set(), colleges: new Set() }
   };
 
-  return (Object.keys(baseStats) as GeneralRole[]).reduce((acc, role) => {
-    const peopleCount = members.filter((mem) => getGeneralRole(mem.role) === role).length;
-    acc[role] = {
-      ...baseStats[role],
-      people: peopleCount,
-      majors: countMajors(members, role),
-      colleges: countColleges(members, role)
-    };
-    return acc;
-  }, baseStats);
+  return (Object.keys(baseStats) as GeneralRole[]).reduce(
+    (acc, role) => ({
+      ...acc,
+      [role]: {
+        ...baseStats[role],
+        people: members.filter((mem) => getGeneralRole(mem.role) === role).length,
+        majors: countMajors(members, role),
+        colleges: countColleges(members, role)
+      }
+    }),
+    baseStats
+  );
 };
 
 const PieChart = ({
