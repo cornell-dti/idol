@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import members from './data/all-members.json';
 import config from '../../../config.json';
