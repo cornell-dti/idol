@@ -24,8 +24,8 @@ type RoleStatistics = {
   };
 };
 
-const countMajors = (members: IdolMember[], role?: GeneralRole): Set<string> => {
-  return members.reduce((acc, val) => {
+const countMajors = (members: IdolMember[], role?: GeneralRole): Set<string> =>
+  members.reduce((acc, val) => {
     const genRole = getGeneralRole(val.role);
     if (!role || role === genRole) {
       if (val.major) acc.add(val.major.trim());
@@ -33,17 +33,15 @@ const countMajors = (members: IdolMember[], role?: GeneralRole): Set<string> => 
     }
     return acc;
   }, new Set<string>());
-};
 
-const countColleges = (members: IdolMember[], role?: GeneralRole): Set<string> => {
-  return members.reduce((acc, val) => {
+const countColleges = (members: IdolMember[], role?: GeneralRole): Set<string> =>
+  members.reduce((acc, val) => {
     const genRole = getGeneralRole(val.role);
     if ((!role || role === genRole) && val.college) {
       acc.add(val.college.trim());
     }
     return acc;
   }, new Set<string>());
-};
 
 const generateRoleStats = (members: IdolMember[]): RoleStatistics => {
   const baseStats: RoleStatistics = {
@@ -72,18 +70,16 @@ const generateRoleStats = (members: IdolMember[]): RoleStatistics => {
     pm: { name: 'Product', color: '#C372FC33', people: 0, majors: new Set(), colleges: new Set() }
   };
 
-  return (Object.keys(baseStats) as GeneralRole[]).reduce(
-    (acc, role) => ({
-      ...acc,
-      [role]: {
-        ...baseStats[role],
-        people: members.filter((mem) => getGeneralRole(mem.role) === role).length,
-        majors: countMajors(members, role),
-        colleges: countColleges(members, role)
-      }
-    }),
-    baseStats
-  );
+  return (Object.keys(baseStats) as GeneralRole[]).reduce((acc, role) => {
+    const peopleCount = members.filter((mem) => getGeneralRole(mem.role) === role).length;
+    acc[role] = {
+      ...baseStats[role],
+      people: peopleCount,
+      majors: countMajors(members, role),
+      colleges: countColleges(members, role)
+    };
+    return acc;
+  }, baseStats);
 };
 
 const PieChart = ({
