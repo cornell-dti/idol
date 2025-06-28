@@ -270,24 +270,15 @@ export default function WhoWeAre() {
           {(Object.keys(roleStats) as GeneralRole[]).map((role) => {
             const rawRole = allMembers.find((mem) => getGeneralRole(mem.role) === role)?.role;
             return (
-              <div
-                key={role}
-                className="flex gap-4 items-center"
-                onMouseEnter={() => setChartSection(role)}
-                onMouseLeave={() => setChartSection(undefined)}
-              >
+              <div className="flex gap-4 items-center">
                 <div
                   className={`w-8 h-8 rounded-sm border-[1px] flex-shrink-0 ${getColorClass(rawRole as Role).replace('accent-', 'border-accent-')}`}
-                  style={{
-                    backgroundColor: roleStats[role].color
-                  }}
+                  style={{ backgroundColor: roleStats[role].color }}
                 />
                 <h5
-                  className={`${
-                    chartSection === role
-                      ? getColorClass(rawRole as Role).replace('accent-', 'text-accent-')
-                      : 'text-foreground-3'
-                  }`}
+                  className={`${chartSection === role ? getColorClass(rawRole as Role).replace('accent-', 'text-accent-') : 'text-foreground-3'}`}
+                  onMouseEnter={() => setChartSection(role)}
+                  onMouseLeave={() => setChartSection(undefined)}
                 >
                   {roleStats[role].name}
                 </h5>
