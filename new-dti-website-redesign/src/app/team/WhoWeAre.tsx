@@ -4,15 +4,16 @@ import React, { useState } from 'react';
 import members from './data/all-members.json';
 import config from '../../../config.json';
 import { getGeneralRole, getColorClass } from '../../utils/memberUtils';
+import { LAPTOP_BREAKPOINT } from '../../consts';
 import useScreenSize from '../../hooks/useScreenSize';
-
-const LAPTOP_BREAKPOINT = 948;
 
 const LARGE_CHART_SIZE = 400;
 const SMALL_CHART_SIZE = 300;
 
-const chartRadius = 175;
-const chartHoverRadius = 190;
+const BORDER_ANGLE_OFFSET = 0.003;
+
+const CHART_RADIUS = 175;
+const CHART_HOVER_RADIUS = 190;
 
 type RoleStatistics = {
   [key in GeneralRole]: {
@@ -45,29 +46,41 @@ const countColleges = (members: IdolMember[], role?: GeneralRole): Set<string> =
 
 const generateRoleStats = (members: IdolMember[]): RoleStatistics => {
   const baseStats: RoleStatistics = {
-    lead: { name: 'Leads', color: '#FF575E33', people: 0, majors: new Set(), colleges: new Set() },
+    lead: {
+      name: 'Leads',
+      color: getColorClass('ops-lead', true, true),
+      people: 0,
+      majors: new Set(),
+      colleges: new Set()
+    },
     developer: {
       name: 'Development',
-      color: '#00CA5133',
+      color: getColorClass('developer', true, true),
       people: 0,
       majors: new Set(),
       colleges: new Set()
     },
     designer: {
       name: 'Design',
-      color: '#47A8FF33',
+      color: getColorClass('designer', true, true),
       people: 0,
       majors: new Set(),
       colleges: new Set()
     },
     business: {
       name: 'Business',
-      color: '#FF930033',
+      color: getColorClass('business', true, true),
       people: 0,
       majors: new Set(),
       colleges: new Set()
     },
-    pm: { name: 'Product', color: '#C372FC33', people: 0, majors: new Set(), colleges: new Set() }
+    pm: {
+      name: 'Product',
+      color: getColorClass('pm', true, true),
+      people: 0,
+      majors: new Set(),
+      colleges: new Set()
+    }
   };
 
   return (Object.keys(baseStats) as GeneralRole[]).reduce((acc, role) => {
@@ -97,7 +110,7 @@ const PieChart = ({
   roleStats: RoleStatistics;
   allMembers: IdolMember[];
 }) => {
-  let previousPoint = [0, -chartRadius];
+  let previousPoint = [0, -CHART_RADIUS];
   let totalAngle = 0;
 
   const polarToRect = (angle: number, radius: number) => {
@@ -114,16 +127,18 @@ const PieChart = ({
     const theta = 2 * Math.PI * percentage;
 
     const arcPoint1 =
-      role === chartSection ? scale(previousPoint, chartHoverRadius / chartRadius) : previousPoint;
+      role === chartSection
+        ? scale(previousPoint, CHART_HOVER_RADIUS / CHART_RADIUS)
+        : previousPoint;
 
     totalAngle += theta;
     const arcPoint2 = polarToRect(
       totalAngle,
-      role === chartSection ? chartHoverRadius : chartRadius
+      role === chartSection ? CHART_HOVER_RADIUS : CHART_RADIUS
     );
 
-    const nextPoint = polarToRect(totalAngle, chartRadius);
-    const textLocation = polarToRect((2 * totalAngle - theta) / 2, (3 * chartRadius) / 4);
+    const nextPoint = polarToRect(totalAngle, CHART_RADIUS);
+    const textLocation = polarToRect((2 * totalAngle - theta) / 2, (3 * CHART_RADIUS) / 4);
     previousPoint = nextPoint;
 
     return [arcPoint1, arcPoint2, textLocation];
@@ -139,7 +154,7 @@ const PieChart = ({
         const role = roleKey as GeneralRole;
         const percentage = roleStats[role].people / allMembers.length;
         const theta = 2 * Math.PI * percentage;
-        const currentRadius = role === chartSection ? chartHoverRadius : chartRadius;
+        const currentRadius = role === chartSection ? CHART_HOVER_RADIUS : CHART_RADIUS;
         const [point1, point2, textLocation] = getNextPoints(role);
 
         return (
@@ -159,30 +174,30 @@ const PieChart = ({
                 theta > Math.PI ? `1` : `0`
               } 1 ${pointAsString(point2)}`}
               fill="none"
-              stroke={getColorClass(roleKey as Role).replace('accent-', 'var(--accent-')}
+              stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
               strokeLinecap="round"
             />
             <line
               x1="0"
               y1="0"
-              x2={polarToRect(totalAngle - 0.003, currentRadius)[0]}
-              y2={polarToRect(totalAngle - 0.003, currentRadius)[1]}
-              stroke={getColorClass(roleKey as Role).replace('accent-', 'var(--accent-')}
+              x2={polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]}
+              y2={polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]}
+              stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
             />
             <line
               x1="0"
               y1="0"
-              x2={polarToRect(totalAngle - theta + 0.003, currentRadius)[0]}
-              y2={polarToRect(totalAngle - theta + 0.003, currentRadius)[1]}
-              stroke={getColorClass(roleKey as Role).replace('accent-', 'var(--accent-')}
+              x2={polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]}
+              y2={polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}
+              stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
             />
             <text
               x={textLocation[0]}
               y={textLocation[1]}
-              className={`font-bold text-xl ${getColorClass(roleKey as Role).replace('accent-', 'fill-accent-')}`}
+              className={`font-bold text-xl ${getColorClass(roleKey as Role, false, false, 'fill-accent')}`}
               style={{ textAnchor: 'middle' }}
             >
               {`${Math.round(percentage * 100)}%`}
@@ -263,7 +278,7 @@ export default function WhoWeAre() {
                 onMouseLeave={() => setChartSection(undefined)}
               >
                 <div
-                  className={`w-8 h-8 rounded-sm border-[1px] flex-shrink-0 ${getColorClass(rawRole as Role).replace('accent-', 'border-accent-')}`}
+                  className={`w-8 h-8 rounded-sm border-[1px] flex-shrink-0 ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
                   style={{
                     backgroundColor: roleStats[role].color
                   }}
@@ -271,7 +286,7 @@ export default function WhoWeAre() {
                 <h5
                   className={`${
                     chartSection === role
-                      ? getColorClass(rawRole as Role).replace('accent-', 'text-accent-')
+                      ? getColorClass(rawRole as Role, false, false, 'text-accent')
                       : 'text-foreground-3'
                   }`}
                 >

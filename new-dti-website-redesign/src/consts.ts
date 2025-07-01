@@ -1,0 +1,1 @@
+export const LAPTOP_BREAKPOINT = 1024;

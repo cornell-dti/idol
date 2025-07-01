@@ -27,7 +27,12 @@ export const getGeneralRole = (role: Role): GeneralRole => {
   }
 };
 
-export const getColorClass = (role: Role): string => {
+export const getColorClass = (
+  role: Role,
+  transparent: boolean = false,
+  prependVar: boolean = false,
+  prefix: string = 'accent'
+): string => {
   const generalRole = getGeneralRole(role);
   const colors: { [key in GeneralRole]: string } = {
     lead: 'red',
@@ -36,7 +41,12 @@ export const getColorClass = (role: Role): string => {
     designer: 'blue',
     business: 'yellow'
   };
-  return `accent-${colors[generalRole]}`;
+  const color = colors[generalRole];
+  const transparentAppend = transparent ? '-transparent' : '';
+  if (prependVar) {
+    return `var(--accent-${color}${transparentAppend})`;
+  }
+  return `${prefix}-${color}${transparentAppend}`;
 };
 
 export const productLinks: { [key: string]: { name: string; link: string } } = {
