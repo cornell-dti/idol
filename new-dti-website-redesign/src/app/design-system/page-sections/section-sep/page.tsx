@@ -7,13 +7,17 @@ import SectionWrapper from '../../util/SectionWrapper';
 export default function SectionSepPage() {
   return (
     <PageLayout title="Section separator" description="Guidelines for Section separator component.">
-      <PageSection title="Default" description="Section separator with just an open space">
+      <PageSection
+        title="Default"
+        description="Section separator with just an open space"
+        className="h-100"
+      >
         <SectionWrapper>
           <SectionSep />
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="Grid" description="Section separator with grid pattern">
+      <PageSection title="Grid" description="Section separator with grid pattern" className="h-100">
         <SectionWrapper>
           <SectionSep grid />
         </SectionWrapper>

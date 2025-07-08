@@ -34,7 +34,7 @@ const testAccordions = [
         </p>
       </>
     ),
-    icon: '/apply/roles/deveopment.svg'
+    icon: '/apply/roles/development.svg'
   },
   {
     header: 'What could I do to learn more about DTI?',
