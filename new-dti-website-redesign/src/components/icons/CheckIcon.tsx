@@ -1,12 +1,12 @@
 import React from 'react';
 
-type PlusIconProps = {
+type CheckIconProps = {
   size?: number;
   color?: string;
   className?: string;
 };
 
-const PlusIcon = ({ size = 24, color = 'foreground-1', className }: PlusIconProps) => (
+const CheckIcon = ({ size = 24, color = 'foreground-1', className }: CheckIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -19,9 +19,8 @@ const PlusIcon = ({ size = 24, color = 'foreground-1', className }: PlusIconProp
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M5 12h14" />
-    <path d="M12 5v14" />
+    <path d="M20 6 9 17l-5-5" />
   </svg>
 );
 
-export default PlusIcon;
+export default CheckIcon;
