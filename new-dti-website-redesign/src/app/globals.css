@@ -80,6 +80,10 @@ Usage examples (remove the "color-" prefix when using in className):
   --breakpoint-lg: 1440px;
 }
 
+* {
+  font-weight: normal;
+}
+
 html {
   scroll-behavior: smooth;
 }
