@@ -1,8 +1,8 @@
 import React from 'react';
 import FeatureCard from '../../components/FeatureCard';
-import HeartIcon from '@/components/icons/HeartIcon';
-import TrendUpIcon from '@/components/icons/TrendUpIcon';
-import GlobeIcon from '@/components/icons/GlobeIcon';
+import HeartIcon from '../../components/icons/HeartIcon';
+import TrendUpIcon from '../../components/icons/TrendUpIcon';
+import GlobeIcon from '../../components/icons/GlobeIcon';
 
 export default function SponsorFeatures() {
   return (

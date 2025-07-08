@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import colors from './colors';
 import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
-import CopyIcon from '@/components/icons/CopyIcon';
-import CheckIcon from '@/components/icons/CheckIcon';
+import CopyIcon from '../../../../components/icons/CopyIcon';
+import CheckIcon from '../../../../components/icons/CheckIcon';
 
 interface ColorCardProps {
   color: string;

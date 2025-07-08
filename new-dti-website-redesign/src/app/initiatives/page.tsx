@@ -2,10 +2,10 @@ import Hero from '../../components/Hero';
 import Layout from '../../components/Layout';
 import FeatureSection from '../../components/FeatureSection';
 import CtaSection from '../../components/CtaSection';
-import HandHeartIcon from '@/components/icons/HandHeartIcon';
-import PeopleIcon from '@/components/icons/PeopleIcon';
-import WorkshopIcon from '@/components/icons/WorkshopIcon';
-import LightBulbIcon from '@/components/icons/LightBulbIcon';
+import HandHeartIcon from '../../components/icons/HandHeartIcon';
+import PeopleIcon from '../../components/icons/PeopleIcon';
+import WorkshopIcon from '../../components/icons/WorkshopIcon';
+import LightBulbIcon from '../../components/icons/LightBulbIcon';
 
 export const metadata = {
   title: 'Initiatives - Cornell DTI',

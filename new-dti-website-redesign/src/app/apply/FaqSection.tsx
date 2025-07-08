@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Accordion from '../../components/Accordion';
 import Tabs from '../../components/Tabs';
 import faqs from './faqs.json';
-import MailIcon from '@/components/icons/MailIcon';
+import MailIcon from '../../components/icons/MailIcon';
 
 type FAQ = {
   question: string;
