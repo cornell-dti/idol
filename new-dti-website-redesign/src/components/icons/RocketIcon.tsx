@@ -13,7 +13,7 @@ const RocketIcon = ({ size = 24, color = 'currentColor', className }: RocketIcon
     height={size}
     viewBox="0 0 24 24"
     fill="none"
-    stroke={`var(--${color})`}
+    stroke={color}
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"

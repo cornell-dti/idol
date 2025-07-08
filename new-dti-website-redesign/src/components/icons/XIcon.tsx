@@ -6,14 +6,14 @@ type XIconProps = {
   className?: string;
 };
 
-const XIcon = ({ size = 24, color = 'foreground-1', className }: XIconProps) => (
+const XIcon = ({ size = 24, color = 'currentColor', className }: XIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
     height={size}
     viewBox="0 0 24 24"
     fill="none"
-    stroke={`var(--${color})`}
+    stroke={color}
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"

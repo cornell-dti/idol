@@ -1,12 +1,12 @@
 import React from 'react';
 
-type PlusIconProps = {
+type GlobeIconProps = {
   size?: number;
   color?: string;
   className?: string;
 };
 
-const PlusIcon = ({ size = 24, color = 'currentColor', className }: PlusIconProps) => (
+const GlobeIcon = ({ size = 24, color = 'currentColor', className }: GlobeIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -19,9 +19,10 @@ const PlusIcon = ({ size = 24, color = 'currentColor', className }: PlusIconProp
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M5 12h14" />
-    <path d="M12 5v14" />
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+    <path d="M2 12h20" />
   </svg>
 );
 
-export default PlusIcon;
+export default GlobeIcon;
