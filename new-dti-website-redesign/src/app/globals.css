@@ -80,10 +80,6 @@ Usage examples (remove the "color-" prefix when using in className):
   --breakpoint-lg: 1440px;
 }
 
-* {
-  font-weight: normal;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -162,11 +158,12 @@ h6,
 .h6 {
   font-size: 20px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 160%;
 }
 
-p {
+p,
+.p {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -190,6 +187,7 @@ p.caps.small {
 
 a {
   line-height: 160%;
+  font-weight: normal;
 }
 
 section:not(.hero):not(.ctaSection),

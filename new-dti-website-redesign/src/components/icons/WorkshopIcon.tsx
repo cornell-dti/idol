@@ -1,12 +1,12 @@
 import React from 'react';
 
-type XIconProps = {
+type WorkshopIconProps = {
   size?: number;
   color?: string;
   className?: string;
 };
 
-const XIcon = ({ size = 24, color = '', className }: XIconProps) => (
+const WorkshopIcon = ({ size = 24, color = 'currentColor', className = '' }: WorkshopIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -19,9 +19,10 @@ const XIcon = ({ size = 24, color = '', className }: XIconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
+    <path d="M2 3h20" />
+    <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" />
+    <path d="m7 21 5-5 5 5" />
   </svg>
 );
 
-export default XIcon;
+export default WorkshopIcon;

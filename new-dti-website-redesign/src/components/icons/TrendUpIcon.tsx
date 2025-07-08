@@ -1,12 +1,12 @@
 import React from 'react';
 
-type XIconProps = {
+type TrendUpIconProps = {
   size?: number;
   color?: string;
   className?: string;
 };
 
-const XIcon = ({ size = 24, color = '', className }: XIconProps) => (
+const TrendUpIcon = ({ size = 24, color = 'currentColor', className = '' }: TrendUpIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -19,9 +19,9 @@ const XIcon = ({ size = 24, color = '', className }: XIconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
+    <path d="M16 7h6v6" />
+    <path d="m22 7-8.5 8.5-5-5L2 17" />
   </svg>
 );
 
-export default XIcon;
+export default TrendUpIcon;
