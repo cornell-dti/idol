@@ -3,7 +3,7 @@ import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
 import FeatureSection from '../../../../components/FeatureSection';
 import SectionWrapper from '../../util/SectionWrapper';
-import RocketIcon from '../../components/icon/RocketIcon';
+import RocketIcon from '../../../../components/icons/RocketIcon';
 
 export default function FeatureSectionPage() {
   return (

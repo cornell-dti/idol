@@ -1,6 +1,6 @@
 import React from 'react';
-import RocketIcon from './RocketIcon';
-import PlusIcon from './PlusIcon';
+import RocketIcon from '../../../../components/icons/RocketIcon';
+import PlusIcon from '../../../../components/icons/PlusIcon';
 
 const icons = [
   { label: 'Rocket', svg: <RocketIcon /> },

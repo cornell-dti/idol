@@ -1,7 +1,7 @@
 import React from 'react';
 import Timeline from '../../components/course/Timeline';
 import FeatureCard from '../../components/FeatureCard';
-import RocketIcon from '../design-system/components/icon/RocketIcon';
+import RocketIcon from '../../components/icons/RocketIcon';
 
 type TimelineEvent = {
   title: string;
