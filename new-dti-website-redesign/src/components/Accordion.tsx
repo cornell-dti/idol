@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode, useRef, useState, useEffect, useId } from 'react';
+import ChevronIcon from './icons/ChevronIcon';
 
 type FAQAccordionProps = {
   header: string;
@@ -42,24 +43,11 @@ export default function Accordion({ header, children, icon, className }: FAQAcco
             {header}
           </div>
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="25"
-            viewBox="0 0 24 25"
+          <ChevronIcon
             className={`w-6 h-6 flex-shrink-0 transform transition-transform duration-200 ease-out ${
               isOpen ? 'rotate-180' : ''
             }`}
-            fill="none"
-          >
-            <path
-              d="M6 9.5L12 15.5L18 9.5"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          />
         </button>
       </h3>
 

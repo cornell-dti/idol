@@ -158,11 +158,12 @@ h6,
 .h6 {
   font-size: 20px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 160%;
 }
 
-p {
+p,
+.p {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -186,6 +187,7 @@ p.caps.small {
 
 a {
   line-height: 160%;
+  font-weight: normal;
 }
 
 section:not(.hero):not(.ctaSection),
@@ -199,7 +201,7 @@ section:not(.hero):not(.ctaSection),
   border-bottom: 1px solid var(--border-1);
 }
 
-section:not(.hero):not(.ctaSection),
+section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
 .sectionSep,
 .sectionStyles {
   max-width: 1184px;
@@ -280,7 +282,7 @@ article:not(:last-child) {
 }
 
 @media only screen and (max-width: 1184px) {
-  section:not(.hero):not(.ctaSection),
+  section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   .sectionSep,
   .sectionStyles,
   footer {
@@ -302,7 +304,7 @@ article:not(:last-child) {
     width: 100%;
   }
 
-  section:not(.hero):not(.ctaSection),
+  section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   .sectionSep,
   .sectionStyles {
     margin: 0 16px;

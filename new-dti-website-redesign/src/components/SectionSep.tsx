@@ -1,4 +1,4 @@
-import XIcon from '../app/design-system/components/icon/XIcon';
+import XIcon from './icons/XIcon';
 import IconButton from './IconButton';
 
 type SectionSepProps = {
