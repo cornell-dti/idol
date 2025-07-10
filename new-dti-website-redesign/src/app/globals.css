@@ -201,7 +201,7 @@ section:not(.hero):not(.ctaSection),
   border-bottom: 1px solid var(--border-1);
 }
 
-section:not(.hero):not(.ctaSection),
+section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
 .sectionSep,
 .sectionStyles {
   max-width: 1184px;
@@ -282,7 +282,7 @@ article:not(:last-child) {
 }
 
 @media only screen and (max-width: 1184px) {
-  section:not(.hero):not(.ctaSection),
+  section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   .sectionSep,
   .sectionStyles,
   footer {
@@ -304,7 +304,7 @@ article:not(:last-child) {
     width: 100%;
   }
 
-  section:not(.hero):not(.ctaSection),
+  section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   .sectionSep,
   .sectionStyles {
     margin: 0 16px;
