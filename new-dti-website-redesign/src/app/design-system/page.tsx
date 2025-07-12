@@ -11,7 +11,7 @@ export default function DesignSystem() {
   return (
     <PageLayout
       title="DTI Design System"
-      explicitDescription="Design system for the Digital Tech & Innovation's website"
+      explicitDescription="Design system for the Digital Tech & Innovation's website."
     >
       {sections.map((section) => (
         <PageSection key={section.category} title={section.category}>

@@ -24,12 +24,11 @@ function ColorCard({ color, name }: ColorCardProps) {
   };
 
   return (
-    <article className="flex-1 rounded-lg border border-border-1 flex flex-col overflow-clip">
+    <article className="flex-1 rounded-lg border border-border-1 flex flex-col overflow-clip designSystemCard">
       <div className="h-32 w-full" style={{ backgroundColor: color }}></div>
       <div className="flex p-3 flex-col border-t-1 border-border-1">
-        <h3 className="h6">{name}</h3>
         <div className="flex items-center gap-2 justify-between">
-          <p className="text-foreground-3">{color}</p>
+          <h3 className="h6">{name}</h3>
           <button
             onClick={handleCopy}
             className="w-9 h-9 flex items-center justify-center cursor-pointer p-2 focusState rounded-sm group"
@@ -45,11 +44,13 @@ function ColorCard({ color, name }: ColorCardProps) {
               <CopyIcon
                 size={20}
                 color="foreground-3"
-                className="group-hover:stroke-foreground-1 transition-all duration-120"
+                className="stroke-foreground-3 group-hover:stroke-foreground-1 transition-all duration-120"
               />
             )}
           </button>
         </div>
+
+        {color && <p className="text-foreground-3">{color.toUpperCase()}</p>}
       </div>
     </article>
   );
@@ -77,7 +78,7 @@ export default function ColorPage() {
   );
 
   return (
-    <PageLayout title="Color" description="Description of color.">
+    <PageLayout title="Color">
       {Object.entries(grouped).map(([type, items]) => (
         <PageSection key={type} title={type} description="">
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

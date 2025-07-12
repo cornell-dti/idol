@@ -49,7 +49,7 @@ function LayoutSection({ title, width, height, lines }: LayoutSectionProps) {
 
 export default function Layout() {
   return (
-    <PageLayout title="Layout" description="Guidelines for layout." className="overflow-hidden">
+    <PageLayout title="Layout" className="overflow-hidden">
       {layouts.map((config) => (
         <LayoutSection key={config.title} {...config} />
       ))}

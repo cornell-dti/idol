@@ -15,7 +15,7 @@ const navItems: NavGroup[] = [
     category: null,
     items: [
       {
-        thumbnail: '/design-system/thumbnails/introduction.png',
+        thumbnail: '/design-system/thumbnails/default.jpg',
         href: '/design-system',
         label: 'Introduction',
         description: "Design system for the Digital Tech & Innovation's website"
@@ -93,14 +93,14 @@ const navItems: NavGroup[] = [
       {
         thumbnail: '/design-system/thumbnails/logo-box.png',
         href: '/design-system/components/logo-box',
-        label: 'Logo Box',
+        label: 'Logo box',
         description: 'Stylized wrapped for displaying logos consistently.'
       },
       {
         thumbnail: '/design-system/thumbnails/tabs.png',
         href: '/design-system/components/tabs',
         label: 'Tabs',
-        description: 'Switch between views while keeping context visible.'
+        description: 'Switch between related views on the same page.'
       }
     ]
   },

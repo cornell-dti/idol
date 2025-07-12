@@ -8,7 +8,7 @@ export default function TypographyPage() {
   const bodyStyles = typographyStyles.filter((style) => style.type === 'Body');
 
   return (
-    <PageLayout title="Typography" description="Guidelines for font usage and hierarchy.">
+    <PageLayout title="Typography">
       <PageSection title="Headings">
         <div className="flex flex-col gap-6">
           {headingStyles.map((style, index) => (

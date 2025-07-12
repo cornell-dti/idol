@@ -313,7 +313,7 @@ article .linkCard:focus-visible::after {
 }
 
 @media only screen and (max-width: 768px) {
-  article:not(:last-child):not(.sectionStyles) {
+  article:not(:last-child):not(.sectionStyles):not(.designSystemCard) {
     border-right: none;
     border-bottom: 1px solid var(--border-1);
   }
