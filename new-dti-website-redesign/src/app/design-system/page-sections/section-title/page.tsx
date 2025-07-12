@@ -6,7 +6,7 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function SectionTitlePage() {
   return (
-    <PageLayout title="Section title" description="Guidelines for Section title component.">
+    <PageLayout title="Section title">
       <PageSection title="Default" description="Section title with heading and subheading">
         <SectionWrapper>
           <SectionTitle

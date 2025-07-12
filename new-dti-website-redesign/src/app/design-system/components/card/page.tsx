@@ -77,7 +77,7 @@ const mockUser: IdolMember = {
 
 export default function CardPage() {
   return (
-    <PageLayout title="Card" description="Guidelines for Card component.">
+    <PageLayout title="Card">
       <PageSection title="Feature card" description="Typically arranged in a row of 3 cards">
         <div className="grid grid-cols-1 md:grid-cols-3">
           {features.map((feature, idx) => (

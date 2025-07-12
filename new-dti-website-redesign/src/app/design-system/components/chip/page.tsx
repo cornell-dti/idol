@@ -5,7 +5,7 @@ import Chip from '../../../../components/Chip';
 
 export default function ChipPage() {
   return (
-    <PageLayout title="Chip" description="Guidelines for chip component.">
+    <PageLayout title="Chip">
       <PageSection title="" description="" className="h-200">
         <Chip label="Coming soon" />
 

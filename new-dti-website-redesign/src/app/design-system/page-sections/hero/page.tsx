@@ -6,7 +6,7 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function HeroPage() {
   return (
-    <PageLayout title="Hero" description="Guidelines for Hero component.">
+    <PageLayout title="Hero">
       <PageSection title="Regular Hero" description="Default hero used for most pages">
         <SectionWrapper>
           <Hero

@@ -4,7 +4,7 @@ import icons from './icons';
 
 export default function IconPage() {
   return (
-    <PageLayout title="Icon" description="Guidelines for icon component.">
+    <PageLayout title="Icon">
       <div className="grid grid-cols-1 md:grid-cols-4 border-l border-border-1">
         {icons.map((icon, idx) => (
           <div

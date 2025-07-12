@@ -7,7 +7,7 @@ import PlusIcon from '../../../../components/icons/PlusIcon';
 
 export default function ButtonPage() {
   return (
-    <PageLayout title="Button" description="Guidelines for buttons.">
+    <PageLayout title="Button">
       <PageSection title="Regular button" description="Use for regular buttons">
         <Button label="Apply today" />
 

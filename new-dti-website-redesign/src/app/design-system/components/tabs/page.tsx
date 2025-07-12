@@ -12,7 +12,7 @@ import FancyTabs from '../../../../components/FancyTabs/FancyTabs';
 
 export default function TabsPage() {
   return (
-    <PageLayout title="Tabs" description="Guidelines for tabs component.">
+    <PageLayout title="Tabs">
       <PageSection title="Regular tabs" description="Uses Button component">
         <Tabs
           tabs={[

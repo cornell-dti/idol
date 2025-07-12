@@ -7,7 +7,7 @@ import logos from '../../../products/logos.json';
 
 export default function LogoBoxPage() {
   return (
-    <PageLayout title="Logo box" description="Guidelines for logo box component.">
+    <PageLayout title="Logo box">
       <PageSection title="Regular logo box" description="">
         <div className="grid grid-cols-4 border-t-1 border-border-1">
           {logos.map((logo, index) => (

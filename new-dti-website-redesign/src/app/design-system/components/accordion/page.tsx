@@ -53,7 +53,7 @@ const testAccordions = [
 
 export default function AccordionPage() {
   return (
-    <PageLayout title="Accordion" description="Guidelines for Accordion component.">
+    <PageLayout title="Accordion">
       <PageSection title="Regular accordion">
         <div className="flex flex-col">
           {testAccordions.map(({ header, content }) => (

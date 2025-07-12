@@ -6,7 +6,7 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function CtaSectionPage() {
   return (
-    <PageLayout title="CTA section" description="Guidelines for CTA section component.">
+    <PageLayout title="CTA">
       <PageSection title="Default" description="Regular CTA section used on most pages">
         <SectionWrapper>
           <CtaSection

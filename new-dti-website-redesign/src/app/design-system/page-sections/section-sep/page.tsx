@@ -6,7 +6,7 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function SectionSepPage() {
   return (
-    <PageLayout title="Section separator" description="Guidelines for Section separator component.">
+    <PageLayout title="Section separator">
       <PageSection
         title="Default"
         description="Section separator with just an open space"

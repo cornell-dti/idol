@@ -6,7 +6,7 @@ import RocketIcon from '../../../../components/icons/RocketIcon';
 
 export default function IconWrapperPage() {
   return (
-    <PageLayout title="Icon Wrapper" description="Guidelines for icon wrapper component.">
+    <PageLayout title="Icon Wrapper">
       <PageSection title="" description="">
         <IconWrapper size="large" type="primary">
           <RocketIcon />

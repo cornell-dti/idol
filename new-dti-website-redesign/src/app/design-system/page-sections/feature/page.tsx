@@ -7,7 +7,7 @@ import RocketIcon from '../../../../components/icons/RocketIcon';
 
 export default function FeatureSectionPage() {
   return (
-    <PageLayout title="Feature section" description="Guidelines for Feature section component.">
+    <PageLayout title="Feature">
       <PageSection
         title="Eyebrow, image left"
         description="Feature section with eyebrow text and image on the left"
