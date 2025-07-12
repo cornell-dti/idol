@@ -15,10 +15,10 @@ const navItems: NavGroup[] = [
     category: null,
     items: [
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/introduction.png',
         href: '/design-system',
         label: 'Introduction',
-        description: 'Overview of the design system.'
+        description: "Design system for the Digital Tech & Innovation's website"
       }
     ]
   },
@@ -26,22 +26,22 @@ const navItems: NavGroup[] = [
     category: 'Styles',
     items: [
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/color.png',
         href: '/design-system/styles/color',
         label: 'Color',
-        description: 'Color description blah.'
+        description: 'Guidelines for using color across the website.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/layout.png',
         href: '/design-system/styles/layout',
         label: 'Layout',
-        description: 'Layout description blah.'
+        description: 'Structure, spacing, and responsive design rules.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/typography.png',
         href: '/design-system/styles/typography',
         label: 'Typography',
-        description: 'Typography description blah.'
+        description: 'Fonts, sizing, and best practices for readable UI text.'
       }
     ]
   },
@@ -49,58 +49,58 @@ const navItems: NavGroup[] = [
     category: 'Components',
     items: [
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/accordion.png',
         href: '/design-system/components/accordion',
         label: 'Accordion',
-        description: 'Accordion description bruh.'
+        description: 'Expandable panels to show and hide content efficiently.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/button.png',
         href: '/design-system/components/button',
         label: 'Button',
-        description: 'Buttons description bruh.'
+        description: 'Clickable elements to perform actions or navigate.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/card.png',
         href: '/design-system/components/card',
         label: 'Card',
-        description: 'Card description bruh.'
+        description: 'Container for grouping related information and media.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/chip.png',
         href: '/design-system/components/chip',
         label: 'Chip',
-        description: 'Chip description bruh.'
+        description: 'Compact element to display a particular note or status.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/icon.png',
         href: '/design-system/components/icon',
         label: 'Icon',
-        description: 'Icon description bruh.'
+        description: 'Scalable vector graphics to enhance visual meaning.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/icon-wrapper.png',
         href: '/design-system/components/icon-wrapper',
-        label: 'Icon wrapper',
-        description: 'Icon wrapper description bruh.'
+        label: 'Icon Wrapper',
+        description: 'Stylized wrapped for displaying icons consistently.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/input.png',
         href: '/design-system/components/input',
         label: 'Input',
-        description: 'Input description bruh.'
+        description: 'Field for retrieving text input from a user.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/logo-box.png',
         href: '/design-system/components/logo-box',
-        label: 'Logo box',
-        description: 'Logo box description bruh.'
+        label: 'Logo Box',
+        description: 'Stylized wrapped for displaying logos consistently.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/tabs.png',
         href: '/design-system/components/tabs',
         label: 'Tabs',
-        description: 'Tabs description bruh.'
+        description: 'Switch between views while keeping context visible.'
       }
     ]
   },
@@ -108,46 +108,46 @@ const navItems: NavGroup[] = [
     category: 'Page sections',
     items: [
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/cta.png',
         href: '/design-system/page-sections/cta',
         label: 'CTA',
-        description: 'CTA description blah.'
+        description: 'Call-to-action blocks that drive user engagement.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/feature.png',
         href: '/design-system/page-sections/feature',
         label: 'Feature',
-        description: 'Feature description blah.'
+        description: 'Highlight a particular topic in a structured layout.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/footer.png',
         href: '/design-system/page-sections/footer',
         label: 'Footer',
-        description: 'Footer description blah.'
+        description: 'Bottom section on page containing links and info.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/hero.png',
         href: '/design-system/page-sections/hero',
         label: 'Hero',
-        description: 'Hero description blah.'
+        description: 'Top section on page with key message.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/navbar.png',
         href: '/design-system/page-sections/navbar',
         label: 'Navbar',
-        description: 'Navbar description blah.'
+        description: 'Navigation bar for browsing through website.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/section-sep.png',
         href: '/design-system/page-sections/section-sep',
         label: 'Section separator',
-        description: 'Section separator description blah.'
+        description: 'Visual divider to separate content sections.'
       },
       {
-        thumbnail: '/design-system/thumb.jpg',
+        thumbnail: '/design-system/thumbnails/section-title.png',
         href: '/design-system/page-sections/section-title',
         label: 'Section title',
-        description: 'Section title description blah.'
+        description: 'Consistent headings to label major content areas.'
       }
     ]
   }
