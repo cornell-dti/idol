@@ -8,16 +8,16 @@ export default function ChipPage() {
   return (
     <PageLayout title="Chip">
       <PageSection title="" description="" className="h-200">
-        <Chip label="Default pill" />
-
         <Note
           inner={
             <p>
-              The gray variant for Chip is used specifically when paied with primary variant of
+              The gray variant for Chip is used specifically when paired with primary variant of
               Button.
             </p>
           }
         />
+
+        <Chip label="Default pill" />
 
         <div className="bg-foreground-1 p-4 w-fit">
           <Chip label="12d 2h" color="gray" />

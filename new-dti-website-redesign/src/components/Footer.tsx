@@ -107,7 +107,11 @@ export default function Footer() {
 
   const DTILogoSection = () => (
     <div>
-      <Link href={'/'} className="inline-flex rounded-sm focusState activeState interactive">
+      <Link
+        href={'/'}
+        className="inline-flex rounded-sm focusState activeState interactive"
+        aria-label="Go to homepage"
+      >
         {
           <Image
             src="/wordmark.svg"
@@ -125,6 +129,7 @@ export default function Footer() {
               href={href}
               className="text-foreground-3 hover:text-foreground-1 inline-flex rounded-sm focusState activeState interactive"
               aria-label={label}
+              target="_blank"
             >
               {icon}
             </Link>

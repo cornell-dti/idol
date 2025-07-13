@@ -38,10 +38,13 @@ export default function Sidebar() {
     md:static md:translate-x-0 md:w-[260px] md:block`}
       >
         <nav className="flex flex-col" aria-hidden={!isOpen}>
-          <div className="flex gap-2 p-4 pt-20 md:p-4 border-b border-border-1 ">
-            <Link href="/" className="rounded-sm interactive activeState flex items-center gap-2">
+          <div className="flex p-2 border-b border-border-1 ">
+            <Link
+              href="/"
+              className="focusState px-4 py-2 rounded-lg hover:bg-background-2 interactive activeState flex items-center gap-2"
+            >
               <Image src="/logo.svg" alt="" width={32} height={32} />
-              <span>Back to DTI homepage</span>
+              <span className="whitespace-nowrap">Back to DTI homepage</span>
             </Link>
           </div>
 
