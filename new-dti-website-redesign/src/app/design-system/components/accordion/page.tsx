@@ -5,49 +5,37 @@ import Accordion from '../../../../components/Accordion';
 
 const testAccordions = [
   {
-    header: 'When will I hear back about a decision?',
+    header: 'What is a design system?',
     content: (
       <p>
-        Shortly after applications close, we will offer interviews to candidates we are interested
-        in. These interviews serve as a chance to get to know you in person. We have one behavioral
-        and one technical round for each role interview. During these interviews, talk about your
-        past experience and interest in our team. Then, we will initiate some role-specific
-        exercises to further gauge your thought process and skill set.
+        A design system is a collection of reusable components, guidelines, and standards that
+        ensure consistency across digital products. It helps teams work faster and more cohesively
+        by using shared design language.
       </p>
     ),
     icon: '/apply/roles/design.svg'
   },
   {
-    header: 'How do we evaluate the applications?',
+    header: 'What is it used for?',
     content: (
-      <>
-        <p>
-          We look through every single application we receive. We fully understand and don&apos;t
-          expect that everyone has a significant amount of past experience. Taking into account your
-          year and past coursework, we will assess your interest in being a part of Cornell Digital
-          Tech & Innovation and your willingness to learn and make a significant contribution.
-        </p>
-        <p>
-          We have one behavioral and one technical round for each role interview. During these
-          interviews, talk about your past experience and interest in our team. Then, we will
-          initiate some role-specific exercises to further gauge your thought process and skill set.
-        </p>
-      </>
+      <p>
+        Design systems are used to streamline product development. They provide a consistent visual
+        and functional experience, reduce repetitive coding, and allow websites to scale
+        efficiently.
+      </p>
     ),
     icon: '/apply/roles/development.svg'
   },
   {
-    header: 'What could I do to learn more about DTI?',
+    header: 'Why make it public?',
     content: (
       <p>
-        Coffee chats are casual conversations that allow you to find out more about DTI and ask any
-        questions about our team. A &lsquo;coffee chat&rsquo; doesn&apos;t need to actually be over
-        coffee, but should be 30 minutes like an actual coffee catch-up with a friend. Get the most
-        out of the coffee chat by preparing your questions ahead of time and researching the other
-        person&apos;s experiences first.
+        Since DTI's products are open source, we thought it made sense to make our design system
+        public as well. This allows others to learn from our approach, reuse components, and
+        contribute improvements — just like with our code.
       </p>
     ),
-    icon: '/apply/roles/product.svg'
+    icon: '/apply/roles/business.svg'
   }
 ];
 
