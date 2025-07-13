@@ -66,7 +66,7 @@ type MemberCardProps = {
   onClick?: () => void;
 };
 
-export const MemberCard = forwardRef<HTMLTitleElement, MemberCardProps>(
+export const MemberCard = forwardRef<HTMLDivElement, MemberCardProps>(
   ({ user, image, selected, onClick, className = '' }, ref) => {
     const baseStyles =
       'relative p-4 sm:p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:z-10 border-b-1 border-border-1';
