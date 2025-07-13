@@ -3,6 +3,7 @@
 import { forwardRef } from 'react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
+import Chip, { ChipColor } from './Chip';
 
 export const baseStyles = `w-fit rounded-full cursor-pointer inline-flex items-center justify-center gap-2 interactive activeState focusState text-nowrap`;
 
@@ -11,7 +12,8 @@ type ButtonProps = {
   href?: string;
   variant?: 'primary' | 'secondary' | 'tertiary' | 'transparent';
   size?: 'default' | 'small';
-  badge?: React.ReactNode;
+  chip?: string;
+  chipColor?: ChipColor;
   backToTop?: React.ReactNode;
   newTab?: boolean;
   className?: string;
@@ -28,7 +30,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       className = '',
       variant = 'primary',
       size = 'default',
-      badge,
+      chip,
+      chipColor,
       backToTop,
       newTab = false,
       disabled,
@@ -37,7 +40,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     ref
   ) => {
     const variantStyles = {
-      primary: `bg-foreground-1 text-background-1 ${badge ? 'gap-1 pr-3' : ''} ${
+      primary: `bg-foreground-1 text-background-1 ${chip ? 'gap-1 pr-3' : ''} ${
         !disabled ? 'hover:bg-foreground-2' : ''
       }`,
       secondary: `bg-background-2 border border-border-1 text-foreground-1 ${
@@ -64,10 +67,10 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       <>
         {backToTop && <span>{backToTop}</span>}
         <span className="text-rg font-medium">{label}</span>
-        {badge && (
-          <span className="p-2 bg-[#0000001a] text-background-1 rounded-full text-xs font-medium uppercase tracking-wider">
-            {badge}
-          </span>
+        {chip && (
+          <>
+            <Chip label={chip} color={chipColor} />
+          </>
         )}
       </>
     );
