@@ -28,6 +28,14 @@ export default function CourseStaffSection({ courseStaff }: Props) {
     setSelectedMember(undefined);
   }, [isMobile]);
 
+  const scrollToBottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedMember && scrollToBottomRef.current) {
+      scrollToBottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [selectedMember]);
+
   return (
     <>
       <div
@@ -56,6 +64,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
                     user={member}
                     image={`/team/teamHeadshots/${member.netid}.jpg`}
                     showImage={false}
+                    scrollRef={scrollToBottomRef}
                   />
                 </div>
               </div>
@@ -78,6 +87,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             <MemberDetailsCard
               user={selectedMember}
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
+              scrollRef={scrollToBottomRef}
             />
           </div>
         </div>
