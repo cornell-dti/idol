@@ -38,7 +38,7 @@ export default function Sidebar() {
     md:static md:translate-x-0 md:w-[260px] md:block`}
       >
         <nav className="flex flex-col" aria-hidden={!isOpen}>
-          <div className="flex p-2 border-b border-border-1 ">
+          <div className="flex pt-18 p-2 sm:p-2 border-b border-border-1 ">
             <Link
               href="/"
               className="focusState px-4 py-2 rounded-lg hover:bg-background-2 interactive activeState flex items-center gap-2"
