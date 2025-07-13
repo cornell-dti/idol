@@ -63,32 +63,32 @@ const colors = [
     description: 'Used for team brand colors and highlights.',
     items: [
       {
-        name: 'Accent-Red',
+        name: 'Accent-red',
         variable: '--accent-red',
         description: 'General DTI/full team accent color.'
       },
       {
-        name: 'Accent-Pink',
+        name: 'Accent-pink',
         variable: '--accent-pink',
         description: 'Leads team accent color.'
       },
       {
-        name: 'Accent-Green',
+        name: 'Accent-green',
         variable: '--accent-green',
         description: 'Development team accent color.'
       },
       {
-        name: 'Accent-Blue',
+        name: 'Accent-blue',
         variable: '--accent-blue',
         description: 'Design team accent color.'
       },
       {
-        name: 'Accent-Yellow',
+        name: 'Accent-yellow',
         variable: '--accent-yellow',
         description: 'Business team accent color.'
       },
       {
-        name: 'Accent-Purple',
+        name: 'Accent-purple',
         variable: '--accent-purple',
         description: 'Product team accent color.'
       }
