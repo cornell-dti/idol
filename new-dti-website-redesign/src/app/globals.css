@@ -104,6 +104,10 @@ h1,
   letter-spacing: -0.48px;
 }
 
+.h1-mobile {
+  font-size: 40px;
+}
+
 @media (max-width: 768px) {
   h1,
   .h1 {
@@ -120,6 +124,10 @@ h2,
   letter-spacing: -0.48px;
 }
 
+.h2-mobile {
+  font-size: 32px;
+}
+
 @media (max-width: 768px) {
   h2,
   .h2 {
@@ -134,6 +142,10 @@ h3,
   font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
+}
+
+.h3-mobile {
+  font-size: 28px;
 }
 
 @media (max-width: 768px) {
@@ -221,7 +233,8 @@ section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   border-top: 1px solid var(--border-1);
 }
 
-.interactive {
+.interactive,
+.activeStateChild > * {
   transition:
     background-color 120ms ease-in-out,
     transform 120ms ease-in-out,
@@ -254,7 +267,8 @@ parent container is rounded */
   border-bottom-right-radius: 16px;
 }
 
-.activeState:active:not(:disabled):not([aria-disabled='true']) {
+.activeState:active:not(:disabled):not([aria-disabled='true']),
+.activeStateChild:active > * {
   transform: scale(0.97);
   filter: brightness(80%);
 }
