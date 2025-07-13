@@ -1,10 +1,8 @@
+import { ReactNode } from 'react';
 import Link from 'next/link';
 import IconWrapper from './IconWrapper';
-import InfoIcon from './icons/InfoIcon';
-import { ReactNode } from 'react';
 import LinkIcon from './icons/LinkIcon';
 import CalendarIcon from './icons/CalendarIcon';
-import ChevronIcon from './icons/ChevronIcon';
 import ArrowIcon from './icons/ArrowIcon';
 import PinIcon from './icons/PinIcon';
 

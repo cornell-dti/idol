@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getRoleColor, productLinks } from '../utils/memberUtils';
@@ -7,7 +8,6 @@ import GlobeIcon from './icons/GlobeIcon';
 import MailIcon from './icons/MailIcon';
 import LinkedInIcon from './icons/LinkedInIcon';
 import GitHubIcon from './icons/GitHubIcon';
-import { forwardRef } from 'react';
 import Chip, { ChipColor } from './Chip';
 
 const MemberSummary = ({
@@ -210,6 +210,3 @@ export const MemberDetailsCard = ({
     </div>
   );
 };
-function getColorClass(role: string, p0: boolean) {
-  throw new Error('Function not implemented.');
-}

@@ -1,8 +1,8 @@
 import React from 'react';
+import Image from 'next/image';
 import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
 import layouts from './layouts';
-import Image from 'next/image';
 import Note from '../../util/Note';
 
 type LayoutSectionProps = {

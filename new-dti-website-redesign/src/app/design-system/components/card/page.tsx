@@ -8,14 +8,14 @@ import FeatureCard from '../../../../components/FeatureCard';
 import Marquee from '../../../../components/Marquee';
 import TimelineCard, { RecruitmentEvent } from '../../../../components/TimelineCard';
 import { MemberCard, MemberDetailsCard } from '../../../../components/TeamCard';
-import PeopleIcon from '@/components/icons/PeopleIcon';
-import FileIcon from '@/components/icons/FileIcon';
-import GlobeIcon from '@/components/icons/GlobeIcon';
+import PeopleIcon from '../../../../components/icons/PeopleIcon';
+import FileIcon from '../../../../components/icons/FileIcon';
+import GlobeIcon from '../../../../components/icons/GlobeIcon';
 import Note from '../../util/Note';
-import InfoIcon from '@/components/icons/InfoIcon';
-import LoudspeakerIcon from '@/components/icons/LoudspeakerIcon';
-import ChatIcon from '@/components/icons/ChatIcon';
-import SectionSep from '@/components/SectionSep';
+import InfoIcon from '../../../../components/icons/InfoIcon';
+import LoudspeakerIcon from '../../../../components/icons/LoudspeakerIcon';
+import ChatIcon from '../../../../components/icons/ChatIcon';
+import SectionSep from '../../../../components/SectionSep';
 import rawMembers from '../../../team/data/all-members.json';
 import useIsMobile from '../../../../hooks/useIsMobile';
 import useScreenSize from '../../../../hooks/useScreenSize';
@@ -128,26 +128,6 @@ const events: RecruitmentEvent[] = [
     spring: { date: 'TBD', isTentative: false }
   }
 ];
-
-const mockUser: IdolMember = {
-  netid: 'abc123',
-  email: 'abc123@cornell.edu',
-  firstName: 'John',
-  lastName: 'Doe',
-  pronouns: '',
-  semesterJoined: '',
-  graduation: 'May 2028',
-  major: 'Information Science',
-  hometown: 'New York, NY',
-  about: `According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyways. Because bees don't care what humans think is impossible.\nCrazy? I Was Crazy Once. They Locked Me In A Room. A Rubber Room. A Rubber Room With Rats. And Rats Make Me Crazy.`,
-  subteams: ['idol'],
-  role: 'ops-lead',
-  roleDescription: 'Full Team Lead',
-  doubleMajor: 'Economics',
-  linkedin: 'https://www.linkedin.com/',
-  github: 'https://github.com/',
-  website: 'https://google.com/'
-};
 
 export default function CardPage() {
   const members = rawMembers as IdolMember[];

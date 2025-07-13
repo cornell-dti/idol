@@ -1,9 +1,9 @@
 import React from 'react';
+import Link from 'next/link';
 import PageLayout from '../../util/PageLayout';
 import icons from './icons';
 import Note from '../../util/Note';
-import Link from 'next/link';
-import OpenIcon from '@/components/icons/OpenIcon';
+import OpenIcon from '../../../../components/icons/OpenIcon';
 
 export default function IconPage() {
   return (
