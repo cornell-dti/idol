@@ -12,7 +12,6 @@ export default function CardLink({
   description?: string;
   thumbnail?: string;
 }) {
-  console.log('CardLink rendered', { href, title, description, thumbnail });
   return (
     <article className="rounded-lg border border-border-1  hover:shadow-md hover:bg-background-2 interactive activeState relative designSystemCard">
       <div className="w-full relative bg-black rounded-t-lg flex justify-center border-b border-border-1">

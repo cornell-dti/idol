@@ -41,12 +41,12 @@ export default function SectionSep({
           >
             {hasX && i === lastIndex && (
               <IconButton
-                className="absolute w-full h-full rounded-none border-none innerFocusState"
+                className="absolute w-full h-full rounded-none border-none innerFocusState activeStateChild"
                 onClick={onClickX}
                 variant="tertiary"
                 aria-label={xAriaLabel ?? ''}
               >
-                <XIcon />
+                <XIcon color={'var(--foreground-1)'} />
               </IconButton>
             )}
           </div>

@@ -7,6 +7,7 @@ import GlobeIcon from './icons/GlobeIcon';
 import MailIcon from './icons/MailIcon';
 import LinkedInIcon from './icons/LinkedInIcon';
 import GitHubIcon from './icons/GitHubIcon';
+import { forwardRef } from 'react';
 
 const MemberSummary = ({
   user,
@@ -65,27 +66,30 @@ type MemberCardProps = {
   onClick?: () => void;
 };
 
-export const MemberCard = ({ user, image, selected, onClick, className = '' }: MemberCardProps) => {
-  const baseStyles =
-    'relative p-4 sm:p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:z-10';
+export const MemberCard = forwardRef<HTMLTitleElement, MemberCardProps>(
+  ({ user, image, selected, onClick, className = '' }, ref) => {
+    const baseStyles =
+      'relative p-4 sm:p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:z-10 border-b-1 border-border-1';
 
-  return (
-    <article
-      className={`${baseStyles} relative overflow-hidden group ${
-        selected
-          ? 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)] after:rounded-full after:transform after:scale-x-100 after:origin-center after:transition-transform after:duration-200 bg-background-2'
-          : 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-foreground-1 after:rounded-full after:transform after:scale-x-0 after:origin-center after:transition-transform after:duration-200'
-      } ${className}`}
-    >
-      <MemberSummary user={user} image={image} />
-      <button
-        className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
-        onClick={onClick}
-        aria-label={`Open ${user.firstName} ${user.lastName}'s profile`}
-      />
-    </article>
-  );
-};
+    return (
+      <article
+        ref={ref}
+        className={`${baseStyles} relative overflow-hidden group ${
+          selected
+            ? 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]  after:transform after:scale-x-100 after:origin-center after:transition-transform after:duration-200 bg-background-2'
+            : 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:transform after:scale-x-0 after:origin-center after:transition-transform after:duration-200'
+        } ${className}`}
+      >
+        <MemberSummary user={user} image={image} />
+        <button
+          className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
+          onClick={onClick}
+          aria-label={`Open ${user.firstName} ${user.lastName}'s profile`}
+        />
+      </article>
+    );
+  }
+);
 
 const IconLink = ({
   href,
@@ -113,17 +117,28 @@ type MemberDetailsProps = {
   user: IdolMember;
   image: string;
   showImage?: boolean;
+  scrollRef?: React.Ref<HTMLDivElement>;
 };
 
-export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetailsProps) => {
+export const MemberDetailsCard = ({
+  user,
+  image,
+  showImage = true,
+  scrollRef
+}: MemberDetailsProps) => {
   const baseStyles = 'md:w-1/2 flex flex-col';
   return (
-    <div className="card-clickable flex w-full flex-col md:flex-row">
-      <div className={`${baseStyles} p-8 gap-4 border-r-1 border-border-1`}>
-        {showImage !== false && <MemberSummary user={user} image={image} enlarged />}
-      </div>
+    <div className="card-clickable flex w-full flex-col md:flex-row border-b-1 border-border-1">
+      {showImage !== false && (
+        <div className={`${baseStyles} p-8 gap-4 border-r-1 border-border-1`}>
+          <MemberSummary user={user} image={image} enlarged />
+        </div>
+      )}
+
       <div className={`${baseStyles} justify-between`}>
-        <div className="flex flex-col p-8 gap-8">
+        <div
+          className={`flex flex-col gap-8 ${showImage ? 'p-4 md:p-8 md:pt-8' : 'p-4 pt-4 md:p-8 md:pt-8'}`}
+        >
           <div className="flex gap-8">
             <div className="w-1/2">
               <p className="text-foreground-3">Graduating</p>
@@ -166,7 +181,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
             </div>
           </div>
         </div>
-        <div className="flex justify-between p-8 border border-transparent border-t-border-1 ">
+        <div className="flex justify-between sm:p-8 p-4 border border-transparent border-t-border-1 ">
           <div className="flex gap-4 items-center">
             {user.website && (
               <IconLink
@@ -204,6 +219,7 @@ export const MemberDetailsCard = ({ user, image, showImage = true }: MemberDetai
           <Button label={'Chat with me'} href={user.coffeeChatLink || `mailto:${user.email}`} />
         </div>
       </div>
+      <div ref={scrollRef} className="md:-mt-65" />
     </div>
   );
 };
