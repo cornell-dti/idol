@@ -39,6 +39,7 @@ export default function Course() {
         button2Link="/apply"
         image="/course/hero.png"
       />
+
       <FeatureSection
         eyebrowText="Modern industry-leading technology"
         heading="Trends in Web Development"
@@ -59,7 +60,8 @@ export default function Course() {
       <DetailsAboutTrends timelineEvents={timelineData.timeline_events} />
 
       <SectionSep />
-      <section>
+
+      <section className="!border-b-0">
         <h2 className="p-4 sm:p-8">Course staff</h2>
         <CourseStaff courseStaff={courseStaff} />
       </section>
