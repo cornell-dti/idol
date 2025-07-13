@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getColorClass, productLinks } from '../utils/memberUtils';
+import { getRoleColor, productLinks } from '../utils/memberUtils';
 import Button from './Button';
 import OpenIcon from './icons/OpenIcon';
 import GlobeIcon from './icons/GlobeIcon';
@@ -8,6 +8,7 @@ import MailIcon from './icons/MailIcon';
 import LinkedInIcon from './icons/LinkedInIcon';
 import GitHubIcon from './icons/GitHubIcon';
 import { forwardRef } from 'react';
+import Chip, { ChipColor } from './Chip';
 
 const MemberSummary = ({
   user,
@@ -30,28 +31,14 @@ const MemberSummary = ({
       {enlarged ? (
         <>
           <h3 className="h4">{`${user.firstName} ${user.lastName}`}</h3>
-          <p
-            className="rounded-full px-4 py-1 h6 w-fit"
-            style={{
-              color: `var(--${getColorClass(user.role)})`,
-              backgroundColor: `var(--${getColorClass(user.role, true)})`
-            }}
-          >
-            {user.roleDescription}
-          </p>
+
+          <Chip label={user.roleDescription} color={getRoleColor(user.role) as ChipColor} />
         </>
       ) : (
         <>
           <h6>{`${user.firstName} ${user.lastName}`}</h6>
-          <p
-            className="rounded-full px-3 py-1 w-fit"
-            style={{
-              color: `var(--${getColorClass(user.role)})`,
-              backgroundColor: `var(--${getColorClass(user.role, true)})`
-            }}
-          >
-            {user.roleDescription}
-          </p>
+
+          <Chip label={user.roleDescription} color={getRoleColor(user.role) as ChipColor} />
         </>
       )}
     </div>
@@ -223,3 +210,6 @@ export const MemberDetailsCard = ({
     </div>
   );
 };
+function getColorClass(role: string, p0: boolean) {
+  throw new Error('Function not implemented.');
+}
