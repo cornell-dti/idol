@@ -21,6 +21,8 @@
   /* ACCENT */
   --accent-red: #ff575e; /* General DTI accent/full team color */
   --accent-red-transparent: rgba(255, 87, 94, 0.2);
+  --accent-pink: #ff3fbe; /* Leads team color */
+  --accent-pink-transparent: rgba(255, 63, 190, 0.2);
   --accent-green: #00ca51; /* Development team color */
   --accent-green-transparent: rgba(0, 202, 81, 0.2);
   --accent-blue: #47a8ff; /* Design team color */
@@ -61,6 +63,9 @@ Usage examples (remove the "color-" prefix when using in className):
   /* ACCENT */
   --color-accent-red: var(--accent-red);
   --color-accent-red-transparent: var(--accent-red-transparent);
+
+  --color-accent-pink: var(--accent-pink);
+  --color-accent-pink-transparent: var(--accent-pink-transparent);
 
   --color-accent-green: var(--accent-green);
   --color-accent-green-transparent: var(--accent-green-transparent);
