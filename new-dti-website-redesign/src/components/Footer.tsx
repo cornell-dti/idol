@@ -75,7 +75,7 @@ export default function Footer() {
               {label}
             </Link>
 
-            {label === 'Design system' && <Chip label="beta" />}
+            {label === 'Design system' && <Chip label="beta" allCaps />}
           </li>
         ))}
       </ul>
