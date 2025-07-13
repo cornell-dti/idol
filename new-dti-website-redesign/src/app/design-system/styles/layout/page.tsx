@@ -43,7 +43,14 @@ export default function Layout() {
           {...config}
           note={
             index === 0 ? (
-              <Note text="Inside the main layout (blue content), chilren should typically be aligned with the grid lines. Exceptions are sometimes made for rows of 3 cards." />
+              <Note
+                inner={
+                  <p>
+                    Inside the main layout (blue content), chilren should typically be aligned with
+                    the grid lines. Exceptions are sometimes made for rows of 3 cards.
+                  </p>
+                }
+              />
             ) : undefined
           }
         />

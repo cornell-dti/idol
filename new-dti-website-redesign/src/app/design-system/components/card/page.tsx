@@ -6,7 +6,6 @@ import PageSection from '../../util/PageSection';
 import TestimonialCard from '../../../../components/TestimonialCard';
 import FeatureCard from '../../../../components/FeatureCard';
 import Marquee from '../../../../components/Marquee';
-import RocketIcon from '../../../../components/icons/RocketIcon';
 import TimelineCard, { RecruitmentEvent } from '../../../../components/TimelineCard';
 import { MemberCard, MemberDetailsCard } from '../../../../components/TeamCard';
 import PeopleIcon from '@/components/icons/PeopleIcon';
@@ -14,7 +13,6 @@ import FileIcon from '@/components/icons/FileIcon';
 import GlobeIcon from '@/components/icons/GlobeIcon';
 import Note from '../../util/Note';
 import InfoIcon from '@/components/icons/InfoIcon';
-import PlusIcon from '@/components/icons/PlusIcon';
 import LoudspeakerIcon from '@/components/icons/LoudspeakerIcon';
 import ChatIcon from '@/components/icons/ChatIcon';
 import SectionSep from '@/components/SectionSep';
@@ -223,10 +221,17 @@ export default function CardPage() {
 
       <PageSection title="Testimonial card" description="Used to show a person's quote.">
         {testimonials.slice(0, 2).map(({ quote, picture, name, date }, index) => (
-          <TestimonialCard key={index} quote={quote} picture={picture} name={name} date={date} />
+          <TestimonialCard
+            key={index}
+            quote={quote}
+            picture={picture}
+            name={name}
+            date={date}
+            className="!h-fit"
+          />
         ))}
 
-        <Note text="You can also arrange them in a carousel." />
+        <Note inner={<p>You can also arrange them in a carousel.</p>} />
 
         <Marquee height={370}>
           {testimonials.map(({ quote, picture, name, date }, index) => (

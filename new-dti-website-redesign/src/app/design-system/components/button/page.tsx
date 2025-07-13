@@ -21,8 +21,8 @@ export default function ButtonPage() {
           </div>
 
           <div className="flex flex-col gap-6">
-            <Button label="Apply" chip="12D 2H" chipColor="gray" />
-            <Button label="Apply" size="small" chip="12D 2H" chipColor="gray" />
+            <Button label="Apply" chip="12d 2h" chipColor="gray" />
+            <Button label="Apply" size="small" chip="12d 2h" chipColor="gray" />
           </div>
 
           <div className="flex flex-col gap-6">
@@ -37,7 +37,14 @@ export default function ButtonPage() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <Note text="The transparent variant is used when the button is on top of an image, like in the CTA page section" />
+          <Note
+            inner={
+              <p>
+                The transparent variant is used when the button is on top of an image, like in the
+                CTA page section
+              </p>
+            }
+          />
 
           <div className="flex w-100 h-50 items-center justify-center bg-[url(/CtaSection.jpg)] bg-no-repeat bg-center bg-cover">
             <Button label="Apply today" variant="transparent" />
@@ -46,7 +53,11 @@ export default function ButtonPage() {
       </PageSection>
 
       <PageSection title="Icon button" description="Use when you just need an icon.">
-        <Note text="Remember to add the aria-label prop to specific alt text for the icon button." />
+        <Note
+          inner={
+            <p>Remember to add the aria-label prop to specific alt text for the icon button.</p>
+          }
+        />
 
         <div className="flex gap-8">
           <div className="flex flex-col gap-6">
