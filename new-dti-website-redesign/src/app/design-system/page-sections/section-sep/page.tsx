@@ -9,7 +9,7 @@ export default function SectionSepPage() {
     <PageLayout title="Section separator">
       <PageSection
         title="Default"
-        description="Section separator with just an open space"
+        description="Section separator with just an open space."
         className="h-100"
       >
         <SectionWrapper>
@@ -17,7 +17,11 @@ export default function SectionSepPage() {
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="Grid" description="Section separator with grid pattern" className="h-100">
+      <PageSection
+        title="Grid"
+        description="Section separator with grid pattern."
+        className="h-100"
+      >
         <SectionWrapper>
           <SectionSep grid />
         </SectionWrapper>

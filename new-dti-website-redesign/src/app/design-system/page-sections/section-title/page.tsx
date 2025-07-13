@@ -7,7 +7,7 @@ import SectionWrapper from '../../util/SectionWrapper';
 export default function SectionTitlePage() {
   return (
     <PageLayout title="Section title">
-      <PageSection title="Default" description="Section title with heading and subheading">
+      <PageSection title="Default" description="Section title with heading and subheading.">
         <SectionWrapper>
           <SectionTitle
             heading="Who we are"
@@ -16,13 +16,13 @@ export default function SectionTitlePage() {
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="Heading only" description="Section title with just a heading">
+      <PageSection title="Heading only" description="Section title with just a heading.">
         <SectionWrapper>
           <SectionTitle heading="Past student experiences" />
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="Small caps" description="Section title with just a small caps heading">
+      <PageSection title="Small caps" description="Section title with just a small caps heading.">
         <SectionWrapper>
           <SectionTitle heading="Our products" smallCaps />
         </SectionWrapper>
