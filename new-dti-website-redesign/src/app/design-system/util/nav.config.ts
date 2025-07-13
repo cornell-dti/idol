@@ -81,7 +81,7 @@ const navItems: NavGroup[] = [
       {
         thumbnail: '/design-system/thumbnails/icon-wrapper.png',
         href: '/design-system/components/icon-wrapper',
-        label: 'Icon Wrapper',
+        label: 'Icon wrapper',
         description: 'Stylized wrapped for displaying icons consistently.'
       },
       {
