@@ -37,7 +37,7 @@ const Product = ({
         <div className="flex gap-2 items-center">
           <h2 className="h3">{name}</h2>
 
-          {comingSoon && <Chip label="Coming soon" color="red" />}
+          {comingSoon && <Chip label="Coming soon" color="red" allCaps />}
         </div>
         <p className="text-foreground-3">{description}</p>
       </div>
