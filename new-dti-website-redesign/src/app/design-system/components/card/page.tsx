@@ -164,17 +164,6 @@ export default function CardPage() {
     rows.push(testimonialMembers.slice(i, i + columns));
   }
 
-  // const cardRefs = useRef<{ [netid: string]: HTMLTitleElement | null }>({});
-
-  // useEffect(() => {
-  //   if (selectedMember?.netid && cardRefs.current[selectedMember.netid]) {
-  //     cardRefs.current[selectedMember.netid]?.scrollIntoView({
-  //       behavior: 'smooth',
-  //       block: 'start'
-  //     });
-  //   }
-  // }, [selectedMember]);
-
   const cardRefs = useRef<{ [netid: string]: HTMLDivElement | null }>({});
 
   useEffect(() => {
@@ -266,7 +255,7 @@ export default function CardPage() {
                     <MemberDetailsCard
                       user={selectedMember}
                       image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
-                      showImage={!isMobile} // ✅ This is the new logic
+                      showImage={!isMobile}
                     />
                     <SectionSep grid />
                   </div>

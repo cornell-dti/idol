@@ -17,7 +17,7 @@ export default function FeatureSectionPage() {
             eyebrowText="Hello World!"
             heading="We are Cornell DTI, a project team"
             description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
-            image="/design-system/misc/featureSection1.png"
+            image="/design-system/misc/rock.png"
             imageAlt="DTI members rock climbing"
           />
         </SectionWrapper>
