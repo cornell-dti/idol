@@ -1,19 +1,15 @@
 [
   {
     "semesterJoined": "Fall 2024",
-    "major": "Mathematics",
     "subteams": [
       "courseplan"
     ],
-    "college": "cas",
     "firstName": "Arsh",
     "email": "aa2724@cornell.edu",
     "netid": "aa2724",
     "linkedin": "https://www.linkedin.com/in/arshagga/",
     "minor": null,
     "hometown": "Bryn Mawr, PA",
-    "website": null,
-    "about": "Freshman studying Mathematics with a minor in Biometry & Statistics. Apart from DTI, I'm involved in Pi Sigma Epsilon, Cornell Venture Capital, and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. ",
     "formerSubteams": [
       "cuapts"
     ],
@@ -24,7 +20,11 @@
     "roleDescription": "Associate PM",
     "pronouns": "he/him",
     "doubleMajor": null,
-    "github": null
+    "github": null,
+    "website": "arshagga.com",
+    "about": "Sophomore studying Applied Economics & Management. Outside of DTI, I'm involved in Pi Sigma Epsilon, Cornell Venture Capital, and also am the Co-President of Cornell Club Golf. For fun, I love playing golf and tennis, following F1, woodworking, and DJing/producing electronic music. ",
+    "college": "dyson",
+    "major": "Applied Economics & Management"
   },
   {
     "formerSubteams": [],
@@ -197,7 +197,7 @@
     "coffeeChatLink": null,
     "pronouns": "he/him",
     "linkedin": "https://www.linkedin.com/in/arshsingh5/",
-    "about": "Hey! I'm Arsh, and I'm a developer at CURaise (coming soon :0)! I love playing tennis and baking, and if you wanna chat or play smash, hmu!"
+    "about": "Hey! I'm Arsh, and I'm a developer at CURaise (coming soon :0)! I love playing tennis and cooking, and if you wanna chat or play smash, hmu!"
   },
   {
     "formerSubteams": [],
