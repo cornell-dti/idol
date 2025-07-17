@@ -38,6 +38,7 @@ export default function IconWrapper({
   return (
     <div
       className={`flex items-center justify-center rounded-full ${wrapperSize} ${wrapperColor} ${iconSize} ${className}`}
+      aria-hidden={true}
     >
       {children}
     </div>

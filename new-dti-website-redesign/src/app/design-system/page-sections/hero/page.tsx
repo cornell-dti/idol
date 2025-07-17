@@ -6,8 +6,8 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function HeroPage() {
   return (
-    <PageLayout title="Hero" description="Guidelines for Hero component.">
-      <PageSection title="Regular Hero" description="Default hero used for most pages">
+    <PageLayout title="Hero">
+      <PageSection title="Regular Hero" description="Default hero used for most pages.">
         <SectionWrapper>
           <Hero
             heading="Team"
@@ -21,7 +21,7 @@ export default function HeroPage() {
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="Hero with CTA" description="Hero section with a call to action button">
+      <PageSection title="Hero with CTA" description="Hero section with a call to action button.">
         <SectionWrapper>
           <Hero
             heading="Team"
@@ -33,7 +33,7 @@ export default function HeroPage() {
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="Hero with secondary" description="Hero section with a secondary button">
+      <PageSection title="Hero with secondary" description="Hero section with a secondary button.">
         <SectionWrapper>
           <Hero
             heading="Team"

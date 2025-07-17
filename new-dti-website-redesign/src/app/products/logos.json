@@ -4,55 +4,55 @@
     "alt": "CU Reviews logo",
     "width": 80,
     "height": 80,
-    "href": "#cureviews"
+    "href": "/products/#cureviews"
   },
   {
     "src": "/products/logos/courseplan.svg",
     "alt": "Courseplan logo",
     "width": 60,
     "height": 60,
-    "href": "#courseplan"
+    "href": "/products/#courseplan"
   },
   {
     "src": "/products/logos/queuemein.svg",
     "alt": "Queue Me In logo",
     "width": 80,
     "height": 80,
-    "href": "#queuemein"
+    "href": "/products/#queuemein"
   },
   {
     "src": "/products/logos/design@cornell.svg",
     "alt": "Design @ Cornell logo",
     "width": 125,
     "height": 52,
-    "href": "#designatcornell"
+    "href": "/products/#designatcornell"
   },
   {
     "src": "/products/logos/zing.svg",
     "alt": "Zing logo",
     "width": 96,
     "height": 96,
-    "href": "#zing"
+    "href": "/products/#zing"
   },
   {
     "src": "/products/logos/cuapts.svg",
     "alt": "CU Apartments logo",
     "width": 110,
     "height": 80,
-    "href": "#cuapts"
+    "href": "/products/#cuapts"
   },
   {
     "src": "/products/logos/carriage.svg",
     "alt": "Carriage logo",
     "width": 70,
     "height": 70,
-    "href": "#carriage"
+    "href": "/products/#carriage"
   },
   {
     "src": "/products/logos/cornellgo.svg",
     "alt": "CornellGo logo",
     "width": 80,
     "height": 80,
-    "href": "#cornellgo"
+    "href": "/products/#cornellgo"
   }
 ]

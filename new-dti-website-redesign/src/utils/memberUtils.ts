@@ -27,16 +27,17 @@ export const getGeneralRole = (role: Role): GeneralRole => {
   }
 };
 
-export const getColorClass = (role: Role): string => {
+export const getRoleColor = (role: Role): string => {
   const generalRole = getGeneralRole(role);
   const colors: { [key in GeneralRole]: string } = {
-    lead: 'red',
+    lead: 'pink',
     pm: 'purple',
     developer: 'green',
     designer: 'blue',
     business: 'yellow'
   };
-  return `accent-${colors[generalRole]}`;
+
+  return colors[generalRole];
 };
 
 export const productLinks: { [key: string]: { name: string; link: string } } = {

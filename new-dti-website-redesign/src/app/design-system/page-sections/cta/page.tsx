@@ -6,8 +6,8 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function CtaSectionPage() {
   return (
-    <PageLayout title="CTA section" description="Guidelines for CTA section component.">
-      <PageSection title="Default" description="Regular CTA section used on most pages">
+    <PageLayout title="CTA">
+      <PageSection title="Default" description="Regular CTA section used on most pages.">
         <SectionWrapper>
           <CtaSection
             heading="Ready to join?"
@@ -22,7 +22,7 @@ export default function CtaSectionPage() {
 
       <PageSection
         title="Custom text"
-        description="CTA section with custom styles on heading and subheading"
+        description="The heading and subheading of this page can be modified."
       >
         <SectionWrapper>
           <CtaSection
@@ -47,7 +47,7 @@ export default function CtaSectionPage() {
         </SectionWrapper>
       </PageSection>
 
-      <PageSection title="No buttons" description="CTA Section without any buttons">
+      <PageSection title="No buttons" description="This variant includes only text.">
         <SectionWrapper>
           <CtaSection heading="Ready to join?" subheading="Be part of something greater today." />
         </SectionWrapper>

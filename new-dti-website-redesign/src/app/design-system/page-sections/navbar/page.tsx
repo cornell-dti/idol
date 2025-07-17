@@ -6,8 +6,8 @@ import SectionWrapper from '../../util/SectionWrapper';
 
 export default function NavbarPage() {
   return (
-    <PageLayout title="Navbar" description="Guidelines for Navbar component.">
-      <PageSection title="" description="">
+    <PageLayout title="Navbar">
+      <PageSection title="" description="" className="h-200">
         <SectionWrapper>
           <Navbar demo />
         </SectionWrapper>

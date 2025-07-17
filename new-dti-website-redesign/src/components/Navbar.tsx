@@ -175,7 +175,11 @@ export default function Navbar({ demo }: NavbarProps) {
         `}
       >
         <div className="flex justify-between items-center px-4 sm:px-8 py-4 max-w-[1184px] mx-auto">
-          <Link href="/" className="focusState rounded-sm interactive activeState">
+          <Link
+            href="/"
+            className="focusState rounded-sm interactive activeState"
+            aria-label="Go to homepage"
+          >
             <Image
               src="/wordmark.svg"
               alt="Cornell Digital Tech & Innovation logo"

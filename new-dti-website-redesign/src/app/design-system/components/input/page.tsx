@@ -8,7 +8,7 @@ import LabeledInput from '../../../../components/LabeledInput';
 
 export default function InputPage() {
   return (
-    <PageLayout title="Input" description="Guidelines for input.">
+    <PageLayout title="Input">
       <PageSection title="Regular input" description="Use for regular inputs">
         <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
 

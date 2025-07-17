@@ -5,7 +5,7 @@ export default function CardLink({
   href,
   title,
   description,
-  thumbnail = '/design-system/thumb.jpg'
+  thumbnail
 }: {
   href: string;
   title: string;
@@ -13,17 +13,23 @@ export default function CardLink({
   thumbnail?: string;
 }) {
   return (
-    <Link
-      href={href}
-      className="focusState rounded-lg border border-border-1 overflow-hidden hover:shadow-md hover:bg-background-2 interactive activeState"
-    >
-      <div className="h-40 w-full relative">
-        <Image src={thumbnail} alt={`${title} thumbnail`} fill className="object-cover" />
+    <article className="rounded-lg border border-border-1  hover:shadow-md hover:bg-background-2 interactive activeState relative designSystemCard">
+      <div className="w-full relative bg-black rounded-t-lg flex justify-center border-b border-border-1">
+        <Image
+          width={260.33}
+          height={200}
+          src={thumbnail || '/thumbnails/thumb.jpg'}
+          alt=""
+          className="object-cover"
+        />
       </div>
       <div className="p-4 flex flex-col gap-1">
-        <h3 className="h5">{title}</h3>
+        <Link href={href} className="linkCard">
+          <h3 className="h5">{title}</h3>
+        </Link>
+
         {description && <p className="text-sm text-foreground-3">{description}</p>}
       </div>
-    </Link>
+    </article>
   );
 }

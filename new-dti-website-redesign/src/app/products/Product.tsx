@@ -11,6 +11,7 @@ type Props = {
   link?: string;
   comingSoon?: boolean;
   id: string;
+  accentColor?: string;
 };
 
 const Product = ({
@@ -20,10 +21,14 @@ const Product = ({
   description,
   link,
   comingSoon,
-  id
+  id,
+  accentColor
 }: Props): ReactNode => (
   <article id={id} className="sectionStyles scroll-mt-20">
-    <div className="bg-background-2 border-b-1 border-border-1">
+    <div
+      className="border-b-1 border-border-1"
+      style={{ background: accentColor || 'var(--background-2)' }}
+    >
       <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
     </div>
 
@@ -32,7 +37,7 @@ const Product = ({
         <div className="flex gap-2 items-center">
           <h2 className="h3">{name}</h2>
 
-          {comingSoon && <Chip label="Coming soon" color="red" />}
+          {comingSoon && <Chip label="Coming soon" color="red" allCaps />}
         </div>
         <p className="text-foreground-3">{description}</p>
       </div>

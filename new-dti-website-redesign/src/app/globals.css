@@ -21,6 +21,8 @@
   /* ACCENT */
   --accent-red: #ff575e; /* General DTI accent/full team color */
   --accent-red-transparent: rgba(255, 87, 94, 0.2);
+  --accent-pink: #ff3fbe; /* Leads team color */
+  --accent-pink-transparent: rgba(255, 63, 190, 0.2);
   --accent-green: #00ca51; /* Development team color */
   --accent-green-transparent: rgba(0, 202, 81, 0.2);
   --accent-blue: #47a8ff; /* Design team color */
@@ -62,6 +64,9 @@ Usage examples (remove the "color-" prefix when using in className):
   --color-accent-red: var(--accent-red);
   --color-accent-red-transparent: var(--accent-red-transparent);
 
+  --color-accent-pink: var(--accent-pink);
+  --color-accent-pink-transparent: var(--accent-pink-transparent);
+
   --color-accent-green: var(--accent-green);
   --color-accent-green-transparent: var(--accent-green-transparent);
 
@@ -99,6 +104,10 @@ h1,
   letter-spacing: -0.48px;
 }
 
+.h1-mobile {
+  font-size: 40px;
+}
+
 @media (max-width: 768px) {
   h1,
   .h1 {
@@ -115,6 +124,10 @@ h2,
   letter-spacing: -0.48px;
 }
 
+.h2-mobile {
+  font-size: 32px;
+}
+
 @media (max-width: 768px) {
   h2,
   .h2 {
@@ -129,6 +142,10 @@ h3,
   font-weight: 600;
   line-height: 115%;
   letter-spacing: -0.48px;
+}
+
+.h3-mobile {
+  font-size: 28px;
 }
 
 @media (max-width: 768px) {
@@ -158,11 +175,12 @@ h6,
 .h6 {
   font-size: 20px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 160%;
 }
 
-p {
+p,
+.p {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -186,6 +204,7 @@ p.caps.small {
 
 a {
   line-height: 160%;
+  font-weight: normal;
 }
 
 section:not(.hero):not(.ctaSection),
@@ -199,7 +218,7 @@ section:not(.hero):not(.ctaSection),
   border-bottom: 1px solid var(--border-1);
 }
 
-section:not(.hero):not(.ctaSection),
+section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
 .sectionSep,
 .sectionStyles {
   max-width: 1184px;
@@ -214,7 +233,8 @@ section:not(.hero):not(.ctaSection),
   border-top: 1px solid var(--border-1);
 }
 
-.interactive {
+.interactive,
+.activeStateChild > * {
   transition:
     background-color 120ms ease-in-out,
     transform 120ms ease-in-out,
@@ -247,7 +267,8 @@ parent container is rounded */
   border-bottom-right-radius: 16px;
 }
 
-.activeState:active:not(:disabled):not([aria-disabled='true']) {
+.activeState:active:not(:disabled):not([aria-disabled='true']),
+.activeStateChild:active > * {
   transform: scale(0.97);
   filter: brightness(80%);
 }
@@ -279,8 +300,29 @@ article:not(:last-child) {
   border-right: 1px solid var(--border-1);
 }
 
+article .linkCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+article .linkCard:focus-visible {
+  outline: none;
+}
+
+article .linkCard:focus-visible::after {
+  outline: 2px solid var(--foreground-1);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 @media only screen and (max-width: 1184px) {
-  section:not(.hero):not(.ctaSection),
+  section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   .sectionSep,
   .sectionStyles,
   footer {
@@ -290,7 +332,7 @@ article:not(:last-child) {
 }
 
 @media only screen and (max-width: 768px) {
-  article:not(:last-child):not(.sectionStyles) {
+  article:not(:last-child):not(.sectionStyles):not(.designSystemCard) {
     border-right: none;
     border-bottom: 1px solid var(--border-1);
   }
@@ -302,7 +344,7 @@ article:not(:last-child) {
     width: 100%;
   }
 
-  section:not(.hero):not(.ctaSection),
+  section:not(.hero):not(.ctaSection):not(.pageSection):not(.pageLayout),
   .sectionSep,
   .sectionStyles {
     margin: 0 16px;
