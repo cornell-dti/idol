@@ -1,7 +1,7 @@
 @import 'tailwindcss';
-@source inline("border-accent-{red,green,yellow,blue,purple}");
-@source inline("fill-accent-{red,green,yellow,blue,purple}");
-@source inline("text-accent-{red,green,yellow,blue,purple}");
+@source inline("border-accent-{red,pink,green,yellow,blue,purple}");
+@source inline("fill-accent-{red,pink,green,yellow,blue,purple}");
+@source inline("text-accent-{red,pink,green,yellow,blue,purple}");
 
 :root {
   /* BACKGROUND */
