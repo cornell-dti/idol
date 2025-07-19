@@ -54,7 +54,6 @@ export const getRoleColor = (role: Role): string => {
   return colors[generalRole];
 };
 
-
 export const productLinks: { [key: string]: { name: string; link: string } } = {
   courseplan: {
     name: 'CoursePlan',
