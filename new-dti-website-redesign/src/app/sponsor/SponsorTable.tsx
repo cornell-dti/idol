@@ -7,6 +7,7 @@ import useScreenSize from '../../hooks/useScreenSize';
 import { TABLET_BREAKPOINT } from '../../consts';
 import FeatureCard from '../../components/FeatureCard';
 import SectionSep from '../../components/SectionSep';
+import IconWrapper from '../../components/IconWrapper';
 
 type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
@@ -40,6 +41,7 @@ const { benefits } = benefitData;
 
 const medalHeight = 57;
 const medalSelectedHeight = 45;
+const mostPopular = 'gold';
 
 const tiers = Object.keys(medals);
 
@@ -93,56 +95,75 @@ const SponsorshipTableMobile = () => {
 
 const SponsorshipTableLaptop = () => (
   <>
-    <SectionSep grid className="border-x-1 border-border-1" />
-    <div className="flex items-center w-full">
-      <div className="w-[592px] h-[131px] flex items-center 2 bg-background-1 border-l-1 border-border-1">
-        <h2 className="h3 p-[32px]">Sponsorship benefits</h2>
-      </div>
-      <div className="flex">
-        {Object.keys(medals).map((medal) => (
-          <div className="w-[148px] h-[131px] flex flex-col gap-[8px] justify-center items-center border-l-1 border-border-1 bg-background-1">
-            <Image
-              src={medals[medal as Tier].link}
-              alt={medal}
+    <SectionSep grid className="border-border-1" />
+
+    <table className="table-auto w-full border-collapse border-border-1 bg-background-1">
+      <thead>
+        <tr>
+          <th className="w-[592px] p-[32px] text-left border-border-1">
+            <h2 className="h3">Sponsorship benefits</h2>
+          </th>
+          {Object.keys(medals).map((medal) => (
+            <th 
               key={medal}
-              width = {medalSelectedHeight}
-              height = {medalHeight}
-            />
-            <div className="">
-              <p style={{ color: medals[medal as Tier].color }}>{medals[medal as Tier].title}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-    {benefits.map((benefit) => (
-      <div key={benefit.key} className="flex">
-        <div className="w-[592px] h-[131px] flex items-center 2 bg-background-1 border-t-1 border-border-1">
-          <FeatureCard
-            title={benefit.title}
-            body={benefit.description}
-          />
-        </div>
-        <div className="flex">
-          {tiers.map((tier) => (
-            <div
-              className="w-[148px] h-[131px] flex justify-center items-center border-t-1 border-l-1 border-border-1 bg-background-1"
-              key={`${benefit.key}-${tier}`}
+              className={`relative w-[148px] items-center border-l border-border-1 ${
+                medals[medal as Tier].name === 'gold' ? 'bg-[#181818]' : ''
+              }`}
             >
-              {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) ? (
-                <div className="w-[32px] h-[32px] bg-white rounded-full bg-white flex items-center justify-center">
-                  <Image src="/sponsor/check.svg" alt="checkmark" width={16} height={16} />
+              <div className="flex flex-col gap-[8px] items-center">
+                <div className="w-[45px] h-[57px]">
+                  <Image
+                    src={medals[medal as Tier].link}
+                    alt={medal}
+                    width={medalSelectedHeight}
+                    height={medalHeight}
+                />
                 </div>
-              ) : (
-                <div className="w-[32px] h-[32px] flex rounded-[123px] items-center justify-center">
-                  <span className="w-[24px] h-[1px] rounded-[123px] border-1 border-border-1"></span>
+                <p style={{ color: medals[medal as Tier].color }}>{medals[medal as Tier].title}</p>
+              </div>
+              {medals[medal as Tier].name === mostPopular && (
+                <div className="absolute shadow-[0px_8px_16px_0px_rgba(255,255,255,0.32)] bg-[#181818] -top-[39px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
+                  <p className="text-black">Most Popular</p>
                 </div>
               )}
-            </div>
+            </th>
           ))}
-        </div>
-      </div>
-    ))}
+        </tr>
+      </thead>
+
+      <tbody>
+        {benefits.map((benefit) => (
+          <tr key={benefit.key}>
+            <td className="w-[592px] border-t border-border-1 align-top">
+              <FeatureCard title={benefit.title} body={benefit.description} />
+            </td>
+            {tiers.map((tier) => (
+              <td
+                key={`${benefit.key}-${tier}`}
+                className={`border-t border-l border-border-1 ${
+                tier === 'gold' ? 'bg-[#181818]' : ''
+              }`}
+              >
+                {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) ? (
+                  <IconWrapper size="small" type="primary" className="flex items-center justify-center mx-auto">
+                    <Image
+                      src="/sponsor/check.svg"
+                      alt="checkmark"
+                      width={16}
+                      height={16}
+                    />
+                  </IconWrapper>
+                ) : (
+                  <div className="flex items-center justify-center mx-auto">
+                    <span className="w-[24px] h-[1px] rounded-full border border-border-1"></span>
+                  </div>
+                )}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </>
 );
 
