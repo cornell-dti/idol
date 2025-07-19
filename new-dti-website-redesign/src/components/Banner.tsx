@@ -10,17 +10,17 @@ function Banner({ label }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setVisible(true), 100);
+    const timeout = setTimeout(() => setVisible(true), 500);
     return () => clearTimeout(timeout);
   }, []);
 
   return (
     <div
-      className={`flex items-center justify-center sticky transition-all z-40 md:pt-4 md:mt-[-67px] w-fit mx-auto duration-600
-      ${visible ? 'top-[72px]' : 'top-[-100px]'}
+      className={`flex items-center justify-center sticky transition-all z-40 md:pt-4 md:mt-[-67px] w-fit mx-auto duration-600 transform
+      ${visible ? 'top-[72px] scale-100' : 'top-[-100px] scale-90'}
     `}
       style={{
-        transitionTimingFunction: 'cubic-bezier(0.47, 0, 0.23, 1.38)'
+        transitionTimingFunction: 'cubic-bezier(0.65, 0, 0.35, 1)'
       }}
     >
       <div

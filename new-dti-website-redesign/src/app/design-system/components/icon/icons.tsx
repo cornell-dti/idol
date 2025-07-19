@@ -1,15 +1,8 @@
-import React from 'react';
-import RocketIcon from './RocketIcon';
-import PlusIcon from './PlusIcon';
+import * as Icons from '../../../../components/icons';
 
-const icons = [
-  { label: 'Rocket', svg: <RocketIcon /> },
-  { label: 'Plus', svg: <PlusIcon /> },
-  { label: 'Rocket', svg: <RocketIcon /> },
-  { label: 'Plus', svg: <PlusIcon /> },
-  { label: 'Rocket', svg: <RocketIcon /> },
-  { label: 'Plus', svg: <PlusIcon /> },
-  { label: 'Rocket', svg: <RocketIcon /> }
-];
+const icons = Object.entries(Icons).map(([key, Component]) => ({
+  label: key.replace('Icon', ''),
+  svg: <Component />
+}));
 
 export default icons;

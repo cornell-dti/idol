@@ -35,7 +35,7 @@ export default function Home() {
         />
 
         <div className="[&+*]:rounded-t-2xl [&+*]:overflow-hidden [&+*]:border-t-1 [&+*]:border-border-1 mb-16 relative group">
-          <Marquee height={96}>
+          <Marquee height={120}>
             {logos.map((logo, index) => (
               <LogoBox key={index} {...logo} noLink border={false} noFocus={true} />
             ))}

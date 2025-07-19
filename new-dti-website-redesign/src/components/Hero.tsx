@@ -33,7 +33,7 @@ const Hero = ({
   <section className={`${className} hero ${nextSectionCurved ? 'nextSectionCurved' : ''} mb-1`}>
     {image && (
       <div
-        className="flex items-end h-[800px] relative bg-no-repeat bg-center bg-cover"
+        className="flex items-end [@media(max-height:800px)]:h-[500px] h-[800px] relative bg-no-repeat bg-center bg-cover"
         style={{ backgroundImage: `url('${image}')` }}
       >
         <div
@@ -44,7 +44,7 @@ const Hero = ({
               color-mix(in srgb, var(--background-1) 90%, transparent) 1.54%,
               color-mix(in srgb, var(--background-1) 20%, transparent) 75.51%
             ),
-            radial-gradient(116.68% 116.67% at 50% -16.67%,
+            radial-gradient(116.68% 116.67% at 50% -32.67%,
               transparent 40%,
               var(--background-1) 100%
             )
@@ -55,7 +55,7 @@ const Hero = ({
         <div className="flex flex-col md:flex-row z-10 md:items-center w-full p-4 sm:p-8 pb-16 max-w-[1184px] mx-auto gap-4">
           <div className="flex flex-col gap-1 md:max-w-1/2">
             <h1>{heading}</h1>
-            <p className="h6 text-foreground-3">{subheading}</p>
+            <p className="h6 text-foreground-3 !leading-7">{subheading}</p>
           </div>
 
           {(button1Label && button1Link) || (button2Label && button2Link) ? (

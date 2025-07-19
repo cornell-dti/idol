@@ -14,6 +14,7 @@ const TabEdge: React.FC<TabEdgeProps> = ({ variant }) => {
         height="42"
         viewBox="0 0 60 42"
         fill="none"
+        aria-hidden={true}
       >
         <g clipPath="url(#clip0_2816_5179)">
           <mask id="mask0_2816_5179" maskUnits="userSpaceOnUse" x="0" y="-1" width="60" height="43">
@@ -86,6 +87,7 @@ const TabEdge: React.FC<TabEdgeProps> = ({ variant }) => {
       height="42"
       viewBox="0 0 60 42"
       fill="none"
+      aria-hidden={true}
     >
       <g clipPath="url(#clip0_2816_5162)">
         <mask id="mask0_2816_5162" maskUnits="userSpaceOnUse" x="0" y="-1" width="60" height="43">

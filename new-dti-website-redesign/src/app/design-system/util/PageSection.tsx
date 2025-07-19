@@ -12,7 +12,7 @@ export default function PageSection({
   className = ''
 }: PageSectionProps) {
   return (
-    <section className={`p-12 flex flex-col gap-6 ${className}`}>
+    <section className={`p-6 md:p-12 flex flex-col gap-6 ${className} pageSection`}>
       <div className="flex flex-col gap-2">
         <h2 className="h4">{title}</h2>
         {description && <p className="text-foreground-3">{description}</p>}
