@@ -23,7 +23,7 @@ const MemberSummary = ({
     <Image
       src={image}
       alt={`${user.firstName} ${user.lastName}'s profile picture`}
-      className="rounded-lg w-auto h-auto transform transition-all duration-120 ease-in-out group-active:scale-97"
+      className="rounded-lg w-[232px] h-[232px] object-cover transform transition-all duration-120 ease-in-out group-active:scale-97"
       width={232}
       height={232}
     />
