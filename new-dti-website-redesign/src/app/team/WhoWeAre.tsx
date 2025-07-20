@@ -220,7 +220,7 @@ export default function WhoWeAre() {
 
   return (
     <section>
-      <div className="flex flex-col gap-2 p-8 border-b border-[var(--color-border-1)]">
+      <div className="flex flex-col gap-2 p-4 sm:p-8 border-b border-border-1">
         <h2>Who we are</h2>
         <p className="text-foreground-3">
           More than just being inclusive, our team strives to bring many backgrounds and
@@ -234,29 +234,28 @@ export default function WhoWeAre() {
         style={{ border: 'none !important' }}
       >
         <div className="md:basis-1/4 flex md:flex-col flex-row flex-wrap w-full max-w-full">
-          <div className="text-left p-2 md:p-8 basis-1/3 min-w-0 border-r border-b border-[var(--color-border-1)]">
-            <h1>{chartSection ? roleStats[chartSection].people : allMembers.length}</h1>
-            <p className="text-foreground-3 md:hidden">Members</p>
-            <h5 className="text-foreground-3 hidden md:block">Members</h5>
+          <div className="text-left p-4 sm:p-8 basis-1/3 min-w-0 border-r border-b border-border-1">
+            <h3 className="h1">
+              {chartSection ? roleStats[chartSection].people : allMembers.length}
+            </h3>
+            <p className="text-foreground-3 sm:!text-[20px]">Members</p>
           </div>
-          <div className="text-left p-2 md:p-8 basis-1/3 min-w-0 border-r border-b border-[var(--color-border-1)]">
-            <h1>
+          <div className="text-left p-4 sm:p-8 basis-1/3 min-w-0 border-r border-b border-border-1">
+            <h3 className="h1">
               {chartSection ? roleStats[chartSection].majors.size : countMajors(allMembers).size}
-            </h1>
-            <p className="text-foreground-3 md:hidden">Different Majors</p>
-            <h5 className="text-foreground-3 hidden md:block">Different Majors</h5>
+            </h3>
+            <p className="text-foreground-3 sm:!text-[20px]">Different majors</p>
           </div>
-          <div className="text-left p-2 md:p-8 basis-1/3 min-w-0 md:border-r border-b md:border-b-0 border-[var(--color-border-1)]">
-            <h1>
+          <div className="text-left p-4 sm:p-8 basis-1/3 min-w-0 md:border-r border-b md:border-b-0 border-border-1">
+            <h3 className="h1">
               {chartSection
                 ? roleStats[chartSection].colleges.size
                 : countColleges(allMembers).size}
-            </h1>
-            <p className="text-foreground-3 md:hidden">Represented Colleges</p>
-            <h5 className="text-foreground-3 hidden md:block">Represented Colleges</h5>
+            </h3>
+            <p className="text-foreground-3 sm:!text-[20px]">Represented colleges</p>
           </div>
         </div>
-        <div className="md:basis-1/2 flex justify-center items-center self-stretch md:border-b-0 border-b border-[var(--color-border-1)]">
+        <div className="md:basis-1/2 flex justify-center items-center self-stretch md:border-b-0 border-b border-border-1">
           <PieChart
             width={chartSize}
             height={chartSize}
@@ -267,31 +266,31 @@ export default function WhoWeAre() {
           />
         </div>
 
-        <div className="md:basis-1/4 p-4 md:p-8 flex flex-col gap-4 self-stretch justify-center md:border-l border-[var(--color-border-1)]">
+        <div className="md:basis-1/4 p-4 sm:p-8 flex flex-col gap-4 self-stretch justify-center md:border-l border-border-1">
           {(Object.keys(roleStats) as GeneralRole[]).map((role) => {
             const rawRole = allMembers.find((mem) => getGeneralRole(mem.role) === role)?.role;
             return (
               <div
                 key={role}
-                className="flex gap-4 items-center"
+                className="flex gap-4 items-center group "
                 onMouseEnter={() => setChartSection(role)}
                 onMouseLeave={() => setChartSection(undefined)}
               >
                 <div
-                  className={`w-8 h-8 rounded-sm border-[1px] flex-shrink-0 ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
+                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity duration-120 ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
                   style={{
                     backgroundColor: roleStats[role].color
                   }}
                 />
-                <h5
-                  className={`${
+                <h3
+                  className={`h6 transition-colors duration-120 ${
                     chartSection === role
                       ? getColorClass(rawRole as Role, false, false, 'text-accent')
                       : 'text-foreground-3'
                   }`}
                 >
                   {roleStats[role].name}
-                </h5>
+                </h3>
               </div>
             );
           })}

@@ -35,7 +35,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
 
   return (
-    <div className="flex flex-row-reverse justify-end md:flex-col gap-4 md:gap-y-3 md:pt-8 md:pb-16 border-b-1 border-border-1">
+    <div className="flex flex-row-reverse justify-end md:flex-col md:gap-4 gap-2 md:gap-y-3 md:pt-8 md:pb-16 border-b-1 border-border-1">
       {/* Desktop: dates above */}
       <div className="flex flex-col md:flex-row w-full">
         {events.map((ev, i) => (
@@ -52,7 +52,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         ))}
       </div>
       {/* Line Row */}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col -left-[7px] relative md:left-0 md:flex-row">
         {events.map((ev, i) => {
           const passed = isPassed(ev);
           const base = passed ? 'bg-accent-red' : 'bg-foreground-3';

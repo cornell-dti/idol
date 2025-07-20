@@ -97,7 +97,8 @@ export default function Navbar({ demo }: NavbarProps) {
 
   // tracks if user has scrolled past treshold and updates state accordingly
   useEffect(() => {
-    const scrollThreshold = 600;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 900;
+    const scrollThreshold = isMobile ? 300 : 600;
     let ticking = false;
 
     const onScroll = () => {
