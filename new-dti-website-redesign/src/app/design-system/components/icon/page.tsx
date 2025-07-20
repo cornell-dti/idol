@@ -26,7 +26,7 @@ export default function IconPage() {
           }
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 border-l border-border-1">
+      <div className="grid grid-cols-2 md:grid-cols-4 border-l border-border-1">
         {icons.map((icon, idx) => (
           <div
             key={idx}

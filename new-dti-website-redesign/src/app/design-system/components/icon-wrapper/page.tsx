@@ -3,6 +3,7 @@ import PageLayout from '../../util/PageLayout';
 import PageSection from '../../util/PageSection';
 import IconWrapper from '../../../../components/IconWrapper';
 import RocketIcon from '../../../../components/icons/RocketIcon';
+import Note from '../../util/Note';
 
 export default function IconWrapperPage() {
   return (
@@ -12,6 +13,16 @@ export default function IconWrapperPage() {
           These are used as decorational elements, for example in the Feature page section or in the
           Timeline Card component.
         </p>
+
+        <Note
+          inner={
+            <p>
+              Although they look similar, IconWrapper is not the same as IconButton. IconWrapper
+              isn't interactive and is just meant to be used as a decorative element.
+            </p>
+          }
+        />
+
         <div className="flex gap-8">
           <div className="flex flex-col gap-6">
             <IconWrapper size="large" type="primary">
