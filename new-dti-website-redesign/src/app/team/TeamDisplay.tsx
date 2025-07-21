@@ -6,6 +6,12 @@ import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import alumniMembers from './data/alumni.json';
 import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
+import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
+import useScreenSize from '../../hooks/useScreenSize';
+
+const LAPTOP_COLUMNS = 4;
+const TABLET_COLUMNS = 3;
+const PHONE_COLUMNS = 2;
 
 const allMembers = members as IdolMember[];
 
@@ -40,6 +46,7 @@ export default function TeamDisplay() {
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
   const [clickedSection, setClickedSection] = useState<string | undefined>(undefined);
   const memberDetailsRef = useRef<HTMLDivElement>(null);
+  const { width } = useScreenSize();
 
   const alumniRoles = populateMembers(teamRoles as RoleEntry, alumniMembers as IdolMember[]);
   const orderedAlumni = Object.keys(alumniRoles).reduce(
@@ -47,6 +54,34 @@ export default function TeamDisplay() {
       acc.concat(alumniRoles[role].members.filter((member) => !acc.includes(member))),
     []
   );
+
+  const canInsertMemberDetails = (
+    index: number,
+    members: IdolMember[],
+    roleName: string,
+    selectedMemberIndex: number
+  ): boolean => {
+    let columns = LAPTOP_COLUMNS;
+    if (width < TABLET_BREAKPOINT) {
+        columns = PHONE_COLUMNS;
+      } else if (width < LAPTOP_BREAKPOINT) {
+        columns = TABLET_COLUMNS;
+      }
+
+    if (selectedMember === undefined) return false;
+    if (roleName !== selectedRole && selectedRole !== 'Full Team') return false;
+    if (clickedSection !== roleName) return false;
+
+    return (
+      // Case where member of index is not on last row
+      (index % columns === columns - 1 &&
+        selectedMemberIndex >= index - columns + 1 &&
+        selectedMemberIndex <= index) ||
+      // Case where member of index is on last row
+      (index === members.length - 1 &&
+        selectedMemberIndex >= members.length - (members.length % columns))
+    );
+  };
 
   const handleMemberClick = (member: IdolMember, roleName: string) => {
     const newMember = member.netid === selectedMember?.netid ? undefined : member;
@@ -122,17 +157,27 @@ export default function TeamDisplay() {
 
           if (!shouldShow) return null;
 
+          const selectedMemberIndex = selectedMember
+            ? roleData.members.findIndex((member) => member.netid === selectedMember.netid)
+            : -1;
+
           return (
-            <div key={roleKey} className="flex flex-col gap-4">
+            <div key={roleKey} className="flex flex-col">
               <div className="flex flex-col md:p-8 p-4 gap-2 border-b-1 border-t-1 border-border-1">
                 <h3>{`${roleData.roleName}${roleData.roleName !== 'Leads' ? '' : ' Team'}`}</h3>
                 <p className="text-foreground-3">{roleData.description}</p>
               </div>
 
               {/* Members Grid */}
-              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-0">
+              <div className="grid [@media(min-width:1024px)]:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-0">
                 {roleData.members.map((member, memberIndex) => {
                   const isSelected = selectedMember?.netid === member.netid;
+                  const showDetails = canInsertMemberDetails(
+                    memberIndex,
+                    roleData.members,
+                    roleData.roleName,
+                    selectedMemberIndex
+                  );
 
                   return (
                     <div key={member.netid} className="contents">
@@ -143,27 +188,28 @@ export default function TeamDisplay() {
                         onClick={() => handleMemberClick(member, roleData.roleName)}
                         className="card-clickable"
                       />
+
+                      {showDetails && selectedMember && (
+                        <div
+                          className="[@media(min-width:1024px)]:col-span-4 md:col-span-3 col-span-2 gap-0"
+                          ref={memberDetailsRef}
+                        >
+                          <MemberDetailsCard
+                            user={selectedMember}
+                            image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
+                          />
+                          <button
+                            onClick={handleCloseDetails}
+                            className="mt-4 px-4 py-2 bg-background-2 rounded-md hover:bg-background-3 transition-colors"
+                          >
+                            Close Details
+                          </button>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
               </div>
-
-              {/* Member Details - Show only for the clicked section */}
-              {selectedMember && clickedSection === roleData.roleName && (
-                <div className="mt-8">
-                  <MemberDetailsCard
-                    user={selectedMember}
-                    image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
-                    scrollRef={memberDetailsRef}
-                  />
-                  <button
-                    onClick={handleCloseDetails}
-                    className="mt-4 px-4 py-2 bg-background-2 rounded-md hover:bg-background-3 transition-colors"
-                  >
-                    Close Details
-                  </button>
-                </div>
-              )}
             </div>
           );
         })}
@@ -174,7 +220,7 @@ export default function TeamDisplay() {
             <div className="flex flex-col md:p-8 p-4 gap-2">
               <h3>Alumni & Inactive Members</h3>
             </div>
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-0">
+            <div className="grid [@media(min-width:1024px)]:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-0">
               {orderedAlumni.map((member) => (
                 <a
                   key={member.netid}
