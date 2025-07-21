@@ -6,6 +6,7 @@ import SectionSep from '../../components/SectionSep';
 import FaqSection from './FaqSection';
 import RoleDescriptionsSection from './RoleDescriptionsSection';
 import config from '../../../config.json';
+import ApplicationTimeline from './ApplicationTimeline';
 
 export const metadata = {
   title: 'Apply - Cornell DTI',
@@ -30,9 +31,7 @@ export default function Apply() {
         image="/apply/hero.png"
       />
 
-      <section className="temporarySection border-t-1 border-border-1">
-        <h4>Application timeline section</h4>
-      </section>
+      <ApplicationTimeline />
 
       <SectionSep />
 

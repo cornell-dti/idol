@@ -9,10 +9,11 @@ type Tab = {
 
 type TabsProps = {
   tabs: Tab[];
+  onChange?: (label: string) => void;
   className?: string;
 };
 
-export default function Tabs({ tabs, className = '' }: TabsProps) {
+export default function Tabs({ tabs, onChange = () => {}, className = '' }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -44,6 +45,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
       const dir = e.key === 'ArrowRight' ? 1 : -1;
       const nextIndex = (activeIndex + dir + tabs.length) % tabs.length;
       setActiveIndex(nextIndex);
+      onChange(tabs[nextIndex].label);
       tabsRef.current[nextIndex]?.focus(); // Moves focus to next tab
     }
   };
@@ -70,7 +72,10 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
               ref={(el) => {
                 tabsRef.current[index] = el;
               }}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                setActiveIndex(index);
+                onChange(tabs[index].label);
+              }}
               role="tab"
               aria-selected={activeIndex === index}
               aria-controls={`panel-${index}`}

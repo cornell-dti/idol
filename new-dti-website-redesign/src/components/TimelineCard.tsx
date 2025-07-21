@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
+import { Ref } from 'react';
 import Link from 'next/link';
 import IconWrapper from './IconWrapper';
 import LinkIcon from './icons/LinkIcon';
 import CalendarIcon from './icons/CalendarIcon';
 import ArrowIcon from './icons/ArrowIcon';
 import PinIcon from './icons/PinIcon';
+import { AlarmIcon, LoudspeakerIcon, PencilIcon, PeopleIcon, WorkshopIcon } from './icons';
+import PartyPopperIcon from './icons/PartyPopperIcon';
 
 export type DateTime = {
   date: string;
@@ -13,29 +15,47 @@ export type DateTime = {
 };
 
 export type RecruitmentEvent = {
-  icon?: ReactNode;
   title: string;
   description: string;
   location?: string;
   type: string;
   link?: string;
-  freshmen: DateTime;
-  upperclassmen: DateTime;
-  spring: DateTime;
+  freshmen?: DateTime;
+  upperclassmen?: DateTime;
+  spring?: DateTime;
 };
+
+export enum Cycle {
+  UPPERCLASSMEN = 'upperclassmen',
+  FRESHMEN = 'freshmen',
+  SPRING = 'spring'
+}
 
 const TimelineCard = ({
   event,
-  cycle
+  cycle,
+  ref
 }: {
   event: RecruitmentEvent;
-  cycle: 'freshmen' | 'upperclassmen' | 'spring';
+  cycle: Cycle;
+  ref?: Ref<HTMLDivElement>;
 }) => {
+  if (!event[cycle]) return <></>;
+
+  const icon = {
+    application: <PencilIcon />,
+    workshop: <WorkshopIcon />,
+    info: <LoudspeakerIcon />,
+    offer: <PartyPopperIcon />,
+    deadline: <AlarmIcon />,
+    interview: <PeopleIcon />
+  }[event.type];
+
   const datetime: DateTime = event[cycle];
   return (
-    <div className="max-w-[504px]">
+    <div className="max-w-[504px] w-full" ref={ref}>
       <div className="flex flex-col gap-2 p-4 rounded-t-lg border border-border-1 border-b-transparent">
-        <IconWrapper>{event.icon}</IconWrapper>
+        <IconWrapper>{icon}</IconWrapper>
         <div className="flex flex-col gap-1">
           <h5>{event.title}</h5>
           <p className="text-foreground-3">{event.description}</p>
