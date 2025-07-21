@@ -6,6 +6,8 @@ import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import alumniMembers from './data/alumni.json';
 import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
+import IconButton from '../../components/IconButton';
+import XIcon from '../../components/icons/XIcon'; 
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import useScreenSize from '../../hooks/useScreenSize';
 
@@ -54,19 +56,19 @@ export default function TeamDisplay() {
       acc.concat(alumniRoles[role].members.filter((member) => !acc.includes(member))),
     []
   );
-
+  const getColumnCount = (): number => {
+    if (width < TABLET_BREAKPOINT) return PHONE_COLUMNS;
+    if (width < LAPTOP_BREAKPOINT) return TABLET_COLUMNS;
+    return LAPTOP_COLUMNS; 
+  };
+  
   const canInsertMemberDetails = (
     index: number,
     members: IdolMember[],
     roleName: string,
     selectedMemberIndex: number
   ): boolean => {
-    let columns = LAPTOP_COLUMNS;
-    if (width < TABLET_BREAKPOINT) {
-        columns = PHONE_COLUMNS;
-      } else if (width < LAPTOP_BREAKPOINT) {
-        columns = TABLET_COLUMNS;
-      }
+    let columns = getColumnCount();
 
     if (selectedMember === undefined) return false;
     if (roleName !== selectedRole && selectedRole !== 'Full Team') return false;
@@ -109,6 +111,44 @@ export default function TeamDisplay() {
       setSelectedMember(undefined);
       setClickedSection(undefined);
     }
+  };
+
+  const BoxBorder = ({ columnCount, showCloseButton = false, onClose }: { 
+    columnCount: number; 
+    showCloseButton?: boolean;
+    onClose?: () => void;
+  }) => {
+    const totalBoxes = columnCount * 4; 
+  
+  return (
+    <div className={`grid`} style={{ gridTemplateColumns: `repeat(${totalBoxes}, 1fr)` }}>
+      {Array.from({ length: totalBoxes }, (_, index) => {
+        const isLastBox = index === totalBoxes - 1;
+        const shouldShowCloseButton = showCloseButton && isLastBox;
+        
+        return (
+          <div 
+            key={index} 
+            className={`aspect-square relative flex items-center justify-center border-r border-b border-border-1 ${
+                isLastBox ? 'border-r-0' : ''
+              }`}
+              
+          >
+            {shouldShowCloseButton && onClose && (
+              <IconButton
+                aria-label="Close member details"
+                onClick={onClose}
+                variant="tertiary"
+                className="absolute w-full h-full border-0 rounded-none"
+              >
+                <XIcon size={24} />
+              </IconButton>
+            )}
+          </div>
+        );
+      })}
+    </div>
+      );
   };
 
   return (
@@ -194,16 +234,18 @@ export default function TeamDisplay() {
                           className="[@media(min-width:1024px)]:col-span-4 md:col-span-3 col-span-2 gap-0"
                           ref={memberDetailsRef}
                         >
+                            <BoxBorder 
+                            columnCount={getColumnCount()} 
+                            showCloseButton={true}
+                            onClose={handleCloseDetails}
+                          />
                           <MemberDetailsCard
                             user={selectedMember}
                             image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
                           />
-                          <button
-                            onClick={handleCloseDetails}
-                            className="mt-4 px-4 py-2 bg-background-2 rounded-md hover:bg-background-3 transition-colors"
-                          >
-                            Close Details
-                          </button>
+                          
+                         <BoxBorder columnCount={getColumnCount()} />
+                     
                         </div>
                       )}
                     </div>
