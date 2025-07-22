@@ -23,7 +23,11 @@ const MemberSummary = ({
     <Image
       src={image}
       alt={`${user.firstName} ${user.lastName}'s profile picture`}
-      className="rounded-lg w-[232px] h-[232px] object-cover transform transition-all duration-120 ease-in-out group-active:scale-97"
+      className={`rounded-lg object-cover transform transition-all duration-120 ease-in-out group-active:scale-97 ${
+        enlarged 
+          ? 'w-full aspect-square' 
+          : 'w-[232px] h-[232px]'
+      }`}
       width={232}
       height={232}
     />
@@ -61,7 +65,7 @@ export const MemberCard = forwardRef<HTMLDivElement, MemberCardProps>(
     return (
       <article
         ref={ref}
-        className={`${baseStyles} relative overflow-hidden group ${
+        className={`h-full ${baseStyles} relative overflow-hidden group ${
           selected
             ? 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]  after:transform after:scale-x-100 after:origin-center after:transition-transform after:duration-200 bg-background-2'
             : 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:transform after:scale-x-0 after:origin-center after:transition-transform after:duration-200'
@@ -92,6 +96,8 @@ const IconLink = ({
   return (
     <Link
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="interactive activeState rounded-sm text-foreground-1 hover:text-foreground-2"
       aria-label={label}
     >
@@ -117,7 +123,7 @@ export const MemberDetailsCard = ({
   return (
     <div className="card-clickable flex w-full flex-col md:flex-row border-b-1 border-border-1">
       {showImage !== false && (
-        <div className={`${baseStyles} p-8 gap-4 border-r-1 border-border-1`}>
+        <div className={`${baseStyles} p-8 gap-4 border-b-1 md:border-b-0 md:border-r-1 border-border-1`}>
           <MemberSummary user={user} image={image} enlarged />
         </div>
       )}
@@ -203,7 +209,7 @@ export const MemberDetailsCard = ({
               </IconLink>
             )}
           </div>
-          <Button label={'Chat with me'} href={user.coffeeChatLink || `mailto:${user.email}`} />
+          <Button label={'Chat with me'} newTab={true} href={user.coffeeChatLink || `mailto:${user.email}`} />
         </div>
       </div>
       <div ref={scrollRef} className="md:-mt-65" />
