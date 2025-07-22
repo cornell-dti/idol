@@ -24,9 +24,7 @@ const MemberSummary = ({
       src={image}
       alt={`${user.firstName} ${user.lastName}'s profile picture`}
       className={`rounded-lg object-cover transform transition-all duration-120 ease-in-out group-active:scale-97 ${
-        enlarged 
-          ? 'w-full aspect-square' 
-          : 'w-[232px] h-[232px]'
+        enlarged ? 'w-full aspect-square' : 'w-[232px] h-[232px]'
       }`}
       width={232}
       height={232}
@@ -123,7 +121,9 @@ export const MemberDetailsCard = ({
   return (
     <div className="card-clickable flex w-full flex-col md:flex-row border-b-1 border-border-1">
       {showImage !== false && (
-        <div className={`${baseStyles} p-8 gap-4 border-b-1 md:border-b-0 md:border-r-1 border-border-1`}>
+        <div
+          className={`${baseStyles} p-8 gap-4 border-b-1 md:border-b-0 md:border-r-1 border-border-1`}
+        >
           <MemberSummary user={user} image={image} enlarged />
         </div>
       )}
@@ -209,7 +209,11 @@ export const MemberDetailsCard = ({
               </IconLink>
             )}
           </div>
-          <Button label={'Chat with me'} newTab={true} href={user.coffeeChatLink || `mailto:${user.email}`} />
+          <Button
+            label={'Chat with me'}
+            newTab={true}
+            href={user.coffeeChatLink || `mailto:${user.email}`}
+          />
         </div>
       </div>
       <div ref={scrollRef} className="md:-mt-65" />
