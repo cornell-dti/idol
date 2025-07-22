@@ -27,8 +27,8 @@ type RoleEntry = {
   };
 };
 
-const populateMembers = (roles: RoleEntry, allMembers: IdolMember[]): RoleEntry => {
-  return Object.fromEntries(
+const populateMembers = (roles: RoleEntry, allMembers: IdolMember[]): RoleEntry =>
+  Object.fromEntries(
     Object.entries(roles).map(([key, value]) => [
       key,
       {
@@ -39,7 +39,6 @@ const populateMembers = (roles: RoleEntry, allMembers: IdolMember[]): RoleEntry 
       }
     ])
   );
-};
 
 const roles = populateMembers(teamRoles as RoleEntry, allMembers);
 
@@ -60,29 +59,6 @@ export default function TeamDisplay() {
     if (width < TABLET_BREAKPOINT) return PHONE_COLUMNS;
     if (width < LAPTOP_BREAKPOINT) return TABLET_COLUMNS;
     return LAPTOP_COLUMNS;
-  };
-
-  const canInsertMemberDetails = (
-    index: number,
-    members: IdolMember[],
-    roleName: string,
-    selectedMemberIndex: number
-  ): boolean => {
-    let columns = getColumnCount();
-
-    if (selectedMember === undefined) return false;
-    if (roleName !== selectedRole && selectedRole !== 'Full Team') return false;
-    if (clickedSection !== roleName) return false;
-
-    return (
-      // Case where member of index is not on last row
-      (index % columns === columns - 1 &&
-        selectedMemberIndex >= index - columns + 1 &&
-        selectedMemberIndex <= index) ||
-      // Case where member of index is on last row
-      (index === members.length - 1 &&
-        selectedMemberIndex >= members.length - (members.length % columns))
-    );
   };
 
   const handleMemberClick = (member: IdolMember, roleName: string) => {
@@ -168,7 +144,7 @@ export default function TeamDisplay() {
       memberDetailsRef
     } = options;
 
-    for (let i = 0; i < members.length; i++) {
+    for (let i = 0; i < members.length; i += 1) {
       const member = members[i];
       const isSelected = selectedMember?.netid === member.netid;
 
@@ -207,7 +183,7 @@ export default function TeamDisplay() {
     const remainder = members.length % columns;
     if (remainder !== 0) {
       const fillers = columns - remainder;
-      for (let i = 0; i < fillers; i++) {
+      for (let i = 0; i < fillers; i += 1) {
         items.push(
           <div
             key={`filler-${isAlumni ? 'alumni-' : ''}${i}`}
