@@ -21,12 +21,8 @@ const eventProgress = (
   secondEvent: RecruitmentEvent,
   cycle: Cycle
 ): number => {
-  if (!firstEvent[cycle] || !secondEvent[cycle]) {
-    throw new Error(`${cycle} does not exist in ${firstEvent.title} or ${secondEvent.title}`);
-  }
-
-  const [, end] = parseDateTime(firstEvent[cycle]);
-  const [start] = parseDateTime(secondEvent[cycle]);
+  const [, end] = parseDateTime(firstEvent[cycle]!);
+  const [start] = parseDateTime(secondEvent[cycle]!);
   if (Date.now() < end) return 0;
   if (Date.now() > start) return 1;
   return (Date.now() - end) / (start - end);
@@ -123,7 +119,7 @@ const ApplicationTimeline = () => {
                 : lineHeight + 17.5;
               const progress = isLast ? 0 : eventProgress(event, cycleEvents[i + 1], cycle);
               const circleColor =
-                Date.now() < parseDateTime(event[cycle])[0]
+                Date.now() < parseDateTime(event[cycle]!)[0]
                   ? 'var(--foreground-3)'
                   : 'var(--accent-red)';
               return (

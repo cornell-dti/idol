@@ -5,7 +5,7 @@ import LinkIcon from './icons/LinkIcon';
 import CalendarIcon from './icons/CalendarIcon';
 import ArrowIcon from './icons/ArrowIcon';
 import PinIcon from './icons/PinIcon';
-import { AlarmIcon, LoudspeakerIcon, PencilIcon, PeopleIcon, WorkshopIcon } from './icons';
+import { AlarmIcon, ChatIcon, LoudspeakerIcon, PencilIcon, WorkshopIcon } from './icons';
 import PartyPopperIcon from './icons/PartyPopperIcon';
 
 export type DateTime = {
@@ -48,10 +48,10 @@ const TimelineCard = ({
     info: <LoudspeakerIcon />,
     offer: <PartyPopperIcon />,
     deadline: <AlarmIcon />,
-    interview: <PeopleIcon />
+    interview: <ChatIcon />
   }[event.type];
 
-  const datetime: DateTime = event[cycle];
+  const datetime: DateTime = event[cycle]!;
   return (
     <div className="max-w-[504px] w-full" ref={ref}>
       <div className="flex flex-col gap-2 p-4 rounded-t-lg border border-border-1 border-b-transparent">
