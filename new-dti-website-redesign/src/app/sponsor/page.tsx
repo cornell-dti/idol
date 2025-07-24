@@ -50,9 +50,11 @@ export default function Sponsor() {
 
       <SectionSep />
 
+      <SectionSep grid className="xxx border-x-1 border-border-1" />
+
       <SponsorTable />
 
-      <SectionSep />
+      <SectionSep grid className="xxx border-x-1 border-border-1" />
 
       <SponsorsList />
 

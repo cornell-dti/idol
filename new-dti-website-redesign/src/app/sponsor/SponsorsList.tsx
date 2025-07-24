@@ -22,9 +22,12 @@ export default function SponsorsList() {
             key={index}
             {...logo}
             fillWidth
-            className={`border-l border-b border-border-1 
+            className={`border-l border-border-1 
+              ${index === 0 || index === 4 ? 'max-[1000px]:!border-l-0' : ''} 
               ${index === 2 ? '!border-l-0' : ''} 
-              ${index >= 2 && index <= 5 ? '!border-b-0' : ''}`}
+              ${index >= 2 && index <= 3 ? 'min-[1000px]:border-b-0 max-[999px]:border-b' : ''}
+              ${index >= 4 && index <= 5 ? '!border-b-0' : ''}`
+              }
           />
         ))}
       </div>

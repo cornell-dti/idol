@@ -6,7 +6,6 @@ import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
 import { TABLET_BREAKPOINT } from '../../consts';
 import FeatureCard from '../../components/FeatureCard';
-import SectionSep from '../../components/SectionSep';
 import IconWrapper from '../../components/IconWrapper';
 
 type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
@@ -40,7 +39,7 @@ const medals = {
 const { benefits } = benefitData;
 
 const medalHeight = 57;
-const medalSelectedHeight = 45;
+const medalWidth = 45;
 const mostPopular = 'gold';
 
 const tiers = Object.keys(medals);
@@ -50,44 +49,75 @@ const SponsorshipTableMobile = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-7 pb-6 border-b-2 border-black">
-        <h3 className="font-semibold text-2xl">Sponsorship benefits</h3>
-        <div className="flex h-fit justify-between">
-          {Object.keys(medals).map((medal) => (
-            <div className="flex justify-center items-center" key={medal}>
-              <button
-                onClick={() => setSelectedMedal(medal as Tier)}
-                aria-label={`Show ${medal} tier`}
-              >
-                <Image
-                  src={medals[medal as Tier].link}
-                  alt=""
-                  height={medalHeight}
-                  width={medalSelectedHeight}
-                />
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div>
-        {benefits.map((benefit) => {
-          const highlighted = tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
-          return (
-            <div className="flex py-3 gap-x-4 border-b-[1px] border-[#D3C4C4]" key={benefit.key}>
-              <Image
-                src={`/icons/${highlighted ? 'green_check' : 'red_x'}.svg`}
-                alt={highlighted ? 'check' : 'x'}
-                width={22}
-                height={52}
-              />
-              <div className={`flex flex-col gap-1 ${highlighted ? 'opacity-100' : 'opacity-50'}`}>
-                <h4 className="text-lg text-[#0C0404]">{benefit.title}</h4>
-                <p className="text-sm text-[#877B7B] ">{benefit.description}</p>
-              </div>
-            </div>
-          );
-        })}
+      <h2 className="h3 py-8 px-4">Sponsorship benefits</h2>
+      <div className="bg-background-1">
+        <table className="w-full border-t border-border-1">
+          <thead>
+            <tr>
+              {Object.keys(medals).map((medal, index) => (
+                <th
+                  key={medal}
+                  className={`w-1/4 py-4 border-border-1 text-center ${
+                    index !== 0 ? 'border-l' : ''
+                  }`}
+                >
+                  <button
+                    onClick={() => setSelectedMedal(medal as Tier)}
+                    aria-label={`Show ${medal} tier`}
+                  >
+                    <div className="flex flex-col gap-[8px] items-center">
+                      <Image
+                        src={medals[medal as Tier].link}
+                        alt={medal}
+                        width={medalWidth}
+                        height={medalHeight}
+                      />
+                      <p style={{ color: medals[medal as Tier].color }}>
+                        {medals[medal as Tier].title}
+                      </p>
+                    </div>
+                  </button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {benefits.map((benefit) => {
+              const highlighted =
+                tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
+
+              return (
+                <tr key={benefit.key} className="border-t border-border-1">
+                  <td colSpan={3} className="py-4 pl-4">
+                    <h6>{benefit.title}</h6>
+                    <p className="text-[#A1A1A1]">{benefit.description}</p>
+                  </td>
+                  <td className="pl-[32px] pr-4">
+                    <div className="flex items-center justify-center">
+                      {highlighted ? (
+                        <IconWrapper
+                          size="small"
+                          type="primary"
+                          className="p-0"
+                        >
+                          <Image
+                            src="/sponsor/check.svg"
+                            alt="check"
+                            width={22}
+                            height={52}
+                          />
+                        </IconWrapper>
+                      ) : (
+                        <span className="w-[24px] rounded-full border border-border-1" />
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </>
   );
@@ -95,8 +125,6 @@ const SponsorshipTableMobile = () => {
 
 const SponsorshipTableLaptop = () => (
   <>
-    <SectionSep grid className="border-border-1" />
-
     <table className="table-auto w-full border-collapse border-border-1 bg-background-1">
       <thead>
         <tr>
@@ -111,19 +139,18 @@ const SponsorshipTableLaptop = () => (
               }`}
             >
               <div className="flex flex-col gap-[8px] items-center">
-                <div className="w-[45px] h-[57px]">
                   <Image
                     src={medals[medal as Tier].link}
                     alt={medal}
-                    width={medalSelectedHeight}
+                    width={medalWidth}
                     height={medalHeight}
-                />
-                </div>
+                  />
                 <p style={{ color: medals[medal as Tier].color }}>{medals[medal as Tier].title}</p>
               </div>
               {medals[medal as Tier].name === mostPopular && (
-                <div className="absolute shadow-[0px_8px_16px_0px_rgba(255,255,255,0.32)] bg-[#181818] -top-[39px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
-                  <p className="text-black">Most Popular</p>
+                <div className="absolute shadow-[0px_8px_16px_0px_rgba(255,255,255,0.32)] bg-[#181818] text-black -top-[39px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
+                  <p className="block min-[1000px]:hidden">Popular</p>
+                  <p className="hidden min-[1000px]:block">Most Popular</p>
                 </div>
               )}
             </th>
@@ -148,7 +175,7 @@ const SponsorshipTableLaptop = () => (
                   <IconWrapper size="small" type="primary" className="flex items-center justify-center mx-auto">
                     <Image
                       src="/sponsor/check.svg"
-                      alt="checkmark"
+                      alt="check"
                       width={16}
                       height={16}
                     />
@@ -171,9 +198,7 @@ const SponsorshipTable = () => {
   const { width } = useScreenSize();
   return (
     <section>
-      <div className="w-full flex flex-col justify-center">
       {width >= TABLET_BREAKPOINT ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
-      </div>
     </section>
   );
 };
