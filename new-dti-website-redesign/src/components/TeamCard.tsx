@@ -23,13 +23,11 @@ const MemberSummary = ({
     <Image
       src={image}
       alt={`${user.firstName} ${user.lastName}'s profile picture`}
-      className={`rounded-lg object-cover transform transition-all duration-120 ease-in-out group-active:scale-97 ${
-        enlarged ? 'w-full aspect-square' : 'w-[232px] h-[232px]'
-      }`}
+      className="rounded-lg w-full aspect-square object-cover transform transition-all duration-120 ease-in-out group-active:scale-97"
       width={232}
       height={232}
     />
-    <div className={`text-left flex flex-col ${enlarged ? 'gap-3' : 'gap-1'}`}>
+    <div className={`text-left flex flex-col ${enlarged ? 'gap-3 pt-4' : 'gap-1'}`}>
       {enlarged ? (
         <>
           <h3 className="h4">{`${user.firstName} ${user.lastName}`}</h3>
@@ -53,13 +51,14 @@ type MemberCardProps = {
   selected: boolean;
   className?: string;
   onClick?: () => void;
+  href?: string;
 };
 
 export const MemberCard = forwardRef<HTMLDivElement, MemberCardProps>(
-  ({ user, image, selected, onClick, className = '' }, ref) => {
+  ({ user, image, selected, onClick, className = '', href }, ref,) => {
     const baseStyles =
       'relative p-4 sm:p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:z-10 border-b-1 border-border-1';
-
+    
     return (
       <article
         ref={ref}
@@ -70,11 +69,22 @@ export const MemberCard = forwardRef<HTMLDivElement, MemberCardProps>(
         } ${className}`}
       >
         <MemberSummary user={user} image={image} />
-        <button
+        {href ? (
+          <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`View ${user.firstName} ${user.lastName}'s LinkedIn`}
+          className="absolute inset-0"
+        />
+        ) : (
+          <button
           className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
           onClick={onClick}
           aria-label={`Open ${user.firstName} ${user.lastName}'s profile`}
         />
+        )}
+        
       </article>
     );
   }
@@ -122,7 +132,7 @@ export const MemberDetailsCard = ({
     <div className="card-clickable flex w-full flex-col md:flex-row border-b-1 border-border-1">
       {showImage !== false && (
         <div
-          className={`${baseStyles} p-8 gap-4 border-b-1 md:border-b-0 md:border-r-1 border-border-1`}
+          className={`${baseStyles} hidden md:block p-8 gap-4 border-r-1 border-border-1`}
         >
           <MemberSummary user={user} image={image} enlarged />
         </div>

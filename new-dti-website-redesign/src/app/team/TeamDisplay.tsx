@@ -6,6 +6,8 @@ import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import alumniMembers from './data/alumni.json';
 import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
+import SectionSep from '@/components/SectionSep';
+import Tabs from '@/components/Tabs';
 import IconButton from '../../components/IconButton';
 import XIcon from '../../components/icons/XIcon';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
@@ -46,6 +48,7 @@ export default function TeamDisplay() {
   const [selectedRole, setSelectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
   const [clickedSection, setClickedSection] = useState<string | undefined>(undefined);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const memberDetailsRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
 
@@ -63,6 +66,11 @@ export default function TeamDisplay() {
 
   const handleMemberClick = (member: IdolMember, roleName: string) => {
     const newMember = member.netid === selectedMember?.netid ? undefined : member;
+
+    if (newMember && member.netid !== selectedMember?.netid) {
+        setScrollPosition(window.scrollY);
+    }
+
     setSelectedMember(newMember);
     setClickedSection(newMember ? roleName : undefined);
 
@@ -79,6 +87,13 @@ export default function TeamDisplay() {
   const handleCloseDetails = () => {
     setSelectedMember(undefined);
     setClickedSection(undefined);
+
+    requestAnimationFrame(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth'
+        });
+      });
   };
 
   const BoxBorder = ({
@@ -134,6 +149,7 @@ export default function TeamDisplay() {
     } = {}
   ) => {
     const columns = getColumnCount();
+    const isMobile = width < TABLET_BREAKPOINT;
     const items = [];
     const {
       isAlumni = false,
@@ -154,18 +170,12 @@ export default function TeamDisplay() {
           className={`relative border-r border-border-1 ${(i + 1) % columns === 0 ? 'border-r-0' : ''}`}
         >
           {isAlumni ? (
-            <a
-              href={member.linkedin || undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <MemberCard
-                user={member}
-                image={`/team/teamHeadshots/${member.netid}.jpg`}
-                selected={false}
-              />
-            </a>
+            <MemberCard
+            user={member}
+            image={`/team/teamHeadshots/${member.netid}.jpg`}
+            selected={false}
+            href={member.linkedin || undefined}
+          />
           ) : (
             <MemberCard
               user={member}
@@ -187,7 +197,7 @@ export default function TeamDisplay() {
         items.push(
           <div
             key={`filler-${isAlumni ? 'alumni-' : ''}${i}`}
-            className={`border-r border-b border-border-1 ${i === fillers - 1 ? 'border-r-0' : ''}`}
+            className="border-b border-border-1"
           />
         );
       }
@@ -212,6 +222,13 @@ export default function TeamDisplay() {
             className="[@media(min-width:1024px)]:col-span-4 md:col-span-3 col-span-2"
             ref={memberDetailsRef}
           >
+            {/*<SectionSep
+              grid={true}
+              hasX={true}
+              onClickX={() => setSelectedMember(undefined)}
+              xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
+              className="!ml-0 !mr-0"
+        />  */}
             <BoxBorder
               columnCount={getColumnCount()}
               showCloseButton={true}
@@ -222,6 +239,11 @@ export default function TeamDisplay() {
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
             />
             <BoxBorder columnCount={getColumnCount()} />
+            {/*<SectionSep
+              grid={true}
+              hasX={true}
+              isMobile={isMobile}
+            />*/}
           </div>
         );
 
@@ -234,7 +256,7 @@ export default function TeamDisplay() {
 
   return (
     <section>
-      <div className="flex flex-col pt-8 pb-8 p-4 md:p-8 gap-4">
+      <div className="flex flex-col p-4 md:p-8 gap-4">
         <div className="flex flex-col gap-2">
           <h2 className="">Introducing the team</h2>
           <p className="text-foreground-3">
