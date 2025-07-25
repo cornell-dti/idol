@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
-import { TABLET_BREAKPOINT } from '../../consts';
 import FeatureCard from '../../components/FeatureCard';
 import IconWrapper from '../../components/IconWrapper';
 
@@ -214,7 +213,7 @@ const SponsorshipTable = () => {
   const { width } = useScreenSize();
   return (
     <section>
-      {width >= TABLET_BREAKPOINT ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
+      {width >= 768 ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
     </section>
   );
 };
