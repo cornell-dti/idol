@@ -56,6 +56,8 @@ export default function Sponsor() {
 
       <SectionSep grid className="border-x-1 border-border-1" />
 
+      <SectionSep />
+
       <SponsorsList />
 
       <CtaSection
