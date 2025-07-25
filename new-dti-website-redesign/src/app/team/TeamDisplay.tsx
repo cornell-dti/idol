@@ -8,8 +8,6 @@ import alumniMembers from './data/alumni.json';
 import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
 import SectionSep from '@/components/SectionSep';
 import Tabs from '@/components/Tabs';
-import IconButton from '../../components/IconButton';
-import XIcon from '../../components/icons/XIcon';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import useScreenSize from '../../hooks/useScreenSize';
 
@@ -58,17 +56,12 @@ export default function TeamDisplay() {
       acc.concat(alumniRoles[role].members.filter((member) => !acc.includes(member))),
     []
   );
-  const getColumnCount = (): number => {
-    if (width < TABLET_BREAKPOINT) return PHONE_COLUMNS;
-    if (width < LAPTOP_BREAKPOINT) return TABLET_COLUMNS;
-    return LAPTOP_COLUMNS;
-  };
 
   const handleMemberClick = (member: IdolMember, roleName: string) => {
     const newMember = member.netid === selectedMember?.netid ? undefined : member;
 
     if (newMember && member.netid !== selectedMember?.netid) {
-        setScrollPosition(window.scrollY);
+      setScrollPosition(window.scrollY);
     }
 
     setSelectedMember(newMember);
@@ -78,63 +71,10 @@ export default function TeamDisplay() {
       requestAnimationFrame(() =>
         memberDetailsRef.current?.scrollIntoView({
           behavior: 'smooth',
-          block: 'center'
+          block: 'start'
         })
       );
     }
-  };
-
-  const handleCloseDetails = () => {
-    setSelectedMember(undefined);
-    setClickedSection(undefined);
-
-    requestAnimationFrame(() => {
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: 'smooth'
-        });
-      });
-  };
-
-  const BoxBorder = ({
-    columnCount,
-    showCloseButton = false,
-    onClose
-  }: {
-    columnCount: number;
-    showCloseButton?: boolean;
-    onClose?: () => void;
-  }) => {
-    const totalBoxes = columnCount * 4;
-
-    return (
-      <div className={`grid`} style={{ gridTemplateColumns: `repeat(${totalBoxes}, 1fr)` }}>
-        {Array.from({ length: totalBoxes }, (_, index) => {
-          const isLastBox = index === totalBoxes - 1;
-          const shouldShowCloseButton = showCloseButton && isLastBox;
-
-          return (
-            <div
-              key={index}
-              className={`aspect-square relative border-r border-b border-border-1 ${
-                isLastBox ? 'border-r-0' : ''
-              }`}
-            >
-              {shouldShowCloseButton && onClose && (
-                <IconButton
-                  aria-label="Close member details"
-                  onClick={onClose}
-                  variant="tertiary"
-                  className="absolute w-full h-full border-0 rounded-none"
-                >
-                  <XIcon size={24} />
-                </IconButton>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    );
   };
 
   const renderMemberGrid = (
@@ -148,7 +88,6 @@ export default function TeamDisplay() {
       memberDetailsRef?: React.RefObject<HTMLDivElement | null>;
     } = {}
   ) => {
-    const columns = getColumnCount();
     const isMobile = width < TABLET_BREAKPOINT;
     const items = [];
     const {
@@ -159,6 +98,10 @@ export default function TeamDisplay() {
       onMemberClick,
       memberDetailsRef
     } = options;
+
+    let columns = PHONE_COLUMNS;
+    if (width >= TABLET_BREAKPOINT) columns = TABLET_COLUMNS;
+    if (width >= LAPTOP_BREAKPOINT) columns = LAPTOP_COLUMNS;
 
     for (let i = 0; i < members.length; i += 1) {
       const member = members[i];
@@ -171,11 +114,11 @@ export default function TeamDisplay() {
         >
           {isAlumni ? (
             <MemberCard
-            user={member}
-            image={`/team/teamHeadshots/${member.netid}.jpg`}
-            selected={false}
-            href={member.linkedin || undefined}
-          />
+              user={member}
+              image={`/team/teamHeadshots/${member.netid}.jpg`}
+              selected={false}
+              href={member.linkedin || undefined}
+            />
           ) : (
             <MemberCard
               user={member}
@@ -222,28 +165,32 @@ export default function TeamDisplay() {
             className="[@media(min-width:1024px)]:col-span-4 md:col-span-3 col-span-2"
             ref={memberDetailsRef}
           >
-            {/*<SectionSep
+            <SectionSep
               grid={true}
               hasX={true}
-              onClickX={() => setSelectedMember(undefined)}
+              isMobile={isMobile}
+              onClickX={() => {
+                setSelectedMember(undefined);
+                requestAnimationFrame(() => {
+                  window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'smooth'
+                  });
+                });
+              }}
               xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
-              className="!ml-0 !mr-0"
-        />  */}
-            <BoxBorder
+            />
+            {/*<BoxBorder
               columnCount={getColumnCount()}
               showCloseButton={true}
               onClose={handleCloseDetails}
-            />
+            />*/}
             <MemberDetailsCard
               user={selectedMember}
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
             />
-            <BoxBorder columnCount={getColumnCount()} />
-            {/*<SectionSep
-              grid={true}
-              hasX={true}
-              isMobile={isMobile}
-            />*/}
+            {/*<BoxBorder columnCount={getColumnCount()} />*/}
+            <SectionSep grid={true} isMobile={isMobile} />
           </div>
         );
 
