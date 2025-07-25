@@ -11,30 +11,30 @@ type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
 const medals = {
   bronze: {
-    name: "bronze",
-    link: "/sponsor/medals/bronze.svg",
-    title: "Bronze",
-    color: "#AC773A",
+    name: 'bronze',
+    link: '/sponsor/medals/bronze.svg',
+    title: 'Bronze',
+    color: '#AC773A'
   },
   silver: {
-    name: "silver",
-    link: "/sponsor/medals/silver.svg",
-    title: "Silver",
-    color: "#B2B2B2",
+    name: 'silver',
+    link: '/sponsor/medals/silver.svg',
+    title: 'Silver',
+    color: '#B2B2B2'
   },
   gold: {
-    name: "gold",
-    link: "/sponsor/medals/gold.svg",
-    title: "Gold",
-    color: "#DBA10B",
+    name: 'gold',
+    link: '/sponsor/medals/gold.svg',
+    title: 'Gold',
+    color: '#DBA10B'
   },
   platinum: {
-    name: "platinum",
-    link: "/sponsor/medals/platinum.svg",
-    title: "Platinum",
-    color: "#7D7D7D",
+    name: 'platinum',
+    link: '/sponsor/medals/platinum.svg',
+    title: 'Platinum',
+    color: '#7D7D7D'
   }
-}
+};
 const { benefits } = benefitData;
 
 const medalHeight = 57;
@@ -99,8 +99,7 @@ const SponsorshipTableMobile = () => {
 
           <tbody>
             {benefits.map((benefit) => {
-              const highlighted =
-                tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
+              const highlighted = tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
 
               return (
                 <tr key={benefit.key} className="border-t border-border-1">
@@ -111,17 +110,8 @@ const SponsorshipTableMobile = () => {
                   <td className="pl-[32px] pr-4">
                     <div className="flex items-center justify-center">
                       {highlighted ? (
-                        <IconWrapper
-                          size="small"
-                          type="primary"
-                          className="p-0"
-                        >
-                          <Image
-                            src="/sponsor/check.svg"
-                            alt="check"
-                            width={22}
-                            height={52}
-                          />
+                        <IconWrapper size="small" type="primary" className="p-0">
+                          <Image src="/sponsor/check.svg" alt="check" width={22} height={52} />
                         </IconWrapper>
                       ) : (
                         <span className="w-[24px] rounded-full border border-border-1" />
@@ -147,19 +137,19 @@ const SponsorshipTableLaptop = () => (
             <h2 className="h3">Sponsorship benefits</h2>
           </th>
           {Object.keys(medals).map((medal) => (
-            <th 
+            <th
               key={medal}
               className={`relative w-[148px] items-center border-l border-border-1 ${
                 medals[medal as Tier].name === 'gold' ? 'bg-[#181818]' : ''
               }`}
             >
               <div className="flex flex-col gap-[8px] items-center">
-                  <Image
-                    src={medals[medal as Tier].link}
-                    alt={medal}
-                    width={medalWidth}
-                    height={medalHeight}
-                  />
+                <Image
+                  src={medals[medal as Tier].link}
+                  alt={medal}
+                  width={medalWidth}
+                  height={medalHeight}
+                />
                 <p style={{ color: medals[medal as Tier].color }}>{medals[medal as Tier].title}</p>
               </div>
               {medals[medal as Tier].name === mostPopular && (
@@ -183,17 +173,16 @@ const SponsorshipTableLaptop = () => (
               <td
                 key={`${benefit.key}-${tier}`}
                 className={`border-t border-l border-border-1 ${
-                tier === 'gold' ? 'bg-[#181818]' : ''
-              }`}
+                  tier === 'gold' ? 'bg-[#181818]' : ''
+                }`}
               >
                 {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) ? (
-                  <IconWrapper size="small" type="primary" className="flex items-center justify-center mx-auto">
-                    <Image
-                      src="/sponsor/check.svg"
-                      alt="check"
-                      width={16}
-                      height={16}
-                    />
+                  <IconWrapper
+                    size="small"
+                    type="primary"
+                    className="flex items-center justify-center mx-auto"
+                  >
+                    <Image src="/sponsor/check.svg" alt="check" width={16} height={16} />
                   </IconWrapper>
                 ) : (
                   <div className="flex items-center justify-center mx-auto">
@@ -212,9 +201,7 @@ const SponsorshipTableLaptop = () => (
 const SponsorshipTable = () => {
   const { width } = useScreenSize();
   return (
-    <section>
-      {width >= 768 ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
-    </section>
+    <section>{width >= 768 ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}</section>
   );
 };
 

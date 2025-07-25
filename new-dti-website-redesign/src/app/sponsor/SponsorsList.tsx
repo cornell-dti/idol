@@ -26,8 +26,7 @@ export default function SponsorsList() {
               ${index === 0 || index === 4 ? 'max-[1000px]:!border-l-0' : ''} 
               ${index === 2 ? '!border-l-0' : ''} 
               ${index >= 2 && index <= 3 ? 'min-[1000px]:border-b-0 max-[999px]:border-b' : ''}
-              ${index >= 4 && index <= 5 ? '!border-b-0' : ''}`
-              }
+              ${index >= 4 && index <= 5 ? '!border-b-0' : ''}`}
           />
         ))}
       </div>
