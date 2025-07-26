@@ -17,7 +17,7 @@ const ApplyHero = () => {
     <section id="Apply Hero" className="text-[#FEFEFE] flex items-center relative">
       {!isApplicationOpen && (
         <Banner
-          message={`Applications for ${config.semester} are not open yet. Stay tuned for opportunities around the beginning of the semester!`}
+          message={`Applications for Fall 2025 are not open yet. Stay tuned for opportunities around the beginning of the semester!`} // TOOO @oscar: change back to config.semester once new semester is set up.
           variant={'accent'}
         />
       )}
