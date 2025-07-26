@@ -1,6 +1,6 @@
 'use client';
 
-import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
+// import ApplicationTimeline from '../../../components/apply/ApplicationTimeline'; // TODO @oscar: add back in once applications are open for FA25.
 import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
