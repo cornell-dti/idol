@@ -1,0 +1,46 @@
+{
+  "benefits": [
+    {
+      "title": "Recognition on DTI website",
+      "description": "Logo placement on sponsorship materials",
+      "lowestTier": "bronze",
+      "key": "recognition"
+    },
+    {
+      "title": "Campus-wide marketing & publicity",
+      "description": "Support & usage of company products on campus",
+      "lowestTier": "bronze",
+      "key": "campus"
+    },
+    {
+      "title": "Access to resume book",
+      "description": "Access to our talent pipeline for recruitment",
+      "lowestTier": "silver",
+      "key": "resume"
+    },
+    {
+      "title": "Flagship initiative co-sponsor",
+      "description": "Company-specific publicity & swag distribution",
+      "lowestTier": "silver",
+      "key": "co-sponsor"
+    },
+    {
+      "title": "Host up to 1 initiative per semester",
+      "description": "Includes technical workshop, career chats, etc.",
+      "lowestTier": "gold",
+      "key": "1initiative"
+    },
+    {
+      "title": "Host up to 3 initiatives per semester",
+      "description": "With priority scheduling; each additional event costs $250",
+      "lowestTier": "gold",
+      "key": "3initiatives"
+    },
+    {
+      "title": "Promotional space in Duffield Hall",
+      "description": "Reserve space in Cornell’s central engineering hub, ideal for networking, swag distribution, and branding",
+      "lowestTier": "platinum",
+      "key": "duffield"
+    }
+  ]
+}
