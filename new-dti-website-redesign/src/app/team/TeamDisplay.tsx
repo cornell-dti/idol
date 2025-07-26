@@ -43,7 +43,6 @@ const populateMembers = (roles: RoleEntry, allMembers: IdolMember[]): RoleEntry 
 const roles = populateMembers(teamRoles as RoleEntry, allMembers);
 
 export default function TeamDisplay() {
-  const [selectedRole, setSelectedRole] = useState<string>('Full Team');
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
   const [clickedSection, setClickedSection] = useState<string | undefined>(undefined);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
@@ -75,12 +74,6 @@ export default function TeamDisplay() {
         })
       );
     }
-  };
-
-  const handleTabChange = (newTabLabel: string) => {
-    setSelectedRole(newTabLabel);
-    setSelectedMember(undefined);
-    setClickedSection(undefined);
   };
 
   const renderMemberGrid = (
@@ -153,8 +146,7 @@ export default function TeamDisplay() {
     }
 
     if (!isAlumni && selectedMember && selectedMemberIndex >= 0) {
-      const shouldShowDetails =
-        (roleName === selectedRole || selectedRole === 'Full Team') && clickedSection === roleName;
+      const shouldShowDetails = clickedSection === roleName;
 
       if (shouldShowDetails) {
         const selectedMemberRowIndex = Math.floor(selectedMemberIndex / columns);
@@ -285,7 +277,13 @@ export default function TeamDisplay() {
           </p>
         </div>
       </div>
-      <Tabs tabs={tabs} onTabChange={handleTabChange} />
+      <Tabs
+        tabs={tabs}
+        onTabChange={() => {
+          setSelectedMember(undefined);
+          setClickedSection(undefined);
+        }}
+      />
     </section>
   );
 }

@@ -13,7 +13,7 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
-  onTabChange?: (newTabLabel: string) => void;
+  onTabChange?: () => void;
 };
 
 export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
@@ -27,7 +27,7 @@ export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
-    onTabChange?.(tabs[index].label);
+    onTabChange?.();
   };
 
   // This is for the highlight effect (the filled pill) behind the selected tab
