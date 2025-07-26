@@ -58,7 +58,10 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
         }`}
       >
         © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
+        <br />
+        This organization is a registered student organization of Cornell University.
       </div>
+
       <div className="flex gap-5 md:h-fit h-screen">
         {socialIcons.map((icon, index) => (
           <a

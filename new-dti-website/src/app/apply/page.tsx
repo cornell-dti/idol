@@ -1,6 +1,6 @@
 'use client';
 
-import ApplicationTimeline from '../../../components/apply/ApplicationTimeline';
+// import ApplicationTimeline from '../../../components/apply/ApplicationTimeline'; // TODO @oscar: add back in once applications are open for FA25.
 import config from '../../../config.json';
 import RoleDescriptions from '../../../components/apply/RoleDescription';
 import ApplyFAQ from '../../../components/apply/ApplyFAQ';
@@ -17,7 +17,7 @@ const ApplyHero = () => {
     <section id="Apply Hero" className="text-[#FEFEFE] flex items-center relative">
       {!isApplicationOpen && (
         <Banner
-          message={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
+          message={`Applications for Fall 2025 are not open yet. Stay tuned for opportunities around the beginning of the semester!`} // TOOO @oscar: change back to config.semester once new semester is set up.
           variant={'accent'}
         />
       )}
@@ -67,13 +67,14 @@ const ApplyCoffeeChat = () => (
   </section>
 );
 
+// TODO @oscar: Update once applications are open for FA25.
 const ApplyPage = () => {
   useTitle('Apply');
   return (
     <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
       <div>
         <ApplyHero />
-        <ApplicationTimeline />
+        {/* <ApplicationTimeline /> */}
       </div>
       <RoleDescriptions />
       <div>
