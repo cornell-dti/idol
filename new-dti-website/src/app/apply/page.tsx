@@ -67,13 +67,14 @@ const ApplyCoffeeChat = () => (
   </section>
 );
 
+// TODO @oscar: Update once applications are open for FA25.
 const ApplyPage = () => {
   useTitle('Apply');
   return (
     <div className="flex flex-col md:gap-[160px] xs:gap-[80px] overflow-hidden">
       <div>
         <ApplyHero />
-        <ApplicationTimeline />
+        {/* <ApplicationTimeline /> */}
       </div>
       <RoleDescriptions />
       <div>
