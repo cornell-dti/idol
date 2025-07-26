@@ -180,16 +180,10 @@ export default function TeamDisplay() {
               }}
               xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
             />
-            {/*<BoxBorder
-              columnCount={getColumnCount()}
-              showCloseButton={true}
-              onClose={handleCloseDetails}
-            />*/}
             <MemberDetailsCard
               user={selectedMember}
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
             />
-            {/*<BoxBorder columnCount={getColumnCount()} />*/}
             <SectionSep grid={true} isMobile={isMobile} />
           </div>
         );
@@ -201,79 +195,53 @@ export default function TeamDisplay() {
     return items;
   };
 
-  return (
-    <section>
-      <div className="flex flex-col p-4 md:p-8 gap-4">
-        <div className="flex flex-col gap-2">
-          <h2 className="">Introducing the team</h2>
-          <p className="text-foreground-3">
-            Learn more about the team at DTI and what we do behind the scenes. Our design,
-            development, business, and product teams all strive to use creativity and innovation to
-            make DTI's products more impactful and functional.
-          </p>
-        </div>
-        <div className="grid md:grid-cols-6 grid-cols-3 border border-border-1 rounded-md md:rounded-full">
-          {roleIcons.icons.map((role) => {
-            const isSelected = selectedRole === role.altText;
+  const RoleSection = (roleKey: string, roleData: any, selectedRole: string) => {
+    const selectedMemberIndex = selectedMember
+      ? roleData.members.findIndex((member: IdolMember) => member.netid === selectedMember.netid)
+      : -1;
 
-            return (
-              <button
-                key={role.altText}
-                onClick={() => {
-                  setSelectedRole(role.altText);
-                  setSelectedMember(undefined);
-                  setClickedSection(undefined);
-                }}
-                aria-label={`Select ${role.altText} role`}
-                className={`flex flex-col md:flex-row items-center justify-center pl-6 pr-6 pb-2 pt-2 gap-2 rounded-md md:rounded-full min-h-[48px] focusState
-                                    ${isSelected ? 'bg-background-2' : 'hover:bg-background-2'}`}
-              >
-                <img
-                  src={`${role.src}.svg`}
-                  alt={`${role.altText} icon`}
-                  width={role.width}
-                  height={role.height}
-                />
-                <p>{role.altText}</p>
-              </button>
-            );
+    return (
+      <div key={roleKey}>
+        <div className="flex flex-col md:p-8 p-4 gap-2 border-b-1 border-t-1 border-border-1">
+          <h3>{`${roleData.roleName}${roleData.roleName !== 'Leads' ? '' : ' Team'}`}</h3>
+          <p className="text-foreground-3">{roleData.description}</p>
+        </div>
+
+        {/* Members Grid */}
+        <div className="grid [@media(min-width:1024px)]:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-0">
+          {renderMemberGrid(roleData.members, {
+            roleName: roleData.roleName,
+            selectedMember,
+            selectedMemberIndex,
+            onMemberClick: handleMemberClick,
+            memberDetailsRef
           })}
         </div>
       </div>
+    );
+  };
+
+  const TabContent = (roleName: string) => {
+    const isFullTeam = roleName === 'Full Team';
+    
+    return (
       <div className="flex flex-col md:gap-32 gap-16">
-        {Object.keys(roles).map((roleKey) => {
-          const roleData = roles[roleKey];
-          const shouldShow = selectedRole === roleData.roleName || selectedRole === 'Full Team';
+        {isFullTeam ? (
+          Object.keys(roles).map((roleKey) => {
+            const roleData = roles[roleKey];
+            return RoleSection(roleKey, roleData, 'Full Team');
+          })
+        ) : (
+          (() => {
+            const roleKey = Object.keys(roles).find(key => roles[key].roleName === roleName);
+            if (!roleKey) return null;
+            const roleData = roles[roleKey];
+            return RoleSection(roleKey, roleData, roleName);
+          })()
+        )}
 
-          if (!shouldShow) return null;
-
-          const selectedMemberIndex = selectedMember
-            ? roleData.members.findIndex((member) => member.netid === selectedMember.netid)
-            : -1;
-
-          return (
-            <div key={roleKey}>
-              <div className="flex flex-col md:p-8 p-4 gap-2 border-b-1 border-t-1 border-border-1">
-                <h3>{`${roleData.roleName}${roleData.roleName !== 'Leads' ? '' : ' Team'}`}</h3>
-                <p className="text-foreground-3">{roleData.description}</p>
-              </div>
-
-              {/* Members Grid */}
-              <div className="grid [@media(min-width:1024px)]:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-0">
-                {renderMemberGrid(roleData.members, {
-                  roleName: roleData.roleName,
-                  selectedMember,
-                  selectedMemberIndex,
-                  onMemberClick: handleMemberClick,
-                  memberDetailsRef
-                })}
-              </div>
-            </div>
-          );
-        })}
-
-        {/* Alumni Section */}
-        {selectedRole === 'Full Team' && (
+        {/* Alumni Section - only show for Full Team */}
+        {isFullTeam && (
           <div>
             <div className="flex flex-col md:p-8 p-4 gap-2 border-b-1 border-t-1 border-border-1">
               <h3>Alumni & Inactive Members</h3>
@@ -284,6 +252,35 @@ export default function TeamDisplay() {
           </div>
         )}
       </div>
+    );
+  };
+
+  const tabs = roleIcons.icons.map((role) => ({
+    label: role.altText,
+    icon: (
+      <img
+        src={`${role.src}.svg`}
+        alt={`${role.altText} icon`}
+        width={role.width}
+        height={role.height}
+      />
+    ),
+    content: TabContent(role.altText)
+  }));
+
+  return (
+    <section>
+      <div className="flex flex-col pb-0 p-4 md:pb-0 md:p-8 gap-4">
+        <div className="flex flex-col gap-2">
+          <h2 className="">Introducing the team</h2>
+          <p className="text-foreground-3">
+            Learn more about the team at DTI and what we do behind the scenes. Our design,
+            development, business, and product teams all strive to use creativity and innovation to
+            make DTI's products more impactful and functional.
+          </p>
+        </div>
+      </div>
+      <Tabs tabs={tabs} />
     </section>
   );
 }

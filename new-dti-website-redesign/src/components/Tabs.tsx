@@ -1,10 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import useScreenSize from '../hooks/useScreenSize';
+import { TABLET_BREAKPOINT } from '../consts';
 
 type Tab = {
   label: string;
   content: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 type TabsProps = {
@@ -17,23 +20,35 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { width } = useScreenSize();
+
+  const isMobile = width < TABLET_BREAKPOINT;
 
   // This is for the highlight effect (the filled pill) behind the selected tab
   useEffect(() => {
-    const currentTab = tabsRef.current[activeIndex];
-    const highlight = highlightRef.current;
-    if (currentTab && highlight) {
-      const tabRect = currentTab.getBoundingClientRect();
+    function updateHighlight() {
+      const currentTab = tabsRef.current[activeIndex];
+      const highlight = highlightRef.current;
       const containerRect = containerRef.current?.getBoundingClientRect();
-      if (containerRect) {
-        const { left: tabLeft, width } = tabRect;
-        const { left: containerLeft } = containerRect;
-        const left = tabLeft - containerLeft;
-        highlight.style.transform = `translateX(${left}px)`;
-        highlight.style.width = `${width}px`;
+  
+      if (currentTab && highlight && containerRect) {
+        const tabRect = currentTab.getBoundingClientRect();
+        const left = tabRect.left - containerRect.left;
+        const top = tabRect.top - containerRect.top;
+        highlight.style.transform = `translate(${left}px, ${top}px)`;
+        highlight.style.width = `${tabRect.width}px`;
+        highlight.style.height = `${tabRect.height}px`;
       }
     }
+  
+    updateHighlight(); // Run on mount and activeIndex change
+    window.addEventListener('resize', updateHighlight);
+  
+    return () => {
+      window.removeEventListener('resize', updateHighlight);
+    };
   }, [activeIndex]);
+  
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
@@ -53,19 +68,32 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
       <div className="flex p-4 !pt-8 sm:p-8">
         <div
           ref={containerRef}
-          className={`flex flex-1 relative w-fit border-1 border-border-1 rounded-full bg-black p-0.5 ${className}`}
+          className={`flex flex-1 relative w-fit border-1 border-border-1 bg-black p-0.5 
+          ${isMobile 
+              ? 'grid grid-cols-3 rounded-md' 
+              : 'rounded-full'
+          }
+          ${className}`}
           role="tablist"
           aria-label="Tabbed content"
           onKeyDown={handleKeyDown}
         >
           <div
             ref={highlightRef}
-            className="absolute -left-[1px] top-0.5 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0 h-[calc(100%-4px)] w-full"
+            className={`absolute -top-0.25 -left-0.25 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0  
+            ${isMobile 
+              ? 'rounded-md' 
+              : 'rounded-full'
+          }`}
           />
 
           {tabs.map((tab, index) => (
             <button
-              className="flex items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1"
+              className={`flex gap-2 items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1
+              ${isMobile 
+                ? 'flex-col' 
+                : 'flex-row'
+             }`}
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;
@@ -77,6 +105,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
               id={`tab-${index}`}
               tabIndex={activeIndex === index ? 0 : -1}
             >
+              {tab.icon && <span className="flex-shrink-0">{tab.icon}</span>}
               {tab.label}
             </button>
           ))}
