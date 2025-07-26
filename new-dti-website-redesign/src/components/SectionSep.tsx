@@ -28,7 +28,7 @@ export default function SectionSep({
   }
 
   return (
-    <div className={`w-full overflow-hidden sectionSep ${className}`}>
+    <div className={`w-full overflow-hidden border-border-1 border-b ${className}`}>
       <div className="flex justify-center">
         {Array.from({ length: boxCount }).map((_, i) => (
           <div

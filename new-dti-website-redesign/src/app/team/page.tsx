@@ -4,6 +4,7 @@ import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
 import BeyondDTI from './BeyondDTI';
 import WhoWeAre from './WhoWeAre';
+import TeamDisplay from './TeamDisplay';
 import FeatureSection from '../../components/FeatureSection';
 
 export const metadata = {
@@ -38,9 +39,7 @@ export default function Team() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Introducing the team section</h4>
-      </section>
+      <TeamDisplay />
 
       <SectionSep />
 

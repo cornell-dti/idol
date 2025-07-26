@@ -1,40 +1,40 @@
 {
   "icons": [
     {
-      "src": "/icons/full-team",
+      "src": "/team/icons/full-team",
       "altText": "Full Team",
-      "width": 66,
-      "height": 66
+      "width": 20,
+      "height": 20
     },
     {
-      "src": "/icons/leads",
+      "src": "/team/icons/leads",
       "altText": "Leads",
-      "width": 66,
-      "height": 66
+      "width": 20,
+      "height": 20
     },
     {
-      "src": "/icons/dev",
+      "src": "/team/icons/dev",
       "altText": "Development",
-      "width": 72,
-      "height": 66
+      "width": 20,
+      "height": 20
     },
     {
-      "src": "/icons/design",
+      "src": "/team/icons/design",
       "altText": "Design",
-      "width": 66,
-      "height": 66
+      "width": 20,
+      "height": 20
     },
     {
-      "src": "/icons/business",
+      "src": "/team/icons/business",
       "altText": "Business",
-      "width": 66,
-      "height": 66
+      "width": 20,
+      "height": 20
     },
     {
-      "src": "/icons/product",
+      "src": "/team/icons/product",
       "altText": "Product",
-      "width": 66,
-      "height": 66
+      "width": 20,
+      "height": 20
     }
   ]
 }
