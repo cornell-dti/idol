@@ -30,7 +30,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
       const currentTab = tabsRef.current[activeIndex];
       const highlight = highlightRef.current;
       const containerRect = containerRef.current?.getBoundingClientRect();
-  
+
       if (currentTab && highlight && containerRect) {
         const tabRect = currentTab.getBoundingClientRect();
         const left = tabRect.left - containerRect.left;
@@ -40,15 +40,14 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
         highlight.style.height = `${tabRect.height}px`;
       }
     }
-  
+
     updateHighlight(); // Run on mount and activeIndex change
     window.addEventListener('resize', updateHighlight);
-  
+
     return () => {
       window.removeEventListener('resize', updateHighlight);
     };
   }, [activeIndex]);
-  
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
@@ -69,10 +68,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
         <div
           ref={containerRef}
           className={`flex flex-1 relative w-fit border-1 border-border-1 bg-black p-0.5 
-          ${isMobile 
-              ? 'grid grid-cols-3 rounded-md' 
-              : 'rounded-full'
-          }
+          ${isMobile ? 'grid grid-cols-3 rounded-md' : 'rounded-full'}
           ${className}`}
           role="tablist"
           aria-label="Tabbed content"
@@ -81,19 +77,13 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
           <div
             ref={highlightRef}
             className={`absolute -top-0.25 -left-0.25 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0  
-            ${isMobile 
-              ? 'rounded-md' 
-              : 'rounded-full'
-          }`}
+            ${isMobile ? 'rounded-md' : 'rounded-full'}`}
           />
 
           {tabs.map((tab, index) => (
             <button
               className={`flex gap-2 items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1
-              ${isMobile 
-                ? 'flex-col' 
-                : 'flex-row'
-             }`}
+              ${isMobile ? 'flex-col' : 'flex-row'}`}
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;

@@ -223,22 +223,20 @@ export default function TeamDisplay() {
 
   const TabContent = (roleName: string) => {
     const isFullTeam = roleName === 'Full Team';
-    
+
     return (
       <div className="flex flex-col md:gap-32 gap-16">
-        {isFullTeam ? (
-          Object.keys(roles).map((roleKey) => {
-            const roleData = roles[roleKey];
-            return RoleSection(roleKey, roleData, 'Full Team');
-          })
-        ) : (
-          (() => {
-            const roleKey = Object.keys(roles).find(key => roles[key].roleName === roleName);
-            if (!roleKey) return null;
-            const roleData = roles[roleKey];
-            return RoleSection(roleKey, roleData, roleName);
-          })()
-        )}
+        {isFullTeam
+          ? Object.keys(roles).map((roleKey) => {
+              const roleData = roles[roleKey];
+              return RoleSection(roleKey, roleData, 'Full Team');
+            })
+          : (() => {
+              const roleKey = Object.keys(roles).find((key) => roles[key].roleName === roleName);
+              if (!roleKey) return null;
+              const roleData = roles[roleKey];
+              return RoleSection(roleKey, roleData, roleName);
+            })()}
 
         {/* Alumni Section - only show for Full Team */}
         {isFullTeam && (
