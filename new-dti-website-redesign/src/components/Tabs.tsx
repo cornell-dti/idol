@@ -13,9 +13,10 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
+  onTabChange?: (newTabLabel: string) => void;
 };
 
-export default function Tabs({ tabs, className = '' }: TabsProps) {
+export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -23,6 +24,11 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
   const { width } = useScreenSize();
 
   const isMobile = width < TABLET_BREAKPOINT;
+
+  const handleTabClick = (index: number) => {
+    setActiveIndex(index);
+    onTabChange?.(tabs[index].label);
+  };
 
   // This is for the highlight effect (the filled pill) behind the selected tab
   useEffect(() => {
@@ -41,7 +47,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
       }
     }
 
-    updateHighlight(); // Run on mount and activeIndex change
+    updateHighlight();
     window.addEventListener('resize', updateHighlight);
 
     return () => {
@@ -88,7 +94,7 @@ export default function Tabs({ tabs, className = '' }: TabsProps) {
               ref={(el) => {
                 tabsRef.current[index] = el;
               }}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => handleTabClick(index)}
               role="tab"
               aria-selected={activeIndex === index}
               aria-controls={`panel-${index}`}

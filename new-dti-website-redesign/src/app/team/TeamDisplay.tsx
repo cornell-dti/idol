@@ -6,8 +6,8 @@ import teamRoles from './data/roles.json';
 import roleIcons from './data/roleIcons.json';
 import alumniMembers from './data/alumni.json';
 import { MemberCard, MemberDetailsCard } from '../../components/TeamCard';
-import SectionSep from '@/components/SectionSep';
-import Tabs from '@/components/Tabs';
+import SectionSep from '../../components/SectionSep';
+import Tabs from '../../components/Tabs';
 import { LAPTOP_BREAKPOINT, TABLET_BREAKPOINT } from '../../consts';
 import useScreenSize from '../../hooks/useScreenSize';
 
@@ -75,6 +75,12 @@ export default function TeamDisplay() {
         })
       );
     }
+  };
+
+  const handleTabChange = (newTabLabel: string) => {
+    setSelectedRole(newTabLabel);
+    setSelectedMember(undefined);
+    setClickedSection(undefined);
   };
 
   const renderMemberGrid = (
@@ -171,6 +177,7 @@ export default function TeamDisplay() {
               isMobile={isMobile}
               onClickX={() => {
                 setSelectedMember(undefined);
+                setClickedSection(undefined);
                 requestAnimationFrame(() => {
                   window.scrollTo({
                     top: scrollPosition,
@@ -195,7 +202,7 @@ export default function TeamDisplay() {
     return items;
   };
 
-  const RoleSection = (roleKey: string, roleData: any, selectedRole: string) => {
+  const RoleSection = (roleKey: string, roleData: RoleEntry[string]) => {
     const selectedMemberIndex = selectedMember
       ? roleData.members.findIndex((member: IdolMember) => member.netid === selectedMember.netid)
       : -1;
@@ -229,13 +236,13 @@ export default function TeamDisplay() {
         {isFullTeam
           ? Object.keys(roles).map((roleKey) => {
               const roleData = roles[roleKey];
-              return RoleSection(roleKey, roleData, 'Full Team');
+              return RoleSection(roleKey, roleData);
             })
           : (() => {
               const roleKey = Object.keys(roles).find((key) => roles[key].roleName === roleName);
               if (!roleKey) return null;
               const roleData = roles[roleKey];
-              return RoleSection(roleKey, roleData, roleName);
+              return RoleSection(roleKey, roleData);
             })()}
 
         {/* Alumni Section - only show for Full Team */}
@@ -278,7 +285,7 @@ export default function TeamDisplay() {
           </p>
         </div>
       </div>
-      <Tabs tabs={tabs} />
+      <Tabs tabs={tabs} onTabChange={handleTabChange} />
     </section>
   );
 }
