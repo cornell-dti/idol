@@ -22,18 +22,18 @@ const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element =>
         <div className="relative overflow-x-hidden">
           <Page>{children}</Page>
         </div>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${MEASUREMENT_ID}', { page_path: window.location.pathname });
+          `
+          }}
+        />
       </body>
-      <script async src={`https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`} />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${MEASUREMENT_ID}', { page_path: window.location.pathname });
-        `
-        }}
-      />
     </html>
   );
 };
