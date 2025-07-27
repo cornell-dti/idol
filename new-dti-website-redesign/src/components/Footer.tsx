@@ -175,7 +175,10 @@ export default function Footer() {
       </div>
 
       <div className="flex flex-col gap-8 p-4 sm:p-8 pt-0">
-        <div className="w-full h-px bg-border-1" />
+        <div
+          className="w-full h-px bg-[linear-gradient(90deg,rgba(46,46,46,0.30)_0%,#2E2E2E_50%,rgba(46,46,46,0.30)_100%)]
+        "
+        />
 
         <div className="sm:flex-row flex-col flex sm:gap-0 gap-4 justify-between">
           <p className="!text-sm text-foreground-3">
