@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
-import FeatureCard from '../../components/FeatureCard';
 import IconWrapper from '../../components/IconWrapper';
+import CheckIcon from '../../components/icons/CheckIcon';
 
 type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
@@ -49,81 +49,81 @@ const SponsorshipTableMobile = () => {
   return (
     <>
       <div className="py-8 px-4">
-        <h2>Sponsorship</h2>
-        <h2>benefits</h2>
+        <h2>
+          Sponsorship <br />
+          benefits
+        </h2>
       </div>
-      <div className="bg-background-1">
-        <table className="w-full border-t border-border-1">
-          <thead>
-            <tr>
-              {Object.keys(medals).map((medal, index) => (
-                <th
-                  key={medal}
-                  className={`relative w-1/4 border-border-1 text-center ${
-                    index !== 0 ? 'border-l' : ''
-                  }`}
+      <table className="w-full border-t border-border-1">
+        <thead>
+          <tr>
+            {Object.keys(medals).map((medal, index) => (
+              <th
+                key={medal}
+                className={`relative w-1/4 border-border-1 text-center ${
+                  index !== 0 ? 'border-l' : ''
+                }`}
+              >
+                <button
+                  onClick={() => setSelectedMedal(medal as Tier)}
+                  aria-label={`Show ${medal} tier`}
+                  className={`w-full py-4 transition-colors duration-200 outline-none
+                    hover:bg-background-2
+                    focus-visible:ring-2 focus-visible:ring-white
+                    ${selectedMedal === medal ? 'bg-background-2 relative' : ''}
+                  `}
                 >
-                  <button
-                    onClick={() => setSelectedMedal(medal as Tier)}
-                    aria-label={`Show ${medal} tier`}
-                    className={`w-full py-4 transition-colors duration-200 outline-none
-                      hover:bg-background-2
-                      focus-visible:ring-2 focus-visible:ring-white
-                      ${selectedMedal === medal ? 'bg-background-2 relative' : ''}
-                    `}
-                  >
-                    {selectedMedal === medal && (
-                      <div className="absolute border-b-2 foreground-1 bottom-0 w-full h-[1.9px] shadow-[0_-4px_8px_0_#fff]" />
-                    )}
-                    <div className="flex flex-col gap-[8px] items-center">
-                      <Image
-                        src={medals[medal as Tier].link}
-                        alt={medal}
-                        width={medalWidth}
-                        height={medalHeight}
-                      />
-                      <p style={{ color: medals[medal as Tier].color }}>
-                        {medals[medal as Tier].title}
-                      </p>
-                    </div>
-                  </button>
-                  {medals[medal as Tier].name === mostPopular && (
-                    <div className="absolute text-black -top-[38.5px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
-                      <p>Popular</p>
-                    </div>
+                  {selectedMedal === medal && (
+                    <div className="absolute border-b-2 bottom-0 w-full h-[1.9px] shadow-[0_-4px_8px_0_#fff]" />
                   )}
-                </th>
-              ))}
-            </tr>
-          </thead>
+                  <div className="flex flex-col gap-2 items-center">
+                    <Image
+                      src={medals[medal as Tier].link}
+                      alt={medal}
+                      width={medalWidth}
+                      height={medalHeight}
+                    />
+                    <p style={{ color: medals[medal as Tier].color }}>
+                      {medals[medal as Tier].title}
+                    </p>
+                  </div>
+                </button>
+                {medals[medal as Tier].name === mostPopular && (
+                  <div className="absolute text-black -top-[38.5px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
+                    <p>Popular</p>
+                  </div>
+                )}
+              </th>
+            ))}
+          </tr>
+        </thead>
 
-          <tbody>
-            {benefits.map((benefit) => {
-              const highlighted = tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
+        <tbody>
+          {benefits.map((benefit) => {
+            const highlighted = tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
 
-              return (
-                <tr key={benefit.key} className="border-t border-border-1">
-                  <td colSpan={3} className="py-4 pl-4">
-                    <h6>{benefit.title}</h6>
-                    <p className="text-[#A1A1A1]">{benefit.description}</p>
-                  </td>
-                  <td className="pl-[32px] pr-4">
-                    <div className="flex items-center justify-center">
-                      {highlighted ? (
-                        <IconWrapper size="small" type="primary" className="p-0">
-                          <Image src="/sponsor/check.svg" alt="check" width={22} height={52} />
-                        </IconWrapper>
-                      ) : (
-                        <span className="w-[24px] rounded-full border border-border-1" />
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+            return (
+              <tr key={benefit.key} className="border-t border-border-1">
+                <td colSpan={3} className="py-4 pl-4">
+                  <h6>{benefit.title}</h6>
+                  <p className="text-foreground-3">{benefit.description}</p>
+                </td>
+                <td className="pl-8 pr-4">
+                  <div className="flex items-center justify-center">
+                    {highlighted ? (
+                      <IconWrapper size="small" type="primary" className="p-0">
+                        <CheckIcon />
+                      </IconWrapper>
+                    ) : (
+                      <span className="w-6 rounded-full border border-border-1" />
+                    )}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </>
   );
 };
@@ -133,17 +133,17 @@ const SponsorshipTableLaptop = () => (
     <table className="table-auto w-full border-collapse border-border-1 bg-background-1">
       <thead>
         <tr>
-          <th className="w-[592px] p-[32px] text-left border-border-1">
+          <th className="w-1/2 p-8 text-left border-l border-border-1">
             <h2 className="h3">Sponsorship benefits</h2>
           </th>
           {Object.keys(medals).map((medal) => (
             <th
               key={medal}
-              className={`relative w-[148px] items-center border-l border-border-1 ${
+              className={`relative w-[12.5%] items-center border-l border-border-1 ${
                 medals[medal as Tier].name === 'gold' ? 'bg-[#181818]' : ''
               }`}
             >
-              <div className="flex flex-col gap-[8px] items-center">
+              <div className="flex flex-col gap-2 items-center">
                 <Image
                   src={medals[medal as Tier].link}
                   alt={medal}
@@ -166,8 +166,9 @@ const SponsorshipTableLaptop = () => (
       <tbody>
         {benefits.map((benefit) => (
           <tr key={benefit.key}>
-            <td className="w-[592px] border-t border-border-1 align-top">
-              <FeatureCard title={benefit.title} body={benefit.description} />
+            <td className="w-1/2 border-t border-border-1 align-top p-8">
+              <h5>{benefit.title}</h5>
+              <p className="text-foreground-3">{benefit.description}</p>
             </td>
             {tiers.map((tier) => (
               <td
@@ -182,11 +183,15 @@ const SponsorshipTableLaptop = () => (
                     type="primary"
                     className="flex items-center justify-center mx-auto"
                   >
-                    <Image src="/sponsor/check.svg" alt="check" width={16} height={16} />
+                    <CheckIcon />
                   </IconWrapper>
                 ) : (
                   <div className="flex items-center justify-center mx-auto">
-                    <span className="w-[24px] h-[1px] rounded-full border border-border-1"></span>
+                    <span
+                      className={`w-[24px] rounded-full border ${
+                        tier === mostPopular ? 'border-border-2' : 'border-border-1'
+                      }`}
+                    ></span>
                   </div>
                 )}
               </td>
