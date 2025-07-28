@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
@@ -205,6 +205,14 @@ const SponsorshipTableLaptop = () => (
 
 const SponsorshipTable = () => {
   const { width } = useScreenSize();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null;
+
   return (
     <section>{width >= 768 ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}</section>
   );
