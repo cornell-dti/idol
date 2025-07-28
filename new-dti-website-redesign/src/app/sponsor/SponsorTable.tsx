@@ -133,7 +133,7 @@ const SponsorshipTableLaptop = () => (
     <table className="table-auto w-full border-collapse border-border-1 bg-background-1">
       <thead>
         <tr>
-          <th className="w-1/2 p-8 text-left border-l border-border-1">
+          <th className="w-1/2 p-8 text-left">
             <h2 className="h3">Sponsorship benefits</h2>
           </th>
           {Object.keys(medals).map((medal) => (
