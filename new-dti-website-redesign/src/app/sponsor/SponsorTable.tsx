@@ -6,6 +6,7 @@ import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
 import IconWrapper from '../../components/IconWrapper';
 import CheckIcon from '../../components/icons/CheckIcon';
+/* import { TABLET_BREAKPOINT } from '../../src/consts'; */
 
 type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
@@ -77,15 +78,8 @@ const SponsorshipTableMobile = () => {
                     <div className="absolute border-b-2 bottom-0 w-full h-[1.9px] shadow-[0_-4px_8px_0_#fff]" />
                   )}
                   <div className="flex flex-col gap-2 items-center">
-                    <Image
-                      src={medal.link}
-                      alt={'medal'}
-                      width={medalWidth}
-                      height={medalHeight}
-                    />
-                    <p style={{ color: medal.color }}>
-                      {medal.title}
-                    </p>
+                    <Image src={medal.link} alt={'medal'} width={medalWidth} height={medalHeight} />
+                    <p style={{ color: medal.color }}>{medal.title}</p>
                   </div>
                 </button>
                 {medal.name === mostPopular && (
@@ -144,12 +138,7 @@ const SponsorshipTableLaptop = () => (
               }`}
             >
               <div className="flex flex-col gap-2 items-center">
-                <Image
-                  src={medal.link}
-                  alt={"medal"}
-                  width={medalWidth}
-                  height={medalHeight}
-                />
+                <Image src={medal.link} alt={'medal'} width={medalWidth} height={medalHeight} />
                 <p style={{ color: medal.color }}>{medal.title}</p>
               </div>
               {medal.name === mostPopular && (
