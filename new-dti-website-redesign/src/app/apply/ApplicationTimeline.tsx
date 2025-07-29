@@ -13,7 +13,7 @@ const applicationEvents = events.events;
 const IS_FALL_SEMESTER = config.semester.split(' ')[0] === 'Fall';
 const NODE_HEADER_HEIGHT = 84.7;
 const NODE_GAP = 32;
-const CIRLCE_DIAMETER = 17;
+const CIRCLE_DIAMETER = 17;
 const FADE_IN_THRESHOLD = 15;
 
 const eventProgress = (
@@ -90,7 +90,7 @@ const ApplicationTimeline = () => {
       after:content-[''] after:w-full after:h-200 after:absolute ${width <= 768 ? 'after:top-[calc(1px+100%)]' : 'after:top-full'} after:pointer-events-none after:z-10
       ${gradientStyle}`}
       >
-        <h2 className="p-8 pb-0 md:pb-8">Application timeline</h2>
+        <h2 className="p-4 pb-0 sm:p-8 md:pb-8">Application timeline</h2>
         <Tabs
           onChange={(c) => setCycle(c.toLowerCase() as Cycle)}
           tabs={[
@@ -140,6 +140,8 @@ const ApplicationTimeline = () => {
                       <rect
                         width="3"
                         x="5"
+                        rx="1"
+                        ry="1"
                         height={NODE_HEADER_HEIGHT + NODE_GAP - 4 - (width <= 768 ? 16 : 0)}
                         fill="url('#topGradient')"
                       />
@@ -172,10 +174,12 @@ const ApplicationTimeline = () => {
                         <rect
                           x="5"
                           y="17"
+                          rx="1"
+                          ry="1"
                           width="3"
                           height={Math.max(
                             0,
-                            nodeHeight - NODE_HEADER_HEIGHT + NODE_GAP - CIRLCE_DIAMETER
+                            nodeHeight - NODE_HEADER_HEIGHT + NODE_GAP - CIRCLE_DIAMETER
                           )}
                           fill="url('#bottomGradient')"
                         />
@@ -185,16 +189,21 @@ const ApplicationTimeline = () => {
                         <rect
                           x="5"
                           y="17"
+                          rx="1"
+                          ry="1"
                           width="3"
                           height={progress * lineHeight}
                           fill="var(--accent-red)"
                         />
                         <rect
                           x="5"
-                          y={CIRLCE_DIAMETER + progress * lineHeight}
+                          y={CIRCLE_DIAMETER + progress * lineHeight}
+                          rx="1"
+                          ry="1"
                           width="3"
                           height={(1 - progress) * lineHeight}
                           fill="var(--foreground-3)"
+                          className="rounded-full"
                         />
                       </>
                     )}
