@@ -6,7 +6,7 @@ import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
 import IconWrapper from '../../components/IconWrapper';
 import CheckIcon from '../../components/icons/CheckIcon';
-/* import { TABLET_BREAKPOINT } from '../../src/consts'; */
+import { TABLET_BREAKPOINT } from '../../consts';
 
 type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
@@ -203,7 +203,9 @@ const SponsorshipTable = () => {
   if (!hasMounted) return null;
 
   return (
-    <section>{width >= 768 ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}</section>
+    <section>
+      {width >= TABLET_BREAKPOINT ? <SponsorshipTableLaptop /> : <SponsorshipTableMobile />}
+    </section>
   );
 };
 
