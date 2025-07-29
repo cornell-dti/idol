@@ -5,6 +5,7 @@ import CtaSection from '../../components/CtaSection';
 import SectionSep from '../../components/SectionSep';
 import SponsorsList from './SponsorsList';
 import SponsorFeatures from './SponsorFeatures';
+import SponsorTable from './SponsorTable';
 
 export const metadata = {
   title: 'Sponsor - Cornell DTI',
@@ -49,9 +50,11 @@ export default function Sponsor() {
 
       <SectionSep />
 
-      <section className="temporarySection">
-        <h4>Sponsorship benefits section</h4>
-      </section>
+      <SectionSep grid className="border-x-1 border-border-1" />
+
+      <SponsorTable />
+
+      <SectionSep grid className="border-x-1 border-border-1" />
 
       <SectionSep />
 
