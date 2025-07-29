@@ -27,6 +27,20 @@ export const getGeneralRole = (role: Role): GeneralRole => {
   }
 };
 
+export const getColorClass = (
+  role: Role,
+  transparent: boolean = false,
+  prependVar: boolean = false,
+  prefix: string = 'accent'
+): string => {
+  const color = getRoleColor(role);
+  const transparentAppend = transparent ? '-transparent' : '';
+  if (prependVar) {
+    return `var(--accent-${color}${transparentAppend})`;
+  }
+  return `${prefix}-${color}${transparentAppend}`;
+};
+
 export const getRoleColor = (role: Role): string => {
   const generalRole = getGeneralRole(role);
   const colors: { [key in GeneralRole]: string } = {
