@@ -14,7 +14,7 @@ export default function ButtonPage() {
         description="Has a label and an optional chip inside."
         className="gap-12"
       >
-        <div className="flex gap-8">
+        <div className="flex gap-8 flex-wrap">
           <div className="flex flex-col gap-6">
             <Button label="Apply today" />
             <Button label="Apply today" size="small" />

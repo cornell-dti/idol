@@ -14,7 +14,7 @@ export default function TypographyPage() {
         title="Headings"
         description="Used for titles to structure content and establish hierarchy. Levels H1-H3 also have different mobile sizes."
       >
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-10 md:gap-6">
           <Note
             inner={
               <p>
@@ -24,8 +24,8 @@ export default function TypographyPage() {
             }
           />
           {headingStyles.map((style, index) => (
-            <div key={index} className="flex items-center gap-8">
-              <div className="w-20 flex flex-col items-end">
+            <div key={index} className="flex md:flex-row flex-col md:items-center gap-2 md:gap-8">
+              <div className="w-20 flex md:gap-0 gap-2 md:flex-col items-end">
                 <p className="caps">{style.html}</p>
                 <p className="caps text-foreground-3">
                   {style.context !== 'default' ? `${style.context}` : ''}

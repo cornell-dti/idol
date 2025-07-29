@@ -10,20 +10,20 @@ export default function InputPage() {
   return (
     <PageLayout title="Input">
       <PageSection title="Regular input" description="Use for regular inputs">
-        <Input placeholder="Input placeholder" onChange={() => {}} className="w-128" />
+        <Input placeholder="Input placeholder" onChange={() => {}} className="w-full md:w-128" />
 
         <Input
           placeholder="Input placeholder"
           onChange={() => {}}
           multiline
           height={256}
-          className="w-128"
+          className="w-full md:w-128"
         />
       </PageSection>
 
       <PageSection title="Labeled input" description="Use when you need a label with the input">
         <LabeledInput
-          className="w-128"
+          className="w-full md:w-128"
           label="Input label"
           inputProps={{
             onChange: () => {},
@@ -32,7 +32,7 @@ export default function InputPage() {
         />
 
         <LabeledInput
-          className="w-128"
+          className="w-full md:w-128"
           label="Input label"
           inputProps={{
             onChange: () => {},
@@ -48,7 +48,7 @@ export default function InputPage() {
         description="Use when you need a label with the input and an error message"
       >
         <LabeledInput
-          className="w-128"
+          className="w-full md:w-128"
           label="Input label"
           inputProps={{
             onChange: () => {},
@@ -58,7 +58,7 @@ export default function InputPage() {
         />
 
         <LabeledInput
-          className="w-128"
+          className="w-full md:w-128"
           label="Input label"
           inputProps={{
             onChange: () => {},
