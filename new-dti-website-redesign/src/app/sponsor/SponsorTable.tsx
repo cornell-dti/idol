@@ -57,39 +57,39 @@ const SponsorshipTableMobile = () => {
       <table className="w-full border-t border-border-1">
         <thead>
           <tr>
-            {Object.keys(medals).map((medal, index) => (
+            {Object.entries(medals).map(([tier, medal], index) => (
               <th
-                key={medal}
+                key={tier}
                 className={`relative w-1/4 border-border-1 text-center ${
                   index !== 0 ? 'border-l' : ''
                 }`}
               >
                 <button
-                  onClick={() => setSelectedMedal(medal as Tier)}
+                  onClick={() => setSelectedMedal(tier as Tier)}
                   aria-label={`Show ${medal} tier`}
-                  className={`w-full py-4 transition-colors duration-200 outline-none
+                  className={`w-full py-4 transition-colors duration-200 outline-none cursor-pointer
                     hover:bg-background-2
-                    focus-visible:ring-2 focus-visible:ring-white
-                    ${selectedMedal === medal ? 'bg-background-2 relative' : ''}
+                    focus-visible:ring-2 focus-visible:ring-foreground-1
+                    ${selectedMedal === tier ? 'bg-background-2 relative' : ''}
                   `}
                 >
-                  {selectedMedal === medal && (
+                  {selectedMedal === tier && (
                     <div className="absolute border-b-2 bottom-0 w-full h-[1.9px] shadow-[0_-4px_8px_0_#fff]" />
                   )}
                   <div className="flex flex-col gap-2 items-center">
                     <Image
-                      src={medals[medal as Tier].link}
-                      alt={medal}
+                      src={medal.link}
+                      alt={'medal'}
                       width={medalWidth}
                       height={medalHeight}
                     />
-                    <p style={{ color: medals[medal as Tier].color }}>
-                      {medals[medal as Tier].title}
+                    <p style={{ color: medal.color }}>
+                      {medal.title}
                     </p>
                   </div>
                 </button>
-                {medals[medal as Tier].name === mostPopular && (
-                  <div className="absolute text-black -top-[38.5px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
+                {medal.name === mostPopular && (
+                  <div className="absolute text-black -top-[38.5px] w-full bg-foreground-1 rounded-tl-lg rounded-tr-lg py-[6px]">
                     <p>Popular</p>
                   </div>
                 )}
@@ -130,30 +130,30 @@ const SponsorshipTableMobile = () => {
 
 const SponsorshipTableLaptop = () => (
   <>
-    <table className="table-auto w-full border-collapse border-border-1 bg-background-1">
+    <table className="table-auto w-full bg-background-1">
       <thead>
         <tr>
-          <th className="w-1/2 p-8 text-left">
+          <th className="w-1/2 p-8 text-left shadow-[inset_-1px_0_0_0_var(--border-1)]">
             <h2 className="h3">Sponsorship benefits</h2>
           </th>
-          {Object.keys(medals).map((medal) => (
+          {Object.entries(medals).map(([tier, medal], index) => (
             <th
-              key={medal}
-              className={`relative w-[12.5%] items-center border-l border-border-1 ${
-                medals[medal as Tier].name === 'gold' ? 'bg-[#181818]' : ''
+              key={tier}
+              className={`relative w-[12.5%] items-center shadow-[inset_-1px_0_0_0_var(--border-1)] last:shadow-none ${
+                medal.name === 'gold' ? 'bg-background-2' : ''
               }`}
             >
               <div className="flex flex-col gap-2 items-center">
                 <Image
-                  src={medals[medal as Tier].link}
-                  alt={medal}
+                  src={medal.link}
+                  alt={"medal"}
                   width={medalWidth}
                   height={medalHeight}
                 />
-                <p style={{ color: medals[medal as Tier].color }}>{medals[medal as Tier].title}</p>
+                <p style={{ color: medal.color }}>{medal.title}</p>
               </div>
-              {medals[medal as Tier].name === mostPopular && (
-                <div className="absolute shadow-[0px_8px_16px_0px_rgba(255,255,255,0.32)] bg-[#181818] text-black -top-[38.5px] w-full bg-white rounded-tl-[8px] rounded-tr-[8px] py-[6px]">
+              {medal.name === mostPopular && (
+                <div className="absolute shadow-[0px_8px_16px_0px_rgba(255,255,255,0.32)] text-background-1 -top-[38.6px] right-[1px] left-0 bg-foreground-1 rounded-tl-lg rounded-tr-lg py-[6px]">
                   <p className="block min-[1000px]:hidden">Popular</p>
                   <p className="hidden min-[1000px]:block">Most Popular</p>
                 </div>
@@ -166,15 +166,15 @@ const SponsorshipTableLaptop = () => (
       <tbody>
         {benefits.map((benefit) => (
           <tr key={benefit.key}>
-            <td className="w-1/2 border-t border-border-1 align-top p-8">
+            <td className="w-1/2 border-t border-border-1 shadow-[inset_-1px_0_0_0_var(--border-1)] align-top p-8">
               <h5>{benefit.title}</h5>
               <p className="text-foreground-3">{benefit.description}</p>
             </td>
             {tiers.map((tier) => (
               <td
                 key={`${benefit.key}-${tier}`}
-                className={`border-t border-l border-border-1 ${
-                  tier === 'gold' ? 'bg-[#181818]' : ''
+                className={`border-t border-border-1 shadow-[inset_-1px_0_0_0_var(--border-1)] last:shadow-none ${
+                  tier === 'gold' ? 'bg-background-2' : ''
                 }`}
               >
                 {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) ? (
