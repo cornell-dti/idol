@@ -16,7 +16,7 @@ export default function Sidebar() {
     <>
       <IconButton
         variant="tertiary"
-        className="md:hidden fixed top-4 left-4 z-30 group !bg-background-1"
+        className="md:hidden fixed top-4 left-4 z-40 group !bg-background-1"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
       >
@@ -32,7 +32,7 @@ export default function Sidebar() {
       />
 
       <aside
-        className={`fixed top-0 left-0 h-full w-[260px] z-20 bg-background-1 md:border-r-0 border-r-1 border-l-1 border-border-1 overflow-auto
+        className={`fixed top-0 left-0 h-full w-[260px] z-30 bg-background-1 md:border-r-0 border-r-1 border-l-1 border-border-1 overflow-auto
     transform transition-transform duration-300 ease-in-out
     ${isOpen ? 'translate-x-0' : '-translate-x-full'}
     md:static md:translate-x-0 md:w-[260px] md:block`}
