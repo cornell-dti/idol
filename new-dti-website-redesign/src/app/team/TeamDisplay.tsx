@@ -177,13 +177,14 @@ export default function TeamDisplay() {
                   });
                 });
               }}
+              disableSectionSepStyle
               xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
             />
             <MemberDetailsCard
               user={selectedMember}
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
             />
-            <SectionSep grid={true} isMobile={isMobile} />
+            <SectionSep grid={true} isMobile={isMobile} disableSectionSepStyle />
           </div>
         );
 
