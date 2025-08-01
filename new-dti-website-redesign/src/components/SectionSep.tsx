@@ -8,6 +8,7 @@ type SectionSepProps = {
   onClickX?: () => void;
   xAriaLabel?: string;
   className?: string;
+  disableSectionSepStyle?: boolean;
 };
 
 export default function SectionSep({
@@ -16,19 +17,22 @@ export default function SectionSep({
   isMobile = false,
   onClickX = () => {},
   xAriaLabel,
-  className
+  className,
+  disableSectionSepStyle = false,
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
 
+  const sectionSepClass = disableSectionSepStyle ? 'border-border-1 border-b' : 'sectionSep';
+
   if (!grid) {
     return (
-      <div className={`w-full h-16 md:h-32 sectionSep border-border-1 border-x-1 ${className}`} />
+      <div className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className}`} />
     );
   }
 
   return (
-    <div className={`w-full overflow-hidden border-border-1 border-b ${className}`}>
+    <div className={`w-full overflow-hidden ${sectionSepClass} ${className}`}>
       <div className="flex justify-center">
         {Array.from({ length: boxCount }).map((_, i) => (
           <div
