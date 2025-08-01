@@ -18,7 +18,7 @@ export default function SectionSep({
   onClickX = () => {},
   xAriaLabel,
   className,
-  disableSectionSepStyle = false,
+  disableSectionSepStyle = false
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
@@ -27,7 +27,9 @@ export default function SectionSep({
 
   if (!grid) {
     return (
-      <div className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className}`} />
+      <div
+        className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className}`}
+      />
     );
   }
 

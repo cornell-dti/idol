@@ -184,7 +184,7 @@ export default function TeamDisplay() {
               user={selectedMember}
               image={`/team/teamHeadshots/${selectedMember.netid}.jpg`}
             />
-            <SectionSep grid={true} isMobile={isMobile} disableSectionSepStyle/>
+            <SectionSep grid={true} isMobile={isMobile} disableSectionSepStyle />
           </div>
         );
 
