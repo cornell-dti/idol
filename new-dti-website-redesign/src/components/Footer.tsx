@@ -142,7 +142,7 @@ export default function Footer() {
   return (
     <footer
       className="max-w-[1184px] mx-auto sm:rounded-t-2xl bg-[linear-gradient(to_bottom,#121212,#0D0D0D)] !mt-px
-    relative before:content-[''] before:absolute before:-top-px before:-left-px before:w-[calc(100%+2px)] before:h-[calc(100%+1px)] before:z-[-2] before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.1),rgba(255,255,255,0.02))] before:sm:rounded-t-2xl"
+    relative before:content-[''] before:absolute before:-top-px before:-left-px before:w-[calc(100%+2px)] before:h-[calc(100%+1px)] before:z-[-2] before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.1),rgba(255,255,255,0.02))] before:sm:rounded-t-2xl flex flex-col gap-2"
     >
       <div className="flex flex-col min-[1000px]:flex-row ">
         <div className="w-full sm:w-3/4 min-[1000px]:w-1/4 p-4 sm:p-8">
@@ -171,6 +171,20 @@ export default function Footer() {
               });
             }}
           />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-8 p-4 sm:p-8 pt-0">
+        <div
+          className="w-full h-px bg-[linear-gradient(90deg,rgba(46,46,46,0.30)_0%,#2E2E2E_50%,rgba(46,46,46,0.30)_100%)]
+        "
+        />
+
+        <div className="sm:flex-row flex-col flex sm:gap-0 gap-4 justify-between">
+          <p className="!text-sm text-foreground-3">
+            This organization is a registered student organization of Cornell University.
+          </p>
+          <p className="!text-sm text-foreground-3">&copy; 2025 Cornell DTI</p>
         </div>
       </div>
     </footer>

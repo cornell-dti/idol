@@ -23,11 +23,11 @@ const MemberSummary = ({
     <Image
       src={image}
       alt={`${user.firstName} ${user.lastName}'s profile picture`}
-      className="rounded-lg w-auto h-auto transform transition-all duration-120 ease-in-out group-active:scale-97"
+      className="rounded-lg w-full aspect-square object-cover transform transition-all duration-120 ease-in-out group-active:scale-97"
       width={232}
       height={232}
     />
-    <div className={`text-left flex flex-col ${enlarged ? 'gap-3' : 'gap-1'}`}>
+    <div className={`text-left flex flex-col ${enlarged ? 'gap-3 pt-4' : 'gap-1'}`}>
       {enlarged ? (
         <>
           <h3 className="h4">{`${user.firstName} ${user.lastName}`}</h3>
@@ -51,28 +51,39 @@ type MemberCardProps = {
   selected: boolean;
   className?: string;
   onClick?: () => void;
+  href?: string;
 };
 
 export const MemberCard = forwardRef<HTMLDivElement, MemberCardProps>(
-  ({ user, image, selected, onClick, className = '' }, ref) => {
+  ({ user, image, selected, onClick, className = '', href }, ref) => {
     const baseStyles =
       'relative p-4 sm:p-8 flex flex-col gap-4 hover:bg-background-2 transition-[background-color] duration-[120ms] has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:z-10 border-b-1 border-border-1';
 
     return (
       <article
         ref={ref}
-        className={`${baseStyles} relative overflow-hidden group ${
+        className={`h-full ${baseStyles} relative overflow-hidden group ${
           selected
             ? 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:shadow-[0_-4px_8px_0_var(--foreground-1)]  after:transform after:scale-x-100 after:origin-center after:transition-transform after:duration-200 bg-background-2'
             : 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground-1 after:transform after:scale-x-0 after:origin-center after:transition-transform after:duration-200'
         } ${className}`}
       >
         <MemberSummary user={user} image={image} />
-        <button
-          className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
-          onClick={onClick}
-          aria-label={`Open ${user.firstName} ${user.lastName}'s profile`}
-        />
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${user.firstName} ${user.lastName}'s LinkedIn`}
+            className="absolute inset-0"
+          />
+        ) : (
+          <button
+            className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
+            onClick={onClick}
+            aria-label={`Open ${user.firstName} ${user.lastName}'s profile`}
+          />
+        )}
       </article>
     );
   }
@@ -92,6 +103,8 @@ const IconLink = ({
   return (
     <Link
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="interactive activeState rounded-sm text-foreground-1 hover:text-foreground-2"
       aria-label={label}
     >
@@ -117,7 +130,7 @@ export const MemberDetailsCard = ({
   return (
     <div className="card-clickable flex w-full flex-col md:flex-row border-b-1 border-border-1">
       {showImage !== false && (
-        <div className={`${baseStyles} p-8 gap-4 border-r-1 border-border-1`}>
+        <div className={`${baseStyles} hidden md:block p-8 gap-4 border-r-1 border-border-1`}>
           <MemberSummary user={user} image={image} enlarged />
         </div>
       )}
@@ -129,17 +142,19 @@ export const MemberDetailsCard = ({
           <div className="flex gap-8">
             <div className="w-1/2">
               <p className="text-foreground-3">Graduating</p>
-              <p>{user.graduation}</p>
+              {user.graduation && <p>{user.graduation}</p>}
             </div>
             <div className="w-1/2">
               <p className="text-foreground-3">Major</p>
-              <p>{`${user.major}${user.doubleMajor ? ` & ${user.doubleMajor}` : ''}`}</p>
+              {user.major && (
+                <p>{`${user.major}${user.doubleMajor ? ` & ${user.doubleMajor}` : ''}`}</p>
+              )}
             </div>
           </div>
           <div className="flex gap-8">
             <div className="w-1/2">
               <p className="text-foreground-3">Hometown</p>
-              <p>{user.hometown}</p>
+              {user.hometown && <p>{user.hometown}</p>}
             </div>
             <div className="w-1/2">
               <p className="text-foreground-3">Subteam</p>
@@ -154,17 +169,17 @@ export const MemberDetailsCard = ({
                   </p>
                   <OpenIcon size={20} />
                 </Link>
-              ) : (
-                <div>{productLinks[user.subteams[0]].name}</div>
-              )}
+              ) : null}
             </div>
           </div>
           <div>
             <p className="text-foreground-3">About</p>
             <div className="flex flex-col gap-2">
-              {user.about.split('\n').map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
+              {user.about ? (
+                user.about.split('\n').map((para, i) => <p key={i}>{para}</p>)
+              ) : (
+                <p>An amazing member of DTI.</p>
+              )}
             </div>
           </div>
         </div>
@@ -203,7 +218,11 @@ export const MemberDetailsCard = ({
               </IconLink>
             )}
           </div>
-          <Button label={'Chat with me'} href={user.coffeeChatLink || `mailto:${user.email}`} />
+          <Button
+            label={'Chat with me'}
+            newTab={true}
+            href={user.coffeeChatLink || `mailto:${user.email}`}
+          />
         </div>
       </div>
       <div ref={scrollRef} className="md:-mt-65" />

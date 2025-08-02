@@ -13,8 +13,8 @@ const logos = [
 export default function SponsorsList() {
   return (
     <section>
-      <div className="grid min-[1000px]:grid-cols-4">
-        <div className="col-span-2 flex items-center justify-center min-[1000px]:p-0 p-4 sm:p-8 border-b-1 border-border-1">
+      <div className="grid min-md:grid-cols-4">
+        <div className="col-span-2 flex px-16 items-center justify-center border-b-1 border-border-1 max-md:py-8">
           <h2 className="h4 text-center">Thank you to our sponsors!</h2>
         </div>
         {logos.map((logo, index) => (
@@ -22,9 +22,11 @@ export default function SponsorsList() {
             key={index}
             {...logo}
             fillWidth
-            className={`border-l border-b border-border-1 
+            className={`border-l border-border-1
+              ${index === 0 || index === 4 ? 'max-md:!border-l-0' : ''} 
               ${index === 2 ? '!border-l-0' : ''} 
-              ${index >= 2 && index <= 5 ? '!border-b-0' : ''}`}
+              ${index >= 2 && index <= 3 ? 'min-md:border-b-0 max-md:border-b' : ''}
+              ${index >= 4 && index <= 5 ? '!border-b-0' : ''}`}
           />
         ))}
       </div>

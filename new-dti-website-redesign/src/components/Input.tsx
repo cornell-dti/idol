@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const baseStyles = `
     p-3 text-rg text-foreground-1 placeholder-foreground-3
-    bg-background-2 rounded-lg border border-border-1 min-w-64 min-h-12
+    bg-background-2 rounded-lg border border-border-1 min-h-12
     focus-visible:outline focus-visible:outline-[2px] focus-visible:outline-offset-[-1px] focus-visible:outline-[var(--foreground-1)]
     hover:border-border-2
     transition duration-[120ms]
