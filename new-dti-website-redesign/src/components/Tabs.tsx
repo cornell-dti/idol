@@ -13,7 +13,7 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
-  onTabChange?: () => void;
+  onTabChange?: (label?: string) => void;
 };
 
 export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
@@ -27,7 +27,7 @@ export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
-    onTabChange?.();
+    onTabChange?.(tabs[index].label);
   };
 
   // This is for the highlight effect (the filled pill) behind the selected tab
@@ -48,12 +48,7 @@ export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
     }
 
     updateHighlight();
-    window.addEventListener('resize', updateHighlight);
-
-    return () => {
-      window.removeEventListener('resize', updateHighlight);
-    };
-  }, [activeIndex]);
+  }, [activeIndex, width]);
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible

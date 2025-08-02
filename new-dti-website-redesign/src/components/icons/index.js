@@ -1,3 +1,4 @@
+export { default as AlarmIcon } from './AlarmIcon';
 export { default as ArrowIcon } from './ArrowIcon';
 export { default as ArrowLogoIcon } from './ArrowLogoIcon';
 export { default as CalendarIcon } from './CalendarIcon';
@@ -19,6 +20,7 @@ export { default as LinkIcon } from './LinkIcon';
 export { default as LoudspeakerIcon } from './LoudspeakerIcon';
 export { default as MailIcon } from './MailIcon';
 export { default as OpenIcon } from './OpenIcon';
+export { default as PartyPopperIcon } from './PartyPopperIcon';
 export { default as PencilIcon } from './PencilIcon';
 export { default as PeopleIcon } from './PeopleIcon';
 export { default as PinIcon } from './PinIcon';

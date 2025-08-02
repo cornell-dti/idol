@@ -6,15 +6,12 @@ import PageSection from '../../util/PageSection';
 import TestimonialCard from '../../../../components/TestimonialCard';
 import FeatureCard from '../../../../components/FeatureCard';
 import Marquee from '../../../../components/Marquee';
-import TimelineCard, { RecruitmentEvent } from '../../../../components/TimelineCard';
+import TimelineCard, { Cycle, RecruitmentEvent } from '../../../../components/TimelineCard';
 import { MemberCard, MemberDetailsCard } from '../../../../components/TeamCard';
 import PeopleIcon from '../../../../components/icons/PeopleIcon';
 import FileIcon from '../../../../components/icons/FileIcon';
 import GlobeIcon from '../../../../components/icons/GlobeIcon';
 import Note from '../../util/Note';
-import InfoIcon from '../../../../components/icons/InfoIcon';
-import LoudspeakerIcon from '../../../../components/icons/LoudspeakerIcon';
-import ChatIcon from '../../../../components/icons/ChatIcon';
 import SectionSep from '../../../../components/SectionSep';
 import rawMembers from '../../../team/data/all-members.json';
 import useIsMobile from '../../../../hooks/useIsMobile';
@@ -92,7 +89,6 @@ const testimonials = [
 
 const events: RecruitmentEvent[] = [
   {
-    icon: <LoudspeakerIcon />,
     title: 'Applications open!',
     description:
       "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
@@ -104,7 +100,6 @@ const events: RecruitmentEvent[] = [
     spring: { date: 'TBD', isTentative: true }
   },
   {
-    icon: <InfoIcon />,
     title: 'Information sessions',
     description:
       "We'll have a few sessions to learn about DTI, our goals, and our subteams. There's also time to chat with DTI members of all roles after.",
@@ -116,7 +111,6 @@ const events: RecruitmentEvent[] = [
     spring: { date: 'TBD', isTentative: false }
   },
   {
-    icon: <ChatIcon />,
     title: 'Interviews',
     description:
       'Prepare to talk about past experiences and your motivation for joining DTI. Then, demonstrate your technical skills through problem-solving challenges relevant to your subteam.',
@@ -211,7 +205,7 @@ export default function CardPage() {
 
       <PageSection title="Timeline card" description="Used on the timeline in the 'Apply' page.">
         {events.map((event, index) => (
-          <TimelineCard key={index} event={event} cycle="freshmen" />
+          <TimelineCard key={index} event={event} cycle={Cycle.FRESHMEN} />
         ))}
       </PageSection>
 
