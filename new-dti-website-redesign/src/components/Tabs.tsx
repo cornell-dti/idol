@@ -12,12 +12,11 @@ type Tab = {
 
 type TabsProps = {
   tabs: Tab[];
-  onChange?: (label: string) => void;
   className?: string;
-  onTabChange?: () => void;
+  onTabChange?: (label?: string) => void;
 };
 
-export default function Tabs({ tabs, onChange = () => {}, className = '', onTabChange }: TabsProps) {
+export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -28,10 +27,8 @@ export default function Tabs({ tabs, onChange = () => {}, className = '', onTabC
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
-    onTabChange?.();
+    onTabChange?.(tabs[index].label);
   };
-
-  const { width } = useScreenSize();
 
   // This is for the highlight effect (the filled pill) behind the selected tab
   useEffect(() => {
@@ -51,12 +48,7 @@ export default function Tabs({ tabs, onChange = () => {}, className = '', onTabC
     }
 
     updateHighlight();
-    window.addEventListener('resize', updateHighlight);
-
-    return () => {
-      window.removeEventListener('resize', updateHighlight);
-    };
-  }, [activeIndex]);
+  }, [activeIndex, width]);
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible
@@ -67,7 +59,6 @@ export default function Tabs({ tabs, onChange = () => {}, className = '', onTabC
       const dir = e.key === 'ArrowRight' ? 1 : -1;
       const nextIndex = (activeIndex + dir + tabs.length) % tabs.length;
       setActiveIndex(nextIndex);
-      onChange(tabs[nextIndex].label);
       tabsRef.current[nextIndex]?.focus(); // Moves focus to next tab
     }
   };
