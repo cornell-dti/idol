@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import useScreenSize from '../hooks/useScreenSize';
 
 type Tab = {
   label: string;
@@ -19,6 +20,8 @@ export default function Tabs({ tabs, onChange = () => {}, className = '' }: Tabs
   const highlightRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const { width } = useScreenSize();
+
   // This is for the highlight effect (the filled pill) behind the selected tab
   useEffect(() => {
     const currentTab = tabsRef.current[activeIndex];
@@ -34,7 +37,7 @@ export default function Tabs({ tabs, onChange = () => {}, className = '' }: Tabs
         highlight.style.width = `${width}px`;
       }
     }
-  }, [activeIndex]);
+  }, [activeIndex, width]);
 
   // You should be able to use the left/right arrow keys to navigate between tabs
   // This piece of code handles keyboard navigation so that the tabs are accessible

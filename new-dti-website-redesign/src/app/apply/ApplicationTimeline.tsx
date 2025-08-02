@@ -7,6 +7,7 @@ import TimelineCard, { Cycle, RecruitmentEvent } from '../../components/Timeline
 import { parseDateTime } from '../../utils/dateUtils';
 import config from '../../../config.json';
 import useScreenSize from '../../hooks/useScreenSize';
+import { TABLET_BREAKPOINT } from '../../consts';
 
 const applicationEvents = events.events;
 
@@ -83,15 +84,18 @@ const ApplicationTimeline = () => {
       'after:bg-linear-[var(--background-1),transparent_5%,transparent_95%,var(--background-1)]';
   }
 
+  const isMobile = width <= TABLET_BREAKPOINT;
+
   return (
     <section id="application-timeline" style={{ overflow: 'visible' }}>
       <div
         className={`relative flex flex-col md:flex-row justify-between border-b-1 border-border-1 md:border-0
-      after:content-[''] after:w-full after:h-200 after:absolute ${width <= 768 ? 'after:top-[calc(1px+100%)]' : 'after:top-full'} after:pointer-events-none after:z-10
+      after:content-[''] after:w-full after:h-200 after:absolute ${isMobile ? 'after:top-[calc(1px+100%)]' : 'after:top-full'} after:pointer-events-none after:z-10
       ${gradientStyle}`}
       >
-        <h2 className="p-4 pb-0 sm:p-8 md:pb-8">Application timeline</h2>
+        <h2 className="p-4 sm:p-8 pb-0! md:pb-8!">Application timeline</h2>
         <Tabs
+          className={"w-full md:w-90"}
           onChange={(c) => setCycle(c.toLowerCase() as Cycle)}
           tabs={[
             {
@@ -128,8 +132,8 @@ const ApplicationTimeline = () => {
                     <svg
                       overflow="visible"
                       width="13"
-                      height={NODE_HEADER_HEIGHT + NODE_GAP - 4 - (width <= 768 ? 16 : 0)}
-                      className={`absolute -left-[23.5px] md:-left-8 -top-4 md:-top-8`}
+                      height={NODE_HEADER_HEIGHT + NODE_GAP - 4 - (isMobile ? 16 : 0)}
+                      className={`absolute -left-[14.5px] md:-left-8 -top-4 md:-top-8`}
                     >
                       <defs>
                         <linearGradient id="topGradient" gradientTransform="rotate(90)">
@@ -142,7 +146,7 @@ const ApplicationTimeline = () => {
                         x="5"
                         rx="1"
                         ry="1"
-                        height={NODE_HEADER_HEIGHT + NODE_GAP - 4 - (width <= 768 ? 16 : 0)}
+                        height={NODE_HEADER_HEIGHT + NODE_GAP - 4 - (isMobile ? 16 : 0)}
                         fill="url('#topGradient')"
                       />
                     </svg>
@@ -152,7 +156,7 @@ const ApplicationTimeline = () => {
                     height={svgHeight}
                     viewBox={`0 0 13 ${svgHeight}`}
                     xmlns="http://www.w3.org/2000/svg"
-                    className="absolute -left-[23.5px] md:-left-8 top-[84.7px]"
+                    className="absolute -left-[14.5px] md:-left-8 top-[84.7px]"
                   >
                     <circle
                       cx="6.5"
