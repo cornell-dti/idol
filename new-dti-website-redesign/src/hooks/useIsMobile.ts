@@ -7,7 +7,7 @@ const useIsMobile = (width: number | undefined) => {
 
   useLayoutEffect(() => {
     if (width === undefined) return;
-    setIsMobile(width < 640);
+    setIsMobile(width < 768);
   }, [width]);
 
   return isMobile;

@@ -16,7 +16,6 @@ export default function CourseStaffSection({ courseStaff }: Props) {
   const memberDetailsRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
   const isMobile = useIsMobile(width);
-  const isCompactLayout = width < 800;
 
   useClickOutside({
     refs: [memberDetailsRef],
@@ -52,12 +51,13 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             />
 
             {isMobile && selectedMember?.netid === member.netid && (
-              <div className="border-t-1 border-border-1">
+              <div className="border-border-1">
                 <SectionSep
                   grid={true}
                   hasX={true}
                   isMobile={true}
                   onClickX={() => setSelectedMember(undefined)}
+                  disableSectionSepStyle
                 />
                 <div ref={memberDetailsRef}>
                   <MemberDetailsCard
@@ -75,13 +75,14 @@ export default function CourseStaffSection({ courseStaff }: Props) {
 
       {/* Desktop view: render below the full row */}
       {!isMobile && selectedMember && (
-        <div className="border-t-1 border-border-1">
+        <div className="border-border-1">
           <div ref={memberDetailsRef}>
             <SectionSep
               grid={true}
               hasX={true}
-              isMobile={isCompactLayout}
+              isMobile={false}
               onClickX={() => setSelectedMember(undefined)}
+              disableSectionSepStyle
               xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
             />
             <MemberDetailsCard
