@@ -16,7 +16,6 @@ export default function CourseStaffSection({ courseStaff }: Props) {
   const memberDetailsRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
   const isMobile = useIsMobile(width);
-  const isCompactLayout = width < 800;
 
   useClickOutside({
     refs: [memberDetailsRef],
@@ -81,7 +80,7 @@ export default function CourseStaffSection({ courseStaff }: Props) {
             <SectionSep
               grid={true}
               hasX={true}
-              isMobile={isCompactLayout}
+              isMobile={false}
               onClickX={() => setSelectedMember(undefined)}
               disableSectionSepStyle
               xAriaLabel={`Close ${selectedMember.firstName} ${selectedMember.lastName}'s profile`}
