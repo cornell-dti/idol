@@ -283,6 +283,7 @@ export default function TeamDisplay() {
           setSelectedMember(undefined);
           setClickedSection(undefined);
         }}
+        variant="team"
       />
     </section>
   );

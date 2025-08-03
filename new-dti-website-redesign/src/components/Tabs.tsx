@@ -13,10 +13,11 @@ type Tab = {
 type TabsProps = {
   tabs: Tab[];
   className?: string;
+  variant?: 'normal' | 'team';
   onTabChange?: (label?: string) => void;
 };
 
-export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
+export default function Tabs({ tabs, className = '', variant = 'normal', onTabChange }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -69,8 +70,7 @@ export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
         <div
           ref={containerRef}
           className={`flex flex-1 relative w-fit border-1 border-border-1 bg-black p-0.5 
-          ${isMobile ? 'grid grid-cols-3 rounded-md' : 'rounded-full'}
-          ${className}`}
+          ${variant === 'team' && isMobile ? 'grid grid-cols-3 rounded-md' : 'rounded-full'}`}
           role="tablist"
           aria-label="Tabbed content"
           onKeyDown={handleKeyDown}
@@ -78,13 +78,13 @@ export default function Tabs({ tabs, className = '', onTabChange }: TabsProps) {
           <div
             ref={highlightRef}
             className={`absolute -top-0.25 -left-0.25 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0  
-            ${isMobile ? 'rounded-md' : 'rounded-full'}`}
+            ${variant === 'team' && isMobile ? 'rounded-md' : 'rounded-full'}`}
           />
 
           {tabs.map((tab, index) => (
             <button
               className={`flex gap-2 items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1
-              ${isMobile ? 'flex-col' : 'flex-row'}`}
+              ${variant === 'team' && isMobile ? 'flex-col' : 'flex-row'}`}
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;

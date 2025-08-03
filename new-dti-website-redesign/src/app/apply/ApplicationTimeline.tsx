@@ -95,7 +95,7 @@ const ApplicationTimeline = () => {
       >
         <h2 className="p-4 sm:p-8 pb-0! md:pb-8!">Application timeline</h2>
         <Tabs
-          className={'w-full md:w-90'}
+          className={'w-full md:w-100'}
           onTabChange={(c) => c && setCycle(c.toLowerCase() as Cycle)}
           tabs={[
             {
