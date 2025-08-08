@@ -50,16 +50,27 @@ const Footer: React.FC<FooterProps> = ({ theme }) => (
     <div
       className={`${
         theme === 'dark' ? 'bg-black text-neutral-50' : 'bg-[#F5F5F5] text-[#0C0404]'
-      } w-full h-[146px]  flex justify-between items-center md:flex-row flex-col`}
+      } w-full h-[146px] flex justify-between items-center md:flex-row flex-col`}
     >
       <div
-        className={`sm:w-[336px] sm:text-center md:text-lg md:w-[310px] md:text-left lg:w-full text-sm font-medium flex items-center ${
+        className={`sm:w-[336px] sm:text-center md:text-base md:w-[310px] md:text-left lg:w-full text-xs font-medium flex flex-col items-center md:items-start gap-1 md:mb-0 mb-4 ${
           theme === 'dark' ? 'text-gray-300' : 'text-black'
         }`}
       >
-        © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
-        <br />
-        This organization is a registered student organization of Cornell University.
+        <div className="text-center md:text-left">
+          © {new Date().getFullYear()} Cornell Digital Tech & Innovation Project Team
+        </div>
+        <div className="text-center md:text-left text-xs">
+          This organization is a registered student organization of Cornell University.
+        </div>
+        <a
+          href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-xs hover:opacity-80 transition-opacity"
+        >
+          Equal Education and Employment
+        </a>
       </div>
 
       <div className="flex gap-5 md:h-fit h-screen">
