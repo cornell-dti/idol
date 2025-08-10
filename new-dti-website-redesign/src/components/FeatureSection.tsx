@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import IconWrapper from './IconWrapper';
 import Button from './Button';
+import Chip from './Chip';
 
 type FeatureSectionProps = {
   eyebrowText?: string;
@@ -18,6 +19,7 @@ type FeatureSectionProps = {
   imageAlt: string;
   imagePosition?: 'left' | 'right';
   className?: string;
+  chip?: string;
 };
 
 export default function FeatureSection({
@@ -34,7 +36,8 @@ export default function FeatureSection({
   image,
   imageAlt,
   imagePosition = 'left',
-  className
+  className,
+  chip
 }: FeatureSectionProps) {
   const imageOrder = imagePosition === 'right' ? 'md:order-2' : 'md:order-1';
   const contentOrder = imagePosition === 'right' ? 'md:order-1' : 'md:order-2';
@@ -46,7 +49,11 @@ export default function FeatureSection({
 
         {eyebrowText && <p className="caps text-foreground-3">{eyebrowText}</p>}
 
-        <h2 className="h3">{heading}</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="h3">{heading}</h2>
+          {chip && <Chip label={chip} color="red" />}
+        </div>
+
         <p className="text-foreground-3">{description}</p>
       </div>
 
