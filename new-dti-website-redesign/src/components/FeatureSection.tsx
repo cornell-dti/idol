@@ -79,7 +79,7 @@ export default function FeatureSection({
   );
 
   return (
-    <section className={`flex flex-col md:flex-row w-full ${className}`}>
+    <section className={`flex flex-col md:flex-row w-full ${className}`} id={heading}>
       <div
         className={`relative w-full md:w-1/2 ${imageOrder} border-border-1 ${
           imagePosition === 'right' ? 'md:border-l' : 'md:border-r'

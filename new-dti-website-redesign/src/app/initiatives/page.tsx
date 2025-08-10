@@ -23,7 +23,7 @@ export default function Initiatives() {
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Learn more"
-        button2Link="/"
+        button2Link="#Incubator"
         image="/initiatives/hero.png"
       />
 
