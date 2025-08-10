@@ -66,7 +66,7 @@ export default function Initiatives() {
 
       <FeatureSection
         eyebrowIcon={<LightBulbIcon />}
-        heading="Initiatives"
+        heading="Professional development"
         description="We collaborated with Millennium Management in Spring 2024. Members of Cornell DTI volunteered to participate in projects created by Millennium professionals introducing the team to relevant problems tackled in the industry."
         image="/initiatives/initiatives.png"
         imagePosition="right"
