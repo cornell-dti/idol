@@ -16,7 +16,7 @@ const courses = [
     header: 'Trends in Web Development',
     subtitle: 'Modern Industry-Leading Technologies',
     description:
-      'Trends in Web Development is a 2-credit S/U course that showcases modern full-stack development and best practices used within industry. We cover technologies like TypeScript, React, Node.js, Firebase, Express and more, all of which are deployed at scale by leading tech companies. ',
+      'Trends in Web Development is a 2-credit S/U course that showcases modern full-stack development and best practices used within industry. We cover technologies like TypeScript, React, Node.js, Firebase, Express, and more, all of which are deployed at scale by leading tech companies. ',
     image: '/static/pages/courses-promo-trends.jpg',
     buttons: {
       apply: {
