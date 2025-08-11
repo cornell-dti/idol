@@ -55,17 +55,17 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       .map((e) => {
         // Use 12:00 AM as default when time missing
         const d = parseDate(e.date, '12:00 AM', normTime(e.time));
-        return { ...e, _date: d };
+        return { ...e, parsedDate: d };
       })
       .filter((e) => {
-        const ok = e._date instanceof Date && !isNaN(e._date.getTime());
+        const ok = e.parsedDate instanceof Date && !isNaN(e.parsedDate.getTime());
         if (!ok && typeof window !== 'undefined') {
           // eslint-disable-next-line no-console
           console.warn('Timeline: invalid date skipped', e);
         }
         return ok;
       })
-      .sort((a, b) => a._date.getTime() - b._date.getTime());
+      .sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime());
     return list;
   }, [events]);
 
@@ -84,18 +84,18 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       const next = i < withDates.length - 1 ? withDates[i + 1] : null;
       let weight = 0;
       if (next) {
-        weight = calcProgress(node._date, next._date, currentDate);
+        weight = calcProgress(node.parsedDate, next.parsedDate, currentDate);
       } else {
         // For the last node, treat edge as complete only after its own datetime
-        weight = currentDate.getTime() <= node._date.getTime() ? 0 : 1;
+        weight = currentDate.getTime() <= node.parsedDate.getTime() ? 0 : 1;
       }
       const w = Math.min(1, Math.max(0, weight));
 
       const edge: Edge = {
         title: node.title,
-        date: node._date,
+        date: node.parsedDate,
         nextTitle: next ? next.title : null,
-        nextDate: next ? next._date : null,
+        nextDate: next ? next.parsedDate : null,
         weight: w,
         percent: Math.round(w * 100)
       };
@@ -112,7 +112,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     return edges;
   }, [withDates, currentDate]);
 
-  const halfGraph = events.map((node, i) => {
+  const halfGraph = withDates.map((node, i) => {
     let prevHalf: number;
     let nextHalf: number;
 
@@ -120,7 +120,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     if (i === 0) {
       // First event: before it there's no edge
       // Filled if the first event has passed
-      prevHalf = currentDate >= node._date ? 0 : 1;
+      prevHalf = currentDate <= node.parsedDate ? 0 : 1;
     } else {
       // Otherwise: take weight from the previous edge
       const prevW = graph[i - 1].weight;
@@ -136,7 +136,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     if (i === withDates.length - 1) {
       // Last event: after it there's no edge
       // Filled if last event has passed
-      nextHalf = currentDate >= node._date ? 1 : 0;
+      nextHalf = currentDate >= node.parsedDate ? 1 : 0;
     } else {
       // Otherwise: take weight from the current edge
       const nextW = graph[i].weight;
@@ -152,13 +152,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     console.log(
       `[HalfGraph] i = ${i} | ${node.title} +
 | prev: ${i === 0 ? 'N/A' : withDates[i - 1].title} -> ${node.title} +
-| next: ${node.title} -> ${i === events.length - 1 ? 'END' : withDates[i + 1].title} +
+| next: ${node.title} -> ${i === withDates.length - 1 ? 'END' : withDates[i + 1].title} +
 | prevW=${i === 0 ? 'N/A' : graph[i - 1].weight.toFixed(3)} +
-| nextW=${i === events.length - 1 ? 'N/A' : graph[i].weight.toFixed(3)} +
+| nextW=${i === withDates.length - 1 ? 'N/A' : graph[i].weight.toFixed(3)} +
 | prevHalf=${clamp01(prevHalf) * 100}% +
 | nextHalf=${clamp01(nextHalf) * 100}% +
-| dates: current = ${fmt(currentDate)}, node = ${fmt(node._date)} +
-, prev = ${fmt(withDates[i - 1]?._date)}, next = ${fmt(withDates[i + 1]?._date)}
+| dates: current = ${fmt(currentDate)}, node = ${fmt(node.parsedDate)} +
+, prev = ${fmt(withDates[i - 1]?.parsedDate)}, next = ${fmt(withDates[i + 1]?.parsedDate)}
 `
     );
 
