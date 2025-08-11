@@ -41,8 +41,6 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
-  const fmt = (d?: Date | null) =>
-    d instanceof Date && !isNaN(d.getTime()) ? d.toISOString() : 'N/A';
   const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
   const normTime = (t?: string) => {
@@ -100,13 +98,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         percent: Math.round(w * 100)
       };
 
-      // // Debug log
-      // console.log(
-      //   `[Timeline] ${edge.title} → ${edge.nextTitle ?? 'END'} | weight: ${edge.weight} | percent: ${edge.percent} | dates:`,
-      //   edge.date.toISOString(),
-      //   edge.nextDate?.toISOString() ?? 'N/A'
-      // );
-
       return edge;
     });
     return edges;
@@ -116,13 +107,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     let prevHalf: number;
     let nextHalf: number;
 
-    // --- Previous half segment ---
+    // Previous half segment
     if (i === 0) {
-      // First event: before it there's no edge
+      // First event- before it there's no edge
       // Filled if the first event has passed
       prevHalf = currentDate <= node.parsedDate ? 0 : 1;
     } else {
-      // Otherwise: take weight from the previous edge
+      // Otherwise take weight from the previous edge
       const prevW = graph[i - 1].weight;
       if (prevW < 0.5) {
         prevHalf = 0;
@@ -132,13 +123,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       }
     }
 
-    // --- Next half segment ---
+    // Next half segment 
     if (i === withDates.length - 1) {
       // Last event: after it there's no edge
       // Filled if last event has passed
       nextHalf = currentDate >= node.parsedDate ? 1 : 0;
     } else {
-      // Otherwise: take weight from the current edge
+      // Otherwise- take weight from the current edge
       const nextW = graph[i].weight;
       if (nextW > 0.5) {
         nextHalf = 1;
@@ -146,21 +137,6 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         nextHalf = nextW / 0.5;
       }
     }
-
-    // Debug log (half segments)
-    // eslint-disable-next-line no-console
-    console.log(
-      `[HalfGraph] i = ${i} | ${node.title} +
-| prev: ${i === 0 ? 'N/A' : withDates[i - 1].title} -> ${node.title} +
-| next: ${node.title} -> ${i === withDates.length - 1 ? 'END' : withDates[i + 1].title} +
-| prevW=${i === 0 ? 'N/A' : graph[i - 1].weight.toFixed(3)} +
-| nextW=${i === withDates.length - 1 ? 'N/A' : graph[i].weight.toFixed(3)} +
-| prevHalf=${clamp01(prevHalf) * 100}% +
-| nextHalf=${clamp01(nextHalf) * 100}% +
-| dates: current = ${fmt(currentDate)}, node = ${fmt(node.parsedDate)} +
-, prev = ${fmt(withDates[i - 1]?.parsedDate)}, next = ${fmt(withDates[i + 1]?.parsedDate)}
-`
-    );
 
     return {
       event: node,
@@ -203,11 +179,10 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             isEdgeGradient: boolean;
           }) => {
             const gradientClasses = isEdgeGradient
-              ? `${
-                  orientation === 'left'
-                    ? 'bg-gradient-to-t md:bg-gradient-to-l'
-                    : 'bg-gradient-to-b md:bg-gradient-to-r'
-                } from-transparent to-[var(--background-1)]`
+              ? `${orientation === 'left'
+                ? 'bg-gradient-to-t md:bg-gradient-to-l'
+                : 'bg-gradient-to-b md:bg-gradient-to-r'
+              } from-transparent to-[var(--background-1)]`
               : '';
 
             const baseClasses = `relative overflow-hidden rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] ${gradientClasses} bg-foreground-3`;
@@ -239,16 +214,14 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               <HalfSegment orientation="left" progress={firstHalf} isEdgeGradient={i === 0} />
               {/* Dot */}
               <div
-                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${
-                  passed ? 'border-accent-red' : 'border-foreground-3'
-                }`}
+                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${passed ? 'border-accent-red' : 'border-foreground-3'
+                  }`}
               >
                 <div
-                  className={`w-[6px] h-[6px] rounded-full ${
-                    passed
+                  className={`w-[6px] h-[6px] rounded-full ${passed
                       ? 'border-accent-red bg-accent-red'
                       : 'border-foreground-3 bg-foreground-3'
-                  }`}
+                    }`}
                 />
               </div>
               <HalfSegment
