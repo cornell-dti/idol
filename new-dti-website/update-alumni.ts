@@ -3,21 +3,11 @@ import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const DIFF_OUTPUT_LIMIT = 65_000;
-
 async function getIdolMembers(): Promise<readonly IdolMember[]> {
   const { members } = await fetch(
     'https://idol.cornelldti.org/.netlify/functions/api/member?type=approved'
   ).then((response) => response.json() as Promise<{ members: readonly IdolMember[] }>);
   return members.filter((it) => it.email.endsWith('@cornell.edu'));
-}
-
-function runCommand(program: string, ...programArguments: readonly string[]) {
-  const programArgumentsQuoted = programArguments
-    .map((it) => (it.includes(' ') ? `"${it}"` : it))
-    .join(' ');
-  console.log(`> ${program} ${programArgumentsQuoted}`);
-  return spawnSync(program, programArguments, { stdio: 'inherit' });
 }
 
 function getSemesters() {
