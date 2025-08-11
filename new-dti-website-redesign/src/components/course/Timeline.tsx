@@ -116,46 +116,103 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       </div>
       {/* Line Row */}
       <div className="flex flex-col -left-[7px] relative md:left-0 md:flex-row">
-        {events.map((ev, i) => {
-          const passed = isPassed(ev);
-          const base = passed ? 'bg-accent-red' : 'bg-foreground-3';
+        {graph.map((edge, i) => {
+          // Clamp defensively
+          const w = Math.max(0, Math.min(1, edge.weight));
 
-          // gradient "from" var
+          // First half progress (0..1), second half progress (0..1)
+          const firstHalf = Math.min(1, w / 0.5);
+          const secondHalf = w <= 0.5 ? 0 : Math.min(1, (w - 0.5) / 0.5);
+
+          // Dot passed state (optional: replace with your parseDate-based logic if you prefer)
+          const passed = w >= 1;
+
+          const base = passed ? 'bg-accent-red' : 'bg-foreground-3';
           const fromVar = passed ? 'from-accent-red' : 'from-foreground-3';
+
+          // Helper to render a half segment with partial fill
+          // orientation: 'left' (above on mobile, left on desktop) or 'right' (below/top, right on desktop)
+          const HalfSegment = ({
+            orientation,
+            progress,
+            isEdgeGradient,
+          }: {
+            orientation: 'left' | 'right';
+            progress: number; // 0..1
+            isEdgeGradient: boolean; // apply gradient fade on the outermost end
+          }) => {
+            // Base container for the half
+            const baseClasses =
+              'relative overflow-hidden rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] bg-foreground-3';
+
+            // Add gradient fade only for the very first left half and very last right half
+            const gradient =
+              isEdgeGradient
+                ? `${orientation === 'left'
+                  ? 'bg-gradient-to-t md:bg-gradient-to-l'
+                  : 'bg-gradient-to-b md:bg-gradient-to-r'} ${fromVar} to-transparent`
+                : '';
+
+            return (
+              <div className={`${baseClasses} ${gradient}`}>
+                {/* Red overlay sized by progress */}
+                {/* Mobile (vertical): control height; Desktop (horizontal): control width */}
+                {/* Left half fills upward on mobile, left-to-right on desktop */}
+                {/* Right half fills downward on mobile, left-to-right on desktop for simplicity */}
+                {/* Mobile overlay */}
+                <div
+                  className={`absolute md:hidden left-0 bg-accent-red w-[3px]`}
+                  style={{
+                    // Left half grows from bottom up
+                    // Right half grows from top down
+                    bottom: orientation === 'left' ? 0 : undefined,
+                    top: orientation === 'right' ? 0 : undefined,
+                    height: `${progress * 100}%`,
+                  }}
+                />
+                {/* Desktop overlay */}
+                <div
+                  className={`absolute hidden md:block top-0 left-0 h-[3px] bg-accent-red`}
+                  style={{
+                    // Grow left-to-right for both halves on desktop
+                    width: `${progress * 100}%`,
+                  }}
+                />
+              </div>
+            );
+          };
 
           return (
             <div key={i} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
-              {/* left segment (gradient on first) */}
-              <div
-                className={`rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] ${i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
-                  }`}
+              {/* LEFT HALF (first 50% of the edge length) */}
+              <HalfSegment
+                orientation="left"
+                progress={firstHalf}
+                isEdgeGradient={i === 0}
               />
 
-              {/* outer ring */}
+              {/* DOT */}
               <div
                 className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${passed ? 'border-accent-red' : 'border-foreground-3'
                   }`}
               >
-                {/* dot */}
                 <div
-                  className={`w-[6px] h-[6px] rounded-full ${passed
-                      ? 'border-accent-red bg-accent-red'
-                      : 'border-foreground-3 bg-foreground-3'
+                  className={`w-[6px] h-[6px] rounded-full ${passed ? 'border-accent-red bg-accent-red' : 'border-foreground-3 bg-foreground-3'
                     }`}
                 />
               </div>
 
-              {/* right segment (gradient on last) */}
-              <div
-                className={`w-[3px] h-16 rounded-t-full md:rounded-l-full md:w-full  md:h-[3px] ${i === events.length - 1
-                    ? `bg-gradient-to-b md:bg-gradient-to-r ${fromVar} to-transparent`
-                    : base
-                  }`}
+              {/* RIGHT HALF (second 50% of the edge length) */}
+              <HalfSegment
+                orientation="right"
+                progress={secondHalf}
+                isEdgeGradient={i === events.length - 1}
               />
             </div>
           );
         })}
       </div>
+
     </div>
   );
 }
