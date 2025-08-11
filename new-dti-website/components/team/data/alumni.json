@@ -23,7 +23,7 @@
     "semesterJoined": "Spring 2023"
   },
   {
-    "roleDescription": "Business Advisor",
+    "roleDescription": "Business Lead",
     "major": "",
     "subteams": [
       "leads"
@@ -44,7 +44,7 @@
     "lastName": "Mak",
     "about": "",
     "github": "",
-    "role": "business-advisor",
+    "role": "business-lead",
     "website": "",
     "firstName": "Jonathan"
   },
@@ -100,7 +100,7 @@
     "semesterJoined": "Fall 2023"
   },
   {
-    "roleDescription": "Business Advisor",
+    "roleDescription": "Business Lead",
     "firstName": "Kevin",
     "netid": "kl628",
     "github": "https://github.com/kevin-lin12",
@@ -115,7 +115,7 @@
     "doubleMajor": null,
     "semesterJoined": "Spring 2023",
     "coffeeChatLink": null,
-    "role": "business-advisor",
+    "role": "business-lead",
     "college": "eng",
     "minor": "Business",
     "pronouns": "He/Him",
@@ -133,7 +133,7 @@
     "lastName": "Chan",
     "pronouns": "",
     "email": "kmc362@cornell.edu",
-    "role": "pm-advisor",
+    "role": "pm",
     "semesterJoined": "Fall 2023",
     "graduation": "",
     "major": "",
@@ -150,7 +150,7 @@
       "courseplan"
     ],
     "netid": "kmc362",
-    "roleDescription": "PM Advisor"
+    "roleDescription": "Product Manager"
   },
   {
     "graduation": "May 2025",
@@ -216,8 +216,8 @@
     "hometown": "India",
     "major": "Computer Science",
     "pronouns": "he/him",
-    "role": "dev-advisor",
-    "roleDescription": "Dev Advisor",
+    "role": "developer",
+    "roleDescription": "Developer",
     "minor": "Psychology, Real & Applied Math",
     "doubleMajor": null,
     "graduation": "December 2025",
@@ -236,7 +236,7 @@
     ],
     "github": "",
     "firstName": "Stephy",
-    "roleDescription": "PM Advisor",
+    "roleDescription": "Product Lead",
     "netid": "sc2548",
     "pronouns": "",
     "hometown": "",
@@ -250,7 +250,7 @@
     "lastName": "Chen",
     "linkedin": "",
     "about": "",
-    "role": "pm-advisor",
+    "role": "product-lead",
     "website": ""
   },
   {
@@ -259,12 +259,12 @@
     "github": "",
     "email": "sv358@cornell.edu",
     "minor": "",
-    "roleDescription": "Business Advisor",
+    "roleDescription": "Business",
     "about": "",
     "hometown": "",
     "linkedin": "",
     "pronouns": "",
-    "role": "business-advisor",
+    "role": "business",
     "graduation": "May 2025",
     "subteams": [
       "business"
@@ -278,7 +278,7 @@
   },
   {
     "formerSubteams": [],
-    "roleDescription": "Developer",
+    "roleDescription": "Full Team Lead",
     "minor": "CS",
     "semesterJoined": "Fall 2021",
     "email": "sz266@cornell.edu",
@@ -286,7 +286,7 @@
     "netid": "sz266",
     "lastName": "Zhao",
     "graduation": "Spring 2025",
-    "role": "developer",
+    "role": "ops-lead",
     "firstName": "Sophie",
     "subteams": [
       "idol"
@@ -365,9 +365,9 @@
     "minor": "Dyson Business Minor for Engineers",
     "github ": "",
     "email": "al853@cornell.edu",
-    "roleDescription": "PM Advisor",
+    "roleDescription": "Product Manager",
     "major": "Computer Science",
-    "role": "pm-advisor",
+    "role": "pm",
     "pronouns": "",
     "netid": "al853",
     "semesterJoined": "Spring 2022"
@@ -450,14 +450,14 @@
     "semesterJoined": "Spring 2023"
   },
   {
-    "role": "pm-advisor",
+    "role": "pm",
     "website": "",
     "lastName": "Tang",
     "pronouns": "",
     "major": "Computer Science",
     "github": "https://github.com/b3njamint",
     "email": "bt283@cornell.edu",
-    "roleDescription": "PM Advisor",
+    "roleDescription": "Product Manager",
     "about": "",
     "doubleMajor": "",
     "github ": "",
@@ -505,7 +505,7 @@
       "cuapts"
     ],
     "major": "",
-    "roleDescription": "Dev Advisor",
+    "roleDescription": "Technical PM",
     "hometown": "",
     "netid": "dj263",
     "minor": "",
@@ -515,7 +515,7 @@
     "website": "",
     "doubleMajor": "",
     "linkedin": "",
-    "role": "dev-advisor",
+    "role": "tpm",
     "github": "",
     "semesterJoined": "Fall 2021"
   },
@@ -570,7 +570,7 @@
   },
   {
     "formerSubteams": [],
-    "role": "dev-advisor",
+    "role": "tpm",
     "lastName": "Tang",
     "email": "et362@cornell.edu",
     "major": "Computer Science",
@@ -579,7 +579,7 @@
     ],
     "graduation": "May 2025",
     "github": "https://github.com/elizabeth-tang",
-    "roleDescription": "Dev Advisor",
+    "roleDescription": "Technical PM",
     "hometown": "Queens, NY",
     "pronouns": "She/her/hers",
     "firstName": "Elizabeth",
@@ -735,10 +735,10 @@
   },
   {
     "formerSubteams": [],
-    "role": "business-advisor",
+    "role": "business",
     "about": "",
     "lastName": "Mei",
-    "roleDescription": "Business Advisor",
+    "roleDescription": "Business",
     "linkedin": "",
     "minor": "",
     "hometown": "",
