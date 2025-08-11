@@ -122,7 +122,7 @@ export default function Footer() {
         }
       </Link>
 
-      <ul className="flex max-w-[220px] justify-between list-none pt-4">
+      <ul className="flex max-w-[269px] min-[1000px]:max-w-[232px] justify-between list-none pt-4 w-full">
         {SocialLinks.map(({ href, label, icon }) => (
           <li key={href}>
             <Link
@@ -159,7 +159,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="w-1/4 min-[1000px]:p-8 flex justify-end max-[1000px]:absolute sm:top-8 sm:right-8 right-4 bottom-4">
+        <div className="w-1/4 hidden sm:flex min-[1000px]:p-8 top-8 right-8 absolute min-[1000px]:static justify-end">
           <Button
             label="Back to top"
             variant="secondary"
@@ -181,10 +181,34 @@ export default function Footer() {
         />
 
         <div className="sm:flex-row flex-col flex sm:gap-0 gap-4 justify-between">
-          <p className="!text-sm text-foreground-3">
-            This organization is a registered student organization of Cornell University.
-          </p>
+          <div className="flex flex-col min-[1000px]:flex-row gap-1">
+            <p className="!text-sm text-foreground-3">
+              This organization is a registered student organization of Cornell University.
+            </p>
+            <p className="!text-sm text-foreground-3 hidden min-[1000px]:block">•</p>
+
+            <Link
+              href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment"
+              target="_blank"
+              className="text-sm text-foreground-3 hover:text-foreground-1 rounded-sm focusState transition-[color] duration-[120ms]"
+            >
+              Equal Education and Employment
+            </Link>
+          </div>
           <p className="!text-sm text-foreground-3">&copy; 2025 Cornell DTI</p>
+
+          <Button
+            className="block sm:hidden w-full"
+            label="Back to top"
+            variant="secondary"
+            backToTop={<ArrowLogoIcon width={20} height={20} />}
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }}
+          />
         </div>
       </div>
     </footer>
