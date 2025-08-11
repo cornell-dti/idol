@@ -180,6 +180,7 @@ export default function Navbar({ demo }: NavbarProps) {
             href="/"
             className="focusState rounded-sm interactive activeState"
             aria-label="Go to homepage"
+            onClick={() => setMobileOpen(false)}
           >
             <Image
               src="/wordmark.svg"
