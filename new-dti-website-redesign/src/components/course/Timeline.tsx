@@ -119,7 +119,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     if (i === 0) {
       // First event: before it there's no edge
       // Filled if the first event has passed
-      prevHalf = currentDate >= node._date ? 1 : 0;
+      prevHalf = currentDate >= node._date ? 0 : 1;
     } else {
       // Otherwise: take weight from the previous edge
       const prevW = graph[i - 1].weight;
@@ -220,7 +220,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                   className="absolute md:hidden left-0 bg-accent-red w-[3px]"
                   style={{
                     bottom: orientation === 'left' ? 0 : undefined,
-                    top: orientation === 'right' ? 0 : undefined,
+                    top: orientation === 'left' ? 0 : undefined,
                     height: `${progress * 100}%`,
                   }}
                 />
