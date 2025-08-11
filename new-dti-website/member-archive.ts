@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
-import { resolve, join } from 'path';
+import { join } from 'path';
 import { Octokit } from '@octokit/rest';
 
 const DIFF_OUTPUT_LIMIT = 65_000;
@@ -54,21 +55,18 @@ async function updateAlumniJson(): Promise<void> {
   const idolMembers = await getIdolMembers();
   const { previousSemesterOne, previousSemesterTwo } = getSemesters();
 
-  const semesterOneFile = `${previousSemesterOne}.json`;
-  const semesterTwoFile = `${previousSemesterTwo}.json`;
-
-  const semesterOnePath = resolve(__dirname, `../backend/src/members-archive/${semesterOneFile}`);
-  const semesterTwoPath = resolve(__dirname, `../backend/src/members-archive/${semesterTwoFile}`);
-
+  const semesterOnePath = `../backend/src/members-archive/${previousSemesterOne}.json`;
+  const semesterTwoPath = `../backend/src/members-archive/${previousSemesterTwo}.json`;
+  console.log(`Reading ${semesterOnePath} and ${semesterTwoPath}`);
   if (!checkFileExists(semesterOnePath)) {
     throw new Error(
-      `Missing JSON file: ${semesterOneFile}. Please include it in the member-archive directory.`
+      `Missing JSON file: ${semesterOnePath}. Please include it in the member-archive directory.`
     );
   }
 
   if (!checkFileExists(semesterTwoPath)) {
     throw new Error(
-      `Missing JSON file: ${semesterTwoFile}. Please include it in the member-archive directory.`
+      `Missing JSON file: ${semesterTwoPath}. Please include it in the member-archive directory.`
     );
   }
 
@@ -77,7 +75,7 @@ async function updateAlumniJson(): Promise<void> {
 
   if (!Array.isArray(semesterOne.members) || !Array.isArray(semesterTwo.members)) {
     throw new Error(
-      `One or both of the semester files (${semesterOneFile}, ${semesterTwoFile}) are not in the expected format.`
+      `One or both of the semester files (${semesterOnePath}, ${semesterTwoPath}) are not in the expected format.`
     );
   }
 
@@ -86,30 +84,18 @@ async function updateAlumniJson(): Promise<void> {
   const existingContent = readFileSync(alumniJsonPath).toString();
   const newAlumni = [...semesterOne.members, ...semesterTwo.members];
 
-  let existingAlumni: IdolMember[] = [];
-  try {
-    existingAlumni = JSON.parse(existingContent);
-  } catch (e) {
-    console.error('Error parsing existing alumni JSON:', e);
-  }
-
-  const updatedAlumni = [...existingAlumni];
+  const updatedAlumni: IdolMember[] = [];
 
   newAlumni.forEach((member) => {
     const existsInCurrentMembers = idolMembers.some(
       (idolMember) => idolMember.email === member.email
     );
 
-    const existsInExistingAlumni = existingAlumni.some(
-      (existingMember) => existingMember.email === member.email
-    );
-
     const existsInNewAlumni = updatedAlumni.some(
       (existingMember) => existingMember.email === member.email
     );
 
-    if (!existsInCurrentMembers && !existsInExistingAlumni && !existsInNewAlumni) {
-      console.log(`+ Adding alumni: ${member.firstName} ${member.lastName} (${member.email})`);
+    if (!existsInCurrentMembers && !existsInNewAlumni) {
       updatedAlumni.push(member);
     }
   });
