@@ -114,6 +114,7 @@ export default function Footer() {
       >
         {
           <Image
+            className="max-w-[232px] min-[1000px]:max-w-[100%] max-[656px]:max-w-[100%]"
             src="/wordmark.svg"
             alt="Cornell Digital Tech & Innovation logo"
             width={269}
@@ -122,7 +123,7 @@ export default function Footer() {
         }
       </Link>
 
-      <ul className="flex max-w-[269px] min-[1000px]:max-w-[232px] justify-between list-none pt-4 w-full">
+      <ul className="flex max-w-[269px] sm:max-w-[232px] justify-between list-none pt-4 w-full">
         {SocialLinks.map(({ href, label, icon }) => (
           <li key={href}>
             <Link
@@ -145,7 +146,7 @@ export default function Footer() {
     relative before:content-[''] before:absolute before:-top-px before:-left-px before:w-[calc(100%+2px)] before:h-[calc(100%+1px)] before:z-[-2] before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.1),rgba(255,255,255,0.02))] before:sm:rounded-t-2xl flex flex-col gap-2"
     >
       <div className="flex flex-col min-[1000px]:flex-row ">
-        <div className="w-full sm:w-3/4 min-[1000px]:w-1/4 p-4 sm:p-8">
+        <div className="w-full sm:w-1/2 min-[1000px]:w-1/4 p-4 sm:p-8">
           <DTILogoSection />
         </div>
 
