@@ -273,6 +273,7 @@ export default function Navbar({ demo }: NavbarProps) {
           demo ? '' : 'fixed'
         } top-0 w-full z-50 bg-background-1 overflow-hidden transition-[height] duration-400 ease-in-out min-[900px]:hidden`}
         style={{ height: mobileOpen ? `100%` : '0px' }}
+        hidden={!mobileOpen && !showContent}
       >
         <div
           ref={mobileMenuRef}
