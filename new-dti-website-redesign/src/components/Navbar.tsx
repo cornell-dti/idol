@@ -286,7 +286,7 @@ export default function Navbar({ demo }: NavbarProps) {
               <li key={href}>
                 <Link
                   href={href}
-                  className={`block px-4 md:px-4 py-3 h6 text-foreground-1 hover:bg-background-2 rounded-md transition-all duration-300 ease-out transform
+                  className={`block px-4 md:px-4 py-3 h6 text-foreground-1 hover:bg-background-2 rounded-md transition-colors duration-300 ease-out transform
                   ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   onClick={() => setMobileOpen(false)}
                 >
