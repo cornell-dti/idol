@@ -281,12 +281,12 @@ export default function Navbar({ demo }: NavbarProps) {
             showContent ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <ul className="flex flex-col w-full p-2 md:p-4">
+          <ul className="flex flex-col w-full p-4">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className={`block px-4 md:px-4 py-3 h6 text-foreground-1 hover:bg-background-2 rounded-md transition-colors duration-300 ease-out transform
+                  className={`block px-4 md:px-4 py-3 h6 text-foreground-1 hover:bg-background-2 rounded-md  transition-all duration-300 ease-out transform [transition-property:all,_outline] focus:outline-none focus:[transition-property:none]
                   ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -294,11 +294,12 @@ export default function Navbar({ demo }: NavbarProps) {
                 </Link>
               </li>
             ))}
-            <li className="flex px-2 md:px-4 py-3 w-full">
+            <li className="flex py-3 w-full">
               <Button
-                className={`w-full !transition-all !duration-300 ease-out transform ${
-                  showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
+                className={`w-full !transition-[opacity,transform] !duration-300 ease-out 
+                  transform ${
+                    showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  }`}
                 variant="primary"
                 href="/apply"
                 label="Apply"
