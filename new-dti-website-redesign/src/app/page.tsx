@@ -52,7 +52,13 @@ export default function Home() {
 
             {/* We can put tabIndex={-1} and disable this link from being accessible from screen readers here
             because we already have the Button that is keyboard focusable */}
-            <a href="/products" className="absolute inset-0 z-0" tabIndex={-1} aria-disabled />
+            <a
+              href="/products"
+              className="absolute inset-0 z-0"
+              tabIndex={-1}
+              aria-disabled
+              aria-hidden
+            />
           </div>
         </div>
 
