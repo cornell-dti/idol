@@ -41,6 +41,8 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
+  const fmt = (d?: Date | null) => (d instanceof Date && !isNaN(d.getTime()) ? d.toISOString() : 'N/A');
+  const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
   const normTime = (t?: string) => {
     const s = (t ?? '').trim();
@@ -97,19 +99,19 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         percent: Math.round(w * 100),
       };
 
-      // Debug log
-      console.log(
-        `[Timeline] ${edge.title} → ${edge.nextTitle ?? 'END'} | weight: ${edge.weight} | percent: ${edge.percent} | dates:`,
-        edge.date.toISOString(),
-        edge.nextDate?.toISOString() ?? 'N/A'
-      );
+      // // Debug log
+      // console.log(
+      //   `[Timeline] ${edge.title} → ${edge.nextTitle ?? 'END'} | weight: ${edge.weight} | percent: ${edge.percent} | dates:`,
+      //   edge.date.toISOString(),
+      //   edge.nextDate?.toISOString() ?? 'N/A'
+      // );
 
       return edge;
     });
     return edges;
   }, [withDates, currentDate]);
 
-  const halfGraph = events.map((event, i) => {
+  const halfGraph = events.map((node, i) => {
     let prevHalf: number;
     let nextHalf: number;
 
@@ -117,26 +119,52 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     if (i === 0) {
       // First event: before it there's no edge
       // Filled if the first event has passed
-      prevHalf = currentDate >= event._date ? 1 : 0;
+      prevHalf = currentDate >= node._date ? 1 : 0;
     } else {
       // Otherwise: take weight from the previous edge
-      prevHalf = graph[i - 1].weight;
+      const prevW = graph[i - 1].weight;
+      if (prevW < 0.5) {
+        prevHalf = 0;
+      } else {
+        const remainder = prevW - 0.5;
+        prevHalf = remainder / 0.5;
+      }
     }
 
     // --- Next half segment ---
-    if (i === events.length - 1) {
+    if (i === withDates.length - 1) {
       // Last event: after it there's no edge
       // Filled if last event has passed
-      nextHalf = currentDate >= event._date ? 1 : 0;
+      nextHalf = currentDate >= node._date ? 1 : 0;
     } else {
       // Otherwise: take weight from the current edge
-      nextHalf = graph[i].weight;
+      const nextW = graph[i].weight;
+      if (nextW > 0.5) {
+        nextHalf = 1;
+      } else {
+        const remainder = nextW - 0.5;
+        nextHalf = remainder / 0.5;
+      }
     }
 
+    // Debug log (half segments)
+    // eslint-disable-next-line no-console
+    console.log(
+      `[HalfGraph] i = ${i} | ${node.title} +
+| prev: ${i === 0 ? 'N/A' : withDates[i - 1].title} -> ${node.title} +
+| next: ${node.title} -> ${i === events.length - 1 ? 'END' : withDates[i + 1].title} +
+| prevW=${i === 0 ? 'N/A' : graph[i - 1].weight.toFixed(3)} +
+| nextW=${i === events.length - 1 ? 'N/A' : graph[i].weight.toFixed(3)} +
+| prevHalf=${Math.round(clamp01(prevHalf) * 100)}% +
+| nextHalf=${Math.round(clamp01(nextHalf) * 100)}% +
+| dates: current = ${fmt(currentDate)}, node = ${fmt(node._date)} +
+, prev = ${fmt(withDates[i - 1]?._date)}, next = ${fmt(withDates[i + 1]?._date)}
+`);
+
     return {
-      event,
-      prevHalf: Math.min(1, Math.max(0, prevHalf)),
-      nextHalf: Math.min(1, Math.max(0, nextHalf)),
+      event: node,
+      prevHalf: clamp01(prevHalf),
+      nextHalf: clamp01(nextHalf),
     };
   });
 
