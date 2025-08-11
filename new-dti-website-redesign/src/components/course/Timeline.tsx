@@ -160,11 +160,10 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       </div>
       {/* Line Row */}
       <div className="flex flex-col -left-[7px] relative md:left-0 md:flex-row">
-        {graph.map((edge, i) => {
-          const w = Math.max(0, Math.min(1, edge.weight));
-          const firstHalf = Math.min(1, w / 0.5);
-          const secondHalf = w <= 0.5 ? 0 : Math.min(1, (w - 0.5) / 0.5);
-          const passed = w >= 1;
+        {halfGraph.map((edge, i) => {
+          const firstHalf = edge.prevHalf;
+          const secondHalf = edge.nextHalf
+          const passed = (firstHalf === 1 && secondHalf > 0);
 
           const fromVar = passed ? 'from-accent-red' : 'from-foreground-3';
 
