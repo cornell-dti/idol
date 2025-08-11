@@ -2,13 +2,8 @@
 import { spawnSync } from 'child_process';
 import { readFileSync, unlinkSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { Octokit } from '@octokit/rest';
 
 const DIFF_OUTPUT_LIMIT = 65_000;
-
-function checkFileExists(filePath: string): boolean {
-  return existsSync(filePath);
-}
 
 async function getIdolMembers(): Promise<readonly IdolMember[]> {
   const { members } = await fetch(
@@ -58,13 +53,13 @@ async function updateAlumniJson(): Promise<void> {
   const semesterOnePath = `../backend/src/members-archive/${previousSemesterOne}.json`;
   const semesterTwoPath = `../backend/src/members-archive/${previousSemesterTwo}.json`;
   console.log(`Reading ${semesterOnePath} and ${semesterTwoPath}`);
-  if (!checkFileExists(semesterOnePath)) {
+  if (!existsSync(semesterOnePath)) {
     throw new Error(
       `Missing JSON file: ${semesterOnePath}. Please include it in the member-archive directory.`
     );
   }
 
-  if (!checkFileExists(semesterTwoPath)) {
+  if (!existsSync(semesterTwoPath)) {
     throw new Error(
       `Missing JSON file: ${semesterTwoPath}. Please include it in the member-archive directory.`
     );
@@ -103,6 +98,7 @@ async function updateAlumniJson(): Promise<void> {
   const newContent = JSON.stringify(updatedAlumni, null, 2);
 
   if (existingContent === newContent) {
+    console.log('No changes.');
     return;
   }
 
@@ -118,73 +114,6 @@ async function updateAlumniJson(): Promise<void> {
 
   if (!process.env.CI) {
     console.log(`\n${diffOutput}`);
-    return;
-  }
-
-  runCommand('git', 'config', '--global', 'user.name', 'dti-github-bot');
-  runCommand('git', 'config', '--global', 'user.email', 'admin@cornelldti.org');
-  const gitBranch = 'dti-github-bot/update-alumni-json';
-  const commitMessage = '[bot] Automatically update alumni.json with latest semester data';
-  runCommand('git', 'fetch', '--all');
-  runCommand('git', 'stash', '--include-untracked');
-  runCommand('git', 'checkout', 'main');
-  runCommand('git', 'checkout', '-b', gitBranch);
-  runCommand('git', 'stash', 'pop');
-  runCommand('git', 'add', alumniJsonPath);
-
-  if (runCommand('git', 'commit', '-m', commitMessage).status === 0) {
-    if (runCommand('git', 'push', '-f', 'origin', gitBranch).status !== 0) {
-      runCommand('git', 'push', '-f', '--set-upstream', 'origin', gitBranch);
-    }
-  }
-
-  const octokit = new Octokit({
-    auth: `token ${process.env.BOT_TOKEN}`,
-    userAgent: 'cornell-dti/big-diff-warning'
-  });
-
-  if (diffOutput.length > DIFF_OUTPUT_LIMIT) {
-    diffOutput = '<Output is too long to put in the PR description. See PR diff for details.>';
-  }
-
-  const prBody = `## Diffs
-  \`\`\`diff
-  ${diffOutput}
-  \`\`\`
-
-  ## Summary
-
-  This PR auto-generates the update for alumni.json using data from the last two semesters.
-  Please review the changes carefully.
-
-  ## Test Plan
-
-  :eyes:`;
-
-  const existingPR = (
-    await octokit.pulls.list({
-      owner: 'cornell-dti',
-      repo: 'idol',
-      state: 'open'
-    })
-  ).data.find((pr) => pr.title === commitMessage);
-
-  if (existingPR == null) {
-    await octokit.pulls.create({
-      owner: 'cornell-dti',
-      repo: 'idol',
-      title: commitMessage,
-      body: prBody,
-      base: 'main',
-      head: gitBranch
-    });
-  } else {
-    await octokit.pulls.update({
-      owner: 'cornell-dti',
-      repo: 'idol',
-      pull_number: existingPR.number,
-      body: prBody
-    });
   }
 }
 
