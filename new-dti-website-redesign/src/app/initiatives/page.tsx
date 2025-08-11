@@ -6,6 +6,7 @@ import HandHeartIcon from '../../components/icons/HandHeartIcon';
 import PeopleIcon from '../../components/icons/PeopleIcon';
 import WorkshopIcon from '../../components/icons/WorkshopIcon';
 import LightBulbIcon from '../../components/icons/LightBulbIcon';
+import { RocketIcon } from '../../components/icons';
 
 export const metadata = {
   title: 'Initiatives - Cornell DTI',
@@ -22,8 +23,18 @@ export default function Initiatives() {
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Learn more"
-        button2Link="/"
+        button2Link="#Incubator"
         image="/initiatives/hero.png"
+      />
+
+      <FeatureSection
+        eyebrowIcon={<RocketIcon />}
+        heading="Incubator"
+        description="Our internal incubator supports high-velocity development that brings to life our members’ most innovative ideas."
+        image="/initiatives/incubator.png"
+        imagePosition="right"
+        imageAlt="DTI members working together on an Incubator project"
+        chip={'NEW'}
       />
 
       <FeatureSection
@@ -31,7 +42,7 @@ export default function Initiatives() {
         heading="Giving back to the community"
         description="We introduce code and design through beginner-friendly, interactive workshops with Cornell students, providing individualized feedback."
         image="/initiatives/giving-back.png"
-        imagePosition="right"
+        imagePosition="left"
         imageAlt="A DTI member mentoring children"
       />
 
@@ -39,6 +50,7 @@ export default function Initiatives() {
         eyebrowIcon={<PeopleIcon />}
         heading="Events"
         description='Our team helps host Half-Baked, an open space for individuals, project teams and organizations to present their "half-baked" ideas for further interdisciplinary collaboration.'
+        imagePosition="right"
         image="/initiatives/courses.png"
         imageAlt="A DTI member presenting at Half-Baked"
       />
@@ -48,15 +60,16 @@ export default function Initiatives() {
         heading="Workshops"
         description="BigRed//Hacks is Cornell's largest and most established student-run hackathon. It features various seminars about best practices in the industry and a competition where teams of students enter a programming project around a theme."
         image="/initiatives/workshops.png"
-        imagePosition="right"
+        imagePosition="left"
         imageAlt="A DTI member holding a resume building workshop"
       />
 
       <FeatureSection
         eyebrowIcon={<LightBulbIcon />}
-        heading="Initiatives"
+        heading="Professional development"
         description="We collaborated with Millennium Management in Spring 2024. Members of Cornell DTI volunteered to participate in projects created by Millennium professionals introducing the team to relevant problems tackled in the industry."
         image="/initiatives/initiatives.png"
+        imagePosition="right"
         imageAlt="DTI members at the Millenium office"
       />
 
