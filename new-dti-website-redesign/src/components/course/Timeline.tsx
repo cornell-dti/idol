@@ -41,7 +41,8 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
-  const fmt = (d?: Date | null) => (d instanceof Date && !isNaN(d.getTime()) ? d.toISOString() : 'N/A');
+  const fmt = (d?: Date | null) =>
+    d instanceof Date && !isNaN(d.getTime()) ? d.toISOString() : 'N/A';
   const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
   const normTime = (t?: string) => {
@@ -96,7 +97,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
         nextTitle: next ? next.title : null,
         nextDate: next ? next._date : null,
         weight: w,
-        percent: Math.round(w * 100),
+        percent: Math.round(w * 100)
       };
 
       // // Debug log
@@ -142,8 +143,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       if (nextW > 0.5) {
         nextHalf = 1;
       } else {
-        const remainder = nextW - 0.5;
-        nextHalf = remainder / 0.5;
+        nextHalf = nextW / 0.5;
       }
     }
 
@@ -155,19 +155,19 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 | next: ${node.title} -> ${i === events.length - 1 ? 'END' : withDates[i + 1].title} +
 | prevW=${i === 0 ? 'N/A' : graph[i - 1].weight.toFixed(3)} +
 | nextW=${i === events.length - 1 ? 'N/A' : graph[i].weight.toFixed(3)} +
-| prevHalf=${Math.round(clamp01(prevHalf) * 100)}% +
-| nextHalf=${Math.round(clamp01(nextHalf) * 100)}% +
+| prevHalf=${clamp01(prevHalf) * 100}% +
+| nextHalf=${clamp01(nextHalf) * 100}% +
 | dates: current = ${fmt(currentDate)}, node = ${fmt(node._date)} +
 , prev = ${fmt(withDates[i - 1]?._date)}, next = ${fmt(withDates[i + 1]?._date)}
-`);
+`
+    );
 
     return {
       event: node,
       prevHalf: clamp01(prevHalf),
-      nextHalf: clamp01(nextHalf),
+      nextHalf: clamp01(nextHalf)
     };
   });
-
 
   return (
     <div className="flex flex-row-reverse justify-end md:flex-col md:gap-4 gap-2 md:gap-y-3 md:pt-8 md:pb-16 border-b-1 border-border-1">
@@ -190,45 +190,44 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       <div className="flex flex-col -left-[7px] relative md:left-0 md:flex-row">
         {halfGraph.map((edge, i) => {
           const firstHalf = edge.prevHalf;
-          const secondHalf = edge.nextHalf
-          const passed = (firstHalf === 1 && secondHalf > 0);
-
-          const fromVar = passed ? 'from-accent-red' : 'from-foreground-3';
+          const secondHalf = edge.nextHalf;
+          const passed = firstHalf === 1 && secondHalf > 0;
 
           const HalfSegment = ({
             orientation,
             progress,
-            isEdgeGradient,
+            isEdgeGradient
           }: {
             orientation: 'left' | 'right';
             progress: number;
             isEdgeGradient: boolean;
           }) => {
-            const baseClasses =
-              'relative overflow-hidden rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] bg-foreground-3';
-            const gradient =
-              isEdgeGradient
-                ? `${orientation === 'left'
-                  ? 'bg-gradient-to-t md:bg-gradient-to-l'
-                  : 'bg-gradient-to-b md:bg-gradient-to-r'} ${fromVar} to-transparent`
-                : '';
+            const gradientClasses = isEdgeGradient
+              ? `${
+                  orientation === 'left'
+                    ? 'bg-gradient-to-t md:bg-gradient-to-l'
+                    : 'bg-gradient-to-b md:bg-gradient-to-r'
+                } from-transparent to-[var(--background-1)]`
+              : '';
+
+            const baseClasses = `relative overflow-hidden rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] ${gradientClasses} bg-foreground-3`;
 
             return (
-              <div className={`${baseClasses} ${gradient}`}>
+              <div className={`${baseClasses}`}>
                 {/* Mobile vertical fill */}
                 <div
-                  className="absolute md:hidden left-0 bg-accent-red w-[3px]"
+                  className={`absolute md:hidden left-0 w-[3px] ${gradientClasses} bg-accent-red`}
                   style={{
                     bottom: orientation === 'left' ? 0 : undefined,
                     top: orientation === 'left' ? 0 : undefined,
-                    height: `${progress * 100}%`,
+                    height: `${progress * 100}%`
                   }}
                 />
                 {/* Desktop horizontal fill */}
                 <div
-                  className="absolute hidden md:block top-0 left-0 h-[3px] bg-accent-red"
+                  className={`absolute hidden md:block top-0 left-0 h-[3px] ${gradientClasses} bg-accent-red`}
                   style={{
-                    width: `${progress * 100}%`,
+                    width: `${progress * 100}%`
                   }}
                 />
               </div>
@@ -240,12 +239,16 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               <HalfSegment orientation="left" progress={firstHalf} isEdgeGradient={i === 0} />
               {/* Dot */}
               <div
-                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${passed ? 'border-accent-red' : 'border-foreground-3'
-                  }`}
+                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${
+                  passed ? 'border-accent-red' : 'border-foreground-3'
+                }`}
               >
                 <div
-                  className={`w-[6px] h-[6px] rounded-full ${passed ? 'border-accent-red bg-accent-red' : 'border-foreground-3 bg-foreground-3'
-                    }`}
+                  className={`w-[6px] h-[6px] rounded-full ${
+                    passed
+                      ? 'border-accent-red bg-accent-red'
+                      : 'border-foreground-3 bg-foreground-3'
+                  }`}
                 />
               </div>
               <HalfSegment
