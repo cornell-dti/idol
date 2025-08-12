@@ -169,7 +169,7 @@ const PieChart = ({
               } 1 ${pointAsString(point2)} L 0 0`}
               fill={roleStats[role].color}
               style={{
-                transition: 'all 0.1s ease-in-out'
+                transition: '0.2s ease-in-out'
               }}
             />
             <path
@@ -181,7 +181,7 @@ const PieChart = ({
               strokeWidth="1"
               strokeLinecap="round"
               style={{
-                transition: 'all 0.2s ease-in-out'
+                transition: '0.2s ease-in-out'
               }}
             />
             <path
@@ -190,7 +190,7 @@ const PieChart = ({
               strokeWidth="1"
               fill="none"
               style={{
-                transition: 'all 0.2s ease-in-out'
+                transition: '0.2s ease-in-out'
               }}
             />
             <path
@@ -199,7 +199,7 @@ const PieChart = ({
               strokeWidth="1"
               fill="none"
               style={{
-                transition: 'all 0.2s ease-in-out'
+                transition: '0.2s ease-in-out'
               }}
             />
             <text
