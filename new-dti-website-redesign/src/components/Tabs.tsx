@@ -83,7 +83,7 @@ export default function Tabs({ tabs, className = '', variant = 'normal', onTabCh
 
           {tabs.map((tab, index) => (
             <button
-              className={`flex gap-2 items-center justify-center no-wrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1
+              className={`flex gap-2 items-center justify-center whitespace-nowrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1
               ${variant === 'team' && isMobile ? 'flex-col' : 'flex-row'}`}
               key={tab.label}
               ref={(el) => {

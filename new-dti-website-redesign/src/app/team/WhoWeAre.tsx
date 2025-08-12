@@ -99,16 +99,16 @@ const PieChart = ({
   width,
   height,
   chartSection,
-  setChartSection,
   roleStats,
-  allMembers
+  allMembers,
+  setChartSection
 }: {
   width: number;
   height: number;
   chartSection: GeneralRole | undefined;
-  setChartSection: React.Dispatch<React.SetStateAction<GeneralRole | undefined>>;
   roleStats: RoleStatistics;
   allMembers: IdolMember[];
+  setChartSection: React.Dispatch<React.SetStateAction<GeneralRole | undefined>>;
 }) => {
   let previousPoint = [0, -CHART_RADIUS];
   let totalAngle = 0;
@@ -168,6 +168,9 @@ const PieChart = ({
                 theta > Math.PI ? `1` : `0`
               } 1 ${pointAsString(point2)} L 0 0`}
               fill={roleStats[role].color}
+              style={{
+                transition: '0.2s ease-in-out'
+              }}
             />
             <path
               d={`M ${pointAsString(point1)} A ${currentRadius} ${currentRadius} 0 ${
@@ -177,22 +180,27 @@ const PieChart = ({
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
               strokeLinecap="round"
+              style={{
+                transition: '0.2s ease-in-out'
+              }}
             />
-            <line
-              x1="0"
-              y1="0"
-              x2={polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]}
-              y2={polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]}
+            <path
+              d={`M 0 0 L ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]} ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
+              fill="none"
+              style={{
+                transition: '0.2s ease-in-out'
+              }}
             />
-            <line
-              x1="0"
-              y1="0"
-              x2={polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]}
-              y2={polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}
+            <path
+              d={`M 0 0 L ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]} ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
+              fill="none"
+              style={{
+                transition: '0.2s ease-in-out'
+              }}
             />
             <text
               x={textLocation[0]}
@@ -260,9 +268,9 @@ export default function WhoWeAre() {
             width={chartSize}
             height={chartSize}
             chartSection={chartSection}
-            setChartSection={setChartSection}
             roleStats={roleStats}
             allMembers={allMembers}
+            setChartSection={setChartSection}
           />
         </div>
 
@@ -277,13 +285,14 @@ export default function WhoWeAre() {
                 onMouseLeave={() => setChartSection(undefined)}
               >
                 <div
-                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity duration-120 ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
+                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 transition-opacity ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
                   style={{
-                    backgroundColor: roleStats[role].color
+                    backgroundColor: roleStats[role].color,
+                    opacity: chartSection === role ? 1 : 0.5
                   }}
                 />
                 <h3
-                  className={`h6 transition-colors duration-120 ${
+                  className={`h6 transition-colors ${
                     chartSection === role
                       ? getColorClass(rawRole as Role, false, false, 'text-accent')
                       : 'text-foreground-3'
