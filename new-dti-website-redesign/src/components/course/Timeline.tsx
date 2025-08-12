@@ -172,11 +172,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           const HalfSegment = ({
             orientation,
             progress,
-            isEdgeGradient
+            isEdgeGradient,
+            className = ''
           }: {
             orientation: 'left' | 'right';
             progress: number;
             isEdgeGradient: boolean;
+            className?: string;
           }) => {
             const gradientClasses = isEdgeGradient
               ? `${orientation === 'left'
@@ -185,7 +187,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               } from-transparent to-[var(--background-1)]`
               : '';
 
-            const baseClasses = `relative overflow-hidden rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] ${gradientClasses} bg-foreground-3`;
+            const baseClasses = `relative overflow-hidden h-16 w-[3px] md:w-full md:h-[3px] ${gradientClasses} ${className} bg-foreground-3`;
 
             return (
               <div className={`${baseClasses}`}>
@@ -211,7 +213,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
           return (
             <div key={`edge-${i}`} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
-              <HalfSegment orientation="left" progress={firstHalf} isEdgeGradient={i === 0} />
+              <HalfSegment orientation="left" progress={firstHalf} isEdgeGradient={i === 0} className={'rounded-b-full md:rounded-r-full md:rouned-b-none'} />
               {/* Dot */}
               <div
                 className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${passed ? 'border-accent-red' : 'border-foreground-3'
@@ -219,8 +221,8 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
               >
                 <div
                   className={`w-[6px] h-[6px] rounded-full ${passed
-                      ? 'border-accent-red bg-accent-red'
-                      : 'border-foreground-3 bg-foreground-3'
+                    ? 'border-accent-red bg-accent-red'
+                    : 'border-foreground-3 bg-foreground-3'
                     }`}
                 />
               </div>
@@ -228,6 +230,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 orientation="right"
                 progress={secondHalf}
                 isEdgeGradient={i === graph.length - 1}
+                className={'rounded-t-full md:rounded-l-full md:rounded-t-none'}
               />
             </div>
           );
