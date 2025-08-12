@@ -22,7 +22,7 @@ export default function Team() {
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Meet the team"
-        button2Link="/team"
+        button2Link="#meet-the-team"
         image="/team/hero.png"
       />
 

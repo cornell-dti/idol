@@ -99,16 +99,18 @@ const PieChart = ({
   width,
   height,
   chartSection,
-  setChartSection,
   roleStats,
-  allMembers
+  allMembers,
+  onMouseEnter,
+  onMouseLeave
 }: {
   width: number;
   height: number;
   chartSection: GeneralRole | undefined;
-  setChartSection: React.Dispatch<React.SetStateAction<GeneralRole | undefined>>;
   roleStats: RoleStatistics;
   allMembers: IdolMember[];
+  onMouseEnter: (role: GeneralRole) => void;
+  onMouseLeave: () => void;
 }) => {
   let previousPoint = [0, -CHART_RADIUS];
   let totalAngle = 0;
@@ -158,11 +160,7 @@ const PieChart = ({
         const [point1, point2, textLocation] = getNextPoints(role);
 
         return (
-          <g
-            key={role}
-            onMouseEnter={() => setChartSection(role)}
-            onMouseLeave={() => setChartSection(undefined)}
-          >
+          <g key={role} onMouseEnter={() => onMouseEnter(role)} onMouseLeave={onMouseLeave}>
             <path
               d={`M 0 0 L ${pointAsString(point1)} A ${currentRadius} ${currentRadius} 0 ${
                 theta > Math.PI ? `1` : `0`
@@ -211,7 +209,28 @@ const PieChart = ({
 
 export default function WhoWeAre() {
   const [chartSection, setChartSection] = useState<GeneralRole | undefined>(undefined);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const allMembers = members as IdolMember[];
+
+  const handleMouseEnter = (role: GeneralRole) => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+    }
+    const timeout = setTimeout(() => {
+      setChartSection(role);
+    }, 100);
+    setHoverTimeout(timeout);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+    }
+    const timeout = setTimeout(() => {
+      setChartSection(undefined);
+    }, 100);
+    setHoverTimeout(timeout);
+  };
   const { width } = useScreenSize();
   const roleStats = generateRoleStats(allMembers);
 
@@ -260,9 +279,10 @@ export default function WhoWeAre() {
             width={chartSize}
             height={chartSize}
             chartSection={chartSection}
-            setChartSection={setChartSection}
             roleStats={roleStats}
             allMembers={allMembers}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           />
         </div>
 
@@ -273,17 +293,18 @@ export default function WhoWeAre() {
               <div
                 key={role}
                 className="flex gap-4 items-center group "
-                onMouseEnter={() => setChartSection(role)}
-                onMouseLeave={() => setChartSection(undefined)}
+                onMouseEnter={() => handleMouseEnter(role)}
+                onMouseLeave={handleMouseLeave}
               >
                 <div
-                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity duration-120 ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
+                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 transition-opacity ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
                   style={{
-                    backgroundColor: roleStats[role].color
+                    backgroundColor: roleStats[role].color,
+                    opacity: chartSection === role ? 1 : 0.5
                   }}
                 />
                 <h3
-                  className={`h6 transition-colors duration-120 ${
+                  className={`h6 transition-colors ${
                     chartSection === role
                       ? getColorClass(rawRole as Role, false, false, 'text-accent')
                       : 'text-foreground-3'
