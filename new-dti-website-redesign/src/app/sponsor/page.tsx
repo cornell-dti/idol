@@ -22,7 +22,7 @@ export default function Sponsor() {
         button1Label="Donate to DTI"
         button1Link="https://securelb.imodules.com/s/1717/giving/interior.aspx?sid=1717&gid=2&pgid=16421&bledit=1&dids=2215"
         button2Label="Get in touch"
-        button2Link="mailto:hello@cornelldti.org"
+        button2Link="/"
         image="/sponsor/hero.png"
       />
 
@@ -38,7 +38,7 @@ export default function Sponsor() {
           <h2 className="h3">Become a sponsor!</h2>
 
           <p className="text-foreground-3">
-            We would love to partner with organizations that share our vision of bettering the world.
+            We would love to partner with organizations that share our vision of changing the world.
             Together, we can harness the power of technology to drive change in our communities.
           </p>
         </div>
