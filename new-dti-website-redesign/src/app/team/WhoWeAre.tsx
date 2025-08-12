@@ -101,16 +101,14 @@ const PieChart = ({
   chartSection,
   roleStats,
   allMembers,
-  onMouseEnter,
-  onMouseLeave
+  setChartSection
 }: {
   width: number;
   height: number;
   chartSection: GeneralRole | undefined;
   roleStats: RoleStatistics;
   allMembers: IdolMember[];
-  onMouseEnter: (role: GeneralRole) => void;
-  onMouseLeave: () => void;
+  setChartSection: React.Dispatch<React.SetStateAction<GeneralRole | undefined>>;
 }) => {
   let previousPoint = [0, -CHART_RADIUS];
   let totalAngle = 0;
@@ -160,12 +158,19 @@ const PieChart = ({
         const [point1, point2, textLocation] = getNextPoints(role);
 
         return (
-          <g key={role} onMouseEnter={() => onMouseEnter(role)} onMouseLeave={onMouseLeave}>
+          <g
+            key={role}
+            onMouseEnter={() => setChartSection(role)}
+            onMouseLeave={() => setChartSection(undefined)}
+          >
             <path
               d={`M 0 0 L ${pointAsString(point1)} A ${currentRadius} ${currentRadius} 0 ${
                 theta > Math.PI ? `1` : `0`
               } 1 ${pointAsString(point2)} L 0 0`}
               fill={roleStats[role].color}
+              style={{
+                transition: 'all 0.1s ease-in-out'
+              }}
             />
             <path
               d={`M ${pointAsString(point1)} A ${currentRadius} ${currentRadius} 0 ${
@@ -175,22 +180,27 @@ const PieChart = ({
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
               strokeLinecap="round"
+              style={{
+                transition: 'all 0.2s ease-in-out'
+              }}
             />
-            <line
-              x1="0"
-              y1="0"
-              x2={polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]}
-              y2={polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]}
+            <path
+              d={`M 0 0 L ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]} ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
+              fill="none"
+              style={{
+                transition: 'all 0.2s ease-in-out'
+              }}
             />
-            <line
-              x1="0"
-              y1="0"
-              x2={polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]}
-              y2={polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}
+            <path
+              d={`M 0 0 L ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]} ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
+              fill="none"
+              style={{
+                transition: 'all 0.2s ease-in-out'
+              }}
             />
             <text
               x={textLocation[0]}
@@ -209,28 +219,7 @@ const PieChart = ({
 
 export default function WhoWeAre() {
   const [chartSection, setChartSection] = useState<GeneralRole | undefined>(undefined);
-  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const allMembers = members as IdolMember[];
-
-  const handleMouseEnter = (role: GeneralRole) => {
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
-    const timeout = setTimeout(() => {
-      setChartSection(role);
-    }, 100);
-    setHoverTimeout(timeout);
-  };
-
-  const handleMouseLeave = () => {
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
-    const timeout = setTimeout(() => {
-      setChartSection(undefined);
-    }, 100);
-    setHoverTimeout(timeout);
-  };
   const { width } = useScreenSize();
   const roleStats = generateRoleStats(allMembers);
 
@@ -281,8 +270,7 @@ export default function WhoWeAre() {
             chartSection={chartSection}
             roleStats={roleStats}
             allMembers={allMembers}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            setChartSection={setChartSection}
           />
         </div>
 
@@ -293,8 +281,8 @@ export default function WhoWeAre() {
               <div
                 key={role}
                 className="flex gap-4 items-center group "
-                onMouseEnter={() => handleMouseEnter(role)}
-                onMouseLeave={handleMouseLeave}
+                onMouseEnter={() => setChartSection(role)}
+                onMouseLeave={() => setChartSection(undefined)}
               >
                 <div
                   className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 transition-opacity ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
