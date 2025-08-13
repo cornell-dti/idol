@@ -207,6 +207,7 @@ const PieChart = ({
               y={textLocation[1]}
               className={`font-bold text-xl ${getColorClass(roleKey as Role, false, false, 'fill-accent')}`}
               style={{ textAnchor: 'middle' }}
+              aria-label={`${Math.round(percentage * 100)}% of our members are in ${roleStats[role].name.toLowerCase()}`}
             >
               {`${Math.round(percentage * 100)}%`}
             </text>
@@ -274,7 +275,11 @@ export default function WhoWeAre() {
           />
         </div>
 
-        <div className="md:basis-1/4 p-4 sm:p-8 flex flex-col gap-4 self-stretch justify-center md:border-l border-border-1">
+        {/* We don't need screenreaders to announce this legend because the pie chart already has aria-labels */}
+        <div
+          className="md:basis-1/4 p-4 sm:p-8 flex flex-col gap-4 self-stretch justify-center md:border-l border-border-1"
+          aria-hidden
+        >
           {(Object.keys(roleStats) as GeneralRole[]).map((role) => {
             const rawRole = allMembers.find((mem) => getGeneralRole(mem.role) === role)?.role;
             return (
