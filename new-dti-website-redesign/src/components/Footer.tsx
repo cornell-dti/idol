@@ -166,6 +166,10 @@ export default function Footer() {
             variant="secondary"
             backToTop={<ArrowLogoIcon width={20} height={20} />}
             onClick={() => {
+              const topEl = document.getElementById('skip-to-main');
+              if (topEl) {
+                topEl.focus({ preventScroll: true }); // don't jump twice
+              }
               window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -186,7 +190,9 @@ export default function Footer() {
             <p className="!text-sm text-foreground-3">
               This organization is a registered student organization of Cornell University.
             </p>
-            <p className="!text-sm text-foreground-3 hidden min-[1000px]:block">•</p>
+            <p className="!text-sm text-foreground-3 hidden min-[1000px]:block" aria-hidden>
+              •
+            </p>
 
             <Link
               href="https://hr.cornell.edu/about/workplace-rights/equal-education-and-employment"
