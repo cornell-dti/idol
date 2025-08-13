@@ -40,15 +40,17 @@ const Hero = ({
           className="absolute inset-0 w-full h-full z-[5]"
           style={{
             backgroundImage: `
-          linear-gradient(181.82deg,
-              color-mix(in srgb, var(--background-1) 90%, transparent) 1.54%,
-              color-mix(in srgb, var(--background-1) 20%, transparent) 75.51%
-            ),
-            radial-gradient(116.68% 116.67% at 50% -32.67%,
-              transparent 40%,
-              var(--background-1) 100%
-            )
-          `
+              linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--background-1) 80%, transparent) 0%,
+          color-mix(in srgb, var(--background-1) 20%, transparent) 50%
+              ),
+              radial-gradient(
+          116.68% 116.67% at 50% -16.67%,
+          transparent 40%,
+          var(--background-1) 100%
+              )
+            `
           }}
         ></div>
 
