@@ -123,7 +123,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       }
     }
 
-    // Next half segment 
+    // Next half segment
     if (i === withDates.length - 1) {
       // Last event: after it there's no edge
       // Filled if last event has passed
@@ -181,10 +181,11 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             className?: string;
           }) => {
             const gradientClasses = isEdgeGradient
-              ? `${orientation === 'left'
-                ? 'bg-gradient-to-t md:bg-gradient-to-l'
-                : 'bg-gradient-to-b md:bg-gradient-to-r'
-              } from-transparent to-[var(--background-1)]`
+              ? `${
+                  orientation === 'left'
+                    ? 'bg-gradient-to-t md:bg-gradient-to-l'
+                    : 'bg-gradient-to-b md:bg-gradient-to-r'
+                } from-transparent to-[var(--background-1)]`
               : '';
 
             const baseClasses = `relative overflow-hidden h-16 w-[3px] md:w-full md:h-[3px] ${gradientClasses} ${className} bg-foreground-3`;
@@ -213,24 +214,31 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
 
           return (
             <div key={`edge-${i}`} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
-              <HalfSegment orientation="left" progress={firstHalf} isEdgeGradient={i === 0} className={'rounded-b-full md:rounded-r-full md:rouned-b-none'} />
+              <HalfSegment
+                orientation="left"
+                progress={firstHalf}
+                isEdgeGradient={i === 0}
+                className="md:rounded-r-full rounded-b-full"
+              />
               {/* Dot */}
               <div
-                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${passed ? 'border-accent-red' : 'border-foreground-3'
-                  }`}
+                className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${
+                  passed ? 'border-accent-red' : 'border-foreground-3'
+                }`}
               >
                 <div
-                  className={`w-[6px] h-[6px] rounded-full ${passed
-                    ? 'border-accent-red bg-accent-red'
-                    : 'border-foreground-3 bg-foreground-3'
-                    }`}
+                  className={`w-[6px] h-[6px] rounded-full ${
+                    passed
+                      ? 'border-accent-red bg-accent-red'
+                      : 'border-foreground-3 bg-foreground-3'
+                  }`}
                 />
               </div>
               <HalfSegment
                 orientation="right"
                 progress={secondHalf}
                 isEdgeGradient={i === graph.length - 1}
-                className={'rounded-t-full md:rounded-l-full md:rounded-t-none'}
+                className="md:rounded-l-full rounded-t-full"
               />
             </div>
           );
