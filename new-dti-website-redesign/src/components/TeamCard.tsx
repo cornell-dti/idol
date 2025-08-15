@@ -186,10 +186,7 @@ export const MemberDetailsCard = ({
         <div className="flex justify-between sm:p-8 p-4 border border-transparent border-t-border-1 ">
           <div className="flex gap-4 items-center">
             {user.website && (
-              <IconLink
-                href={user.website}
-                label={`Link to ${user.firstName} ${user.lastName}'s website`}
-              >
+              <IconLink href={user.website} label={`${user.firstName} ${user.lastName}'s website`}>
                 <GlobeIcon />
               </IconLink>
             )}
@@ -202,18 +199,12 @@ export const MemberDetailsCard = ({
             </IconLink>
 
             {user.linkedin && (
-              <IconLink
-                href={user.website}
-                label={`Link to ${user.firstName} ${user.lastName}'s LinkedIn`}
-              >
+              <IconLink href={user.website} label={`${user.firstName} ${user.lastName}'s LinkedIn`}>
                 <LinkedInIcon />
               </IconLink>
             )}
             {user.github && (
-              <IconLink
-                href={user.website}
-                label={`Link to ${user.firstName} ${user.lastName}'s GitHub`}
-              >
+              <IconLink href={user.website} label={`${user.firstName} ${user.lastName}'s GitHub`}>
                 <GitHubIcon />
               </IconLink>
             )}

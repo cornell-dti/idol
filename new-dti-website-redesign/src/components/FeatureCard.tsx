@@ -14,7 +14,7 @@ export default function FeatureCard({ title, body, icon }: FeatureCardProps) {
     <article className="p-4 sm:p-8 max-1/3 flex flex-col gap-4">
       {icon && <IconWrapper>{icon}</IconWrapper>}
       <div className="flex flex-col gap-1">
-        <h5>{title}</h5>
+        <h3 className="h5">{title}</h3>
         <p className="text-foreground-3">{body}</p>
       </div>
     </article>

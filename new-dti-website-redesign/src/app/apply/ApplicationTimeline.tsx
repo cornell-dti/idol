@@ -134,6 +134,8 @@ const ApplicationTimeline = () => {
                       width="13"
                       height={NODE_HEADER_HEIGHT + NODE_GAP - 4 - (isMobile ? 16 : 0)}
                       className={`absolute -left-[14.5px] md:-left-8 -top-4 md:-top-8`}
+                      // this is just a decorational element so no need to be read by screen readers
+                      aria-hidden
                     >
                       <defs>
                         <linearGradient id="topGradient" gradientTransform="rotate(90)">
@@ -157,6 +159,7 @@ const ApplicationTimeline = () => {
                     viewBox={`0 0 13 ${svgHeight}`}
                     xmlns="http://www.w3.org/2000/svg"
                     className="absolute -left-[14.5px] md:-left-8 top-[84.7px]"
+                    aria-hidden
                   >
                     <circle
                       cx="6.5"

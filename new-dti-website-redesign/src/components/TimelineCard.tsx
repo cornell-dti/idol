@@ -57,7 +57,7 @@ const TimelineCard = ({
       <div className="flex flex-col gap-2 p-4 rounded-t-lg border border-border-1 border-b-transparent">
         <IconWrapper>{icon}</IconWrapper>
         <div className="flex flex-col gap-1">
-          <h5>{event.title}</h5>
+          <h3 className="h5">{event.title}</h3>
           <p className="text-foreground-3">{event.description}</p>
         </div>
       </div>
