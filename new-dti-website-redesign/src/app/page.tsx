@@ -68,7 +68,7 @@ export default function Home() {
           description="Learn about modern industry-leading technologies with DTI courses, and explore your ideas through our incubator program."
           image="/home/courses.png"
           imagePosition="right"
-          imageAlt="DTI members in front of a whiteboard pasting sticky notes in a brainstorming session"
+          imageAlt="DTI members teaching Trends, our web development course"
           button2Label="Learn more"
           button2Link="/course"
         />
@@ -78,7 +78,7 @@ export default function Home() {
           heading="Expanding reach to our community"
           description="We strive to build initiatives not only at Cornell, but also in the Ithaca community and beyond."
           image="/home/outreach.png"
-          imageAlt="DTI members teaching a Figma workshop"
+          imageAlt="DTI members at Ithaca High School leading a workshop"
           button2Label="How we give back"
           button2Link="/initiatives"
         />
@@ -89,7 +89,7 @@ export default function Home() {
           description="We solve real-world problems to improve our community while growing personally and sharing our experiences to help others learn."
           image="/home/team.png"
           imagePosition="right"
-          imageAlt="DTI members apple picking social"
+          imageAlt="DTI members at an apple picking social"
           button1Label="Meet the team"
           button1Link="/team"
           button2Label="Join us"
