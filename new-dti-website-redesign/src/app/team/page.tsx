@@ -50,8 +50,9 @@ export default function Team() {
         subheading="Be part of something greater today."
         button1Label="Apply to DTI"
         button1Link="/apply"
-        button2Label="Meet the team"
-        button2Link="/team"
+        button2Label="Coffee Chat with us"
+        button2Link="https://docs.google.com/spreadsheets/d/1fgVngmjJIivQ0Rnvcg3VMtu0kNQzCYdEyLfrvUX5gTQ/edit?usp=sharing"
+        button2LinkNewTab={true}
       />
     </Layout>
   );
