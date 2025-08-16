@@ -1,6 +1,16 @@
 'use client';
 
+import React from 'react';
 import parseDate from '../../utils/dateUtils';
+
+type Edge = {
+  title: string;
+  date: Date;
+  nextTitle: string | null;
+  nextDate: Date | null;
+  weight: number; // 0..1
+  percent: number; // 0..100
+};
 
 export type Event = {
   title: string;
@@ -31,8 +41,109 @@ type TimelineProps = {
  *   - `currentDate`: A `Date` object representing the current date and time, used to calculate the progress through the timeline.
  */
 export default function Timeline({ events, currentDate }: TimelineProps) {
-  const isPassed = (e: Event) =>
-    parseDate(e.date, '11:59:59 PM', e.time).getTime() <= currentDate.getTime();
+  const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+
+  const normTime = (t?: string) => {
+    const s = (t ?? '').trim();
+    return s.length > 0 ? s : undefined;
+  };
+
+  const withDates = React.useMemo(() => {
+    const list = events
+      .map((e) => {
+        // Use 12:00 AM as default when time missing
+        const d = parseDate(e.date, '12:00 AM', normTime(e.time));
+        return { ...e, parsedDate: d };
+      })
+      .filter((e) => {
+        const ok = e.parsedDate instanceof Date && !isNaN(e.parsedDate.getTime());
+        if (!ok && typeof window !== 'undefined') {
+          // eslint-disable-next-line no-console
+          console.warn('Timeline: invalid date skipped', e);
+        }
+        return ok;
+      })
+      .sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime());
+    return list;
+  }, [events]);
+
+  const calcProgress = (start: Date, end: Date, now: Date) => {
+    const startMs = start.getTime();
+    const endMs = end.getTime();
+    const nowMs = now.getTime();
+    if (!(isFinite(startMs) && isFinite(endMs) && isFinite(nowMs))) return 0;
+    if (nowMs <= startMs) return 0;
+    if (nowMs >= endMs) return 1;
+    return (nowMs - startMs) / Math.max(1, endMs - startMs);
+  };
+
+  const graph: Edge[] = React.useMemo(() => {
+    const edges = withDates.map((node, i) => {
+      const next = i < withDates.length - 1 ? withDates[i + 1] : null;
+      let weight = 0;
+      if (next) {
+        weight = calcProgress(node.parsedDate, next.parsedDate, currentDate);
+      } else {
+        // For the last node, treat edge as complete only after its own datetime
+        weight = currentDate.getTime() <= node.parsedDate.getTime() ? 0 : 1;
+      }
+      const w = Math.min(1, Math.max(0, weight));
+
+      const edge: Edge = {
+        title: node.title,
+        date: node.parsedDate,
+        nextTitle: next ? next.title : null,
+        nextDate: next ? next.parsedDate : null,
+        weight: w,
+        percent: Math.round(w * 100)
+      };
+
+      return edge;
+    });
+    return edges;
+  }, [withDates, currentDate]);
+
+  const halfGraph = withDates.map((node, i) => {
+    let prevHalf: number;
+    let nextHalf: number;
+
+    // Previous half segment
+    if (i === 0) {
+      // First event- before it there's no edge
+      // Filled if the first event has passed
+      prevHalf = currentDate <= node.parsedDate ? 0 : 1;
+    } else {
+      // Otherwise take weight from the previous edge
+      const prevW = graph[i - 1].weight;
+      if (prevW < 0.5) {
+        prevHalf = 0;
+      } else {
+        const remainder = prevW - 0.5;
+        prevHalf = remainder / 0.5;
+      }
+    }
+
+    // Next half segment
+    if (i === withDates.length - 1) {
+      // Last event: after it there's no edge
+      // Filled if last event has passed
+      nextHalf = currentDate >= node.parsedDate ? 1 : 0;
+    } else {
+      // Otherwise- take weight from the current edge
+      const nextW = graph[i].weight;
+      if (nextW > 0.5) {
+        nextHalf = 1;
+      } else {
+        nextHalf = nextW / 0.5;
+      }
+    }
+
+    return {
+      event: node,
+      prevHalf: clamp01(prevHalf),
+      nextHalf: clamp01(nextHalf)
+    };
+  });
 
   return (
     <div className="flex flex-row-reverse justify-end md:flex-col md:gap-4 gap-2 md:gap-y-3 md:pt-8 md:pb-16 border-b-1 border-border-1">
@@ -53,29 +164,68 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       </div>
       {/* Line Row */}
       <div className="flex flex-col -left-[7px] relative md:left-0 md:flex-row">
-        {events.map((ev, i) => {
-          const passed = isPassed(ev);
-          const base = passed ? 'bg-accent-red' : 'bg-foreground-3';
+        {halfGraph.map((edge, i) => {
+          const firstHalf = edge.prevHalf;
+          const secondHalf = edge.nextHalf;
+          const passed = firstHalf === 1 && secondHalf > 0;
 
-          // gradient "from" var
-          const fromVar = passed ? 'from-accent-red' : 'from-foreground-3';
+          const HalfSegment = ({
+            orientation,
+            progress,
+            isEdgeGradient,
+            className = ''
+          }: {
+            orientation: 'left' | 'right';
+            progress: number;
+            isEdgeGradient: boolean;
+            className?: string;
+          }) => {
+            const gradientClasses = isEdgeGradient
+              ? `${
+                  orientation === 'left'
+                    ? 'bg-gradient-to-t md:bg-gradient-to-l'
+                    : 'bg-gradient-to-b md:bg-gradient-to-r'
+                } from-transparent to-[var(--background-1)]`
+              : '';
+
+            const baseClasses = `relative overflow-hidden h-16 w-[3px] md:w-full md:h-[3px] ${gradientClasses} ${className} bg-foreground-3`;
+
+            return (
+              <div className={`${baseClasses}`}>
+                {/* Mobile vertical fill */}
+                <div
+                  className={`absolute md:hidden left-0 w-[3px] ${gradientClasses} bg-accent-red`}
+                  style={{
+                    bottom: orientation === 'left' ? 0 : undefined,
+                    top: orientation === 'left' ? 0 : undefined,
+                    height: `${progress * 100}%`
+                  }}
+                />
+                {/* Desktop horizontal fill */}
+                <div
+                  className={`absolute hidden md:block top-0 left-0 h-[3px] ${gradientClasses} bg-accent-red`}
+                  style={{
+                    width: `${progress * 100}%`
+                  }}
+                />
+              </div>
+            );
+          };
 
           return (
-            <div key={i} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
-              {/* left segment (gradient on first) */}
-              <div
-                className={`rounded-b-full md:rounded-r-full h-16 w-[3px] md:w-full md:h-[3px] ${
-                  i === 0 ? `bg-gradient-to-t md:bg-gradient-to-l ${fromVar} to-transparent` : base
-                }`}
+            <div key={`edge-${i}`} className="flex-1 flex flex-col gap-1 items-center md:flex-row">
+              <HalfSegment
+                orientation="left"
+                progress={firstHalf}
+                isEdgeGradient={i === 0}
+                className="md:rounded-r-full rounded-b-full"
               />
-
-              {/* outer ring */}
+              {/* Dot */}
               <div
                 className={`shrink-0 mx-[0.5px] w-3 h-3 rounded-full border-[1.5px] border-solid flex items-center justify-center ${
                   passed ? 'border-accent-red' : 'border-foreground-3'
                 }`}
               >
-                {/* dot */}
                 <div
                   className={`w-[6px] h-[6px] rounded-full ${
                     passed
@@ -84,14 +234,11 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                   }`}
                 />
               </div>
-
-              {/* right segment (gradient on last) */}
-              <div
-                className={`w-[3px] h-16 rounded-t-full md:rounded-l-full md:w-full  md:h-[3px] ${
-                  i === events.length - 1
-                    ? `bg-gradient-to-b md:bg-gradient-to-r ${fromVar} to-transparent`
-                    : base
-                }`}
+              <HalfSegment
+                orientation="right"
+                progress={secondHalf}
+                isEdgeGradient={i === graph.length - 1}
+                className="md:rounded-l-full rounded-t-full"
               />
             </div>
           );
