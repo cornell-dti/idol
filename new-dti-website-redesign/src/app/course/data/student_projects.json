@@ -9,7 +9,8 @@
     {
       "title": "Auto Note",
       "description": "AutoNote is a web app that helps users quickly create summarized notes from PDF files. Using React for the frontend and Express for the backend, it allows users to upload files, generate Markdown summaries with OpenAI's API, and manage their notes securely with Firebase. The app features a simple, user-friendly interface for uploading, viewing, downloading, and deleting notes.",
-      "imageSrc": "/course/projects/autonote.jpg"
+      "imageSrc": "/course/projects/autonote.jpg",
+      "link": "https://autonote.fly.dev/"
     },
     {
       "title": "SavorStats",
@@ -19,12 +20,14 @@
     {
       "title": "Off Campus Groups",
       "description": "Centralized platform to find, join & create new events for OFF-campus events.",
-      "imageSrc": "/course/projects/offcampusgroups.jpg"
+      "imageSrc": "/course/projects/offcampusgroups.jpg",
+      "link": "https://off-campus-groups.vercel.app/"
     },
     {
       "title": "CU Lost and Found",
       "description": "A platform that helps students recover their lost belongings through crowdsourced data.",
-      "imageSrc": "/course/projects/culostandfound.jpg"
+      "imageSrc": "/course/projects/culostandfound.jpg",
+      "link": "https://cu-lost-and-found.vercel.app/"
     }
   ]
 }
