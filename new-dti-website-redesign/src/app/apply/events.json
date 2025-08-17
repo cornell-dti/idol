@@ -5,7 +5,7 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Application Link",
       "type": "application",
-      "link": "https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdcEQ4cXnRenDYNlhzu7Ncm3S0r7sb6wK4xidDLDjN-iSHcig/viewform",
       "freshmen": { "date": "August 18", "isTentative": false },
       "upperclassmen": { "date": "August 18", "isTentative": false },
       "spring": { "date": "January 3", "isTentative": false }
@@ -15,7 +15,7 @@
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can’t make this session, check out the Information Session 2 below.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "September 30", "isTentative": true, "time": "5-6PM" },
+      "freshmen": { "date": "August 28", "isTentative": false, "time": "5-6PM" },
       "upperclassmen": { "date": "August 28", "isTentative": false, "time": "5-6PM" },
       "spring": { "date": "January 23", "isTentative": false, "time": "6:00-7:30PM" }
     },
@@ -24,8 +24,15 @@
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "October 12", "isTentative": true, "time": "11AM-12PM" },
+      "freshmen": { "date": "September 16", "isTentative": true, "time": "11AM-12PM" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:30PM" }
+    },
+    {
+      "title": "Information Session 3",
+      "description": "awaiting ops leads for desc",
+      "location": "TBD",
+      "type": "info",
+      "freshmen": { "date": "October 8", "isTentative": true, "time": "5:45-6:45PM" }
     },
     {
       "title": "ACSU x DTI Resume Review Session",
@@ -35,28 +42,36 @@
       "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00PM" }
     },
     {
+      "title": "Cookies and Speed Dating",
+      "description": "awaiting ops leads for desc",
+      "location": "TBD",
+      "type": "workshop",
+      "freshmen": { "date": "September 1", "isTentative": false, "time": "4:30-5:30PM" },
+      "upperclassmen": { "date": "September 1", "isTentative": false, "time": "4:30-5:30PM" }
+    },
+    {
       "title": "WICC x DTI Boba Chats",
       "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
-      "location": "Upson 216",
+      "location": "TBD",
       "type": "workshop",
-      "freshmen": { "date": "September 9", "isTentative": true },
+      "freshmen": { "date": "September 9", "isTentative": true, "time": "5-6PM" },
       "spring": { "date": "January 24", "isTentative": false, "time": "5:00-6:15PM" }
     },
     {
       "title": "URMC x DTI Recruitment Workshop",
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
-      "location": "Phillips 213",
+      "location": "TBD",
       "type": "workshop",
-      "freshmen": { "date": "September 3", "isTentative": false },
-      "upperclassmen": { "date": "September 3", "isTentative": false },
+      "freshmen": { "date": "September 4", "isTentative": false, "time": "5-6PM" },
+      "upperclassmen": { "date": "September 4", "isTentative": false, "time": "5-6PM" },
       "spring": { "date": "January 27", "isTentative": false, "time": "4:30-5:30PM" }
     },
     {
-      "title": "Get to Know the DTI'ers",
+      "title": "Meet the DTI'ers",
       "description": "Get to know DTI and its members through casual chats, games, product demos, and get your resume reviewed!",
-      "location": "Willard Straight Hall 407 (Memorial Room)",
+      "location": "TBD",
       "type": "workshop",
-      "freshmen": { "date": "October 13", "isTentative": true },
+      "freshmen": { "date": "September 25", "isTentative": true, "time": "5:30-7:00PM" },
       "spring": { "date": "January 29", "isTentative": false, "time": "6:30-8:00PM" }
     },
     {

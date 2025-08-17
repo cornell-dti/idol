@@ -7,6 +7,8 @@ import Accordion from '../../components/Accordion';
 import Tabs from '../../components/Tabs';
 import faqs from './faqs.json';
 import MailIcon from '../../components/icons/MailIcon';
+import config from '../../../config.json';
+import CoffeeIcon from '../../components/icons/CoffeeIcon';
 
 type FAQ = {
   question: string;
@@ -61,6 +63,14 @@ export default function FaqSection() {
             <MailIcon size={20} />
 
             <span>Contact the DTI team</span>
+          </Link>
+          <Link
+            href={config.coffeeChatLink}
+            className="text-foreground-1 underline underline-offset-3 flex items-center gap-2 rounded-sm"
+          >
+            <CoffeeIcon size={20} />
+
+            <span>Coffee chat with us</span>
           </Link>
         </div>
       </div>
