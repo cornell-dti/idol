@@ -113,7 +113,7 @@ export const parseDateTime = (dateTime: DateTime): [number, number] => {
   }
 
   return [
-    parseDate(startDay, '12:00 AM', startTime).getTime(),
+    parseDate(startDay, '11:59:59 PM', startTime).getTime(),
     parseDate(endDay, '11:59:59 PM', endTime).getTime()
   ];
 };

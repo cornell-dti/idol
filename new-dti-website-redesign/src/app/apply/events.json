@@ -24,12 +24,12 @@
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "September 16", "isTentative": true, "time": "11AM-12PM" },
+      "freshmen": { "date": "September 16", "isTentative": true, "time": "5:30-6:30PM" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:30PM" }
     },
     {
       "title": "Information Session 3",
-      "description": "awaiting ops leads for desc",
+      "description": "Check back later for more info!",
       "location": "TBD",
       "type": "info",
       "freshmen": { "date": "October 8", "isTentative": true, "time": "5:45-6:45PM" }
@@ -43,7 +43,7 @@
     },
     {
       "title": "Cookies and Speed Dating",
-      "description": "awaiting ops leads for desc",
+      "description": "Check back later for more info!",
       "location": "TBD",
       "type": "workshop",
       "freshmen": { "date": "September 1", "isTentative": false, "time": "4:30-5:30PM" },
@@ -67,6 +67,14 @@
       "spring": { "date": "January 27", "isTentative": false, "time": "4:30-5:30PM" }
     },
     {
+      "title": "Project Team Fest",
+      "description": "Check back later for more info!",
+      "location": "Duffield Atrium",
+      "type": "workshop",
+      "freshmen": { "date": "September 4", "isTentative": false, "time": "4-6PM" },
+      "upperclassmen": { "date": "September 4", "isTentative": false, "time": "4-6PM" }
+    },
+    {
       "title": "Meet the DTI'ers",
       "description": "Get to know DTI and its members through casual chats, games, product demos, and get your resume reviewed!",
       "location": "TBD",
@@ -79,7 +87,7 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "deadline",
-      "link": "https://docs.google.com/forms/d/e/1FAIpQLSc_Tp8BAM0ad-x5GmCRN_YgPOUwRjQynbGLuqQ28932zfwXrg/viewform?usp=sf_link",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdcEQ4cXnRenDYNlhzu7Ncm3S0r7sb6wK4xidDLDjN-iSHcig/viewform",
       "freshmen": { "date": "October 16", "isTentative": false },
       "upperclassmen": { "date": "September 4", "isTentative": false },
       "spring": { "date": "January 30", "isTentative": false }
@@ -90,7 +98,7 @@
       "location": "Varying locations",
       "type": "interview",
       "freshmen": { "date": "October 22-24", "isTentative": true },
-      "upperclassmen": { "date": "September 10-12", "isTentative": true },
+      "upperclassmen": { "date": "September 9-11", "isTentative": true },
       "spring": { "date": "February 1-3", "isTentative": true }
     },
     {
@@ -98,7 +106,7 @@
       "description": "Demonstrate your technical skills through problem-solving challenges relevant to your subteam.",
       "location": "Varying locations",
       "type": "interview",
-      "freshmen": { "date": "October 26-28", "isTentative": true },
+      "freshmen": { "date": "October 28-31", "isTentative": true },
       "upperclassmen": { "date": "September 14-16", "isTentative": true },
       "spring": { "date": "February 9-11", "isTentative": true }
     },

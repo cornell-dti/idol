@@ -41,7 +41,7 @@ const ApplicationTimeline = () => {
 
   const cycleEvents = applicationEvents
     .filter((event) => event[cycle])
-    .sort((e1, e2) => parseDateTime(e1[cycle]!)[1] - parseDateTime(e2[cycle]!)[1]);
+    .sort((e1, e2) => parseDateTime(e1[cycle]!)[0] - parseDateTime(e2[cycle]!)[0]);
 
   useEffect(() => {
     const div = timelineRef.current;
