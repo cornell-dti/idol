@@ -2,12 +2,12 @@ import React from 'react';
 import LogoBox from '../../components/LogoBox';
 
 const logos = [
-  { src: '/sponsor/logos/google.svg', alt: 'Google logo', width: 130, height: 42 },
-  { src: '/sponsor/logos/asana.svg', alt: 'Asana logo', width: 190, height: 74 },
-  { src: '/sponsor/logos/zeplin.svg', alt: 'Zeplin logo', width: 200, height: 100 },
-  { src: '/sponsor/logos/capital-one.svg', alt: 'Capital One logo', width: 172, height: 60 },
-  { src: '/sponsor/logos/invision.svg', alt: 'InVision logo', width: 155, height: 52 },
-  { src: '/sponsor/logos/millennium.svg', alt: 'Millennium logo', width: 206, height: 32 }
+  { src: '/sponsor/logos/google.svg', alt: 'Google logo', width: 185, height: 60 },
+  { src: '/sponsor/logos/asana.svg', alt: 'Asana logo', width: 200, height: 40 },
+  { src: '/sponsor/logos/adobe.svg', alt: 'Adobe logo', width: 190, height: 50 },
+  { src: '/sponsor/logos/capital-one.svg', alt: 'Capital One logo', width: 200, height: 70 },
+  { src: '/sponsor/logos/invision.svg', alt: 'InVision logo', width: 176, height: 60 },
+  { src: '/sponsor/logos/millennium.svg', alt: 'Millennium logo', width: 238, height: 37 }
 ];
 
 export default function SponsorsList() {
