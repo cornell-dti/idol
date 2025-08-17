@@ -21,7 +21,7 @@
   },
   {
     "image": "/products/images/queuemein.png",
-    "imageAlt": "2 phones side by side, displaying the list of available consulting hours screen and the join queue screen of the Queue Me In website",
+    "imageAlt": "A display showing a dashbord of the Queue Me In application with a lists of students waiting in line for office hours",
     "name": "Queue Me In",
     "description": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their classes.",
     "link": "https://queueme.in/",
@@ -31,7 +31,7 @@
   },
   {
     "image": "/products/images/design@cornell.png",
-    "imageAlt": "A browser displaying the hero section of the Design @ Cornell website",
+    "imageAlt": "2 tablets showing the homepage and articles page of the Design @ Cornell website",
     "name": "Design @ Cornell",
     "description": "Design @ Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
     "link": "https://www.cudesign.io/",
@@ -61,7 +61,7 @@
   },
   {
     "image": "/products/images/carriage.png",
-    "imageAlt": "A monitor displaying a blurry screen of the Carriage website with the words Coming Soon overlaid on top",
+    "imageAlt": "2 laptops showing the map and scheduled rides page of the Carriage application",
     "name": "Carriage",
     "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching next semester.",
     "comingSoon": true,
@@ -70,7 +70,7 @@
   },
   {
     "image": "/products/images/cornellgo.png",
-    "imageAlt": "2 phones side by side, displaying the profile page and map section of the Cornell Go Application",
+    "imageAlt": "3 phones side by side, displaying the login, map, and profile screens of the CornellGO Application",
     "name": "CornellGO",
     "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
     "comingSoon": true,

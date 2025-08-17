@@ -96,7 +96,12 @@ export default function Tabs({ tabs, className = '', variant = 'normal', onTabCh
               id={`tab-${index}`}
               tabIndex={activeIndex === index ? 0 : -1}
             >
-              {tab.icon && <span className="flex-shrink-0">{tab.icon}</span>}
+              {tab.icon && (
+                // We don't need screen readers to announce the icon, so aria-hidden
+                <span className="flex-shrink-0" aria-hidden>
+                  {tab.icon}
+                </span>
+              )}
               {tab.label}
             </button>
           ))}

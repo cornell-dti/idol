@@ -20,7 +20,12 @@ export default function PastStudentProjects() {
     content: (
       <div>
         <div className="relative w-full h-[256px] md:h-[582px]">
-          <Image src={project.imageSrc} alt={project.title} fill className="object-cover" />
+          <Image
+            src={project.imageSrc}
+            alt={`Screenshot of the ${project.title} project`}
+            fill
+            className="object-cover"
+          />
         </div>
         <div className="p-8 flex flex-col gap-2">
           <h3>{project.title}</h3>
