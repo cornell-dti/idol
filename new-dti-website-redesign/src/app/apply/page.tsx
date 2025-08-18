@@ -7,6 +7,7 @@ import FaqSection from './FaqSection';
 import RoleDescriptionsSection from './RoleDescriptionsSection';
 import config from '../../../config.json';
 import ApplicationTimeline from './ApplicationTimeline';
+import { applicationOpen } from '../../utils/dateUtils';
 
 export const metadata = {
   title: 'Apply - Cornell DTI',
@@ -16,8 +17,10 @@ export const metadata = {
 export default function Apply() {
   return (
     <Layout>
-      {!config.applicationsOpen && (
-        <Banner label="We're no longer accepting applications for Spring 2025. Stay tuned for opportunities next semester!" />
+      {!applicationOpen && (
+        <Banner
+          label={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
+        />
       )}
 
       <Hero
@@ -25,7 +28,7 @@ export default function Apply() {
         subheading="We value inclusivity and welcome passionate applicants of all experience levels. We'd love to work with you."
         button1Label="Apply to DTI"
         button1Link="/apply"
-        button1Disabled={!config.applicationsOpen}
+        button1Disabled={applicationOpen}
         button2Label="Role descriptions"
         button2Link="#role-descriptions"
         image="/apply/hero.png"

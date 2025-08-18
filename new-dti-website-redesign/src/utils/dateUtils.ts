@@ -113,9 +113,17 @@ export const parseDateTime = (dateTime: DateTime): [number, number] => {
   }
 
   return [
-    parseDate(startDay, '11:59:59 PM', startTime).getTime(),
+    parseDate(startDay, '12:00:00 AM', startTime).getTime(),
     parseDate(endDay, '11:59:59 PM', endTime).getTime()
   ];
 };
+
+export const applicationOpen =
+  Date.now() <
+  new Date(
+    config.semester.split(' ')[0] === 'Fall'
+      ? config.freshmanAppDeadline
+      : config.applicationDeadline
+  ).getTime();
 
 export default parseDate;
