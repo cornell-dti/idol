@@ -29,7 +29,7 @@
     },
     {
       "title": "Information Session 3",
-      "description": "Learn about our team, what we do, and how to apply",
+      "description": "Learn about our team, what we do, and how to apply.",
       "location": "TBD",
       "type": "info",
       "freshmen": { "date": "October 8", "isTentative": true, "time": "5:45-6:45PM" }
