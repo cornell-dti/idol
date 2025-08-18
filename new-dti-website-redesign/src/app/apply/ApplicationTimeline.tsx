@@ -96,14 +96,20 @@ const ApplicationTimeline = () => {
         <h2 className="p-4 sm:p-8 pb-0! md:pb-8!">Application timeline</h2>
         <Tabs
           className={'w-full md:w-100'}
-          onTabChange={(c) => c && setCycle(c.toLowerCase() as Cycle)}
-          tabs={[
-            {
-              label: 'Upperclassmen',
-              content: <></>
-            },
-            ...(IS_FALL_SEMESTER ? [{ label: 'Freshmen', content: <></> }] : [])
-          ]}
+          onTabChange={(c) =>
+            c && setCycle(c === 'Upperclassmen' ? Cycle.UPPERCLASSMEN : Cycle.FRESHMEN)
+          }
+          tabs={
+            IS_FALL_SEMESTER
+              ? [
+                  {
+                    label: 'Upperclassmen',
+                    content: <></>
+                  },
+                  { label: 'Freshmen/Transfer', content: <></> }
+                ]
+              : [{ label: 'All Applicants', content: <></> }]
+          }
         />
       </div>
       <div
@@ -170,28 +176,7 @@ const ApplicationTimeline = () => {
                       strokeWidth="1"
                     />
                     <circle cx="6.5" cy="6.5" r="3" fill={circleColor} />
-                    {isLast ? (
-                      <>
-                        <defs>
-                          <linearGradient id="bottomGradient" gradientTransform="rotate(90)">
-                            <stop offset="80%" stopColor={circleColor} />
-                            <stop offset="95%" stopColor="var(--background-1)" />
-                          </linearGradient>
-                        </defs>
-                        <rect
-                          x="5"
-                          y="17"
-                          rx="1"
-                          ry="1"
-                          width="3"
-                          height={Math.max(
-                            0,
-                            nodeHeight - NODE_HEADER_HEIGHT + NODE_GAP - CIRCLE_DIAMETER
-                          )}
-                          fill="url('#bottomGradient')"
-                        />
-                      </>
-                    ) : (
+                    {!isLast && (
                       <>
                         <rect
                           x="5"

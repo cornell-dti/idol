@@ -45,7 +45,7 @@ export default function Apply() {
         heading="Ready to join?"
         subheading="Be part of something greater today."
         button1Label="Apply to DTI"
-        button1Link="/apply"
+        button1Link={config.applicationLink}
         button2Label="Meet the team"
         button2Link="/team"
       />
