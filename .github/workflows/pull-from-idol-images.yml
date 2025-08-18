@@ -27,8 +27,8 @@ jobs:
           restore-keys: yarn-
       - name: Install
         run: yarn
-      - name: Clear out new-dti-website/public/team
-        run: rm -rf new-dti-website/public/team && mkdir new-dti-website/public/team
+      - name: Clear out new-dti-website-redesign/public/team/teamHeadshots
+        run: rm -rf new-dti-website-redesign/public/team/teamHeadshots && mkdir new-dti-website-redesign/public/team/teamHeadshots
       - name: Make Temp Directory
         run: mkdir backend/temp
       - name: Pull Images From IDOL
@@ -36,8 +36,8 @@ jobs:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
         run: yarn workspace backend run pull-from-idol-images
-      - name: Move Images from backend/temp to new-dti-website/public/team
-        run: mv backend/temp/** new-dti-website/public/team
+      - name: Move Images from backend/temp to new-dti-website-redesign/public/team/teamHeadshots
+        run: mv backend/temp/** new-dti-website-redesign/public/team/teamHeadshots
       - name: Delete Temp Directory
         run: rm -r backend/temp
       - name: Create PR

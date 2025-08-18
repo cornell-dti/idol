@@ -8,7 +8,7 @@ on:
     - cron: '0 0 * * TUE'
   pull_request:
     paths:
-      - new-dti-website/pull-from-idol.ts
+      - new-dti-website-redesign/pull-from-idol.ts
       - .github/workflows/pull-from-idol.yml
 
 jobs:
@@ -32,4 +32,4 @@ jobs:
       - name: Pull From IDOL
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        run: yarn workspace new-dti-website run pull-from-idol
+        run: yarn workspace new-dti-website-redesign run pull-from-idol
