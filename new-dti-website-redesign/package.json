@@ -9,6 +9,7 @@
     "lint": "next lint",
     "format": "yarn prettier --write .",
     "format:check": "yarn prettier --check .",
+    "pull-from-idol": "tsx pull-from-idol.ts",
     "update-alumni": "tsx update-alumni.ts"
   },
   "dependencies": {
