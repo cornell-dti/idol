@@ -90,7 +90,9 @@ const ApplicationTimeline = () => {
     <section id="application-timeline" style={{ overflow: 'visible' }}>
       <div
         className={`relative flex flex-col md:flex-row justify-between border-b-1 border-border-1 md:border-0
-      after:content-[''] after:w-full after:h-200 after:absolute ${isMobile ? 'after:top-[calc(1px+100%)]' : 'after:top-full'} after:pointer-events-none after:z-10
+      after:content-[''] after:w-full after:h-200 after:absolute ${
+        isMobile ? 'after:top-[calc(1px+100%)]' : 'after:top-full'
+      } after:pointer-events-none after:z-10
       ${gradientStyle}`}
       >
         <h2 className="p-4 sm:p-8 pb-0! md:pb-8!">Application timeline</h2>
@@ -129,7 +131,8 @@ const ApplicationTimeline = () => {
                 : lineHeight + 17.5;
               const progress = isLast ? 0 : eventProgress(event, cycleEvents[i + 1], cycle);
               const circleColor =
-                Date.now() < parseDateTime(event[cycle]!)[0]
+                Date.now() < parseDateTime(event[cycle]!)[0] ||
+                (i > 0 && Date.now() < parseDateTime(cycleEvents[i - 1][cycle]!)[1])
                   ? 'var(--foreground-3)'
                   : 'var(--accent-red)';
               return (
