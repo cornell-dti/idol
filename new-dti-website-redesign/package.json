@@ -13,7 +13,7 @@
     "update-alumni": "tsx update-alumni.ts"
   },
   "dependencies": {
-    "@octokit/rest": "^21.0.2",
+    "@octokit/rest": "^22.0.0",
     "next": "15.2.3",
     "node-fetch": "^3.3.2",
     "react": "^19.0.0",
