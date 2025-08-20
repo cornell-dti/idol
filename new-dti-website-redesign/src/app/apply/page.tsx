@@ -27,8 +27,9 @@ export default function Apply() {
         heading="Join our community"
         subheading="We value inclusivity and welcome passionate applicants of all experience levels. We'd love to work with you."
         button1Label="Apply to DTI"
-        button1Link="/apply"
-        button1Disabled={applicationOpen}
+        button1Link="https://docs.google.com/forms/d/e/1FAIpQLSdcEQ4cXnRenDYNlhzu7Ncm3S0r7sb6wK4xidDLDjN-iSHcig/viewform"
+        button1Disabled={!applicationOpen}
+        button1OpenInNewTab
         button2Label="Role descriptions"
         button2Link="#role-descriptions"
         image="/apply/hero.png"

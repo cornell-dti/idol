@@ -8,9 +8,11 @@ type Props = {
   button1Label?: string;
   button1Link?: string;
   button1Disabled?: boolean;
+  button1OpenInNewTab?: boolean;
   button2Label?: string;
   button2Link?: string;
   button2Disabled?: boolean;
+  button2OpenInNewTab?: boolean;
   image?: string;
   centered?: boolean;
   className?: string;
@@ -23,9 +25,11 @@ const Hero = ({
   button1Label,
   button1Link,
   button1Disabled,
+  button1OpenInNewTab,
   button2Label,
   button2Link,
   button2Disabled,
+  button2OpenInNewTab,
   image,
   className,
   nextSectionCurved = true
@@ -69,6 +73,7 @@ const Hero = ({
                   href={button1Link}
                   className="w-fit"
                   disabled={button1Disabled}
+                  newTab={button1OpenInNewTab}
                 />
               )}
               {button2Label && button2Link && (
@@ -78,6 +83,7 @@ const Hero = ({
                   href={button2Link}
                   className="w-fit"
                   disabled={button2Disabled}
+                  newTab={button2OpenInNewTab}
                 />
               )}
             </div>
