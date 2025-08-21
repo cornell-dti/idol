@@ -994,29 +994,31 @@
     "semesterJoined": "Spring 2024"
   },
   {
-    "formerSubteams": [],
-    "coffeeChatLink": null,
-    "firstName": "Jacqueline",
-    "hometown": "Seattle, WA",
-    "minor": null,
-    "lastName": "Cai",
-    "college": "eng",
-    "netid": "jxc6",
-    "roleDescription": "Developer Lead",
     "about": "Hi, my name is Jacqueline Cai, a current junior studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!",
-    "doubleMajor": null,
-    "linkedin": "https://www.linkedin.com/in/jacqueline-cai-7a6322203/",
+    "netid": "jxc6",
     "website": null,
-    "role": "dev-lead",
+    "doubleMajor": null,
+    "lastName": "Cai",
+    "linkedin": "https://www.linkedin.com/in/jacqueline-cai-7a6322203/",
     "graduation": "Dec 2025",
-    "pronouns": "she/her",
-    "semesterJoined": "Spring 2024",
+    "github": "https://github.com/jacquelinecai",
+    "role": "dev-lead",
+    "firstName": "Jacqueline",
     "major": "Computer Science",
-    "subteams": [
+    "roleDescription": "Developer Lead",
+    "semesterJoined": "Spring 2024",
+    "email": "jxc6@cornell.edu",
+    "formerSubteams": [
       "reviews"
     ],
-    "email": "jxc6@cornell.edu",
-    "github": "https://github.com/jacquelinecai"
+    "hometown": "Seattle, WA",
+    "coffeeChatLink": null,
+    "minor": null,
+    "subteams": [
+      "leads"
+    ],
+    "college": "eng",
+    "pronouns": "she/her"
   },
   {
     "about": "I'm a freshman in CS!",
@@ -1067,33 +1069,6 @@
     "firstName": "Katherine",
     "lastName": "Huang",
     "netid": "kh784"
-  },
-  {
-    "hometown": "Princeton",
-    "roleDescription": "Design Lead",
-    "firstName": "Katherine",
-    "netid": "kjc249",
-    "formerSubteams": [
-      "cuapts"
-    ],
-    "website": "https://www.katjch.com",
-    "major": "Information Science",
-    "graduation": "May 2025",
-    "email": "kjc249@cornell.edu",
-    "role": "design-lead",
-    "subteams": [
-      "leads"
-    ],
-    "lastName": "Chang",
-    "semesterJoined": "Spring 2023",
-    "college": "cas",
-    "github": null,
-    "minor": null,
-    "doubleMajor": null,
-    "coffeeChatLink": null,
-    "pronouns": "she/her",
-    "linkedin": "https://www.linkedin.com/in/katjch",
-    "about": "Hey there! I’m a product designer from Princeton, NJ and I love art, photography, and music. Hit me up if you like the Strokes. 😎"
   },
   {
     "about": "Hello! My name is Kathy & I'm a freshman studying CS & Econ. I joined DTI Spring of 2025 and am currently the APM on Carriage. On campus, I'm also involved in 180 Degrees Consulting & an a cappella group! In my free time, I love listening to music, working out, reading a good book, watching Nebraska volleyball, & cafe-hopping. Feel free to reach out to chat about anything! :)",
@@ -1284,7 +1259,6 @@
     "semesterJoined": "Spring 2024",
     "major": "Computer Science",
     "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
-    "graduation": "May 2027",
     "college": "cas",
     "netid": "may52",
     "roleDescription": "Product Lead",
@@ -1296,7 +1270,8 @@
       "leads"
     ],
     "minor": "Linguistics",
-    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy design as well (started a business selling self-designed stickers and am exploring UI/UX design)!\n\nIn my free time, I love learning languages (currently studying Chinese, Malay, and Korean) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I'm also a Persona 5 fan and enjoy skiing. Always free for a coffee chat :)"
+    "graduation": "Dec 2026",
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy dabbling in design as well. Currently working part-time as a hybrid APM/designer at a startup!\n\nIn my free time, I love learning languages (currently studying Chinese and Japanese) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I also enjoy playing video games (rn: BG3, next up: Expedition 33 + Cyberpunk 🤩). Always free for a coffee chat :)"
   },
   {
     "formerSubteams": [],
@@ -1376,14 +1351,12 @@
   {
     "hometown": "Houston",
     "email": "nmp79@cornell.edu",
-    "github": "https://github.com/nit0107",
     "formerSubteams": [
       "cornellgo",
       "courseplan"
     ],
     "major": "Information Science",
     "graduation": "Spring 2027",
-    "about": "Hey, I'm Nitya! I'm a sophomore concentrating in Data Science and UX Research, with minors in CS and AI! I am super interested in the intersection between tech, product, and business, and curious into how we can leverage technology to unite and empower communities. I joined DTI my freshman fall as a developer on Cornell Go, and transferred to CoursePlan as an APM (and now PM!) in Fall 2024.  \n",
     "role": "product-lead",
     "subteams": [
       "leads"
@@ -1397,9 +1370,11 @@
     "website": null,
     "firstName": "Nitya",
     "doubleMajor": null,
-    "coffeeChatLink": "https://calendly.com/nmp79-cornell/30min",
-    "minor": "Computer Science & Artificial Intelligence",
-    "roleDescription": "Product Lead"
+    "roleDescription": "Product Lead",
+    "github": null,
+    "minor": "AI",
+    "coffeeChatLink": null,
+    "about": "prev. pm @ courseplan & dev @ cgo"
   },
   {
     "formerSubteams": [],
@@ -1504,29 +1479,31 @@
     "coffeeChatLink": "https://calendly.com/ow39/coffee-chat-with-oscar"
   },
   {
-    "formerSubteams": [],
-    "subteams": [
-      "business"
-    ],
-    "major": "Computer Science",
-    "role": "business-lead",
-    "firstName": "Olina",
-    "website": null,
-    "roleDescription": "Business Lead",
     "pronouns": "She/Her",
-    "github": null,
-    "graduation": "May 2027",
-    "hometown": "Long Island",
-    "netid": "oz36",
-    "minor": null,
-    "semesterJoined": "Spring 2024",
-    "email": "oz36@cornell.edu",
-    "linkedin": null,
-    "lastName": "Zheng",
     "college": "cas",
+    "netid": "oz36",
+    "semesterJoined": "Spring 2024",
+    "role": "business-lead",
+    "graduation": "May 2027",
+    "github": null,
+    "lastName": "Zheng",
+    "firstName": "Olina",
+    "about": "Hi! I am one of the Business Leads and I am so excited to make a great impact on DTI! :)))",
     "doubleMajor": null,
+    "roleDescription": "Business Lead",
     "coffeeChatLink": null,
-    "about": "Hi! I am one of the Business Leads and I am so excited to make a great impact on DTI! :)))"
+    "email": "oz36@cornell.edu",
+    "major": "Computer Science",
+    "linkedin": null,
+    "subteams": [
+      "leads"
+    ],
+    "website": null,
+    "minor": null,
+    "hometown": "Long Island",
+    "formerSubteams": [
+      "business"
+    ]
   },
   {
     "formerSubteams": [],
@@ -1815,8 +1792,6 @@
     "major": "Information Science ",
     "graduation": "May 2026",
     "pronouns": "she/her",
-    "minor": null,
-    "website": "",
     "semesterJoined": "Spring 2023",
     "github": null,
     "netid": "vkw7",
@@ -1829,8 +1804,12 @@
       "cornellgo",
       "queuemein"
     ],
-    "about": "Designer @ CornellGO",
-    "firstName": "Valerie"
+    "firstName": "Valerie",
+    "college": "cas",
+    "website": null,
+    "minor": "AI",
+    "coffeeChatLink": null,
+    "about": "Full Team Lead, prev. PM @ QMI, Design @ CGO, CUReviews"
   },
   {
     "formerSubteams": [],
