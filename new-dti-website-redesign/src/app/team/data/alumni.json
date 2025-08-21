@@ -1,5 +1,28 @@
 [
   {
+    "hometown": "Princeton",
+    "roleDescription": "Design Lead",
+    "firstName": "Katherine",
+    "netid": "kjc249",
+    "formerSubteams": ["cuapts"],
+    "website": "https://www.katjch.com",
+    "major": "Information Science",
+    "graduation": "May 2025",
+    "email": "kjc249@cornell.edu",
+    "role": "design-lead",
+    "subteams": ["leads"],
+    "lastName": "Chang",
+    "semesterJoined": "Spring 2023",
+    "college": "cas",
+    "github": null,
+    "minor": null,
+    "doubleMajor": null,
+    "coffeeChatLink": null,
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/katjch",
+    "about": "Hey there! I’m a product designer from Princeton, NJ and I love art, photography, and music. Hit me up if you like the Strokes. 😎"
+  },
+  {
     "formerSubteams": [],
     "lastName": "Atikpui",
     "website": null,
