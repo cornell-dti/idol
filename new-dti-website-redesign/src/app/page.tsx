@@ -69,7 +69,7 @@ export default function Home() {
           image="/home/courses.png"
           imagePosition="right"
           imageAlt="DTI members teaching Trends, our web development course"
-          button2Label="Learn more"
+          button2Label="Learn more about Trends"
           button2Link="/course"
         />
 
