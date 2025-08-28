@@ -30,7 +30,7 @@ export default function Home() {
           button1Link="/apply"
           button2Label="Meet the team"
           button2Link="/team"
-          image="/home/hero.png"
+          image="/home/hero.webp"
           nextSectionCurved={false}
         />
 
