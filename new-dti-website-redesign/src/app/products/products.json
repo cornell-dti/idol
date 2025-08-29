@@ -1,5 +1,25 @@
 [
   {
+    "image": "/products/images/idol.png",
+    "imageAlt": "Various devices from phones to laptops showing the DTI website",
+    "name": "IDOL",
+    "description": "IDOL – Internal DTI Organization Logic – is our very own internal tools subteam. Responsible for developing and maintaining this website, recruitment tools, internal coffee chat tracking, and other administrative systems.",
+    "link": "https://cornelldti.org/design-system/",
+    "linkLabel": "Visit design system",
+    "comingSoon": false,
+    "id": "idol",
+    "accentColor": "#000000"
+  },
+  {
+    "image": "/products/images/cornellgo.png",
+    "imageAlt": "3 phones side by side, displaying the login, map, and profile screens of the CornellGO Application",
+    "name": "CornellGO",
+    "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
+    "comingSoon": false,
+    "id": "cornellgo",
+    "accentColor": "#FFE9E9"
+  },
+  {
     "image": "/products/images/cureviews.png",
     "imageAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
     "name": "CU Reviews",
@@ -30,6 +50,16 @@
     "accentColor": "#CFE2FF"
   },
   {
+    "image": "/products/images/cuapts.png",
+    "imageAlt": "A laptop next to a phone, displaying home page and an address page of the CU Apts website",
+    "name": "CU Apts",
+    "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
+    "link": "https://www.cuapts.org/",
+    "comingSoon": false,
+    "id": "cuapts",
+    "accentColor": "#FFFFFF"
+  },
+  {
     "image": "/products/images/design@cornell.png",
     "imageAlt": "2 tablets showing the homepage and articles page of the Design @ Cornell website",
     "name": "Design @ Cornell",
@@ -49,16 +79,7 @@
     "id": "zing",
     "accentColor": "#E4DBFF"
   },
-  {
-    "image": "/products/images/cuapts.png",
-    "imageAlt": "A laptop next to a phone, displaying home page and an address page of the CU Apts website",
-    "name": "CU Apts",
-    "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
-    "link": "https://www.cuapts.org/",
-    "comingSoon": false,
-    "id": "cuapts",
-    "accentColor": "#FFFFFF"
-  },
+
   {
     "image": "/products/images/carriage.png",
     "imageAlt": "2 laptops showing the map and scheduled rides page of the Carriage application",
@@ -67,14 +88,5 @@
     "comingSoon": true,
     "id": "carriage",
     "accentColor": "#000000"
-  },
-  {
-    "image": "/products/images/cornellgo.png",
-    "imageAlt": "3 phones side by side, displaying the login, map, and profile screens of the CornellGO Application",
-    "name": "CornellGO",
-    "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
-    "comingSoon": true,
-    "id": "cornellgo",
-    "accentColor": "#FFE9E9"
   }
 ]

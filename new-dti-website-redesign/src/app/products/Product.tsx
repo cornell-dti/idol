@@ -9,6 +9,7 @@ type Props = {
   name: string;
   description: string;
   link?: string;
+  linkLabel?: string;
   comingSoon?: boolean;
   id: string;
   accentColor?: string;
@@ -20,6 +21,7 @@ const Product = ({
   name,
   description,
   link,
+  linkLabel = 'Visit product',
   comingSoon,
   id,
   accentColor
@@ -42,7 +44,7 @@ const Product = ({
         <p className="text-foreground-3">{description}</p>
       </div>
 
-      {link && <Button href={link} variant="primary" label="Visit product" newTab />}
+      {link && <Button href={link} variant="primary" label={linkLabel} newTab />}
     </div>
   </article>
 );
