@@ -171,9 +171,7 @@ export const MemberDetailsCard = ({
                     <OpenIcon size={20} />
                   </Link>
                 ) : (
-                  <p>
-                    {productLinks[user.subteams[0]].name}
-                  </p>
+                  <p>{productLinks[user.subteams[0]].name}</p>
                 ))}
             </div>
           </div>

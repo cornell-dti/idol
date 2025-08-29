@@ -76,22 +76,22 @@ export const productLinks: { [key: string]: { name: string; link?: string } } = 
     link: 'https://www.cornelldti.org'
   },
   cornellgo: {
-    name: 'Cornell GO',
+    name: 'Cornell GO'
   },
   carriage: {
-    name: 'Carriage',
+    name: 'Carriage'
   },
   leads: {
-    name: 'Lead',
+    name: 'Lead'
   },
   business: {
-    name: 'Business',
+    name: 'Business'
   },
   curaise: {
-    name: 'CU Raise',
+    name: 'CU Raise'
   },
   incubator: {
-    name: 'Incubator',
+    name: 'Incubator'
   },
   zing: {
     name: 'Zing',
