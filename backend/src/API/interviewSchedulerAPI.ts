@@ -1,9 +1,11 @@
+import { Request } from 'express';
 import { LEAD_ROLES } from '../consts';
 import InterviewSchedulerDao from '../dao/InterviewSchedulerDao';
 import InterviewSlotDao from '../dao/InterviewSlotDao';
 import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 import { getMember } from './memberAPI';
+import { sendInterviewInvite, sendInterviewCancellation } from './mailAPI';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
 const interviewSlotDao = new InterviewSlotDao();
@@ -192,7 +194,8 @@ export const getInterviewSlots = async (
 export const updateInterviewSlot = async (
   edits: InterviewSlotEdit,
   email: string,
-  isApplicant: boolean
+  isApplicant: boolean,
+  req?: Request
 ): Promise<boolean> => {
   const slot = await interviewSlotDao.getSlot(edits.uuid);
 
@@ -217,7 +220,17 @@ export const updateInterviewSlot = async (
     ...edits
   };
 
-  return interviewSlotDao.updateSlot(newSlot, isLead, email);
+  const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
+
+  if (updateSuccess) {
+    try {
+      await handleSlotUpdateNotifications(slot, newSlot, scheduler, email, isApplicant, req);
+    } catch (error) {
+      console.error('Error sending interview notifications:', error);
+    }
+  }
+
+  return updateSuccess;
 };
 
 /**
@@ -248,4 +261,70 @@ export const addInterviewSlots = async (
     throw new PermissionError('User does not have permission to create interview slots.');
 
   return interviewSlotDao.addSlots(slots);
+};
+
+/**
+ * Handles sending notifications when interview slots are updated
+ * @param oldSlot - The previous state of the slot
+ * @param newSlot - The updated state of the slot
+ * @param scheduler - The interview scheduler instance
+ * @param userEmail - The email of the user making the change
+ * @param isApplicant - Whether the user is an applicant
+ * @param req - The Express request object for sending emails
+ */
+const handleSlotUpdateNotifications = async (
+  oldSlot: InterviewSlot,
+  newSlot: InterviewSlot,
+  scheduler: InterviewScheduler,
+  userEmail: string,
+  isApplicant: boolean,
+  req?: Request
+): Promise<void> => {
+  // Determine what changed
+  const applicantChanged = oldSlot.applicant?.email !== newSlot.applicant?.email;
+  const leadChanged = oldSlot.lead?.email !== newSlot.lead?.email;
+  const membersChanged = !arraysEqual(oldSlot.members, newSlot.members);
+
+  // Log the changes for debugging
+  console.log('Slot update detected:', {
+    applicantChanged,
+    leadChanged,
+    membersChanged,
+    oldApplicant: oldSlot.applicant?.email,
+    newApplicant: newSlot.applicant?.email,
+    schedulerName: scheduler.name,
+    slotTime: new Date(newSlot.startTime).toLocaleString()
+  });
+
+  // Send emails if Request object is available
+  if (req) {
+    try {
+      // Applicant signed up for a slot
+      if (!oldSlot.applicant && newSlot.applicant) {
+        await sendInterviewInvite(req, newSlot.applicant.email, scheduler, newSlot);
+        console.log(`Sent interview confirmation to ${newSlot.applicant.email}`);
+      }
+
+      // Applicant cancelled their slot
+      if (oldSlot.applicant && !newSlot.applicant) {
+        await sendInterviewCancellation(req, oldSlot.applicant.email, scheduler, oldSlot);
+        console.log(`Sent interview cancellation to ${oldSlot.applicant.email}`);
+      }
+    } catch (error) {
+      console.error('Error sending email notifications:', error);
+    }
+  }
+};
+
+/**
+ * Helper function to compare arrays of members
+ */
+const arraysEqual = (a: (IdolMember | null)[], b: (IdolMember | null)[]): boolean => {
+  if (a.length !== b.length) return false;
+  return a.every((member, index) => {
+    const otherMember = b[index];
+    if (!member && !otherMember) return true;
+    if (!member || !otherMember) return false;
+    return member.email === otherMember.email;
+  });
 };
