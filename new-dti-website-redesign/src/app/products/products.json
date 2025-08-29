@@ -1,26 +1,5 @@
 [
   {
-    "image": "/products/images/idol.png",
-    "imageAlt": "Various devices from phones to laptops showing the DTI website",
-    "name": "IDOL",
-    "description": "IDOL – Internal DTI Organization Logic – is our very own internal tools subteam. Responsible for developing and maintaining this website, recruitment tools, internal coffee chat tracking, and other administrative systems.",
-    "link": "https://cornelldti.org/design-system/",
-    "linkLabel": "Visit design system",
-    "comingSoon": false,
-    "id": "idol",
-    "accentColor": "#000000"
-  },
-  {
-    "image": "/products/images/cornellgo.png",
-    "imageAlt": "3 phones side by side, displaying the login, map, and profile screens of the CornellGO Application",
-    "name": "CornellGO",
-    "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
-    "link": "https://apps.apple.com/us/app/cornellgo/id1562549651",
-    "comingSoon": false,
-    "id": "cornellgo",
-    "accentColor": "#FFE9E9"
-  },
-  {
     "image": "/products/images/cureviews.png",
     "imageAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
     "name": "CU Reviews",
@@ -39,6 +18,16 @@
     "comingSoon": false,
     "id": "courseplan",
     "accentColor": "#E3F5FF"
+  },
+  {
+    "image": "/products/images/cornellgo.png",
+    "imageAlt": "3 phones side by side, displaying the login, map, and profile screens of the CornellGO Application",
+    "name": "CornellGO",
+    "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
+    "link": "https://apps.apple.com/us/app/cornellgo/id1562549651",
+    "comingSoon": false,
+    "id": "cornellgo",
+    "accentColor": "#FFE9E9"
   },
   {
     "image": "/products/images/queuemein.png",
@@ -88,6 +77,17 @@
     "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching next semester.",
     "comingSoon": true,
     "id": "carriage",
+    "accentColor": "#000000"
+  },
+  {
+    "image": "/products/images/idol.png",
+    "imageAlt": "Various devices from phones to laptops showing the DTI website",
+    "name": "IDOL",
+    "description": "IDOL – Internal DTI Organization Logic – is our very own internal tools subteam. Responsible for developing and maintaining this website, recruitment tools, internal coffee chat tracking, and other administrative systems.",
+    "link": "https://cornelldti.org/design-system/",
+    "linkLabel": "Visit design system",
+    "comingSoon": false,
+    "id": "idol",
     "accentColor": "#000000"
   }
 ]

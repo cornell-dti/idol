@@ -1,12 +1,5 @@
 [
   {
-    "src": "/products/logos/cornellgo.svg",
-    "alt": "CornellGo logo",
-    "width": 80,
-    "height": 80,
-    "href": "/products/#cornellgo"
-  },
-  {
     "src": "/products/logos/cureviews.svg",
     "alt": "CU Reviews logo",
     "width": 80,
@@ -19,6 +12,13 @@
     "width": 60,
     "height": 60,
     "href": "/products/#courseplan"
+  },
+  {
+    "src": "/products/logos/cornellgo.svg",
+    "alt": "CornellGo logo",
+    "width": 80,
+    "height": 80,
+    "href": "/products/#cornellgo"
   },
   {
     "src": "/products/logos/queuemein.svg",
