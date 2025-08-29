@@ -54,7 +54,7 @@ export const getRoleColor = (role: Role): string => {
   return colors[generalRole];
 };
 
-export const productLinks: { [key: string]: { name: string; link: string } } = {
+export const productLinks: { [key: string]: { name: string; link?: string } } = {
   courseplan: {
     name: 'CoursePlan',
     link: 'https://courseplan.io/'
@@ -76,24 +76,22 @@ export const productLinks: { [key: string]: { name: string; link: string } } = {
     link: 'https://www.cornelldti.org'
   },
   cornellgo: {
-    name: 'Cornell GO',
-    link: ''
+    name: 'Cornell GO'
   },
   carriage: {
-    name: 'Carriage',
-    link: ''
+    name: 'Carriage'
   },
   leads: {
-    name: 'Lead',
-    link: ''
+    name: 'Lead'
   },
   business: {
-    name: 'Business',
-    link: ''
+    name: 'Business'
   },
   curaise: {
-    name: 'CU Raise',
-    link: ''
+    name: 'CU Raise'
+  },
+  incubator: {
+    name: 'Incubator'
   },
   zing: {
     name: 'Zing',
