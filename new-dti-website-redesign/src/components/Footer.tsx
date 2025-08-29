@@ -64,7 +64,7 @@ export default function Footer() {
 
   const DTILinksSection = () => (
     <div className="flex flex-col gap-2">
-      <h6 className="text-foreground-1">Cornell DTI</h6>
+      <h2 className="h5 text-foreground-1">Cornell DTI</h2>
       <ul className="flex flex-col gap-1 list-none">
         {DTILinks.map(({ href, label }) => (
           <li key={href} className="flex gap-2 items-center">
@@ -84,7 +84,7 @@ export default function Footer() {
 
   const ProductLinksSection = () => (
     <div className="flex flex-col gap-2">
-      <h6 className="text-foreground-1">Products</h6>
+      <h2 className="h5 text-foreground-1">Products</h2>
       <ul className="flex flex-col gap-1 list-none">
         {ProductLinks.map(({ href, label }) => (
           <li key={label}>
