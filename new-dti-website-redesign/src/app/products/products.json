@@ -15,6 +15,7 @@
     "imageAlt": "3 phones side by side, displaying the login, map, and profile screens of the CornellGO Application",
     "name": "CornellGO",
     "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges. Launching this semester.",
+    "link": "https://apps.apple.com/us/app/cornellgo/id1562549651",
     "comingSoon": false,
     "id": "cornellgo",
     "accentColor": "#FFE9E9"
