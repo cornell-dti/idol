@@ -14,11 +14,25 @@
     "href": "/products/#courseplan"
   },
   {
+    "src": "/products/logos/cornellgo.svg",
+    "alt": "CornellGo logo",
+    "width": 80,
+    "height": 80,
+    "href": "/products/#cornellgo"
+  },
+  {
     "src": "/products/logos/queuemein.svg",
     "alt": "Queue Me In logo",
     "width": 80,
     "height": 80,
     "href": "/products/#queuemein"
+  },
+  {
+    "src": "/products/logos/cuapts.svg",
+    "alt": "CU Apartments logo",
+    "width": 110,
+    "height": 80,
+    "href": "/products/#cuapts"
   },
   {
     "src": "/products/logos/design@cornell.svg",
@@ -35,24 +49,10 @@
     "href": "/products/#zing"
   },
   {
-    "src": "/products/logos/cuapts.svg",
-    "alt": "CU Apartments logo",
-    "width": 110,
-    "height": 80,
-    "href": "/products/#cuapts"
-  },
-  {
     "src": "/products/logos/carriage.svg",
     "alt": "Carriage logo",
     "width": 70,
     "height": 70,
     "href": "/products/#carriage"
-  },
-  {
-    "src": "/products/logos/cornellgo.svg",
-    "alt": "CornellGo logo",
-    "width": 80,
-    "height": 80,
-    "href": "/products/#cornellgo"
   }
 ]
