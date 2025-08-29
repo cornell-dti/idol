@@ -250,7 +250,7 @@ const ApplicationTimeline = () => {
     if (timelineRef.current) {
       timelineRef.current.scrollTop = scroll[cycle === 'upperclassmen' ? 0 : 1];
     }
-  }, [cycle]);
+  }, [cycle, scroll]);
 
   useEffect(() => {
     if (timelineRef.current && selectedNodeRef.current && width >= TABLET_BREAKPOINT) {
@@ -259,7 +259,7 @@ const ApplicationTimeline = () => {
       timelineRef.current.scrollTop += innerDiv - outerDiv;
       setScroll([timelineRef.current.scrollTop, 0]);
     }
-  }, []);
+  }, [width]);
 
   return (
     <section id="Application Timeline" className="flex justify-center relative z-10">

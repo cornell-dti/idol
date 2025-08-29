@@ -1,8 +1,9 @@
 import { CSSProperties, DragEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Dropdown, Form, Input } from 'semantic-ui-react';
+import { LEAD_ROLES } from 'common-types/constants';
 import styles from './SchedulingCalendar.module.css';
 import { getDateString, hourIndexToString } from '../../utils';
-import { useHasAdminPermission, useMembers } from '../Common/FirestoreDataProvider';
+import { useHasAdminPermission, useMember, useMembers } from '../Common/FirestoreDataProvider';
 import {
   useEditAvailabilityContext,
   useInterviewSlotStatus,
@@ -68,8 +69,11 @@ const SlotButton: React.FC<{
 }> = ({ slot, duration, startHour, tentative = false }) => {
   const { setHoveredSlot, setSelectedSlot } = useSetSlotsContext();
   const slotStatus = useInterviewSlotStatus(slot);
-  const isAdmin = useHasAdminPermission();
   const { isEditing, setTentativeSlots } = useEditAvailabilityContext();
+
+  const userEmail = useUserEmail();
+  const self = useMember(userEmail);
+  const isLead = self && LEAD_ROLES.includes(self.role);
 
   const getMinutesFromStartOfDay = (unixTime: number) => {
     const date = new Date(unixTime);
@@ -92,7 +96,7 @@ const SlotButton: React.FC<{
           height: (duration / MILLISECONDS_PER_MINUTE) * PIXEL_PER_MINUTE
         }}
         onClick={isEditing ? () => removeTentativeSlot() : () => setSelectedSlot(slot)}
-        disabled={(isEditing && !tentative) || (!isAdmin && slotStatus === 'occupied')}
+        disabled={(isEditing && !tentative) || (!isLead && slotStatus === 'occupied')}
         color={slotStatus === 'possessed' ? 'green' : undefined}
       >
         {hourIndexToString(
@@ -249,6 +253,7 @@ const SchedulingCalendar: React.FC<{
 }> = ({ scheduler, slots }) => {
   const [day, setDay] = useState<number>(scheduler.startDate);
   const [columnName, setColumnName] = useState<string>('');
+  const isAdmin = useHasAdminPermission();
 
   const filteredSlots = useMemo(
     () =>
@@ -264,12 +269,18 @@ const SchedulingCalendar: React.FC<{
   const { setHoveredSlot, setSelectedSlot } = useSetSlotsContext();
   const { isEditing } = useEditAvailabilityContext();
 
-  const options = Array.from(
+  const days = Array.from(
     {
       length: 1 + (scheduler.endDate - scheduler.startDate) / MILLISECONDS_PER_DAY
     },
     (_, i) => scheduler.startDate + i * MILLISECONDS_PER_DAY
-  ).map((date) => ({
+  );
+  const filteredDays = isAdmin
+    ? days
+    : days.filter((date) =>
+        slots.some((slot) => slot.startTime >= date && slot.startTime < date + MILLISECONDS_PER_DAY)
+      );
+  const options = filteredDays.map((date) => ({
     text: getDateString(date, true),
     value: date
   }));
@@ -344,16 +355,18 @@ const SchedulingCalendar: React.FC<{
             </Button>
           )}
         </div>
-        {Array.from(slotsByRoom.entries()).map(([room, roomSlots]) => (
-          <SchedulerColumn
-            room={room}
-            day={day}
-            slots={roomSlots}
-            scheduler={scheduler}
-            hours={hours}
-            key={room}
-          />
-        ))}
+        {Array.from(slotsByRoom.entries())
+          .sort((room1, room2) => room1[0].localeCompare(room2[0]))
+          .map(([room, roomSlots]) => (
+            <SchedulerColumn
+              room={room}
+              day={day}
+              slots={roomSlots}
+              scheduler={scheduler}
+              hours={hours}
+              key={room}
+            />
+          ))}
       </div>
     </div>
   );

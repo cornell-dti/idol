@@ -1,3 +1,17 @@
 .buttonContainer {
   margin-top: 1em;
 }
+
+.memberListItem {
+  list-style: none;
+  padding-left: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.memberListItem::before {
+  content: '•';
+  transform: translateY(-50%);
+  padding-right: 8px;
+  font-size: 24px;
+}
