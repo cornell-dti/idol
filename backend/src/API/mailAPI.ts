@@ -109,6 +109,33 @@ const emailMember = async (req: Request, member: IdolMember, subject: string, te
   );
 };
 
+const emailNonMember = async (
+  req: Request,
+  recipientEmail: string,
+  subject: string,
+  text: string
+) => {
+  const url = getSendMailURL(req);
+  const idToken = req.headers['auth-token'] as string;
+  const requestBody = {
+    subject,
+    text
+  };
+
+  if (env !== 'prod') {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, requestBody);
+    return nonProdEnvMessage;
+  }
+
+  return axios.post(
+    url,
+    { ...requestBody, to: recipientEmail },
+    { headers: { 'auth-token': idToken } }
+  );
+};
+
 /**
  * Send an email about a member updating their notifications
  * @param req - The request made when sending the email
@@ -402,7 +429,7 @@ Good luck with your interview!
 Best regards,
 Cornell DTI`;
 
-  // send email to applicant
+  return emailNonMember(req, recipientEmail, subject, text);
 };
 
 /**
@@ -449,5 +476,5 @@ If you would like to reschedule, please contact hello@cornelldti.org.
 Best regards,
 Cornell DTI`;
 
-  // send email
+  return emailNonMember(req, recipientEmail, subject, text);
 };
