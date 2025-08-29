@@ -158,18 +158,23 @@ export const MemberDetailsCard = ({
             </div>
             <div className="w-1/2">
               <p className="text-foreground-3">Subteam</p>
-              {user.subteams[0] in productLinks ? (
-                <Link
-                  className="flex gap-2 items-center focusState w-fit rounded-sm"
-                  target="_blank"
-                  href={productLinks[user.subteams[0]].link}
-                >
-                  <p className="underline underline-offset-3">
+              {user.subteams.length > 0 &&
+                (productLinks[user.subteams[0]] && productLinks[user.subteams[0]].link ? (
+                  <Link
+                    className="flex gap-2 items-center focusState w-fit rounded-sm"
+                    target="_blank"
+                    href={productLinks[user.subteams[0]].link as string}
+                  >
+                    <p className="underline underline-offset-3">
+                      {productLinks[user.subteams[0]].name}
+                    </p>
+                    <OpenIcon size={20} />
+                  </Link>
+                ) : (
+                  <p>
                     {productLinks[user.subteams[0]].name}
                   </p>
-                  <OpenIcon size={20} />
-                </Link>
-              ) : null}
+                ))}
             </div>
           </div>
           <div>
