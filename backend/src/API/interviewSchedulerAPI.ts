@@ -6,6 +6,7 @@ import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors
 import PermissionsManager from '../utils/permissionsManager';
 import { getMember } from './memberAPI';
 import { sendInterviewInvite, sendInterviewCancellation } from './mailAPI';
+import detectEmailChanges from '../utils/interviewSlotUtil';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
 const interviewSlotDao = new InterviewSlotDao();
@@ -220,17 +221,15 @@ export const updateInterviewSlot = async (
     ...edits
   };
 
-  const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
-
-  if (updateSuccess) {
-    try {
-      await handleSlotUpdateNotifications(slot, newSlot, scheduler, email, isApplicant, req);
-    } catch (error) {
-      console.error('Error sending interview notifications:', error);
+  try {
+    const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
+    if (updateSuccess) {
+      await handleSlotUpdateNotifications(slot, newSlot, scheduler, req);
     }
+    return updateSuccess;
+  } catch (error) {
+    return false;
   }
-
-  return updateSuccess;
 };
 
 /**
@@ -276,55 +275,13 @@ const handleSlotUpdateNotifications = async (
   oldSlot: InterviewSlot,
   newSlot: InterviewSlot,
   scheduler: InterviewScheduler,
-  userEmail: string,
-  isApplicant: boolean,
   req?: Request
 ): Promise<void> => {
-  // Determine what changed
-  const applicantChanged = oldSlot.applicant?.email !== newSlot.applicant?.email;
-  const leadChanged = oldSlot.lead?.email !== newSlot.lead?.email;
-  const membersChanged = !arraysEqual(oldSlot.members, newSlot.members);
-
-  // Log the changes for debugging
-  console.log('Slot update detected:', {
-    applicantChanged,
-    leadChanged,
-    membersChanged,
-    oldApplicant: oldSlot.applicant?.email,
-    newApplicant: newSlot.applicant?.email,
-    schedulerName: scheduler.name,
-    slotTime: new Date(newSlot.startTime).toLocaleString()
-  });
-
-  // Send emails if Request object is available
-  if (req) {
-    try {
-      // Applicant signed up for a slot
-      if (!oldSlot.applicant && newSlot.applicant) {
-        await sendInterviewInvite(req, newSlot.applicant.email, scheduler, newSlot);
-        console.log(`Sent interview confirmation to ${newSlot.applicant.email}`);
-      }
-
-      // Applicant cancelled their slot
-      if (oldSlot.applicant && !newSlot.applicant) {
-        await sendInterviewCancellation(req, oldSlot.applicant.email, scheduler, oldSlot);
-        console.log(`Sent interview cancellation to ${oldSlot.applicant.email}`);
-      }
-    } catch (error) {
-      console.error('Error sending email notifications:', error);
-    }
-  }
-};
-
-/**
- * Helper function to compare arrays of members
- */
-const arraysEqual = (a: (IdolMember | null)[], b: (IdolMember | null)[]): boolean => {
-  if (a.length !== b.length) return false;
-  return a.every((member, index) => {
-    const otherMember = b[index];
-    if (!member && !otherMember) return true;
-    if (!member || !otherMember) return false;
-    return member.email === otherMember.email;
-  });
+  // Determine signups and cancellations
+  if (!req) return;
+  const { cancelled, signedUp } = detectEmailChanges(oldSlot, newSlot);
+  await Promise.all(
+    cancelled.map((email) => sendInterviewCancellation(req, email, scheduler, newSlot))
+  );
+  await Promise.all(signedUp.map((email) => sendInterviewInvite(req, email, scheduler, newSlot)));
 };

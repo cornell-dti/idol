@@ -600,7 +600,7 @@ loginCheckedPost('/interview-slots', async (req, user) => ({
 }));
 
 loginCheckedPut('/interview-slots', async (req, user) => ({
-  success: await updateInterviewSlot(req.body, user.email, false)
+  success: await updateInterviewSlot(req.body, user.email, false, req)
 }));
 
 loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
