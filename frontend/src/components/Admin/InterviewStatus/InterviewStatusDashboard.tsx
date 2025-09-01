@@ -272,6 +272,19 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
 
   const getColor = (status: InterviewStatus): string => colors[status.status] || 'inherit';
 
+  const getSummaryText = () => {
+    if (selectedRound === 'All Rounds') {
+      const uniqueRounds = Array.from(new Set(filteredApplicants.map(a => a.round)));
+      return uniqueRounds.map(round => {
+        const acceptedCount = filteredApplicants.filter(a => a.round === round && a.status === 'Accepted').length;
+        return `${round}: ${acceptedCount} accepted`;
+      }).join(' | ');
+    } else {
+      const acceptedCount = filteredApplicants.filter(a => a.status === 'Accepted').length;
+      return `${selectedRound}: ${acceptedCount} accepted`;
+    }
+  };
+
   return (
     <div className={styles.dashboardContainer}>
       <Header as="h1">Interview Status Dashboard</Header>
@@ -344,6 +357,14 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
             </Table.Row>
           ))}
         </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan="6">
+              <strong>Applicant summary: </strong>
+              {getSummaryText()}
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
       </Table>
       <div className={styles.addForm}>
         <CSVUploadInterviewStatus instanceName={instanceName} onDone={refresh} />
