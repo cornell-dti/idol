@@ -52,10 +52,10 @@
     {
       "title": "Cookies and Speed Dating",
       "description": "Come chat with members in an informal setting with cookies.",
-      "location": "TBD",
+      "location": "Upson 216",
       "type": "workshop",
-      "freshmen": { "date": "September 1", "isTentative": false, "time": "4:30-5:30PM" },
-      "upperclassmen": { "date": "September 1", "isTentative": false, "time": "4:30-5:30PM" }
+      "freshmen": { "date": "September 2", "isTentative": false, "time": "5-6PM" },
+      "upperclassmen": { "date": "September 2", "isTentative": false, "time": "5-6PM" }
     },
     {
       "title": "WICC x DTI Boba Chats",
@@ -68,7 +68,7 @@
     {
       "title": "URMC x DTI Recruitment Workshop",
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
-      "location": "TBD",
+      "location": "Hollister 401",
       "type": "workshop",
       "freshmen": { "date": "September 4", "isTentative": false, "time": "5-6PM" },
       "upperclassmen": { "date": "September 4", "isTentative": false, "time": "5-6PM" },
