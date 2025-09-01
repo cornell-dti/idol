@@ -274,10 +274,9 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
 
   const getSummaryText = () => {
     if (selectedRound === 'All Rounds') {
-      const uniqueRounds = Array.from(new Set(filteredApplicants.map(a => a.round)));
-      return uniqueRounds.map(round => {
-        const acceptedCount = filteredApplicants.filter(a => a.round === round && a.status === 'Accepted').length;
-        return `${round}: ${acceptedCount} accepted`;
+      return ROUND_OPTIONS.map(round => {
+        const acceptedCount = filteredApplicants.filter(a => a.round === round.value && a.status === 'Accepted').length;
+        return `${round.text}: ${acceptedCount} accepted`;
       }).join(' | ');
     } else {
       const acceptedCount = filteredApplicants.filter(a => a.status === 'Accepted').length;
