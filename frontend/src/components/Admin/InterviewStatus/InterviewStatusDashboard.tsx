@@ -280,10 +280,9 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
         ).length;
         return `${round.text}: ${acceptedCount} accepted`;
       }).join(' | ');
-    } else {
-      const acceptedCount = filteredApplicants.filter((a) => a.status === 'Accepted').length;
-      return `${selectedRound}: ${acceptedCount} accepted`;
     }
+    const acceptedCount = filteredApplicants.filter((a) => a.status === 'Accepted').length;
+    return `${selectedRound}: ${acceptedCount} accepted`;
   };
 
   return (
