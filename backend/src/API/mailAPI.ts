@@ -11,6 +11,7 @@ import TeamEventsDao from '../dao/TeamEventsDao';
 import { LEAD_ROLES, TEC_DEADLINES } from '../consts';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
+const IS_PROD = env === 'prod';
 
 /**
  * Sends an email to the specified member's email
@@ -37,12 +38,12 @@ export const sendMail = async (
   };
 
   // Only send emails in prod, otherwise, send to stdout.
-  // if (env !== 'prod') {
-  //   const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-  //   // eslint-disable-next-line no-console
-  //   console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-  //   return nonProdEnvMessage;
-  // }
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
 
   const transporter = await getEmailTransporter();
   const info = await transporter
@@ -89,17 +90,12 @@ const emailAdmins = async (req: Request, subject: string, text: string) => {
 /**
  * Send an email to a member
  * @param req - The request made when sending the email
- * @param recipient - The member being sent the email
+ * @param member - The member being sent the email
  * @param subject - The subject of the email
  * @param text - The body of the email
  * @returns - The response body containing information of the member being sent the email
  */
-const emailRecipient = async (
-  req: Request,
-  recipientEmail: string,
-  subject: string,
-  text: string
-) => {
+const emailMember = async (req: Request, member: IdolMember, subject: string, text: string) => {
   const url = getSendMailURL(req);
   const idToken = req.headers['auth-token'] as string;
   const requestBody = {
@@ -109,7 +105,7 @@ const emailRecipient = async (
 
   return axios.post(
     url,
-    { ...requestBody, to: recipientEmail },
+    { ...requestBody, to: member.email },
     { headers: { 'auth-token': idToken } }
   );
 };
@@ -194,7 +190,7 @@ export const sendTECReminder = async (
   } approved and ${pendingCount} team event ${
     pendingCount !== 1 ? 'credits' : 'credit'
   } pending this semester.\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
-  return emailRecipient(req, member.email, subject, text);
+  return emailMember(req, member, subject, text);
 };
 
 /**
@@ -331,7 +327,7 @@ export const sendPeriodReminder = async (
   } approved and ${currentPendingCredits} team event ${
     currentPendingCredits !== 1 ? 'credits' : 'credit'
   } for this period (${periodStart.toDateString()} - ${periodEnd.toDateString()}).\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
-  return emailRecipient(req, member.email, subject, text);
+  return emailMember(req, member, subject, text);
 };
 
 /**
@@ -348,7 +344,7 @@ export const sendCoffeeChatReminder = async (
 
   const text =
     "[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently don't have any coffee chat bingos this semester.\nThis is a reminder to submit your coffee chats by the last day of classes.\n[NOTE]: Newbies taking DTI for credit are required to get at least 1 bingo.\nTo submit your coffee chats, please visit https://idol.cornelldti.org/forms/coffeeChats.";
-  return emailRecipient(req, member.email, subject, text);
+  return emailMember(req, member, subject, text);
 };
 
 /**
@@ -415,8 +411,26 @@ Good luck with your interview!
 Best regards,
 Cornell DTI`;
 
-  const response = await emailRecipient(req, email, subject, text);
-  return response;
+  const mailOptions = {
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject,
+    text
+  };
+
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
+
+  const transporter = await getEmailTransporter();
+  const info = await transporter
+    .sendMail(mailOptions)
+    .then((info) => info)
+    .catch((error) => ({ error }));
+  return info;
 };
 
 /**
@@ -463,6 +477,24 @@ If you would like to reschedule, please contact hello@cornelldti.org.
 Best regards,
 Cornell DTI`;
 
-  const response = await emailRecipient(req, email, subject, text);
-  return response;
+  const mailOptions = {
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject,
+    text
+  };
+
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
+
+  const transporter = await getEmailTransporter();
+  const info = await transporter
+    .sendMail(mailOptions)
+    .then((info) => info)
+    .catch((error) => ({ error }));
+  return info;
 };
