@@ -679,8 +679,8 @@
     "semesterJoined": "Fall 2024",
     "college": "cas",
     "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
-    "about": "Hi everyone! I'm a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a 1 year old hamster named hammy (I love showing pictures of her so feel free to ask hehe). Feel free to chat with me :))",
-    "linkedin": "https://www.linkedin.com/in/evelyn-mai1/"
+    "linkedin": "https://www.linkedin.com/in/evelyn-mai1/",
+    "about": "Hi everyone! I'm a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a cute cat. Feel free to chat with me :))"
   },
   {
     "formerSubteams": [],
@@ -989,7 +989,6 @@
     "linkedin": "https://www.linkedin.com/in/jasminejingyiren/"
   },
   {
-    "about": "Hi, my name is Jacqueline Cai, a current junior studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!",
     "netid": "jxc6",
     "website": null,
     "doubleMajor": null,
@@ -1013,7 +1012,8 @@
       "leads"
     ],
     "college": "eng",
-    "pronouns": "she/her"
+    "pronouns": "she/her",
+    "about": "Hi, my name is Jacqueline Cai, a current senior/early M.En studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!"
   },
   {
     "subteams": [
