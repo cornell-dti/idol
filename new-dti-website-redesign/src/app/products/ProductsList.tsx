@@ -5,7 +5,7 @@ import SectionSep from '../../components/SectionSep';
 
 export default function ProductsList() {
   return (
-    <>
+    <section id="products" className="scroll-m-20">
       {products.map((product, index) => (
         <React.Fragment key={product.name}>
           <Product {...product} />
@@ -14,6 +14,6 @@ export default function ProductsList() {
           )}
         </React.Fragment>
       ))}
-    </>
+    </section>
   );
 }

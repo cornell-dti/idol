@@ -21,7 +21,7 @@ export default function Products() {
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="View products"
-        button2Link="#cureviews"
+        button2Link="#products"
         image="/products/hero.png"
       />
 
