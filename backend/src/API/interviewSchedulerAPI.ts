@@ -280,8 +280,6 @@ const handleSlotUpdateNotifications = async (
   // Determine signups and cancellations
   if (!req) return;
   const { cancelled, signedUp } = detectEmailChanges(oldSlot, newSlot);
-  await Promise.all(
-    cancelled.map((email) => sendInterviewCancellation(req, email, scheduler, newSlot))
-  );
-  await Promise.all(signedUp.map((email) => sendInterviewInvite(req, email, scheduler, newSlot)));
+  await Promise.all(cancelled.map((email) => sendInterviewCancellation(email, scheduler, newSlot)));
+  await Promise.all(signedUp.map((email) => sendInterviewInvite(email, scheduler, newSlot)));
 };

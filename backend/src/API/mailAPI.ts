@@ -356,7 +356,6 @@ export const sendCoffeeChatReminder = async (
  * @returns - The response body containing information of the applicant being sent the email
  */
 export const sendInterviewInvite = async (
-  req: Request,
   email: string,
   scheduler: InterviewScheduler,
   slot: InterviewSlot
@@ -418,12 +417,12 @@ Cornell DTI`;
     text
   };
 
-  if (!IS_PROD) {
-    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-    // eslint-disable-next-line no-console
-    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-    return nonProdEnvMessage;
-  }
+  // if (!IS_PROD) {
+  //   const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+  //   // eslint-disable-next-line no-console
+  //   console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+  //   return nonProdEnvMessage;
+  // }
 
   const transporter = await getEmailTransporter();
   const info = await transporter
@@ -442,7 +441,6 @@ Cornell DTI`;
  * @returns - Promise array of email responses
  */
 export const sendInterviewCancellation = async (
-  req: Request,
   email: string,
   scheduler: InterviewScheduler,
   slot: InterviewSlot
@@ -484,12 +482,12 @@ Cornell DTI`;
     text
   };
 
-  if (!IS_PROD) {
-    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-    // eslint-disable-next-line no-console
-    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-    return nonProdEnvMessage;
-  }
+  // if (!IS_PROD) {
+  //   const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+  //   // eslint-disable-next-line no-console
+  //   console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+  //   return nonProdEnvMessage;
+  // }
 
   const transporter = await getEmailTransporter();
   const info = await transporter
