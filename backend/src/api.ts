@@ -587,7 +587,7 @@ router.get('/interview-slots/applicant/:uuid', async (req, res) => {
 router.put('/interview-slots/applicant', async (req, res) => {
   const userEmail = await getUserEmailFromRequest(req);
   res.status(200).send({
-    success: await updateInterviewSlot(req.body, userEmail ?? '', true, req)
+    success: await updateInterviewSlot(req.body, userEmail ?? '', true)
   });
 });
 
@@ -600,7 +600,7 @@ loginCheckedPost('/interview-slots', async (req, user) => ({
 }));
 
 loginCheckedPut('/interview-slots', async (req, user) => ({
-  success: await updateInterviewSlot(req.body, user.email, false, req)
+  success: await updateInterviewSlot(req.body, user.email, false)
 }));
 
 loginCheckedDelete('/interview-slots/:uuid', async (req, user) =>
