@@ -417,12 +417,12 @@ Cornell DTI`;
     text
   };
 
-  // if (!IS_PROD) {
-  //   const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-  //   // eslint-disable-next-line no-console
-  //   console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-  //   return nonProdEnvMessage;
-  // }
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
 
   const transporter = await getEmailTransporter();
   const info = await transporter
@@ -482,12 +482,12 @@ Cornell DTI`;
     text
   };
 
-  // if (!IS_PROD) {
-  //   const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-  //   // eslint-disable-next-line no-console
-  //   console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-  //   return nonProdEnvMessage;
-  // }
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
 
   const transporter = await getEmailTransporter();
   const info = await transporter

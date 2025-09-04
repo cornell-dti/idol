@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { LEAD_ROLES } from '../consts';
 import InterviewSchedulerDao from '../dao/InterviewSchedulerDao';
 import InterviewSlotDao from '../dao/InterviewSlotDao';
@@ -195,8 +194,7 @@ export const getInterviewSlots = async (
 export const updateInterviewSlot = async (
   edits: InterviewSlotEdit,
   email: string,
-  isApplicant: boolean,
-  req?: Request
+  isApplicant: boolean
 ): Promise<boolean> => {
   const slot = await interviewSlotDao.getSlot(edits.uuid);
 
@@ -224,7 +222,7 @@ export const updateInterviewSlot = async (
   try {
     const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
     if (updateSuccess) {
-      await handleSlotUpdateNotifications(slot, newSlot, scheduler, req);
+      await handleSlotUpdateNotifications(slot, newSlot, scheduler);
     }
     return updateSuccess;
   } catch (error) {
@@ -274,11 +272,9 @@ export const addInterviewSlots = async (
 const handleSlotUpdateNotifications = async (
   oldSlot: InterviewSlot,
   newSlot: InterviewSlot,
-  scheduler: InterviewScheduler,
-  req?: Request
+  scheduler: InterviewScheduler
 ): Promise<void> => {
   // Determine signups and cancellations
-  if (!req) return;
   const { cancelled, signedUp } = detectEmailChanges(oldSlot, newSlot);
   await Promise.all(cancelled.map((email) => sendInterviewCancellation(email, scheduler, newSlot)));
   await Promise.all(signedUp.map((email) => sendInterviewInvite(email, scheduler, newSlot)));
