@@ -15,7 +15,8 @@
   --accent-focus: #0e4dd4;
   --accent-strong-no: #d8001b;
   --accent-no: #ff676c;
-  --accent-maybe: #ff9300;
+  --accent-lean-no: #ff9300;
+  --accent-lean-yes: #7eb133;
   --accent-yes: #28a948;
   --accent-strong-yes: #0a6e29;
 }

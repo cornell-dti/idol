@@ -156,7 +156,7 @@ interface Image {
   readonly fileName: string;
 }
 
-type Rating = 0 | 1 | 2 | 3 | 4 | 5;
+type Rating = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 interface CandidateDeciderRating {
   readonly reviewer: IdolMember;

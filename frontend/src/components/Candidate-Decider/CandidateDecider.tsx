@@ -21,9 +21,10 @@ type CandidateDeciderProps = {
 const ratings: RatingOptions[] = [
   { value: 1, text: 'Strong No', color: 'red' },
   { value: 2, text: 'No', color: 'orange' },
-  { value: 3, text: 'Maybe', color: 'yellow' },
-  { value: 4, text: 'Yes', color: 'green' },
-  { value: 5, text: 'Strong Yes', color: 'darkgreen' },
+  { value: 3, text: 'Lean No', color: 'yellow' },
+  { value: 4, text: 'Lean Yes', color: 'lightgreen' },
+  { value: 5, text: 'Yes', color: 'green' },
+  { value: 6, text: 'Strong Yes', color: 'darkgreen' },
   { value: 0, text: 'Undecided', color: 'gray' }
 ];
 

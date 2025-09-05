@@ -26,7 +26,7 @@ const StyledProgressBar = styled(Progress)`
 
 const RatingsDisplay: React.FC<Props> = ({ ratings, header }) => {
   const counts = groupRatings(ratings);
-  const allRatings: Rating[] = [1, 2, 3, 4, 5];
+  const allRatings: Rating[] = [1, 2, 3, 4, 5, 6];
   return (
     <div className={styles.statisticsList}>
       <h3>{header}</h3>

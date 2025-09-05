@@ -30,10 +30,10 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
         <>
           <RatingsDisplay
             ratings={currentCandidateReviews}
-            header={`Candidate ${currentCandidate} Global Ratings`}
+            header={`Candidate ${currentCandidate + 1} Global Ratings`}
           />
           <div>
-            <h3>All Votes on Candidate {currentCandidate}</h3>
+            <h3>All Votes on Candidate {currentCandidate + 1}</h3>
             <div className={styles.verticalContentContainer}>
               {currentCandidateReviews
                 .filter((rating) => rating.rating !== 0)
@@ -46,7 +46,7 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
                   )}`}</span>
                 ))}
             </div>
-            <h3>All Comments on Candidate {currentCandidate}</h3>
+            <h3>All Comments on Candidate {currentCandidate + 1}</h3>
             <div className={styles.verticalContentContainer}>
               {currentCandidateReviews.map((review) => (
                 <span

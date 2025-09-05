@@ -41,10 +41,17 @@
 }
 
 .yellow {
-  color: var(--accent-maybe);
+  color: var(--accent-lean-no);
 }
 .yellowSelected {
-  background: var(--accent-maybe);
+  background: var(--accent-lean-no);
+}
+
+.lightgreen {
+  color: var(--accent-lean-yes)
+}
+.lightgreenSelected {
+  background: var(--accent-lean-yes)
 }
 
 .green {
