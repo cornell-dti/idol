@@ -219,6 +219,7 @@ export const updateInterviewSlot = async (
     ...edits
   };
 
+  // TODO(Oscar): Ideally we should use a message queue to send emails so that we don't block the request
   try {
     const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
     if (updateSuccess) {
@@ -265,9 +266,6 @@ export const addInterviewSlots = async (
  * @param oldSlot - The previous state of the slot
  * @param newSlot - The updated state of the slot
  * @param scheduler - The interview scheduler instance
- * @param userEmail - The email of the user making the change
- * @param isApplicant - Whether the user is an applicant
- * @param req - The Express request object for sending emails
  */
 const handleSlotUpdateNotifications = async (
   oldSlot: InterviewSlot,
@@ -276,6 +274,6 @@ const handleSlotUpdateNotifications = async (
 ): Promise<void> => {
   // Determine signups and cancellations
   const { cancelled, signedUp } = detectEmailChanges(oldSlot, newSlot);
-  await Promise.all(cancelled.map((email) => sendInterviewCancellation(email, scheduler, newSlot)));
+  await Promise.all(cancelled.map((email) => sendInterviewCancellation(email, scheduler, oldSlot)));
   await Promise.all(signedUp.map((email) => sendInterviewInvite(email, scheduler, newSlot)));
 };

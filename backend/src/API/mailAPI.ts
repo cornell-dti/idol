@@ -349,11 +349,12 @@ export const sendCoffeeChatReminder = async (
 
 /**
  * Send interview invitation email to applicant
- * @param req - The request made when sending the email
  * @param email - The email of the person being invited
  * @param scheduler - The interview scheduler instance
  * @param slot - The interview slot that was signed up for
  * @returns - The response body containing information of the applicant being sent the email
+ *
+ * TODO(Oscar): enable email templates and integrate with sendMail after revisiting non-member auth
  */
 export const sendInterviewInvite = async (
   email: string,
@@ -398,7 +399,7 @@ export const sendInterviewInvite = async (
 You have successfully signed up for an interview with DTI.
 
 Interview Details:
-- Role: ${scheduler.name}
+- Name: ${scheduler.name}
 - Date: ${dateString}
 - Time: ${startTimeString} - ${endTimeString}
 - Location: ${slot.room}
@@ -434,7 +435,6 @@ Cornell DTI`;
 
 /**
  * Send interview cancellation notification
- * @param req - The request made when sending the email
  * @param email - The email of the person being cancelled
  * @param scheduler - The interview scheduler instance
  * @param slot - The interview slot that was cancelled
@@ -465,7 +465,7 @@ export const sendInterviewCancellation = async (
 Your interview with DTI has been cancelled.
 
 Cancelled Interview Details:
-- Position: ${scheduler.name}
+- Name: ${scheduler.name}
 - Date: ${dateString}
 - Time: ${timeString}
 - Location: ${slot.room}
