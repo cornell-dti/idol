@@ -48,10 +48,10 @@
 }
 
 .lightgreen {
-  color: var(--accent-lean-yes)
+  color: var(--accent-lean-yes);
 }
 .lightgreenSelected {
-  background: var(--accent-lean-yes)
+  background: var(--accent-lean-yes);
 }
 
 .green {
