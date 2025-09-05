@@ -5,10 +5,12 @@ export const ratingToString = (rating: number): string => {
     case 2:
       return 'No';
     case 3:
-      return 'Maybe';
+      return 'Lean No';
     case 4:
-      return 'Yes';
+      return 'Lean Yes';
     case 5:
+      return 'Yes';
+    case 6:
       return 'Strong Yes';
     default:
       throw new Error();
@@ -29,6 +31,8 @@ export const ratingToColor = (rating: Rating): string => {
       return 'olive';
     case 5:
       return 'green';
+    case 6:
+      return 'teal';
     default:
       throw new Error();
   }
