@@ -24,7 +24,7 @@ const ratings: RatingOptions[] = [
   { value: 3, text: 'Lean No', color: 'yellow' },
   { value: 4, text: 'Lean Yes', color: 'lightgreen' },
   { value: 5, text: 'Yes', color: 'green' },
-  { value: 6, text: 'Strong Yes', color: 'darkgreen' },
+  { value: 6, text: 'Strong Yes', color: 'teal' },
   { value: 0, text: 'Undecided', color: 'gray' }
 ];
 
