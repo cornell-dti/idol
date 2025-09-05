@@ -28,3 +28,13 @@ export const backendURL =
   isProduction || !useProdBackendForDev
     ? '/.netlify/functions/api'
     : 'http://idol.cornelldti.org/.netlify/functions/api';
+
+export const googleAPIKey =
+  environment === 'prod'
+    ? 'AIzaSyCCT5j588crPFvtKW5jM7Zkb_DLU_61VdY'
+    : 'AIzaSyAIaEs6YX6HLbsvCJ_P6A3tO9s2rlFBV-s';
+
+export const googleClientId =
+  environment === 'prod'
+    ? '223626581097-th7rt4a3ctqvndkhiuostib3998cgmh8.apps.googleusercontent.com'
+    : '942472815572-olvg3mt3e5n4dtp98rkojpukpf0gj5o0.apps.googleusercontent.com';
