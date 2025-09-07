@@ -11,6 +11,7 @@ import TeamEventsDao from '../dao/TeamEventsDao';
 import { LEAD_ROLES, TEC_DEADLINES } from '../consts';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
+const IS_PROD = env === 'prod';
 
 /**
  * Sends an email to the specified member's email
@@ -37,7 +38,7 @@ export const sendMail = async (
   };
 
   // Only send emails in prod, otherwise, send to stdout.
-  if (env !== 'prod') {
+  if (!IS_PROD) {
     const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
     // eslint-disable-next-line no-console
     console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
@@ -344,4 +345,154 @@ export const sendCoffeeChatReminder = async (
   const text =
     "[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently don't have any coffee chat bingos this semester.\nThis is a reminder to submit your coffee chats by the last day of classes.\n[NOTE]: Newbies taking DTI for credit are required to get at least 1 bingo.\nTo submit your coffee chats, please visit https://idol.cornelldti.org/forms/coffeeChats.";
   return emailMember(req, member, subject, text);
+};
+
+/**
+ * Send interview invitation email to applicant
+ * @param email - The email of the person being invited
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot that was signed up for
+ * @returns - The response body containing information of the applicant being sent the email
+ *
+ * TODO(Oscar): enable email templates and integrate with sendMail after revisiting non-member auth
+ */
+export const sendInterviewInvite = async (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot
+) => {
+  const subject = `[Cornell DTI] Interview Confirmation - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
+
+  // Format the date and time
+  const interviewDate = new Date(slot.startTime);
+  const endTime = new Date(slot.startTime + scheduler.duration);
+  const dateString = interviewDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  const startTimeString = interviewDate.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+  const endTimeString = endTime.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  // Build interviewer names
+  const interviewerNames: string[] = [];
+  if (slot.lead) {
+    interviewerNames.push(`${slot.lead.firstName} ${slot.lead.lastName} (Lead)`);
+  }
+  slot.members.forEach((member, index) => {
+    if (member) {
+      interviewerNames.push(`${member.firstName} ${member.lastName}`);
+    }
+  });
+
+  const text = `Hello!
+
+You have successfully signed up for an interview with DTI.
+
+Interview Details:
+- Name: ${scheduler.name}
+- Date: ${dateString}
+- Time: ${startTimeString} - ${endTimeString}
+- Location: ${slot.room}
+
+Please arrive 5 minutes before your scheduled time. If you need to cancel or reschedule, please contact hello@cornelldti.org as soon as possible.
+
+Good luck with your interview!
+
+Best regards,
+Cornell DTI`;
+
+  const mailOptions = {
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject,
+    text
+  };
+
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
+
+  const transporter = await getEmailTransporter();
+  const info = await transporter
+    .sendMail(mailOptions)
+    .then((info) => info)
+    .catch((error) => ({ error }));
+  return info;
+};
+
+/**
+ * Send interview cancellation notification
+ * @param email - The email of the person being cancelled
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot that was cancelled
+ * @returns - Promise array of email responses
+ */
+export const sendInterviewCancellation = async (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot
+) => {
+  const subject = `Interview Cancelled - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
+
+  const interviewDate = new Date(slot.startTime);
+  const dateString = interviewDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  const timeString = interviewDate.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  const text = `Hello!
+
+Your interview with DTI has been cancelled.
+
+Cancelled Interview Details:
+- Name: ${scheduler.name}
+- Date: ${dateString}
+- Time: ${timeString}
+- Location: ${slot.room}
+
+If you would like to reschedule, please contact hello@cornelldti.org.
+
+Best regards,
+Cornell DTI`;
+
+  const mailOptions = {
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject,
+    text
+  };
+
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
+
+  const transporter = await getEmailTransporter();
+  const info = await transporter
+    .sendMail(mailOptions)
+    .then((info) => info)
+    .catch((error) => ({ error }));
+  return info;
 };

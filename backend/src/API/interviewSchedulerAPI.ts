@@ -4,6 +4,8 @@ import InterviewSlotDao from '../dao/InterviewSlotDao';
 import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 import { getMember } from './memberAPI';
+import { sendInterviewInvite, sendInterviewCancellation } from './mailAPI';
+import detectEmailChanges from '../utils/interviewSlotUtil';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
 const interviewSlotDao = new InterviewSlotDao();
@@ -217,7 +219,16 @@ export const updateInterviewSlot = async (
     ...edits
   };
 
-  return interviewSlotDao.updateSlot(newSlot, isLead, email);
+  // TODO(Oscar): Ideally we should use a message queue to send emails so that we don't block the request
+  try {
+    const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
+    if (updateSuccess) {
+      await handleSlotUpdateNotifications(slot, newSlot, scheduler);
+    }
+    return updateSuccess;
+  } catch (error) {
+    return false;
+  }
 };
 
 /**
@@ -248,4 +259,21 @@ export const addInterviewSlots = async (
     throw new PermissionError('User does not have permission to create interview slots.');
 
   return interviewSlotDao.addSlots(slots);
+};
+
+/**
+ * Handles sending notifications when interview slots are updated
+ * @param oldSlot - The previous state of the slot
+ * @param newSlot - The updated state of the slot
+ * @param scheduler - The interview scheduler instance
+ */
+const handleSlotUpdateNotifications = async (
+  oldSlot: InterviewSlot,
+  newSlot: InterviewSlot,
+  scheduler: InterviewScheduler
+): Promise<void> => {
+  // Determine signups and cancellations
+  const { cancelled, signedUp } = detectEmailChanges(oldSlot, newSlot);
+  await Promise.all(cancelled.map((email) => sendInterviewCancellation(email, scheduler, oldSlot)));
+  await Promise.all(signedUp.map((email) => sendInterviewInvite(email, scheduler, newSlot)));
 };
