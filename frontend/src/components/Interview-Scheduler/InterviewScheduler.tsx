@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, Header, Message } from 'semantic-ui-react';
+import { Button, Card, Dropdown, Header, Message } from 'semantic-ui-react';
 import Link from 'next/link';
 import { LEAD_ROLES } from 'common-types/constants';
 import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
@@ -8,8 +8,27 @@ import styles from './InterviewScheduler.module.css';
 import SchedulingCalendar from './SchedulingCalendar';
 import { Emitters, getDateString, getTimeString } from '../../utils';
 import SchedulingSidePanel from './SchedulingSidePanel';
-import { EditAvailabilityContext, SetSlotsContext } from './SlotHooks';
+import { EditAvailabilityContext, SchedulerDisplay, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
+
+const displayOptions: { text: string; value: SchedulerDisplay }[] = [
+  {
+    text: 'Time',
+    value: 'time'
+  },
+  {
+    text: 'Members',
+    value: 'member'
+  },
+  {
+    text: 'Applicants',
+    value: 'applicant'
+  },
+  {
+    text: 'Lead',
+    value: 'lead'
+  }
+];
 
 const formatDate = (date: Date): string => {
   const mm = String(date.getMonth() + 1).padStart(2, '0');
@@ -71,6 +90,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
   const [possessedSlot, setPossessedSlot] = useState<InterviewSlot | undefined>();
   const [isEditing, setIsEditing] = useState(false);
   const [tentativeSlots, setTentativeSlots] = useState<InterviewSlot[]>([]);
+  const [display, setDisplay] = useState<SchedulerDisplay>('time');
 
   const isMember = useHasMemberPermission();
   const userEmail = useUserEmail();
@@ -116,7 +136,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
       {!scheduler ? (
         <p>Loading...</p>
       ) : (
-        <SetSlotsContext.Provider value={{ setSlots, setSelectedSlot, setHoveredSlot }}>
+        <SetSlotsContext.Provider value={{ display, setSlots, setSelectedSlot, setHoveredSlot }}>
           <div className={styles.headerContainer}>
             <div>
               <Header as="h2">{scheduler.name}</Header>
@@ -147,15 +167,25 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
                     </Button>
                   </div>
                 ) : (
-                  <Button
-                    basic
-                    onClick={() => {
-                      setIsEditing(true);
-                      setSelectedSlot(undefined);
-                    }}
-                  >
-                    Add availabilities
-                  </Button>
+                  <>
+                    <Dropdown
+                      selection
+                      value={display}
+                      options={displayOptions}
+                      onChange={(_, data) => {
+                        setDisplay(data.value as SchedulerDisplay);
+                      }}
+                    />
+                    <Button
+                      basic
+                      onClick={() => {
+                        setIsEditing(true);
+                        setSelectedSlot(undefined);
+                      }}
+                    >
+                      Add availabilities
+                    </Button>
+                  </>
                 )}
               </div>
             )}

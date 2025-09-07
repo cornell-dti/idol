@@ -3,7 +3,10 @@ import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 import { useHasMemberPermission, useMember } from '../Common/FirestoreDataProvider';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
 
+export type SchedulerDisplay = 'time' | 'lead' | 'member' | 'applicant';
+
 export const SetSlotsContext = createContext<{
+  display: SchedulerDisplay;
   setSlots: Dispatch<SetStateAction<InterviewSlot[]>>;
   setSelectedSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;
   setHoveredSlot: Dispatch<SetStateAction<InterviewSlot | undefined>>;

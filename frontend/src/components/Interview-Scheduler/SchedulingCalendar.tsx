@@ -67,7 +67,7 @@ const SlotButton: React.FC<{
   startHour: number;
   tentative?: boolean;
 }> = ({ slot, duration, startHour, tentative = false }) => {
-  const { setHoveredSlot, setSelectedSlot } = useSetSlotsContext();
+  const { display, setHoveredSlot, setSelectedSlot } = useSetSlotsContext();
   const slotStatus = useInterviewSlotStatus(slot);
   const { isEditing, setTentativeSlots } = useEditAvailabilityContext();
 
@@ -87,6 +87,29 @@ const SlotButton: React.FC<{
       )
     );
 
+  let slotDisplay = '';
+  switch (display) {
+    case 'time':
+      slotDisplay = hourIndexToString(
+        new Date(slot.startTime).getHours(),
+        new Date(slot.startTime).getMinutes()
+      );
+      break;
+    case 'applicant':
+      slotDisplay =
+        slot.applicant == null
+          ? 'Vacant'
+          : `${slot.applicant.firstName} ${slot.applicant.lastName}`;
+      break;
+    case 'member':
+      slotDisplay = slot.members
+        .map((mem) => (mem == null ? 'Vacant' : `${mem.firstName} ${mem.lastName}`))
+        .join(', ');
+      break;
+    case 'lead':
+      slotDisplay = slot.lead == null ? 'Vacant' : `${slot.lead.firstName} ${slot.lead.lastName}`;
+  }
+
   return (
     <div onMouseEnter={() => setHoveredSlot(slot)} onMouseLeave={() => setHoveredSlot(undefined)}>
       <Button
@@ -99,10 +122,7 @@ const SlotButton: React.FC<{
         disabled={(isEditing && !tentative) || (!isLead && slotStatus === 'occupied')}
         color={slotStatus === 'possessed' ? 'green' : undefined}
       >
-        {hourIndexToString(
-          new Date(slot.startTime).getHours(),
-          new Date(slot.startTime).getMinutes()
-        )}
+        {slotDisplay}
       </Button>
     </div>
   );
