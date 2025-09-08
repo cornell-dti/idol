@@ -222,7 +222,7 @@ export const updateInterviewSlot = async (
   // TODO(Oscar): Ideally we should use a message queue to send emails so that we don't block the request
   try {
     const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
-    if (updateSuccess) {
+    if (updateSuccess && isApplicant) {
       await handleSlotUpdateNotifications(slot, newSlot, scheduler);
     }
     return updateSuccess;
