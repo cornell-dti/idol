@@ -43,6 +43,13 @@
       "freshmen": { "date": "October 8", "isTentative": true, "time": "5:45-6:45PM" }
     },
     {
+      "title": "Club Fest",
+      "description": "Meet us at Cornell's semesterly ClubFest with over 900+ diverse undergraduate student organizations!",
+      "location": "Arts Quad",
+      "type": "info",
+      "freshmen": { "date": "September 13", "isTentative": true, "time": "12:00-1:30PM" }
+    },
+    {
       "title": "ACSU x DTI Resume Review Session",
       "description": "Helping students prepare for our application by reviewing their resumes and giving them interview tips!",
       "location": "Upson 142",
@@ -60,7 +67,7 @@
     {
       "title": "WICC x DTI Boba Chats",
       "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
-      "location": "TBD",
+      "location": "Snee 1120",
       "type": "workshop",
       "freshmen": { "date": "September 9", "isTentative": true, "time": "5-6PM" },
       "spring": { "date": "January 24", "isTentative": false, "time": "5:00-6:15PM" }
