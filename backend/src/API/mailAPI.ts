@@ -367,17 +367,20 @@ export const sendInterviewInvite = async (
   const interviewDate = new Date(slot.startTime);
   const endTime = new Date(slot.startTime + scheduler.duration);
   const dateString = interviewDate.toLocaleDateString('en-US', {
+    timeZone: 'America/New_York',
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
   const startTimeString = interviewDate.toLocaleTimeString('en-US', {
+    timeZone: 'America/New_York',
     hour: 'numeric',
     minute: '2-digit',
     hour12: true
   });
   const endTimeString = endTime.toLocaleTimeString('en-US', {
+    timeZone: 'America/New_York',
     hour: 'numeric',
     minute: '2-digit',
     hour12: true
@@ -449,12 +452,14 @@ export const sendInterviewCancellation = async (
 
   const interviewDate = new Date(slot.startTime);
   const dateString = interviewDate.toLocaleDateString('en-US', {
+    timeZone: 'America/New_York',
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
   const timeString = interviewDate.toLocaleTimeString('en-US', {
+    timeZone: 'America/New_York',
     hour: 'numeric',
     minute: '2-digit',
     hour12: true
