@@ -30,7 +30,7 @@ const eventProgress = (
 };
 
 const ApplicationTimeline = () => {
-  const [cycle, setCycle] = useState<Cycle>(IS_FALL_SEMESTER ? Cycle.UPPERCLASSMEN : Cycle.SPRING);
+  const [cycle, setCycle] = useState<Cycle>(IS_FALL_SEMESTER ? Cycle.FRESHMEN : Cycle.SPRING);
   const [, setLoading] = useState<boolean>(false);
   const [scroll, setScroll] = useState<Record<string, number | undefined>>({});
   const [isClient, setIsClient] = useState<boolean>(false);
