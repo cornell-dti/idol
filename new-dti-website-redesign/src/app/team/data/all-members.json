@@ -138,7 +138,6 @@
     "semesterJoined": "Fall 2024",
     "lastName": "Rosso",
     "website": null,
-    "about": "Hi, I'm Amelie. I am a sophomore studying Information Science, Systems, and Technology in the College of Engineering and minoring in Artificial Intelligence. After college, I am interested in pursuing a career in Product Engineering. I joined DTI Fall 2024 and am currently PM of IDOL.\n\nIn my free time, I love to read, travel, craft, cook/bake, and go on fall walks! Feel free to reach out if you want to coffee chat :)",
     "subteams": [
       "idol"
     ],
@@ -154,7 +153,8 @@
     "major": "ISST",
     "minor": "AI",
     "netid": "ar2345",
-    "coffeeChatLink": "https://calendly.com/amelie-rosso/dti-coffee-chat"
+    "coffeeChatLink": "https://calendly.com/ar2345-cornell/30min",
+    "about": "Hi, I'm Amelie. I am a junior studying Information Science, Systems, and Technology in the College of Engineering and minoring in Artificial Intelligence. After college, I am interested in pursuing a career in Product Engineering. I joined DTI Fall 2024 and am currently PM of IDOL.\n\nIn my free time, I love to read, travel, craft, cook/bake, and go on fall walks! Feel free to reach out if you want to coffee chat :)"
   },
   {
     "subteams": [
@@ -989,38 +989,37 @@
     "linkedin": "https://www.linkedin.com/in/jasminejingyiren/"
   },
   {
-    "netid": "jxc6",
-    "website": null,
-    "doubleMajor": null,
-    "lastName": "Cai",
     "linkedin": "https://www.linkedin.com/in/jacqueline-cai-7a6322203/",
-    "graduation": "Dec 2025",
-    "github": "https://github.com/jacquelinecai",
-    "role": "dev-lead",
-    "firstName": "Jacqueline",
-    "major": "Computer Science",
-    "roleDescription": "Developer Lead",
-    "semesterJoined": "Spring 2024",
-    "email": "jxc6@cornell.edu",
-    "formerSubteams": [
-      "reviews"
-    ],
-    "hometown": "Seattle, WA",
-    "coffeeChatLink": null,
-    "minor": null,
+    "website": null,
     "subteams": [
       "leads"
     ],
-    "college": "eng",
+    "graduation": "Dec 2025",
+    "lastName": "Cai",
+    "minor": null,
     "pronouns": "she/her",
-    "about": "Hi, my name is Jacqueline Cai, a current senior/early M.En studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!"
+    "college": "eng",
+    "formerSubteams": [
+      "reviews"
+    ],
+    "doubleMajor": null,
+    "role": "dev-lead",
+    "netid": "jxc6",
+    "coffeeChatLink": null,
+    "roleDescription": "Developer Lead",
+    "firstName": "Jacqueline",
+    "semesterJoined": "Spring 2024",
+    "major": "Computer Science",
+    "github": "https://github.com/jacquelinecai",
+    "about": "Hi, my name is Jacqueline Cai, a current senior/early M.Eng studying Computer Science at the Cornell University College of Engineering. On DTI, I'm a developer on CU Reviews! I recently completed my Microsoft SWE Internship this past summer where I was primarily exposed to infrastructure and backend development, improving functionality of Copilot for Security skills and developing an internal on-call chatbot to backend web development using REST APIs, Spring Boot, and Java. At Cornell, I’m a TA for CS 2110, where I've found joy in helping students grasp fundamentals of OOP. Outside of academics, I enjoy playing violin, dancing in hip-hop styles, and exploring the outdoors with others!",
+    "email": "jxc6@cornell.edu",
+    "hometown": "Seattle, WA"
   },
   {
     "subteams": [
       "carriage"
     ],
     "minor": null,
-    "graduation": "2028",
     "lastName": "Lim",
     "linkedin": "https://linkedin.com/in/katherinelim2229",
     "firstName": "Kathy",
@@ -1032,13 +1031,14 @@
     "roleDescription": "Product Manager",
     "hometown": "Lexington, MA",
     "doubleMajor": "Economics",
-    "about": "Hello! My name is Kathy & I'm a freshman studying CS & Econ. I joined DTI Spring of 2025 and am currently the APM on Carriage. On campus, I'm also involved in 180 Degrees Consulting & an a cappella group! In my free time, I love listening to music, working out, reading a good book, watching Nebraska volleyball, & cafe-hopping. Feel free to reach out to chat about anything! :)",
-    "major": "Computer Science",
     "role": "pm",
     "pronouns": "she/her",
     "coffeeChatLink": "kl2229@cornell.edu",
     "formerSubteams": [],
-    "email": "kl2229@cornell.edu"
+    "email": "kl2229@cornell.edu",
+    "major": "Information Science",
+    "graduation": "Spring 2028",
+    "about": "Hello! My name is Kathy & I'm a sophomore studying Info & Econ with minors in CS & AI. I joined DTI Spring of 2025 and am currently the PM on Carriage. On campus, I'm also involved in 180 Degrees Consulting & Emmaus Road Student Ministry! Reach out to chat about anything :)"
   },
   {
     "formerSubteams": [],
@@ -1261,9 +1261,7 @@
     "email": "ns848@cornell.edu",
     "netid": "ns848",
     "lastName": "Soma",
-    "graduation": "May 2027",
     "major": "Computer Science",
-    "minor": "ORIE & info Science",
     "roleDescription": "Technical PM",
     "doubleMajor": null,
     "pronouns": "she/her",
@@ -1271,7 +1269,9 @@
     "firstName": "Nidhi",
     "linkedin": null,
     "hometown": "Downingtown, PA",
-    "website": null
+    "website": null,
+    "minor": "Information Science",
+    "graduation": "May 2026"
   },
   {
     "formerSubteams": [],
@@ -1381,26 +1381,26 @@
     "linkedin": "https://www.linkedin.com/in/pchoop/",
     "pronouns": "she/her/hers",
     "roleDescription": "Product Manager",
-    "doubleMajor": "Global Development",
     "coffeeChatLink": null,
     "graduation": "Spring 2028",
     "netid": "pc745",
     "firstName": "Nadia",
     "github": null,
-    "minor": null,
     "semesterJoined": "Spring 2025",
-    "major": "Information Science",
-    "college": "cals",
     "subteams": [
       "queuemein"
     ],
     "lastName": "Choophungart",
     "email": "pc745@cornell.edu",
     "hometown": "Bangkok, Thailand",
-    "about": "Hello! I'm an Associate PM from Bangkok, Thailand, currently a freshman double-majoring in InfoSci and GDev and working on QMI. I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking.\n\nIn my free time, I love photography, music, and exploring new eats.",
     "role": "pm",
     "website": "https://bubbly-individual-0bd.notion.site/Nadia-s-Portfolio-106165bf99ae80f78ef8e94f756ec90a?pvs=74",
-    "formerSubteams": []
+    "formerSubteams": [],
+    "college": "eng",
+    "minor": "English",
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "about": "Hello! I'm a PM from Bangkok, Thailand, currently a sophomore majoring in Computer Science with a minor in English! Currently working on QMI. I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking.\n\nIn my free time, I love photography, music, and exploring new eats."
   },
   {
     "coffeeChatLink": null,
@@ -1764,32 +1764,32 @@
     "github": "https://github.com/laylaliuuu"
   },
   {
+    "graduation": "May 2026",
+    "firstName": "Happy",
+    "coffeeChatLink": null,
+    "github": null,
     "major": "Information Science",
-    "roleDescription": "Design Lead",
+    "role": "design-lead",
     "formerSubteams": [
       "queuemein",
       "cornellgo"
     ],
     "doubleMajor": null,
-    "college": "cas",
-    "graduation": "May 2026",
-    "role": "design-lead",
-    "email": "yl3262@cornell.edu",
     "netid": "yl3262",
-    "coffeeChatLink": null,
+    "linkedin": null,
     "lastName": "Li",
-    "firstName": "Happy",
+    "college": "cas",
+    "pronouns": "She/her",
     "semesterJoined": "Spring 2023",
-    "website": null,
-    "about": "Designer on CornellGO for 3 semesters and QMI for one sem!",
+    "minor": "Design Environmental, Analysis",
     "subteams": [
       "leads"
     ],
-    "minor": "Design Environmental, Analysis",
+    "email": "yl3262@cornell.edu",
+    "about": "Design Lead, prev designer on CornellGO for 3 semesters and QMI for one sem!",
+    "roleDescription": "Design Lead",
     "hometown": "Qingdao, China",
-    "pronouns": "She/her",
-    "github": null,
-    "linkedin": null
+    "website": null
   },
   {
     "formerSubteams": [],
