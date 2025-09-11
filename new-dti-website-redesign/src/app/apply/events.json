@@ -30,7 +30,7 @@
     {
       "title": "Information Session 2",
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
-      "location": "TBD",
+      "location": "Statler 196",
       "type": "info",
       "freshmen": { "date": "September 16", "isTentative": true, "time": "5:30-6:30PM" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:30PM" }
