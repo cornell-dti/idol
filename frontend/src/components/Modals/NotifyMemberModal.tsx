@@ -9,16 +9,16 @@ const NotifyMemberModal = (props: {
   member?: Member;
   members?: Member[];
   trigger: JSX.Element;
-  endOfSemesterReminder?: boolean;
+  endOfPeriodReminder?: boolean;
   type: 'tec' | 'coffee chat' | 'period';
 }): JSX.Element => {
-  const { member, members, all, trigger, endOfSemesterReminder, type } = props;
+  const { member, members, all, trigger, endOfPeriodReminder, type } = props;
   const [open, setOpen] = useState(false);
   const subject = !all && member ? `${member.firstName} ${member.lastName}` : 'everyone';
 
   const notifyMember = async (member: Member) => {
     if (type === 'tec') {
-      await MembersAPI.notifyMemberTeamEvents(member, endOfSemesterReminder || false);
+      await MembersAPI.notifyMemberTeamEvents(member, endOfPeriodReminder || false);
     } else if (type === 'period') {
       await MembersAPI.notifyMemberPeriod(member);
     } else if (type === 'coffee chat') {
@@ -53,7 +53,7 @@ const NotifyMemberModal = (props: {
       <Modal.Header> Are you sure you want to notify {subject}?</Modal.Header>
       <Modal.Content>
         This will send an email to {subject} reminding them that they{' '}
-        {type === 'tec' && 'do not have enough TEC Credits completed yet this semester'}
+        {type === 'tec' && 'do not have enough TEC Credits completed yet this period'}
         {type === 'coffee chat' && 'should submit coffee chats'}
         {type === 'period' && 'do not have enough TEC Credits completed yet this period'}.
         <Form>

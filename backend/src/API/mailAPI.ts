@@ -8,7 +8,7 @@ import { BadRequestError, PermissionError } from '../utils/errors';
 import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { LEAD_ROLES, TEC_DEADLINES } from '../consts';
+import { LEAD_ROLES, ADVISOR_ROLES, TEC_DEADLINES } from '../consts';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 const IS_PROD = env === 'prod';
@@ -125,13 +125,13 @@ export const sendMemberUpdateNotifications = async (req: Request): Promise<Promi
 /**
  * Send an email reminder to members who do not have enough TEC credits
  * @param req - The request made when sending the email
- * @param endOfSemesterReminder - If set to true, sends a generic reminder email to submit all TEC (typically sent at end of semester when there are no more TEC's).
+ * @param endOfPeriodReminder - If set to true, sends a generic reminder email to submit all TEC by end of current period. 
  * @param member - The member being sent the email
  * @returns - The response body containing information of the member being sent the email
  */
 export const sendTECReminder = async (
   req: Request,
-  endOfSemesterReminder: boolean,
+  endOfPeriodReminder: boolean,
   member: IdolMember
 ): Promise<AxiosResponse> => {
   const subject = 'TEC Reminder';
@@ -161,15 +161,15 @@ export const sendTECReminder = async (
 
   let reminder;
   const isLead = LEAD_ROLES.includes(member.role);
-  if (endOfSemesterReminder) {
+  if (endOfPeriodReminder) {
     reminder = `This is a reminder to submit all your TEC requests to fulfill your ${
-      isLead ? '6' : '3'
-    } team event credits requirement by the end of the semester!`;
+      isLead ? '2' : '1'
+    } team event credit requirement by the end of this period!`;
   } else {
     reminder =
       `This is a reminder to get at least ${
-        isLead ? '6' : '3'
-      } team event credits by the end of the semester.\n` +
+        isLead ? '2' : '1'
+      } team event credit this period.\n` +
       `\n${
         futureEvents.length === 0
           ? 'There are currently no upcoming team events listed on IDOL, but check the #team-events channel for upcoming team events.'
@@ -203,6 +203,7 @@ export const sendPeriodReminder = async (
   req: Request,
   member: IdolMember
 ): Promise<AxiosResponse> => {
+  console.log('Starting sendPeriodReminder for member:', member.email);
   const subject = `This Period's TEC Reminder`;
 
   interface Period {
@@ -227,93 +228,85 @@ export const sendPeriodReminder = async (
     return currentPeriodIndex;
   };
 
-  const calculateCreditsForAllPeriods = (periods: Period[], pending: boolean): number[] => {
-    const creditsPerPeriod = new Array(periods.length).fill(0);
-    const pendingCreditsPerPeriod = new Array(periods.length).fill(0);
-
+  const calculateCurrentPeriodCredits = (currentPeriod: Period, pending: boolean): number => {
+    let credits = 0;
     memberEventAttendance.forEach((eventAttendance) => {
       const event = allEvents.find((e) => e.uuid === eventAttendance.eventUuid);
       if (!event) return;
-
+      const eventDate = new Date(event.date);
+      const isInCurrentPeriod = eventDate > currentPeriod.start && eventDate <= currentPeriod.deadline;
+      if (!isInCurrentPeriod) return;
       const eventCredit = Number(event.numCredits ?? 0);
-      const periodIndex = periods.findIndex(
-        (period) => new Date(event.date) > period.start && new Date(event.date) <= period.deadline
-      );
-
-      if (periodIndex === -1) return;
-
-      if (eventAttendance.status === 'approved') {
-        creditsPerPeriod[periodIndex] += eventCredit;
-      } else if (eventAttendance.status === 'pending') {
-        pendingCreditsPerPeriod[periodIndex] += eventCredit;
+      const status = pending ? 'pending' : 'approved';
+      if (eventAttendance.status === status) {
+        credits += eventCredit;
       }
     });
-    return pending ? pendingCreditsPerPeriod : creditsPerPeriod;
+    return credits;
   };
 
-  const getFirstPeriodStart = (): Date => {
+  const getCurrentPeriod = () => {
+    const currentPeriodIndex = getTECPeriod(new Date());
+    console.log('Current period index:', currentPeriodIndex);
+    if (currentPeriodIndex < 0 || currentPeriodIndex >= TEC_DEADLINES.length) {
+      console.log('Invalid period index, returning null');
+      return null;
+    }
+
     const today = new Date();
     const year = today.getFullYear();
-
-    return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
-  };
-
-  const getPeriods = () =>
-    TEC_DEADLINES.map((date, i) => {
-      const periodStart = i === 0 ? getFirstPeriodStart() : TEC_DEADLINES[i - 1];
-      const periodEnd = TEC_DEADLINES[i];
-      const events = allEvents.filter((event) => {
-        const eventDate = new Date(event.date);
-        return eventDate > periodStart && eventDate <= periodEnd;
-      });
-      return { name: `Period ${i + 1}`, start: periodStart, deadline: date, events };
+    const firstPeriodStart = today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
+    
+    const periodStart = currentPeriodIndex === 0 ? firstPeriodStart : TEC_DEADLINES[currentPeriodIndex - 1];
+    const periodEnd = TEC_DEADLINES[currentPeriodIndex];
+    const events = allEvents.filter((event) => {
+      const eventDate = new Date(event.date);
+      return eventDate > periodStart && eventDate <= periodEnd;
     });
-
-  const periods = getPeriods();
-
-  const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
-    if (prevCredits === null) {
-      return currentCredits < 1 ? 1 - currentCredits : 0;
-    }
-    if (prevCredits < 1) {
-      return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
-    }
-
-    return currentCredits < 1 ? 1 - currentCredits : 0;
+    
+    return { 
+      name: `Period ${currentPeriodIndex + 1}`, 
+      start: periodStart, 
+      deadline: periodEnd, 
+      events 
+    };
   };
 
-  const currentPeriodIndex = getTECPeriod(new Date());
-  if (currentPeriodIndex < 0 || currentPeriodIndex >= periods.length) {
+  const currentPeriod = getCurrentPeriod();
+  if (!currentPeriod) {
     return Promise.reject(new BadRequestError('No valid TEC period found.'));
   }
 
-  const creditsPerPeriod = calculateCreditsForAllPeriods(periods, false);
-  const pendingCreditsPerPeriod = calculateCreditsForAllPeriods(periods, true);
+  const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
+
+  const calculateCredits = (currentCredits: number, requiredCredits: number) => {
+    return Math.max(0, requiredCredits - currentCredits);
+  };
 
   const {
     start: periodStart,
     deadline: periodEnd,
-    events: periodEvents
-  } = periods[currentPeriodIndex];
-  const currentPeriodCredits = creditsPerPeriod[currentPeriodIndex];
-  const currentPendingCredits = pendingCreditsPerPeriod[currentPeriodIndex];
-  const previousPeriodIndex = currentPeriodIndex > 0 ? currentPeriodIndex - 1 : null;
-  const previousPeriodCredits =
-    previousPeriodIndex !== null ? creditsPerPeriod[previousPeriodIndex] : null;
-  const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
+    events: allPeriodEvents
+  } = currentPeriod;
+  
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  const futureEventsInPeriod = allPeriodEvents.filter((event) => new Date(event.date) >= today);
+  
+  const currentPeriodCredits = calculateCurrentPeriodCredits(currentPeriod, false);
+  const currentPendingCredits = calculateCurrentPeriodCredits(currentPeriod, true);
 
   const isLead = LEAD_ROLES.includes(member.role);
-  const requiredCredits = isLead
-    ? 2
-    : calculateCredits(previousPeriodCredits, currentPeriodCredits);
+  const requiredCreditsForPeriod = isLead ? 2 : 1;
+  const remainingCredits = calculateCredits(currentPeriodCredits, requiredCreditsForPeriod);
   const reminder =
-    `This is a reminder to earn at least ${requiredCredits} team event credits by ${periodEnd.toDateString()}.\n` +
+    `This is a reminder to earn at least ${remainingCredits} team event credits by ${periodEnd.toDateString()}.\n` +
     `\n${
-      periodEvents.length === 0
+      futureEventsInPeriod.length === 0
         ? 'There are currently no upcoming team events listed on IDOL for this period, but check the #team-events channel for upcoming team events.'
         : 'Here is a list of upcoming team events this period you can participate in:'
     } \n` +
-    `${periodEvents
+    `${futureEventsInPeriod
       .map(
         (event) =>
           `${event.name} on ${event.date} (${event.numCredits} ${

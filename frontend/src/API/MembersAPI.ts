@@ -55,11 +55,11 @@ export class MembersAPI {
 
   public static notifyMemberTeamEvents(
     member: Member,
-    endOfSemesterReminder: boolean
+    endOfPeriodReminder: boolean
   ): Promise<MemberResponseObj> {
     return APIWrapper.post(
       `${backendURL}/team-event-reminder${
-        endOfSemesterReminder ? '?end_of_semester_reminder=true' : ''
+        endOfPeriodReminder ? '?end_of_period_reminder=true' : ''
       }`,
       member
     ).then((res) => res.data);

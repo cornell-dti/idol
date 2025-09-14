@@ -217,7 +217,7 @@ export const deleteTeamEventAttendance = async (uuid: string, user: IdolMember):
  */
 export const notifyMemberTeamEvents = async (
   req: Request,
-  endOfSemesterReminder: boolean,
+  endOfPeriodReminder: boolean,
   member: IdolMember,
   user: IdolMember
 ): Promise<unknown> => {
@@ -230,7 +230,7 @@ export const notifyMemberTeamEvents = async (
   if (!member.email || member.email === '') {
     throw new BadRequestError("Couldn't notify member with undefined email!");
   }
-  const responseBody = await sendTECReminder(req, endOfSemesterReminder, member);
+  const responseBody = await sendTECReminder(req, endOfPeriodReminder, member);
   return responseBody.data;
 };
 

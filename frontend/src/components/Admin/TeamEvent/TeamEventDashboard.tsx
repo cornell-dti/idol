@@ -45,7 +45,6 @@ const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): numb
   teamEvents.reduce((val, event) => val + calculateInitiativeCreditsForEvent(member, event), 0);
 
 const getRequiredCredits = (member: IdolMember): number => {
-  if (ADVISOR_ROLES.includes(member.role)) return 0; // Advisors don't need TECs
   return LEAD_ROLES.includes(member.role)
     ? REQUIRED_LEAD_TEC_CREDITS
     : REQUIRED_MEMBER_TEC_CREDITS;
@@ -58,7 +57,7 @@ const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [displayPeriod, setDisplayPeriod] = useState<boolean>(false);
-  const [endOfSemesterReminder, setEndOfSemesterReminder] = useState(false);
+  const [endOfPeriodReminder, setEndOfPeriodReminder] = useState(false);
 
   const allMembers = useMembers();
 
@@ -94,6 +93,9 @@ const TeamEventDashboard: React.FC = () => {
   const currentPeriodIndex = getTECPeriod(new Date());
   const membersNeedingNotification = displayPeriod
     ? allMembers.filter((member) => {
+        // TEMP: Only test with your email
+        if (member.email !== 'al2589@cornell.edu') return false;
+        
         const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
         return getRemainingCredits(member, currentPeriodCredits) > 0;
       })
@@ -166,7 +168,7 @@ const TeamEventDashboard: React.FC = () => {
                     </Button>
                   }
                   members={membersNeedingNotification}
-                  endOfSemesterReminder={endOfSemesterReminder}
+                  endOfPeriodReminder={endOfPeriodReminder}
                   type={'period'}
                 />
               ) : (
@@ -190,17 +192,17 @@ const TeamEventDashboard: React.FC = () => {
                         : REQUIRED_MEMBER_TEC_CREDITS)
                     );
                   })}
-                  endOfSemesterReminder={endOfSemesterReminder}
+                  endOfPeriodReminder={endOfPeriodReminder}
                   type={'tec'}
                 />
               )}
               {!displayPeriod && (
                 <Checkbox
-                  className={styles.endOfSemesterCheckbox}
-                  label={{ children: 'End of Semester Reminder?' }}
-                  checked={endOfSemesterReminder}
+                  className={styles.endOfPeriodCheckbox}
+                  label={{ children: 'End of Period Reminder?' }}
+                  checked={endOfPeriodReminder}
                   onChange={() =>
-                    setEndOfSemesterReminder((endOfSemesterReminder) => !endOfSemesterReminder)
+                    setEndOfPeriodReminder((endOfPeriodReminder) => !endOfPeriodReminder)
                   }
                 />
               )}
@@ -240,7 +242,7 @@ const TeamEventDashboard: React.FC = () => {
                               )
                             }
                             member={member}
-                            endOfSemesterReminder={endOfSemesterReminder}
+                            endOfPeriodReminder={endOfPeriodReminder}
                             type={'tec'}
                           />
                         )}
@@ -282,7 +284,7 @@ const TeamEventDashboard: React.FC = () => {
                               )
                             }
                             member={member}
-                            endOfSemesterReminder={endOfSemesterReminder}
+                            endOfPeriodReminder={endOfPeriodReminder}
                             type={'tec'}
                           />
                         )}

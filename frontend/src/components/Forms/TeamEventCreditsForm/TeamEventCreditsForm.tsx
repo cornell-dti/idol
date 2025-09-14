@@ -49,7 +49,7 @@ const TeamEventCreditForm: React.FC = () => {
     const period = getTECPeriod(date);
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
-
+  
   const requiredCredits = ADVISOR_ROLES.includes(userInfo.role)
     ? 0 
     : LEAD_ROLES.includes(userInfo.role) 
