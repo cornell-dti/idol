@@ -93,9 +93,6 @@ const TeamEventDashboard: React.FC = () => {
   const currentPeriodIndex = getTECPeriod(new Date());
   const membersNeedingNotification = displayPeriod
     ? allMembers.filter((member) => {
-        // TEMP: Only test with your email
-        if (member.email !== 'al2589@cornell.edu') return false;
-        
         const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
         return getRemainingCredits(member, currentPeriodCredits) > 0;
       })

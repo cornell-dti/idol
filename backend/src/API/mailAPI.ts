@@ -203,7 +203,6 @@ export const sendPeriodReminder = async (
   req: Request,
   member: IdolMember
 ): Promise<AxiosResponse> => {
-  console.log('Starting sendPeriodReminder for member:', member.email);
   const subject = `This Period's TEC Reminder`;
 
   interface Period {
@@ -247,9 +246,7 @@ export const sendPeriodReminder = async (
 
   const getCurrentPeriod = () => {
     const currentPeriodIndex = getTECPeriod(new Date());
-    console.log('Current period index:', currentPeriodIndex);
     if (currentPeriodIndex < 0 || currentPeriodIndex >= TEC_DEADLINES.length) {
-      console.log('Invalid period index, returning null');
       return null;
     }
 
