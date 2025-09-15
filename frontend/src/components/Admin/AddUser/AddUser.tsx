@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
-import { ALL_COLLEGES, ALL_ROLES } from 'common-types/constants';
+import { ALL_COLLEGES, ALL_ROLES, ALL_MAJORS, ALL_MINORS } from 'common-types/constants';
 import csvtojson from 'csvtojson';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
@@ -570,37 +570,48 @@ export default function AddUser(): JSX.Element {
                   </Form.Group>
                   <Form.Group widths="equal">
                     <Form.Field
-                      control={Input}
+                      control={Select}
                       label="Major"
+                      options={ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))}
                       placeholder="Major"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          major: event.target.value
+                          major: data.value as Major
                         }));
                       }}
                       value={state.currentSelectedMember?.major}
                     />
                     <Form.Field
-                      control={Input}
+                      control={Select}
                       label="Double Major"
+                      options={[{ key: 'none', text: 'N/A', value: '' }, ...ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))]}
                       placeholder="Double Major"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          doubleMajor: event.target.value
+                          doubleMajor: data.value as Major
                         }));
                       }}
                       value={state.currentSelectedMember.doubleMajor || ''}
                     />
                     <Form.Field
-                      control={Input}
+                      control={Select}
                       label="Minor"
+                      options={[{ key: 'none', text: 'N/A', value: '' }, ...ALL_MINORS.map((val) => ({key: val, text: val, value: val}))]}
                       placeholder="Minor"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          minor: event.target.value
+                          minor: data.value as Minor
                         }));
                       }}
                       value={state.currentSelectedMember.minor || ''}
