@@ -133,28 +133,28 @@
   },
   {
     "formerSubteams": [],
-    "email": "ar2345@cornell.edu",
-    "firstName": "Amelie",
-    "semesterJoined": "Fall 2024",
     "lastName": "Rosso",
+    "minor": "AI",
+    "major": "ISST",
+    "role": "pm",
+    "github": null,
     "website": null,
+    "email": "ar2345@cornell.edu",
+    "pronouns": "she/her",
+    "hometown": "Redlands, CA",
+    "coffeeChatLink": "https://calendly.com/ar2345-cornell/30min",
     "subteams": [
       "idol"
     ],
-    "role": "pm",
-    "pronouns": "she/her",
+    "graduation": "May 2027",
+    "firstName": "Amelie",
+    "netid": "ar2345",
     "college": "eng",
-    "github": null,
-    "linkedin": "https://www.linkedin.com/in/amelie-rosso-5b9034296",
+    "about": "Hi, I'm Amelie. I am a junior studying Information Science, Systems, and Technology in the College of Engineering and minoring in Artificial Intelligence. After college, I am interested in pursuing a career in Product Engineering. I joined DTI Fall 2024 and am currently PM of IDOL.\n\nIn my free time, I love to read, travel, craft, cook/bake, and go on fall walks! Feel free to reach out if you want to coffee chat :)",
     "roleDescription": "Product Manager",
     "doubleMajor": null,
-    "hometown": "Redlands, CA",
-    "graduation": "May 2027",
-    "major": "ISST",
-    "minor": "AI",
-    "netid": "ar2345",
-    "coffeeChatLink": "https://calendly.com/ar2345-cornell/30min",
-    "about": "Hi, I'm Amelie. I am a junior studying Information Science, Systems, and Technology in the College of Engineering and minoring in Artificial Intelligence. After college, I am interested in pursuing a career in Product Engineering. I joined DTI Fall 2024 and am currently PM of IDOL.\n\nIn my free time, I love to read, travel, craft, cook/bake, and go on fall walks! Feel free to reach out if you want to coffee chat :)"
+    "semesterJoined": "Fall 2024",
+    "linkedin": "https://www.linkedin.com/in/amelie-rosso-5b9034296"
   },
   {
     "subteams": [
@@ -1412,7 +1412,6 @@
     "doubleMajor": null,
     "formerSubteams": [],
     "pronouns": "he/him",
-    "about": "hey! My name is parsa, and I'm a developer on the CUAPTS subteam. love to ball, make music, and go on side quests.",
     "lastName": "Tehranipoor",
     "semesterJoined": "Fall 2024",
     "minor": null,
@@ -1425,7 +1424,8 @@
     "subteams": [
       "cuapts"
     ],
-    "roleDescription": "Developer"
+    "roleDescription": "Developer",
+    "about": "Hey! My name is Parsa, and I'm a developer on the CUAPTS Subteam. In my free time, I play frisbee, make music, and go on side quests. "
   },
   {
     "minor": "Information Science, Entrepreneurship",
