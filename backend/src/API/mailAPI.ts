@@ -8,7 +8,7 @@ import { BadRequestError, PermissionError } from '../utils/errors';
 import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { LEAD_ROLES, ADVISOR_ROLES, TEC_DEADLINES } from '../consts';
+import { LEAD_ROLES, TEC_DEADLINES } from '../consts';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 const IS_PROD = env === 'prod';
@@ -203,9 +203,8 @@ export const sendPeriodReminder = async (
 
   const memberEventAttendance = await teamEventAttendanceDao.getTeamEventAttendanceByUser(member);
 
-  const calculateCredits = (currentCredits: number, requiredCredits: number) => {
-    return Math.max(0, requiredCredits - currentCredits);
-  };
+  const calculateCredits = (currentCredits: number, requiredCredits: number) =>
+    Math.max(0, requiredCredits - currentCredits);
 
   const { start: periodStart, deadline: periodEnd, events: allPeriodEvents } = currentPeriod;
 
