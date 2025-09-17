@@ -162,7 +162,8 @@ export const sendPeriodReminder = async (
       const event = allEvents.find((e) => e.uuid === eventAttendance.eventUuid);
       if (!event) return;
       const eventDate = new Date(event.date);
-      const isInCurrentPeriod = eventDate > currentPeriod.start && eventDate <= currentPeriod.deadline;
+      const isInCurrentPeriod =
+        eventDate > currentPeriod.start && eventDate <= currentPeriod.deadline;
       if (!isInCurrentPeriod) return;
       const eventCredit = Number(event.numCredits ?? 0);
       const status = pending ? 'pending' : 'approved';
@@ -179,7 +180,8 @@ export const sendPeriodReminder = async (
     const year = today.getFullYear();
     const firstPeriodStart = today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
 
-    const periodStart = currentPeriodIndex === 0 ? firstPeriodStart : TEC_DEADLINES[currentPeriodIndex - 1];
+    const periodStart =
+      currentPeriodIndex === 0 ? firstPeriodStart : TEC_DEADLINES[currentPeriodIndex - 1];
     const periodEnd = TEC_DEADLINES[currentPeriodIndex];
     const events = allEvents.filter((event) => {
       const eventDate = new Date(event.date);
@@ -205,11 +207,7 @@ export const sendPeriodReminder = async (
     return Math.max(0, requiredCredits - currentCredits);
   };
 
-  const {
-    start: periodStart,
-    deadline: periodEnd,
-    events: allPeriodEvents
-  } = currentPeriod;
+  const { start: periodStart, deadline: periodEnd, events: allPeriodEvents } = currentPeriod;
 
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
@@ -222,23 +220,28 @@ export const sendPeriodReminder = async (
   const requiredCreditsForPeriod = isLead ? 2 : 1;
   const remainingCredits = calculateCredits(currentPeriodCredits, requiredCreditsForPeriod);
   const reminder =
-    `This is a reminder to earn at least ${remainingCredits} team event ${remainingCredits !== 1 ? 'credits' : 'credit'
+    `This is a reminder to earn at least ${remainingCredits} team event ${
+      remainingCredits !== 1 ? 'credits' : 'credit'
     } by ${periodEnd.toDateString()}.\n` +
-    `\n${futureEventsInPeriod.length === 0
-      ? 'There are currently no upcoming team events listed on IDOL for this period, but check the #team-events channel for upcoming team events.'
-      : 'Here is a list of upcoming team events this period you can participate in:'
+    `\n${
+      futureEventsInPeriod.length === 0
+        ? 'There are currently no upcoming team events listed on IDOL for this period, but check the #team-events channel for upcoming team events.'
+        : 'Here is a list of upcoming team events this period you can participate in:'
     } \n` +
     `${futureEventsInPeriod
       .map(
         (event) =>
-          `${event.name} on ${event.date} (${event.numCredits} ${Number(event.numCredits) !== 1 ? 'credits' : 'credit'
+          `${event.name} on ${event.date} (${event.numCredits} ${
+            Number(event.numCredits) !== 1 ? 'credits' : 'credit'
           })\n`
       )
       .join('')}`;
 
-  const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${currentPeriodCredits} team event ${currentPeriodCredits !== 1 ? 'credits' : 'credit'
-    } approved and ${currentPendingCredits} team event ${currentPendingCredits !== 1 ? 'credits' : 'credit'
-    } pending for this period (${periodStart.toDateString()} - ${periodEnd.toDateString()}).\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
+  const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${currentPeriodCredits} team event ${
+    currentPeriodCredits !== 1 ? 'credits' : 'credit'
+  } approved and ${currentPendingCredits} team event ${
+    currentPendingCredits !== 1 ? 'credits' : 'credit'
+  } pending for this period (${periodStart.toDateString()} - ${periodEnd.toDateString()}).\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
   return emailMember(req, member, subject, text);
 };
 

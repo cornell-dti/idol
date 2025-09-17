@@ -6,7 +6,12 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
-import { INITIATIVE_EVENTS, TEC_DEADLINES, REQUIRED_LEAD_TEC_CREDITS, REQUIRED_MEMBER_TEC_CREDITS } from '../../../consts';
+import {
+  INITIATIVE_EVENTS,
+  TEC_DEADLINES,
+  REQUIRED_LEAD_TEC_CREDITS,
+  REQUIRED_MEMBER_TEC_CREDITS
+} from '../../../consts';
 import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 
 const TeamEventCreditForm: React.FC = () => {
@@ -49,11 +54,11 @@ const TeamEventCreditForm: React.FC = () => {
     const period = getTECPeriod(date);
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
-  
+
   const requiredCredits = ADVISOR_ROLES.includes(userInfo.role)
-    ? 0 
-    : LEAD_ROLES.includes(userInfo.role) 
-      ? REQUIRED_LEAD_TEC_CREDITS 
+    ? 0
+    : LEAD_ROLES.includes(userInfo.role)
+      ? REQUIRED_LEAD_TEC_CREDITS
       : REQUIRED_MEMBER_TEC_CREDITS;
 
   const getCurrentCreditsNeeded = () => {
@@ -176,8 +181,8 @@ const TeamEventCreditForm: React.FC = () => {
         <h1>Submit Team Event Credits</h1>
         <p>
           Earn team event credits for participating in DTI events! Fill out this form every time and
-          attach a picture of yourself at the event to receive credit. The current month's TEC period
-          ends on{' '}
+          attach a picture of yourself at the event to receive credit. The current month's TEC
+          period ends on{' '}
           {getTECPeriod(new Date()) < TEC_DEADLINES.length
             ? TEC_DEADLINES[getTECPeriod(new Date())].toDateString()
             : 'No upcoming period'}
@@ -190,7 +195,8 @@ const TeamEventCreditForm: React.FC = () => {
           <div className={styles.bold}>
             {remainingCredits > 0 && (
               <span className={styles.red_color}>
-                You have submitted {requiredCredits - remainingCredits} TEC in the current period, so you must submit at least {remainingCredits} remaining TEC.
+                You have submitted {requiredCredits - remainingCredits} TEC in the current period,
+                so you must submit at least {remainingCredits} remaining TEC.
               </span>
             )}
           </div>

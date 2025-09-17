@@ -10,9 +10,9 @@ export default COFFEE_CHAT_BINGO_BOARD;
 export const DISABLE_DELETE_ALL_COFFEE_CHATS = true;
 
 export const TEC_DEADLINES = [
-  new Date('2025-09-30T23:59:59'), 
-  new Date('2025-10-31T23:59:59'), 
-  new Date('2025-11-30T23:59:59') 
+  new Date('2025-09-30T23:59:59'),
+  new Date('2025-10-31T23:59:59'),
+  new Date('2025-11-30T23:59:59')
 ];
 
 export const ALL_ROLES: Role[] = [
