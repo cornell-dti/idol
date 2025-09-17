@@ -60,7 +60,7 @@ const TeamEventCreditForm: React.FC = () => {
     const currentPeriod = getTECPeriod(new Date());
     const currentCredits = tecCounts[currentPeriod] || 0;
 
-    return calculateCredits(null, currentCredits, requiredCredits);
+    return calculateCredits(currentCredits, requiredCredits);
   };
 
   const remainingCredits = getCurrentCreditsNeeded();
