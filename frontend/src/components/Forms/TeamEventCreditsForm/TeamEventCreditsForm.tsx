@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Label, Dropdown } from 'semantic-ui-react';
+import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 import { calculateCredits, Emitters, getNetIDFromEmail, getTECPeriod } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
@@ -12,7 +13,6 @@ import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS
 } from '../../../consts';
-import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -55,11 +55,12 @@ const TeamEventCreditForm: React.FC = () => {
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
 
-  const requiredCredits = ADVISOR_ROLES.includes(userInfo.role)
-    ? 0
-    : LEAD_ROLES.includes(userInfo.role)
-      ? REQUIRED_LEAD_TEC_CREDITS
-      : REQUIRED_MEMBER_TEC_CREDITS;
+  let requiredCredits = REQUIRED_MEMBER_TEC_CREDITS;
+  if (ADVISOR_ROLES.includes(userInfo.role)) {
+    requiredCredits = 0;
+  } else if (LEAD_ROLES.includes(userInfo.role)) {
+    requiredCredits = REQUIRED_LEAD_TEC_CREDITS;
+  }
 
   const getCurrentCreditsNeeded = () => {
     const currentPeriod = getTECPeriod(new Date());

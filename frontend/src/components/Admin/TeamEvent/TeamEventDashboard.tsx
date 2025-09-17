@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Header, Loader, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { Table, Header, Loader, Button, Icon } from 'semantic-ui-react';
 import { ExportToCsv, Options } from 'export-to-csv';
 import { ADVISOR_ROLES, LEAD_ROLES } from 'common-types/constants';
 import { useMembers } from '../../Common/FirestoreDataProvider';
@@ -44,9 +44,8 @@ const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
 const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
   teamEvents.reduce((val, event) => val + calculateInitiativeCreditsForEvent(member, event), 0);
 
-const getRequiredCredits = (member: IdolMember): number => {
-  return LEAD_ROLES.includes(member.role) ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS;
-};
+const getRequiredCredits = (member: IdolMember): number =>
+  LEAD_ROLES.includes(member.role) ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS;
 
 const getRemainingCredits = (member: IdolMember, currentPeriodCredits: number): number =>
   calculateCredits(currentPeriodCredits, getRequiredCredits(member));
@@ -180,16 +179,12 @@ const TeamEventDashboard: React.FC = () => {
                   const totalCredits = getTotalCredits(member, teamEvents);
                   const initiativeCredits = getInitiativeCredits(member, teamEvents);
 
-                  const isUpToDateForAllPeriods = () => {
-                    for (let i = 0; i <= currentPeriodIndex; i++) {
+                  const isUpToDateForAllPeriods = () =>
+                    Array.from({ length: currentPeriodIndex + 1 }, (_, i) => i).every((i) => {
                       const periodCredits = getTotalCredits(member, periods[i].events);
                       const requiredCredits = getRequiredCredits(member);
-                      if (periodCredits < requiredCredits) {
-                        return false;
-                      }
-                    }
-                    return true;
-                  };
+                      return periodCredits >= requiredCredits;
+                    });
 
                   const isUpToDate = isUpToDateForAllPeriods();
                   const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;

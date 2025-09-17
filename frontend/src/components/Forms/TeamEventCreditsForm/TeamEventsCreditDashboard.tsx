@@ -77,7 +77,6 @@ const TeamEventCreditDashboard = (props: {
       });
   };
 
-  let approvedCredits = 0;
   let approvedInitiativeCredits = 0;
   approvedAttendance.forEach(async (attendance) => {
     const event = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
@@ -85,7 +84,6 @@ const TeamEventCreditDashboard = (props: {
       const currCredits = event.hasHours
         ? Number(event.numCredits) * getHoursAttended(attendance)
         : Number(event.numCredits);
-      approvedCredits += currCredits;
       approvedInitiativeCredits += event.isInitiativeEvent ? currCredits : 0;
     }
   });

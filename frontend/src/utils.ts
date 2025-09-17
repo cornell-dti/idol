@@ -242,6 +242,5 @@ export const getTECPeriod = (submissionDate: Date) => {
  * @returns The number of additional credits needed to meet the requirement.
  *          Returns 0 if the requirement is already met.
  */
-export const calculateCredits = (currentCredits: number, requiredCredits: number = 1) => {
-  return Math.max(0, requiredCredits - currentCredits);
-};
+export const calculateCredits = (currentCredits: number, requiredCredits: number = 1) =>
+  Math.max(0, requiredCredits - currentCredits);
