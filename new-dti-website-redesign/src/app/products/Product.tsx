@@ -13,6 +13,7 @@ type Props = {
   comingSoon?: boolean;
   id: string;
   accentColor?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
 const Product = ({
@@ -24,7 +25,8 @@ const Product = ({
   linkLabel = 'Visit product',
   comingSoon,
   id,
-  accentColor
+  accentColor,
+  ref
 }: Props): ReactNode => (
   <article id={id} className="sectionStyles scroll-mt-20">
     <div
@@ -37,7 +39,9 @@ const Product = ({
     <div className="p-4 sm:p-8 flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
-          <h2 className="h3">{name}</h2>
+          <h2 className="h3" ref={ref}>
+            {name}
+          </h2>
 
           {comingSoon && <Chip label="Coming soon" color="red" allCaps />}
         </div>
