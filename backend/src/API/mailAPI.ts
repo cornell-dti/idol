@@ -135,7 +135,6 @@ export const sendPeriodReminder = async (
   const subject = `This Period's TEC Reminder`;
 
   interface Period {
-    name: string;
     start: Date;
     deadline: Date;
     events: TeamEvent[];
@@ -189,7 +188,6 @@ export const sendPeriodReminder = async (
     });
 
     return {
-      name: `Period ${currentPeriodIndex + 1}`,
       start: periodStart,
       deadline: periodEnd,
       events
