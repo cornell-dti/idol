@@ -70,7 +70,7 @@ const InterviewStatusDashboard: React.FC<InterviewStatusDashboardProps> = ({
 
     if (applicantFilters.length > 0) {
       filtered = filtered.filter((applicant) =>
-        applicantFilters.every(
+        applicantFilters.some(
           (filter) => applicant.status === filter || applicant.role === DISPLAY_TO_ROLE_MAP[filter]
         )
       );
