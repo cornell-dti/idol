@@ -31,7 +31,7 @@ export default function Products() {
 
       <ProductsList />
 
-      <SectionSep />
+      <SectionSep className="!rounded-none" />
 
       <CtaSection
         heading="Ready to join?"
