@@ -16,7 +16,7 @@ export default function ProductNav() {
   }, []);
 
   return isMobile && isClient ? (
-    <div className="flex flex-row overflow-scroll h-28 items-center pl-4 gap-x-2 sectionStyles">
+    <div className="flex flex-row sticky top-[72px] overflow-scroll h-28 items-center pl-4 gap-x-2 sectionStyles bg-background-1 fancyTabsContainer">
       {products.map((product) => (
         <Button
           className=""
@@ -31,7 +31,7 @@ export default function ProductNav() {
       ))}
     </div>
   ) : (
-    <div className="flex flex-col w-72 pl-12 gap-2 pt-4">
+    <div className="flex flex-col sticky top-[80px] h-fit w-72 px-12 gap-2 py-4">
       {products.map((product) => (
         <React.Fragment key={product.name}>
           <div className="flex flex-row items-center gap-x-2">
