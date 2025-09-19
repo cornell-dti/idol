@@ -89,10 +89,12 @@ export default function ProductNav({
           <Link
             href={`#${product.id}`}
             key={product.name}
-            className={`flex flex-row gap-x-2 cursor-pointer select-none ${activeProduct === product.id ? 'text-foreground-1 pl-1' : 'text-foreground-3'} transition-all duration-300 ease-in-out`}
+            className={`flex flex-row gap-x-2 cursor-pointer select-none items-center ${activeProduct === product.id ? 'text-foreground-1 pl-1' : 'text-foreground-3'} transition-all duration-300 ease-in-out`}
           >
             <p className="h6">{product.name}</p>
-            {product.comingSoon && <Chip label="soon" color="red" allCaps />}
+            {product.comingSoon && (
+              <Chip label="soon" color="red" allCaps className="h-7 justify-center" />
+            )}
           </Link>
         </div>
       ))}

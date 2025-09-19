@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 export type ChipColor =
   | 'default'
   | 'gray'
@@ -12,9 +14,10 @@ type Props = {
   label: string;
   color?: ChipColor;
   allCaps?: boolean;
+  className?: string;
 };
 
-export default function Chip({ label, color = 'default', allCaps }: Props) {
+export default function Chip({ label, color = 'default', allCaps, className }: Props) {
   const colorMap: Record<ChipColor, string> = {
     default: 'bg-background-2 text-foreground-2',
     gray: 'bg-[#0000001a] text-background-1',
@@ -30,9 +33,12 @@ export default function Chip({ label, color = 'default', allCaps }: Props) {
 
   return (
     <p
-      className={`rounded-full whitespace-nowrap px-3 py-1 small w-fit ${chipColor} ${
-        allCaps ? 'caps' : ''
-      }`}
+      className={clsx(
+        'rounded-full whitespace-nowrap px-3 py-1 small w-fit',
+        chipColor,
+        allCaps ? 'caps' : '',
+        className
+      )}
     >
       {label}
     </p>
