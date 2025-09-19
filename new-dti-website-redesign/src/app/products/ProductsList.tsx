@@ -12,29 +12,60 @@ export default function ProductsList() {
   const nodesRef = useRef<(HTMLDivElement | null)[]>(products.map(() => null));
   const { width } = useScreenSize();
   const [isClient, setIsClient] = useState(false);
+  const [activeProduct, setActiveProduct] = useState<string>(products[0]?.id || '');
   const isMobile = width <= TABLET_BREAKPOINT;
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  useEffect(() => {
+    if (!isClient) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const productId = entry.target.id;
+            setActiveProduct(productId);
+          }
+        });
+      },
+      {
+        rootMargin: isMobile ? '-50px 0px -20% 0px' : '-100px 0px -50% 0px',
+        threshold: isMobile ? 0.8 : 0.1
+      }
+    );
+
+    nodesRef.current.forEach((node) => {
+      if (node) {
+        observer.observe(node);
+      }
+    });
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      observer.disconnect();
+    };
+  }, [isClient, isMobile]);
+
   return (
-    <section id="products" className="scroll-m-20">
+    <section id="products" className="scroll-m-20 !border-b-0">
       {isClient && (
-        <div
-          className={`max-w-[1184px] mx-auto relative !border-r-0 flex ${isMobile ? 'flex-col' : 'flex-row sectionStyles'}`}
-        >
-          <ProductNav />
+        <div className={`relative flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
+          <ProductNav activeProduct={activeProduct} productRefs={nodesRef.current} />
+
           <div className="flex flex-col">
             {products.map((product, index) => (
               <React.Fragment key={product.name}>
                 <Product
                   {...product}
                   ref={(el) => {
-                    nodesRef.current[index] = el;
+                    nodesRef.current[index] = el as HTMLDivElement;
                   }}
                 />
                 {index < products.length - 1 && (
-                  <SectionSep grid className="border-x-1 border-border-1" />
+                  <SectionSep grid className="border-l-1 border-border-1" />
                 )}
               </React.Fragment>
             ))}

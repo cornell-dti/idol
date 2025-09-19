@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, forwardRef } from 'react';
 import Image from 'next/image';
 import Button from '../../components/Button';
 import Chip from '../../components/Chip';
@@ -13,44 +13,51 @@ type Props = {
   comingSoon?: boolean;
   id: string;
   accentColor?: string;
-  ref?: React.Ref<HTMLDivElement>;
 };
 
-const Product = ({
-  image,
-  imageAlt,
-  name,
-  description,
-  link,
-  linkLabel = 'Visit product',
-  comingSoon,
-  id,
-  accentColor,
-  ref
-}: Props): ReactNode => (
-  <article id={id} className="sectionStyles scroll-mt-20">
-    <div
-      className="border-b-1 border-border-1"
-      style={{ background: accentColor || 'var(--background-2)' }}
+const Product = forwardRef<HTMLElement, Props>(
+  (
+    {
+      image,
+      imageAlt,
+      name,
+      description,
+      link,
+      linkLabel = 'Visit product',
+      comingSoon,
+      id,
+      accentColor
+    },
+    ref
+  ): ReactNode => (
+    <article
+      id={id}
+      className="scroll-mt-20 !border-r-0 md:border-l-1 border-y-1 border-border-1"
+      ref={ref}
     >
-      <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
-    </div>
-
-    <div className="p-4 sm:p-8 flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-2 items-center">
-          <h2 className="h3" ref={ref}>
-            {name}
-          </h2>
-
-          {comingSoon && <Chip label="Coming soon" color="red" allCaps />}
-        </div>
-        <p className="text-foreground-3">{description}</p>
+      <div
+        className="border-b-1 border-border-1"
+        style={{ background: accentColor || 'var(--background-2)' }}
+      >
+        <Image src={image} alt={imageAlt} className="w-full h-auto" width={888} height={500} />
       </div>
 
-      {link && <Button href={link} variant="primary" label={linkLabel} newTab />}
-    </div>
-  </article>
+      <div className="p-4 sm:p-8 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2 items-center">
+            <h2 className="h3">{name}</h2>
+
+            {comingSoon && <Chip label="Coming soon" color="red" allCaps />}
+          </div>
+          <p className="text-foreground-3">{description}</p>
+        </div>
+
+        {link && <Button href={link} variant="primary" label={linkLabel} newTab />}
+      </div>
+    </article>
+  )
 );
+
+Product.displayName = 'Product';
 
 export default Product;
