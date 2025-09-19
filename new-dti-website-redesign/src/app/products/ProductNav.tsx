@@ -53,7 +53,7 @@ export default function ProductNav({
   }
 
   return isMobile && isClient ? (
-    <div
+    <aside
       ref={mobileMenuRef}
       className="sticky top-[72px] h-28 bg-background-1 border-b-1 border-border-1"
     >
@@ -76,9 +76,9 @@ export default function ProductNav({
           </Button>
         ))}
       </div>
-    </div>
+    </aside>
   ) : (
-    <div className="flex flex-col sticky top-[80px] h-fit w-104 px-12 gap-2 py-4">
+    <aside className="flex flex-col sticky top-[80px] h-fit w-104 px-12 gap-2 py-4">
       {products.map((product) => (
         <div key={product.name} className="flex flex-row items-center gap-x-2">
           <ArrowLogoIcon
@@ -96,6 +96,6 @@ export default function ProductNav({
           </Link>
         </div>
       ))}
-    </div>
+    </aside>
   );
 }
