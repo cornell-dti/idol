@@ -614,11 +614,11 @@ export default function AddUser(): JSX.Element {
                           doubleMajor: data.value as Major
                         }));
                         setTimeout(() => {
-                          const inputEl = (event.target as HTMLInputElement)
+                          const inputElement = (event.target as HTMLInputElement)
                             .closest('.ui.dropdown')
                             ?.querySelector('input.search') as HTMLInputElement | null;
-                          if (inputEl) {
-                            inputEl.blur();
+                          if (inputElement) {
+                            inputElement.blur();
                           }
                         }, 0);
                       }}

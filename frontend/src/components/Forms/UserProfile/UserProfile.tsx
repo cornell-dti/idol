@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Select, TextArea } from 'semantic-ui-react';
-import { ALL_COLLEGES, LEAD_ROLES } from 'common-types/constants';
+import { ALL_COLLEGES, LEAD_ROLES, ALL_MAJORS, ALL_MINORS } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
@@ -163,24 +163,72 @@ const UserProfile: React.FC = () => {
       </Form.Group>
 
       <Form.Group widths="equal">
-        <Form.Input
+        <Form.Dropdown
           fluid
           label="Major"
+          search
+          selection
+          options={ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))}
+          placeholder="Search majors..."
           value={major}
-          onChange={(event) => setMajor(event.target.value)}
+          onChange={(event, data) => {
+            setMajor(data.value as Major);
+            setTimeout(() => {
+              const inputElement = (event.target as HTMLInputElement)
+                .closest('.ui.dropdown')
+                ?.querySelector('input.search') as HTMLInputElement | null;
+              if (inputElement) {
+                inputElement.blur();
+              }
+            }, 0);
+          }}
           required
         />
-        <Form.Input
+        <Form.Dropdown
           fluid
           label="Double Major"
+          search
+          selection
+          options={[
+            { key: 'none', text: 'N/A', value: '' },
+            ...ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))
+          ]}
+          placeholder="Search double majors..."
           value={doubleMajor || ''}
-          onChange={(event) => setDoubleMajor(event.target.value)}
+          onChange={(event, data) => {
+            setDoubleMajor(data.value as Major);
+            setTimeout(() => {
+              const inputElement = (event.target as HTMLInputElement)
+                .closest('.ui.dropdown')
+                ?.querySelector('input.search') as HTMLInputElement | null;
+              if (inputElement) {
+                inputElement.blur();
+              }
+            }, 0);
+          }}
         />
-        <Form.Input
+        <Form.Dropdown
           fluid
           label="Minor"
-          value={minor}
-          onChange={(event) => setMinor(event.target.value)}
+          search
+          selection
+          options={[
+            { key: 'none', text: 'N/A', value: '' },
+            ...ALL_MINORS.map((val) => ({ key: val, text: val, value: val }))
+          ]}
+          placeholder="Search minors..."
+          value={minor || ''}
+          onChange={(event, data) => {
+            setMinor(data.value as Minor);
+            setTimeout(() => {
+              const inputElement = (event.target as HTMLInputElement)
+                .closest('.ui.dropdown')
+                ?.querySelector('input.search') as HTMLInputElement | null;
+              if (inputElement) {
+                inputElement.blur();
+              }
+            }, 0);
+          }}
         />
         <Form.Input
           control={Select}
