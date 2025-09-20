@@ -583,9 +583,11 @@ export default function AddUser(): JSX.Element {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
                           major: data.value as Major
-                        }));                      
+                        }));
                         setTimeout(() => {
-                          const inputElement = (event.target as HTMLInputElement).closest('.ui.dropdown')?.querySelector('input.search') as HTMLInputElement | null;
+                          const inputElement = (event.target as HTMLInputElement)
+                            .closest('.ui.dropdown')
+                            ?.querySelector('input.search') as HTMLInputElement | null;
                           if (inputElement) {
                             inputElement.blur();
                           }
@@ -598,7 +600,10 @@ export default function AddUser(): JSX.Element {
                       label="Double Major"
                       search
                       selection
-                      options={[{ key: 'none', text: 'N/A', value: '' }, ...ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))]}
+                      options={[
+                        { key: 'none', text: 'N/A', value: '' },
+                        ...ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))
+                      ]}
                       placeholder="Search double majors..."
                       onChange={(
                         event: React.ChangeEvent<HTMLInputElement>,
@@ -609,7 +614,9 @@ export default function AddUser(): JSX.Element {
                           doubleMajor: data.value as Major
                         }));
                         setTimeout(() => {
-                          const inputEl = (event.target as HTMLInputElement).closest('.ui.dropdown')?.querySelector('input.search') as HTMLInputElement | null;
+                          const inputEl = (event.target as HTMLInputElement)
+                            .closest('.ui.dropdown')
+                            ?.querySelector('input.search') as HTMLInputElement | null;
                           if (inputEl) {
                             inputEl.blur();
                           }
@@ -622,7 +629,10 @@ export default function AddUser(): JSX.Element {
                       search
                       selection
                       label="Minor"
-                      options={[{ key: 'none', text: 'N/A', value: '' }, ...ALL_MINORS.map((val) => ({key: val, text: val, value: val}))]}
+                      options={[
+                        { key: 'none', text: 'N/A', value: '' },
+                        ...ALL_MINORS.map((val) => ({ key: val, text: val, value: val }))
+                      ]}
                       placeholder="Search minors..."
                       onChange={(
                         event: React.ChangeEvent<HTMLInputElement>,
@@ -633,7 +643,9 @@ export default function AddUser(): JSX.Element {
                           minor: data.value as Minor
                         }));
                         setTimeout(() => {
-                          const inputEl = (event.target as HTMLInputElement).closest('.ui.dropdown')?.querySelector('input.search') as HTMLInputElement | null;
+                          const inputEl = (event.target as HTMLInputElement)
+                            .closest('.ui.dropdown')
+                            ?.querySelector('input.search') as HTMLInputElement | null;
                           if (inputEl) {
                             inputEl.blur();
                           }
