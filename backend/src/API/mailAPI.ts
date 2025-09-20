@@ -8,7 +8,12 @@ import { BadRequestError, PermissionError } from '../utils/errors';
 import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
-import { LEAD_ROLES, TEC_DEADLINES } from '../consts';
+import {
+  LEAD_ROLES,
+  TEC_DEADLINES,
+  REQUIRED_LEAD_TEC_CREDITS,
+  REQUIRED_MEMBER_TEC_CREDITS
+} from '../consts';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 const IS_PROD = env === 'prod';
@@ -155,8 +160,9 @@ export const sendPeriodReminder = async (
     return currentPeriodIndex;
   };
 
-  const calculateCurrentPeriodCredits = (currentPeriod: Period, pending: boolean): number => {
-    let credits = 0;
+  const calculateCurrentPeriodCredits = (currentPeriod: Period) => {
+    let approvedCredits = 0;
+    let pendingCredits = 0;
     memberEventAttendance.forEach((eventAttendance) => {
       const event = allEvents.find((e) => e.uuid === eventAttendance.eventUuid);
       if (!event) return;
@@ -165,12 +171,15 @@ export const sendPeriodReminder = async (
         eventDate > currentPeriod.start && eventDate <= currentPeriod.deadline;
       if (!isInCurrentPeriod) return;
       const eventCredit = Number(event.numCredits ?? 0);
-      const status = pending ? 'pending' : 'approved';
-      if (eventAttendance.status === status) {
-        credits += eventCredit;
+
+      if (eventAttendance.status === 'pending') {
+        pendingCredits += eventCredit;
+      }
+      if (eventAttendance.status === 'approved') {
+        approvedCredits += eventCredit;
       }
     });
-    return credits;
+    return { approvedCredits, pendingCredits };
   };
 
   const getCurrentPeriod = () => {
@@ -210,12 +219,11 @@ export const sendPeriodReminder = async (
   today.setUTCHours(0, 0, 0, 0);
   const futureEventsInPeriod = allPeriodEvents.filter((event) => new Date(event.date) >= today);
 
-  const currentPeriodCredits = calculateCurrentPeriodCredits(currentPeriod, false);
-  const currentPendingCredits = calculateCurrentPeriodCredits(currentPeriod, true);
+  const { approvedCredits, pendingCredits } = calculateCurrentPeriodCredits(currentPeriod);
 
   const isLead = LEAD_ROLES.includes(member.role);
-  const requiredCreditsForPeriod = isLead ? 2 : 1;
-  const remainingCredits = calculateCredits(currentPeriodCredits, requiredCreditsForPeriod);
+  const requiredCreditsForPeriod = isLead ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS;
+  const remainingCredits = calculateCredits(approvedCredits, requiredCreditsForPeriod);
   const reminder =
     `This is a reminder to earn at least ${remainingCredits} team event ${
       remainingCredits !== 1 ? 'credits' : 'credit'
@@ -234,10 +242,10 @@ export const sendPeriodReminder = async (
       )
       .join('')}`;
 
-  const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${currentPeriodCredits} team event ${
-    currentPeriodCredits !== 1 ? 'credits' : 'credit'
-  } approved and ${currentPendingCredits} team event ${
-    currentPendingCredits !== 1 ? 'credits' : 'credit'
+  const text = `[If you are not taking DTI for credit this semester, please ignore.]\nHey! You currently have ${approvedCredits} team event ${
+    approvedCredits !== 1 ? 'credits' : 'credit'
+  } approved and ${pendingCredits} team event ${
+    pendingCredits !== 1 ? 'credits' : 'credit'
   } pending for this period (${periodStart.toDateString()} - ${periodEnd.toDateString()}).\n${reminder}\nTo submit your TEC, please visit https://idol.cornelldti.org/forms/teamEventCredits.`;
   return emailMember(req, member, subject, text);
 };
