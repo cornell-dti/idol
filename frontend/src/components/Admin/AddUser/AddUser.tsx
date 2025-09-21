@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { Card, Button, Form, Input, Select, TextArea } from 'semantic-ui-react';
-import { ALL_COLLEGES, ALL_ROLES } from 'common-types/constants';
+import { Card, Button, Form, Input, Select, TextArea, Dropdown } from 'semantic-ui-react';
+import { ALL_COLLEGES, ALL_ROLES, ALL_MAJORS, ALL_MINORS } from 'common-types/constants';
 import csvtojson from 'csvtojson';
 import styles from './AddUser.module.css';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
@@ -570,38 +570,86 @@ export default function AddUser(): JSX.Element {
                   </Form.Group>
                   <Form.Group widths="equal">
                     <Form.Field
-                      control={Input}
+                      control={Dropdown}
                       label="Major"
-                      placeholder="Major"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      search
+                      selection
+                      options={ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))}
+                      placeholder="Search majors..."
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          major: event.target.value
+                          major: data.value as Major
                         }));
+                        setTimeout(() => {
+                          const inputElement = (event.target as HTMLInputElement)
+                            .closest('.ui.dropdown')
+                            ?.querySelector('input.search') as HTMLInputElement | null;
+                          if (inputElement) {
+                            inputElement.blur();
+                          }
+                        }, 0);
                       }}
                       value={state.currentSelectedMember?.major}
                     />
                     <Form.Field
-                      control={Input}
+                      control={Dropdown}
                       label="Double Major"
-                      placeholder="Double Major"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      search
+                      selection
+                      options={[
+                        { key: 'none', text: 'N/A', value: '' },
+                        ...ALL_MAJORS.map((val) => ({ key: val, text: val, value: val }))
+                      ]}
+                      placeholder="Search double majors..."
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          doubleMajor: event.target.value
+                          doubleMajor: data.value as Major
                         }));
+                        setTimeout(() => {
+                          const inputElement = (event.target as HTMLInputElement)
+                            .closest('.ui.dropdown')
+                            ?.querySelector('input.search') as HTMLInputElement | null;
+                          if (inputElement) {
+                            inputElement.blur();
+                          }
+                        }, 0);
                       }}
                       value={state.currentSelectedMember.doubleMajor || ''}
                     />
                     <Form.Field
-                      control={Input}
+                      control={Dropdown}
+                      search
+                      selection
                       label="Minor"
-                      placeholder="Minor"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      options={[
+                        { key: 'none', text: 'N/A', value: '' },
+                        ...ALL_MINORS.map((val) => ({ key: val, text: val, value: val }))
+                      ]}
+                      placeholder="Search minors..."
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                        data: HTMLInputElement
+                      ) => {
                         setCurrentlySelectedMember((currentSelectedMember) => ({
                           ...currentSelectedMember,
-                          minor: event.target.value
+                          minor: data.value as Minor
                         }));
+                        setTimeout(() => {
+                          const inputEl = (event.target as HTMLInputElement)
+                            .closest('.ui.dropdown')
+                            ?.querySelector('input.search') as HTMLInputElement | null;
+                          if (inputEl) {
+                            inputEl.blur();
+                          }
+                        }, 0);
                       }}
                       value={state.currentSelectedMember.minor || ''}
                     />
