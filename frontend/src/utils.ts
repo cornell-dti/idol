@@ -236,19 +236,11 @@ export const getTECPeriod = (submissionDate: Date) => {
 };
 
 /**
- * Calculates the number of credits needed based on previous and current period credits.
- * @param prevCredits The number of credits from the previous period. Null if it's the first period.
- * @param currentCredits The number of credits in the current period.
+ * Calculates the number of credits needed for the current period only where each period is independent.
+ * @param currentCredits The number of credits approved in the current period.
+ * @param requiredCredits The number of credits required for this period (1 for members, 2 for leads).
  * @returns The number of additional credits needed to meet the requirement.
  *          Returns 0 if the requirement is already met.
  */
-export const calculateCredits = (prevCredits: number | null, currentCredits: number) => {
-  if (prevCredits === null) {
-    return currentCredits < 1 ? 1 - currentCredits : 0;
-  }
-  if (prevCredits < 1) {
-    return currentCredits + prevCredits < 2 ? 2 - prevCredits - currentCredits : 0;
-  }
-
-  return currentCredits < 1 ? 1 - currentCredits : 0;
-};
+export const calculateCredits = (currentCredits: number, requiredCredits: number = 1) =>
+  Math.max(0, requiredCredits - currentCredits);

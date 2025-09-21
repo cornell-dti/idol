@@ -53,18 +53,6 @@ export class MembersAPI {
     return APIWrapper.post(`${backendURL}/member-archive`, body).then((res) => res.data);
   }
 
-  public static notifyMemberTeamEvents(
-    member: Member,
-    endOfSemesterReminder: boolean
-  ): Promise<MemberResponseObj> {
-    return APIWrapper.post(
-      `${backendURL}/team-event-reminder${
-        endOfSemesterReminder ? '?end_of_semester_reminder=true' : ''
-      }`,
-      member
-    ).then((res) => res.data);
-  }
-
   public static notifyMemberPeriod(member: Member): Promise<MemberResponseObj> {
     return APIWrapper.post(`${backendURL}/send-period-reminder`, member).then((res) => res.data);
   }
