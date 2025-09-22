@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import products from './products.json';
 import Product from './Product';
-import SectionSep from '../../components/SectionSep';
 import ProductNav from './ProductNav';
 import { TABLET_BREAKPOINT } from '../../consts';
 import useScreenSize from '../../hooks/useScreenSize';
@@ -54,7 +53,6 @@ export default function ProductsList() {
       {isClient && (
         <div className={`relative flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
           <ProductNav activeProduct={activeProduct} productRefs={nodesRef.current} />
-
           <div className="flex flex-col">
             {products.map((product, index) => (
               <React.Fragment key={product.name}>
@@ -63,11 +61,10 @@ export default function ProductsList() {
                   ref={(el) => {
                     nodesRef.current[index] = el as HTMLDivElement;
                   }}
+                  // eslint-disable-next-line no-nested-ternary
+                  index={index === 0 ? 'first' : index === products.length - 1 ? 'last' : undefined}
                   className={index === products.length - 1 ? '!border-b-0' : ''}
                 />
-                {index < products.length - 1 && (
-                  <SectionSep grid className="border-l-1 border-border-1" />
-                )}
               </React.Fragment>
             ))}
           </div>
