@@ -13,7 +13,7 @@ type Props = {
   linkLabel?: string;
   comingSoon?: boolean;
   id: string;
-  index?: 'first' | 'last';
+  nodeRef: React.Ref<HTMLDivElement | null>;
   accentColor?: string;
   className?: string;
 };
@@ -29,7 +29,7 @@ const Product = forwardRef<HTMLElement, Props>(
       linkLabel = 'Visit product',
       comingSoon,
       id,
-      index,
+      nodeRef,
       accentColor,
       className
     },
@@ -38,7 +38,7 @@ const Product = forwardRef<HTMLElement, Props>(
     <article
       id={id}
       className={clsx(
-        'relative scroll-mt-20 h-fit !border-r-0 border-y-1 border-t-0 border-border-1',
+        'scroll-mt-20 h-fit !border-r-0 border-y-1 border-t-0 border-border-1',
         className
       )}
       ref={ref}
@@ -53,7 +53,9 @@ const Product = forwardRef<HTMLElement, Props>(
       <div className="p-4 sm:p-8 flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <h2 className="h3">{name}</h2>
+            <h2 ref={nodeRef} className="h3">
+              {name}
+            </h2>
 
             {comingSoon && <Chip label="Coming soon" color="red" allCaps />}
           </div>
