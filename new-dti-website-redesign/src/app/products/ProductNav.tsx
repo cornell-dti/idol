@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import Button from '../../components/Button';
 import { TABLET_BREAKPOINT } from '../../consts';
@@ -66,6 +67,7 @@ export default function ProductNav({
               variant={activeProduct === product.id ? 'primary' : 'tertiary'}
               label={product.name}
               key={product.name}
+              aria-current={activeProduct === product.id ? 'page' : undefined}
               onClick={(e) =>
                 handleMobileMenuClick(product.id, e as React.MouseEvent<HTMLButtonElement>)
               }
@@ -85,14 +87,20 @@ export default function ProductNav({
         {products.map((product) => (
           <li key={product.name} className="flex flex-row items-center gap-x-2">
             <ArrowLogoIcon
-              className={`rotate-90 ml-[-24px] transition-all duration-200 ease-in-out ${
+              className={clsx(
+                'rotate-90 ml-[-24px] transition-all duration-200 ease-in-out',
                 activeProduct === product.id ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-              }`}
+              )}
             />
             <Link
               href={`#${product.id}`}
               key={product.name}
-              className={`flex flex-row gap-x-2 cursor-pointer select-none items-center ${activeProduct === product.id ? 'text-foreground-1 pl-1' : 'text-foreground-3'} transition-all duration-300 ease-in-out`}
+              aria-current={activeProduct === product.id ? 'page' : undefined}
+              className={clsx(
+                'flex flex-row gap-x-2 cursor-pointer select-none items-center',
+                activeProduct === product.id ? 'text-foreground-1 pl-1' : 'text-foreground-3',
+                'transition-all duration-300 ease-in-out'
+              )}
             >
               <p className="h6">{product.name}</p>
               {product.comingSoon && (
