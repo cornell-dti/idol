@@ -82,7 +82,7 @@ export default function ProductNav({
       </ul>
     </aside>
   ) : (
-    <aside className="flex flex-col sticky top-[80px] h-fit w-104 px-12 gap-2 py-4">
+    <aside className="flex flex-col sticky top-[80px] h-fit w-104 px-12 gap-2 pt-4 pb-8">
       <ul className="flex flex-col gap-2">
         {products.map((product) => (
           <li key={product.name} className="flex flex-row items-center gap-x-2">
