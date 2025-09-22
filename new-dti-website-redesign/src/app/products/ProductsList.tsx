@@ -50,7 +50,7 @@ export default function ProductsList() {
   }, [isClient, isMobile]);
 
   return (
-    <section id="products" className="scroll-m-20 !border-b-0">
+    <section id="products" className="scroll-m-20">
       {isClient && (
         <div className={`relative flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
           <ProductNav activeProduct={activeProduct} productRefs={nodesRef.current} />
@@ -63,6 +63,7 @@ export default function ProductsList() {
                   ref={(el) => {
                     nodesRef.current[index] = el as HTMLDivElement;
                   }}
+                  className={index === products.length - 1 ? '!border-b-0' : ''}
                 />
                 {index < products.length - 1 && (
                   <SectionSep grid className="border-l-1 border-border-1" />

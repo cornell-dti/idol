@@ -1,5 +1,6 @@
 import React, { ReactNode, forwardRef } from 'react';
 import Image from 'next/image';
+import clsx from 'clsx';
 import Button from '../../components/Button';
 import Chip from '../../components/Chip';
 
@@ -13,6 +14,7 @@ type Props = {
   comingSoon?: boolean;
   id: string;
   accentColor?: string;
+  className?: string;
 };
 
 const Product = forwardRef<HTMLElement, Props>(
@@ -26,13 +28,17 @@ const Product = forwardRef<HTMLElement, Props>(
       linkLabel = 'Visit product',
       comingSoon,
       id,
-      accentColor
+      accentColor,
+      className
     },
     ref
   ): ReactNode => (
     <article
       id={id}
-      className="scroll-mt-20 !border-r-0 md:border-l-1 border-y-1 border-border-1"
+      className={clsx(
+        'scroll-mt-20 !border-r-0 md:border-l-1 border-y-1 border-border-1',
+        className
+      )}
       ref={ref}
     >
       <div
