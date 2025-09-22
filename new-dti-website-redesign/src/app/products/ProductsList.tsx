@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import products from './products.json';
 import Product from './Product';
 import ProductNav from './ProductNav';
 import { TABLET_BREAKPOINT } from '../../consts';
 import useScreenSize from '../../hooks/useScreenSize';
+import SectionSep from '../../components/SectionSep';
 
 export default function ProductsList() {
   const nodesRef = useRef<(HTMLDivElement | null)[]>(products.map(() => null));
@@ -53,20 +55,37 @@ export default function ProductsList() {
       {isClient && (
         <div className={`relative flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
           <ProductNav activeProduct={activeProduct} productRefs={nodesRef.current} />
-          <div className="flex flex-col">
-            {products.map((product, index) => (
-              <React.Fragment key={product.name}>
-                <Product
-                  {...product}
-                  ref={(el) => {
-                    nodesRef.current[index] = el as HTMLDivElement;
-                  }}
-                  // eslint-disable-next-line no-nested-ternary
-                  index={index === 0 ? 'first' : index === products.length - 1 ? 'last' : undefined}
-                  className={index === products.length - 1 ? '!border-b-0' : ''}
-                />
-              </React.Fragment>
-            ))}
+          <div className="relative flex flex-row h-fit">
+            <svg className={clsx('absolute w-[17px] h-full ml-[-10px]')}>
+              <defs>
+                <linearGradient id="gradient" gradientTransform="rotate(90)">
+                  <stop offset="0%" stopColor="var(--background-1)" />
+                  <stop offset="2%" stopColor="var(--foreground-3)" />
+                  <stop offset="98%" stopColor="var(--foreground-3)" />
+                  <stop offset="100%" stopColor="var(--background-1)" />
+                </linearGradient>
+              </defs>
+              <rect x="7" width="3px" height="100%" fill="url(#gradient)" />
+            </svg>
+            <div className="flex flex-col">
+              {products.map((product, index) => (
+                <React.Fragment key={product.name}>
+                  <Product
+                    {...product}
+                    ref={(el) => {
+                      nodesRef.current[index] = el as HTMLDivElement;
+                    }}
+                    className={index === products.length - 1 ? '!border-b-0' : ''}
+                  />
+                  {index !== products.length - 1 && (
+                    <SectionSep
+                      grid
+                      className="!w-full !mx-0 border-l-1 border-border-1 border-t-1 !border-b-0"
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </div>
       )}

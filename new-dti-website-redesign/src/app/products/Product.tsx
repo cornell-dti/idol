@@ -3,7 +3,6 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import Button from '../../components/Button';
 import Chip from '../../components/Chip';
-import SectionSep from '../../components/SectionSep';
 
 type Props = {
   image: string;
@@ -44,33 +43,6 @@ const Product = forwardRef<HTMLElement, Props>(
       )}
       ref={ref}
     >
-      <svg id={id} className="absolute h-[calc(100%+2px)] w-[3px]">
-        <defs>
-          <linearGradient id="topGradient" gradientTransform="rotate(90)">
-            <stop offset="0%" stopColor="var(--background-1)" />
-            <stop offset="10%" stopColor="var(--foreground-3)" />
-          </linearGradient>
-        </defs>
-        <defs>
-          <linearGradient id="bottomGradient" gradientTransform="rotate(90)">
-            <stop offset="90%" stopColor="var(--foreground-3)" />
-            <stop offset="100%" stopColor="var(--background-1)" />
-          </linearGradient>
-        </defs>
-        <rect
-          width="3px"
-          height="100%"
-          fill={
-            // eslint-disable-next-line no-nested-ternary
-            index === 'first'
-              ? 'url(#topGradient)'
-              : index === 'last'
-                ? 'url(#bottomGradient)'
-                : 'var(--foreground-3)'
-          }
-        />
-      </svg>
-
       <div
         className="border-b-1 border-border-1 border-t-0"
         style={{ background: accentColor || 'var(--background-2)' }}
@@ -90,12 +62,6 @@ const Product = forwardRef<HTMLElement, Props>(
 
         {link && <Button href={link} variant="primary" label={linkLabel} newTab />}
       </div>
-      {index !== 'last' && (
-        <SectionSep
-          grid
-          className="!w-full !mx-0 border-l-1 border-border-1 border-t-1 !border-b-0"
-        />
-      )}
     </article>
   )
 );
