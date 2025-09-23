@@ -1,6 +1,8 @@
+/* eslint-disable consistent-return */
+
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import products from './products.json';
 import Product from './Product';
@@ -61,7 +63,7 @@ export default function ProductsList() {
     }
   };
 
-  const updateScrollProgress = () => {
+  const updateScrollProgress = useCallback(() => {
     if (!svgContainerRef.current || nodePositions.length === 0) return;
 
     const containerRect = svgContainerRef.current.getBoundingClientRect();
@@ -75,10 +77,10 @@ export default function ProductsList() {
     } else if (viewportCenter >= containerBottom) {
       setScrollProgress(1);
     } else {
-      const progress = (viewportCenter - containerTop) / (containerBottom - containerTop);
+      const progress = (viewportCenter - containerTop + 150) / (containerBottom - containerTop);
       setScrollProgress(Math.max(0, Math.min(1, progress)));
     }
-  };
+  }, [svgHeight, nodePositions.length]);
 
   useEffect(() => {
     setIsClient(true);
@@ -103,12 +105,9 @@ export default function ProductsList() {
     );
 
     productSectionRef.current.forEach((node) => {
-      if (node) {
-        observer.observe(node);
-      }
+      if (node) observer.observe(node);
     });
 
-    // eslint-disable-next-line consistent-return
     return () => {
       observer.disconnect();
     };
@@ -124,7 +123,6 @@ export default function ProductsList() {
     setTimeout(updateNodePositions, 100);
     window.addEventListener('resize', handleResize);
 
-    // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -139,7 +137,6 @@ export default function ProductsList() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -157,60 +154,105 @@ export default function ProductsList() {
               className={clsx('absolute ml-[-10px]')}
               style={{ minHeight: '100%' }}
             >
+              {/* --- GRADIENTS FOR STROKES (scale with svgHeight) --- */}
               <defs>
-                <linearGradient id="grayGradient" gradientTransform="rotate(90)">
+                {/* Rail gradient (gray) */}
+                <linearGradient
+                  id="railGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2={svgHeight}
+                  gradientUnits="userSpaceOnUse"
+                >
                   <stop offset="0%" stopColor="var(--background-1)" />
                   <stop offset="2%" stopColor="var(--foreground-3)" />
                   <stop offset="98%" stopColor="var(--foreground-3)" />
                   <stop offset="100%" stopColor="var(--background-1)" />
                 </linearGradient>
-                <linearGradient id="redGradient" gradientTransform="rotate(90)">
+
+                {/* Progress gradient (red) */}
+                <linearGradient
+                  id="progressGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2={svgHeight}
+                  gradientUnits="userSpaceOnUse"
+                >
                   <stop offset="0%" stopColor="var(--background-1)" />
-                  <stop offset={`${0.01 * svgHeight}`} stopColor="var(--accent-red)" />
-                  <stop offset={`${0.95 * svgHeight}`} stopColor="var(--accent-red)" />
+                  <stop offset="2%" stopColor="var(--accent-red)" />
+                  <stop offset="98%" stopColor="var(--accent-red)" />
                   <stop offset="100%" stopColor="var(--background-1)" />
                 </linearGradient>
               </defs>
 
-              {/* Gray background line */}
-              <rect x="7" width="3" height="100%" fill="url(#grayGradient)" />
+              {(() => {
+                const x = 8.5;
+                const y1 = 0;
+                const y2 = svgHeight;
+                const lineLength = Math.max(0, y2 - y1);
+                const clamped = Math.max(0, Math.min(1, scrollProgress));
+                const dashArray = `${lineLength} ${lineLength}`;
+                const dashOffset = lineLength * (1 - clamped);
 
-              {/* Red progress line */}
-              <rect
-                x="7"
-                width="3"
-                height={`${scrollProgress * 100}%`}
-                fill="url(#redGradient)"
-                style={{
-                  transition: 'height 0.1s ease-out'
-                }}
-              />
+                return (
+                  <>
+                    {/* Rail (background) */}
+                    <line
+                      x1={x}
+                      y1={y1}
+                      x2={x}
+                      y2={y2}
+                      stroke="url(#railGradient)"
+                      strokeWidth={3}
+                      strokeLinecap="round"
+                    />
+
+                    {/* Progress (foreground) */}
+                    <line
+                      x1={x}
+                      y1={y1}
+                      x2={x}
+                      y2={y2}
+                      stroke="url(#progressGradient)"
+                      strokeWidth={3}
+                      strokeLinecap="round"
+                      strokeDasharray={dashArray}
+                      strokeDashoffset={dashOffset}
+                      style={{ transition: 'stroke-dashoffset 0.1s ease-out' }}
+                    />
+                  </>
+                );
+              })()}
 
               {/* Nodes at each product header */}
-              {nodePositions.map((node, index) => (
+              {nodePositions.map((node) => (
                 <g key={node.id}>
                   {/* Outer circle (background) */}
                   <circle
                     cx="8.5"
                     cy={node.y}
-                    r="6"
+                    r="6.5"
                     fill="var(--background-1)"
-                    stroke="var(--foreground-3)"
-                    strokeWidth="2"
+                    stroke={
+                      scrollProgress >= node.y / svgHeight
+                        ? 'var(--accent-red)'
+                        : 'var(--foreground-3)'
+                    }
+                    strokeWidth="1"
                   />
                   {/* Inner circle (progress indicator) */}
                   <circle
                     cx="8.5"
                     cy={node.y}
-                    r="4"
+                    r="3"
                     fill={
-                      scrollProgress >= index / (nodePositions.length - 1)
+                      scrollProgress >= node.y / svgHeight
                         ? 'var(--accent-red)'
-                        : 'transparent'
+                        : 'var(--foreground-3)'
                     }
-                    style={{
-                      transition: 'fill 0.2s ease-out'
-                    }}
+                    style={{ transition: 'fill 0.2s ease-out' }}
                   />
                 </g>
               ))}

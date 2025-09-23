@@ -56,7 +56,7 @@ export default function ProductNav({
   return isMobile && isClient ? (
     <aside
       ref={mobileMenuRef}
-      className="sticky top-[72px] h-28 bg-background-1 border-b-1 border-border-1"
+      className="sticky top-[72px] h-28 bg-background-1 border-b-1 border-border-1 z-20"
     >
       <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background-1 to-transparent pointer-events-none z-10"></div>
       <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-background-1 to-transparent pointer-events-none z-10"></div>
