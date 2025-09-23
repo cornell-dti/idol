@@ -92,9 +92,9 @@
     {
       "title": "Meet the DTI'ers",
       "description": "Get to know DTI and its members through casual chats, games, product demos, and get your resume reviewed!",
-      "location": "TBD",
+      "location": "Upson 116",
       "type": "workshop",
-      "freshmen": { "date": "September 25", "isTentative": true, "time": "5:30-7:00PM" },
+      "freshmen": { "date": "September 25", "isTentative": true, "time": "6:00-7:00PM" },
       "spring": { "date": "January 29", "isTentative": false, "time": "6:30-8:00PM" }
     },
     {
