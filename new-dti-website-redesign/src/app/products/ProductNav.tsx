@@ -53,7 +53,7 @@ export default function ProductNav({
     });
   }
 
-  return isMobile && isClient ? (
+  return isMobile ? (
     <aside
       ref={mobileMenuRef}
       className="sticky top-[72px] h-28 bg-background-1 border-b-1 border-border-1 z-20"
