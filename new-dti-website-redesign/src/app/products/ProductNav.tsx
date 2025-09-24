@@ -97,9 +97,9 @@ export default function ProductNav({
               key={product.name}
               aria-current={activeProduct === product.id ? 'page' : undefined}
               className={clsx(
-                'flex flex-row gap-x-2 cursor-pointer select-none items-center',
+                'flex flex-row gap-x-2 cursor-pointer select-none items-center hover:text-foreground-1 rounded-sm',
                 activeProduct === product.id ? 'text-foreground-1 pl-1' : 'text-foreground-3',
-                'transition-all duration-300 ease-in-out'
+                'transition-colors duration-300 ease-in-out'
               )}
             >
               <p className="h6">{product.name}</p>
