@@ -32,7 +32,8 @@ export const ALL_ROLES: Role[] = [
   'pm-advisor',
   'dev-advisor',
   'design-advisor',
-  'business-advisor'
+  'business-advisor',
+  'alum'
 ];
 
 export const LEAD_ROLES: Role[] = [
