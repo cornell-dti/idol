@@ -69,6 +69,6 @@ export const getGeneralRole = (role: Role): GeneralRole => {
     case 'alum':
       return 'developer';
     default:
-      return role;
+      return role as GeneralRole;
   }
 };
