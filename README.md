@@ -47,6 +47,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 ## Contributors
 
 ### Fall 2025
+
 - **Amelie Rosso** - PM
 - **Oscar Wang** - TPM
 - **Ashley Paik** - Designer
