@@ -9,7 +9,6 @@ interface Modifiers {
 
 function useKeyboardShortcut(key: string, callback: () => void, modifiers: Modifiers = {}) {
   useEffect(() => {
-    console.log('useKeyboardShortcut', key, callback, modifiers);
     const handler = (event: KeyboardEvent) => {
       const ctrlMatch = modifiers.ctrl ? event.ctrlKey || event.metaKey : true;
       const shiftMatch = modifiers.shift ? event.shiftKey : true;

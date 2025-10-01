@@ -170,16 +170,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   };
 
   useKeyboardShortcut('ArrowRight', () => {
-    handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
     handleCandidateChange(currentCandidate + 1);
   });
   useKeyboardShortcut('ArrowLeft', () => {
-    handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
     handleCandidateChange(currentCandidate - 1);
   });
   useKeyboardShortcut(
     'Enter',
     () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
       handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
     },
     { meta: true }
@@ -188,11 +189,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     ratings.forEach((rating) => {
       document.addEventListener('keydown', (e) => {
         if (e.key === rating.value.toString()) {
-          handleRatingAndCommentChange(
-            currentCandidate,
-            rating.value as Rating,
-            currentComment ?? ''
-          );
+          setCurrentRating(rating.value as Rating);
         }
       });
     });
