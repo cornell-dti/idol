@@ -186,6 +186,16 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     { meta: true },
     { captureInInputs: true }
   );
+  useKeyboardShortcut(
+    'Escape',
+    () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
+    },
+    {}
+  );
+
   useEffect(() => {
     ratings.forEach((rating) => {
       document.addEventListener('keydown', (e) => {
