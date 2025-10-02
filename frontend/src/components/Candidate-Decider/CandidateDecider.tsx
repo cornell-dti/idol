@@ -13,7 +13,7 @@ import {
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
 import Selector, { RatingOptions } from '../Common/Selector/Selector';
-import useKeyboardShortcut from '../../hooks/useKeyboardShortcut';
+import useKeyboardShortcut, { isEditableTarget } from '../../hooks/useKeyboardShortcut';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -183,12 +183,13 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       }
       handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
     },
-    { meta: true }
+    { meta: true },
+    { captureInInputs: true }
   );
   useEffect(() => {
     ratings.forEach((rating) => {
       document.addEventListener('keydown', (e) => {
-        if (e.key === rating.value.toString()) {
+        if (e.key === rating.value.toString() && !isEditableTarget(e)) {
           setCurrentRating(rating.value as Rating);
         }
       });
