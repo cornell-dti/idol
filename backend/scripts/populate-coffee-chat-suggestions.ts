@@ -33,6 +33,7 @@ const filteredSuggestions = (
     .map((mem) => ({ name: `${mem.firstName} ${mem.lastName}`, netid: mem.netid }));
 
 const getMembersByCategory = async () => {
+  //update csv path to current suggestions
   const csv = fs.readFileSync('./scripts/fa25-coffee-chat-bingo.csv').toString();
   const rows = csv.split('\n');
 
