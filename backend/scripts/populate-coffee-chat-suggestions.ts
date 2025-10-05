@@ -4,11 +4,11 @@ import admin from 'firebase-admin';
 import fs from 'fs';
 import COFFEE_CHAT_BINGO_BOARD from '../src/consts';
 
-require('dotenv').config();
-
 import { configureAccount } from '../src/utils/firebase-utils';
 
-//const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+require('dotenv').config();
+
+// const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
 admin.initializeApp({
@@ -33,7 +33,7 @@ const filteredSuggestions = (
     .map((mem) => ({ name: `${mem.firstName} ${mem.lastName}`, netid: mem.netid }));
 
 const getMembersByCategory = async () => {
-  //update csv path to current suggestions
+  // update csv path to current suggestions
   const csv = fs.readFileSync('./scripts/fa25-coffee-chat-bingo.csv').toString();
   const rows = csv.split('\n');
 
