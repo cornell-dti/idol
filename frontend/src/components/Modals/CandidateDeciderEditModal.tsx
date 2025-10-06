@@ -22,7 +22,7 @@ function getNormalizedScore(mean: number, sd: number, score: number): number {
   const z = (score - mean) / ssd;
   let normalizedScore = 2.5 + z * 1.25;
   normalizedScore = Math.round(normalizedScore);
-  return Math.min(6, Math.max(1, normalizedScore));
+  return Math.min(5, Math.max(1, normalizedScore));
 }
 
 const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
