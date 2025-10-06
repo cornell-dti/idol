@@ -17,6 +17,17 @@ type Props = {
   setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
 };
 
+/**
+ * Normalizes a reviewer's raw rating score to a standardized 1–5 scale.
+ * Uses z-score normalization relative to the reviewer's mean and standard deviation,
+ * then rescales to approximate a distribution with mean = 2.5 and sd = 1.25.
+ * The final score is rounded to the nearest integer and clamped between 1 and 5.
+ *
+ * @param mean The average rating given by the reviewer.
+ * @param sd The standard deviation of the reviewer's ratings.
+ * @param score The raw rating to normalize.
+ * @returns The normalized score on a 1–5 scale.
+ */
 function getNormalizedScore(mean: number, sd: number, score: number): number {
   const ssd = sd === 0 ? 1 : sd;
   const z = (score - mean) / ssd;
