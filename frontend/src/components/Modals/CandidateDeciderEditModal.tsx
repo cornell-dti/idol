@@ -17,6 +17,14 @@ type Props = {
   setInstances: React.Dispatch<React.SetStateAction<CandidateDeciderInfo[]>>;
 };
 
+function getNormalizedScore(mean: number, sd: number, score: number): number {
+  const ssd = sd === 0 ? 1 : sd;
+  const z = (score - mean) / ssd;
+  let normalizedScore = 2.5 + z * 1.25;
+  normalizedScore = Math.round(normalizedScore);
+  return Math.min(6, Math.max(1, normalizedScore));
+}
+
 const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [instance, setInstance] = useState<CandidateDeciderInstance>();
@@ -24,6 +32,10 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [authorizedMembers, setAuthorizedMembers] = useState<Array<IdolMember>>([]);
   const [authorizedRoles, setAuthorizedRoles] = useState<Array<Role>>([]);
   const [name, setName] = useState<string>('');
+  const [reviewerStats, setReviewerStats] = useState<Map<
+    string,
+    { mean: number; sd: number }
+  > | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -38,6 +50,38 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
       });
     }
   }, [isOpen, uuid]);
+
+  useEffect(() => {
+    if (reviews.length === 0) {
+      setReviewerStats(null);
+    }
+    const reviewList: Map<string, number[]> = new Map();
+    if (reviews.length > 0 && !reviewerStats) {
+      reviews.forEach((review) => {
+        if (!reviewList.has(String(review.reviewer.email))) {
+          reviewList.set(String(review.reviewer.email), [Number(review.rating)]);
+        } else {
+          const existingRatings = reviewList.get(String(review.reviewer.email)) || [];
+          reviewList.set(String(review.reviewer.email), [
+            ...existingRatings,
+            Number(review.rating)
+          ]);
+        }
+      });
+      const stats = new Map();
+      reviewList.forEach((reviews, reviewer) => {
+        const mean = reviews.reduce((sum, value) => sum + value, 0) / reviews.length;
+        const variance =
+          reviews.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / reviews.length;
+        const sd = Math.sqrt(variance);
+        stats.set(reviewer, { mean, sd });
+      });
+
+      setReviewerStats(stats);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reviews]);
 
   const handleSubmit = () => {
     if (instance) {
@@ -98,15 +142,23 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
           ''
         )
       };
+      let sumOfNormRatings = 0;
       reviewers.forEach((reviewer) => {
         const review = candidateReviews.find((review) => review.reviewer.email === reviewer.email);
         let formattedRating;
+        let formattedNormRating;
         if (review === undefined || review.rating === 0) {
           formattedRating = '';
+          formattedNormRating = '';
         } else {
           formattedRating = String(review.rating);
+          const { mean, sd } = reviewerStats?.get(reviewer.email) || { mean: 0, sd: 0 };
+          const normRating = getNormalizedScore(mean, sd, review.rating);
+          sumOfNormRatings += normRating;
+          formattedNormRating = String(normRating);
         }
         row[`${reviewer.firstName} ${reviewer.lastName}`] = formattedRating;
+        row[`${reviewer.firstName} ${reviewer.lastName} (Normalized)`] = formattedNormRating;
       });
 
       let completedReviews = 0;
@@ -118,6 +170,8 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
         }
       });
       row['Average Rating'] = completedReviews === 0 ? '' : String(sumOfRatings / completedReviews);
+      row['Average Normalized Rating'] =
+        completedReviews === 0 ? '' : String(sumOfNormRatings / completedReviews);
 
       return row;
     });
