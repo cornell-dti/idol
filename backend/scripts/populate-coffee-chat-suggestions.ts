@@ -63,8 +63,8 @@ const getMembersByCategory = async () => {
       .map(([first, last]) => ({
         name: `${first} ${last}`,
         netid:
-          members.find((member) => member.firstName === first && member.lastName === last)
-            ?.netid ?? ''
+          members.find((member) => member.firstName === first && member.lastName === last)?.netid ??
+          ''
       }));
   });
 
