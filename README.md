@@ -131,7 +131,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 ### Fall 2021
 
 - **Henry Li** - TPM
-- **Morgan Belous** - Developer
+- **Morgan Belous** - Developer and 
 - **Riya Jaggi** - Developer
 - **Sam Zhou** - Developer
 - **Jackson Staniec** - Developer
