@@ -102,8 +102,8 @@ const AdminShoutouts: React.FC = () => {
   }, [earlyDate, lastDate, view, updateShoutouts]);
 
   useEffect(() => {
-    fetchImages(allShoutouts);
-  }, [allShoutouts, fetchImages]);
+    fetchImages(displayShoutouts);
+  }, [displayShoutouts, fetchImages]);
 
   useEffect(() => {
     const shoutoutCollection = collection(db, 'shoutouts');
