@@ -8,7 +8,7 @@ import { configureAccount } from '../src/utils/firebase-utils';
 
 require('dotenv').config();
 
-// const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+//const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
 admin.initializeApp({
@@ -35,7 +35,7 @@ const filteredSuggestions = (
 const getMembersByCategory = async () => {
   // update csv path to current suggestions
   const csv = fs.readFileSync('./scripts/fa25-coffee-chat-bingo.csv').toString();
-  const rows = csv.split('\n');
+  const rows = csv.split(/\r?\n/);
 
   const responses = rows.splice(1);
 
@@ -51,14 +51,19 @@ const getMembersByCategory = async () => {
         const cells = response.split(',');
         return cells[OFFSET + index].toLowerCase() === 'yes';
       })
-      .map((response) => response.split(',')[1].split(' '))
+      .map((response) => {
+        const nameParts = response.split(',')[1].split(' ');
+        const first = nameParts[0];
+        const last = nameParts.slice(1).join(' ');
+        return [first, last];
+      })
       .filter(([first, last]) =>
         members.some((member) => member.firstName === first && member.lastName === last)
       )
-      .map((name) => ({
-        name: name.join(' '),
+      .map(([first, last]) => ({
+        name: `${first} ${last}`,
         netid:
-          members.find((member) => member.firstName === name[0] && member.lastName === name[1])
+          members.find((member) => member.firstName === first && member.lastName === last)
             ?.netid ?? ''
       }));
   });
