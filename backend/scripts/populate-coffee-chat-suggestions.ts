@@ -8,7 +8,7 @@ import { configureAccount } from '../src/utils/firebase-utils';
 
 require('dotenv').config();
 
-//const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+// const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
 admin.initializeApp({
