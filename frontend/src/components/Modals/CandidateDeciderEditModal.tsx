@@ -36,6 +36,16 @@ function getNormalizedScore(mean: number, sd: number, score: number): number {
   return Math.min(5, Math.max(1, normalizedScore));
 }
 
+function createReviewerSet(reviews: CandidateDeciderReview[]): Set<IdolMember> {
+  const tempDict = new Map();
+  reviews.forEach((review) => {
+    if (!tempDict.has(review.reviewer.email)) {
+      tempDict.set(review.reviewer.email, review.reviewer);
+    }
+  });
+  return new Set(tempDict.values());
+}
+
 const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [instance, setInstance] = useState<CandidateDeciderInstance>();
@@ -43,10 +53,10 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   const [authorizedMembers, setAuthorizedMembers] = useState<Array<IdolMember>>([]);
   const [authorizedRoles, setAuthorizedRoles] = useState<Array<Role>>([]);
   const [name, setName] = useState<string>('');
-  const [reviewerStats, setReviewerStats] = useState<Map<
-    string,
-    { mean: number; sd: number }
-  > | null>(null);
+  const [reviewerStats, setReviewerStats] = useState<Map<string, { mean: number; sd: number }>>(
+    new Map()
+  );
+  const [reviewers, setReviewers] = useState<Set<IdolMember>>(new Set());
 
   useEffect(() => {
     if (isOpen) {
@@ -63,11 +73,8 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
   }, [isOpen, uuid]);
 
   useEffect(() => {
-    if (reviews.length === 0) {
-      setReviewerStats(null);
-    }
     const reviewList: Map<string, number[]> = new Map();
-    if (reviews.length > 0 && !reviewerStats) {
+    if (reviews.length > 0 && reviewerStats.size === 0) {
       reviews.forEach((review) => {
         if (!reviewList.has(String(review.reviewer.email))) {
           reviewList.set(String(review.reviewer.email), [Number(review.rating)]);
@@ -89,10 +96,13 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
       });
 
       setReviewerStats(stats);
+
+      const reviewers = createReviewerSet(reviews);
+      setReviewers(reviewers);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reviews]);
+  }, [reviews, reviewers]);
 
   const handleSubmit = () => {
     if (instance) {
@@ -130,8 +140,6 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
 
     const csvData = instance.candidates.map((candidate) => {
       const candidateReviews = reviews.filter((review) => review.candidateId === candidate.id);
-      const reviewers = new Set<IdolMember>();
-      reviews.forEach((review) => reviewers.add(review.reviewer));
 
       const row: Record<string, string> = {
         name: `${candidate.responses[firstNameIndex]} ${candidate.responses[lastNameIndex]}`,
