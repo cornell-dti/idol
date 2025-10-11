@@ -28,7 +28,8 @@ type Role =
   | 'pm-advisor'
   | 'dev-advisor'
   | 'design-advisor'
-  | 'business-advisor';
+  | 'business-advisor'
+  | 'alum';
 
 /** The corresponding more human readable role description of all roles. */
 type RoleDescription =
@@ -46,7 +47,8 @@ type RoleDescription =
   | 'PM Advisor'
   | 'Dev Advisor'
   | 'Design Advisor'
-  | 'Business Advisor';
+  | 'Business Advisor'
+  | 'Alumni';
 
 /** The possible colleges an IDOL member could be. */
 type College = 'eng' | 'cas' | 'cals' | 'dyson' | 'humec' | 'hotel' | 'ilr' | 'brooks' | 'aap';
