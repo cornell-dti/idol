@@ -708,29 +708,29 @@
     "about": "Hi everyone! I'm a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a cute cat. Feel free to chat with me :))"
   },
   {
-    "formerSubteams": [],
-    "firstName": "Esperanza",
-    "lastName": "Roman-Carrera",
-    "email": "er549@cornell.edu",
-    "role": "business",
-    "semesterJoined": "Spring 2025",
     "subteams": [
       "business"
     ],
-    "netid": "er549",
-    "roleDescription": "Business",
-    "college": "cas",
-    "github": null,
-    "hometown": "Chicago",
-    "website": null,
     "minor": null,
-    "major": "Information Science",
-    "doubleMajor": null,
-    "graduation": "2028",
-    "coffeeChatLink": null,
-    "about": "Hey! My name is Esperanza and I'm a freshman studying Information Science in CAS. I'm the social media manager and I love music, photography, videography, language learning, and traveling.",
+    "linkedin": "https://www.linkedin.com/in/esperanzarc/",
+    "netid": "er549",
+    "github": null,
+    "lastName": "Roman Carrera",
+    "college": "cas",
+    "hometown": "Chicago",
+    "firstName": "Esperanza",
     "pronouns": "she/her",
-    "linkedin": "https://www.linkedin.com/in/esperanzarc/"
+    "major": "Information Science",
+    "roleDescription": "Business",
+    "graduation": "2028",
+    "email": "er549@cornell.edu",
+    "formerSubteams": [],
+    "coffeeChatLink": null,
+    "semesterJoined": "Spring 2025",
+    "role": "business",
+    "website": null,
+    "doubleMajor": "Economics",
+    "about": "Heyy! My name is Esperanza and I'm a sophomore studying Information Science in CAS. I work with the business team as the social media manager 😊 This year I realized that I love matcha 🍵 but I also love music (rnb/hiphop the most), photography/videography, language learning (I speak Spanish, Portuguese, English, some Korean), and traveling. I'm also down to read books and listen to podcasts so let me know if you have any recs :)\nInstagram: @espie.v"
   },
   {
     "about": "Hi! Thanks for stopping by my profile :) \n\nA little about me: I'm a computer science student at Cornell, hold leadership roles in SWE and HSC, and contribute to machine learning research in the PoRTaL lab. I also adore building intricate miniature models, singing, and Severance (the show). I'm down to chat about literally anything, so feel free to reach out!",
@@ -1078,7 +1078,6 @@
     ],
     "netid": "jpg285",
     "college": "cas",
-    "about": "Hi, I’m Justina! I’m a designer on CURaise, and outside of that, you can probably find me hiking (always looking for new trail recommendations!), practicing Spanish (please speak to me in Spanish—I need the practice), or daydreaming about the beach 🏝️.\n\nI love meeting new people and having great conversations, so please reach out—I’d love to chat!",
     "major": "Information Science",
     "coffeeChatLink": null,
     "linkedin": "https://www.linkedin.com/in/justina-gerald/",
@@ -1086,7 +1085,8 @@
       "carriage"
     ],
     "github": null,
-    "roleDescription": "Designer"
+    "roleDescription": "Designer",
+    "about": "Hi, I’m Justina! I’m a designer on Carriage, previously on CURaise, and outside of that, you can probably find me hiking (always looking for new trail recommendations!), practicing Spanish (please speak to me in Spanish—I need the practice), or daydreaming about the beach 🏝️.\n\nI love meeting new people and having great conversations, so please reach out—I’d love to chat!"
   },
   {
     "formerSubteams": [],
@@ -1475,7 +1475,6 @@
   },
   {
     "github": "https://github.com/oscarwang20",
-    "about": "I like doing a hamiltonian tour of the west houses each Wednesday with Chris.",
     "major": "Computer Science",
     "pronouns": "he/him",
     "role": "tpm",
@@ -1489,7 +1488,6 @@
     "coffeeChatLink": "https://calendly.com/ow39/coffee-chat-with-oscar",
     "doubleMajor": "Mathematics",
     "website": null,
-    "minor": "Artificial Intelligence",
     "lastName": "Wang",
     "college": "cas",
     "linkedin": "https://www.linkedin.com/in/oscar-wang04/",
@@ -1498,7 +1496,9 @@
     ],
     "roleDescription": "Technical PM",
     "email": "ow39@cornell.edu",
-    "semesterJoined": "Spring 2023"
+    "semesterJoined": "Spring 2023",
+    "minor": null,
+    "about": "probably working on distributed systems"
   },
   {
     "pronouns": "She/Her",
@@ -1978,17 +1978,17 @@
     "role": "designer",
     "firstName": "May",
     "email": "zw757@cornell.edu",
-    "college": "aap",
     "github": null,
     "hometown": "Shanghai,China",
-    "website": "https://maywu.framer.website/",
-    "minor": "Information Science",
-    "major": "Fine Arts",
     "doubleMajor": null,
     "graduation": "Spring2028",
     "coffeeChatLink": null,
-    "about": "Hi! My name is May and I’m a freshman studying Fine Arts. I am passionate in exploring the intersection of art, design, and technology, and how these fields can combine to create innovative and meaningful projects. Outside of Design, I enjoy art (my main mediums are painting and installation), making bead jewelries, GamePigeon, doing nails, and cooking with friends!!",
     "pronouns": "She/her",
-    "linkedin": "https://www.linkedin.com/in/zexuanwu/"
+    "linkedin": "https://www.linkedin.com/in/zexuanwu/",
+    "website": "maywu.net",
+    "about": "Hi! My name is May and I’m a sophomore studying Info Sci and Fine Arts. I am passionate in exploring the intersection of art, design, and technology, and how these fields can combine to create innovative and meaningful projects. Outside of Design, I enjoy art (my main mediums are painting and installation), making bead jewelries, GamePigeon, doing nails, and cooking with friends!!",
+    "college": "cas",
+    "minor": "Fine Arts",
+    "major": "Information Science"
   }
 ]
