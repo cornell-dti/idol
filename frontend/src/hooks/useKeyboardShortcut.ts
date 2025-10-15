@@ -55,7 +55,7 @@ function useKeyboardShortcut(
     const handler = (event: KeyboardEvent) => {
       if (!options.captureInInputs && isEditableTarget(event)) return;
 
-      const ctrlMatch = modifiers.ctrl ? event.ctrlKey || event.metaKey : true;
+      const ctrlMatch = modifiers.ctrl ? event.ctrlKey : true;
       const shiftMatch = modifiers.shift ? event.shiftKey : true;
       const altMatch = modifiers.alt ? event.altKey : true;
       const metaMatch = modifiers.meta ? event.metaKey : true;
