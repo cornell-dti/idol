@@ -170,10 +170,14 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   };
 
   useKeyboardShortcut('ArrowRight', () => {
-    handleCandidateChange(currentCandidate + 1);
+    if (!isModalOpen) {
+      handleCandidateChange(currentCandidate + 1);
+    }
   });
   useKeyboardShortcut('ArrowLeft', () => {
-    handleCandidateChange(currentCandidate - 1);
+    if (!isModalOpen) {
+      handleCandidateChange(currentCandidate - 1);
+    }
   });
   useKeyboardShortcut(
     'Enter',
