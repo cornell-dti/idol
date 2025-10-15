@@ -28,10 +28,10 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
 
       {userInfo && LEAD_ROLES.includes(userInfo.role) ? (
         <>
-          <RatingsDisplay
+          {/* <RatingsDisplay
             ratings={currentCandidateReviews}
             header={`Candidate ${currentCandidate + 1} Global Ratings`}
-          />
+          /> */}
           <div>
             <h3>All Votes on Candidate {currentCandidate + 1}</h3>
             <div className={styles.verticalContentContainer}>
