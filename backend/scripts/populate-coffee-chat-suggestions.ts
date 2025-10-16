@@ -8,6 +8,11 @@ import { configureAccount } from '../src/utils/firebase-utils';
 
 require('dotenv').config();
 
+// Helper function to capitalize first letter of each word
+function capitalizeFirst(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 // const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
@@ -32,17 +37,32 @@ const filteredSuggestions = (
     .filter(predicate)
     .map((mem) => ({ name: `${mem.firstName} ${mem.lastName}`, netid: mem.netid }));
 
-const getMembersByCategory = async () => {
-  // update csv path to current suggestions
+const getMembersByCategory = async (members: IdolMember[]) => {
+  // Update csv path to current semester suggestions
   const csv = fs.readFileSync('./scripts/fa25-coffee-chat-bingo.csv').toString();
   const rows = csv.split(/\r?\n/);
 
-  const responses = rows.splice(1);
+  let responses = rows.splice(1);
+
+  // Remove duplicates by NetID and keep latest submission
+  const seenNetIds = new Set<string>();
+  responses = responses
+    .reverse()
+    .filter((response) => {
+      const netid = response.split(',')[2]?.toLowerCase();
+      if (!netid || seenNetIds.has(netid)) {
+        return false;
+      }
+      seenNetIds.add(netid);
+      return true;
+    })
+    .reverse();
+
+  // Note: This script handles basic name capitalization and duplicate removal,
+  // but manual CSV review may still be needed for unaccountable name formatting issues
 
   const board = COFFEE_CHAT_BINGO_BOARD.flat();
   const suggestions: CoffeeChatSuggestions = {};
-
-  const members = await memberPromise;
 
   const OFFSET = 3;
   board.forEach((category, index) => {
@@ -53,8 +73,11 @@ const getMembersByCategory = async () => {
       })
       .map((response) => {
         const nameParts = response.split(',')[1].split(' ');
-        const first = nameParts[0];
-        const last = nameParts.slice(1).join(' ');
+        const first = capitalizeFirst(nameParts[0]);
+        const last = nameParts
+          .slice(1)
+          .map((part) => capitalizeFirst(part))
+          .join(' ');
         return [first, last];
       })
       .filter(([first, last]) =>
@@ -77,9 +100,8 @@ const getMembersByCategory = async () => {
 };
 
 const main = async () => {
-  const membersByCategory = await getMembersByCategory();
-
   const members = await memberPromise;
+  const membersByCategory = await getMembersByCategory(members);
 
   const filterSelfFromCategories = (mem: IdolMember) =>
     Object.fromEntries(
