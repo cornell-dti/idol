@@ -1,4 +1,4 @@
-import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction, useCallback } from 'react';
 import { Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
 import ResponsesPanel from './ResponsesPanel';
@@ -13,6 +13,7 @@ import {
 import Button from '../Common/Button/Button';
 import Input from '../Common/Input/Input';
 import Selector, { RatingOptions } from '../Common/Selector/Selector';
+import useKeyboardShortcut, { isEditableTarget } from '../../hooks/useKeyboardShortcut';
 
 type CandidateDeciderProps = {
   uuid: string;
@@ -56,20 +57,26 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const instance = useCandidateDeciderInstance(uuid);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
 
-  const getRating = (candidate: number) => {
-    const rating = reviews.find(
-      (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
-    );
-    return rating ? rating.rating : undefined;
-  };
+  const getRating = useCallback(
+    (candidate: number) => {
+      const rating = reviews.find(
+        (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
+      );
+      return rating ? rating.rating : undefined;
+    },
+    [reviews, userInfo]
+  );
 
-  const getComment = (candidate: number) => {
-    const comment = reviews.find(
-      (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
-    );
-    if (comment) return comment.comment;
-    return undefined;
-  };
+  const getComment = useCallback(
+    (candidate: number) => {
+      const comment = reviews.find(
+        (rt) => rt.reviewer.email === userInfo?.email && rt.candidateId === candidate
+      );
+      if (comment) return comment.comment;
+      return undefined;
+    },
+    [reviews, userInfo]
+  );
 
   const [currentRating, setCurrentRating] = useState<Rating>();
   const [currentComment, setCurrentComment] = useState<string>();
@@ -79,14 +86,17 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
   const isSaved =
     currentComment === defaultCurrentComment && currentRating === defaultCurrentRating;
 
-  const populateReviewForCandidate = (candidate: number) => {
-    const rating = getRating(candidate) ?? 0;
-    const comment = getComment(candidate) ?? '';
-    setCurrentRating(rating);
-    setCurrentComment(comment);
-    setDefaultCurrentRating(rating);
-    setDefaultCurrentComment(comment);
-  };
+  const populateReviewForCandidate = useCallback(
+    (candidate: number) => {
+      const rating = getRating(candidate) ?? 0;
+      const comment = getComment(candidate) ?? '';
+      setCurrentRating(rating);
+      setCurrentComment(comment);
+      setDefaultCurrentRating(rating);
+      setDefaultCurrentComment(comment);
+    },
+    [getRating, getComment]
+  );
 
   const completedReviews = reviews.filter((review) => review.rating !== 0);
 
@@ -101,41 +111,56 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCandidate, instance.candidates, reviews]);
 
-  const handleRatingAndCommentChange = (id: number, rating: Rating, comment: string) => {
-    CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
-    if (userInfo) {
-      setCurrentRating(rating);
-      setCurrentComment(comment);
-      setDefaultCurrentRating(rating);
-      setDefaultCurrentComment(comment);
-      setReviews((reviews) => [
-        ...reviews.filter(
-          (review) => review.candidateId !== id || review.reviewer.email !== userInfo.email
-        ),
-        {
-          rating,
-          comment,
-          candidateDeciderInstanceUuid: uuid,
-          candidateId: id,
-          reviewer: userInfo,
-          uuid: ''
-        }
-      ]);
-    }
-  };
+  const handleRatingAndCommentChange = useCallback(
+    (id: number, rating: Rating, comment: string) => {
+      CandidateDeciderAPI.updateRatingAndComment(instance.uuid, id, rating, comment);
+      if (userInfo) {
+        setCurrentRating(rating);
+        setCurrentComment(comment);
+        setDefaultCurrentRating(rating);
+        setDefaultCurrentComment(comment);
+        setReviews((reviews) => [
+          ...reviews.filter(
+            (review) => review.candidateId !== id || review.reviewer.email !== userInfo.email
+          ),
+          {
+            rating,
+            comment,
+            candidateDeciderInstanceUuid: uuid,
+            candidateId: id,
+            reviewer: userInfo,
+            uuid: ''
+          }
+        ]);
+      }
+    },
+    [
+      instance.uuid,
+      userInfo,
+      setCurrentRating,
+      setCurrentComment,
+      setDefaultCurrentRating,
+      setDefaultCurrentComment,
+      setReviews,
+      uuid
+    ]
+  );
 
-  const handleCandidateChange = (candidate: number) => {
-    if (candidate < 0 || candidate >= instance.candidates.length) {
-      return;
-    }
-    if (!isSaved) {
-      setNextCandidate(candidate);
-      setIsModalOpen(true);
-    } else {
-      setCurrentCandidate(candidate);
-      populateReviewForCandidate(candidate);
-    }
-  };
+  const handleCandidateChange = useCallback(
+    (candidate: number) => {
+      if (candidate < 0 || candidate >= instance.candidates.length) {
+        return;
+      }
+      if (!isSaved) {
+        setNextCandidate(candidate);
+        setIsModalOpen(true);
+      } else {
+        setCurrentCandidate(candidate);
+        populateReviewForCandidate(candidate);
+      }
+    },
+    [instance.candidates, isSaved, populateReviewForCandidate]
+  );
 
   const navigateToNextCandidate = (candidate: number) => {
     setCurrentCandidate(candidate);
@@ -143,6 +168,47 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
     setNextCandidate(null);
     setIsModalOpen(false);
   };
+
+  useKeyboardShortcut('ArrowRight', () => {
+    if (!isModalOpen) {
+      handleCandidateChange(currentCandidate + 1);
+    }
+  });
+  useKeyboardShortcut('ArrowLeft', () => {
+    if (!isModalOpen) {
+      handleCandidateChange(currentCandidate - 1);
+    }
+  });
+  useKeyboardShortcut(
+    'Enter',
+    () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
+      handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
+    },
+    { ctrl: true },
+    { captureInInputs: true }
+  );
+  useKeyboardShortcut(
+    'Escape',
+    () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
+    },
+    {}
+  );
+
+  useEffect(() => {
+    ratings.forEach((rating) => {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === rating.value.toString() && !isEditableTarget(e)) {
+          setCurrentRating(rating.value as Rating);
+        }
+      });
+    });
+  }, [currentCandidate, handleRatingAndCommentChange, currentRating, currentComment]);
 
   const hasAdminPermission = useHasAdminPermission();
 
