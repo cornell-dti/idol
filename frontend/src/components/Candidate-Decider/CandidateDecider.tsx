@@ -187,7 +187,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
       }
       handleRatingAndCommentChange(currentCandidate, currentRating ?? 0, currentComment ?? '');
     },
-    { meta: true },
+    { ctrl: true },
     { captureInInputs: true }
   );
   useKeyboardShortcut(
