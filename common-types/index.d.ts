@@ -566,3 +566,38 @@ interface Period {
   deadline: Date;
   events: TeamEvent[];
 }
+
+/** Industries for alumni */
+type AlumIndustry =
+  | 'Tech'
+  | 'Finance'
+  | 'Consulting'
+  | 'Manufacturing'
+  | 'Healthcare'
+  | 'Government'
+  | 'Media'
+  | 'Transportation'
+  | 'Other';
+
+/** Job roles for alumni */
+type AlumJobRole = 'SWE' | 'Product' | 'Business' | 'Design' | 'Other';
+
+/** DTI role for alumni */
+type AlumDtiRole = 'Development' | 'Product' | 'Business' | 'Design';
+
+/** The data type used to represent a DTI alumni member */
+interface Alumni {
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly gradYear: number;
+  readonly email: string;
+  readonly subteam: string;
+  readonly dtiRole: AlumDtiRole;
+  readonly linkedin?: string | null;
+  readonly location?: string | null;
+  readonly company?: string;
+  readonly industry?: AlumIndustry;
+  readonly jobRole?: AlumJobRole;
+  readonly specification?: string | null;
+  readonly imageUrl: string;
+}
