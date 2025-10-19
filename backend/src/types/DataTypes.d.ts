@@ -130,3 +130,20 @@ export type DBInterviewSlot = {
   members: (firestore.DocumentReference | null)[];
   applicant: Applicant | null;
 };
+
+export type DBAlumni = {
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly gradYear: number;
+  readonly email: string;
+  readonly subteam: string;
+  readonly dtiRole: string;
+  readonly linkedin?: string | null;
+  readonly location?: string | null;
+  readonly company?: string;
+  readonly industry?: string;
+  readonly jobRole?: string;
+  readonly specification?: string | null;
+  readonly imageUrl: string;
+  readonly timestamp: number;
+};
