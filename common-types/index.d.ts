@@ -574,6 +574,7 @@ type AlumIndustry =
   | 'Consulting'
   | 'Manufacturing'
   | 'Healthcare'
+  | 'Higher Edhe'
   | 'Government'
   | 'Media'
   | 'Transportation'
