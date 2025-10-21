@@ -50,12 +50,10 @@ const SchedulingSidePanel: React.FC<{
 
   const memberOptions = [
     { text: 'Vacant' },
-    ...members
-      .filter((mem) => !LEAD_ROLES.includes(mem.role))
-      .map((mem) => ({
-        text: `${mem.firstName} ${mem.lastName}`,
-        value: mem.email
-      }))
+    ...members.map((mem) => ({
+      text: `${mem.firstName} ${mem.lastName}`,
+      value: mem.email
+    }))
   ];
 
   const applicantOptions = [
