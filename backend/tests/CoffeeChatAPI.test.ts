@@ -252,7 +252,7 @@ describe('More complicated member meets category checks', () => {
   const user1 = fakeIdolMember();
   const user2 = { ...fakeIdolMember(), role: 'dev-advisor' };
   const user3 = { ...fakeIdolMember(), role: 'tpm' };
-  const user4 = { ...fakeIdolMember(), semesterJoined: 'Spring 2025' };
+  const user4 = { ...fakeIdolMember(), semesterJoined: 'Fall 2025' };
 
   beforeAll(async () => {
     const users = [user1, user2, user3, user4];
@@ -262,18 +262,6 @@ describe('More complicated member meets category checks', () => {
   afterAll(async () => {
     const users = [user1, user2, user3, user4];
     await Promise.all(users.map((user) => deleteMember(user.email, admin)));
-  });
-
-  test('is an advisor', async () => {
-    const result = await checkMemberMeetsCategory(user2.email, user1.email, 'is an advisor');
-    expect(result.status).toBe('pass');
-    expect(result.message).toBe('');
-  });
-
-  test('is not an advisor', async () => {
-    const result = await checkMemberMeetsCategory(user3.email, user1.email, 'is an advisor');
-    expect(result.status).toBe('fail');
-    expect(result.message).toBe(`${user3.firstName} ${user3.lastName} is not an advisor`);
   });
 
   test('is newbie', async () => {

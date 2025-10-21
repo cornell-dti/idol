@@ -3,7 +3,6 @@ import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember } from './memberAPI';
-import { ADVISOR_ROLES } from '../consts';
 import { sendCoffeeChatReminder } from './mailAPI';
 
 const coffeeChatDao = new CoffeeChatDao();
@@ -247,14 +246,9 @@ export const checkMemberMeetsCategory = async (
   // If otherMember and submitter don't exist, status should stay undefined
   if (otherMember && submitter) {
     if (category === 'a newbie') {
-      status = otherMember.semesterJoined === 'Spring 2025' ? 'pass' : 'fail';
+      status = otherMember.semesterJoined === 'Fall 2025' ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
-      }
-    } else if (category === 'is an advisor') {
-      status = ADVISOR_ROLES.includes(otherMember.role) ? 'pass' : 'fail';
-      if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not an advisor`;
       }
     }
   }
