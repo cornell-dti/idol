@@ -51,7 +51,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 - **Amelie Rosso** - PM
 - **Oscar Wang** - TPM
 - **Ashley Paik** - Designer
-- **Esha Shaw** - Developer
+- **Esha Shah** - Developer
 - **Adrienne Lee** - Developer
 - **Jane Tenecota Villa** - Developer
 
