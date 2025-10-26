@@ -1,27 +1,116 @@
 /* eslint-disable no-console */
-import { alumniCollection } from '../src/firebase';
+import admin from 'firebase-admin';
+import fs from 'fs';
+import { DBAlumni } from '../src/types/DataTypes';
+
+import { configureAccount } from '../src/utils/firebase-utils';
 
 require('dotenv').config();
 
-const fileName = process.argv[2];
+const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
+// const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
-if (!fileName) {
-  console.error('Please provide a file path as an argument (e.g., data/alumni.csv)');
-  process.exit(1);
+admin.initializeApp({
+  credential: admin.credential.cert(configureAccount(serviceAcc, 'dev')),
+  databaseURL: 'https://idol-b6c68.firebaseio.com',
+  storageBucket: 'gs://cornelldti-idol.appspot.com'
+});
+
+const db = admin.firestore();
+
+interface CSVAlumniRow {
+  [key: string]: string | undefined;
+  firstName?: string;
+  lastName?: string;
+  gradYear?: string;
+  email?: string;
+  subteams?: string;
+  dtiRole?: string;
+  imageUrl?: string;
+  linkedin?: string;
+  location?: string;
+  company?: string;
+  industry?: string;
+  jobRole?: string;
+  specification?: string;
 }
+
+const parseCSVRow = (row: string): string[] => {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (const char of row) {
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  result.push(current.trim());
+  return result;
+};
+
+const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
+  const gradYear = parseInt(alumniRow.gradYear || '');
+  if (isNaN(gradYear)) {
+    throw new Error('gradYear must be a valid number');
+  }
+
+  const subteams = alumniRow.subteams ? alumniRow.subteams.split(',').map((s) => s.trim()) : [];
+  return {
+    firstName: alumniRow.firstName || '',
+    lastName: alumniRow.lastName || '',
+    gradYear: gradYear,
+    email: alumniRow.email || '',
+    subteams: subteams,
+    dtiRole: alumniRow.dtiRole || '',
+    linkedin: alumniRow.linkedin || null,
+    location: alumniRow.location || null,
+    company: alumniRow.company || null,
+    industry: alumniRow.industry || 'Other',
+    jobRole: alumniRow.jobRole || 'Other',
+    specification: alumniRow.specification || null,
+    imageUrl: alumniRow.imageUrl || '',
+    timestamp: Date.now()
+  };
+};
 
 const main = async () => {
   try {
-    console.log(`Processing alumni data from: ${fileName}`);
-    
-    // TODO: Read file (CSV/JSON)
-    // TODO: Parse and validate data  
-    // TODO: Upload to alumniCollection using batch operations
-    
-    console.log('Upload completed successfully');
+    console.log('Processing alumni data');
+    const csv = fs.readFileSync('./scripts/alumni-data.csv').toString();
+    const rows = csv.split(/\r?\n/).filter((row) => row.trim());
+
+    const headers = parseCSVRow(rows[0]);
+    const alumniData = rows.slice(1).map((row, index) => {
+      const values = parseCSVRow(row);
+      const alumniRow: CSVAlumniRow = {};
+      headers.forEach((header, i) => {
+        alumniRow[header] = values[i];
+      });
+      try {
+        return validateAlumni(alumniRow);
+      } catch (validationError: unknown) {
+        throw new Error(`Row ${index + 2}: ${(validationError as Error).message}`);
+      }
+    });
+
+    console.log(`Uploading ${alumniData.length} alumni records to Firestore`);
+
+    const batch = db.batch();
+    alumniData.forEach((alumni) => {
+      batch.set(db.collection('alumni').doc(alumni.email), alumni);
+    });
+
+    await batch.commit();
+    console.log(`Success: Uploaded ${alumniData.length} alumni records to Firestore`);
   } catch (error) {
     console.error('Upload failed:', error);
-    throw error;
+    process.exit(1);
   }
 };
 

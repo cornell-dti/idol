@@ -574,17 +574,14 @@ type AlumIndustry =
   | 'Consulting'
   | 'Manufacturing'
   | 'Healthcare'
-  | 'Higher Edhe'
-  | 'Government'
   | 'Media'
-  | 'Transportation'
   | 'Other';
 
 /** Job roles for alumni */
-type AlumJobRole = 'SWE' | 'Product' | 'Business' | 'Design' | 'Other';
+type AlumJobRole = 'SWE' | 'Product' | 'Business' | 'Design' | 'Founder' | 'Other';
 
 /** DTI role for alumni */
-type AlumDtiRole = 'Development' | 'Product' | 'Business' | 'Design';
+type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
 
 /** The data type used to represent a DTI alumni member */
 interface Alumni {
@@ -592,11 +589,11 @@ interface Alumni {
   readonly lastName: string;
   readonly gradYear: number;
   readonly email: string;
-  readonly subteam: string;
+  readonly subteams: string[];
   readonly dtiRole: AlumDtiRole;
   readonly linkedin?: string | null;
   readonly location?: string | null;
-  readonly company?: string;
+  readonly company?: string | null;
   readonly industry?: AlumIndustry;
   readonly jobRole?: AlumJobRole;
   readonly specification?: string | null;

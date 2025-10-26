@@ -136,11 +136,11 @@ export type DBAlumni = {
   readonly lastName: string;
   readonly gradYear: number;
   readonly email: string;
-  readonly subteam: string;
+  readonly subteams: string[];
   readonly dtiRole: string;
   readonly linkedin?: string | null;
   readonly location?: string | null;
-  readonly company?: string;
+  readonly company?: string | null;
   readonly industry?: string;
   readonly jobRole?: string;
   readonly specification?: string | null;
