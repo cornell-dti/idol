@@ -61,7 +61,7 @@ const parseCSVRow = (row: string): string[] => {
 };
 
 const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
-  const gradYear = parseInt(alumniRow.gradYear || '');
+  const gradYear = parseInt(alumniRow.gradYear || '', 10);
   if (isNaN(gradYear)) {
     throw new Error('gradYear must be a valid number');
   }
@@ -70,9 +70,9 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
   return {
     firstName: alumniRow.firstName || '',
     lastName: alumniRow.lastName || '',
-    gradYear: gradYear,
+    gradYear,
     email: alumniRow.email || '',
-    subteams: subteams,
+    subteams,
     dtiRole: alumniRow.dtiRole || '',
     linkedin: alumniRow.linkedin || null,
     location: alumniRow.location || null,
