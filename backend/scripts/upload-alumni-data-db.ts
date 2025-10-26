@@ -1,4 +1,8 @@
 /* eslint-disable no-console */
+/**
+ * Script to upload alumni data from CSV to Firestore
+ * Usage: npm run upload-alumni
+ */
 import admin from 'firebase-admin';
 import fs from 'fs';
 import { DBAlumni } from '../src/types/DataTypes';
@@ -18,6 +22,7 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+/** CSV row type for alumni data input */
 interface CSVAlumniRow {
   [key: string]: string | undefined;
   firstName?: string;
@@ -33,6 +38,7 @@ interface CSVAlumniRow {
   industry?: string;
   jobRole?: string;
   specification?: string;
+  about?: string;
 }
 
 const parseCSVRow = (row: string): string[] => {
@@ -74,6 +80,7 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
     industry: alumniRow.industry || 'Other',
     jobRole: alumniRow.jobRole || 'Other',
     specification: alumniRow.specification || null,
+    about: alumniRow.about || null,
     imageUrl: alumniRow.imageUrl || '',
     timestamp: Date.now()
   };
