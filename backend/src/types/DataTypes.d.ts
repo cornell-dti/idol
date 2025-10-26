@@ -144,6 +144,7 @@ export type DBAlumni = {
   readonly industry?: string;
   readonly jobRole?: string;
   readonly specification?: string | null;
+  readonly about?: string | null;
   readonly imageUrl: string;
   readonly timestamp: number;
 };

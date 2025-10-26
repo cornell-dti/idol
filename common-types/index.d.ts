@@ -589,13 +589,14 @@ interface Alumni {
   readonly lastName: string;
   readonly gradYear: number;
   readonly email: string;
-  readonly subteams: string[];
-  readonly dtiRole: AlumDtiRole;
+  readonly subteams: string[]; // Limit to a maximum of 2 subteamsma
+  readonly dtiRole: AlumDtiRole; // Generalize alumni's DTI roles into 1 general role
   readonly linkedin?: string | null;
-  readonly location?: string | null;
+  readonly location?: string | null; // City, Region format
   readonly company?: string | null;
   readonly industry?: AlumIndustry;
   readonly jobRole?: AlumJobRole;
-  readonly specification?: string | null;
+  readonly specification?: string | null; // Specialization in job roles for SWE, Business; null for others
+  readonly about?: string | null;
   readonly imageUrl: string;
 }
