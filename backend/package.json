@@ -17,7 +17,8 @@
     "restore-from-backup": "esr scripts/restore-from-backup.ts",
     "shoutout-leaderboard": "esr scripts/shoutout-leaderboard.ts",
     "create-member-archive": "esr scripts/create-member-archive.ts",
-    "populate-coffee-chat-suggestions": "esr scripts/populate-coffee-chat-suggestions.ts"
+    "populate-coffee-chat-suggestions": "esr scripts/populate-coffee-chat-suggestions.ts",
+    "upload-alumni": "esr scripts/upload-alumni-data-db.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {
