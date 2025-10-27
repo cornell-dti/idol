@@ -12,11 +12,6 @@ const everyoneItems: readonly NavigationCardItem[] = [
     link: '/forms/profile'
   },
   {
-    header: 'Edit Profile Image',
-    description: 'Edit your profile image.',
-    link: '/forms/profileImage'
-  },
-  {
     header: 'Sign-In Form',
     description: 'Sign in to an event.',
     link: '/forms/signin',

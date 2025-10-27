@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Form, Select, TextArea } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Form, Select, TextArea, Card, Image, Button, Modal } from 'semantic-ui-react';
+import AvatarEditor from 'react-avatar-editor';
 import { ALL_COLLEGES, LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
+import ImagesAPI from '../../../API/ImagesAPI';
+import ProfileImageEditor from './ProfileImageEditor';
 import styles from './UserProfile.module.css';
 
 const UserProfile: React.FC = () => {
@@ -29,7 +32,22 @@ const UserProfile: React.FC = () => {
   const [github, setGithub] = useState(userInfoBeforeEdit?.github ?? '');
   const [coffeeChatLink, setCoffeeChatLink] = useState(userInfoBeforeEdit?.coffeeChatLink ?? '');
 
+  const [open, setOpen] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string>('');
+  const [editor, setEditor] = useState<null | AvatarEditor>(null);
+  const setEditorRef = (editor: AvatarEditor) => setEditor(editor);
+
   const initialPronouns = userInfoBeforeEdit?.pronouns;
+  const userInfo = useSelf();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
+    ImagesAPI.getImage(`images/${userInfo ? userInfo.netid : ''}`).then((url: string) => {
+      setProfilePhoto(url);
+    });
+  }, [userInfo]);
 
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
@@ -48,6 +66,21 @@ const UserProfile: React.FC = () => {
   };
 
   const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
+
+  const cropAndSubmitImage = () => {
+    if (editor !== null) {
+      const canvas = editor.getImage().toDataURL();
+      let imageURL: string;
+      fetch(canvas)
+        .then((res) => res.blob())
+        .then((blob) => {
+          imageURL = window.URL.createObjectURL(blob);
+          ImagesAPI.uploadImage(blob, `images/${userInfo ? userInfo.netid : ''}`);
+          setProfilePhoto(imageURL);
+        });
+    }
+    setOpen(false);
+  };
 
   const saveProfileInfo = () => {
     const requiredFields = [
@@ -104,9 +137,44 @@ const UserProfile: React.FC = () => {
         margin: '10vh auto'
       }}
     >
-      <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
-        {firstName} {lastName} <span style={{ color: '#808080' }}>({initialPronouns})</span>
-      </h2>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: '2.5vh'
+        }}
+      >
+        <Card style={{ marginRight: '2rem' }}>
+          <Card.Content>
+            <Image
+              size="small"
+              src={profilePhoto}
+              style={{ cursor: 'pointer' }}
+              onClick={() => setOpen(true)}
+            />
+          </Card.Content>
+        </Card>
+        <div style={{ flex: 1 }}>
+          <h2 style={{ fontFamily: 'var(--mainFontFamily)', marginBottom: '2vh' }}>
+            {firstName} {lastName} <span style={{ color: '#808080' }}>({initialPronouns})</span>
+          </h2>
+          <Button size="small" onClick={() => setOpen(true)} style={{ marginTop: '0.5rem' }}>
+            Edit Profile Image
+          </Button>
+        </div>
+      </div>
+
+      <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open}>
+        <Modal.Header>Select a Photo</Modal.Header>
+        <ProfileImageEditor
+          currentProfileImage={profilePhoto}
+          setEditorRef={setEditorRef}
+          cropAndSubmitImage={cropAndSubmitImage}
+          setOpen={setOpen}
+        />
+      </Modal>
+
       <Form.Group>
         <Form.Input
           fluid
