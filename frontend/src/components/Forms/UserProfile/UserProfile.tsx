@@ -49,6 +49,12 @@ const UserProfile: React.FC = () => {
     });
   }, [userInfo]);
 
+  /**
+   * Updates member information via the API.
+   * Shows success or error notifications based on the API response.
+   *
+   * @param member - The member object to update.
+   */
   const updateUser = async (member: Member): Promise<void> => {
     MembersAPI.updateMember(member).then((val) => {
       if (val.error) {
@@ -65,8 +71,18 @@ const UserProfile: React.FC = () => {
     });
   };
 
+  /**
+   * Checks if a field input is non-empty after trimming whitespace.
+   *
+   * @param fieldInput - The string to check.
+   * @returns True if the field has content, false otherwise.
+   */
   const isFilledOut = (fieldInput: string): boolean => fieldInput.trim().length > 0;
 
+  /**
+   * Crops the current image from the editor, converts it to a blob,
+   * uploads it to the server, and closes the modal.
+   */
   const cropAndSubmitImage = () => {
     if (editor !== null) {
       const canvas = editor.getImage().toDataURL();
@@ -82,6 +98,10 @@ const UserProfile: React.FC = () => {
     setOpen(false);
   };
 
+  /**
+   * Validates required profile fields and updates the member information.
+   * Shows an error notification if required fields are empty.
+   */
   const saveProfileInfo = () => {
     const requiredFields = [
       firstName,
