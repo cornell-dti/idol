@@ -1292,31 +1292,31 @@
     "email": "ly345@cornell.edu"
   },
   {
-    "firstName": "Megan",
-    "hometown": "Kuala Lumpur, Malaysia",
-    "email": "may52@cornell.edu",
-    "role": "product-lead",
-    "github": null,
     "website": "https://meganyap.me",
-    "formerSubteams": [
-      "reviews"
-    ],
-    "semesterJoined": "Spring 2024",
-    "major": "Computer Science",
-    "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
-    "college": "cas",
-    "netid": "may52",
-    "roleDescription": "Product Lead",
-    "pronouns": "she/her",
-    "lastName": "Yap",
-    "doubleMajor": null,
     "coffeeChatLink": null,
+    "hometown": "Kuala Lumpur, Malaysia",
+    "roleDescription": "Product Lead",
+    "linkedin": "https://www.linkedin.com/in/megan-qz-yap/",
+    "role": "product-lead",
+    "firstName": "Megan",
+    "netid": "may52",
+    "college": "cas",
+    "semesterJoined": "Spring 2024",
     "subteams": [
       "leads"
     ],
-    "minor": "Linguistics",
     "graduation": "Dec 2026",
-    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy dabbling in design as well. Currently working part-time as a hybrid APM/designer at a startup!\n\nIn my free time, I love learning languages (currently studying Chinese and Japanese) and playing board games (favorites include Ark Nova, Arcs, and Lords of Waterdeep). I also enjoy playing video games (rn: BG3, next up: Expedition 33 + Cyberpunk 🤩). Always free for a coffee chat :)"
+    "formerSubteams": [
+      "reviews"
+    ],
+    "email": "may52@cornell.edu",
+    "lastName": "Yap",
+    "pronouns": "she/her",
+    "github": null,
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "minor": "Linguistics",
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy dabbling in design as well.\n\nIn my free time, I love dreaming up new products (visit gcalwrapped.com!), learning languages, and playing board & video games (favorites include Ark Nova, Arcs, and Baldur's Gate). Always free for a coffee chat :)"
   },
   {
     "graduation": "May 2026",
