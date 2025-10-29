@@ -88,6 +88,12 @@ export default function AddUser(): JSX.Element {
   const [archiveCsvFile, setArchiveCsvFile] = useState<File | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
+  /**
+   * Initializes the form state to create a new user with empty fields.
+   * Sets `isCreatingUser` to true and prepares a blank member object.
+   *
+   * @returns void
+   */
   function createNewUser(): void {
     setState({
       currentSelectedMember: {
@@ -115,6 +121,13 @@ export default function AddUser(): JSX.Element {
     });
   }
 
+  /**
+   * Deletes a user from the system by their email.
+   * Emits a success message if deletion succeeds, otherwise emits an error.
+   *
+   * @param memberEmail The Cornell email of the member to delete.
+   * @returns A promise that resolves when the delete request is completed.
+   */
   async function deleteUser(memberEmail: string): Promise<void> {
     MembersAPI.deleteMember(memberEmail).then((val) => {
       if (val.error) {
@@ -132,6 +145,17 @@ export default function AddUser(): JSX.Element {
     });
   }
 
+  /**
+   * Saves or updates a user's information in the system.
+   * Performs validation checks (role selection, Cornell email format,
+   * semester joined) before sending data to the API.
+   * Emits error messages if validation fails or if the API returns an error,
+   * otherwise emits a success message.
+   *
+   * @param member The user object containing all updated fields to save.
+   *               Must include a valid Cornell email and selected role.
+   * @returns A promise that resolves when the save request is completed.
+   */
   async function setUser(member?: CurrentSelectedMember): Promise<void> {
     if (!member) return;
 
