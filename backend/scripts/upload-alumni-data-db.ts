@@ -35,7 +35,6 @@ interface CSVAlumniRow {
   linkedin?: string;
   location?: string;
   company?: string;
-  industry?: string;
   jobRole?: string;
   specification?: string;
   about?: string;
@@ -77,7 +76,6 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
     linkedin: alumniRow.linkedin || null,
     location: alumniRow.location || null,
     company: alumniRow.company || null,
-    industry: alumniRow.industry || 'Other',
     jobRole: alumniRow.jobRole || 'Other',
     specification: alumniRow.specification || null,
     about: alumniRow.about || null,

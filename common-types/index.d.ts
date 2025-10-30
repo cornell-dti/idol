@@ -567,18 +567,8 @@ interface Period {
   events: TeamEvent[];
 }
 
-/** Industries for alumni */
-type AlumIndustry =
-  | 'Tech'
-  | 'Finance'
-  | 'Consulting'
-  | 'Manufacturing'
-  | 'Healthcare'
-  | 'Media'
-  | 'Other';
-
 /** Job roles for alumni */
-type AlumJobRole = 'SWE' | 'Product' | 'Business' | 'Design' | 'Founder' | 'Other';
+type AlumJobRole = 'Engineering' | 'Management' | 'Business' | 'Design' | 'Founder' | 'Grad School' |  'Other';
 
 /** DTI role for alumni */
 type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
@@ -594,7 +584,6 @@ interface Alumni {
   readonly linkedin?: string | null;
   readonly location?: string | null; // City, Region format
   readonly company?: string | null;
-  readonly industry?: AlumIndustry;
   readonly jobRole?: AlumJobRole;
   readonly specification?: string | null; // Specialization in job roles for SWE, Business; null for others
   readonly about?: string | null;
