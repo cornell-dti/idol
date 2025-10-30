@@ -15,7 +15,7 @@ const main = async () => {
   const imageProcessingList = processedImages.map((image) => {
     const fullPath = join(OUTPUT_FOLDER, image.fileName);
     return downloadAndProcessImage(image.url, fullPath)
-      .then(() => console.log(`Processing complete door ${image.fileName}`))
+      .then(() => console.log(`Processing complete for ${image.fileName}`))
       .catch((error) => console.error('Processing failed:', error));
   });
 

@@ -141,7 +141,6 @@ export type DBAlumni = {
   readonly linkedin?: string | null;
   readonly location?: string | null;
   readonly company?: string | null;
-  readonly industry?: string;
   readonly jobRole?: string;
   readonly specification?: string | null;
   readonly about?: string | null;
