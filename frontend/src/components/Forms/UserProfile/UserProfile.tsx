@@ -158,6 +158,7 @@ const UserProfile: React.FC = () => {
       }}
     >
       <div
+        data-testid="UserProfileImage"
         style={{
           display: 'flex',
           flexDirection: 'row',

@@ -11,6 +11,9 @@ describe('<UserProfile />', () => {
         <UserProfile />
       </FirestoreDataProvider>
     );
+    const userProfileImage = screen.getByTestId('UserProfileImage');
+
+    expect(userProfileImage).toBeInTheDocument();
     expect(screen.getByText('Semester Joined')).toBeInTheDocument();
     expect(screen.getByText('Graduation')).toBeInTheDocument();
     expect(screen.getByText('Major')).toBeInTheDocument();
