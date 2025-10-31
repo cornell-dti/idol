@@ -568,7 +568,14 @@ interface Period {
 }
 
 /** Job roles for alumni */
-type AlumJobRole = 'Engineering' | 'Management' | 'Business' | 'Design' | 'Founder' | 'Grad School' |  'Other';
+type AlumJobRole =
+  | 'Engineering'
+  | 'Management'
+  | 'Business'
+  | 'Design'
+  | 'Founder'
+  | 'Grad School'
+  | 'Other';
 
 /** DTI role for alumni */
 type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
