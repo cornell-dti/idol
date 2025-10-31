@@ -566,3 +566,33 @@ interface Period {
   deadline: Date;
   events: TeamEvent[];
 }
+
+/** Job roles for alumni */
+type AlumJobRole =
+  | 'Engineering'
+  | 'Management'
+  | 'Business'
+  | 'Design'
+  | 'Founder'
+  | 'Grad School'
+  | 'Other';
+
+/** DTI role for alumni */
+type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
+
+/** The data type used to represent a DTI alumni member */
+interface Alumni {
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly gradYear: number;
+  readonly email: string;
+  readonly subteams: string[]; // Limit to a maximum of 2 subteamsma
+  readonly dtiRole: AlumDtiRole; // Generalize alumni's DTI roles into 1 general role
+  readonly linkedin?: string | null;
+  readonly location?: string | null; // City, Region format
+  readonly company?: string | null;
+  readonly jobRole?: AlumJobRole;
+  readonly specification?: string | null; // Specialization in job roles for SWE, Business; null for others
+  readonly about?: string | null;
+  readonly imageUrl: string;
+}
