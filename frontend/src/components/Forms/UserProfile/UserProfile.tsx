@@ -165,12 +165,17 @@ const UserProfile: React.FC = () => {
           marginBottom: '2.5vh'
         }}
       >
-        <Card style={{ marginRight: '2rem' }}>
-          <Card.Content>
+        <Card
+          style={{
+            marginRight: '2rem',
+            width: 'fit-content',
+            height: 'fit-content'
+          }}
+        >
+          <Card.Content style={{ padding: '5px' }}>
             <Image
-              size="small"
               src={profilePhoto}
-              style={{ cursor: 'pointer' }}
+              style={{ width: 180, cursor: 'pointer' }}
               onClick={() => setOpen(true)}
             />
           </Card.Content>
