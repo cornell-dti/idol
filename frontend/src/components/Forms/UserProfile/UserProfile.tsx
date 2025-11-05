@@ -92,6 +92,7 @@ const UserProfile: React.FC = () => {
         .then((blob) => {
           imageURL = window.URL.createObjectURL(blob);
           ImagesAPI.uploadImage(blob, `images/${userInfo ? userInfo.netid : ''}`);
+          if (profilePhoto !== '') window.URL.revokeObjectURL(profilePhoto);
           setProfilePhoto(imageURL);
         });
     }
