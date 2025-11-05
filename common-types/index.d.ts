@@ -589,7 +589,7 @@ interface Alumni {
   readonly subteams: string[]; // Limit to a maximum of 2 subteamsma
   readonly dtiRole: AlumDtiRole; // Generalize alumni's DTI roles into 1 general role
   readonly linkedin?: string | null;
-  readonly location?: string | null; // City, Region format
+  readonly location?: string | null; // City, State/Country format
   readonly company?: string | null;
   readonly jobRole?: AlumJobRole;
   readonly specification?: string | null; // Specialization in job roles for SWE, Business; null for others
