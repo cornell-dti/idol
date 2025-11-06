@@ -12,7 +12,6 @@ import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
   INITIATIVE_EVENTS,
-  MAX_TEC_PER_5_WEEKS,
   TEC_DEADLINES
 } from '../../../consts';
 
@@ -42,10 +41,6 @@ const TeamEventCreditDashboard = (props: {
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userRole = useSelf()!.role;
-
-  const requiredCredits = LEAD_ROLES.includes(userRole)
-    ? REQUIRED_LEAD_TEC_CREDITS
-    : REQUIRED_MEMBER_TEC_CREDITS; // number of required tec credits in a semester based on user role
 
   const getHoursAttended = (attendance: TeamEventAttendance): number => {
     const hours = attendance.hoursAttended;
@@ -82,7 +77,6 @@ const TeamEventCreditDashboard = (props: {
       });
   };
 
-  let approvedCredits = 0;
   let approvedInitiativeCredits = 0;
   approvedAttendance.forEach(async (attendance) => {
     const event = allTEC.find((tec) => tec.uuid === attendance.eventUuid);
@@ -90,30 +84,22 @@ const TeamEventCreditDashboard = (props: {
       const currCredits = event.hasHours
         ? Number(event.numCredits) * getHoursAttended(attendance)
         : Number(event.numCredits);
-      approvedCredits += currCredits;
       approvedInitiativeCredits += event.isInitiativeEvent ? currCredits : 0;
     }
   });
 
-  // Calculate the remaining credits
-  let remainingCredits;
-  if (requiredCredits - approvedCredits > 0) remainingCredits = requiredCredits - approvedCredits;
-  else if (INITIATIVE_EVENTS && approvedInitiativeCredits < REQUIRED_INITIATIVE_CREDITS)
-    remainingCredits = REQUIRED_INITIATIVE_CREDITS - approvedInitiativeCredits;
-  else remainingCredits = 0;
-
   let headerString;
   if (!LEAD_ROLES.includes(userRole))
     headerString = `Check your team event credit status for this semester here!  
-    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credits${
+    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credit per period${
       INITIATIVE_EVENTS
         ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
     } 
-    to fulfill this requirement, completing at least ${MAX_TEC_PER_5_WEEKS} team event credit every 5 weeks.`;
+    to fulfill this requirement.`;
   else
     headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event 
-    credits${
+    credits per period${
       INITIATIVE_EVENTS
         ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
@@ -247,19 +233,10 @@ const TeamEventCreditDashboard = (props: {
 
           <div className={styles.inline}>
             <label className={styles.bold}>
-              Remaining Credits Needed for Current 5-Week Period:{' '}
+              Remaining Credits Needed for Current Period:{' '}
               <span className={styles.dark_grey_color}>{requiredPeriodCredits}</span>
             </label>
           </div>
-
-          {LEAD_ROLES.includes(userRole) && (
-            <div className={styles.inline}>
-              <label className={styles.bold}>
-                Remaining Total Credits Needed:{' '}
-                <span className={styles.dark_grey_color}>{remainingCredits}</span>
-              </label>
-            </div>
-          )}
 
           {INITIATIVE_EVENTS && (
             <div className={styles.inline}>

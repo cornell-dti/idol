@@ -67,7 +67,6 @@ import {
   getTeamEventAttendanceByUser,
   updateTeamEventAttendance,
   deleteTeamEventAttendance,
-  notifyMemberTeamEvents,
   notifyMemberPeriod
 } from './API/teamEventsAPI';
 import {
@@ -458,14 +457,6 @@ loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
 });
-loginCheckedPost('/team-event-reminder', async (req, user) => ({
-  info: await notifyMemberTeamEvents(
-    req,
-    req.query.end_of_semester_reminder !== undefined,
-    req.body,
-    user
-  )
-}));
 loginCheckedPost('/send-period-reminder', async (req, user) => ({
   info: await notifyMemberPeriod(req, req.body, user)
 }));

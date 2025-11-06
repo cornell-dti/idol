@@ -221,7 +221,7 @@ const SubmissionDetails: React.FC<SubmissionDetailsProps> = ({
   updateStatus,
   isAdminView
 }) => {
-  const numRows = Math.max(submission.openedPRs.length, submission.reviewedPRs.length);
+  const numRows = Math.max(1, Math.max(submission.openedPRs.length, submission.reviewedPRs.length));
   const [submissionStatus, setSubmissionStatus] = useState(submission.status);
 
   // in case of regrade, need to reinitialize to correct status

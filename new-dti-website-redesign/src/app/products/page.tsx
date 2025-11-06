@@ -31,6 +31,8 @@ export default function Products() {
 
       <ProductsList />
 
+      <SectionSep className="!rounded-none" />
+
       <CtaSection
         heading="Ready to join?"
         subheading="Be part of something greater today."

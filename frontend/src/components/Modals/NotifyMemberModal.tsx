@@ -9,17 +9,14 @@ const NotifyMemberModal = (props: {
   member?: Member;
   members?: Member[];
   trigger: JSX.Element;
-  endOfSemesterReminder?: boolean;
-  type: 'tec' | 'coffee chat' | 'period';
+  type: 'coffee chat' | 'period';
 }): JSX.Element => {
-  const { member, members, all, trigger, endOfSemesterReminder, type } = props;
+  const { member, members, all, trigger, type } = props;
   const [open, setOpen] = useState(false);
   const subject = !all && member ? `${member.firstName} ${member.lastName}` : 'everyone';
 
   const notifyMember = async (member: Member) => {
-    if (type === 'tec') {
-      await MembersAPI.notifyMemberTeamEvents(member, endOfSemesterReminder || false);
-    } else if (type === 'period') {
+    if (type === 'period') {
       await MembersAPI.notifyMemberPeriod(member);
     } else if (type === 'coffee chat') {
       await MembersAPI.notifyMemberCoffeeChat(member);
@@ -31,13 +28,13 @@ const NotifyMemberModal = (props: {
       await Promise.all(members.map(notifyMember));
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A ${type === 'tec' || type === 'period' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
+        contentMsg: `A ${type === 'period' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to everyone!`
       });
     } else if (member) {
       await notifyMember(member);
       Emitters.generalSuccess.emit({
         headerMsg: 'Reminder sent!',
-        contentMsg: `A ${type === 'tec' || type === 'period' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
+        contentMsg: `A ${type === 'period' ? 'TEC' : 'coffee chat'} email reminder was successfully sent to ${member.firstName} ${member.lastName}!`
       });
     }
     setOpen(false);
@@ -53,9 +50,8 @@ const NotifyMemberModal = (props: {
       <Modal.Header> Are you sure you want to notify {subject}?</Modal.Header>
       <Modal.Content>
         This will send an email to {subject} reminding them that they{' '}
-        {type === 'tec' && 'do not have enough TEC Credits completed yet this semester'}
-        {type === 'coffee chat' && 'should submit coffee chats'}
-        {type === 'period' && 'do not have enough TEC Credits completed yet this period'}.
+        {type === 'period' && 'do not have enough TEC Credits completed yet this period'}
+        {type === 'coffee chat' && 'should submit coffee chats'}.
         <Form>
           <div className={styles.buttonsWrapper}>
             <Form.Button onClick={() => setOpen(false)}>Cancel</Form.Button>

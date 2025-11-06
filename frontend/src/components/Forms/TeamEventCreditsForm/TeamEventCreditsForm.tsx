@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Label, Dropdown } from 'semantic-ui-react';
+import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 import { calculateCredits, Emitters, getNetIDFromEmail, getTECPeriod } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
-import { INITIATIVE_EVENTS, TEC_DEADLINES } from '../../../consts';
+import {
+  INITIATIVE_EVENTS,
+  TEC_DEADLINES,
+  REQUIRED_LEAD_TEC_CREDITS,
+  REQUIRED_MEMBER_TEC_CREDITS
+} from '../../../consts';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -49,15 +55,21 @@ const TeamEventCreditForm: React.FC = () => {
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
 
+  let requiredCredits = REQUIRED_MEMBER_TEC_CREDITS;
+  if (ADVISOR_ROLES.includes(userInfo.role)) {
+    requiredCredits = 0;
+  } else if (LEAD_ROLES.includes(userInfo.role)) {
+    requiredCredits = REQUIRED_LEAD_TEC_CREDITS;
+  }
+
   const getCurrentCreditsNeeded = () => {
     const currentPeriod = getTECPeriod(new Date());
     const currentCredits = tecCounts[currentPeriod] || 0;
-    const previousCredits = currentPeriod > 0 ? tecCounts[currentPeriod - 1] : null;
 
-    return calculateCredits(previousCredits, currentCredits);
+    return calculateCredits(currentCredits, requiredCredits);
   };
 
-  const requiredCredits = getCurrentCreditsNeeded();
+  const remainingCredits = getCurrentCreditsNeeded();
 
   const handleAddIconClick = () => {
     setImages((images) => [...images, '']);
@@ -170,8 +182,8 @@ const TeamEventCreditForm: React.FC = () => {
         <h1>Submit Team Event Credits</h1>
         <p>
           Earn team event credits for participating in DTI events! Fill out this form every time and
-          attach a picture of yourself at the event to receive credit. The current 5-week TEC period
-          ends on{' '}
+          attach a picture of yourself at the event to receive credit. The current month's TEC
+          period ends on{' '}
           {getTECPeriod(new Date()) < TEC_DEADLINES.length
             ? TEC_DEADLINES[getTECPeriod(new Date())].toDateString()
             : 'No upcoming period'}
@@ -182,17 +194,17 @@ const TeamEventCreditForm: React.FC = () => {
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.bold}>
-            {requiredCredits > 1 && (
+            {remainingCredits > 0 && (
               <span className={styles.red_color}>
-                You submitted {2 - requiredCredits} TEC last period so you must submit at least{' '}
-                {requiredCredits} TEC for this 5-week period.
+                You have submitted {requiredCredits - remainingCredits} TEC in the current period,
+                so you must submit at least {remainingCredits} remaining TEC.
               </span>
             )}
           </div>
           <div className={styles.bold}>
-            {requiredCredits === 0 && (
+            {remainingCredits === 0 && (
               <span className={styles.red_color}>
-                You have already submitted a TEC for this 5-week period.
+                You have submitted all your TEC for this month's period.
               </span>
             )}
           </div>
@@ -312,7 +324,7 @@ const TeamEventCreditForm: React.FC = () => {
           rejectedAttendance={rejectedAttendance}
           isAttendanceLoading={isAttendanceLoading}
           setPendingAttendance={setPendingAttendance}
-          requiredPeriodCredits={requiredCredits}
+          requiredPeriodCredits={remainingCredits}
           tecCounts={tecCounts}
         />
       </Form>

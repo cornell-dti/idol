@@ -28,6 +28,7 @@ export const useInterviewSlotStatus = (slot: InterviewSlot): SlotStatus => {
 
   if (isLead) {
     if (slot.lead === null) return 'vacant';
+    if (slot.members.some((mem) => mem && mem.email === userEmail)) return 'possessed';
     return slot.lead !== null && slot.lead.email === userEmail ? 'possessed' : 'occupied';
   }
   if (isMember) {
