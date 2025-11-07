@@ -132,6 +132,7 @@ export type DBInterviewSlot = {
 };
 
 export type DBAlumni = {
+  readonly uuid: string;
   readonly firstName: string;
   readonly lastName: string;
   readonly gradYear: number;
@@ -140,6 +141,7 @@ export type DBAlumni = {
   readonly dtiRole: string;
   readonly linkedin?: string | null;
   readonly location?: string | null;
+  readonly locationId?: string | null;
   readonly company?: string | null;
   readonly jobRole?: string;
   readonly specification?: string | null;
