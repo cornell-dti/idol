@@ -582,6 +582,7 @@ type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
 
 /** The data type used to represent a DTI alumni member */
 interface Alumni {
+  readonly uuid: string;
   readonly firstName: string;
   readonly lastName: string;
   readonly gradYear: number;
@@ -590,6 +591,7 @@ interface Alumni {
   readonly dtiRole: AlumDtiRole; // Generalize alumni's DTI roles into 1 general role
   readonly linkedin?: string | null;
   readonly location?: string | null; // City, State/Country format
+  readonly locationId?: string | null; // Will reference CityCoordinates
   readonly company?: string | null;
   readonly jobRole?: AlumJobRole;
   readonly specification?: string | null; // Specialization in job roles for SWE, Business; null for others

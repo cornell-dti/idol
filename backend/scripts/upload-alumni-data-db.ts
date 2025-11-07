@@ -5,6 +5,7 @@
  */
 import admin from 'firebase-admin';
 import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 import { DBAlumni } from '../src/types/DataTypes';
 
 import { configureAccount } from '../src/utils/firebase-utils';
@@ -67,6 +68,7 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
 
   const subteams = alumniRow.subteams ? alumniRow.subteams.split(',').map((s) => s.trim()) : [];
   return {
+    uuid: uuidv4(),
     firstName: alumniRow.firstName || '',
     lastName: alumniRow.lastName || '',
     gradYear,
@@ -75,6 +77,7 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
     dtiRole: alumniRow.dtiRole || '',
     linkedin: alumniRow.linkedin || null,
     location: alumniRow.location || null,
+    locationId: null,
     company: alumniRow.company || null,
     jobRole: alumniRow.jobRole || 'Other',
     specification: alumniRow.specification || null,
@@ -108,7 +111,7 @@ const main = async () => {
 
     const batch = db.batch();
     alumniData.forEach((alumni) => {
-      batch.set(db.collection('alumni').doc(alumni.email), alumni);
+      batch.set(db.collection('alumni').doc(alumni.uuid), alumni);
     });
 
     await batch.commit();
