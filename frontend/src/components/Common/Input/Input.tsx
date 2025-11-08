@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './Input.module.css';
+import useKeyboardShortcut from '../../../hooks/useKeyboardShortcut';
 
 type InputProps = {
   value?: string;
@@ -24,6 +25,16 @@ const Input: React.FC<InputProps> = ({
     ...(maxHeight ? { maxHeight } : { height: 48 }),
     resize
   };
+  const ref = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
+  useKeyboardShortcut(
+    'Escape',
+    () => {
+      ref.current?.blur();
+    },
+    {},
+    { captureInInputs: true }
+  );
 
   if (multiline) {
     return (
@@ -34,6 +45,7 @@ const Input: React.FC<InputProps> = ({
         className={styles.input}
         style={style}
         disabled={disabled}
+        ref={ref as unknown as React.RefObject<HTMLTextAreaElement>}
       />
     );
   }
@@ -47,6 +59,7 @@ const Input: React.FC<InputProps> = ({
       className={styles.input}
       style={style}
       disabled={disabled}
+      ref={ref as unknown as React.RefObject<HTMLInputElement>}
     />
   );
 };

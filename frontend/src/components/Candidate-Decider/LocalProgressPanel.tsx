@@ -1,7 +1,7 @@
 import { LEAD_ROLES } from 'common-types/constants';
 import styles from './ProgressPanel.module.css';
 import { useSelf } from '../Common/FirestoreDataProvider';
-import RatingsDisplay from './RatingsDisplay';
+// import RatingsDisplay from './RatingsDisplay';
 import { ratingToString } from './ratings-utils';
 import ProgressBar from '../Common/ProgressBar/ProgressBar';
 
@@ -28,10 +28,10 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
 
       {userInfo && LEAD_ROLES.includes(userInfo.role) ? (
         <>
-          <RatingsDisplay
+          {/* <RatingsDisplay
             ratings={currentCandidateReviews}
             header={`Candidate ${currentCandidate + 1} Global Ratings`}
-          />
+          /> */}
           <div>
             <h3>All Votes on Candidate {currentCandidate + 1}</h3>
             <div className={styles.verticalContentContainer}>

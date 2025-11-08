@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getRoleColor, productLinks } from '../utils/memberUtils';
@@ -18,32 +18,51 @@ const MemberSummary = ({
   user: IdolMember;
   image: string;
   enlarged?: boolean;
-}) => (
-  <>
-    <Image
-      src={image}
-      alt={`${user.firstName} ${user.lastName}'s profile picture`}
-      className="rounded-lg w-full aspect-square object-cover transform transition-all duration-120 ease-in-out group-active:scale-97"
-      width={232}
-      height={232}
-    />
-    <div className={`text-left flex flex-col ${enlarged ? 'gap-3 pt-4' : 'gap-1'}`}>
-      {enlarged ? (
-        <>
-          <h3 className="h4">{`${user.firstName} ${user.lastName}`}</h3>
+}) => {
+  const [imgSrc, setImgSrc] = useState(image);
 
-          <Chip label={user.roleDescription} color={getRoleColor(user.role) as ChipColor} />
-        </>
-      ) : (
-        <>
-          <h6>{`${user.firstName} ${user.lastName}`}</h6>
+  const handleError = () => {
+    const fallbacks = [
+      '/team/fallback-1.svg',
+      '/team/fallback-2.svg',
+      '/team/fallback-3.svg',
+      '/team/fallback-4.svg'
+    ];
 
-          <Chip label={user.roleDescription} color={getRoleColor(user.role) as ChipColor} />
-        </>
-      )}
-    </div>
-  </>
-);
+    const fallbackIndex = user.netid
+      ? user.netid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % fallbacks.length
+      : 0;
+
+    setImgSrc(fallbacks[fallbackIndex]);
+  };
+
+  return (
+    <>
+      <Image
+        src={imgSrc}
+        alt={`${user.firstName} ${user.lastName}'s profile picture`}
+        className="rounded-lg w-full aspect-square object-cover transform transition-all duration-120 ease-in-out group-active:scale-97"
+        width={232}
+        height={232}
+        onError={handleError}
+        unoptimized
+      />
+      <div className={`text-left flex flex-col ${enlarged ? 'gap-3 pt-4' : 'gap-1'}`}>
+        {enlarged ? (
+          <>
+            <h3 className="h4">{`${user.firstName} ${user.lastName}`}</h3>
+            <Chip label={user.roleDescription} color={getRoleColor(user.role) as ChipColor} />
+          </>
+        ) : (
+          <>
+            <h6>{`${user.firstName} ${user.lastName}`}</h6>
+            <Chip label={user.roleDescription} color={getRoleColor(user.role) as ChipColor} />
+          </>
+        )}
+      </div>
+    </>
+  );
+};
 
 type MemberCardProps = {
   user: IdolMember;
