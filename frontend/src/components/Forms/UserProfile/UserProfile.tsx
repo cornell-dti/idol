@@ -51,7 +51,7 @@ const UserProfile: React.FC = () => {
 
   /**
    * Updates member information via the API.
-   * Shows success or error notifications based on the API response.
+   * Shows success or error notifications based on the API's response.
    *
    * @param member - The member object to update.
    */
