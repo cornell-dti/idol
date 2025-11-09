@@ -75,6 +75,7 @@ class ProfileImageEditor extends React.Component<Props, EditProfileImageState> {
             rotate={this.state.rotate}
             borderRadius={this.state.width / (100 / this.state.borderRadius)}
             image={this.state.image}
+            crossOrigin="anonymous"
           />
         </div>
 

@@ -23,11 +23,6 @@ const navCardItems: readonly NavigationCardItem[] = [
     link: '/forms/profile'
   },
   {
-    header: 'Edit Profile Image',
-    description: 'Edit your profile image.',
-    link: '/forms/profileImage'
-  },
-  {
     header: 'Team Event Credits',
     description: 'Track your team event credits.',
     link: '/forms/teamEventCredits',
