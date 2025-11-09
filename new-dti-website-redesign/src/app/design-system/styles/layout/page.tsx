@@ -46,7 +46,7 @@ export default function Layout() {
               <Note
                 inner={
                   <p>
-                    Inside the main layout (blue content), chilren should typically be aligned with
+                    Inside the main layout (blue content), children should typically be aligned with
                     the grid lines. Exceptions are sometimes made for rows of 3 cards.
                   </p>
                 }
