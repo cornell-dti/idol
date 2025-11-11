@@ -27,17 +27,15 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const filteredMembers = useMemo(() => {
     if (!searchQuery) return members;
     const query = searchQuery.toLowerCase();
-    return members.filter(
-      (member) => {
-        const fullName = `${member.firstName} ${member.lastName}`;
-        const isAlreadySelected = selectedReceivers.includes(fullName);
-        const matchesQuery =
-          member.firstName.toLowerCase().includes(query) ||
-          member.lastName.toLowerCase().includes(query) ||
-          fullName.toLowerCase().includes(query);
-        return matchesQuery && !isAlreadySelected;
-      }
-    );
+    return members.filter((member) => {
+      const fullName = `${member.firstName} ${member.lastName}`;
+      const isAlreadySelected = selectedReceivers.includes(fullName);
+      const matchesQuery =
+        member.firstName.toLowerCase().includes(query) ||
+        member.lastName.toLowerCase().includes(query) ||
+        fullName.toLowerCase().includes(query);
+      return matchesQuery && !isAlreadySelected;
+    });
   }, [searchQuery, members, selectedReceivers]);
 
   const giveShoutout = async () => {
@@ -46,7 +44,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
       setIsSubmitting(false);
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
-        contentMsg: "Please select at least one member!"
+        contentMsg: 'Please select at least one member!'
       });
     } else if (message === '') {
       setIsSubmitting(false);
