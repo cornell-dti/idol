@@ -15,7 +15,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
   const userEmail = useUserEmail();
   const members = useMembers();
   const user = members.find((it) => it.email === userEmail);
-  const [receiver, setReceiver] = useState('');
+  const [selectedReceivers, setSelectedReceivers] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [message, setMessage] = useState('');
@@ -28,20 +28,25 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
     if (!searchQuery) return members;
     const query = searchQuery.toLowerCase();
     return members.filter(
-      (member) =>
-        member.firstName.toLowerCase().includes(query) ||
-        member.lastName.toLowerCase().includes(query) ||
-        `${member.firstName} ${member.lastName}`.toLowerCase().includes(query)
+      (member) => {
+        const fullName = `${member.firstName} ${member.lastName}`;
+        const isAlreadySelected = selectedReceivers.includes(fullName);
+        const matchesQuery =
+          member.firstName.toLowerCase().includes(query) ||
+          member.lastName.toLowerCase().includes(query) ||
+          fullName.toLowerCase().includes(query);
+        return matchesQuery && !isAlreadySelected;
+      }
     );
-  }, [searchQuery, members]);
+  }, [searchQuery, members, selectedReceivers]);
 
   const giveShoutout = async () => {
     setIsSubmitting(true);
-    if (!receiver) {
+    if (selectedReceivers.length === 0) {
       setIsSubmitting(false);
       Emitters.generalError.emit({
         headerMsg: 'No Member Selected',
-        contentMsg: "Please fill in a member's name!"
+        contentMsg: "Please select at least one member!"
       });
     } else if (message === '') {
       setIsSubmitting(false);
@@ -49,7 +54,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         headerMsg: 'No message submitted.',
         contentMsg: 'Please fill in a message!'
       });
-    } else if (user && receiver) {
+    } else if (user && selectedReceivers.length > 0) {
       let imageUrl = '';
 
       if (image) {
@@ -58,6 +63,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
         await ImagesAPI.uploadImage(blob, imageUrl);
       }
 
+      const receiver = selectedReceivers.join(', ');
       const shoutout: Shoutout = {
         giver: user,
         receiver,
@@ -81,7 +87,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
             headerMsg: 'Shoutout submitted!',
             contentMsg: `Thank you for recognizing ${receiver}'s awesomeness! 🙏`
           });
-          setReceiver('');
+          setSelectedReceivers([]);
           setSearchQuery('');
           setMessage('');
           setIsAnon(true);
@@ -101,6 +107,10 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
     setImage(newImage);
   };
 
+  const removeReceiver = (name: string) => {
+    setSelectedReceivers(selectedReceivers.filter((r) => r !== name));
+  };
+
   return (
     <Form className={styles.shoutoutForm}>
       <h2 className={styles.formTitle}>Give someone a shoutout! 📣</h2>
@@ -114,9 +124,25 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
               setShowDropdown(true);
             }}
             onFocus={() => setShowDropdown(true)}
-            placeholder={receiver || 'Type away to search...'}
+            placeholder="Type away to search..."
             required
           />
+          {selectedReceivers.length > 0 && (
+            <div className={styles.selectedChips}>
+              {selectedReceivers.map((name) => (
+                <div key={name} className={styles.chip}>
+                  {name}
+                  <button
+                    type="button"
+                    className={styles.chipRemove}
+                    onClick={() => removeReceiver(name)}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           {showDropdown && searchQuery && filteredMembers.length > 0 && (
             <div className={styles.dropdown}>
               {filteredMembers.map((member) => (
@@ -124,7 +150,10 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
                   key={member.email}
                   className={styles.dropdownItem}
                   onClick={() => {
-                    setReceiver(`${member.firstName} ${member.lastName}`);
+                    setSelectedReceivers([
+                      ...selectedReceivers,
+                      `${member.firstName} ${member.lastName}`
+                    ]);
                     setSearchQuery('');
                     setShowDropdown(false);
                   }}

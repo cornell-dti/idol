@@ -53,3 +53,38 @@
 .dropdownItem:last-child {
   border-bottom: none;
 }
+
+.selectedChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e8f4f8;
+  border: 1px solid #2185d0;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 14px;
+  color: #2185d0;
+}
+
+.chipRemove {
+  background: none;
+  border: none;
+  color: #2185d0;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.chipRemove:hover {
+  color: #1678c2;
+}
