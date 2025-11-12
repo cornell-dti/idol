@@ -26,19 +26,18 @@ const db = admin.firestore();
 /** CSV row type for alumni data input */
 interface CSVAlumniRow {
   [key: string]: string | undefined;
-  firstName?: string;
-  lastName?: string;
-  gradYear?: string;
-  email?: string;
-  subteams?: string;
+  name?: string;
+  schoolEmail?: string;
+  workEmail?: string;
   dtiRole?: string;
-  imageUrl?: string;
-  linkedin?: string;
-  location?: string;
+  subteams?: string;
+  linkednIn?: string;
   company?: string;
+  jobCategory?: string;
   jobRole?: string;
-  specification?: string;
-  about?: string;
+  city?: string;
+  state?: string;
+  country?: string;
 }
 
 const parseCSVRow = (row: string): string[] => {
@@ -60,31 +59,48 @@ const parseCSVRow = (row: string): string[] => {
   return result;
 };
 
-const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
-  const gradYear = parseInt(alumniRow.gradYear || '', 10);
-  if (isNaN(gradYear)) {
-    throw new Error('gradYear must be a valid number');
-  }
+const consolidateLocation = (city?: string, state?: string, country?: string): string | null => {
+  if (!city) return null;
 
+  return [city, state, country].filter(Boolean).join(', ');
+};
+
+const parseNameToFirstLast = (fullName?: string): { firstName: string; lastName: string } => {
+  if (!fullName) return { firstName: '', lastName: '' };
+
+  const [firstName, ...lastNameParts] = fullName.trim().split(' ');
+  return { firstName: firstName || '', lastName: lastNameParts.join(' ') };
+};
+
+const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
+  const { firstName, lastName } = parseNameToFirstLast(alumniRow.name);
+  const email =
+    alumniRow.workEmail && alumniRow.workEmail !== 'N/A'
+      ? alumniRow.workEmail
+      : alumniRow.schoolEmail || '';
+  const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
   const subteams = alumniRow.subteams ? alumniRow.subteams.split(',').map((s) => s.trim()) : [];
+  const jobCategory = alumniRow.jobCategory || 'Other';
+  const jobRole = alumniRow.jobRole || 'Other';
+
   return {
     uuid: uuidv4(),
-    firstName: alumniRow.firstName || '',
-    lastName: alumniRow.lastName || '',
-    gradYear,
-    email: alumniRow.email || '',
-    subteams,
-    dtiRole: alumniRow.dtiRole || '',
-    linkedin: alumniRow.linkedin || null,
-    location: alumniRow.location || null,
+    firstName,
+    lastName,
+    gradYear: new Date().getFullYear(), // placeholder
+    email,
+    subteams: subteams || null,
+    dtiRole: alumniRow.dtiRole || null,
+    linkedin: alumniRow.linkednIn || null,
+    location,
     locationId: null,
     company: alumniRow.company || null,
-    jobRole: alumniRow.jobRole || 'Other',
-    specification: alumniRow.specification || null,
-    about: alumniRow.about || null,
-    imageUrl: alumniRow.imageUrl || '',
+    jobCategory,
+    jobRole,
+    about: null,
+    imageUrl: '',
     timestamp: Date.now()
-  };
+  } as DBAlumni;
 };
 
 const main = async () => {
@@ -94,18 +110,30 @@ const main = async () => {
     const rows = csv.split(/\r?\n/).filter((row) => row.trim());
 
     const headers = parseCSVRow(rows[0]);
-    const alumniData = rows.slice(1).map((row, index) => {
-      const values = parseCSVRow(row);
-      const alumniRow: CSVAlumniRow = {};
-      headers.forEach((header, i) => {
-        alumniRow[header] = values[i];
-      });
+    const alumniData: DBAlumni[] = [];
+    const failedRows: string[] = [];
+
+    rows.slice(1).forEach((row, index) => {
       try {
-        return validateAlumni(alumniRow);
+        const values = parseCSVRow(row);
+        const alumniRow: CSVAlumniRow = {};
+        headers.forEach((header, i) => {
+          alumniRow[header] = values[i];
+        });
+
+        const alumni = validateAlumni(alumniRow);
+        alumniData.push(alumni);
       } catch (validationError: unknown) {
-        throw new Error(`Row ${index + 2}: ${(validationError as Error).message}`);
+        const rowNumber = index + 2;
+        const errorMessage = (validationError as Error).message;
+        console.error(`Row ${rowNumber} failed: ${errorMessage}`);
+        failedRows.push(rowNumber.toString());
       }
     });
+
+    if (failedRows.length > 0) {
+      console.log(`\nFailed rows: ${failedRows.join(', ')}`);
+    }
 
     console.log(`Uploading ${alumniData.length} alumni records to Firestore`);
 
