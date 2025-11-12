@@ -137,14 +137,14 @@ export type DBAlumni = {
   readonly lastName: string;
   readonly gradYear: number;
   readonly email: string;
-  readonly subteams: string[];
-  readonly dtiRole: string;
+  readonly subteams?: string[] | null;
+  readonly dtiRole?: string | null;
   readonly linkedin?: string | null;
   readonly location?: string | null;
   readonly locationId?: string | null;
   readonly company?: string | null;
-  readonly jobRole?: string;
-  readonly specification?: string | null;
+  readonly jobCategory: string;
+  readonly jobRole: string;
   readonly about?: string | null;
   readonly imageUrl: string;
   readonly timestamp: number;

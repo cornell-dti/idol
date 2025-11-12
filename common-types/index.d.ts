@@ -568,13 +568,13 @@ interface Period {
 }
 
 /** Job roles for alumni */
-type AlumJobRole =
-  | 'Engineering'
-  | 'Management'
+type AlumJobCategory =
+  | 'Technology'
+  | 'Product Management'
   | 'Business'
-  | 'Design'
-  | 'Founder'
-  | 'Grad School'
+  | 'Product Design'
+  | 'Entrepreneurship'
+  | 'Grad Student'
   | 'Other';
 
 /** DTI role for alumni */
@@ -587,14 +587,15 @@ interface Alumni {
   readonly lastName: string;
   readonly gradYear: number;
   readonly email: string;
-  readonly subteams: string[]; // Limit to a maximum of 2 subteamsma
-  readonly dtiRole: AlumDtiRole; // Generalize alumni's DTI roles into 1 general role
+  readonly subteams?: string[] | null; // Limit to a maximum of 2 subteams
+  readonly dtiRole?: AlumDtiRole | null; // Generalize alumni's DTI roles into 1 general role
   readonly linkedin?: string | null;
   readonly location?: string | null; // City, State/Country format
   readonly locationId?: string | null; // Will reference CityCoordinates
   readonly company?: string | null;
-  readonly jobRole?: AlumJobRole;
-  readonly specification?: string | null; // Specialization in job roles for SWE, Business; null for others
+  readonly jobCategory: AlumJobCategory;
+  readonly jobRole: string;
   readonly about?: string | null;
   readonly imageUrl: string;
+  readonly timestamp: number;
 }
