@@ -17,6 +17,7 @@ export type DBShoutout = {
   hidden: boolean;
   uuid: string;
   images?: string[];
+  tags?: string[];
 };
 
 export type DBSignInFormResponse = {

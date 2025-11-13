@@ -47,11 +47,23 @@ const ShoutoutsPage: React.FC = () => {
           const lastName = user.lastName.toLowerCase();
           const fullName = `${firstName} ${lastName}`;
           const receiverLower = shoutout.receiver.toLowerCase();
-          return (
+
+          const inReceiver =
             receiverLower.includes(firstName) ||
             receiverLower.includes(lastName) ||
-            receiverLower.includes(fullName)
-          );
+            receiverLower.includes(fullName);
+
+          const inTags =
+            shoutout.tags?.some((tag) => {
+              const tagLower = tag.toLowerCase();
+              return (
+                tagLower.includes(firstName) ||
+                tagLower.includes(lastName) ||
+                tagLower.includes(fullName)
+              );
+            }) || false;
+
+          return inReceiver || inTags;
         });
 
         setMentionShoutouts(mentions);
