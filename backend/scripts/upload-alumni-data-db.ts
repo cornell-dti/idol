@@ -29,9 +29,9 @@ interface CSVAlumniRow {
   name?: string;
   schoolEmail?: string;
   workEmail?: string;
-  dtiRole?: string;
+  dtiRoles?: string;
   subteams?: string;
-  linkednIn?: string;
+  linkedin?: string;
   company?: string;
   jobCategory?: string;
   jobRole?: string;
@@ -72,6 +72,18 @@ const parseNameToFirstLast = (fullName?: string): { firstName: string; lastName:
   return { firstName: firstName || '', lastName: lastNameParts.join(' ') };
 };
 
+const standardizeLinkedIn = (linkedinUrl?: string): string | null => {
+  if (!linkedinUrl || linkedinUrl === 'N/A' || linkedinUrl.trim() === '') return null;
+
+  const cleaned = linkedinUrl.trim();
+
+  if (cleaned.startsWith('linkedin.com')) {
+    return `https://www.${cleaned}`;
+  }
+
+  return cleaned;
+};
+
 const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
   const { firstName, lastName } = parseNameToFirstLast(alumniRow.name);
   const email =
@@ -80,6 +92,7 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
       : alumniRow.schoolEmail || '';
   const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
   const subteams = alumniRow.subteams ? alumniRow.subteams.split(',').map((s) => s.trim()) : [];
+  const dtiRoles = alumniRow.dtiRoles ? alumniRow.dtiRoles.split(',').map((s) => s.trim()) : [];
   const jobCategory = alumniRow.jobCategory || 'Other';
   const jobRole = alumniRow.jobRole || 'Other';
 
@@ -87,11 +100,11 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
     uuid: uuidv4(),
     firstName,
     lastName,
-    gradYear: new Date().getFullYear(), // placeholder
+    gradYear: null,
     email,
     subteams: subteams || null,
-    dtiRole: alumniRow.dtiRole || null,
-    linkedin: alumniRow.linkednIn || null,
+    dtiRoles,
+    linkedin: standardizeLinkedIn(alumniRow.linkedin),
     location,
     locationId: null,
     company: alumniRow.company || null,
