@@ -585,10 +585,10 @@ interface Alumni {
   readonly uuid: string;
   readonly firstName: string;
   readonly lastName: string;
-  readonly gradYear: number;
+  readonly gradYear?: number | null;
   readonly email: string;
-  readonly subteams?: string[] | null; // Limit to a maximum of 2 subteams
-  readonly dtiRole?: AlumDtiRole | null; // Generalize alumni's DTI roles into 1 general role
+  readonly subteams?: string[] | null; // Up to 2 subteams
+  readonly dtiRoles?: AlumDtiRole[] | null; // Up to 2 DTI roles
   readonly linkedin?: string | null;
   readonly location?: string | null; // City, State/Country format
   readonly locationId?: string | null; // Will reference CityCoordinates
