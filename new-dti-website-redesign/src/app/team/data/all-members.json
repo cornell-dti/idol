@@ -137,7 +137,6 @@
     "college": "eng",
     "roleDescription": "Developer",
     "graduation": "May 2027",
-    "about": "Hi! I'm Annie and I'm a sophomore majoring in CS and minoring in ORIE! I'm a developer on Queue Me In and I'm interested in pursuing a career in SWE or Biotech! ",
     "email": "anc76@cornell.edu",
     "semesterJoined": "Fall 2024",
     "role": "developer",
@@ -150,11 +149,12 @@
     "major": "Computer Science",
     "website": null,
     "pronouns": "she/her",
-    "minor": "Operations Research and Engineering",
     "formerSubteams": [],
     "hometown": "Bridgewater, NJ",
     "coffeeChatLink": null,
-    "netid": "anc76"
+    "netid": "anc76",
+    "minor": "Operations Research & Management Science",
+    "about": "Hi! I'm Annie and I'm a junior majoring in CS and minoring in ORIE! I'm a developer on Queue Me In and I'm interested in pursuing a career in SWE or Biotech! "
   },
   {
     "website": null,
