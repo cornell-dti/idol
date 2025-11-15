@@ -566,3 +566,10 @@ interface Period {
   deadline: Date;
   events: TeamEvent[];
 }
+
+interface CityCoordinates {
+  readonly id: string;
+  readonly locationName: string;
+  readonly coordinates: [number,number];
+  readonly alumniIds: string[];
+}

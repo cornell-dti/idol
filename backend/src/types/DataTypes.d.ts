@@ -130,3 +130,11 @@ export type DBInterviewSlot = {
   members: (firestore.DocumentReference | null)[];
   applicant: Applicant | null;
 };
+
+export type DBCityCoordinates = {
+  readonly id: string;
+  readonly locationName: string;
+  readonly coordinates: [number, number];
+  readonly alumniIds: string[];
+  readonly timestamp: number;
+};
