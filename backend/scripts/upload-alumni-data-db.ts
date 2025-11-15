@@ -111,8 +111,7 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
     jobCategory,
     jobRole,
     about: null,
-    imageUrl: '',
-    timestamp: Date.now()
+    imageUrl: ''
   } as DBAlumni;
 };
 
