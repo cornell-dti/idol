@@ -467,6 +467,7 @@ interface Shoutout {
   readonly hidden: boolean;
   readonly uuid: string;
   readonly images?: string[];
+  readonly tags?: string[];
 }
 
 interface CoffeeChat {
