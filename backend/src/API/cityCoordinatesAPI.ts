@@ -8,7 +8,7 @@ const cityCoordinatesDao = new CityCoordinatesDao();
  * Gets all city coordinates
  * @returns all CityCoordinates documents
  */
-export const getAllCityCoordinates = (): Promise<readonly CityCoordinates[]> => 
+export const getAllCityCoordinates = (): Promise<readonly CityCoordinates[]> =>
   cityCoordinatesDao.getAllCityCoordinates();
 
 /**
@@ -16,7 +16,9 @@ export const getAllCityCoordinates = (): Promise<readonly CityCoordinates[]> =>
  * @param locationId - The standardized location ID (e.g., "new-york-ny-us")
  * @returns the CityCoordinates document or undefined if not found
  */
-export const getCityCoordinates = async (locationId: string): Promise<CityCoordinates | undefined> => {
+export const getCityCoordinates = async (
+  locationId: string
+): Promise<CityCoordinates | undefined> => {
   const result = await cityCoordinatesDao.getCityCoordinates(locationId);
   return result || undefined;
 };
@@ -30,7 +32,7 @@ export const getCityCoordinates = async (locationId: string): Promise<CityCoordi
  * @returns the newly created CityCoordinates document
  */
 export const createCityCoordinates = async (
-  cityCoordinates: CityCoordinates, 
+  cityCoordinates: CityCoordinates,
   user: IdolMember
 ): Promise<CityCoordinates> => {
   const canEdit = await PermissionsManager.isLeadOrAdmin(user);
@@ -39,13 +41,13 @@ export const createCityCoordinates = async (
       `User with email: ${user.email} does not have permission to edit city coordinates!`
     );
   }
-  
+
   if (!cityCoordinates.id || cityCoordinates.id === '') {
-    throw new BadRequestError("City coordinates ID cannot be empty!");
+    throw new BadRequestError('City coordinates ID cannot be empty!');
   }
-  
+
   if (!cityCoordinates.locationName || cityCoordinates.locationName === '') {
-    throw new BadRequestError("Location name cannot be empty!");
+    throw new BadRequestError('Location name cannot be empty!');
   }
 
   return cityCoordinatesDao.createCityCoordinates(cityCoordinates);
@@ -87,7 +89,10 @@ export const updateCityCoordinates = async (
  * @throws PermissionError if user is not lead or admin
  * @throws NotFoundError if city coordinates document doesn't exist
  */
-export const deleteCityCoordinates = async (locationId: string, user: IdolMember): Promise<void> => {
+export const deleteCityCoordinates = async (
+  locationId: string,
+  user: IdolMember
+): Promise<void> => {
   const canEdit = await PermissionsManager.isLeadOrAdmin(user);
   if (!canEdit) {
     throw new PermissionError(

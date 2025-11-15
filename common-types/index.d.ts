@@ -570,6 +570,6 @@ interface Period {
 interface CityCoordinates {
   readonly id: string;
   readonly locationName: string;
-  readonly coordinates: [number,number];
+  readonly coordinates: [number, number];
   readonly alumniIds: string[];
 }

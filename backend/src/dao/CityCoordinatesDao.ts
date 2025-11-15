@@ -43,7 +43,10 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @param cityCoordinates - The updated city coordinates data
    * @returns The updated city coordinates document
    */
-  async updateCityCoordinates(locationId: string, cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
+  async updateCityCoordinates(
+    locationId: string,
+    cityCoordinates: DBCityCoordinates
+  ): Promise<DBCityCoordinates> {
     return this.updateDocument(locationId, cityCoordinates);
   }
 
@@ -61,7 +64,10 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @param alumniId - The alumni ID to add
    * @returns The updated city coordinates document or null if location not found
    */
-  async addAlumniToLocation(locationId: string, alumniId: string): Promise<DBCityCoordinates | null> {
+  async addAlumniToLocation(
+    locationId: string,
+    alumniId: string
+  ): Promise<DBCityCoordinates | null> {
     const cityCoords = await this.getCityCoordinates(locationId);
     if (!cityCoords) return null;
 
@@ -80,11 +86,14 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @param alumniId - The alumni ID to remove
    * @returns The updated city coordinates document or null if location not found
    */
-  async removeAlumniFromLocation(locationId: string, alumniId: string): Promise<DBCityCoordinates | null> {
+  async removeAlumniFromLocation(
+    locationId: string,
+    alumniId: string
+  ): Promise<DBCityCoordinates | null> {
     const cityCoords = await this.getCityCoordinates(locationId);
     if (!cityCoords) return null;
 
-    const updatedAlumniIds = cityCoords.alumniIds.filter(id => id !== alumniId);
+    const updatedAlumniIds = cityCoords.alumniIds.filter((id) => id !== alumniId);
     const updatedCityCoords: DBCityCoordinates = {
       ...cityCoords,
       alumniIds: updatedAlumniIds
