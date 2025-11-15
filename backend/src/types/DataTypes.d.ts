@@ -136,5 +136,4 @@ export type DBCityCoordinates = {
   readonly locationName: string;
   readonly coordinates: [number, number];
   readonly alumniIds: string[];
-  readonly timestamp: number;
 };
