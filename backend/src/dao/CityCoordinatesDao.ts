@@ -71,7 +71,11 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
     const cityCoords = await this.getCityCoordinates(locationId);
     if (!cityCoords) return null;
 
-    const updatedAlumniIds = Array.from(new Set([...cityCoords.alumniIds, alumniId]));
+    if (cityCoords.alumniIds.includes(alumniId)) {
+      return cityCoords;
+    }
+
+    const updatedAlumniIds = [...cityCoords.alumniIds, alumniId];
     const updatedCityCoords: DBCityCoordinates = {
       ...cityCoords,
       alumniIds: updatedAlumniIds

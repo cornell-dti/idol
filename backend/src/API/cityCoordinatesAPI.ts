@@ -42,6 +42,11 @@ export const createCityCoordinates = async (
     );
   }
 
+  const existing = await cityCoordinatesDao.getCityCoordinates(cityCoordinates.id);
+  if (existing) {
+    throw new BadRequestError(`City coordinates with ID ${cityCoordinates.id} already exists!`);
+  }
+
   if (!cityCoordinates.id || cityCoordinates.id === '') {
     throw new BadRequestError('City coordinates ID cannot be empty!');
   }
@@ -133,7 +138,6 @@ export const addAlumniToLocation = async (
   if (!result) {
     throw new NotFoundError(`City coordinates with ID ${locationId} not found!`);
   }
-
   return result;
 };
 
