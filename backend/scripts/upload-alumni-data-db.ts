@@ -31,6 +31,7 @@ interface CSVAlumniRow {
   workEmail?: string;
   dtiRoles?: string;
   subteams?: string;
+  gradYear?: string;
   linkedin?: string;
   company?: string;
   jobCategory?: string;
@@ -96,11 +97,14 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
   const jobCategory = alumniRow.jobCategory || 'Other';
   const jobRole = alumniRow.jobRole || 'Other';
 
+  const parsedGradYear = parseInt(alumniRow.gradYear || '', 10);
+  const gradYear = isNaN(parsedGradYear) ? null : parsedGradYear;
+
   return {
     uuid: uuidv4(),
     firstName,
     lastName,
-    gradYear: null,
+    gradYear,
     email,
     subteams: subteams || null,
     dtiRoles,
