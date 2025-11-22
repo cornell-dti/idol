@@ -20,11 +20,23 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
   }
 
   /**
-   * Gets city coordinates by location ID
-   * @param locationId - The standardized location ID (e.g. "new-york-ny-us")
+   * Helper to create coordinate-based document ID
+   * @param latitude - The latitude coordinate
+   * @param longitude - The longitude coordinate
+   * @returns Document ID string (e.g. "40.7128,-74.0060")
+   */
+  private createCoordinateId(latitude: number, longitude: number): string {
+    return `${latitude},${longitude}`;
+  }
+
+  /**
+   * Gets city coordinates by lat/long coordinates
+   * @param latitude - The latitude coordinate
+   * @param longitude - The longitude coordinate
    * @returns The city coordinates document or null if not found
    */
-  async getCityCoordinates(locationId: string): Promise<DBCityCoordinates | null> {
+  async getCityCoordinates(latitude: number, longitude: number): Promise<DBCityCoordinates | null> {
+    const locationId = this.createCoordinateId(latitude, longitude);
     return this.getDocument(locationId);
   }
 
@@ -34,42 +46,55 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @returns The created city coordinates document
    */
   async createCityCoordinates(cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
-    return this.createDocument(cityCoordinates.id, cityCoordinates);
+    const locationId = this.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
+    return this.createDocument(locationId, cityCoordinates);
   }
 
   /**
    * Updates an existing city coordinates document
-   * @param locationId - The location ID to update
    * @param cityCoordinates - The updated city coordinates data
    * @returns The updated city coordinates document
    */
-  async updateCityCoordinates(
-    locationId: string,
-    cityCoordinates: DBCityCoordinates
-  ): Promise<DBCityCoordinates> {
+  async updateCityCoordinates(cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
+    const locationId = this.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
     return this.updateDocument(locationId, cityCoordinates);
   }
 
   /**
-   * Deletes a city coordinates document
-   * @param locationId - The location ID to delete
+   * Deletes a city coordinates document by lat/long
+   * @param latitude - The latitude coordinate
+   * @param longitude - The longitude coordinate
    */
-  async deleteCityCoordinates(locationId: string): Promise<void> {
+  async deleteCityCoordinates(latitude: number, longitude: number): Promise<void> {
+    const locationId = this.createCoordinateId(latitude, longitude);
     return this.deleteDocument(locationId);
   }
 
   /**
-   * Adds an alumni ID to a city coordinates document
-   * @param locationId - The location ID
+   * Adds an alumni ID to a city coordinates document or creates location if it doesn't exist
+   * @param latitude - The latitude coordinate
+   * @param longitude - The longitude coordinate
    * @param alumniId - The alumni ID to add
-   * @returns The updated city coordinates document or null if location not found
+   * @param locationName - The location name for the coordinates
+   * @returns The city coordinates document
    */
   async addAlumniToLocation(
-    locationId: string,
-    alumniId: string
-  ): Promise<DBCityCoordinates | null> {
-    const cityCoords = await this.getCityCoordinates(locationId);
-    if (!cityCoords) return null;
+    latitude: number,
+    longitude: number,
+    alumniId: string,
+    locationName: string
+  ): Promise<DBCityCoordinates> {
+    const cityCoords = await this.getCityCoordinates(latitude, longitude);
+
+    if (!cityCoords) {
+      const newLocation: DBCityCoordinates = {
+        locationName,
+        latitude,
+        longitude,
+        alumniIds: [alumniId]
+      };
+      return this.createCityCoordinates(newLocation);
+    }
 
     if (cityCoords.alumniIds.includes(alumniId)) {
       return cityCoords;
@@ -81,20 +106,22 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
       alumniIds: updatedAlumniIds
     };
 
-    return this.updateCityCoordinates(locationId, updatedCityCoords);
+    return this.updateCityCoordinates(updatedCityCoords);
   }
 
   /**
    * Removes an alumni ID from a city coordinates document
-   * @param locationId - The location ID
+   * @param latitude - The latitude coordinate
+   * @param longitude - The longitude coordinate
    * @param alumniId - The alumni ID to remove
    * @returns The updated city coordinates document or null if location not found
    */
   async removeAlumniFromLocation(
-    locationId: string,
+    latitude: number,
+    longitude: number,
     alumniId: string
   ): Promise<DBCityCoordinates | null> {
-    const cityCoords = await this.getCityCoordinates(locationId);
+    const cityCoords = await this.getCityCoordinates(latitude, longitude);
     if (!cityCoords) return null;
 
     const updatedAlumniIds = cityCoords.alumniIds.filter((id) => id !== alumniId);
@@ -103,6 +130,6 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
       alumniIds: updatedAlumniIds
     };
 
-    return this.updateCityCoordinates(locationId, updatedCityCoords);
+    return this.updateCityCoordinates(updatedCityCoords);
   }
 }

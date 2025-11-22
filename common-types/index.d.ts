@@ -568,8 +568,8 @@ interface Period {
 }
 
 interface CityCoordinates {
-  readonly id: string;
   readonly locationName: string;
-  readonly coordinates: [number, number];
+  readonly latitude: number;
+  readonly longitude: number;
   readonly alumniIds: string[];
 }

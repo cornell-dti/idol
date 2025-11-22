@@ -12,14 +12,16 @@ export const getAllCityCoordinates = (): Promise<readonly CityCoordinates[]> =>
   cityCoordinatesDao.getAllCityCoordinates();
 
 /**
- * Gets city coordinates by location ID
- * @param locationId - The standardized location ID (e.g., "new-york-ny-us")
+ * Gets city coordinates by lat/long coordinates
+ * @param latitude - The latitude coordinate
+ * @param longitude - The longitude coordinate
  * @returns the CityCoordinates document or undefined if not found
  */
 export const getCityCoordinates = async (
-  locationId: string
+  latitude: number,
+  longitude: number
 ): Promise<CityCoordinates | undefined> => {
-  const result = await cityCoordinatesDao.getCityCoordinates(locationId);
+  const result = await cityCoordinatesDao.getCityCoordinates(latitude, longitude);
   return result || undefined;
 };
 
@@ -42,17 +44,18 @@ export const createCityCoordinates = async (
     );
   }
 
-  const existing = await cityCoordinatesDao.getCityCoordinates(cityCoordinates.id);
+  if (!cityCoordinates.latitude || !cityCoordinates.longitude) {
+    throw new BadRequestError('Latitude and longitude are required!');
+  }
+
+  const existing = await cityCoordinatesDao.getCityCoordinates(
+    cityCoordinates.latitude,
+    cityCoordinates.longitude
+  );
   if (existing) {
-    throw new BadRequestError(`City coordinates with ID ${cityCoordinates.id} already exists!`);
-  }
-
-  if (!cityCoordinates.id || cityCoordinates.id === '') {
-    throw new BadRequestError('City coordinates ID cannot be empty!');
-  }
-
-  if (!cityCoordinates.locationName || cityCoordinates.locationName === '') {
-    throw new BadRequestError('Location name cannot be empty!');
+    throw new BadRequestError(
+      `City coordinates at ${cityCoordinates.latitude},${cityCoordinates.longitude} already exists!`
+    );
   }
 
   return cityCoordinatesDao.createCityCoordinates(cityCoordinates);
@@ -60,7 +63,6 @@ export const createCityCoordinates = async (
 
 /**
  * Updates an existing city coordinates document
- * @param locationId - The location ID to update
  * @param cityCoordinates - The updated city coordinates data
  * @param user - The user making the request
  * @throws PermissionError if user is not lead or admin
@@ -68,7 +70,6 @@ export const createCityCoordinates = async (
  * @returns the updated CityCoordinates document
  */
 export const updateCityCoordinates = async (
-  locationId: string,
   cityCoordinates: CityCoordinates,
   user: IdolMember
 ): Promise<CityCoordinates> => {
@@ -79,23 +80,33 @@ export const updateCityCoordinates = async (
     );
   }
 
-  const existing = await cityCoordinatesDao.getCityCoordinates(locationId);
-  if (!existing) {
-    throw new NotFoundError(`City coordinates with ID ${locationId} not found!`);
+  if (!cityCoordinates.latitude || !cityCoordinates.longitude) {
+    throw new BadRequestError('Latitude and longitude are required!');
   }
 
-  return cityCoordinatesDao.updateCityCoordinates(locationId, cityCoordinates);
+  const existing = await cityCoordinatesDao.getCityCoordinates(
+    cityCoordinates.latitude,
+    cityCoordinates.longitude
+  );
+  if (!existing) {
+    throw new NotFoundError(
+      `City coordinates at ${cityCoordinates.latitude},${cityCoordinates.longitude} not found!`
+    );
+  }
+
+  return cityCoordinatesDao.updateCityCoordinates(cityCoordinates);
 };
 
 /**
  * Deletes a city coordinates document
- * @param locationId - The location ID to delete
+ * @param latitude - The latitude coordinate
+ * @param longitude - The longitude coordinate
  * @param user - The user making the request
  * @throws PermissionError if user is not lead or admin
- * @throws NotFoundError if city coordinates document doesn't exist
  */
 export const deleteCityCoordinates = async (
-  locationId: string,
+  latitude: number,
+  longitude: number,
   user: IdolMember
 ): Promise<void> => {
   const canEdit = await PermissionsManager.isLeadOrAdmin(user);
@@ -105,26 +116,24 @@ export const deleteCityCoordinates = async (
     );
   }
 
-  const existing = await cityCoordinatesDao.getCityCoordinates(locationId);
-  if (!existing) {
-    throw new NotFoundError(`City coordinates with ID ${locationId} not found!`);
-  }
-
-  return cityCoordinatesDao.deleteCityCoordinates(locationId);
+  return cityCoordinatesDao.deleteCityCoordinates(latitude, longitude);
 };
 
 /**
- * Adds an alumni ID to a city coordinates document
- * @param locationId - The location ID
+ * Adds an alumni ID to a city coordinates document or creates location if it doesn't exist
+ * @param latitude - The latitude coordinate
+ * @param longitude - The longitude coordinate
  * @param alumniId - The alumni ID to add
+ * @param locationName - The location name for the coordinates
  * @param user - The user making the request
  * @throws PermissionError if user is not lead or admin
- * @throws NotFoundError if city coordinates document doesn't exist
- * @returns the updated CityCoordinates document
+ * @returns the CityCoordinates document
  */
 export const addAlumniToLocation = async (
-  locationId: string,
+  latitude: number,
+  longitude: number,
   alumniId: string,
+  locationName: string,
   user: IdolMember
 ): Promise<CityCoordinates> => {
   const canEdit = await PermissionsManager.isLeadOrAdmin(user);
@@ -134,16 +143,13 @@ export const addAlumniToLocation = async (
     );
   }
 
-  const result = await cityCoordinatesDao.addAlumniToLocation(locationId, alumniId);
-  if (!result) {
-    throw new NotFoundError(`City coordinates with ID ${locationId} not found!`);
-  }
-  return result;
+  return cityCoordinatesDao.addAlumniToLocation(latitude, longitude, alumniId, locationName);
 };
 
 /**
  * Removes an alumni ID from a city coordinates document
- * @param locationId - The location ID
+ * @param latitude - The latitude coordinate
+ * @param longitude - The longitude coordinate
  * @param alumniId - The alumni ID to remove
  * @param user - The user making the request
  * @throws PermissionError if user is not lead or admin
@@ -151,7 +157,8 @@ export const addAlumniToLocation = async (
  * @returns the updated CityCoordinates document
  */
 export const removeAlumniFromLocation = async (
-  locationId: string,
+  latitude: number,
+  longitude: number,
   alumniId: string,
   user: IdolMember
 ): Promise<CityCoordinates> => {
@@ -162,9 +169,9 @@ export const removeAlumniFromLocation = async (
     );
   }
 
-  const result = await cityCoordinatesDao.removeAlumniFromLocation(locationId, alumniId);
+  const result = await cityCoordinatesDao.removeAlumniFromLocation(latitude, longitude, alumniId);
   if (!result) {
-    throw new NotFoundError(`City coordinates with ID ${locationId} not found!`);
+    throw new NotFoundError(`City coordinates at ${latitude},${longitude} not found!`);
   }
 
   return result;
