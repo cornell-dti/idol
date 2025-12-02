@@ -591,7 +591,6 @@ interface Alumni {
   readonly dtiRoles?: AlumDtiRole[] | null; // Up to 2 DTI roles
   readonly linkedin?: string | null;
   readonly location?: string | null; // City, State/Region, Country format
-  readonly locationId?: string | null; // Will reference CityCoordinates
   readonly company?: string | null;
   readonly jobCategory: AlumJobCategory;
   readonly jobRole: string;
