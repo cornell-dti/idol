@@ -9,9 +9,10 @@ import styles from './ShoutoutForm.module.css';
 
 type ShoutoutFormProps = {
   getGivenShoutouts: () => void;
+  getMentionShoutouts: () => void;
 };
 
-const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
+const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts, getMentionShoutouts }) => {
   const userEmail = useUserEmail();
   const members = useMembers();
   const user = members.find((it) => it.email === userEmail);
@@ -96,6 +97,7 @@ const ShoutoutForm: React.FC<ShoutoutFormProps> = ({ getGivenShoutouts }) => {
             fileInputRef.current.value = '';
           }
           getGivenShoutouts();
+          getMentionShoutouts();
         }
       });
     }

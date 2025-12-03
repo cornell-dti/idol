@@ -9,7 +9,7 @@ import ShoutoutList from './ShoutoutList';
 import styles from './ShoutoutsPage.module.css';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 
-type ShoutoutView = 'given' | 'mentions';
+type ShoutoutView = 'given' | 'received';
 
 const ShoutoutsPage: React.FC = () => {
   const userEmail = useUserEmail();
@@ -71,7 +71,7 @@ const ShoutoutsPage: React.FC = () => {
       })
       .catch((error) => {
         Emitters.generalError.emit({
-          headerMsg: `Couldn't get mention shoutouts!`,
+          headerMsg: `Couldn't get received shoutouts!`,
           contentMsg: `Error was: ${error}`
         });
         setIsLoading(false);
@@ -90,20 +90,20 @@ const ShoutoutsPage: React.FC = () => {
   return (
     <div>
       <div className={styles.shoutoutFormContainer}>
-        <ShoutoutForm getGivenShoutouts={getGivenShoutouts} />
+        <ShoutoutForm getGivenShoutouts={getGivenShoutouts} getMentionShoutouts={getMentionShoutouts} />
       </div>
 
       <div className={styles.shoutoutListContainer}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
           <h2 style={{ margin: 0 }}>
-            {currentView === 'given' ? 'Given Shoutouts' : 'Shoutouts Mentioning You'}
+            {currentView === 'given' ? 'Given Shoutouts' : 'Received Shoutouts'}
           </h2>
           <Button.Group>
             <Button active={currentView === 'given'} onClick={() => setCurrentView('given')}>
               Given
             </Button>
-            <Button active={currentView === 'mentions'} onClick={() => setCurrentView('mentions')}>
-              Mentions
+            <Button active={currentView === 'received'} onClick={() => setCurrentView('received')}>
+              Received
             </Button>
           </Button.Group>
         </div>
