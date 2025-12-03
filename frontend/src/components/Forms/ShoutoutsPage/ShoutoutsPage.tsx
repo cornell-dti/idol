@@ -90,7 +90,10 @@ const ShoutoutsPage: React.FC = () => {
   return (
     <div>
       <div className={styles.shoutoutFormContainer}>
-        <ShoutoutForm getGivenShoutouts={getGivenShoutouts} getMentionShoutouts={getMentionShoutouts} />
+        <ShoutoutForm
+          getGivenShoutouts={getGivenShoutouts}
+          getMentionShoutouts={getMentionShoutouts}
+        />
       </div>
 
       <div className={styles.shoutoutListContainer}>
