@@ -596,5 +596,4 @@ interface Alumni {
   readonly jobRole: string;
   readonly about?: string | null;
   readonly imageUrl: string;
-  readonly timestamp: number;
 }
