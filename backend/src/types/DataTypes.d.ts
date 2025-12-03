@@ -136,4 +136,20 @@ export type DBCityCoordinates = {
   readonly latitude: number;
   readonly longitude: number;
   readonly alumniIds: string[];
+export type DBAlumni = {
+  readonly uuid: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly gradYear?: number | null;
+  readonly email: string;
+  readonly subteams?: string[] | null;
+  readonly dtiRoles?: string[] | null;
+  readonly linkedin?: string | null;
+  readonly location?: string | null;
+  readonly locationId?: string | null;
+  readonly company?: string | null;
+  readonly jobCategory: string;
+  readonly jobRole: string;
+  readonly about?: string | null;
+  readonly imageUrl: string;
 };

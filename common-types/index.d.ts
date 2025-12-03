@@ -572,4 +572,35 @@ interface CityCoordinates {
   readonly latitude: number;
   readonly longitude: number;
   readonly alumniIds: string[];
+/** Job roles for alumni */
+type AlumJobCategory =
+  | 'Technology'
+  | 'Product Management'
+  | 'Business'
+  | 'Product Design'
+  | 'Entrepreneurship'
+  | 'Grad Student'
+  | 'Other';
+
+/** DTI role for alumni */
+type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
+
+/** The data type used to represent a DTI alumni member */
+interface Alumni {
+  readonly uuid: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly gradYear?: number | null;
+  readonly email: string;
+  readonly subteams?: string[] | null; // Up to 2 subteams
+  readonly dtiRoles?: AlumDtiRole[] | null; // Up to 2 DTI roles
+  readonly linkedin?: string | null;
+  readonly location?: string | null; // City, State/Region, Country format
+  readonly locationId?: string | null; // Will reference CityCoordinates
+  readonly company?: string | null;
+  readonly jobCategory: AlumJobCategory;
+  readonly jobRole: string;
+  readonly about?: string | null;
+  readonly imageUrl: string;
+  readonly timestamp: number;
 }
