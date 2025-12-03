@@ -15,7 +15,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-const QUERY_DATE = '2025-01-01';
+const QUERY_DATE = '2025-08-25';
 
 const main = async () => {
   console.log(`Collecting all shoutouts from ${QUERY_DATE} until now...`);
@@ -30,12 +30,16 @@ const main = async () => {
     shoutoutDocs.map(async (shoutoutDoc) => {
       const shoutout = shoutoutDoc.data() as DBShoutout;
       const member = await getMemberFromDocumentReference(shoutout.giver);
-      const memberStr = `${member.firstName} ${member.lastName} (${member.netid})`;
+      if (member) {
+        const memberStr = `${member.firstName} ${member.lastName} (${member.netid})`;
 
-      if (memberToNumberOfShoutouts[memberStr] === undefined) {
-        memberToNumberOfShoutouts[memberStr] = 1;
+        if (memberToNumberOfShoutouts[memberStr] === undefined) {
+          memberToNumberOfShoutouts[memberStr] = 1;
+        } else {
+          memberToNumberOfShoutouts[memberStr] += 1;
+        }
       } else {
-        memberToNumberOfShoutouts[memberStr] += 1;
+        console.warn(`Member not found for shoutout with uuid: ${shoutout.uuid}`);
       }
     })
   );
