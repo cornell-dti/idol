@@ -132,6 +132,13 @@ export type DBInterviewSlot = {
   applicant: Applicant | null;
 };
 
+export type DBCityCoordinates = {
+  readonly locationName: string;
+  readonly latitude: number;
+  readonly longitude: number;
+  readonly alumniIds: string[];
+};
+
 export type DBAlumni = {
   readonly uuid: string;
   readonly firstName: string;

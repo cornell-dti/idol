@@ -568,6 +568,13 @@ interface Period {
   events: TeamEvent[];
 }
 
+interface CityCoordinates {
+  readonly locationName: string;
+  readonly latitude: number;
+  readonly longitude: number;
+  readonly alumniIds: string[];
+}
+
 /** Job roles for alumni */
 type AlumJobCategory =
   | 'Technology'
