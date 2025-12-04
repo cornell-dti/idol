@@ -149,16 +149,6 @@ export class GeocodingService {
     return result;
   }
 
-  /**
-   * Checks if coordinates for a location already exist in the database by exact lat/long
-   * @param latitude - The latitude to check
-   * @param longitude - The longitude to check
-   * @returns True if coordinates exist, false otherwise
-   */
-  static async coordinatesExist(latitude: number, longitude: number): Promise<boolean> {
-    const coords = await cityCoordinatesDao.getCityCoordinates(latitude, longitude);
-    return coords !== null;
-  }
 }
 
 export default GeocodingService;
