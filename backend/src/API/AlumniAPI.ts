@@ -1,6 +1,7 @@
 import AlumniDao from '../dao/AlumniDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
+import { deleteImage } from './imageAPI';
 
 const alumniDao = new AlumniDao();
 
@@ -63,5 +64,7 @@ export const updateAlumni = async (alumni: Alumni, user: IdolMember): Promise<Al
  */
 export const deleteAlumni = async (uuid: string, user: IdolMember): Promise<void> => {
   await validateEditor(user);
-  return alumniDao.deleteAlumni(uuid);
+  await alumniDao.deleteAlumni(uuid).then(() => {
+    deleteImage(`alumImages/${uuid}`).catch(() => {});
+  });
 };
