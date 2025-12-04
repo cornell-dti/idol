@@ -149,7 +149,6 @@ export class GeocodingService {
 
     return result;
   }
-
 }
 
 export default GeocodingService;
