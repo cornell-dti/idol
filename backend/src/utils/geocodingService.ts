@@ -20,6 +20,7 @@ interface NominatimResponse {
  */
 export class GeocodingService {
   private static readonly NOMINATIM_BASE_URL = 'https://nominatim.openstreetmap.org';
+
   private static readonly USER_AGENT = 'IDOL-Alumni-Map/1.0';
 
   /**
