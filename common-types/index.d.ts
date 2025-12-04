@@ -467,6 +467,7 @@ interface Shoutout {
   readonly hidden: boolean;
   readonly uuid: string;
   readonly images?: string[];
+  readonly tags?: string[];
 }
 
 interface CoffeeChat {
@@ -565,6 +566,13 @@ interface Period {
   start: Date;
   deadline: Date;
   events: TeamEvent[];
+}
+
+interface CityCoordinates {
+  readonly locationName: string;
+  readonly latitude: number;
+  readonly longitude: number;
+  readonly alumniIds: string[];
 }
 
 /** Job roles for alumni */
