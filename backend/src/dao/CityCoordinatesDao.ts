@@ -25,7 +25,7 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @param longitude - The longitude coordinate
    * @returns Document ID string (e.g. "40.7128,-74.0060")
    */
-  private createCoordinateId(latitude: number, longitude: number): string {
+  private static createCoordinateId(latitude: number, longitude: number): string {
     return `${latitude},${longitude}`;
   }
 
@@ -36,7 +36,7 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @returns The city coordinates document or null if not found
    */
   async getCityCoordinates(latitude: number, longitude: number): Promise<DBCityCoordinates | null> {
-    const locationId = this.createCoordinateId(latitude, longitude);
+    const locationId = CityCoordinatesDao.createCoordinateId(latitude, longitude);
     return this.getDocument(locationId);
   }
 
@@ -46,7 +46,7 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @returns The created city coordinates document
    */
   async createCityCoordinates(cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
-    const locationId = this.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
+    const locationId = CityCoordinatesDao.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
     return this.createDocument(locationId, cityCoordinates);
   }
 
@@ -56,7 +56,7 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @returns The updated city coordinates document
    */
   async updateCityCoordinates(cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
-    const locationId = this.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
+    const locationId = CityCoordinatesDao.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
     return this.updateDocument(locationId, cityCoordinates);
   }
 
@@ -66,7 +66,7 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @param longitude - The longitude coordinate
    */
   async deleteCityCoordinates(latitude: number, longitude: number): Promise<void> {
-    const locationId = this.createCoordinateId(latitude, longitude);
+    const locationId = CityCoordinatesDao.createCoordinateId(latitude, longitude);
     return this.deleteDocument(locationId);
   }
 
