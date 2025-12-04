@@ -46,7 +46,10 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @returns The created city coordinates document
    */
   async createCityCoordinates(cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
-    const locationId = CityCoordinatesDao.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
+    const locationId = CityCoordinatesDao.createCoordinateId(
+      cityCoordinates.latitude,
+      cityCoordinates.longitude
+    );
     return this.createDocument(locationId, cityCoordinates);
   }
 
@@ -56,7 +59,10 @@ export default class CityCoordinatesDao extends BaseDao<DBCityCoordinates, DBCit
    * @returns The updated city coordinates document
    */
   async updateCityCoordinates(cityCoordinates: DBCityCoordinates): Promise<DBCityCoordinates> {
-    const locationId = CityCoordinatesDao.createCoordinateId(cityCoordinates.latitude, cityCoordinates.longitude);
+    const locationId = CityCoordinatesDao.createCoordinateId(
+      cityCoordinates.latitude,
+      cityCoordinates.longitude
+    );
     return this.updateDocument(locationId, cityCoordinates);
   }
 
