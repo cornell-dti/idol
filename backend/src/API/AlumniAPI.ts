@@ -37,7 +37,7 @@ export const getAlumni = async (uuid: string): Promise<Alumni | null> => alumniD
  * @throws `BadRequestError` if the fields stored in `alumni` do not match their types in `Alumni`.
  */
 export const setAlumni = async (alumni: Alumni, user: IdolMember): Promise<Alumni> => {
-  validateEditor(user);
+  await validateEditor(user);
   return alumniDao.createAlumni(alumni);
 };
 
@@ -50,7 +50,7 @@ export const setAlumni = async (alumni: Alumni, user: IdolMember): Promise<Alumn
  * @throws `BadRequestError` if the fields stored in `alumni` do not match their types in `Alumni`.
  */
 export const updateAlumni = async (alumni: Alumni, user: IdolMember): Promise<Alumni> => {
-  validateEditor(user);
+  await validateEditor(user);
   return alumniDao.updateAlumni(alumni);
 };
 
@@ -62,6 +62,6 @@ export const updateAlumni = async (alumni: Alumni, user: IdolMember): Promise<Al
  * @throws `BadRequestError` if the fields stored in `alumni` do not match their types in `Alumni`.
  */
 export const deleteAlumni = async (uuid: string, user: IdolMember): Promise<void> => {
-  validateEditor(user);
+  await validateEditor(user);
   return alumniDao.deleteAlumni(uuid);
 };
