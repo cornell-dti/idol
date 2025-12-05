@@ -8,7 +8,6 @@ import {
   DBTeamEventAttendance,
   DBCandidateDeciderReview,
   DBCoffeeChat,
-  DBInterviewSlot
   DBInterviewSlot,
   DBCityCoordinates
 } from './types/DataTypes';
