@@ -586,7 +586,7 @@ type AlumJobCategory =
   | 'Other';
 
 /** DTI role for alumni */
-type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
+type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design' | 'Lead';
 
 /** The data type used to represent a DTI alumni member */
 interface Alumni {
@@ -599,11 +599,9 @@ interface Alumni {
   readonly dtiRoles?: AlumDtiRole[] | null; // Up to 2 DTI roles
   readonly linkedin?: string | null;
   readonly location?: string | null; // City, State/Region, Country format
-  readonly locationId?: string | null; // Will reference CityCoordinates
   readonly company?: string | null;
   readonly jobCategory: AlumJobCategory;
   readonly jobRole: string;
   readonly about?: string | null;
   readonly imageUrl: string;
-  readonly timestamp: number;
 }

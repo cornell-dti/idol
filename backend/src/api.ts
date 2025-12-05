@@ -116,6 +116,7 @@ import {
   deleteInterviewStatus,
   deleteInterviewStatusInstance
 } from './API/interviewStatusAPI';
+import { getAllAlumni, getAlumni, setAlumni, updateAlumni, deleteAlumni } from './API/AlumniAPI';
 
 import { HandlerError } from './utils/errors';
 
@@ -622,6 +623,27 @@ loginCheckedDelete('/interview-status/:uuid', async (req, user) =>
 
 loginCheckedDelete('/interview-status/instance/:instanceName', async (req, user) =>
   deleteInterviewStatusInstance(req.params.instanceName, user).then(() => ({}))
+);
+
+// Alumni Database
+loginCheckedGet('/alumni', async () => ({
+  alumni: await getAllAlumni()
+}));
+
+loginCheckedGet('/alumni/:uuid', async (req) => ({
+  alumni: await getAlumni(req.params.uuid)
+}));
+
+loginCheckedPost('/alumni', async (req, user) => ({
+  alumni: await setAlumni(req.body, user)
+}));
+
+loginCheckedPut('/alumni', async (req, user) => ({
+  alumni: await updateAlumni(req.body, user)
+}));
+
+loginCheckedDelete('/alumni/:uuid', async (req, user) =>
+  deleteAlumni(req.params.uuid, user).then(() => ({}))
 );
 
 app.use('/.netlify/functions/api', router);
