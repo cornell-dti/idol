@@ -9,6 +9,8 @@ import {
   DBCandidateDeciderReview,
   DBCoffeeChat,
   DBInterviewSlot
+  DBInterviewSlot,
+  DBCityCoordinates
 } from './types/DataTypes';
 import { configureAccount } from './utils/firebase-utils';
 
@@ -213,6 +215,17 @@ export const interviewStatusCollection: admin.firestore.CollectionReference<Inte
     },
     toFirestore(interviewStatusData: InterviewStatus) {
       return interviewStatusData;
+    }
+  });
+
+export const cityCoordinatesCollection: admin.firestore.CollectionReference<DBCityCoordinates> = db
+  .collection('city-coordinates')
+  .withConverter({
+    fromFirestore(snapshot): DBCityCoordinates {
+      return snapshot.data() as DBCityCoordinates;
+    },
+    toFirestore(cityCoordinatesData: DBCityCoordinates) {
+      return cityCoordinatesData;
     }
   });
 

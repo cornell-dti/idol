@@ -17,6 +17,7 @@ export type DBShoutout = {
   hidden: boolean;
   uuid: string;
   images?: string[];
+  tags?: string[];
 };
 
 export type DBSignInFormResponse = {
@@ -129,4 +130,11 @@ export type DBInterviewSlot = {
   lead: firestore.DocumentReference | null;
   members: (firestore.DocumentReference | null)[];
   applicant: Applicant | null;
+};
+
+export type DBCityCoordinates = {
+  readonly locationName: string;
+  readonly latitude: number;
+  readonly longitude: number;
+  readonly alumniIds: string[];
 };
