@@ -578,7 +578,7 @@ type AlumJobCategory =
   | 'Other';
 
 /** DTI role for alumni */
-type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design';
+type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design' | 'Lead';
 
 /** The data type used to represent a DTI alumni member */
 interface Alumni {
