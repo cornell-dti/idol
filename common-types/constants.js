@@ -253,15 +253,3 @@ export const ALL_MINORS = [
   'Visual Studies',
   'Viticulture & Enology'
 ];
-
-export const ALUM_DTI_ROLES = ['Dev', 'Product', 'Business', 'Design'];
-
-export const ALUM_JOB_CATEGORY = [
-  'Technology',
-  'Product Management',
-  'Business',
-  'Product Design',
-  'Entrepreneurship',
-  'Grad Student',
-  'Other'
-];

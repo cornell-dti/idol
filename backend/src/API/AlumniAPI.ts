@@ -47,7 +47,7 @@ export const setAlumni = async (alumni: Alumni, user: IdolMember): Promise<Alumn
  * @param alumni - the `Alumni` containing the new credentials.
  * @param user - the `IdolMember` submitting the request.
  * @returns The updated `Alumni`.
- * @throws `PermissionError` if the `user` does not have permission to edit members or if they try to edit another member's information.
+ * @throws `PermissionError` if the `user` does not have permission to edit members.
  * @throws `BadRequestError` if the fields stored in `alumni` do not match their types in `Alumni`.
  */
 export const updateAlumni = async (alumni: Alumni, user: IdolMember): Promise<Alumni> => {
@@ -59,7 +59,7 @@ export const updateAlumni = async (alumni: Alumni, user: IdolMember): Promise<Al
  * Deletes an alumni given their uuid.
  * @param uuid - The uuid of the `Alumni`.
  * @param user - The `IdolMember` submitting the request.
- * @throws `PermissionError` if the `user` does not have permission to edit members or if they try to edit another member's information.
+ * @throws `PermissionError` if the `user` does not have permission to edit members.
  * @throws `BadRequestError` if the fields stored in `alumni` do not match their types in `Alumni`.
  */
 export const deleteAlumni = async (uuid: string, user: IdolMember): Promise<void> => {

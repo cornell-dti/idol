@@ -1,46 +1,28 @@
 import { alumniCollection } from '../firebase';
-import { DBAlumni } from '../types/DataTypes';
 import BaseDao from './BaseDao';
-import { ALUM_DTI_ROLES, ALUM_JOB_CATEGORY } from '../../../common-types/constants';
 import { BadRequestError } from '../utils/errors';
 
-function validateDtiRole(r: string): AlumDtiRole {
-  const dr = r as AlumDtiRole;
-  if (!ALUM_DTI_ROLES.includes(dr)) {
-    throw new BadRequestError(`Role ${r} is invalid.`);
+function validateDtiRole(r: AlumDtiRole[] | null | undefined): void {
+  if (r != null && r !== undefined && r.length > 2) {
+    throw new BadRequestError(
+      `Too many roles! Please ensure there are a maximum of 2 roles associated with this alumni.`
+    );
   }
-  return dr;
 }
 
-function validateJobCategory(j: string): AlumJobCategory {
-  const jc = j as AlumJobCategory;
-  if (!ALUM_JOB_CATEGORY.includes(jc)) {
-    throw new BadRequestError(`Job category ${j} is invalid.`);
+function validateSubteams(s: string[] | null | undefined): void {
+  if (s != null && s !== undefined && s.length > 2) {
+    throw new BadRequestError(
+      `Too many subteams! Please ensure there are a maximum of 2 subteams associated with this alumni.`
+    );
   }
-  return jc;
 }
 
-function dbAlumniToAlumni(db: DBAlumni): Alumni {
-  return {
-    ...db,
-    dtiRoles: db.dtiRoles ? db.dtiRoles.map(validateDtiRole) : null,
-    jobCategory: validateJobCategory(db.jobCategory)
-  } as Alumni;
-}
-
-function alumniToDbAlumni(alum: Alumni): DBAlumni {
-  return {
-    ...alum,
-    dtiRoles: alum.dtiRoles ? [...alum.dtiRoles] : null,
-    jobCategory: alum.jobCategory
-  } as DBAlumni;
-}
-
-export default class AlumniDao extends BaseDao<DBAlumni, DBAlumni> {
+export default class AlumniDao extends BaseDao<Alumni, Alumni> {
   constructor() {
     super(
       alumniCollection,
-      async (dbAlumni) => dbAlumni,
+      async (alumni) => alumni,
       async (alumni) => alumni
     );
   }
@@ -51,7 +33,7 @@ export default class AlumniDao extends BaseDao<DBAlumni, DBAlumni> {
    * @throws `BadRequestError` if fields stored in `DBAlumni` do not match their types in `Alumni`
    */
   async getAllAlumni(): Promise<Alumni[]> {
-    return this.getDocuments().then((vals) => vals.map((val) => dbAlumniToAlumni(val)));
+    return this.getDocuments();
   }
 
   /**
@@ -61,12 +43,7 @@ export default class AlumniDao extends BaseDao<DBAlumni, DBAlumni> {
    * @throws `BadRequestError` if fields stored in `DBAlumni` do not match their types in `Alumni`
    */
   async getAlumni(uuid: string): Promise<Alumni | null> {
-    return this.getDocument(uuid).then((val) => {
-      if (val == null) {
-        return null;
-      }
-      return dbAlumniToAlumni(val);
-    });
+    return this.getDocument(uuid);
   }
 
   /**
@@ -76,8 +53,9 @@ export default class AlumniDao extends BaseDao<DBAlumni, DBAlumni> {
    * @throws `BadRequestError` if fields stored in `DBAlumni` do not match their types in `Alumni`
    */
   async createAlumni(alumni: Alumni): Promise<Alumni> {
-    const dbAlumni = alumniToDbAlumni(alumni);
-    return this.createDocument(dbAlumni.uuid, dbAlumni).then((val) => dbAlumniToAlumni(val));
+    validateDtiRole(alumni.dtiRoles);
+    validateSubteams(alumni.subteams);
+    return this.createDocument(alumni.uuid, alumni);
   }
 
   /**
@@ -87,8 +65,7 @@ export default class AlumniDao extends BaseDao<DBAlumni, DBAlumni> {
    * @throws `BadRequestError` if fields stored in `DBAlumni` do not match their types in `Alumni`
    */
   async updateAlumni(alumni: Alumni): Promise<Alumni> {
-    const dbAlumni = alumniToDbAlumni(alumni);
-    return this.updateDocument(dbAlumni.uuid, dbAlumni).then((val) => dbAlumniToAlumni(val));
+    return this.updateDocument(alumni.uuid, alumni);
   }
 
   /**
