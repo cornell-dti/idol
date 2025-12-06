@@ -30,7 +30,7 @@ export default function Team() {
         heading="We are Cornell DTI"
         description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
         image="/team/we-are-cornell-dti.png"
-        imageAlt="Spring 2025 new members of DTI posing together"
+        imageAlt="Fall 2025 new members of DTI posing together"
       />
 
       <SectionSep />
