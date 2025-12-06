@@ -254,8 +254,7 @@ const main = async () => {
     const failedRows: string[] = [];
 
     const dataRows = rows.slice(1);
-    for (let index = 0; index < dataRows.length; index += 1) {
-      const row = dataRows[index];
+    const processRow = async (row: string, index: number) => {
       try {
         const values = parseCSVRow(row);
         const alumniRow: CSVAlumniRow = {};
@@ -263,15 +262,22 @@ const main = async () => {
           alumniRow[header] = values[i];
         });
 
-        const alumni = await validateAlumni(alumniRow);
-        alumniData.push(alumni);
+        return await validateAlumni(alumniRow);
       } catch (validationError: unknown) {
         const rowNumber = index + 2;
         const errorMessage = (validationError as Error).message;
         console.error(`Row ${rowNumber} failed: ${errorMessage}`);
         failedRows.push(rowNumber.toString());
+        return null;
       }
-    }
+    };
+
+    const results = await Promise.all(dataRows.map(processRow));
+    results.forEach((alumni) => {
+      if (alumni) {
+        alumniData.push(alumni);
+      }
+    });
 
     if (failedRows.length > 0) {
       console.log(`\nFailed rows: ${failedRows.join(', ')}`);
