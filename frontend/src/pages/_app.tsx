@@ -135,6 +135,12 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
           Forms
         </Menu.Item>
       </Link>
+      <Link href="/alumni">
+        <Menu.Item>
+          <Icon name="graduation cap" />
+          Alumni
+        </Menu.Item>
+      </Link>
       {hasInstance && (
         <Link href="/candidate-decider">
           <Menu.Item>
