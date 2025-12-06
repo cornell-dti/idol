@@ -694,14 +694,17 @@ loginCheckedPost('/city-coordinates/:latitude/:longitude/alumni', async (req, us
   )
 }));
 
-loginCheckedDelete('/city-coordinates/:latitude/:longitude/alumni/:alumniId', async (req, user) => ({
-  cityCoordinates: await removeAlumniFromLocation(
-    parseFloat(req.params.latitude),
-    parseFloat(req.params.longitude),
-    req.params.alumniId,
-    user
-  )
-}));
+loginCheckedDelete(
+  '/city-coordinates/:latitude/:longitude/alumni/:alumniId',
+  async (req, user) => ({
+    cityCoordinates: await removeAlumniFromLocation(
+      parseFloat(req.params.latitude),
+      parseFloat(req.params.longitude),
+      req.params.alumniId,
+      user
+    )
+  })
+);
 
 app.use('/.netlify/functions/api', router);
 

@@ -135,12 +135,14 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
           Forms
         </Menu.Item>
       </Link>
-      <Link href="/alumni">
-        <Menu.Item>
-          <Icon name="graduation cap" />
-          Alumni
-        </Menu.Item>
-      </Link>
+      {hasAdminPermission && (
+        <Link href="/alumni">
+          <Menu.Item>
+            <Icon name="graduation cap" />
+            Alumni
+          </Menu.Item>
+        </Link>
+      )}
       {hasInstance && (
         <Link href="/candidate-decider">
           <Menu.Item>
@@ -178,6 +180,9 @@ const RoutingMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
       return;
     }
     if (router.pathname.startsWith('/admin') && !hasAdminPermission) {
+      if (router.pathname !== '/') router.push('/');
+    }
+    if (router.pathname.startsWith('/alumni') && !hasAdminPermission) {
       if (router.pathname !== '/') router.push('/');
     }
   }, [router, router.pathname, hasMemberPermissions, hasAdminPermission]);

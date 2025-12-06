@@ -14,7 +14,14 @@ require('dotenv').config();
 
 // Alumni type definition
 type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design' | 'Lead';
-type AlumJobCategory = 'Technology' | 'Product Management' | 'Business' | 'Product Design' | 'Entrepreneurship' | 'Grad Student' | 'Other';
+type AlumJobCategory =
+  | 'Technology'
+  | 'Product Management'
+  | 'Business'
+  | 'Product Design'
+  | 'Entrepreneurship'
+  | 'Grad Student'
+  | 'Other';
 
 interface Alumni {
   readonly uuid: string;
@@ -103,11 +110,11 @@ const standardizeLinkedIn = (linkedinUrl?: string): string | null => {
 
 const standardizeDtiRole = (role: string): string => {
   const trimmed = role.trim();
-  
+
   if (trimmed.toLowerCase().includes('lead')) {
     return 'Lead';
   }
-  
+
   switch (trimmed) {
     case 'Developer':
     case 'TPM':
@@ -131,7 +138,7 @@ const extractNetIdFromEmail = (schoolEmail?: string): string | null => {
 
 const uploadAlumniImage = async (netid: string): Promise<string> => {
   const imagePath = path.join(__dirname, 'alumni-images', `${netid}.jpg`);
-  
+
   if (!fs.existsSync(imagePath)) {
     console.log(`No image found for netid: ${netid}`);
     return '';
@@ -140,16 +147,16 @@ const uploadAlumniImage = async (netid: string): Promise<string> => {
   try {
     const fileName = `alumImages/${netid}.jpg`;
     const file = bucket.file(fileName);
-    
+
     await file.save(fs.readFileSync(imagePath), {
       metadata: {
-        contentType: 'image/jpeg',
-      },
+        contentType: 'image/jpeg'
+      }
     });
 
     // Make the file publicly accessible
     await file.makePublic();
-    
+
     // Return the public URL
     return `https://storage.googleapis.com/${bucket.name}/${fileName}`;
   } catch (error) {
@@ -165,8 +172,26 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
       ? alumniRow.workEmail
       : alumniRow.schoolEmail || '';
   const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
-  const subteams = alumniRow.subteams ? alumniRow.subteams.split(',').map((s) => s.trim()) : [];
-  const dtiRoles = alumniRow.dtiRoles ? alumniRow.dtiRoles.split(',').map((s) => standardizeDtiRole(s.trim())) : [];
+  const subteams = alumniRow.subteams
+    ? [
+        ...new Set(
+          alumniRow.subteams
+            .split(',')
+            .map((s) => s.trim())
+            .filter((s) => s)
+        )
+      ]
+    : [];
+  const dtiRoles = alumniRow.dtiRoles
+    ? [
+        ...new Set(
+          alumniRow.dtiRoles
+            .split(',')
+            .map((s) => standardizeDtiRole(s.trim()))
+            .filter((s) => s)
+        )
+      ]
+    : [];
   const jobCategory = alumniRow.jobCategory || 'Other';
   const jobRole = alumniRow.jobRole || 'Other';
 
@@ -183,7 +208,7 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
     try {
       const geocodingResult = await GeocodingService.geocodeAndStore(location);
       locationId = `${geocodingResult.latitude},${geocodingResult.longitude}`;
-      
+
       // Add alumni to the city coordinates
       const alumniUuid = netid || uuidv4();
       await cityCoordinatesDao.addAlumniToLocation(
@@ -192,7 +217,7 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
         alumniUuid,
         geocodingResult.locationName
       );
-      
+
       console.log(`Geocoded location for ${firstName} ${lastName}: ${location} -> ${locationId}`);
     } catch (error) {
       console.warn(`Failed to geocode location "${location}" for ${firstName} ${lastName}:`, error);
