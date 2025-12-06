@@ -253,8 +253,9 @@ const main = async () => {
     const alumniData: Alumni[] = [];
     const failedRows: string[] = [];
 
-    for (let index = 0; index < rows.slice(1).length; index++) {
-      const row = rows.slice(1)[index];
+    const dataRows = rows.slice(1);
+    for (let index = 0; index < dataRows.length; index += 1) {
+      const row = dataRows[index];
       try {
         const values = parseCSVRow(row);
         const alumniRow: CSVAlumniRow = {};
