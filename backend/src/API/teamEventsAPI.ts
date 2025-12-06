@@ -60,7 +60,8 @@ export const createTeamEvent = async (
  * @returns the deleted team event
  */
 export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<void> => {
-  if (!PermissionsManager.canEditTeamEvent(user)) {
+  const canEditTeamEvent = await PermissionsManager.canEditTeamEvent(user);
+  if (!canEditTeamEvent) {
     throw new PermissionError(`User with email ${user.email} cannot delete team events`);
   }
   const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
@@ -87,7 +88,8 @@ export const updateTeamEvent = async (
   teamEventInfo: TeamEventInfo,
   user: IdolMember
 ): Promise<TeamEventInfo> => {
-  if (!PermissionsManager.canEditTeamEvent(user)) {
+  const canEditTeamEvent = await PermissionsManager.canEditTeamEvent(user);
+  if (!canEditTeamEvent) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to update team events`
     );
