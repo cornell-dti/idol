@@ -14,7 +14,7 @@ export default class AlumniAPI {
   /**
    * Retrieves a specific alumni record by uuid
    * @param uuid - Unique id for the alumni
-   * @returns Promise resolving to the alumni record
+   * @returns Promise resolving to the retrieved alumni record
    */
   static async getAlumni(uuid: string): Promise<Alumni> {
     const response = await APIWrapper.get(`${backendURL}/alumni/${uuid}`);
@@ -42,8 +42,8 @@ export default class AlumniAPI {
   }
 
   /**
-   * Deletes an alumni record by UUID
-   * @param uuid - Unique identifier for the alumni to delete
+   * Deletes an alumni record by uuid
+   * @param uuid - Unique id for the alumni to delete
    * @returns Promise that resolves when deletion is complete
    */
   static async deleteAlumni(uuid: string): Promise<void> {
