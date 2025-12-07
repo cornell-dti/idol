@@ -3,6 +3,7 @@
  * Script to upload alumni data from CSV to Firestore
  * Usage: npm run upload-alumni
  */
+/// <reference types="common-types" />
 import admin from 'firebase-admin';
 import fs from 'fs';
 import path from 'path';
@@ -11,35 +12,6 @@ import GeocodingService from '../src/utils/geocodingService';
 import CityCoordinatesDao from '../src/dao/CityCoordinatesDao';
 
 require('dotenv').config();
-
-// Alumni type definition
-type AlumDtiRole = 'Dev' | 'Product' | 'Business' | 'Design' | 'Lead';
-type AlumJobCategory =
-  | 'Technology'
-  | 'Product Management'
-  | 'Business'
-  | 'Product Design'
-  | 'Entrepreneurship'
-  | 'Grad Student'
-  | 'Other';
-
-interface Alumni {
-  readonly uuid: string;
-  readonly firstName: string;
-  readonly lastName: string;
-  readonly gradYear?: number | null;
-  readonly email: string;
-  readonly subteams?: string[] | null;
-  readonly dtiRoles?: AlumDtiRole[] | null;
-  readonly linkedin?: string | null;
-  readonly location?: string | null;
-  readonly locationId?: string | null;
-  readonly company?: string | null;
-  readonly jobCategory: AlumJobCategory;
-  readonly jobRole: string;
-  readonly about?: string | null;
-  readonly imageUrl: string;
-}
 
 // Firebase is already initialized through imports
 const db = admin.firestore();
@@ -203,11 +175,9 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
   const imageUrl = netid ? await uploadAlumniImage(netid) : '';
 
   // Handle geocoding
-  let locationId = null;
   if (location) {
     try {
       const geocodingResult = await GeocodingService.geocodeAndStore(location);
-      locationId = `${geocodingResult.latitude},${geocodingResult.longitude}`;
 
       // Add alumni to the city coordinates
       const alumniUuid = netid || uuidv4();
@@ -218,7 +188,7 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
         geocodingResult.locationName
       );
 
-      console.log(`Geocoded location for ${firstName} ${lastName}: ${location} -> ${locationId}`);
+      console.log(`Geocoded location for ${firstName} ${lastName}: ${location}`);
     } catch (error) {
       console.warn(`Failed to geocode location "${location}" for ${firstName} ${lastName}:`, error);
     }
@@ -234,7 +204,6 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
     dtiRoles,
     linkedin: standardizeLinkedIn(alumniRow.linkedin),
     location,
-    locationId,
     company: alumniRow.company || null,
     jobCategory,
     jobRole,
