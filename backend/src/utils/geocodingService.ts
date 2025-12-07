@@ -140,7 +140,7 @@ export class GeocodingService {
 
     if (!existingAtCoords) {
       await cityCoordinatesDao.createCityCoordinates({
-        locationName: result.locationName,
+        locationName: locationString,
         latitude: result.latitude,
         longitude: result.longitude,
         alumniIds: []
