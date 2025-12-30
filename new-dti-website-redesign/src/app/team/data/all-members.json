@@ -925,12 +925,12 @@
     "formerSubteams": [],
     "doubleMajor": null,
     "minor": "Fashion Studies",
-    "website": "https://jerrychen.framer.website/",
     "email": "jc3689@cornell.edu",
     "linkedin": "https://www.linkedin.com/in/jerrychen6/",
     "hometown": "Queens",
     "about": "Hello! I am currently on the Design team for CornellGO, feel free to reach out if you want to talk or something! ",
-    "college": "eng"
+    "college": "eng",
+    "website": null
   },
   {
     "formerSubteams": [],
@@ -1344,6 +1344,31 @@
     "coffeeChatLink": null
   },
   {
+    "email": "mhs329@cornell.edu",
+    "hometown": "",
+    "about": "",
+    "graduation": "Spring 2028",
+    "firstName": "Mark ",
+    "website": "",
+    "role": "apm",
+    "doubleMajor": "",
+    "minor": "",
+    "college": "",
+    "coffeeChatLink": "",
+    "subteams": [
+      "idol"
+    ],
+    "netid": "mhs329",
+    "github": "",
+    "pronouns": "",
+    "linkedin": "",
+    "roleDescription": "Associate PM",
+    "lastName": "Sheen",
+    "semesterJoined": "Fall 2025",
+    "major": "",
+    "formerSubteams": []
+  },
+  {
     "subteams": [
       "carriage"
     ],
@@ -1369,6 +1394,54 @@
     "website": null,
     "linkedin": "https://www.linkedin.com/in/matthew-kim-10a314235/",
     "doubleMajor": null
+  },
+  {
+    "firstName": "Max",
+    "lastName": "Shi",
+    "pronouns": "",
+    "email": "ms3886@cornell.edu",
+    "role": "developer",
+    "semesterJoined": "Fall 2025",
+    "graduation": "",
+    "major": "",
+    "doubleMajor": "",
+    "minor": "",
+    "college": "",
+    "website": "",
+    "linkedin": "",
+    "github": "",
+    "coffeeChatLink": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "idol"
+    ],
+    "formerSubteams": [],
+    "netid": "ms3886",
+    "roleDescription": "Developer"
+  },
+  {
+    "firstName": "Natan",
+    "lastName": "Kramskiy",
+    "email": "nk692@cornell.edu",
+    "role": "developer",
+    "semesterJoined": "Fall 2025",
+    "subteams": [],
+    "formerSubteams": [],
+    "netid": "nk692",
+    "roleDescription": "Developer",
+    "college": "cals",
+    "github": null,
+    "hometown": "New York",
+    "website": null,
+    "minor": null,
+    "major": "Biological Engineering",
+    "doubleMajor": null,
+    "graduation": "2029",
+    "coffeeChatLink": null,
+    "about": "Avid foodie. Love art and to read phiolosophy.",
+    "pronouns": "He/him",
+    "linkedin": null
   },
   {
     "netid": "nmp79",
@@ -1833,32 +1906,32 @@
     "doubleMajor": null
   },
   {
-    "subteams": [
-      "leads"
-    ],
-    "minor": "Artificial Intelligence",
-    "major": "Information Science",
+    "graduation": "May 2026",
+    "netid": "vkw7",
+    "doubleMajor": null,
+    "linkedin": "https://www.linkedin.com/in/valeriekristenwong",
     "semesterJoined": "Spring 2023",
-    "firstName": "Valerie",
-    "github": null,
-    "about": "Full Team Lead, prev. PM @ QMI, Design @ CGO, CUReviews",
+    "role": "ops-lead",
+    "pronouns": "she/her",
     "formerSubteams": [
       "cornellgo",
       "queuemein"
     ],
-    "roleDescription": "Full Team Lead",
-    "coffeeChatLink": null,
-    "netid": "vkw7",
-    "graduation": "May 2026",
+    "minor": "Artificial Intelligence",
     "website": null,
-    "pronouns": "she/her",
-    "linkedin": "https://www.linkedin.com/in/valeriekristenwong",
-    "college": "cas",
-    "hometown": "San Francisco ",
+    "major": "Information Science",
     "lastName": "Wong",
-    "role": "ops-lead",
+    "subteams": [
+      "leads"
+    ],
+    "roleDescription": "Full Team Lead",
+    "firstName": "Valerie",
     "email": "vkw7@cornell.edu",
-    "doubleMajor": null
+    "hometown": "San Francisco ",
+    "about": "Full Team Lead, future developer! prev. PM @ QMI, Design @ CGO, CUReviews",
+    "github": null,
+    "college": "cas",
+    "coffeeChatLink": null
   },
   {
     "firstName": "Vicky",
@@ -1985,10 +2058,10 @@
     "coffeeChatLink": null,
     "pronouns": "She/her",
     "linkedin": "https://www.linkedin.com/in/zexuanwu/",
-    "website": "maywu.net",
     "about": "Hi! My name is May and I’m a sophomore studying Info Sci and Fine Arts. I am passionate in exploring the intersection of art, design, and technology, and how these fields can combine to create innovative and meaningful projects. Outside of Design, I enjoy art (my main mediums are painting and installation), making bead jewelries, GamePigeon, doing nails, and cooking with friends!!",
     "college": "cas",
     "minor": "Fine Arts",
-    "major": "Information Science"
+    "major": "Information Science",
+    "website": "https://maywu.net/"
   }
 ]
