@@ -19,7 +19,7 @@ export default function Apply() {
     <Layout>
       {!applicationOpen && (
         <Banner
-          label={`Applications for ${config.semester} open soon. Stay tuned for more information!`}
+          label={`We're no longer accepting applications for ${config.semester}. Stay tuned for opportunities next semester!`}
         />
       )}
 
