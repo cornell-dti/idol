@@ -100,5 +100,8 @@ export const productLinks: { [key: string]: { name: string; link?: string } } = 
   dac: {
     name: 'Design @ Cornell',
     link: 'https://www.cudesign.io/'
+  },
+  redi: {
+    name: 'redi'
   }
 };
