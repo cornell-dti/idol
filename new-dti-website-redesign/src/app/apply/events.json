@@ -15,7 +15,7 @@
       "description": "Reach out to our members to learn more about the team.",
       "location": "Coffee Chat Link",
       "type": "application",
-      "link": "https://docs.google.com/spreadsheets/d/17xJt9po88coB98fY1sYf8YxNmR8gRw1Io6kOQ92_wxo/edit?usp=sharing",
+      "link": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl_dZWXmqItrEDLXxcfYXF_fWgv6L_xDjgT5JPeRR0stLSvCjC8440yJwICSJl6yC-Rr7Zqk_UDXcr/pubhtml",
       "freshmen": { "date": "January 12", "isTentative": false },
       "spring": { "date": "January 12", "isTentative": false }
     },
@@ -24,7 +24,6 @@
       "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
       "location": "TBD",
       "type": "workshop",
-      "link": "",
       "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
@@ -49,7 +48,6 @@
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
       "location": "TBD",
       "type": "workshop",
-      "link": "",
       "spring": { "date": "January 26", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
@@ -57,7 +55,6 @@
       "description": "An introductory workshop focused on the basics of product management, including the PM role and core responsibilities. Open to anyone interested in learning more!",
       "location": "TBD",
       "type": "workshop",
-      "link": "",
       "spring": { "date": "January 26", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
@@ -73,7 +70,6 @@
       "description": "Stop by to meet our members, enjoy cookies, and learn more about design at DTI and DCC!",
       "location": "Willard Straight Hall",
       "type": "workshop",
-      "link": "",
       "spring": { "date": "January 28", "isTentative": false, "time": "5:00-8:30pm" }
     },
     {
@@ -81,7 +77,6 @@
       "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
       "location": "TBD",
       "type": "workshop",
-      "link": "",
       "spring": { "date": "January 28", "isTentative": false }
     },
     {
