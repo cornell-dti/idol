@@ -15,18 +15,26 @@
       "description": "Reach out to our members to learn more about the team.",
       "location": "Coffee Chat Link",
       "type": "application",
-      "link": "",
+      "link": "https://docs.google.com/spreadsheets/d/17xJt9po88coB98fY1sYf8YxNmR8gRw1Io6kOQ92_wxo/edit?usp=sharing",
       "freshmen": { "date": "January 12", "isTentative": false },
       "spring": { "date": "January 12", "isTentative": false }
+    },
+    {
+      "title": "WICC x DTI Boba Chats",
+      "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
+      "location": "TBD",
+      "type": "workshop",
+      "link": "",
+      "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Information Session 1",
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can't make this session, check out the Information Session 2 below.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "January 22", "isTentative": false, "time": "5:30-7pm" },
-      "upperclassmen": { "date": "January 22", "isTentative": false, "time": "5:30-7pm" },
-      "spring": { "date": "January 22", "isTentative": false, "time": "5:30-7pm" }
+      "freshmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
+      "upperclassmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
+      "spring": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
       "title": "Club Fest",
@@ -37,12 +45,44 @@
       "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30PM" }
     },
     {
+      "title": "URMC x DTI Behavioral Workshop & Resume Review",
+      "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
+      "location": "TBD",
+      "type": "workshop",
+      "link": "",
+      "spring": { "date": "January 26", "isTentative": false, "time": "5:00-6:00pm" }
+    },
+    {
+      "title": "PM 101 Workshop",
+      "description": "An introductory workshop focused on the basics of product management, including the PM role and core responsibilities. Open to anyone interested in learning more!",
+      "location": "TBD",
+      "type": "workshop",
+      "link": "",
+      "spring": { "date": "January 26", "isTentative": false, "time": "5:30-7:00pm" }
+    },
+    {
       "title": "Information Session 2",
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "January 27", "isTentative": false, "time": "5:30-7pm" },
-      "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7pm" }
+      "freshmen": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" },
+      "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
+    },
+    {
+      "title": "DCC x DTI Chats & Cookies",
+      "description": "Stop by to meet our members, enjoy cookies, and learn more about design at DTI and DCC!",
+      "location": "Willard Straight Hall",
+      "type": "workshop",
+      "link": "",
+      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-8:30pm" }
+    },
+    {
+      "title": "ACSU x DTI Breaking into Tech",
+      "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
+      "location": "TBD",
+      "type": "workshop",
+      "link": "",
+      "spring": { "date": "January 28", "isTentative": false }
     },
     {
       "title": "Applications due",
@@ -68,9 +108,7 @@
       "description": "Demonstrate your technical skills through problem-solving challenges relevant to your subteam.",
       "location": "Varying locations",
       "type": "interview",
-      "freshmen": { "date": "February 2-6", "isTentative": true },
-      "upperclassmen": { "date": "September 14-16", "isTentative": true },
-      "spring": { "date": "February 2-6", "isTentative": true }
+      "spring": { "date": "February 8-9", "isTentative": false }
     },
     {
       "title": "Offers extended",
