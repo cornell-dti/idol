@@ -20,21 +20,21 @@
       "spring": { "date": "January 12", "isTentative": false }
     },
     {
-      "title": "Boba Chats w/ WICC",
+      "title": "WICC x DTI Boba Chats",
       "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
       "location": "TBD",
       "type": "workshop",
       "link": "",
-      "spring": { "date": "January 23", "isTentative": false, "time": "5-6pm"}
+      "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm"}
     },
     {
       "title": "Information Session 1",
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can't make this session, check out the Information Session 2 below.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "January 22", "isTentative": false, "time": "5:30-7pm" },
-      "upperclassmen": { "date": "January 22", "isTentative": false, "time": "5:30-7pm" },
-      "spring": { "date": "January 22", "isTentative": false, "time": "5:30-7pm" }
+      "freshmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
+      "upperclassmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
+      "spring": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
       "title": "Club Fest",
@@ -45,12 +45,12 @@
       "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30PM" }
     },
     {
-      "title": "Behavioral Workshop & Resume Review w/ URMC",
+      "title": "URMC x DTI Behavioral Workshop & Resume Review",
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
       "location": "TBD",
       "type": "workshop",
       "link": "",
-      "spring": { "date": "January 26", "isTentative": false, "time": "5-6pm" }
+      "spring": { "date": "January 26", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "PM 101 Workshop",
@@ -58,7 +58,7 @@
       "location": "TBD",
       "type": "workshop",
       "link": "",
-      "spring": { "date": "January 26", "isTentative": false, "time": "5:30-7pm" }
+      "spring": { "date": "January 26", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
       "title": "Information Session 2",
@@ -69,15 +69,15 @@
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
-      "title": "Chats & Cookies w/ DCC",
+      "title": "DCC x DTI Chats & Cookies",
       "description": "Stop by to meet our members, enjoy cookies, and learn more about design at DTI and DCC!",
       "location": "Willard Straight Hall",
       "type": "workshop",
       "link": "",
-      "spring": { "date": "January 28", "isTentative": false, "time": "5-8:30pm"}
+      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-8:30pm"}
     },
     {
-      "title": "Breaking into Tech w/ ACSU",
+      "title": "ACSU x DTI Breaking into Tech",
       "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
       "location": "TBD",
       "type": "workshop",
