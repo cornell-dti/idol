@@ -25,7 +25,7 @@
       "location": "TBD",
       "type": "workshop",
       "link": "",
-      "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm"}
+      "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Information Session 1",
@@ -74,7 +74,7 @@
       "location": "Willard Straight Hall",
       "type": "workshop",
       "link": "",
-      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-8:30pm"}
+      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-8:30pm" }
     },
     {
       "title": "ACSU x DTI Breaking into Tech",
