@@ -391,31 +391,31 @@
     "graduation": "May 2027"
   },
   {
-    "email": "cl2683@cornell.edu",
-    "graduation": "May 2027",
+    "website": null,
+    "major": "Information Science",
     "subteams": [
       "leads"
     ],
-    "github": null,
-    "website": null,
-    "firstName": "Cynthia",
-    "major": "Information Science",
-    "about": "Assistant Product Manager @ CornellGO, prev. PMM @CUReviews + CornellGO\nHi! I’m a junior majoring in Info Sci + minoring in Business, with interests in product management, marketing, and education. Outside of DTI, I’m also involved in WICC and TASA! ",
-    "role": "ops-lead",
-    "hometown": "San Jose, CA",
+    "netid": "cl2683",
     "formerSubteams": [
       "cornellgo"
     ],
-    "netid": "cl2683",
-    "lastName": "Lan",
-    "minor": "Business",
     "semesterJoined": "Fall 2024",
+    "hometown": "San Jose, CA",
+    "graduation": "May 2027",
     "coffeeChatLink": null,
-    "pronouns": "she/her",
-    "linkedin": "https://www.linkedin.com/in/cynthia-lan-0b845a203?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    "firstName": "Cynthia",
+    "github": null,
     "roleDescription": "Full Team Lead",
     "college": "cals",
-    "doubleMajor": null
+    "minor": "Business",
+    "lastName": "Lan",
+    "role": "ops-lead",
+    "email": "cl2683@cornell.edu",
+    "linkedin": "https://www.linkedin.com/in/cynthia-lan-0b845a203?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    "doubleMajor": null,
+    "pronouns": "she/her",
+    "about": "Hi! I’m a junior majoring in Info Sci + minoring in Business, with interests in product management, operations, and marketing. Outside of DTI, I’m also involved in WICC and TASA!"
   },
   {
     "website": "https://chelsea-she.github.io/landing_page/",
@@ -835,7 +835,6 @@
     "lastName": "Huang",
     "email": "gsh76@cornell.edu",
     "doubleMajor": null,
-    "about": "I ❤️ Tate Mcrae and Justin Bieber",
     "semesterJoined": "Fall 2025",
     "college": "humec",
     "formerSubteams": [],
@@ -854,7 +853,8 @@
     "github": null,
     "linkedin": "https://www.linkedin.com/in/g-racehuang/",
     "graduation": "May 2028",
-    "netid": "gsh76"
+    "netid": "gsh76",
+    "about": "Hi! I'm Grace, and I'm a PMM on CGO! I love all things creative, and I'm constantly listening to music. I know Tate Mcrae's entire discography by heart, and my passions in life include eating, sleeping, and binge watching movies/TV shows (if you have any recs, please lmk! ☺️). When I have the time, I also love thrifting, taking cutie digi pics with friends, and going to the gym."
   },
   {
     "hometown": "",
@@ -1408,9 +1408,9 @@
     "doubleMajor": null,
     "graduation": "Spring 2028",
     "coffeeChatLink": null,
-    "about": "Hi! I'm Lauren Pothuru, a freshman developer on CUApts. I love exploring new fields of computer science, and outside of academics, I enjoy running and reading!",
     "pronouns": "she/her",
-    "linkedin": "https://www.linkedin.com/in/lauren-pothuru"
+    "linkedin": "https://www.linkedin.com/in/lauren-pothuru",
+    "about": "Hi, I'm Lauren Pothuru, a developer on CUApts. I love exploring new fields of computer science, and outside of academics, I enjoy running and reading!"
   },
   {
     "role": "business-advisor",
@@ -1569,29 +1569,29 @@
     "roleDescription": "Developer"
   },
   {
+    "website": null,
+    "role": "developer",
+    "minor": null,
+    "doubleMajor": null,
+    "roleDescription": "Developer",
+    "major": "Biological Engineering",
+    "email": "nk692@cornell.edu",
+    "hometown": "New York",
+    "github": null,
+    "semesterJoined": "Fall 2025",
+    "coffeeChatLink": null,
+    "formerSubteams": [],
+    "pronouns": "He/him",
+    "college": "cals",
+    "lastName": "Kramskiy",
+    "netid": "nk692",
+    "firstName": "Natan",
     "subteams": [
       "cuapts"
     ],
-    "linkedin": null,
-    "role": "developer",
-    "minor": null,
-    "coffeeChatLink": null,
-    "roleDescription": "Developer",
-    "college": "cals",
-    "formerSubteams": [],
-    "email": "nk692@cornell.edu",
     "graduation": "2029",
-    "doubleMajor": null,
-    "github": null,
-    "website": null,
-    "semesterJoined": "Fall 2025",
-    "hometown": "New York",
-    "about": "Avid foodie. Love art and to read phiolosophy.",
-    "firstName": "Natan",
-    "pronouns": "He/him",
-    "netid": "nk692",
-    "lastName": "Kramskiy",
-    "major": "Biological Engineering"
+    "linkedin": "https://www.linkedin.com/in/natan-kramskiy-1a3999294/",
+    "about": "Serial foodie. Love going to the gym and learning new things! Particularly enjoy art, history, and reading philosophy"
   },
   {
     "netid": "nmp79",
