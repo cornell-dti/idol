@@ -22,14 +22,14 @@
     {
       "title": "WICC x DTI Boba Chats",
       "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
-      "location": "TBD",
+      "location": "Upson 206",
       "type": "workshop",
       "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Information Session 1",
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can't make this session, check out the Information Session 2 below.",
-      "location": "TBD",
+      "location": "Phillips 219",
       "type": "info",
       "freshmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
       "upperclassmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
@@ -46,7 +46,7 @@
     {
       "title": "URMC x DTI Behavioral Workshop & Resume Review",
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
-      "location": "TBD",
+      "location": "Olin Hall 145",
       "type": "workshop",
       "spring": { "date": "January 26", "isTentative": false, "time": "5:00-6:00pm" }
     },
@@ -60,7 +60,7 @@
     {
       "title": "Information Session 2",
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
-      "location": "TBD",
+      "location": "Phillips 219",
       "type": "info",
       "freshmen": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
@@ -75,7 +75,7 @@
     {
       "title": "ACSU x DTI Breaking into Tech",
       "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
-      "location": "TBD",
+      "location": "Hollister 206",
       "type": "workshop",
       "spring": { "date": "January 28", "isTentative": false }
     },
