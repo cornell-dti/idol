@@ -40,8 +40,8 @@
       "description": "Meet us at Cornell's semesterly ClubFest with over 900+ diverse undergraduate student organizations!",
       "location": "Barton Hall",
       "type": "info",
-      "freshmen": { "date": "January 25", "isTentative": true, "time": "12:00-1:30PM" },
-      "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30PM" }
+      "freshmen": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" },
+      "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" }
     },
     {
       "title": "URMC x DTI Behavioral Workshop & Resume Review",
@@ -77,7 +77,7 @@
       "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
       "location": "Hollister 206",
       "type": "workshop",
-      "spring": { "date": "January 28", "isTentative": false }
+      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-6:00pm }
     },
     {
       "title": "Applications due",
