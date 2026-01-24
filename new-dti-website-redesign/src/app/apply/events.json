@@ -77,7 +77,7 @@
       "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
       "location": "Hollister 206",
       "type": "workshop",
-      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-6:00pm }
+      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Applications due",
@@ -94,7 +94,7 @@
       "description": "Come to gain insight into our design technical interview round via a live demo and practice session!",
       "location": "Kennedy eHub",
       "type": "workshop",
-      "spring": { "date": "February 4", "isTentative": false, "time": "5:00-6:00pm }
+      "spring": { "date": "February 4", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Behavioral Interviews",
