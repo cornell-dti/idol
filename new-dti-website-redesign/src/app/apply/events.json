@@ -40,8 +40,8 @@
       "description": "Meet us at Cornell's semesterly ClubFest with over 900+ diverse undergraduate student organizations!",
       "location": "Barton Hall",
       "type": "info",
-      "freshmen": { "date": "January 25", "isTentative": true, "time": "12:00-1:30PM" },
-      "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30PM" }
+      "freshmen": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" },
+      "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" }
     },
     {
       "title": "URMC x DTI Behavioral Workshop & Resume Review",
@@ -53,7 +53,7 @@
     {
       "title": "PM 101 Workshop",
       "description": "An introductory workshop focused on the basics of product management, including the PM role and core responsibilities. Open to anyone interested in learning more!",
-      "location": "TBD",
+      "location": "Phillips Hall 407",
       "type": "workshop",
       "spring": { "date": "January 26", "isTentative": false, "time": "5:30-7:00pm" }
     },
@@ -77,7 +77,7 @@
       "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
       "location": "Hollister 206",
       "type": "workshop",
-      "spring": { "date": "January 28", "isTentative": false }
+      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Applications due",
@@ -88,6 +88,13 @@
       "freshmen": { "date": "January 29", "isTentative": false },
       "upperclassmen": { "date": "September 4", "isTentative": false },
       "spring": { "date": "January 29", "isTentative": false }
+    },
+    {
+      "title": "DCC x DTI Whiteboard Workshop",
+      "description": "Come to gain insight into our design technical interview round via a live demo and practice session!",
+      "location": "Kennedy eHub",
+      "type": "workshop",
+      "spring": { "date": "February 4", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Behavioral Interviews",
