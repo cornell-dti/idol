@@ -90,6 +90,13 @@
       "spring": { "date": "January 29", "isTentative": false }
     },
     {
+      "title": "DCC x DTI Whiteboard Workshop",
+      "description": "Come to gain insight into our design technical interview round via a live demo and practice session!",
+      "location": "Kennedy eHub",
+      "type": "workshop",
+      "spring": { "date": "February 4", "isTentative": false, "time": "5:00-6:00pm }
+    },
+    {
       "title": "Behavioral Interviews",
       "description": "Prepare to talk about past projects, teamwork experiences, and your motivation for joining DTI.",
       "location": "Varying locations",
