@@ -221,12 +221,15 @@ export const MemberDetailsCard = ({
             </IconLink>
 
             {user.linkedin && (
-              <IconLink href={user.website} label={`${user.firstName} ${user.lastName}'s LinkedIn`}>
+              <IconLink
+                href={user.linkedin}
+                label={`${user.firstName} ${user.lastName}'s LinkedIn`}
+              >
                 <LinkedInIcon />
               </IconLink>
             )}
             {user.github && (
-              <IconLink href={user.website} label={`${user.firstName} ${user.lastName}'s GitHub`}>
+              <IconLink href={user.github} label={`${user.firstName} ${user.lastName}'s GitHub`}>
                 <GitHubIcon />
               </IconLink>
             )}
