@@ -114,7 +114,8 @@ export const updateInterviewSchedulerInstance = async (
   user: IdolMember,
   updates: InterviewSchedulerEdit
 ): Promise<InterviewScheduler> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError(
       'User does not have permission to update interview scheduler instance.'
     );
@@ -144,7 +145,8 @@ export const deleteInterviewSchedulerInstance = async (
   uuid: string,
   user: IdolMember
 ): Promise<void> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError(
       'User does not have permission to update interview scheduler instance.'
     );
@@ -202,7 +204,7 @@ export const updateInterviewSlot = async (
   const scheduler = await getInterviewSchedulerInstance(edits.interviewSchedulerUuid, email, false);
 
   const user = await getMember(email);
-  const isLeadOrAdmin = user !== undefined && PermissionsManager.isLeadOrAdmin(user);
+  const isLeadOrAdmin = user !== undefined && (await PermissionsManager.isLeadOrAdmin(user));
   const isLead = user !== undefined && LEAD_ROLES.includes(user.role);
 
   if (!isLeadOrAdmin && !scheduler.isOpen)
@@ -238,7 +240,8 @@ export const updateInterviewSlot = async (
  * @param user - the user deleting the slot
  */
 export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promise<void> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError('User does not have permission to update interview slots.');
 
   return interviewSlotDao.deleteSlot(uuid);
@@ -255,7 +258,8 @@ export const addInterviewSlots = async (
   slots: InterviewSlot[],
   user: IdolMember
 ): Promise<InterviewSlot[]> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError('User does not have permission to create interview slots.');
 
   return interviewSlotDao.addSlots(slots);
