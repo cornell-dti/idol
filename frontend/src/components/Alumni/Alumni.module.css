@@ -133,7 +133,7 @@
 
 .yearLabel {
   font-size: 10px;
-  font-weight: 500; 
+  font-weight: 500;
   color: #3d3d3d;
 }
 
@@ -184,7 +184,9 @@
   align-items: flex-start;
   gap: 15px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: pointer;
 }
 
