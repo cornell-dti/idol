@@ -117,6 +117,15 @@ import {
   deleteInterviewStatusInstance
 } from './API/interviewStatusAPI';
 import { getAllAlumni, getAlumni, setAlumni, updateAlumni, deleteAlumni } from './API/AlumniAPI';
+import {
+  getAllCityCoordinates,
+  getCityCoordinates,
+  createCityCoordinates,
+  updateCityCoordinates,
+  deleteCityCoordinates,
+  addAlumniToLocation,
+  removeAlumniFromLocation
+} from './API/cityCoordinatesAPI';
 
 import { HandlerError } from './utils/errors';
 
@@ -644,6 +653,57 @@ loginCheckedPut('/alumni', async (req, user) => ({
 
 loginCheckedDelete('/alumni/:uuid', async (req, user) =>
   deleteAlumni(req.params.uuid, user).then(() => ({}))
+);
+
+// City Coordinates
+loginCheckedGet('/city-coordinates', async () => ({
+  cityCoordinates: await getAllCityCoordinates()
+}));
+
+loginCheckedGet('/city-coordinates/:latitude/:longitude', async (req) => ({
+  cityCoordinates: await getCityCoordinates(
+    parseFloat(req.params.latitude),
+    parseFloat(req.params.longitude)
+  )
+}));
+
+loginCheckedPost('/city-coordinates', async (req, user) => ({
+  cityCoordinates: await createCityCoordinates(req.body, user)
+}));
+
+loginCheckedPut('/city-coordinates', async (req, user) => ({
+  cityCoordinates: await updateCityCoordinates(req.body, user)
+}));
+
+loginCheckedDelete('/city-coordinates/:latitude/:longitude', async (req, user) => {
+  await deleteCityCoordinates(
+    parseFloat(req.params.latitude),
+    parseFloat(req.params.longitude),
+    user
+  );
+  return {};
+});
+
+loginCheckedPost('/city-coordinates/:latitude/:longitude/alumni', async (req, user) => ({
+  cityCoordinates: await addAlumniToLocation(
+    parseFloat(req.params.latitude),
+    parseFloat(req.params.longitude),
+    req.body.alumniId,
+    req.body.locationName,
+    user
+  )
+}));
+
+loginCheckedDelete(
+  '/city-coordinates/:latitude/:longitude/alumni/:alumniId',
+  async (req, user) => ({
+    cityCoordinates: await removeAlumniFromLocation(
+      parseFloat(req.params.latitude),
+      parseFloat(req.params.longitude),
+      req.params.alumniId,
+      user
+    )
+  })
 );
 
 app.use('/.netlify/functions/api', router);

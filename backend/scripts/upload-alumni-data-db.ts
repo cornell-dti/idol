@@ -3,25 +3,20 @@
  * Script to upload alumni data from CSV to Firestore
  * Usage: npm run upload-alumni
  */
+/// <reference types="common-types" />
 import admin from 'firebase-admin';
 import fs from 'fs';
+import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { DBAlumni } from '../src/types/DataTypes';
-
-import { configureAccount } from '../src/utils/firebase-utils';
+import GeocodingService from '../src/utils/geocodingService';
+import CityCoordinatesDao from '../src/dao/CityCoordinatesDao';
 
 require('dotenv').config();
 
-const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
-// const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(configureAccount(serviceAcc, 'dev')),
-  databaseURL: 'https://idol-b6c68.firebaseio.com',
-  storageBucket: 'gs://cornelldti-idol.appspot.com'
-});
-
+// Firebase is already initialized through imports
 const db = admin.firestore();
+const bucket = admin.storage().bucket();
+const cityCoordinatesDao = new CityCoordinatesDao();
 
 /** CSV row type for alumni data input */
 interface CSVAlumniRow {
@@ -85,23 +80,122 @@ const standardizeLinkedIn = (linkedinUrl?: string): string | null => {
   return cleaned;
 };
 
-const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
+const standardizeDtiRole = (role: string): string => {
+  const trimmed = role.trim();
+
+  if (trimmed.toLowerCase().includes('lead')) {
+    return 'Lead';
+  }
+
+  switch (trimmed) {
+    case 'Developer':
+    case 'TPM':
+      return 'Dev';
+    case 'Product Designer':
+    case 'Designer':
+      return 'Design';
+    case 'Product Manager':
+      return 'Product';
+    case 'Business':
+      return 'Business';
+    default:
+      return trimmed;
+  }
+};
+
+const extractNetIdFromEmail = (schoolEmail?: string): string | null => {
+  if (!schoolEmail || !schoolEmail.includes('@cornell.edu')) return null;
+  return schoolEmail.split('@')[0];
+};
+
+const uploadAlumniImage = async (netid: string): Promise<string> => {
+  const imagePath = path.join(__dirname, 'alumni-images', `${netid}.jpg`);
+
+  if (!fs.existsSync(imagePath)) {
+    console.log(`No image found for netid: ${netid}`);
+    return '';
+  }
+
+  try {
+    const fileName = `alumImages/${netid}.jpg`;
+    const file = bucket.file(fileName);
+
+    await file.save(fs.readFileSync(imagePath), {
+      metadata: {
+        contentType: 'image/jpeg'
+      }
+    });
+
+    // Make the file publicly accessible
+    await file.makePublic();
+
+    // Return the public URL
+    return `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+  } catch (error) {
+    console.error(`Failed to upload image for ${netid}:`, error);
+    return '';
+  }
+};
+
+const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
   const { firstName, lastName } = parseNameToFirstLast(alumniRow.name);
   const email =
     alumniRow.workEmail && alumniRow.workEmail !== 'N/A'
       ? alumniRow.workEmail
       : alumniRow.schoolEmail || '';
   const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
-  const subteams = alumniRow.subteams ? alumniRow.subteams.split(',').map((s) => s.trim()) : [];
-  const dtiRoles = alumniRow.dtiRoles ? alumniRow.dtiRoles.split(',').map((s) => s.trim()) : [];
+  const subteams = alumniRow.subteams
+    ? [
+        ...new Set(
+          alumniRow.subteams
+            .split(',')
+            .map((s) => s.trim())
+            .filter((s) => s)
+        )
+      ]
+    : [];
+  const dtiRoles = alumniRow.dtiRoles
+    ? [
+        ...new Set(
+          alumniRow.dtiRoles
+            .split(',')
+            .map((s) => standardizeDtiRole(s.trim()))
+            .filter((s) => s)
+        )
+      ]
+    : [];
   const jobCategory = alumniRow.jobCategory || 'Other';
   const jobRole = alumniRow.jobRole || 'Other';
 
   const parsedGradYear = parseInt(alumniRow.gradYear || '', 10);
   const gradYear = isNaN(parsedGradYear) ? null : parsedGradYear;
 
+  // Handle image upload
+  const netid = extractNetIdFromEmail(alumniRow.schoolEmail);
+  const imageUrl = netid ? await uploadAlumniImage(netid) : '';
+
+  // Handle geocoding
+  if (location) {
+    try {
+      const geocodingResult = await GeocodingService.geocodeAndStore(location);
+
+      // Add alumni to the city coordinates
+      const alumniUuid = netid || uuidv4();
+      await cityCoordinatesDao.addAlumniToLocation(
+        geocodingResult.latitude,
+        geocodingResult.longitude,
+        alumniUuid,
+        geocodingResult.locationName
+      );
+
+      console.log(`Geocoded location for ${firstName} ${lastName}: ${location}`);
+    } catch (error) {
+      console.warn(`Failed to geocode location "${location}" for ${firstName} ${lastName}:`, error);
+    }
+  }
+
   return {
-    uuid: uuidv4(),
+    uuid: netid || uuidv4(),
     firstName,
     lastName,
     gradYear,
@@ -110,13 +204,12 @@ const validateAlumni = (alumniRow: CSVAlumniRow): DBAlumni => {
     dtiRoles,
     linkedin: standardizeLinkedIn(alumniRow.linkedin),
     location,
-    locationId: null,
     company: alumniRow.company || null,
     jobCategory,
     jobRole,
     about: null,
-    imageUrl: ''
-  } as DBAlumni;
+    imageUrl
+  } as Alumni;
 };
 
 const main = async () => {
@@ -126,10 +219,11 @@ const main = async () => {
     const rows = csv.split(/\r?\n/).filter((row) => row.trim());
 
     const headers = parseCSVRow(rows[0]);
-    const alumniData: DBAlumni[] = [];
+    const alumniData: Alumni[] = [];
     const failedRows: string[] = [];
 
-    rows.slice(1).forEach((row, index) => {
+    const dataRows = rows.slice(1);
+    const processRow = async (row: string, index: number) => {
       try {
         const values = parseCSVRow(row);
         const alumniRow: CSVAlumniRow = {};
@@ -137,13 +231,20 @@ const main = async () => {
           alumniRow[header] = values[i];
         });
 
-        const alumni = validateAlumni(alumniRow);
-        alumniData.push(alumni);
+        return await validateAlumni(alumniRow);
       } catch (validationError: unknown) {
         const rowNumber = index + 2;
         const errorMessage = (validationError as Error).message;
         console.error(`Row ${rowNumber} failed: ${errorMessage}`);
         failedRows.push(rowNumber.toString());
+        return null;
+      }
+    };
+
+    const results = await Promise.all(dataRows.map(processRow));
+    results.forEach((alumni) => {
+      if (alumni) {
+        alumniData.push(alumni);
       }
     });
 
