@@ -64,7 +64,7 @@ async function updateAlumniJson(): Promise<void> {
     );
   }
 
-  const alumniJsonPath = join('components', 'team', 'data', 'alumni.json');
+  const alumniJsonPath = join('src', 'app', 'team', 'data', 'alumni.json');
 
   const existingContent = readFileSync(alumniJsonPath).toString();
   const newAlumni = [...semesterOne.members, ...semesterTwo.members];

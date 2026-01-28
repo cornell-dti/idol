@@ -66,7 +66,8 @@ export const updateInterviewStatus = async (
   updates: Partial<InterviewStatus>,
   uuid: string
 ): Promise<InterviewStatus> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError('User does not have permission to update interview status instance.');
 
   const instance = await interviewStatusDao.getInterviewStatus(uuid);
@@ -89,7 +90,8 @@ export const updateInterviewStatus = async (
  * @param user - the user deleting the interview status
  */
 export const deleteInterviewStatus = async (uuid: string, user: IdolMember): Promise<void> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError('User does not have permission to delete an interview status.');
 
   const existing = await getInterviewStatus(uuid, user);
@@ -107,7 +109,8 @@ export const deleteInterviewStatusInstance = async (
   instanceName: string,
   user: IdolMember
 ): Promise<void> => {
-  if (!PermissionsManager.isLeadOrAdmin(user))
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
     throw new PermissionError('User does not have permission to delete an interview status.');
   await InterviewStatusDao.deleteByInstance(instanceName);
 };

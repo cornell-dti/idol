@@ -116,7 +116,8 @@ export const updateDevPortfolio = async (
   devPortfolio: DevPortfolio,
   user: IdolMember
 ): Promise<DevPortfolioInfo> => {
-  if (!PermissionsManager.canEditDevPortfolio(user)) {
+  const canEditDevPortfolio = await PermissionsManager.canEditDevPortfolio(user);
+  if (!canEditDevPortfolio) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to update dev portfolios`
     );
