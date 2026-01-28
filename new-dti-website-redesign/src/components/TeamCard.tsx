@@ -221,7 +221,10 @@ export const MemberDetailsCard = ({
             </IconLink>
 
             {user.linkedin && (
-              <IconLink href={user.linkedin} label={`${user.firstName} ${user.lastName}'s LinkedIn`}>
+              <IconLink
+                href={user.linkedin}
+                label={`${user.firstName} ${user.lastName}'s LinkedIn`}
+              >
                 <LinkedInIcon />
               </IconLink>
             )}
