@@ -246,7 +246,7 @@ export const checkMemberMeetsCategory = async (
   // If otherMember and submitter don't exist, status should stay undefined
   if (otherMember && submitter) {
     if (category === 'a newbie') {
-      status = otherMember.semesterJoined === 'Fall 2025' ? 'pass' : 'fail';
+      status = otherMember.semesterJoined === 'Spring 2026' ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
       }

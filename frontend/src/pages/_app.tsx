@@ -151,14 +151,14 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
           </Menu.Item>
         </Link>
       )}
-      {hasAdminPermission && (
+      {/* {hasAdminPermission && (
         <Link href="/admin/interview-status">
           <Menu.Item>
             <Icon name="briefcase" />
             Interview Status Dashboard
           </Menu.Item>
         </Link>
-      )}
+      )} */}
       <Link href="/interview-scheduler">
         <Menu.Item>
           <Icon name="users" />
