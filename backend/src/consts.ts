@@ -1,6 +1,6 @@
 const COFFEE_CHAT_BINGO_BOARD = [
   ['a DTI alum', 'plays an instrument', 'boba > coffee', 'switched majors'],
-  ['from west coast', 'can cook a signature dish', "Over 6ft", 'been on DTI for > 3 sem'],
+  ['from west coast', 'can cook a signature dish', 'Over 6ft', 'been on DTI for > 3 sem'],
   ['studied abroad', 'has been to more than 3 countries', 'a newbie', 'GymRat / GymBaddie'],
   ['likes anime', 'worked at a startup', 'not from the US', 'has over 3 siblings']
 ];
