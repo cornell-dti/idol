@@ -20,13 +20,13 @@ const credentialHeaders = [
   'Email Address',
   'First Name',
   'Last Name',
-  'Graduation Semester',
+  'Graduation year',
   'NetID',
-  'Link your resume',
+  'Please attach your resume in PDF format.',
   'Share your GitHub (optional)',
   'Share your LinkedIn (optional)',
   'Share an additional portfolio (optional)',
-  'Preferred Name (if different from previous answers)'
+  'Preferred name (optional)'
 ];
 
 type Credentials = {
