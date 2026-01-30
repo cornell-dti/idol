@@ -18,8 +18,8 @@ type Props = {
 
 const credentialHeaders = [
   'Email Address',
-  'First Name',
-  'Last Name',
+  'First name',
+  'Last name',
   'Graduation year',
   'NetID',
   'Please attach your resume in PDF format.',
@@ -48,16 +48,16 @@ const getCredentials = (headers: string[], responses: string[]) => {
         case 'Email Address':
           credentials.email = responses[i];
           break;
-        case 'First Name':
+        case 'First name':
           credentials.name = responses[i];
           break;
-        case 'Last Name':
+        case 'Last name':
           credentials.name += ` ${responses[i]}`;
           break;
-        case 'Graduation Semester':
+        case 'Graduation year':
           credentials.gradYear = responses[i];
           break;
-        case 'Link your resume':
+        case 'Please attach your resume in PDF format.':
           credentials.resumeURL = responses[i];
           break;
         case 'Share your GitHub (optional)':
@@ -69,7 +69,7 @@ const getCredentials = (headers: string[], responses: string[]) => {
         case 'Share an additional portfolio (optional)':
           credentials.portfolioURL = responses[i];
           break;
-        case 'Preferred Name (if different from previous answers)':
+        case 'Preferred name (optional)':
           credentials.preferredName = responses[i];
           break;
       }
@@ -94,7 +94,7 @@ const ResponsesPanel: React.FC<Props> = ({
       canToggleSeeApplicantName={canToggleSeeApplicantName}
       candidate={candidate}
     />
-
+    {console.log(headers.filter((h) => credentialHeaders.includes(h)))}
     <div className={styles.applicantResponses}>
       <h3>Questions</h3>
 
