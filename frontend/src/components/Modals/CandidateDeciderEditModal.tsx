@@ -135,8 +135,8 @@ const CandidateDeciderEditModal: React.FC<Props> = ({ uuid, setInstances }) => {
     const getHeaderIndex = (_header: string) =>
       instance.headers.findIndex((header, i) => header === _header);
     const netIDIndex = getHeaderIndex('NetID');
-    const lastNameIndex = getHeaderIndex('Last Name');
-    const firstNameIndex = getHeaderIndex('First Name');
+    const lastNameIndex = getHeaderIndex('Last name');
+    const firstNameIndex = getHeaderIndex('First name');
 
     const csvData = instance.candidates.map((candidate) => {
       const candidateReviews = reviews.filter((review) => review.candidateId === candidate.id);
