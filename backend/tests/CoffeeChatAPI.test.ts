@@ -252,7 +252,7 @@ describe('More complicated member meets category checks', () => {
   const user1 = fakeIdolMember();
   const user2 = { ...fakeIdolMember(), role: 'dev-advisor' };
   const user3 = { ...fakeIdolMember(), role: 'tpm' };
-  const user4 = { ...fakeIdolMember(), semesterJoined: 'Fall 2025' };
+  const user4 = { ...fakeIdolMember(), semesterJoined: 'Spring 2026' };
 
   beforeAll(async () => {
     const users = [user1, user2, user3, user4];

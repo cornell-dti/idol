@@ -1,8 +1,8 @@
 const COFFEE_CHAT_BINGO_BOARD = [
-  ['a newbie', 'owns a labubu', 'loves matcha', 'switched majors'],
-  ['from west coast', 'from NYC', 'sleeps with socks on', 'been on DTI for > 3 sem'],
-  ['runs regularly', 'can cook a signature dish', 'works on campus', 'loves to fish'],
-  ['dancer', 'not from the US', 'can whistle', 'has a sibling']
+  ['a DTI alum', 'plays an instrument', 'boba > coffee', 'switched majors'],
+  ['from west coast', 'can cook a signature dish', 'Over 6ft', 'been on DTI for > 3 sem'],
+  ['studied abroad', 'has been to more than 3 countries', 'a newbie', 'GymRat / GymBaddie'],
+  ['likes anime', 'worked at a startup', 'not from the US', 'has over 3 siblings']
 ];
 
 export default COFFEE_CHAT_BINGO_BOARD;
@@ -12,9 +12,9 @@ export const DISABLE_DELETE_ALL_COFFEE_CHATS = true;
 export const REQUIRED_MEMBER_TEC_CREDITS = 1;
 export const REQUIRED_LEAD_TEC_CREDITS = 2;
 export const TEC_DEADLINES = [
-  new Date('2025-09-30T23:59:59'),
-  new Date('2025-10-31T23:59:59'),
-  new Date('2025-11-30T23:59:59')
+  new Date('2026-02-28T23:59:59'),
+  new Date('2026-03-31T23:59:59'),
+  new Date('2026-04-30T23:59:59')
 ];
 
 export const ALL_ROLES: Role[] = [
