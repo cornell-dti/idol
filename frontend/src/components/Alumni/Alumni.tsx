@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Container, Header, Input, Dropdown, Icon, Image, Loader } from 'semantic-ui-react';
+import { useState, useEffect, useMemo } from 'react';
+import { Container, Header, Input, Dropdown, Icon, Loader } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import AlumniAPI from '../../API/AlumniAPI';
+import AlumniCard from './AlumniCard';
 import styles from './Alumni.module.css';
 
 type ViewMode = 'list' | 'map';
+
+const DEFAULT_MIN_YEAR = 2016;
+const DEFAULT_MAX_YEAR = new Date().getFullYear();
 
 const Alumni: React.FC = () => {
   const [alumni, setAlumni] = useState<readonly Alumni[]>([]);
@@ -14,7 +18,10 @@ const Alumni: React.FC = () => {
   const [selectedJobCategories, setSelectedJobCategories] = useState<string[]>([]);
   const [selectedDtiRoles, setSelectedDtiRoles] = useState<string[]>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
-  const [gradYearRange, setGradYearRange] = useState<[number, number]>([2016, 2024]);
+  const [gradYearRange, setGradYearRange] = useState<[number, number]>([
+    DEFAULT_MIN_YEAR,
+    DEFAULT_MAX_YEAR
+  ]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,11 +42,11 @@ const Alumni: React.FC = () => {
   const filteredAlumni = useMemo(
     () =>
       alumni.filter((alum) => {
-
         // Filters based on search input (users can search for any alum field)
         if (searchQuery) {
           const query = searchQuery.toLowerCase();
-          const searchableText = `${alum.firstName} ${alum.lastName} ${alum.company || ''} ${alum.jobRole} ${alum.location || ''}`.toLowerCase();
+          const searchableText =
+            `${alum.firstName} ${alum.lastName} ${alum.company || ''} ${alum.jobRole} ${alum.location || ''}`.toLowerCase();
           if (!searchableText.includes(query)) return false;
         }
 
@@ -52,7 +59,10 @@ const Alumni: React.FC = () => {
           if (!hasMatchingRole) return false;
         }
 
-        if (selectedCompanies.length > 0 && (!alum.company || !selectedCompanies.includes(alum.company))) {
+        if (
+          selectedCompanies.length > 0 &&
+          (!alum.company || !selectedCompanies.includes(alum.company))
+        ) {
           return false;
         }
 
@@ -66,7 +76,7 @@ const Alumni: React.FC = () => {
       }),
     [alumni, searchQuery, selectedJobCategories, selectedDtiRoles, selectedCompanies, gradYearRange]
   );
-  
+
   const jobCategoryOptions: { key: string; text: string; value: string }[] = [
     { key: 'technology', text: 'Technology', value: 'Technology' },
     { key: 'product-management', text: 'Product Management', value: 'Product Management' },
@@ -144,6 +154,7 @@ const Alumni: React.FC = () => {
               multiple
               selection
               search
+              closeOnChange
               options={jobCategoryOptions}
               value={selectedJobCategories}
               onChange={(_, data) => setSelectedJobCategories(data.value as string[])}
@@ -157,6 +168,7 @@ const Alumni: React.FC = () => {
               multiple
               selection
               search
+              closeOnChange
               options={companyOptions}
               value={selectedCompanies}
               onChange={(_, data) => setSelectedCompanies(data.value as string[])}
@@ -170,6 +182,7 @@ const Alumni: React.FC = () => {
               multiple
               selection
               search
+              closeOnChange
               options={dtiRoleOptions}
               value={selectedDtiRoles}
               onChange={(_, data) => setSelectedDtiRoles(data.value as string[])}
@@ -184,9 +197,12 @@ const Alumni: React.FC = () => {
               <span className={styles.yearLabel}>From</span>
               <Input
                 type="number"
-                value={gradYearRange ? gradYearRange[0] : ''}
+                value={gradYearRange[0]}
                 onChange={(e) =>
-                  setGradYearRange([parseInt(e.target.value, 10) || 2016, gradYearRange[1]])
+                  setGradYearRange([
+                    parseInt(e.target.value, 10) || DEFAULT_MIN_YEAR,
+                    gradYearRange[1]
+                  ])
                 }
                 className={styles.yearInput}
               />
@@ -195,7 +211,10 @@ const Alumni: React.FC = () => {
                 type="number"
                 value={gradYearRange[1]}
                 onChange={(e) =>
-                  setGradYearRange([gradYearRange[0], parseInt(e.target.value, 10) || 2024])
+                  setGradYearRange([
+                    gradYearRange[0],
+                    parseInt(e.target.value, 10) || DEFAULT_MAX_YEAR
+                  ])
                 }
                 className={styles.yearInput}
               />
@@ -216,93 +235,7 @@ const Alumni: React.FC = () => {
                 {filteredAlumni.length === 0 ? (
                   <p className={styles.noResults}>No alumni found matching your filters.</p>
                 ) : (
-                  filteredAlumni.map((alum) => (
-                  <div key={alum.uuid} className={styles.alumniCard}>
-                    {alum.imageUrl && (
-                      <Image
-                        src={alum.imageUrl}
-                        alt={`${alum.firstName} ${alum.lastName}`}
-                        className={styles.profileImage}
-                        circular
-                        size="small"
-                      />
-                    )}
-
-                    <div className={styles.cardContent}>
-                      <div className={styles.nameSection}>
-                        <h3 className={styles.name}>
-                          {alum.firstName} {alum.lastName}
-                        </h3>
-                      </div>
-
-                      <div className={styles.infoGrid}>
-                        <div className={styles.infoColumn}>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Company</span>
-                            <span className={styles.infoValue}>{alum.company || 'N/A'}</span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Company Role</span>
-                            <span className={styles.infoValue}>{alum.jobRole}</span>
-                          </div>
-                        </div>
-
-                        <div className={styles.infoColumn}>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Based in</span>
-                            <span className={styles.infoValue}>{alum.location || 'N/A'}</span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Graduated in</span>
-                            <span className={styles.infoValue}>{alum.gradYear || 'N/A'}</span>
-                          </div>
-                        </div>
-
-                        <div className={styles.infoColumn}>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Role on DTI</span>
-                            <span className={styles.infoValue}>
-                              {alum.dtiRoles && alum.dtiRoles.length > 0
-                                ? alum.dtiRoles.join(', ')
-                                : 'N/A'}
-                            </span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Subteam on DTI</span>
-                            <span className={styles.infoValue}>
-                              {alum.subteams && alum.subteams.length > 0
-                                ? alum.subteams.join(', ')
-                                : 'N/A'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={styles.socialIcons}>
-                      {alum.email && (
-                        <a
-                          href={`mailto:${alum.email}`}
-                          className={styles.socialLink}
-                          aria-label="Email"
-                        >
-                          <Icon name="mail" size="large" />
-                        </a>
-                      )}
-                      {alum.linkedin && (
-                        <a
-                          href={alum.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.socialLink}
-                          aria-label="LinkedIn"
-                        >
-                          <Icon name="linkedin" size="large" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  ))
+                  filteredAlumni.map((alum) => <AlumniCard key={alum.uuid} alum={alum} />)
                 )}
               </div>
             </>
