@@ -246,7 +246,7 @@ const main = async () => {
         // Add delay between requests to respect Nominatim's rate limit (1 req/sec)
         const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
         if (location) {
-          await delay(1100); 
+          await delay(1100);
         }
       } catch (validationError: unknown) {
         const rowNumber = index + 2;
