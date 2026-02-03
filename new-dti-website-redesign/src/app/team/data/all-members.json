@@ -466,6 +466,31 @@
     "github": null
   },
   {
+    "firstName": "David ",
+    "lastName": "Martinez Lopez",
+    "pronouns": "",
+    "email": "dm769@cornell.edu",
+    "role": "design-advisor",
+    "semesterJoined": "Spring 2024",
+    "graduation": "",
+    "major": "",
+    "doubleMajor": "",
+    "minor": "",
+    "college": "",
+    "website": "",
+    "linkedin": "",
+    "github": "",
+    "coffeeChatLink": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [
+      "cuapts"
+    ],
+    "formerSubteams": [],
+    "netid": "dm769",
+    "roleDescription": "Design Advisor"
+  },
+  {
     "pronouns": "she/her",
     "email": "drk229@cornell.edu",
     "lastName": "Ku",
@@ -573,58 +598,58 @@
     "doubleMajor": null
   },
   {
+    "github": null,
+    "minor": null,
+    "netid": "em849",
     "role": "design-lead",
-    "hometown": "Brooklyn, NY",
-    "pronouns": "She/her",
-    "about": "Hi everyone! I'm a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a cute cat. Feel free to chat with me :))",
-    "major": "Information Science",
-    "graduation": "May 2027",
-    "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
-    "roleDescription": "Design Lead",
-    "college": "cas",
     "lastName": "Mai",
+    "college": "cas",
+    "website": null,
+    "roleDescription": "Design Lead",
+    "hometown": "Brooklyn, NY",
+    "about": "Hi everyone! I'm one of the design leads on DTI! I was previously a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a cute cat. Feel free to chat with me :))",
     "semesterJoined": "Fall 2024",
+    "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
+    "pronouns": "She/her",
+    "linkedin": "https://www.linkedin.com/in/evelyn-mai1/",
+    "doubleMajor": null,
     "formerSubteams": [
       "curaise"
     ],
-    "doubleMajor": null,
-    "website": null,
-    "minor": null,
-    "subteams": [
-      "leads"
-    ],
-    "github": null,
     "email": "em849@cornell.edu",
-    "linkedin": "https://www.linkedin.com/in/evelyn-mai1/",
-    "firstName": "Evelyn",
-    "netid": "em849"
-  },
-  {
-    "website": null,
-    "about": "Heyy! My name is Esperanza and I'm a sophomore studying Information Science in CAS. I work with the business team as the social media manager 😊 This year I realized that I love matcha 🍵 but I also love music (rnb/hiphop the most), photography/videography, language learning (I speak Spanish, Portuguese, English, some Korean), and traveling. I'm also down to read books and listen to podcasts so let me know if you have any recs :)\nInstagram: @espie.v",
-    "netid": "er549",
-    "pronouns": "she/her",
-    "graduation": "2028",
-    "email": "er549@cornell.edu",
-    "semesterJoined": "Spring 2025",
-    "github": null,
     "major": "Information Science",
-    "college": "cas",
-    "role": "business-lead",
-    "hometown": "Chicago",
-    "roleDescription": "Business Lead",
-    "linkedin": "https://www.linkedin.com/in/esperanzarc/",
-    "lastName": "Roman Carrera",
-    "formerSubteams": [
-      "business"
-    ],
-    "minor": null,
-    "firstName": "Esperanza",
-    "doubleMajor": "Economics",
-    "coffeeChatLink": null,
+    "firstName": "Evelyn",
+    "graduation": "May 2027",
     "subteams": [
       "leads"
     ]
+  },
+  {
+    "graduation": "2028",
+    "roleDescription": "Business Lead",
+    "hometown": "Chicago",
+    "firstName": "Esperanza",
+    "doubleMajor": "Economics",
+    "formerSubteams": [
+      "business"
+    ],
+    "linkedin": "https://www.linkedin.com/in/esperanzarc/",
+    "netid": "er549",
+    "subteams": [
+      "leads"
+    ],
+    "website": null,
+    "major": "Information Science",
+    "minor": null,
+    "github": null,
+    "email": "er549@cornell.edu",
+    "about": "Heyy! My name is Esperanza and I'm a sophomore studying Information Science in CAS. I work with the business team as the social media manager 😊 This year I realized that I love matcha 🍵 but I also love music (rnb/hiphop the most), photography/videography, language learning (I speak Spanish, Portuguese, English, some Korean), and traveling. I'm also down to read books and listen to podcasts so let me know if you have any recs :)\nInstagram: @espie.v",
+    "lastName": "Román Carrera",
+    "college": "cas",
+    "coffeeChatLink": null,
+    "role": "business-lead",
+    "pronouns": "she/her",
+    "semesterJoined": "Spring 2025"
   },
   {
     "college": "eng",
@@ -757,29 +782,31 @@
     "coffeeChatLink": null
   },
   {
+    "lastName": "Zhou",
+    "semesterJoined": "Spring 2024",
+    "major": "Computer Science",
+    "about": "Hi! My name is Hannah Zhou. I'm interested technology accessibility and education. I'm open to so many CS field, such as web dev and how we can apply AI. Outside of academics, I love to play games, draw, and every once in and a while I get a whole new obsession. ",
+    "roleDescription": "Developer Lead",
+    "graduation": "May 2027",
+    "role": "dev-lead",
+    "pronouns": "she/her",
+    "linkedin": "https://www.linkedin.com/in/hannah-yunzi-zhou/",
+    "coffeeChatLink": null,
+    "minor": null,
+    "email": "hyz4@cornell.edu",
+    "website": null,
+    "github": "https://github.com/plumshum",
+    "hometown": "Holliston",
     "formerSubteams": [
       "courseplan"
     ],
-    "lastName": "Zhou",
-    "linkedin": "https://www.linkedin.com/in/hannah-yunzi-zhou/",
-    "doubleMajor": null,
-    "roleDescription": "Developer Lead",
-    "major": "Computer Science",
-    "netid": "hyz4",
-    "semesterJoined": "Spring 2024",
-    "graduation": "May 2027",
     "subteams": [
       "leads"
     ],
-    "email": "hyz4@cornell.edu",
-    "github": "https://github.com/plumshum",
-    "website": null,
+    "doubleMajor": null,
+    "netid": "hyz4",
     "firstName": "Hannah",
-    "minor": null,
-    "about": "Hi! My name is Hannah Zhou. I'm interested technology accessibility and education. As a freshman, I'm open to so many CS field, such as web dev and how we can apply AI. Outside of academics, I love to play games, draw, and every once in and a while I get a whole new obsession. ",
-    "hometown": "Holliston",
-    "pronouns": "she/her",
-    "role": "dev-lead"
+    "college": "eng"
   },
   {
     "role": "business",
@@ -1061,31 +1088,32 @@
     "hometown": "Scotch Plains, NJ"
   },
   {
-    "semesterJoined": "Spring 2024",
-    "role": "dev-advisor",
-    "hometown": "Seattle, WA",
-    "firstName": "Jacqueline",
-    "about": "currently fixated on salmon 🐟",
     "lastName": "Cai",
-    "subteams": [
-      "reviews"
-    ],
-    "minor": null,
-    "graduation": "May 2026",
-    "doubleMajor": null,
-    "roleDescription": "Dev Advisor",
-    "major": "Computer Science",
-    "linkedin": "https://www.linkedin.com/in/jacqueline-cai-7a6322203/",
-    "github": "https://github.com/jacquelinecai",
+    "hometown": "Seattle, WA",
+    "roleDescription": "Technical PM",
+    "website": null,
+    "firstName": "Jacqueline",
+    "semesterJoined": "Spring 2024",
     "email": "jxc6@cornell.edu",
-    "coffeeChatLink": null,
-    "pronouns": "she/her",
-    "netid": "jxc6",
-    "formerSubteams": [
-      "leads"
+    "subteams": [
+      "redi"
     ],
+    "pronouns": "she/her",
+    "github": "https://github.com/jacquelinecai",
+    "netid": "jxc6",
+    "linkedin": "https://www.linkedin.com/in/jacqueline-cai-7a6322203/",
+    "role": "tpm",
+    "coffeeChatLink": null,
+    "major": "Computer Science",
+    "minor": null,
+    "about": "currently fixated on salmon 🐟",
     "college": "eng",
-    "website": null
+    "doubleMajor": null,
+    "graduation": "May 2026",
+    "formerSubteams": [
+      "leads",
+      "reviews"
+    ]
   },
   {
     "formerSubteams": [],
@@ -1351,29 +1379,29 @@
     "doubleMajor": null
   },
   {
-    "hometown": "Bergen County, NJ",
-    "github": null,
+    "firstName": "Olivia",
+    "lastName": "Lee",
     "email": "ocl9@cornell.edu",
-    "linkedin": null,
-    "website": null,
-    "formerSubteams": [],
-    "college": "cals",
-    "about": "Hi! I'm Olivia and I'm studying Information Science with concentrations in UX Design and Interactive Technologies. I'm also currently a designer on CURaise 💸Outside of design and work, I love to watch movies, dance, and try new foods! Feel free to reach out and chat ☺️",
-    "doubleMajor": null,
+    "role": "designer",
+    "semesterJoined": "Fall 2025",
     "subteams": [
       "curaise"
     ],
-    "firstName": "Olivia",
-    "coffeeChatLink": null,
-    "lastName": "Lee",
-    "roleDescription": "Designer",
-    "role": "designer",
-    "pronouns": "she/her",
-    "semesterJoined": "Fall 2025",
-    "graduation": "2028",
-    "minor": null,
+    "formerSubteams": [],
     "netid": "ocl9",
-    "major": "Information Science"
+    "roleDescription": "Designer",
+    "college": "cals",
+    "github": null,
+    "hometown": "Bergen County, NJ",
+    "website": null,
+    "minor": null,
+    "major": "Information Science",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "pronouns": "she/her",
+    "about": "Hi! I'm Olivia and I'm studying Information Science with concentrations in UX Design and Interactive Technologies. I'm also currently a designer on CURaise 💸 Outside of design and work, I love to watch movies, dance, and try new foods! Feel free to reach out and chat ☺️",
+    "linkedin": "www.linkedin.com/in/olivialee-"
   },
   {
     "graduation": "May 2026",
@@ -1586,29 +1614,29 @@
     "website": null
   },
   {
-    "github": "",
-    "formerSubteams": [],
-    "coffeeChatLink": "",
-    "minor": "",
-    "lastName": "Ge",
-    "college": "",
-    "netid": "sg2626",
-    "graduation": "",
-    "role": "developer",
-    "roleDescription": "Developer",
     "firstName": "Selina",
-    "about": "",
-    "doubleMajor": "",
+    "lastName": "Ge",
     "email": "sg2626@cornell.edu",
-    "hometown": "",
-    "website": "",
-    "pronouns": "",
-    "major": "",
+    "role": "developer",
     "semesterJoined": "Fall 2025",
-    "linkedin": "",
     "subteams": [
       "cornellgo"
-    ]
+    ],
+    "formerSubteams": [],
+    "netid": "sg2626",
+    "roleDescription": "Developer",
+    "college": "eng",
+    "github": null,
+    "hometown": "San Jose",
+    "website": null,
+    "minor": null,
+    "major": "Computer Science",
+    "doubleMajor": null,
+    "graduation": "May 2029",
+    "coffeeChatLink": null,
+    "about": "Hii I'm a freshman planning to major in CS and I'm a dev on CornellGO!",
+    "pronouns": "she/her",
+    "linkedin": null
   },
   {
     "doubleMajor": null,
@@ -1764,29 +1792,31 @@
     "firstName": "Xintong"
   },
   {
-    "linkedin": "https://www.linkedin.com/in/layla-liu",
-    "firstName": "Layla",
-    "doubleMajor": "Operations Research and Engineering",
-    "about": "Hi! I'm Layla Liu, a freshman planning to double major in Computer Science and Operations Research and Engineering (ORIE), with a minor in Business. In my free time, I like skiing, exploring new cities, visiting great bakeries, and binge-watching Netflix shows.\n\n",
-    "website": null,
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "minor": "Business",
     "major": "Computer Science",
-    "subteams": [
+    "role": "tpm",
+    "graduation": "May 2028",
+    "website": null,
+    "hometown": "Boston",
+    "formerSubteams": [
       "queuemein"
     ],
-    "roleDescription": "Developer",
-    "minor": "Business",
-    "github": "https://github.com/laylaliuuu",
-    "pronouns": "She/Her/Hers",
     "lastName": "Liu",
-    "graduation": "May 2028",
-    "semesterJoined": "Fall 2024",
-    "role": "developer",
-    "college": "eng",
-    "email": "xl989@cornell.edu",
+    "github": "https://github.com/laylaliuuu",
+    "subteams": [
+      "redi"
+    ],
+    "doubleMajor": "Operations Research and Engineering",
+    "roleDescription": "Technical PM",
+    "linkedin": "https://www.linkedin.com/in/layla-liu",
     "netid": "xl989",
-    "hometown": "Boston",
+    "pronouns": "She/Her/Hers",
+    "email": "xl989@cornell.edu",
+    "firstName": "Layla",
     "coffeeChatLink": "https://calendly.com/xl989-cornell/30min",
-    "formerSubteams": []
+    "about": "Hi! I'm Layla Liu, a sophomore planning to double major in Computer Science and Operations Research and Engineering (ORIE), with a minor in AI & Business. In my free time, I like skiing, exploring new cities, visiting great bakeries, and binge-watching Netflix shows.\n\n"
   },
   {
     "linkedin": "https://www.linkedin.com/in/zexuanwu/",
