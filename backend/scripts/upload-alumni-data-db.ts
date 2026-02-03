@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-await-in-loop */
 /**
  * Script to upload alumni data from CSV to Firestore
  * Usage: npm run upload-alumni
@@ -212,9 +212,10 @@ const validateAlumni = async (alumniRow: CSVAlumniRow): Promise<Alumni> => {
   } as Alumni;
 };
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const main = async () => {
   try {
-    console.log('Processing alumni data');
     const csv = fs.readFileSync('./scripts/alumni-data.csv').toString();
     const rows = csv.split(/\r?\n/).filter((row) => row.trim());
 
@@ -223,7 +224,9 @@ const main = async () => {
     const failedRows: string[] = [];
 
     const dataRows = rows.slice(1);
-    const processRow = async (row: string, index: number) => {
+
+    for (let index = 0; index < dataRows.length; index += 1) {
+      const row = dataRows[index];
       try {
         const values = parseCSVRow(row);
         const alumniRow: CSVAlumniRow = {};
@@ -231,28 +234,21 @@ const main = async () => {
           alumniRow[header] = values[i];
         });
 
-        return await validateAlumni(alumniRow);
+        const alumni = await validateAlumni(alumniRow);
+        alumniData.push(alumni);
+
+        // Add delay between requests to respect Nominatim's rate limit (1 req/sec)
+        const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
+        if (location) {
+          await delay(1100);
+        }
       } catch (validationError: unknown) {
         const rowNumber = index + 2;
         const errorMessage = (validationError as Error).message;
         console.error(`Row ${rowNumber} failed: ${errorMessage}`);
         failedRows.push(rowNumber.toString());
-        return null;
       }
-    };
-
-    const results = await Promise.all(dataRows.map(processRow));
-    results.forEach((alumni) => {
-      if (alumni) {
-        alumniData.push(alumni);
-      }
-    });
-
-    if (failedRows.length > 0) {
-      console.log(`\nFailed rows: ${failedRows.join(', ')}`);
     }
-
-    console.log(`Uploading ${alumniData.length} alumni records to Firestore`);
 
     const batch = db.batch();
     alumniData.forEach((alumni) => {
