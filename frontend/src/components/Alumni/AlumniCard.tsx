@@ -1,21 +1,40 @@
+import { useState } from 'react';
 import { Icon, Image } from 'semantic-ui-react';
 import styles from './Alumni.module.css';
+
+const FALLBACK_IMAGES = [
+  '/alumni/fallback-1.svg',
+  '/alumni/fallback-2.svg',
+  '/alumni/fallback-3.svg',
+  '/alumni/fallback-4.svg'
+];
+
+const getFallbackImage = (uuid: string): string => {
+  const hash = uuid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length];
+};
 
 type AlumniCardProps = {
   alum: Alumni;
 };
 
-const AlumniCard: React.FC<AlumniCardProps> = ({ alum }) => (
-  <div className={styles.alumniCard}>
-    {alum.imageUrl && (
+const AlumniCard: React.FC<AlumniCardProps> = ({ alum }) => {
+  const [imgSrc, setImgSrc] = useState(alum.imageUrl || getFallbackImage(alum.uuid));
+
+  const handleImageError = () => {
+    setImgSrc(getFallbackImage(alum.uuid));
+  };
+
+  return (
+    <div className={styles.alumniCard}>
       <Image
-        src={alum.imageUrl}
+        src={imgSrc}
         alt={`${alum.firstName} ${alum.lastName}`}
         className={styles.profileImage}
         circular
         size="small"
+        onError={handleImageError}
       />
-    )}
 
     <div className={styles.cardContent}>
       <div className={styles.nameSection}>
@@ -83,6 +102,7 @@ const AlumniCard: React.FC<AlumniCardProps> = ({ alum }) => (
       )}
     </div>
   </div>
-);
+  );
+};
 
 export default AlumniCard;

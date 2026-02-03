@@ -7,7 +7,7 @@ import styles from './Alumni.module.css';
 
 type ViewMode = 'list' | 'map';
 
-const DEFAULT_MIN_YEAR = 2016;
+const DEFAULT_MIN_YEAR = 2014;
 const DEFAULT_MAX_YEAR = new Date().getFullYear();
 
 const Alumni: React.FC = () => {
