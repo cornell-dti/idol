@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-await-in-loop */
 /**
  * Script to upload alumni data from CSV to Firestore
  * Usage: npm run upload-alumni
@@ -216,7 +216,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const main = async () => {
   try {
-    console.log('Processing alumni data');
     const csv = fs.readFileSync('./scripts/alumni-data.csv').toString();
     const rows = csv.split(/\r?\n/).filter((row) => row.trim());
 
@@ -225,9 +224,8 @@ const main = async () => {
     const failedRows: string[] = [];
 
     const dataRows = rows.slice(1);
-    console.log(`Processing ${dataRows.length} alumni records sequentially\n`);
 
-    for (let index = 0; index < dataRows.length; index++) {
+    for (let index = 0; index < dataRows.length; index += 1) {
       const row = dataRows[index];
       try {
         const values = parseCSVRow(row);
@@ -238,10 +236,6 @@ const main = async () => {
 
         const alumni = await validateAlumni(alumniRow);
         alumniData.push(alumni);
-
-        if ((index + 1) % 10 === 0) {
-          console.log(`Processed ${index + 1}/${dataRows.length} alumni`);
-        }
 
         // Add delay between requests to respect Nominatim's rate limit (1 req/sec)
         const location = consolidateLocation(alumniRow.city, alumniRow.state, alumniRow.country);
@@ -255,12 +249,6 @@ const main = async () => {
         failedRows.push(rowNumber.toString());
       }
     }
-
-    if (failedRows.length > 0) {
-      console.log(`\nFailed rows: ${failedRows.join(', ')}`);
-    }
-
-    console.log(`\nUploading ${alumniData.length} alumni records to Firestore`);
 
     const batch = db.batch();
     alumniData.forEach((alumni) => {
