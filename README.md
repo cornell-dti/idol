@@ -49,10 +49,11 @@ All the common types used by the packages are defined [here](./common-types/inde
 ### Spring 2026
 
 - **Mark Sheen** - PM
-- **Adrienne La** - TPM
+- **Adrienne Lee** - TPM
 - **Ashley Paik** - Designer
 - **Jane Tenecota Villa** - Developer
 - **Valerie Wong** - Developer
+- **Max Shi** - Developer
 
 ### Fall 2025
 
