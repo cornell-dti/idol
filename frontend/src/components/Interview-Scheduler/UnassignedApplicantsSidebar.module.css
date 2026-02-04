@@ -1,0 +1,53 @@
+.sidebar {
+  background: white !important;
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 100vh !important;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2em;
+  position: relative;
+  z-index: 9999999;
+  opacity: 100% !important;
+
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5em;
+}
+
+.closeIcon {
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 2em;
+}
+
+.applicantsList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.applicantsList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.applicantItem {
+  padding: 1em;
+  margin-bottom: 1em;
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+}
