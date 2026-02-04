@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, Dropdown, Header, Message } from 'semantic-ui-react';
+import { Button, Card, Dropdown, Header, Message, Sidebar } from 'semantic-ui-react';
 import Link from 'next/link';
 import { LEAD_ROLES } from 'common-types/constants';
 import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
@@ -11,6 +11,7 @@ import { addToGoogleCalendar } from '../../calendar';
 import SchedulingSidePanel from './SchedulingSidePanel';
 import { EditAvailabilityContext, SchedulerDisplay, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
+import UnassignedApplicantsSidebar from './UnassignedApplicantsSidebar';
 
 const displayOptions: { text: string; value: SchedulerDisplay }[] = [
   {
@@ -142,6 +143,9 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
   const userEmail = useUserEmail();
   const member = useMember(userEmail);
   const isLead = member && LEAD_ROLES.includes(member.role);
+  //ops lead check below to view applicants who have yet to sign up for slots:
+  const isOpsLead = member && member.role === 'ops-lead';
+  const [isUnassignedSidebarVisible, setIsUnassignedSidebarVisible] = useState(false);
 
   const refreshSlots = () =>
     InterviewSchedulerAPI.getSlots(uuid, !isMember).then((res) => {
@@ -178,8 +182,16 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
     return <InviteCard scheduler={scheduler} slot={possessedSlot} />;
 
   return (
-    <div className={styles.schedulerContainer}>
-      {!scheduler ? (
+    <>
+      {scheduler && (
+        <UnassignedApplicantsSidebar
+              visible={isUnassignedSidebarVisible}
+              onClose={() => setIsUnassignedSidebarVisible(false)}
+              scheduler={scheduler}
+              slots={slots}
+        />)}
+      <div className={styles.schedulerContainer}>
+        {!scheduler ? (
         <p>Loading...</p>
       ) : (
         <SetSlotsContext.Provider value={{ display, setSlots, setSelectedSlot, setHoveredSlot }}>
@@ -187,6 +199,10 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
             <div>
               <Header as="h2">{scheduler.name}</Header>
               <p>{`${getDateString(scheduler.startDate, false)} - ${getDateString(scheduler.endDate, false)}`}</p>
+              <p>
+                Hover over to review time slots. Click to show more information, sign up, or
+                cancel.
+              </p>
               <Message info>
                 <Message.Header>Please note</Message.Header>
                 Once you sign up for an interview slot, you cannot cancel. You will have to email us
@@ -231,11 +247,23 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
                     >
                       Add availabilities
                     </Button>
+                    {isOpsLead && (
+                    <Button
+                      basic
+                      onClick={() => {
+                        setIsUnassignedSidebarVisible(true);
+                      }}
+                    >
+                      View unassigned applicants
+
+                    </Button>)}
                   </>
                 )}
               </div>
             )}
           </div>
+          <Sidebar.Pushable>
+            <Sidebar.Pusher>
           <div className={styles.contentContainer}>
             <EditAvailabilityContext.Provider
               value={{ isEditing, setIsEditing, tentativeSlots, setTentativeSlots }}
@@ -244,10 +272,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
             </EditAvailabilityContext.Provider>
             {!isEditing && (
               <div className={styles.sidebarContainer}>
-                <p>
-                  Hover over to review time slots. Click to show more information, sign up, or
-                  cancel.
-                </p>
+              
                 {(hoveredSlot || selectedSlot) && (
                   <SchedulingSidePanel
                     displayedSlot={(hoveredSlot || selectedSlot) as InterviewSlot}
@@ -258,9 +283,12 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
               </div>
             )}
           </div>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
         </SetSlotsContext.Provider>
       )}
     </div>
+  </>
   );
 };
 
