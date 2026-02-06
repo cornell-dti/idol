@@ -1,5 +1,15 @@
 [
   {
+    "image": "/products/images/redi.png",
+    "imageAlt": "XX",
+    "name": "Redi",
+    "description": "Redi is a Cornell-only dating app delivering weekly curated matches and campus-themed prompts.",
+    "link": "https://apps.apple.com/us/app/redi-love/id6754899018",
+    "comingSoon": false,
+    "id": "redi",
+    "accentColor": "#1A1A1A"
+  },
+  {
     "image": "/products/images/cureviews.png",
     "imageAlt": "A laptop next to a phone, displaying the search page and the search results page of the CU Reviews website",
     "name": "CU Reviews",
