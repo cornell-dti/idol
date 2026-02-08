@@ -2,8 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from './Alumni.module.css';
 
+type MapComponentsType = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  MapContainer: React.ComponentType<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TileLayer: React.ComponentType<any>;
+} | null;
+
 const AlumniMap: React.FC = () => {
-  const [MapComponents, setMapComponents] = useState<any>(null);
+  const [MapComponents, setMapComponents] = useState<MapComponentsType>(null);
 
   useEffect(() => {
     import('react-leaflet').then((mod) => {

@@ -225,9 +225,8 @@ const Alumni: React.FC = () => {
         </div>
 
         <div className={styles.listContainer}>
-          {isLoading ? (
-            <Loader active size="large" />
-          ) : viewMode === 'map' ? (
+          {isLoading && <Loader active size="large" />}
+          {!isLoading && viewMode === 'map' && (
             <>
               <AlumniMap />
               <p className={styles.resultCount}>
@@ -241,7 +240,8 @@ const Alumni: React.FC = () => {
                 )}
               </div>
             </>
-          ) : (
+          )}
+          {!isLoading && viewMode === 'list' && (
             <>
               <p className={styles.resultCount}>
                 Showing {filteredAlumni.length} of {alumni.length}+ alumni
