@@ -54,7 +54,6 @@
     ]
   },
   "devDependencies": {
-    "@types/glob": "^9.0.0",
     "@types/leaflet": "^1.9.8",
     "@types/luxon": "^3.2.0",
     "@types/styled-components": "^5.1.24"
