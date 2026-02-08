@@ -33,6 +33,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/glob": "^9.0.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
