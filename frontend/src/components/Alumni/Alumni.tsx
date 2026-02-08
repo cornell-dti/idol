@@ -3,6 +3,7 @@ import { Container, Header, Input, Dropdown, Icon, Loader } from 'semantic-ui-re
 import { Emitters } from '../../utils';
 import AlumniAPI from '../../API/AlumniAPI';
 import AlumniCard from './AlumniCard';
+import AlumniMap from './AlumniMap';
 import styles from './Alumni.module.css';
 
 type ViewMode = 'list' | 'map';
@@ -124,6 +125,7 @@ const Alumni: React.FC = () => {
           <div className={styles.viewToggle}>
             <button
               className={`${styles.viewButton} ${viewMode === 'map' ? styles.active : ''}`}
+              onClick={() => setViewMode('map')}
               aria-label="Map view"
             >
               <Icon name="map" />
@@ -225,6 +227,20 @@ const Alumni: React.FC = () => {
         <div className={styles.listContainer}>
           {isLoading ? (
             <Loader active size="large" />
+          ) : viewMode === 'map' ? (
+            <>
+              <AlumniMap />
+              <p className={styles.resultCount}>
+                Showing {filteredAlumni.length} of {alumni.length}+ alumni
+              </p>
+              <div className={styles.alumniList}>
+                {filteredAlumni.length === 0 ? (
+                  <p className={styles.noResults}>No alumni found matching your filters.</p>
+                ) : (
+                  filteredAlumni.map((alum) => <AlumniCard key={alum.uuid} alum={alum} />)
+                )}
+              </div>
+            </>
           ) : (
             <>
               <p className={styles.resultCount}>
