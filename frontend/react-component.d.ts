@@ -1,7 +1,7 @@
-import 'react';
+import React from 'react';
 
 declare module 'react' {
   interface Component {
-    refs: any;
+    refs: Record<string, React.ReactInstance | null>;
   }
 }
