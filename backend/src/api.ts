@@ -160,12 +160,13 @@ app.use(
       winston.format.colorize(),
       winston.format.timestamp(),
       winston.format.align(),
-      winston.format.printf(
-        (info) => {
-          const meta = info.meta as { req: { method: string; originalUrl: string; body?: unknown }; res: { statusCode: number } };
-          return `${info.timestamp} ${info.level} - ${meta.req.method} ${meta.req.originalUrl} ${meta.res.statusCode} -- ${JSON.stringify(meta.req.body)}`;
-        }
-      )
+      winston.format.printf((info) => {
+        const meta = info.meta as {
+          req: { method: string; originalUrl: string; body?: unknown };
+          res: { statusCode: number };
+        };
+        return `${info.timestamp} ${info.level} - ${meta.req.method} ${meta.req.originalUrl} ${meta.res.statusCode} -- ${JSON.stringify(meta.req.body)}`;
+      })
     ),
     requestWhitelist: ['body', 'method', 'originalUrl'],
     responseWhitelist: ['body', 'statusCode']

@@ -127,7 +127,9 @@ const CoffeeChats: React.FC = () => {
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                           <div className={styles.bingo_text}>{category}</div>
                           <div className={styles.pending_text}>
-                            {chatCount.get(category) ? `${chatCount.get(category)} pending` : ''}{' '}
+                            {chatCount.get(category)
+                              ? `${chatCount.get(category)} pending`
+                              : ''}{' '}
                           </div>
                         </div>
                       </div>
