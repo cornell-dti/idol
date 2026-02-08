@@ -252,7 +252,7 @@ type MemberGroupProps = {
   setSelectedMember: (member?: IdolMember) => void;
   selectedMember?: IdolMember;
   selectedRole?: string;
-  memberDetailsRef: RefObject<HTMLInputElement>;
+  memberDetailsRef: RefObject<HTMLInputElement | null>;
   displayDetails?: boolean;
   isCard: boolean;
 };

@@ -13,7 +13,7 @@ export const ibm_plex_mono = IBM_Plex_Mono({
   weight: ['400']
 });
 
-const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   useGoogleAnalytics(MEASUREMENT_ID);
 
   return (
