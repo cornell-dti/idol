@@ -84,7 +84,7 @@
     "image": "/products/images/carriage.png",
     "imageAlt": "2 laptops showing the map and scheduled rides page of the Carriage application",
     "name": "Carriage",
-    "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching next semester.",
+    "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching this semester.",
     "comingSoon": true,
     "id": "carriage",
     "accentColor": "#000000"
