@@ -1,5 +1,12 @@
 [
   {
+    "src": "/products/logos/redi.svg",
+    "alt": "Redi logo",
+    "width": 80,
+    "height": 80,
+    "href": "/products/#cureviews"
+  },
+  {
     "src": "/products/logos/cureviews.svg",
     "alt": "CU Reviews logo",
     "width": 80,
