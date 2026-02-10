@@ -209,57 +209,57 @@
   },
   {
     "github": null,
-    "subteams": [
-      "curaise"
-    ],
-    "semesterJoined": "Spring 2025",
-    "role": "pm",
-    "firstName": "Andrew",
     "coffeeChatLink": null,
-    "email": "aw867@cornell.edu",
-    "website": null,
+    "firstName": "Andrew",
+    "pronouns": "He/Him",
+    "role": "pm",
     "netid": "aw867",
-    "college": "cas",
-    "major": "Economics",
-    "linkedin": "www.linkedin.com/in/andrewwilmott28",
-    "lastName": "Wilmott",
+    "semesterJoined": "Spring 2025",
     "formerSubteams": [
       "business"
     ],
-    "minor": "Data Science",
+    "lastName": "Wilmott",
+    "linkedin": "www.linkedin.com/in/andrewwilmott28",
+    "roleDescription": "Product Manager",
+    "college": "cas",
+    "website": null,
+    "subteams": [
+      "curaise"
+    ],
+    "email": "aw867@cornell.edu",
     "hometown": "Bronxville NY",
     "graduation": "2028",
-    "roleDescription": "Product Manager",
-    "about": "Hi y'all, my name is Andrew and I am a first-year studying Economics in CAS. I am a Corporate & Alumni Relations Manager for the business team, but am also a part of the Cornell Club Lacrosse team, and loosely CSA.",
-    "pronouns": "He/Him",
-    "doubleMajor": null
+    "minor": null,
+    "major": "Computer Science",
+    "doubleMajor": "Economics",
+    "about": "Hi y'all, my name is Andrew and I am a sophomore studying CS & Econ in CAS. I am a PM on DTI, but am also a part of PCT and Club Lacrosse."
   },
   {
-    "about": "Hey! I'm Ben, and I'm a developer @Carriage. I'm also the creator of BearTrak. :)  I like to code (static type addict), and I'd love to sit down with you and discuss LeBron's legacy at length sometime.",
+    "doubleMajor": null,
+    "formerSubteams": [
+      "carriage"
+    ],
+    "pronouns": "he/him",
+    "email": "bek76@cornell.edu",
+    "roleDescription": "Developer",
     "lastName": "Koppe",
-    "coffeeChatLink": null,
+    "github": "github.com/benkoppe",
+    "major": "Computer Science",
+    "minor": null,
+    "firstName": "Benjamin",
+    "semesterJoined": "Spring 2025",
     "subteams": [
       "incubator"
     ],
     "graduation": "2026",
-    "formerSubteams": [
-      "carriage"
-    ],
-    "doubleMajor": null,
+    "coffeeChatLink": null,
     "netid": "bek76",
-    "website": null,
-    "semesterJoined": "Spring 2025",
-    "hometown": "Las Vegas",
-    "minor": null,
-    "firstName": "Benjamin",
-    "github": "github.com/benkoppe",
-    "email": "bek76@cornell.edu",
-    "pronouns": "he/him",
-    "roleDescription": "Developer",
-    "college": "eng",
-    "major": "Computer Science",
+    "role": "developer",
     "linkedin": "go.thekoppe.com/linkedin",
-    "role": "developer"
+    "college": "eng",
+    "hometown": "Las Vegas",
+    "website": "thekoppe.com",
+    "about": "Hey! I'm Ben, and I'm a developer on Incubator. I'm also the creator of BearTrak. :)  I like to code (static type & nix addict), and I'd love to sit down with you and discuss LeBron's legacy at length sometime."
   },
   {
     "linkedin": "https://www.linkedin.com/in/cchrischen/",
@@ -1458,31 +1458,31 @@
     "roleDescription": "Business Advisor"
   },
   {
-    "about": "Hello! I'm a PM from Bangkok, Thailand, majoring in Computer Science (Eng) with a minor in English! Currently working on QMI. I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking.\n\nIn my free time, I love photography, music, and exploring new eats.",
-    "hometown": "Bangkok, Thailand",
-    "email": "pc745@cornell.edu",
-    "roleDescription": "Developer",
-    "netid": "pc745",
-    "lastName": "Choophungart",
-    "doubleMajor": null,
-    "college": "eng",
-    "major": "Computer Science",
-    "firstName": "Nadia",
-    "semesterJoined": "Spring 2025",
-    "minor": "English",
-    "coffeeChatLink": null,
-    "pronouns": "she/her/hers",
+    "github": null,
     "role": "developer",
-    "graduation": "Spring 2028",
+    "college": "eng",
+    "minor": "English",
     "formerSubteams": [
       "queuemein"
     ],
+    "netid": "pc745",
     "linkedin": "https://www.linkedin.com/in/pchoop/",
-    "website": "https://bubbly-individual-0bd.notion.site/Nadia-s-Portfolio-106165bf99ae80f78ef8e94f756ec90a?pvs=74",
+    "coffeeChatLink": null,
+    "firstName": "Nadia",
+    "semesterJoined": "Spring 2025",
     "subteams": [
       "redi"
     ],
-    "github": null
+    "email": "pc745@cornell.edu",
+    "pronouns": "she/her/hers",
+    "website": "https://bubbly-individual-0bd.notion.site/Nadia-s-Portfolio-106165bf99ae80f78ef8e94f756ec90a?pvs=74",
+    "doubleMajor": null,
+    "hometown": "Bangkok, Thailand",
+    "roleDescription": "Developer",
+    "lastName": "Choophungart",
+    "major": "Computer Science",
+    "graduation": "May 2028",
+    "about": "Hihi! I'm from Bangkok, Thailand, and majoring in Computer Science (Eng) with intended minors in English and ORIE! I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking. (Prev. PM @ Queue Me In). \n\nIn my free time, I love photography (especially film!), music, and exploring new eats."
   },
   {
     "coffeeChatLink": null,
