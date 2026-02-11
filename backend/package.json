@@ -10,6 +10,7 @@
     "build": "tsc",
     "update-dev-db": "esr scripts/update-dev-db.ts",
     "send-profile-update-notifications": "esr scripts/send-profile-update-notifications.ts",
+    "send-dev-portfolio-notifications": "esr scripts/send-dev-portfolio-notifications.ts",
     "send-tec-notifications": "esr scripts/send-tec-notifications.ts",
     "pull-from-idol-images": "esr scripts/pull-from-idol-images.ts",
     "create-idol-images-pr": "esr scripts/create-idol-images-pr.ts",

@@ -1,0 +1,40 @@
+name: Dev Portfolio Notification
+on:
+  schedule:
+# Checks date at 12:00 PM ET (17:00 UTC) every day, only runs on days before dev portfolio deadlines
+- cron: '0 17 * * *'
+
+jobs:
+  dev-portfolio-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check date
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          TARGET_DATES=("2026-02-07" "2026-02-28" "2026-03-21" "2026-04-11" "2026-05-04")
+          if [[ ! " ${TARGET_DATES[@]} " =~ " ${TODAY} " ]]; then
+            echo "Not a target date. Exiting."
+            exit 0
+          fi
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Use Yarn Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: yarn-
+      - name: Install
+        run: yarn
+      - name: Profile update notifications
+        env:
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+          OAUTH_CLIENTID: ${{ secrets.OAUTH_CLIENTID}}
+          OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
+          OAUTH_REFRESH_TOKEN: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+        run: yarn workspace backend send-dev-portfolio-notifications
