@@ -99,7 +99,7 @@ export default function ProductNav({
               className={clsx(
                 'flex flex-row gap-x-2 cursor-pointer select-none items-center hover:text-foreground-1 rounded-sm',
                 activeProduct === product.id ? 'text-foreground-1 pl-1' : 'text-foreground-3',
-                'transition-colors duration-300 ease-in-out'
+                'transition-colors duration-120 ease-in-out'
               )}
             >
               <p className="h6">{product.name}</p>

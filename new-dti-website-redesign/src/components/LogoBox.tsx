@@ -15,6 +15,7 @@ type Logo = {
   outerLinkClassName?: string; // applies classes on the wrapping <a>
   className?: string; // applies classes on <div> in const content
   noFocus?: boolean;
+  showOnProductPage?: boolean; // whether to show this logo on the product page grid of logos
 };
 
 const LogoBox: React.FC<Logo> = ({
@@ -29,8 +30,13 @@ const LogoBox: React.FC<Logo> = ({
   border = true,
   outerLinkClassName,
   className,
-  noFocus
+  noFocus,
+  showOnProductPage
 }) => {
+  if (showOnProductPage === false) {
+    return null;
+  }
+
   const content = (
     <div
       className={`flex items-center justify-center h-32 p-4 border-r-0 activeStateChild ${
