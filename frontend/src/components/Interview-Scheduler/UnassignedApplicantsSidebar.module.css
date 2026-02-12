@@ -1,9 +1,8 @@
 .sidebar {
-  background: white !important;
-  position: fixed !important;
-  right: 0 !important;
-  top: 0 !important;
-  height: 100vh !important;
+  background: white ;
+  position: fixed ;
+  right: 0 ;
+  top: 0 ;
 }
 
 .sidebarContent {
@@ -12,9 +11,7 @@
   height: 100%;
   padding: 2em;
   position: relative;
-  z-index: 9999999;
-  opacity: 100% !important;
-
+  opacity: 100% 
 }
 
 .header {

@@ -3,7 +3,11 @@ import { useMemo } from 'react';
 import { Emitters } from '../../utils';
 import styles from './UnassignedApplicantsSidebar.module.css';
 
-interface UnassignedApplicantsSidebarProps {visible: boolean; onClose: () => void; scheduler: InterviewScheduler; slots: InterviewSlot[];
+interface UnassignedApplicantsSidebarProps {
+  visible: boolean;
+  onClose: () => void;
+  scheduler: InterviewScheduler;
+  slots: InterviewSlot[];
 }
 
 const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = ({
@@ -14,33 +18,42 @@ const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = 
 }) => {
   // finding unassigned applicants
   const unassignedApplicants = useMemo(() => {
-    const assignedEmails = new Set(slots.filter((slot) => slot.applicant?.email).map((slot) => slot.applicant!.email));
+    const assignedEmails = new Set(
+      slots.flatMap((slot) => slot.applicant?.email ?? [])
+      );
     return scheduler.applicants.filter((applicant) => !assignedEmails.has(applicant.email));
   }, [scheduler.applicants, slots]);
 
-  const handleSendEmailReminder = () => {
-    // TODO: email reminder functionality, see TEC reminders for inpo
-    // eslint-disable-next-line no-console
-    console.log('Send email reminder to:', unassignedApplicants.map((app) => app.email));
-  };
+
 
   const handleCopyAllEmails = () => {
     const emails = unassignedApplicants.map((app) => app.email).join(', ');
-    navigator.clipboard.writeText(emails).then(() => {
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Emails Copied',
-        contentMsg: `Copied ${unassignedApplicants.length} email${unassignedApplicants.length !== 1 ? 's' : ''} to clipboard.`
+    navigator.clipboard
+      .writeText(emails)
+      .then(() => {
+        Emitters.generalSuccess.emit({
+          headerMsg: 'Emails Copied',
+          contentMsg: `Copied ${unassignedApplicants.length} email${unassignedApplicants.length !== 1 ? 's' : ''} to clipboard.`
+        });
+      })
+      .catch(() => {
+        Emitters.generalError.emit({
+          headerMsg: 'Unable to Copy',
+          contentMsg: 'Failed to copy emails to clipboard!'
+        });
       });
-    }).catch(() => {
-      Emitters.generalError.emit({
-        headerMsg: 'Unable to Copy',
-        contentMsg: 'Failed to copy emails to clipboard!'
-      });
-    });
   };
 
   return (
-    <Sidebar as="div" animation="overlay" direction="right" visible={visible} onHide={onClose} width="wide" className={styles.sidebar} >
+    <Sidebar
+      as="div"
+      animation="overlay"
+      direction="right"
+      visible={visible}
+      onHide={onClose}
+      width="wide"
+      className={styles.sidebar}
+    >
       <div className={styles.sidebarContent}>
         <div className={styles.header}>
           <h3>Unassigned Applicants</h3>
@@ -58,9 +71,13 @@ const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = 
             <ul>
               {unassignedApplicants.map((applicant) => (
                 <li key={applicant.email} className={styles.applicantItem}>
-                  <div> <strong>{applicant.firstName} {applicant.lastName} </strong>
+                  <div>
+                    {' '}
+                    <strong>
+                      {applicant.firstName} {applicant.lastName}{' '}
+                    </strong>
                   </div>
-                  <div className={styles.email}>{applicant.email}</div>
+                  <div>{applicant.email}</div>
                 </li>
               ))}
             </ul>
@@ -72,4 +89,3 @@ const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = 
 };
 
 export default UnassignedApplicantsSidebar;
-
