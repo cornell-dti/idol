@@ -204,7 +204,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
                 </Message>
               </div>
               <div>
-              {scheduler && (
+                {scheduler && (
                   <UnassignedApplicantsSidebar
                     visible={showUnassignedSidebar}
                     onClose={() => setUnassignedSidebar(false)}
@@ -267,7 +267,6 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
             </div>
             <Sidebar.Pushable>
               <Sidebar.Pusher>
-                
                 <div className={styles.contentContainer}>
                   <EditAvailabilityContext.Provider
                     value={{ isEditing, setIsEditing, tentativeSlots, setTentativeSlots }}

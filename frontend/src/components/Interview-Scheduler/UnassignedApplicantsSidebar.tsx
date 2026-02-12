@@ -18,13 +18,9 @@ const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = 
 }) => {
   // finding unassigned applicants
   const unassignedApplicants = useMemo(() => {
-    const assignedEmails = new Set(
-      slots.flatMap((slot) => slot.applicant?.email ?? [])
-      );
+    const assignedEmails = new Set(slots.flatMap((slot) => slot.applicant?.email ?? []));
     return scheduler.applicants.filter((applicant) => !assignedEmails.has(applicant.email));
   }, [scheduler.applicants, slots]);
-
-
 
   const handleCopyAllEmails = () => {
     const emails = unassignedApplicants.map((app) => app.email).join(', ');
