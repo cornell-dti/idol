@@ -1,3 +1,9 @@
+.contentContainer {
+  width: 60%;
+  margin-top: 2em;
+  overflow-x: auto;
+}
+
 .buttonContainer {
   margin-top: 1em;
 }
