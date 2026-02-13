@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -8,7 +9,8 @@
     "outDir": "build",
     "strict": true,
     "target": "es6",
-    "lib": ["ESNext", "DOM"]
+    "lib": ["ESNext", "DOM"],
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src/**/*"]
 }
