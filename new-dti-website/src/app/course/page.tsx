@@ -43,7 +43,7 @@ export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);
   const [selectedMember, setSelectedMember] = useState<IdolMember | undefined>(undefined);
 
-  const memberDetailsRef = useRef<HTMLInputElement | null>(null);
+  const memberDetailsRef = useRef<HTMLInputElement>(null);
 
   useTitle('Course');
 

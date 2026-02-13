@@ -248,8 +248,8 @@ const SchedulingSidePanel: React.FC<{
                 setApplicant(
                   data.value === undefined
                     ? null
-                    : (scheduler.applicants.find((app) => app.email === (data.value as string)) ??
-                        null)
+                    : scheduler.applicants.find((app) => app.email === (data.value as string)) ??
+                        null
                 );
               }}
             />

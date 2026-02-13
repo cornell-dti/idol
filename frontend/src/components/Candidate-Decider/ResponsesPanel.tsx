@@ -94,6 +94,7 @@ const ResponsesPanel: React.FC<Props> = ({
       canToggleSeeApplicantName={canToggleSeeApplicantName}
       candidate={candidate}
     />
+    {console.log(headers.filter((h) => credentialHeaders.includes(h)))}
     <div className={styles.applicantResponses}>
       <h3>Questions</h3>
 

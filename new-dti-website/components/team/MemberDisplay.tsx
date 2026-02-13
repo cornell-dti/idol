@@ -34,7 +34,7 @@ const MemberDisplay: React.FC = () => {
       acc.concat(alumniRoles[role].members.filter((member) => !acc.includes(member))),
     []
   );
-  const memberDetailsRef = useRef<HTMLInputElement | null>(null);
+  const memberDetailsRef = useRef<HTMLInputElement>(null);
 
   return (
     <div

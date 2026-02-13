@@ -14,14 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "paths": {
-      "react": ["./node_modules/@types/react"]
-    },
     "jsx": "preserve",
-    "incremental": true,
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["react", "react-dom", "node"]
+    "incremental": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["node_modules"]
 }

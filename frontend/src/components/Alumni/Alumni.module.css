@@ -270,11 +270,3 @@
 .socialLink:hover {
   color: #4183c4;
 }
-
-.mapContainer {
-  width: 100%;
-  height: 450px;
-  border: 1px solid #e4e4e4;
-  border-radius: 4px;
-  overflow: hidden;
-}

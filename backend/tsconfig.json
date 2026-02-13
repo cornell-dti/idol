@@ -8,8 +8,7 @@
     "outDir": "build",
     "strict": true,
     "target": "es6",
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true
+    "lib": ["ESNext", "DOM"]
   },
   "include": ["src/**/*"]
 }
