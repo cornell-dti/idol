@@ -1626,7 +1626,6 @@
     "netid": "sg2626",
     "roleDescription": "Developer",
     "college": "eng",
-    "github": null,
     "hometown": "San Jose",
     "website": null,
     "minor": null,
@@ -1636,7 +1635,8 @@
     "coffeeChatLink": null,
     "about": "Hii I'm a freshman planning to major in CS and I'm a dev on CornellGO!",
     "pronouns": "she/her",
-    "linkedin": null
+    "linkedin": null,
+    "github": "https://github.com/gselina"
   },
   {
     "doubleMajor": null,
