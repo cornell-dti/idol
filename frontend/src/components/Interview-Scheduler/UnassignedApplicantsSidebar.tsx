@@ -68,9 +68,8 @@ const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = 
               {unassignedApplicants.map((applicant) => (
                 <li key={applicant.email} className={styles.applicantItem}>
                   <div>
-                    {' '}
                     <strong>
-                      {applicant.firstName} {applicant.lastName}{' '}
+                      {applicant.firstName} {applicant.lastName}
                     </strong>
                   </div>
                   <div>{applicant.email}</div>
