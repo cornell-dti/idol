@@ -8,7 +8,6 @@
 .sidebarContent {
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 2em;
   position: relative;
   opacity: 100%;
@@ -48,3 +47,4 @@
   border: 1px solid var(--border-default);
   border-radius: 4px;
 }
+

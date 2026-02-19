@@ -182,7 +182,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
     return <InviteCard scheduler={scheduler} slot={possessedSlot} />;
 
   return (
-    <Sidebar.Pushable style={{ minHeight: '100vh' }}>
+    <Sidebar.Pushable>
       {scheduler && (
         <UnassignedApplicantsSidebar
           visible={showUnassignedSidebar}
@@ -191,7 +191,7 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
           slots={slots}
         />
       )}
-      <Sidebar.Pusher style={{ minHeight: '100vh' }}>
+      <Sidebar.Pusher>
         <div className={styles.schedulerContainer}>
           {!scheduler ? (
             <p>Loading...</p>
