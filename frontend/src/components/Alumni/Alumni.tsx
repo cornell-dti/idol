@@ -1,9 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import { Container, Header, Input, Dropdown, Icon, Loader } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import AlumniAPI from '../../API/AlumniAPI';
 import AlumniCard from './AlumniCard';
 import styles from './Alumni.module.css';
+
+const AlumniMap = dynamic(() => import('./AlumniMap'), { ssr: false });
 
 type ViewMode = 'list' | 'map';
 
@@ -14,7 +17,7 @@ const Alumni: React.FC = () => {
   const [alumni, setAlumni] = useState<readonly Alumni[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<ViewMode>('list');
+  const [viewMode, setViewMode] = useState<ViewMode>('map');
   const [selectedJobCategories, setSelectedJobCategories] = useState<string[]>([]);
   const [selectedDtiRoles, setSelectedDtiRoles] = useState<string[]>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
@@ -124,6 +127,7 @@ const Alumni: React.FC = () => {
           <div className={styles.viewToggle}>
             <button
               className={`${styles.viewButton} ${viewMode === 'map' ? styles.active : ''}`}
+              onClick={() => setViewMode('map')}
               aria-label="Map view"
             >
               <Icon name="map" />
@@ -223,14 +227,27 @@ const Alumni: React.FC = () => {
         </div>
 
         <div className={styles.listContainer}>
-          {isLoading ? (
-            <Loader active size="large" />
-          ) : (
+          {isLoading && <Loader active size="large" />}
+          {!isLoading && viewMode === 'map' && (
+            <>
+              <AlumniMap />
+              <p className={styles.resultCount}>
+                Showing {filteredAlumni.length} of {alumni.length}+ alumni
+              </p>
+              <div className={styles.alumniList}>
+                {filteredAlumni.length === 0 ? (
+                  <p className={styles.noResults}>No alumni found matching your filters.</p>
+                ) : (
+                  filteredAlumni.map((alum) => <AlumniCard key={alum.uuid} alum={alum} />)
+                )}
+              </div>
+            </>
+          )}
+          {!isLoading && viewMode === 'list' && (
             <>
               <p className={styles.resultCount}>
                 Showing {filteredAlumni.length} of {alumni.length}+ alumni
               </p>
-
               <div className={styles.alumniList}>
                 {filteredAlumni.length === 0 ? (
                   <p className={styles.noResults}>No alumni found matching your filters.</p>
