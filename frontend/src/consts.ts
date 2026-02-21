@@ -2,9 +2,9 @@ export const REQUIRED_INITIATIVE_CREDITS = 1;
 export const REQUIRED_MEMBER_TEC_CREDITS = 1;
 export const REQUIRED_LEAD_TEC_CREDITS = 2;
 export const TEC_DEADLINES = [
-  new Date('2026-02-28T23:59:59'),
-  new Date('2026-03-31T23:59:59'),
-  new Date('2026-04-30T23:59:59')
+  new Date('2026-02-22T23:59:59'),
+  new Date('2026-03-19T23:59:59'),
+  new Date('2026-05-03T23:59:59')
 ];
 export const ALL_STATUS: Status[] = ['approved', 'pending', 'rejected'];
 export const INITIATIVE_EVENTS = false;
