@@ -13,7 +13,6 @@ import PastStudentProjects from '../PastStudentProjects';
 import DetailsAboutTrends from '../DetailsAboutTrends';
 import ArrowIcon from '../../../components/icons/ArrowIcon';
 
-
 export const metadata = {
   title: 'Trends in Web Dev',
   description:
@@ -32,7 +31,6 @@ const courseStaff = allMembers
 export default function Course() {
   return (
     <Layout>
-
       <Hero
         heading="Trends in Web Dev"
         subheading="Offered in both the Fall and Spring"
@@ -43,9 +41,9 @@ export default function Course() {
         image="/course/hero.png"
       />
       <SectionSep
-        button={{ 
-          label: 'See all courses', 
-          href: '/course', 
+        button={{
+          label: 'See all courses',
+          href: '/course',
           variant: 'secondary',
           icon: <ArrowIcon size={16} className="rotate-180" />
         }}

@@ -38,7 +38,6 @@ const trends_instructors = allMembers
       trendsData.trends_instructors.findIndex((netid) => netid === instructor2.netid)
   ) as IdolMember[];
 
-
 // * BEGIN COURSES PAGE
 export default function Courses() {
   const trendsLogoRef = useRef<HTMLImageElement>(null);

@@ -15,7 +15,9 @@ interface DetailsAboutProductStrategyProps {
   timelineEvents: TimelineEvent[];
 }
 
-export default function DetailsAboutProductStrategy({ timelineEvents }: DetailsAboutProductStrategyProps) {
+export default function DetailsAboutProductStrategy({
+  timelineEvents
+}: DetailsAboutProductStrategyProps) {
   return (
     <section>
       <h2 className="p-4 sm:p-8">Details about Product Strategy</h2>

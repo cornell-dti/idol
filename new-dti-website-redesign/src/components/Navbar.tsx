@@ -6,8 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
-import { ChevronIcon } from './icons'
-
+import { ChevronIcon } from './icons';
 
 type NavbarProps = {
   demo?: boolean;
@@ -26,7 +25,8 @@ export default function Navbar({ demo }: NavbarProps) {
   const navLinks: NavLink[] = [
     { href: '/team', label: 'Team' },
     { href: '/products', label: 'Products' },
-    { href: '/course',
+    {
+      href: '/course',
       label: 'Courses',
       dropdown: [
         { href: '/course/trends', label: 'Trends in Web Dev' },
@@ -42,7 +42,8 @@ export default function Navbar({ demo }: NavbarProps) {
   // ######################################
 
   // to only show the highlight on the links above (not on Home or Apply)
-  const isNavLink = navLinks.some((link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
+  const isNavLink = navLinks.some(
+    (link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
   );
   const ulRef = useRef<HTMLUListElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -64,7 +65,8 @@ export default function Navbar({ demo }: NavbarProps) {
   // updates the position/width before the screen repaints (to prevent flicker and
   // achieve the smooth animation
   useLayoutEffect(() => {
-    const idx = navLinks.findIndex((link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
+    const idx = navLinks.findIndex(
+      (link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
     );
     const linkEl = linkRefs.current[idx];
 
@@ -79,7 +81,8 @@ export default function Navbar({ demo }: NavbarProps) {
       };
       // avoid animating from a stale position when coming from Home or Apply
       const cameFromHomeOrApply = prevPathname.current === '/' || prevPathname.current === '/apply';
-      const nowIsNavLink = navLinks.some((link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
+      const nowIsNavLink = navLinks.some(
+        (link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
       );
 
       if (cameFromHomeOrApply && nowIsNavLink) {
@@ -218,39 +221,41 @@ export default function Navbar({ demo }: NavbarProps) {
                 <li key={label} className="h-10 flex items-center">
                   {dropdown ? (
                     <div
-                    className="relative"
-                    onMouseEnter={() => setOpenDropdown(label)}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                  > 
-                  <Link
-                  href={href ?? '#'}
-                  ref={(el) => { linkRefs.current[i] = el; }}
-                  className={`h-10 px-4 hover:text-foreground-1 flex items-center gap-1 interactive activeState focusState rounded-full font-medium
-                    ${pathname === href || dropdown?.some((d) => d.href === pathname) ? 'text-foreground-1' : 'text-foreground-3'}`}
-                >
-                  {label}
-                  <ChevronIcon 
-                    size={16} 
-                    className={`transition-transform duration-300 ${openDropdown === label ? '-rotate-90' : 'rotate-0'}`}
-                    />
-                </Link>
-
-                {openDropdown === label && (
-                  <div className="absolute top-full left-0 mt-1 bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 overflow-hidden">
-                    {dropdown.map((item) => (
+                      className="relative"
+                      onMouseEnter={() => setOpenDropdown(label)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm"
-                        onClick={() => setOpenDropdown(null)}
+                        href={href ?? '#'}
+                        ref={(el) => {
+                          linkRefs.current[i] = el;
+                        }}
+                        className={`h-10 px-4 hover:text-foreground-1 flex items-center gap-1 interactive activeState focusState rounded-full font-medium
+                    ${pathname === href || dropdown?.some((d) => d.href === pathname) ? 'text-foreground-1' : 'text-foreground-3'}`}
                       >
-                        {item.label}
+                        {label}
+                        <ChevronIcon
+                          size={16}
+                          className={`transition-transform duration-300 ${openDropdown === label ? '-rotate-90' : 'rotate-0'}`}
+                        />
                       </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
+
+                      {openDropdown === label && (
+                        <div className="absolute top-full left-0 mt-1 bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 overflow-hidden">
+                          {dropdown.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm"
+                              onClick={() => setOpenDropdown(null)}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
                     <Link
                       href={href ?? '#'}
                       ref={(el) => {
@@ -339,7 +344,7 @@ export default function Navbar({ demo }: NavbarProps) {
           }`}
         >
           <ul className="flex flex-col w-full p-4">
-            {navLinks.map(({ href, label , dropdown}) => (
+            {navLinks.map(({ href, label, dropdown }) => (
               <li key={href}>
                 <Link
                   href={href ?? '#'}
@@ -366,7 +371,6 @@ export default function Navbar({ demo }: NavbarProps) {
                   </ul>
                 )}
               </li>
-              
             ))}
             <li className="flex py-3 w-full">
               <Button

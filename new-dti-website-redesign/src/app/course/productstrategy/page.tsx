@@ -28,8 +28,12 @@ const courseStaff = allMembers
   .filter((member) => productstrategyData.productstrategy_instructors.includes(member.netid))
   .sort(
     (instructor1, instructor2) =>
-    productstrategyData.productstrategy_instructors.findIndex((netid) => netid === instructor1.netid) -
-    productstrategyData.productstrategy_instructors.findIndex((netid) => netid === instructor2.netid)
+      productstrategyData.productstrategy_instructors.findIndex(
+        (netid) => netid === instructor1.netid
+      ) -
+      productstrategyData.productstrategy_instructors.findIndex(
+        (netid) => netid === instructor2.netid
+      )
   ) as IdolMember[];
 
 export default function Course() {
@@ -44,9 +48,7 @@ export default function Course() {
         button2Link="/apply" */
         image="pmhero.png"
       />
-      
-      
-      
+
       <FeatureSection
         eyebrowText="Product Thinking in Action "
         heading="Intro to Product Strategy"

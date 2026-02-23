@@ -3,7 +3,6 @@ import IconButton from './IconButton';
 import Button from './Button';
 import type { ComponentProps } from 'react';
 
-
 type SectionSepProps = {
   grid?: boolean;
   hasX?: boolean;
@@ -26,7 +25,6 @@ export default function SectionSep({
   disableSectionSepStyle = false,
   button,
   buttonPosition = 'last'
-
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
@@ -35,12 +33,16 @@ export default function SectionSep({
 
   if (!grid) {
     return (
-      <div className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className} relative flex items-center`}>
+      <div
+        className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className} relative flex items-center`}
+      >
         {button && (
-        <div className={`absolute top-1/2 -translate-y-1/2 p-4 sm:p-8 ${buttonPosition === 'first' ? 'left-0' : 'right-0'}`}>
-          <Button {...button} />
-        </div>
-      )}
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 p-4 sm:p-8 ${buttonPosition === 'first' ? 'left-0' : 'right-0'}`}
+          >
+            <Button {...button} />
+          </div>
+        )}
       </div>
     );
   }
@@ -71,7 +73,5 @@ export default function SectionSep({
         ))}
       </div>
     </div>
-    
   );
-  
 }
