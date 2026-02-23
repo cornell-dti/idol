@@ -9,13 +9,11 @@ import config from '../data/config.json';
 import timelineData from '../data/timeline_events.json';
 import CourseStaff from '../../../components/course/CourseStaff';
 
-//for later post-pilot:
+// for later post-pilot:
 // import PastStudentExperiences from '../PastStudentExperiences';
 // import PastStudentProjects from '../PastStudentProjects';
 // import DetailsAboutTrends from '../DetailsAboutTrends';
 import DetailsAboutProductStrategy from '../DetailsAboutProductStrategy';
-import Button from '@/components/Button';
-import getConfig from 'next/config';
 
 export const metadata = {
   title: 'Product Strategy',
