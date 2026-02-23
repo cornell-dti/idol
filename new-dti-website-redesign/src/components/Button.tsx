@@ -15,6 +15,7 @@ type ButtonProps = {
   chip?: string;
   chipColor?: ChipColor;
   backToTop?: React.ReactNode;
+  icon?: React.ReactNode;
   newTab?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
@@ -33,6 +34,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       chip,
       chipColor,
       backToTop,
+      icon,
       newTab = false,
       disabled,
       ...rest
@@ -65,6 +67,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     const content = (
       <>
+        {icon && <span>{icon}</span>}
         {backToTop && <span>{backToTop}</span>}
         <span className="text-rg font-medium">{label}</span>
         {chip && (

@@ -1,5 +1,5 @@
 {
-  "timeline_events": [
+  "trends_timeline_events": [
     {
       "title": "Sign-up Deadline",
       "date": "Feb 10",
@@ -9,6 +9,24 @@
       "title": "Lecture 1",
       "date": "Feb 23",
       "time": "7:30 PM"
+    },
+    {
+      "title": "Project Presentation",
+      "date": "May 4",
+      "time": "7:30 PM"
+    }
+  ],
+
+  "product_strategy_timeline_events": [
+    {
+      "title": "Lecture 0",
+      "date": "Feb 9",
+      "time": "7:30 PM"
+    },
+    {
+      "title": "Sign-up Deadline",
+      "date": "Feb 20",
+      "time": "11:59 PM"
     },
     {
       "title": "Project Presentation",

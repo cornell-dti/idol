@@ -1,30 +1,52 @@
-import CtaSection from '../../components/CtaSection';
-import FeatureSection from '../../components/FeatureSection';
-import Hero from '../../components/Hero';
-import Layout from '../../components/Layout';
-import SectionSep from '../../components/SectionSep';
-import config from './data/config.json';
+import CtaSection from '../../../components/CtaSection';
+import FeatureSection from '../../../components/FeatureSection';
+import Hero from '../../../components/Hero';
+import Layout from '../../../components/Layout';
+import SectionSep from '../../../components/SectionSep';
+import productstrategyData from '../../../../config.json';
+import allMembers from '../../team/data/all-members.json';
+import config from '../data/config.json';
+import timelineData from '../data/timeline_events.json';
+import CourseStaff from '../../../components/course/CourseStaff';
+
+//for later post-pilot:
+// import PastStudentExperiences from '../PastStudentExperiences';
+// import PastStudentProjects from '../PastStudentProjects';
+// import DetailsAboutTrends from '../DetailsAboutTrends';
+import DetailsAboutProductStrategy from '../DetailsAboutProductStrategy';
+import Button from '@/components/Button';
+import getConfig from 'next/config';
 
 export const metadata = {
-  title: 'Courses - Cornell DTI',
+  title: 'Product Strategy',
   description:
     "Explore Cornell DTI's 1-credit courses: a course on full-stack web development and a course on product strategy. Learn best practices and build real projects."
 };
 
 //* DATA
+const courseStaff = allMembers
+  .filter((member) => productstrategyData.productstrategy_instructors.includes(member.netid))
+  .sort(
+    (instructor1, instructor2) =>
+    productstrategyData.productstrategy_instructors.findIndex((netid) => netid === instructor1.netid) -
+    productstrategyData.productstrategy_instructors.findIndex((netid) => netid === instructor2.netid)
+  ) as IdolMember[];
 
 export default function Course() {
   return (
     <Layout>
       <Hero
-        heading="Courses"
-        subheading="Driven by our mission of community impact, we want to help everyone learn and grow through our training courses in product development."
+        heading="Intro to Product Strategy"
+        subheading="Offered in the fall and spring semesters"
         /* button1Label="Apply to course"
         button1Link={config.trendsApplicationLink}
         button2Label="Apply to DTI"
         button2Link="/apply" */
         image="/course/hero.png"
       />
+      
+      
+      
       <FeatureSection
         eyebrowText="Product Thinking in Action "
         heading="Intro to Product Strategy"
@@ -45,20 +67,14 @@ export default function Course() {
 
       <SectionSep />
 
-      <FeatureSection
-        eyebrowText="Modern industry-leading technology"
-        heading="Trends in Web Development"
-        description="Trends in Web Development is a 1-credit S/U course that showcases modern full-stack development and best practices used within industry. We cover technologies like TypeScript, React, Node.js, Firebase, Express, and more, all of which are deployed at scale by leading tech companies."
-        button1Label="Apply to Trends"
-        button1Link={config.trendsApplicationLink}
-        button1LinkNewTab={true}
-        button2Label="Learn more"
-        button2Link={config.trendsWebsiteLink}
-        button2LinkNewTab={true}
-        image="/course/trendsIcon.png"
-        imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
-        imagePosition="left"
-      />
+      <DetailsAboutProductStrategy timelineEvents={timelineData.product_strategy_timeline_events} />
+
+      <SectionSep />
+
+      <section className="!border-b-0">
+        <h2 className="p-4 sm:p-8">Course staff</h2>
+        <CourseStaff courseStaff={courseStaff} />
+      </section>
 
       <SectionSep />
 
