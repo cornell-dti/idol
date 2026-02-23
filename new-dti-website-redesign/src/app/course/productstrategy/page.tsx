@@ -42,7 +42,7 @@ export default function Course() {
         button1Link={config.trendsApplicationLink}
         button2Label="Apply to DTI"
         button2Link="/apply" */
-        image="/course/hero.png"
+        image="pmhero.png"
       />
       
       
