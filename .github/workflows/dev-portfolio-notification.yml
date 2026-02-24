@@ -1,21 +1,13 @@
 name: Dev Portfolio Notification
 on:
   schedule:
-# Checks date at 12:00 PM ET (17:00 UTC) every day, only runs on days before dev portfolio deadlines
+# Checks date at 12:00 PM ET (17:00 UTC) every day
 - cron: '0 17 * * *'
 
 jobs:
   dev-portfolio-notification:
     runs-on: ubuntu-latest
     steps:
-      - name: Check date
-        run: |
-          TODAY=$(date -u +%Y-%m-%d)
-          TARGET_DATES=("2026-02-07" "2026-02-28" "2026-03-21" "2026-04-11" "2026-05-04")
-          if [[ ! " ${TARGET_DATES[@]} " =~ " ${TODAY} " ]]; then
-            echo "Not a target date. Exiting."
-            exit 0
-          fi
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_TOKEN }}
@@ -30,7 +22,7 @@ jobs:
           restore-keys: yarn-
       - name: Install
         run: yarn
-      - name: Profile update notifications
+      - name: Dev Portfolio Notifications
         env:
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
           FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
