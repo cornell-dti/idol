@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import admin from 'firebase-admin';
+import { DateTime } from 'luxon';
 import sendMail from './utils';
 import { configureAccount } from '../src/utils/firebase-utils';
-import { DateTime } from 'luxon';
 
 require('dotenv').config();
 
