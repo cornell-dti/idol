@@ -2,6 +2,7 @@
 import admin from 'firebase-admin';
 import sendMail from './utils';
 import { configureAccount } from '../src/utils/firebase-utils';
+import { DateTime } from 'luxon';
 
 require('dotenv').config();
 
@@ -16,19 +17,25 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const main = async () => {
-  // current date: 12:00:00 EST the day before the deadline (17:00:00 UTC)
-  const currentDate = new Date();
-  // compute 23:59:59.999 EST the day after, i.e. 4:59:59.999 UTC two days after (end of day of the deadline)
-  const deadline = new Date(currentDate);
-  deadline.setDate(currentDate.getDate() + 2);
-  deadline.setHours(4, 59, 59, 999);
+  // current date: 12:00:00 the day before the deadline (in New York)
+  const TZ = 'America/New_York';
+
+  const nowNY = DateTime.now().setZone(TZ);
+
+  // “due tomorrow” means deadline date is tomorrow in NY time (23:59:59.999 in New York)
+  const tomorrowStartNY = nowNY.plus({ days: 1 }).startOf('day');
+  const tomorrowEndNY = nowNY.plus({ days: 1 }).endOf('day');
+
+  // Convert to UTC millis for querying Firestore (since `deadline` is stored as ms)
+  const windowStartMs = tomorrowStartNY.toUTC().toMillis();
+  const windowEndMs = tomorrowEndNY.toUTC().toMillis();
 
   // query Firestore for dev portfolios due on that day
-  console.log('querying for dev portfolios due tomorrow...');
+  console.log('querying for dev portfolios due tomorrow... (NY time)');
   const devPortfolioSnapshot = await db
     .collection('dev-portfolio')
-    .where('deadline', '>=', currentDate.getTime())
-    .where('deadline', '<=', deadline.getTime())
+    .where('deadline', '>=', windowStartMs)
+    .where('deadline', '<=', windowEndMs)
     .get();
 
   if (devPortfolioSnapshot.empty) {
@@ -68,7 +75,8 @@ const main = async () => {
   ).filter((email): email is string => email !== null);
 
   const EMAIL_SUBJECT = '[ACTION REQUIRED] Dev Portfolio Submission';
-  const deadlineString = devPortfolioData.deadline.toLocaleString('en-US', {
+  const deadlineDate = new Date(devPortfolioData.deadline);
+  const deadlineString = deadlineDate.toLocaleString('en-US', {
     timeZone: 'America/New_York'
   });
   const EMAIL_BODY = `If you are not taking DTI for credit this semester, please ignore.\n\nThis is a reminder to submit your portfolio for ${devPortfolioName} which is due by ${deadlineString}. You must contact leads if you require an extension.`;
