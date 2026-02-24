@@ -1,30 +1,30 @@
 [
   {
-    "pronouns": "he/him",
+    "doubleMajor": "Astronomy",
     "lastName": "Amin",
-    "netid": "aa2732",
-    "roleDescription": "Developer",
-    "firstName": "Abrar",
-    "college": "cas",
+    "minor": null,
+    "major": "Computer Science",
+    "hometown": "Winter Haven, FL",
     "subteams": [
       "redi"
     ],
+    "email": "aa2732@cornell.edu",
     "linkedin": "https://www.linkedin.com/in/abrar--amin/",
-    "role": "developer",
-    "hometown": "Winter Haven, FL",
-    "website": null,
+    "netid": "aa2732",
     "semesterJoined": "Fall 2025",
-    "coffeeChatLink": null,
+    "firstName": "Abrar",
     "github": "https://github.com/abrar-amin",
-    "minor": null,
+    "roleDescription": "Developer",
+    "graduation": "May 2028",
+    "pronouns": "he/him",
+    "website": null,
+    "coffeeChatLink": null,
+    "role": "developer",
     "formerSubteams": [
       "incubator"
     ],
-    "about": "Hey! My name is Abrar :) I am very interested in a bunch of different things, so feel free to ask me about anything! Some of my interests include astronomy, gymming, playing the viola, learning languages, and yapping about almost anything. ",
-    "graduation": "May 2028",
-    "doubleMajor": "Astronomy",
-    "email": "aa2732@cornell.edu",
-    "major": "Computer Science"
+    "college": "cas",
+    "about": "Hey! I'm Abrar, and I am interested in a bunch of different things. Some of my interests include astronomy, high performance computing, gymming, playing the viola, and learning languages."
   },
   {
     "pronouns": "she/her",
@@ -133,29 +133,29 @@
     "firstName": "Annie"
   },
   {
-    "pronouns": "he/him",
-    "email": "as4274@cornell.edu",
-    "roleDescription": "Technical PM",
-    "major": "Computer Science",
-    "about": "Hey! I'm Arsh, and I'm a developer at CURaise (coming soon :0)! I love playing tennis and cooking, and if you wanna chat or play smash, hmu!",
-    "doubleMajor": null,
-    "minor": "Business",
-    "github": "https://github.com/Arsh-S",
+    "hometown": "Bethpage, NY",
     "website": "https://arshsingh.net/",
+    "role": "tpm",
+    "formerSubteams": [],
+    "graduation": "2028",
+    "firstName": "Arsh",
     "subteams": [
       "curaise"
     ],
-    "lastName": "Singh",
-    "role": "tpm",
-    "semesterJoined": "Spring 2025",
+    "major": "Computer Science",
+    "college": "eng",
+    "email": "as4274@cornell.edu",
     "coffeeChatLink": null,
     "netid": "as4274",
-    "graduation": "2028",
-    "formerSubteams": [],
-    "hometown": "Bethpage, NY",
-    "college": "eng",
     "linkedin": "https://www.linkedin.com/in/arshsingh5/",
-    "firstName": "Arsh"
+    "roleDescription": "Technical PM",
+    "minor": "Business",
+    "lastName": "Singh",
+    "pronouns": "he/him",
+    "doubleMajor": null,
+    "github": "https://github.com/Arsh-S",
+    "semesterJoined": "Spring 2025",
+    "about": "Hey! I'm Arsh, and I'm a TPM at CURaise (coming soon :0)! I love playing tennis and cooking, and if you wanna chat or play smash, hmu!"
   },
   {
     "formerSubteams": [],
@@ -598,31 +598,31 @@
     "doubleMajor": null
   },
   {
-    "github": null,
-    "minor": null,
-    "netid": "em849",
-    "role": "design-lead",
-    "lastName": "Mai",
-    "college": "cas",
-    "website": null,
-    "roleDescription": "Design Lead",
+    "email": "em849@cornell.edu",
     "hometown": "Brooklyn, NY",
-    "about": "Hi everyone! I'm one of the design leads on DTI! I was previously a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a cute cat. Feel free to chat with me :))",
+    "major": "Information Science",
     "semesterJoined": "Fall 2024",
-    "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
-    "pronouns": "She/her",
     "linkedin": "https://www.linkedin.com/in/evelyn-mai1/",
-    "doubleMajor": null,
     "formerSubteams": [
       "curaise"
     ],
-    "email": "em849@cornell.edu",
-    "major": "Information Science",
-    "firstName": "Evelyn",
     "graduation": "May 2027",
     "subteams": [
       "leads"
-    ]
+    ],
+    "pronouns": "She/her",
+    "firstName": "Evelyn",
+    "lastName": "Mai",
+    "college": "cas",
+    "role": "design-lead",
+    "roleDescription": "Design Lead",
+    "about": "Hi everyone! I'm one of the design leads on DTI! I was previously a product designer on CURaise and I joined FA24. I'm from NYC, and I love to try new restaurants, watch tv shows, and collect blind box figurines. I also have a cute cat. Feel free to reach out!",
+    "netid": "em849",
+    "website": null,
+    "github": null,
+    "coffeeChatLink": "https://calendly.com/em849-cornell/30min?back=1&month=2025-01",
+    "doubleMajor": null,
+    "minor": null
   },
   {
     "graduation": "2028",
