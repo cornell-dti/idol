@@ -19,10 +19,8 @@ export default function Course() {
       <Hero
         heading="Courses"
         subheading="Driven by our mission of community impact, we want to help everyone learn and grow through our training courses in product development."
-        /* button1Label="Apply to course"
-        button1Link={config.trendsApplicationLink}
-        button2Label="Apply to DTI"
-        button2Link="/apply" */
+        button1Label="Apply to DTI"
+        button1Link="/apply" 
         image="/course/hero.png"
       />
       <FeatureSection
@@ -36,7 +34,7 @@ export default function Course() {
         button1Link={config.productStrategyApplicationLink}
         button1LinkNewTab={true}
         button2Label="Learn more"
-        button2Link={config.productStrategyWebsiteLink}
+        button2Link="/course/productstrategy"
         button2LinkNewTab={true}
         image="/course/producticon.png"
         imageAlt="Bear-shaped light bulb icon with a sprout on the top, representing developing product thinking skills."
@@ -53,14 +51,12 @@ export default function Course() {
         button1Link={config.trendsApplicationLink}
         button1LinkNewTab={true}
         button2Label="Learn more"
-        button2Link={config.trendsWebsiteLink}
+        button2Link="/course/trends"
         button2LinkNewTab={true}
         image="/course/trendsIcon.png"
         imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
         imagePosition="left"
       />
-
-      <SectionSep />
 
       <CtaSection
         heading="Ready to join?"

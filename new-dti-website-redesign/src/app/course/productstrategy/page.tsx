@@ -57,7 +57,7 @@ export default function Course() {
         button1Label="Apply to Product Strategy"
         button1Link={config.productStrategyApplicationLink}
         button1LinkNewTab={true}
-        button2Label="Learn more"
+        button2Label="View course website"
         button2Link={config.productStrategyWebsiteLink}
         button2LinkNewTab={true}
         image="/course/producticon.png"

@@ -36,19 +36,11 @@ export default function Course() {
         subheading="Offered in both the Fall and Spring"
         button1Label="Apply to course"
         button1Link={config.trendsApplicationLink}
-        button2Label="Apply to DTI"
-        button2Link="/apply"
+        button2Label="See all courses"
+        button2Link="/course"
         image="/course/hero.png"
       />
-      <SectionSep
-        button={{
-          label: 'See all courses',
-          href: '/course',
-          variant: 'secondary',
-          icon: <ArrowIcon size={16} className="rotate-180" />
-        }}
-        buttonPosition="first"
-      />
+      
       <FeatureSection
         eyebrowText="Modern industry-leading technology"
         heading="Trends in Web Development"
@@ -56,7 +48,7 @@ export default function Course() {
         button1Label="Apply to Trends"
         button1Link={config.trendsApplicationLink}
         button1LinkNewTab={true}
-        button2Label="Learn more"
+        button2Label="View course website"
         button2Link={config.trendsWebsiteLink}
         button2LinkNewTab={true}
         image="/course/trendsIcon.png"

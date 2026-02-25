@@ -236,7 +236,7 @@ export default function Navbar({ demo }: NavbarProps) {
                         {label}
                         <ChevronIcon
                           size={16}
-                          className={`transition-transform duration-300 ${openDropdown === label ? '-rotate-90' : 'rotate-0'}`}
+                          className={`transition-transform duration-300 ${openDropdown === label ? 'rotate-180' : 'rotate-0'}`}
                         />
                       </Link>
 
