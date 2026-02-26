@@ -54,6 +54,7 @@ All the common types used by the packages are defined [here](./common-types/inde
 - **Jane Tenecota Villa** - Developer
 - **Valerie Wong** - Developer
 - **Max Shi** - Developer
+- **Eva Kukreja** - Developer
 
 ### Fall 2025
 
