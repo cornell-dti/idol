@@ -8,14 +8,18 @@ jest.mock('react-leaflet', () => ({
     <div data-testid="map-container">{children}</div>
   ),
   TileLayer: () => <div data-testid="tile-layer" />,
-  Marker: ({ children, eventHandlers }: { children: React.ReactNode; eventHandlers?: { click?: () => void } }) => (
+  Marker: ({
+    children,
+    eventHandlers
+  }: {
+    children: React.ReactNode;
+    eventHandlers?: { click?: () => void };
+  }) => (
     <div data-testid="marker" onClick={eventHandlers?.click}>
       {children}
     </div>
   ),
-  Popup: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="popup">{children}</div>
-  )
+  Popup: ({ children }: { children: React.ReactNode }) => <div data-testid="popup">{children}</div>
 }));
 
 jest.mock('leaflet', () => ({

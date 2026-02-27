@@ -28,7 +28,8 @@ const AlumniMap: React.FC<AlumniMapProps> = ({
   const defaultIcon = useMemo(
     () =>
       new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+        iconUrl:
+          'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
         shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
         iconSize: [20, 33],
         iconAnchor: [10, 33],
@@ -41,7 +42,8 @@ const AlumniMap: React.FC<AlumniMapProps> = ({
   const selectedIcon = useMemo(
     () =>
       new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        iconUrl:
+          'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
         shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
         iconSize: [20, 33],
         iconAnchor: [10, 33],

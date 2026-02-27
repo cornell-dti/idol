@@ -17,7 +17,9 @@ const DEFAULT_MAX_YEAR = new Date().getFullYear();
 const Alumni: React.FC = () => {
   const [alumni, setAlumni] = useState<readonly Alumni[]>([]);
   const [allCityCoordinates, setAllCityCoordinates] = useState<readonly CityCoordinates[]>([]);
-  const [selectedCityCoordinates, setSelectedCityCoordinates] = useState<readonly CityCoordinates[]>([]);
+  const [selectedCityCoordinates, setSelectedCityCoordinates] = useState<
+    readonly CityCoordinates[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('map');
@@ -52,8 +54,9 @@ const Alumni: React.FC = () => {
         // Filters based on search input (users can search for any alum field)
         if (searchQuery) {
           const query = searchQuery.toLowerCase();
-          const searchableText =
-            `${alum.firstName} ${alum.lastName} ${alum.company || ''} ${alum.jobRole} ${alum.location || ''}`.toLowerCase();
+          const searchableText = `${alum.firstName} ${alum.lastName} ${alum.company || ''} ${
+            alum.jobRole
+          } ${alum.location || ''}`.toLowerCase();
           if (!searchableText.includes(query)) return false;
         }
 
@@ -97,9 +100,7 @@ const Alumni: React.FC = () => {
     if (selectedCityCoordinates.length === 0) {
       return filteredAlumni;
     }
-    const selectedAlumniIds = new Set(
-      selectedCityCoordinates.flatMap((city) => city.alumniIds)
-    );
+    const selectedAlumniIds = new Set(selectedCityCoordinates.flatMap((city) => city.alumniIds));
     return filteredAlumni.filter((alum) => selectedAlumniIds.has(alum.uuid));
   }, [filteredAlumni, selectedCityCoordinates]);
 
