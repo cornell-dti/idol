@@ -8,7 +8,7 @@ jest.mock('react-leaflet', () => ({
     <div data-testid="map-container">{children}</div>
   ),
   TileLayer: () => <div data-testid="tile-layer" />,
-  Marker: ({ children, eventHandlers }: any) => (
+  Marker: ({ children, eventHandlers }: { children: React.ReactNode; eventHandlers?: { click?: () => void } }) => (
     <div data-testid="marker" onClick={eventHandlers?.click}>
       {children}
     </div>
@@ -22,12 +22,10 @@ jest.mock('leaflet', () => ({
   Icon: jest.fn().mockImplementation(() => ({}))
 }));
 
-jest.mock('next/head', () => {
-  return {
-    __esModule: true,
-    default: ({ children }: { children: React.ReactNode }) => <>{children}</>
-  };
-});
+jest.mock('next/head', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => <>{children}</>
+}));
 
 const mockCityCoordinates: CityCoordinates[] = [
   {
