@@ -1,0 +1,32 @@
+name: Dev Portfolio Notification
+on:
+  schedule:
+# Checks date at 12:00 PM ET (17:00 UTC) every day
+- cron: '0 17 * * *'
+
+jobs:
+  dev-portfolio-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Use Yarn Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: yarn-
+      - name: Install
+        run: yarn
+      - name: Dev Portfolio Notifications
+        env:
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
+          OAUTH_CLIENTID: ${{ secrets.OAUTH_CLIENTID}}
+          OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
+          OAUTH_REFRESH_TOKEN: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+        run: yarn workspace backend send-dev-portfolio-notifications
