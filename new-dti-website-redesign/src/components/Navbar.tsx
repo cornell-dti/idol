@@ -223,7 +223,13 @@ export default function Navbar({ demo }: NavbarProps) {
                     <div
                       className="relative"
                       onMouseEnter={() => setOpenDropdown(label)}
+                      onFocus={() => setOpenDropdown(label)}
                       onMouseLeave={() => setOpenDropdown(null)}
+                      onBlur={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget)) {
+                          setOpenDropdown(null);
+                        }
+                      }}
                     >
                       <Link
                         href={href ?? '#'}
@@ -241,17 +247,19 @@ export default function Navbar({ demo }: NavbarProps) {
                       </Link>
 
                       {openDropdown === label && (
-                        <div className="absolute top-full left-0 mt-1 bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 overflow-hidden">
-                          {dropdown.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm"
-                              onClick={() => setOpenDropdown(null)}
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
+                        <div className="absolute top-full left-0 w-full pt-1">
+                          <div className="bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 overflow-hidden">
+                            {dropdown.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm focusState first:rounded-t-xl last:rounded-b-xl"
+                                onClick={() => setOpenDropdown(null)}
+                              >
+                                {item.label}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>

@@ -12,7 +12,6 @@ import CourseStaff from '../../../components/course/CourseStaff';
 // for later post-pilot:
 // import PastStudentExperiences from '../PastStudentExperiences';
 // import PastStudentProjects from '../PastStudentProjects';
-// import DetailsAboutTrends from '../DetailsAboutTrends';
 import DetailsAboutProductStrategy from '../DetailsAboutProductStrategy';
 
 export const metadata = {
@@ -40,20 +39,18 @@ export default function Course() {
       <Hero
         heading="Intro to Product Strategy"
         subheading="Offered in the fall and spring semesters"
-        /* button1Label="Apply to course"
-        button1Link={config.trendsApplicationLink}
-        button2Label="Apply to DTI"
-        button2Link="/apply" */
+        button1Label="Apply to course"
+        button1Link={config.productStrategyApplicationLink}
+        button2Label="See all courses"
+        button2Link="/course"
         image="/course/pmhero.png"
       />
 
       <FeatureSection
         eyebrowText="Product Thinking in Action "
         heading="Intro to Product Strategy"
-        description="This 1-credit S/U course offers a hands-on introduction to product strategy and the product management role in industry. Students will learn core PM skills — customer discovery, prioritization frameworks, metrics, GTM strategy, and AI-assisted prototyping — while working in teams to design and pitch a product idea, guided by the DTI Product team. By the end, participants will walk away with a fleshed out digital product, a polished case study, and practical experience to prepare them for building a career in Product Management, Entrepreneurship, Product Design, and beyond.
-
-        
-        Join the course by enrolling into INFO 1998 PRJ 607."
+        description="This 1-credit S/U course offers a hands-on introduction to product strategy and the product management role in industry. Students will learn core PM skills — customer discovery, prioritization frameworks, metrics, GTM strategy, and AI-assisted prototyping — while working in teams to design and pitch a product idea, guided by the DTI Product team. By the end, participants will walk away with a fleshed out digital product, a polished case study, and practical experience to prepare them for building a career in Product Management, Entrepreneurship, Product Design, and beyond. 
+        \n\n  Join the course by enrolling into INFO 1998 PRJ 607."
         button1Label="Apply to Product Strategy"
         button1Link={config.productStrategyApplicationLink}
         button1LinkNewTab={true}
@@ -67,7 +64,7 @@ export default function Course() {
 
       <SectionSep />
 
-      <DetailsAboutProductStrategy timelineEvents={timelineData.product_strategy_timeline_events} />
+      <DetailsAboutProductStrategy timelineEvents={timelineData.productstrategy_timeline_events} />
 
       <SectionSep />
 
