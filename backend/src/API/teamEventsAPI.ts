@@ -48,6 +48,12 @@ export const createTeamEvent = async (
   const canCreateTeamEvent = await PermissionsManager.canEditTeamEvent(user);
   if (!canCreateTeamEvent)
     throw new PermissionError(`User with email ${user.email} cannot create team events`);
+  if (Number(teamEventInfo.numCredits) > Number(teamEventInfo.maxCredits))
+    throw new BadRequestError('The maximum credits cannot be greater than the team event credit!');
+  if (Number(teamEventInfo.maxCredits) % Number(teamEventInfo.numCredits) !== 0)
+    throw new BadRequestError(
+      'The maximum credits needs to be a multiple of the team event credit!'
+    );
   await TeamEventsDao.createTeamEvent(teamEventInfo);
   return teamEventInfo;
 };
@@ -94,6 +100,12 @@ export const updateTeamEvent = async (
       `User with email ${user.email} does not have permissions to update team events`
     );
   }
+  if (Number(teamEventInfo.numCredits) > Number(teamEventInfo.maxCredits))
+    throw new BadRequestError('The maximum credits cannot be greater than the team event credit!');
+  if (Number(teamEventInfo.maxCredits) % Number(teamEventInfo.numCredits) !== 0)
+    throw new BadRequestError(
+      'The maximum credits needs to be a multiple of the team event credit!'
+    );
   const updatedTeamEvent = await TeamEventsDao.updateTeamEvent(teamEventInfo);
   return updatedTeamEvent;
 };
