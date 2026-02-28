@@ -164,12 +164,14 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
                     Hover over to review time slots. Click to show more information, sign up, or
                     cancel.
                   </p>
-                  <Message info>
-                    <Message.Header>Please note</Message.Header>
-                    Once you sign up for an interview slot, you cannot cancel. You will have to
-                    email us at <a href="mailto:hello@cornelldti.org">hello@cornelldti.org</a> for
-                    scheduling conflicts. Please plan accordingly.
-                  </Message>
+                  {!isMember && (
+                    <Message info>
+                      <Message.Header>Please note</Message.Header>
+                      Once you sign up for an interview slot, you cannot cancel. You will have to
+                      email us at <a href="mailto:hello@cornelldti.org">hello@cornelldti.org</a> for
+                      scheduling conflicts. Please plan accordingly.
+                    </Message>
+                  )}
                 </div>
                 {isLead && (
                   <div>

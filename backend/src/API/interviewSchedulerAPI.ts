@@ -4,7 +4,12 @@ import InterviewSlotDao from '../dao/InterviewSlotDao';
 import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors';
 import PermissionsManager from '../utils/permissionsManager';
 import { getMember } from './memberAPI';
-import { sendInterviewInvite, sendInterviewCancellation } from './mailAPI';
+import {
+  sendInterviewInvite,
+  sendInterviewCancellation,
+  sendMemberInterviewInvite,
+  sendMemberInterviewCancellation
+} from './mailAPI';
 import detectEmailChanges from '../utils/interviewSlotUtil';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
@@ -245,10 +250,19 @@ export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promi
     throw new PermissionError('User does not have permission to update interview slots.');
 
   const slot = await interviewSlotDao.getSlot(uuid);
-  if (slot?.applicant?.email) {
+  if (slot) {
     const scheduler = await interviewSchedulerDao.getInstance(slot.interviewSchedulerUuid);
     if (scheduler) {
-      await sendInterviewCancellation(slot.applicant.email, scheduler, slot);
+      const notifications: Promise<unknown>[] = [];
+      if (slot.applicant?.email) {
+        notifications.push(sendInterviewCancellation(slot.applicant.email, scheduler, slot));
+      }
+      notifications.push(
+        ...slot.members
+          .filter((m): m is IdolMember => m !== null && !!m.email)
+          .map((m) => sendMemberInterviewCancellation(m.email, scheduler, slot))
+      );
+      await Promise.all(notifications);
     }
   }
 
@@ -284,8 +298,20 @@ const handleSlotUpdateNotifications = async (
   newSlot: InterviewSlot,
   scheduler: InterviewScheduler
 ): Promise<void> => {
-  // Determine signups and cancellations
-  const { cancelled, signedUp } = detectEmailChanges(oldSlot, newSlot);
-  await Promise.all(cancelled.map((email) => sendInterviewCancellation(email, scheduler, oldSlot)));
-  await Promise.all(signedUp.map((email) => sendInterviewInvite(email, scheduler, newSlot)));
+  const {
+    cancelledApplicantEmails,
+    signedUpApplicantEmails,
+    cancelledMemberEmails,
+    signedUpMemberEmails
+  } = detectEmailChanges(oldSlot, newSlot);
+  await Promise.all([
+    ...cancelledApplicantEmails.map((email) =>
+      sendInterviewCancellation(email, scheduler, oldSlot)
+    ),
+    ...signedUpApplicantEmails.map((email) => sendInterviewInvite(email, scheduler, newSlot)),
+    ...cancelledMemberEmails.map((email) =>
+      sendMemberInterviewCancellation(email, scheduler, oldSlot)
+    ),
+    ...signedUpMemberEmails.map((email) => sendMemberInterviewInvite(email, scheduler, newSlot))
+  ]);
 };

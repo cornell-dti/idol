@@ -1,42 +1,42 @@
 interface EmailChanges {
-  readonly cancelled: string[];
-  readonly signedUp: string[];
+  readonly cancelledApplicantEmails: string[];
+  readonly signedUpApplicantEmails: string[];
+  readonly cancelledMemberEmails: string[];
+  readonly signedUpMemberEmails: string[];
 }
 
+/**
+ * Detects applicant and member email changes between two slot states.
+ * Leads are excluded.
+ */
 export default function detectEmailChanges(
   oldSlot: InterviewSlot,
   newSlot: InterviewSlot
 ): EmailChanges {
-  const oldEmails = new Set<string>();
+  const cancelledApplicantEmails: string[] = [];
+  const signedUpApplicantEmails: string[] = [];
 
-  if (oldSlot.applicant?.email) {
-    oldEmails.add(oldSlot.applicant.email);
+  if (oldSlot.applicant?.email && oldSlot.applicant.email !== newSlot.applicant?.email) {
+    cancelledApplicantEmails.push(oldSlot.applicant.email);
+  }
+  if (newSlot.applicant?.email && newSlot.applicant.email !== oldSlot.applicant?.email) {
+    signedUpApplicantEmails.push(newSlot.applicant.email);
   }
 
-  if (oldSlot.lead?.email) {
-    oldEmails.add(oldSlot.lead.email);
-  }
+  const oldMemberEmails = new Set(oldSlot.members.filter((m) => m?.email).map((m) => m!.email));
+  const newMemberEmails = new Set(newSlot.members.filter((m) => m?.email).map((m) => m!.email));
 
-  oldSlot.members
-    .filter((member) => member?.email)
-    .forEach((member) => oldEmails.add(member!.email));
+  const cancelledMemberEmails = Array.from(oldMemberEmails).filter(
+    (email) => !newMemberEmails.has(email)
+  );
+  const signedUpMemberEmails = Array.from(newMemberEmails).filter(
+    (email) => !oldMemberEmails.has(email)
+  );
 
-  const newEmails = new Set<string>();
-
-  if (newSlot.applicant?.email) {
-    newEmails.add(newSlot.applicant.email);
-  }
-
-  if (newSlot.lead?.email) {
-    newEmails.add(newSlot.lead.email);
-  }
-
-  newSlot.members
-    .filter((member) => member?.email)
-    .forEach((member) => newEmails.add(member!.email));
-
-  const cancelled = Array.from(oldEmails).filter((email) => !newEmails.has(email));
-  const signedUp = Array.from(newEmails).filter((email) => !oldEmails.has(email));
-
-  return { cancelled, signedUp };
+  return {
+    cancelledApplicantEmails,
+    signedUpApplicantEmails,
+    cancelledMemberEmails,
+    signedUpMemberEmails
+  };
 }
