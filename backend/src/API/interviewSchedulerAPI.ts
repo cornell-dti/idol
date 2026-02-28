@@ -224,7 +224,7 @@ export const updateInterviewSlot = async (
   // TODO(Oscar): Ideally we should use a message queue to send emails so that we don't block the request
   try {
     const updateSuccess = await interviewSlotDao.updateSlot(newSlot, isLead, email);
-    if (updateSuccess && isApplicant) {
+    if (updateSuccess) {
       await handleSlotUpdateNotifications(slot, newSlot, scheduler);
     }
     return updateSuccess;
@@ -243,6 +243,14 @@ export const deleteInterviewSlot = async (uuid: string, user: IdolMember): Promi
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin)
     throw new PermissionError('User does not have permission to update interview slots.');
+
+  const slot = await interviewSlotDao.getSlot(uuid);
+  if (slot?.applicant?.email) {
+    const scheduler = await interviewSchedulerDao.getInstance(slot.interviewSchedulerUuid);
+    if (scheduler) {
+      await sendInterviewCancellation(slot.applicant.email, scheduler, slot);
+    }
+  }
 
   return interviewSlotDao.deleteSlot(uuid);
 };

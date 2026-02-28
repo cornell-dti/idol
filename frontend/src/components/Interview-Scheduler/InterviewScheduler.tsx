@@ -65,7 +65,7 @@ const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot
               </p>
             </div>
             <p style={{ marginTop: '1em', color: '#555', fontSize: '0.9em' }}>
-              A confirmation and calendar invite has been sent to your email.
+              An interview confirmation and calendar invite has been sent to your email.
             </p>
           </>
         ) : (
