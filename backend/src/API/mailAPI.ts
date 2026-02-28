@@ -268,6 +268,54 @@ export const sendCoffeeChatReminder = async (
 };
 
 /**
+ * Formats a Date to the iCalendar datetime format (YYYYMMDDTHHMMSSZ)
+ */
+const formatICalDate = (date: Date): string =>
+  date
+    .toISOString()
+    .replace(/-/g, '')
+    .replace(/:/g, '')
+    .replace(/\.\d{3}/, '');
+
+/**
+ * Generates an iCalendar (.ics) string for an interview slot
+ * @param email - The email of the person being invited
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot that was signed up for
+ * @param method - REQUEST for invite, CANCEL for cancellation
+ */
+const generateICSContent = (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot,
+  method: 'REQUEST' | 'CANCEL'
+): string => {
+  const startTime = new Date(slot.startTime);
+  const endTime = new Date(slot.startTime + scheduler.duration);
+  const uid = `interview-${slot.uuid}@cornelldti.org`;
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Cornell DTI//IDOL//EN',
+    `METHOD:${method}`,
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${formatICalDate(new Date())}`,
+    `DTSTART:${formatICalDate(startTime)}`,
+    `DTEND:${formatICalDate(endTime)}`,
+    `SUMMARY:${scheduler.name} - DTI Interview`,
+    `DESCRIPTION:Interview for ${scheduler.name}\\nRoom: ${slot.room}`,
+    `LOCATION:${slot.room}`,
+    'ORGANIZER;CN=Cornell DTI:mailto:dti.idol.github.bot@gmail.com',
+    `ATTENDEE;RSVP=TRUE:mailto:${email}`,
+    ...(method === 'CANCEL' ? ['STATUS:CANCELLED'] : []),
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ];
+  return lines.join('\r\n');
+};
+
+/**
  * Send interview invitation email to applicant
  * @param email - The email of the person being invited
  * @param scheduler - The interview scheduler instance
@@ -338,7 +386,13 @@ Cornell DTI`;
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
-    text
+    text,
+    alternatives: [
+      {
+        contentType: 'text/calendar;method=REQUEST;charset=UTF-8',
+        content: generateICSContent(email, scheduler, slot, 'REQUEST')
+      }
+    ]
   };
 
   if (!IS_PROD) {
@@ -404,7 +458,13 @@ Cornell DTI`;
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
-    text
+    text,
+    alternatives: [
+      {
+        contentType: 'text/calendar;method=CANCEL;charset=UTF-8',
+        content: generateICSContent(email, scheduler, slot, 'CANCEL')
+      }
+    ]
   };
 
   if (!IS_PROD) {
