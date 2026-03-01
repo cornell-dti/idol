@@ -157,7 +157,7 @@ const SchedulingSidePanel: React.FC<{
         );
         Emitters.generalSuccess.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `You have successfully ${isSigningUp ? 'signed up for' : 'cancelled'} this time slot!`
+          contentMsg: `You have successfully ${isSigningUp ? 'signed up for' : 'cancelled'} this time slot!${isMember && isSigningUp ? ' A confirmation and calendar invite has been sent to your email.' : ''}`
         });
       } else {
         Emitters.generalError.emit({
