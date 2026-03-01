@@ -306,9 +306,9 @@ const formatInterviewDateTime = (slot: InterviewSlot, scheduler: InterviewSchedu
 };
 
 /**
- * Handles the non-prod stdout log and prod email send for ICS emails
+ * Handles the non-prod stdout log and prod email send
  */
-const sendICSEmail = async (mailOptions: object) => {
+const sendEmail = async (mailOptions: object) => {
   if (!IS_PROD) {
     const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
     // eslint-disable-next-line no-console
@@ -403,7 +403,7 @@ Good luck with your interview!
 Best regards,
 Cornell DTI`;
 
-  return sendICSEmail({
+  return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
@@ -447,7 +447,7 @@ If you would like to reschedule, please contact hello@cornelldti.org.
 Best regards,
 Cornell DTI`;
 
-  return sendICSEmail({
+  return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
@@ -489,7 +489,7 @@ Interview Details:
 Best regards,
 Cornell DTI`;
 
-  return sendICSEmail({
+  return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
@@ -531,7 +531,7 @@ Cancelled Interview Details:
 Best regards,
 Cornell DTI`;
 
-  return sendICSEmail({
+  return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
