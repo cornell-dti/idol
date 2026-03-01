@@ -248,7 +248,7 @@ export default function Navbar({ demo }: NavbarProps) {
 
                       {openDropdown === label && (
                         <div className="absolute top-full left-0 w-full pt-1">
-                          <div className="bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 overflow-hidden">
+                          <div className="bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 ">
                             {dropdown.map((item) => (
                               <Link
                                 key={item.href}

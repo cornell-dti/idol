@@ -1,7 +1,6 @@
 import type { ComponentProps } from 'react';
 import XIcon from './icons/XIcon';
 import IconButton from './IconButton';
-import Button from './Button';
 
 type SectionSepProps = {
   grid?: boolean;
@@ -11,8 +10,6 @@ type SectionSepProps = {
   xAriaLabel?: string;
   className?: string;
   disableSectionSepStyle?: boolean;
-  button?: ComponentProps<typeof Button>;
-  buttonPosition?: 'first' | 'last';
 };
 
 export default function SectionSep({
@@ -23,8 +20,6 @@ export default function SectionSep({
   xAriaLabel,
   className,
   disableSectionSepStyle = false,
-  button,
-  buttonPosition = 'last'
 }: SectionSepProps) {
   const boxCount = isMobile ? 8 : 16;
   const lastIndex = boxCount - 1;
@@ -36,13 +31,6 @@ export default function SectionSep({
       <div
         className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className} relative flex items-center`}
       >
-        {button && (
-          <div
-            className={`absolute top-1/2 -translate-y-1/2 p-4 sm:p-8 ${buttonPosition === 'first' ? 'left-0' : 'right-0'}`}
-          >
-            <Button {...button} />
-          </div>
-        )}
       </div>
     );
   }
@@ -55,7 +43,7 @@ export default function SectionSep({
             key={i}
             className={`aspect-square border-r-1 border-border-1 shrink-0
                   w-[calc(100%/8)] 
-                  md:w-[calc(100%/16)] ${(hasX || button) && (buttonPosition === 'last' ? i === lastIndex : i === 0) ? 'relative' : ''}
+                  md:w-[calc(100%/16)] ${hasX && i === lastIndex ? 'relative' : ''}
                   ${i === lastIndex ? '!border-r-0' : ''}
                   `}
           >

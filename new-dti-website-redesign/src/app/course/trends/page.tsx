@@ -13,6 +13,7 @@ import PastStudentProjects from '../PastStudentProjects';
 import DetailsAboutTrends from '../DetailsAboutTrends';
 import ArrowIcon from '../../../components/icons/ArrowIcon';
 
+
 export const metadata = {
   title: 'Trends in Web Dev',
   description:
