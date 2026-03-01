@@ -51,7 +51,8 @@ export default function Course() {
         heading="Intro to Product Strategy"
         description={`This 1-credit S/U course offers a hands-on introduction to product strategy and the product management role in industry. Students will learn core PM skills — customer discovery, prioritization frameworks, metrics, GTM strategy, and AI-assisted prototyping — while working in teams to design and pitch a product idea, guided by the DTI Product team.
 
-        By the end, participants will walk away with a fleshed out digital product, a polished case study, and practical experience to prepare them for building a career in Product Management, Entrepreneurship, Product Design, and beyond.`}        button1Label="Apply to Product Strategy"
+        By the end, participants will walk away with a fleshed out digital product, a polished case study, and practical experience to prepare them for building a career in Product Management, Entrepreneurship, Product Design, and beyond.`}
+        button1Label="Apply to Product Strategy"
         button1Link={config.productStrategyApplicationLink}
         button1LinkNewTab={true}
         button2Label="View course website"

@@ -20,7 +20,7 @@ export default function Course() {
         heading="Courses"
         subheading="Driven by our mission of community impact, we want to help everyone learn and grow through our training courses in product development."
         button1Label="Apply to DTI"
-        button1Link="/apply" 
+        button1Link="/apply"
         image="/course/hero.png"
       />
       <FeatureSection

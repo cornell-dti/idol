@@ -13,7 +13,6 @@ import PastStudentProjects from '../PastStudentProjects';
 import DetailsAboutTrends from '../DetailsAboutTrends';
 import ArrowIcon from '../../../components/icons/ArrowIcon';
 
-
 export const metadata = {
   title: 'Trends in Web Dev',
   description:
@@ -41,7 +40,7 @@ export default function Course() {
         button2Link="/course"
         image="/course/hero.png"
       />
-      
+
       <FeatureSection
         eyebrowText="Modern industry-leading technology"
         heading="Trends in Web Development"
