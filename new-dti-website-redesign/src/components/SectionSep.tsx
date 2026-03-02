@@ -1,4 +1,3 @@
-import type { ComponentProps } from 'react';
 import XIcon from './icons/XIcon';
 import IconButton from './IconButton';
 

@@ -11,7 +11,6 @@ import CourseStaff from '../../../components/course/CourseStaff';
 import PastStudentExperiences from '../PastStudentExperiences';
 import PastStudentProjects from '../PastStudentProjects';
 import DetailsAboutTrends from '../DetailsAboutTrends';
-import ArrowIcon from '../../../components/icons/ArrowIcon';
 
 export const metadata = {
   title: 'Trends in Web Dev',
