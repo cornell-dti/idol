@@ -33,7 +33,7 @@ const Hero = ({
   image,
   className,
   nextSectionCurved = true
-}: Props): ReactNode => (
+}: Props): React.ReactElement => (
   <section className={`${className} hero ${nextSectionCurved ? 'nextSectionCurved' : ''} mb-1`}>
     {image && (
       <div

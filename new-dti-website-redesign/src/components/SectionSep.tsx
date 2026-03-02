@@ -28,13 +28,13 @@ export default function SectionSep({
   if (!grid) {
     return (
       <div
-        className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className}`}
-      />
+        className={`w-full h-16 md:h-32 border-border-1 border-x-1 ${sectionSepClass} ${className} relative flex items-center`}
+      ></div>
     );
   }
 
   return (
-    <div className={`w-full overflow-hidden ${sectionSepClass} ${className}`}>
+    <div className={`w-full overflow-hidden ${sectionSepClass} ${className} relative`}>
       <div className="flex justify-center">
         {Array.from({ length: boxCount }).map((_, i) => (
           <div
