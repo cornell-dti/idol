@@ -17,7 +17,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const main = async () => {
-  // current date: 12:00:00 the day before the deadline (in New York)
+  // current date: 17:00:00 UTC the day before the deadline (12:00:00 / 1:00:00 PM ET)
   const TZ = 'America/New_York';
 
   const nowNY = DateTime.now().setZone(TZ);
@@ -26,7 +26,7 @@ const main = async () => {
   const tomorrowStartNY = nowNY.plus({ days: 1 }).startOf('day');
   const tomorrowEndNY = nowNY.plus({ days: 1 }).endOf('day');
 
-  // Convert to UTC millis for querying Firestore (since `deadline` is stored as ms)
+  // convert to UTC millis for querying Firestore (since `deadline` is stored as ms)
   const windowStartMs = tomorrowStartNY.toUTC().toMillis();
   const windowEndMs = tomorrowEndNY.toUTC().toMillis();
 
