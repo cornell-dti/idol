@@ -79,7 +79,7 @@ const main = async () => {
   const deadlineString = deadlineDate.toLocaleString('en-US', {
     timeZone: 'America/New_York'
   });
-  const EMAIL_BODY = `If you are not taking DTI for credit this semester, please ignore.\n\nThis is a reminder to submit your portfolio for ${devPortfolioName} which is due by ${deadlineString}. You must contact leads if you require an extension.`;
+  const EMAIL_BODY = `If you are not taking DTI for credit this semester, please ignore.\n\nThis is a reminder to submit your portfolio for ${devPortfolioName} which is due by ${deadlineString}. You must contact leads at least 24 hours in advance if you require an extension.`;
 
   const allDevsEmails = await db
     .collection('members')
