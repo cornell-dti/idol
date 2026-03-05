@@ -3,6 +3,9 @@
     margin-right: 2rem;
     padding-top: 5rem;
     padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
   
   .memberCount {
@@ -27,10 +30,31 @@
   .halfWidth {
     width: 50%;
   }
+
   .toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+  }
+
+  .iconButton {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    line-height: inherit;
+  }
+
+  .rowActionsCell {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .rowActionsDropdown :global(.menu) {
+    width: 171px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 4px 0;
   }
