@@ -1,0 +1,36 @@
+.content {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+  
+  .memberCount {
+    margin: 0;
+    color: gray;
+  }
+
+  
+  .cardContent .ui .results {
+    width: 100%;
+  }
+  
+  .cardHeader {
+    position: fixed;
+    top: 2rem;
+  }
+  
+  .fullWidth {
+    width: 100%;
+  }
+  
+  .halfWidth {
+    width: 50%;
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
