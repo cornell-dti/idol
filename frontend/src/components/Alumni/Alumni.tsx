@@ -17,9 +17,9 @@ const DEFAULT_MAX_YEAR = new Date().getFullYear();
 const Alumni: React.FC = () => {
   const [alumni, setAlumni] = useState<readonly Alumni[]>([]);
   const [allCityCoordinates, setAllCityCoordinates] = useState<readonly CityCoordinates[]>([]);
-  const [selectedCityCoordinates, setSelectedCityCoordinates] = useState<
-    readonly CityCoordinates[]
-  >([]);
+  const [selectedCityCoordinates, setSelectedCityCoordinates] = useState<CityCoordinates | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('map');
@@ -95,21 +95,35 @@ const Alumni: React.FC = () => {
     );
   }, [allCityCoordinates, filteredAlumni]);
 
+  // Auto-clear selected city when it's no longer visible
+  useEffect(() => {
+    if (selectedCityCoordinates) {
+      const isStillVisible = visibleCityCoordinates.some(
+        (city) =>
+          city.latitude === selectedCityCoordinates.latitude &&
+          city.longitude === selectedCityCoordinates.longitude
+      );
+      if (!isStillVisible) {
+        setSelectedCityCoordinates(null);
+      }
+    }
+  }, [visibleCityCoordinates, selectedCityCoordinates]);
+
   // Filter alumni by selected city coordinates
   const finalFilteredAlumni = useMemo(() => {
-    if (selectedCityCoordinates.length === 0) {
+    if (!selectedCityCoordinates) {
       return filteredAlumni;
     }
-    const selectedAlumniIds = new Set(selectedCityCoordinates.flatMap((city) => city.alumniIds));
+    const selectedAlumniIds = new Set(selectedCityCoordinates.alumniIds);
     return filteredAlumni.filter((alum) => selectedAlumniIds.has(alum.uuid));
   }, [filteredAlumni, selectedCityCoordinates]);
 
   const handleCitySelect = (city: CityCoordinates) => {
-    setSelectedCityCoordinates([city]);
+    setSelectedCityCoordinates(city);
   };
 
   const handleCityDeselect = () => {
-    setSelectedCityCoordinates([]);
+    setSelectedCityCoordinates(null);
   };
 
   const jobCategoryOptions: { key: string; text: string; value: string }[] = [

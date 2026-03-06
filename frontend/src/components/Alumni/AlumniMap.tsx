@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import Head from 'next/head';
@@ -6,10 +6,30 @@ import styles from './Alumni.module.css';
 
 interface AlumniMapProps {
   visibleCityCoordinates: readonly CityCoordinates[];
-  selectedCityCoordinates: readonly CityCoordinates[];
+  selectedCityCoordinates: CityCoordinates | null;
   onCitySelect: (cityCoordinates: CityCoordinates) => void;
-  onCityDeselect: (cityCoordinates: CityCoordinates) => void;
+  onCityDeselect: () => void;
 }
+
+const defaultIcon = new L.Icon({
+  iconUrl:
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [20, 33],
+  iconAnchor: [10, 33],
+  popupAnchor: [0, -28],
+  shadowSize: [33, 33]
+});
+
+const selectedIcon = new L.Icon({
+  iconUrl:
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [20, 33],
+  iconAnchor: [10, 33],
+  popupAnchor: [0, -28],
+  shadowSize: [33, 33]
+});
 
 const AlumniMap: React.FC<AlumniMapProps> = ({
   visibleCityCoordinates,
@@ -20,47 +40,25 @@ const AlumniMap: React.FC<AlumniMapProps> = ({
   const center: [number, number] = [39.8283, -98.5795];
   const zoom = 4;
 
-  const selectedSet = useMemo(
-    () => new Set(selectedCityCoordinates.map((c) => `${c.latitude},${c.longitude}`)),
+  const selectedKey = useMemo(
+    () =>
+      selectedCityCoordinates
+        ? `${selectedCityCoordinates.latitude},${selectedCityCoordinates.longitude}`
+        : null,
     [selectedCityCoordinates]
   );
 
-  const defaultIcon = useMemo(
-    () =>
-      new L.Icon({
-        iconUrl:
-          'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-        iconSize: [20, 33],
-        iconAnchor: [10, 33],
-        popupAnchor: [0, -28],
-        shadowSize: [33, 33]
-      }),
-    []
+  const handlePinClick = useCallback(
+    (cityCoordinates: CityCoordinates) => {
+      const key = `${cityCoordinates.latitude},${cityCoordinates.longitude}`;
+      if (selectedKey === key) {
+        onCityDeselect();
+      } else {
+        onCitySelect(cityCoordinates);
+      }
+    },
+    [selectedKey, onCitySelect, onCityDeselect]
   );
-
-  const selectedIcon = useMemo(
-    () =>
-      new L.Icon({
-        iconUrl:
-          'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-        iconSize: [20, 33],
-        iconAnchor: [10, 33],
-        popupAnchor: [0, -28],
-        shadowSize: [33, 33]
-      }),
-    []
-  );
-
-  const handlePinClick = (cityCoordinates: CityCoordinates) => {
-    const key = `${cityCoordinates.latitude},${cityCoordinates.longitude}`;
-    if (selectedSet.has(key)) {
-      onCityDeselect(cityCoordinates);
-    } else {
-      onCitySelect(cityCoordinates);
-    }
-  };
 
   return (
     <>
@@ -79,7 +77,7 @@ const AlumniMap: React.FC<AlumniMapProps> = ({
         />
         {visibleCityCoordinates.map((city) => {
           const key = `${city.latitude},${city.longitude}`;
-          const isSelected = selectedSet.has(key);
+          const isSelected = selectedKey === key;
           const alumniCount = city.alumniIds.length;
 
           return (

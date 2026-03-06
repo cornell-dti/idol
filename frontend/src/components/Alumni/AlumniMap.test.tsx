@@ -58,7 +58,7 @@ describe('<AlumniMap />', () => {
     render(
       <AlumniMap
         visibleCityCoordinates={mockCityCoordinates}
-        selectedCityCoordinates={[]}
+        selectedCityCoordinates={null}
         onCitySelect={mockOnCitySelect}
         onCityDeselect={mockOnCityDeselect}
       />
@@ -71,7 +71,7 @@ describe('<AlumniMap />', () => {
     render(
       <AlumniMap
         visibleCityCoordinates={mockCityCoordinates}
-        selectedCityCoordinates={[]}
+        selectedCityCoordinates={null}
         onCitySelect={mockOnCitySelect}
         onCityDeselect={mockOnCityDeselect}
       />
@@ -85,7 +85,7 @@ describe('<AlumniMap />', () => {
     render(
       <AlumniMap
         visibleCityCoordinates={mockCityCoordinates}
-        selectedCityCoordinates={[]}
+        selectedCityCoordinates={null}
         onCitySelect={mockOnCitySelect}
         onCityDeselect={mockOnCityDeselect}
       />
@@ -101,7 +101,7 @@ describe('<AlumniMap />', () => {
     render(
       <AlumniMap
         visibleCityCoordinates={mockCityCoordinates}
-        selectedCityCoordinates={[]}
+        selectedCityCoordinates={null}
         onCitySelect={mockOnCitySelect}
         onCityDeselect={mockOnCityDeselect}
       />
@@ -118,7 +118,7 @@ describe('<AlumniMap />', () => {
     render(
       <AlumniMap
         visibleCityCoordinates={mockCityCoordinates}
-        selectedCityCoordinates={[mockCityCoordinates[0]]}
+        selectedCityCoordinates={mockCityCoordinates[0]}
         onCitySelect={mockOnCitySelect}
         onCityDeselect={mockOnCityDeselect}
       />
@@ -127,7 +127,7 @@ describe('<AlumniMap />', () => {
     const markers = screen.getAllByTestId('marker');
     fireEvent.click(markers[0]);
 
-    expect(mockOnCityDeselect).toHaveBeenCalledWith(mockCityCoordinates[0]);
+    expect(mockOnCityDeselect).toHaveBeenCalledWith();
     expect(mockOnCitySelect).not.toHaveBeenCalled();
   });
 
@@ -135,7 +135,7 @@ describe('<AlumniMap />', () => {
     render(
       <AlumniMap
         visibleCityCoordinates={[]}
-        selectedCityCoordinates={[]}
+        selectedCityCoordinates={null}
         onCitySelect={mockOnCitySelect}
         onCityDeselect={mockOnCityDeselect}
       />
