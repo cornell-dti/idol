@@ -58,3 +58,106 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     padding: 4px 0;
   }
+
+
+  .alumniModal {
+    padding-top: 30px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+  }
+  .alumniModal :global(.header) {
+    border-bottom: none !important;
+  }
+
+  .alumniModal :global(.actions) {
+    border-top: none !important;
+    background-color: white !important;
+  }
+
+  .modalHeader {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+  }
+  
+.modalBackground {
+    display: flex;
+    align-items: center;
+}
+
+  .buttonContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* The “card” at the top of the modal */
+  .modalTopCard {
+    display: flex;
+    gap: 16px;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    border-radius: 6px;
+    padding: 24px;
+    margin-top: -16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(34, 36, 38, 0.08);
+    align-items: center;
+  }
+
+  .avatarCircle {
+    width: 115px;
+    height: 115px;
+    border-radius: 999px;
+    background: #e9ecef;
+  }
+  
+  .modalTopText {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .modalNameRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .modalName {
+    font-weight: 600;
+    font-size: 24px;
+  }
+  
+  .modalContactRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 14px;
+  }
+  
+  .rowActionsCell {
+    text-align: right;
+  }
+  
+  .iconButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+  }
+  
+  .iconButton:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .cancelButton {
+    color:black !important;
+    font-size: 18px !important;
+  }
+
+  .saveButton {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+  }

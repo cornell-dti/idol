@@ -5,14 +5,53 @@
  */
 import { Button, Dropdown, DropdownProps, Icon, Input, Table } from 'semantic-ui-react';
 import styles from './EditAlumni.module.css';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Plus, EllipsisIcon } from 'lucide-react';
+import {AlumniModal, Alumni, AlumniFormState} from '../../Modals/AlumniAddEditModal';
 
 export default function EditAlumni(): JSX.Element {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
+  const [selectedAlumni, setSelectedAlumni] = useState<Alumni | undefined>(undefined);
+
+    // TODO: replace with real data
+    const rows: Alumni[] = useMemo(
+        () => [
+            {
+            id: '1',
+            name: 'John Doe',
+            email: 'john.doe@example.com',
+            company: 'Example Inc.',
+            companyRole: 'Software Engineer'
+            }
+        ],
+        []
+    );
+    function openAdd(): void {
+        setModalMode('add');
+        setSelectedAlumni(undefined);
+        setModalOpen(true);
+    }
+    
+    function openEdit(alumni: Alumni): void {
+        setModalMode('edit');
+        setSelectedAlumni(alumni);
+        setModalOpen(true);
+    }
+    async function saveAlumni(data: AlumniFormState): Promise<void> {
+        if (modalMode === 'add') {
+          // TODO: call API create
+          console.log('create', data);
+        } else {
+          // TODO: call API update using selectedAlumni?.id
+          console.log('update', selectedAlumni?.id, data);
+        }
+      }
   function handleRowAction(_: React.SyntheticEvent<HTMLElement>, data: DropdownProps): void {
     const value = data.value as string | undefined;
     if (value === 'edit') {
       // TODO: open edit modal
+      openEdit(rows[0]);
     } else if (value === 'delete') {
       // TODO: confirm and delete
     }
@@ -27,7 +66,7 @@ export default function EditAlumni(): JSX.Element {
           placeholder="Search alumni..."
           style={{ width: '40%', height: '48px' }}
         />
-        <Button color="black" style={{ height: '48px', width: '127px', padding: '16px' }}>
+        <Button color="black" style={{ height: '48px', width: '127px', padding: '16px' }} onClick = {openAdd}>
           <Plus color="white" size="1rem" style={{ verticalAlign: 'bottom' }} /> Add Alumni
         </Button>
       </div>
@@ -87,6 +126,13 @@ export default function EditAlumni(): JSX.Element {
           </Table.Row>
         </Table.Body>
       </Table>
+      <AlumniModal
+        open={modalOpen}
+        mode={modalMode}
+        initialAlumni={selectedAlumni}
+        onClose={() => setModalOpen(false)}
+        onSave={saveAlumni}
+      />
     </div>
   );
 }
