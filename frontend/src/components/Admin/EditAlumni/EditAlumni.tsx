@@ -2,6 +2,7 @@
  * Make the table header grey
  * Make the delete text red
  * Make the dropdown items same height as design
+ * Location not dropdown
  */
 import { Button, Dropdown, DropdownProps, Icon, Input, Table } from 'semantic-ui-react';
 import styles from './EditAlumni.module.css';

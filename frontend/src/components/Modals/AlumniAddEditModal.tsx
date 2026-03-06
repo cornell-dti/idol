@@ -2,11 +2,17 @@
  * Field name font sizes smaller than design
  * cancel button border isn't as black as design
  * x in corner is outside the box
+ * edit buttons make the text shift around
+ * save button implementation
+ * make save changes close all edit menus and dropdowns
+ * linkedin logo slightly too low
+ * how to know when to use mobile view? 
  */
 
 import React, { useMemo, useState } from 'react';
 import {
   Button,
+  Dropdown,
   Form,
   Grid,
   Icon,
@@ -73,7 +79,9 @@ type AlumniModalProps = {
 
 export function AlumniModal({ open, mode, initialAlumni, onClose, onSave }: AlumniModalProps): JSX.Element {
   const [form, setForm] = useState<AlumniFormState>(() => toFormState(initialAlumni));
-
+  const [nameInputOpen, setNameInputOpen] = useState<boolean>(false);
+  const [emailInputOpen, setEmailInputOpen] = useState<boolean>(false);
+  const [linkedinInputOpen, setLinkedinInputOpen] = useState<boolean>(false);
   // Important: when you open modal on a different person, reset the form.
   React.useEffect(() => {
     if (open) setForm(toFormState(initialAlumni));
@@ -94,20 +102,42 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave }: Alum
           <div className={styles.avatarCircle} />
           <div className={styles.modalTopText}>
             <div className={styles.modalNameRow}>
-              <div className={styles.modalName}>{form.name || 'New Alumni'}</div>
-              <Icon name="pencil" />
+              {!nameInputOpen? <div className={styles.modalName}>{form.name || 'New Alumni'}</div> : <Form.Field
+                  control={Input}
+                  value={form.name || ''}
+                  onChange={(_, data) => setForm((f) => ({ ...f, name: String(data.value) }
+                  
+                ))}
+                />}
+              <button onClick = { () => setNameInputOpen(!nameInputOpen)} className = {styles.iconButton}>
+                {nameInputOpen? <text style = {{fontWeight: 600}}>Save</text> : <Icon name="pencil" />}
+              </button>
             </div>
 
             <div className={styles.modalContactRow}>
               <Icon name="mail" />
-              <span>{form.email || 'email@example.com'}</span>
-              <Icon name="pencil" />
+              {!emailInputOpen? <span>{form.email}</span> : <Form.Field
+                  control= {Input}
+                  value= {form.email}
+                  onChange={(_, data) => setForm((f) => ({ ...f, email: String(data.value) }
+                ))}
+                />}
+              <button onClick = { () => setEmailInputOpen(!emailInputOpen)} className = {styles.iconButton}>
+                {emailInputOpen? <text style = {{fontWeight: 600}}>Save</text> : <Icon name="pencil" />}
+              </button>
             </div>
 
             <div className={styles.modalContactRow}>
-              <Icon name="linkedin" />
-              <span>{form.linkedin || 'linkedin.com/in/…'}</span>
-              <Icon name="pencil" />
+              <Icon name="linkedin"/>
+              {!linkedinInputOpen? <span>{form.linkedin}</span> : <Form.Field
+                  control= {Input}
+                  value= {form.linkedin}
+                  onChange={(_, data) => setForm((f) => ({ ...f, linkedin: String(data.value) }
+                ))}
+                />}
+              <button onClick = { () => setLinkedinInputOpen(!linkedinInputOpen)} className = {styles.iconButton}>
+                {linkedinInputOpen? <text style = {{fontWeight: 600}}>Save</text> : <Icon name="pencil" />}
+              </button>
             </div>
           </div>
         </div>
@@ -169,8 +199,14 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave }: Alum
 
               <Grid.Column>
                 <Form.Field
-                  label="DTI Role"
-                  control={Input}
+                    label="DTI Role"
+                    control={Dropdown}
+                    selection
+                    options={[
+                        { key: 'developer', text: 'Developer', value: 'developer' },
+                        { key: 'design', text: 'Design', value: 'design' },
+                        { key: 'business', text: 'Business', value: 'business' },
+                    ]}
                   value={form.dtiRole}
                   onChange={(_, data) => setForm((f) => ({ ...f, dtiRole: String(data.value) }))}
                 />
