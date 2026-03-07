@@ -70,7 +70,14 @@ const AlumniMap: React.FC<AlumniMapProps> = ({
           crossOrigin=""
         />
       </Head>
-      <MapContainer center={center} zoom={zoom} className={styles.mapContainer} scrollWheelZoom>
+      <MapContainer
+        center={center}
+        zoom={zoom}
+        className={styles.mapContainer}
+        scrollWheelZoom
+        worldCopyJump
+        minZoom={2}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
