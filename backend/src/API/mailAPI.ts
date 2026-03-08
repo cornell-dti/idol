@@ -268,22 +268,19 @@ export const sendCoffeeChatReminder = async (
 };
 
 /**
- * Send interview invitation email to applicant
- * @param email - The email of the person being invited
- * @param scheduler - The interview scheduler instance
- * @param slot - The interview slot that was signed up for
- * @returns - The response body containing information of the applicant being sent the email
- *
- * TODO(Oscar): enable email templates and integrate with sendMail after revisiting non-member auth
+ * Formats a Date to the iCalendar datetime format (YYYYMMDDTHHMMSSZ)
  */
-export const sendInterviewInvite = async (
-  email: string,
-  scheduler: InterviewScheduler,
-  slot: InterviewSlot
-) => {
-  const subject = `[Cornell DTI] Interview Confirmation - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
+const formatICalDate = (date: Date): string =>
+  date
+    .toISOString()
+    .replace(/-/g, '')
+    .replace(/:/g, '')
+    .replace(/\.\d{3}/, '');
 
-  // Format the date and time
+/**
+ * Formats interview date and time strings for use in email bodies
+ */
+const formatInterviewDateTime = (slot: InterviewSlot, scheduler: InterviewScheduler) => {
   const interviewDate = new Date(slot.startTime);
   const endTime = new Date(slot.startTime + scheduler.duration);
   const dateString = interviewDate.toLocaleDateString('en-US', {
@@ -305,16 +302,88 @@ export const sendInterviewInvite = async (
     minute: '2-digit',
     hour12: true
   });
+  return { dateString, startTimeString, endTimeString };
+};
+
+/**
+ * Handles the non-prod stdout log and prod email send
+ */
+const sendEmail = async (mailOptions: object) => {
+  if (!IS_PROD) {
+    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
+    // eslint-disable-next-line no-console
+    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
+    return nonProdEnvMessage;
+  }
+  const transporter = await getEmailTransporter();
+  return transporter
+    .sendMail(mailOptions)
+    .then((info) => info)
+    .catch((error) => ({ error }));
+};
+
+/**
+ * Generates an iCalendar (.ics) string for an interview slot
+ * @param email - The email of the applicant or member who signed up
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot
+ * @param method - REQUEST for invite, CANCEL for cancellation
+ */
+const generateICSContent = (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot,
+  method: 'REQUEST' | 'CANCEL'
+): string => {
+  const startTime = new Date(slot.startTime);
+  const endTime = new Date(slot.startTime + scheduler.duration);
+  const uid = `interview-${slot.uuid}@cornelldti.org`;
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Cornell DTI//IDOL//EN',
+    `METHOD:${method}`,
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${formatICalDate(new Date())}`,
+    `DTSTART:${formatICalDate(startTime)}`,
+    `DTEND:${formatICalDate(endTime)}`,
+    `SUMMARY:${scheduler.name} - DTI Interview`,
+    `DESCRIPTION:Interview for ${scheduler.name}\\nRoom: ${slot.room}`,
+    `LOCATION:${slot.room}`,
+    'ORGANIZER;CN=Cornell DTI:mailto:dti.idol.github.bot@gmail.com',
+    `ATTENDEE;RSVP=TRUE:mailto:${email}`,
+    ...(method === 'CANCEL' ? ['STATUS:CANCELLED'] : []),
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ];
+  return lines.join('\r\n');
+};
+
+/**
+ * Send interview invitation email to applicant
+ * @param email - The applicant's email
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot that was signed up for
+ * @returns - The response body containing information of the applicant being sent the email
+ *
+ * TODO(Oscar): enable email templates and integrate with sendMail after revisiting non-member auth
+ */
+export const sendInterviewInvite = async (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot
+) => {
+  const subject = `[Cornell DTI] Interview Confirmation - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
+  const { dateString, startTimeString, endTimeString } = formatInterviewDateTime(slot, scheduler);
 
   // Build interviewer names
   const interviewerNames: string[] = [];
   if (slot.lead) {
     interviewerNames.push(`${slot.lead.firstName} ${slot.lead.lastName} (Lead)`);
   }
-  slot.members.forEach((member, index) => {
-    if (member) {
-      interviewerNames.push(`${member.firstName} ${member.lastName}`);
-    }
+  slot.members.forEach((member) => {
+    if (member) interviewerNames.push(`${member.firstName} ${member.lastName}`);
   });
 
   const text = `Hello!
@@ -334,56 +403,34 @@ Good luck with your interview!
 Best regards,
 Cornell DTI`;
 
-  const mailOptions = {
+  return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
-    text
-  };
-
-  if (!IS_PROD) {
-    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-    // eslint-disable-next-line no-console
-    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-    return nonProdEnvMessage;
-  }
-
-  const transporter = await getEmailTransporter();
-  const info = await transporter
-    .sendMail(mailOptions)
-    .then((info) => info)
-    .catch((error) => ({ error }));
-  return info;
+    text,
+    alternatives: [
+      {
+        contentType: 'text/calendar;method=REQUEST;charset=UTF-8',
+        content: generateICSContent(email, scheduler, slot, 'REQUEST')
+      }
+    ]
+  });
 };
 
 /**
- * Send interview cancellation notification
- * @param email - The email of the person being cancelled
+ * Send interview cancellation notification to applicant
+ * @param email - The applicant's email
  * @param scheduler - The interview scheduler instance
  * @param slot - The interview slot that was cancelled
- * @returns - Promise array of email responses
+ * @returns - The response body containing information of the applicant being sent the email
  */
 export const sendInterviewCancellation = async (
   email: string,
   scheduler: InterviewScheduler,
   slot: InterviewSlot
 ) => {
-  const subject = `Interview Cancelled - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
-
-  const interviewDate = new Date(slot.startTime);
-  const dateString = interviewDate.toLocaleDateString('en-US', {
-    timeZone: 'America/New_York',
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-  const timeString = interviewDate.toLocaleTimeString('en-US', {
-    timeZone: 'America/New_York',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  });
+  const subject = `[Cornell DTI] Interview Cancelled - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
+  const { dateString, startTimeString } = formatInterviewDateTime(slot, scheduler);
 
   const text = `Hello!
 
@@ -392,7 +439,7 @@ Your interview with DTI has been cancelled.
 Cancelled Interview Details:
 - Name: ${scheduler.name}
 - Date: ${dateString}
-- Time: ${timeString}
+- Time: ${startTimeString}
 - Location: ${slot.room}
 
 If you would like to reschedule, please contact hello@cornelldti.org.
@@ -400,24 +447,100 @@ If you would like to reschedule, please contact hello@cornelldti.org.
 Best regards,
 Cornell DTI`;
 
-  const mailOptions = {
+  return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
     subject,
-    text
-  };
+    text,
+    alternatives: [
+      {
+        contentType: 'text/calendar;method=CANCEL;charset=UTF-8',
+        content: generateICSContent(email, scheduler, slot, 'CANCEL')
+      }
+    ]
+  });
+};
 
-  if (!IS_PROD) {
-    const nonProdEnvMessage = `Emails are not sent in non-production env: ${env}.\n`;
-    // eslint-disable-next-line no-console
-    console.log(nonProdEnvMessage, `Here's what would have been sent:\n`, mailOptions);
-    return nonProdEnvMessage;
-  }
+/**
+ * Send interview sign-up confirmation email to DTI member conducting an interview
+ * @param email - The member's email
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot signed up for
+ * @returns - The response body containing information of the member being sent the email
+ */
+export const sendMemberInterviewInvite = async (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot
+) => {
+  const subject = `[Cornell DTI] Interview Confirmation`;
+  const { dateString, startTimeString, endTimeString } = formatInterviewDateTime(slot, scheduler);
 
-  const transporter = await getEmailTransporter();
-  const info = await transporter
-    .sendMail(mailOptions)
-    .then((info) => info)
-    .catch((error) => ({ error }));
-  return info;
+  const text = `Hello!
+
+Thank you for signing up to conduct an interview.
+
+Interview Details:
+- Name: ${scheduler.name}
+- Date: ${dateString}
+- Time: ${startTimeString} - ${endTimeString}
+- Location: ${slot.room}
+
+Best regards,
+Cornell DTI`;
+
+  return sendEmail({
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject,
+    text,
+    alternatives: [
+      {
+        contentType: 'text/calendar;method=REQUEST;charset=UTF-8',
+        content: generateICSContent(email, scheduler, slot, 'REQUEST')
+      }
+    ]
+  });
+};
+
+/**
+ * Send interview cancellation notification to DTI member conducting an interview
+ * @param email - The member's email
+ * @param scheduler - The interview scheduler instance
+ * @param slot - The interview slot that was cancelled
+ * @returns - The response body containing information of the member being sent the email
+ */
+export const sendMemberInterviewCancellation = async (
+  email: string,
+  scheduler: InterviewScheduler,
+  slot: InterviewSlot
+) => {
+  const subject = `[Cornell DTI] Interview Cancelled`;
+  const { dateString, startTimeString } = formatInterviewDateTime(slot, scheduler);
+
+  const text = `Hello!
+
+The interview you have signed up to conduct has been cancelled.
+
+Cancelled Interview Details:
+- Name: ${scheduler.name}
+- Date: ${dateString}
+- Time: ${startTimeString}
+- Location: ${slot.room}
+
+Best regards,
+Cornell DTI`;
+
+  return sendEmail({
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject,
+    text,
+    alternatives: [
+      {
+        contentType: 'text/calendar;method=CANCEL;charset=UTF-8',
+        content: generateICSContent(email, scheduler, slot, 'CANCEL')
+      }
+    ]
+  });
 };
