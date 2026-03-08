@@ -102,12 +102,70 @@
   align-items: center;
 }
 
-.avatarCircle {
-  width: 115px;
-  height: 115px;
-  border-radius: 999px;
-  background: #e9ecef;
+.avatarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
+
+.avatarButton {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: none;
+  cursor: pointer;
+}
+
+.avatarButton:disabled {
+  cursor: not-allowed;
+}
+
+.avatarButton:hover:not(:disabled) .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.avatarOverlay .icon {
+  color: white;
+  font-size: 2rem;
+  margin: 0 !important;
+}
+
+.uploadError {
+  color: #db2828;
+  font-size: 12px;
+}
+
+.avatarCircle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #e5e5e5;
+  }
 
 .modalTopText {
   display: flex;
@@ -159,3 +217,53 @@
   font-size: 18px !important;
   font-weight: 400 !important;
 }
+
+.deleteAlumniModal {
+    border-radius: 4px !important;
+    width: 40vw !important;
+  }
+  
+  .deleteAlumniModalContent {
+    padding: 48px 56px !important;
+  }
+  
+  .deleteAlumniMessage {
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #111;
+    margin-bottom: 28px;
+  }
+  
+  .deleteAlumniActions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .deleteConfirmButton {
+    width: 100%;
+    min-height: 52px;
+    background: #ff4c4c !important;
+    color: white;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    border-radius: 4px;
+    margin: 0;
+  }
+  
+  .deleteCancelButton {
+    width: 100%;
+    min-height: 52px;
+    background: #f5f5f5 !important;
+    color: #111;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    border-radius: 4px;
+    margin: 0;
+  }
+  
+  .deleteCancelButton.ui.button:hover {
+    background: #e7e7e7;
+    color: #111;
+  }
