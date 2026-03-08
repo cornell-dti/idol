@@ -77,10 +77,17 @@ const TeamEvents: React.FC = () => {
 
   useEffect(() => {
     if (isLoading) {
-      TeamEventsAPI.getAllTeamEvents().then((teamEvents) => {
-        setTeamEvents(teamEvents);
-        setLoading(false);
-      });
+      TeamEventsAPI.getAllTeamEvents()
+        .then((teamEvents) => {
+          const timeSortedTeamEvents = [...teamEvents].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+          setTeamEvents(timeSortedTeamEvents);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     }
   }, [isLoading]);
 
