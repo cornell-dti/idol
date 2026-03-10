@@ -85,7 +85,11 @@ const TeamEvents: React.FC = () => {
           setTeamEvents(timeSortedTeamEvents);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((error) => {
+          Emitters.generalError.emit({
+            headerMsg: "Error loading team events",
+            contentMsg: error?.message ?? "Something went wrong",
+          })
           setLoading(false);
         });
     }
