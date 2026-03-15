@@ -96,7 +96,7 @@ const TeamEvents: React.FC = () => {
               .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
             return { name: `Period ${i + 1}`, start: periodStart, deadline, events };
           });
-          setGroupedTeamEvents(periods);
+          setGroupedTeamEvents(periods.reverse());
           setLoading(false);
         })
         .catch((error) => {
