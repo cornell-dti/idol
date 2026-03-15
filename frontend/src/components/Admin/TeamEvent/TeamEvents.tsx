@@ -4,9 +4,9 @@ import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import { Emitters } from '../../../utils';
+import { Emitters, getPeriods } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
-import { INITIATIVE_EVENTS, TEC_DEADLINES } from '../../../consts';
+import { INITIATIVE_EVENTS } from '../../../consts';
 
 type TeamEventsDisplayProps = {
   isLoading: boolean;
@@ -81,21 +81,7 @@ const TeamEvents: React.FC = () => {
     if (isLoading) {
       TeamEventsAPI.getAllTeamEvents()
         .then((teamEvents) => {
-          const today = new Date();
-          const year = today.getFullYear();
-          const firstPeriodStart =
-            today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
-
-          const periods = TEC_DEADLINES.map((deadline, i) => {
-            const periodStart = i === 0 ? firstPeriodStart : TEC_DEADLINES[i - 1];
-            const events = teamEvents
-              .filter((event) => {
-                const eventDate = new Date(event.date);
-                return eventDate > periodStart && eventDate <= deadline;
-              })
-              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            return { name: `Period ${i + 1}`, start: periodStart, deadline, events };
-          });
+          const periods = getPeriods(teamEvents).reverse();
           setGroupedTeamEvents(periods.reverse());
           setLoading(false);
         })

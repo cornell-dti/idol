@@ -8,12 +8,11 @@ import {
   REQUIRED_LEAD_TEC_CREDITS,
   REQUIRED_MEMBER_TEC_CREDITS,
   REQUIRED_INITIATIVE_CREDITS,
-  INITIATIVE_EVENTS,
-  TEC_DEADLINES
+  INITIATIVE_EVENTS
 } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-import { calculateCredits, getTECPeriod } from '../../../utils';
+import { calculateCredits, getTECPeriod, getPeriods } from '../../../utils';
 
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -66,25 +65,7 @@ const TeamEventDashboard: React.FC = () => {
 
   if (isLoading) return <Loader active>Fetching team event data...</Loader>;
 
-  const getFirstPeriodStart = (): Date => {
-    const today = new Date();
-    const year = today.getFullYear();
-
-    return today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
-  };
-
-  const getPeriods = () =>
-    TEC_DEADLINES.map((date, i) => {
-      const periodStart = i === 0 ? getFirstPeriodStart() : TEC_DEADLINES[i - 1];
-      const periodEnd = TEC_DEADLINES[i];
-      const events = teamEvents.filter((event) => {
-        const eventDate = new Date(event.date);
-        return eventDate > periodStart && eventDate <= periodEnd;
-      });
-      return { name: `Period ${i + 1}`, start: periodStart, deadline: date, events };
-    });
-
-  const periods = getPeriods();
+  const periods = getPeriods(teamEvents);
 
   const currentPeriodIndex = getTECPeriod(new Date());
 

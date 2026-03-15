@@ -236,6 +236,28 @@ export const getTECPeriod = (submissionDate: Date) => {
 };
 
 /**
+ * Gets the TEC period for a team event by its date.
+ * @param teamEvents The array of team events that are being grouped into said periods within a given semester.
+ * @returns An array of Period objects, TEC events grouped within their respective monthly periods, sorted by deadline from latest to earliest.
+ */
+export const getPeriods = (teamEvents: TeamEvent[]): Period[] => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const firstPeriodStart = today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
+
+  return TEC_DEADLINES.map((deadline, i) => {
+    const periodStart = i === 0 ? firstPeriodStart : TEC_DEADLINES[i - 1];
+    const events = teamEvents
+      .filter((event) => {
+        const eventDate = new Date(event.date);
+        return eventDate > periodStart && eventDate <= deadline;
+      })
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return { name: `Period ${i + 1}`, start: periodStart, deadline, events };
+  });
+};
+
+/**
  * Calculates the number of credits needed for the current period only where each period is independent.
  * @param currentCredits The number of credits approved in the current period.
  * @param requiredCredits The number of credits required for this period (1 for members, 2 for leads).
