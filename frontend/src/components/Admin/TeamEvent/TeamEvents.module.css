@@ -27,3 +27,11 @@
   font-weight: bold;
   color: green;
 }
+
+.periodHeader {
+  margin-bottom: 1rem;
+}
+
+.periodSection {
+  margin-bottom: 2rem;
+}

@@ -6,7 +6,7 @@ import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
-import { INITIATIVE_EVENTS } from '../../../consts';
+import { INITIATIVE_EVENTS, TEC_DEADLINES } from '../../../consts';
 
 type TeamEventsDisplayProps = {
   isLoading: boolean;
@@ -57,12 +57,14 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
 };
 
 const TeamEvents: React.FC = () => {
-  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+  const [groupedTeamEvents, setGroupedTeamEvents] = useState<
+    { name: string; start: Date; deadline: Date; events: TeamEvent[] }[]
+  >([]);
   const [isLoading, setLoading] = useState(true);
 
   const fullReset = () => {
     setLoading(true);
-    setTeamEvents([]);
+    setGroupedTeamEvents([]);
   };
 
   useEffect(() => {
@@ -79,10 +81,22 @@ const TeamEvents: React.FC = () => {
     if (isLoading) {
       TeamEventsAPI.getAllTeamEvents()
         .then((teamEvents) => {
-          const timeSortedTeamEvents = [...teamEvents].sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-          );
-          setTeamEvents(timeSortedTeamEvents);
+          const today = new Date();
+          const year = today.getFullYear();
+          const firstPeriodStart =
+            today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
+
+          const periods = TEC_DEADLINES.map((deadline, i) => {
+            const periodStart = i === 0 ? firstPeriodStart : TEC_DEADLINES[i - 1];
+            const events = teamEvents
+              .filter((event) => {
+                const eventDate = new Date(event.date);
+                return eventDate > periodStart && eventDate <= deadline;
+              })
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            return { name: `Period ${i + 1}`, start: periodStart, deadline, events };
+          });
+          setGroupedTeamEvents(periods);
           setLoading(false);
         })
         .catch((error) => {
@@ -104,13 +118,22 @@ const TeamEvents: React.FC = () => {
       <div className={styles.wrapper}>
         <div>
           <h2>View All Team Events</h2>
-          <TeamEventsDisplay isLoading={isLoading} teamEvents={teamEvents} />
+          {isLoading ? (
+            <Loader active inline />
+          ) : (
+            groupedTeamEvents.map((period) => (
+              <div key={period.name} className={styles.periodSection}>
+                <h3 className={styles.periodHeader}>{period.name}</h3>
+                <TeamEventsDisplay isLoading={false} teamEvents={period.events} />
+              </div>
+            ))
+          )}
         </div>
         <div className={styles.buttonContainer}>
           <Button>
             <Link href="/admin/team-events/dashboard">View Team Events Dashboard</Link>
           </Button>
-          <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
+          <ClearTeamEventsModal setTeamEvents={() => setGroupedTeamEvents([])} />
         </div>
       </div>
     </div>
