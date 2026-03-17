@@ -605,3 +605,75 @@ interface Alumni {
   readonly about?: string | null;
   readonly imageUrl: string;
 }
+
+/** Reimbursement user role */
+type ReimbursementUserRole = 'requestor' | 'admin';
+
+/** Status of a reimbursement request */
+type ReimbursementRequestStatus = 'pending' | 'approved' | 'rejected';
+
+/** Reimbursement user */
+interface ReimbursementUser {
+  userId: string;
+  name: string;
+  email: string;
+  role: ReimbursementUserRole;
+  teamId: string;
+  createdAt: number;
+}
+
+/** Team budget information */
+interface ReimbursementTeam {
+  teamId: string;
+  teamName: string;
+  budget: number;
+  totalSpent: number;
+  totalOwed: number;
+  assignedAdmins: string[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+/** Message entry in a reimbursement request */
+interface ReimbursementMessageEntry {
+  authorId: string;
+  authorRole: ReimbursementUserRole;
+  content: string;
+  sentAt: number;
+}
+
+/** Status log entry for tracking changes */
+interface ReimbursementStatusLogEntry {
+  status: ReimbursementRequestStatus;
+  changedBy: string;
+  changedAt: number;
+  note: string;
+}
+
+/** Reimbursement request */
+interface ReimbursementRequest {
+  requestId: string;
+  requesterId: string;
+  teamId: string;
+  amount: number;
+  categoryId: string;
+  dateOfPurchase: number;
+  dateSubmitted: number;
+  status: ReimbursementRequestStatus;
+  receiptUrl: string;
+  notes: string;
+  messages: ReimbursementMessageEntry[];
+  statusLog: ReimbursementStatusLogEntry[];
+  isImmutable: boolean;
+  resolvedAt: number | null;
+}
+
+/** Spending category */
+interface ReimbursementCategory {
+  categoryId: string;
+  label: string;
+  isActive: boolean;
+  createdBy: string;
+  createdAt: number;
+  updatedAt: number;
+}
