@@ -377,15 +377,6 @@ export const sendInterviewInvite = async (
   const subject = `[Cornell DTI] Interview Confirmation - ${slot.applicant?.firstName} ${slot.applicant?.lastName}`;
   const { dateString, startTimeString, endTimeString } = formatInterviewDateTime(slot, scheduler);
 
-  // Build interviewer names
-  const interviewerNames: string[] = [];
-  if (slot.lead) {
-    interviewerNames.push(`${slot.lead.firstName} ${slot.lead.lastName} (Lead)`);
-  }
-  slot.members.forEach((member) => {
-    if (member) interviewerNames.push(`${member.firstName} ${member.lastName}`);
-  });
-
   const text = `Hello!
 
 You have successfully signed up for an interview with DTI.
