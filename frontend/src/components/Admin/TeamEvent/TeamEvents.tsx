@@ -4,7 +4,7 @@ import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import { Emitters } from '../../../utils';
+import { Emitters, getPeriods } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
 import { INITIATIVE_EVENTS } from '../../../consts';
 
@@ -57,12 +57,14 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
 };
 
 const TeamEvents: React.FC = () => {
-  const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
+  const [groupedTeamEvents, setGroupedTeamEvents] = useState<
+    { name: string; start: Date; deadline: Date; events: TeamEvent[] }[]
+  >([]);
   const [isLoading, setLoading] = useState(true);
 
   const fullReset = () => {
     setLoading(true);
-    setTeamEvents([]);
+    setGroupedTeamEvents([]);
   };
 
   useEffect(() => {
@@ -77,10 +79,19 @@ const TeamEvents: React.FC = () => {
 
   useEffect(() => {
     if (isLoading) {
-      TeamEventsAPI.getAllTeamEvents().then((teamEvents) => {
-        setTeamEvents(teamEvents);
-        setLoading(false);
-      });
+      TeamEventsAPI.getAllTeamEvents()
+        .then((teamEvents) => {
+          const periods = getPeriods(teamEvents).reverse();
+          setGroupedTeamEvents(periods);
+          setLoading(false);
+        })
+        .catch((error) => {
+          Emitters.generalError.emit({
+            headerMsg: 'Error loading team events',
+            contentMsg: error?.message ?? 'Something went wrong'
+          });
+          setLoading(false);
+        });
     }
   }, [isLoading]);
 
@@ -93,13 +104,22 @@ const TeamEvents: React.FC = () => {
       <div className={styles.wrapper}>
         <div>
           <h2>View All Team Events</h2>
-          <TeamEventsDisplay isLoading={isLoading} teamEvents={teamEvents} />
+          {isLoading ? (
+            <Loader active inline />
+          ) : (
+            groupedTeamEvents.map((period) => (
+              <div key={period.name} className={styles.periodSection}>
+                <h3 className={styles.periodHeader}>{period.name}</h3>
+                <TeamEventsDisplay isLoading={false} teamEvents={period.events} />
+              </div>
+            ))
+          )}
         </div>
         <div className={styles.buttonContainer}>
           <Button>
             <Link href="/admin/team-events/dashboard">View Team Events Dashboard</Link>
           </Button>
-          <ClearTeamEventsModal setTeamEvents={setTeamEvents} />
+          <ClearTeamEventsModal setTeamEvents={() => setGroupedTeamEvents([])} />
         </div>
       </div>
     </div>
