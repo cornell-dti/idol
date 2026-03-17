@@ -34,7 +34,6 @@ export default function Course() {
         button1LinkNewTab={true}
         button2Label="Learn more"
         button2Link="/course/productstrategy"
-        button2LinkNewTab={true}
         image="/course/producticon.png"
         imageAlt="Bear-shaped light bulb icon with a sprout on the top, representing developing product thinking skills."
         imagePosition="left"
@@ -51,7 +50,6 @@ export default function Course() {
         button1LinkNewTab={true}
         button2Label="Learn more"
         button2Link="/course/trends"
-        button2LinkNewTab={true}
         image="/course/trendsIcon.png"
         imageAlt="DTI logo surrounded by logos of Node.js, React [etc.] representing modern web development tools"
         imagePosition="left"
