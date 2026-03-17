@@ -24,7 +24,7 @@
       "incubator"
     ],
     "college": "cas",
-    "about": "Hey! I'm Abrar, and I am interested in a bunch of different things. Some of my interests include astronomy, high performance computing, gymming, playing the viola, and learning languages."
+    "about": "Hey! I'm Abrar, and I am interested in a bunch of different things. Some of my interests include astronomy, high performance computing, gymming, playing the viola, and learning languages. Coffee chat me for some free coffee/tea"
   },
   {
     "pronouns": "she/her",
@@ -99,9 +99,9 @@
     "doubleMajor": "Economics",
     "graduation": "2028",
     "coffeeChatLink": null,
-    "about": "Hi! I am Angela! I am interested in the transforming ideas into products that create impact, and finding the right way to share them with the community! In my free time, you will find me learning Japanese, running, cafe-hopping, or making matcha the proper way (with real matcha and a bamboo whisk from Japan).",
     "pronouns": "she/her",
-    "linkedin": null
+    "linkedin": null,
+    "about": "Hi! I am Angela! I am interested in transforming ideas into products that create impact and sharing them with the community! In my free time, you will find me learning Japanese, running, cafe-hopping, or making matcha the proper way (with real matcha and a bamboo whisk from Japan)."
   },
   {
     "roleDescription": "Technical PM",
@@ -824,25 +824,25 @@
   {
     "firstName": "Gillio",
     "lastName": "Lopes",
-    "pronouns": "",
     "email": "gl532@cornell.edu",
     "role": "developer",
     "semesterJoined": "Spring 2026",
-    "graduation": "",
-    "major": "",
-    "doubleMajor": "",
-    "minor": "",
-    "college": "",
-    "website": "",
-    "linkedin": "",
-    "github": "",
-    "coffeeChatLink": "",
-    "hometown": "",
-    "about": "",
     "subteams": [],
     "formerSubteams": [],
     "netid": "gl532",
-    "roleDescription": "Developer"
+    "roleDescription": "Developer",
+    "college": "cas",
+    "github": null,
+    "hometown": "Bethesda, MD",
+    "website": null,
+    "minor": null,
+    "major": "Information Science",
+    "doubleMajor": null,
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "Hey! I'm Gillio and I'm a developer on Redi. ",
+    "pronouns": "He/Him",
+    "linkedin": "https://www.linkedin.com/in/gillio-lopes/"
   },
   {
     "lastName": "Huang",
@@ -1295,9 +1295,9 @@
     "doubleMajor": null,
     "graduation": "2029",
     "coffeeChatLink": null,
-    "about": "Hi - I'm Kai! I'm focused on exploring the intersection between creative design principles and technical skill in computer science. I have 5+ years of Python experience, and am self-taught in graphic design (Adobe Illustrator), and web development (CSS3, HTML, and React with TypeScript).\n\nOutside of school, I love sailing, classical piano, backpacking, tennis, squash, oil painting, and calligraphy. Feel free to reach out!",
     "pronouns": "he/him",
-    "linkedin": "linkedin.com/in/kaiharashima/"
+    "linkedin": "linkedin.com/in/kaiharashima/",
+    "about": "Hi - I'm Kai! I'm studying the intersection of creative design principles and technical skill in computer science. I'm self-taught in graphic design (Adobe Illustrator) and web development (CSS3, HTML, and React with TypeScript).\n\nOutside of school, I love sailing, classical piano, backpacking, tennis, squash, oil painting, and calligraphy. Feel free to reach out!"
   },
   {
     "formerSubteams": [],
@@ -1843,7 +1843,7 @@
     "coffeeChatLink": null,
     "pronouns": "she/her",
     "linkedin": "https://www.linkedin.com/in/sarvagna-malladi/",
-    "about": "Hi everyone, I'm Sar! I'm a sophomore studying CS with minors in business and AI, and I'm currently a PM on DTI. :)"
+    "about": "Hi everyone, I'm Sar! I'm a sophomore studying CS with minors in business and AI, and I'm currently an APM on DTI. :)"
   },
   {
     "doubleMajor": null,
@@ -2097,25 +2097,25 @@
   {
     "firstName": "Sarah",
     "lastName": "Li",
-    "pronouns": "",
     "email": "yl3632@cornell.edu",
     "role": "apm",
     "semesterJoined": "Spring 2026",
-    "graduation": "",
-    "major": "",
-    "doubleMajor": "",
-    "minor": "",
-    "college": "",
-    "website": "",
-    "linkedin": "",
-    "github": "",
-    "coffeeChatLink": "",
-    "hometown": "",
-    "about": "",
     "subteams": [],
     "formerSubteams": [],
     "netid": "yl3632",
-    "roleDescription": "Associate PM"
+    "roleDescription": "Associate PM",
+    "college": "cals",
+    "github": null,
+    "hometown": "Suzhou, China",
+    "website": null,
+    "minor": null,
+    "major": "Information Science",
+    "doubleMajor": "Environment and Sustainability",
+    "graduation": "2028",
+    "coffeeChatLink": null,
+    "about": "hi ",
+    "pronouns": "she/her",
+    "linkedin": null
   },
   {
     "firstName": "Laura",
