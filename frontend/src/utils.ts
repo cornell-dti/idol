@@ -236,7 +236,7 @@ export const getTECPeriod = (submissionDate: Date) => {
 };
 
 /**
- * Gets the TEC period for a team event by its date.
+ * Gets the periods for all TECs for a team event by date.
  * @param teamEvents The array of team events that are being grouped into said periods within a given semester.
  * @returns An array of Period objects, TEC events grouped within their respective monthly periods, sorted by deadline from latest to earliest.
  */
