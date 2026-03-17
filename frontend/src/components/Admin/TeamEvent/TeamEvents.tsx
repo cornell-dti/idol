@@ -82,7 +82,7 @@ const TeamEvents: React.FC = () => {
       TeamEventsAPI.getAllTeamEvents()
         .then((teamEvents) => {
           const periods = getPeriods(teamEvents).reverse();
-          setGroupedTeamEvents(periods.reverse());
+          setGroupedTeamEvents(periods);
           setLoading(false);
         })
         .catch((error) => {
