@@ -54,7 +54,7 @@ export default function FeatureSection({
           {chip && <Chip label={chip} color="red" />}
         </div>
 
-        <p className="text-foreground-3">{description}</p>
+        <p className="text-foreground-3 whitespace-pre-line">{description}</p>
       </div>
 
       <div className="flex gap-4">
