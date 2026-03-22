@@ -200,6 +200,29 @@ export function AlumniModal({
     };
   }, [imagePreviewUrl]);
 
+  // Add mode: uploads go to `alumImages/{netId}`. If NetID changes after upload, clear the image
+  // so we never save a document whose `uuid` does not match `imageUrl` (edit mode locks NetID).
+  React.useEffect(() => {
+    if (!open || mode !== 'add') return;
+    const id = form.uuid.trim();
+    const path = form.imageUrl;
+    if (!path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) return;
+
+    const pathNetId = path.slice(ALUMNI_IMAGE_PATH_PREFIX.length);
+    if (pathNetId === id) return;
+
+    setImagePreviewUrl((prev) => {
+      if (prev.startsWith('blob:')) URL.revokeObjectURL(prev);
+      return '';
+    });
+    setForm((f) => ({ ...f, imageUrl: '' }));
+    setUploadError(
+      id.length > 0
+        ? 'NetID changed; upload a new photo.'
+        : 'Photo cleared until NetID is set.'
+    );
+  }, [open, mode, form.uuid, form.imageUrl]);
+
   // Resolve path-based imageUrl (alumImages/…) to signed URL for display; fallbacks are synchronous.
   React.useEffect(() => {
     const path = form.imageUrl;
@@ -268,6 +291,7 @@ export function AlumniModal({
 
   const title = mode === 'add' ? 'Add Alumni' : 'Edit Alumni Information';
   const showAvatarSpinner = uploadingImage || avatarImageLoading;
+  const canUploadImage = form.uuid.trim().length > 0;
 
   return (
     <Modal open={open} onClose={onClose} size="large" closeIcon className={styles.alumniModal}>
@@ -279,8 +303,15 @@ export function AlumniModal({
             <button
               type="button"
               className={styles.avatarButton}
-              onClick={() => !uploadingImage && fileInputRef.current?.click()}
-              disabled={uploadingImage}
+              onClick={() =>
+                !uploadingImage && canUploadImage && fileInputRef.current?.click()
+              }
+              disabled={uploadingImage || !canUploadImage}
+              title={
+                canUploadImage
+                  ? undefined
+                  : 'Enter Cornell NetID before uploading a photo'
+              }
             >
               {imagePreviewUrl ? (
                 <img src={imagePreviewUrl} alt="Alumni profile" className={styles.avatarImage} />
@@ -293,7 +324,7 @@ export function AlumniModal({
                 </span>
               )}
               <span className={styles.avatarOverlay}>
-                {!showAvatarSpinner && (
+                {!showAvatarSpinner && canUploadImage && (
                   <Icon name="camera" size="large" style={{ color: 'white' }} />
                 )}
               </span>
@@ -616,6 +647,7 @@ export function AlumniModal({
                     onChange={(_: any, data: { value: any }) =>
                       setForm((f) => ({ ...f, uuid: String(data.value) }))
                     }
+                    placeholder="Required for photo upload and save"
                   />
                 </Form.Field>
               </Grid.Column>
