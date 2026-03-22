@@ -76,6 +76,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'Create or edit interview scheduler instances',
     link: '/admin/interview-scheduler',
     adminOnly: true
+  },
+  {
+    header: 'Edit Alumni',
+    description: 'Create or edit Alumni instances',
+    link: '/admin/alumni-admin-view',
+    adminOnly: true
   }
 ];
 

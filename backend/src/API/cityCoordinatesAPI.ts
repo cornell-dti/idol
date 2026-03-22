@@ -1,6 +1,7 @@
 import CityCoordinatesDao from '../dao/CityCoordinatesDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError, NotFoundError } from '../utils/errors';
+import GeocodingService from '../utils/geocodingService';
 
 const cityCoordinatesDao = new CityCoordinatesDao();
 
@@ -10,6 +11,27 @@ const cityCoordinatesDao = new CityCoordinatesDao();
  */
 export const getAllCityCoordinates = (): Promise<readonly CityCoordinates[]> =>
   cityCoordinatesDao.getAllCityCoordinates();
+
+/**
+ * Geocodes a location string and ensures there is a corresponding CityCoordinates document.
+ * Returns the CityCoordinates entry for that location.
+ * @param locationString - Human-readable location (e.g. "New York, NY, USA")
+ * @param user - The user making the request
+ */
+export const geocodeAndStoreLocation = async (
+  locationString: string,
+  user: IdolMember
+): Promise<CityCoordinates> => {
+  const canEdit = await PermissionsManager.isLeadOrAdmin(user);
+  if (!canEdit) {
+    throw new PermissionError(
+      `User with email: ${user.email} does not have permission to edit city coordinates!`
+    );
+  }
+
+  const cityCoords = await GeocodingService.geocodeAndStore(locationString);
+  return cityCoords;
+};
 
 /**
  * Gets city coordinates by lat/long coordinates

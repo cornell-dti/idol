@@ -1,4 +1,5 @@
 import CityCoordinatesDao from '../dao/CityCoordinatesDao';
+import { DBCityCoordinates } from '../types/DataTypes';
 
 const cityCoordinatesDao = new CityCoordinatesDao();
 
@@ -119,35 +120,43 @@ export class GeocodingService {
   }
 
   /**
-   * Geocodes a location and stores it in the database if it doesn't exist
-   * Useful for ensuring consistent coordinates for the same city across different alumni
+   * Geocodes a location and ensures there is a CityCoordinates document for it.
+   * This uses existing CityCoordinatesDao helpers to create or reuse entries.
    * @param locationString - The location string to geocode
-   * @returns The geocoding result with latitude, longitude, and location name
+   * @returns The CityCoordinates document for that location
    */
-  static async geocodeAndStore(locationString: string): Promise<GeocodingResult> {
-    const existingCoordinates = await this.findExistingCoordinates(locationString);
-
-    if (existingCoordinates) {
-      return existingCoordinates;
+  static async geocodeAndStore(locationString: string): Promise<DBCityCoordinates> {
+    // First, try to find by existing locationName match
+    const existingByName = await this.findExistingCoordinates(locationString);
+    if (existingByName) {
+      const byNameDoc = await cityCoordinatesDao.getCityCoordinates(
+        existingByName.latitude,
+        existingByName.longitude
+      );
+      if (byNameDoc) return byNameDoc;
     }
 
+    // Otherwise, geocode using Nominatim
+    console.log('geocoding ' + locationString + ' using Nominatim...');
     const result = await this.geocodeLocation(locationString);
+    console.log('result of geocoding: ' + result);
 
+    // If we already have a document at these coordinates, reuse it
     const existingAtCoords = await cityCoordinatesDao.getCityCoordinates(
       result.latitude,
       result.longitude
     );
-
-    if (!existingAtCoords) {
-      await cityCoordinatesDao.createCityCoordinates({
-        locationName: locationString,
-        latitude: result.latitude,
-        longitude: result.longitude,
-        alumniIds: []
-      });
+    if (existingAtCoords) {
+      return existingAtCoords;
     }
 
-    return result;
+    // Create a new CityCoordinates entry, using the canonical display_name as locationName
+    return cityCoordinatesDao.createCityCoordinates({
+      locationName: result.locationName,
+      latitude: result.latitude,
+      longitude: result.longitude,
+      alumniIds: []
+    });
   }
 }
 
