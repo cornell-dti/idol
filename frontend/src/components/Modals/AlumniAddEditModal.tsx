@@ -170,10 +170,6 @@ export function AlumniModal({
   const [locationError, setLocationError] = useState<string | null>(null);
   const LOCATION_NOT_FOUND_MSG = 'Location not found. Please enter another location to add.';
 
-  // Important: when you open modal on a different person, reset the form.
-  // Add mode must always use an empty form — never trust initialAlumni (parent may still
-  // hold the previous row until the next render), and null gradYear must not leave a stale
-  // controlled Input value (use '' in the field).
   React.useEffect(() => {
     if (open) {
       const nextForm = mode === 'add' ? emptyAlumniFormState() : toFormState(initialAlumni);
@@ -217,9 +213,7 @@ export function AlumniModal({
     });
     setForm((f) => ({ ...f, imageUrl: '' }));
     setUploadError(
-      id.length > 0
-        ? 'NetID changed; upload a new photo.'
-        : 'Photo cleared until NetID is set.'
+      id.length > 0 ? 'NetID changed; upload a new photo.' : 'Photo cleared until NetID is set.'
     );
   }, [open, mode, form.uuid, form.imageUrl]);
 
@@ -303,15 +297,9 @@ export function AlumniModal({
             <button
               type="button"
               className={styles.avatarButton}
-              onClick={() =>
-                !uploadingImage && canUploadImage && fileInputRef.current?.click()
-              }
+              onClick={() => !uploadingImage && canUploadImage && fileInputRef.current?.click()}
               disabled={uploadingImage || !canUploadImage}
-              title={
-                canUploadImage
-                  ? undefined
-                  : 'Enter Cornell NetID before uploading a photo'
-              }
+              title={canUploadImage ? undefined : 'Enter Cornell NetID before uploading a photo'}
             >
               {imagePreviewUrl ? (
                 <img src={imagePreviewUrl} alt="Alumni profile" className={styles.avatarImage} />
