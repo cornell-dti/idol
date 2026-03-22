@@ -29,7 +29,7 @@ const AlumniCard: React.FC<AlumniCardProps> = ({ alum }) => {
         setImgSrc(url);
       });
     }
-  }, []);
+  }, [imgSrc]);
 
   const handleImageError = () => {
     setImgSrc(getFallbackImage(alum.uuid));

@@ -98,7 +98,7 @@ function toFormState(a?: Alumni): AlumniFormState {
     imageUrl: a?.imageUrl ?? '',
     firstName: a?.firstName ?? '',
     lastName: a?.lastName ?? '',
-    name: a?.firstName + ' ' + a?.lastName,
+    name: `${a?.firstName ?? ''} ${a?.lastName ?? ''}`.trim(),
     email: a?.email ?? '',
     linkedin: a?.linkedin ?? '',
     gradYear: a?.gradYear ?? null,
@@ -140,6 +140,9 @@ const getFallbackImage = (uuid: string): string => {
 };
 
 const ALUMNI_IMAGE_PATH_PREFIX = 'alumImages/';
+
+/** Semantic UI `Form.Field` / `Input` onChange `data` */
+type FormInputChangeData = { value?: unknown };
 
 export function AlumniModal({
   open,
@@ -190,11 +193,12 @@ export function AlumniModal({
   }, [open, mode, initialAlumni]);
 
   // Revoke object URLs on unmount to avoid memory leaks
-  React.useEffect(() => {
-    return () => {
+  React.useEffect(
+    () => () => {
       if (imagePreviewUrl) URL.revokeObjectURL(imagePreviewUrl);
-    };
-  }, [imagePreviewUrl]);
+    },
+    [imagePreviewUrl, allLocations.length, loadingLocations]
+  );
 
   // Add mode: uploads go to `alumImages/{netId}`. If NetID changes after upload, clear the image
   // so we never save a document whose `uuid` does not match `imageUrl` (edit mode locks NetID).
@@ -220,14 +224,16 @@ export function AlumniModal({
   // Resolve path-based imageUrl (alumImages/…) to signed URL for display; fallbacks are synchronous.
   React.useEffect(() => {
     const path = form.imageUrl;
-    if (imagePreviewUrl !== '') return;
+    if (imagePreviewUrl !== '') {
+      return undefined;
+    }
+
+    let cleanup: (() => void) | undefined;
 
     if (path.startsWith('http')) {
       setImagePreviewUrl(path);
       setAvatarImageLoading(false);
-      return;
-    }
-    if (path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) {
+    } else if (path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) {
       setAvatarImageLoading(true);
       let cancelled = false;
       ImagesAPI.getImage(path)
@@ -237,12 +243,15 @@ export function AlumniModal({
         .finally(() => {
           if (!cancelled) setAvatarImageLoading(false);
         });
-      return () => {
+      cleanup = () => {
         cancelled = true;
       };
+    } else {
+      setImagePreviewUrl(getFallbackImage(form.uuid));
+      setAvatarImageLoading(false);
     }
-    setImagePreviewUrl(getFallbackImage(form.uuid));
-    setAvatarImageLoading(false);
+
+    return cleanup;
   }, [form.imageUrl, form.uuid, imagePreviewUrl]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,9 +283,8 @@ export function AlumniModal({
       setForm((f) => ({ ...f, imageUrl: imagePath }));
       setAvatarImageLoading(false);
       setImagePreviewUrl(URL.createObjectURL(file));
-    } catch (err) {
+    } catch {
       setUploadError('Failed to upload image. Please try again.');
-      console.error('Image upload error:', err);
     } finally {
       setUploadingImage(false);
       e.target.value = '';
@@ -338,7 +346,7 @@ export function AlumniModal({
                 <Form.Field
                   control={Input}
                   value={`${form.firstName ?? ''} ${form.lastName ?? ''}`}
-                  onChange={(_: any, data: { value: any }) => {
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) => {
                     const name = String(data.value ?? '');
                     const parts = name.split(/\s+/);
                     const lastName = parts.length > 1 ? parts.pop()! : '';
@@ -372,7 +380,7 @@ export function AlumniModal({
                 <Form.Field
                   control={Input}
                   value={form.email}
-                  onChange={(_: any, data: { value: any }) =>
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                     setForm((f) => ({ ...f, email: String(data.value) }))
                   }
                 />
@@ -397,7 +405,7 @@ export function AlumniModal({
                 <Form.Field
                   control={Input}
                   value={form.linkedin}
-                  onChange={(_: any, data: { value: any }) =>
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                     setForm((f) => ({ ...f, linkedin: String(data.value) }))
                   }
                 />
@@ -426,7 +434,7 @@ export function AlumniModal({
                   control={Input}
                   type="number"
                   value={form.gradYear ?? ''}
-                  onChange={(_: any, data: { value: string | number }) => {
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: { value: string | number }) => {
                     const raw = data.value;
                     if (raw === '' || raw === null || raw === undefined) {
                       setForm((f) => ({ ...f, gradYear: null }));
@@ -505,11 +513,10 @@ export function AlumniModal({
                         setAllLocations((prev) => [...prev, created]);
                         setForm((f) => ({ ...f, location: created.locationName }));
                         setLocationQuery(created.locationName);
-                      } catch (err) {
+                      } catch {
                         setForm((f) => ({ ...f, location: previousLocation }));
                         setLocationQuery(previousQuery);
                         setLocationError(LOCATION_NOT_FOUND_MSG);
-                        console.error('Geocode add location failed:', err);
                       } finally {
                         setGeocodingNewLocation(false);
                       }
@@ -532,7 +539,7 @@ export function AlumniModal({
                   label="Company"
                   control={Input}
                   value={form.company}
-                  onChange={(_: any, data: { value: any }) =>
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                     setForm((f) => ({ ...f, company: String(data.value) }))
                   }
                 />
@@ -545,7 +552,7 @@ export function AlumniModal({
                   label="Company Role"
                   control={Input}
                   value={form.companyRole}
-                  onChange={(_: any, data: { value: any }) =>
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                     setForm((f) => ({ ...f, companyRole: String(data.value) }))
                   }
                 />
@@ -574,8 +581,11 @@ export function AlumniModal({
                     { key: 'other', text: 'Other', value: 'Other' }
                   ]}
                   value={form.jobCategory}
-                  onChange={(_: any, data: { value: any }) =>
-                    setForm((f) => ({ ...f, jobCategory: data.value }))
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
+                    setForm((f) => ({
+                      ...f,
+                      jobCategory: (data.value as AlumJobCategory | null | undefined) ?? null
+                    }))
                   }
                 />
               </Grid.Column>
@@ -594,10 +604,10 @@ export function AlumniModal({
                     { key: 'lead', text: 'Lead', value: 'Lead' }
                   ]}
                   value={form.dtiRole ?? []}
-                  onChange={(_: any, data: { value: AlumDtiRole[] }) =>
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                     setForm((f) => ({
                       ...f,
-                      dtiRole: (data.value as AlumDtiRole[]) ?? []
+                      dtiRole: (data.value as AlumDtiRole[] | undefined) ?? []
                     }))
                   }
                 />
@@ -613,7 +623,7 @@ export function AlumniModal({
                     value={form.subteam}
                     control={Input}
                     placeholder="Enter as comma separated list e.g. QMI, IDOL"
-                    onChange={(_: any, data: { value: any }) =>
+                    onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                       setForm((f) => ({ ...f, subteam: String(data.value) }))
                     }
                   />
@@ -632,7 +642,7 @@ export function AlumniModal({
                     value={form.uuid}
                     control={Input}
                     disabled={mode === 'edit'}
-                    onChange={(_: any, data: { value: any }) =>
+                    onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                       setForm((f) => ({ ...f, uuid: String(data.value) }))
                     }
                     placeholder="Required for photo upload and save"
@@ -687,10 +697,8 @@ export function AlumniModal({
                     coords.locationName
                   );
                 }
-              } catch (error) {
+              } catch {
                 // If updating city coordinates fails, we still persist the alumni change.
-                // eslint-disable-next-line no-console
-                console.error('Failed to sync city coordinates for alumni:', error);
               }
             }
             onClose();

@@ -3,14 +3,13 @@
  * add a filter to the search bar, smae as alumni map filters
  */
 import { Button, Dropdown, DropdownProps, Icon, Input, Table } from 'semantic-ui-react';
-import styles from './EditAlumni.module.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Plus, EllipsisIcon, Delete } from 'lucide-react';
-import { AlumniModal, AlumniFormState } from '../../Modals/AlumniAddEditModal';
+import { Plus, EllipsisIcon } from 'lucide-react';
+import styles from './EditAlumni.module.css';
+import { AlumniModal } from '../../Modals/AlumniAddEditModal';
 import DeleteAlumniConfirmationModal from '../../Modals/DeleteAlumniConfirmationModal';
 import AlumniAPI from '../../../API/AlumniAPI';
 import { Emitters } from '../../../utils';
-import Alumni from '../../Alumni/Alumni';
 
 export default function EditAlumni(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,13 +52,14 @@ export default function EditAlumni(): JSX.Element {
 
     return alumni.filter((alum) => {
       const searchableValues = [
-        alum.firstName + ' ' + alum.lastName,
+        `${alum.firstName} ${alum.lastName}`,
         alum.email,
         alum.company,
         alum.location,
         alum.jobCategory,
         alum.jobRole,
         alum.gradYear,
+        alum.uuid,
         alum.dtiRoles?.join(', '),
         alum.subteams?.join(', ')
       ];
@@ -89,10 +89,8 @@ export default function EditAlumni(): JSX.Element {
     try {
       if (modalMode === 'add') {
         await AlumniAPI.createAlumni(data);
-        console.log('create', data);
       } else {
         await AlumniAPI.updateAlumni(data);
-        console.log('update', selectedAlumni?.uuid, data);
       }
       await loadAlumni();
     } finally {
@@ -160,22 +158,25 @@ export default function EditAlumni(): JSX.Element {
         </Table.Header>
 
         <Table.Body>
-          {isLoading ? (
+          {isLoading && (
             <Table.Row>
               <Table.Cell colSpan="11" textAlign="center">
                 Loading alumni...
               </Table.Cell>
             </Table.Row>
-          ) : filteredAlumni.length === 0 ? (
+          )}
+          {!isLoading && filteredAlumni.length === 0 && (
             <Table.Row>
               <Table.Cell colSpan="11" textAlign="center">
                 No alumni found.
               </Table.Cell>
             </Table.Row>
-          ) : (
+          )}
+          {!isLoading &&
+            filteredAlumni.length > 0 &&
             filteredAlumni.map((alum) => (
-              <Table.Row key={alum.firstName + ' ' + alum.lastName}>
-                <Table.Cell>{alum.firstName + ' ' + alum.lastName || '—'}</Table.Cell>
+              <Table.Row key={`${alum.firstName} ${alum.lastName}`}>
+                <Table.Cell>{`${alum.firstName} ${alum.lastName}` || '—'}</Table.Cell>
                 <Table.Cell>{alum.email || '—'}</Table.Cell>
                 <Table.Cell>{alum.company || '—'}</Table.Cell>
                 <Table.Cell>{alum.location || '—'}</Table.Cell>
@@ -220,8 +221,7 @@ export default function EditAlumni(): JSX.Element {
                   </Dropdown>
                 </Table.Cell>
               </Table.Row>
-            ))
-          )}
+            ))}
         </Table.Body>
       </Table>
       <AlumniModal
