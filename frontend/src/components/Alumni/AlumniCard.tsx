@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Icon, Image } from 'semantic-ui-react';
 import styles from './Alumni.module.css';
+import React from 'react';
+import ImagesAPI from '../../API/ImagesAPI';
 
 const FALLBACK_IMAGES = [
   '/alumni/fallback-1.svg',
@@ -20,6 +22,14 @@ type AlumniCardProps = {
 
 const AlumniCard: React.FC<AlumniCardProps> = ({ alum }) => {
   const [imgSrc, setImgSrc] = useState(alum.imageUrl || getFallbackImage(alum.uuid));
+  const ALUMNI_IMAGE_PATH_PREFIX = 'alumImages/';
+  React.useEffect(() => {
+    if (imgSrc.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) {
+      ImagesAPI.getImage(imgSrc).then((url) => {
+        setImgSrc(url);
+      });
+    }
+  }, []);
 
   const handleImageError = () => {
     setImgSrc(getFallbackImage(alum.uuid));

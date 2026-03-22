@@ -1,22 +1,16 @@
-/* TODO:
+/* Minor Issues:
  * Make the table header grey
- * Make the delete text red
- * Make the dropdown items same height as design
- * Location not dropdown
- * Standardize alumni type across editalumni, alumni.tsx and alumniaddeditmodal
- * contact info? 
- * add loading screen after saving changes in modal
+ * add a filter to the search bar, smae as alumni map filters
  */
 import { Button, Dropdown, DropdownProps, Icon, Input, Table } from 'semantic-ui-react';
 import styles from './EditAlumni.module.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Plus, EllipsisIcon, Delete } from 'lucide-react';
-import {AlumniModal, AlumniFormState} from '../../Modals/AlumniAddEditModal';
+import { AlumniModal, AlumniFormState } from '../../Modals/AlumniAddEditModal';
 import DeleteAlumniConfirmationModal from '../../Modals/DeleteAlumniConfirmationModal';
 import AlumniAPI from '../../../API/AlumniAPI';
 import { Emitters } from '../../../utils';
 import Alumni from '../../Alumni/Alumni';
-
 
 export default function EditAlumni(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,6 +19,7 @@ export default function EditAlumni(): JSX.Element {
   const [alumni, setAlumni] = useState<readonly Alumni[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [saveLoading, setSaveLoading] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [alumniToDelete, setAlumniToDelete] = useState<Alumni | undefined>(undefined);
   const [nameInputOpen, setNameInputOpen] = useState<boolean>(false);
@@ -33,7 +28,7 @@ export default function EditAlumni(): JSX.Element {
 
   async function loadAlumni(): Promise<void> {
     setIsLoading(true);
-  
+
     try {
       const alumniData = await AlumniAPI.getAllAlumni();
       setAlumni(alumniData);
@@ -43,19 +38,19 @@ export default function EditAlumni(): JSX.Element {
         contentMsg: `Error was: ${error}`
       });
     }
-  
+
     setIsLoading(false);
   }
-  
+
   useEffect(() => {
     loadAlumni();
   }, []);
 
   const filteredAlumni = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-  
+
     if (!query) return alumni;
-  
+
     return alumni.filter((alum) => {
       const searchableValues = [
         alum.firstName + ' ' + alum.lastName,
@@ -68,37 +63,47 @@ export default function EditAlumni(): JSX.Element {
         alum.dtiRoles?.join(', '),
         alum.subteams?.join(', ')
       ];
-  
+
       return searchableValues.some((value) =>
-        String(value ?? '').toLowerCase().includes(query)
+        String(value ?? '')
+          .toLowerCase()
+          .includes(query)
       );
     });
   }, [alumni, searchQuery]);
 
-    function openAdd(): void {
-        setModalMode('add');
-        setSelectedAlumni(undefined);
-        setModalOpen(true);
-    }
-    
-    function openEdit(alumni: Alumni): void {
-        setModalMode('edit');
-        setSelectedAlumni(alumni);
-        setModalOpen(true);
-    }
-    
-    async function saveAlumni(data: Alumni): Promise<void> {
-        if (modalMode === 'add') {
-          await AlumniAPI.createAlumni(data)
-          console.log('create', data);
-        } else {
-          await AlumniAPI.updateAlumni(data)
-          console.log('update', selectedAlumni?.uuid, data);
-        }
+  function openAdd(): void {
+    setModalMode('add');
+    setSelectedAlumni(undefined);
+    setModalOpen(true);
+  }
 
-        await loadAlumni();
+  function openEdit(alumni: Alumni): void {
+    setModalMode('edit');
+    setSelectedAlumni(alumni);
+    setModalOpen(true);
+  }
+
+  async function saveAlumni(data: Alumni): Promise<void> {
+    setSaveLoading(true);
+    try {
+      if (modalMode === 'add') {
+        await AlumniAPI.createAlumni(data);
+        console.log('create', data);
+      } else {
+        await AlumniAPI.updateAlumni(data);
+        console.log('update', selectedAlumni?.uuid, data);
+      }
+      await loadAlumni();
+    } finally {
+      setSaveLoading(false);
     }
-  function handleRowAction(alum: Alumni, _: React.SyntheticEvent<HTMLElement>, data: DropdownProps): void {
+  }
+  function handleRowAction(
+    alum: Alumni,
+    _: React.SyntheticEvent<HTMLElement>,
+    data: DropdownProps
+  ): void {
     const value = data.value as string | undefined;
     if (value === 'edit') {
       // TODO: open edit modal
@@ -113,7 +118,7 @@ export default function EditAlumni(): JSX.Element {
     setAlumniToDelete(alum);
     setDeleteModalOpen(true);
   }
-  
+
   async function deleteAlumni(alum: Alumni): Promise<void> {
     await AlumniAPI.deleteAlumni(alum.uuid);
     await loadAlumni();
@@ -130,7 +135,11 @@ export default function EditAlumni(): JSX.Element {
           value={searchQuery}
           onChange={(_, data) => setSearchQuery(String(data.value ?? ''))}
         />
-        <Button color="black" style={{ height: '48px', width: '127px', padding: '16px' }} onClick = {openAdd}>
+        <Button
+          color="black"
+          style={{ height: '48px', width: '127px', padding: '16px' }}
+          onClick={openAdd}
+        >
           <Plus color="white" size="1rem" style={{ verticalAlign: 'bottom' }} /> Add Alumni
         </Button>
       </div>
@@ -219,14 +228,14 @@ export default function EditAlumni(): JSX.Element {
         open={modalOpen}
         mode={modalMode}
         initialAlumni={selectedAlumni}
-        onClose={() => 
-          {setModalOpen(false)
-          setNameInputOpen(false)
-          setEmailInputOpen(false)
-          setLinkedinInputOpen(false)
-          }
-        }
+        onClose={() => {
+          setModalOpen(false);
+          setNameInputOpen(false);
+          setEmailInputOpen(false);
+          setLinkedinInputOpen(false);
+        }}
         onSave={saveAlumni}
+        saveLoading={saveLoading}
         nameInputOpen={nameInputOpen}
         setNameInputOpen={setNameInputOpen}
         emailInputOpen={emailInputOpen}

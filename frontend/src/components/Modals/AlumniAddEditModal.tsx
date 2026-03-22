@@ -1,37 +1,17 @@
-/* TODO: 
+/* Minor Issues:
  * Field name font sizes smaller than design
  * cancel button border isn't as black as design
  * x in corner is outside the box
- * edit buttons make the text shift around
- * save button implementation
- * make save changes close all edit menus and dropdowns
+ * opening the edit menus at the top makes everything shift a little
  * linkedin logo slightly too low
- * how to know when to use mobile view? 
- * location dropdown
- * dropdowns vs. free input for location, job category, company
- * multiple selections for subteam, dtirole
- * add uuid field to alumni
- * default image bears change in real time based on netid input, unwanted
- * uploading/saving without a netid does not update the database, require netid
- * images don't load in smoothly
- * does this store images efficiently? I don't want to accidentally store unused/replaced images
- * require location to be a comma separated list which can be mapped by the alumni database
- * require subteam (s) to be a comma separated list
+ * Nominatim only accepts chinese characters for locations in China
  */
 
 import React, { useRef, useState } from 'react';
-import {
-  Button,
-  Dropdown,
-  Form,
-  Grid,
-  Icon,
-  Input,
-  Modal,
-} from 'semantic-ui-react';
+import { Button, Dropdown, Form, Grid, Icon, Input, Modal } from 'semantic-ui-react';
 import ImagesAPI from '../../API/ImagesAPI';
+import CityCoordinatesAPI from '../../API/CityCoordinatesAPI';
 import styles from '../Admin/EditAlumni/EditAlumni.module.css';
-
 
 export type AlumniFormState = {
   uuid: string;
@@ -53,50 +33,63 @@ export type AlumniFormState = {
 };
 
 function emptyAlumniFormState(): AlumniFormState {
-    return {
-      uuid: '',
-      imageUrl: '',
-      firstName: '',
-      lastName: '',
-      name: '',
-      email: '',
-      linkedin: '',
-      gradYear: null,
-      location: '',
-      company: '',
-      companyRole: '',
-      jobCategory: null,
-      dtiRole: [],
-      subteam: ''
-    };
+  return {
+    uuid: '',
+    imageUrl: '',
+    firstName: '',
+    lastName: '',
+    name: '',
+    email: '',
+    linkedin: '',
+    gradYear: null,
+    location: '',
+    company: '',
+    companyRole: '',
+    jobCategory: null,
+    dtiRole: [],
+    subteam: ''
+  };
 }
 
 function fromFormState(form: AlumniFormState): Alumni {
-    return {
-      uuid: form.uuid,
-      imageUrl: form.imageUrl,
-      firstName: form.firstName.trim(),
-      lastName: form.lastName.trim(),
-      email: form.email.trim(),
-      linkedin: form.linkedin.trim() ?? null,
-  
-      gradYear: form.gradYear ?? null,
-      location: form.location.trim(),
-      company: form.company.trim(),
-  
-      jobRole: form.companyRole.trim(),
-      jobCategory: form.jobCategory ?? 'Other',
-  
-      dtiRoles: form.dtiRole ?? [],
-  
-      subteams: form.subteam
-        ? form.subteam
-            .split(',')
-            .map((s) => s.trim())
-            .filter((s) => s.length > 0)
-        : []
-    };
+  return {
+    uuid: form.uuid,
+    imageUrl: form.imageUrl,
+    firstName: form.firstName.trim(),
+    lastName: form.lastName.trim(),
+    email: form.email.trim(),
+    linkedin: form.linkedin.trim() ?? null,
+
+    gradYear: form.gradYear ?? null,
+    location: form.location.trim(),
+    company: form.company.trim(),
+
+    jobRole: form.companyRole.trim(),
+    jobCategory: form.jobCategory ?? 'Other',
+
+    dtiRoles: form.dtiRole ?? [],
+
+    subteams: form.subteam
+      ? form.subteam
+          .split(', ')
+          .map((s) => s.trim())
+          .filter((s) => s.length > 0)
+      : []
+  };
+}
+
+/** Non-empty values must list subteams separated by comma + space (e.g. "QMI, CU Reviews"). */
+function isValidSubteamCommaSpaceList(value: string): boolean {
+  const t = value.trim();
+  if (t.length === 0) return true;
+  if (/,(?!\s)/.test(t)) return false;
+  const parts = t.split(', ');
+  for (const p of parts) {
+    if (p.includes(',')) return false;
+    if (p.trim().length === 0) return false;
   }
+  return true;
+}
 
 function toFormState(a?: Alumni): AlumniFormState {
   if (!a) return emptyAlumniFormState();
@@ -125,45 +118,80 @@ type AlumniModalProps = {
   initialAlumni?: Alumni;
   onClose: () => void;
   onSave: (data: Alumni) => Promise<void> | void;
+  saveLoading: boolean;
   nameInputOpen: boolean;
   setNameInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
   emailInputOpen: boolean;
   setEmailInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
   linkedinInputOpen: boolean;
   setLinkedinInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  
 };
 
 const FALLBACK_IMAGES = [
-    '/alumni/fallback-1.svg',
-    '/alumni/fallback-2.svg',
-    '/alumni/fallback-3.svg',
-    '/alumni/fallback-4.svg'
-  ];
-  
+  '/alumni/fallback-1.svg',
+  '/alumni/fallback-2.svg',
+  '/alumni/fallback-3.svg',
+  '/alumni/fallback-4.svg'
+];
+
 const getFallbackImage = (uuid: string): string => {
-    const hash = uuid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length];
+  const hash = uuid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length];
 };
 
 const ALUMNI_IMAGE_PATH_PREFIX = 'alumImages/';
 
-export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameInputOpen, setNameInputOpen, emailInputOpen, setEmailInputOpen, linkedinInputOpen, setLinkedinInputOpen }: AlumniModalProps): JSX.Element {
+export function AlumniModal({
+  open,
+  mode,
+  initialAlumni,
+  onClose,
+  onSave,
+  saveLoading,
+  nameInputOpen,
+  setNameInputOpen,
+  emailInputOpen,
+  setEmailInputOpen,
+  linkedinInputOpen,
+  setLinkedinInputOpen
+}: AlumniModalProps): JSX.Element {
   const [form, setForm] = useState<AlumniFormState>(() => toFormState(initialAlumni));
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('');
+  /** True while resolving `alumImages/…` to a signed URL (avoids empty avatar flash). */
+  const [avatarImageLoading, setAvatarImageLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [allLocations, setAllLocations] = useState<readonly CityCoordinates[]>([]);
+  const [locationQuery, setLocationQuery] = useState('');
+  const [loadingLocations, setLoadingLocations] = useState(false);
+  const [geocodingNewLocation, setGeocodingNewLocation] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const LOCATION_NOT_FOUND_MSG = 'Location not found. Please enter another location to add.';
+
   // Important: when you open modal on a different person, reset the form.
+  // Add mode must always use an empty form — never trust initialAlumni (parent may still
+  // hold the previous row until the next render), and null gradYear must not leave a stale
+  // controlled Input value (use '' in the field).
   React.useEffect(() => {
     if (open) {
-      setForm(toFormState(initialAlumni));
+      const nextForm = mode === 'add' ? emptyAlumniFormState() : toFormState(initialAlumni);
+      setForm(nextForm);
       setUploadError(null);
       setImagePreviewUrl('');
-      console.log("opened!")
+      setAvatarImageLoading(nextForm.imageUrl.startsWith(ALUMNI_IMAGE_PATH_PREFIX));
+      setLocationQuery(mode === 'add' ? '' : initialAlumni?.location ?? '');
+      setLocationError(null);
+      // Load locations once when modal opens
+      if (allLocations.length === 0 && !loadingLocations) {
+        setLoadingLocations(true);
+        CityCoordinatesAPI.getAllCityCoordinates()
+          .then((coords) => setAllLocations(coords))
+          .finally(() => setLoadingLocations(false));
+      }
     }
-  }, [open]);
+  }, [open, mode, initialAlumni]);
 
   // Revoke object URLs on unmount to avoid memory leaks
   React.useEffect(() => {
@@ -172,15 +200,33 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
     };
   }, [imagePreviewUrl]);
 
-  // Resolve path-based imageUrl (alumImages/xxx) to signed URL for display, else set imagePreviewURL to form.url
+  // Resolve path-based imageUrl (alumImages/…) to signed URL for display; fallbacks are synchronous.
   React.useEffect(() => {
     const path = form.imageUrl;
     if (imagePreviewUrl !== '') return;
-    if (path.startsWith('http')) setImagePreviewUrl(path);
-    else if (path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) {
-        ImagesAPI.getImage(path).then((url) => {setImagePreviewUrl(url)});
-    } else setImagePreviewUrl(getFallbackImage(form.uuid));
-  }, [form.imageUrl, imagePreviewUrl]);
+
+    if (path.startsWith('http')) {
+      setImagePreviewUrl(path);
+      setAvatarImageLoading(false);
+      return;
+    }
+    if (path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) {
+      setAvatarImageLoading(true);
+      let cancelled = false;
+      ImagesAPI.getImage(path)
+        .then((url) => {
+          if (!cancelled) setImagePreviewUrl(url);
+        })
+        .finally(() => {
+          if (!cancelled) setAvatarImageLoading(false);
+        });
+      return () => {
+        cancelled = true;
+      };
+    }
+    setImagePreviewUrl(getFallbackImage(form.uuid));
+    setAvatarImageLoading(false);
+  }, [form.imageUrl, form.uuid, imagePreviewUrl]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -209,6 +255,7 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
 
       // Store path for save; use object URL for immediate preview
       setForm((f) => ({ ...f, imageUrl: imagePath }));
+      setAvatarImageLoading(false);
       setImagePreviewUrl(URL.createObjectURL(file));
     } catch (err) {
       setUploadError('Failed to upload image. Please try again.');
@@ -220,11 +267,11 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
   };
 
   const title = mode === 'add' ? 'Add Alumni' : 'Edit Alumni Information';
+  const showAvatarSpinner = uploadingImage || avatarImageLoading;
 
   return (
-    <Modal open={open} onClose={onClose} size="large" closeIcon className={styles.alumniModal}
->
-      <Modal.Header className = {styles.modalHeader}>{title}</Modal.Header>
+    <Modal open={open} onClose={onClose} size="large" closeIcon className={styles.alumniModal}>
+      <Modal.Header className={styles.modalHeader}>{title}</Modal.Header>
 
       <Modal.Content>
         <div className={styles.modalTopCard}>
@@ -235,16 +282,19 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
               onClick={() => !uploadingImage && fileInputRef.current?.click()}
               disabled={uploadingImage}
             >
-                <img
-                  src={imagePreviewUrl}
-                  alt="Alumni profile"
-                  className={styles.avatarImage}
-                />
-              <span className={styles.avatarOverlay}>
-                {uploadingImage ? (
+              {imagePreviewUrl ? (
+                <img src={imagePreviewUrl} alt="Alumni profile" className={styles.avatarImage} />
+              ) : (
+                <div className={styles.avatarPlaceholder} aria-hidden />
+              )}
+              {showAvatarSpinner && (
+                <span className={styles.avatarLoadingShade}>
                   <Icon name="spinner" loading />
-                ) : (
-                  <Icon name="camera" size = 'large' style={{ color: 'white' }} />
+                </span>
+              )}
+              <span className={styles.avatarOverlay}>
+                {!showAvatarSpinner && (
+                  <Icon name="camera" size="large" style={{ color: 'white' }} />
                 )}
               </span>
             </button>
@@ -255,64 +305,93 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
               onChange={handleImageUpload}
               style={{ display: 'none' }}
             />
-            {uploadError && (
-              <span className={styles.uploadError}>{uploadError}</span>
-            )}
+            {uploadError && <span className={styles.uploadError}>{uploadError}</span>}
           </div>
           <div className={styles.modalTopText}>
             <div className={styles.modalNameRow}>
-            {!nameInputOpen ? (
+              {!nameInputOpen ? (
                 <div className={styles.modalName}>
-                    {(form.firstName || form.lastName)
+                  {form.firstName || form.lastName
                     ? `${form.firstName ?? ''} ${form.lastName ?? ''}`.trim()
                     : 'New Alumni'}
                 </div>
-                ) : (
+              ) : (
                 <Form.Field
-                    control={Input}
-                    value={`${form.firstName ?? ''} ${form.lastName ?? ''}`}
-                    onChange={(_: any, data: { value: any; }) => {
+                  control={Input}
+                  value={`${form.firstName ?? ''} ${form.lastName ?? ''}`}
+                  onChange={(_: any, data: { value: any }) => {
                     const name = String(data.value ?? '');
                     const parts = name.split(/\s+/);
                     const lastName = parts.length > 1 ? parts.pop()! : '';
                     const firstName = parts.join(' ');
 
                     setForm((f) => ({
-                        ...f,
-                        firstName,
-                        lastName
+                      ...f,
+                      firstName,
+                      lastName
                     }));
-                    }}
+                  }}
                 />
+              )}
+              <button
+                onClick={() => setNameInputOpen(!nameInputOpen)}
+                className={styles.iconButton}
+              >
+                {nameInputOpen ? (
+                  <text style={{ fontWeight: 600 }}>Save</text>
+                ) : (
+                  <Icon name="pencil" />
                 )}
-              <button onClick = { () => setNameInputOpen(!nameInputOpen)} className = {styles.iconButton}>
-                {nameInputOpen? <text style = {{fontWeight: 600}}>Save</text> : <Icon name="pencil" />}
               </button>
             </div>
 
             <div className={styles.modalContactRow}>
               <Icon name="mail" />
-              {!emailInputOpen? <span>{form.email}</span> : <Form.Field
-                  control= {Input}
-                  value= {form.email}
-                  onChange={(_: any, data: { value: any; }) => setForm((f) => ({ ...f, email: String(data.value) }
-                ))}
-                />}
-              <button onClick = { () => setEmailInputOpen(!emailInputOpen)} className = {styles.iconButton}>
-                {emailInputOpen? <text style = {{fontWeight: 600}}>Save</text> : <Icon name="pencil" />}
+              {!emailInputOpen ? (
+                <span>{form.email}</span>
+              ) : (
+                <Form.Field
+                  control={Input}
+                  value={form.email}
+                  onChange={(_: any, data: { value: any }) =>
+                    setForm((f) => ({ ...f, email: String(data.value) }))
+                  }
+                />
+              )}
+              <button
+                onClick={() => setEmailInputOpen(!emailInputOpen)}
+                className={styles.iconButton}
+              >
+                {emailInputOpen ? (
+                  <text style={{ fontWeight: 600 }}>Save</text>
+                ) : (
+                  <Icon name="pencil" />
+                )}
               </button>
             </div>
 
             <div className={styles.modalContactRow}>
-              <Icon name="linkedin"/>
-              {!linkedinInputOpen? <span>{form.linkedin}</span> : <Form.Field
-                  control= {Input}
-                  value= {form.linkedin}
-                  onChange={(_: any, data: { value: any; }) => setForm((f) => ({ ...f, linkedin: String(data.value) }
-                ))}
-                />}
-              <button onClick = { () => setLinkedinInputOpen(!linkedinInputOpen)} className = {styles.iconButton}>
-                {linkedinInputOpen? <text style = {{fontWeight: 600}}>Save</text> : <Icon name="pencil" />}
+              <Icon name="linkedin" />
+              {!linkedinInputOpen ? (
+                <span>{form.linkedin}</span>
+              ) : (
+                <Form.Field
+                  control={Input}
+                  value={form.linkedin}
+                  onChange={(_: any, data: { value: any }) =>
+                    setForm((f) => ({ ...f, linkedin: String(data.value) }))
+                  }
+                />
+              )}
+              <button
+                onClick={() => setLinkedinInputOpen(!linkedinInputOpen)}
+                className={styles.iconButton}
+              >
+                {linkedinInputOpen ? (
+                  <text style={{ fontWeight: 600 }}>Save</text>
+                ) : (
+                  <Icon name="pencil" />
+                )}
               </button>
             </div>
           </div>
@@ -326,18 +405,107 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
                 <Form.Field
                   label="Graduation Year"
                   control={Input}
-                  value={form.gradYear}
-                  onChange={(_: any, data: { value: number | null; }) => setForm((f) => ({ ...f, gradYear: (data.value) }))}
+                  type="number"
+                  value={form.gradYear ?? ''}
+                  onChange={(_: any, data: { value: string | number }) => {
+                    const raw = data.value;
+                    if (raw === '' || raw === null || raw === undefined) {
+                      setForm((f) => ({ ...f, gradYear: null }));
+                      return;
+                    }
+                    const n = typeof raw === 'number' ? raw : Number(raw);
+                    setForm((f) => ({
+                      ...f,
+                      gradYear: Number.isFinite(n) ? n : null
+                    }));
+                  }}
                 />
               </Grid.Column>
 
               <Grid.Column>
                 <Form.Field
                   label="Location"
-                  control={Input}
+                  control={Dropdown}
+                  selection
+                  search
+                  loading={loadingLocations || geocodingNewLocation}
+                  placeholder="Search or add a location"
+                  options={(() => {
+                    const query = locationQuery.trim().toLowerCase();
+                    const uniqueNames = Array.from(
+                      new Set(allLocations.map((c) => c.locationName))
+                    );
+                    const filtered =
+                      query.length > 0
+                        ? uniqueNames.filter((name) => name.toLowerCase().includes(query))
+                        : [];
+                    const topFive = filtered.slice(0, 5);
+
+                    const baseOptions = topFive.map((name) => ({
+                      key: name,
+                      text: name,
+                      value: name
+                    }));
+
+                    const hasExact = uniqueNames.some((name) => name.toLowerCase() === query);
+
+                    if (query && !hasExact) {
+                      baseOptions.push({
+                        key: `add-${query}`,
+                        text: `Add "${locationQuery}"`,
+                        value: `__add__${locationQuery}`
+                      });
+                    }
+
+                    return baseOptions;
+                  })()}
                   value={form.location}
-                  onChange={(_: any, data: { value: any; }) => setForm((f) => ({ ...f, location: String(data.value) }))}
+                  onSearchChange={(
+                    _event: React.SyntheticEvent<HTMLElement>,
+                    data: { searchQuery?: string }
+                  ) => {
+                    setLocationQuery(String(data.searchQuery ?? ''));
+                    setLocationError(null);
+                  }}
+                  onChange={async (
+                    _event: React.SyntheticEvent<HTMLElement>,
+                    data: { value?: unknown }
+                  ) => {
+                    const value = String(data.value ?? '');
+                    if (value.startsWith('__add__')) {
+                      const raw = value.replace('__add__', '');
+                      const newLocation = raw.trim();
+                      if (!newLocation) return;
+
+                      const previousLocation = form.location;
+                      const previousQuery = locationQuery;
+                      setLocationError(null);
+                      setGeocodingNewLocation(true);
+                      try {
+                        const created = await CityCoordinatesAPI.geocodeAndStore(newLocation);
+                        setAllLocations((prev) => [...prev, created]);
+                        setForm((f) => ({ ...f, location: created.locationName }));
+                        setLocationQuery(created.locationName);
+                      } catch (err) {
+                        setForm((f) => ({ ...f, location: previousLocation }));
+                        setLocationQuery(previousQuery);
+                        setLocationError(LOCATION_NOT_FOUND_MSG);
+                        console.error('Geocode add location failed:', err);
+                      } finally {
+                        setGeocodingNewLocation(false);
+                      }
+                    } else {
+                      setLocationError(null);
+                      setForm((f) => ({ ...f, location: value }));
+                      setLocationQuery(value);
+                    }
+                  }}
                 />
+                {locationError && (
+                  <div className={styles.uploadError} style={{ marginTop: 6 }} role="alert">
+                    {locationError}
+                  </div>
+                )}
               </Grid.Column>
 
               <Grid.Column>
@@ -345,91 +513,110 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
                   label="Company"
                   control={Input}
                   value={form.company}
-                  onChange={(_: any, data: { value: any; }) => setForm((f) => ({ ...f, company: String(data.value) }))}
+                  onChange={(_: any, data: { value: any }) =>
+                    setForm((f) => ({ ...f, company: String(data.value) }))
+                  }
                 />
               </Grid.Column>
             </Grid.Row>
 
             <Grid.Row>
               <Grid.Column>
-              <Form.Field
+                <Form.Field
                   label="Company Role"
                   control={Input}
                   value={form.companyRole}
-                  onChange={(_: any, data: { value: any; }) =>
+                  onChange={(_: any, data: { value: any }) =>
                     setForm((f) => ({ ...f, companyRole: String(data.value) }))
                   }
                 />
               </Grid.Column>
 
               <Grid.Column>
-              <Form.Field
-                    label="Job Category"
-                    control={Dropdown}
-                    selection
-                    options={[
-                        { key: 'technology', text: 'Technology', value: 'Technology' },
-                        { key: 'product-management', text: 'Product Management', value: 'Product Management' },
-                        { key: 'business', text: 'Business', value: 'Business' },
-                        { key: 'product-design', text: 'Product Design', value: 'Product Design' },
-                        { key: 'entrepreneurship', text: 'Entrepreneurship', value: 'Entrepreneurship' },
-                        { key: 'grad-student', text: 'Grad Student', value: 'Grad Student' },
-                        { key: 'other', text: 'Other', value: 'Other' }
-                    ]}
+                <Form.Field
+                  label="Job Category"
+                  control={Dropdown}
+                  selection
+                  options={[
+                    { key: 'technology', text: 'Technology', value: 'Technology' },
+                    {
+                      key: 'product-management',
+                      text: 'Product Management',
+                      value: 'Product Management'
+                    },
+                    { key: 'business', text: 'Business', value: 'Business' },
+                    { key: 'product-design', text: 'Product Design', value: 'Product Design' },
+                    {
+                      key: 'entrepreneurship',
+                      text: 'Entrepreneurship',
+                      value: 'Entrepreneurship'
+                    },
+                    { key: 'grad-student', text: 'Grad Student', value: 'Grad Student' },
+                    { key: 'other', text: 'Other', value: 'Other' }
+                  ]}
                   value={form.jobCategory}
-                  onChange={(_: any, data: { value: any; }) => setForm((f) => ({ ...f, jobCategory: (data.value) }))}
+                  onChange={(_: any, data: { value: any }) =>
+                    setForm((f) => ({ ...f, jobCategory: data.value }))
+                  }
                 />
               </Grid.Column>
 
               <Grid.Column>
-              <Form.Field
-                label="DTI Role"
-                control={Dropdown}
-                selection
-                multiple
-                options={[
+                <Form.Field
+                  label="DTI Role"
+                  control={Dropdown}
+                  selection
+                  multiple
+                  options={[
                     { key: 'dev', text: 'Development', value: 'Dev' },
                     { key: 'product', text: 'Product', value: 'Product' },
                     { key: 'business', text: 'Business', value: 'Business' },
                     { key: 'design', text: 'Design', value: 'Design' },
                     { key: 'lead', text: 'Lead', value: 'Lead' }
-                ]}
-                value={form.dtiRole ?? []}
-                onChange={(_: any, data: { value: AlumDtiRole[]; }) =>
+                  ]}
+                  value={form.dtiRole ?? []}
+                  onChange={(_: any, data: { value: AlumDtiRole[] }) =>
                     setForm((f) => ({
-                    ...f,
-                    dtiRole: (data.value as AlumDtiRole[]) ?? []
+                      ...f,
+                      dtiRole: (data.value as AlumDtiRole[]) ?? []
                     }))
-                }
+                  }
                 />
               </Grid.Column>
             </Grid.Row>
 
             <Grid.Row>
               <Grid.Column>
-              <Form.Field>
-                <label>DTI Subteam</label>
+                <Form.Field>
+                  <label>DTI Subteam</label>
 
-                <Input
+                  <Input
                     value={form.subteam}
                     control={Input}
-                    onChange={(_: any, data: { value: any; }) =>
+                    placeholder="Enter as comma separated list e.g. QMI, IDOL"
+                    onChange={(_: any, data: { value: any }) =>
                       setForm((f) => ({ ...f, subteam: String(data.value) }))
                     }
-                />
+                  />
+                  {!isValidSubteamCommaSpaceList(form.subteam) && (
+                    <div className={styles.uploadError} style={{ marginTop: 6 }} role="alert">
+                      Use a comma and space between subteams (e.g. Subteam A, Subteam B).
+                    </div>
+                  )}
                 </Form.Field>
               </Grid.Column>
               <Grid.Column>
-              <Form.Field>
-                <label>Cornell NetID</label>
+                <Form.Field>
+                  <label>Cornell NetID *</label>
 
-                <Input
+                  <Input
                     value={form.uuid}
                     control={Input}
-                    onChange={(_: any, data: { value: any; }) =>
+                    disabled={mode === 'edit'}
+                    onChange={(_: any, data: { value: any }) =>
                       setForm((f) => ({ ...f, uuid: String(data.value) }))
                     }
-                />
+                  />
                 </Form.Field>
               </Grid.Column>
             </Grid.Row>
@@ -438,20 +625,58 @@ export function AlumniModal({ open, mode, initialAlumni, onClose, onSave, nameIn
       </Modal.Content>
 
       <Modal.Actions>
-        <Button basic className = {styles.cancelButton}
-        onClick={
-            onClose
-
-        }>Cancel</Button>
+        <Button basic className={styles.cancelButton} onClick={onClose}>
+          Cancel
+        </Button>
         <Button
           primary
-          className = {styles.saveButton}
+          className={styles.saveButton}
+          loading={saveLoading}
+          disabled={saveLoading || !form.uuid.trim() || !isValidSubteamCommaSpaceList(form.subteam)}
           onClick={async () => {
-            await onSave(fromFormState(form));
+            const alumniToSave = fromFormState(form);
+            const oldLocation = initialAlumni?.location ?? null;
+            const newLocation = alumniToSave.location?.trim() || null;
+
+            await onSave(alumniToSave);
+
+            // If location changed, update city-coordinates collection
+            if (oldLocation !== newLocation) {
+              try {
+                // Remove alumni from any previous locations
+                const allCoords = await CityCoordinatesAPI.getAllCityCoordinates();
+                await Promise.all(
+                  allCoords
+                    .filter((coord) => coord.alumniIds.includes(alumniToSave.uuid))
+                    .map((coord) =>
+                      CityCoordinatesAPI.removeAlumniFromLocation(
+                        coord.latitude,
+                        coord.longitude,
+                        alumniToSave.uuid
+                      )
+                    )
+                );
+
+                // Add to new location if present
+                if (newLocation) {
+                  const coords = await CityCoordinatesAPI.geocodeAndStore(newLocation);
+                  await CityCoordinatesAPI.addAlumniToLocation(
+                    coords.latitude,
+                    coords.longitude,
+                    alumniToSave.uuid,
+                    coords.locationName
+                  );
+                }
+              } catch (error) {
+                // If updating city coordinates fails, we still persist the alumni change.
+                // eslint-disable-next-line no-console
+                console.error('Failed to sync city coordinates for alumni:', error);
+              }
+            }
             onClose();
           }}
         >
-          Save Changes
+          {saveLoading ? 'Saving...' : 'Save Changes'}
         </Button>
       </Modal.Actions>
     </Modal>

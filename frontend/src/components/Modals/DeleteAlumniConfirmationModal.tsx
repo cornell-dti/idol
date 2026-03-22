@@ -31,13 +31,12 @@ export default function DeleteAlumniConfirmationModal({
     >
       <Modal.Content className={styles.deleteAlumniModalContent}>
         <div className={styles.deleteAlumniMessage}>
-          Are you sure you want to delete <strong>{fullName}</strong>? This action cannot be
-          undone.
+          Are you sure you want to delete <strong>{fullName}</strong>? This action cannot be undone.
         </div>
 
         <div className={styles.deleteAlumniActions}>
           <Button
-            color='red'
+            color="red"
             className={styles.deleteConfirmButton}
             onClick={async () => {
               if (!alumni) return;

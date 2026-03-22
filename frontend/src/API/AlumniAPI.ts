@@ -1,4 +1,4 @@
- import { backendURL } from '../environment';
+import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 
 export default class AlumniAPI {
