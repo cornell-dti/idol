@@ -235,7 +235,7 @@
 
 .infoGrid {
   display: flex;
-  gap: 44px;
+  gap: 0;
   flex-wrap: wrap;
 }
 
@@ -243,7 +243,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 83px;
+  flex: 1 1 0;
 }
 
 .infoItem {
@@ -262,6 +262,8 @@
   font-size: 12px;
   font-weight: 500;
   color: #000;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .socialIcons {
@@ -283,4 +285,47 @@
 
 .socialLink:hover {
   color: #4183c4;
+}
+
+@media (max-width: 1024px) {
+  .infoGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+  }
+
+  .infoColumn {
+    flex: unset;
+  }
+}
+
+@media (max-width: 640px) {
+  .alumniCard {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profileImage {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .cardContent {
+    width: 100%;
+  }
+
+  .infoGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .infoColumn {
+    flex: unset;
+  }
+
+  .socialIcons {
+    align-self: flex-end;
+  }
 }
