@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Icon, Image } from 'semantic-ui-react';
 import styles from './Alumni.module.css';
-import React from 'react';
 import ImagesAPI from '../../API/ImagesAPI';
 
 const FALLBACK_IMAGES = [

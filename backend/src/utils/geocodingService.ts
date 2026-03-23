@@ -137,9 +137,7 @@ export class GeocodingService {
     }
 
     // Otherwise, geocode using Nominatim
-    console.log('geocoding ' + locationString + ' using Nominatim...');
     const result = await this.geocodeLocation(locationString);
-    console.log('result of geocoding: ' + result);
 
     // If we already have a document at these coordinates, reuse it
     const existingAtCoords = await cityCoordinatesDao.getCityCoordinates(
