@@ -90,7 +90,7 @@
   justify-content: flex-start;
 }
 
-/* Matches CoffeeChatDetailsModal suggestion list — past chats with this member */
+
 .memberDropdownOptionAlreadyChatted {
   background-color: #f0f0f0;
   border-radius: 5px;
