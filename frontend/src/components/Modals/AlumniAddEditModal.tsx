@@ -434,7 +434,10 @@ export function AlumniModal({
                   control={Input}
                   type="number"
                   value={form.gradYear ?? ''}
-                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: { value: string | number }) => {
+                  onChange={(
+                    _e: React.SyntheticEvent<HTMLElement>,
+                    data: { value: string | number }
+                  ) => {
                     const raw = data.value;
                     if (raw === '' || raw === null || raw === undefined) {
                       setForm((f) => ({ ...f, gradYear: null }));
