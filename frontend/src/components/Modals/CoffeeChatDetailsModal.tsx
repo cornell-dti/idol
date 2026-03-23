@@ -35,10 +35,7 @@ const CoffeeChatModal: React.FC<Props> = ({
     membersInCategory = [];
   }
 
-  const netIdsAlreadyChatted = getChattedOtherNetIds(
-    submittedChats,
-    approvedArchivedChats
-  );
+  const netIdsAlreadyChatted = getChattedOtherNetIds(submittedChats, approvedArchivedChats);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -103,16 +100,13 @@ const CoffeeChatModal: React.FC<Props> = ({
                 <div>
                   <div>
                     Member(s) in category '{category}'{' '}
-                    <span style={{ fontWeight: 'bold' }}>
-                      (not including you)
-                    </span>
+                    <span style={{ fontWeight: 'bold' }}>(not including you)</span>
                   </div>
                   {membersInCategory
                     .sort((m1, m2) => `${m1.name}`.localeCompare(`${m2.name}`))
                     .map((member) => {
                       const netidKey = member?.netid?.trim().toLowerCase() ?? '';
-                      const alreadyChatted =
-                        netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
+                      const alreadyChatted = netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
                       return (
                         <div
                           key={member?.netid}

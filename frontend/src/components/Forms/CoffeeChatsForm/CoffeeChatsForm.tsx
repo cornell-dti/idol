@@ -69,7 +69,6 @@ const CoffeeChatsForm: React.FC = () => {
     approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
     pendingChats.some((chat) => chat.otherMember.netid === member?.netid);
 
-  
   const netIdsAlreadyChatted = getChattedOtherNetIds(
     approvedChats,
     pendingChats,
@@ -190,8 +189,7 @@ const CoffeeChatsForm: React.FC = () => {
                 )
                 .map((listMember) => {
                   const netidKey = listMember.netid?.trim().toLowerCase() ?? '';
-                  const alreadyChatted =
-                    netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
+                  const alreadyChatted = netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
                   return {
                     key: listMember.netid,
                     value: listMember.netid,

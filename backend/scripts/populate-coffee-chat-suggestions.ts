@@ -32,11 +32,9 @@ const memberDetails = (mem: IdolMember): MemberDetails => ({
 const filteredSuggestions = (
   members: IdolMember[],
   predicate: (m: IdolMember) => boolean
-): MemberDetails[] =>
-  members.filter(predicate).map((mem) => memberDetails(mem));
+): MemberDetails[] => members.filter(predicate).map((mem) => memberDetails(mem));
 
 const getMembersByCategory = async (members: IdolMember[]) => {
-  
   const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
 
   // Update csv path to current semester suggestions
