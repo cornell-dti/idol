@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Dropdown, Icon } from 'semantic-ui-react';
 import { createHash } from 'crypto';
-import { Emitters } from '../../../utils';
+import { Emitters, getChattedOtherNetIds } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { MembersAPI } from '../../../API/MembersAPI';
 import CoffeeChatsDashboard from './CoffeeChatsDashboard';
@@ -68,6 +68,13 @@ const CoffeeChatsForm: React.FC = () => {
   const coffeeChatExists = (): boolean =>
     approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
     pendingChats.some((chat) => chat.otherMember.netid === member?.netid);
+
+  const netIdsAlreadyChatted = getChattedOtherNetIds(
+    approvedChats,
+    pendingChats,
+    rejectedChats,
+    archivedChats
+  );
 
   const coffeeChatCategoryExists = (): boolean =>
     approvedChats.some((chat) => chat.category === category) ||
@@ -180,16 +187,26 @@ const CoffeeChatsForm: React.FC = () => {
                 .sort((m1, m2) =>
                   `${m1.firstName} ${m1.lastName}`.localeCompare(`${m2.firstName} ${m2.lastName}`)
                 )
-                .map((member) => ({
-                  key: member.netid,
-                  value: member.netid,
-                  text: `${member.firstName} ${member.lastName} (${member.netid})`,
-                  content: (
-                    <div className={styles.flex_start}>
-                      {member.firstName} {member.lastName} ({member.netid})
-                    </div>
-                  )
-                }))}
+                .map((listMember) => {
+                  const netidKey = listMember.netid?.trim().toLowerCase() ?? '';
+                  const alreadyChatted = netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
+                  return {
+                    key: listMember.netid,
+                    value: listMember.netid,
+                    text: `${listMember.firstName} ${listMember.lastName} (${listMember.netid})`,
+                    content: (
+                      <div
+                        className={
+                          alreadyChatted
+                            ? `${styles.flex_start} ${styles.memberDropdownOptionAlreadyChatted}`
+                            : styles.flex_start
+                        }
+                      >
+                        {listMember.firstName} {listMember.lastName} ({listMember.netid})
+                      </div>
+                    )
+                  };
+                })}
               onChange={(_, data) => {
                 setMember(membersList.find((member) => member.netid === data.value));
                 setIsNonIDOLMember(false);

@@ -8,11 +8,6 @@ import { configureAccount } from '../src/utils/firebase-utils';
 
 require('dotenv').config();
 
-// Helper function to capitalize first letter of each word
-function capitalizeFirst(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
-
 // const serviceAcc = require('../resources/cornelldti-idol-firebase-adminsdk-ifi28-9aaca97159.json');
 const serviceAcc = require('../resources/idol-b6c68-firebase-adminsdk-h4e6t-40e4bd5536.json');
 
@@ -29,15 +24,19 @@ const memberPromise: Promise<IdolMember[]> = db
   .get()
   .then((val) => val.docs.map((doc) => doc.data() as IdolMember));
 
+const memberDetails = (mem: IdolMember): MemberDetails => ({
+  name: `${mem.firstName} ${mem.lastName}`,
+  netid: mem.netid
+});
+
 const filteredSuggestions = (
   members: IdolMember[],
   predicate: (m: IdolMember) => boolean
-): MemberDetails[] =>
-  members
-    .filter(predicate)
-    .map((mem) => ({ name: `${mem.firstName} ${mem.lastName}`, netid: mem.netid }));
+): MemberDetails[] => members.filter(predicate).map((mem) => memberDetails(mem));
 
 const getMembersByCategory = async (members: IdolMember[]) => {
+  const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
+
   // Update csv path to current semester suggestions
   const csv = fs.readFileSync('./scripts/fa25-coffee-chat-bingo.csv').toString();
   const rows = csv.split(/\r?\n/);
@@ -49,7 +48,7 @@ const getMembersByCategory = async (members: IdolMember[]) => {
   responses = responses
     .reverse()
     .filter((response) => {
-      const netid = response.split(',')[2]?.toLowerCase();
+      const netid = response.split(',')[2]?.trim().toLowerCase();
       if (!netid || seenNetIds.has(netid)) {
         return false;
       }
@@ -69,26 +68,14 @@ const getMembersByCategory = async (members: IdolMember[]) => {
     suggestions[category] = responses
       .filter((response) => {
         const cells = response.split(',');
-        return cells[OFFSET + index].toLowerCase() === 'yes';
+        return cells[OFFSET + index]?.trim().toLowerCase() === 'yes';
       })
       .map((response) => {
-        const nameParts = response.split(',')[1].split(' ');
-        const first = capitalizeFirst(nameParts[0]);
-        const last = nameParts
-          .slice(1)
-          .map((part) => capitalizeFirst(part))
-          .join(' ');
-        return [first, last];
+        const netid = response.split(',')[2]?.trim().toLowerCase();
+        return netid ? memberByNetID.get(netid) : undefined;
       })
-      .filter(([first, last]) =>
-        members.some((member) => member.firstName === first && member.lastName === last)
-      )
-      .map(([first, last]) => ({
-        name: `${first} ${last}`,
-        netid:
-          members.find((member) => member.firstName === first && member.lastName === last)?.netid ??
-          ''
-      }));
+      .filter((m): m is IdolMember => m !== undefined)
+      .map((m) => memberDetails(m));
   });
 
   suggestions['a newbie'] = filteredSuggestions(
@@ -103,6 +90,7 @@ const main = async () => {
   const members = await memberPromise;
   const membersByCategory = await getMembersByCategory(members);
 
+  /* commented out for now - no need to filter self from categories
   const filterSelfFromCategories = (mem: IdolMember) =>
     Object.fromEntries(
       Object.entries(membersByCategory).map(([key, value]) => [
@@ -110,6 +98,7 @@ const main = async () => {
         (value as MemberDetails[]).filter((details) => details.netid !== mem.netid)
       ])
     );
+  */
 
   const ids = await db
     .collection('coffee-chat-suggestions')
@@ -120,7 +109,7 @@ const main = async () => {
 
   await Promise.all(
     members.map((mem) =>
-      db.collection('coffee-chat-suggestions').doc(mem.email).create(filterSelfFromCategories(mem))
+      db.collection('coffee-chat-suggestions').doc(mem.email).create(membersByCategory)
     )
   );
 };
