@@ -6,3 +6,13 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.suggestionRow {
+  margin-top: 5px;
+}
+
+.suggestionRowAlreadyChatted {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 4px 8px;
+}

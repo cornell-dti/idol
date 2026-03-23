@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import styles from './CoffeeChatDetailsModal.module.css';
 import CoffeeChatAPI from '../../API/CoffeeChatAPI';
-import { Emitters } from '../../utils';
+import { Emitters, getChattedOtherNetIds } from '../../utils';
 
 type Props = {
   coffeeChat?: CoffeeChat;
@@ -26,8 +26,19 @@ const CoffeeChatModal: React.FC<Props> = ({
   approvedArchivedChats
 }) => {
   const [suggestions, setSuggestions] = useState<CoffeeChatSuggestions>();
-  const [membersInCategory, setMembersInCategory] = useState<MemberDetails[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  let membersInCategory: MemberDetails[] = [];
+  if (suggestions && category && category in suggestions) {
+    membersInCategory = suggestions[category];
+  } else {
+    membersInCategory = [];
+  }
+
+  const netIdsAlreadyChatted = getChattedOtherNetIds(
+    submittedChats,
+    approvedArchivedChats
+  );
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -45,22 +56,6 @@ const CoffeeChatModal: React.FC<Props> = ({
 
     fetchMembers();
   }, [userInfo.email]);
-
-  useEffect(() => {
-    if (!suggestions || !category) {
-      setMembersInCategory([]);
-      return;
-    }
-    const excludedNetIds = new Set([
-      ...submittedChats.map((chat) => chat.otherMember.netid),
-      ...approvedArchivedChats.map((chat) => chat.otherMember.netid)
-    ]);
-    setMembersInCategory(
-      category in suggestions
-        ? suggestions[category].filter((chat) => !excludedNetIds.has(chat.netid))
-        : []
-    );
-  }, [suggestions, category, submittedChats, approvedArchivedChats]);
 
   return (
     <Modal closeIcon open={open} onClose={() => setOpen(false)} size="small">
@@ -98,22 +93,39 @@ const CoffeeChatModal: React.FC<Props> = ({
           <Modal.Header>No Coffee Chat Submitted</Modal.Header>
           <Modal.Content>
             <div className={styles.suggestionsList}>
-              {isLoading && <div style={{ marginTop: '5px' }}>Loading...</div>}
+              {isLoading && <div className={styles.suggestionRow}>Loading...</div>}
               {!isLoading && membersInCategory.length === 0 && (
-                <div style={{ marginTop: '5px' }}>
+                <div className={styles.suggestionRow}>
                   You have not submitted a coffee chat for this category.
                 </div>
               )}
               {!isLoading && membersInCategory.length > 0 && (
                 <div>
-                  <div>Member(s) in category '{category}' you haven't coffee chatted yet:</div>
+                  <div>
+                    Member(s) in category '{category}'{' '}
+                    <span style={{ fontWeight: 'bold' }}>
+                      (not including you)
+                    </span>
+                  </div>
                   {membersInCategory
                     .sort((m1, m2) => `${m1.name}`.localeCompare(`${m2.name}`))
-                    .map((member) => (
-                      <div key={member?.netid} style={{ marginTop: '5px' }}>
-                        {`${member?.name} (${member?.netid})`}
-                      </div>
-                    ))}
+                    .map((member) => {
+                      const netidKey = member?.netid?.trim().toLowerCase() ?? '';
+                      const alreadyChatted =
+                        netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
+                      return (
+                        <div
+                          key={member?.netid}
+                          className={
+                            alreadyChatted
+                              ? `${styles.suggestionRow} ${styles.suggestionRowAlreadyChatted}`
+                              : styles.suggestionRow
+                          }
+                        >
+                          {`${member?.name} (${member?.netid})`}
+                        </div>
+                      );
+                    })}
                 </div>
               )}
             </div>
