@@ -7,7 +7,6 @@ import { useHasMemberPermission, useMember } from '../Common/FirestoreDataProvid
 import styles from './InterviewScheduler.module.css';
 import SchedulingCalendar from './SchedulingCalendar';
 import { Emitters, getDateString, getTimeString } from '../../utils';
-import { addToGoogleCalendar } from '../../calendar';
 import SchedulingSidePanel from './SchedulingSidePanel';
 import { EditAvailabilityContext, SchedulerDisplay, SetSlotsContext } from './SlotHooks';
 import { useUserEmail } from '../Common/UserProvider/UserProvider';
@@ -43,91 +42,49 @@ const formatDate = (date: Date): string => {
 const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot }> = ({
   scheduler,
   slot
-}) => {
-  const [isAddingToCalendar, setIsAddingToCalendar] = useState(false);
-  const [calendarError, setCalendarError] = useState<string | null>(null);
-
-  const handleAddToCalendar = async () => {
-    if (!slot) return;
-
-    setIsAddingToCalendar(true);
-    setCalendarError(null);
-
-    try {
-      await addToGoogleCalendar(scheduler, slot);
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Calendar Event Added',
-        contentMsg: 'Your interview has been added to your Google Calendar!'
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to add to calendar:', error);
-      setCalendarError('Failed to add event to calendar. Please try again.');
-      Emitters.generalError.emit({
-        headerMsg: 'Calendar Error',
-        contentMsg: 'Failed to add event to Google Calendar. Please try again.'
-      });
-    } finally {
-      setIsAddingToCalendar(false);
-    }
-  };
-
-  return (
-    <div className={styles.inviteCardContainer}>
-      <Card style={{ width: '30%' }}>
-        <Card.Content>
-          {slot ? (
-            <>
-              <Card.Header className={styles.inviteHeader}>Thank you for signing up!</Card.Header>
-              <div>
-                <p>{scheduler.name}</p>
-                <p>
-                  <strong>Date: </strong>
-                  {`${formatDate(new Date(slot.startTime))}`}
-                </p>
-                <p>
-                  <strong>Time: </strong> {getTimeString(slot.startTime)} -{' '}
-                  {getTimeString(slot.startTime + scheduler.duration)}
-                </p>
-                <p>
-                  <strong>Room: </strong>
-                  {slot.room}
-                </p>
-              </div>
-              <div style={{ marginTop: '1em' }}>
-                <Button
-                  primary
-                  icon="calendar"
-                  content="Add to Google Calendar"
-                  loading={isAddingToCalendar}
-                  onClick={handleAddToCalendar}
-                  disabled={isAddingToCalendar}
-                />
-                {calendarError && (
-                  <p style={{ color: 'red', fontSize: '0.9em', marginTop: '0.5em' }}>
-                    {calendarError}
-                  </p>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              <Card.Header>Could not find time slot.</Card.Header>
+}) => (
+  <div className={styles.inviteCardContainer}>
+    <Card style={{ width: '30%' }}>
+      <Card.Content>
+        {slot ? (
+          <>
+            <Card.Header className={styles.inviteHeader}>Thank you for signing up!</Card.Header>
+            <div>
+              <p>{scheduler.name}</p>
               <p>
-                We could not find a time slot that you signed up for. For assistance, please contact
-                the email below.
+                <strong>Date: </strong>
+                {`${formatDate(new Date(slot.startTime))}`}
               </p>
-            </>
-          )}
-        </Card.Content>
-        <Card.Content extra>
-          Need help? Send a message to{' '}
-          <Link href="mailto:hello@cornelldti.org">hello@cornelldti.org</Link>
-        </Card.Content>
-      </Card>
-    </div>
-  );
-};
+              <p>
+                <strong>Time: </strong> {getTimeString(slot.startTime)} -{' '}
+                {getTimeString(slot.startTime + scheduler.duration)}
+              </p>
+              <p>
+                <strong>Room: </strong>
+                {slot.room}
+              </p>
+            </div>
+            <p style={{ marginTop: '1em', color: '#555', fontSize: '0.9em' }}>
+              An interview confirmation and calendar invite has been sent to your email.
+            </p>
+          </>
+        ) : (
+          <>
+            <Card.Header>Could not find time slot.</Card.Header>
+            <p>
+              We could not find a time slot that you signed up for. For assistance, please contact
+              the email below.
+            </p>
+          </>
+        )}
+      </Card.Content>
+      <Card.Content extra>
+        Need help? Send a message to{' '}
+        <Link href="mailto:hello@cornelldti.org">hello@cornelldti.org</Link>
+      </Card.Content>
+    </Card>
+  </div>
+);
 
 const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
   const [scheduler, setScheduler] = useState<InterviewScheduler>();
@@ -207,12 +164,14 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
                     Hover over to review time slots. Click to show more information, sign up, or
                     cancel.
                   </p>
-                  <Message info>
-                    <Message.Header>Please note</Message.Header>
-                    Once you sign up for an interview slot, you cannot cancel. You will have to
-                    email us at <a href="mailto:hello@cornelldti.org">hello@cornelldti.org</a> for
-                    scheduling conflicts. Please plan accordingly.
-                  </Message>
+                  {!isMember && (
+                    <Message info>
+                      <Message.Header>Please note</Message.Header>
+                      Once you sign up for an interview slot, you cannot cancel. You will have to
+                      email us at <a href="mailto:hello@cornelldti.org">hello@cornelldti.org</a> for
+                      scheduling conflicts. Please plan accordingly.
+                    </Message>
+                  )}
                 </div>
                 {isLead && (
                   <div>
