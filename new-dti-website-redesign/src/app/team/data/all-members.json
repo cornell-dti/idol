@@ -832,7 +832,6 @@
     "netid": "gl532",
     "roleDescription": "Developer",
     "college": "cas",
-    "github": null,
     "hometown": "Bethesda, MD",
     "website": null,
     "minor": null,
@@ -842,7 +841,8 @@
     "coffeeChatLink": null,
     "about": "Hey! I'm Gillio and I'm a developer on Redi. ",
     "pronouns": "He/Him",
-    "linkedin": "https://www.linkedin.com/in/gillio-lopes/"
+    "linkedin": "https://www.linkedin.com/in/gillio-lopes/",
+    "github": "https://github.com/glopes2023"
   },
   {
     "lastName": "Huang",
