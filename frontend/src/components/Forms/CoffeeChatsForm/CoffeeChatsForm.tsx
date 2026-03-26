@@ -69,11 +69,7 @@ const CoffeeChatsForm: React.FC = () => {
     approvedChats.some((chat) => chat.otherMember.netid === member?.netid) ||
     pendingChats.some((chat) => chat.otherMember.netid === member?.netid);
 
-  const netIdsAlreadyChatted = getChattedOtherNetIds(
-    approvedChats,
-    pendingChats,
-    archivedChats
-  );
+  const netIdsAlreadyChatted = getChattedOtherNetIds(approvedChats, pendingChats, archivedChats);
 
   const coffeeChatCategoryExists = (): boolean =>
     approvedChats.some((chat) => chat.category === category) ||

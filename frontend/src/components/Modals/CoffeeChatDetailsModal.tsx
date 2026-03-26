@@ -99,8 +99,7 @@ const CoffeeChatModal: React.FC<Props> = ({
               {!isLoading && membersInCategory.length > 0 && (
                 <div>
                   <div>
-                    Member(s) in category '{category}'{' '}
-                    <strong>(not including you)</strong>
+                    Member(s) in category '{category}' <strong>(not including you)</strong>
                   </div>
                   {membersInCategory
                     .sort((m1, m2) => `${m1.name}`.localeCompare(`${m2.name}`))
