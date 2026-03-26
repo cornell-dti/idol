@@ -38,7 +38,7 @@ const getMembersByCategory = async (members: IdolMember[]) => {
   const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
 
   // Update csv path to current semester suggestions
-  const csv = fs.readFileSync('./scripts/fa25-coffee-chat-bingo.csv').toString();
+  const csv = fs.readFileSync('./scripts/sp26-coffee-chat-bingo.csv').toString();
   const rows = csv.split(/\r?\n/);
 
   let responses = rows.splice(1);

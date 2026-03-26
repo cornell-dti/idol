@@ -91,10 +91,7 @@
 }
 
 .memberDropdownOptionAlreadyChatted {
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  padding: 4px 8px;
-  margin: 2px 0;
+  color: #aeb1b5
 }
 
 .rejected_section {
