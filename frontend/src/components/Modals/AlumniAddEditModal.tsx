@@ -123,6 +123,7 @@ type AlumniModalProps = {
   onClose: () => void;
   onSave: (data: Alumni) => Promise<void> | void;
   saveLoading: boolean;
+  setSaveLoading: React.Dispatch<React.SetStateAction<boolean>>;
   nameInputOpen: boolean;
   setNameInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
   emailInputOpen: boolean;
@@ -155,6 +156,7 @@ export function AlumniModal({
   onClose,
   onSave,
   saveLoading,
+  setSaveLoading,
   nameInputOpen,
   setNameInputOpen,
   emailInputOpen,
@@ -675,40 +677,45 @@ export function AlumniModal({
             const oldLocation = initialAlumni?.location ?? null;
             const newLocation = alumniToSave.location?.trim() || null;
 
-            await onSave(alumniToSave);
+            setSaveLoading(true);
+            try {
+              await onSave(alumniToSave);
 
-            // If location changed, update city-coordinates collection
-            if (oldLocation !== newLocation) {
-              try {
-                // Remove alumni from any previous locations
-                const allCoords = await CityCoordinatesAPI.getAllCityCoordinates();
-                await Promise.all(
-                  allCoords
-                    .filter((coord) => coord.alumniIds.includes(alumniToSave.uuid))
-                    .map((coord) =>
-                      CityCoordinatesAPI.removeAlumniFromLocation(
-                        coord.latitude,
-                        coord.longitude,
-                        alumniToSave.uuid
+              // If location changed, update city-coordinates collection
+              if (oldLocation !== newLocation) {
+                try {
+                  // Remove alumni from any previous locations
+                  const allCoords = await CityCoordinatesAPI.getAllCityCoordinates();
+                  await Promise.all(
+                    allCoords
+                      .filter((coord) => coord.alumniIds.includes(alumniToSave.uuid))
+                      .map((coord) =>
+                        CityCoordinatesAPI.removeAlumniFromLocation(
+                          coord.latitude,
+                          coord.longitude,
+                          alumniToSave.uuid
+                        )
                       )
-                    )
-                );
-
-                // Add to new location if present
-                if (newLocation) {
-                  const coords = await CityCoordinatesAPI.geocodeAndStore(newLocation);
-                  await CityCoordinatesAPI.addAlumniToLocation(
-                    coords.latitude,
-                    coords.longitude,
-                    alumniToSave.uuid,
-                    coords.locationName
                   );
+
+                  // Add to new location if present
+                  if (newLocation) {
+                    const coords = await CityCoordinatesAPI.geocodeAndStore(newLocation);
+                    await CityCoordinatesAPI.addAlumniToLocation(
+                      coords.latitude,
+                      coords.longitude,
+                      alumniToSave.uuid,
+                      coords.locationName
+                    );
+                  }
+                } catch {
+                  // If updating city coordinates fails, we still persist the alumni change.
                 }
-              } catch {
-                // If updating city coordinates fails, we still persist the alumni change.
               }
+              onClose();
+            } finally {
+              setSaveLoading(false);
             }
-            onClose();
           }}
         >
           {saveLoading ? 'Saving...' : 'Save Changes'}

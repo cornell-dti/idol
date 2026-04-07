@@ -85,17 +85,12 @@ export default function EditAlumni(): JSX.Element {
   }
 
   async function saveAlumni(data: Alumni): Promise<void> {
-    setSaveLoading(true);
-    try {
-      if (modalMode === 'add') {
-        await AlumniAPI.createAlumni(data);
-      } else {
-        await AlumniAPI.updateAlumni(data);
-      }
-      await loadAlumni();
-    } finally {
-      setSaveLoading(false);
+    if (modalMode === 'add') {
+      await AlumniAPI.createAlumni(data);
+    } else {
+      await AlumniAPI.updateAlumni(data);
     }
+    await loadAlumni();
   }
   function handleRowAction(
     alum: Alumni,
@@ -236,6 +231,7 @@ export default function EditAlumni(): JSX.Element {
         }}
         onSave={saveAlumni}
         saveLoading={saveLoading}
+        setSaveLoading={setSaveLoading}
         nameInputOpen={nameInputOpen}
         setNameInputOpen={setNameInputOpen}
         emailInputOpen={emailInputOpen}
