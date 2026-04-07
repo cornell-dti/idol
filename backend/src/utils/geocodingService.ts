@@ -9,11 +9,21 @@ export interface GeocodingResult {
   locationName: string;
 }
 
+/** Subset of Nominatim `addressdetails` object (see Nominatim JSON format). */
+interface NominatimAddress {
+  city?: string;
+  town?: string;
+  village?: string;
+  municipality?: string;
+  state?: string;
+  country?: string;
+}
+
 interface NominatimResponse {
-  address: any;
   lat: string;
   lon: string;
   display_name: string;
+  address?: NominatimAddress;
 }
 
 /**
@@ -107,18 +117,15 @@ export class GeocodingService {
         throw new Error(`Location not found: ${locationString}`);
       }
 
-      const result = data[0];
-
-      const addr = result.address;
-      const city = addr.city || addr.town || addr.village || addr.municipality;
-      const state = addr.state;
-      const country = addr.country;
-      const formatted = [city, state, country].filter(Boolean).join(', ');
+      const [{ lat, lon, display_name, address }] = data;
+      const { city, town, village, municipality, state, country } = address ?? {};
+      const place = city || town || village || municipality;
+      const formatted = [place, state, country].filter(Boolean).join(', ');
 
       return {
-        latitude: parseFloat(result.lat),
-        longitude: parseFloat(result.lon),
-        locationName: formatted
+        latitude: parseFloat(lat),
+        longitude: parseFloat(lon),
+        locationName: formatted.length > 0 ? formatted : display_name
       };
     } catch (error) {
       if (error instanceof Error) {
