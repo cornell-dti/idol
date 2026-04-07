@@ -10,6 +10,7 @@ export interface GeocodingResult {
 }
 
 interface NominatimResponse {
+  address: any;
   lat: string;
   lon: string;
   display_name: string;
@@ -86,6 +87,8 @@ export class GeocodingService {
     url.searchParams.append('q', locationString);
     url.searchParams.append('format', 'json');
     url.searchParams.append('limit', '1');
+    url.searchParams.append('accept-language', 'en');
+    url.searchParams.append('addressdetails', '1');
 
     try {
       const response = await fetch(url.toString(), {
@@ -106,10 +109,16 @@ export class GeocodingService {
 
       const result = data[0];
 
+      const addr = result.address;
+      const city = addr.city || addr.town || addr.village || addr.municipality;
+      const state = addr.state;
+      const country = addr.country;
+      const formatted = [city, state, country].filter(Boolean).join(', ');
+
       return {
         latitude: parseFloat(result.lat),
         longitude: parseFloat(result.lon),
-        locationName: result.display_name
+        locationName: formatted
       };
     } catch (error) {
       if (error instanceof Error) {

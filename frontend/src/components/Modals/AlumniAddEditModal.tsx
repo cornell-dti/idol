@@ -5,6 +5,10 @@
  * opening the edit menus at the top makes everything shift a little
  * linkedin logo slightly too low
  * Nominatim only accepts chinese characters for locations in China
+ *
+ * TODO:
+ * format into city, state country
+ * get the locations out of the native languages
  */
 
 import React, { useRef, useState } from 'react';
