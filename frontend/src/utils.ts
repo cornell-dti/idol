@@ -52,6 +52,23 @@ export const getLinesFromBoard = (bingoBoard: string[][]): string[][] => {
   ];
 };
 
+/**
+ * NetIDs of members who appear as `otherMember` on any of the given chat lists
+ * (normalized: trim + lowercase). Excludes any non-IDOL members or entries without netIDs.
+ * Passes any arrays that contain CoffeeChat objects, like submitted, archived, etc.
+ */
+export const getChattedOtherNetIds = (...chatGroups: CoffeeChat[][]): Set<string> => {
+  const netIds = new Set<string>();
+  for (const chats of chatGroups) {
+    for (const chat of chats) {
+      if (!chat.isNonIDOLMember && chat.otherMember?.netid) {
+        netIds.add(chat.otherMember.netid.trim().toLowerCase());
+      }
+    }
+  }
+  return netIds;
+};
+
 export class PermissionsError extends Error {}
 
 export class EventEmitter<T> {

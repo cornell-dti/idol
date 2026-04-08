@@ -6,3 +6,11 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.suggestionRow {
+  margin-top: 5px;
+}
+
+.suggestionRowAlreadyChatted {
+  color: #aeb1b5;
+}

@@ -86,7 +86,12 @@
 }
 
 .flex_start {
+  display: flex;
   justify-content: flex-start;
+}
+
+.memberDropdownOptionAlreadyChatted {
+  color: #aeb1b5;
 }
 
 .rejected_section {
