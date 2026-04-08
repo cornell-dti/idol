@@ -104,7 +104,7 @@ const CoffeeChatModal: React.FC<Props> = ({
                   {membersInCategory
                     .sort((m1, m2) => `${m1.name}`.localeCompare(`${m2.name}`))
                     .map((member) => {
-                      const netidKey = member?.netid?.trim().toLowerCase() ?? '';
+                      const netidKey = member.netid.trim().toLowerCase();
                       const alreadyChatted = netidKey !== '' && netIdsAlreadyChatted.has(netidKey);
                       return (
                         <div
