@@ -165,13 +165,11 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
   /**
    * Gets all coffee chat categories sorted by index
-   * @returns an array of sorted CoffeeChatCategory objects 
+   * @returns an array of sorted CoffeeChatCategory objects
    */
   static async getAllCategories(): Promise<CoffeeChatCategory[]> {
     const snapshot = await coffeeChatCategoriesCollection.get();
-    return snapshot.docs
-      .map((doc) => doc.data())
-      .sort((a, b) => a.index - b.index);
+    return snapshot.docs.map((doc) => doc.data()).sort((a, b) => a.index - b.index);
   }
 
   /**

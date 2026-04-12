@@ -76,3 +76,11 @@
 .dropdownButton {
   margin-top: 2rem;
 }
+
+.categoryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 13px;
+}

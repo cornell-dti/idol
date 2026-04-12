@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { createHash } from 'crypto';
 import { Button, Dropdown } from 'semantic-ui-react';
@@ -17,6 +17,8 @@ const CoffeeChats: React.FC = () => {
   const [specificRejectedChats, setSpecificRejectedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [selectedMember, setSelectedMember] = useState<IdolMember | null>(null);
+  const [isUploadingCSV, setIsUploadingCSV] = useState(false);
+  const csvInputRef = useRef<HTMLInputElement>(null);
 
   const DEAFAULT_MEMBER_DROPDOWN_TEXT: string = 'View Member Bingo Board';
   const allMembers = useMembers();
@@ -41,6 +43,29 @@ const CoffeeChats: React.FC = () => {
       setPendingChats(coffeeChats.filter((chat) => !chat.isArchived && chat.status === 'pending'));
     });
   }, [isLoading]);
+
+  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploadingCSV(true);
+    try {
+      const csv = await file.text();
+      await CoffeeChatAPI.uploadCoffeeChatCSV(csv);
+      const board = await CoffeeChatAPI.getCoffeeChatBingoBoard();
+      setBingoBoard(board);
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Categories updated',
+        contentMsg: 'Coffee chat categories have been updated from the CSV.'
+      });
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: 'Upload failed',
+        contentMsg: 'Could not parse or upload the CSV. Check the file format and try again.'
+      });
+    }
+    setIsUploadingCSV(false);
+    if (csvInputRef.current) csvInputRef.current.value = '';
+  };
 
   const handleMemberClick = (member: IdolMember) => {
     setIsChatLoading(true);
@@ -151,6 +176,20 @@ const CoffeeChats: React.FC = () => {
           </Button>
           <Button onClick={archiveAllCoffeeChats} disabled={selectedMember !== null}>
             Archive All Coffee Chats
+          </Button>
+          <input
+            ref={csvInputRef}
+            type="file"
+            accept=".csv"
+            style={{ display: 'none' }}
+            onChange={handleCSVUpload}
+          />
+          <Button
+            onClick={() => csvInputRef.current?.click()}
+            loading={isUploadingCSV}
+            disabled={isUploadingCSV}
+          >
+            Upload Categories CSV
           </Button>
           <div className={styles.dropdownButton}>
             <Dropdown

@@ -185,7 +185,7 @@ export const getCoffeeChatSuggestions = async (email: string): Promise<CoffeeCha
 /**
  * Gets all coffee chat categories
  * @param user - the user making the request
- * @returns an array of sorted CoffeeChatCategory objects 
+ * @returns an array of sorted CoffeeChatCategory objects
  */
 export const getCoffeeCategories = async (user: IdolMember): Promise<CoffeeChatCategory[]> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
@@ -219,13 +219,10 @@ export const updateCategoryMembers = async (
 
 /**
  * Parses a CSV string and updates all coffee chat categories
- * @param csvContent - CSV string 
+ * @param csvContent - CSV string
  * @param user - the user making the request
  */
-export const uploadCoffeeChatCSV = async (
-  csvContent: string,
-  user: IdolMember
-): Promise<void> => {
+export const uploadCoffeeChatCSV = async (csvContent: string, user: IdolMember): Promise<void> => {
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
   if (!isLeadOrAdmin) {
     throw new PermissionError(

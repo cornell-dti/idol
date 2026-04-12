@@ -1,27 +1,22 @@
 /// <reference types="common-types" />
 
 const EXPECTED_CATEGORY_COUNT = 16;
-const CSV_CATEGORY_OFFSET = 3; // columns: Timestamp, Full Name, NetId, then categories
+const CSV_CATEGORY_OFFSET = 3;
 
 /**
  * Parses a CSV export into an array of CoffeeChatCategory objects.
  *
- * Expected CSV format (header row):
- *   Timestamp, Full Name, NetId, <category1>, <category2>, ..., <category16>
+ * Expected CSV format: Timestamp, Full Name, NetId, <category1>, <category2>, ..., <category16>
  * Data rows have "yes"/"no" values for each category column.
  *
  * The category name and its grid index (0–15) are derived from the
- * CSV header, and if a member submitted multiple times, the latest response
- * (last row chronologically) is kept
+ * CSV header, and if a member submitted multiple times, the latest response is kept
  *
  * @param csvString - raw CSV content as a string
  * @param members - list of members
  * @returns array of 16 CoffeeChatCategory objects, sorted by index
  */
-export function parseCoffeeChatCSV(
-  csvString: string,
-  members: IdolMember[]
-): CoffeeChatCategory[] {
+export function parseCoffeeChatCSV(csvString: string, members: IdolMember[]): CoffeeChatCategory[] {
   const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
 
   const rows = csvString.split(/\r?\n/);
@@ -35,10 +30,8 @@ export function parseCoffeeChatCSV(
     );
   }
 
-  // Filter out empty trailing rows
   let responses = rows.slice(1).filter((r) => r.trim() !== '');
 
-  // Dedup by NetId — keep latest submission (CSV rows are chronological, so reverse → keep first seen → reverse back)
   const seenNetIds = new Set<string>();
   responses = responses
     .reverse()
