@@ -4,7 +4,7 @@ import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
 import { getMember, allApprovedMembers } from './memberAPI';
 import { sendCoffeeChatReminder } from './mailAPI';
-import { parseCoffeeChatCSV } from '../utils/coffeeChatCSVParser';
+import parseCoffeeChatCSV from '../utils/coffeeChatCSVParser';
 
 const coffeeChatDao = new CoffeeChatDao();
 
