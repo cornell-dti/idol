@@ -610,13 +610,21 @@ interface Alumni {
 type ReimbursementUserRole = 'requestor' | 'admin';
 
 /** Status of a reimbursement request */
-type ReimbursementRequestStatus = 'pending' | 'approved' | 'rejected';
+type ReimbursementRequestStatus =
+  | 'pending'
+  | 'needs_changes'
+  | 'approved'
+  | 'in_progress_with_cornell'
+  | 'settled';
 
 /** Reimbursement user */
 interface ReimbursementUser {
   userId: string;
   name: string;
   email: string;
+  netid: string;
+  phoneNumber: string;
+  address: string;
   role: ReimbursementUserRole;
   teamId: string;
   createdAt: number;
@@ -628,7 +636,6 @@ interface ReimbursementTeam {
   teamName: string;
   budget: number;
   totalSpent: number;
-  totalOwed: number;
   assignedAdmins: string[];
   createdAt: number;
   updatedAt: number;
@@ -656,24 +663,16 @@ interface ReimbursementRequest {
   requesterId: string;
   teamId: string;
   amount: number;
-  categoryId: string;
+  reason: string;
+  attendees: string[];
   dateOfPurchase: number;
   dateSubmitted: number;
   status: ReimbursementRequestStatus;
   receiptUrl: string;
+  adminNote: string | null;
   notes: string;
   messages: ReimbursementMessageEntry[];
   statusLog: ReimbursementStatusLogEntry[];
   isImmutable: boolean;
   resolvedAt: number | null;
-}
-
-/** Spending category */
-interface ReimbursementCategory {
-  categoryId: string;
-  label: string;
-  isActive: boolean;
-  createdBy: string;
-  createdAt: number;
-  updatedAt: number;
 }
