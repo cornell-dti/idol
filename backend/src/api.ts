@@ -44,7 +44,10 @@ import {
   runAutoChecker,
   notifyMemberCoffeeChat,
   getCoffeeChatSuggestions,
-  archiveCoffeeChats
+  archiveCoffeeChats,
+  getCoffeeCategories,
+  updateCategoryMembers,
+  uploadCoffeeChatCSV
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -403,6 +406,20 @@ loginCheckedPost('/coffee-chat-reminder', async (req, user) => ({
 loginCheckedGet('/coffee-chat-suggestions/:email', async (req) => {
   const suggestions = await getCoffeeChatSuggestions(req.params.email);
   return { suggestions };
+});
+
+loginCheckedGet('/coffee-chat-categories', async (_, user) => ({
+  categories: await getCoffeeCategories(user)
+}));
+
+loginCheckedPut('/coffee-chat-categories/:index/members', async (req, user) => {
+  await updateCategoryMembers(Number(req.params.index), req.body.members, user);
+  return {};
+});
+
+loginCheckedPost('/coffee-chat-categories/upload', async (req, user) => {
+  await uploadCoffeeChatCSV(req.body.csv, user);
+  return {};
 });
 
 // Pull from IDOL
