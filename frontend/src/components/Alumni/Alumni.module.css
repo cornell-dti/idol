@@ -92,6 +92,10 @@
   align-items: flex-start;
 }
 
+.filterToggleWrapper {
+  display: none;
+}
+
 .filtersSidebar {
   width: 225px;
   display: flex;
@@ -228,16 +232,10 @@
 }
 
 .infoGrid {
-  display: flex;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   flex-wrap: wrap;
-}
-
-.infoColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1 1 0;
 }
 
 .infoItem {
@@ -281,23 +279,82 @@
   color: #4183c4;
 }
 
-@media (max-width: 1024px) {
-  .infoGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 10px;
-  }
 
-  .infoColumn {
-    flex: unset;
-  }
+
+.filterOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
 }
 
-@media (max-width: 640px) {
+.filterModal {
+  background: var(--bg-default);
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.filterModalBody {
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filterModalFooter {
+  padding: 16px;
+  border-top: 1px solid var(--border-default);
+  display: flex;
+}
+
+.filterModalFooter > * {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .filterToggleWrapper {
+    display: block;
+  }
+
+  .filtersSidebar {
+    display: none;
+  }
+
+  .topBarSpacer {
+    display: none;
+  }
+
+  .searchContainer {
+    max-width: none;
+  }
+
+  .searchInput {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+
+  .searchInput input {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
   .alumniCard {
     flex-direction: column;
-    align-items: center;
+    align-items: left;
   }
 
   .profileImage {
@@ -311,15 +368,24 @@
 
   .infoGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1 1;
     gap: 10px;
-  }
-
-  .infoColumn {
-    flex: unset;
   }
 
   .socialIcons {
     align-self: flex-end;
+  }
+}
+
+@media (max-width: 440px) {
+  .infoGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .infoItem {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
   }
 }

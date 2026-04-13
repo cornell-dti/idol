@@ -5,6 +5,7 @@ import { Emitters } from '../../utils';
 import AlumniAPI from '../../API/AlumniAPI';
 import AlumniCard from './AlumniCard';
 import styles from './Alumni.module.css';
+import Button from '../Common/Button/Button';
 
 const AlumniMap = dynamic(() => import('./AlumniMap'), { ssr: false });
 
@@ -25,6 +26,14 @@ const Alumni: React.FC = () => {
     DEFAULT_MIN_YEAR,
     DEFAULT_MAX_YEAR
   ]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = filtersOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [filtersOpen]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -108,6 +117,84 @@ const Alumni: React.FC = () => {
     }));
   }, [alumni]);
 
+  const filterContent = (
+    <>
+      <div className={styles.appliedFilters}>
+        <Header as="h3" className={styles.filterHeader}>
+          Applied Filters
+        </Header>
+      </div>
+
+      <div className={styles.filterSection}>
+        <Dropdown
+          placeholder="Company Role"
+          fluid
+          multiple
+          selection
+          search
+          closeOnChange
+          options={jobCategoryOptions}
+          value={selectedJobCategories}
+          onChange={(_, data) => setSelectedJobCategories(data.value as string[])}
+        />
+      </div>
+
+      <div className={styles.filterSection}>
+        <Dropdown
+          placeholder="Company"
+          fluid
+          multiple
+          selection
+          search
+          closeOnChange
+          options={companyOptions}
+          value={selectedCompanies}
+          onChange={(_, data) => setSelectedCompanies(data.value as string[])}
+        />
+      </div>
+
+      <div className={styles.filterSection}>
+        <Dropdown
+          placeholder="Role on DTI"
+          fluid
+          multiple
+          selection
+          search
+          closeOnChange
+          options={dtiRoleOptions}
+          value={selectedDtiRoles}
+          onChange={(_, data) => setSelectedDtiRoles(data.value as string[])}
+        />
+      </div>
+
+      <div className={styles.appliedFilters}>
+        <Header as="h4" className={styles.filterLabel}>
+          Graduated in
+        </Header>
+        <div className={styles.yearRange}>
+          <span className={styles.yearLabel}>From</span>
+          <Input
+            type="number"
+            value={gradYearRange[0]}
+            onChange={(e) =>
+              setGradYearRange([parseInt(e.target.value, 10) || DEFAULT_MIN_YEAR, gradYearRange[1]])
+            }
+            className={styles.yearInput}
+          />
+          <span className={styles.yearLabel}>To</span>
+          <Input
+            type="number"
+            value={gradYearRange[1]}
+            onChange={(e) =>
+              setGradYearRange([gradYearRange[0], parseInt(e.target.value, 10) || DEFAULT_MAX_YEAR])
+            }
+            className={styles.yearInput}
+          />
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <Container className={styles.container}>
       <Header as="h1" className={styles.header}>
@@ -140,91 +227,35 @@ const Alumni: React.FC = () => {
               <Icon name="list" />
             </button>
           </div>
+          <div className={styles.filterToggleWrapper}>
+            <Button
+              icon={<Icon name="sliders horizontal" />}
+              onClick={() => setFiltersOpen(true)}
+            />
+          </div>
         </div>
       </div>
 
       <div className={styles.contentLayout}>
-        <div className={styles.filtersSidebar}>
-          <div className={styles.appliedFilters}>
-            <Header as="h3" className={styles.filterHeader}>
-              Applied Filters
-            </Header>
-          </div>
 
-          <div className={styles.filterSection}>
-            <Dropdown
-              placeholder="Company Role"
-              fluid
-              multiple
-              selection
-              search
-              closeOnChange
-              options={jobCategoryOptions}
-              value={selectedJobCategories}
-              onChange={(_, data) => setSelectedJobCategories(data.value as string[])}
-            />
-          </div>
+        {/* Desktop sidebar */}
+        <div className={styles.filtersSidebar}>{filterContent}</div>
 
-          <div className={styles.filterSection}>
-            <Dropdown
-              placeholder="Company"
-              fluid
-              multiple
-              selection
-              search
-              closeOnChange
-              options={companyOptions}
-              value={selectedCompanies}
-              onChange={(_, data) => setSelectedCompanies(data.value as string[])}
-            />
-          </div>
+        {/* Mobile filter modal */}
+        {filtersOpen && (
+          <div className={styles.filterOverlay} onClick={() => setFiltersOpen(false)}>
+            <div className={styles.filterModal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.filterModalHeader}>
 
-          <div className={styles.filterSection}>
-            <Dropdown
-              placeholder="Role on DTI"
-              fluid
-              multiple
-              selection
-              search
-              closeOnChange
-              options={dtiRoleOptions}
-              value={selectedDtiRoles}
-              onChange={(_, data) => setSelectedDtiRoles(data.value as string[])}
-            />
-          </div>
-
-          <div className={styles.appliedFilters}>
-            <Header as="h4" className={styles.filterLabel}>
-              Graduated in
-            </Header>
-            <div className={styles.yearRange}>
-              <span className={styles.yearLabel}>From</span>
-              <Input
-                type="number"
-                value={gradYearRange[0]}
-                onChange={(e) =>
-                  setGradYearRange([
-                    parseInt(e.target.value, 10) || DEFAULT_MIN_YEAR,
-                    gradYearRange[1]
-                  ])
-                }
-                className={styles.yearInput}
-              />
-              <span className={styles.yearLabel}>To</span>
-              <Input
-                type="number"
-                value={gradYearRange[1]}
-                onChange={(e) =>
-                  setGradYearRange([
-                    gradYearRange[0],
-                    parseInt(e.target.value, 10) || DEFAULT_MAX_YEAR
-                  ])
-                }
-                className={styles.yearInput}
-              />
+                <Button icon={<Icon name="close" />} onClick={() => setFiltersOpen(false)} />
+              </div>
+              <div className={styles.filterModalBody}>{filterContent}</div>
+              <div className={styles.filterModalFooter}>
+                <Button label="Apply Filters" onClick={() => setFiltersOpen(false)} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className={styles.listContainer}>
           {isLoading && <Loader active size="large" />}
