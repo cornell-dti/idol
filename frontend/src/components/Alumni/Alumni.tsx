@@ -237,7 +237,6 @@ const Alumni: React.FC = () => {
       </div>
 
       <div className={styles.contentLayout}>
-
         {/* Desktop sidebar */}
         <div className={styles.filtersSidebar}>{filterContent}</div>
 
@@ -246,7 +245,6 @@ const Alumni: React.FC = () => {
           <div className={styles.filterOverlay} onClick={() => setFiltersOpen(false)}>
             <div className={styles.filterModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.filterModalHeader}>
-
                 <Button icon={<Icon name="close" />} onClick={() => setFiltersOpen(false)} />
               </div>
               <div className={styles.filterModalBody}>{filterContent}</div>
