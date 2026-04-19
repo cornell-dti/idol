@@ -16,7 +16,10 @@ const CSV_CATEGORY_OFFSET = 3;
  * @param members - list of members
  * @returns array of 16 CoffeeChatCategory objects, sorted by index
  */
-export default function parseCoffeeChatCSV(csvString: string, members: IdolMember[]): CoffeeChatCategory[] {
+export default function parseCoffeeChatCSV(
+  csvString: string,
+  members: IdolMember[]
+): CoffeeChatCategory[] {
   const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
 
   const rows = csvString.split(/\r?\n/);

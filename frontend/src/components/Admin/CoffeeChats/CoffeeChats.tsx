@@ -6,6 +6,7 @@ import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import CoffeeChatsBingoBoard from '../../Forms/CoffeeChatsForm/CoffeeChatsBingoBoard';
+import CoffeeChatCategoryEditModal from '../../Modals/CoffeeChatCategoryEditModal';
 import { Emitters } from '../../../utils';
 
 const CoffeeChats: React.FC = () => {
@@ -17,6 +18,7 @@ const CoffeeChats: React.FC = () => {
   const [specificRejectedChats, setSpecificRejectedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [selectedMember, setSelectedMember] = useState<IdolMember | null>(null);
+  const [categories, setCategories] = useState<CoffeeChatCategory[]>([]);
   const [isUploadingCSV, setIsUploadingCSV] = useState(false);
   const csvInputRef = useRef<HTMLInputElement>(null);
 
@@ -42,6 +44,7 @@ const CoffeeChats: React.FC = () => {
     CoffeeChatAPI.getAllCoffeeChats().then((coffeeChats) => {
       setPendingChats(coffeeChats.filter((chat) => !chat.isArchived && chat.status === 'pending'));
     });
+    CoffeeChatAPI.getCoffeeCategories().then(setCategories);
   }, [isLoading]);
 
   const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +54,11 @@ const CoffeeChats: React.FC = () => {
     try {
       const csv = await file.text();
       await CoffeeChatAPI.uploadCoffeeChatCSV(csv);
-      const board = await CoffeeChatAPI.getCoffeeChatBingoBoard();
+      const [updated, board] = await Promise.all([
+        CoffeeChatAPI.getCoffeeCategories(),
+        CoffeeChatAPI.getCoffeeChatBingoBoard()
+      ]);
+      setCategories(updated);
       setBingoBoard(board);
       Emitters.generalSuccess.emit({
         headerMsg: 'Categories updated',
@@ -171,26 +178,28 @@ const CoffeeChats: React.FC = () => {
       </div>
       <div>
         <div className={styles.dropdownContainer}>
-          <Button onClick={() => setSelectedMember(null)} disabled={selectedMember == null}>
-            Review All Coffee Chats
-          </Button>
-          <Button onClick={archiveAllCoffeeChats} disabled={selectedMember !== null}>
-            Archive All Coffee Chats
-          </Button>
-          <input
-            ref={csvInputRef}
-            type="file"
-            accept=".csv"
-            style={{ display: 'none' }}
-            onChange={handleCSVUpload}
-          />
-          <Button
-            onClick={() => csvInputRef.current?.click()}
-            loading={isUploadingCSV}
-            disabled={isUploadingCSV}
-          >
-            Upload Categories CSV
-          </Button>
+          <div className={styles.buttonGroup}>
+            <Button onClick={() => setSelectedMember(null)} disabled={selectedMember == null}>
+              Review All Coffee Chats
+            </Button>
+            <Button onClick={archiveAllCoffeeChats} disabled={selectedMember !== null}>
+              Archive All Coffee Chats
+            </Button>
+            <input
+              ref={csvInputRef}
+              type="file"
+              accept=".csv"
+              style={{ display: 'none' }}
+              onChange={handleCSVUpload}
+            />
+            <Button
+              onClick={() => csvInputRef.current?.click()}
+              loading={isUploadingCSV}
+              disabled={isUploadingCSV}
+            >
+              Upload Categories CSV
+            </Button>
+          </div>
           <div className={styles.dropdownButton}>
             <Dropdown
               placeholder={DEAFAULT_MEMBER_DROPDOWN_TEXT}
@@ -206,6 +215,22 @@ const CoffeeChats: React.FC = () => {
                 if (selected != null) handleMemberClick(selected);
               }}
             />
+          </div>
+          <div className={styles.dropdownButton}>
+            <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Edit Members in Category</p>
+            {categories.map((cat) => (
+              <div key={cat.index} className={styles.categoryRow}>
+                <span>{cat.name}</span>
+                <CoffeeChatCategoryEditModal
+                  category={cat}
+                  onSaved={(updated) =>
+                    setCategories((prev) =>
+                      prev.map((c) => (c.index === updated.index ? updated : c))
+                    )
+                  }
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
