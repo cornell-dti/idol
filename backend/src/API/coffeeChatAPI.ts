@@ -299,25 +299,31 @@ export const checkMemberMeetsCategory = async (
   submitterEmail: string,
   category: string
 ): Promise<{ status: MemberMeetsCategoryStatus; message: string }> => {
-  const [otherMember, submitter, categories] = await Promise.all([
-    getMember(otherMemberEmail),
-    getMember(submitterEmail),
-    CoffeeChatDao.getAllCategories()
-  ]);
+  const otherMember = await getMember(otherMemberEmail);
+  const submitter = await getMember(submitterEmail);
+  let status: MemberMeetsCategoryStatus = 'no data';
+  let message: string = '';
 
-  if (!otherMember || !submitter) return { status: 'no data', message: '' };
-
-  const categoryDoc = categories.find((c) => c.name === category);
-  if (!categoryDoc) return { status: 'no data', message: '' };
-
-  const inCategory = categoryDoc.members.some(
-    (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
-  );
-  const status: MemberMeetsCategoryStatus = inCategory ? 'pass' : 'fail';
-  const message =
-    status === 'fail'
-      ? `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`
-      : '';
+  if (otherMember && submitter) {
+    if (category === 'a newbie') {
+      status = otherMember.semesterJoined === 'Spring 2026' ? 'pass' : 'fail';
+      if (status === 'fail') {
+        message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
+      }
+    } else {
+      const categories = await CoffeeChatDao.getAllCategories();
+      const categoryDoc = categories.find((c) => c.name === category);
+      if (categoryDoc) {
+        const inCategory = categoryDoc.members.some(
+          (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
+        );
+        status = inCategory ? 'pass' : 'fail';
+        if (status === 'fail') {
+          message = `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`;
+        }
+      }
+    }
+  }
 
   return { status, message };
 };
