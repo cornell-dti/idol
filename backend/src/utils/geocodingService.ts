@@ -86,6 +86,72 @@ export class GeocodingService {
     return location.toLowerCase().trim();
   }
 
+  private static readonly US_STATE_ABBREVIATIONS: Record<string, string> = {
+    alabama: 'AL',
+    alaska: 'AK',
+    arizona: 'AZ',
+    arkansas: 'AR',
+    california: 'CA',
+    colorado: 'CO',
+    connecticut: 'CT',
+    delaware: 'DE',
+    florida: 'FL',
+    georgia: 'GA',
+    hawaii: 'HI',
+    idaho: 'ID',
+    illinois: 'IL',
+    indiana: 'IN',
+    iowa: 'IA',
+    kansas: 'KS',
+    kentucky: 'KY',
+    louisiana: 'LA',
+    maine: 'ME',
+    maryland: 'MD',
+    massachusetts: 'MA',
+    michigan: 'MI',
+    minnesota: 'MN',
+    mississippi: 'MS',
+    missouri: 'MO',
+    montana: 'MT',
+    nebraska: 'NE',
+    nevada: 'NV',
+    'new hampshire': 'NH',
+    'new jersey': 'NJ',
+    'new mexico': 'NM',
+    'new york': 'NY',
+    'north carolina': 'NC',
+    'north dakota': 'ND',
+    ohio: 'OH',
+    oklahoma: 'OK',
+    oregon: 'OR',
+    pennsylvania: 'PA',
+    'rhode island': 'RI',
+    'south carolina': 'SC',
+    'south dakota': 'SD',
+    tennessee: 'TN',
+    texas: 'TX',
+    utah: 'UT',
+    vermont: 'VT',
+    virginia: 'VA',
+    washington: 'WA',
+    'west virginia': 'WV',
+    wisconsin: 'WI',
+    wyoming: 'WY',
+    'district of columbia': 'DC'
+  };
+
+  private static formatLocationName(place?: string, state?: string, country?: string): string {
+    const isUS = (country ?? '').toLowerCase() === 'united states';
+    if (isUS) {
+      const abbr = state ? this.US_STATE_ABBREVIATIONS[state.toLowerCase()] : undefined;
+      const statePart = abbr ?? state;
+      const usFormatted = [place, statePart, 'US'].filter(Boolean).join(', ');
+      if (usFormatted.length > 0) return usFormatted;
+    }
+    const formatted = [place, state, country].filter(Boolean).join(', ');
+    return formatted;
+  }
+
   /**
    * Geocodes a location string using the Nominatim API
    * @param locationString - The location string to geocode
@@ -120,7 +186,7 @@ export class GeocodingService {
       const [{ lat, lon, display_name, address }] = data;
       const { city, town, village, municipality, state, country } = address ?? {};
       const place = city || town || village || municipality;
-      const formatted = [place, state, country].filter(Boolean).join(', ');
+      const formatted = this.formatLocationName(place, state, country);
 
       return {
         latitude: parseFloat(lat),

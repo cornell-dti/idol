@@ -7,7 +7,7 @@
  * Nominatim struggles encoding japanese cities
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Button, Dropdown, Form, Grid, Icon, Input, Modal } from 'semantic-ui-react';
 import ImagesAPI from '../../API/ImagesAPI';
 import CityCoordinatesAPI from '../../API/CityCoordinatesAPI';
@@ -21,16 +21,17 @@ export type AlumniFormState = {
   name: string;
   email: string;
   linkedin: string;
-
   gradYear: number | null;
   location: string;
   company: string;
-
   companyRole: string;
   jobCategory: AlumJobCategory | null;
   dtiRole: AlumDtiRole[] | null;
   subteam: string;
 };
+
+const MAX_DTI_ROLES = 2;
+const MAX_SUBTEAMS = 2;
 
 function emptyAlumniFormState(): AlumniFormState {
   return {
@@ -58,23 +59,21 @@ function fromFormState(form: AlumniFormState): Alumni {
     firstName: form.firstName.trim(),
     lastName: form.lastName.trim(),
     email: form.email.trim(),
-    linkedin: form.linkedin.trim() ?? null,
-
+    linkedin: form.linkedin.trim() || null,
     gradYear: form.gradYear ?? null,
     location: form.location.trim(),
     company: form.company.trim(),
-
-    jobRole: form.companyRole.trim(),
+    jobRole: form.companyRole.trim() || 'Other',
     jobCategory: form.jobCategory ?? 'Other',
-
-    dtiRoles: form.dtiRole ?? [],
-
-    subteams: form.subteam
-      ? form.subteam
-          .split(', ')
-          .map((s) => s.trim())
-          .filter((s) => s.length > 0)
-      : []
+    dtiRoles: (form.dtiRole ?? []).slice(0, MAX_DTI_ROLES),
+    subteams:
+      form.subteam.trim().length > 0
+        ? form.subteam
+            .split(', ')
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0)
+            .slice(0, MAX_SUBTEAMS)
+        : []
   };
 }
 
@@ -91,6 +90,33 @@ function isValidSubteamCommaSpaceList(value: string): boolean {
   return true;
 }
 
+function subteamPartsCount(value: string): number {
+  const t = value.trim();
+  if (t.length === 0) return 0;
+  return t
+    .split(', ')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0).length;
+}
+
+/** Format OK, at most MAX_SUBTEAMS subteams, empty allowed. */
+function isValidSubteamField(value: string): boolean {
+  if (!isValidSubteamCommaSpaceList(value)) return false;
+  return subteamPartsCount(value) <= MAX_SUBTEAMS;
+}
+
+function getSubteamFieldError(value: string): string | null {
+  const t = value.trim();
+  if (t.length === 0) return null;
+  if (!isValidSubteamCommaSpaceList(value)) {
+    return 'Use a comma and space between subteams (e.g. Subteam A, Subteam B).';
+  }
+  if (subteamPartsCount(value) > MAX_SUBTEAMS) {
+    return `At most ${MAX_SUBTEAMS} subteams.`;
+  }
+  return null;
+}
+
 function toFormState(a?: Alumni): AlumniFormState {
   if (!a) return emptyAlumniFormState();
   return {
@@ -104,7 +130,6 @@ function toFormState(a?: Alumni): AlumniFormState {
     gradYear: a?.gradYear ?? null,
     location: a?.location ?? '',
     company: a?.company ?? '',
-
     companyRole: a?.jobRole ?? '',
     jobCategory: a?.jobCategory ?? null,
     dtiRole: a?.dtiRoles ?? null,
@@ -116,16 +141,8 @@ type AlumniModalProps = {
   open: boolean;
   mode: 'add' | 'edit';
   initialAlumni?: Alumni;
-  onClose: () => void;
+  setModalOpen: (open: boolean) => void;
   onSave: (data: Alumni) => Promise<void> | void;
-  saveLoading: boolean;
-  setSaveLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  nameInputOpen: boolean;
-  setNameInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  emailInputOpen: boolean;
-  setEmailInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  linkedinInputOpen: boolean;
-  setLinkedinInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const FALLBACK_IMAGES = [
@@ -145,20 +162,41 @@ const ALUMNI_IMAGE_PATH_PREFIX = 'alumImages/';
 /** Semantic UI `Form.Field` / `Input` onChange `data` */
 type FormInputChangeData = { value?: unknown };
 
+type InlineEditableFieldProps = {
+  rowClassName: string;
+  /** Optional icon or other content before the value (e.g. mail / linkedin). */
+  leading?: React.ReactNode;
+  isOpen: boolean;
+  onToggleOpen: () => void;
+  display: React.ReactNode;
+  edit: React.ReactNode;
+};
+
+function InlineEditableField({
+  rowClassName,
+  leading,
+  isOpen,
+  onToggleOpen,
+  display,
+  edit
+}: InlineEditableFieldProps): JSX.Element {
+  return (
+    <div className={rowClassName}>
+      {leading}
+      {isOpen ? edit : display}
+      <button type="button" onClick={onToggleOpen} className={styles.iconButton}>
+        {isOpen ? <span style={{ fontWeight: 600 }}>Save</span> : <Icon name="pencil" />}
+      </button>
+    </div>
+  );
+}
+
 export function AlumniModal({
   open,
   mode,
   initialAlumni,
-  onClose,
-  onSave,
-  saveLoading,
-  setSaveLoading,
-  nameInputOpen,
-  setNameInputOpen,
-  emailInputOpen,
-  setEmailInputOpen,
-  linkedinInputOpen,
-  setLinkedinInputOpen
+  setModalOpen,
+  onSave
 }: AlumniModalProps): JSX.Element {
   const [form, setForm] = useState<AlumniFormState>(() => toFormState(initialAlumni));
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('');
@@ -166,8 +204,11 @@ export function AlumniModal({
   const [avatarImageLoading, setAvatarImageLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [saveLoading, setSaveLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const [nameInputOpen, setNameInputOpen] = useState<boolean>(false);
+  const [emailInputOpen, setEmailInputOpen] = useState<boolean>(false);
+  const [linkedinInputOpen, setLinkedinInputOpen] = useState<boolean>(false);
   const [allLocations, setAllLocations] = useState<readonly CityCoordinates[]>([]);
   const [locationQuery, setLocationQuery] = useState('');
   const [loadingLocations, setLoadingLocations] = useState(false);
@@ -199,13 +240,14 @@ export function AlumniModal({
     () => () => {
       if (imagePreviewUrl) URL.revokeObjectURL(imagePreviewUrl);
     },
-    [imagePreviewUrl, allLocations.length, loadingLocations]
+    [imagePreviewUrl]
   );
 
   // Add mode: uploads go to `alumImages/{netId}`. If NetID changes after upload, clear the image
   // so we never save a document whose `uuid` does not match `imageUrl` (edit mode locks NetID).
   React.useEffect(() => {
     if (!open || mode !== 'add') return;
+
     const id = form.uuid.trim();
     const path = form.imageUrl;
     if (!path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) return;
@@ -231,7 +273,6 @@ export function AlumniModal({
     }
 
     let cleanup: (() => void) | undefined;
-
     if (path.startsWith('http')) {
       setImagePreviewUrl(path);
       setAvatarImageLoading(false);
@@ -252,7 +293,6 @@ export function AlumniModal({
       setImagePreviewUrl(getFallbackImage(form.uuid));
       setAvatarImageLoading(false);
     }
-
     return cleanup;
   }, [form.imageUrl, form.uuid, imagePreviewUrl]);
 
@@ -275,7 +315,6 @@ export function AlumniModal({
 
     setUploadError(null);
     setUploadingImage(true);
-
     try {
       const blob = await fetch(URL.createObjectURL(file)).then((res) => res.blob());
       const imagePath = `${ALUMNI_IMAGE_PATH_PREFIX}${uuid}`;
@@ -296,11 +335,55 @@ export function AlumniModal({
   const title = mode === 'add' ? 'Add Alumni' : 'Edit Alumni Information';
   const showAvatarSpinner = uploadingImage || avatarImageLoading;
   const canUploadImage = form.uuid.trim().length > 0;
+  const onClose = () => {
+    setModalOpen(false);
+    setNameInputOpen(false);
+    setEmailInputOpen(false);
+    setLinkedinInputOpen(false);
+  };
+  const subteamError = getSubteamFieldError(form.subteam);
+
+  const locationDropdownOptions = useMemo(() => {
+    const query = locationQuery.trim().toLowerCase();
+    const uniqueNames = Array.from(new Set(allLocations.map((c) => c.locationName)));
+
+    const filtered =
+      query.length > 0
+        ? (() => {
+            const filteredAndSortedByPop = [...allLocations]
+              .filter((c) => c.locationName.toLowerCase().includes(query))
+              .sort((a, b) => b.alumniIds.length - a.alumniIds.length);
+            return filteredAndSortedByPop.map((c) => c.locationName);
+          })()
+        : (() => {
+            const sortedByPop = [...allLocations].sort(
+              (a, b) => b.alumniIds.length - a.alumniIds.length
+            );
+            return sortedByPop.map((c) => c.locationName);
+          })();
+
+    const topFive = filtered.slice(0, 5);
+    const baseOptions = topFive.map((name) => ({
+      key: name,
+      text: name,
+      value: name
+    }));
+
+    const hasExact = uniqueNames.some((name) => name.toLowerCase() === query);
+    if (query && !hasExact) {
+      baseOptions.push({
+        key: `add-${query}`,
+        text: `Add "${locationQuery}"`,
+        value: `__add__${locationQuery}`
+      });
+    }
+
+    return baseOptions;
+  }, [allLocations, locationQuery]);
 
   return (
     <Modal open={open} onClose={onClose} size="large" closeIcon className={styles.alumniModal}>
       <Modal.Header className={styles.modalHeader}>{title}</Modal.Header>
-
       <Modal.Content>
         <div className={styles.modalTopCard}>
           <div className={styles.avatarWrapper}>
@@ -337,14 +420,18 @@ export function AlumniModal({
             {uploadError && <span className={styles.uploadError}>{uploadError}</span>}
           </div>
           <div className={styles.modalTopText}>
-            <div className={styles.modalNameRow}>
-              {!nameInputOpen ? (
+            <InlineEditableField
+              rowClassName={styles.modalNameRow}
+              isOpen={nameInputOpen}
+              onToggleOpen={() => setNameInputOpen((v) => !v)}
+              display={
                 <div className={styles.modalName}>
                   {form.firstName || form.lastName
                     ? `${form.firstName ?? ''} ${form.lastName ?? ''}`.trim()
                     : 'New Alumni'}
                 </div>
-              ) : (
+              }
+              edit={
                 <Form.Field
                   control={Input}
                   value={`${form.firstName ?? ''} ${form.lastName ?? ''}`}
@@ -361,24 +448,15 @@ export function AlumniModal({
                     }));
                   }}
                 />
-              )}
-              <button
-                onClick={() => setNameInputOpen(!nameInputOpen)}
-                className={styles.iconButton}
-              >
-                {nameInputOpen ? (
-                  <text style={{ fontWeight: 600 }}>Save</text>
-                ) : (
-                  <Icon name="pencil" />
-                )}
-              </button>
-            </div>
-
-            <div className={styles.modalContactRow}>
-              <Icon name="mail" />
-              {!emailInputOpen ? (
-                <span>{form.email}</span>
-              ) : (
+              }
+            />
+            <InlineEditableField
+              rowClassName={styles.modalContactRow}
+              leading={<Icon name="mail" />}
+              isOpen={emailInputOpen}
+              onToggleOpen={() => setEmailInputOpen((v) => !v)}
+              display={<span>{form.email}</span>}
+              edit={
                 <Form.Field
                   control={Input}
                   value={form.email}
@@ -386,24 +464,15 @@ export function AlumniModal({
                     setForm((f) => ({ ...f, email: String(data.value) }))
                   }
                 />
-              )}
-              <button
-                onClick={() => setEmailInputOpen(!emailInputOpen)}
-                className={styles.iconButton}
-              >
-                {emailInputOpen ? (
-                  <text style={{ fontWeight: 600 }}>Save</text>
-                ) : (
-                  <Icon name="pencil" />
-                )}
-              </button>
-            </div>
-
-            <div className={styles.modalContactRow}>
-              <Icon name="linkedin" />
-              {!linkedinInputOpen ? (
-                <span>{form.linkedin}</span>
-              ) : (
+              }
+            />
+            <InlineEditableField
+              rowClassName={styles.modalContactRow}
+              leading={<Icon name="linkedin" />}
+              isOpen={linkedinInputOpen}
+              onToggleOpen={() => setLinkedinInputOpen((v) => !v)}
+              display={<span>{form.linkedin}</span>}
+              edit={
                 <Form.Field
                   control={Input}
                   value={form.linkedin}
@@ -411,22 +480,10 @@ export function AlumniModal({
                     setForm((f) => ({ ...f, linkedin: String(data.value) }))
                   }
                 />
-              )}
-              <button
-                onClick={() => setLinkedinInputOpen(!linkedinInputOpen)}
-                className={styles.iconButton}
-              >
-                {linkedinInputOpen ? (
-                  <text style={{ fontWeight: 600 }}>Save</text>
-                ) : (
-                  <Icon name="pencil" />
-                )}
-              </button>
-            </div>
+              }
+            />
           </div>
         </div>
-
-        {/* Form grid like screenshot */}
         <Form>
           <Grid columns={3} stackable>
             <Grid.Row>
@@ -453,7 +510,6 @@ export function AlumniModal({
                   }}
                 />
               </Grid.Column>
-
               <Grid.Column>
                 <Form.Field
                   label="Location"
@@ -462,35 +518,7 @@ export function AlumniModal({
                   search
                   loading={loadingLocations || geocodingNewLocation}
                   placeholder="Search or add a location"
-                  options={(() => {
-                    const query = locationQuery.trim().toLowerCase();
-                    const uniqueNames = Array.from(
-                      new Set(allLocations.map((c) => c.locationName))
-                    );
-                    const filtered =
-                      query.length > 0
-                        ? uniqueNames.filter((name) => name.toLowerCase().includes(query))
-                        : [];
-                    const topFive = filtered.slice(0, 5);
-
-                    const baseOptions = topFive.map((name) => ({
-                      key: name,
-                      text: name,
-                      value: name
-                    }));
-
-                    const hasExact = uniqueNames.some((name) => name.toLowerCase() === query);
-
-                    if (query && !hasExact) {
-                      baseOptions.push({
-                        key: `add-${query}`,
-                        text: `Add "${locationQuery}"`,
-                        value: `__add__${locationQuery}`
-                      });
-                    }
-
-                    return baseOptions;
-                  })()}
+                  options={locationDropdownOptions}
                   value={form.location}
                   onSearchChange={(
                     _event: React.SyntheticEvent<HTMLElement>,
@@ -514,7 +542,7 @@ export function AlumniModal({
                       setLocationError(null);
                       setGeocodingNewLocation(true);
                       try {
-                        const created = await CityCoordinatesAPI.geocodeAndStore(newLocation);
+                        const created = await CityCoordinatesAPI.geocodeToCoordinates(newLocation);
                         setAllLocations((prev) => [...prev, created]);
                         setForm((f) => ({ ...f, location: created.locationName }));
                         setLocationQuery(created.locationName);
@@ -538,7 +566,6 @@ export function AlumniModal({
                   </div>
                 )}
               </Grid.Column>
-
               <Grid.Column>
                 <Form.Field
                   label="Company"
@@ -550,7 +577,6 @@ export function AlumniModal({
                 />
               </Grid.Column>
             </Grid.Row>
-
             <Grid.Row>
               <Grid.Column>
                 <Form.Field
@@ -562,7 +588,6 @@ export function AlumniModal({
                   }
                 />
               </Grid.Column>
-
               <Grid.Column>
                 <Form.Field
                   label="Job Category"
@@ -594,10 +619,9 @@ export function AlumniModal({
                   }
                 />
               </Grid.Column>
-
               <Grid.Column>
                 <Form.Field
-                  label="DTI Role"
+                  label={`DTI Role (at most ${MAX_DTI_ROLES})`}
                   control={Dropdown}
                   selection
                   multiple
@@ -608,33 +632,32 @@ export function AlumniModal({
                     { key: 'design', text: 'Design', value: 'Design' },
                     { key: 'lead', text: 'Lead', value: 'Lead' }
                   ]}
-                  value={form.dtiRole ?? []}
-                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
+                  value={(form.dtiRole ?? []).slice(0, MAX_DTI_ROLES)}
+                  onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) => {
+                    const next = (data.value as AlumDtiRole[] | undefined) ?? [];
                     setForm((f) => ({
                       ...f,
-                      dtiRole: (data.value as AlumDtiRole[] | undefined) ?? []
-                    }))
-                  }
+                      dtiRole: next.slice(0, MAX_DTI_ROLES)
+                    }));
+                  }}
                 />
               </Grid.Column>
             </Grid.Row>
-
             <Grid.Row>
               <Grid.Column>
                 <Form.Field>
                   <label>DTI Subteam</label>
-
                   <Input
                     value={form.subteam}
                     control={Input}
-                    placeholder="Enter as comma separated list e.g. QMI, IDOL"
+                    placeholder={`Up to ${MAX_SUBTEAMS} subteams, e.g. QMI, IDOL`}
                     onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) =>
                       setForm((f) => ({ ...f, subteam: String(data.value) }))
                     }
                   />
-                  {!isValidSubteamCommaSpaceList(form.subteam) && (
+                  {subteamError && (
                     <div className={styles.uploadError} style={{ marginTop: 6 }} role="alert">
-                      Use a comma and space between subteams (e.g. Subteam A, Subteam B).
+                      {subteamError}
                     </div>
                   )}
                 </Form.Field>
@@ -642,7 +665,6 @@ export function AlumniModal({
               <Grid.Column>
                 <Form.Field>
                   <label>Cornell NetID *</label>
-
                   <Input
                     value={form.uuid}
                     control={Input}
@@ -658,7 +680,6 @@ export function AlumniModal({
           </Grid>
         </Form>
       </Modal.Content>
-
       <Modal.Actions>
         <Button basic className={styles.cancelButton} onClick={onClose}>
           Cancel
@@ -667,16 +688,20 @@ export function AlumniModal({
           primary
           className={styles.saveButton}
           loading={saveLoading}
-          disabled={saveLoading || !form.uuid.trim() || !isValidSubteamCommaSpaceList(form.subteam)}
+          disabled={
+            saveLoading ||
+            !form.uuid.trim() ||
+            !form.email.trim() ||
+            !form.firstName.trim() ||
+            !isValidSubteamField(form.subteam)
+          }
           onClick={async () => {
             const alumniToSave = fromFormState(form);
             const oldLocation = initialAlumni?.location ?? null;
             const newLocation = alumniToSave.location?.trim() || null;
-
             setSaveLoading(true);
             try {
               await onSave(alumniToSave);
-
               // If location changed, update city-coordinates collection
               if (oldLocation !== newLocation) {
                 try {
@@ -693,10 +718,9 @@ export function AlumniModal({
                         )
                       )
                   );
-
                   // Add to new location if present
                   if (newLocation) {
-                    const coords = await CityCoordinatesAPI.geocodeAndStore(newLocation);
+                    const coords = await CityCoordinatesAPI.geocodeToCoordinates(newLocation);
                     await CityCoordinatesAPI.addAlumniToLocation(
                       coords.latitude,
                       coords.longitude,
@@ -704,8 +728,9 @@ export function AlumniModal({
                       coords.locationName
                     );
                   }
-                } catch {
+                } catch (error) {
                   // If updating city coordinates fails, we still persist the alumni change.
+                  console.error('Failed to sync city-coordinates after alumni save:', error);
                 }
               }
               onClose();

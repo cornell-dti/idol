@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 import styles from '../Admin/EditAlumni/EditAlumni.module.css';
-import Alumni from '../Alumni/Alumni';
 
-type DeleteAlumniConfirmationModalProps = {
+type AlumniDeleteConfirmationModalProps = {
   open: boolean;
   alumni?: Alumni;
   onClose: () => void;
   onConfirm: (alumni: Alumni) => Promise<void> | void;
 };
 
-export default function DeleteAlumniConfirmationModal({
+export default function AlumniDeleteConfirmationModal({
   open,
   alumni,
   onClose,
   onConfirm
-}: DeleteAlumniConfirmationModalProps): JSX.Element {
+}: AlumniDeleteConfirmationModalProps): JSX.Element {
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setDeleting(false);
+    }
+  }, [open]);
+
   const fullName =
     alumni && (alumni.firstName || alumni.lastName)
       ? `${alumni.firstName ?? ''} ${alumni.lastName ?? ''}`.trim()
@@ -27,27 +34,33 @@ export default function DeleteAlumniConfirmationModal({
       onClose={onClose}
       size="tiny"
       className={styles.deleteAlumniModal}
-      closeOnDimmerClick
+      closeOnDimmerClick={!deleting}
+      closeOnEscape={!deleting}
     >
       <Modal.Content className={styles.deleteAlumniModalContent}>
         <div className={styles.deleteAlumniMessage}>
           Are you sure you want to delete <strong>{fullName}</strong>? This action cannot be undone.
         </div>
-
         <div className={styles.deleteAlumniActions}>
           <Button
             color="red"
             className={styles.deleteConfirmButton}
+            loading={deleting}
+            disabled={deleting}
             onClick={async () => {
               if (!alumni) return;
-              await onConfirm(alumni);
-              onClose();
+              setDeleting(true);
+              try {
+                await onConfirm(alumni);
+                onClose();
+              } finally {
+                setDeleting(false);
+              }
             }}
           >
             Delete
           </Button>
-
-          <Button className={styles.deleteCancelButton} onClick={onClose}>
+          <Button className={styles.deleteCancelButton} disabled={deleting} onClick={onClose}>
             Cancel
           </Button>
         </div>

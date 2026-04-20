@@ -15,7 +15,7 @@ export default class CityCoordinatesAPI {
    * Geocodes a location string and ensures a CityCoordinates entry exists for it.
    * @param location - Human-readable location string
    */
-  static async geocodeAndStore(location: string): Promise<CityCoordinates> {
+  static async geocodeToCoordinates(location: string): Promise<CityCoordinates> {
     const response = await APIWrapper.post(`${backendURL}/city-coordinates/geocode`, {
       location
     });
@@ -58,5 +58,16 @@ export default class CityCoordinatesAPI {
       `${backendURL}/city-coordinates/${latitude}/${longitude}/alumni/${alumniId}`
     );
     return response.data.cityCoordinates;
+  }
+
+  /**
+   * Resolves a human-readable location name to lat/long, then removes the alumni from that city-coordinates document.
+   */
+  static async removeAlumniByLocationName(
+    locationName: string,
+    alumniId: string
+  ): Promise<CityCoordinates> {
+    const coords = await CityCoordinatesAPI.geocodeToCoordinates(locationName);
+    return CityCoordinatesAPI.removeAlumniFromLocation(coords.latitude, coords.longitude, alumniId);
   }
 }
