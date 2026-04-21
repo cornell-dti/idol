@@ -227,13 +227,10 @@ export function AlumniModal({
       setAvatarImageLoading(nextForm.imageUrl.startsWith(ALUMNI_IMAGE_PATH_PREFIX));
       setLocationQuery(mode === 'add' ? '' : initialAlumni?.location ?? '');
       setLocationError(null);
-      // Load locations once when modal opens
-      if (allLocations.length === 0 && !loadingLocations) {
-        setLoadingLocations(true);
-        CityCoordinatesAPI.getAllCityCoordinates()
-          .then((coords) => setAllLocations(coords))
-          .finally(() => setLoadingLocations(false));
-      }
+      setLoadingLocations(true);
+      CityCoordinatesAPI.getAllCityCoordinates()
+        .then((coords) => setAllLocations(coords))
+        .finally(() => setLoadingLocations(false));
     }
   }, [open, mode, initialAlumni]);
 
@@ -347,31 +344,30 @@ export function AlumniModal({
 
   const locationDropdownOptions = useMemo(() => {
     const query = locationQuery.trim().toLowerCase();
-    const uniqueNames = Array.from(new Set(allLocations.map((c) => c.locationName)));
+    const byNormalizedName = new Map<string, CityCoordinates>();
+    for (const coord of allLocations) {
+      const normalizedName = coord.locationName.trim().toLowerCase();
+      const existing = byNormalizedName.get(normalizedName);
+      if (!existing || coord.alumniIds.length > existing.alumniIds.length) {
+        byNormalizedName.set(normalizedName, coord);
+      }
+    }
+    const dedupedLocations = Array.from(byNormalizedName.values());
 
-    const filtered =
+    const filteredAndSorted = (
       query.length > 0
-        ? (() => {
-            const filteredAndSortedByPop = [...allLocations]
-              .filter((c) => c.locationName.toLowerCase().includes(query))
-              .sort((a, b) => b.alumniIds.length - a.alumniIds.length);
-            return filteredAndSortedByPop.map((c) => c.locationName);
-          })()
-        : (() => {
-            const sortedByPop = [...allLocations].sort(
-              (a, b) => b.alumniIds.length - a.alumniIds.length
-            );
-            return sortedByPop.map((c) => c.locationName);
-          })();
+        ? dedupedLocations.filter((c) => c.locationName.toLowerCase().includes(query))
+        : dedupedLocations
+    ).sort((a, b) => b.alumniIds.length - a.alumniIds.length);
 
-    const topFive = filtered.slice(0, 5);
-    const baseOptions = topFive.map((name) => ({
-      key: name,
-      text: name,
-      value: name
+    const topFive = filteredAndSorted.slice(0, 5);
+    const baseOptions = topFive.map((coord) => ({
+      key: coord.locationName,
+      text: coord.locationName,
+      value: coord.locationName
     }));
 
-    const hasExact = uniqueNames.some((name) => name.toLowerCase() === query);
+    const hasExact = dedupedLocations.some((coord) => coord.locationName.toLowerCase() === query);
     if (query && !hasExact) {
       baseOptions.push({
         key: `add-${query}`,
@@ -379,7 +375,6 @@ export function AlumniModal({
         value: `__add__${locationQuery}`
       });
     }
-
     return baseOptions;
   }, [allLocations, locationQuery]);
 
@@ -544,8 +539,30 @@ export function AlumniModal({
                       setLocationError(null);
                       setGeocodingNewLocation(true);
                       try {
-                        const created = await CityCoordinatesAPI.geocodeAndStoreLocation(newLocation);
-                        setAllLocations((prev) => [...prev, created]);
+                        const created =
+                          await CityCoordinatesAPI.geocodeWithoutStoringLocation(newLocation);
+                        if (!created?.locationName) {
+                          throw new Error('Geocoding returned no location name.');
+                        }
+                        setAllLocations((prev) => {
+                          const createdName = created.locationName.trim().toLowerCase();
+                          if (
+                            prev.some(
+                              (coord) => coord.locationName.trim().toLowerCase() === createdName
+                            )
+                          ) {
+                            return prev;
+                          }
+                          return [
+                            ...prev,
+                            {
+                              locationName: created.locationName,
+                              latitude: created.latitude,
+                              longitude: created.longitude,
+                              alumniIds: []
+                            }
+                          ];
+                        });
                         setForm((f) => ({ ...f, location: created.locationName }));
                         setLocationQuery(created.locationName);
                       } catch {

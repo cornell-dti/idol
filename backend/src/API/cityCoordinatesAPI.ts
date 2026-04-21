@@ -1,7 +1,7 @@
 import CityCoordinatesDao from '../dao/CityCoordinatesDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError, NotFoundError } from '../utils/errors';
-import GeocodingService from '../utils/geocodingService';
+import GeocodingService, { GeocodingResult } from '../utils/geocodingService';
 
 const cityCoordinatesDao = new CityCoordinatesDao();
 
@@ -31,6 +31,12 @@ export const geocodeAndStoreLocation = async (
 
   const cityCoords = await GeocodingService.geocodeAndStore(locationString);
   return cityCoords;
+};
+
+export const geocodeWithoutStoringLocation = async (
+  locationString: string
+): Promise<GeocodingResult> => {
+  return GeocodingService.geocodeLocation(locationString);
 };
 
 /**

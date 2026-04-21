@@ -1,6 +1,12 @@
 import { backendURL } from '../environment';
 import APIWrapper from './APIWrapper';
 
+type GeocodingResult = {
+  latitude: number;
+  longitude: number;
+  locationName: string;
+};
+
 export default class CityCoordinatesAPI {
   /**
    * Retrieves all city coordinates
@@ -26,7 +32,17 @@ export default class CityCoordinatesAPI {
     }
     return coords;
   }
-
+  static async geocodeWithoutStoringLocation(location: string): Promise<GeocodingResult> {
+    const response = await APIWrapper.post(`${backendURL}/city-coordinates/geocodeWithoutStoring`, {
+      location
+    });
+    const geocodingResult = response.data?.geocodingResult;
+    if (geocodingResult == null) {
+      const err = response.data?.error;
+      throw new Error(typeof err === 'string' ? err : 'Geocoding failed.');
+    }
+    return geocodingResult;
+  }
   /**
    * Adds an alumni ID to a specific location by coordinates.
    */
@@ -67,7 +83,7 @@ export default class CityCoordinatesAPI {
     locationName: string,
     alumniId: string
   ): Promise<CityCoordinates> {
-    const coords = await CityCoordinatesAPI.geocodeAndStoreLocation(locationName);
+    const coords = await CityCoordinatesAPI.geocodeWithoutStoringLocation(locationName);
     return CityCoordinatesAPI.removeAlumniFromLocation(coords.latitude, coords.longitude, alumniId);
   }
 }

@@ -158,7 +158,7 @@ export class GeocodingService {
    * @returns The geocoding result with latitude, longitude, and display name
    * @throws Error if geocoding fails or location not found
    */
-  private static async geocodeLocation(locationString: string): Promise<GeocodingResult> {
+  static async geocodeLocation(locationString: string): Promise<GeocodingResult> {
     const url = new URL(`${this.NOMINATIM_BASE_URL}/search`);
     url.searchParams.append('q', locationString);
     url.searchParams.append('format', 'json');

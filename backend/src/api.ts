@@ -125,7 +125,8 @@ import {
   deleteCityCoordinates,
   addAlumniToLocation,
   removeAlumniFromLocation,
-  geocodeAndStoreLocation
+  geocodeAndStoreLocation,
+  geocodeWithoutStoringLocation
 } from './API/cityCoordinatesAPI';
 
 import { HandlerError } from './utils/errors';
@@ -659,6 +660,10 @@ loginCheckedDelete('/alumni/:uuid', async (req, user) =>
 // City Coordinates
 loginCheckedGet('/city-coordinates', async () => ({
   cityCoordinates: await getAllCityCoordinates()
+}));
+
+loginCheckedPost('/city-coordinates/geocodeWithoutStoring', async (req) => ({
+  geocodingResult: await geocodeWithoutStoringLocation(req.body.location)
 }));
 
 loginCheckedGet('/city-coordinates/:latitude/:longitude', async (req) => ({
