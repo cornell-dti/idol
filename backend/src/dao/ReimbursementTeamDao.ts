@@ -76,9 +76,41 @@ export default class ReimbursementTeamDao extends BaseDao<ReimbursementTeam, Rei
     }
     const updatedTeam = {
       ...team,
-      totalSpent: team.totalSpent + amount,
-      updatedAt: Date.now()
+      totalSpent: team.totalSpent + amount
     };
     return this.updateTeam(updatedTeam);
+  }
+
+  /**
+   * Resets the budget state for a team (typically done at the start of each semester)
+   * @param teamId - The team ID
+   * @param newBudget - Optional new budget amount (if not provided, keeps current budget)
+   * @returns The updated `ReimbursementTeam`
+   */
+  async resetTeamBudget(teamId: string, newBudget?: number): Promise<ReimbursementTeam> {
+    const team = await this.getTeam(teamId);
+    if (!team) {
+      throw new Error(`Team with ID ${teamId} not found`);
+    }
+    const updatedTeam = {
+      ...team,
+      budget: newBudget !== undefined ? newBudget : team.budget,
+      totalSpent: 0
+    };
+    return this.updateTeam(updatedTeam);
+  }
+
+  /**
+   * Resets all team budgets (typically done at the start of each semester)
+   * @param newBudgets - Optional map of teamId to new budget amount
+   * @returns Array of updated `ReimbursementTeam`
+   */
+  async resetAllTeamBudgets(newBudgets?: Record<string, number>): Promise<ReimbursementTeam[]> {
+    const teams = await this.getAllTeams();
+    const updates = teams.map((team) => {
+      const newBudget = newBudgets?.[team.teamId];
+      return this.resetTeamBudget(team.teamId, newBudget);
+    });
+    return Promise.all(updates);
   }
 }

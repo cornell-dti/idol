@@ -239,16 +239,6 @@ export const alumniCollection: admin.firestore.CollectionReference<Alumni> = db
     }
   });
 
-export const reimbursementUserCollection: admin.firestore.CollectionReference<ReimbursementUser> =
-  db.collection('reimbursement-users').withConverter({
-    fromFirestore(snapshot): ReimbursementUser {
-      return snapshot.data() as ReimbursementUser;
-    },
-    toFirestore(userData: ReimbursementUser) {
-      return userData;
-    }
-  });
-
 export const reimbursementTeamCollection: admin.firestore.CollectionReference<ReimbursementTeam> =
   db.collection('reimbursement-teams').withConverter({
     fromFirestore(snapshot): ReimbursementTeam {

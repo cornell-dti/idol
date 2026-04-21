@@ -90,6 +90,9 @@ export default class ReimbursementRequestDao extends BaseDao<
    * @returns The updated `ReimbursementRequest`
    */
   async updateRequest(request: ReimbursementRequest): Promise<ReimbursementRequest> {
+    if (request.isImmutable) {
+      throw new Error('Cannot update an immutable reimbursement request');
+    }
     return this.updateDocument(request.requestId, request);
   }
 

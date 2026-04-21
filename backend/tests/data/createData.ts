@@ -253,24 +253,6 @@ export const fakeInterviewScheduler = (): InterviewScheduler => {
   return interviewScheduler;
 };
 
-/** Create fake Reimbursement User */
-export const fakeReimbursementUser = (): ReimbursementUser => {
-  const roles: ReimbursementUserRole[] = ['requestor', 'admin'];
-  const role = roles[Math.floor(Math.random() * roles.length)];
-
-  return {
-    userId: faker.datatype.uuid(),
-    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-    email: faker.internet.email(),
-    netid: `test${getRandomInt(100, 999)}`,
-    phoneNumber: faker.phone.phoneNumber(),
-    address: faker.address.streetAddress(true),
-    role,
-    teamId: faker.datatype.uuid(),
-    createdAt: Date.now()
-  };
-};
-
 /** Create fake Reimbursement Team */
 export const fakeReimbursementTeam = (): ReimbursementTeam => {
   const budget = getRandomInt(1000, 10000);
@@ -281,9 +263,7 @@ export const fakeReimbursementTeam = (): ReimbursementTeam => {
     teamName: `${faker.company.companyName()} Team`,
     budget,
     totalSpent,
-    assignedAdmins: [faker.datatype.uuid(), faker.datatype.uuid()],
-    createdAt: Date.now(),
-    updatedAt: Date.now()
+    assignedAdmins: [faker.datatype.uuid(), faker.datatype.uuid()]
   };
 };
 
@@ -306,7 +286,9 @@ export const fakeReimbursementRequest = (): ReimbursementRequest => {
 
   return {
     requestId: faker.datatype.uuid(),
-    requesterId: faker.datatype.uuid(),
+    requesterId: `test${getRandomInt(100, 999)}`,
+    requesterPhoneNumber: faker.phone.phoneNumber(),
+    requesterAddress: faker.address.streetAddress(true),
     teamId: faker.datatype.uuid(),
     amount: getRandomInt(10, 500),
     reason: faker.lorem.sentence(),
@@ -315,8 +297,6 @@ export const fakeReimbursementRequest = (): ReimbursementRequest => {
     dateSubmitted: Date.now(),
     status,
     receiptUrl: `https://storage.example.com/receipts/${faker.datatype.uuid()}.pdf`,
-    adminNote: status === 'needs_changes' ? faker.lorem.sentence() : null,
-    notes: faker.lorem.paragraph(),
     messages: [],
     statusLog: [
       {
