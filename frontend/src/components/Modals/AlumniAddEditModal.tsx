@@ -213,7 +213,6 @@ export function AlumniModal({
   const [pendingImageBlob, setPendingImageBlob] = useState<Blob | null>(null);
   /** True while resolving `alumImages/…` to a signed URL (avoids empty avatar flash). */
   const [avatarImageLoading, setAvatarImageLoading] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [saveLoading, setSaveLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -342,7 +341,7 @@ export function AlumniModal({
   };
 
   const title = mode === 'add' ? 'Add Alumni' : 'Edit Alumni Information';
-  const showAvatarSpinner = uploadingImage || avatarImageLoading;
+  const showAvatarSpinner = avatarImageLoading;
   const canUploadImage = form.uuid.trim().length > 0;
   const onClose = () => {
     setModalOpen(false);
@@ -397,8 +396,8 @@ export function AlumniModal({
             <button
               type="button"
               className={styles.avatarButton}
-              onClick={() => !uploadingImage && canUploadImage && fileInputRef.current?.click()}
-              disabled={uploadingImage || !canUploadImage}
+              onClick={() => canUploadImage && fileInputRef.current?.click()}
+              disabled={!canUploadImage}
               title={canUploadImage ? undefined : 'Enter Cornell NetID before uploading a photo'}
             >
               {imagePreviewUrl ? (

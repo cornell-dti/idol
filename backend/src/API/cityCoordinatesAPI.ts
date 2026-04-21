@@ -35,9 +35,7 @@ export const geocodeAndStoreLocation = async (
 
 export const geocodeWithoutStoringLocation = async (
   locationString: string
-): Promise<GeocodingResult> => {
-  return GeocodingService.geocodeLocation(locationString);
-};
+): Promise<GeocodingResult> => GeocodingService.geocodeLocation(locationString);
 
 /**
  * Gets city coordinates by lat/long coordinates

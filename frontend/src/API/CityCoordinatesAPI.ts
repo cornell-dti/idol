@@ -32,6 +32,7 @@ export default class CityCoordinatesAPI {
     }
     return coords;
   }
+
   static async geocodeWithoutStoringLocation(location: string): Promise<GeocodingResult> {
     const response = await APIWrapper.post(`${backendURL}/city-coordinates/geocodeWithoutStoring`, {
       location
@@ -43,6 +44,7 @@ export default class CityCoordinatesAPI {
     }
     return geocodingResult;
   }
+
   /**
    * Adds an alumni ID to a specific location by coordinates.
    */
