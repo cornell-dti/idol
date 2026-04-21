@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Icon, Image } from 'semantic-ui-react';
 import styles from './Alumni.module.css';
 import ImagesAPI from '../../API/ImagesAPI';
+
 const ALUMNI_IMAGE_PATH_PREFIX = 'alumImages/';
 
 const FALLBACK_IMAGES = [
