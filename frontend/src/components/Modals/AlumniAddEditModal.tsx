@@ -214,6 +214,7 @@ export function AlumniModal({
   const [loadingLocations, setLoadingLocations] = useState(false);
   const [geocodingNewLocation, setGeocodingNewLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const LOCATION_NOT_FOUND_MSG = 'Location not found. Please enter another location to add.';
 
   React.useEffect(() => {
@@ -221,6 +222,7 @@ export function AlumniModal({
       const nextForm = mode === 'add' ? emptyAlumniFormState() : toFormState(initialAlumni);
       setForm(nextForm);
       setUploadError(null);
+      setSaveError(null);
       setImagePreviewUrl('');
       setAvatarImageLoading(nextForm.imageUrl.startsWith(ALUMNI_IMAGE_PATH_PREFIX));
       setLocationQuery(mode === 'add' ? '' : initialAlumni?.location ?? '');
@@ -734,6 +736,9 @@ export function AlumniModal({
                 }
               }
               onClose();
+            } catch (error) {
+              console.error('Failed to save alumni: ', error);
+              setSaveError(`Failed to save alumni: ${(error as Error).message}`);
             } finally {
               setSaveLoading(false);
             }
@@ -741,6 +746,11 @@ export function AlumniModal({
         >
           {saveLoading ? 'Saving...' : 'Save Changes'}
         </Button>
+        {saveError && (
+          <div className={styles.uploadError} style={{ marginTop: 6 }} role="alert">
+            {saveError}
+          </div>
+        )}
       </Modal.Actions>
     </Modal>
   );

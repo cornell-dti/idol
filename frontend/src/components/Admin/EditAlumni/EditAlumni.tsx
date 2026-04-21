@@ -80,6 +80,10 @@ export default function EditAlumni(): JSX.Element {
 
   async function saveAlumni(data: Alumni): Promise<void> {
     if (modalMode === 'add') {
+      const existingAlumni = await AlumniAPI.getAlumni(data.uuid);
+      if (existingAlumni) {
+        throw new Error('Alumni already exists');
+      }
       await AlumniAPI.createAlumni(data);
     } else {
       await AlumniAPI.updateAlumni(data);
@@ -109,7 +113,10 @@ export default function EditAlumni(): JSX.Element {
 
   async function deleteAlumni(alum: Alumni): Promise<void> {
     await AlumniAPI.deleteAlumni(alum.uuid);
-    await CityCoordinatesAPI.removeAlumniByLocationName(alum.location ?? '', alum.uuid);
+    const location = alum.location?.trim();
+    if (location) {
+      await CityCoordinatesAPI.removeAlumniByLocationName(location, alum.uuid);
+    }
     await loadAlumni();
   }
 
