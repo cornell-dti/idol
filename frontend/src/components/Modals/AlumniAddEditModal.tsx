@@ -544,7 +544,7 @@ export function AlumniModal({
                       setLocationError(null);
                       setGeocodingNewLocation(true);
                       try {
-                        const created = await CityCoordinatesAPI.geocodeToCoordinates(newLocation);
+                        const created = await CityCoordinatesAPI.geocodeAndStoreLocation(newLocation);
                         setAllLocations((prev) => [...prev, created]);
                         setForm((f) => ({ ...f, location: created.locationName }));
                         setLocationQuery(created.locationName);
@@ -722,7 +722,7 @@ export function AlumniModal({
                   );
                   // Add to new location if present
                   if (newLocation) {
-                    const coords = await CityCoordinatesAPI.geocodeToCoordinates(newLocation);
+                    const coords = await CityCoordinatesAPI.geocodeAndStoreLocation(newLocation);
                     await CityCoordinatesAPI.addAlumniToLocation(
                       coords.latitude,
                       coords.longitude,
