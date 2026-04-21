@@ -159,6 +159,16 @@ const getFallbackImage = (uuid: string): string => {
 
 const ALUMNI_IMAGE_PATH_PREFIX = 'alumImages/';
 
+/** Path passed to `ImagesAPI` (no `.jpg`; backend adds it). */
+function alumniStorageImagePath(imageUrl: string | undefined | null): string | null {
+  if (!imageUrl?.trim()) return null;
+  let path = imageUrl.trim();
+  if (path.startsWith('http')) return null;
+  if (!path.startsWith(ALUMNI_IMAGE_PATH_PREFIX)) return null;
+  if (path.endsWith('.jpg')) path = path.slice(0, -'.jpg'.length);
+  return path;
+}
+
 /** Semantic UI `Form.Field` / `Input` onChange `data` */
 type FormInputChangeData = { value?: unknown };
 
@@ -200,6 +210,7 @@ export function AlumniModal({
 }: AlumniModalProps): JSX.Element {
   const [form, setForm] = useState<AlumniFormState>(() => toFormState(initialAlumni));
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('');
+  const [pendingImageBlob, setPendingImageBlob] = useState<Blob | null>(null);
   /** True while resolving `alumImages/…` to a signed URL (avoids empty avatar flash). */
   const [avatarImageLoading, setAvatarImageLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -223,6 +234,7 @@ export function AlumniModal({
       setForm(nextForm);
       setUploadError(null);
       setSaveError(null);
+      setPendingImageBlob(null);
       setImagePreviewUrl('');
       setAvatarImageLoading(nextForm.imageUrl.startsWith(ALUMNI_IMAGE_PATH_PREFIX));
       setLocationQuery(mode === 'add' ? '' : initialAlumni?.location ?? '');
@@ -313,20 +325,18 @@ export function AlumniModal({
     }
 
     setUploadError(null);
-    setUploadingImage(true);
     try {
-      const blob = await fetch(URL.createObjectURL(file)).then((res) => res.blob());
-      const imagePath = `${ALUMNI_IMAGE_PATH_PREFIX}${uuid}`;
-      await ImagesAPI.uploadImage(blob, imagePath);
-
-      // Store path for save; use object URL for immediate preview
-      setForm((f) => ({ ...f, imageUrl: imagePath }));
+      setPendingImageBlob(file);
+      setForm((f) => ({ ...f, imageUrl: '' }));
       setAvatarImageLoading(false);
-      setImagePreviewUrl(URL.createObjectURL(file));
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreviewUrl((prev) => {
+        if (prev.startsWith('blob:')) URL.revokeObjectURL(prev);
+        return previewUrl;
+      });
     } catch {
-      setUploadError('Failed to upload image. Please try again.');
+      setUploadError('Failed to process image. Please try again.');
     } finally {
-      setUploadingImage(false);
       e.target.value = '';
     }
   };
@@ -715,8 +725,25 @@ export function AlumniModal({
             !isValidSubteamField(form.subteam)
           }
           onClick={async () => {
-            const alumniToSave = fromFormState(form);
+            let formToSave = form;
+            const pendingUuid = form.uuid.trim();
             const oldLocation = initialAlumni?.location ?? null;
+            if (pendingImageBlob) {
+              try {
+                const imagePath = `${ALUMNI_IMAGE_PATH_PREFIX}${pendingUuid}`;
+                const previousPath = alumniStorageImagePath(initialAlumni?.imageUrl);
+                await ImagesAPI.uploadImage(pendingImageBlob, imagePath);
+                if (previousPath && previousPath !== imagePath) {
+                  await ImagesAPI.deleteImage(previousPath).catch(() => {});
+                }
+                formToSave = { ...form, imageUrl: imagePath };
+                setForm(formToSave);
+                setPendingImageBlob(null);
+              } catch {
+                throw new Error('Failed to upload image. Please try again.');
+              }
+            }
+            const alumniToSave = fromFormState(formToSave);
             const newLocation = alumniToSave.location?.trim() || null;
             setSaveLoading(true);
             try {
