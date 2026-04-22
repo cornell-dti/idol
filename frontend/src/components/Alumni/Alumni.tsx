@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 import { Container, Header, Input, Dropdown, Icon, Loader } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
@@ -27,11 +28,35 @@ const Alumni: React.FC = () => {
     DEFAULT_MAX_YEAR
   ]);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const savedScrollY = useRef(0);
+  const modalBodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.body.style.overflow = filtersOpen ? 'hidden' : '';
+    if (!filtersOpen) return;
+
+    savedScrollY.current = window.scrollY;
+    document.body.classList.add('modal-open');
+    document.body.style.top = `-${savedScrollY.current}px`;
+
+    const isInsideModal = (target: EventTarget | null) =>
+      modalBodyRef.current?.contains(target as Node) ?? false;
+
+    const lockTouch = (e: TouchEvent) => {
+      if (!isInsideModal(e.target)) e.preventDefault();
+    };
+    const lockWheel = (e: WheelEvent) => {
+      if (!isInsideModal(e.target)) e.preventDefault();
+    };
+
+    document.addEventListener('touchmove', lockTouch, { passive: false, capture: true });
+    document.addEventListener('wheel', lockWheel, { passive: false, capture: true });
+
     return () => {
-      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, savedScrollY.current);
+      document.removeEventListener('touchmove', lockTouch, { capture: true });
+      document.removeEventListener('wheel', lockWheel, { capture: true });
     };
   }, [filtersOpen]);
 
@@ -241,19 +266,23 @@ const Alumni: React.FC = () => {
         <div className={styles.filtersSidebar}>{filterContent}</div>
 
         {/* Mobile filter modal */}
-        {filtersOpen && (
-          <div className={styles.filterOverlay} onClick={() => setFiltersOpen(false)}>
-            <div className={styles.filterModal} onClick={(e) => e.stopPropagation()}>
-              <div className={styles.filterModalHeader}>
-                <Button icon={<Icon name="close" />} onClick={() => setFiltersOpen(false)} />
+        {filtersOpen &&
+          createPortal(
+            <div className={styles.filterOverlay} onClick={() => setFiltersOpen(false)}>
+              <div className={styles.filterModal} onClick={(e) => e.stopPropagation()}>
+                <div className={styles.filterModalHeader}>
+                  <Button icon={<Icon name="close" />} onClick={() => setFiltersOpen(false)} />
+                </div>
+                <div ref={modalBodyRef} className={styles.filterModalBody}>
+                  {filterContent}
+                </div>
+                <div className={styles.filterModalFooter}>
+                  <Button label="Apply Filters" onClick={() => setFiltersOpen(false)} />
+                </div>
               </div>
-              <div className={styles.filterModalBody}>{filterContent}</div>
-              <div className={styles.filterModalFooter}>
-                <Button label="Apply Filters" onClick={() => setFiltersOpen(false)} />
-              </div>
-            </div>
-          </div>
-        )}
+            </div>,
+            document.body
+          )}
 
         <div className={styles.listContainer}>
           {isLoading && <Loader active size="large" />}
