@@ -32,7 +32,7 @@ const Alumni: React.FC = () => {
   const modalBodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!filtersOpen) return;
+    if (!filtersOpen) return () => {};
 
     savedScrollY.current = window.scrollY;
     document.body.classList.add('modal-open');
