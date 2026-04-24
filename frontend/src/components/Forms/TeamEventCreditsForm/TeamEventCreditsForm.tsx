@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Label, Dropdown } from 'semantic-ui-react';
+import { Form, Label, Dropdown, Loader } from 'semantic-ui-react';
 import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 import { calculateCredits, Emitters, getNetIDFromEmail, getTECPeriod } from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
@@ -7,12 +7,8 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
-import {
-  INITIATIVE_EVENTS,
-  TEC_DEADLINES,
-  REQUIRED_LEAD_TEC_CREDITS,
-  REQUIRED_MEMBER_TEC_CREDITS
-} from '../../../consts';
+import { INITIATIVE_EVENTS} from '../../../consts';
+import TecConfigAPI from '../../../API/TecConfigAPI';
 
 const TeamEventCreditForm: React.FC = () => {
   // When the user is logged in, `useSelf` always return non-null data.
@@ -26,6 +22,7 @@ const TeamEventCreditForm: React.FC = () => {
   const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
   const [images, setImages] = useState<string[]>(['']);
+  const [tecConfig, setTecConfig] = useState<TECConfig | null>(null);
 
   useEffect(() => {
     TeamEventsAPI.getAllTeamEventInfo().then((teamEvents) => setTeamEventInfoList(teamEvents));
@@ -35,7 +32,12 @@ const TeamEventCreditForm: React.FC = () => {
       setRejectedAttendance(attendance.filter((attendee) => attendee.status === 'rejected'));
       setIsAttendanceLoading(false);
     });
+    TecConfigAPI.getTecConfig().then(setTecConfig);
   }, []);
+  if (!tecConfig) return <Loader active>Loading TEC Config...</Loader>;
+
+  const tecDeadlines = tecConfig.periodEndDates.map((d) => new Date(d));
+  const { requiredMemberTecCredits, requiredLeadTecCredits } = tecConfig; 
 
   const approvedTECDates = approvedAttendance
     .map((attendance) => {
@@ -49,21 +51,21 @@ const TeamEventCreditForm: React.FC = () => {
     })
     .filter((entry): entry is { date: Date; credits: number } => entry !== null);
 
-  const tecCounts: number[] = Array.from({ length: TEC_DEADLINES.length }, () => 0);
+  const tecCounts: number[] = Array.from({ length: tecDeadlines.length }, () => 0);
   approvedTECDates.forEach(({ date, credits }) => {
-    const period = getTECPeriod(date);
+    const period = getTECPeriod(date, tecDeadlines);
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
 
-  let requiredCredits = REQUIRED_MEMBER_TEC_CREDITS;
+  let requiredCredits = requiredMemberTecCredits;
   if (ADVISOR_ROLES.includes(userInfo.role)) {
     requiredCredits = 0;
   } else if (LEAD_ROLES.includes(userInfo.role)) {
-    requiredCredits = REQUIRED_LEAD_TEC_CREDITS;
+    requiredCredits = requiredLeadTecCredits;
   }
 
   const getCurrentCreditsNeeded = () => {
-    const currentPeriod = getTECPeriod(new Date());
+    const currentPeriod = getTECPeriod(new Date(), tecDeadlines);
     const currentCredits = tecCounts[currentPeriod] || 0;
 
     return calculateCredits(currentCredits, requiredCredits);
@@ -184,8 +186,8 @@ const TeamEventCreditForm: React.FC = () => {
           Earn team event credits for participating in DTI events! Fill out this form every time and
           attach a picture of yourself at the event to receive credit. The current month's TEC
           period ends on{' '}
-          {getTECPeriod(new Date()) < TEC_DEADLINES.length
-            ? TEC_DEADLINES[getTECPeriod(new Date())].toDateString()
+          {getTECPeriod(new Date(), tecDeadlines) < tecDeadlines.length
+            ? tecDeadlines[getTECPeriod(new Date(), tecDeadlines)].toDateString()
             : 'No upcoming period'}
           .
         </p>
@@ -326,6 +328,9 @@ const TeamEventCreditForm: React.FC = () => {
           setPendingAttendance={setPendingAttendance}
           requiredPeriodCredits={remainingCredits}
           tecCounts={tecCounts}
+          tecDeadlines={tecDeadlines}
+          requiredMemberTecCredits={requiredMemberTecCredits}
+          requiredLeadTecCredits={requiredLeadTecCredits}
         />
       </Form>
     </div>

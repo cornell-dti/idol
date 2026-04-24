@@ -7,6 +7,9 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters, getPeriods } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
 import { INITIATIVE_EVENTS } from '../../../consts';
+import TecConfigAPI from '../../../API/TecConfigAPI';
+import TecConfigEditor from './TecConfigEditor';
+
 
 type TeamEventsDisplayProps = {
   isLoading: boolean;
@@ -61,11 +64,16 @@ const TeamEvents: React.FC = () => {
     { name: string; start: Date; deadline: Date; events: TeamEvent[] }[]
   >([]);
   const [isLoading, setLoading] = useState(true);
+  const [tecConfig, setTecConfig] = useState<TECConfig | null>(null);
 
   const fullReset = () => {
     setLoading(true);
     setGroupedTeamEvents([]);
   };
+
+  useEffect(() => {
+    TecConfigAPI.getTecConfig().then((config) => setTecConfig(config));
+  }, []);
 
   useEffect(() => {
     const cb = () => {
@@ -78,10 +86,11 @@ const TeamEvents: React.FC = () => {
   });
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading && tecConfig) {
+      const tecDeadlines = tecConfig.periodEndDates.map((d) => new Date(d));
       TeamEventsAPI.getAllTeamEvents()
         .then((teamEvents) => {
-          const periods = getPeriods(teamEvents).reverse();
+          const periods = getPeriods(teamEvents, tecDeadlines).reverse();
           setGroupedTeamEvents(periods);
           setLoading(false);
         })
@@ -93,13 +102,16 @@ const TeamEvents: React.FC = () => {
           setLoading(false);
         });
     }
-  }, [isLoading]);
+  }, [isLoading, tecConfig]);
 
   return (
     <div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
         <h1>Create a Team Event</h1>
         <TeamEventForm formType={'create'}></TeamEventForm>
+      </div>
+      <div className={[styles.formWrapper,styles.wrapper].join(' ')}>
+        <TecConfigEditor />
       </div>
       <div className={styles.wrapper}>
         <div>

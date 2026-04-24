@@ -238,3 +238,14 @@ export const alumniCollection: admin.firestore.CollectionReference<Alumni> = db
       return alumniData;
     }
   });
+
+export const tecConfigCollection: admin.firestore.CollectionReference<TECConfig> = db
+  .collection('tec-config')
+  .withConverter({
+    fromFirestore(snapshot): TECConfig {
+      return snapshot.data() as TECConfig;
+    }, 
+    toFirestore(tecConfigData: TECConfig) {
+      return tecConfigData;
+    }
+  })
