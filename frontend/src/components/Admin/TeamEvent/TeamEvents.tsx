@@ -10,7 +10,6 @@ import { INITIATIVE_EVENTS } from '../../../consts';
 import TecConfigAPI from '../../../API/TecConfigAPI';
 import TecConfigEditor from './TecConfigEditor';
 
-
 type TeamEventsDisplayProps = {
   isLoading: boolean;
   teamEvents: TeamEvent[];
@@ -110,7 +109,7 @@ const TeamEvents: React.FC = () => {
         <h1>Create a Team Event</h1>
         <TeamEventForm formType={'create'}></TeamEventForm>
       </div>
-      <div className={[styles.formWrapper,styles.wrapper].join(' ')}>
+      <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
         <TecConfigEditor />
       </div>
       <div className={styles.wrapper}>

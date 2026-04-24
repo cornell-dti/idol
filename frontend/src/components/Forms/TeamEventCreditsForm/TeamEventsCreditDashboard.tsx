@@ -6,10 +6,7 @@ import styles from './TeamEventCreditsForm.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { Emitters } from '../../../utils';
-import {
-  REQUIRED_INITIATIVE_CREDITS,
-  INITIATIVE_EVENTS,
-} from '../../../consts';
+import { REQUIRED_INITIATIVE_CREDITS, INITIATIVE_EVENTS } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
   allTEC: TeamEventInfo[];

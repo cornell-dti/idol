@@ -475,7 +475,7 @@ loginCheckedPut('/tec-config', async (req, user) => {
   if (!(await PermissionsManager.isAdmin(user))) {
     throw new PermissionError('Only IDOL admins can update TEC Config');
   }
-  return {config: await TecConfigDao.updateTecConfig(req.body)};
+  return { config: await TecConfigDao.updateTecConfig(req.body) };
 });
 loginCheckedPost('/send-period-reminder', async (req, user) => ({
   info: await notifyMemberPeriod(req, req.body, user)

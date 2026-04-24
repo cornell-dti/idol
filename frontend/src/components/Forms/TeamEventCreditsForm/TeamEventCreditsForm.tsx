@@ -7,7 +7,7 @@ import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
 import styles from './TeamEventCreditsForm.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
-import { INITIATIVE_EVENTS} from '../../../consts';
+import { INITIATIVE_EVENTS } from '../../../consts';
 import TecConfigAPI from '../../../API/TecConfigAPI';
 
 const TeamEventCreditForm: React.FC = () => {
@@ -37,7 +37,7 @@ const TeamEventCreditForm: React.FC = () => {
   if (!tecConfig) return <Loader active>Loading TEC Config...</Loader>;
 
   const tecDeadlines = tecConfig.periodEndDates.map((d) => new Date(d));
-  const { requiredMemberTecCredits, requiredLeadTecCredits } = tecConfig; 
+  const { requiredMemberTecCredits, requiredLeadTecCredits } = tecConfig;
 
   const approvedTECDates = approvedAttendance
     .map((attendance) => {
