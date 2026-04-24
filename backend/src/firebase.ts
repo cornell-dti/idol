@@ -244,8 +244,8 @@ export const tecConfigCollection: admin.firestore.CollectionReference<TECConfig>
   .withConverter({
     fromFirestore(snapshot): TECConfig {
       return snapshot.data() as TECConfig;
-    }, 
+    },
     toFirestore(tecConfigData: TECConfig) {
       return tecConfigData;
     }
-  })
+  });

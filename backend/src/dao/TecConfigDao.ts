@@ -2,7 +2,6 @@ import { tecConfigCollection } from '../firebase';
 import { DEFAULT_TEC_CONFIG } from '../consts';
 import { BadRequestError } from '../utils/errors';
 
-
 const TEC_CONFIG_DOC_ID = 'current';
 
 export default class TecConfigDao {
@@ -21,7 +20,7 @@ export default class TecConfigDao {
 
   static async updateTecConfig(config: TECConfig): Promise<TECConfig> {
     if (!isValidTecConfig(config)) {
-      throw new BadRequestError("Invalid TEC config");
+      throw new BadRequestError('Invalid TEC config');
     }
 
     const normalizedConfig: TECConfig = {
