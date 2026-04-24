@@ -258,3 +258,14 @@ export const reimbursementRequestCollection: admin.firestore.CollectionReference
       return requestData;
     }
   });
+
+export const tecConfigCollection: admin.firestore.CollectionReference<TECConfig> = db
+  .collection('tec-config')
+  .withConverter({
+    fromFirestore(snapshot): TECConfig {
+      return snapshot.data() as TECConfig;
+    },
+    toFirestore(tecConfigData: TECConfig) {
+      return tecConfigData;
+    }
+  });

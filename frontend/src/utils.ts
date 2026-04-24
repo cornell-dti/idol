@@ -1,7 +1,5 @@
 /* eslint-disable max-classes-per-file */
 
-import { TEC_DEADLINES } from './consts';
-
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
 export const getRoleDescriptionFromRoleID = (role: Role): RoleDescription => {
@@ -244,10 +242,10 @@ export const getTimeString = (unixTime: number): string => {
  * @returns The index of the current TEC period in the `TEC_DEADLINES` array.
  *          If the submission date is after all deadlines, returns the last period index.
  */
-export const getTECPeriod = (submissionDate: Date) => {
-  const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+export const getTECPeriod = (submissionDate: Date, tecDeadlines: Date[]): number => {
+  const currentPeriodIndex = tecDeadlines.findIndex((date) => submissionDate <= date);
   if (currentPeriodIndex === -1) {
-    return TEC_DEADLINES.length - 1;
+    return tecDeadlines.length - 1;
   }
   return currentPeriodIndex;
 };
@@ -257,13 +255,13 @@ export const getTECPeriod = (submissionDate: Date) => {
  * @param teamEvents The array of team events that are being grouped into said periods within a given semester.
  * @returns An array of Period objects, TEC events grouped within their respective monthly periods, sorted by deadline from latest to earliest.
  */
-export const getPeriods = (teamEvents: TeamEvent[]): Period[] => {
+export const getPeriods = (teamEvents: TeamEvent[], tecDeadlines: Date[]): Period[] => {
   const today = new Date();
   const year = today.getFullYear();
   const firstPeriodStart = today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
 
-  return TEC_DEADLINES.map((deadline, i) => {
-    const periodStart = i === 0 ? firstPeriodStart : TEC_DEADLINES[i - 1];
+  return tecDeadlines.map((deadline, i) => {
+    const periodStart = i === 0 ? firstPeriodStart : tecDeadlines[i - 1];
     const events = teamEvents
       .filter((event) => {
         const eventDate = new Date(event.date);

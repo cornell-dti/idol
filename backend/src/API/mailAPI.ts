@@ -8,12 +8,8 @@ import { BadRequestError, PermissionError } from '../utils/errors';
 import { env } from '../firebase';
 import TeamEventAttendanceDao from '../dao/TeamEventAttendanceDao';
 import TeamEventsDao from '../dao/TeamEventsDao';
-import {
-  LEAD_ROLES,
-  TEC_DEADLINES,
-  REQUIRED_LEAD_TEC_CREDITS,
-  REQUIRED_MEMBER_TEC_CREDITS
-} from '../consts';
+import { LEAD_ROLES } from '../consts';
+import TecConfigDao from '../dao/TecConfigDao';
 
 const teamEventAttendanceDao = new TeamEventAttendanceDao();
 const IS_PROD = env === 'prod';
@@ -138,6 +134,9 @@ export const sendPeriodReminder = async (
   member: IdolMember
 ): Promise<AxiosResponse> => {
   const subject = `This Period's TEC Reminder`;
+  const tecConfig = await TecConfigDao.getTecConfig();
+  const tecDeadlines = tecConfig.periodEndDates.map((d) => new Date(d));
+  const { requiredMemberTecCredits, requiredLeadTecCredits } = tecConfig;
 
   interface Period {
     start: Date;
@@ -153,9 +152,9 @@ export const sendPeriodReminder = async (
   );
 
   const getTECPeriod = (submissionDate: Date) => {
-    const currentPeriodIndex = TEC_DEADLINES.findIndex((date) => submissionDate <= date);
+    const currentPeriodIndex = tecDeadlines.findIndex((date) => submissionDate <= date);
     if (currentPeriodIndex === -1) {
-      return TEC_DEADLINES.length - 1;
+      return tecDeadlines.length - 1;
     }
     return currentPeriodIndex;
   };
@@ -189,8 +188,8 @@ export const sendPeriodReminder = async (
     const firstPeriodStart = today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
 
     const periodStart =
-      currentPeriodIndex === 0 ? firstPeriodStart : TEC_DEADLINES[currentPeriodIndex - 1];
-    const periodEnd = TEC_DEADLINES[currentPeriodIndex];
+      currentPeriodIndex === 0 ? firstPeriodStart : tecDeadlines[currentPeriodIndex - 1];
+    const periodEnd = tecDeadlines[currentPeriodIndex];
     const events = allEvents.filter((event) => {
       const eventDate = new Date(event.date);
       return eventDate > periodStart && eventDate <= periodEnd;
@@ -222,7 +221,7 @@ export const sendPeriodReminder = async (
   const { approvedCredits, pendingCredits } = calculateCurrentPeriodCredits(currentPeriod);
 
   const isLead = LEAD_ROLES.includes(member.role);
-  const requiredCreditsForPeriod = isLead ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS;
+  const requiredCreditsForPeriod = isLead ? requiredLeadTecCredits : requiredMemberTecCredits;
   const remainingCredits = calculateCredits(approvedCredits, requiredCreditsForPeriod);
   const reminder =
     `This is a reminder to earn at least ${remainingCredits} team event ${

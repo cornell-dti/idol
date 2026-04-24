@@ -9,6 +9,7 @@ import AlumniCard from './AlumniCard';
 import styles from './Alumni.module.css';
 import Button from '../Common/Button/Button';
 
+
 const AlumniMap = dynamic(() => import('./AlumniMap'), { ssr: false });
 
 type ViewMode = 'list' | 'map';
@@ -177,6 +178,9 @@ const Alumni: React.FC = () => {
     { key: 'design', text: 'Design', value: 'Design' },
     { key: 'lead', text: 'Lead', value: 'Lead' }
   ];
+
+
+  
 
   const companyOptions = useMemo(() => {
     // Dynamic filter based off of companies of existing alumni
