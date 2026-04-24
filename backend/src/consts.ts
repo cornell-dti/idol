@@ -9,13 +9,11 @@ export default COFFEE_CHAT_BINGO_BOARD;
 
 export const DISABLE_DELETE_ALL_COFFEE_CHATS = true;
 
-export const REQUIRED_MEMBER_TEC_CREDITS = 1;
-export const REQUIRED_LEAD_TEC_CREDITS = 2;
-export const TEC_DEADLINES = [
-  new Date('2026-02-22T23:59:59'),
-  new Date('2026-03-19T23:59:59'),
-  new Date('2026-05-04T23:59:59')
-];
+export const DEFAULT_TEC_CONFIG: TECConfig = {
+  periodEndDates: ['2026-02-22T23:59:59', '2026-03-19T23:59:59', '2026-05-04T23:59:59'],
+  requiredMemberTecCredits: 1,
+  requiredLeadTecCredits: 2
+};
 
 export const ALL_ROLES: Role[] = [
   'ops-lead',

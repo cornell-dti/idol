@@ -605,3 +605,9 @@ interface Alumni {
   readonly about?: string | null;
   readonly imageUrl: string;
 }
+
+interface TECConfig {
+  readonly periodEndDates: string[];
+  readonly requiredMemberTecCredits: number;
+  readonly requiredLeadTecCredits: number;
+}

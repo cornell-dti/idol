@@ -4,12 +4,8 @@ import { ExportToCsv, Options } from 'export-to-csv';
 import { ADVISOR_ROLES, LEAD_ROLES } from 'common-types/constants';
 import { useMembers } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import {
-  REQUIRED_LEAD_TEC_CREDITS,
-  REQUIRED_MEMBER_TEC_CREDITS,
-  REQUIRED_INITIATIVE_CREDITS,
-  INITIATIVE_EVENTS
-} from '../../../consts';
+import TecConfigAPI from '../../../API/TecConfigAPI';
+import { REQUIRED_INITIATIVE_CREDITS, INITIATIVE_EVENTS } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
 import { calculateCredits, getTECPeriod, getPeriods } from '../../../utils';
@@ -43,16 +39,22 @@ const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
 const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
   teamEvents.reduce((val, event) => val + calculateInitiativeCreditsForEvent(member, event), 0);
 
-const getRequiredCredits = (member: IdolMember): number =>
-  LEAD_ROLES.includes(member.role) ? REQUIRED_LEAD_TEC_CREDITS : REQUIRED_MEMBER_TEC_CREDITS;
-
-const getRemainingCredits = (member: IdolMember, currentPeriodCredits: number): number =>
-  calculateCredits(currentPeriodCredits, getRequiredCredits(member));
+const getRemainingCredits = (
+  member: IdolMember,
+  currentPeriodCredits: number,
+  requiredMemberTecCredits: number,
+  requiredLeadTecCredits: number
+): number =>
+  calculateCredits(
+    currentPeriodCredits,
+    LEAD_ROLES.includes(member.role) ? requiredLeadTecCredits : requiredMemberTecCredits
+  );
 
 const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [displayPeriod, setDisplayPeriod] = useState<boolean>(false);
+  const [tecConfig, setTecConfig] = useState<TECConfig | null>(null);
 
   const allMembers = useMembers();
 
@@ -61,18 +63,32 @@ const TeamEventDashboard: React.FC = () => {
       setTeamEvents(events);
       setIsLoading(false);
     });
+    TecConfigAPI.getTecConfig().then(setTecConfig);
   }, []);
 
-  if (isLoading) return <Loader active>Fetching team event data...</Loader>;
+  if (isLoading || !tecConfig) return <Loader active>Fetching team event data...</Loader>;
 
-  const periods = getPeriods(teamEvents);
+  const tecDeadlines = tecConfig.periodEndDates.map((d) => new Date(d));
+  const { requiredMemberTecCredits, requiredLeadTecCredits } = tecConfig;
 
-  const currentPeriodIndex = getTECPeriod(new Date());
+  const getRequiredCredits = (member: IdolMember): number =>
+    LEAD_ROLES.includes(member.role) ? requiredLeadTecCredits : requiredMemberTecCredits;
+
+  const periods = getPeriods(teamEvents, tecDeadlines);
+
+  const currentPeriodIndex = getTECPeriod(new Date(), tecDeadlines);
 
   const membersNeedingNotification = allMembers.filter((member) => {
     if (ADVISOR_ROLES.includes(member.role)) return false;
     const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
-    return getRemainingCredits(member, currentPeriodCredits) > 0;
+    return (
+      getRemainingCredits(
+        member,
+        currentPeriodCredits,
+        requiredMemberTecCredits,
+        requiredLeadTecCredits
+      ) > 0
+    );
   });
 
   const handleExportToCsv = () => {
@@ -173,7 +189,12 @@ const TeamEventDashboard: React.FC = () => {
                     member,
                     periods[currentPeriodIndex].events
                   );
-                  const remainingCredits = getRemainingCredits(member, currentPeriodCredits);
+                  const remainingCredits = getRemainingCredits(
+                    member,
+                    currentPeriodCredits,
+                    requiredMemberTecCredits,
+                    requiredLeadTecCredits
+                  );
                   const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
                   return (
@@ -211,7 +232,12 @@ const TeamEventDashboard: React.FC = () => {
                     member,
                     periods[currentPeriodIndex].events
                   );
-                  const remainingCredits = getRemainingCredits(member, currentPeriodCredits);
+                  const remainingCredits = getRemainingCredits(
+                    member,
+                    currentPeriodCredits,
+                    requiredMemberTecCredits,
+                    requiredLeadTecCredits
+                  );
                   const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
                   return (
