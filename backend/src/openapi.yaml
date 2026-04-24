@@ -698,6 +698,45 @@ paths:
                 type: object
         '403':
           description: "PermissionError: User does not have permission to delete a team event."
+  /tec-config:
+    get:
+      tags:
+      - "Team Event Credit"
+      summary: 'Returns the current TEC configuration (period end dates and required credits)'
+      responses:
+        '200':
+          description: "Successfully returns the TEC configuration"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    $ref: '#/components/schemas/TECConfig'
+    put:
+      tags:
+      - "Team Event Credit"
+      summary: 'Updates the TEC configuration. Admin-only.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TECConfig'
+      responses:
+        '200':
+          description: "Successfully updates the TEC configuration"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    $ref: '#/components/schemas/TECConfig'
+        '400':
+          description: "BadRequestError: Invalid TEC config payload."
+        '403':
+          description: "PermissionError: Only IDOL admins can update TEC Config."
   /getEventProofImage:
     get:
       tags:
@@ -1138,6 +1177,27 @@ components:
         uuid:
           type: string
           format: uuid
+    TECConfig:
+      type: object
+      properties:
+        periodEndDates:
+          type: array
+          items:
+            type: string
+          description: "Sorted ISO-ish date strings marking the end of each TEC period."
+        requiredMemberTecCredits:
+          type: number
+          description: "Number of TEC credits required per period for members."
+        requiredLeadTecCredits:
+          type: number
+          description: "Number of TEC credits required per period for leads."
+      example:
+        periodEndDates:
+        - "2026-02-22T23:59:59"
+        - "2026-03-19T23:59:59"
+        - "2026-05-04T23:59:59"
+        requiredMemberTecCredits: 1
+        requiredLeadTecCredits: 2
     CandidateDeciderInfo:
       type: object
       properties:
