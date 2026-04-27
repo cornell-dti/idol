@@ -252,3 +252,61 @@ export const fakeInterviewScheduler = (): InterviewScheduler => {
   };
   return interviewScheduler;
 };
+
+/** Create fake Reimbursement Team */
+export const fakeReimbursementTeam = (): ReimbursementTeam => {
+  const budget = getRandomInt(1000, 10000);
+  const totalSpent = getRandomInt(0, budget);
+
+  return {
+    teamId: faker.datatype.uuid(),
+    teamName: `${faker.company.companyName()} Team`,
+    budget,
+    totalSpent,
+    assignedAdmins: [faker.datatype.uuid(), faker.datatype.uuid()]
+  };
+};
+
+/** Create fake Reimbursement Request */
+export const fakeReimbursementRequest = (): ReimbursementRequest => {
+  const statuses: ReimbursementRequestStatus[] = [
+    'pending',
+    'needs_changes',
+    'approved',
+    'in_progress_with_cornell',
+    'settled'
+  ];
+  const status = statuses[Math.floor(Math.random() * statuses.length)];
+
+  const attendees = [];
+  const numAttendees = getRandomInt(1, 5);
+  for (let i = 0; i < numAttendees; i++) {
+    attendees.push(`${faker.name.firstName()} ${faker.name.lastName()}`);
+  }
+
+  return {
+    requestId: faker.datatype.uuid(),
+    requesterId: `test${getRandomInt(100, 999)}`,
+    requesterPhoneNumber: faker.phone.phoneNumber(),
+    requesterAddress: faker.address.streetAddress(true),
+    teamId: faker.datatype.uuid(),
+    amount: getRandomInt(10, 500),
+    reason: faker.lorem.sentence(),
+    attendees,
+    dateOfPurchase: Date.now() - getRandomInt(1, 30) * 86400000,
+    dateSubmitted: Date.now(),
+    status,
+    receiptUrl: `https://storage.example.com/receipts/${faker.datatype.uuid()}.pdf`,
+    messages: [],
+    statusLog: [
+      {
+        status: 'pending',
+        changedBy: faker.datatype.uuid(),
+        changedAt: Date.now(),
+        note: 'Initial submission'
+      }
+    ],
+    isImmutable: false,
+    resolvedAt: status === 'settled' ? Date.now() : null
+  };
+};
