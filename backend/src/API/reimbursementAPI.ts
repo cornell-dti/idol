@@ -7,7 +7,7 @@ import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors
 const requestDao = new ReimbursementRequestDao();
 const teamDao = new ReimbursementTeamDao();
 
-//teams
+// teams
 
 export const getAllReimbursementTeams = async (user: IdolMember): Promise<ReimbursementTeam[]> => {
   if (!(await PermissionsManager.isLeadOrAdmin(user))) {
@@ -93,7 +93,7 @@ export const resetReimbursementTeamBudget = async (
   return teamDao.resetTeamBudget(teamId, newBudget);
 };
 
-//requests
+// requests
 
 export const getAllReimbursementRequests = async (
   user: IdolMember
