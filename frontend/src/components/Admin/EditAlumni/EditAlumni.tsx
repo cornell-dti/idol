@@ -1,7 +1,3 @@
-/* Minor Issues:
- * Make the table header grey
- * add a filter to the search bar, smae as alumni map filters
- */
 import { Button, Dropdown, DropdownProps, Icon, Input, Table } from 'semantic-ui-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Plus, EllipsisIcon } from 'lucide-react';
@@ -11,6 +7,7 @@ import DeleteAlumniConfirmationModal from '../../Modals/AlumniDeleteConfirmation
 import AlumniAPI from '../../../API/AlumniAPI';
 import { Emitters } from '../../../utils';
 import CityCoordinatesAPI from '../../../API/CityCoordinatesAPI';
+import ImagesAPI from '../../../API/ImagesAPI';
 
 export default function EditAlumni(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
@@ -98,10 +95,8 @@ export default function EditAlumni(): JSX.Element {
   ): void {
     const value = data.value as string | undefined;
     if (value === 'edit') {
-      // TODO: open edit modal
       openEdit(alum);
     } else if (value === 'delete') {
-      // TODO: confirm and delete
       openDelete(alum);
     }
   }
@@ -115,8 +110,16 @@ export default function EditAlumni(): JSX.Element {
     await AlumniAPI.deleteAlumni(alum.uuid);
     const location = alum.location?.trim();
     if (location) {
-      await CityCoordinatesAPI.removeAlumniByLocationName(location, alum.uuid);
+      const allCoords = await CityCoordinatesAPI.getAllCityCoordinates();
+      await Promise.all(
+        allCoords
+          .filter((coord) => coord.alumniIds.includes(alum.uuid))
+          .map((coord) =>
+            CityCoordinatesAPI.removeAlumniFromLocation(coord.latitude, coord.longitude, alum.uuid)
+          )
+      );
     }
+    await ImagesAPI.deleteImage(alum.imageUrl);
     await loadAlumni();
   }
 

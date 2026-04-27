@@ -1,9 +1,4 @@
 /* Minor Issues:
- * Field name font sizes smaller than design
- * cancel button border isn't as black as design
- * x in corner is outside the box
- * opening the edit menus at the top makes everything shift a little
- * linkedin logo slightly too low
  * Nominatim struggles encoding japanese cities
  */
 
@@ -176,6 +171,7 @@ type InlineEditableFieldProps = {
   rowClassName: string;
   /** Optional icon or other content before the value (e.g. mail / linkedin). */
   leading?: React.ReactNode;
+  requiredForSave?: boolean;
   isOpen: boolean;
   onToggleOpen: () => void;
   display: React.ReactNode;
@@ -185,6 +181,7 @@ type InlineEditableFieldProps = {
 function InlineEditableField({
   rowClassName,
   leading,
+  requiredForSave = false,
   isOpen,
   onToggleOpen,
   display,
@@ -195,7 +192,14 @@ function InlineEditableField({
       {leading}
       {isOpen ? edit : display}
       <button type="button" onClick={onToggleOpen} className={styles.iconButton}>
-        {isOpen ? <span style={{ fontWeight: 600 }}>Save</span> : <Icon name="pencil" />}
+        {isOpen ? (
+          <span style={{ fontWeight: 600 }}>Done</span>
+        ) : (
+          <>
+            <Icon name="pencil" />
+            {requiredForSave && <span className={styles.requiredAsterisk}>*</span>}
+          </>
+        )}
       </button>
     </div>
   );
@@ -225,6 +229,7 @@ export function AlumniModal({
   const [geocodingNewLocation, setGeocodingNewLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [nonBlockingWarnings, setNonBlockingWarnings] = useState<string[]>([]);
   const LOCATION_NOT_FOUND_MSG = 'Location not found. Please enter another location to add.';
 
   React.useEffect(() => {
@@ -233,6 +238,7 @@ export function AlumniModal({
       setForm(nextForm);
       setUploadError(null);
       setSaveError(null);
+      setNonBlockingWarnings([]);
       setPendingImageBlob(null);
       setImagePreviewUrl('');
       setAvatarImageLoading(nextForm.imageUrl.startsWith(ALUMNI_IMAGE_PATH_PREFIX));
@@ -281,7 +287,7 @@ export function AlumniModal({
     if (imagePreviewUrl !== '') {
       return undefined;
     }
-
+    console.log('form.imageUrl', form.imageUrl);
     let cleanup: (() => void) | undefined;
     if (path.startsWith('http')) {
       setImagePreviewUrl(path);
@@ -300,6 +306,7 @@ export function AlumniModal({
         cancelled = true;
       };
     } else {
+      console.log('fallback image', getFallbackImage(form.uuid));
       setImagePreviewUrl(getFallbackImage(form.uuid));
       setAvatarImageLoading(false);
     }
@@ -348,6 +355,7 @@ export function AlumniModal({
     setNameInputOpen(false);
     setEmailInputOpen(false);
     setLinkedinInputOpen(false);
+    setNonBlockingWarnings([]);
   };
   const subteamError = getSubteamFieldError(form.subteam);
 
@@ -428,6 +436,7 @@ export function AlumniModal({
           <div className={styles.modalTopText}>
             <InlineEditableField
               rowClassName={styles.modalNameRow}
+              requiredForSave
               isOpen={nameInputOpen}
               onToggleOpen={() => setNameInputOpen((v) => !v)}
               display={
@@ -440,15 +449,16 @@ export function AlumniModal({
               edit={
                 <Form.Field
                   control={Input}
-                  value={`${form.firstName ?? ''} ${form.lastName ?? ''}`}
+                  value={form.name}
                   onChange={(_e: React.SyntheticEvent<HTMLElement>, data: FormInputChangeData) => {
                     const name = String(data.value ?? '');
-                    const parts = name.split(/\s+/);
+                    const parts = name.trim().length > 0 ? name.trim().split(/\s+/) : [];
                     const lastName = parts.length > 1 ? parts.pop()! : '';
                     const firstName = parts.join(' ');
 
                     setForm((f) => ({
                       ...f,
+                      name,
                       firstName,
                       lastName
                     }));
@@ -459,6 +469,7 @@ export function AlumniModal({
             <InlineEditableField
               rowClassName={styles.modalContactRow}
               leading={<Icon name="mail" />}
+              requiredForSave
               isOpen={emailInputOpen}
               onToggleOpen={() => setEmailInputOpen((v) => !v)}
               display={<span>{form.email}</span>}
@@ -692,7 +703,9 @@ export function AlumniModal({
               </Grid.Column>
               <Grid.Column>
                 <Form.Field>
-                  <label>Cornell NetID *</label>
+                  <label>
+                    Cornell NetID <span className={styles.requiredAsterisk}>*</span>
+                  </label>
                   <Input
                     value={form.uuid}
                     control={Input}
@@ -727,26 +740,31 @@ export function AlumniModal({
             let formToSave = form;
             const pendingUuid = form.uuid.trim();
             const oldLocation = initialAlumni?.location ?? null;
-            if (pendingImageBlob) {
-              try {
-                const imagePath = `${ALUMNI_IMAGE_PATH_PREFIX}${pendingUuid}`;
-                const previousPath = alumniStorageImagePath(initialAlumni?.imageUrl);
-                await ImagesAPI.uploadImage(pendingImageBlob, imagePath);
-                if (previousPath && previousPath !== imagePath) {
-                  await ImagesAPI.deleteImage(previousPath).catch(() => {});
-                }
-                formToSave = { ...form, imageUrl: imagePath };
-                setForm(formToSave);
-                setPendingImageBlob(null);
-              } catch {
-                throw new Error('Failed to upload image. Please try again.');
-              }
-            }
-            const alumniToSave = fromFormState(formToSave);
+            let alumniToSave = fromFormState(formToSave);
             const newLocation = alumniToSave.location?.trim() || null;
+            const warnings: string[] = [];
             setSaveLoading(true);
+            setSaveError(null);
+            setNonBlockingWarnings([]);
             try {
-              await onSave(alumniToSave);
+              //if there is a pending image, upload it
+              if (pendingImageBlob) {
+                try {
+                  const imagePath = `${ALUMNI_IMAGE_PATH_PREFIX}${pendingUuid}`;
+                  const previousPath = alumniStorageImagePath(initialAlumni?.imageUrl);
+                  await ImagesAPI.uploadImage(pendingImageBlob, imagePath);
+                  if (previousPath && previousPath !== imagePath) {
+                    await ImagesAPI.deleteImage(previousPath).catch(() => {});
+                  }
+                  formToSave = { ...form, imageUrl: imagePath };
+                  setForm(formToSave);
+                  setPendingImageBlob(null);
+                } catch (error) {
+                  console.error('Failed to upload image: ', error);
+                  warnings.push('Saved alumni, but failed to upload profile image.');
+                }
+              }
+
               // If location changed, update city-coordinates collection
               if (oldLocation !== newLocation) {
                 try {
@@ -776,9 +794,17 @@ export function AlumniModal({
                 } catch (error) {
                   // If updating city coordinates fails, we still persist the alumni change.
                   console.error('Failed to sync city-coordinates after alumni save:', error);
+                  warnings.push('Saved alumni, but failed to sync city coordinates.');
                 }
               }
-              onClose();
+              // Update the alumni object to ensure it has the correct imageUrl
+              alumniToSave = fromFormState(formToSave);
+              await onSave(alumniToSave);
+              if (warnings.length > 0) {
+                setNonBlockingWarnings(warnings);
+              } else {
+                onClose();
+              }
             } catch (error) {
               console.error('Failed to save alumni: ', error);
               setSaveError(`Failed to save alumni: ${(error as Error).message}`);
@@ -794,6 +820,17 @@ export function AlumniModal({
             {saveError}
           </div>
         )}
+        {nonBlockingWarnings.map((warning) => (
+          <div
+            key={warning}
+            className={styles.uploadError}
+            style={{ marginTop: 6 }}
+            role="status"
+            aria-live="polite"
+          >
+            {warning}
+          </div>
+        ))}
       </Modal.Actions>
     </Modal>
   );

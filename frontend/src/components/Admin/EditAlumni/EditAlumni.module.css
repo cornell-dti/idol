@@ -232,6 +232,12 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
+.requiredAsterisk {
+  color: #db2828;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
 .cancelButton {
   font-size: 18px !important;
 }
