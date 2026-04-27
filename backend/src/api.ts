@@ -126,6 +126,22 @@ import {
   addAlumniToLocation,
   removeAlumniFromLocation
 } from './API/cityCoordinatesAPI';
+import {
+  getAllReimbursementTeams,
+  getReimbursementTeam,
+  createReimbursementTeam,
+  updateReimbursementTeam,
+  deleteReimbursementTeam,
+  resetReimbursementTeamBudget,
+  getAllReimbursementRequests,
+  getMyReimbursementRequests,
+  getReimbursementRequest,
+  createReimbursementRequest,
+  updateReimbursementRequest,
+  deleteReimbursementRequest,
+  updateReimbursementRequestStatus,
+  addReimbursementRequestMessage
+} from './API/reimbursementAPI';
 
 import { HandlerError } from './utils/errors';
 
@@ -141,8 +157,8 @@ export const enforceSession = true;
 const allowedOrigins = allowAllOrigins
   ? [/.*/]
   : isProd
-    ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
-    : [/http:\/\/localhost:3000/];
+  ? [/https:\/\/idol\.cornelldti\.org/, /.*--cornelldti-idol\.netlify\.app/]
+  : [/http:\/\/localhost:3000/];
 
 // Middleware
 app.use(
@@ -705,6 +721,71 @@ loginCheckedDelete(
     )
   })
 );
+
+// Reimbursement Teams
+loginCheckedGet('/reimbursement-team', async (_, user) => ({
+  teams: await getAllReimbursementTeams(user)
+}));
+
+loginCheckedGet('/reimbursement-team/:teamId', async (req, user) => ({
+  team: await getReimbursementTeam(req.params.teamId, user)
+}));
+
+loginCheckedPost('/reimbursement-team', async (req, user) => ({
+  team: await createReimbursementTeam(req.body, user)
+}));
+
+loginCheckedPut('/reimbursement-team', async (req, user) => ({
+  team: await updateReimbursementTeam(req.body, user)
+}));
+
+loginCheckedDelete('/reimbursement-team/:teamId', async (req, user) => {
+  await deleteReimbursementTeam(req.params.teamId, user);
+  return {};
+});
+
+loginCheckedPatch('/reimbursement-team/:teamId/reset-budget', async (req, user) => ({
+  team: await resetReimbursementTeamBudget(req.params.teamId, req.body.newBudget, user)
+}));
+
+// Reimbursement Requests
+loginCheckedGet('/reimbursement-request', async (_, user) => ({
+  requests: await getAllReimbursementRequests(user)
+}));
+
+loginCheckedGet('/reimbursement-request/me', async (_, user) => ({
+  requests: await getMyReimbursementRequests(user)
+}));
+
+loginCheckedGet('/reimbursement-request/:requestId', async (req, user) => ({
+  request: await getReimbursementRequest(req.params.requestId, user)
+}));
+
+loginCheckedPost('/reimbursement-request', async (req, user) => ({
+  request: await createReimbursementRequest(req.body, user)
+}));
+
+loginCheckedPut('/reimbursement-request', async (req, user) => ({
+  request: await updateReimbursementRequest(req.body, user)
+}));
+
+loginCheckedDelete('/reimbursement-request/:requestId', async (req, user) => {
+  await deleteReimbursementRequest(req.params.requestId, user);
+  return {};
+});
+
+loginCheckedPatch('/reimbursement-request/:requestId/status', async (req, user) => ({
+  request: await updateReimbursementRequestStatus(
+    req.params.requestId,
+    req.body.status,
+    req.body.note ?? '',
+    user
+  )
+}));
+
+loginCheckedPost('/reimbursement-request/:requestId/message', async (req, user) => ({
+  request: await addReimbursementRequestMessage(req.params.requestId, req.body.content, user)
+}));
 
 app.use('/.netlify/functions/api', router);
 
