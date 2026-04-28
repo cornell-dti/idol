@@ -164,6 +164,52 @@ export default function Navbar({ demo }: NavbarProps) {
   // MOBILE ANIMATION LOGIC:
   // #######################
 
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+
+  const handleLogoContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleDownload = async (format: 'svg' | 'png') => {
+    setContextMenu(null);
+
+    if (format === 'svg') {
+      const link = document.createElement('a');
+      link.href = '/wordmark.svg';
+      link.download = 'dti-logo.svg';
+      link.click();
+    } else {
+      const img = new window.Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth * 2;
+        canvas.height = img.naturalHeight * 2;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'dti-logo.png';
+        link.click();
+      };
+      img.src = '/wordmark.svg';
+    }
+  };
+
+  useEffect(() => {
+    if (!contextMenu) return () => {};
+    const close = () => setContextMenu(null);
+    window.addEventListener('click', close);
+    window.addEventListener('scroll', close);
+    return () => {
+      window.removeEventListener('click', close);
+      window.removeEventListener('scroll', close);
+    };
+  }, [contextMenu]);
+
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // mobile menu height state
@@ -206,11 +252,13 @@ export default function Navbar({ demo }: NavbarProps) {
             onClick={() => setMobileOpen(false)}
           >
             <Image
+              ref={logoRef}
               src="/wordmark.svg"
               alt="Cornell Digital Tech & Innovation logo"
               width={269}
               height={48}
               className="md:min-w-[269px] h-10 md:h-12 w-auto"
+              onContextMenu={handleLogoContextMenu}
             />
           </Link>
 
@@ -395,6 +443,26 @@ export default function Navbar({ demo }: NavbarProps) {
           </ul>
         </div>
       </div>
+      {contextMenu && (
+        <div
+          className="fixed z-[9999] bg-background-1 border border-border-1 rounded-lg shadow-lg py-1 min-w-[180px]"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            className="w-full text-left px-4 py-2 text-sm text-foreground-1 hover:bg-background-2 transition-colors"
+            onClick={() => handleDownload('svg')}
+          >
+            Download as SVG
+          </button>
+          <button
+            className="w-full text-left px-4 py-2 text-sm text-foreground-1 hover:bg-background-2 transition-colors"
+            onClick={() => handleDownload('png')}
+          >
+            Download as PNG
+          </button>
+        </div>
+      )}
     </>
   );
 }
