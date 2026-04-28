@@ -52,6 +52,23 @@ export const getLinesFromBoard = (bingoBoard: string[][]): string[][] => {
   ];
 };
 
+/**
+ * NetIDs of members who appear as `otherMember` on any of the given chat lists
+ * (normalized: trim + lowercase). Excludes any non-IDOL members or entries without netIDs.
+ * Passes any arrays that contain CoffeeChat objects, like submitted, archived, etc.
+ */
+export const getChattedOtherNetIds = (...chatGroups: CoffeeChat[][]): Set<string> => {
+  const netIds = new Set<string>();
+  for (const chats of chatGroups) {
+    for (const chat of chats) {
+      if (!chat.isNonIDOLMember && chat.otherMember?.netid) {
+        netIds.add(chat.otherMember.netid.trim().toLowerCase());
+      }
+    }
+  }
+  return netIds;
+};
+
 export class PermissionsError extends Error {}
 
 export class EventEmitter<T> {
@@ -233,6 +250,28 @@ export const getTECPeriod = (submissionDate: Date) => {
     return TEC_DEADLINES.length - 1;
   }
   return currentPeriodIndex;
+};
+
+/**
+ * Gets the periods for all TECs for a team event by date.
+ * @param teamEvents The array of team events that are being grouped into said periods within a given semester.
+ * @returns An array of Period objects, TEC events grouped within their respective monthly periods, sorted by deadline from latest to earliest.
+ */
+export const getPeriods = (teamEvents: TeamEvent[]): Period[] => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const firstPeriodStart = today.getMonth() < 7 ? new Date(year, 0, 1) : new Date(year, 7, 1);
+
+  return TEC_DEADLINES.map((deadline, i) => {
+    const periodStart = i === 0 ? firstPeriodStart : TEC_DEADLINES[i - 1];
+    const events = teamEvents
+      .filter((event) => {
+        const eventDate = new Date(event.date);
+        return eventDate > periodStart && eventDate <= deadline;
+      })
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return { name: `Period ${i + 1}`, start: periodStart, deadline, events };
+  });
 };
 
 /**

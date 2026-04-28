@@ -238,3 +238,23 @@ export const alumniCollection: admin.firestore.CollectionReference<Alumni> = db
       return alumniData;
     }
   });
+
+export const reimbursementTeamCollection: admin.firestore.CollectionReference<ReimbursementTeam> =
+  db.collection('reimbursement-teams').withConverter({
+    fromFirestore(snapshot): ReimbursementTeam {
+      return snapshot.data() as ReimbursementTeam;
+    },
+    toFirestore(teamData: ReimbursementTeam) {
+      return teamData;
+    }
+  });
+
+export const reimbursementRequestCollection: admin.firestore.CollectionReference<ReimbursementRequest> =
+  db.collection('reimbursement-requests').withConverter({
+    fromFirestore(snapshot): ReimbursementRequest {
+      return snapshot.data() as ReimbursementRequest;
+    },
+    toFirestore(requestData: ReimbursementRequest) {
+      return requestData;
+    }
+  });
