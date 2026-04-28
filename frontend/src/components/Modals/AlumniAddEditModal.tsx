@@ -747,7 +747,7 @@ export function AlumniModal({
             setSaveError(null);
             setNonBlockingWarnings([]);
             try {
-              //if there is a pending image, upload it
+              // If there is a pending image, upload it
               if (pendingImageBlob) {
                 try {
                   const imagePath = `${ALUMNI_IMAGE_PATH_PREFIX}${pendingUuid}`;
