@@ -6,19 +6,33 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
+import { ChevronIcon } from './icons';
 
 type NavbarProps = {
   demo?: boolean;
 };
 
+type NavLink = {
+  href?: string;
+  label: string;
+  dropdown?: { href: string; label: string }[];
+};
+
 export default function Navbar({ demo }: NavbarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const navLinks = [
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const navLinks: NavLink[] = [
     { href: '/team', label: 'Team' },
     { href: '/products', label: 'Products' },
-    { href: '/course', label: 'Course' },
+    {
+      href: '/course',
+      label: 'Courses',
+      dropdown: [
+        { href: '/course/trends', label: 'Trends in Web Dev' },
+        { href: '/course/productstrategy', label: 'Product Strategy' }
+      ]
+    },
     { href: '/initiatives', label: 'Initiatives' },
     { href: '/sponsor', label: 'Sponsor' }
   ];
@@ -28,8 +42,10 @@ export default function Navbar({ demo }: NavbarProps) {
   // ######################################
 
   // to only show the highlight on the links above (not on Home or Apply)
-  const isNavLink = navLinks.some((link) => link.href === pathname);
-
+  const isNavLink = navLinks.some(
+    (link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
+  );
+  const ulRef = useRef<HTMLUListElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const highlightRef = useRef<HTMLSpanElement>(null);
 
@@ -49,18 +65,25 @@ export default function Navbar({ demo }: NavbarProps) {
   // updates the position/width before the screen repaints (to prevent flicker and
   // achieve the smooth animation
   useLayoutEffect(() => {
-    const idx = navLinks.findIndex((link) => link.href === pathname);
+    const idx = navLinks.findIndex(
+      (link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
+    );
     const linkEl = linkRefs.current[idx];
 
-    if (linkEl) {
+    if (linkEl && ulRef.current) {
       // measure position + width of actual link
       // and then create new style for positioning the new highlight
-      const { offsetLeft, offsetWidth } = linkEl;
-      const newStyle = { left: offsetLeft, width: offsetWidth };
-
+      const ulRect = ulRef.current.getBoundingClientRect();
+      const linkRect = linkEl.getBoundingClientRect();
+      const newStyle = {
+        left: linkRect.left - ulRect.left,
+        width: linkRect.width
+      };
       // avoid animating from a stale position when coming from Home or Apply
       const cameFromHomeOrApply = prevPathname.current === '/' || prevPathname.current === '/apply';
-      const nowIsNavLink = navLinks.some((link) => link.href === pathname);
+      const nowIsNavLink = navLinks.some(
+        (link) => link.href === pathname || link.dropdown?.some((d) => d.href === pathname)
+      );
 
       if (cameFromHomeOrApply && nowIsNavLink) {
         // just set highlight directly  (no slide animation)
@@ -193,20 +216,66 @@ export default function Navbar({ demo }: NavbarProps) {
 
           {/* Desktop links */}
           <div className="flex gap-2 items-center">
-            <ul className="hidden min-[900px]:flex h-10 items-center relative">
-              {navLinks.map(({ href, label }, i) => (
-                <li key={href} className="h-10 flex items-center">
-                  <Link
-                    href={href}
-                    ref={(el) => {
-                      linkRefs.current[i] = el;
-                    }}
-                    className={` h-10 px-4  hover:text-foreground-1 flex items-center relative interactive activeState focusState rounded-full font-medium
-                    ${pathname === href ? 'text-foreground-1' : 'text-foreground-3'}`}
-                    aria-current={pathname === href ? 'page' : undefined}
-                  >
-                    {label}
-                  </Link>
+            <ul ref={ulRef} className="hidden min-[900px]:flex h-10 items-center relative">
+              {navLinks.map(({ href, label, dropdown }, i) => (
+                <li key={label} className="h-10 flex items-center">
+                  {dropdown ? (
+                    <div
+                      className="relative"
+                      onMouseEnter={() => setOpenDropdown(label)}
+                      onFocus={() => setOpenDropdown(label)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                      onBlur={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget)) {
+                          setOpenDropdown(null);
+                        }
+                      }}
+                    >
+                      <Link
+                        href={href ?? '#'}
+                        ref={(el) => {
+                          linkRefs.current[i] = el;
+                        }}
+                        className={`h-10 px-4 hover:text-foreground-1 flex items-center gap-1 interactive activeState focusState rounded-full font-medium
+                    ${pathname === href || dropdown?.some((d) => d.href === pathname) ? 'text-foreground-1' : 'text-foreground-3'}`}
+                      >
+                        {label}
+                        <ChevronIcon
+                          size={16}
+                          className={`transition-transform duration-300 ${openDropdown === label ? 'rotate-180' : 'rotate-0'}`}
+                        />
+                      </Link>
+
+                      {openDropdown === label && (
+                        <div className="absolute top-full left-0 w-full pt-1">
+                          <div className="bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px] z-50 ">
+                            {dropdown.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm focusState first:rounded-t-xl last:rounded-b-xl"
+                                onClick={() => setOpenDropdown(null)}
+                              >
+                                {item.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={href ?? '#'}
+                      ref={(el) => {
+                        linkRefs.current[i] = el;
+                      }}
+                      className={` h-10 px-4  hover:text-foreground-1 flex items-center relative interactive activeState focusState rounded-full font-medium
+                      ${pathname === href ? 'text-foreground-1' : 'text-foreground-3'}`}
+                      aria-current={pathname === href ? 'page' : undefined}
+                    >
+                      {label}
+                    </Link>
+                  )}
                 </li>
               ))}
 
@@ -283,16 +352,32 @@ export default function Navbar({ demo }: NavbarProps) {
           }`}
         >
           <ul className="flex flex-col w-full p-4">
-            {navLinks.map(({ href, label }) => (
+            {navLinks.map(({ href, label, dropdown }) => (
               <li key={href}>
                 <Link
-                  href={href}
+                  href={href ?? '#'}
                   className={`block px-4 md:px-4 py-3 h6 text-foreground-1 hover:bg-background-2 rounded-md  transition-all duration-300 ease-out transform [transition-property:all,_outline] focus:outline-none focus:[transition-property:none]
                   ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {label}
                 </Link>
+                {dropdown && (
+                  <ul className="pl-4 pb-2">
+                    {dropdown.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className={`block px-4 py-3 h6 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 rounded-md transition-all duration-300 ease-out transform [transition-property:all,_outline] focus:outline-none focus:[transition-property:none]
+                          ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
             <li className="flex py-3 w-full">

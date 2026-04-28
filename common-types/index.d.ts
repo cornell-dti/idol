@@ -605,3 +605,55 @@ interface Alumni {
   readonly about?: string | null;
   readonly imageUrl: string;
 }
+
+/** Status of a reimbursement request */
+type ReimbursementRequestStatus =
+  | 'pending'
+  | 'needs_changes'
+  | 'approved'
+  | 'in_progress_with_cornell'
+  | 'settled';
+
+/** Team budget information */
+interface ReimbursementTeam {
+  teamId: string;
+  teamName: string;
+  budget: number;
+  totalSpent: number;
+  assignedAdmins: string[];
+}
+
+/** Message entry in a reimbursement request */
+interface ReimbursementMessageEntry {
+  authorId: string;
+  content: string;
+  sentAt: number;
+}
+
+/** Status log entry for tracking changes */
+interface ReimbursementStatusLogEntry {
+  status: ReimbursementRequestStatus;
+  changedBy: string;
+  changedAt: number;
+  note: string;
+}
+
+/** Reimbursement request */
+interface ReimbursementRequest {
+  requestId: string;
+  requesterId: string;
+  requesterPhoneNumber: string;
+  requesterAddress: string;
+  teamId: string;
+  amount: number;
+  reason: string;
+  attendees: string[];
+  dateOfPurchase: number;
+  dateSubmitted: number;
+  status: ReimbursementRequestStatus;
+  receiptUrl: string;
+  messages: ReimbursementMessageEntry[];
+  statusLog: ReimbursementStatusLogEntry[];
+  isImmutable: boolean;
+  resolvedAt: number | null;
+}

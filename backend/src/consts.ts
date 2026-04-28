@@ -14,7 +14,7 @@ export const REQUIRED_LEAD_TEC_CREDITS = 2;
 export const TEC_DEADLINES = [
   new Date('2026-02-22T23:59:59'),
   new Date('2026-03-19T23:59:59'),
-  new Date('2026-05-03T23:59:59')
+  new Date('2026-05-04T23:59:59')
 ];
 
 export const ALL_ROLES: Role[] = [

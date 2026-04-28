@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { Container, Header, Input, Dropdown, Icon, Loader } from 'semantic-ui-react';
 import { Emitters } from '../../utils';
 import AlumniAPI from '../../API/AlumniAPI';
+import CityCoordinatesAPI from '../../API/CityCoordinatesAPI';
 import AlumniCard from './AlumniCard';
 import styles from './Alumni.module.css';
 import Button from '../Common/Button/Button';
@@ -17,6 +18,10 @@ const DEFAULT_MAX_YEAR = new Date().getFullYear();
 
 const Alumni: React.FC = () => {
   const [alumni, setAlumni] = useState<readonly Alumni[]>([]);
+  const [allCityCoordinates, setAllCityCoordinates] = useState<readonly CityCoordinates[]>([]);
+  const [selectedCityCoordinates, setSelectedCityCoordinates] = useState<CityCoordinates | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('map');
@@ -62,9 +67,10 @@ const Alumni: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    AlumniAPI.getAllAlumni()
-      .then((alumniData) => {
+    Promise.all([AlumniAPI.getAllAlumni(), CityCoordinatesAPI.getAllCityCoordinates()])
+      .then(([alumniData, cityCoordinatesData]) => {
         setAlumni(alumniData);
+        setAllCityCoordinates(cityCoordinatesData);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -82,8 +88,9 @@ const Alumni: React.FC = () => {
         // Filters based on search input (users can search for any alum field)
         if (searchQuery) {
           const query = searchQuery.toLowerCase();
-          const searchableText =
-            `${alum.firstName} ${alum.lastName} ${alum.company || ''} ${alum.jobRole} ${alum.location || ''}`.toLowerCase();
+          const searchableText = `${alum.firstName} ${alum.lastName} ${alum.company || ''} ${
+            alum.jobRole
+          } ${alum.location || ''}`.toLowerCase();
           if (!searchableText.includes(query)) return false;
         }
 
@@ -113,6 +120,45 @@ const Alumni: React.FC = () => {
       }),
     [alumni, searchQuery, selectedJobCategories, selectedDtiRoles, selectedCompanies, gradYearRange]
   );
+
+  // Compute visible city coordinates based on filtered alumni
+  const visibleCityCoordinates = useMemo(() => {
+    const alumniUuidSet = new Set(filteredAlumni.map((alum) => alum.uuid));
+    return allCityCoordinates.filter((city) =>
+      city.alumniIds.some((alumniId) => alumniUuidSet.has(alumniId))
+    );
+  }, [allCityCoordinates, filteredAlumni]);
+
+  // Auto-clear selected city when it's no longer visible
+  useEffect(() => {
+    if (selectedCityCoordinates) {
+      const isStillVisible = visibleCityCoordinates.some(
+        (city) =>
+          city.latitude === selectedCityCoordinates.latitude &&
+          city.longitude === selectedCityCoordinates.longitude
+      );
+      if (!isStillVisible) {
+        setSelectedCityCoordinates(null);
+      }
+    }
+  }, [visibleCityCoordinates, selectedCityCoordinates]);
+
+  // Filter alumni by selected city coordinates
+  const finalFilteredAlumni = useMemo(() => {
+    if (!selectedCityCoordinates) {
+      return filteredAlumni;
+    }
+    const selectedAlumniIds = new Set(selectedCityCoordinates.alumniIds);
+    return filteredAlumni.filter((alum) => selectedAlumniIds.has(alum.uuid));
+  }, [filteredAlumni, selectedCityCoordinates]);
+
+  const handleCitySelect = (city: CityCoordinates) => {
+    setSelectedCityCoordinates(city);
+  };
+
+  const handleCityDeselect = () => {
+    setSelectedCityCoordinates(null);
+  };
 
   const jobCategoryOptions: { key: string; text: string; value: string }[] = [
     { key: 'technology', text: 'Technology', value: 'Technology' },
@@ -288,15 +334,20 @@ const Alumni: React.FC = () => {
           {isLoading && <Loader active size="large" />}
           {!isLoading && viewMode === 'map' && (
             <>
-              <AlumniMap />
+              <AlumniMap
+                visibleCityCoordinates={visibleCityCoordinates}
+                selectedCityCoordinates={selectedCityCoordinates}
+                onCitySelect={handleCitySelect}
+                onCityDeselect={handleCityDeselect}
+              />
               <p className={styles.resultCount}>
-                Showing {filteredAlumni.length} of {alumni.length}+ alumni
+                Showing {finalFilteredAlumni.length} of {alumni.length}+ alumni
               </p>
               <div className={styles.alumniList}>
-                {filteredAlumni.length === 0 ? (
+                {finalFilteredAlumni.length === 0 ? (
                   <p className={styles.noResults}>No alumni found matching your filters.</p>
                 ) : (
-                  filteredAlumni.map((alum) => <AlumniCard key={alum.uuid} alum={alum} />)
+                  finalFilteredAlumni.map((alum) => <AlumniCard key={alum.uuid} alum={alum} />)
                 )}
               </div>
             </>

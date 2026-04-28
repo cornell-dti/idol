@@ -23,7 +23,7 @@ const CtaSection = ({
   button2Label,
   button2Link,
   button2LinkNewTab = false
-}: Props): ReactNode => {
+}: Props): React.ReactElement => {
   const sectionRef = useRef<HTMLElement>(null);
 
   // Adds bottom border radius and overflow hidden to the previous sibling element
