@@ -1,0 +1,299 @@
+.content {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.memberCount {
+  margin: 0;
+  color: gray;
+}
+
+.cardContent .ui .results {
+  width: 100%;
+}
+
+.cardHeader {
+  position: fixed;
+  top: 2rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.halfWidth {
+  width: 50%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconButton {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  line-height: inherit;
+}
+
+.rowActionsCell {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.rowActionsDropdown :global(.menu) {
+  width: 171px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+}
+
+.alumniModal {
+  padding-top: 30px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+}
+.alumniModal :global(.header) {
+  border-bottom: none !important;
+}
+
+.alumniModal :global(.actions) {
+  border-top: none !important;
+  background-color: white !important;
+}
+
+.modalHeader {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+}
+
+.modalBackground {
+  display: flex;
+  align-items: center;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* The “card” at the top of the modal */
+.modalTopCard {
+  display: flex;
+  gap: 24px;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 6px;
+  padding: 24px;
+  margin-top: -16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(34, 36, 38, 0.08);
+  align-items: center;
+}
+
+.avatarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.avatarButton {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: none;
+  cursor: pointer;
+}
+
+.avatarButton:disabled {
+  cursor: not-allowed;
+}
+
+.avatarButton:hover:not(:disabled) .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarPlaceholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  display: block;
+}
+
+.avatarLoadingShade {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.avatarLoadingShade :global(.icon) {
+  color: #767676;
+  font-size: 1.75rem;
+  margin: 0 !important;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 3;
+}
+
+.avatarOverlay .icon {
+  color: white;
+  font-size: 2rem;
+  margin: 0 !important;
+}
+
+.uploadError {
+  color: #db2828;
+  font-size: 12px;
+}
+
+.avatarCircle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #e5e5e5;
+}
+
+.modalTopText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalName {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.modalContactRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+}
+
+.iconButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 6px;
+}
+
+.iconButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.requiredAsterisk {
+  color: #db2828;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.cancelButton {
+  font-size: 18px !important;
+}
+
+.saveButton {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  background: #2c95ff !important;
+}
+
+.deleteAlumniModal {
+  border-radius: 4px !important;
+  width: 40vw !important;
+}
+
+.deleteAlumniModalContent {
+  padding: 48px 56px !important;
+}
+
+.deleteAlumniMessage {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.35;
+  color: #111;
+  margin-bottom: 28px;
+}
+
+.deleteAlumniActions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.deleteConfirmButton {
+  width: 100%;
+  min-height: 52px;
+  background: #ff4c4c !important;
+  color: white;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.deleteCancelButton {
+  width: 100%;
+  min-height: 52px;
+  background: #f5f5f5 !important;
+  color: #111;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.deleteCancelButton.ui.button:hover {
+  background: #e7e7e7;
+  color: #111;
+}
