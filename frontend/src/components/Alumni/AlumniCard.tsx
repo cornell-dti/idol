@@ -44,41 +44,35 @@ const AlumniCard: React.FC<AlumniCardProps> = ({ alum }) => {
         </div>
 
         <div className={styles.infoGrid}>
-          <div className={styles.infoColumn}>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Company</span>
-              <span className={styles.infoValue}>{alum.company || 'N/A'}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Company Role</span>
-              <span className={styles.infoValue}>{alum.jobRole}</span>
-            </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>Company:</span>
+            <span className={styles.infoValue}>{alum.company || 'N/A'}</span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>Company Role:</span>
+            <span className={styles.infoValue}>{alum.jobRole}</span>
           </div>
 
-          <div className={styles.infoColumn}>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Based in</span>
-              <span className={styles.infoValue}>{alum.location || 'N/A'}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Graduated in</span>
-              <span className={styles.infoValue}>{alum.gradYear || 'N/A'}</span>
-            </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>Based in:</span>
+            <span className={styles.infoValue}>{alum.location || 'N/A'}</span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>Graduated in:</span>
+            <span className={styles.infoValue}>{alum.gradYear || 'N/A'}</span>
           </div>
 
-          <div className={styles.infoColumn}>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Role on DTI</span>
-              <span className={styles.infoValue}>
-                {alum.dtiRoles && alum.dtiRoles.length > 0 ? alum.dtiRoles.join(', ') : 'N/A'}
-              </span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Subteam on DTI</span>
-              <span className={styles.infoValue}>
-                {alum.subteams && alum.subteams.length > 0 ? alum.subteams.join(', ') : 'N/A'}
-              </span>
-            </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>Role on DTI:</span>
+            <span className={styles.infoValue}>
+              {alum.dtiRoles && alum.dtiRoles.length > 0 ? alum.dtiRoles.join(', ') : 'N/A'}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>Subteam on DTI:</span>
+            <span className={styles.infoValue}>
+              {alum.subteams && alum.subteams.length > 0 ? alum.subteams.join(', ') : 'N/A'}
+            </span>
           </div>
         </div>
       </div>
