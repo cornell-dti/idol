@@ -90,4 +90,21 @@ export default class CoffeeChatAPI {
       (res) => res.data.suggestions
     );
   }
+
+  public static async getCoffeeCategories(): Promise<CoffeeChatCategory[]> {
+    return APIWrapper.get(`${backendURL}/coffee-chat-categories`).then(
+      (res) => res.data.categories ?? []
+    );
+  }
+
+  public static async updateCategoryMembers(
+    index: number,
+    members: MemberDetails[]
+  ): Promise<void> {
+    await APIWrapper.put(`${backendURL}/coffee-chat-categories/${index}/members`, { members });
+  }
+
+  public static async uploadCoffeeChatCSV(csv: string): Promise<void> {
+    await APIWrapper.post(`${backendURL}/coffee-chat-categories/upload`, { csv });
+  }
 }

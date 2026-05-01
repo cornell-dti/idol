@@ -2,8 +2,9 @@ import { Request } from 'express';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
-import { getMember } from './memberAPI';
+import { getMember, allApprovedMembers } from './memberAPI';
 import { sendCoffeeChatReminder } from './mailAPI';
+import parseCoffeeChatCSV from '../utils/coffeeChatCSVParser';
 
 const coffeeChatDao = new CoffeeChatDao();
 
@@ -160,18 +161,78 @@ export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
 /**
- * Gets coffee chat suggestions for a specifc member
- * @param email - the email of the member
- * @returns A promise that resolves to a CoffeeChatSuggestions object.
+ * Gets coffee chat suggestions for a specific member, excluding themselves from each category
+ * @param email - the email of the member requesting suggestions
+ * @returns a CoffeeChatSuggestions object
  */
 export const getCoffeeChatSuggestions = async (email: string): Promise<CoffeeChatSuggestions> => {
-  const suggestions = await CoffeeChatDao.getCoffeeChatSuggestions(email);
-  if (!suggestions) {
-    throw new BadRequestError(
-      `Coffee chat suggestions does not exist for member with email ${email}`
+  const [member, suggestions] = await Promise.all([
+    getMember(email),
+    CoffeeChatDao.getCoffeeChatSuggestions()
+  ]);
+
+  if (!member) return suggestions;
+
+  const selfNetid = member.netid.trim().toLowerCase();
+  return Object.fromEntries(
+    Object.entries(suggestions).map(([category, members]) => [
+      category,
+      members.filter((m) => m.netid.trim().toLowerCase() !== selfNetid)
+    ])
+  );
+};
+
+/**
+ * Gets all coffee chat categories
+ * @param user - the user making the request
+ * @returns an array of sorted CoffeeChatCategory objects
+ */
+export const getCoffeeCategories = async (user: IdolMember): Promise<CoffeeChatCategory[]> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to view coffee chat categories.`
     );
   }
-  return suggestions;
+  return CoffeeChatDao.getAllCategories();
+};
+
+/**
+ * Updates the members list for a single coffee chat category
+ * @param index - the index of the category to update
+ * @param members - the new members list for this category
+ * @param user - the user making the request
+ */
+export const updateCategoryMembers = async (
+  index: number,
+  members: MemberDetails[],
+  user: IdolMember
+): Promise<void> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to update coffee chat categories.`
+    );
+  }
+  await CoffeeChatDao.updateCategoryMembers(index, members);
+};
+
+/**
+ * Parses a CSV string and updates all coffee chat categories
+ * @param csvContent - CSV string
+ * @param user - the user making the request
+ */
+export const uploadCoffeeChatCSV = async (csvContent: string, user: IdolMember): Promise<void> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to upload coffee chat categories.`
+    );
+  }
+
+  const members = await allApprovedMembers();
+  const categories = parseCoffeeChatCSV(csvContent, [...members]);
+  await CoffeeChatDao.updateCategories(categories);
 };
 
 /**
@@ -231,7 +292,7 @@ export const runAutoChecker = async (uuid: string, user: IdolMember): Promise<Co
  * @param otherMemberEmail - the email of the member we are checking.
  * @param submitterEmail - the email of the member that submitted the coffee chat.
  * @param category - the category we are checking with.
- * @returns 'pass' if a member meets a category, 'fail' if not, 'no data' if not enough data to know.
+ * @returns 'pass' if a member meets a category, 'fail' if not, 'no data' if the category doesn't exist.
  */
 export const checkMemberMeetsCategory = async (
   otherMemberEmail: string,
@@ -243,15 +304,27 @@ export const checkMemberMeetsCategory = async (
   let status: MemberMeetsCategoryStatus = 'no data';
   let message: string = '';
 
-  // If otherMember and submitter don't exist, status should stay undefined
   if (otherMember && submitter) {
     if (category === 'a newbie') {
       status = otherMember.semesterJoined === 'Spring 2026' ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
       }
+    } else {
+      const categories = await CoffeeChatDao.getAllCategories();
+      const categoryDoc = categories.find((c) => c.name === category);
+      if (categoryDoc) {
+        const inCategory = categoryDoc.members.some(
+          (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
+        );
+        status = inCategory ? 'pass' : 'fail';
+        if (status === 'fail') {
+          message = `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`;
+        }
+      }
     }
   }
+
   return { status, message };
 };
 
