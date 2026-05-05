@@ -169,7 +169,12 @@ export default function Navbar({ demo }: NavbarProps) {
 
   const handleLogoContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    setContextMenu({ x: e.clientX, y: e.clientY });
+    const menuWidth = 180;
+    const menuHeight = 80;
+    setContextMenu({
+      x: Math.min(e.clientX, window.innerWidth - menuWidth),
+      y: Math.min(e.clientY, window.innerHeight - menuHeight)
+    });
   };
 
   const handleDownload = async (format: 'svg' | 'png') => {
@@ -202,11 +207,16 @@ export default function Navbar({ demo }: NavbarProps) {
   useEffect(() => {
     if (!contextMenu) return () => {};
     const close = () => setContextMenu(null);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setContextMenu(null);
+    };
     window.addEventListener('click', close);
     window.addEventListener('scroll', close);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('click', close);
       window.removeEventListener('scroll', close);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [contextMenu]);
 
@@ -252,7 +262,6 @@ export default function Navbar({ demo }: NavbarProps) {
             onClick={() => setMobileOpen(false)}
           >
             <Image
-              ref={logoRef}
               src="/wordmark.svg"
               alt="Cornell Digital Tech & Innovation logo"
               width={269}
@@ -445,18 +454,18 @@ export default function Navbar({ demo }: NavbarProps) {
       </div>
       {contextMenu && (
         <div
-          className="fixed z-[9999] bg-background-1 border border-border-1 rounded-lg shadow-lg py-1 min-w-[180px]"
+          className="fixed z-[9999] bg-background-1 border-1 border-border-1 rounded-xl shadow-lg flex flex-col min-w-[180px]"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="w-full text-left px-4 py-2 text-sm text-foreground-1 hover:bg-background-2 transition-colors"
+            className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm focusState first:rounded-t-xl last:rounded-b-xl text-left"
             onClick={() => handleDownload('svg')}
           >
             Download as SVG
           </button>
           <button
-            className="w-full text-left px-4 py-2 text-sm text-foreground-1 hover:bg-background-2 transition-colors"
+            className="px-4 py-3 text-foreground-3 hover:text-foreground-1 hover:bg-background-2 font-medium text-sm focusState first:rounded-t-xl last:rounded-b-xl text-left"
             onClick={() => handleDownload('png')}
           >
             Download as PNG
