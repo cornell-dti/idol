@@ -110,7 +110,15 @@ const TeamEvents: React.FC = () => {
         <TeamEventForm formType={'create'}></TeamEventForm>
       </div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
-        <TecConfigEditor />
+        {tecConfig && (
+          <TecConfigEditor
+            initialConfig={tecConfig}
+            onSaved={(saved) => {
+              setTecConfig(saved);
+              fullReset();
+            }}
+          />
+        )}
       </div>
       <div className={styles.wrapper}>
         <div>

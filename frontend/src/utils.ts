@@ -239,7 +239,9 @@ export const getTimeString = (unixTime: number): string => {
 /**
  * Determines the TEC period index for a given submission date.
  * @param submissionDate The date for which the TEC period is being determined.
- * @returns The index of the current TEC period in the `TEC_DEADLINES` array.
+ * @param tecDeadlines The ordered list of TEC period end dates from the
+ *                     `TECConfig` Firestore document (take a look at `TecConfigAPI.getTecConfig`).
+ * @returns The index of the matching TEC period in `tecDeadlines`.
  *          If the submission date is after all deadlines, returns the last period index.
  */
 export const getTECPeriod = (submissionDate: Date, tecDeadlines: Date[]): number => {
@@ -253,6 +255,8 @@ export const getTECPeriod = (submissionDate: Date, tecDeadlines: Date[]): number
 /**
  * Gets the periods for all TECs for a team event by date.
  * @param teamEvents The array of team events that are being grouped into said periods within a given semester.
+ * @param tecDeadlines The ordered list of TEC period end dates from the
+ *                     `TECConfig` Firestore document (take a look at `TecConfigAPI.getTecConfig`).
  * @returns An array of Period objects, TEC events grouped within their respective monthly periods, sorted by deadline from latest to earliest.
  */
 export const getPeriods = (teamEvents: TeamEvent[], tecDeadlines: Date[]): Period[] => {
@@ -275,7 +279,9 @@ export const getPeriods = (teamEvents: TeamEvent[], tecDeadlines: Date[]): Perio
 /**
  * Calculates the number of credits needed for the current period only where each period is independent.
  * @param currentCredits The number of credits approved in the current period.
- * @param requiredCredits The number of credits required for this period (1 for members, 2 for leads).
+ * @param requiredCredits The number of credits required for this period. Should pass
+ *                        `requiredMemberTecCredits` or `requiredLeadTecCredits` from the `TECConfig`
+ *                        Firestore document (see `TecConfigAPI.getTecConfig`) depending on the member's role.
  * @returns The number of additional credits needed to meet the requirement.
  *          Returns 0 if the requirement is already met.
  */

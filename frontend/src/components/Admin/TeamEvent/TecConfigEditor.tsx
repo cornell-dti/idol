@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Button, Loader, Header, Icon } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Form, Button, Header, Icon } from 'semantic-ui-react';
 import TecConfigAPI from '../../../API/TecConfigAPI';
 import { Emitters } from '../../../utils';
 
-const TecConfigEditor: React.FC = () => {
-  const [config, setConfig] = useState<TECConfig | null>(null);
+type Props = {
+  initialConfig: TECConfig;
+  onSaved: (saved: TECConfig) => void;
+};
+
+const TecConfigEditor: React.FC<Props> = ({ initialConfig, onSaved }) => {
+  const [config, setConfig] = useState<TECConfig>(initialConfig);
   const [isSaving, setIsSaving] = useState(false);
-  useEffect(() => {
-    TecConfigAPI.getTecConfig().then(setConfig);
-  }, []);
-  if (!config)
-    return (
-      <Loader active inline>
-        Loading TEC config…
-      </Loader>
-    );
   const updatePeriod = (index: number, newValue: string) => {
     const next = [...config.periodEndDates];
     next[index] = newValue;
@@ -54,7 +50,10 @@ const TecConfigEditor: React.FC = () => {
     setIsSaving(true);
     try {
       const saved = await TecConfigAPI.updateTecConfig(config);
-      if (saved) setConfig(saved);
+      if (saved) {
+        setConfig(saved);
+        onSaved(saved);
+      }
       Emitters.generalSuccess.emit({
         headerMsg: 'TEC config saved',
         contentMsg: 'Period end dates and credit requirements have been updated.'
