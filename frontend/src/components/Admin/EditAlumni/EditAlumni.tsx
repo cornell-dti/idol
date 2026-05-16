@@ -7,7 +7,6 @@ import DeleteAlumniConfirmationModal from '../../Modals/AlumniDeleteConfirmation
 import AlumniAPI from '../../../API/AlumniAPI';
 import { Emitters } from '../../../utils';
 import CityCoordinatesAPI from '../../../API/CityCoordinatesAPI';
-import ImagesAPI from '../../../API/ImagesAPI';
 
 export default function EditAlumni(): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
