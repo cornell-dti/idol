@@ -119,7 +119,6 @@ export default function EditAlumni(): JSX.Element {
           )
       );
     }
-    await ImagesAPI.deleteImage(alum.imageUrl);
     await loadAlumni();
   }
 

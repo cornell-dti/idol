@@ -77,15 +77,4 @@ export default class CityCoordinatesAPI {
     );
     return response.data.cityCoordinates;
   }
-
-  /**
-   * Resolves a human-readable location name to lat/long, then removes the alumni from that city-coordinates document.
-   */
-  static async removeAlumniByLocationName(
-    locationName: string,
-    alumniId: string
-  ): Promise<CityCoordinates> {
-    const coords = await CityCoordinatesAPI.geocodeWithoutStoringLocation(locationName);
-    return CityCoordinatesAPI.removeAlumniFromLocation(coords.latitude, coords.longitude, alumniId);
-  }
 }

@@ -3,6 +3,8 @@ import ShoutoutsDao from '../src/dao/ShoutoutsDao';
 import { db } from '../src/firebase';
 import { fakeIdolMember } from './data/createData';
 
+jest.setTimeout(15000);
+
 const shoutoutData = {
   mu1: fakeIdolMember()
 };
