@@ -499,6 +499,12 @@ interface MemberDetails {
   readonly netid: string;
 }
 
+interface CoffeeChatCategory {
+  readonly name: string;
+  readonly members: MemberDetails[];
+  readonly index: number; // 0–15, encodes position in 4x4 bingo grid
+}
+
 type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
 
 type Applicant = {

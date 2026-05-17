@@ -2,7 +2,6 @@
 /// <reference types="common-types" />
 import admin from 'firebase-admin';
 import fs from 'fs';
-import COFFEE_CHAT_BINGO_BOARD from '../src/consts';
 
 import { configureAccount } from '../src/utils/firebase-utils';
 
@@ -37,13 +36,11 @@ const filteredSuggestions = (
 const getMembersByCategory = async (members: IdolMember[]) => {
   const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
 
-  // Update csv path to current semester suggestions
   const csv = fs.readFileSync('./scripts/sp26-coffee-chat-bingo.csv').toString();
   const rows = csv.split(/\r?\n/);
 
   let responses = rows.splice(1);
 
-  // Remove duplicates by NetID and keep latest submission
   const seenNetIds = new Set<string>();
   responses = responses
     .reverse()
@@ -57,10 +54,10 @@ const getMembersByCategory = async (members: IdolMember[]) => {
     })
     .reverse();
 
-  // Note: This script handles basic name capitalization and duplicate removal,
-  // but manual CSV review may still be needed for unaccountable name formatting issues
-
-  const board = COFFEE_CHAT_BINGO_BOARD.flat();
+  const board = rows[0]
+    .split(',')
+    .slice(3)
+    .map((c) => c.trim());
   const suggestions: CoffeeChatSuggestions = {};
 
   const OFFSET = 3;
@@ -80,38 +77,48 @@ const getMembersByCategory = async (members: IdolMember[]) => {
 
   suggestions['a newbie'] = filteredSuggestions(
     members,
-    (mem) => mem.semesterJoined === 'Fall 2025'
+    (mem) => mem.semesterJoined === 'Spring 2026'
   );
 
-  return suggestions;
+  const alumniSnapshot = await db.collection('alumni').where('gradYear', '==', 2025).get();
+  const alumniMembers: MemberDetails[] = alumniSnapshot.docs.map((doc) => {
+    const alum = doc.data() as Alumni;
+    return { name: `${alum.firstName} ${alum.lastName}`, netid: alum.uuid };
+  });
+  const existingAlumNetIds = new Set(
+    (suggestions['a DTI alum'] ?? []).map((m) => m.netid.trim().toLowerCase())
+  );
+  suggestions['a DTI alum'] = [
+    ...(suggestions['a DTI alum'] ?? []),
+    ...alumniMembers.filter((m) => !existingAlumNetIds.has(m.netid.trim().toLowerCase()))
+  ];
+
+  return board.map(
+    (name, index): CoffeeChatCategory => ({ name, members: suggestions[name], index })
+  );
 };
 
 const main = async () => {
   const members = await memberPromise;
-  const membersByCategory = await getMembersByCategory(members);
+  const categories = await getMembersByCategory(members);
 
   /* commented out for now - no need to filter self from categories
   const filterSelfFromCategories = (mem: IdolMember) =>
     Object.fromEntries(
-      Object.entries(membersByCategory).map(([key, value]) => [
+      Object.entries(categories).map(([key, value]) => [
         key,
         (value as MemberDetails[]).filter((details) => details.netid !== mem.netid)
       ])
     );
   */
 
-  const ids = await db
-    .collection('coffee-chat-suggestions')
-    .get()
-    .then((val) => val.docs.map((doc) => doc.id));
+  const batch = db.batch();
+  for (const category of categories) {
+    batch.set(db.collection('coffee-chat-categories').doc(String(category.index)), category);
+  }
+  await batch.commit();
 
-  await Promise.all(ids.map((id) => db.collection('coffee-chat-suggestions').doc(id).delete()));
-
-  await Promise.all(
-    members.map((mem) =>
-      db.collection('coffee-chat-suggestions').doc(mem.email).create(membersByCategory)
-    )
-  );
+  console.log(`Successfully uploaded ${categories.length} categories to coffee-chat-categories.`);
 };
 
-main();
+main().catch(console.error);
