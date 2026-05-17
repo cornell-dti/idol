@@ -1,4 +1,5 @@
 import CityCoordinatesDao from '../dao/CityCoordinatesDao';
+import { DBCityCoordinates } from '../types/DataTypes';
 
 const cityCoordinatesDao = new CityCoordinatesDao();
 
@@ -8,10 +9,21 @@ export interface GeocodingResult {
   locationName: string;
 }
 
+/** Subset of Nominatim `addressdetails` object (see Nominatim JSON format). */
+interface NominatimAddress {
+  city?: string;
+  town?: string;
+  village?: string;
+  municipality?: string;
+  state?: string;
+  country?: string;
+}
+
 interface NominatimResponse {
   lat: string;
   lon: string;
   display_name: string;
+  address?: NominatimAddress;
 }
 
 /**
@@ -74,17 +86,85 @@ export class GeocodingService {
     return location.toLowerCase().trim();
   }
 
+  private static readonly US_STATE_ABBREVIATIONS: Record<string, string> = {
+    alabama: 'AL',
+    alaska: 'AK',
+    arizona: 'AZ',
+    arkansas: 'AR',
+    california: 'CA',
+    colorado: 'CO',
+    connecticut: 'CT',
+    delaware: 'DE',
+    florida: 'FL',
+    georgia: 'GA',
+    hawaii: 'HI',
+    idaho: 'ID',
+    illinois: 'IL',
+    indiana: 'IN',
+    iowa: 'IA',
+    kansas: 'KS',
+    kentucky: 'KY',
+    louisiana: 'LA',
+    maine: 'ME',
+    maryland: 'MD',
+    massachusetts: 'MA',
+    michigan: 'MI',
+    minnesota: 'MN',
+    mississippi: 'MS',
+    missouri: 'MO',
+    montana: 'MT',
+    nebraska: 'NE',
+    nevada: 'NV',
+    'new hampshire': 'NH',
+    'new jersey': 'NJ',
+    'new mexico': 'NM',
+    'new york': 'NY',
+    'north carolina': 'NC',
+    'north dakota': 'ND',
+    ohio: 'OH',
+    oklahoma: 'OK',
+    oregon: 'OR',
+    pennsylvania: 'PA',
+    'rhode island': 'RI',
+    'south carolina': 'SC',
+    'south dakota': 'SD',
+    tennessee: 'TN',
+    texas: 'TX',
+    utah: 'UT',
+    vermont: 'VT',
+    virginia: 'VA',
+    washington: 'WA',
+    'west virginia': 'WV',
+    wisconsin: 'WI',
+    wyoming: 'WY',
+    'district of columbia': 'DC'
+  };
+
+  private static formatLocationName(place?: string, state?: string, country?: string): string {
+    const isUS = (country ?? '').toLowerCase() === 'united states';
+    if (isUS) {
+      const abbr = state ? this.US_STATE_ABBREVIATIONS[state.toLowerCase()] : undefined;
+      const statePart = abbr ?? state;
+      const usFormatted = [place, statePart, 'US'].filter(Boolean).join(', ');
+      if (usFormatted.length > 0) return usFormatted;
+    }
+    const formatted = [place, state, country].filter(Boolean).join(', ');
+    return formatted;
+  }
+
   /**
    * Geocodes a location string using the Nominatim API
    * @param locationString - The location string to geocode
    * @returns The geocoding result with latitude, longitude, and display name
    * @throws Error if geocoding fails or location not found
    */
-  private static async geocodeLocation(locationString: string): Promise<GeocodingResult> {
+  static async geocodeLocation(locationString: string): Promise<GeocodingResult> {
     const url = new URL(`${this.NOMINATIM_BASE_URL}/search`);
     url.searchParams.append('q', locationString);
     url.searchParams.append('format', 'json');
     url.searchParams.append('limit', '1');
+    url.searchParams.append('accept-language', 'en');
+    url.searchParams.append('addressdetails', '1');
 
     try {
       const response = await fetch(url.toString(), {
@@ -103,12 +183,15 @@ export class GeocodingService {
         throw new Error(`Location not found: ${locationString}`);
       }
 
-      const result = data[0];
+      const [{ lat, lon, display_name, address }] = data;
+      const { city, town, village, municipality, state, country } = address ?? {};
+      const place = city || town || village || municipality;
+      const formatted = this.formatLocationName(place, state, country);
 
       return {
-        latitude: parseFloat(result.lat),
-        longitude: parseFloat(result.lon),
-        locationName: result.display_name
+        latitude: parseFloat(lat),
+        longitude: parseFloat(lon),
+        locationName: formatted.length > 0 ? formatted : display_name
       };
     } catch (error) {
       if (error instanceof Error) {
@@ -119,35 +202,41 @@ export class GeocodingService {
   }
 
   /**
-   * Geocodes a location and stores it in the database if it doesn't exist
-   * Useful for ensuring consistent coordinates for the same city across different alumni
+   * Geocodes a location and ensures there is a CityCoordinates document for it.
+   * This uses existing CityCoordinatesDao helpers to create or reuse entries.
    * @param locationString - The location string to geocode
-   * @returns The geocoding result with latitude, longitude, and location name
+   * @returns The CityCoordinates document for that location
    */
-  static async geocodeAndStore(locationString: string): Promise<GeocodingResult> {
-    const existingCoordinates = await this.findExistingCoordinates(locationString);
-
-    if (existingCoordinates) {
-      return existingCoordinates;
+  static async geocodeAndStore(locationString: string): Promise<DBCityCoordinates> {
+    // First, try to find by existing locationName match
+    const existingByName = await this.findExistingCoordinates(locationString);
+    if (existingByName) {
+      const byNameDoc = await cityCoordinatesDao.getCityCoordinates(
+        existingByName.latitude,
+        existingByName.longitude
+      );
+      if (byNameDoc) return byNameDoc;
     }
 
+    // Otherwise, geocode using Nominatim
     const result = await this.geocodeLocation(locationString);
 
+    // If we already have a document at these coordinates, reuse it
     const existingAtCoords = await cityCoordinatesDao.getCityCoordinates(
       result.latitude,
       result.longitude
     );
-
-    if (!existingAtCoords) {
-      await cityCoordinatesDao.createCityCoordinates({
-        locationName: locationString,
-        latitude: result.latitude,
-        longitude: result.longitude,
-        alumniIds: []
-      });
+    if (existingAtCoords) {
+      return existingAtCoords;
     }
 
-    return result;
+    // Create a new CityCoordinates entry, using the canonical display_name as locationName
+    return cityCoordinatesDao.createCityCoordinates({
+      locationName: result.locationName,
+      latitude: result.latitude,
+      longitude: result.longitude,
+      alumniIds: []
+    });
   }
 }
 
