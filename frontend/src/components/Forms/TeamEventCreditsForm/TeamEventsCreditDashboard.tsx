@@ -6,14 +6,7 @@ import styles from './TeamEventCreditsForm.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import ImagesAPI from '../../../API/ImagesAPI';
 import { Emitters } from '../../../utils';
-
-import {
-  REQUIRED_INITIATIVE_CREDITS,
-  REQUIRED_LEAD_TEC_CREDITS,
-  REQUIRED_MEMBER_TEC_CREDITS,
-  INITIATIVE_EVENTS,
-  TEC_DEADLINES
-} from '../../../consts';
+import { REQUIRED_INITIATIVE_CREDITS, INITIATIVE_EVENTS } from '../../../consts';
 
 const TeamEventCreditDashboard = (props: {
   allTEC: TeamEventInfo[];
@@ -24,6 +17,9 @@ const TeamEventCreditDashboard = (props: {
   setPendingAttendance: Dispatch<SetStateAction<TeamEventAttendance[]>>;
   requiredPeriodCredits: number;
   tecCounts: number[];
+  tecDeadlines: Date[];
+  requiredMemberTecCredits: number;
+  requiredLeadTecCredits: number;
 }): JSX.Element => {
   const {
     allTEC,
@@ -33,7 +29,10 @@ const TeamEventCreditDashboard = (props: {
     isAttendanceLoading,
     setPendingAttendance,
     requiredPeriodCredits,
-    tecCounts
+    tecCounts,
+    tecDeadlines,
+    requiredMemberTecCredits,
+    requiredLeadTecCredits
   } = props;
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
@@ -91,14 +90,14 @@ const TeamEventCreditDashboard = (props: {
   let headerString;
   if (!LEAD_ROLES.includes(userRole))
     headerString = `Check your team event credit status for this semester here!  
-    Every DTI member must complete ${REQUIRED_MEMBER_TEC_CREDITS} team event credit per period${
+    Every DTI member must complete ${requiredMemberTecCredits} team event credit per period${
       INITIATIVE_EVENTS
         ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
         : ''
     } 
     to fulfill this requirement.`;
   else
-    headerString = `Since you are a lead, you must complete ${REQUIRED_LEAD_TEC_CREDITS} total team event 
+    headerString = `Since you are a lead, you must complete ${requiredLeadTecCredits} total team event 
     credits per period${
       INITIATIVE_EVENTS
         ? `, with ${REQUIRED_INITIATIVE_CREDITS} of them being initiative team event credits`
@@ -213,7 +212,7 @@ const TeamEventCreditDashboard = (props: {
           <div className={styles.inline}>
             <label className={styles.bold}>Approved Credits per Period:</label>
             <ul>
-              {TEC_DEADLINES.map((deadline, index) => (
+              {tecDeadlines.map((deadline, index) => (
                 <li key={index}>
                   Period {index + 1} (Ends: {deadline.toDateString()}):
                   <span className={styles.dark_grey_color}> {tecCounts[index]}</span>

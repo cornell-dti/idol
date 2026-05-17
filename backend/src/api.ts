@@ -4,6 +4,7 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
+import TecConfigDao from './dao/TecConfigDao';
 import { app as adminApp, env } from './firebase';
 import PermissionsManager from './utils/permissionsManager';
 import {
@@ -127,7 +128,7 @@ import {
   removeAlumniFromLocation
 } from './API/cityCoordinatesAPI';
 
-import { HandlerError } from './utils/errors';
+import { HandlerError, PermissionError } from './utils/errors';
 
 // Constants and configurations
 const app = express();
@@ -466,6 +467,15 @@ loginCheckedPut('/team-event-attendance', async (req, user) => ({
 loginCheckedDelete('/team-event-attendance/:uuid', async (req, user) => {
   await deleteTeamEventAttendance(req.params.uuid, user);
   return {};
+});
+loginCheckedGet('/tec-config', async () => ({
+  config: await TecConfigDao.getTecConfig()
+}));
+loginCheckedPut('/tec-config', async (req, user) => {
+  if (!(await PermissionsManager.isAdmin(user))) {
+    throw new PermissionError('Only IDOL admins can update TEC Config');
+  }
+  return { config: await TecConfigDao.updateTecConfig(req.body) };
 });
 loginCheckedPost('/send-period-reminder', async (req, user) => ({
   info: await notifyMemberPeriod(req, req.body, user)

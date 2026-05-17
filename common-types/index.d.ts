@@ -657,3 +657,9 @@ interface ReimbursementRequest {
   isImmutable: boolean;
   resolvedAt: number | null;
 }
+
+interface TECConfig {
+  readonly periodEndDates: string[];
+  readonly requiredMemberTecCredits: number;
+  readonly requiredLeadTecCredits: number;
+}
