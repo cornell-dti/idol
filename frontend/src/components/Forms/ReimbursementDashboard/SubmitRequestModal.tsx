@@ -30,7 +30,7 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
   const [activeVendor, setActiveVendor] = useState<string>('Uncategorized');
   const [newVendorInput, setNewVendorInput] = useState('');
   const [showNewVendorField, setShowNewVendorField] = useState(false);
-  const [receipts, setReceipts] = useState<{ vendor: string; fileName: string }[]>([]);
+  const [receipts, setReceipts] = useState<{ id: string; vendor: string; fileName: string }[]>([]);
 
   const reset = () => {
     setStep('basic');
@@ -81,12 +81,16 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setReceipts([...receipts, { vendor: activeVendor, fileName: file.name }]);
+    const id =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random()}`;
+    setReceipts([...receipts, { id, vendor: activeVendor, fileName: file.name }]);
     e.target.value = '';
   };
 
-  const removeReceipt = (index: number) => {
-    setReceipts(receipts.filter((_, i) => i !== index));
+  const removeReceipt = (id: string) => {
+    setReceipts(receipts.filter((r) => r.id !== id));
   };
 
   const receiptsByVendor = vendors
@@ -246,24 +250,19 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
                   {receiptsByVendor.map((g) => (
                     <div key={g.vendor} className={styles.uploadedGroup}>
                       <div className={styles.uploadedVendorLabel}>{g.vendor}</div>
-                      {g.files.map((file) => {
-                        const idx = receipts.findIndex(
-                          (r) => r.vendor === file.vendor && r.fileName === file.fileName
-                        );
-                        return (
-                          <div key={`${file.vendor}-${file.fileName}`} className={styles.fileRow}>
-                            <Icon name="file outline" />
-                            <span className={styles.fileName}>{file.fileName}</span>
-                            <button
-                              type="button"
-                              className={styles.trashButton}
-                              onClick={() => removeReceipt(idx)}
-                            >
-                              <Icon name="trash" />
-                            </button>
-                          </div>
-                        );
-                      })}
+                      {g.files.map((file) => (
+                        <div key={file.id} className={styles.fileRow}>
+                          <Icon name="file outline" />
+                          <span className={styles.fileName}>{file.fileName}</span>
+                          <button
+                            type="button"
+                            className={styles.trashButton}
+                            onClick={() => removeReceipt(file.id)}
+                          >
+                            <Icon name="trash" />
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
@@ -302,8 +301,8 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
                 {receipts.length === 0 ? (
                   <div className={styles.reviewEmpty}>No receipts uploaded.</div>
                 ) : (
-                  receipts.map((r, i) => (
-                    <div key={`${r.vendor}-${r.fileName}-${i}`} className={styles.reviewRow}>
+                  receipts.map((r) => (
+                    <div key={r.id} className={styles.reviewRow}>
                       <span className={styles.reviewKey}>{r.vendor}</span>
                       <span>{r.fileName}</span>
                     </div>

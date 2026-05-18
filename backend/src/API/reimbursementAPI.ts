@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ReimbursementRequestDao from '../dao/ReimbursementRequestDao';
 import ReimbursementTeamDao from '../dao/ReimbursementTeamDao';
 import PermissionsManager from '../utils/permissionsManager';
+import { hasReimbursementRequesterPermissions } from '../utils/reimbursementPermissions';
 import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors';
 
 const requestDao = new ReimbursementRequestDao();
@@ -129,6 +130,11 @@ export const createReimbursementRequest = async (
   request: Partial<ReimbursementRequest>,
   user: IdolMember
 ): Promise<ReimbursementRequest> => {
+  if (!hasReimbursementRequesterPermissions(user.role)) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permissions to create a reimbursement request.`
+    );
+  }
   if (!request.teamId) throw new BadRequestError('teamId is required.');
   if (request.amount == null || request.amount <= 0) {
     throw new BadRequestError('amount must be a positive number.');
@@ -207,13 +213,17 @@ export const updateReimbursementRequestStatus = async (
   note: string,
   user: IdolMember
 ): Promise<ReimbursementRequest> => {
-  if (!(await PermissionsManager.isLeadOrAdmin(user))) {
+  const existing = await requestDao.getRequest(requestId);
+  if (!existing) throw new NotFoundError(`Reimbursement request with ID ${requestId} not found.`);
+
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  const isRequesterSettling =
+    existing.requesterId === user.email && newStatus === 'settled';
+  if (!isLeadOrAdmin && !isRequesterSettling) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to change request status.`
     );
   }
-  const existing = await requestDao.getRequest(requestId);
-  if (!existing) throw new NotFoundError(`Reimbursement request with ID ${requestId} not found.`);
 
   const updated = await requestDao.updateStatus(requestId, newStatus, user.email, note);
 
