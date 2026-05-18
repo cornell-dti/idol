@@ -217,8 +217,7 @@ export const updateReimbursementRequestStatus = async (
   if (!existing) throw new NotFoundError(`Reimbursement request with ID ${requestId} not found.`);
 
   const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
-  const isRequesterSettling =
-    existing.requesterId === user.email && newStatus === 'settled';
+  const isRequesterSettling = existing.requesterId === user.email && newStatus === 'settled';
   if (!isLeadOrAdmin && !isRequesterSettling) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to change request status.`
