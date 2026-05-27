@@ -38,6 +38,11 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'Submit your coffee chats.',
     link: '/forms/coffeeChats',
     adminOnly: !ENABLE_COFFEE_CHAT
+  },
+  {
+    header: 'Reimbursement',
+    description: 'View your team budget and submit reimbursement requests.',
+    link: '/forms/reimbursement'
   }
 ];
 

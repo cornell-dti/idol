@@ -21,15 +21,17 @@ export function hasReimbursementAdminPermissions(role: Role): boolean {
  * @returns true if the user has requester permissions
  */
 export function hasReimbursementRequesterPermissions(role: Role): boolean {
-  const leadRoles: Role[] = [
+  const requesterRoles: Role[] = [
     'ops-lead',
     'product-lead',
     'dev-lead',
     'design-lead',
-    'business-lead'
+    'business-lead',
+    'tpm',
+    'pm'
   ];
 
-  return leadRoles.includes(role);
+  return requesterRoles.includes(role);
 }
 
 /**
