@@ -23,7 +23,7 @@ export default function Team() {
         button1Link="/apply"
         button2Label="Meet the team"
         button2Link="#meet-the-team"
-        image="/team/hero.png"
+        image="/team/hero.webp"
       />
 
       <FeatureSection
