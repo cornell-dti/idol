@@ -23,13 +23,13 @@ export default function Team() {
         button1Link="/apply"
         button2Label="Meet the team"
         button2Link="#meet-the-team"
-        image="/team/hero.png"
+        image="/team/hero.webp"
       />
 
       <FeatureSection
         heading="We are Cornell DTI"
         description="Founded in 2017, DTI is a project team of 80+ designers, developers, product managers, and business members passionate about making change on campus and beyond."
-        image="/team/we-are-cornell-dti.png"
+        image="/team/we-are-cornell-dti.jpg"
         imageAlt="Fall 2025 new members of DTI posing together"
       />
 

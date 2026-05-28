@@ -37,7 +37,7 @@ const Hero = ({
   <section className={`${className} hero ${nextSectionCurved ? 'nextSectionCurved' : ''} mb-1`}>
     {image && (
       <div
-        className="flex items-end [@media(max-height:800px)]:h-[600px] h-[800px] relative bg-no-repeat bg-center bg-cover"
+        className="flex items-end [@media(max-height:800px)]:h-[600px] h-[800px] relative bg-no-repeat bg-top bg-cover"
         style={{ backgroundImage: `url('${image}')` }}
       >
         <div
