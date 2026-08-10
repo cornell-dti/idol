@@ -3,15 +3,15 @@
     "icon": "/apply/roles/development.svg",
     "role": "Development",
     "skills": [
-      "A curious, inventive and communicative investigator",
-      "Eagerness to learn new technologies and applications",
-      "Experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required)"
+      "A curious, collaborative, and innovative builder who enjoys turning ideas into working software  ",
+      "Excited to learn new tools and ship improvements iteratively",
+      "Some experience with programming (specific technologies will be taught in DTI, but web/app experience is helpful)"
     ],
     "responsibilities": [
-      "Work as the backbone of the project to bring concepts to reality",
-      "Front-end developers: implement mockups, balancing project constraints",
-      "Back-end developers: organize and manipulate processed data to create informed and practical data sources",
-      "Conduct code reviews to ensure quality and consistency"
+      "Build and ship features as part of a cross-functional project team ",
+      "Frontend: implement designs and build accessible, polished user interfaces ",
+      "Backend: build and maintain the services behind the product - APIs, data pipelines, and hosting infrastructure",
+      "Review code, test changes, and help keep the codebase clean and maintainable"
     ]
   },
   {
@@ -38,8 +38,7 @@
       "Creativity to create new product visions with innovation",
       "Takes initiative to connect with members of the DTI community and beyond",
       "Knowledge of coding or business is NOT required",
-      "Upperclassmen may apply for Graphic Design and PMM",
-      "Freshmen/Transfers may apply for Graphic Design, PMM, and Events & Initiatives"
+      "All applicants may apply for Graphic Design, PMM, Corps & Alum, and Events & Initiatives"
     ],
     "responsibilities": [
       "Develop strategies for teams to outreach and market their products",
