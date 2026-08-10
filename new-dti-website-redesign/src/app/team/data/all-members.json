@@ -158,6 +158,33 @@
     "firstName": "Annie"
   },
   {
+    "github": "",
+    "email": "ar2345@cornell.edu",
+    "hometown": "Redlands, CA",
+    "semesterJoined": "Fall 2024",
+    "firstName": "Amelie",
+    "formerSubteams": [
+      "idol"
+    ],
+    "linkedin": "https://www.linkedin.com/in/amelie-rosso",
+    "doubleMajor": "",
+    "minor": "Artificial Intelligence",
+    "pronouns": "",
+    "coffeeChatLink": "https://calendly.com/ar2345-cornell/30min",
+    "website": "",
+    "graduation": "May 2027",
+    "subteams": [
+      "leads"
+    ],
+    "college": "eng",
+    "major": "Information Science, Systems, and Technology",
+    "lastName": "Rosso",
+    "role": "product-lead",
+    "roleDescription": "Product Lead",
+    "netid": "ar2345",
+    "about": ""
+  },
+  {
     "hometown": "Bethpage, NY",
     "website": "https://arshsingh.net/",
     "role": "tpm",
