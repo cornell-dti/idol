@@ -17,6 +17,7 @@
       "type": "application",
       "link": "https://docs.google.com/spreadsheets/d/1uA2r3_bkkaIwmg7APik8_7Wn7x4-NKTVaB30Sbi6imY/edit?gid=0#gid=0",
       "freshmen": { "date": "August 17", "isTentative": false },
+      "upperclassmen": { "date": "August 17", "isTentative": false },
       "spring": { "date": "August 17", "isTentative": false }
     },
     {
@@ -109,7 +110,7 @@
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
       "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "", "isTentative": true, "time": "" },
+      "freshmen": { "date": "September/October", "isTentative": true, "time": "" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
@@ -117,7 +118,7 @@
       "description": "Helping students prepare for our application by reviewing their resumes and giving them interview tips!",
       "location": "TBD",
       "type": "workshop",
-      "freshmen": { "date": "", "isTentative": true, "time": "" }
+      "freshmen": { "date": "September/October", "isTentative": true, "time": "" }
     }
   ]
 }
