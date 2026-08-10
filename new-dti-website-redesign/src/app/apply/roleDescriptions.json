@@ -18,16 +18,20 @@
     "icon": "/apply/roles/design.svg",
     "role": "Design",
     "skills": [
-      "Knowledge of product thinking, empathy and creativity to solve problems",
-      "Openness to feedback and willingness to critique",
-      "Case study/portfolio project recommended",
-      "Experience in Figma, Sketch, Photoshop or similar recommended"
+      "Knowledge of product thinking, empathy, and creativity to solve problems.",
+      "Ability to communicate and explain design decisions",
+      "Openness to giving and receiving constructive feedback",
+      "Interest in solving real user problems through design",
+      "Experience with Figma or similar design tools recommended, but not required",
+      "A portfolio or case study demonstrating your design process is recommended"
     ],
     "responsibilities": [
-      "Make high-level strategic decisions for the product you're working on",
-      "Conduct user and market research, interviewing target audiences",
-      "Design low, medium, high fidelity mockups, prototypes",
-      "Iterate based on critique, feedback and user testing"
+      "Collaborate with product managers and developers to define product problems and ensure designs translate effectively into the final product",
+      "Conduct user research and usability testing to understand user needs",
+      "Create user flows, wireframes, prototypes, and high-fidelity designs",
+      "Use and contribute to design systems to create consistent experiences",
+      "Present work during design critiques and iterate based on feedback",
+      "Balance user needs, technical constraints, and product goals when making design decisions"
     ]
   },
   {
