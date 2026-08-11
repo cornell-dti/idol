@@ -3,31 +3,35 @@
     "icon": "/apply/roles/development.svg",
     "role": "Development",
     "skills": [
-      "A curious, inventive and communicative investigator",
-      "Eagerness to learn new technologies and applications",
-      "Experience in computer science or app/web development (specific technologies will be taught in DTI, so no expert knowledge required)"
+      "A curious, collaborative, and innovative builder who enjoys turning ideas into working software  ",
+      "Excited to learn new tools and ship improvements iteratively",
+      "Some experience with programming (specific technologies will be taught in DTI, but web/app experience is helpful)"
     ],
     "responsibilities": [
-      "Work as the backbone of the project to bring concepts to reality",
-      "Front-end developers: implement mockups, balancing project constraints",
-      "Back-end developers: organize and manipulate processed data to create informed and practical data sources",
-      "Conduct code reviews to ensure quality and consistency"
+      "Build and ship features as part of a cross-functional project team ",
+      "Frontend: implement designs and build accessible, polished user interfaces ",
+      "Backend: build and maintain the services behind the product - APIs, data pipelines, and hosting infrastructure",
+      "Review code, test changes, and help keep the codebase clean and maintainable"
     ]
   },
   {
     "icon": "/apply/roles/design.svg",
     "role": "Design",
     "skills": [
-      "Knowledge of product thinking, empathy and creativity to solve problems",
-      "Openness to feedback and willingness to critique",
-      "Case study/portfolio project recommended",
-      "Experience in Figma, Sketch, Photoshop or similar recommended"
+      "Knowledge of product thinking, empathy, and creativity to solve problems.",
+      "Ability to communicate and explain design decisions",
+      "Openness to giving and receiving constructive feedback",
+      "Interest in solving real user problems through design",
+      "Experience with Figma or similar design tools recommended, but not required",
+      "A portfolio or case study demonstrating your design process is recommended"
     ],
     "responsibilities": [
-      "Make high-level strategic decisions for the product you're working on",
-      "Conduct user and market research, interviewing target audiences",
-      "Design low, medium, high fidelity mockups, prototypes",
-      "Iterate based on critique, feedback and user testing"
+      "Collaborate with product managers and developers to define product problems and ensure designs translate effectively into the final product",
+      "Conduct user research and usability testing to understand user needs",
+      "Create user flows, wireframes, prototypes, and high-fidelity designs",
+      "Use and contribute to design systems to create consistent experiences",
+      "Present work during design critiques and iterate based on feedback",
+      "Balance user needs, technical constraints, and product goals when making design decisions"
     ]
   },
   {
@@ -38,8 +42,7 @@
       "Creativity to create new product visions with innovation",
       "Takes initiative to connect with members of the DTI community and beyond",
       "Knowledge of coding or business is NOT required",
-      "Upperclassmen may apply for Graphic Design and PMM",
-      "Freshmen/Transfers may apply for Graphic Design, PMM, and Events & Initiatives"
+      "All applicants may apply for Graphic Design, PMM, Corps & Alum, and Events & Initiatives"
     ],
     "responsibilities": [
       "Develop strategies for teams to outreach and market their products",

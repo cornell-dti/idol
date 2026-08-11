@@ -5,9 +5,9 @@
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Application Link",
       "type": "application",
-      "link": "https://docs.google.com/forms/d/e/1FAIpQLSevfPth9lqMn910ZTuQPhkuWTnPL5nlJ_xw0js1nX7BZxw3aQ/viewform?usp=sharing&ouid=104812224098535012084",
-      "freshmen": { "date": "January 2", "isTentative": false },
-      "upperclassmen": { "date": "January 2", "isTentative": false },
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSevfPth9lqMn910ZTuQPhkuWTnPL5nlJ_xw0js1nX7BZxw3aQ/viewform?usp=header",
+      "freshmen": { "date": "August 17", "isTentative": false },
+      "upperclassmen": { "date": "August 17", "isTentative": false },
       "spring": { "date": "January 2", "isTentative": false }
     },
     {
@@ -15,94 +15,78 @@
       "description": "Reach out to our members to learn more about the team.",
       "location": "Coffee Chat Link",
       "type": "application",
-      "link": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSl_dZWXmqItrEDLXxcfYXF_fWgv6L_xDjgT5JPeRR0stLSvCjC8440yJwICSJl6yC-Rr7Zqk_UDXcr/pubhtml",
-      "freshmen": { "date": "January 12", "isTentative": false },
-      "spring": { "date": "January 12", "isTentative": false }
-    },
-    {
-      "title": "WICC x DTI Boba Chats",
-      "description": "Opportunity for WICC and DTI members to learn about each other and the DTI application process in a smaller, more intimate setting!",
-      "location": "Upson 206",
-      "type": "workshop",
-      "spring": { "date": "January 23", "isTentative": false, "time": "5:00-6:00pm" }
+      "link": "https://docs.google.com/spreadsheets/d/1uA2r3_bkkaIwmg7APik8_7Wn7x4-NKTVaB30Sbi6imY/edit?gid=0#gid=0",
+      "freshmen": { "date": "August 17", "isTentative": false },
+      "upperclassmen": { "date": "August 17", "isTentative": false },
+      "spring": { "date": "August 17", "isTentative": false }
     },
     {
       "title": "Information Session 1",
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can't make this session, check out the Information Session 2 below.",
-      "location": "Phillips 219",
+      "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
-      "upperclassmen": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" },
+      "freshmen": { "date": "August 27", "isTentative": false, "time": "5:30-7:00pm" },
+      "upperclassmen": { "date": "August 27", "isTentative": false, "time": "5:30-7:00pm" },
       "spring": { "date": "January 22", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
-      "title": "Club Fest",
-      "description": "Meet us at Cornell's semesterly ClubFest with over 900+ diverse undergraduate student organizations!",
-      "location": "Barton Hall",
-      "type": "info",
-      "freshmen": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" },
-      "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" }
+      "title": "Cookies and Speed Dating",
+      "description": "Come chat with members in an informal setting with cookies.",
+      "location": "TBD",
+      "type": "workshop",
+      "freshmen": { "date": "August 31", "isTentative": false, "time": "5-7PM" },
+      "upperclassmen": { "date": "August 31", "isTentative": false, "time": "5-7PM" }
     },
     {
-      "title": "URMC x DTI Behavioral Workshop & Resume Review",
-      "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
-      "location": "Olin Hall 145",
+      "title": "Project Team Fest",
+      "description": "Explore engineering project teams.",
+      "location": "Duffield Atrium",
       "type": "workshop",
-      "spring": { "date": "January 26", "isTentative": false, "time": "5:00-6:00pm" }
+      "freshmen": { "date": "September 1", "isTentative": false, "time": "4-6PM" },
+      "upperclassmen": { "date": "September 1", "isTentative": false, "time": "4-6PM" }
     },
     {
       "title": "PM 101 Workshop",
       "description": "An introductory workshop focused on the basics of product management, including the PM role and core responsibilities. Open to anyone interested in learning more!",
-      "location": "Phillips Hall 407",
+      "location": "TBD",
       "type": "workshop",
+      "freshmen": { "date": "September 1", "isTentative": false, "time": "6-7pm" },
+      "upperclassmen": { "date": "September 1", "isTentative": false, "time": "6-7pm" },
       "spring": { "date": "January 26", "isTentative": false, "time": "5:30-7:00pm" }
     },
     {
       "title": "Information Session 2",
       "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
-      "location": "Phillips 219",
+      "location": "TBD",
       "type": "info",
-      "freshmen": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" },
+      "freshmen": { "date": "Septemeber 2", "isTentative": false, "time": "6:30-8:00pm" },
+      "upperclassmen": { "date": "September 2", "isTentative": false, "time": "6:30-8pm" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
     },
-    {
-      "title": "DCC x DTI Chats & Cookies",
-      "description": "Stop by to meet our members, enjoy cookies, and learn more about design at DTI and DCC!",
-      "location": "Willard Straight Hall",
-      "type": "workshop",
-      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-8:30pm" }
-    },
-    {
-      "title": "ACSU x DTI Breaking into Tech",
-      "description": "A workshop focused on exploring pathways into the tech industry and how to prepare for them.",
-      "location": "Hollister 206",
-      "type": "workshop",
-      "spring": { "date": "January 28", "isTentative": false, "time": "5:00-6:00pm" }
-    },
-    {
+     {
       "title": "Applications due",
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
       "type": "deadline",
-      "link": "https://docs.google.com/forms/d/e/1FAIpQLSevfPth9lqMn910ZTuQPhkuWTnPL5nlJ_xw0js1nX7BZxw3aQ/viewform?usp=sharing&ouid=104812224098535012084",
-      "freshmen": { "date": "January 29", "isTentative": false },
-      "upperclassmen": { "date": "September 4", "isTentative": false },
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSevfPth9lqMn910ZTuQPhkuWTnPL5nlJ_xw0js1nX7BZxw3aQ/viewform?usp=header",
+      "freshmen": { "date": "October 15", "isTentative": false },
+      "upperclassmen": { "date": "September 3", "isTentative": false },
       "spring": { "date": "January 29", "isTentative": false }
     },
     {
-      "title": "DCC x DTI Whiteboard Workshop",
-      "description": "Come to gain insight into our design technical interview round via a live demo and practice session!",
-      "location": "Kennedy eHub",
-      "type": "workshop",
-      "spring": { "date": "February 4", "isTentative": false, "time": "5:00-6:00pm" }
+      "title": "Club Fest",
+      "description": "Meet us at Cornell's semesterly ClubFest with over 900+ diverse undergraduate student organizations!",
+      "location": "Arts Quad",
+      "type": "info",
+      "freshmen": { "date": "September 12", "isTentative": true, "time": "" },
+      "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" }
     },
     {
       "title": "Behavioral Interviews",
       "description": "Prepare to talk about past projects, teamwork experiences, and your motivation for joining DTI.",
       "location": "Varying locations",
       "type": "interview",
-      "freshmen": { "date": "February 2-6", "isTentative": true },
-      "upperclassmen": { "date": "September 9-11", "isTentative": true },
+      "upperclassmen": { "date": "September 8-9", "isTentative": true },
       "spring": { "date": "February 2-6", "isTentative": true }
     },
     {
@@ -110,15 +94,31 @@
       "description": "Demonstrate your technical skills through problem-solving challenges relevant to your subteam.",
       "location": "Varying locations",
       "type": "interview",
+      "upperclassmen": { "date": "September 13-14", "isTentative": true },
       "spring": { "date": "February 8-9", "isTentative": false }
     },
     {
       "title": "Offers extended",
       "description": "Offers get sent out!",
       "type": "offer",
-      "freshmen": { "date": "February 11", "isTentative": false },
-      "upperclassmen": { "date": "September 17", "isTentative": false },
+      "freshmen": { "date": "November 12", "isTentative": false },
+      "upperclassmen": { "date": "September 16", "isTentative": false },
       "spring": { "date": "February 11", "isTentative": false }
+    },
+    {
+      "title": "Information Session 3",
+      "description": "Another session to learn about DTI and to chat with our members. All applicants are encouraged to attend one of the information sessions.",
+      "location": "TBD",
+      "type": "info",
+      "freshmen": { "date": "September/October", "isTentative": true, "time": "" },
+      "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
+    },
+    {
+      "title": "Resume and Interview Workshop",
+      "description": "Helping students prepare for our application by reviewing their resumes and giving them interview tips!",
+      "location": "TBD",
+      "type": "workshop",
+      "freshmen": { "date": "September/October", "isTentative": true, "time": "" }
     }
   ]
 }

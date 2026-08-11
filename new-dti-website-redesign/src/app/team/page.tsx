@@ -51,7 +51,7 @@ export default function Team() {
         button1Label="Apply to DTI"
         button1Link="/apply"
         button2Label="Coffee chat with us"
-        button2Link="https://docs.google.com/spreadsheets/d/1fgVngmjJIivQ0Rnvcg3VMtu0kNQzCYdEyLfrvUX5gTQ/edit?usp=sharing"
+        button2Link="https://docs.google.com/spreadsheets/d/1uA2r3_bkkaIwmg7APik8_7Wn7x4-NKTVaB30Sbi6imY/edit?gid=0#gid=0"
         button2LinkNewTab={true}
       />
     </Layout>
