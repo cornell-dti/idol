@@ -78,8 +78,15 @@
       "description": "Meet us at Cornell's semesterly ClubFest with over 900+ diverse undergraduate student organizations!",
       "location": "Arts Quad",
       "type": "info",
-      "freshmen": { "date": "September 12", "isTentative": true, "time": "" },
+      "freshmen": { "date": "September 5", "isTentative": false, "time": "12:00-1:30pm" },
       "spring": { "date": "January 25", "isTentative": true, "time": "12:00-1:30pm" }
+    },
+    {
+      "title": "DCC x DTI Whiteboard Workshop",
+      "description": "Come to gain insight into our design technical interview round via a live demo and practice session!",
+      "location": "Kennedy eHub",
+      "type": "workshop",
+      "freshmen": { "date": "September 11", "isTentative": false, "time": "5:00-6:00pm" }
     },
     {
       "title": "Behavioral Interviews",
