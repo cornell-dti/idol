@@ -103,5 +103,8 @@ export const productLinks: { [key: string]: { name: string; link?: string } } = 
   },
   redi: {
     name: 'redi'
+  },
+  loop: {
+    name: 'Loop'
   }
 };
