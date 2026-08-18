@@ -93,6 +93,7 @@
       "description": "Prepare to talk about past projects, teamwork experiences, and your motivation for joining DTI.",
       "location": "Varying locations",
       "type": "interview",
+      "freshmen": { "date": "October 20-21", "isTentative": false },
       "upperclassmen": { "date": "September 8-9", "isTentative": true },
       "spring": { "date": "February 2-6", "isTentative": true }
     },
@@ -101,7 +102,8 @@
       "description": "Demonstrate your technical skills through problem-solving challenges relevant to your subteam.",
       "location": "Varying locations",
       "type": "interview",
-      "upperclassmen": { "date": "September 13-14", "isTentative": true },
+      "freshmen": { "date": "October 27-28", "isTentative": false },
+      "upperclassmen": { "date": "September 13-14", "isTentative": false },
       "spring": { "date": "February 8-9", "isTentative": false }
     },
     {
