@@ -21,6 +21,14 @@
       "spring": { "date": "August 17", "isTentative": false }
     },
     {
+      "title": "AppDev x CDS x DTI x H4I x KTP x Cursor Coffee Chat Hour",
+      "description": "Software & tech teams all come together to coffee chat prospective applicants! Coffee, matcha, and Chipotle are sponsored by Cursor.",
+      "location": "Gates Hall",
+      "type": "info",
+      "freshmen": { "date": "August 28", "isTentative": false, "time": "12:00-1:30pm" },
+      "upperclassmen": { "date": "August 28", "isTentative": false, "time": "12:00-1:30pm" }
+    },
+    {
       "title": "Information Session 1",
       "description": "Come join us for a session to learn about DTI, our goals, and our subteams. There will be time to chat with DTI members of all roles after! And if you can't make this session, check out the Information Session 2 below.",
       "location": "Collegetown Ehub MP Room",
@@ -84,7 +92,7 @@
     {
       "title": "DCC x DTI Whiteboard Workshop",
       "description": "Come to gain insight into our design technical interview round via a live demo and practice session!",
-      "location": "Kennedy eHub",
+      "location": "Hollister 401",
       "type": "workshop",
       "freshmen": { "date": "September 11", "isTentative": false, "time": "5:00-6:00pm" }
     },
