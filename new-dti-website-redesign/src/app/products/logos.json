@@ -62,5 +62,19 @@
     "width": 96,
     "height": 96,
     "href": "/products/#zing"
+  },
+  {
+    "src": "/products/logos/curaise.svg",
+    "alt": "CU Raise logo",
+    "width": 80,
+    "height": 80,
+    "href": "/products/#curaise"
+  },
+  {
+    "src": "/products/logos/loop.svg",
+    "alt": "Loop logo",
+    "width": 80,
+    "height": 80,
+    "href": "/products/#loop"
   }
 ]
