@@ -14,17 +14,17 @@
     "college": "cas",
     "roleDescription": "Technical PM",
     "email": "aa2732@cornell.edu",
-    "about": "Hey! I'm Abrar, and I am interested in a bunch of different things. Some of my interests include astronomy, high performance computing, gymming, playing the viola, and learning languages. Coffee chat me for some free coffee/tea",
     "major": "Computer Science",
     "linkedin": "https://www.linkedin.com/in/abrar--amin/",
     "website": null,
     "coffeeChatLink": null,
-    "doubleMajor": "Astronomy",
     "subteams": [
       "redi"
     ],
     "github": "https://github.com/abrar-amin",
-    "role": "tpm"
+    "role": "tpm",
+    "doubleMajor": "Physics",
+    "about": "Hey! I'm Abrar, and I am interested in a bunch of different things. Some of my interests include astronomy, high performance computing, gymming, playing the viola, and learning languages."
   },
   {
     "email": "aep227@cornell.edu",
@@ -194,7 +194,6 @@
     "github": "https://github.com/ambers7",
     "minor": "Business",
     "roleDescription": "Developer",
-    "about": "Hii! I'm Amber, a sophomore majoring in CS and a Dev on CornellGO. I love to ski (currently learning how to snowboard), visit new cafes (I LOVE coffee and matcha), and bullet journal! ",
     "subteams": [
       "curaise"
     ],
@@ -209,7 +208,8 @@
     "website": null,
     "linkedin": "https://www.linkedin.com/in/amber-shen7/",
     "lastName": "Shen",
-    "college": "eng"
+    "college": "eng",
+    "about": "Hii! I'm Amber, a sophomore majoring in CS and a Dev on CURaise (prev on CornellGO). I love to ski (currently learning how to snowboard), visit new cafes (I LOVE coffee and matcha), and bullet journal! "
   },
   {
     "minor": "",
@@ -247,7 +247,6 @@
       "carriage"
     ],
     "email": "asc344@cornell.edu",
-    "about": "Hi! I'm Anika, and I am a developer on Carriage. In my free time, I love running, reading, and cooking!",
     "semesterJoined": "Spring 2025",
     "roleDescription": "Technical PM",
     "lastName": "Chandra",
@@ -257,11 +256,12 @@
     "role": "tpm",
     "coffeeChatLink": null,
     "college": "cas",
-    "minor": "Business",
     "subteams": [
       "courseplan"
     ],
-    "netid": "asc344"
+    "netid": "asc344",
+    "minor": null,
+    "about": "Hi! I'm Anika, and I am the TPM of CoursePlan! I was also a developer on Carriage for 3 semesters. In my free time, I love running, reading, and cooking!"
   },
   {
     "github": null,
@@ -508,20 +508,20 @@
     "subteams": [
       "cuapts"
     ],
-    "college": "ilr",
     "coffeeChatLink": null,
     "github": null,
     "linkedin": "www.linkedin.com/in/yu-colleen",
     "roleDescription": "Product Manager",
-    "major": "Industrial and Labor Relations (ILR)",
     "hometown": "Bay Area, CA",
     "lastName": "Yu",
     "email": "cy562@cornell.edu",
     "semesterJoined": "Spring 2026",
-    "about": "hii im colleen, and I'm an apm on cuapts",
     "formerSubteams": [],
     "website": null,
-    "pronouns": "she/her"
+    "pronouns": "she/her",
+    "college": "cals",
+    "major": "Information Science",
+    "about": "hii im colleen, and I'm a pm on cuapts"
   },
   {
     "pronouns": "she/her",
@@ -559,7 +559,6 @@
     "hometown": "Istanbul, Turkey",
     "lastName": "Icyer",
     "firstName": "Emir",
-    "linkedin": null,
     "doubleMajor": null,
     "subteams": [
       "curaise"
@@ -573,10 +572,11 @@
     "major": "Computer Science",
     "roleDescription": "Developer",
     "college": "cas",
-    "github": null,
-    "about": "Hi, I am a developer at Carriage! I like going to te gym, watching soccer and F1. I am also interested in history and politics.",
     "website": null,
-    "role": "developer"
+    "role": "developer",
+    "about": "Hi, I am a developer at CuRaise! I like going to te gym, watching soccer and F1. I am also interested in history and politics.",
+    "github": "https://github.com/eicyer",
+    "linkedin": "https://www.linkedin.com/in/emir-icyer-228742392/"
   },
   {
     "role": "developer",
@@ -676,13 +676,13 @@
     "minor": null,
     "github": null,
     "email": "er549@cornell.edu",
-    "about": "Heyy! My name is Esperanza and I'm a sophomore studying Information Science in CAS. I work with the business team as the social media manager 😊 This year I realized that I love matcha 🍵 but I also love music (rnb/hiphop the most), photography/videography, language learning (I speak Spanish, Portuguese, English, some Korean), and traveling. I'm also down to read books and listen to podcasts so let me know if you have any recs :)\nInstagram: @espie.v",
     "lastName": "Román Carrera",
     "college": "cas",
     "coffeeChatLink": null,
     "role": "business-lead",
     "pronouns": "she/her",
-    "semesterJoined": "Spring 2025"
+    "semesterJoined": "Spring 2025",
+    "about": "Heyy! My name is Esperanza and I'm a junior studying Information Science in CAS. I work with the business team as the social media manager 😊 This year I realized that I love matcha 🍵 but I also love music (rnb/hiphop the most), photography/videography, language learning (I speak Spanish, Portuguese, English, some Korean), and traveling. I'm also down to read books and listen to podcasts so let me know if you have any recs :)\nInstagram: @espie.v"
   },
   {
     "subteams": [
@@ -746,9 +746,7 @@
     "lastName": "Huang",
     "linkedin": "https://www.linkedin.com/in/g-racehuang/",
     "firstName": "Grace",
-    "major": "Fashion Design and Management",
     "hometown": "Pittsburgh, PA",
-    "about": "Hi! I'm Grace, and I'm a PMM on CGO! I love all things creative, and I'm constantly listening to music. I know Tate Mcrae's entire discography by heart, and my passions in life include eating, sleeping, and binge watching movies/TV shows (if you have any recs, please lmk! ☺️). When I have the time, I also love thrifting, taking cutie digi pics with friends, and going to the gym.",
     "roleDescription": "Business",
     "graduation": "May 2028",
     "doubleMajor": null,
@@ -757,12 +755,14 @@
       "loop"
     ],
     "website": null,
-    "college": "humec",
     "semesterJoined": "Fall 2025",
-    "minor": "Business",
     "role": "business",
     "netid": "gsh76",
-    "coffeeChatLink": null
+    "coffeeChatLink": null,
+    "college": "cals",
+    "minor": "Fashion Studies",
+    "major": "Information Science",
+    "about": "Hi! I'm Grace, and I'm a PMM on Loop (previously CGO) exploring tech through biz, marketing, and design! When I have free time I'm either sewing, thrifting, out taking digi pics, or at the gym. I love sweet treats 😋Current fixations include: pistachio ice cream, almond croissants, and fudge-y chocolate-y lava cake with a scoop of vanilla ice cream. I'm down to literally talk about anything, so if you think I'm pretty cool, feel free to reach out!"
   },
   {
     "college": "cas",
@@ -1099,8 +1099,8 @@
     "doubleMajor": null,
     "coffeeChatLink": null,
     "major": "Computer Science",
-    "github": null,
-    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and was on CU Reviews as a PM before becoming Product Lead! I'm a CS major and Linguistics minor, and enjoy dabbling in design as well.\n\nIn my free time, I love dreaming up new products (visit gcalwrapped.com!), learning languages, and playing board & video games (favorites include Ark Nova, Arcs, and Baldur's Gate). Always free for a coffee chat :)"
+    "github": "https://github.com/megany128",
+    "about": "Hi, I'm Megan! I joined DTI my freshman spring (SP24) and am now a PM Advisor. Previously, I was Product Lead, CU Reviews PM, and Incubator PM/Design Engineer. I'm majoring in CS and minoring in Linguistics. I love building side projects, particularly in the language learning space! Check out gcalwrapped.com 👀\n\nIn my free time, I love learning languages and playing board & video games (favorites include Ark Nova, Arcs, and Hades)."
   },
   {
     "lastName": "Sheen",
@@ -1129,18 +1129,14 @@
   },
   {
     "semesterJoined": "Fall 2024",
-    "minor": "Creative Writing",
     "college": "cas",
     "website": null,
-    "linkedin": "https://www.linkedin.com/in/matthew-kim-10a314235/",
     "lastName": "Kim",
     "netid": "mk2672",
-    "doubleMajor": null,
     "roleDescription": "Full Team Lead",
     "role": "ops-lead",
     "github": "https://github.com/mjaydenkim",
     "hometown": "Bay Area, California",
-    "coffeeChatLink": "calendly.com/mattkimcornell",
     "pronouns": "he/him",
     "subteams": [
       "leads"
@@ -1152,8 +1148,12 @@
       "carriage"
     ],
     "major": "Computer Science",
-    "about": "hit me up if you're passionate about ethical AI, Rubik's Cube speedsolving, pop music criticism, contemporary poetry, student journalism, or US politics, or lowkey anything",
-    "email": "mk2672@cornell.edu"
+    "email": "mk2672@cornell.edu",
+    "minor": "Artificial Intelligence",
+    "doubleMajor": "English",
+    "coffeeChatLink": null,
+    "about": "yo i'm matt! before my current role i was developing for cureviews & carriage (my two babies). on campus i'm involved in the concert commission and CUSLAR. hit me up if you're interested in music or rubik's cubes or poetry or like anything i'm mega down to chat",
+    "linkedin": "https://www.linkedin.com/in/mjaydenkim"
   },
   {
     "firstName": "Max",
@@ -1261,31 +1261,31 @@
     "lastName": "Andrew"
   },
   {
-    "college": "eng",
-    "semesterJoined": "Fall 2024",
-    "formerSubteams": [
-      "courseplan"
-    ],
-    "firstName": "Nigel",
-    "netid": "nt387",
-    "linkedin": "https://www.linkedin.com/in/nigeltatem/",
-    "hometown": "Frisco, Texas",
-    "email": "nt387@cornell.edu",
+    "pronouns": "He/Him",
+    "role": "developer",
+    "doubleMajor": null,
+    "website": null,
     "subteams": [
       "cuapts"
     ],
-    "coffeeChatLink": null,
-    "major": "Computer Science",
-    "github": "https://github.com/NigelTatem",
-    "graduation": "May 2028",
-    "website": null,
-    "about": "Hey I am Nigel Tatem! Developer on CoursePlan",
-    "role": "developer",
-    "pronouns": "He/Him",
-    "minor": "Operations Research & Management Science",
-    "lastName": "Tatem",
     "roleDescription": "Developer",
-    "doubleMajor": null
+    "graduation": "May 2028",
+    "github": "https://github.com/NigelTatem",
+    "firstName": "Nigel",
+    "hometown": "Frisco, Texas",
+    "semesterJoined": "Fall 2024",
+    "major": "Computer Science",
+    "college": "eng",
+    "coffeeChatLink": null,
+    "lastName": "Tatem",
+    "linkedin": "https://www.linkedin.com/in/nigeltatem/",
+    "email": "nt387@cornell.edu",
+    "formerSubteams": [
+      "courseplan"
+    ],
+    "netid": "nt387",
+    "minor": "Operations Research & Management Science",
+    "about": "Hey I am Nigel Tatem! Developer on CUApts"
   },
   {
     "firstName": "Olivia",
@@ -1357,14 +1357,14 @@
     ],
     "email": "pc745@cornell.edu",
     "pronouns": "she/her/hers",
-    "website": "https://bubbly-individual-0bd.notion.site/Nadia-s-Portfolio-106165bf99ae80f78ef8e94f756ec90a?pvs=74",
     "doubleMajor": null,
     "hometown": "Bangkok, Thailand",
     "roleDescription": "Developer",
     "lastName": "Choophungart",
     "major": "Computer Science",
     "graduation": "May 2028",
-    "about": "Hihi! I'm from Bangkok, Thailand, and majoring in Computer Science (Eng) with intended minors in English and ORIE! I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking. (Prev. PM @ Queue Me In). \n\nIn my free time, I love photography (especially film!), music, and exploring new eats."
+    "website": null,
+    "about": "Hihi! I'm from Bangkok, Thailand, and majoring in Computer Science (Eng) with intended minors in English and ORIE! I am really interested in how tech can be used for social good, as well as the intersection between design, CS, and business thinking. (Prev. PM @ Queue Me In). Currently a dev on Redi.\n\nIn my free time, I love photography (especially film!), music, and exploring new eats."
   },
   {
     "firstName": "Renee",
@@ -1665,7 +1665,6 @@
     "role": "pm",
     "email": "yz2395@cornell.edu",
     "firstName": "Laura",
-    "about": "Hi! I'm a sophomore in Dyson, interested in the intersection of healthcare, business, and tech. Outside of DTI, I'm involved in aKDPhi sorority and Cornell Equity Research. In my free time, I enjoy traveling, documenting, and doing pilates. ",
     "major": "Applied Economics and Management",
     "linkedin": null,
     "college": "dyson",
@@ -1678,7 +1677,8 @@
     "minor": null,
     "website": null,
     "graduation": "2028",
-    "pronouns": "she/her"
+    "pronouns": "she/her",
+    "about": "Hi! I'm a sophomore in Dyson, interested in the intersection of business and tech. Outside of DTI, I'm involved in aKDPhi sorority and Cornell Equity Research. In my free time, I enjoy traveling, documenting, and doing pilates. "
   },
   {
     "college": "cas",
