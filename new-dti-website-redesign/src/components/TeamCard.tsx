@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getRoleColor, productLinks } from '../utils/memberUtils';
@@ -20,6 +20,10 @@ const MemberSummary = ({
   enlarged?: boolean;
 }) => {
   const [imgSrc, setImgSrc] = useState(image);
+
+  useEffect(() => {
+    setImgSrc(image);
+  }, [image]);
 
   const handleError = () => {
     const fallbacks = [
