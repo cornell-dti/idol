@@ -99,7 +99,9 @@ export const MemberCard = forwardRef<HTMLDivElement, MemberCardProps>(
             rel="noopener noreferrer"
             aria-label={`View ${user.firstName} ${user.lastName}'s LinkedIn`}
             className="absolute inset-0"
-          />
+          >
+            {' '}
+          </a>
         ) : (
           <button
             className="opacity-0 cursor-pointer after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full"
