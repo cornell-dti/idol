@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Message, Loader, Button } from 'semantic-ui-react';
+import { Card, Message, Loader, Button, Checkbox } from 'semantic-ui-react';
 import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
@@ -103,11 +103,39 @@ const TeamEvents: React.FC = () => {
     }
   }, [isLoading, tecConfig]);
 
+  const handleConsiderEventKindChange = async (nextValue: boolean) => {
+    if (!tecConfig) return;
+    try {
+      const saved = await TecConfigAPI.updateTecConfig({
+        ...tecConfig,
+        considerEventKind: nextValue
+      });
+      setTecConfig(saved);
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: 'Failed to update TEC config',
+        contentMsg: `${error}`
+      });
+    }
+  };
+
   return (
     <div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
-        <h1>Create a Team Event</h1>
-        <TeamEventForm formType={'create'}></TeamEventForm>
+        <div className={styles.createHeader}>
+          <h1>Create a Team Event</h1>
+          <Checkbox
+            toggle
+            label="Consider Internal/External"
+            checked={tecConfig?.considerEventKind ?? false}
+            disabled={!tecConfig}
+            onChange={() => {
+              if (!tecConfig) return;
+              handleConsiderEventKindChange(!tecConfig.considerEventKind);
+            }}
+          />
+        </div>
+        <TeamEventForm formType={'create'} showKindField={tecConfig?.considerEventKind ?? false} />
       </div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
         {tecConfig && (

@@ -235,6 +235,16 @@ const TeamEventCreditForm: React.FC = () => {
                       <div className={styles.flex_space_center}>
                         <div className={styles.flex_start}>{event.name}</div>
                         <div className={styles.flex_end}>
+                          {tecConfig.considerEventKind && event.kind && (
+                            <Label
+                              className={
+                                event.kind === 'internal'
+                                  ? styles.kindInternal
+                                  : styles.kindExternal
+                              }
+                              content={event.kind === 'internal' ? 'Internal' : 'External'}
+                            />
+                          )}
                           {INITIATIVE_EVENTS && event.isInitiativeEvent && (
                             <Label content="initiative" />
                           )}

@@ -35,3 +35,9 @@
 .periodSection {
   margin-bottom: 2rem;
 }
+
+.createHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

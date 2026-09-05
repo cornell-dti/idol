@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 /// <reference types="common-types" />
 import TecConfigDao from '../src/dao/TecConfigDao';
 import { tecConfigCollection } from '../src/firebase';
@@ -26,7 +27,8 @@ afterAll(async () => {
 const validConfig: TECConfig = {
   periodEndDates: ['2026-02-22T23:59:59', '2026-03-19T23:59:59'],
   requiredMemberTecCredits: 1,
-  requiredLeadTecCredits: 2
+  requiredLeadTecCredits: 2,
+  considerEventKind: false
 };
 
 describe('TecConfigDao.getTecConfig', () => {
@@ -59,6 +61,7 @@ describe('TecConfigDao.updateTecConfig', () => {
     const returned = await TecConfigDao.updateTecConfig(validConfig);
     expect(returned.requiredMemberTecCredits).toBe(validConfig.requiredMemberTecCredits);
     expect(returned.requiredLeadTecCredits).toBe(validConfig.requiredLeadTecCredits);
+    expect(returned.considerEventKind).toBe(validConfig.considerEventKind);
 
     const fetched = await TecConfigDao.getTecConfig();
     expect(fetched).toEqual(returned);
@@ -68,7 +71,8 @@ describe('TecConfigDao.updateTecConfig', () => {
     const unsorted: TECConfig = {
       periodEndDates: ['2026-05-04T23:59:59', '2026-02-22T23:59:59', '2026-03-19T23:59:59'],
       requiredMemberTecCredits: 1,
-      requiredLeadTecCredits: 2
+      requiredLeadTecCredits: 2,
+      considerEventKind: false
     };
 
     const result = await TecConfigDao.updateTecConfig(unsorted);
@@ -85,7 +89,8 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: [],
           requiredMemberTecCredits: 1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false
         })
       ).rejects.toThrow(BadRequestError);
     });
@@ -95,7 +100,8 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: ['not a date'],
           requiredMemberTecCredits: 1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false
         })
       ).rejects.toThrow(BadRequestError);
     });
@@ -105,7 +111,8 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: [123 as unknown as string],
           requiredMemberTecCredits: 1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false
         })
       ).rejects.toThrow(BadRequestError);
     });
@@ -124,7 +131,29 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: ['2026-02-22T23:59:59'],
           requiredMemberTecCredits: -1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false
+        })
+      ).rejects.toThrow(BadRequestError);
+    });
+
+    test('throws BadRequestError when considerEventKind is missing', async () => {
+      const missing = {
+        periodEndDates: ['2026-02-22T23:59:59'],
+        requiredMemberTecCredits: 1,
+        requiredLeadTecCredits: 2
+      } as unknown as TECConfig;
+
+      await expect(TecConfigDao.updateTecConfig(missing)).rejects.toThrow(BadRequestError);
+    });
+
+    test('throws BadRequestError when considerEventKind is not a boolean', async () => {
+      await expect(
+        TecConfigDao.updateTecConfig({
+          periodEndDates: ['2026-02-22T23:59:59'],
+          requiredMemberTecCredits: 1,
+          requiredLeadTecCredits: 2,
+          considerEventKind: 'yes' as unknown as boolean
         })
       ).rejects.toThrow(BadRequestError);
     });

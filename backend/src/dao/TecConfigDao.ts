@@ -43,9 +43,9 @@ export default class TecConfigDao {
    * Validates and persists a TEC config to the Firestore document.
    *
    * Validation checks that `periodEndDates` is a
-   * non-empty array of parseable date strings and that both credit
-   * requirements are non-negative numbers. Period end dates are sorted
-   * chronologically.
+   * non-empty array of parseable date strings, that both credit
+   * requirements are non-negative numbers, and that `considerEventKind`
+   * is a boolean. Period end dates are sorted chronologically.
    *
    * @param config The full TEC config to persist.
    * @returns The normalized config that was written (dates sorted).
@@ -59,7 +59,8 @@ export default class TecConfigDao {
     const normalizedConfig: TECConfig = {
       periodEndDates: [...config.periodEndDates].sort(), // ensures chronological order
       requiredMemberTecCredits: config.requiredMemberTecCredits,
-      requiredLeadTecCredits: config.requiredLeadTecCredits
+      requiredLeadTecCredits: config.requiredLeadTecCredits,
+      considerEventKind: config.considerEventKind
     };
 
     await tecConfigCollection.doc(TEC_CONFIG_DOC_ID).set(normalizedConfig);
@@ -76,6 +77,7 @@ function isValidTecConfig(data: TECConfig | undefined): data is TECConfig {
     typeof data.requiredMemberTecCredits === 'number' &&
     typeof data.requiredLeadTecCredits === 'number' &&
     data.requiredMemberTecCredits >= 0 &&
-    data.requiredLeadTecCredits >= 0
+    data.requiredLeadTecCredits >= 0 &&
+    typeof data.considerEventKind === 'boolean'
   );
 }
