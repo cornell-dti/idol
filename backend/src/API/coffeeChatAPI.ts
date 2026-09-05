@@ -171,7 +171,9 @@ export const getCoffeeChatSuggestions = async (email: string): Promise<CoffeeCha
     CoffeeChatDao.getCoffeeChatSuggestions()
   ]);
 
-  if (!member) return suggestions;
+  if (!member) {
+    throw new BadRequestError(`Member with email ${email} does not exist`);
+  }
 
   const selfNetid = member.netid.trim().toLowerCase();
   return Object.fromEntries(
@@ -306,7 +308,7 @@ export const checkMemberMeetsCategory = async (
 
   if (otherMember && submitter) {
     if (category === 'a newbie') {
-      status = otherMember.semesterJoined === 'Spring 2026' ? 'pass' : 'fail';
+      status = otherMember.semesterJoined === 'Fall 2026' ? 'pass' : 'fail';
       if (status === 'fail') {
         message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
       }

@@ -77,7 +77,7 @@ const getMembersByCategory = async (members: IdolMember[]) => {
 
   suggestions['a newbie'] = filteredSuggestions(
     members,
-    (mem) => mem.semesterJoined === 'Spring 2026'
+    (mem) => mem.semesterJoined === 'Fall 2026'
   );
 
   const alumniSnapshot = await db.collection('alumni').where('gradYear', '==', 2025).get();
@@ -101,16 +101,6 @@ const getMembersByCategory = async (members: IdolMember[]) => {
 const main = async () => {
   const members = await memberPromise;
   const categories = await getMembersByCategory(members);
-
-  /* commented out for now - no need to filter self from categories
-  const filterSelfFromCategories = (mem: IdolMember) =>
-    Object.fromEntries(
-      Object.entries(categories).map(([key, value]) => [
-        key,
-        (value as MemberDetails[]).filter((details) => details.netid !== mem.netid)
-      ])
-    );
-  */
 
   const batch = db.batch();
   for (const category of categories) {
