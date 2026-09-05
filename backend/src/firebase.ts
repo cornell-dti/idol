@@ -75,13 +75,13 @@ export const memberPropertiesCollection: admin.firestore.CollectionReference<Mem
     }
   });
 
-export const coffeeChatSuggestionsCollection: admin.firestore.CollectionReference<CoffeeChatSuggestions> =
-  db.collection('coffee-chat-suggestions').withConverter({
-    fromFirestore(snapshot): CoffeeChatSuggestions {
-      return snapshot.data() as CoffeeChatSuggestions;
+export const coffeeChatCategoriesCollection: admin.firestore.CollectionReference<CoffeeChatCategory> =
+  db.collection('coffee-chat-categories').withConverter({
+    fromFirestore(snapshot): CoffeeChatCategory {
+      return snapshot.data() as CoffeeChatCategory;
     },
-    toFirestore(userData: CoffeeChatSuggestions) {
-      return userData;
+    toFirestore(data: CoffeeChatCategory) {
+      return data;
     }
   });
 

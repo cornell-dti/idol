@@ -64,6 +64,8 @@
   justify-content: center;
   align-items: flex-start;
   width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
 }
 
 .dropdownContainer {
@@ -75,4 +77,18 @@
 
 .dropdownButton {
   margin-top: 2rem;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.categoryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 13px;
 }
