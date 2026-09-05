@@ -14,7 +14,7 @@ type Props = {
 };
 
 const TeamEventForm = (props: Props): JSX.Element => {
-  const { formType, setOpen, teamEvent, editTeamEvent, showKindField = false} = props;
+  const { formType, setOpen, teamEvent, editTeamEvent, showKindField = false } = props;
 
   const [teamEventName, setTeamEventName] = useState(teamEvent?.name || '');
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
@@ -221,30 +221,29 @@ const TeamEventForm = (props: Props): JSX.Element => {
         )}
         {showKindField && (
           <>
-          <label className={styles.label}>
-            Is this an internal or external event? <span className={styles.required}>*</span>
-          </label>
-          <Form.Group inline>
-            <Form.Field>
-              <Radio
-              
-                label="Internal"
-                name="kindGroup"
-                value="internal"
-                checked={teamEventKind === 'internal'}
-                onChange={() => setTeamEventKind('internal')}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Radio
-                label="External"
-                name="kindGroup"
-                value="external"
-                checked={teamEventKind === 'external'}
-                onChange={() => setTeamEventKind('external')}
-              />
-            </Form.Field>
-          </Form.Group>
+            <label className={styles.label}>
+              Is this an internal or external event? <span className={styles.required}>*</span>
+            </label>
+            <Form.Group inline>
+              <Form.Field>
+                <Radio
+                  label="Internal"
+                  name="kindGroup"
+                  value="internal"
+                  checked={teamEventKind === 'internal'}
+                  onChange={() => setTeamEventKind('internal')}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label="External"
+                  name="kindGroup"
+                  value="external"
+                  checked={teamEventKind === 'external'}
+                  onChange={() => setTeamEventKind('external')}
+                />
+              </Form.Field>
+            </Form.Group>
           </>
         )}
 
