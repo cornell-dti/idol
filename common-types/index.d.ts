@@ -671,4 +671,8 @@ interface TECConfig {
   readonly requiredMemberTecCredits: number;
   readonly requiredLeadTecCredits: number;
   readonly considerEventKind: boolean; // true: this semester internal/external is on, false: internal/external is off
+  readonly requiredMemberInternalTecCredits: number;
+  readonly requiredMemberExternalTecCredits: number;
+  readonly requiredLeadInternalTecCredits: number;
+  readonly requiredLeadExternalTecCredits: number;
 }

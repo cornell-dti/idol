@@ -18,8 +18,11 @@ const TeamEventCreditDashboard = (props: {
   requiredPeriodCredits: number;
   tecCounts: number[];
   tecDeadlines: Date[];
-  requiredMemberTecCredits: number;
-  requiredLeadTecCredits: number;
+  tecConfig: TECConfig;
+  remainingInternalCredits: number;
+  remainingExternalCredits: number;
+  internalCounts: number[];
+  externalCounts: number[];
 }): JSX.Element => {
   const {
     allTEC,
@@ -31,9 +34,21 @@ const TeamEventCreditDashboard = (props: {
     requiredPeriodCredits,
     tecCounts,
     tecDeadlines,
-    requiredMemberTecCredits,
-    requiredLeadTecCredits
+    tecConfig,
+    remainingInternalCredits,
+    remainingExternalCredits,
+    internalCounts,
+    externalCounts
   } = props;
+  const {
+    considerEventKind,
+    requiredMemberTecCredits,
+    requiredLeadTecCredits,
+    requiredMemberInternalTecCredits,
+    requiredMemberExternalTecCredits,
+    requiredLeadInternalTecCredits,
+    requiredLeadExternalTecCredits
+  } = tecConfig;
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -88,7 +103,13 @@ const TeamEventCreditDashboard = (props: {
   });
 
   let headerString;
-  if (!LEAD_ROLES.includes(userRole))
+  if (considerEventKind) {
+    if (!LEAD_ROLES.includes(userRole))
+      headerString = `Check your team event credit status for this semester here!
+    Every DTI member must complete ${requiredMemberInternalTecCredits} internal and ${requiredMemberExternalTecCredits} external team event credits per period to fulfill this requirement.`;
+    else
+      headerString = `Since you are a lead, you must complete ${requiredLeadInternalTecCredits} internal and ${requiredLeadExternalTecCredits} external team event credits per period.`;
+  } else if (!LEAD_ROLES.includes(userRole))
     headerString = `Check your team event credit status for this semester here!  
     Every DTI member must complete ${requiredMemberTecCredits} team event credit per period${
       INITIATIVE_EVENTS
@@ -127,6 +148,11 @@ const TeamEventCreditDashboard = (props: {
                         : `(${teamEvent.maxCredits} Max)`
                     }`}
                   </Card.Meta>
+                  {considerEventKind && teamEvent.kind && (
+                    <Card.Meta>
+                      {teamEvent.kind === 'internal' ? 'Internal' : 'External'} Event
+                    </Card.Meta>
+                  )}
                   {INITIATIVE_EVENTS && (
                     <Card.Meta>
                       Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
@@ -215,7 +241,12 @@ const TeamEventCreditDashboard = (props: {
               {tecDeadlines.map((deadline, index) => (
                 <li key={index}>
                   Period {index + 1} (Ends: {deadline.toDateString()}):
-                  <span className={styles.dark_grey_color}> {tecCounts[index]}</span>
+                  <span className={styles.dark_grey_color}>
+                    {' '}
+                    {considerEventKind
+                      ? `${internalCounts[index]} internal, ${externalCounts[index]} external`
+                      : tecCounts[index]}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -232,8 +263,19 @@ const TeamEventCreditDashboard = (props: {
 
           <div className={styles.inline}>
             <label className={styles.bold}>
-              Remaining Credits Needed for Current Period:{' '}
-              <span className={styles.dark_grey_color}>{requiredPeriodCredits}</span>
+              {considerEventKind ? (
+                <>
+                  Remaining Credits Needed for Current Period:{' '}
+                  <span className={styles.dark_grey_color}>
+                    {remainingInternalCredits} internal, {remainingExternalCredits} external
+                  </span>
+                </>
+              ) : (
+                <>
+                  Remaining Credits Needed for Current Period:{' '}
+                  <span className={styles.dark_grey_color}>{requiredPeriodCredits}</span>
+                </>
+              )}
             </label>
           </div>
 

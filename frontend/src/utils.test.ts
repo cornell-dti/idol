@@ -1,4 +1,12 @@
-import { calculateCredits, formatLink, getPeriods, getTECPeriod } from './utils';
+/// <reference types="jest" />
+/// <reference types="common-types" />
+import {
+  calculateCredits,
+  formatLink,
+  getPeriods,
+  getRequiredKindCredits,
+  getTECPeriod
+} from './utils';
 
 const fakeEvent = (name: string, date: string): TeamEvent => ({
   name,
@@ -155,5 +163,51 @@ describe('calculateCredits', () => {
   test('defaults requiredCredits to 1 when omitted', () => {
     expect(calculateCredits(0)).toBe(1);
     expect(calculateCredits(1)).toBe(0);
+  });
+});
+
+const kindCreditConfig: TECConfig = {
+  periodEndDates: ['2026-02-22T23:59:59'],
+  requiredMemberTecCredits: 1,
+  requiredLeadTecCredits: 2,
+  considerEventKind: true,
+  requiredMemberInternalTecCredits: 1,
+  requiredMemberExternalTecCredits: 2,
+  requiredLeadInternalTecCredits: 1,
+  requiredLeadExternalTecCredits: 4
+};
+
+describe('getRequiredKindCredits', () => {
+  test('returns member internal/external requirements for members', () => {
+    expect(getRequiredKindCredits('developer', kindCreditConfig)).toEqual({
+      internal: 1,
+      external: 2
+    });
+  });
+
+  test('returns lead internal/external requirements for leads', () => {
+    expect(getRequiredKindCredits('dev-lead', kindCreditConfig)).toEqual({
+      internal: 1,
+      external: 4
+    });
+  });
+
+  test('returns zero requirements for advisors', () => {
+    expect(getRequiredKindCredits('dev-advisor', kindCreditConfig)).toEqual({
+      internal: 0,
+      external: 0
+    });
+  });
+
+  test('fills member defaults when internal/external requirements are missing', () => {
+    const incomplete = {
+      ...kindCreditConfig,
+      requiredMemberInternalTecCredits: undefined,
+      requiredMemberExternalTecCredits: undefined
+    } as unknown as TECConfig;
+    expect(getRequiredKindCredits('developer', incomplete)).toEqual({
+      internal: 1,
+      external: 2
+    });
   });
 });

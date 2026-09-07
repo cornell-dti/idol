@@ -24,7 +24,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
     teamEvent?.isInitiativeEvent || false
   );
   const [maxCreditNum, setMaxCreditNum] = useState(teamEvent?.maxCredits || '');
-  const [teamEventKind, setTeamEventKind] = useState<TeamEventKind | undefined>(undefined);
+  const [teamEventKind, setTeamEventKind] = useState<TeamEventKind | undefined>(teamEvent?.kind);
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -75,7 +75,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         hasHours: teamEventHasHours,
         isCommunity: isInitiativeEvent,
         isInitiativeEvent,
-        maxCredits: maxCreditNum
+        maxCredits: maxCreditNum,
+        ...(showKindField && teamEventKind ? { kind: teamEventKind } : {})
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({

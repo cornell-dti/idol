@@ -4,7 +4,7 @@ import Link from 'next/link';
 import TeamEventForm from './TeamEventForm';
 import styles from './TeamEvents.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
-import { Emitters, getPeriods } from '../../../utils';
+import { Emitters, getPeriods, withKindCreditDefaults } from '../../../utils';
 import ClearTeamEventsModal from '../../Modals/ClearTeamEventsModal';
 import { INITIATIVE_EVENTS } from '../../../consts';
 import TecConfigAPI from '../../../API/TecConfigAPI';
@@ -71,7 +71,7 @@ const TeamEvents: React.FC = () => {
   };
 
   useEffect(() => {
-    TecConfigAPI.getTecConfig().then((config) => setTecConfig(config));
+    TecConfigAPI.getTecConfig().then((config) => setTecConfig(withKindCreditDefaults(config)));
   }, []);
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const TeamEvents: React.FC = () => {
     if (!tecConfig) return;
     try {
       const saved = await TecConfigAPI.updateTecConfig({
-        ...tecConfig,
+        ...withKindCreditDefaults(tecConfig),
         considerEventKind: nextValue
       });
       setTecConfig(saved);
