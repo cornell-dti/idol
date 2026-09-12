@@ -8,7 +8,13 @@ import TecConfigAPI from '../../../API/TecConfigAPI';
 import { REQUIRED_INITIATIVE_CREDITS, INITIATIVE_EVENTS } from '../../../consts';
 import styles from './TeamEventDashboard.module.css';
 import NotifyMemberModal from '../../Modals/NotifyMemberModal';
-import { calculateCredits, getTECPeriod, getPeriods } from '../../../utils';
+import {
+  calculateCredits,
+  getTECPeriod,
+  getPeriods,
+  getRequiredKindCredits,
+  withKindCreditDefaults
+} from '../../../utils';
 
 const calculateMemberCreditsForEvent = (
   member: IdolMember,
@@ -38,6 +44,14 @@ const getTotalCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
   teamEvents.reduce((val, event) => val + calculateTotalCreditsForEvent(member, event), 0);
 const getInitiativeCredits = (member: IdolMember, teamEvents: TeamEvent[]): number =>
   teamEvents.reduce((val, event) => val + calculateInitiativeCreditsForEvent(member, event), 0);
+const getCreditsForKind = (
+  member: IdolMember,
+  teamEvents: TeamEvent[],
+  kind: TeamEventKind
+): number =>
+  teamEvents
+    .filter((event) => event.kind === kind)
+    .reduce((val, event) => val + calculateTotalCreditsForEvent(member, event), 0);
 
 const getRemainingCredits = (
   member: IdolMember,
@@ -49,6 +63,45 @@ const getRemainingCredits = (
     currentPeriodCredits,
     LEAD_ROLES.includes(member.role) ? requiredLeadTecCredits : requiredMemberTecCredits
   );
+
+const getRemainingKindCredits = (
+  member: IdolMember,
+  periodEvents: TeamEvent[],
+  tecConfig: TECConfig
+): { internal: number; external: number } => {
+  const required = getRequiredKindCredits(member.role, tecConfig);
+  return {
+    internal: calculateCredits(
+      getCreditsForKind(member, periodEvents, 'internal'),
+      required.internal
+    ),
+    external: calculateCredits(
+      getCreditsForKind(member, periodEvents, 'external'),
+      required.external
+    )
+  };
+};
+
+const isBehindOnCurrentPeriod = (
+  member: IdolMember,
+  periodEvents: TeamEvent[],
+  tecConfig: TECConfig,
+  requiredMemberTecCredits: number,
+  requiredLeadTecCredits: number
+): boolean => {
+  if (tecConfig.considerEventKind) {
+    const remaining = getRemainingKindCredits(member, periodEvents, tecConfig);
+    return remaining.internal > 0 || remaining.external > 0;
+  }
+  return (
+    getRemainingCredits(
+      member,
+      getTotalCredits(member, periodEvents),
+      requiredMemberTecCredits,
+      requiredLeadTecCredits
+    ) > 0
+  );
+};
 
 const TeamEventDashboard: React.FC = () => {
   const [teamEvents, setTeamEvents] = useState<TeamEvent[]>([]);
@@ -63,7 +116,7 @@ const TeamEventDashboard: React.FC = () => {
       setTeamEvents(events);
       setIsLoading(false);
     });
-    TecConfigAPI.getTecConfig().then(setTecConfig);
+    TecConfigAPI.getTecConfig().then((config) => setTecConfig(withKindCreditDefaults(config)));
   }, []);
 
   if (isLoading || !tecConfig) return <Loader active>Fetching team event data...</Loader>;
@@ -80,14 +133,12 @@ const TeamEventDashboard: React.FC = () => {
 
   const membersNeedingNotification = allMembers.filter((member) => {
     if (ADVISOR_ROLES.includes(member.role)) return false;
-    const currentPeriodCredits = getTotalCredits(member, periods[currentPeriodIndex].events);
-    return (
-      getRemainingCredits(
-        member,
-        currentPeriodCredits,
-        requiredMemberTecCredits,
-        requiredLeadTecCredits
-      ) > 0
+    return isBehindOnCurrentPeriod(
+      member,
+      periods[currentPeriodIndex].events,
+      tecConfig,
+      requiredMemberTecCredits,
+      requiredLeadTecCredits
     );
   });
 
@@ -95,6 +146,8 @@ const TeamEventDashboard: React.FC = () => {
     const csvData = allMembers.map((member) => {
       const totalCredits = getTotalCredits(member, teamEvents);
       const initiativeCredits = getInitiativeCredits(member, teamEvents);
+      const internalCredits = getCreditsForKind(member, teamEvents, 'internal');
+      const externalCredits = getCreditsForKind(member, teamEvents, 'external');
 
       const data = teamEvents.reduce(
         (prev, event) => ({
@@ -105,6 +158,9 @@ const TeamEventDashboard: React.FC = () => {
           Name: `${member.firstName} ${member.lastName}`,
           NetID: `${member.netid}`,
           Total: totalCredits,
+          ...(tecConfig.considerEventKind
+            ? { Internal: internalCredits, External: externalCredits }
+            : {}),
           Initiative: initiativeCredits
         }
       );
@@ -163,8 +219,18 @@ const TeamEventDashboard: React.FC = () => {
               )}
             </Table.HeaderCell>
             <Table.HeaderCell>
-              {!displayPeriod ? 'Total' : 'Remaining Period Credits'}
+              {!displayPeriod && 'Total'}
+              {displayPeriod &&
+                (tecConfig.considerEventKind
+                  ? 'Remaining Internal / External'
+                  : 'Remaining Period Credits')}
             </Table.HeaderCell>
+            {tecConfig.considerEventKind && !displayPeriod && (
+              <>
+                <Table.HeaderCell>Internal</Table.HeaderCell>
+                <Table.HeaderCell>External</Table.HeaderCell>
+              </>
+            )}
             {INITIATIVE_EVENTS && <Table.HeaderCell>Total Initiative Credits</Table.HeaderCell>}
             {!displayPeriod
               ? teamEvents.map((event) => <Table.HeaderCell>{event.name}</Table.HeaderCell>)
@@ -175,9 +241,19 @@ const TeamEventDashboard: React.FC = () => {
               ? allMembers.map((member) => {
                   const totalCredits = getTotalCredits(member, teamEvents);
                   const initiativeCredits = getInitiativeCredits(member, teamEvents);
+                  const internalCredits = getCreditsForKind(member, teamEvents, 'internal');
+                  const externalCredits = getCreditsForKind(member, teamEvents, 'external');
 
                   const isUpToDateForAllPeriods = () =>
                     Array.from({ length: currentPeriodIndex + 1 }, (_, i) => i).every((i) => {
+                      if (tecConfig.considerEventKind) {
+                        const remaining = getRemainingKindCredits(
+                          member,
+                          periods[i].events,
+                          tecConfig
+                        );
+                        return remaining.internal <= 0 && remaining.external <= 0;
+                      }
                       const periodCredits = getTotalCredits(member, periods[i].events);
                       const requiredCredits = getRequiredCredits(member);
                       return periodCredits >= requiredCredits;
@@ -185,23 +261,28 @@ const TeamEventDashboard: React.FC = () => {
 
                   const isUpToDate = isUpToDateForAllPeriods();
                   const initiativeCreditsMet = initiativeCredits >= REQUIRED_INITIATIVE_CREDITS;
-                  const currentPeriodCredits = getTotalCredits(
-                    member,
-                    periods[currentPeriodIndex].events
-                  );
+                  const currentPeriodEvents = periods[currentPeriodIndex].events;
                   const remainingCredits = getRemainingCredits(
                     member,
-                    currentPeriodCredits,
+                    getTotalCredits(member, currentPeriodEvents),
                     requiredMemberTecCredits,
                     requiredLeadTecCredits
                   );
+                  const remainingKindCredits = getRemainingKindCredits(
+                    member,
+                    currentPeriodEvents,
+                    tecConfig
+                  );
+                  const isBehind = tecConfig.considerEventKind
+                    ? remainingKindCredits.internal > 0 || remainingKindCredits.external > 0
+                    : remainingCredits > 0;
                   const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
                   return (
                     <Table.Row>
                       <Table.Cell positive={isUpToDate} className={styles.nameCell}>
                         {member.firstName} {member.lastName} ({member.netid})
-                        {remainingCredits > 0 && (
+                        {isBehind && (
                           <NotifyMemberModal
                             all={false}
                             trigger={
@@ -217,6 +298,12 @@ const TeamEventDashboard: React.FC = () => {
                         )}
                       </Table.Cell>
                       <Table.Cell positive={isUpToDate}>{totalCredits}</Table.Cell>
+                      {tecConfig.considerEventKind && (
+                        <>
+                          <Table.Cell>{internalCredits}</Table.Cell>
+                          <Table.Cell>{externalCredits}</Table.Cell>
+                        </>
+                      )}
                       {INITIATIVE_EVENTS && (
                         <Table.Cell positive={initiativeCreditsMet}>{initiativeCredits}</Table.Cell>
                       )}
@@ -228,23 +315,28 @@ const TeamEventDashboard: React.FC = () => {
                   );
                 })
               : allMembers.map((member) => {
-                  const currentPeriodCredits = getTotalCredits(
-                    member,
-                    periods[currentPeriodIndex].events
-                  );
+                  const currentPeriodEvents = periods[currentPeriodIndex].events;
                   const remainingCredits = getRemainingCredits(
                     member,
-                    currentPeriodCredits,
+                    getTotalCredits(member, currentPeriodEvents),
                     requiredMemberTecCredits,
                     requiredLeadTecCredits
                   );
+                  const remainingKindCredits = getRemainingKindCredits(
+                    member,
+                    currentPeriodEvents,
+                    tecConfig
+                  );
+                  const isBehind = tecConfig.considerEventKind
+                    ? remainingKindCredits.internal > 0 || remainingKindCredits.external > 0
+                    : remainingCredits > 0;
                   const isAdvisor = ADVISOR_ROLES.includes(member.role);
 
                   return (
                     <Table.Row>
-                      <Table.Cell positive={remainingCredits <= 0} className={styles.nameCell}>
+                      <Table.Cell positive={!isBehind} className={styles.nameCell}>
                         {member.firstName} {member.lastName} ({member.netid})
-                        {remainingCredits > 0 && (
+                        {isBehind && (
                           <NotifyMemberModal
                             all={false}
                             trigger={
@@ -259,8 +351,29 @@ const TeamEventDashboard: React.FC = () => {
                           />
                         )}
                       </Table.Cell>
-                      <Table.Cell positive={remainingCredits <= 0}>{remainingCredits}</Table.Cell>
+                      <Table.Cell positive={!isBehind}>
+                        {tecConfig.considerEventKind
+                          ? `${remainingKindCredits.internal} internal, ${remainingKindCredits.external} external`
+                          : remainingCredits}
+                      </Table.Cell>
                       {periods.map((period) => {
+                        if (tecConfig.considerEventKind) {
+                          const internalCredits = getCreditsForKind(
+                            member,
+                            period.events,
+                            'internal'
+                          );
+                          const externalCredits = getCreditsForKind(
+                            member,
+                            period.events,
+                            'external'
+                          );
+                          return (
+                            <Table.Cell className={styles.eventCell}>
+                              {internalCredits} int / {externalCredits} ext
+                            </Table.Cell>
+                          );
+                        }
                         const numCredits = period.events
                           .map((event) => calculateTotalCreditsForEvent(member, event))
                           .filter((credits) => credits != null)

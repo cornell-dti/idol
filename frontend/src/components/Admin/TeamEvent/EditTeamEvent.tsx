@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
+import TecConfigAPI from '../../../API/TecConfigAPI';
 import { Emitters } from '../../../utils';
 import TeamEventForm from './TeamEventForm';
 
 const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {
   const { teamEvent } = props;
   const [open, setOpen] = useState(false);
+  const [considerEventKind, setConsiderEventKind] = useState(false);
 
+  useEffect(() => {
+    TecConfigAPI.getTecConfig().then((config) => setConsiderEventKind(config.considerEventKind));
+  }, []);
   const editTeamEvent = (teamEvent: TeamEvent) => {
     TeamEventsAPI.updateTeamEventForm(teamEvent).then((val) => {
       if (val.error) {
@@ -39,6 +44,7 @@ const EditTeamEvent = (props: { teamEvent: TeamEvent }): JSX.Element => {
           teamEvent={teamEvent}
           editTeamEvent={editTeamEvent}
           setOpen={setOpen}
+          showKindField={considerEventKind}
         ></TeamEventForm>
       </Modal.Content>
     </Modal>

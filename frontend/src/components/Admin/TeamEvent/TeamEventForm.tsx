@@ -10,10 +10,11 @@ type Props = {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   teamEvent?: TeamEvent;
   editTeamEvent?: (teamEvent: TeamEvent) => void;
+  showKindField?: boolean;
 };
 
 const TeamEventForm = (props: Props): JSX.Element => {
-  const { formType, setOpen, teamEvent, editTeamEvent } = props;
+  const { formType, setOpen, teamEvent, editTeamEvent, showKindField = false } = props;
 
   const [teamEventName, setTeamEventName] = useState(teamEvent?.name || '');
   const [teamEventDate, setTeamEventDate] = useState(teamEvent?.date || '');
@@ -23,6 +24,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
     teamEvent?.isInitiativeEvent || false
   );
   const [maxCreditNum, setMaxCreditNum] = useState(teamEvent?.maxCredits || '');
+  const [teamEventKind, setTeamEventKind] = useState<TeamEventKind | undefined>(teamEvent?.kind);
 
   const submitTeamEvent = () => {
     if (!teamEventName) {
@@ -59,6 +61,11 @@ const TeamEventForm = (props: Props): JSX.Element => {
         headerMsg: 'Invalid Credits',
         contentMsg: 'The maximum credits needs to be a multiple of the team event credit!'
       });
+    } else if (showKindField && !teamEventKind) {
+      Emitters.generalError.emit({
+        headerMsg: 'No Event Kind',
+        contentMsg: 'Please select whether this event is internal or external!'
+      });
     } else if (teamEvent && editTeamEvent) {
       const editedTeamEvent: TeamEvent = {
         ...teamEvent,
@@ -68,7 +75,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         hasHours: teamEventHasHours,
         isCommunity: isInitiativeEvent,
         isInitiativeEvent,
-        maxCredits: maxCreditNum
+        maxCredits: maxCreditNum,
+        ...(showKindField && teamEventKind ? { kind: teamEventKind } : {})
       };
       editTeamEvent(editedTeamEvent);
       Emitters.generalSuccess.emit({
@@ -83,7 +91,8 @@ const TeamEventForm = (props: Props): JSX.Element => {
         numCredits: teamEventCreditNum,
         hasHours: teamEventHasHours,
         isInitiativeEvent,
-        maxCredits: maxCreditNum
+        maxCredits: maxCreditNum,
+        ...(showKindField && teamEventKind ? { kind: teamEventKind } : {})
       };
       TeamEventsAPI.createTeamEventForm(newTeamEventInfo).then((val) => {
         if (val.error) {
@@ -97,6 +106,7 @@ const TeamEventForm = (props: Props): JSX.Element => {
             contentMsg: 'The team event was successfully created!'
           });
           setTeamEventName('');
+          setTeamEventKind(undefined);
           setTeamEventDate('');
           setTeamEventCreditNum('');
           setTeamEventHasHours(false);
@@ -209,6 +219,33 @@ const TeamEventForm = (props: Props): JSX.Element => {
               />
             </Form.Field>
           </Form.Group>
+        )}
+        {showKindField && (
+          <>
+            <label className={styles.label}>
+              Is this an internal or external event? <span className={styles.required}>*</span>
+            </label>
+            <Form.Group inline>
+              <Form.Field>
+                <Radio
+                  label="Internal"
+                  name="kindGroup"
+                  value="internal"
+                  checked={teamEventKind === 'internal'}
+                  onChange={() => setTeamEventKind('internal')}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label="External"
+                  name="kindGroup"
+                  value="external"
+                  checked={teamEventKind === 'external'}
+                  onChange={() => setTeamEventKind('external')}
+                />
+              </Form.Field>
+            </Form.Group>
+          </>
         )}
 
         {formType === 'create' && (

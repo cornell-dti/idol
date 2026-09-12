@@ -348,6 +348,7 @@ interface SignInForm {
 }
 
 type Status = 'pending' | 'approved' | 'rejected';
+type TeamEventKind = 'internal' | 'external';
 
 interface TeamEventAttendance {
   member: IdolMember;
@@ -368,6 +369,7 @@ interface TeamEventInfo {
   readonly isCommunity?: boolean;
   readonly isInitiativeEvent: boolean;
   readonly maxCredits: string;
+  readonly kind?: TeamEventKind;
 }
 
 interface TeamEvent extends TeamEventInfo {
@@ -668,4 +670,9 @@ interface TECConfig {
   readonly periodEndDates: string[];
   readonly requiredMemberTecCredits: number;
   readonly requiredLeadTecCredits: number;
+  readonly considerEventKind: boolean; // true: this semester internal/external is on, false: internal/external is off
+  readonly requiredMemberInternalTecCredits: number;
+  readonly requiredMemberExternalTecCredits: number;
+  readonly requiredLeadInternalTecCredits: number;
+  readonly requiredLeadExternalTecCredits: number;
 }

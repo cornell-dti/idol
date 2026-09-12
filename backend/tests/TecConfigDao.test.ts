@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 /// <reference types="common-types" />
 import TecConfigDao from '../src/dao/TecConfigDao';
 import { tecConfigCollection } from '../src/firebase';
@@ -23,10 +24,19 @@ afterAll(async () => {
   }
 });
 
+const kindCreditDefaults = {
+  requiredMemberInternalTecCredits: 1,
+  requiredMemberExternalTecCredits: 2,
+  requiredLeadInternalTecCredits: 1,
+  requiredLeadExternalTecCredits: 4
+};
+
 const validConfig: TECConfig = {
   periodEndDates: ['2026-02-22T23:59:59', '2026-03-19T23:59:59'],
   requiredMemberTecCredits: 1,
-  requiredLeadTecCredits: 2
+  requiredLeadTecCredits: 2,
+  considerEventKind: false,
+  ...kindCreditDefaults
 };
 
 describe('TecConfigDao.getTecConfig', () => {
@@ -44,6 +54,29 @@ describe('TecConfigDao.getTecConfig', () => {
     expect(result).toEqual(DEFAULT_TEC_CONFIG);
   });
 
+  test('fills default internal/external credit requirements when those fields are missing', async () => {
+    await tecConfigCollection.doc(DOC_ID).set({
+      periodEndDates: ['2026-02-22T23:59:59', '2026-03-19T23:59:59'],
+      requiredMemberTecCredits: 1,
+      requiredLeadTecCredits: 2,
+      considerEventKind: false
+    } as unknown as TECConfig);
+
+    const result = await TecConfigDao.getTecConfig();
+    expect(result.requiredMemberInternalTecCredits).toBe(
+      DEFAULT_TEC_CONFIG.requiredMemberInternalTecCredits
+    );
+    expect(result.requiredMemberExternalTecCredits).toBe(
+      DEFAULT_TEC_CONFIG.requiredMemberExternalTecCredits
+    );
+    expect(result.requiredLeadInternalTecCredits).toBe(
+      DEFAULT_TEC_CONFIG.requiredLeadInternalTecCredits
+    );
+    expect(result.requiredLeadExternalTecCredits).toBe(
+      DEFAULT_TEC_CONFIG.requiredLeadExternalTecCredits
+    );
+  });
+
   test('throws when the stored doc is malformed', async () => {
     await tecConfigCollection.doc(DOC_ID).set({
       periodEndDates: ['2026-02-22T23:59:59'],
@@ -59,6 +92,13 @@ describe('TecConfigDao.updateTecConfig', () => {
     const returned = await TecConfigDao.updateTecConfig(validConfig);
     expect(returned.requiredMemberTecCredits).toBe(validConfig.requiredMemberTecCredits);
     expect(returned.requiredLeadTecCredits).toBe(validConfig.requiredLeadTecCredits);
+    expect(returned.considerEventKind).toBe(validConfig.considerEventKind);
+    expect(returned.requiredMemberInternalTecCredits).toBe(
+      validConfig.requiredMemberInternalTecCredits
+    );
+    expect(returned.requiredMemberExternalTecCredits).toBe(
+      validConfig.requiredMemberExternalTecCredits
+    );
 
     const fetched = await TecConfigDao.getTecConfig();
     expect(fetched).toEqual(returned);
@@ -68,7 +108,9 @@ describe('TecConfigDao.updateTecConfig', () => {
     const unsorted: TECConfig = {
       periodEndDates: ['2026-05-04T23:59:59', '2026-02-22T23:59:59', '2026-03-19T23:59:59'],
       requiredMemberTecCredits: 1,
-      requiredLeadTecCredits: 2
+      requiredLeadTecCredits: 2,
+      considerEventKind: false,
+      ...kindCreditDefaults
     };
 
     const result = await TecConfigDao.updateTecConfig(unsorted);
@@ -85,7 +127,9 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: [],
           requiredMemberTecCredits: 1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false,
+          ...kindCreditDefaults
         })
       ).rejects.toThrow(BadRequestError);
     });
@@ -95,7 +139,9 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: ['not a date'],
           requiredMemberTecCredits: 1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false,
+          ...kindCreditDefaults
         })
       ).rejects.toThrow(BadRequestError);
     });
@@ -105,7 +151,9 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: [123 as unknown as string],
           requiredMemberTecCredits: 1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false,
+          ...kindCreditDefaults
         })
       ).rejects.toThrow(BadRequestError);
     });
@@ -113,7 +161,9 @@ describe('TecConfigDao.updateTecConfig', () => {
     test('throws BadRequestError when a required credit field is missing', async () => {
       const missing = {
         periodEndDates: ['2026-02-22T23:59:59'],
-        requiredMemberTecCredits: 1
+        requiredMemberTecCredits: 1,
+        considerEventKind: false,
+        ...kindCreditDefaults
       } as unknown as TECConfig;
 
       await expect(TecConfigDao.updateTecConfig(missing)).rejects.toThrow(BadRequestError);
@@ -124,7 +174,41 @@ describe('TecConfigDao.updateTecConfig', () => {
         TecConfigDao.updateTecConfig({
           periodEndDates: ['2026-02-22T23:59:59'],
           requiredMemberTecCredits: -1,
-          requiredLeadTecCredits: 2
+          requiredLeadTecCredits: 2,
+          considerEventKind: false,
+          ...kindCreditDefaults
+        })
+      ).rejects.toThrow(BadRequestError);
+    });
+
+    test('throws BadRequestError when considerEventKind is missing', async () => {
+      const missing = {
+        periodEndDates: ['2026-02-22T23:59:59'],
+        requiredMemberTecCredits: 1,
+        requiredLeadTecCredits: 2,
+        ...kindCreditDefaults
+      } as unknown as TECConfig;
+
+      await expect(TecConfigDao.updateTecConfig(missing)).rejects.toThrow(BadRequestError);
+    });
+
+    test('throws BadRequestError when considerEventKind is not a boolean', async () => {
+      await expect(
+        TecConfigDao.updateTecConfig({
+          periodEndDates: ['2026-02-22T23:59:59'],
+          requiredMemberTecCredits: 1,
+          requiredLeadTecCredits: 2,
+          considerEventKind: 'yes' as unknown as boolean,
+          ...kindCreditDefaults
+        })
+      ).rejects.toThrow(BadRequestError);
+    });
+
+    test('throws BadRequestError when a kind credit requirement is negative', async () => {
+      await expect(
+        TecConfigDao.updateTecConfig({
+          ...validConfig,
+          requiredMemberExternalTecCredits: -1
         })
       ).rejects.toThrow(BadRequestError);
     });

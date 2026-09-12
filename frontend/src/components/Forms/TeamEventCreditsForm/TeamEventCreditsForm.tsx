@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Label, Dropdown, Loader } from 'semantic-ui-react';
 import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
-import { calculateCredits, Emitters, getNetIDFromEmail, getTECPeriod } from '../../../utils';
+import {
+  calculateCredits,
+  Emitters,
+  getNetIDFromEmail,
+  getRequiredKindCredits,
+  getTECPeriod,
+  withKindCreditDefaults
+} from '../../../utils';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import TeamEventCreditDashboard from './TeamEventsCreditDashboard';
@@ -32,7 +39,7 @@ const TeamEventCreditForm: React.FC = () => {
       setRejectedAttendance(attendance.filter((attendee) => attendee.status === 'rejected'));
       setIsAttendanceLoading(false);
     });
-    TecConfigAPI.getTecConfig().then(setTecConfig);
+    TecConfigAPI.getTecConfig().then((config) => setTecConfig(withKindCreditDefaults(config)));
   }, []);
   if (!tecConfig) return <Loader active>Loading TEC Config...</Loader>;
 
@@ -57,6 +64,21 @@ const TeamEventCreditForm: React.FC = () => {
     if (period < tecCounts.length) tecCounts[period] += credits;
   });
 
+  const internalCounts: number[] = Array.from({ length: tecDeadlines.length }, () => 0);
+  const externalCounts: number[] = Array.from({ length: tecDeadlines.length }, () => 0);
+  approvedAttendance.forEach((attendance) => {
+    const matchingEvent = teamEventInfoList.find((event) => event.uuid === attendance.eventUuid);
+    if (!matchingEvent?.kind) return;
+    const credits =
+      matchingEvent.hasHours && attendance.hoursAttended
+        ? Number(matchingEvent.numCredits) * attendance.hoursAttended
+        : Number(matchingEvent.numCredits);
+    const period = getTECPeriod(new Date(matchingEvent.date), tecDeadlines);
+    if (period >= tecDeadlines.length) return;
+    if (matchingEvent.kind === 'internal') internalCounts[period] += credits;
+    if (matchingEvent.kind === 'external') externalCounts[period] += credits;
+  });
+
   let requiredCredits = requiredMemberTecCredits;
   if (ADVISOR_ROLES.includes(userInfo.role)) {
     requiredCredits = 0;
@@ -72,6 +94,17 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const remainingCredits = getCurrentCreditsNeeded();
+  const requiredKindCredits = getRequiredKindCredits(userInfo.role, tecConfig);
+  const currentPeriodIndex = getTECPeriod(new Date(), tecDeadlines);
+  const remainingInternalCredits = calculateCredits(
+    internalCounts[currentPeriodIndex] || 0,
+    requiredKindCredits.internal
+  );
+  const remainingExternalCredits = calculateCredits(
+    externalCounts[currentPeriodIndex] || 0,
+    requiredKindCredits.external
+  );
+  const hasRemainingKindCredits = remainingInternalCredits > 0 || remainingExternalCredits > 0;
 
   const handleAddIconClick = () => {
     setImages((images) => [...images, '']);
@@ -196,15 +229,24 @@ const TeamEventCreditForm: React.FC = () => {
             Select a Team Event: <span className={styles.red_color}>*</span>
           </label>
           <div className={styles.bold}>
-            {remainingCredits > 0 && (
+            {tecConfig.considerEventKind && hasRemainingKindCredits && (
+              <span className={styles.red_color}>
+                You must submit at least {remainingInternalCredits} more internal and{' '}
+                {remainingExternalCredits} more external TEC in the current period.
+              </span>
+            )}
+            {tecConfig.considerEventKind && !hasRemainingKindCredits && (
+              <span className={styles.red_color}>
+                You have submitted all your TEC for this month's period.
+              </span>
+            )}
+            {!tecConfig.considerEventKind && remainingCredits > 0 && (
               <span className={styles.red_color}>
                 You have submitted {requiredCredits - remainingCredits} TEC in the current period,
                 so you must submit at least {remainingCredits} remaining TEC.
               </span>
             )}
-          </div>
-          <div className={styles.bold}>
-            {remainingCredits === 0 && (
+            {!tecConfig.considerEventKind && remainingCredits === 0 && (
               <span className={styles.red_color}>
                 You have submitted all your TEC for this month's period.
               </span>
@@ -235,6 +277,16 @@ const TeamEventCreditForm: React.FC = () => {
                       <div className={styles.flex_space_center}>
                         <div className={styles.flex_start}>{event.name}</div>
                         <div className={styles.flex_end}>
+                          {tecConfig.considerEventKind && event.kind && (
+                            <Label
+                              className={
+                                event.kind === 'internal'
+                                  ? styles.kindInternal
+                                  : styles.kindExternal
+                              }
+                              content={event.kind === 'internal' ? 'Internal' : 'External'}
+                            />
+                          )}
                           {INITIATIVE_EVENTS && event.isInitiativeEvent && (
                             <Label content="initiative" />
                           )}
@@ -329,8 +381,11 @@ const TeamEventCreditForm: React.FC = () => {
           requiredPeriodCredits={remainingCredits}
           tecCounts={tecCounts}
           tecDeadlines={tecDeadlines}
-          requiredMemberTecCredits={requiredMemberTecCredits}
-          requiredLeadTecCredits={requiredLeadTecCredits}
+          tecConfig={tecConfig}
+          remainingInternalCredits={remainingInternalCredits}
+          remainingExternalCredits={remainingExternalCredits}
+          internalCounts={internalCounts}
+          externalCounts={externalCounts}
         />
       </Form>
     </div>

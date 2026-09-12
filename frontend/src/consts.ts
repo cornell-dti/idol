@@ -1,4 +1,10 @@
 export const REQUIRED_INITIATIVE_CREDITS = 1;
+export const DEFAULT_KIND_TEC_CREDITS = {
+  requiredMemberInternalTecCredits: 1,
+  requiredMemberExternalTecCredits: 2,
+  requiredLeadInternalTecCredits: 1,
+  requiredLeadExternalTecCredits: 4
+};
 export const ALL_STATUS: Status[] = ['approved', 'pending', 'rejected'];
 export const INITIATIVE_EVENTS = false;
 export const ENABLE_COFFEE_CHAT = true;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Header, Icon } from 'semantic-ui-react';
 import TecConfigAPI from '../../../API/TecConfigAPI';
-import { Emitters } from '../../../utils';
+import { Emitters, withKindCreditDefaults } from '../../../utils';
 
 type Props = {
   initialConfig: TECConfig;
@@ -9,8 +9,16 @@ type Props = {
 };
 
 const TecConfigEditor: React.FC<Props> = ({ initialConfig, onSaved }) => {
-  const [config, setConfig] = useState<TECConfig>(initialConfig);
+  const [config, setConfig] = useState<TECConfig>(withKindCreditDefaults(initialConfig));
   const [isSaving, setIsSaving] = useState(false);
+  useEffect(() => {
+    setConfig((prev) =>
+      withKindCreditDefaults({
+        ...prev,
+        considerEventKind: initialConfig.considerEventKind
+      })
+    );
+  }, [initialConfig.considerEventKind]);
   const updatePeriod = (index: number, newValue: string) => {
     const next = [...config.periodEndDates];
     next[index] = newValue;
@@ -40,7 +48,14 @@ const TecConfigEditor: React.FC<Props> = ({ initialConfig, onSaved }) => {
       });
       return;
     }
-    if (config.requiredMemberTecCredits < 0 || config.requiredLeadTecCredits < 0) {
+    if (
+      config.requiredMemberTecCredits < 0 ||
+      config.requiredLeadTecCredits < 0 ||
+      config.requiredMemberInternalTecCredits < 0 ||
+      config.requiredMemberExternalTecCredits < 0 ||
+      config.requiredLeadInternalTecCredits < 0 ||
+      config.requiredLeadExternalTecCredits < 0
+    ) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid TEC config',
         contentMsg: 'Required credits must be zero or positive.'
@@ -49,7 +64,12 @@ const TecConfigEditor: React.FC<Props> = ({ initialConfig, onSaved }) => {
     }
     setIsSaving(true);
     try {
-      const saved = await TecConfigAPI.updateTecConfig(config);
+      const saved = await TecConfigAPI.updateTecConfig(
+        withKindCreditDefaults({
+          ...config,
+          considerEventKind: initialConfig.considerEventKind
+        })
+      );
       if (saved) {
         setConfig(saved);
         onSaved(saved);
@@ -88,22 +108,67 @@ const TecConfigEditor: React.FC<Props> = ({ initialConfig, onSaved }) => {
         + Add period
       </Button>
       <Header as="h4">Required Credits</Header>
-      <Form.Input
-        label="Members"
-        type="number"
-        min={0}
-        value={config.requiredMemberTecCredits}
-        onChange={(_, data) =>
-          setConfig({ ...config, requiredMemberTecCredits: Number(data.value) })
-        }
-      />
-      <Form.Input
-        label="Leads"
-        type="number"
-        min={0}
-        value={config.requiredLeadTecCredits}
-        onChange={(_, data) => setConfig({ ...config, requiredLeadTecCredits: Number(data.value) })}
-      />
+      {config.considerEventKind ? (
+        <>
+          <Form.Input
+            label="Members — Internal"
+            type="number"
+            min={0}
+            value={config.requiredMemberInternalTecCredits}
+            onChange={(_, data) =>
+              setConfig({ ...config, requiredMemberInternalTecCredits: Number(data.value) })
+            }
+          />
+          <Form.Input
+            label="Members — External"
+            type="number"
+            min={0}
+            value={config.requiredMemberExternalTecCredits}
+            onChange={(_, data) =>
+              setConfig({ ...config, requiredMemberExternalTecCredits: Number(data.value) })
+            }
+          />
+          <Form.Input
+            label="Leads — Internal"
+            type="number"
+            min={0}
+            value={config.requiredLeadInternalTecCredits}
+            onChange={(_, data) =>
+              setConfig({ ...config, requiredLeadInternalTecCredits: Number(data.value) })
+            }
+          />
+          <Form.Input
+            label="Leads — External"
+            type="number"
+            min={0}
+            value={config.requiredLeadExternalTecCredits}
+            onChange={(_, data) =>
+              setConfig({ ...config, requiredLeadExternalTecCredits: Number(data.value) })
+            }
+          />
+        </>
+      ) : (
+        <>
+          <Form.Input
+            label="Members"
+            type="number"
+            min={0}
+            value={config.requiredMemberTecCredits}
+            onChange={(_, data) =>
+              setConfig({ ...config, requiredMemberTecCredits: Number(data.value) })
+            }
+          />
+          <Form.Input
+            label="Leads"
+            type="number"
+            min={0}
+            value={config.requiredLeadTecCredits}
+            onChange={(_, data) =>
+              setConfig({ ...config, requiredLeadTecCredits: Number(data.value) })
+            }
+          />
+        </>
+      )}
       <Button
         type="button"
         color="black"
