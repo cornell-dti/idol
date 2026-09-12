@@ -231,8 +231,8 @@ const TeamEventCreditForm: React.FC = () => {
           <div className={styles.bold}>
             {tecConfig.considerEventKind && hasRemainingKindCredits && (
               <span className={styles.red_color}>
-                You need {remainingInternalCredits} more internal and {remainingExternalCredits}{' '}
-                more external this period.
+                You must submit at least {remainingInternalCredits} more internal and {remainingExternalCredits}{' '}
+                more external TEC in the current period.
               </span>
             )}
             {tecConfig.considerEventKind && !hasRemainingKindCredits && (
