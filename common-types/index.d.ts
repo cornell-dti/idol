@@ -541,9 +541,13 @@ interface InterviewSlot {
 
 interface InterviewSchedulerEdit {
   readonly uuid: string;
+  name?: string;
+  duration?: number;
+  membersPerSlot?: number;
   isOpen?: boolean;
   startDate?: number;
   endDate?: number;
+  applicants?: Applicant[];
 }
 
 interface InterviewSlotEdit {
