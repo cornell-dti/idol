@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from './Button';
-import Chip from './Chip';
 import MailIcon from './icons/MailIcon';
 import GitHubIcon from './icons/GitHubIcon';
 import FacebookIcon from './icons/FacebookIcon';
@@ -74,8 +73,6 @@ export default function Footer() {
             >
               {label}
             </Link>
-
-            {label === 'Design system' && <Chip label="beta" allCaps />}
           </li>
         ))}
       </ul>
