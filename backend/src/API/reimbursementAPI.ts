@@ -130,8 +130,7 @@ export const createReimbursementRequest = async (
   request: Partial<ReimbursementRequest>,
   user: IdolMember
 ): Promise<ReimbursementRequest> => {
-  const roleForCheck = user.email === 'ek782@cornell.edu' ? 'pm' : user.role;
-  if (!hasReimbursementRequesterPermissions(roleForCheck)) {
+  if (!hasReimbursementRequesterPermissions(user.role)) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to create a reimbursement request.`
     );
