@@ -66,6 +66,27 @@
   margin-top: 1rem;
 }
 
+.cardHeaderRow {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.cardHeaderName {
+  min-width: 0;
+  flex: 1;
+}
+
+.cardKindChip {
+  flex-shrink: 0;
+  padding: 0.2em 0.5em !important;
+  margin: 0.2em 0 0 0 !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
 .kindInternal {
   background-color: #cfe8ff !important;
   color: #1a4d7a !important;
