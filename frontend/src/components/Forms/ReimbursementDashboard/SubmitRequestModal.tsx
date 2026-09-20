@@ -37,6 +37,11 @@ const toDateInputValue = (timestamp: number): string => {
   return `${yyyy}-${mm}-${dd}`;
 };
 
+const fromDateInputValue = (value: string): number => {
+  const [yyyy, mm, dd] = value.split('-').map(Number);
+  return new Date(yyyy, mm - 1, dd).getTime();
+};
+
 const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams }) => {
   const user = useSelf()!;
   const [step, setStep] = useState<Step>('basic');
@@ -111,7 +116,7 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams
           .split(/[,\n]/)
           .map((a) => a.trim())
           .filter(Boolean),
-        dateOfPurchase: new Date(dateOfPurchase).getTime(),
+        dateOfPurchase: fromDateInputValue(dateOfPurchase),
         receiptUrl: receiptUrl.trim(),
         requesterPhoneNumber: phone.trim(),
         requesterAddress: address.trim()
