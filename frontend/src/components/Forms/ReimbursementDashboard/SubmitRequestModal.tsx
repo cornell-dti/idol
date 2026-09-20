@@ -53,6 +53,7 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams
   const [receiptUrl, setReceiptUrl] = useState('');
 
   const teamId = teams.length === 1 ? teams[0].teamId : selectedTeamId;
+  const selectedTeam = teams.find((t) => t.teamId === teamId);
 
   const reset = () => {
     setStep('basic');
@@ -130,8 +131,6 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams
       setSubmitting(false);
     }
   };
-
-  const selectedTeam = teams.find((t) => t.teamId === teamId);
 
   const renderTeamField = () => {
     if (teams.length === 0) {

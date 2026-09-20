@@ -29,10 +29,16 @@ const ReimbursementDashboard: React.FC = () => {
     loadData();
   }, [loadData]);
 
-  const myTeams = useMemo(
-    () => teams.filter((t) => user.subteams.includes(t.teamName)),
-    [teams, user.subteams]
-  );
+  const myTeams = useMemo(() => {
+    const subteams = new Set(user.subteams.map((s) => s.toLowerCase()));
+    const isLead = subteams.has('leads');
+    return teams.filter((t) => {
+      const name = t.teamName.toLowerCase();
+      if (subteams.has(name)) return true;
+      if (isLead && name.endsWith('-leads')) return true;
+      return false;
+    });
+  }, [teams, user.subteams]);
 
   const handleView = (_requestId: string) => {
     // Detail view comes later.
@@ -51,12 +57,7 @@ const ReimbursementDashboard: React.FC = () => {
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Requestor Dashboard</h1>
-        <Button
-          primary
-          className={styles.submitButton}
-          onClick={() => setSubmitOpen(true)}
-          disabled={myTeams.length === 0}
-        >
+        <Button primary className={styles.submitButton} onClick={() => setSubmitOpen(true)}>
           Submit new request
         </Button>
       </header>
