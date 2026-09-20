@@ -348,6 +348,7 @@ interface SignInForm {
 }
 
 type Status = 'pending' | 'approved' | 'rejected';
+type TeamEventKind = 'internal' | 'external';
 
 interface TeamEventAttendance {
   member: IdolMember;
@@ -368,6 +369,7 @@ interface TeamEventInfo {
   readonly isCommunity?: boolean;
   readonly isInitiativeEvent: boolean;
   readonly maxCredits: string;
+  readonly kind?: TeamEventKind;
 }
 
 interface TeamEvent extends TeamEventInfo {
@@ -497,6 +499,12 @@ type MemberMeetsCategoryType = { status: MemberMeetsCategoryStatus; message: str
 interface MemberDetails {
   readonly name: string;
   readonly netid: string;
+}
+
+interface CoffeeChatCategory {
+  readonly name: string;
+  readonly members: MemberDetails[];
+  readonly index: number; // 0–15, encodes position in 4x4 bingo grid
 }
 
 type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
@@ -662,4 +670,9 @@ interface TECConfig {
   readonly periodEndDates: string[];
   readonly requiredMemberTecCredits: number;
   readonly requiredLeadTecCredits: number;
+  readonly considerEventKind: boolean; // true: this semester internal/external is on, false: internal/external is off
+  readonly requiredMemberInternalTecCredits: number;
+  readonly requiredMemberExternalTecCredits: number;
+  readonly requiredLeadInternalTecCredits: number;
+  readonly requiredLeadExternalTecCredits: number;
 }

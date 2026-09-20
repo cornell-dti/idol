@@ -23,12 +23,12 @@ export default class TecConfigDao {
       );
       return DEFAULT_TEC_CONFIG;
     }
-    const data = snap.data();
-    if (!isValidTecConfig(data)) {
+    const normalized = normalizeTecConfig(snap.data());
+    if (!normalized) {
       // eslint-disable-next-line no-console
       console.error(
         `[TecConfigDao] Malformed TEC config at tec-config/${TEC_CONFIG_DOC_ID}:`,
-        data
+        snap.data()
       );
       throw new HandlerError(
         500,
@@ -36,46 +36,91 @@ export default class TecConfigDao {
           `An admin must re-save the config via the admin panel.`
       );
     }
-    return data;
+    return normalized;
   }
 
   /**
    * Validates and persists a TEC config to the Firestore document.
    *
    * Validation checks that `periodEndDates` is a
-   * non-empty array of parseable date strings and that both credit
-   * requirements are non-negative numbers. Period end dates are sorted
-   * chronologically.
+   * non-empty array of parseable date strings, that credit
+   * requirements are non-negative numbers, and that `considerEventKind`
+   * is a boolean. Period end dates are sorted
+   * chronologically. Missing internal/external credit fields fall back
+   * to `DEFAULT_TEC_CONFIG`.
    *
    * @param config The full TEC config to persist.
    * @returns The normalized config that was written (dates sorted).
    * @throws {BadRequestError} If `config` fails validation.
    */
   static async updateTecConfig(config: TECConfig): Promise<TECConfig> {
-    if (!isValidTecConfig(config)) {
+    const normalizedConfig = normalizeTecConfig(config);
+    if (!normalizedConfig) {
       throw new BadRequestError('Invalid TEC config');
     }
-
-    const normalizedConfig: TECConfig = {
-      periodEndDates: [...config.periodEndDates].sort(), // ensures chronological order
-      requiredMemberTecCredits: config.requiredMemberTecCredits,
-      requiredLeadTecCredits: config.requiredLeadTecCredits
-    };
 
     await tecConfigCollection.doc(TEC_CONFIG_DOC_ID).set(normalizedConfig);
     return normalizedConfig;
   }
 }
 
-function isValidTecConfig(data: TECConfig | undefined): data is TECConfig {
-  if (!data) return false;
-  return (
-    Array.isArray(data.periodEndDates) &&
-    data.periodEndDates.length > 0 &&
-    data.periodEndDates.every((d) => typeof d === 'string' && !Number.isNaN(Date.parse(d))) &&
-    typeof data.requiredMemberTecCredits === 'number' &&
-    typeof data.requiredLeadTecCredits === 'number' &&
-    data.requiredMemberTecCredits >= 0 &&
-    data.requiredLeadTecCredits >= 0
+function isNonNegativeNumber(value: unknown): value is number {
+  return typeof value === 'number' && !Number.isNaN(value) && value >= 0;
+}
+
+function kindCreditOrDefault(value: unknown, fallback: number): number | undefined {
+  if (value === undefined) return fallback;
+  if (isNonNegativeNumber(value)) return value;
+  return undefined;
+}
+
+function normalizeTecConfig(data: TECConfig | undefined): TECConfig | null {
+  if (!data) return null;
+  if (
+    !Array.isArray(data.periodEndDates) ||
+    data.periodEndDates.length === 0 ||
+    !data.periodEndDates.every((d) => typeof d === 'string' && !Number.isNaN(Date.parse(d))) ||
+    !isNonNegativeNumber(data.requiredMemberTecCredits) ||
+    !isNonNegativeNumber(data.requiredLeadTecCredits) ||
+    typeof data.considerEventKind !== 'boolean'
+  ) {
+    return null;
+  }
+
+  const requiredMemberInternalTecCredits = kindCreditOrDefault(
+    data.requiredMemberInternalTecCredits,
+    DEFAULT_TEC_CONFIG.requiredMemberInternalTecCredits
   );
+  const requiredMemberExternalTecCredits = kindCreditOrDefault(
+    data.requiredMemberExternalTecCredits,
+    DEFAULT_TEC_CONFIG.requiredMemberExternalTecCredits
+  );
+  const requiredLeadInternalTecCredits = kindCreditOrDefault(
+    data.requiredLeadInternalTecCredits,
+    DEFAULT_TEC_CONFIG.requiredLeadInternalTecCredits
+  );
+  const requiredLeadExternalTecCredits = kindCreditOrDefault(
+    data.requiredLeadExternalTecCredits,
+    DEFAULT_TEC_CONFIG.requiredLeadExternalTecCredits
+  );
+
+  if (
+    requiredMemberInternalTecCredits === undefined ||
+    requiredMemberExternalTecCredits === undefined ||
+    requiredLeadInternalTecCredits === undefined ||
+    requiredLeadExternalTecCredits === undefined
+  ) {
+    return null;
+  }
+
+  return {
+    periodEndDates: [...data.periodEndDates].sort(),
+    requiredMemberTecCredits: data.requiredMemberTecCredits,
+    requiredLeadTecCredits: data.requiredLeadTecCredits,
+    considerEventKind: data.considerEventKind,
+    requiredMemberInternalTecCredits,
+    requiredMemberExternalTecCredits,
+    requiredLeadInternalTecCredits,
+    requiredLeadExternalTecCredits
+  };
 }

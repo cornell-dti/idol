@@ -4,13 +4,12 @@ import {
   coffeeChatsCollection,
   db,
   memberPropertiesCollection,
-  coffeeChatSuggestionsCollection
+  coffeeChatCategoriesCollection
 } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
-import COFFEE_CHAT_BINGO_BOARD from '../consts';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);
@@ -156,14 +155,48 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
 
   /**
    * Gets the coffee chat bingo board
+   * @returns a 4x4 grid of category names
    */
   static async getCoffeeChatBingoBoard(): Promise<string[][]> {
-    return COFFEE_CHAT_BINGO_BOARD;
+    const categories = await CoffeeChatDao.getAllCategories();
+    const flat = categories.map((c) => c.name);
+    return [flat.slice(0, 4), flat.slice(4, 8), flat.slice(8, 12), flat.slice(12, 16)];
+  }
+
+  /**
+   * Gets all coffee chat categories sorted by index
+   * @returns an array of sorted CoffeeChatCategory objects
+   */
+  static async getAllCategories(): Promise<CoffeeChatCategory[]> {
+    const snapshot = await coffeeChatCategoriesCollection.get();
+    return snapshot.docs.map((doc) => doc.data()).sort((a, b) => a.index - b.index);
+  }
+
+  /**
+   * Updates all coffee chat categories
+   * @param categories - array of CoffeeChatCategory objects to update
+   */
+  static async updateCategories(categories: CoffeeChatCategory[]): Promise<void> {
+    const batch = db.batch();
+    for (const category of categories) {
+      const docRef = coffeeChatCategoriesCollection.doc(String(category.index));
+      batch.set(docRef, category);
+    }
+    await batch.commit();
+  }
+
+  /**
+   * Updates the members list for a single coffee chat category
+   * @param index - the index of the category to update, used as the document ID
+   * @param members - the new members list for this category
+   */
+  static async updateCategoryMembers(index: number, members: MemberDetails[]): Promise<void> {
+    await coffeeChatCategoriesCollection.doc(String(index)).update({ members });
   }
 
   /**
    * Gets the properties for a specific member
-   * @param email - the email of the member whose properties we want to retrieve.
+   * @param email - The email of the member whose properties we want to retrieve.
    * @returns A promise that resolves to an MemberProperties object or undefined.
    */
   static async getMemberProperties(email: string): Promise<MemberProperties | undefined> {
@@ -192,16 +225,11 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Gets coffee chat suggestions for a specifc member
-   * @param email - the email of the member
-   * @returns A promise that resolves to a CoffeeChatSuggestions object, or undefined.
-   * Note: This data can be stale, so changes made to member or coffee chat info are not immediately reflected.
-   * The data is currently being updated manually.
+   * Gets coffee chat suggestions
+   * @returns a CoffeeChatSuggestions object
    */
-  static async getCoffeeChatSuggestions(email: string): Promise<CoffeeChatSuggestions | undefined> {
-    return coffeeChatSuggestionsCollection
-      .doc(email)
-      .get()
-      .then((docRef) => docRef.data());
+  static async getCoffeeChatSuggestions(): Promise<CoffeeChatSuggestions> {
+    const categories = await CoffeeChatDao.getAllCategories();
+    return Object.fromEntries(categories.map((cat) => [cat.name, cat.members]));
   }
 }

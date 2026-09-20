@@ -1,4 +1,6 @@
 /* eslint-disable max-classes-per-file */
+import { ADVISOR_ROLES, LEAD_ROLES } from 'common-types/constants';
+import { DEFAULT_KIND_TEC_CREDITS } from './consts';
 
 export const getNetIDFromEmail = (email: string): string => email.split('@')[0];
 
@@ -287,3 +289,47 @@ export const getPeriods = (teamEvents: TeamEvent[], tecDeadlines: Date[]): Perio
  */
 export const calculateCredits = (currentCredits: number, requiredCredits: number = 1) =>
   Math.max(0, requiredCredits - currentCredits);
+
+/**
+ * Ensures internal/external credit requirements are always concrete numbers.
+ * `undefined` fields (older tec-config docs, or JSON that omitted them) must
+ * not reach `calculateCredits`, whose default required amount is 1.
+ */
+export const withKindCreditDefaults = (tecConfig: TECConfig): TECConfig => ({
+  ...tecConfig,
+  requiredMemberInternalTecCredits:
+    tecConfig.requiredMemberInternalTecCredits ??
+    DEFAULT_KIND_TEC_CREDITS.requiredMemberInternalTecCredits,
+  requiredMemberExternalTecCredits:
+    tecConfig.requiredMemberExternalTecCredits ??
+    DEFAULT_KIND_TEC_CREDITS.requiredMemberExternalTecCredits,
+  requiredLeadInternalTecCredits:
+    tecConfig.requiredLeadInternalTecCredits ??
+    DEFAULT_KIND_TEC_CREDITS.requiredLeadInternalTecCredits,
+  requiredLeadExternalTecCredits:
+    tecConfig.requiredLeadExternalTecCredits ??
+    DEFAULT_KIND_TEC_CREDITS.requiredLeadExternalTecCredits
+});
+
+/**
+ * Returns how many internal and external TEC credits a member's role
+ * must earn in a period when `considerEventKind` is on.
+ * Advisors are not required to earn TEC.
+ */
+export const getRequiredKindCredits = (
+  role: Role,
+  tecConfig: TECConfig
+): { internal: number; external: number } => {
+  const config = withKindCreditDefaults(tecConfig);
+  if (ADVISOR_ROLES.includes(role)) return { internal: 0, external: 0 };
+  if (LEAD_ROLES.includes(role)) {
+    return {
+      internal: config.requiredLeadInternalTecCredits,
+      external: config.requiredLeadExternalTecCredits
+    };
+  }
+  return {
+    internal: config.requiredMemberInternalTecCredits,
+    external: config.requiredMemberExternalTecCredits
+  };
+};

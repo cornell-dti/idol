@@ -46,7 +46,8 @@
     "alt": "Queue Me In logo",
     "width": 80,
     "height": 80,
-    "href": "/products/#queuemein"
+    "href": "/products/#queuemein",
+    "showOnProductPage": false
   },
   {
     "src": "/products/logos/design@cornell.svg",
@@ -61,6 +62,21 @@
     "alt": "Zing logo",
     "width": 96,
     "height": 96,
-    "href": "/products/#zing"
+    "href": "/products/#zing",
+    "showOnProductPage": false
+  },
+  {
+    "src": "/products/logos/curaise.svg",
+    "alt": "CU Raise logo",
+    "width": 96,
+    "height": 96,
+    "href": "/products/#curaise"
+  },
+  {
+    "src": "/products/logos/loop.svg",
+    "alt": "Loop logo",
+    "width": 60,
+    "height": 60,
+    "href": "/products/#loop"
   }
 ]

@@ -1,5 +1,24 @@
 [
   {
+    "image": "/products/images/loop.png",
+    "imageAlt": "A browser page on the gmail website displaying the loop extension on the side of the screen with a list of events.",
+    "name": "Loop",
+    "description": "Loop is a Chrome extension that helps Cornell students cut through listserv clutter and find events, opportunities, and resources that matter to them.",
+    "comingSoon": true,
+    "id": "loop",
+    "accentColor": "#FEA73E"
+  },
+  {
+    "image": "/products/images/curaise.png",
+    "imageAlt": "A desktop computer next to a phone displaying a fundraiser and search page on the CU Raise website. ",
+    "name": "CU Raise",
+    "description": "CURaise is a centralized fundraising platform built for the Cornell community, combining payment processing, pre-order and pickup management, and real-time revenue tracking into one seamless dashboard. It takes the hassle out of running a fundraiser so student organizers can focus on their cause, not logistics.",
+    "link": "https://www.curaise.app/",
+    "comingSoon": false,
+    "id": "curaise",
+    "accentColor": "#E3F2E4"
+  },
+  {
     "image": "/products/images/redi.png",
     "imageAlt": "2 phones showing the a profile match card and an ongoing chat between two Cornellians",
     "name": "Redi",
@@ -13,8 +32,9 @@
     "image": "/products/images/carriage.png",
     "imageAlt": "2 laptops showing the map and scheduled rides page of the Carriage application",
     "name": "Carriage",
-    "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities. Launching this semester.",
-    "comingSoon": true,
+    "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities.",
+    "link": "https://carriage-web.netlify.app/",
+    "comingSoon": false,
     "id": "carriage",
     "accentColor": "#000000"
   },
