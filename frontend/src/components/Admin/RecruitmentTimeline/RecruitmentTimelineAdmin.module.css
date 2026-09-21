@@ -1,0 +1,57 @@
+.wrapper {
+  width: 60%;
+  margin: auto;
+  margin-bottom: 4em;
+}
+
+.formWrapper {
+  padding-top: 3rem;
+}
+
+.createHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cycleControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.eventMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.eventActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.buttonContainer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.publishNote {
+  color: #767676;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    width: 90%;
+  }
+
+  .createHeader,
+  .buttonContainer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
