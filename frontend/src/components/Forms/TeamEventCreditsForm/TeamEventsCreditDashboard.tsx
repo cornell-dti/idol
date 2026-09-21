@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Card, Loader, Message, Button, Modal, Header, Image } from 'semantic-ui-react';
+import { Card, Loader, Message, Button, Modal, Header, Image, Label } from 'semantic-ui-react';
 import { LEAD_ROLES } from 'common-types/constants';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './TeamEventCreditsForm.module.css';
@@ -135,7 +135,17 @@ const TeamEventCreditDashboard = (props: {
             return (
               <Card key={attendance.uuid}>
                 <Card.Content>
-                  <Card.Header>{teamEvent.name} </Card.Header>
+                  <Card.Header className={styles.cardHeaderRow}>
+                    <span className={styles.cardHeaderName}>{teamEvent.name}</span>
+                    {considerEventKind && teamEvent.kind && (
+                      <Label
+                        className={`${styles.cardKindChip} ${
+                          teamEvent.kind === 'internal' ? styles.kindInternal : styles.kindExternal
+                        }`}
+                        content={teamEvent.kind === 'internal' ? 'Internal' : 'External'}
+                      />
+                    )}
+                  </Card.Header>
                   <Card.Meta>{teamEvent.date}</Card.Meta>
                   <Card.Meta>
                     {`Total Credits: ${
@@ -148,11 +158,6 @@ const TeamEventCreditDashboard = (props: {
                         : `(${teamEvent.maxCredits} Max)`
                     }`}
                   </Card.Meta>
-                  {considerEventKind && teamEvent.kind && (
-                    <Card.Meta>
-                      {teamEvent.kind === 'internal' ? 'Internal' : 'External'} Event
-                    </Card.Meta>
-                  )}
                   {INITIATIVE_EVENTS && (
                     <Card.Meta>
                       Initiative Event: {teamEvent.isInitiativeEvent ? 'Yes' : 'No'}
