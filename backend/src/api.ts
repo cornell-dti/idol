@@ -148,6 +148,7 @@ import {
   updateReimbursementRequestStatus,
   addReimbursementRequestMessage
 } from './API/reimbursementAPI';
+import { getAllRecruitmentTimelineEvents } from './API/recruitmentTimelineAPI';
 
 import { HandlerError, PermissionError } from './utils/errors';
 
@@ -514,6 +515,11 @@ loginCheckedPut('/tec-config', async (req, user) => {
 });
 loginCheckedPost('/send-period-reminder', async (req, user) => ({
   info: await notifyMemberPeriod(req, req.body, user)
+}));
+
+// Recruitment Timeline
+loginCheckedGet('/recruitment-timeline', async (_, user) => ({
+  events: await getAllRecruitmentTimelineEvents(user)
 }));
 
 // Candidate Decider

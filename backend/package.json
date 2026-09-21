@@ -20,7 +20,8 @@
     "create-member-archive": "esr scripts/create-member-archive.ts",
     "populate-coffee-chat-categories": "esr scripts/populate-coffee-chat-categories.ts",
     "upload-alumni": "esr scripts/upload-alumni-data-db.ts",
-    "seed-reimbursement-teams": "esr scripts/seed-reimbursement-teams.ts"
+    "seed-reimbursement-teams": "esr scripts/seed-reimbursement-teams.ts",
+    "upload-recruitment-events": "esr scripts/upload-recruitment-events.ts"
   },
   "license": "AGPL-3.0",
   "dependencies": {
