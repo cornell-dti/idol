@@ -11,7 +11,7 @@ IDOL = Internal DTI Organization Logic
 ```
 
 ![idol screenshot](./screenshots/idol-screenshot.png)
-![nova screenshot](./screenshots/nova-screenshot.png)
+![nova screenshot](./screenshots/website-screenshot.png)
 
 This repo contains both the source code that powers both IDOL system and DTI website.
 
@@ -40,7 +40,7 @@ and easier for everyone.
 
 - [IDOL Frontend Documentation](./frontend/README.md)
 - [IDOL Backend Documentation](./backend/README.md)
-- [DTI Website Documentation](./dti-website/README.md)
+- [DTI Website Documentation](./new-dti-website-redesign/README.md)
 
 All the common types used by the packages are defined [here](./common-types/index.d.ts).
 
