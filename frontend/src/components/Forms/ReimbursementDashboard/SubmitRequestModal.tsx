@@ -1,59 +1,102 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Modal, Button, Icon } from 'semantic-ui-react';
+import ReimbursementAPI from '../../../API/ReimbursementAPI';
+import { useSelf } from '../../Common/FirestoreDataProvider';
+import { Emitters } from '../../../utils';
 import styles from './SubmitRequestModal.module.css';
 
 type Props = {
   open: boolean;
   onClose: () => void;
+  onSubmitted: () => void;
+  teams: ReimbursementTeam[];
 };
 
 type Step = 'basic' | 'receipt' | 'review';
 
 const STEPS: { key: Step; label: string; icon: 'user circle' | 'upload' | 'paper plane' }[] = [
   { key: 'basic', label: 'Basic information', icon: 'user circle' },
-  { key: 'receipt', label: 'Receipt upload', icon: 'upload' },
+  { key: 'receipt', label: 'Receipt & purchase', icon: 'upload' },
   { key: 'review', label: 'Review and submit', icon: 'paper plane' }
 ];
 
-const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
-  const [step, setStep] = useState<Step>('basic');
+const isValidUrl = (value: string): boolean => {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
 
-  // Basic info fields (visualization only — never submitted anywhere).
-  const [name, setName] = useState('');
-  const [netID, setNetID] = useState('');
+const toDateInputValue = (timestamp: number): string => {
+  const d = new Date(timestamp);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+const fromDateInputValue = (value: string): number => {
+  const [yyyy, mm, dd] = value.split('-').map(Number);
+  return new Date(yyyy, mm - 1, dd).getTime();
+};
+
+const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams }) => {
+  const user = useSelf()!;
+  const [step, setStep] = useState<Step>('basic');
+  const [submitting, setSubmitting] = useState(false);
+
+  const [selectedTeamId, setSelectedTeamId] = useState<string>('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [attendees, setAttendees] = useState('');
 
-  // Receipt upload (visualization only — files exist in local state, never uploaded).
-  const [vendors, setVendors] = useState<string[]>(['Uncategorized']);
-  const [activeVendor, setActiveVendor] = useState<string>('Uncategorized');
-  const [newVendorInput, setNewVendorInput] = useState('');
-  const [showNewVendorField, setShowNewVendorField] = useState(false);
-  const [receipts, setReceipts] = useState<{ id: string; vendor: string; fileName: string }[]>([]);
+  const [amount, setAmount] = useState('');
+  const [reason, setReason] = useState('');
+  const [dateOfPurchase, setDateOfPurchase] = useState(toDateInputValue(Date.now()));
+  const [receiptUrl, setReceiptUrl] = useState('');
+
+  const teamId = teams.length === 1 ? teams[0].teamId : selectedTeamId;
+  const selectedTeam = teams.find((t) => t.teamId === teamId);
 
   const reset = () => {
     setStep('basic');
-    setName('');
-    setNetID('');
+    setSelectedTeamId('');
     setPhone('');
     setAddress('');
     setAttendees('');
-    setVendors(['Uncategorized']);
-    setActiveVendor('Uncategorized');
-    setNewVendorInput('');
-    setShowNewVendorField(false);
-    setReceipts([]);
+    setAmount('');
+    setReason('');
+    setDateOfPurchase(toDateInputValue(Date.now()));
+    setReceiptUrl('');
   };
 
   const handleClose = () => {
+    if (submitting) return;
     reset();
     onClose();
   };
 
+  const basicValid = useMemo(
+    () => Boolean(teamId) && phone.trim().length > 0 && address.trim().length > 0,
+    [teamId, phone, address]
+  );
+
+  const receiptValid = useMemo(() => {
+    const amt = Number(amount);
+    return (
+      Number.isFinite(amt) &&
+      amt > 0 &&
+      reason.trim().length > 0 &&
+      dateOfPurchase.length > 0 &&
+      isValidUrl(receiptUrl.trim())
+    );
+  }, [amount, reason, dateOfPurchase, receiptUrl]);
+
   const goNext = () => {
-    if (step === 'basic') setStep('receipt');
-    else if (step === 'receipt') setStep('review');
+    if (step === 'basic' && basicValid) setStep('receipt');
+    else if (step === 'receipt' && receiptValid) setStep('review');
   };
 
   const goBack = () => {
@@ -61,44 +104,68 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
     else if (step === 'receipt') setStep('basic');
   };
 
-  const addVendor = () => {
-    const trimmed = newVendorInput.trim();
-    if (trimmed && !vendors.includes(trimmed)) {
-      setVendors([...vendors, trimmed]);
-      setActiveVendor(trimmed);
+  const handleSubmit = async () => {
+    if (!basicValid || !receiptValid) return;
+    setSubmitting(true);
+    try {
+      await ReimbursementAPI.createRequest({
+        teamId,
+        amount: Number(amount),
+        reason: reason.trim(),
+        attendees: attendees
+          .split(/[,\n]/)
+          .map((a) => a.trim())
+          .filter(Boolean),
+        dateOfPurchase: fromDateInputValue(dateOfPurchase),
+        receiptUrl: receiptUrl.trim(),
+        requesterPhoneNumber: phone.trim(),
+        requesterAddress: address.trim()
+      });
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Request submitted',
+        contentMsg: 'Your reimbursement request has been submitted.'
+      });
+      reset();
+      onSubmitted();
+    } catch (err) {
+      Emitters.generalError.emit({
+        headerMsg: "Couldn't submit reimbursement request",
+        contentMsg: err instanceof Error ? err.message : 'Unknown error'
+      });
+    } finally {
+      setSubmitting(false);
     }
-    setNewVendorInput('');
-    setShowNewVendorField(false);
   };
 
-  const removeVendor = (vendor: string) => {
-    if (vendor === 'Uncategorized') return;
-    setVendors(vendors.filter((v) => v !== vendor));
-    setReceipts(receipts.filter((r) => r.vendor !== vendor));
-    if (activeVendor === vendor) setActiveVendor('Uncategorized');
+  const renderTeamField = () => {
+    if (teams.length === 0) {
+      return (
+        <input
+          className={styles.input}
+          value="You are not assigned to any reimbursement team."
+          disabled
+        />
+      );
+    }
+    if (teams.length === 1) {
+      return <input className={styles.input} value={teams[0].teamName} disabled />;
+    }
+    return (
+      <select
+        className={styles.input}
+        value={teamId}
+        onChange={(e) => setSelectedTeamId(e.target.value)}
+        required
+      >
+        <option value="">Select a team...</option>
+        {teams.map((t) => (
+          <option key={t.teamId} value={t.teamId}>
+            {t.teamName}
+          </option>
+        ))}
+      </select>
+    );
   };
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const id =
-      typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random()}`;
-    setReceipts([...receipts, { id, vendor: activeVendor, fileName: file.name }]);
-    e.target.value = '';
-  };
-
-  const removeReceipt = (id: string) => {
-    setReceipts(receipts.filter((r) => r.id !== id));
-  };
-
-  const receiptsByVendor = vendors
-    .map((v) => ({
-      vendor: v,
-      files: receipts.filter((r) => r.vendor === v)
-    }))
-    .filter((g) => g.files.length > 0);
 
   return (
     <Modal open={open} onClose={handleClose} size="large" className={styles.modal}>
@@ -131,46 +198,46 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
                   <span className={styles.label}>Name</span>
                   <input
                     className={styles.input}
-                    placeholder="John Doe"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={`${user.firstName} ${user.lastName}`}
+                    disabled
                   />
                 </label>
                 <label className={styles.field}>
                   <span className={styles.label}>NetID</span>
-                  <input
-                    className={styles.input}
-                    placeholder="jd227"
-                    value={netID}
-                    onChange={(e) => setNetID(e.target.value)}
-                  />
+                  <input className={styles.input} value={user.netid} disabled />
                 </label>
                 <label className={styles.field}>
-                  <span className={styles.label}>Phone Number</span>
+                  <span className={styles.label}>Phone Number *</span>
                   <input
                     className={styles.input}
                     placeholder="1234567891"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    required
                   />
                 </label>
                 <label className={styles.field}>
-                  <span className={styles.label}>Address</span>
+                  <span className={styles.label}>Address *</span>
                   <input
                     className={styles.input}
                     placeholder="1234 Doe Ave"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
+                    required
                   />
+                </label>
+                <label className={`${styles.field} ${styles.fieldFull}`}>
+                  <span className={styles.label}>Team *</span>
+                  {renderTeamField()}
                 </label>
               </div>
               <label className={`${styles.field} ${styles.fieldFull}`}>
                 <span className={styles.label}>
-                  If this reimbursement is for a social, who were the attendees?
+                  If this reimbursement is for a social, who were the attendees? (comma-separated)
                 </span>
                 <textarea
                   className={styles.textarea}
-                  placeholder="List them out here..."
+                  placeholder="Alice, Bob, Charlie"
                   value={attendees}
                   onChange={(e) => setAttendees(e.target.value)}
                 />
@@ -180,93 +247,56 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
 
           {step === 'receipt' && (
             <div className={styles.stepBody}>
-              <h3 className={styles.stepTitle}>Receipt upload</h3>
-              <div className={styles.assignLabel}>ASSIGN TO VENDOR</div>
-              <div className={styles.vendorRow}>
-                {vendors.map((v) => (
-                  <button
-                    key={v}
-                    type="button"
-                    className={`${styles.vendorChip} ${
-                      activeVendor === v ? styles.vendorChipActive : ''
-                    }`}
-                    onClick={() => setActiveVendor(v)}
-                  >
-                    <span>{v}</span>
-                    {v !== 'Uncategorized' && (
-                      <Icon
-                        name="close"
-                        onClick={(e: React.MouseEvent) => {
-                          e.stopPropagation();
-                          removeVendor(v);
-                        }}
-                      />
-                    )}
-                  </button>
-                ))}
-                {showNewVendorField ? (
-                  <div className={styles.newVendorInputWrap}>
-                    <input
-                      className={styles.newVendorInput}
-                      autoFocus
-                      placeholder="Vendor name"
-                      value={newVendorInput}
-                      onChange={(e) => setNewVendorInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') addVendor();
-                        if (e.key === 'Escape') {
-                          setShowNewVendorField(false);
-                          setNewVendorInput('');
-                        }
-                      }}
-                      onBlur={addVendor}
-                    />
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    className={styles.addVendorButton}
-                    onClick={() => setShowNewVendorField(true)}
-                  >
-                    + New vendor
-                  </button>
-                )}
+              <h3 className={styles.stepTitle}>Receipt & purchase details</h3>
+              <div className={styles.formGrid}>
+                <label className={styles.field}>
+                  <span className={styles.label}>Amount (USD) *</span>
+                  <input
+                    className={`${styles.input} ${styles.noSpinner}`}
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="50.00"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    required
+                  />
+                </label>
+                <label className={styles.field}>
+                  <span className={styles.label}>Date of purchase *</span>
+                  <input
+                    className={styles.input}
+                    type="date"
+                    value={dateOfPurchase}
+                    onChange={(e) => setDateOfPurchase(e.target.value)}
+                    required
+                  />
+                </label>
               </div>
-
-              <label className={styles.dropzone}>
-                <Icon name="upload" />
-                <span>Upload receipt(s)</span>
+              <label className={`${styles.field} ${styles.fieldFull}`}>
+                <span className={styles.label}>Reason *</span>
                 <input
-                  type="file"
-                  accept="application/pdf"
-                  className={styles.fileInput}
-                  onChange={handleFileSelect}
+                  className={styles.input}
+                  placeholder="Team social snacks"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  required
                 />
               </label>
-              <div className={styles.dropzoneHint}>Files must be in pdf format.</div>
-
-              {receiptsByVendor.length > 0 && (
-                <div className={styles.uploadedList}>
-                  {receiptsByVendor.map((g) => (
-                    <div key={g.vendor} className={styles.uploadedGroup}>
-                      <div className={styles.uploadedVendorLabel}>{g.vendor}</div>
-                      {g.files.map((file) => (
-                        <div key={file.id} className={styles.fileRow}>
-                          <Icon name="file outline" />
-                          <span className={styles.fileName}>{file.fileName}</span>
-                          <button
-                            type="button"
-                            className={styles.trashButton}
-                            onClick={() => removeReceipt(file.id)}
-                          >
-                            <Icon name="trash" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              )}
+              <label className={`${styles.field} ${styles.fieldFull}`}>
+                <span className={styles.label}>Receipt link *</span>
+                <input
+                  className={styles.input}
+                  type="url"
+                  placeholder="https://drive.google.com/..."
+                  value={receiptUrl}
+                  onChange={(e) => setReceiptUrl(e.target.value)}
+                  required
+                />
+                <span className={styles.dropzoneHint}>
+                  Paste a shareable link (Google Drive, Dropbox, etc.) to your receipt.
+                </span>
+              </label>
             </div>
           )}
 
@@ -277,19 +307,25 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
                 <div className={styles.reviewSectionTitle}>Basic information</div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>Name</span>
-                  <span>{name || '—'}</span>
+                  <span>
+                    {user.firstName} {user.lastName}
+                  </span>
                 </div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>NetID</span>
-                  <span>{netID || '—'}</span>
+                  <span>{user.netid}</span>
+                </div>
+                <div className={styles.reviewRow}>
+                  <span className={styles.reviewKey}>Team</span>
+                  <span>{selectedTeam?.teamName ?? '—'}</span>
                 </div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>Phone</span>
-                  <span>{phone || '—'}</span>
+                  <span>{phone}</span>
                 </div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>Address</span>
-                  <span>{address || '—'}</span>
+                  <span>{address}</span>
                 </div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>Attendees</span>
@@ -297,37 +333,51 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose }) => {
                 </div>
               </div>
               <div className={styles.reviewSection}>
-                <div className={styles.reviewSectionTitle}>Receipts</div>
-                {receipts.length === 0 ? (
-                  <div className={styles.reviewEmpty}>No receipts uploaded.</div>
-                ) : (
-                  receipts.map((r) => (
-                    <div key={r.id} className={styles.reviewRow}>
-                      <span className={styles.reviewKey}>{r.vendor}</span>
-                      <span>{r.fileName}</span>
-                    </div>
-                  ))
-                )}
-              </div>
-              <div className={styles.demoNote}>
-                This is a visualization only — submitting will not save anything.
+                <div className={styles.reviewSectionTitle}>Purchase</div>
+                <div className={styles.reviewRow}>
+                  <span className={styles.reviewKey}>Amount</span>
+                  <span>${Number(amount).toFixed(2)}</span>
+                </div>
+                <div className={styles.reviewRow}>
+                  <span className={styles.reviewKey}>Date of purchase</span>
+                  <span>{dateOfPurchase}</span>
+                </div>
+                <div className={styles.reviewRow}>
+                  <span className={styles.reviewKey}>Reason</span>
+                  <span>{reason}</span>
+                </div>
+                <div className={styles.reviewRow}>
+                  <span className={styles.reviewKey}>Receipt</span>
+                  <a href={receiptUrl} target="_blank" rel="noreferrer">
+                    View receipt
+                  </a>
+                </div>
               </div>
             </div>
           )}
 
           <div className={styles.footer}>
             {step !== 'basic' && (
-              <Button basic onClick={goBack}>
+              <Button basic onClick={goBack} disabled={submitting}>
                 Back
               </Button>
             )}
             <div className={styles.footerSpacer} />
             {step !== 'review' ? (
-              <Button primary onClick={goNext}>
+              <Button
+                primary
+                onClick={goNext}
+                disabled={step === 'basic' ? !basicValid : !receiptValid}
+              >
                 Next
               </Button>
             ) : (
-              <Button primary onClick={handleClose}>
+              <Button
+                primary
+                onClick={handleSubmit}
+                loading={submitting}
+                disabled={submitting || !basicValid || !receiptValid}
+              >
                 Submit
               </Button>
             )}
