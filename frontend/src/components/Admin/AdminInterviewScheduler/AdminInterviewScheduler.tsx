@@ -224,11 +224,7 @@ export const InterviewSchedulerCreator: React.FC<CreatorProps> = ({
             ? 'Save Interview Scheduler Instance'
             : 'Create Interview Scheduler Instance'}
         </Button>
-        {formType === 'edit' && (
-          <Button onClick={onCancel}>
-            Cancel
-          </Button>
-        )}
+        {formType === 'edit' && <Button onClick={onCancel}>Cancel</Button>}
       </Form>
     </div>
   );
@@ -299,7 +295,7 @@ export const InterviewSchedulerEditor = ({ instances, setInstances }: EditorProp
               formType="edit"
               instance={editingInstance}
               onComplete={() => setEditingInstance(undefined)}
-              onCancel = {() => setEditingInstance(undefined)}
+              onCancel={() => setEditingInstance(undefined)}
             />
           )}
         </Modal.Content>
