@@ -44,13 +44,15 @@ type CreatorProps = {
   formType: 'create' | 'edit';
   instance?: InterviewScheduler;
   onComplete?: () => void;
+  onCancel?: () => void;
 };
 
 export const InterviewSchedulerCreator: React.FC<CreatorProps> = ({
   setInstances,
   formType,
   instance,
-  onComplete
+  onComplete,
+  onCancel
 }) => {
   const [name, setName] = useState(instance?.name ?? '');
   const [csv, setCsv] = useState<File>();
@@ -74,23 +76,6 @@ export const InterviewSchedulerCreator: React.FC<CreatorProps> = ({
 
   const onSubmit = async () => {
     const selectedCsv = csv ?? csvInputRef.current?.files?.[0];
-    if (!selectedCsv) {
-      Emitters.generalError.emit({
-        headerMsg: 'Submission Error',
-        contentMsg: 'No CSV file was provided.'
-      });
-      return;
-    }
-    const [headers, responses] = await parseApplicantsCsv(selectedCsv);
-    const requiredHeaders = ['first name', 'last name', 'email', 'netid'];
-    const missingHeader = requiredHeaders.find((header) => !headers.includes(header));
-    if (missingHeader) {
-      Emitters.generalError.emit({
-        headerMsg: 'CSV Parsing Error',
-        contentMsg: `The CSV file does not contain a column with header: ${missingHeader}`
-      });
-      return;
-    }
     if (name === '') {
       Emitters.generalError.emit({
         headerMsg: 'Invalid Input',
@@ -112,12 +97,25 @@ export const InterviewSchedulerCreator: React.FC<CreatorProps> = ({
       });
       return;
     }
-    const applicants = responses.map((response) => ({
-      firstName: response[headers.indexOf('first name')],
-      lastName: response[headers.indexOf('last name')],
-      email: response[headers.indexOf('email')],
-      netid: response[headers.indexOf('netid')]
-    }));
+    let applicants = instance?.applicants ?? [];
+    if (selectedCsv) {
+      const [headers, responses] = await parseApplicantsCsv(selectedCsv);
+      const requiredHeaders = ['first name', 'last name', 'email', 'netid'];
+      const missingHeader = requiredHeaders.find((header) => !headers.includes(header));
+      if (missingHeader) {
+        Emitters.generalError.emit({
+          headerMsg: 'CSV Parsing Error',
+          contentMsg: `The CSV file does not contain a column with header: ${missingHeader}`
+        });
+        return;
+      }
+      applicants = responses.map((response) => ({
+        firstName: response[headers.indexOf('first name')],
+        lastName: response[headers.indexOf('last name')],
+        email: response[headers.indexOf('email')],
+        netid: response[headers.indexOf('netid')]
+      }));
+    }
     const schedulerFields = {
       name,
       duration: duration * 60000,
@@ -226,6 +224,11 @@ export const InterviewSchedulerCreator: React.FC<CreatorProps> = ({
             ? 'Save Interview Scheduler Instance'
             : 'Create Interview Scheduler Instance'}
         </Button>
+        {formType === 'edit' && (
+          <Button onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
       </Form>
     </div>
   );
@@ -296,6 +299,7 @@ export const InterviewSchedulerEditor = ({ instances, setInstances }: EditorProp
               formType="edit"
               instance={editingInstance}
               onComplete={() => setEditingInstance(undefined)}
+              onCancel = {() => setEditingInstance(undefined)}
             />
           )}
         </Modal.Content>
