@@ -1,30 +1,26 @@
 [
   {
-    "formerSubteams": [
-      "reviews"
-    ],
-    "major": "Computer Science",
-    "roleDescription": "Full Team Lead",
-    "github": "https://github.com/qiandrewj",
-    "netid": "ajq22",
-    "pronouns": "he/him",
-    "hometown": "Pennington, NJ",
-    "linkedin": "https://www.linkedin.com/in/andrew-qian/",
-    "minor": null,
-    "doubleMajor": "Economics",
-    "role": "ops-lead",
-    "firstName": "Andrew",
-    "lastName": "Qian",
-    "college": "cas",
-    "website": null,
-    "semesterJoined": "Spring 2024",
-    "coffeeChatLink": null,
-    "email": "ajq22@cornell.edu",
-    "about": "I love to study in a Duff high chair.",
-    "subteams": [
-      "leads"
-    ],
-    "graduation": "May 2027"
+    "firstName": "Arnav",
+    "lastName": "Singhal",
+    "pronouns": "",
+    "email": "as4465@cornell.edu",
+    "role": "business",
+    "semesterJoined": "Spring 2026",
+    "graduation": "",
+    "major": "",
+    "doubleMajor": "",
+    "minor": "",
+    "college": "",
+    "website": "",
+    "linkedin": "",
+    "github": "",
+    "coffeeChatLink": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "formerSubteams": [],
+    "netid": "as4465",
+    "roleDescription": "Business"
   },
   {
     "doubleMajor": null,
@@ -52,6 +48,29 @@
     "hometown": "Las Vegas",
     "website": "thekoppe.com",
     "about": "Hey! I'm Ben, and I'm a developer on Incubator. I'm also the creator of BearTrak. :)  I like to code (static type & nix addict), and I'd love to sit down with you and discuss LeBron's legacy at length sometime."
+  },
+  {
+    "firstName": "Claire",
+    "lastName": "Hahn",
+    "pronouns": "",
+    "email": "ch2224@cornell.edu",
+    "role": "business",
+    "semesterJoined": "FA24",
+    "graduation": "",
+    "major": "",
+    "doubleMajor": "",
+    "minor": "",
+    "college": "",
+    "website": "",
+    "linkedin": "",
+    "github": "",
+    "coffeeChatLink": "",
+    "hometown": "",
+    "about": "",
+    "subteams": [],
+    "formerSubteams": [],
+    "netid": "ch2224",
+    "roleDescription": "Business"
   },
   {
     "lastName": "Lee",
@@ -365,6 +384,31 @@
     ]
   },
   {
+    "website": null,
+    "role": "developer",
+    "minor": null,
+    "doubleMajor": null,
+    "roleDescription": "Developer",
+    "major": "Biological Engineering",
+    "email": "nk692@cornell.edu",
+    "hometown": "New York",
+    "github": null,
+    "semesterJoined": "Fall 2025",
+    "coffeeChatLink": null,
+    "formerSubteams": [],
+    "pronouns": "He/him",
+    "college": "cals",
+    "lastName": "Kramskiy",
+    "netid": "nk692",
+    "firstName": "Natan",
+    "subteams": [
+      "cuapts"
+    ],
+    "graduation": "2029",
+    "linkedin": "https://www.linkedin.com/in/natan-kramskiy-1a3999294/",
+    "about": "Dev on CuAPTS. Serial foodie. Love going to the gym and learning new things! Particularly enjoy art, history, and reading philosophy"
+  },
+  {
     "graduation": "May 2026",
     "about": "probably working on distributed systems",
     "website": null,
@@ -440,6 +484,31 @@
     "website": null,
     "role": "business",
     "github": null
+  },
+  {
+    "formerSubteams": [],
+    "netid": "rwq3",
+    "doubleMajor": "Music",
+    "roleDescription": "Designer",
+    "graduation": "May 2028",
+    "major": "Computer Science",
+    "lastName": "Qiu",
+    "email": "rwq3@cornell.edu",
+    "role": "designer",
+    "firstName": "Ryan",
+    "subteams": [
+      "carriage"
+    ],
+    "semesterJoined": "Fall 2024",
+    "college": "cas",
+    "github": "https://github.com/YottaYocta",
+    "hometown": "Houston, TX",
+    "website": "https://ryanwqiu.netlify.app/",
+    "minor": null,
+    "coffeeChatLink": null,
+    "about": "Hi! I'm Ryan, and I'm a part of the Carriage team as a product designer. 🚗\nI study CS & Music in the college of Arts and Sciences and I'm originally from Houston, TX.",
+    "pronouns": "He/Him",
+    "linkedin": "https://www.linkedin.com/in/ryan-qiu-194041297/"
   },
   {
     "email": "sci24@cornell.edu",
@@ -523,6 +592,30 @@
     ]
   },
   {
+    "formerSubteams": [],
+    "about": "TPM on CURaise",
+    "lastName": "Yu",
+    "github": "https://github.com/stevenyuser",
+    "graduation": "May 2027",
+    "doubleMajor": null,
+    "role": "tpm",
+    "roleDescription": "Technical PM",
+    "hometown": "Westchester",
+    "semesterJoined": "Fall 2023",
+    "pronouns": "he/him",
+    "major": "Computer Science",
+    "netid": "ssy38",
+    "firstName": "Steven",
+    "linkedin": "https://www.linkedin.com/in/steven-yu-yue/",
+    "website": null,
+    "minor": "Business",
+    "subteams": [
+      "curaise"
+    ],
+    "email": "ssy38@cornell.edu",
+    "college": "dyson"
+  },
+  {
     "doubleMajor": null,
     "about": "I'm Sophie Wang, a computer science junior in Arts & Sciences. In DTI, I'm a developer on QueueMeIn!",
     "firstName": "Sophie",
@@ -575,6 +668,33 @@
     "graduation": "May 2026",
     "website": null,
     "semesterJoined": "Spring 2023"
+  },
+  {
+    "semesterJoined": "Fall 2024",
+    "college": "eng",
+    "minor": "Business",
+    "major": "Computer Science",
+    "role": "tpm",
+    "graduation": "May 2028",
+    "website": null,
+    "hometown": "Boston",
+    "formerSubteams": [
+      "queuemein"
+    ],
+    "lastName": "Liu",
+    "github": "https://github.com/laylaliuuu",
+    "subteams": [
+      "redi"
+    ],
+    "doubleMajor": "Operations Research and Engineering",
+    "roleDescription": "Technical PM",
+    "linkedin": "https://www.linkedin.com/in/layla-liu",
+    "netid": "xl989",
+    "pronouns": "She/Her/Hers",
+    "email": "xl989@cornell.edu",
+    "firstName": "Layla",
+    "coffeeChatLink": "https://calendly.com/xl989-cornell/30min",
+    "about": "Hi! I'm Layla Liu, a sophomore planning to double major in Computer Science and Operations Research and Engineering (ORIE), with a minor in AI & Business. In my free time, I like skiing, exploring new cities, visiting great bakeries, and binge-watching Netflix shows.\n\n"
   },
   {
     "github": null,
