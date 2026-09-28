@@ -99,6 +99,17 @@
 
 .fieldFull {
   grid-column: 1 / -1;
+  margin-top: 1.25rem;
+}
+
+.noSpinner::-webkit-outer-spin-button,
+.noSpinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.noSpinner {
+  -moz-appearance: textfield;
 }
 
 .label {

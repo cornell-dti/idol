@@ -13,7 +13,7 @@ const BudgetOverview: React.FC<Props> = ({ team }) => {
 
   return (
     <section className={styles.card}>
-      <h3 className={styles.cardTitle}>Budget Overview</h3>
+      <h3 className={styles.cardTitle}>Budget Overview — {team.teamName}</h3>
       <div className={styles.budgetRow}>
         <div>
           <div className={styles.budgetSpent}>{formatDollars(team.totalSpent)}</div>
