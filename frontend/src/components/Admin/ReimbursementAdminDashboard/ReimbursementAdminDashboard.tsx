@@ -19,12 +19,7 @@ type SectionProps = {
   emptyMessage: string;
 };
 
-const CollapsibleSection: React.FC<SectionProps> = ({
-  title,
-  teams,
-  colorFor,
-  emptyMessage
-}) => {
+const CollapsibleSection: React.FC<SectionProps> = ({ title, teams, colorFor, emptyMessage }) => {
   const [open, setOpen] = useState(true);
   return (
     <section className={styles.section}>
@@ -46,11 +41,7 @@ const CollapsibleSection: React.FC<SectionProps> = ({
         (teams.length > 0 ? (
           <div className={styles.grid}>
             {teams.map((team) => (
-              <TeamBudgetCard
-                key={team.teamId}
-                team={team}
-                progressColor={colorFor?.(team)}
-              />
+              <TeamBudgetCard key={team.teamId} team={team} progressColor={colorFor?.(team)} />
             ))}
           </div>
         ) : (
