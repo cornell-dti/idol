@@ -626,6 +626,7 @@ type ReimbursementRequestStatus =
 interface ReimbursementTeam {
   teamId: string;
   teamName: string;
+  displayName: string;
   budget: number;
   totalSpent: number;
   assignedAdmins: string[];
