@@ -46,6 +46,16 @@ All the common types used by the packages are defined [here](./common-types/inde
 
 ## Contributors
 
+### Fall 2026
+
+- **Mark Sheen** - PM
+- **Adrienne Lee** - TPM
+- **Clément Rozé** - Designer
+- **Jane Tenecota Villa** - Developer
+- **Max Shi** - Developer
+- **Eva Kukreja** - Developer
+- **Sachin Chhaya** - Developer
+
 ### Spring 2026
 
 - **Mark Sheen** - PM
