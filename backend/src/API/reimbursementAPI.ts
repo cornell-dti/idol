@@ -2,7 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import ReimbursementRequestDao from '../dao/ReimbursementRequestDao';
 import ReimbursementTeamDao from '../dao/ReimbursementTeamDao';
 import PermissionsManager from '../utils/permissionsManager';
-import { hasReimbursementRequesterPermissions } from '../utils/reimbursementPermissions';
+import {
+  hasAnyReimbursementPermissions,
+  hasReimbursementRequesterPermissions
+} from '../utils/reimbursementPermissions';
 import { BadRequestError, NotFoundError, PermissionError } from '../utils/errors';
 
 const requestDao = new ReimbursementRequestDao();
@@ -11,7 +14,7 @@ const teamDao = new ReimbursementTeamDao();
 // teams
 
 export const getAllReimbursementTeams = async (user: IdolMember): Promise<ReimbursementTeam[]> => {
-  if (!(await PermissionsManager.isLeadOrAdmin(user))) {
+  if (!hasAnyReimbursementPermissions(user.role)) {
     throw new PermissionError(
       `User with email ${user.email} does not have permissions to view reimbursement teams.`
     );
