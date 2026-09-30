@@ -115,11 +115,11 @@ const DevPortfolioForm: React.FC = () => {
           ? 'One or more links to Repos and PRs are not valid links.'
           : 'One or more links to PRs are not valid links.'
       });
-    } else if (isTpm && textEmpty) {
-      Emitters.generalError.emit({
-        headerMsg: 'Paragraph Submission Empty',
-        contentMsg: 'Please write something for the paragraph section of the assignment.'
-      });
+      // } else if (isTpm && textEmpty) {
+      //   Emitters.generalError.emit({
+      //     headerMsg: 'Paragraph Submission Empty',
+      //     contentMsg: 'Please write something for the paragraph section of the assignment.'
+      //   });
     } else if (!documentationText) {
       Emitters.generalError.emit({
         headerMsg: 'Documentation Empty',
@@ -210,7 +210,7 @@ const DevPortfolioForm: React.FC = () => {
             ) : undefined}
           </div>
 
-          {isTpm ? (
+          {/* {isTpm ? (
             <div className={styles.inline}>
               <label className={styles.bold}>
                 Paragraph Response: <span className={styles.red_color}>*</span>
@@ -233,7 +233,7 @@ const DevPortfolioForm: React.FC = () => {
             </div>
           ) : (
             <></>
-          )}
+          )} */}
           <PRInputs
             prs={openPRs}
             setPRs={setOpenPRs}
