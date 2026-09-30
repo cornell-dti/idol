@@ -48,7 +48,9 @@ import {
   archiveCoffeeChats,
   getCoffeeCategories,
   updateCategoryMembers,
-  uploadCoffeeChatCSV
+  uploadCoffeeChatCSV,
+  getMyCoffeeChatCategoryResponse,
+  submitCoffeeChatCategoryResponse
 } from './API/coffeeChatAPI';
 import {
   allSignInForms,
@@ -440,6 +442,14 @@ loginCheckedPost('/coffee-chat-categories/upload', async (req, user) => {
   await uploadCoffeeChatCSV(req.body.csv, user);
   return {};
 });
+
+loginCheckedGet('/coffee-chat-categories/responses', async (_, user) => ({
+  categories: await getMyCoffeeChatCategoryResponse(user)
+}));
+
+loginCheckedPost('/coffee-chat-categories/responses', async (req, user) => ({
+  categories: await submitCoffeeChatCategoryResponse(req.body.categories, user)
+}));
 
 // Pull from IDOL
 loginCheckedPost('/pullIDOLChanges', (_, user) => requestIDOLPullDispatch(user));

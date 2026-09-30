@@ -220,6 +220,32 @@ export const updateCategoryMembers = async (
 };
 
 /**
+ * Gets the category names the current member submitted.
+ * @param user - the member making the request
+ * @returns category names they fit, or an empty list if they have not submitted
+ */
+export const getMyCoffeeChatCategoryResponse = async (user: IdolMember): Promise<string[]> =>
+  CoffeeChatDao.getCategoryResponse(user.email);
+
+/**
+ * Saves the category names the current member fits. A later submission replaces the earlier one.
+ * @param categories - category names the member fits
+ * @param user - the member making the request
+ * @returns the saved category names
+ */
+export const submitCoffeeChatCategoryResponse = async (
+  categories: unknown,
+  user: IdolMember
+): Promise<string[]> => {
+  if (!Array.isArray(categories) || categories.some((category) => typeof category !== 'string')) {
+    throw new BadRequestError('Categories must be a list of category names.');
+  }
+  const names = categories.map((category) => category.trim()).filter((category) => category !== '');
+  await CoffeeChatDao.setCategoryResponse(user.email, names);
+  return names;
+};
+
+/**
  * Parses a CSV string and updates all coffee chat categories
  * @param csvContent - CSV string
  * @param user - the user making the request

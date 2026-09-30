@@ -4,7 +4,8 @@ import {
   coffeeChatsCollection,
   db,
   memberPropertiesCollection,
-  coffeeChatCategoriesCollection
+  coffeeChatCategoriesCollection,
+  coffeeChatCategoryResponsesCollection
 } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference } from '../utils/memberUtil';
@@ -192,6 +193,27 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async updateCategoryMembers(index: number, members: MemberDetails[]): Promise<void> {
     await coffeeChatCategoriesCollection.doc(String(index)).update({ members });
+  }
+
+  /**
+   * Gets the category names a member submitted. Returns an empty list if they have not submitted.
+   * @param email - the member's email, used as the document ID
+   */
+  static async getCategoryResponse(email: string): Promise<string[]> {
+    const doc = await coffeeChatCategoryResponsesCollection.doc(email).get();
+    return doc.data()?.categories ?? [];
+  }
+
+  /**
+   * Saves a member's category submission, replacing any earlier submission.
+   * @param email - the member's email, used as the document ID
+   * @param categories - category names the member fits
+   */
+  static async setCategoryResponse(email: string, categories: string[]): Promise<void> {
+    await coffeeChatCategoryResponsesCollection.doc(email).set({
+      categories,
+      date: Date.now()
+    });
   }
 
   /**
