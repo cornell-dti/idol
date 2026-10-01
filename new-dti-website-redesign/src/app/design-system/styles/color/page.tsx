@@ -52,7 +52,7 @@ function ColorCard({ color, name, description }: ColorCardProps) {
             </button>
           </div>
 
-          {color && <p className="text-foreground-3">{color.toUpperCase()}</p>}
+          {color && <p className="text-foreground-3 font-mono">{color.toUpperCase()}</p>}
         </div>
 
         {description && <p className="text-sm text-foreground-1">{description}</p>}
