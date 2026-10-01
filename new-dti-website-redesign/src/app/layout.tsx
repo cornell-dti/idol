@@ -1,10 +1,21 @@
 'use client';
 
 import { useEffect } from 'react';
+import localFont from 'next/font/local';
 import './globals.css';
 import { usePathname } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import { baseStyles } from '../components/Button';
+
+const inter = localFont({
+  src: [
+    { path: './fonts/InterVariable.woff2', weight: '100 900', style: 'normal' },
+    { path: './fonts/InterVariable-Italic.woff2', weight: '100 900', style: 'italic' }
+  ],
+  variable: '--font-inter',
+  display: 'swap',
+  fallback: ['Arial', 'sans-serif']
+});
 
 export default function RootLayout({
   children
@@ -28,7 +39,7 @@ export default function RootLayout({
   }, [pathname]);
 
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body className="relative" tabIndex={-1}>
         <a
           id="skip-to-main"
