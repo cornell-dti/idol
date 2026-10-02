@@ -107,4 +107,31 @@ export default class CoffeeChatAPI {
   public static async uploadCoffeeChatCSV(csv: string): Promise<void> {
     await APIWrapper.post(`${backendURL}/coffee-chat-categories/upload`, { csv });
   }
+
+  public static async getMyCoffeeChatCategories(): Promise<string[]> {
+    const res = await APIWrapper.get(`${backendURL}/coffee-chat-categories/responses`);
+    const data = res?.data;
+    if (!data || typeof data !== 'object' || data.error || !Array.isArray(data.categories)) {
+      throw new Error(
+        typeof data === 'object' && data?.error
+          ? data.error
+          : 'Could not load your coffee chat categories.'
+      );
+    }
+    return data.categories as string[];
+  }
+
+  public static async submitCoffeeChatCategories(categories: string[]): Promise<void> {
+    const res = await APIWrapper.post(`${backendURL}/coffee-chat-categories/responses`, {
+      categories
+    });
+    const data = res?.data;
+    if (!data || typeof data !== 'object' || data.error) {
+      throw new Error(
+        typeof data === 'object' && data?.error
+          ? data.error
+          : 'Could not submit your coffee chat categories.'
+      );
+    }
+  }
 }

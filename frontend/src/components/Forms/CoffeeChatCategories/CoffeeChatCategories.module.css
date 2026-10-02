@@ -1,0 +1,64 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem 2rem;
+}
+
+.title {
+  text-align: center;
+}
+
+.categoryList {
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 560px;
+}
+
+.listTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.categoryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  font-size: 1.125rem;
+}
+
+.checkbox {
+  transform: scale(1.35);
+}
+
+.checkbox:global(.ui.checkbox) input:checked ~ label::before,
+.checkbox:global(.ui.checkbox) input:checked:focus ~ label::before {
+  background: #4a4e52;
+  border-color: #4a4e52;
+}
+
+.checkbox:global(.ui.checkbox) input:checked ~ label::after,
+.checkbox:global(.ui.checkbox) input:checked:focus ~ label::after {
+  color: #b2b3b3;
+}
+
+.submitButton {
+  display: block !important;
+  margin: 2rem auto 0 !important;
+  animation: popIn 0.15s ease-out;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
