@@ -28,7 +28,7 @@ type AttendanceDisplayProps = {
 const AttendanceDisplay: React.FC<AttendanceDisplayProps> = ({ status, teamEvent }) => {
   const [selectedRequest, setSelectedRequest] = useState<TeamEventAttendance | null>(null);
 
-  const newAttendance = teamEvent.requests.filter((res) => res.status === status);
+  const newAttendance = teamEvent.requests.filter((res) => res.status === status && res.member);
 
   return (
     <>

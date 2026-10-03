@@ -26,7 +26,7 @@ const calculateMemberCreditsForEvent = (
     : event.requests
         .filter((req) => req.status === 'approved')
         .reduce((val: number, attendee) => {
-          if (attendee.member.email !== member.email) {
+          if (!attendee.member || attendee.member.email !== member.email) {
             return val;
           }
           if (event.hasHours && attendee.hoursAttended)
