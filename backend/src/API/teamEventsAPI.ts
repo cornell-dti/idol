@@ -67,7 +67,7 @@ export const deleteTeamEvent = async (uuid: string, user: IdolMember): Promise<v
   const teamEvent = await TeamEventsDao.getTeamEvent(uuid);
   if (!teamEvent) return;
 
-  const allAttendances = await teamEventAttendanceDao.getTeamEventAttendanceByEventId(uuid);
+  const allAttendances = await teamEventAttendanceDao.getTeamEventAttendanceByEventId(uuid, true);
 
   await Promise.all(
     allAttendances.map((attendance) =>

@@ -2,15 +2,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { db, memberCollection, teamEventAttendanceCollection } from '../firebase';
 import { DBTeamEventAttendance } from '../types/DataTypes';
 import { deleteCollection } from '../utils/firebase-utils';
-import { getMemberFromDocumentReference } from '../utils/memberUtil';
 import BaseDao from './BaseDao';
 
 async function materializeTeamEventAttendance(
   dbTeamEventAttendance: DBTeamEventAttendance
 ): Promise<TeamEventAttendance> {
+  // Active members only, deleted accounts and alumni are not in this collection.
+  const member = (await dbTeamEventAttendance.member.get()).data() as IdolMember;
   return {
     ...dbTeamEventAttendance,
-    member: await getMemberFromDocumentReference(dbTeamEventAttendance.member)
+    member
   };
 }
 
@@ -96,14 +97,21 @@ export default class TeamEventAttendanceDao extends BaseDao<
    * Gets all TEC Attendance for a given team event
    * @param uuid - DB uuid of team event
    */
-  async getTeamEventAttendanceByEventId(uuid: string): Promise<TeamEventAttendance[]> {
-    return this.getDocuments([
+  async getTeamEventAttendanceByEventId(
+    uuid: string,
+    includeInactiveMembers = false
+  ): Promise<TeamEventAttendance[]> {
+    const attendances = await this.getDocuments([
       {
         field: 'eventUuid',
         comparisonOperator: '==',
         value: uuid
       }
     ]);
+    // Scrap requests whose submitter is no longer active (deleted or moved to alumni).
+    return includeInactiveMembers
+      ? attendances
+      : attendances.filter((attendance) => attendance.member);
   }
 
   /**

@@ -23,7 +23,7 @@ const TeamEventsDisplay: React.FC<TeamEventsDisplayProps> = ({ isLoading, teamEv
         <Card.Group>
           {teamEvents.map((teamEvent) => {
             const countPendingRequests = teamEvent.requests.filter(
-              (req) => req.status === 'pending'
+              (req) => req.status === 'pending' && req.member
             ).length;
             return (
               <Link key={teamEvent.uuid} href={`/admin/team-event-details/${teamEvent.uuid}`}>
