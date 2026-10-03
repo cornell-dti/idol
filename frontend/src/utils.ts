@@ -208,8 +208,8 @@ export const hourIndexToString = (hourIndex: number, minute?: number): string =>
 
 /**
  * Converts a Unix timestamp to a string containing the date in the format "Day Name Month/Day"
- * @param unixTime 
- * @param includeDayName 
+ * @param unixTime
+ * @param includeDayName
  * @returns The date string in the format of "Day Name Month/Day"
  */
 export const getDateString = (unixTime: number, includeDayName: boolean): string => {
