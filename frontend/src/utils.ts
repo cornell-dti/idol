@@ -206,6 +206,12 @@ export const hourIndexToString = (hourIndex: number, minute?: number): string =>
   return `${hour}:${minute ? String(minute).padStart(2, '0') : '00'} ${suffix}`;
 };
 
+/**
+ * Converts a Unix timestamp to a string containing the date in the format "Day Name Month/Day"
+ * @param unixTime 
+ * @param includeDayName 
+ * @returns The date string in the format of "Day Name Month/Day"
+ */
 export const getDateString = (unixTime: number, includeDayName: boolean): string => {
   const date = new Date(unixTime);
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
