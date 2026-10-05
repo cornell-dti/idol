@@ -45,8 +45,8 @@ export const createReimbursementTeam = async (
       `User with email ${user.email} does not have permissions to create a reimbursement team.`
     );
   }
-  if (!team.teamId || !team.teamName) {
-    throw new BadRequestError('teamId and teamName are required.');
+  if (!team.teamId || !team.displayName) {
+    throw new BadRequestError('teamId and displayName are required.');
   }
   const existing = await teamDao.getTeam(team.teamId);
   if (existing) throw new BadRequestError(`Team with ID ${team.teamId} already exists.`);
