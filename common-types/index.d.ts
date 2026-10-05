@@ -507,11 +507,6 @@ interface CoffeeChatCategory {
   readonly index: number; // 0–15, encodes position in 4x4 bingo grid
 }
 
-interface CoffeeChatCategoryResponse {
-  readonly categories: string[];
-  readonly date: number;
-}
-
 type CoffeeChatSuggestions = { [k: string]: MemberDetails[] };
 
 type Applicant = {

@@ -49,7 +49,7 @@ import {
   getCoffeeCategories,
   updateCategoryMembers,
   uploadCoffeeChatCSV,
-  getMyCoffeeChatCategoryResponse,
+  getCoffeeChatCategoriesByUser,
   submitCoffeeChatCategoryResponse
 } from './API/coffeeChatAPI';
 import {
@@ -444,7 +444,7 @@ loginCheckedPost('/coffee-chat-categories/upload', async (req, user) => {
 });
 
 loginCheckedGet('/coffee-chat-categories/responses', async (_, user) => ({
-  categories: await getMyCoffeeChatCategoryResponse(user)
+  categories: await getCoffeeChatCategoriesByUser(user)
 }));
 
 loginCheckedPost('/coffee-chat-categories/responses', async (req, user) => ({

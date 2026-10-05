@@ -220,18 +220,19 @@ export const updateCategoryMembers = async (
 };
 
 /**
- * Gets the category names the current member submitted.
+ * Gets the category names that currently list the member.
  * @param user - the member making the request
- * @returns category names they fit, or an empty list if they have not submitted
+ * @returns category names they fit, or an empty list if they are on none
  */
-export const getMyCoffeeChatCategoryResponse = async (user: IdolMember): Promise<string[]> =>
-  CoffeeChatDao.getCategoryResponse(user.email);
+export const getCoffeeChatCategoriesByUser = async (user: IdolMember): Promise<string[]> =>
+  CoffeeChatDao.getCategoryNamesForMember(user.netid);
 
 /**
- * Saves the category names the current member fits. A later submission replaces the earlier one.
+ * Updates coffee-chat-categories so the member is listed on each selected category
+ * and removed from any they no longer fit. A later submission replaces the earlier one.
  * @param categories - category names the member fits
  * @param user - the member making the request
- * @returns the saved category names
+ * @returns the category names the member now belongs to
  */
 export const submitCoffeeChatCategoryResponse = async (
   categories: unknown,
@@ -241,8 +242,16 @@ export const submitCoffeeChatCategoryResponse = async (
     throw new BadRequestError('Categories must be a list of category names.');
   }
   const names = categories.map((category) => category.trim()).filter((category) => category !== '');
-  await CoffeeChatDao.setCategoryResponse(user.email, names);
-  return names;
+  const knownCategories = await CoffeeChatDao.getAllCategories();
+  const knownNames = new Set(knownCategories.map((category) => category.name));
+  const unknown = names.filter((name) => !knownNames.has(name));
+  if (unknown.length > 0) {
+    throw new BadRequestError(`Unknown coffee chat categories: ${unknown.join(', ')}`);
+  }
+  return CoffeeChatDao.setMemberCategories(
+    { name: `${user.firstName} ${user.lastName}`, netid: user.netid },
+    names
+  );
 };
 
 /**

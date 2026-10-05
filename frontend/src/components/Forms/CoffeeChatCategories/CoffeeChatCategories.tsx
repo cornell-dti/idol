@@ -22,7 +22,7 @@ const MemberView: React.FC = () => {
       try {
         const [board, submitted] = await Promise.all([
           CoffeeChatAPI.getCoffeeChatBingoBoard(),
-          CoffeeChatAPI.getMyCoffeeChatCategories()
+          CoffeeChatAPI.getCoffeeChatCategoriesByUser()
         ]);
         const names = board.flat().filter((name) => name.trim() !== '');
         const submittedSet = new Set(submitted);
