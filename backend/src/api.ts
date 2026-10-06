@@ -153,6 +153,10 @@ import {
   deleteTimelineEvent,
   getAllRecruitmentTimelineEvents
 } from './API/recruitmentTimelineAPI';
+import {
+  previewRecruitmentTimelineWebsiteChanges,
+  requestRecruitmentTimelineWebsitePR
+} from './API/recruitmentTimelineWebsiteAPI';
 
 import { HandlerError, PermissionError } from './utils/errors';
 
@@ -532,6 +536,12 @@ loginCheckedDelete('/recruitment-timeline/:id', async (req, user) => {
   await deleteTimelineEvent(req.params.id, user);
   return {};
 });
+loginCheckedPost('/recruitment-timeline/website-preview', async (_, user) =>
+  previewRecruitmentTimelineWebsiteChanges(user)
+);
+loginCheckedPost('/recruitment-timeline/create-website-pr', async (_, user) =>
+  requestRecruitmentTimelineWebsitePR(user)
+);
 
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({
