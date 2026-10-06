@@ -148,7 +148,7 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams
       );
     }
     if (teams.length === 1) {
-      return <input className={styles.input} value={teams[0].teamName} disabled />;
+      return <input className={styles.input} value={teams[0].displayName} disabled />;
     }
     return (
       <select
@@ -160,7 +160,7 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams
         <option value="">Select a team...</option>
         {teams.map((t) => (
           <option key={t.teamId} value={t.teamId}>
-            {t.teamName}
+            {t.displayName}
           </option>
         ))}
       </select>
@@ -317,7 +317,7 @@ const SubmitRequestModal: React.FC<Props> = ({ open, onClose, onSubmitted, teams
                 </div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>Team</span>
-                  <span>{selectedTeam?.teamName ?? '—'}</span>
+                  <span>{selectedTeam?.displayName ?? '—'}</span>
                 </div>
                 <div className={styles.reviewRow}>
                   <span className={styles.reviewKey}>Phone</span>

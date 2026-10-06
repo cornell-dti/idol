@@ -1,19 +1,20 @@
 import React from 'react';
-import styles from './ReimbursementDashboard.module.css';
+import styles from './ReimbursementAdminDashboard.module.css';
 
 type Props = {
   team: ReimbursementTeam;
+  progressColor?: string;
 };
 
 const formatDollars = (amount: number): string => `$${amount.toLocaleString()}`;
 
-const BudgetOverview: React.FC<Props> = ({ team }) => {
+const TeamBudgetCard: React.FC<Props> = ({ team, progressColor }) => {
   const remaining = Math.max(team.budget - team.totalSpent, 0);
   const pct = team.budget > 0 ? Math.min((team.totalSpent / team.budget) * 100, 100) : 0;
 
   return (
     <section className={styles.card}>
-      <h3 className={styles.cardTitle}>Budget Overview — {team.displayName}</h3>
+      <h3 className={styles.cardTitle}>{team.displayName}</h3>
       <div className={styles.budgetRow}>
         <div>
           <div className={styles.budgetSpent}>{formatDollars(team.totalSpent)}</div>
@@ -25,7 +26,10 @@ const BudgetOverview: React.FC<Props> = ({ team }) => {
         </div>
       </div>
       <div className={styles.progressTrack}>
-        <div className={styles.progressFill} style={{ width: `${pct}%` }} />
+        <div
+          className={styles.progressFill}
+          style={{ width: `${pct}%`, background: progressColor }}
+        />
       </div>
       <div className={styles.progressLabels}>
         <span>$0</span>
@@ -35,4 +39,4 @@ const BudgetOverview: React.FC<Props> = ({ team }) => {
   );
 };
 
-export default BudgetOverview;
+export default TeamBudgetCard;
