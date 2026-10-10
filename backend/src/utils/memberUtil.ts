@@ -89,6 +89,22 @@ export const computeMembersDiff = <M extends SimplifiedMember>(
   return diffs.sort((a, b) => a.email.localeCompare(b.email));
 };
 
+export const DELETED_MEMBER: IdolMember = {
+  netid: 'deleted-member',
+  email: 'deleted-member@cornelldti.org',
+  firstName: 'Deleted',
+  lastName: 'Member',
+  pronouns: '',
+  semesterJoined: '',
+  graduation: '',
+  major: '',
+  hometown: '',
+  about: '',
+  subteams: [],
+  role: 'developer',
+  roleDescription: 'Developer'
+};
+
 export const getGeneralRoleFromLeadType = (role: Role): GeneralRole => {
   switch (role) {
     case 'ops-lead':
