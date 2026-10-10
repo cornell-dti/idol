@@ -48,6 +48,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     adminOnly: true
   },
   {
+    header: 'Edit Recruitment Timeline',
+    description: 'Create, read, edit, or delete recruitment timeline events.',
+    link: '/admin/recruitment-timeline',
+    adminOnly: true
+  },
+  {
     header: 'Edit Candidate Decider Instances',
     description: 'Create, edit, or delete Candidate Decider instances',
     link: '/admin/candidate-decider',
