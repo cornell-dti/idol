@@ -79,9 +79,8 @@ describe('Coffee chats with deleted members', () => {
   });
 });
 
-
 describe('Coffee chats submitted by a member who was later deleted', () => {
-  //Typically intended use does not require this, but is tested anyways
+  // Typically intended use does not require this, but is tested anyways
   const deletedSubmitter = fakeIdolMember();
   const activeOtherMember = fakeIdolMember();
 
