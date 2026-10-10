@@ -43,6 +43,11 @@ const navCardItems: readonly NavigationCardItem[] = [
     header: 'Reimbursement',
     description: 'View your team budget and submit reimbursement requests.',
     link: '/forms/reimbursement'
+  },
+  {
+    header: 'Coffee Chat Categories',
+    description: 'Submit your coffee chat categories for the semester.',
+    link: '/forms/coffeeChatCategories'
   }
 ];
 

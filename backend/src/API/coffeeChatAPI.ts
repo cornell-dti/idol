@@ -220,6 +220,41 @@ export const updateCategoryMembers = async (
 };
 
 /**
+ * Gets the category names that currently list the member.
+ * @param user - the member making the request
+ * @returns category names they fit, or an empty list if they are on none
+ */
+export const getCoffeeChatCategoriesByUser = async (user: IdolMember): Promise<string[]> =>
+  CoffeeChatDao.getCategoryNamesForMember(user.netid);
+
+/**
+ * Updates coffee-chat-categories so the member is listed on each selected category
+ * and removed from any they no longer fit. A later submission replaces the earlier one.
+ * @param categories - category names the member fits
+ * @param user - the member making the request
+ * @returns the category names the member now belongs to
+ */
+export const submitCoffeeChatCategoryResponse = async (
+  categories: unknown,
+  user: IdolMember
+): Promise<string[]> => {
+  if (!Array.isArray(categories) || categories.some((category) => typeof category !== 'string')) {
+    throw new BadRequestError('Categories must be a list of category names.');
+  }
+  const names = categories.map((category) => category.trim()).filter((category) => category !== '');
+  const knownCategories = await CoffeeChatDao.getAllCategories();
+  const knownNames = new Set(knownCategories.map((category) => category.name));
+  const unknown = names.filter((name) => !knownNames.has(name));
+  if (unknown.length > 0) {
+    throw new BadRequestError(`Unknown coffee chat categories: ${unknown.join(', ')}`);
+  }
+  return CoffeeChatDao.setMemberCategories(
+    { name: `${user.firstName} ${user.lastName}`, netid: user.netid },
+    names
+  );
+};
+
+/**
  * Parses a CSV string and updates all coffee chat categories
  * @param csvContent - CSV string
  * @param user - the user making the request

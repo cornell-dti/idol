@@ -2,6 +2,17 @@ import { backendURL } from '../environment';
 import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
+const assertOk = (data: unknown, fallbackMessage: string): Record<string, unknown> => {
+  if (!data || typeof data !== 'object') {
+    throw new Error(fallbackMessage);
+  }
+  const body = data as { error?: unknown };
+  if (body.error) {
+    throw new Error(typeof body.error === 'string' ? body.error : fallbackMessage);
+  }
+  return body as Record<string, unknown>;
+};
+
 export default class CoffeeChatAPI {
   public static async createCoffeeChat(request: CoffeeChat): Promise<CoffeeChat> {
     return APIWrapper.post(`${backendURL}/coffee-chat`, request).then((res) => res.data.coffeeChat);
@@ -106,5 +117,21 @@ export default class CoffeeChatAPI {
 
   public static async uploadCoffeeChatCSV(csv: string): Promise<void> {
     await APIWrapper.post(`${backendURL}/coffee-chat-categories/upload`, { csv });
+  }
+
+  public static async getCoffeeChatCategoriesByUser(): Promise<string[]> {
+    const res = await APIWrapper.get(`${backendURL}/coffee-chat-categories/responses`);
+    const data = assertOk(res?.data, 'Could not load your coffee chat categories.');
+    if (!Array.isArray(data.categories)) {
+      throw new Error('Could not load your coffee chat categories.');
+    }
+    return data.categories as string[];
+  }
+
+  public static async submitCoffeeChatCategories(categories: string[]): Promise<void> {
+    const res = await APIWrapper.post(`${backendURL}/coffee-chat-categories/responses`, {
+      categories
+    });
+    assertOk(res?.data, 'Could not submit your coffee chat categories.');
   }
 }

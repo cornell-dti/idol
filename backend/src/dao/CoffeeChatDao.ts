@@ -195,6 +195,58 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
+   * Gets the category names that currently list this member.
+   * @param netid - the member's netid
+   */
+  static async getCategoryNamesForMember(netid: string): Promise<string[]> {
+    const categories = await CoffeeChatDao.getAllCategories();
+    const normalizedNetid = netid.trim().toLowerCase();
+    return categories
+      .filter((category) =>
+        category.members.some((entry) => entry.netid.trim().toLowerCase() === normalizedNetid)
+      )
+      .map((category) => category.name);
+  }
+
+  /**
+   * Adds the member to each selected category and removes them from the rest.
+   * @param member - the member to place on the category lists
+   * @param categoryNames - category names the member fits
+   * @returns the category names the member now belongs to
+   */
+  static async setMemberCategories(
+    member: MemberDetails,
+    categoryNames: string[]
+  ): Promise<string[]> {
+    const selected = new Set(categoryNames);
+    const normalizedNetid = member.netid.trim().toLowerCase();
+
+    return db.runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(coffeeChatCategoriesCollection);
+      const saved: string[] = [];
+
+      snapshot.docs.forEach((doc) => {
+        const category = doc.data();
+        const shouldBeIn = selected.has(category.name);
+        const alreadyIn = category.members.some(
+          (entry) => entry.netid.trim().toLowerCase() === normalizedNetid
+        );
+        if (shouldBeIn) saved.push(category.name);
+        if (alreadyIn === shouldBeIn) return;
+
+        const members = shouldBeIn
+          ? [...category.members, { name: member.name, netid: member.netid }]
+          : category.members.filter(
+              (entry) => entry.netid.trim().toLowerCase() !== normalizedNetid
+            );
+        transaction.update(doc.ref, { members });
+      });
+
+      return saved;
+    });
+  }
+
+  /**
    * Gets the properties for a specific member
    * @param email - The email of the member whose properties we want to retrieve.
    * @returns A promise that resolves to an MemberProperties object or undefined.
