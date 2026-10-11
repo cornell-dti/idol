@@ -2,10 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { RecruitmentTimelineEvent } from '../src/dao/RecruitmentTimelineDao';
 import { db } from '../src/firebase';
-
-type RecruitmentTimelineEventUpload = Omit<RecruitmentTimelineEvent, 'id' | 'order'>;
 import type {
   RecruitmentEventDate,
   RecruitmentTimelineEvent
