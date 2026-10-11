@@ -116,6 +116,100 @@ const CycleDateFields = ({ form, setForm }: CycleDateFieldsProps): JSX.Element =
   </>
 );
 
+type TimelineEventFormFieldsProps = {
+  form: TimelineEventForm;
+  setForm: (form: TimelineEventForm) => void;
+  onSubmit: () => void;
+  submitLabel: string;
+  isSaving: boolean;
+  onCancel?: () => void;
+};
+
+const TimelineEventFormFields = ({
+  form,
+  setForm,
+  onSubmit,
+  submitLabel,
+  isSaving,
+  onCancel
+}: TimelineEventFormFieldsProps): JSX.Element => (
+  <Form onSubmit={onSubmit}>
+    <Form.Input
+      label="Event Title"
+      placeholder="Information Session 1"
+      required
+      value={form.title}
+      onChange={(_, data) => setForm({ ...form, title: data.value })}
+    />
+    <Form.TextArea
+      label="Description"
+      placeholder="Describe what applicants should know about this event."
+      required
+      value={form.description}
+      onChange={(_, data) => setForm({ ...form, description: data.value as string })}
+    />
+    <Form.Group widths="equal">
+      <Form.Input
+        label="Location"
+        placeholder="Gates Hall"
+        value={form.location}
+        onChange={(_, data) => setForm({ ...form, location: data.value })}
+      />
+      <Form.Input
+        label="Link"
+        placeholder="https://..."
+        value={form.link}
+        onChange={(_, data) => setForm({ ...form, link: data.value })}
+      />
+    </Form.Group>
+    <Form.Field required>
+      <label>Event Type</label>
+      <Dropdown
+        selection
+        options={eventTypeOptions}
+        value={form.type}
+        onChange={(_, data) => setForm({ ...form, type: data.value as string })}
+      />
+    </Form.Field>
+    <Form.Group grouped>
+      <label>Cycles</label>
+      <Form.Checkbox
+        label="Upperclassmen"
+        checked={form.cycles.upperclassmen}
+        onChange={(_, data) =>
+          setForm({
+            ...form,
+            cycles: { ...form.cycles, upperclassmen: Boolean(data.checked) }
+          })
+        }
+      />
+      <Form.Checkbox
+        label="Freshmen/Transfer"
+        checked={form.cycles.freshmen}
+        onChange={(_, data) =>
+          setForm({ ...form, cycles: { ...form.cycles, freshmen: Boolean(data.checked) } })
+        }
+      />
+      <Form.Checkbox
+        label="Spring"
+        checked={form.cycles.spring}
+        onChange={(_, data) =>
+          setForm({ ...form, cycles: { ...form.cycles, spring: Boolean(data.checked) } })
+        }
+      />
+    </Form.Group>
+    <CycleDateFields form={form} setForm={setForm} />
+    <Button primary type="submit" loading={isSaving} disabled={isSaving}>
+      {submitLabel}
+    </Button>
+    {onCancel && (
+      <Button type="button" disabled={isSaving} onClick={onCancel}>
+        Cancel
+      </Button>
+    )}
+  </Form>
+);
+
 const RecruitmentTimelineAdmin = (): JSX.Element => {
   const [events, setEvents] = useState<RecruitmentTimelineEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -341,76 +435,13 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
           <h1>Create a Recruitment Timeline Event</h1>
           <Label color="blue">Draft edits save to Firebase</Label>
         </div>
-        <Form onSubmit={() => createTimelineEvent()}>
-          <Form.Input
-            label="Event Title"
-            placeholder="Information Session 1"
-            required
-            value={form.title}
-            onChange={(_, data) => setForm({ ...form, title: data.value })}
-          />
-          <Form.TextArea
-            label="Description"
-            placeholder="Describe what applicants should know about this event."
-            required
-            value={form.description}
-            onChange={(_, data) => setForm({ ...form, description: data.value as string })}
-          />
-          <Form.Group widths="equal">
-            <Form.Input
-              label="Location"
-              placeholder="Gates Hall"
-              value={form.location}
-              onChange={(_, data) => setForm({ ...form, location: data.value })}
-            />
-            <Form.Input
-              label="Link"
-              placeholder="https://..."
-              value={form.link}
-              onChange={(_, data) => setForm({ ...form, link: data.value })}
-            />
-          </Form.Group>
-          <Form.Field required>
-            <label>Event Type</label>
-            <Dropdown
-              selection
-              options={eventTypeOptions}
-              value={form.type}
-              onChange={(_, data) => setForm({ ...form, type: data.value as string })}
-            />
-          </Form.Field>
-          <Form.Group grouped>
-            <label>Cycles</label>
-            <Form.Checkbox
-              label="Upperclassmen"
-              checked={form.cycles.upperclassmen}
-              onChange={(_, data) =>
-                setForm({
-                  ...form,
-                  cycles: { ...form.cycles, upperclassmen: Boolean(data.checked) }
-                })
-              }
-            />
-            <Form.Checkbox
-              label="Freshmen/Transfer"
-              checked={form.cycles.freshmen}
-              onChange={(_, data) =>
-                setForm({ ...form, cycles: { ...form.cycles, freshmen: Boolean(data.checked) } })
-              }
-            />
-            <Form.Checkbox
-              label="Spring"
-              checked={form.cycles.spring}
-              onChange={(_, data) =>
-                setForm({ ...form, cycles: { ...form.cycles, spring: Boolean(data.checked) } })
-              }
-            />
-          </Form.Group>
-          <CycleDateFields form={form} setForm={setForm} />
-          <Button primary type="submit" loading={isSaving} disabled={isSaving}>
-            Add Event
-          </Button>
-        </Form>
+        <TimelineEventFormFields
+          form={form}
+          setForm={setForm}
+          onSubmit={() => createTimelineEvent()}
+          submitLabel="Add Event"
+          isSaving={isSaving}
+        />
       </div>
 
       <div className={styles.wrapper}>
@@ -445,83 +476,14 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       >
         <Modal.Header>Edit Recruitment Timeline Event</Modal.Header>
         <Modal.Content>
-          <Form onSubmit={() => createTimelineEvent(editForm, editingEvent)}>
-            <Form.Input
-              label="Event Title"
-              required
-              value={editForm.title}
-              onChange={(_, data) => setEditForm({ ...editForm, title: data.value })}
-            />
-            <Form.TextArea
-              label="Description"
-              required
-              value={editForm.description}
-              onChange={(_, data) =>
-                setEditForm({ ...editForm, description: data.value as string })
-              }
-            />
-            <Form.Group widths="equal">
-              <Form.Input
-                label="Location"
-                value={editForm.location}
-                onChange={(_, data) => setEditForm({ ...editForm, location: data.value })}
-              />
-              <Form.Input
-                label="Link"
-                value={editForm.link}
-                onChange={(_, data) => setEditForm({ ...editForm, link: data.value })}
-              />
-            </Form.Group>
-            <Form.Field required>
-              <label>Event Type</label>
-              <Dropdown
-                selection
-                options={eventTypeOptions}
-                value={editForm.type}
-                onChange={(_, data) => setEditForm({ ...editForm, type: data.value as string })}
-              />
-            </Form.Field>
-            <Form.Group grouped>
-              <label>Cycles</label>
-              <Form.Checkbox
-                label="Upperclassmen"
-                checked={editForm.cycles.upperclassmen}
-                onChange={(_, data) =>
-                  setEditForm({
-                    ...editForm,
-                    cycles: { ...editForm.cycles, upperclassmen: Boolean(data.checked) }
-                  })
-                }
-              />
-              <Form.Checkbox
-                label="Freshmen/Transfer"
-                checked={editForm.cycles.freshmen}
-                onChange={(_, data) =>
-                  setEditForm({
-                    ...editForm,
-                    cycles: { ...editForm.cycles, freshmen: Boolean(data.checked) }
-                  })
-                }
-              />
-              <Form.Checkbox
-                label="Spring"
-                checked={editForm.cycles.spring}
-                onChange={(_, data) =>
-                  setEditForm({
-                    ...editForm,
-                    cycles: { ...editForm.cycles, spring: Boolean(data.checked) }
-                  })
-                }
-              />
-            </Form.Group>
-            <CycleDateFields form={editForm} setForm={setEditForm} />
-            <Button primary type="submit" loading={isSaving} disabled={isSaving}>
-              Save Changes
-            </Button>
-            <Button type="button" disabled={isSaving} onClick={() => setEditingEvent(null)}>
-              Cancel
-            </Button>
-          </Form>
+          <TimelineEventFormFields
+            form={editForm}
+            setForm={setEditForm}
+            onSubmit={() => createTimelineEvent(editForm, editingEvent)}
+            submitLabel="Save Changes"
+            isSaving={isSaving}
+            onCancel={() => setEditingEvent(null)}
+          />
         </Modal.Content>
       </Modal>
       <Modal
@@ -533,7 +495,8 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         <Modal.Header>Delete Recruitment Timeline Event</Modal.Header>
         <Modal.Content>
           <p>
-            Delete <strong>{eventToDelete?.title}</strong>? This deletes the event for all cycles and cannot be undone
+            Delete <strong>{eventToDelete?.title}</strong>? This deletes the event for all cycles
+            and cannot be undone
           </p>
         </Modal.Content>
         <Modal.Actions>
