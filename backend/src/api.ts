@@ -148,7 +148,7 @@ import {
   updateReimbursementRequestStatus,
   addReimbursementRequestMessage
 } from './API/reimbursementAPI';
-import { getAllRecruitmentTimelineEvents } from './API/recruitmentTimelineAPI';
+import getAllRecruitmentTimelineEvents from './API/recruitmentTimelineAPI';
 
 import { HandlerError, PermissionError } from './utils/errors';
 
