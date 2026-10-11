@@ -102,11 +102,11 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
             onChange={(_, data) => setSelectedCycle(data.value as Cycle)}
           />
         </div>
-        {isLoading ? (
-          <Loader active inline />
-        ) : cycleEvents.length === 0 ? (
+        {isLoading && <Loader active inline />}
+        {!isLoading && cycleEvents.length === 0 && (
           <Message>There are currently no recruitment timeline events for this cycle.</Message>
-        ) : (
+        )}
+        {!isLoading && cycleEvents.length > 0 && (
           <Card.Group>
             {cycleEvents.map((event) => {
               const cycleDate = event[selectedCycle];
