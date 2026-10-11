@@ -533,7 +533,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         <Modal.Header>Delete Recruitment Timeline Event</Modal.Header>
         <Modal.Content>
           <p>
-            Delete <strong>{eventToDelete?.title}</strong>? This cannot be undone.
+            Delete <strong>{eventToDelete?.title}</strong>? This deletes the event for all cycles and cannot be undone
           </p>
         </Modal.Content>
         <Modal.Actions>
