@@ -2,7 +2,7 @@ import RecruitmentTimelineDao from '../dao/RecruitmentTimelineDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
 
-const getAllRecruitmentTimelineEvents = async (
+export const getAllRecruitmentTimelineEvents = async (
   user: IdolMember
 ): Promise<RecruitmentTimelineEvent[]> => {
   const canEditTimeline = await PermissionsManager.isLeadOrAdmin(user);
