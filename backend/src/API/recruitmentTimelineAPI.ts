@@ -1,6 +1,4 @@
-import RecruitmentTimelineDao, {
-  RecruitmentTimelineEvent
-} from '../dao/RecruitmentTimelineDao';
+import RecruitmentTimelineDao, { RecruitmentTimelineEvent } from '../dao/RecruitmentTimelineDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { PermissionError } from '../utils/errors';
 
