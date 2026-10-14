@@ -45,6 +45,10 @@
     {
       "title": "Guest lecture in our courses",
       "description": "Trends in Web Dev & Product Management 101",
+      "descriptionLinks": [
+        { "label": "Trends in Web Dev", "href": "/course/trends" },
+        { "label": "Product Management 101", "href": "/course/productstrategy" }
+      ],
       "lowestTier": "gold",
       "key": "lecture"
     },

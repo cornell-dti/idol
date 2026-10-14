@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import benefitData from './benefits.json';
 import useScreenSize from '../../hooks/useScreenSize';
 import IconWrapper from '../../components/IconWrapper';
 import CheckIcon from '../../components/icons/CheckIcon';
+import ExternalLinkIcon from '../../components/icons/ExternalLinkIcon';
 import { TABLET_BREAKPOINT } from '../../consts';
 
 type Tier = 'bronze' | 'silver' | 'gold' | 'platinum';
@@ -41,6 +43,25 @@ const medals = {
   }
 };
 const { benefits } = benefitData;
+
+const BenefitDescription = ({ benefit }: { benefit: (typeof benefits)[number] }) => (
+  <p className="text-foreground-3">
+    {benefit.descriptionLinks
+      ? benefit.descriptionLinks.map((link, index) => (
+          <Fragment key={link.href}>
+            {index > 0 && ' & '}
+            <Link
+              href={link.href}
+              className="inline-flex max-w-full items-center gap-1 align-bottom hover:text-foreground-1 focusState rounded-sm"
+            >
+              <span className="underline underline-offset-3">{link.label}</span>
+              <ExternalLinkIcon size={16} className="shrink-0" />
+            </Link>
+          </Fragment>
+        ))
+      : benefit.description}
+  </p>
+);
 
 const medalHeight = 57;
 const medalWidth = 45;
@@ -106,7 +127,7 @@ const SponsorshipTableMobile = () => {
               <tr key={benefit.key} className="border-t border-border-1">
                 <td colSpan={3} className="py-4 pl-4">
                   <h6>{benefit.title}</h6>
-                  <p className="text-foreground-3">{benefit.description}</p>
+                  <BenefitDescription benefit={benefit} />
                 </td>
                 <td className="pl-8 pr-4">
                   <div className="flex items-center justify-center">
@@ -166,7 +187,7 @@ const SponsorshipTableLaptop = () => (
           <tr key={benefit.key}>
             <td className="w-1/2 border-t border-border-1 shadow-[inset_-1px_0_0_0_var(--border-1)] align-top p-8">
               <h5>{benefit.title}</h5>
-              <p className="text-foreground-3">{benefit.description}</p>
+              <BenefitDescription benefit={benefit} />
             </td>
             {tiers.map((tier) => (
               <td
