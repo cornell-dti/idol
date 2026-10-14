@@ -7,16 +7,17 @@ import {
   coffeeChatCategoriesCollection
 } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
-import { getMemberFromDocumentReference } from '../utils/memberUtil';
+import { getMemberFromDocumentReference, DELETED_MEMBER } from '../utils/memberUtil';
 import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
-  const submitter = await getMemberFromDocumentReference(dbCoffeeChat.submitter);
+  const submitter =
+    (await getMemberFromDocumentReference(dbCoffeeChat.submitter)) ?? DELETED_MEMBER;
   const otherMember = !dbCoffeeChat.isNonIDOLMember
-    ? await getMemberFromDocumentReference(
+    ? (await getMemberFromDocumentReference(
         dbCoffeeChat.otherMember as FirebaseFirestore.DocumentReference
-      )
+      )) ?? DELETED_MEMBER
     : (dbCoffeeChat.otherMember as unknown as IdolMember);
 
   return {
@@ -72,7 +73,8 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    * Gets all coffee chats
    */
   async getAllCoffeeChats(): Promise<CoffeeChat[]> {
-    return this.getDocuments();
+    const chats = await this.getDocuments();
+    return chats.filter((chat) => chat.submitter.email !== DELETED_MEMBER.email);
   }
 
   /**
@@ -118,7 +120,8 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
       });
     }
 
-    return this.getDocuments(filters);
+    const chats = await this.getDocuments(filters);
+    return chats.filter((chat) => chat.submitter.email !== DELETED_MEMBER.email);
   }
 
   /**
