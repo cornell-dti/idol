@@ -1,46 +1,64 @@
 {
   "benefits": [
     {
-      "title": "Recognition on DTI website",
-      "description": "Logo placement on sponsorship materials",
+      "title": "Recognition on our website",
+      "description": "Logo on our sponsor page and packet",
       "lowestTier": "bronze",
       "key": "recognition"
     },
     {
-      "title": "Campus-wide marketing & publicity",
-      "description": "Support & usage of company products on campus",
+      "title": "Social media & newsletter shoutout",
+      "description": "Announced to members and followers",
       "lowestTier": "bronze",
-      "key": "campus"
+      "key": "shoutout"
     },
     {
-      "title": "Access to resume book",
-      "description": "Access to our talent pipeline for recruitment",
-      "lowestTier": "silver",
+      "title": "Resume book access",
+      "description": "Engineers, designers, PMs and analysts",
+      "lowestTier": "bronze",
       "key": "resume"
     },
     {
-      "title": "Flagship initiative co-sponsor",
-      "description": "Company-specific publicity & swag distribution",
+      "title": "Job & internship postings",
+      "description": "Shared directly with our members",
       "lowestTier": "silver",
-      "key": "co-sponsor"
+      "key": "postings"
     },
     {
-      "title": "Host up to 1 initiative per semester",
-      "description": "Includes technical workshop, career chats, etc.",
+      "title": "Hosted events per semester",
+      "description": "Info sessions, workshops, coffee chats",
+      "lowestTier": "bronze",
+      "key": "events",
+      "values": {
+        "bronze": "1",
+        "silver": "2",
+        "gold": "3",
+        "platinum": "unlimited"
+      }
+    },
+    {
+      "title": "Logo on team merch",
+      "description": "Worn across campus all year",
       "lowestTier": "gold",
-      "key": "1initiative"
+      "key": "merch"
     },
     {
-      "title": "Host up to 3 initiatives per semester",
-      "description": "With priority scheduling; each additional event costs $250",
+      "title": "Guest lecture in our courses",
+      "description": "Trends in Web Dev & Product Management 101",
       "lowestTier": "gold",
-      "key": "3initiatives"
+      "key": "lecture"
     },
     {
-      "title": "Promotional space in Duffield Hall",
-      "description": "Reserve space in Cornell’s central engineering hub, ideal for networking, swag distribution, and branding",
+      "title": "Priority member meetings",
+      "description": "Schedule 1:1 coffee chats with any member",
+      "lowestTier": "gold",
+      "key": "meetings"
+    },
+    {
+      "title": "Co-branded community workshop",
+      "description": "Built around your product and featuring your programs",
       "lowestTier": "platinum",
-      "key": "duffield"
+      "key": "workshop"
     }
   ]
 }

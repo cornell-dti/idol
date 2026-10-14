@@ -15,24 +15,28 @@ const medals = {
     name: 'bronze',
     link: '/sponsor/medals/bronze.svg',
     title: 'Bronze',
+    price: '$1,000',
     color: '#AC773A'
   },
   silver: {
     name: 'silver',
     link: '/sponsor/medals/silver.svg',
     title: 'Silver',
+    price: '$2,500',
     color: '#B2B2B2'
   },
   gold: {
     name: 'gold',
     link: '/sponsor/medals/gold.svg',
     title: 'Gold',
+    price: '$4,000',
     color: '#DBA10B'
   },
   platinum: {
     name: 'platinum',
     link: '/sponsor/medals/platinum.svg',
     title: 'Platinum',
+    price: '$5,000',
     color: '#7D7D7D'
   }
 };
@@ -42,7 +46,7 @@ const medalHeight = 57;
 const medalWidth = 45;
 const mostPopular = 'gold';
 
-const tiers = Object.keys(medals);
+const tiers = Object.keys(medals) as Tier[];
 
 const SponsorshipTableMobile = () => {
   const [selectedMedal, setSelectedMedal] = useState<Tier>('bronze');
@@ -67,7 +71,7 @@ const SponsorshipTableMobile = () => {
               >
                 <button
                   onClick={() => setSelectedMedal(tier as Tier)}
-                  aria-label={`Show ${medal} tier`}
+                  aria-label={`Show ${medal.title} tier`}
                   className={`w-full py-4 transition-colors duration-200 outline-none cursor-pointer
                     hover:bg-background-2
                     focus-visible:ring-2 focus-visible:ring-foreground-1
@@ -80,6 +84,7 @@ const SponsorshipTableMobile = () => {
                   <div className="flex flex-col gap-2 items-center">
                     <Image src={medal.link} alt={'medal'} width={medalWidth} height={medalHeight} />
                     <p style={{ color: medal.color }}>{medal.title}</p>
+                    <p>{medal.price}</p>
                   </div>
                 </button>
                 {medal.name === mostPopular && (
@@ -94,7 +99,8 @@ const SponsorshipTableMobile = () => {
 
         <tbody>
           {benefits.map((benefit) => {
-            const highlighted = tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier);
+            const highlighted =
+              tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier as Tier);
 
             return (
               <tr key={benefit.key} className="border-t border-border-1">
@@ -104,7 +110,9 @@ const SponsorshipTableMobile = () => {
                 </td>
                 <td className="pl-8 pr-4">
                   <div className="flex items-center justify-center">
-                    {highlighted ? (
+                    {benefit.values ? (
+                      <p className="!text-[20px]">{benefit.values[selectedMedal]}</p>
+                    ) : highlighted ? (
                       <IconWrapper size="small" type="primary" className="p-0">
                         <CheckIcon />
                       </IconWrapper>
@@ -130,7 +138,7 @@ const SponsorshipTableLaptop = () => (
           <th className="w-1/2 p-8 text-left shadow-[inset_-1px_0_0_0_var(--border-1)]">
             <h2 className="h3">Sponsorship benefits</h2>
           </th>
-          {Object.entries(medals).map(([tier, medal], index) => (
+          {Object.entries(medals).map(([tier, medal]) => (
             <th
               key={tier}
               className={`relative w-[12.5%] items-center shadow-[inset_-1px_0_0_0_var(--border-1)] last:shadow-none ${
@@ -140,6 +148,7 @@ const SponsorshipTableLaptop = () => (
               <div className="flex flex-col gap-2 items-center">
                 <Image src={medal.link} alt={'medal'} width={medalWidth} height={medalHeight} />
                 <p style={{ color: medal.color }}>{medal.title}</p>
+                <p>{medal.price}</p>
               </div>
               {medal.name === mostPopular && (
                 <div className="absolute shadow-[0px_8px_16px_0px_rgba(255,255,255,0.32)] text-background-1 -top-[38.6px] right-[1px] left-0 bg-foreground-1 rounded-tl-lg rounded-tr-lg py-[6px]">
@@ -166,7 +175,9 @@ const SponsorshipTableLaptop = () => (
                   tier === 'gold' ? 'bg-background-2' : ''
                 }`}
               >
-                {tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier) ? (
+                {benefit.values ? (
+                  <p className="text-center !text-[20px]">{benefit.values[tier]}</p>
+                ) : tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier as Tier) ? (
                   <IconWrapper
                     size="small"
                     type="primary"
