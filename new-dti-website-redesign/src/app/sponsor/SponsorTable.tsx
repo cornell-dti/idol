@@ -69,6 +69,42 @@ const mostPopular = 'gold';
 
 const tiers = Object.keys(medals) as Tier[];
 
+const BenefitValue = ({
+  benefit,
+  tier,
+  mobile = false
+}: {
+  benefit: (typeof benefits)[number];
+  tier: Tier;
+  mobile?: boolean;
+}) => {
+  if (benefit.values) {
+    return <p className="text-center !text-[20px]">{benefit.values[tier]}</p>;
+  }
+
+  if (tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier as Tier)) {
+    return (
+      <IconWrapper
+        size="small"
+        type="primary"
+        className={mobile ? 'p-0' : 'flex items-center justify-center mx-auto'}
+      >
+        <CheckIcon />
+      </IconWrapper>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-center mx-auto">
+      <span
+        className={`w-6 rounded-full border ${
+          !mobile && tier === mostPopular ? 'border-border-2' : 'border-border-1'
+        }`}
+      />
+    </div>
+  );
+};
+
 const SponsorshipTableMobile = () => {
   const [selectedMedal, setSelectedMedal] = useState<Tier>('bronze');
 
@@ -119,32 +155,19 @@ const SponsorshipTableMobile = () => {
         </thead>
 
         <tbody>
-          {benefits.map((benefit) => {
-            const highlighted =
-              tiers.indexOf(selectedMedal) >= tiers.indexOf(benefit.lowestTier as Tier);
-
-            return (
-              <tr key={benefit.key} className="border-t border-border-1">
-                <td colSpan={3} className="py-4 pl-4">
-                  <h6>{benefit.title}</h6>
-                  <BenefitDescription benefit={benefit} />
-                </td>
-                <td className="pl-8 pr-4">
-                  <div className="flex items-center justify-center">
-                    {benefit.values ? (
-                      <p className="!text-[20px]">{benefit.values[selectedMedal]}</p>
-                    ) : highlighted ? (
-                      <IconWrapper size="small" type="primary" className="p-0">
-                        <CheckIcon />
-                      </IconWrapper>
-                    ) : (
-                      <span className="w-6 rounded-full border border-border-1" />
-                    )}
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+          {benefits.map((benefit) => (
+            <tr key={benefit.key} className="border-t border-border-1">
+              <td colSpan={3} className="py-4 pl-4">
+                <h6>{benefit.title}</h6>
+                <BenefitDescription benefit={benefit} />
+              </td>
+              <td className="pl-8 pr-4">
+                <div className="flex items-center justify-center">
+                  <BenefitValue benefit={benefit} tier={selectedMedal} mobile />
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>
@@ -196,25 +219,7 @@ const SponsorshipTableLaptop = () => (
                   tier === 'gold' ? 'bg-background-2' : ''
                 }`}
               >
-                {benefit.values ? (
-                  <p className="text-center !text-[20px]">{benefit.values[tier]}</p>
-                ) : tiers.indexOf(tier) >= tiers.indexOf(benefit.lowestTier as Tier) ? (
-                  <IconWrapper
-                    size="small"
-                    type="primary"
-                    className="flex items-center justify-center mx-auto"
-                  >
-                    <CheckIcon />
-                  </IconWrapper>
-                ) : (
-                  <div className="flex items-center justify-center mx-auto">
-                    <span
-                      className={`w-[24px] rounded-full border ${
-                        tier === mostPopular ? 'border-border-2' : 'border-border-1'
-                      }`}
-                    ></span>
-                  </div>
-                )}
+                <BenefitValue benefit={benefit} tier={tier} />
               </td>
             ))}
           </tr>
