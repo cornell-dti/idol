@@ -1590,9 +1590,9 @@
     "hometown": "Philly",
     "college": "eng",
     "roleDescription": "Developer",
-    "about": "Hi, I'm Sachin and I like Chipotle and am interested in infra. ",
     "pronouns": "He/Him",
-    "netid": "sc3482"
+    "netid": "sc3482",
+    "about": "Hi, I'm a sophomore majoring in CS and ORIE with interests in infrastructure and quantitative development. Outside of DTI, I'm also a part of CBA. "
   },
   {
     "firstName": "Selina",
@@ -1640,9 +1640,9 @@
     "doubleMajor": "Information Science",
     "graduation": "2029",
     "coffeeChatLink": null,
-    "about": "Hello! I'm Saad",
     "pronouns": "he/him",
-    "linkedin": null
+    "about": "Hello I'm Saad! I'm a PMM on Loop. I'm currently a sophomore studying Communication and Information Science. I'm exploring career sectors in business such as consulting, product management, and brand management! Outside of class I love sewing, fashion, rock climbing, and fishing.",
+    "linkedin": "https://www.linkedin.com/in/saadhashmi07/?isSelfProfile=true"
   },
   {
     "graduation": "December 2027",
