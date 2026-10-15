@@ -18,11 +18,7 @@ export default function SponsorsList() {
           className="border-l border-border-1 !border-b-0 max-md:!border-l-0"
         />
         <div className="flex items-center justify-center h-32 p-4 border-l border-border-1">
-          <Button
-            variant="transparent"
-            label="Get in touch"
-            href="mailto:hello@cornelldti.org"
-          />
+          <Button variant="transparent" label="Get in touch" href="mailto:hello@cornelldti.org" />
         </div>
       </div>
     </section>
