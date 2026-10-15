@@ -28,11 +28,6 @@ const memberDetails = (mem: IdolMember): MemberDetails => ({
   netid: mem.netid
 });
 
-const filteredSuggestions = (
-  members: IdolMember[],
-  predicate: (m: IdolMember) => boolean
-): MemberDetails[] => members.filter(predicate).map((mem) => memberDetails(mem));
-
 const getMembersByCategory = async (members: IdolMember[]) => {
   const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
 
@@ -74,11 +69,6 @@ const getMembersByCategory = async (members: IdolMember[]) => {
       .filter((m): m is IdolMember => m !== undefined)
       .map((m) => memberDetails(m));
   });
-
-  suggestions['a newbie'] = filteredSuggestions(
-    members,
-    (mem) => mem.semesterJoined === 'Fall 2026'
-  );
 
   const alumniSnapshot = await db.collection('alumni').where('gradYear', '==', 2025).get();
   const alumniMembers: MemberDetails[] = alumniSnapshot.docs.map((doc) => {
