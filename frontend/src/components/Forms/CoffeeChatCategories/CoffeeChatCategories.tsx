@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Loader } from 'semantic-ui-react';
+import { Button, Checkbox, Loader, Message } from 'semantic-ui-react';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
 import styles from './CoffeeChatCategories.module.css';
@@ -16,6 +16,7 @@ const MemberView: React.FC = () => {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -29,6 +30,7 @@ const MemberView: React.FC = () => {
         setCategories(names);
         setChecked(Object.fromEntries(names.map((name) => [name, submittedSet.has(name)])));
       } catch (err) {
+        setLoadFailed(true);
         Emitters.generalError.emit({
           headerMsg: "Couldn't load categories",
           contentMsg:
@@ -42,6 +44,7 @@ const MemberView: React.FC = () => {
   }, []);
 
   const submitCategories = async () => {
+    if (loadFailed) return;
     setIsSubmitting(true);
     try {
       const selected = categories.filter((name) => checked[name]);
@@ -62,6 +65,14 @@ const MemberView: React.FC = () => {
   };
 
   if (isLoading) return <Loader active inline="centered" content="Loading categories..." />;
+
+  if (loadFailed) {
+    return (
+      <Message error className={styles.loadError}>
+        Failed to load coffee chat categories.
+      </Message>
+    );
+  }
 
   return (
     <div className={styles.categoryList}>
