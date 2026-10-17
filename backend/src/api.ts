@@ -150,7 +150,11 @@ import {
   updateReimbursementRequestStatus,
   addReimbursementRequestMessage
 } from './API/reimbursementAPI';
-import getAllRecruitmentTimelineEvents from './API/recruitmentTimelineAPI';
+import {
+  createTimelineEvent,
+  deleteTimelineEvent,
+  getAllRecruitmentTimelineEvents
+} from './API/recruitmentTimelineAPI';
 
 import { HandlerError, PermissionError } from './utils/errors';
 
@@ -531,6 +535,13 @@ loginCheckedPost('/send-period-reminder', async (req, user) => ({
 loginCheckedGet('/recruitment-timeline', async (_, user) => ({
   events: await getAllRecruitmentTimelineEvents(user)
 }));
+loginCheckedPost('/recruitment-timeline', async (req, user) => ({
+  event: await createTimelineEvent(req.body, user)
+}));
+loginCheckedDelete('/recruitment-timeline/:id', async (req, user) => {
+  await deleteTimelineEvent(req.params.id, user);
+  return {};
+});
 
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({
