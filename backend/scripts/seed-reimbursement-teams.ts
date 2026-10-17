@@ -20,35 +20,35 @@ const LEAD_TEAM_BUDGET = 300;
 const TEAMS_TO_SEED: ReimbursementTeam[] = [
   {
     teamId: 'biz-leads',
-    teamName: 'biz-leads',
+    displayName: 'Business Leads',
     budget: LEAD_TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'pm-leads',
-    teamName: 'pm-leads',
+    displayName: 'PM Leads',
     budget: LEAD_TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'ops-leads',
-    teamName: 'ops-leads',
+    displayName: 'Ops Leads',
     budget: LEAD_TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'design-leads',
-    teamName: 'design-leads',
+    displayName: 'Design Leads',
     budget: LEAD_TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'dev-leads',
-    teamName: 'dev-leads',
+    displayName: 'Dev Leads',
     budget: LEAD_TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
