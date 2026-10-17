@@ -27,7 +27,7 @@ const getTimelineContent = (): string => {
     throw new Error('The recruitment timeline workflow received invalid event content.');
   }
 
-  return `${JSON.stringify(parsed, null, 2)}\n`;
+  return content.endsWith('\n') ? content : `${content}\n`;
 };
 
 const getDiff = (existingContent: string, nextContent: string): string =>
