@@ -77,6 +77,17 @@ describe('Coffee chats with deleted members', () => {
     expect(chat).toBeDefined();
     expect(chat?.otherMember).toEqual(DELETED_MEMBER);
   });
+
+  test('Updating a chat with a deleted member keeps the original member reference', async () => {
+    const chat = await coffeeChatDao.getCoffeeChat(chatWithDeletedOtherMember.uuid);
+    await coffeeChatDao.updateCoffeeChat({ ...chat!, status: 'approved' });
+
+    const stored = (await coffeeChatsCollection.doc(chatWithDeletedOtherMember.uuid).get()).data();
+    expect(stored?.status).toBe('approved');
+    expect((stored?.otherMember as FirebaseFirestore.DocumentReference).id).toBe(
+      deletedOtherMember.email
+    );
+  });
 });
 
 describe('Coffee chats submitted by a member who was later deleted', () => {

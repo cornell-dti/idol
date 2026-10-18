@@ -78,11 +78,15 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Updates a coffee chat
+   * Updates a coffee chat. The submitter and otherMember are never changed after a chat is created,
+   * so they are left out of the update. This keeps the stored member references intact when a
+   * deleted member is shown as DELETED_MEMBER.
    * @param coffeeChat - updated Coffee Chat object
    */
   async updateCoffeeChat(coffeeChat: CoffeeChat): Promise<CoffeeChat> {
-    return this.updateDocument(coffeeChat.uuid, coffeeChat);
+    const { submitter, otherMember, ...fieldsToUpdate } = coffeeChat;
+    await this.collection.doc(coffeeChat.uuid).update(fieldsToUpdate);
+    return coffeeChat;
   }
 
   /**
