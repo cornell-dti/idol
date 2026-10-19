@@ -15,41 +15,79 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-const LEAD_TEAM_BUDGET = 300;
+const TEAM_BUDGET = 300;
 
-const TEAMS_TO_SEED: ReimbursementTeam[] = [
+const LEAD_TEAMS: ReimbursementTeam[] = [
   {
     teamId: 'biz-leads',
     displayName: 'Business Leads',
-    budget: LEAD_TEAM_BUDGET,
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'pm-leads',
     displayName: 'PM Leads',
-    budget: LEAD_TEAM_BUDGET,
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'ops-leads',
     displayName: 'Ops Leads',
-    budget: LEAD_TEAM_BUDGET,
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'design-leads',
     displayName: 'Design Leads',
-    budget: LEAD_TEAM_BUDGET,
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'dev-leads',
     displayName: 'Dev Leads',
-    budget: LEAD_TEAM_BUDGET,
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  }
+];
+
+const PRODUCT_TEAMS: ReimbursementTeam[] = [
+  {
+    teamId: 'loop',
+    displayName: 'Loop',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'cuapts',
+    displayName: 'CU Apts',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'curaise',
+    displayName: 'CU Raise',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'courseplan',
+    displayName: 'CoursePlan',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'idol',
+    displayName: 'IDOL',
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   }
@@ -67,7 +105,7 @@ const seedTeam = async (team: ReimbursementTeam): Promise<void> => {
 };
 
 const main = async () => {
-  await Promise.all(TEAMS_TO_SEED.map(seedTeam));
+  await Promise.all([...LEAD_TEAMS, ...PRODUCT_TEAMS].map(seedTeam));
 };
 
 main().catch(console.error);

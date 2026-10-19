@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
 import ReimbursementAPI from '../../../API/ReimbursementAPI';
+import { useSelf } from '../../Common/FirestoreDataProvider';
 import TeamBudgetCard from './TeamBudgetCard';
 import styles from './ReimbursementAdminDashboard.module.css';
 
@@ -83,12 +84,12 @@ const ReimbursementAdminDashboard: React.FC = () => {
             title="Org Spending Overview"
             teams={orgTeams}
             colorFor={(team) => ORG_COLORS[team.teamId]}
-            emptyMessage="No org teams found."
+            emptyMessage="You do not have permission to view this."
           />
           <CollapsibleSection
             title="Product Spending Overview"
             teams={productTeams}
-            emptyMessage="No product teams found."
+            emptyMessage="You do not have permission to view this."
           />
         </>
       )}
