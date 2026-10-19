@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
 import ReimbursementAPI from '../../../API/ReimbursementAPI';
-import { useSelf } from '../../Common/FirestoreDataProvider';
 import TeamBudgetCard from './TeamBudgetCard';
 import styles from './ReimbursementAdminDashboard.module.css';
 
