@@ -199,7 +199,7 @@ export default function Footer() {
               Equal Education and Employment
             </Link>
           </div>
-          <p className="!text-sm text-foreground-3">&copy; 2025 Cornell DTI</p>
+          <p className="!text-sm text-foreground-3">&copy; 2026 Cornell DTI</p>
 
           <Button
             className="block sm:hidden w-full"
