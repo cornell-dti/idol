@@ -15,41 +15,79 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-const LEAD_TEAM_BUDGET = 300;
+const TEAM_BUDGET = 300;
 
-const TEAMS_TO_SEED: ReimbursementTeam[] = [
+const LEAD_TEAMS: ReimbursementTeam[] = [
   {
     teamId: 'biz-leads',
-    teamName: 'biz-leads',
-    budget: LEAD_TEAM_BUDGET,
+    displayName: 'Business Leads',
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'pm-leads',
-    teamName: 'pm-leads',
-    budget: LEAD_TEAM_BUDGET,
+    displayName: 'PM Leads',
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'ops-leads',
-    teamName: 'ops-leads',
-    budget: LEAD_TEAM_BUDGET,
+    displayName: 'Ops Leads',
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'design-leads',
-    teamName: 'design-leads',
-    budget: LEAD_TEAM_BUDGET,
+    displayName: 'Design Leads',
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   },
   {
     teamId: 'dev-leads',
-    teamName: 'dev-leads',
-    budget: LEAD_TEAM_BUDGET,
+    displayName: 'Dev Leads',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  }
+];
+
+const PRODUCT_TEAMS: ReimbursementTeam[] = [
+  {
+    teamId: 'loop',
+    displayName: 'Loop',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'cuapts',
+    displayName: 'CU Apts',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'curaise',
+    displayName: 'CU Raise',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'courseplan',
+    displayName: 'CoursePlan',
+    budget: TEAM_BUDGET,
+    totalSpent: 0,
+    assignedAdmins: []
+  },
+  {
+    teamId: 'idol',
+    displayName: 'IDOL',
+    budget: TEAM_BUDGET,
     totalSpent: 0,
     assignedAdmins: []
   }
@@ -67,7 +105,7 @@ const seedTeam = async (team: ReimbursementTeam): Promise<void> => {
 };
 
 const main = async () => {
-  await Promise.all(TEAMS_TO_SEED.map(seedTeam));
+  await Promise.all([...LEAD_TEAMS, ...PRODUCT_TEAMS].map(seedTeam));
 };
 
 main().catch(console.error);

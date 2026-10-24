@@ -82,6 +82,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'Create or edit Alumni instances',
     link: '/admin/alumni-admin-view',
     adminOnly: true
+  },
+  {
+    header: 'Reimbursement Dashboard',
+    description: 'View team budgets and manage reimbursement requests.',
+    link: '/admin/reimbursement',
+    adminOnly: true
   }
 ];
 
