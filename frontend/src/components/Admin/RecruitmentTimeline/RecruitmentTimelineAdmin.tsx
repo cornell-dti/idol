@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Card, Dropdown, Form, Label, Loader, Message, Modal } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
 import RecruitmentTimelineAPI, {
-  RecruitmentTimelineEvent
+  RecruitmentTimelineEvent,
+  RecruitmentTimelineWebsitePreview
 } from '../../../API/RecruitmentTimelineAPI';
 import styles from './RecruitmentTimelineAdmin.module.css';
 
@@ -220,6 +221,11 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
   const [isSaving, setIsSaving] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<RecruitmentTimelineEvent | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
+  const [isCreatingWebsitePR, setIsCreatingWebsitePR] = useState(false);
+  const [websitePreview, setWebsitePreview] = useState<RecruitmentTimelineWebsitePreview | null>(
+    null
+  );
 
   useEffect(() => {
     RecruitmentTimelineAPI.getAllRecruitmentTimelineEvents()
@@ -386,6 +392,38 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     }
   };
 
+  const previewWebsiteChanges = async (): Promise<void> => {
+    setIsPreviewing(true);
+    try {
+      setWebsitePreview(await RecruitmentTimelineAPI.previewWebsiteChanges());
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: 'Error previewing recruitment timeline website changes',
+        contentMsg: error instanceof Error ? error.message : 'Something went wrong'
+      });
+    } finally {
+      setIsPreviewing(false);
+    }
+  };
+
+  const createWebsitePR = async (): Promise<void> => {
+    setIsCreatingWebsitePR(true);
+    try {
+      await RecruitmentTimelineAPI.createWebsitePR();
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Website update workflow started',
+        contentMsg: 'The bot will create or update the recruitment timeline pull request shortly.'
+      });
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: 'Error creating recruitment timeline website pull request',
+        contentMsg: error instanceof Error ? error.message : 'Something went wrong'
+      });
+    } finally {
+      setIsCreatingWebsitePR(false);
+    }
+  };
+
   const renderTimelineEvents = (): JSX.Element => {
     if (isLoading) return <Loader active inline />;
     if (cycleEvents.length === 0) {
@@ -457,14 +495,26 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         {renderTimelineEvents()}
         <div className={styles.buttonContainer}>
           <div>
-            <Button color="blue" type="button">
+            <Button
+              color="blue"
+              type="button"
+              loading={isCreatingWebsitePR}
+              disabled={isCreatingWebsitePR}
+              onClick={createWebsitePR}
+            >
               Create Website PR
             </Button>
             <p className={styles.publishNote}>
               Use this only after all timeline changes are ready for the website.
             </p>
           </div>
-          <Button basic type="button">
+          <Button
+            basic
+            type="button"
+            loading={isPreviewing}
+            disabled={isPreviewing}
+            onClick={previewWebsiteChanges}
+          >
             Preview Diff
           </Button>
         </div>
@@ -511,6 +561,23 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
             onClick={deleteTimelineEvent}
           >
             Delete Event
+          </Button>
+        </Modal.Actions>
+      </Modal>
+      <Modal size="large" open={Boolean(websitePreview)} onClose={() => setWebsitePreview(null)}>
+        <Modal.Header>Website Timeline Preview</Modal.Header>
+        <Modal.Content scrolling>
+          {websitePreview?.hasChanges ? (
+            <pre>{websitePreview.diff}</pre>
+          ) : (
+            <Message positive>
+              The public website timeline already matches the current Firebase events.
+            </Message>
+          )}
+        </Modal.Content>
+        <Modal.Actions>
+          <Button type="button" onClick={() => setWebsitePreview(null)}>
+            Close
           </Button>
         </Modal.Actions>
       </Modal>

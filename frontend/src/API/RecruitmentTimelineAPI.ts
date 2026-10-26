@@ -22,6 +22,11 @@ export type RecruitmentTimelineEvent = {
   spring?: RecruitmentEventDate;
 };
 
+export type RecruitmentTimelineWebsitePreview = {
+  diff: string;
+  hasChanges: boolean;
+};
+
 export default class RecruitmentTimelineAPI {
   public static getAllRecruitmentTimelineEvents(): Promise<RecruitmentTimelineEvent[]> {
     return APIWrapper.get(`${backendURL}/recruitment-timeline`)
@@ -51,6 +56,37 @@ export default class RecruitmentTimelineAPI {
     const response = await APIWrapper.delete(`${backendURL}/recruitment-timeline/${id}`);
     if (!response.status || response.status >= 400 || response.data?.error) {
       throw new Error(response.data?.error ?? 'Unable to delete recruitment timeline event.');
+    }
+  }
+
+  public static async previewWebsiteChanges(): Promise<RecruitmentTimelineWebsitePreview> {
+    const response = await APIWrapper.post(
+      `${backendURL}/recruitment-timeline/website-preview`,
+      {}
+    );
+    if (!response.status || response.status >= 400 || response.data?.error) {
+      throw new Error(
+        response.data?.error ?? 'Unable to preview recruitment timeline website changes.'
+      );
+    }
+
+    return response.data as RecruitmentTimelineWebsitePreview;
+  }
+
+  public static async createWebsitePR(): Promise<void> {
+    const response = await APIWrapper.post(
+      `${backendURL}/recruitment-timeline/create-website-pr`,
+      {}
+    );
+    if (
+      !response.status ||
+      response.status >= 400 ||
+      response.data?.error ||
+      !response.data.dispatched
+    ) {
+      throw new Error(
+        response.data?.error ?? 'Unable to create recruitment timeline website pull request.'
+      );
     }
   }
 }
