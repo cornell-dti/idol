@@ -3,6 +3,7 @@ import { Loader } from 'semantic-ui-react';
 import ReimbursementAPI from '../../../API/ReimbursementAPI';
 import TeamBudgetCard from './TeamBudgetCard';
 import PendingRequestsTable from './PendingRequestsTable';
+import PayoutSummaryTable from './PayoutSummaryTable';
 import { Emitters } from '../../../utils';
 import styles from './ReimbursementAdminDashboard.module.css';
 
@@ -95,6 +96,17 @@ const ReimbursementAdminDashboard: React.FC = () => {
     [requests]
   );
 
+  const payoutRequests = useMemo(
+    () =>
+      requests.filter(
+        (r) =>
+          r.status === 'approved' ||
+          r.status === 'in_progress_with_cornell' ||
+          r.status === 'settled'
+      ),
+    [requests]
+  );
+
   const handleStatusUpdate = async (
     requestId: string,
     status: ReimbursementRequestStatus,
@@ -134,6 +146,12 @@ const ReimbursementAdminDashboard: React.FC = () => {
     }
   };
 
+  const handleMarkPaid = (requestId: string) =>
+    handleStatusUpdate(requestId, 'settled', 'Marked paid', 'Marked paid');
+
+  const handleUndo = (requestId: string) =>
+    handleStatusUpdate(requestId, 'approved', 'Payout undone', 'Payout undone');
+
   const handleView = (_requestId: string) => {
     // Detail view comes later.
   };
@@ -168,6 +186,12 @@ const ReimbursementAdminDashboard: React.FC = () => {
             onAddNote={handleAddNote}
             onView={handleView}
             onViewAll={handleViewAll}
+          />
+          <PayoutSummaryTable
+            requests={payoutRequests}
+            teamsById={teamsById}
+            onMarkPaid={handleMarkPaid}
+            onUndo={handleUndo}
           />
         </>
       )}
