@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Card, Dropdown, Form, Label, Loader, Message } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
-import RecruitmentTimelineAPI, {
-  RecruitmentTimelineEvent
-} from '../../../API/RecruitmentTimelineAPI';
+import RecruitmentTimelineAPI from '../../../API/RecruitmentTimelineAPI';
 import styles from './RecruitmentTimelineAdmin.module.css';
 
 type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
@@ -51,9 +49,12 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
   return (
     <div>
       <div className={[styles.formWrapper, styles.wrapper].join(' ')}>
-        <div className={styles.createHeader}>
+        <div style={{ paddingBottom: '1rem', lineHeight: '2rem' }}>
           <h1>Create a Recruitment Timeline Event</h1>
-          <Label color="blue">Draft edits save to Firebase</Label>
+          <text>
+            Events are first saved in Firebase, and only updated on the website after the “Create
+            PR” button at the bottom is pressed.{' '}
+          </text>
         </div>
         <Form>
           <Form.Input label="Event Title" placeholder="Information Session 1" required />

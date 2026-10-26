@@ -1,24 +1,5 @@
 import { db } from '../firebase';
 
-export type RecruitmentEventDate = {
-  date: string;
-  time?: string;
-  isTentative: boolean;
-};
-
-export type RecruitmentTimelineEvent = {
-  id: string;
-  title: string;
-  description: string;
-  location?: string;
-  type: string;
-  link?: string;
-  order?: number;
-  freshmen?: RecruitmentEventDate;
-  upperclassmen?: RecruitmentEventDate;
-  spring?: RecruitmentEventDate;
-};
-
 const recruitmentTimelineCollection = db.collection('recruitment-timeline-events');
 
 export default class RecruitmentTimelineDao {

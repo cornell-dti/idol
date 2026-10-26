@@ -2,10 +2,12 @@
 
 import fs from 'fs';
 import path from 'path';
-import { RecruitmentTimelineEvent } from '../src/dao/RecruitmentTimelineDao';
 import { db } from '../src/firebase';
 
 type RecruitmentTimelineEventUpload = Omit<RecruitmentTimelineEvent, 'id' | 'order'>;
+
+const RECRUITMENT_TIMELINE_COLLECTION = 'recruitment-timeline-events';
+const forceUpload = process.argv.includes('--force');
 
 const slugify = (title: string) =>
   title
@@ -14,6 +16,16 @@ const slugify = (title: string) =>
     .replace(/^-|-$/g, '');
 
 const main = async () => {
+  const collection = db.collection(RECRUITMENT_TIMELINE_COLLECTION);
+  const existingEvents = await collection.limit(1).get();
+
+  if (!forceUpload && !existingEvents.empty) {
+    throw new Error(
+      `Refusing to upload because ${RECRUITMENT_TIMELINE_COLLECTION} is not empty. ` +
+        'Re-run with --force to overwrite events from the JSON file.'
+    );
+  }
+
   const filePath = path.resolve(
     __dirname,
     '../../new-dti-website-redesign/src/app/apply/events.json'
@@ -26,12 +38,11 @@ const main = async () => {
 
   events.forEach((event, index) => {
     const id = `${index}-${slugify(event.title)}`;
-    const ref = db.collection('recruitment-timeline-events').doc(id);
+    const ref = collection.doc(id);
 
     batch.set(ref, {
       ...event,
-      order: index,
-      updatedAt: new Date().toISOString()
+      order: index
     });
   });
 
@@ -40,4 +51,8 @@ const main = async () => {
   console.log(`Uploaded ${events.length} recruitment timeline events.`);
 };
 
-main();
+main().catch((error) => {
+  // eslint-disable-next-line no-console
+  console.error(error);
+  process.exitCode = 1;
+});

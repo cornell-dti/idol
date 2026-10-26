@@ -8,13 +8,6 @@
   padding-top: 3rem;
 }
 
-.createHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
 .cycleControls {
   display: flex;
   flex-wrap: wrap;
