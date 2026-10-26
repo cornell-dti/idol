@@ -231,6 +231,8 @@ export const updateReimbursementRequestStatus = async (
 
   if (newStatus === 'settled' && existing.status !== 'settled') {
     await teamDao.updateTotalSpent(updated.teamId, updated.amount);
+  } else if (existing.status === 'settled' && newStatus !== 'settled') {
+    await teamDao.updateTotalSpent(updated.teamId, -updated.amount);
   }
   return updated;
 };
