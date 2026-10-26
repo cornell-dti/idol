@@ -260,7 +260,7 @@ export const fakeReimbursementTeam = (): ReimbursementTeam => {
 
   return {
     teamId: faker.datatype.uuid(),
-    teamName: `${faker.company.companyName()} Team`,
+    displayName: `${faker.company.companyName()} Team`,
     budget,
     totalSpent,
     assignedAdmins: [faker.datatype.uuid(), faker.datatype.uuid()]
