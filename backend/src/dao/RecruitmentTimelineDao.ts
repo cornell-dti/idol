@@ -1,7 +1,9 @@
 import { db } from '../firebase';
+import { NotFoundError } from '../utils/errors';
 
 export type RecruitmentEventDate = {
   date: string;
+  endDate?: string;
   sortDate?: string;
   time?: string;
   isTentative: boolean;
@@ -58,6 +60,15 @@ export default class RecruitmentTimelineDao {
   }
 
   static async deleteTimelineEvent(id: string): Promise<void> {
-    await recruitmentTimelineCollection.doc(id).delete();
+    const eventRef = recruitmentTimelineCollection.doc(id);
+
+    await db.runTransaction(async (transaction) => {
+      const event = await transaction.get(eventRef);
+      if (!event.exists) {
+        throw new NotFoundError(`Recruitment timeline event with ID ${id} does not exist.`);
+      }
+
+      transaction.delete(eventRef);
+    });
   }
 }
