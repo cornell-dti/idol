@@ -10,6 +10,7 @@ type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
 
 type CycleDateForm = {
   sortDate: string;
+  endDate: string;
   time: string;
   isTentative: boolean;
 };
@@ -47,9 +48,9 @@ const emptyEventForm: TimelineEventForm = {
   type: 'info',
   cycles: { freshmen: false, upperclassmen: false, spring: false },
   cycleDates: {
-    freshmen: { sortDate: '', time: '', isTentative: false },
-    upperclassmen: { sortDate: '', time: '', isTentative: false },
-    spring: { sortDate: '', time: '', isTentative: false }
+    freshmen: { sortDate: '', endDate: '', time: '', isTentative: false },
+    upperclassmen: { sortDate: '', endDate: '', time: '', isTentative: false },
+    spring: { sortDate: '', endDate: '', time: '', isTentative: false }
   }
 };
 
@@ -68,6 +69,8 @@ const formatDisplayDate = (sortDate: string): string => {
     timeZone: 'UTC'
   }).format(new Date(`${sortDate}T00:00:00Z`));
 };
+
+const timePattern = /^(?:[1-9]|1[0-2]):[0-5]\d(?:am|pm)(?:-(?:[1-9]|1[0-2]):[0-5]\d(?:am|pm))?$/;
 
 type CycleDateFieldsProps = {
   form: TimelineEventForm;
@@ -99,8 +102,14 @@ const CycleDateFields = ({ form, setForm }: CycleDateFieldsProps): JSX.Element =
                 onChange={(_, data) => updateCycleDate({ sortDate: data.value })}
               />
               <Form.Input
+                label="End date (optional)"
+                type="date"
+                value={cycleDate.endDate}
+                onChange={(_, data) => updateCycleDate({ endDate: data.value })}
+              />
+              <Form.Input
                 label="Time"
-                placeholder="6:30-8:00pm"
+                placeholder="6:00pm or 9:00am-12:00pm"
                 value={cycleDate.time}
                 onChange={(_, data) => updateCycleDate({ time: data.value })}
               />
@@ -172,7 +181,7 @@ const TimelineEventFormFields = ({
       />
     </Form.Field>
     <Form.Group grouped>
-      <label>Cycles</label>
+      <label>Cycles <span style={{color: "#db2828"}}>*</span></label>
       <Form.Checkbox
         label="Upperclassmen"
         checked={form.cycles.upperclassmen}
@@ -242,9 +251,12 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         .sort((eventA, eventB) => {
           const firstSortDate = eventA[selectedCycle]?.sortDate;
           const secondSortDate = eventB[selectedCycle]?.sortDate;
-
-          if (firstSortDate && secondSortDate) return firstSortDate.localeCompare(secondSortDate);
-          return (eventA.order ?? 0) - (eventB.order ?? 0);
+          if (!firstSortDate && !secondSortDate) {
+            return eventA.title.localeCompare(eventB.title);
+          }
+          if (!firstSortDate) return 1;
+          if (!secondSortDate) return -1;
+          return firstSortDate.localeCompare(secondSortDate) || eventA.title.localeCompare(eventB.title);
         }),
     [events, selectedCycle]
   );
@@ -280,6 +292,20 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       return;
     }
 
+    const invalidTimeCycle = (Object.keys(eventForm.cycles) as Cycle[]).find(
+      (cycle) =>
+        eventForm.cycles[cycle] &&
+        Boolean(eventForm.cycleDates[cycle].time) &&
+        !timePattern.test(eventForm.cycleDates[cycle].time)
+    );
+    if (invalidTimeCycle) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid event time',
+        contentMsg: `Enter a time for ${cycleLabels[invalidTimeCycle]} in the format 6:00pm or 9:00am-12:00pm.`
+      });
+      return;
+    }
+
     const event: RecruitmentTimelineEvent = {
       ...(eventToUpdate ?? { id: '' }),
       title: eventForm.title.trim(),
@@ -295,6 +321,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         event[cycle] = {
           date: formatDisplayDate(cycleDate.sortDate),
           sortDate: cycleDate.sortDate,
+          ...(cycleDate.endDate ? { endDate: cycleDate.endDate } : {}),
           ...(cycleDate.time.trim() ? { time: cycleDate.time.trim() } : {}),
           isTentative: cycleDate.isTentative
         };
@@ -318,7 +345,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
                 currentEvent.id === savedEvent.id ? savedEvent : currentEvent
               );
 
-        return updatedEvents.sort((eventA, eventB) => (eventA.order ?? 0) - (eventB.order ?? 0));
+        return updatedEvents;
       });
       if (eventToUpdate) setEditForm(emptyEventForm);
       else setForm(emptyEventForm);
@@ -349,16 +376,19 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       cycleDates: {
         freshmen: {
           sortDate: event.freshmen?.sortDate ?? '',
+          endDate: event.freshmen?.endDate ?? '',
           time: event.freshmen?.time ?? '',
           isTentative: event.freshmen?.isTentative ?? false
         },
         upperclassmen: {
           sortDate: event.upperclassmen?.sortDate ?? '',
+          endDate: event.upperclassmen?.endDate ?? '',
           time: event.upperclassmen?.time ?? '',
           isTentative: event.upperclassmen?.isTentative ?? false
         },
         spring: {
           sortDate: event.spring?.sortDate ?? '',
+          endDate: event.spring?.endDate ?? '',
           time: event.spring?.time ?? '',
           isTentative: event.spring?.isTentative ?? false
         }
@@ -403,6 +433,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
                 <Card.Meta className={styles.eventMeta}>
                   <span>
                     {cycleDate?.date}
+                    {cycleDate?.endDate ? ` - ${formatDisplayDate(cycleDate.endDate)}` : ''}
                     {cycleDate?.time ? `, ${cycleDate.time}` : ''}
                     {cycleDate?.isTentative ? ' (tentative)' : ''}
                   </span>
