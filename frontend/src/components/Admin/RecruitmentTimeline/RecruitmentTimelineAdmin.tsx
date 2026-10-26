@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Card, Dropdown, Form, Label, Loader, Message } from 'semantic-ui-react';
+import { Button, Card, Dropdown, Form, Loader, Message } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
 import RecruitmentTimelineAPI from '../../../API/RecruitmentTimelineAPI';
 import styles from './RecruitmentTimelineAdmin.module.css';
