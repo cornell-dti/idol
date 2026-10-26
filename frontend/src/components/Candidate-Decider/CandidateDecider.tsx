@@ -262,6 +262,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
                 candidates={instance.candidates}
                 currentCandidate={currentCandidate}
                 reviews={completedReviews}
+                authorizedMembers={instance.authorizedMembers}
               />
             </div>
 

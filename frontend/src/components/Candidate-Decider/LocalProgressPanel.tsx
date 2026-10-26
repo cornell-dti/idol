@@ -9,22 +9,27 @@ type ProgressPanelProps = {
   candidates: CandidateDeciderCandidate[];
   currentCandidate: number;
   reviews: CandidateDeciderReview[];
+  authorizedMembers: IdolMember[];
 };
 
 const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
   candidates,
   currentCandidate,
-  reviews
+  reviews,
+  authorizedMembers
 }) => {
   const userInfo = useSelf();
   const allLeads = useMembers().filter((member) => LEAD_ROLES.includes(member.role));
+  // Count only the team's leads if an admin added them to this instance, otherwise all leads
+  const teamLeads = authorizedMembers.filter((member) => LEAD_ROLES.includes(member.role));
+  const countedLeads = teamLeads.length > 0 ? teamLeads : allLeads;
 
   const myRatings = reviews.filter((review) => review.reviewer.email === userInfo?.email);
   const currentCandidateReviews = reviews.filter(
     (review) => review.candidateId === currentCandidate
   );
   const leadVotes = currentCandidateReviews.filter((review) =>
-    LEAD_ROLES.includes(review.reviewer.role)
+    countedLeads.some((lead) => lead.email === review.reviewer.email)
   ).length;
   return (
     <div className={styles.progressContainer}>
@@ -38,11 +43,9 @@ const LocalProgressPanel: React.FC<ProgressPanelProps> = ({
           /> */}
           <div>
             <h3>
-              Lead Votes on Candidate {currentCandidate + 1}: {leadVotes}/{allLeads.length}
+              Lead Votes on Candidate {currentCandidate + 1}: {leadVotes}/{countedLeads.length}
             </h3>
-            <p>
-              Number of leads who have voted on this candidate.
-            </p>
+            <p>Number of leads who have voted on this candidate.</p>
             <h3>All Votes on Candidate {currentCandidate + 1}</h3>
             <div className={styles.verticalContentContainer}>
               {currentCandidateReviews
