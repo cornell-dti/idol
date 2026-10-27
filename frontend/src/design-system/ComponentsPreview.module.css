@@ -115,3 +115,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+.backdropSample {
+  width: 100%;
+  min-height: 160px;
+  border-radius: 12px;
+  background: rgb(0 0 0 / 50%);
+}

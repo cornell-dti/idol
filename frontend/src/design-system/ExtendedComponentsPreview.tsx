@@ -10,6 +10,10 @@ import {
   LabelledSwitch,
   Link,
   DesignSystemScope,
+  Menu,
+  MenuItem,
+  MenuGroup,
+  MenuSeparator,
   Modal,
   ModalClose,
   Pill,
@@ -17,6 +21,7 @@ import {
   SidebarItem
 } from './components';
 import {
+  TrashIcon,
   CalendarBlankIcon,
   CalendarIcon,
   CodeIcon,
@@ -35,11 +40,10 @@ import {
   UsersIcon
 } from './icons';
 import type { Icon } from './icons';
-import { Theme } from './components/Theme';
-import { SidebarSection } from './components/Sidebar';
+import { Theme } from './components/Theme/Theme';
+import { SidebarSection } from './components/Sidebar/Sidebar';
 import pageStyles from './TokenPreview.module.css';
 import styles from './ComponentsPreview.module.css';
-import modalStyles from './components/modal.module.css';
 
 const mainEntries: [string, Icon][] = [
   ['Home', HouseIcon],
@@ -108,6 +112,7 @@ function SidebarDemo({
   );
 }
 export default function ExtendedComponentsPreview({ theme }: { theme: Theme }): JSX.Element {
+  const [menuAction, setMenuAction] = useState('Choose an action from the menu.');
   const [checked, setChecked] = useState(false);
   const [radio, setRadio] = useState('design');
   const [notifications, setNotifications] = useState(false);
@@ -229,7 +234,7 @@ export default function ExtendedComponentsPreview({ theme }: { theme: Theme }): 
         '17',
         'Modal backdrop',
         '50% black overlay. Open the modal to see it over the page.',
-        <div className={modalStyles.backdropSample} aria-label="50% black backdrop sample" />
+        <div className={styles.backdropSample} aria-label="50% black backdrop sample" />
       )}
       {section(
         'sidebar-items',
@@ -342,6 +347,37 @@ export default function ExtendedComponentsPreview({ theme }: { theme: Theme }): 
             layout.
           </p>
           <Link href="#colors">View color tokens</Link>
+        </div>
+      )}
+      {section(
+        'menus',
+        '23',
+        'Menus',
+        'Action menus with keyboard navigation, groups, and disabled or destructive actions.',
+        <div className={styles.stack}>
+          <Menu trigger={<Button variant="secondary">Actions</Button>}>
+            <MenuGroup label="Page actions">
+              <MenuItem
+                icon={<PlusIcon size={16} />}
+                onClick={() => setMenuAction('Duplicate selected.')}
+              >
+                Duplicate
+              </MenuItem>
+              <MenuItem onClick={() => setMenuAction('Archive selected.')}>Archive</MenuItem>
+              <MenuItem disabled>Move to another team</MenuItem>
+            </MenuGroup>
+            <MenuSeparator />
+            <MenuItem
+              variant="danger"
+              icon={<TrashIcon size={16} />}
+              onClick={() => setMenuAction('Delete selected (preview only).')}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
+          <p className="idol-body-small" role="status">
+            {menuAction}
+          </p>
         </div>
       )}
     </>

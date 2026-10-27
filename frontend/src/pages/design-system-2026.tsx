@@ -168,8 +168,11 @@ export default function DesignSystem2026(): JSX.Element {
           <a href="#links">
             <span>22</span>Links
           </a>
+          <a href="#menus">
+            <span>23</span>Menus
+          </a>
           <a href="#dotted-background">
-            <span>23</span>Dotted background
+            <span>24</span>Dotted background
           </a>
           <a href="/design-system-2026/shell">
             <span>↗</span>App shell
@@ -229,7 +232,7 @@ export default function DesignSystem2026(): JSX.Element {
         >
           <div className={styles.sectionHeading}>
             <div>
-              <p className={styles.eyebrow}>23 / Surfaces</p>
+              <p className={styles.eyebrow}>24 / Surfaces</p>
               <h2 id="background-title">Dotted background</h2>
               <p className={styles.description}>
                 A quiet, repeating canvas that follows the current theme.
