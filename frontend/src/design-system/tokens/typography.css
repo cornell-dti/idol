@@ -1,0 +1,156 @@
+/* Figma Typography 179:7955, imported 2026-10-26.
+ * Text styles converted to CSS tokens. All rules require the redesign scope.
+ * Inter is loaded by the preview page, not by the main application.
+ */
+[data-idol-redesign] {
+  --idol-font-family: 'Inter', sans-serif;
+  --idol-type-title-size: 40px;
+  --idol-type-title-line-height: 48px;
+  --idol-type-title-weight: 600;
+  --idol-type-title-tracking: -2.4px;
+  --idol-type-title: var(--idol-type-title-weight) var(--idol-type-title-size) /
+    var(--idol-type-title-line-height) var(--idol-font-family);
+  --idol-type-heading-1-size: 32px;
+  --idol-type-heading-1-line-height: 40px;
+  --idol-type-heading-1-weight: 600;
+  --idol-type-heading-1-tracking: -1.28px;
+  --idol-type-heading-1: var(--idol-type-heading-1-weight) var(--idol-type-heading-1-size) /
+    var(--idol-type-heading-1-line-height) var(--idol-font-family);
+  --idol-type-heading-2-size: 24px;
+  --idol-type-heading-2-line-height: 32px;
+  --idol-type-heading-2-weight: 600;
+  --idol-type-heading-2-tracking: -0.96px;
+  --idol-type-heading-2: var(--idol-type-heading-2-weight) var(--idol-type-heading-2-size) /
+    var(--idol-type-heading-2-line-height) var(--idol-font-family);
+  --idol-type-heading-3-size: 20px;
+  --idol-type-heading-3-line-height: 26px;
+  --idol-type-heading-3-weight: 600;
+  --idol-type-heading-3-tracking: -0.4px;
+  --idol-type-heading-3: var(--idol-type-heading-3-weight) var(--idol-type-heading-3-size) /
+    var(--idol-type-heading-3-line-height) var(--idol-font-family);
+  --idol-type-heading-4-size: 16px;
+  --idol-type-heading-4-line-height: 24px;
+  --idol-type-heading-4-weight: 600;
+  --idol-type-heading-4-tracking: -0.32px;
+  --idol-type-heading-4: var(--idol-type-heading-4-weight) var(--idol-type-heading-4-size) /
+    var(--idol-type-heading-4-line-height) var(--idol-font-family);
+  --idol-type-body-large-size: 16px;
+  --idol-type-body-large-line-height: 22px;
+  --idol-type-body-large-weight: 400;
+  --idol-type-body-large-tracking: -0.32px;
+  --idol-type-body-large: var(--idol-type-body-large-weight) var(--idol-type-body-large-size) /
+    var(--idol-type-body-large-line-height) var(--idol-font-family);
+  --idol-type-body-default-size: 14px;
+  --idol-type-body-default-line-height: 20px;
+  --idol-type-body-default-weight: 400;
+  --idol-type-body-default-tracking: -0.32px;
+  --idol-type-body-default: var(--idol-type-body-default-weight) var(--idol-type-body-default-size) /
+    var(--idol-type-body-default-line-height) var(--idol-font-family);
+  --idol-type-body-small-size: 12px;
+  --idol-type-body-small-line-height: 18px;
+  --idol-type-body-small-weight: 400;
+  --idol-type-body-small-tracking: -0.32px;
+  --idol-type-body-small: var(--idol-type-body-small-weight) var(--idol-type-body-small-size) /
+    var(--idol-type-body-small-line-height) var(--idol-font-family);
+  --idol-type-label-large-size: 16px;
+  --idol-type-label-large-line-height: 16px;
+  --idol-type-label-large-weight: 400;
+  --idol-type-label-large-tracking: -0.32px;
+  --idol-type-label-large: var(--idol-type-label-large-weight) var(--idol-type-label-large-size) /
+    var(--idol-type-label-large-line-height) var(--idol-font-family);
+  --idol-type-label-default-size: 14px;
+  --idol-type-label-default-line-height: 14px;
+  --idol-type-label-default-weight: 400;
+  --idol-type-label-default-tracking: -0.32px;
+  --idol-type-label-default: var(--idol-type-label-default-weight)
+    var(--idol-type-label-default-size) / var(--idol-type-label-default-line-height)
+    var(--idol-font-family);
+  --idol-type-label-small-size: 12px;
+  --idol-type-label-small-line-height: 12px;
+  --idol-type-label-small-weight: 400;
+  --idol-type-label-small-tracking: -0.32px;
+  --idol-type-label-small: var(--idol-type-label-small-weight) var(--idol-type-label-small-size) /
+    var(--idol-type-label-small-line-height) var(--idol-font-family);
+  font: var(--idol-type-body-default);
+  letter-spacing: var(--idol-type-body-default-tracking);
+}
+
+[data-idol-redesign] :where(h1, h2, h3, h4, h5, h6, p) {
+  margin: 0;
+}
+
+[data-idol-redesign] :where(button, input, select, textarea) {
+  font-family: var(--idol-font-family);
+}
+
+[data-idol-redesign] .idol-title {
+  font: var(--idol-type-title);
+  letter-spacing: var(--idol-type-title-tracking);
+}
+
+[data-idol-redesign] :where(h1),
+[data-idol-redesign] .idol-heading-1 {
+  font: var(--idol-type-heading-1);
+  letter-spacing: var(--idol-type-heading-1-tracking);
+}
+
+[data-idol-redesign] :where(h2),
+[data-idol-redesign] .idol-heading-2 {
+  font: var(--idol-type-heading-2);
+  letter-spacing: var(--idol-type-heading-2-tracking);
+}
+
+[data-idol-redesign] :where(h3),
+[data-idol-redesign] .idol-heading-3 {
+  font: var(--idol-type-heading-3);
+  letter-spacing: var(--idol-type-heading-3-tracking);
+}
+
+[data-idol-redesign] :where(h4),
+[data-idol-redesign] .idol-heading-4 {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+
+[data-idol-redesign] .idol-body-large {
+  font: var(--idol-type-body-large);
+  letter-spacing: var(--idol-type-body-large-tracking);
+}
+
+[data-idol-redesign] :where(p),
+[data-idol-redesign] .idol-body-default {
+  font: var(--idol-type-body-default);
+  letter-spacing: var(--idol-type-body-default-tracking);
+}
+
+[data-idol-redesign] .idol-body-small {
+  font: var(--idol-type-body-small);
+  letter-spacing: var(--idol-type-body-small-tracking);
+}
+
+[data-idol-redesign] .idol-label-large {
+  font: var(--idol-type-label-large);
+  letter-spacing: var(--idol-type-label-large-tracking);
+}
+
+[data-idol-redesign] .idol-label-default {
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+}
+
+[data-idol-redesign] .idol-label-small {
+  font: var(--idol-type-label-small);
+  letter-spacing: var(--idol-type-label-small-tracking);
+}
+
+/* Figma defines four heading levels. Keep h5/h6 semantic, using its smallest heading. */
+
+/* Portaled Base UI content also inherits its scoped theme instead of legacy text colors. */
+:where([data-idol-redesign]) * {
+  color: inherit;
+}
+
+[data-idol-redesign] :where(h5, h6) {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
