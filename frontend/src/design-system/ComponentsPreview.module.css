@@ -1,0 +1,117 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 56px;
+  font: var(--idol-type-body-default);
+}
+
+.toolbar select {
+  border: 1px solid var(--idol-stroke-medium);
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  font: inherit;
+}
+
+.canvas.canvas {
+  padding: 24px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 16px;
+  background: var(--idol-bg-root);
+  color: var(--idol-fg-default);
+}
+
+.threeColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.stack {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.sidebarExamples {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.sidebarExample {
+  max-width: 100%;
+}
+.sidebarExample > p {
+  margin-top: 12px;
+}
+
+.canvas .feedback {
+  margin-top: 24px;
+  font: var(--idol-type-body-small);
+  color: var(--idol-fg-dimmer);
+}
+
+.fields,
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.fields {
+  align-items: start;
+}
+
+.wide {
+  grid-column: 1 / -1;
+  max-width: 449px;
+  width: 100%;
+}
+
+.demoCard {
+  min-height: 300px;
+}
+
+.cardSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  min-height: 100px;
+  border: 1px dashed var(--idol-stroke-medium);
+  border-radius: 6px;
+  padding: 12px;
+  font: var(--idol-type-body-small);
+  color: var(--idol-fg-dimmer);
+}
+
+@media (max-width: 1200px) {
+  .threeColumns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .canvas {
+    padding: 16px;
+  }
+
+  .fields,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
