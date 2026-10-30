@@ -5,7 +5,7 @@ import IconPreview from '../design-system-2026/IconPreview';
 import TypographyPreview from '../design-system-2026/TypographyPreview';
 import ComponentsPreview from '../design-system-2026/ComponentsPreview';
 import { DesignSystemScope, DottedBackground } from '../design-system-2026/components';
-import styles from '../design-system/TokenPreview.module.css';
+import styles from '../design-system-2026/TokenPreview.module.css';
 
 const tokens = [
   'fg/default',

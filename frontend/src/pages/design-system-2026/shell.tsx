@@ -20,7 +20,7 @@ import {
   UsersIcon
 } from '../../design-system-2026/icons';
 import type { Icon } from '../../design-system-2026/icons';
-import styles from '../../design-system/ShellPreview.module.css';
+import styles from '../../design-system-2026/ShellPreview.module.css';
 
 const mainEntries: [string, Icon][] = [
   ['Home', HouseIcon],
