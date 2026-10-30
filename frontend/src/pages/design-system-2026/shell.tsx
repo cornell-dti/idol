@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { AppShell, Breadcrumbs, DesignSystemScope, Sidebar } from '../../design-system-2026/components';
+import {
+  AppShell,
+  Breadcrumbs,
+  DesignSystemScope,
+  Sidebar
+} from '../../design-system-2026/components';
 import {
   CalendarBlankIcon,
   CalendarIcon,
