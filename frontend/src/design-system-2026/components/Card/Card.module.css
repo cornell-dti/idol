@@ -1,0 +1,46 @@
+.card.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 16px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+}
+
+.cardRow {
+  flex-direction: row;
+}
+
+.card.layeredCard {
+  padding: 0 3px 3px;
+  background: var(--idol-bg-dimmer);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 35px;
+  padding: 5px 12px 6px;
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+}
+
+.layeredCard > .cardBody {
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+}

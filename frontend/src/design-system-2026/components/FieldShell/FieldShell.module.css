@@ -1,0 +1,22 @@
+.field {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+}
+
+.field .fieldLabel {
+  color: var(--idol-fg-default);
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+}
+
+.field .hint,
+.field .errorMessage {
+  margin: 0;
+  font: var(--idol-type-body-small);
+  color: var(--idol-fg-dimmer);
+}
+
+.field .errorMessage {
+  color: var(--idol-danger-default);
+}

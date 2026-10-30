@@ -19,9 +19,21 @@ import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import './App.css';
+import '../design-system-2026/tokens/colors.css';
+import '../design-system-2026/tokens/typography.css';
 
 export default function AppTemplate(props: AppProps): JSX.Element {
   const { Component, pageProps } = props;
+  const router = useRouter();
+
+  // Local design-system previews stay independent of Firebase.
+  if (
+    process.env.NODE_ENV === 'development' &&
+    (router.pathname === '/design-system-2026' ||
+      router.pathname.startsWith('/design-system-2026/'))
+  ) {
+    return <Component {...pageProps} />;
+  }
 
   return (
     <>

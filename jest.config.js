@@ -14,6 +14,12 @@ module.exports = {
         '^.+\\.module\\.(css|sass|scss)$'
       ],
       moduleNameMapper: {
+        // Jest 27 does not resolve package.json imports; match Base UI's browser condition.
+        '^#prehydration/(tabs/indicator|slider/thumb)$':
+          '<rootDir>/node_modules/@base-ui/react/internals/prehydrationScript.stub.js',
+        '^#formatErrorMessage$': '@base-ui/utils/formatErrorMessage',
+        // Jest 27 does not resolve Phosphor's per-icon package exports.
+        '^@phosphor-icons/react/dist/csr/[^/]+$': '@phosphor-icons/react',
         // Handle CSS imports (with CSS modules)
         '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
         // Handle CSS imports (without CSS modules)

@@ -1,0 +1,60 @@
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  color: var(--idol-fg-default);
+  cursor: pointer;
+}
+.label.disabled {
+  cursor: not-allowed;
+}
+.label.disabled > span {
+  opacity: 0.5;
+}
+
+.radio.radio {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  border: 1px solid var(--idol-fg-dimmer);
+  background: var(--idol-bg-default);
+  cursor: pointer;
+}
+.radio.radio {
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+.radio:hover:not([data-disabled]):not([data-checked]) {
+  background: var(--idol-bg-dimmer);
+}
+.radio[data-checked] {
+  border-color: var(--idol-fg-default);
+}
+.radioIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--idol-fg-default);
+}
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.radio:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+.radio[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
