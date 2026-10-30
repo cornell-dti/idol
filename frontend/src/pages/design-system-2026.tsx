@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import IconPreview from '../design-system/IconPreview';
-import TypographyPreview from '../design-system/TypographyPreview';
-import ComponentsPreview from '../design-system/ComponentsPreview';
-import { DesignSystemScope, DottedBackground } from '../design-system/components';
+import IconPreview from '../design-system-2026/IconPreview';
+import TypographyPreview from '../design-system-2026/TypographyPreview';
+import ComponentsPreview from '../design-system-2026/ComponentsPreview';
+import { DesignSystemScope, DottedBackground } from '../design-system-2026/components';
 import styles from '../design-system/TokenPreview.module.css';
 
 const tokens = [

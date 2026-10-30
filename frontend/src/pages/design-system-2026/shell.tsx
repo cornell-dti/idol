@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { AppShell, Breadcrumbs, DesignSystemScope, Sidebar } from '../../design-system/components';
+import { AppShell, Breadcrumbs, DesignSystemScope, Sidebar } from '../../design-system-2026/components';
 import {
   CalendarBlankIcon,
   CalendarIcon,
@@ -18,8 +18,8 @@ import {
   ScalesIcon,
   UserIcon,
   UsersIcon
-} from '../../design-system/icons';
-import type { Icon } from '../../design-system/icons';
+} from '../../design-system-2026/icons';
+import type { Icon } from '../../design-system-2026/icons';
 import styles from '../../design-system/ShellPreview.module.css';
 
 const mainEntries: [string, Icon][] = [
