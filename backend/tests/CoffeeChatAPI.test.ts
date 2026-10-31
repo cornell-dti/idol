@@ -361,10 +361,14 @@ describe('member coffee chat category responses', () => {
 
   test('submit rejects unknown category names without changing membership', async () => {
     const unknown = `not-a-category-${runId}`;
-    await expect(submitCoffeeChatCategoryResponse([unknown], veteran)).rejects.toMatchObject({
+    await submitCoffeeChatCategoryResponse([newbieCategory, instrumentCategory], veteran);
+    await expect(
+      submitCoffeeChatCategoryResponse([instrumentCategory, unknown], veteran)
+    ).rejects.toMatchObject({
       reason: `Unknown coffee chat categories: ${unknown}`
     });
-    await expect(getCoffeeChatCategoriesByUser(veteran)).resolves.toEqual([]);
+    const names = await getCoffeeChatCategoriesByUser(veteran);
+    expect(new Set(names)).toEqual(new Set([newbieCategory, instrumentCategory]));
   });
 
   test('submit rejects a payload that is not a list of category names', async () => {
