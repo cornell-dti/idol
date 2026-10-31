@@ -85,6 +85,17 @@ export const coffeeChatCategoriesCollection: admin.firestore.CollectionReference
     }
   });
 
+export const coffeeChatCategoryResponsesCollection: admin.firestore.CollectionReference<{
+  submittedAt: number;
+}> = db.collection('coffee-chat-category-responses').withConverter({
+  fromFirestore(snapshot): { submittedAt: number } {
+    return snapshot.data() as { submittedAt: number };
+  },
+  toFirestore(data: { submittedAt: number }) {
+    return data;
+  }
+});
+
 export const shoutoutCollection: admin.firestore.CollectionReference<DBShoutout> = db
   .collection('shoutouts')
   .withConverter({

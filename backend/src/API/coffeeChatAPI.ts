@@ -228,8 +228,22 @@ export const getCoffeeChatCategoriesByUser = async (user: IdolMember): Promise<s
   CoffeeChatDao.getCategoryNamesForMember(user.netid);
 
 /**
- * Updates coffee-chat-categories so the member is listed on each selected category
- * and removed from any they no longer fit. A later submission replaces the earlier one.
+ * The member form: the categories they are on, and whether they have used their one submission.
+ * @param user - the member making the request
+ */
+export const getCoffeeChatCategoryForm = async (
+  user: IdolMember
+): Promise<{ categories: string[]; submitted: boolean }> => {
+  const [categories, submitted] = await Promise.all([
+    CoffeeChatDao.getCategoryNamesForMember(user.netid),
+    CoffeeChatDao.hasSubmittedCategoryResponse(user.netid)
+  ]);
+  return { categories, submitted };
+};
+
+/**
+ * Records the member's one category submission. A second submission is rejected and
+ * leaves their category lists unchanged.
  * @param categories - category names the member fits
  * @param user - the member making the request
  * @returns the category names the member now belongs to
@@ -238,6 +252,9 @@ export const submitCoffeeChatCategoryResponse = async (
   categories: unknown,
   user: IdolMember
 ): Promise<string[]> => {
+  if (!user.netid?.trim()) {
+    throw new BadRequestError('A netid is required to submit coffee chat categories.');
+  }
   if (!Array.isArray(categories) || categories.some((category) => typeof category !== 'string')) {
     throw new BadRequestError('Categories must be a list of category names.');
   }
@@ -248,7 +265,7 @@ export const submitCoffeeChatCategoryResponse = async (
   if (unknown.length > 0) {
     throw new BadRequestError(`Unknown coffee chat categories: ${unknown.join(', ')}`);
   }
-  return CoffeeChatDao.setMemberCategories(
+  return CoffeeChatDao.submitMemberCategories(
     { name: `${user.firstName} ${user.lastName}`, netid: user.netid },
     names
   );
@@ -342,22 +359,15 @@ export const checkMemberMeetsCategory = async (
   let message: string = '';
 
   if (otherMember && submitter) {
-    if (category === 'a newbie') {
-      status = otherMember.semesterJoined === 'Fall 2026' ? 'pass' : 'fail';
+    const categories = await CoffeeChatDao.getAllCategories();
+    const categoryDoc = categories.find((c) => c.name === category);
+    if (categoryDoc) {
+      const inCategory = categoryDoc.members.some(
+        (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
+      );
+      status = inCategory ? 'pass' : 'fail';
       if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
-      }
-    } else {
-      const categories = await CoffeeChatDao.getAllCategories();
-      const categoryDoc = categories.find((c) => c.name === category);
-      if (categoryDoc) {
-        const inCategory = categoryDoc.members.some(
-          (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
-        );
-        status = inCategory ? 'pass' : 'fail';
-        if (status === 'fail') {
-          message = `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`;
-        }
+        message = `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`;
       }
     }
   }

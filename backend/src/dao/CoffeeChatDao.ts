@@ -4,12 +4,46 @@ import {
   coffeeChatsCollection,
   db,
   memberPropertiesCollection,
-  coffeeChatCategoriesCollection
+  coffeeChatCategoriesCollection,
+  coffeeChatCategoryResponsesCollection
 } from '../firebase';
 import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference, DELETED_MEMBER } from '../utils/memberUtil';
 import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
+import { BadRequestError } from '../utils/errors';
+
+const normalizeNetid = (netid: string): string => netid.trim().toLowerCase();
+
+const alreadySubmittedMessage = 'You have already submitted your coffee chat categories.';
+
+const placeMemberOnCategories = (
+  transaction: FirebaseFirestore.Transaction,
+  snapshot: FirebaseFirestore.QuerySnapshot<CoffeeChatCategory>,
+  member: MemberDetails,
+  categoryNames: readonly string[]
+): string[] => {
+  const selected = new Set(categoryNames);
+  const normalizedNetid = normalizeNetid(member.netid);
+  const saved: string[] = [];
+
+  snapshot.docs.forEach((doc) => {
+    const category = doc.data();
+    const shouldBeIn = selected.has(category.name);
+    const alreadyIn = category.members.some(
+      (entry) => normalizeNetid(entry.netid) === normalizedNetid
+    );
+    if (shouldBeIn) saved.push(category.name);
+    if (alreadyIn === shouldBeIn) return;
+
+    const members = shouldBeIn
+      ? [...category.members, { name: member.name, netid: member.netid }]
+      : category.members.filter((entry) => normalizeNetid(entry.netid) !== normalizedNetid);
+    transaction.update(doc.ref, { members });
+  });
+
+  return saved;
+};
 
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter =
@@ -225,30 +259,59 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
     member: MemberDetails,
     categoryNames: string[]
   ): Promise<string[]> {
-    const selected = new Set(categoryNames);
-    const normalizedNetid = member.netid.trim().toLowerCase();
-
     return db.runTransaction(async (transaction) => {
       const snapshot = await transaction.get(coffeeChatCategoriesCollection);
-      const saved: string[] = [];
+      return placeMemberOnCategories(transaction, snapshot, member, categoryNames);
+    });
+  }
 
-      snapshot.docs.forEach((doc) => {
-        const category = doc.data();
-        const shouldBeIn = selected.has(category.name);
-        const alreadyIn = category.members.some(
-          (entry) => entry.netid.trim().toLowerCase() === normalizedNetid
-        );
-        if (shouldBeIn) saved.push(category.name);
-        if (alreadyIn === shouldBeIn) return;
+  /**
+   * Whether this member has used their one category-form submission.
+   * @param netid - the member's netid
+   */
+  static async hasSubmittedCategoryResponse(netid: string): Promise<boolean> {
+    const responseId = normalizeNetid(netid);
+    if (!responseId) return false;
+    const response = await coffeeChatCategoryResponsesCollection.doc(responseId).get();
+    return response.exists;
+  }
 
-        const members = shouldBeIn
-          ? [...category.members, { name: member.name, netid: member.netid }]
-          : category.members.filter(
-              (entry) => entry.netid.trim().toLowerCase() !== normalizedNetid
-            );
-        transaction.update(doc.ref, { members });
-      });
+  /**
+   * Deletes the member's one-submission record. Category lists are left unchanged.
+   * @param netid - the member's netid
+   */
+  static async deleteCategoryResponse(netid: string): Promise<void> {
+    const responseId = normalizeNetid(netid);
+    if (!responseId) return;
+    await coffeeChatCategoryResponsesCollection.doc(responseId).delete();
+  }
 
+  /**
+   * Records the member's one category-form submission and updates the lists to match.
+   * A second call leaves the lists unchanged.
+   * @param member - the member to place on the category lists
+   * @param categoryNames - category names the member fits
+   * @returns the category names the member now belongs to
+   */
+  static async submitMemberCategories(
+    member: MemberDetails,
+    categoryNames: string[]
+  ): Promise<string[]> {
+    const responseId = normalizeNetid(member.netid);
+    if (!responseId) {
+      throw new BadRequestError('A netid is required to submit coffee chat categories.');
+    }
+    const responseRef = coffeeChatCategoryResponsesCollection.doc(responseId);
+
+    return db.runTransaction(async (transaction) => {
+      const response = await transaction.get(responseRef);
+      const snapshot = await transaction.get(coffeeChatCategoriesCollection);
+      if (response.exists) {
+        throw new BadRequestError(alreadySubmittedMessage);
+      }
+
+      const saved = placeMemberOnCategories(transaction, snapshot, member, categoryNames);
+      transaction.set(responseRef, { submittedAt: Date.now() });
       return saved;
     });
   }

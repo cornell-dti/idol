@@ -1,20 +1,30 @@
+/// <reference types="jest" />
+/// <reference types="common-types" />
 import CoffeeChatDao from '../src/dao/CoffeeChatDao';
 import { fakeCoffeeChat, fakeIdolMember } from './data/createData';
-import { coffeeChatsCollection, memberCollection } from '../src/firebase';
+import {
+  coffeeChatCategoriesCollection,
+  coffeeChatsCollection,
+  memberCollection
+} from '../src/firebase';
 import { DELETED_MEMBER } from '../src/utils/memberUtil';
 
 const user = fakeIdolMember();
 const user2 = fakeIdolMember();
 const mockCC = { ...fakeCoffeeChat(), submitter: user };
-const mockCC2 = { ...fakeCoffeeChat(), status: 'accepted', submitter: user };
+const mockCC2 = { ...fakeCoffeeChat(), status: 'approved' as Status, submitter: user };
 const mockCC3 = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
 
 const coffeeChatDao = new CoffeeChatDao();
 
 beforeAll(async () => {
+  await memberCollection.doc(user.email).set(user);
+  await memberCollection.doc(user2.email).set(user2);
   await coffeeChatDao.createCoffeeChat(mockCC);
   await coffeeChatDao.createCoffeeChat(mockCC2);
   await coffeeChatDao.createCoffeeChat(mockCC3);
+  // createCoffeeChat always stores status pending, so write the approved status back.
+  await coffeeChatDao.updateCoffeeChat(mockCC2);
 });
 
 /* Cleanup database after running CoffeeChatDao tests */
@@ -22,6 +32,8 @@ afterAll(async () => {
   await coffeeChatsCollection.doc(mockCC.uuid).delete();
   await coffeeChatsCollection.doc(mockCC2.uuid).delete();
   await coffeeChatsCollection.doc(mockCC3.uuid).delete();
+  await memberCollection.doc(user.email).delete();
+  await memberCollection.doc(user2.email).delete();
 });
 
 test('Get coffee chat by user', () =>
@@ -32,10 +44,10 @@ test('Get coffee chat by user', () =>
   }));
 
 test('Get coffee chat by user with status', () =>
-  coffeeChatDao.getCoffeeChatsByUser(user.email, 'accepted').then((coffeeChats) => {
-    expect(coffeeChats.some((submission) => submission === mockCC)).toBe(false);
-    expect(coffeeChats.some((submission) => submission === mockCC2));
-    expect(coffeeChats.some((submission) => submission === mockCC3)).toBe(false);
+  coffeeChatDao.getCoffeeChatsByUser(user.email, 'approved').then((coffeeChats) => {
+    expect(coffeeChats.some((submission) => submission.uuid === mockCC.uuid)).toBe(false);
+    expect(coffeeChats.some((submission) => submission.uuid === mockCC2.uuid)).toBe(true);
+    expect(coffeeChats.some((submission) => submission.uuid === mockCC3.uuid)).toBe(false);
   }));
 
 test('Get coffee chat by user with other member', () =>
@@ -45,6 +57,88 @@ test('Get coffee chat by user with other member', () =>
     expect(coffeeChats.some((submission) => submission === mockCC3));
   }));
 
+describe('CoffeeChatDao category membership', () => {
+  jest.setTimeout(30000);
+
+  const runId = Date.now() * 10 + Math.floor(Math.random() * 1000);
+  const ada: MemberDetails = { name: 'Ada Lovelace', netid: `ada-${runId}` };
+  const grace: MemberDetails = { name: 'Grace Hopper', netid: `grace-${runId}` };
+  const newbieCategory = `a newbie ${runId}`;
+  const instrumentCategory = `plays an instrument ${runId}`;
+  const animeCategory = `likes anime ${runId}`;
+  const indices = [runId, runId + 1, runId + 2];
+  const freshCategories = (): CoffeeChatCategory[] => [
+    { name: newbieCategory, members: [ada], index: indices[0] },
+    { name: instrumentCategory, members: [ada, grace], index: indices[1] },
+    { name: animeCategory, members: [], index: indices[2] }
+  ];
+
+  beforeEach(async () => {
+    await CoffeeChatDao.setMemberCategories(ada, []);
+    await CoffeeChatDao.setMemberCategories(grace, []);
+    await CoffeeChatDao.updateCategories(freshCategories());
+  });
+
+  afterAll(async () => {
+    await CoffeeChatDao.setMemberCategories(ada, []);
+    await CoffeeChatDao.setMemberCategories(grace, []);
+    await Promise.all(
+      indices.map((index) => coffeeChatCategoriesCollection.doc(String(index)).delete())
+    );
+  });
+
+  test('getCategoryNamesForMember returns the categories that list the member, in board order', async () => {
+    await expect(CoffeeChatDao.getCategoryNamesForMember(ada.netid)).resolves.toEqual([
+      newbieCategory,
+      instrumentCategory
+    ]);
+  });
+
+  test('getCategoryNamesForMember matches netid without case sensitivity', async () => {
+    await expect(CoffeeChatDao.getCategoryNamesForMember(ada.netid.toUpperCase())).resolves.toEqual(
+      [newbieCategory, instrumentCategory]
+    );
+  });
+
+  test('getCategoryNamesForMember returns an empty list when the member is on none', async () => {
+    await expect(CoffeeChatDao.getCategoryNamesForMember(`missing-${runId}`)).resolves.toEqual([]);
+  });
+
+  test('setMemberCategories adds the member to selected categories and removes them from the rest', async () => {
+    const saved = await CoffeeChatDao.setMemberCategories(ada, [animeCategory]);
+
+    expect(saved).toEqual([animeCategory]);
+    await expect(CoffeeChatDao.getCategoryNamesForMember(ada.netid)).resolves.toEqual([
+      animeCategory
+    ]);
+
+    const categories = await CoffeeChatDao.getAllCategories();
+    const instrument = categories.find((category) => category.index === indices[1]);
+    expect(instrument?.members).toEqual([grace]);
+  });
+
+  test('selecting a category the member is already on does not duplicate them', async () => {
+    await CoffeeChatDao.setMemberCategories(ada, [newbieCategory, instrumentCategory]);
+
+    const categories = await CoffeeChatDao.getAllCategories();
+    const newbie = categories.find((category) => category.index === indices[0]);
+    expect(newbie?.members.filter((member) => member.netid === ada.netid)).toEqual([ada]);
+  });
+
+  test('a later submission replaces the earlier one', async () => {
+    await CoffeeChatDao.setMemberCategories(grace, [newbieCategory, animeCategory]);
+    const saved = await CoffeeChatDao.setMemberCategories(grace, [instrumentCategory]);
+
+    expect(saved).toEqual([instrumentCategory]);
+    await expect(CoffeeChatDao.getCategoryNamesForMember(grace.netid)).resolves.toEqual([
+      instrumentCategory
+    ]);
+    await expect(CoffeeChatDao.getCategoryNamesForMember(ada.netid)).resolves.toEqual([
+      newbieCategory,
+      instrumentCategory
+    ]);
+  });
+});
 describe('Coffee chats with deleted members', () => {
   const activeSubmitter = fakeIdolMember();
   const deletedOtherMember = fakeIdolMember();
