@@ -2,8 +2,7 @@
 /// <reference types="common-types" />
 import CoffeeChatDao from '../src/dao/CoffeeChatDao';
 import { fakeCoffeeChat, fakeIdolMember } from './data/createData';
-import { coffeeChatCategoriesCollection, coffeeChatsCollection } from '../src/firebase';
-import { coffeeChatsCollection, memberCollection } from '../src/firebase';
+import { coffeeChatCategoriesCollection, coffeeChatsCollection, memberCollection } from '../src/firebase';
 import { DELETED_MEMBER } from '../src/utils/memberUtil';
 
 const user = fakeIdolMember();
