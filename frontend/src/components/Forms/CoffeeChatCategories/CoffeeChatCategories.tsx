@@ -44,7 +44,6 @@ const MemberView: React.FC = () => {
   }, []);
 
   const submitCategories = async () => {
-    if (loadFailed) return;
     setIsSubmitting(true);
     try {
       const selected = categories.filter((name) => checked[name]);

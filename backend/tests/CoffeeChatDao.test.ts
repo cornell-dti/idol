@@ -1,4 +1,5 @@
 /// <reference types="jest" />
+/// <reference types="common-types" />
 import CoffeeChatDao from '../src/dao/CoffeeChatDao';
 import { fakeCoffeeChat, fakeIdolMember } from './data/createData';
 import { coffeeChatCategoriesCollection, coffeeChatsCollection } from '../src/firebase';
@@ -17,6 +18,8 @@ beforeAll(async () => {
   await coffeeChatDao.createCoffeeChat(mockCC);
   await coffeeChatDao.createCoffeeChat(mockCC2);
   await coffeeChatDao.createCoffeeChat(mockCC3);
+  // createCoffeeChat always stores status pending, so write the approved status back.
+  await coffeeChatDao.updateCoffeeChat(mockCC2);
 });
 
 /* Cleanup database after running CoffeeChatDao tests */
@@ -35,9 +38,9 @@ test('Get coffee chat by user', () =>
 
 test('Get coffee chat by user with status', () =>
   coffeeChatDao.getCoffeeChatsByUser(user.email, 'approved').then((coffeeChats) => {
-    expect(coffeeChats.some((submission) => submission === mockCC)).toBe(false);
-    expect(coffeeChats.some((submission) => submission === mockCC2));
-    expect(coffeeChats.some((submission) => submission === mockCC3)).toBe(false);
+    expect(coffeeChats.some((submission) => submission.uuid === mockCC.uuid)).toBe(false);
+    expect(coffeeChats.some((submission) => submission.uuid === mockCC2.uuid)).toBe(true);
+    expect(coffeeChats.some((submission) => submission.uuid === mockCC3.uuid)).toBe(false);
   }));
 
 test('Get coffee chat by user with other member', () =>
@@ -53,7 +56,7 @@ describe('CoffeeChatDao category membership', () => {
   const runId = Date.now() * 10 + Math.floor(Math.random() * 1000);
   const ada: MemberDetails = { name: 'Ada Lovelace', netid: `ada-${runId}` };
   const grace: MemberDetails = { name: 'Grace Hopper', netid: `grace-${runId}` };
-  const newbieCategory = 'a newbie';
+  const newbieCategory = `a newbie ${runId}`;
   const instrumentCategory = `plays an instrument ${runId}`;
   const animeCategory = `likes anime ${runId}`;
   const indices = [runId, runId + 1, runId + 2];

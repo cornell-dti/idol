@@ -255,7 +255,7 @@ describe('member coffee chat category responses', () => {
   jest.setTimeout(30000);
 
   const runId = Date.now() * 10 + Math.floor(Math.random() * 1000);
-  const newbieCategory = 'a newbie';
+  const newbieCategory = `a newbie ${runId}`;
   const instrumentCategory = `plays an instrument ${runId}`;
   const indices = [runId, runId + 1];
   const admin = fakeIdolLead();
@@ -338,7 +338,7 @@ describe('member coffee chat category responses', () => {
     const result = await checkMemberMeetsCategory(newbie.email, veteran.email, newbieCategory);
     expect(result).toEqual({
       status: 'fail',
-      message: "New Member does not meet the category 'a newbie'"
+      message: `New Member does not meet the category '${newbieCategory}'`
     });
   });
 
@@ -372,7 +372,7 @@ describe('member coffee chat category responses', () => {
   });
 
   test('submit rejects a payload that is not a list of category names', async () => {
-    await expect(submitCoffeeChatCategoryResponse('a newbie', veteran)).rejects.toMatchObject({
+    await expect(submitCoffeeChatCategoryResponse(newbieCategory, veteran)).rejects.toMatchObject({
       reason: 'Categories must be a list of category names.'
     });
     await expect(
