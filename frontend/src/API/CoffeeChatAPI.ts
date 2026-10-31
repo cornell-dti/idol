@@ -119,13 +119,19 @@ export default class CoffeeChatAPI {
     await APIWrapper.post(`${backendURL}/coffee-chat-categories/upload`, { csv });
   }
 
-  public static async getCoffeeChatCategoriesByUser(): Promise<string[]> {
+  public static async getCoffeeChatCategoriesByUser(): Promise<{
+    categories: string[];
+    submitted: boolean;
+  }> {
     const res = await APIWrapper.get(`${backendURL}/coffee-chat-categories/responses`);
     const data = assertOk(res?.data, 'Could not load your coffee chat categories.');
     if (!Array.isArray(data.categories)) {
       throw new Error('Could not load your coffee chat categories.');
     }
-    return data.categories as string[];
+    return {
+      categories: data.categories as string[],
+      submitted: data.submitted === true
+    };
   }
 
   public static async submitCoffeeChatCategories(categories: string[]): Promise<void> {

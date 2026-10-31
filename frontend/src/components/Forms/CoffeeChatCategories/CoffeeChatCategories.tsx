@@ -11,9 +11,14 @@ const CoffeeChatCategories: React.FC = () => (
   </div>
 );
 
+const alreadySubmittedMessage =
+  "You've already submitted your coffee chat categories. Contact a lead if you need a change.";
+
 const MemberView: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [submittedNames, setSubmittedNames] = useState<string[]>([]);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -21,13 +26,15 @@ const MemberView: React.FC = () => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const [board, submitted] = await Promise.all([
+        const [board, response] = await Promise.all([
           CoffeeChatAPI.getCoffeeChatBingoBoard(),
           CoffeeChatAPI.getCoffeeChatCategoriesByUser()
         ]);
         const names = board.flat().filter((name) => name.trim() !== '');
-        const submittedSet = new Set(submitted);
+        const submittedSet = new Set(response.categories);
         setCategories(names);
+        setSubmittedNames(response.categories);
+        setHasSubmitted(response.submitted);
         setChecked(Object.fromEntries(names.map((name) => [name, submittedSet.has(name)])));
       } catch (err) {
         setLoadFailed(true);
@@ -48,6 +55,8 @@ const MemberView: React.FC = () => {
     try {
       const selected = categories.filter((name) => checked[name]);
       await CoffeeChatAPI.submitCoffeeChatCategories(selected);
+      setSubmittedNames(selected);
+      setHasSubmitted(true);
       Emitters.generalSuccess.emit({
         headerMsg: 'Categories submitted',
         contentMsg: 'Your coffee chat categories have been submitted.'
@@ -70,6 +79,25 @@ const MemberView: React.FC = () => {
       <Message error className={styles.loadError}>
         Failed to load coffee chat categories.
       </Message>
+    );
+  }
+
+  if (hasSubmitted) {
+    return (
+      <div className={styles.categoryList}>
+        <Message info className={styles.submittedMessage}>
+          {alreadySubmittedMessage}
+        </Message>
+        {submittedNames.length > 0 ? (
+          <ul className={styles.submittedList}>
+            {submittedNames.map((name) => (
+              <li key={name}>{name}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.emptySubmission}>You are not listed on any categories.</p>
+        )}
+      </div>
     );
   }
 

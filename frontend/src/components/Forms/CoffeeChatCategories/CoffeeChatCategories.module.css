@@ -15,6 +15,21 @@
   max-width: 560px;
 }
 
+.submittedMessage {
+  width: 100%;
+}
+
+.submittedList {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 1.125rem;
+}
+
+.emptySubmission {
+  margin-top: 1rem;
+  text-align: center;
+}
+
 .categoryList {
   margin-top: 1.5rem;
   width: 100%;

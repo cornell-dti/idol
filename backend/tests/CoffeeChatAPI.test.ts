@@ -12,6 +12,7 @@ import {
   checkMemberMeetsCategory,
   runAutoChecker,
   getCoffeeChatCategoriesByUser,
+  getCoffeeChatCategoryForm,
   submitCoffeeChatCategoryResponse
 } from '../src/API/coffeeChatAPI';
 import { coffeeChatCategoriesCollection, memberCollection } from '../src/firebase';
@@ -289,6 +290,8 @@ describe('member coffee chat category responses', () => {
   });
 
   beforeEach(async () => {
+    await CoffeeChatDao.deleteCategoryResponse(newbie.netid);
+    await CoffeeChatDao.deleteCategoryResponse(veteran.netid);
     await CoffeeChatDao.setMemberCategories(details(newbie), []);
     await CoffeeChatDao.setMemberCategories(details(veteran), []);
     await CoffeeChatDao.updateCategories(freshCategories());
@@ -296,6 +299,8 @@ describe('member coffee chat category responses', () => {
 
   afterAll(async () => {
     try {
+      await CoffeeChatDao.deleteCategoryResponse(newbie.netid);
+      await CoffeeChatDao.deleteCategoryResponse(veteran.netid);
       await CoffeeChatDao.setMemberCategories(details(newbie), []);
       await CoffeeChatDao.setMemberCategories(details(veteran), []);
       await Promise.all(
@@ -342,11 +347,26 @@ describe('member coffee chat category responses', () => {
     });
   });
 
-  test('a later submission replaces the earlier one', async () => {
+  test('a second submission is rejected and leaves the first response in place', async () => {
     await submitCoffeeChatCategoryResponse([newbieCategory, instrumentCategory], veteran);
-    const saved = await submitCoffeeChatCategoryResponse([], veteran);
+    await expect(submitCoffeeChatCategoryResponse([], veteran)).rejects.toMatchObject({
+      reason: 'You have already submitted your coffee chat categories.'
+    });
 
+    const names = await getCoffeeChatCategoriesByUser(veteran);
+    expect(new Set(names)).toEqual(new Set([newbieCategory, instrumentCategory]));
+    await expect(getCoffeeChatCategoryForm(veteran)).resolves.toMatchObject({ submitted: true });
+  });
+
+  test('submitting no categories still counts as the one submission', async () => {
+    const saved = await submitCoffeeChatCategoryResponse([], veteran);
     expect(saved).toEqual([]);
+
+    await expect(
+      submitCoffeeChatCategoryResponse([instrumentCategory], veteran)
+    ).rejects.toMatchObject({
+      reason: 'You have already submitted your coffee chat categories.'
+    });
     await expect(getCoffeeChatCategoriesByUser(veteran)).resolves.toEqual([]);
   });
 
@@ -361,7 +381,7 @@ describe('member coffee chat category responses', () => {
 
   test('submit rejects unknown category names without changing membership', async () => {
     const unknown = `not-a-category-${runId}`;
-    await submitCoffeeChatCategoryResponse([newbieCategory, instrumentCategory], veteran);
+    await CoffeeChatDao.setMemberCategories(details(veteran), [newbieCategory, instrumentCategory]);
     await expect(
       submitCoffeeChatCategoryResponse([instrumentCategory, unknown], veteran)
     ).rejects.toMatchObject({
@@ -369,6 +389,7 @@ describe('member coffee chat category responses', () => {
     });
     const names = await getCoffeeChatCategoriesByUser(veteran);
     expect(new Set(names)).toEqual(new Set([newbieCategory, instrumentCategory]));
+    await expect(CoffeeChatDao.hasSubmittedCategoryResponse(veteran.netid)).resolves.toBe(false);
   });
 
   test('submit rejects a payload that is not a list of category names', async () => {
