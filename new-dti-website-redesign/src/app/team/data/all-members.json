@@ -92,7 +92,6 @@
     "formerSubteams": [],
     "linkedin": null,
     "pronouns": "she/her",
-    "about": "Hi! I am Angela! I am interested in transforming ideas into products that create impact and sharing them with the community! In my free time, you will find me learning Japanese, running, cafe-hopping, or making matcha the proper way (with real matcha and a bamboo whisk from Japan).",
     "semesterJoined": "Spring 2026",
     "graduation": "2028",
     "major": "Information Science",
@@ -100,7 +99,8 @@
     "doubleMajor": "Economics",
     "coffeeChatLink": null,
     "role": "business",
-    "hometown": "Hong Kong"
+    "hometown": "Hong Kong",
+    "about": "PMM on CURaise"
   },
   {
     "roleDescription": "Technical PM",
@@ -1013,35 +1013,8 @@
     "hometown": "Scotch Plains, NJ"
   },
   {
-    "linkedin": "https://www.linkedin.com/in/katherineyhuang/",
-    "semesterJoined": "Fall 2024",
-    "netid": "kh784",
-    "graduation": "May 2027",
-    "coffeeChatLink": "",
-    "minor": "Artificial Intelligence",
-    "college": "cals",
-    "pronouns": "",
-    "github": "",
-    "hometown": "Cheshire, CT",
-    "lastName": "Huang",
-    "doubleMajor": "",
-    "firstName": "Katherine",
-    "about": "Hi! I’m Katherine, a senior majoring in Information Science! I joined DTI my sophomore fall as a founding product designer on CURaise, later becoming APM of CURaise in my sophomore spring! ",
-    "role": "pm",
-    "email": "kh784@cornell.edu",
-    "formerSubteams": [
-      "curaise"
-    ],
-    "roleDescription": "Product Manager",
-    "subteams": [],
-    "major": "Information Science",
-    "website": ""
-  },
-  {
-    "linkedin": "linkedin.com/in/kaiharashima/",
     "formerSubteams": [],
     "roleDescription": "Designer",
-    "about": "Hi - I'm Kai! I'm studying the intersection of creative design principles and technical skill in computer science. I'm self-taught in graphic design (Adobe Illustrator) and web development (CSS3, HTML, and React with TypeScript).\n\nOutside of school, I love sailing, classical piano, backpacking, tennis, squash, oil painting, and calligraphy. Feel free to reach out!",
     "pronouns": "he/him",
     "semesterJoined": "Spring 2026",
     "minor": null,
@@ -1056,11 +1029,13 @@
     "netid": "kh862",
     "email": "kh862@cornell.edu",
     "github": null,
-    "website": "kaiharashima.com",
     "college": "cas",
     "subteams": [
       "cuapts"
-    ]
+    ],
+    "about": "Hi, I'm Kai! I'm currently a designer on CUApts. Outside of school, I love spending time outdoors (sailing skiing and backpacking), reading, and playing tennis. Reach out if you have any book recs or just want to chat!",
+    "website": "https://www.kaiharashima.com/",
+    "linkedin": "https://www.linkedin.com/in/kaiharashima/"
   },
   {
     "firstName": "Kathy",
@@ -1253,7 +1228,7 @@
     "coffeeChatLink": null,
     "about": "Hi, I'm Matt! I'm a dev on CoursePlan. Outside of academics, I am a huge music person and play rhythm guitar with an indie/alt-rock band on campus. I also love watching and playing soccer. On campus, I'm also a part of the Milstein Program, Cornell Media Guild, Music Production, Concert Commission, and Webdev. If you need any dev or guitar advice, feel free to reach out!",
     "pronouns": "he/him",
-    "linkedin": " www.linkedin.com/in/matthewizaguirre58"
+    "linkedin": "https://www.linkedin.com/in/matthewizaguirre58/"
   },
   {
     "subteams": [],

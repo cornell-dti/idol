@@ -33,9 +33,8 @@ const ReimbursementDashboard: React.FC = () => {
     const subteams = new Set(user.subteams.map((s) => s.toLowerCase()));
     const isLead = subteams.has('leads');
     return teams.filter((t) => {
-      const name = t.teamName.toLowerCase();
-      if (subteams.has(name)) return true;
-      if (isLead && name.endsWith('-leads')) return true;
+      if (subteams.has(t.teamId)) return true;
+      if (isLead && t.teamId.endsWith('-leads')) return true;
       return false;
     });
   }, [teams, user.subteams]);

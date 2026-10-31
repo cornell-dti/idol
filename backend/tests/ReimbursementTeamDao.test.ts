@@ -13,6 +13,7 @@ test('Create and update team totalSpent', async () => {
   await teamDao.createTeam(testTeam);
   const fetchedTeam = await teamDao.getTeam(testTeam.teamId);
   expect(fetchedTeam).toEqual(testTeam);
+  expect(fetchedTeam?.displayName).toBe(testTeam.displayName);
 
   // Update totalSpent
   const initialSpent = testTeam.totalSpent;
