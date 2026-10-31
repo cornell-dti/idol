@@ -18,6 +18,8 @@ const mockCC3 = { ...fakeCoffeeChat(), submitter: user, otherMember: user2 };
 const coffeeChatDao = new CoffeeChatDao();
 
 beforeAll(async () => {
+  await memberCollection.doc(user.email).set(user);
+  await memberCollection.doc(user2.email).set(user2);
   await coffeeChatDao.createCoffeeChat(mockCC);
   await coffeeChatDao.createCoffeeChat(mockCC2);
   await coffeeChatDao.createCoffeeChat(mockCC3);
@@ -30,6 +32,8 @@ afterAll(async () => {
   await coffeeChatsCollection.doc(mockCC.uuid).delete();
   await coffeeChatsCollection.doc(mockCC2.uuid).delete();
   await coffeeChatsCollection.doc(mockCC3.uuid).delete();
+  await memberCollection.doc(user.email).delete();
+  await memberCollection.doc(user2.email).delete();
 });
 
 test('Get coffee chat by user', () =>
