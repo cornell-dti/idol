@@ -87,6 +87,7 @@ const CoffeeChatDetails: React.FC = () => {
     : router.query.category;
 
   const [isLoading, setLoading] = useState(true);
+  const [isRerunning, setIsRerunning] = useState(false);
   const [status, setStatus] = useState<Status | string>();
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
   const [categoryToChats, setCategoryToChats] = useState<Map<string, CoffeeChat[]>>(new Map());
@@ -124,34 +125,30 @@ const CoffeeChatDetails: React.FC = () => {
     setCategoryToChats(map);
   }, [coffeeChats]);
 
-  const runAutoCheckerForCategory = async (category: string) => {
-    setLoading(true);
+  const runAutoCheckerForCategory = async (categoryName: string) => {
+    setIsRerunning(true);
 
-    const coffeeChatsForCategory = categoryToChats.get(category) || [];
+    const coffeeChatsForCategory = categoryToChats.get(categoryName) || [];
 
-    const updatedChatsByUuid = await Promise.all(
-      coffeeChatsForCategory.map(async (chat) => {
-        try {
-          return await CoffeeChatAPI.runAutoChecker(chat.uuid);
-        } catch (error) {
-          return chat;
-        }
-      })
-    );
+    try {
+      const updatedChatsByUuid = await Promise.all(
+        coffeeChatsForCategory.map(async (chat) => {
+          try {
+            return await CoffeeChatAPI.runAutoChecker(chat.uuid);
+          } catch (error) {
+            return chat;
+          }
+        })
+      );
 
-    setCoffeeChats((prevChats) =>
-      prevChats.map(
-        (chat) => updatedChatsByUuid.find((updatedChat) => updatedChat.uuid === chat.uuid) || chat
-      )
-    );
-
-    setCategoryToChats((prevMap) => {
-      const newMap = new Map(prevMap);
-      newMap.set(category, updatedChatsByUuid);
-      return newMap;
-    });
-
-    setLoading(false);
+      setCoffeeChats((prevChats) =>
+        prevChats.map(
+          (chat) => updatedChatsByUuid.find((updatedChat) => updatedChat.uuid === chat.uuid) || chat
+        )
+      );
+    } finally {
+      setIsRerunning(false);
+    }
   };
 
   if (isLoading) return <Loader active />;
@@ -163,7 +160,13 @@ const CoffeeChatDetails: React.FC = () => {
           <span className={styles.arrow}>&#8592;</span>
         </Link>
         {category && (
-          <Button onClick={() => runAutoCheckerForCategory(category)}>Re-run autochecker</Button>
+          <Button
+            loading={isRerunning}
+            disabled={isRerunning}
+            onClick={() => runAutoCheckerForCategory(category)}
+          >
+            Re-run autochecker
+          </Button>
         )}
       </div>
 
