@@ -104,7 +104,6 @@
     "imageAlt": "2 tablets showing the homepage and articles page of the Design @ Cornell website",
     "name": "Design @ Cornell",
     "description": "Design @ Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
-    "link": "https://www.cudesign.io/",
     "comingSoon": false,
     "id": "designatcornell",
     "accentColor": "#FFF8CD"
