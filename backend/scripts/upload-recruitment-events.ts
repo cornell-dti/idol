@@ -4,8 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import { db } from '../src/firebase';
 import { deleteCollection } from '../src/utils/firebase-utils';
-
-type RecruitmentTimelineEventUpload = Omit<RecruitmentTimelineEvent, 'id' | 'order'>;
 import type {
   RecruitmentEventDate,
   RecruitmentTimelineEvent
