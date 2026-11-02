@@ -684,6 +684,8 @@ interface TECConfig {
 /** A scheduled date for a recruitment timeline event. */
 type RecruitmentEventDate = {
   date: string;
+  endDate?: string;
+  sortDate?: string;
   time?: string;
   isTentative: boolean;
 };
