@@ -3,6 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { db } from '../src/firebase';
+import { deleteCollection } from '../src/utils/firebase-utils';
 
 type RecruitmentTimelineEventUpload = Omit<RecruitmentTimelineEvent, 'id' | 'order'>;
 
@@ -22,7 +23,7 @@ const main = async () => {
   if (!forceUpload && !existingEvents.empty) {
     throw new Error(
       `Refusing to upload because ${RECRUITMENT_TIMELINE_COLLECTION} is not empty. ` +
-        'Re-run with --force to overwrite events from the JSON file.'
+        'Re-run with --force to replace events from the JSON file.'
     );
   }
 
@@ -33,6 +34,12 @@ const main = async () => {
 
   const raw = fs.readFileSync(filePath, 'utf8');
   const { events } = JSON.parse(raw) as { events: RecruitmentTimelineEventUpload[] };
+
+  if (forceUpload && !existingEvents.empty) {
+    await deleteCollection(db, RECRUITMENT_TIMELINE_COLLECTION, 500);
+    // eslint-disable-next-line no-console
+    console.log(`Deleted existing ${RECRUITMENT_TIMELINE_COLLECTION} events.`);
+  }
 
   const batch = db.batch();
 
