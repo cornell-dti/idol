@@ -7,6 +7,7 @@ type Props = {
   teamsById: Record<string, ReimbursementTeam>;
   onMarkPaid: (requestId: string) => Promise<void>;
   onUndo: (requestId: string) => Promise<void>;
+  onView: (requestId: string) => void;
 };
 
 const formatDate = (timestamp: number): string => {
@@ -23,7 +24,13 @@ const STATUS_LABEL: Partial<Record<ReimbursementRequestStatus, string>> = {
   settled: 'Paid Out'
 };
 
-const PayoutSummaryTable: React.FC<Props> = ({ requests, teamsById, onMarkPaid, onUndo }) => (
+const PayoutSummaryTable: React.FC<Props> = ({
+  requests,
+  teamsById,
+  onMarkPaid,
+  onUndo,
+  onView
+}) => (
   <section className={styles.section}>
     <div className={styles.tableHeader}>
       <h2 className={styles.sectionTitle}>Payout Summary</h2>
@@ -57,15 +64,24 @@ const PayoutSummaryTable: React.FC<Props> = ({ requests, teamsById, onMarkPaid, 
                 </span>
               </td>
               <td className={styles.actionCol}>
-                {r.status === 'settled' ? (
-                  <Button basic onClick={() => onUndo(r.requestId)}>
-                    Undo
-                  </Button>
-                ) : (
-                  <Button primary onClick={() => onMarkPaid(r.requestId)}>
-                    Mark paid
-                  </Button>
-                )}
+                <div className={styles.actionGroup}>
+                  {r.status === 'settled' ? (
+                    <Button basic onClick={() => onUndo(r.requestId)}>
+                      Undo
+                    </Button>
+                  ) : (
+                    <Button primary onClick={() => onMarkPaid(r.requestId)}>
+                      Mark paid
+                    </Button>
+                  )}
+                  <button
+                    type="button"
+                    className={styles.viewLink}
+                    onClick={() => onView(r.requestId)}
+                  >
+                    View
+                  </button>
+                </div>
               </td>
             </tr>
           ))
