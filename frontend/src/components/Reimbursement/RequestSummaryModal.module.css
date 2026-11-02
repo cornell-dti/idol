@@ -1,0 +1,103 @@
+.rounded {
+  border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+.modal {
+  padding: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.statusPill {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status_pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status_needs_changes {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status_approved {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status_in_progress_with_cornell {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.status_settled {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.value {
+  font-size: 0.875rem;
+  color: #111827;
+  word-break: break-word;
+}
+
+.receiptLink {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.empty {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

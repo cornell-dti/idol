@@ -4,6 +4,7 @@ import ReimbursementAPI from '../../../API/ReimbursementAPI';
 import TeamBudgetCard from './TeamBudgetCard';
 import PendingRequestsTable from './PendingRequestsTable';
 import PayoutSummaryTable from './PayoutSummaryTable';
+import RequestSummaryModal from '../../Reimbursement/RequestSummaryModal';
 import { Emitters } from '../../../utils';
 import styles from './ReimbursementAdminDashboard.module.css';
 
@@ -58,6 +59,7 @@ const ReimbursementAdminDashboard: React.FC = () => {
   const [teams, setTeams] = useState<ReimbursementTeam[]>([]);
   const [requests, setRequests] = useState<ReimbursementRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewingId, setViewingId] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     const [allTeams, allRequests] = await Promise.all([
@@ -152,8 +154,13 @@ const ReimbursementAdminDashboard: React.FC = () => {
   const handleUndo = (requestId: string) =>
     handleStatusUpdate(requestId, 'approved', 'Payout undone', 'Payout undone');
 
-  const handleView = (_requestId: string) => {
-    // Detail view comes later.
+  const viewingRequest = useMemo(
+    () => requests.find((r) => r.requestId === viewingId) ?? null,
+    [requests, viewingId]
+  );
+
+  const handleView = (requestId: string) => {
+    setViewingId(requestId);
   };
 
   const handleViewAll = () => {
@@ -192,9 +199,17 @@ const ReimbursementAdminDashboard: React.FC = () => {
             teamsById={teamsById}
             onMarkPaid={handleMarkPaid}
             onUndo={handleUndo}
+            onView={handleView}
           />
         </>
       )}
+
+      <RequestSummaryModal
+        open={viewingRequest !== null}
+        request={viewingRequest}
+        teamDisplayName={viewingRequest ? teamsById[viewingRequest.teamId]?.displayName : undefined}
+        onClose={() => setViewingId(null)}
+      />
     </div>
   );
 };
