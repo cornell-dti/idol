@@ -1,13 +1,11 @@
 /* backend/scripts/upload-recruitment-events.ts */
 
+/// <reference types="common-types" />
+
 import fs from 'fs';
 import path from 'path';
 import { db } from '../src/firebase';
 import { deleteCollection } from '../src/utils/firebase-utils';
-import type {
-  RecruitmentEventDate,
-  RecruitmentTimelineEvent
-} from '../src/dao/RecruitmentTimelineDao';
 
 type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
 type SourceRecruitmentTimelineEvent = Omit<RecruitmentTimelineEvent, 'id' | 'order'>;
@@ -72,7 +70,8 @@ const addSortDates = (
 
     normalizedEvent[cycle] = {
       ...eventDate,
-      sortDate: eventDate.sortDate ?? getSortDate(eventDate.date, fallRecruitmentYear)
+      sortDate: eventDate.sortDate ?? getSortDate(eventDate.date, fallRecruitmentYear),
+      ...(eventDate.endDate ? { endDate: getSortDate(eventDate.endDate, fallRecruitmentYear) } : {})
     } as RecruitmentEventDate;
   });
 

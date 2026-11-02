@@ -68,7 +68,29 @@ const formatDisplayDate = (sortDate: string): string => {
   }).format(new Date(`${sortDate}T00:00:00Z`));
 };
 
-const timePattern = /^(?:[1-9]|1[0-2]):[0-5]\d(?:am|pm)(?:-(?:[1-9]|1[0-2]):[0-5]\d(?:am|pm))?$/;
+const convertTo24Hr = (time: string): string => {
+  const match = time.match(/^(\d{1,2})(?::(\d{2}))?(AM|PM)$/i);
+  if (!match) throw new Error('Invalid time');
+
+  let hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2] ?? '00', 10);
+  if (hour < 1 || hour > 12 || minute > 59) throw new Error('Invalid time');
+  if (match[3].toUpperCase() === 'PM' && hour !== 12) hour += 12;
+  if (match[3].toUpperCase() === 'AM' && hour === 12) hour = 0;
+
+  return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+};
+
+const parseTimeRange = (input: string): void => {
+  const match = input.match(/^(.+?)-(.+?)(AM|PM)$/i);
+  if (!match) throw new Error('Invalid time range');
+
+  const [, startRaw, endRaw, meridiem] = match;
+  const start = startRaw.match(/AM|PM/i) ? startRaw : startRaw + meridiem;
+  const end = endRaw + meridiem;
+  convertTo24Hr(start);
+  convertTo24Hr(end);
+};
 
 type CycleDateFieldsProps = {
   form: TimelineEventForm;
@@ -103,11 +125,12 @@ const CycleDateFields = ({ form, setForm }: CycleDateFieldsProps): JSX.Element =
                 label="End date (optional)"
                 type="date"
                 value={cycleDate.endDate}
+                min={cycleDate.sortDate}
                 onChange={(_, data) => updateCycleDate({ endDate: data.value })}
               />
               <Form.Input
                 label="Time"
-                placeholder="6:00pm or 9:00am-12:00pm"
+                placeholder="9:00am-12:00pm"
                 value={cycleDate.time}
                 onChange={(_, data) => updateCycleDate({ time: data.value })}
               />
@@ -294,16 +317,35 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       return;
     }
 
-    const invalidTimeCycle = (Object.keys(eventForm.cycles) as Cycle[]).find(
+    const cycleWithInvalidDateRange = (Object.keys(eventForm.cycles) as Cycle[]).find(
       (cycle) =>
         eventForm.cycles[cycle] &&
-        Boolean(eventForm.cycleDates[cycle].time) &&
-        !timePattern.test(eventForm.cycleDates[cycle].time)
+        eventForm.cycleDates[cycle].endDate &&
+        eventForm.cycleDates[cycle].endDate < eventForm.cycleDates[cycle].sortDate
     );
+    if (cycleWithInvalidDateRange) {
+      Emitters.generalError.emit({
+        headerMsg: 'Invalid event date range',
+        contentMsg: `End date cannot be before the start date for ${cycleLabels[cycleWithInvalidDateRange]}.`
+      });
+      return;
+    }
+
+    const invalidTimeCycle = (Object.keys(eventForm.cycles) as Cycle[]).find((cycle) => {
+      const time = eventForm.cycleDates[cycle].time;
+      if (!eventForm.cycles[cycle] || !time) return false;
+
+      try {
+        parseTimeRange(time);
+        return false;
+      } catch {
+        return true;
+      }
+    });
     if (invalidTimeCycle) {
       Emitters.generalError.emit({
         headerMsg: 'Invalid event time',
-        contentMsg: `Enter a time for ${cycleLabels[invalidTimeCycle]} in the format 6:00pm or 9:00am-12:00pm.`
+        contentMsg: `Enter a time range for ${cycleLabels[invalidTimeCycle]} in the format 9:00am-12:00pm.`
       });
       return;
     }
