@@ -3,6 +3,7 @@ import { Button, Loader } from 'semantic-ui-react';
 import BudgetOverview from './BudgetOverview';
 import RequestsTable from './RequestsTable';
 import SubmitRequestModal from './SubmitRequestModal';
+import RequestSummaryModal from '../../Reimbursement/RequestSummaryModal';
 import ReimbursementAPI from '../../../API/ReimbursementAPI';
 import { useSelf } from '../../Common/FirestoreDataProvider';
 import styles from './ReimbursementDashboard.module.css';
@@ -13,6 +14,7 @@ const ReimbursementDashboard: React.FC = () => {
   const [teams, setTeams] = useState<ReimbursementTeam[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitOpen, setSubmitOpen] = useState(false);
+  const [viewingId, setViewingId] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -39,8 +41,21 @@ const ReimbursementDashboard: React.FC = () => {
     });
   }, [teams, user.subteams]);
 
-  const handleView = (_requestId: string) => {
-    // Detail view comes later.
+  const teamsById = useMemo(() => {
+    const map: Record<string, ReimbursementTeam> = {};
+    teams.forEach((t) => {
+      map[t.teamId] = t;
+    });
+    return map;
+  }, [teams]);
+
+  const viewingRequest = useMemo(
+    () => requests.find((r) => r.requestId === viewingId) ?? null,
+    [requests, viewingId]
+  );
+
+  const handleView = (requestId: string) => {
+    setViewingId(requestId);
   };
 
   const handleViewAll = () => {
@@ -82,6 +97,13 @@ const ReimbursementDashboard: React.FC = () => {
         onClose={() => setSubmitOpen(false)}
         onSubmitted={handleRequestSubmitted}
         teams={myTeams}
+      />
+
+      <RequestSummaryModal
+        open={viewingRequest !== null}
+        request={viewingRequest}
+        teamDisplayName={viewingRequest ? teamsById[viewingRequest.teamId]?.displayName : undefined}
+        onClose={() => setViewingId(null)}
       />
     </div>
   );
