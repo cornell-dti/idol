@@ -332,7 +332,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     }
 
     const invalidTimeCycle = (Object.keys(eventForm.cycles) as Cycle[]).find((cycle) => {
-      const time = eventForm.cycleDates[cycle].time;
+      const { time } = eventForm.cycleDates[cycle];
       if (!eventForm.cycles[cycle] || !time) return false;
 
       try {
