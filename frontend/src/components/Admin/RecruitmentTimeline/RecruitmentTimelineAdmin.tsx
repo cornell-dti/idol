@@ -179,7 +179,9 @@ const TimelineEventFormFields = ({
       />
     </Form.Field>
     <Form.Group grouped>
-      <label>Cycles <span style={{color: "#db2828"}}>*</span></label>
+      <label>
+        Cycles <span style={{ color: '#db2828' }}>*</span>
+      </label>
       <Form.Checkbox
         label="Upperclassmen"
         checked={form.cycles.upperclassmen}
@@ -254,7 +256,9 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
           }
           if (!firstSortDate) return 1;
           if (!secondSortDate) return -1;
-          return firstSortDate.localeCompare(secondSortDate) || eventA.title.localeCompare(eventB.title);
+          return (
+            firstSortDate.localeCompare(secondSortDate) || eventA.title.localeCompare(eventB.title)
+          );
         }),
     [events, selectedCycle]
   );
