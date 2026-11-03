@@ -2,28 +2,32 @@
 
 import React from 'react';
 import LogoBox from '../../components/LogoBox';
-import logos from './logos.json';
+import { activeLogos } from './productData';
 
-const getOuterLinkClassName = (index: number) => {
-  if (index === 0) return 'onFocusRounded-t-l';
-  if (index === 3) return 'onFocusRounded-t-r';
-  return '';
-};
+const visibleLogos = activeLogos.filter((logo) => logo.showOnProductPage !== false);
+const lastRowStart = Math.floor((visibleLogos.length - 1) / 4) * 4;
+const lastRowSpan = ['sm:col-span-12', 'sm:col-span-6', 'sm:col-span-4', 'sm:col-span-3'][
+  (visibleLogos.length % 4 || 4) - 1
+];
 
 export default function LogoGrid() {
   return (
-    <section className="grid grid-cols-4 border-border-1 border-t-1">
-      {logos.map((logo, index) => (
+    <section
+      aria-label="Active product logos"
+      className="grid grid-cols-2 sm:grid-cols-12 gap-px bg-border-1 border-border-1 border-t-1 overflow-hidden"
+    >
+      {visibleLogos.map((logo, index) => (
         <LogoBox
-          key={index}
+          key={logo.href}
           {...logo}
           fillWidth
+          border={false}
           ariaLabel={`Jump to ${logo.alt.replace(/ logo$/i, '')} product`}
-          className={`border-l border-border-1 
-            ${index === 0 || index === 4 ? '!border-l-0' : ''}
-            ${index >= 4 && index <= 8 ? '!border-b-0' : ''}
-          `}
-          outerLinkClassName={getOuterLinkClassName(index)}
+          outerLinkClassName={`bg-background-1 ${
+            index >= lastRowStart ? lastRowSpan : 'sm:col-span-3'
+          } ${
+            visibleLogos.length % 2 === 1 && index === visibleLogos.length - 1 ? 'col-span-2' : ''
+          }`}
         />
       ))}
     </section>

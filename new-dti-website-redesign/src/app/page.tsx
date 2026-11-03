@@ -5,7 +5,7 @@ import FeatureSection from '../components/FeatureSection';
 import CtaSection from '../components/CtaSection';
 import Marquee from '../components/Marquee';
 import LogoBox from '../components/LogoBox';
-import logos from './products/logos.json';
+import { activeLogos } from './products/productData';
 import Button from '../components/Button';
 
 export const metadata = {
@@ -36,7 +36,7 @@ export default function Home() {
 
         <div className="[&+*]:rounded-t-2xl [&+*]:overflow-hidden [&+*]:border-t-1 [&+*]:border-border-1 mb-16 relative group">
           <Marquee height={120}>
-            {logos.map((logo, index) => (
+            {activeLogos.map((logo, index) => (
               <LogoBox key={index} {...logo} noLink border={false} noFocus={true} />
             ))}
           </Marquee>

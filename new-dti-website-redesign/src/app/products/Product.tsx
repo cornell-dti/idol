@@ -38,7 +38,7 @@ const Product = forwardRef<HTMLElement, Props>(
     <article
       id={id}
       className={clsx(
-        'scroll-mt-20 h-fit !border-r-0 border-y-1 border-t-0 border-border-1',
+        'scroll-mt-46 min-[769px]:scroll-mt-20 h-fit !border-r-0 border-y-1 border-t-0 border-border-1',
         className
       )}
       ref={ref}
