@@ -1073,7 +1073,6 @@
     "netid": "km2253",
     "roleDescription": "Developer",
     "college": "eng",
-    "github": null,
     "hometown": "Singapore",
     "website": null,
     "minor": "Artificial Intelligence",
@@ -1083,7 +1082,8 @@
     "coffeeChatLink": null,
     "about": "Hi! I'm Karan, and I love playing soccer (football), running, and going to the gym. I really enjoy talking to and meeting new people so feel free to reach out :)",
     "pronouns": "he/him",
-    "linkedin": "https://www.linkedin.com/in/karan-singh-madia/"
+    "linkedin": "https://www.linkedin.com/in/karan-singh-madia/",
+    "github": "https://github.com/ksm0712"
   },
   {
     "subteams": [
@@ -1645,31 +1645,31 @@
     "github": null
   },
   {
-    "graduation": "May 2027 ",
-    "semesterJoined": "Spring 2024",
-    "hometown": "Houston",
-    "github": "https://github.com/3TTemi",
-    "netid": "ta375",
-    "roleDescription": "Developer Lead",
     "lastName": "Adebowale",
-    "linkedin": "https://www.linkedin.com/in/temi-adebowale/",
+    "website": null,
     "minor": "Dyson Business Minor for Engineers",
-    "pronouns": "he/him",
-    "coffeeChatLink": null,
-    "subteams": [
-      "leads"
-    ],
+    "role": "dev-lead",
+    "github": "https://github.com/3TTemi",
+    "semesterJoined": "Spring 2024",
     "firstName": "Temi",
+    "coffeeChatLink": null,
+    "doubleMajor": null,
+    "netid": "ta375",
     "formerSubteams": [
       "cornellgo"
     ],
-    "college": "eng",
-    "role": "dev-lead",
-    "doubleMajor": null,
+    "pronouns": "he/him",
     "email": "ta375@cornell.edu",
-    "website": null,
     "about": "Senior - CS Major / Business Minor\n2026-2027 Dev Lead\nPrevious: TPM and Dev @ CGO \n\nName Pronounciation :)  (TAY-MEE) ",
-    "major": "Computer Science"
+    "major": "Computer Science",
+    "graduation": "May 2027 ",
+    "roleDescription": "Developer Lead",
+    "college": "eng",
+    "hometown": "Houston, TX",
+    "linkedin": "https://www.linkedin.com/in/temi-adebowale/",
+    "subteams": [
+      "leads"
+    ]
   },
   {
     "firstName": "Vince",
