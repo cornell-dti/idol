@@ -15,6 +15,7 @@ import { Emitters } from '../utils';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
+import { PreviewProvider } from '../redesign/preview';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
@@ -37,11 +38,13 @@ export default function AppTemplate(props: AppProps): JSX.Element {
       </Head>
       <UserProvider>
         <FirestoreDataProvider>
-          <RoutingMiddleware>
-            <AppContent>
-              <Component {...pageProps} />
-            </AppContent>
-          </RoutingMiddleware>
+          <PreviewProvider>
+            <RoutingMiddleware>
+              <AppContent>
+                <Component {...pageProps} />
+              </AppContent>
+            </RoutingMiddleware>
+          </PreviewProvider>
         </FirestoreDataProvider>
       </UserProvider>
     </>
