@@ -1,0 +1,22 @@
+.pill.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border-radius: 123px;
+  font: var(--idol-type-label-small);
+  letter-spacing: var(--idol-type-label-small-tracking);
+  white-space: nowrap;
+}
+.pill.accent {
+  background: rgb(0 111 255 / 10%);
+  color: var(--idol-accent-default);
+}
+.pill.red {
+  background: rgb(211 0 0 / 19%);
+  color: var(--idol-danger-default);
+}
+.pill.green {
+  background: rgb(0 153 102 / 10%);
+  color: var(--idol-success-default);
+}

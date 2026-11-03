@@ -1,0 +1,36 @@
+/*
+ * Figma: b8WJ4ACbZyljS6ZNYufOxD / Theme (VariableCollectionId:113:625)
+ * Imported 2026-10-26.
+ * Names mirror Figma paths with an idol prefix; Light is the default mode.
+ */
+[data-idol-redesign] {
+  --idol-fg-default: #171717;
+  --idol-fg-dimmer: #737373;
+  --idol-stroke-black: rgba(0, 0, 0, 0.1);
+  --idol-stroke-medium: rgba(0, 0, 0, 0.3);
+  --idol-stroke-white: rgba(255, 255, 255, 0.2);
+  --idol-bg-root: #fafafa;
+  --idol-bg-default: #ffffff;
+  --idol-bg-dimmer: #f2f2f2;
+  --idol-accent-default: #006fff;
+  --idol-accent-dimmer: #0060e6;
+  --idol-danger-default: #d30000;
+  --idol-success-default: #009966;
+  --idol-danger-dimmer: rgb(70.832705% 6.020674% 6.020674%);
+}
+
+[data-idol-redesign][data-idol-theme='dark'] {
+  --idol-fg-default: #f5f5f5;
+  --idol-fg-dimmer: #a3a3a3;
+  --idol-stroke-black: rgba(255, 255, 255, 0.1);
+  --idol-stroke-medium: #ffffff;
+  --idol-stroke-white: rgba(255, 255, 255, 0.1);
+  --idol-bg-root: #121212;
+  --idol-bg-default: #171717;
+  --idol-bg-dimmer: #1f1f1f;
+  --idol-accent-default: #3b82f6;
+  --idol-accent-dimmer: #2563eb;
+  --idol-danger-default: #ff5561;
+  --idol-success-default: #00d88c;
+  --idol-danger-dimmer: rgb(88.003308% 22.05206% 26.707441%);
+}

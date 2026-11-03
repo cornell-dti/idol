@@ -1,0 +1,49 @@
+.breadcrumbItem:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.breadcrumbItem.breadcrumbItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 16px;
+  border-radius: 6px;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  text-decoration: none;
+}
+
+.breadcrumbItem:hover,
+.breadcrumbItem.currentCrumb {
+  color: var(--idol-fg-default);
+}
+
+.currentCrumb > span:last-child {
+  text-decoration: underline;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--idol-fg-dimmer);
+}

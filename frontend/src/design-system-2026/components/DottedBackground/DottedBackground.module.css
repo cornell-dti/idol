@@ -1,0 +1,11 @@
+.dottedBackground {
+  /* Figma: 14px dot at 20% scale, 3.2 diameters between dots, 5% opacity. */
+  background-color: var(--idol-bg-default);
+  background-image: radial-gradient(
+    circle at 1.4px 1.4px,
+    color-mix(in srgb, var(--idol-fg-default) 5%, transparent) 1.2px,
+    transparent 1.4px
+  );
+  background-size: 11.76px 11.76px;
+  background-repeat: repeat;
+}
