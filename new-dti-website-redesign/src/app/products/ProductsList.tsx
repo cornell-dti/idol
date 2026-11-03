@@ -91,7 +91,7 @@ export default function ProductsList() {
     let frame = 0;
     const updateProgress = () => {
       frame = 0;
-      const scrollY = window.scrollY;
+      const { scrollY } = window;
       const nextIndex = nodePositions.findIndex((node) => node.scrollY > scrollY);
       const previous =
         nextIndex === 0
