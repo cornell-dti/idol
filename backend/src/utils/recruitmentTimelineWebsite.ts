@@ -1,5 +1,3 @@
-import type { RecruitmentEventDate, RecruitmentTimelineEvent } from '../dao/RecruitmentTimelineDao';
-
 type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
 
 type WebsiteEventDate = {
