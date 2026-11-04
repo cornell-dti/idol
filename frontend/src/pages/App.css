@@ -95,6 +95,16 @@ p.small {
   color: var(--bg-default);
 }
 
+/* Temporary: "Try new UI" switch for the redesign preview */
+.appSidebarContainer .ui.menu .item.appSidebarPreviewToggle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+}
+
 .appSidebarDimmer {
   width: 100vw;
   margin: 0;

@@ -2,7 +2,7 @@ import { ReactNode, useState, useEffect } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Sidebar, Menu, Icon } from 'semantic-ui-react';
+import { Sidebar, Menu, Icon, Checkbox } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import UserProvider from '../components/Common/UserProvider/UserProvider';
 import FirestoreDataProvider, {
@@ -15,7 +15,7 @@ import { Emitters } from '../utils';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
-import { PreviewProvider } from '../redesign/preview';
+import { PreviewProvider, usePreviewToggle } from '../redesign/preview';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
@@ -109,6 +109,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
 const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermission }) => {
   const [hasInstance, setHasInstance] = useState<boolean>(false);
   const self = useSelf();
+  const { canPreview, enabled, setEnabled } = usePreviewToggle();
   useEffect(() => {
     if (self) {
       CandidateDeciderAPI.hasCandidateDeciderInstance().then((result) => {
@@ -166,6 +167,12 @@ const MenuContent: React.FC<{ hasAdminPermission: boolean }> = ({ hasAdminPermis
           Interview Scheduler
         </Menu.Item>
       </Link>
+      {canPreview && (
+        <Menu.Item className="appSidebarPreviewToggle" onClick={(e) => e.stopPropagation()}>
+          Try new UI
+          <Checkbox toggle checked={enabled} onChange={(_, { checked }) => setEnabled(!!checked)} />
+        </Menu.Item>
+      )}
     </>
   );
 };

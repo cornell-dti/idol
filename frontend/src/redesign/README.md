@@ -1,7 +1,7 @@
 # IDOL Redesign
 
 New IDOL pages for the frontend revamp. Members on the `idol` subteam see the latest redesign work
-(with a Released / In Progress toggle in the bottom right corner). Everyone else sees the released site.
+(with a "Try new UI" toggle in the sidebar). Everyone else sees the released site.
 
 ## Where code goes
 

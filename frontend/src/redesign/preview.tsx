@@ -1,52 +1,47 @@
 import { ComponentType, createContext, ReactNode, useContext, useState } from 'react';
 import { useSelf } from '../components/Common/FirestoreDataProvider';
-import styles from './PreviewToggle.module.css';
 
 const PREVIEW_SUBTEAM = 'idol';
 
-const PreviewContext = createContext<boolean>(false);
+type PreviewToggle = {
+  readonly canPreview: boolean;
+  readonly enabled: boolean;
+  readonly setEnabled: (enabled: boolean) => void;
+};
+
+const PreviewContext = createContext<PreviewToggle>({
+  canPreview: false,
+  enabled: false,
+  setEnabled: () => {}
+});
 
 /**
  * Lets IDOL switch between the released site and the latest redesign work.
- * Everyone else always sees the released site and never sees the toggle.
+ * Everyone else always sees the released site.
  */
 export function PreviewProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const self = useSelf();
   const canPreview = self?.subteams.includes(PREVIEW_SUBTEAM) ?? false;
-  const [showInProgress, setShowInProgress] = useState(true);
+  const [enabled, setEnabled] = useState(false);
 
   return (
-    <PreviewContext.Provider value={canPreview && showInProgress}>
+    <PreviewContext.Provider value={{ canPreview, enabled, setEnabled }}>
       {children}
-      {canPreview && (
-        <div className={styles.toggle} role="group" aria-label="Redesign preview">
-          <button
-            type="button"
-            className={styles.option}
-            aria-pressed={!showInProgress}
-            onClick={() => setShowInProgress(false)}
-          >
-            Released
-          </button>
-          <button
-            type="button"
-            className={styles.option}
-            aria-pressed={showInProgress}
-            onClick={() => setShowInProgress(true)}
-          >
-            In Progress
-          </button>
-        </div>
-      )}
     </PreviewContext.Provider>
   );
 }
 
+/** For the toggle in the sidebar. Only render it when `canPreview` is true. */
+export const usePreviewToggle = (): PreviewToggle => useContext(PreviewContext);
+
 /** @returns whether to render unreleased redesign work for the current user */
-export const usePreview = (): boolean => useContext(PreviewContext);
+export const usePreview = (): boolean => {
+  const { canPreview, enabled } = usePreviewToggle();
+  return canPreview && enabled;
+};
 
 /**
- * Renders `NewPage` for previewers and `OldPage` for everyone else.
+ * Renders `NewPage` for idol and `OldPage` for everyone else.
  * To release, replace `previewPage(OldPage, NewPage)` with `NewPage`.
  */
 export function previewPage<P extends object>(
