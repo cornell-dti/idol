@@ -104,7 +104,3 @@
     animation: none;
   }
 }
-
-:global([data-idol-theme='dark']) .editIcon {
-  filter: invert(1);
-}

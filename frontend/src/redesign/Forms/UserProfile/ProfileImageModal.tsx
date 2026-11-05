@@ -6,7 +6,8 @@ import {
   ArrowCounterClockwiseIcon,
   ArrowClockwiseIcon,
   UploadSimpleIcon,
-  CheckIcon
+  CheckIcon,
+  PencilSimpleLineIcon
 } from '../../../design-system-2026/icons';
 import useProfileEditor from '../../../components/Forms/UserProfile/useProfileEditor';
 import styles from './ProfileImageModal.module.css';
@@ -97,18 +98,7 @@ export default function ProfileImageModal({ profile }: Props): JSX.Element {
         if (!profile.savingPhoto) profile.setOpen(open);
       }}
       trigger={
-        <Button
-          variant="secondary"
-          icon={
-            <img
-              className={styles.editIcon}
-              src="/design-system/figma/profile/edit.svg"
-              alt=""
-              width={16}
-              height={16}
-            />
-          }
-        >
+        <Button variant="secondary" icon={<PencilSimpleLineIcon size={16} aria-hidden="true" />}>
           Edit profile picture
         </Button>
       }
