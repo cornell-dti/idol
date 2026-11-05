@@ -685,7 +685,7 @@ interface TECConfig {
 type RecruitmentEventDate = {
   date: string;
   endDate?: string;
-  sortDate?: string;
+  startDate?: string;
   time?: string;
   isTentative: boolean;
 };

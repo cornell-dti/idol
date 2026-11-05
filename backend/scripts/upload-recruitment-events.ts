@@ -45,7 +45,7 @@ const getFallRecruitmentYear = (): number => {
   return year;
 };
 
-const getSortDate = (date: string, fallRecruitmentYear: number): string => {
+const getStartDate = (date: string, fallRecruitmentYear: number): string => {
   const match = date.match(
     /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})/
   );
@@ -67,7 +67,7 @@ const formatDateRange = (date: string, endDate?: string): string => {
   return `${date}-${endDay}`;
 };
 
-const addSortDates = (
+const addStartDates = (
   event: SourceRecruitmentTimelineEvent,
   fallRecruitmentYear: number
 ): SourceRecruitmentTimelineEvent => {
@@ -80,8 +80,8 @@ const addSortDates = (
     normalizedEvent[cycle] = {
       ...eventDate,
       date: formatDateRange(eventDate.date, eventDate.endDate),
-      sortDate: eventDate.sortDate ?? getSortDate(eventDate.date, fallRecruitmentYear),
-      ...(eventDate.endDate ? { endDate: getSortDate(eventDate.endDate, fallRecruitmentYear) } : {})
+      startDate: eventDate.startDate ?? getStartDate(eventDate.date, fallRecruitmentYear),
+      ...(eventDate.endDate ? { endDate: getStartDate(eventDate.endDate, fallRecruitmentYear) } : {})
     } as RecruitmentEventDate;
   });
 
@@ -117,7 +117,7 @@ const main = async () => {
   const batch = db.batch();
 
   events.forEach((sourceEvent, index: number) => {
-    const event = addSortDates(sourceEvent, fallRecruitmentYear);
+    const event = addStartDates(sourceEvent, fallRecruitmentYear);
     const id = `${index}-${slugify(event.title)}`;
     const ref = collection.doc(id);
 

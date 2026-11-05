@@ -9,7 +9,7 @@ import styles from './RecruitmentTimelineAdmin.module.css';
 type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
 
 type CycleDateForm = {
-  sortDate: string;
+  startDate: string;
   endDate: string;
   time: string;
   isTentative: boolean;
@@ -48,9 +48,9 @@ const emptyEventForm: TimelineEventForm = {
   type: 'info',
   cycles: { freshmen: false, upperclassmen: false, spring: false },
   cycleDates: {
-    freshmen: { sortDate: '', endDate: '', time: '', isTentative: false },
-    upperclassmen: { sortDate: '', endDate: '', time: '', isTentative: false },
-    spring: { sortDate: '', endDate: '', time: '', isTentative: false }
+    freshmen: { startDate: '', endDate: '', time: '', isTentative: false },
+    upperclassmen: { startDate: '', endDate: '', time: '', isTentative: false },
+    spring: { startDate: '', endDate: '', time: '', isTentative: false }
   }
 };
 
@@ -60,28 +60,28 @@ const cycleLabels: Record<Cycle, string> = {
   spring: 'Spring'
 };
 
-const formatDisplayDate = (sortDate: string): string => {
-  if (!sortDate) return '';
+const formatDisplayDate = (startDate: string): string => {
+  if (!startDate) return '';
 
   return new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: 'numeric',
     timeZone: 'UTC'
-  }).format(new Date(`${sortDate}T00:00:00Z`));
+  }).format(new Date(`${startDate}T00:00:00Z`));
 };
 
-const formatEventDate = (sortDate?: string, endDate?: string, fallbackDate = ''): string => {
-  if (!sortDate) return fallbackDate;
+const formatEventDate = (startDate?: string, endDate?: string, fallbackDate = ''): string => {
+  if (!startDate) return fallbackDate;
 
-  const startDate = formatDisplayDate(sortDate);
+  const formattedStartDate = formatDisplayDate(startDate);
   if (!endDate) return startDate;
 
   const formattedEndDate = formatDisplayDate(endDate);
-  const startMonth = startDate.split(' ')[0];
+  const startMonth = formattedStartDate.split(' ')[0];
   const endDay = formattedEndDate.startsWith(`${startMonth} `)
     ? formattedEndDate.slice(startMonth.length + 1)
     : formattedEndDate;
-  return `${startDate}-${endDay}`;
+  return `${formattedStartDate}-${endDay}`;
 };
 
 const renderDiff = (diff: string): JSX.Element => {
@@ -155,14 +155,14 @@ const CycleDateFields = ({ form, setForm }: CycleDateFieldsProps): JSX.Element =
                 label="Date"
                 type="date"
                 required
-                value={cycleDate.sortDate}
-                onChange={(_, data) => updateCycleDate({ sortDate: data.value })}
+                value={cycleDate.startDate}
+                onChange={(_, data) => updateCycleDate({ startDate: data.value })}
               />
               <Form.Input
                 label="End date (optional)"
                 type="date"
                 value={cycleDate.endDate}
-                min={cycleDate.sortDate}
+                min={cycleDate.startDate}
                 onChange={(_, data) => updateCycleDate({ endDate: data.value })}
               />
               <Form.Input
@@ -315,15 +315,15 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       events
         .filter((event) => event[selectedCycle])
         .sort((eventA, eventB) => {
-          const firstSortDate = eventA[selectedCycle]?.sortDate;
-          const secondSortDate = eventB[selectedCycle]?.sortDate;
-          if (!firstSortDate && !secondSortDate) {
+          const firstStartDate = eventA[selectedCycle]?.startDate;
+          const secondStartDate = eventB[selectedCycle]?.startDate;
+          if (!firstStartDate && !secondStartDate) {
             return eventA.title.localeCompare(eventB.title);
           }
-          if (!firstSortDate) return 1;
-          if (!secondSortDate) return -1;
+          if (!firstStartDate) return 1;
+          if (!secondStartDate) return -1;
           return (
-            firstSortDate.localeCompare(secondSortDate) || eventA.title.localeCompare(eventB.title)
+            firstStartDate.localeCompare(secondStartDate) || eventA.title.localeCompare(eventB.title)
           );
         }),
     [events, selectedCycle]
@@ -350,7 +350,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     }
 
     const selectedCycleWithoutDates = (Object.keys(eventForm.cycles) as Cycle[]).find(
-      (cycle) => eventForm.cycles[cycle] && !eventForm.cycleDates[cycle].sortDate
+      (cycle) => eventForm.cycles[cycle] && !eventForm.cycleDates[cycle].startDate
     );
     if (selectedCycleWithoutDates) {
       Emitters.generalError.emit({
@@ -364,7 +364,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       (cycle) =>
         eventForm.cycles[cycle] &&
         eventForm.cycleDates[cycle].endDate &&
-        eventForm.cycleDates[cycle].endDate < eventForm.cycleDates[cycle].sortDate
+        eventForm.cycleDates[cycle].endDate < eventForm.cycleDates[cycle].startDate
     );
     if (cycleWithInvalidDateRange) {
       Emitters.generalError.emit({
@@ -406,8 +406,8 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       if (eventForm.cycles[cycle]) {
         const cycleDate = eventForm.cycleDates[cycle];
         event[cycle] = {
-          date: formatEventDate(cycleDate.sortDate, cycleDate.endDate),
-          sortDate: cycleDate.sortDate,
+          date: formatEventDate(cycleDate.startDate, cycleDate.endDate),
+          startDate: cycleDate.startDate,
           ...(cycleDate.endDate ? { endDate: cycleDate.endDate } : {}),
           ...(cycleDate.time.trim() ? { time: cycleDate.time.trim() } : {}),
           isTentative: cycleDate.isTentative
@@ -462,19 +462,19 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       },
       cycleDates: {
         freshmen: {
-          sortDate: event.freshmen?.sortDate ?? '',
+          startDate: event.freshmen?.startDate ?? '',
           endDate: event.freshmen?.endDate ?? '',
           time: event.freshmen?.time ?? '',
           isTentative: event.freshmen?.isTentative ?? false
         },
         upperclassmen: {
-          sortDate: event.upperclassmen?.sortDate ?? '',
+          startDate: event.upperclassmen?.startDate ?? '',
           endDate: event.upperclassmen?.endDate ?? '',
           time: event.upperclassmen?.time ?? '',
           isTentative: event.upperclassmen?.isTentative ?? false
         },
         spring: {
-          sortDate: event.spring?.sortDate ?? '',
+          startDate: event.spring?.startDate ?? '',
           endDate: event.spring?.endDate ?? '',
           time: event.spring?.time ?? '',
           isTentative: event.spring?.isTentative ?? false
@@ -559,7 +559,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
                 <Card.Header>{event.title}</Card.Header>
                 <Card.Meta className={styles.eventMeta}>
                   <span>
-                    {formatEventDate(cycleDate?.sortDate, cycleDate?.endDate, cycleDate?.date)}
+                    {cycleDate?.date}
                     {cycleDate?.time ? `, ${cycleDate.time}` : ''}
                     {cycleDate?.isTentative ? ' (tentative)' : ''}
                   </span>

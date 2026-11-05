@@ -49,12 +49,12 @@ const validateTimelineEvent = (
     if (
       typeof eventDate.date !== 'string' ||
       !eventDate.date.trim() ||
-      typeof eventDate.sortDate !== 'string' ||
-      !eventDate.sortDate.trim()
+      typeof eventDate.startDate !== 'string' ||
+      !eventDate.startDate.trim()
     ) {
       throw new Error(`A start date is required for the ${cycle} cycle.`);
     }
-    if (eventDate.endDate && eventDate.endDate < eventDate.sortDate) {
+    if (eventDate.endDate && eventDate.endDate < eventDate.startDate) {
       throw new Error(`The end date cannot be before the start date for the ${cycle} cycle.`);
     }
     if (eventDate.time) {
