@@ -63,9 +63,22 @@
   min-height: 128px;
   padding: 12px 10px;
   resize: vertical;
+  font: var(--idol-type-body-default);
+  line-height: 1.5;
   color: var(--idol-fg-default);
 }
 
 .textarea.textarea.invalid {
   color: var(--idol-danger-default);
+}
+
+.inputFrame {
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .inputFrame {
+    transition: none;
+  }
 }

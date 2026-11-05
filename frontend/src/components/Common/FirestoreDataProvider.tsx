@@ -1,4 +1,4 @@
-import { Loader, Modal } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
 import { LEAD_ROLES } from 'common-types/constants';
@@ -12,6 +12,7 @@ import { useUserEmail } from './UserProvider/UserProvider';
 import { Team } from '../../API/TeamsAPI';
 import { isProduction, allowAdmin, environment, allowApplicant } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
+import LoadingScreen from '../../design-system-2026/components/LoadingScreen/LoadingScreen';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -155,7 +156,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
       }
       {!hasIDOLAccess || adminEmails == null || members == null || approvedMembers == null ? (
         <div>
-          <Loader active size="massive" />
+          <LoadingScreen />
           {!hasIDOLAccess && (
             <Modal
               basic

@@ -94,7 +94,9 @@
     width 220ms cubic-bezier(0.2, 0, 0, 1),
     padding 220ms ease,
     gap 220ms ease,
-    min-height 220ms ease;
+    min-height 220ms ease,
+    background-color 140ms ease,
+    scale 100ms ease;
 }
 .item.selected,
 .item:hover {
@@ -165,5 +167,14 @@
   .item.item,
   .itemLabels {
     transition: none;
+  }
+}
+
+.item:active {
+  scale: 0.98;
+}
+@media (prefers-reduced-motion: reduce) {
+  .item:active {
+    scale: 1;
   }
 }

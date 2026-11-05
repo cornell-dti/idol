@@ -44,3 +44,10 @@
   border-radius: 12px;
   background: var(--idol-bg-default);
 }
+
+.card .cardTitle {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}

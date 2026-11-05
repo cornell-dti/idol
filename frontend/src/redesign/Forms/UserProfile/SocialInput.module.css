@@ -1,0 +1,7 @@
+.calendly {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url('/icons/calendly.svg') center / contain no-repeat;
+}

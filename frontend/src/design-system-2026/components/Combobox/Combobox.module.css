@@ -1,0 +1,25 @@
+.input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  padding: 0;
+  background: transparent;
+  color: var(--idol-fg-default);
+  font: inherit;
+  letter-spacing: inherit;
+}
+.input::placeholder {
+  color: var(--idol-fg-dimmer);
+}
+.trigger {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--idol-fg-dimmer);
+  cursor: pointer;
+}
+.trigger svg {
+  color: inherit;
+}

@@ -21,3 +21,17 @@
   height: 100%;
   object-fit: cover;
 }
+
+.avatar {
+  position: relative;
+  vertical-align: middle;
+}
+.avatar img,
+.avatar > :last-child {
+  position: absolute;
+  inset: 0;
+}
+.avatar > :last-child:not(img) {
+  display: grid;
+  place-items: center;
+}
