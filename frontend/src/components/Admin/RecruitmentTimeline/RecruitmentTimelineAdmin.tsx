@@ -323,7 +323,8 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
           if (!firstStartDate) return 1;
           if (!secondStartDate) return -1;
           return (
-            firstStartDate.localeCompare(secondStartDate) || eventA.title.localeCompare(eventB.title)
+            firstStartDate.localeCompare(secondStartDate) ||
+            eventA.title.localeCompare(eventB.title)
           );
         }),
     [events, selectedCycle]

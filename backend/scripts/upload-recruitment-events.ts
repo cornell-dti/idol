@@ -81,7 +81,9 @@ const addStartDates = (
       ...eventDate,
       date: formatDateRange(eventDate.date, eventDate.endDate),
       startDate: eventDate.startDate ?? getStartDate(eventDate.date, fallRecruitmentYear),
-      ...(eventDate.endDate ? { endDate: getStartDate(eventDate.endDate, fallRecruitmentYear) } : {})
+      ...(eventDate.endDate
+        ? { endDate: getStartDate(eventDate.endDate, fallRecruitmentYear) }
+        : {})
     } as RecruitmentEventDate;
   });
 
