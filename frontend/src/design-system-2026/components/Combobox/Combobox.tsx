@@ -27,6 +27,7 @@ export function Combobox({
 }: ComboboxProps): JSX.Element {
   const { theme, accent } = useDesignSystemAppearance();
   const anchor = useRef<HTMLDivElement>(null);
+  const input = useRef<HTMLInputElement>(null);
   return (
     <FieldShell id={id} label={label} {...field}>
       <BaseCombobox.Root
@@ -36,8 +37,18 @@ export function Combobox({
         itemToStringLabel={(item) => item || 'N/A'}
         required={required}
       >
-        <div ref={anchor} className={styles.inputFrame}>
+        <div
+          ref={anchor}
+          className={styles.inputFrame}
+          onPointerDown={(event) => {
+            if (field.disabled || event.button !== 0) return;
+            if ((event.target as HTMLElement).closest('input, button')) return;
+            event.preventDefault();
+            input.current?.focus();
+          }}
+        >
           <BaseCombobox.Input
+            ref={input}
             id={id}
             placeholder={placeholder}
             className={inputStyles.input}

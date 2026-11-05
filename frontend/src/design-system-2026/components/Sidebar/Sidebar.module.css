@@ -102,6 +102,9 @@
 .item:hover {
   background: var(--idol-bg-dimmer);
 }
+.item.item:hover {
+  transition-duration: 220ms, 220ms, 220ms, 220ms, 0s, 100ms;
+}
 .item:focus-visible {
   outline: 2px solid var(--idol-accent-default);
   outline-offset: -2px;

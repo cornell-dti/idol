@@ -46,6 +46,7 @@
 }
 
 .item[data-highlighted]:not([data-disabled]) {
+  transition-duration: 0s;
   background: var(--idol-bg-dimmer);
 }
 

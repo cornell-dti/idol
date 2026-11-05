@@ -12,6 +12,7 @@
 
 .inputFrame {
   display: flex;
+  cursor: text;
   align-items: center;
   gap: 6px;
   width: 100%;
