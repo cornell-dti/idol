@@ -19,6 +19,7 @@ type TimelineEventForm = {
   title: string;
   description: string;
   location: string;
+  isLocationTentative: boolean;
   link: string;
   type: string;
   cycles: Record<Cycle, boolean>;
@@ -44,6 +45,7 @@ const emptyEventForm: TimelineEventForm = {
   title: '',
   description: '',
   location: '',
+  isLocationTentative: false,
   link: '',
   type: 'info',
   cycles: { freshmen: false, upperclassmen: false, spring: false },
@@ -229,6 +231,11 @@ const TimelineEventFormFields = ({
         onChange={(_, data) => setForm({ ...form, link: data.value })}
       />
     </Form.Group>
+    <Form.Checkbox
+      label="Tentative location"
+      checked={form.isLocationTentative}
+      onChange={(_, data) => setForm({ ...form, isLocationTentative: Boolean(data.checked) })}
+    />
     <Form.Field required>
       <label>Event Type</label>
       <Dropdown
@@ -399,7 +406,12 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       title: eventForm.title.trim(),
       description: eventForm.description.trim(),
       type: eventForm.type,
-      ...(eventForm.location.trim() ? { location: eventForm.location.trim() } : {}),
+      ...(eventForm.location.trim()
+        ? {
+            location: eventForm.location.trim(),
+            isLocationTentative: eventForm.isLocationTentative
+          }
+        : {}),
       ...(eventForm.link.trim() ? { link: eventForm.link.trim() } : {})
     };
 
@@ -419,6 +431,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     });
 
     if (!eventForm.location.trim()) delete event.location;
+    if (!eventForm.location.trim()) delete event.isLocationTentative;
     if (!eventForm.link.trim()) delete event.link;
 
     setIsSaving(true);
@@ -454,6 +467,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       title: event.title,
       description: event.description,
       location: event.location ?? '',
+      isLocationTentative: event.isLocationTentative ?? false,
       link: event.link ?? '',
       type: event.type,
       cycles: {
@@ -565,7 +579,12 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
                     {cycleDate?.isTentative ? ' (tentative)' : ''}
                   </span>
                   <span>Type: {event.type}</span>
-                  {event.location && <span>Location: {event.location}</span>}
+                  {event.location && (
+                    <span>
+                      Location: {event.location}
+                      {event.isLocationTentative ? ' (tentative)' : ''}
+                    </span>
+                  )}
                 </Card.Meta>
                 <Card.Description>{event.description}</Card.Description>
               </Card.Content>

@@ -696,6 +696,7 @@ type RecruitmentTimelineEvent = {
   title: string;
   description: string;
   location?: string;
+  isLocationTentative?: boolean;
   type: string;
   link?: string;
   order?: number;

@@ -10,6 +10,7 @@ export type WebsiteRecruitmentEvent = {
   title: string;
   description: string;
   location?: string;
+  isLocationTentative?: boolean;
   type: string;
   link?: string;
   freshmen?: WebsiteEventDate;
@@ -34,6 +35,7 @@ const toWebsiteEvent = (event: RecruitmentTimelineEvent): WebsiteRecruitmentEven
     title: event.title,
     description: event.description,
     ...(event.location ? { location: event.location } : {}),
+    ...(event.isLocationTentative ? { isLocationTentative: true } : {}),
     type: event.type,
     ...(event.link ? { link: event.link } : {})
   };
@@ -58,6 +60,7 @@ const formatEvent = (event: WebsiteRecruitmentEvent): string => {
     ...(event.location ? [`"location": ${JSON.stringify(event.location)}`] : []),
     `"type": ${JSON.stringify(event.type)}`,
     ...(event.link ? [`"link": ${JSON.stringify(event.link)}`] : []),
+    ...(event.isLocationTentative ? [`"isLocationTentative": true`] : []),
     ...cycles.flatMap((cycle) =>
       event[cycle] ? [`"${cycle}": ${formatEventDate(event[cycle] as WebsiteEventDate)}`] : []
     )

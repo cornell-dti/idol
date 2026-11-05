@@ -18,6 +18,7 @@ export type RecruitmentEvent = {
   title: string;
   description: string;
   location?: string;
+  isLocationTentative?: boolean;
   type: string;
   link?: string;
   freshmen?: DateTime;
@@ -71,7 +72,10 @@ const TimelineCard = ({
             >
               <div className="flex items-center gap-2">
                 <LinkIcon size={16} />
-                <p>{datetime.isTentative ? 'TBD' : event.location}</p>
+                <p>
+                  {event.location}
+                  {event.isLocationTentative ? ' (tentative)' : ''}
+                </p>
               </div>
               <IconWrapper size="small">
                 <ArrowIcon />
@@ -80,7 +84,10 @@ const TimelineCard = ({
           ) : (
             <div className="flex items-center gap-2 md:w-1/2 p-4 md:rounded-bl-lg border border-border-1 md:border-r-0 border-b-0 md:border-b-1">
               <PinIcon size={16} decoration={true} />
-              <p>{event.location}</p>
+              <p>
+                {event.location}
+                {event.isLocationTentative ? ' (tentative)' : ''}
+              </p>
             </div>
           ))}
         <div
@@ -91,6 +98,7 @@ const TimelineCard = ({
           <CalendarIcon size={16} decoration={true} />
           <p>
             {datetime.date}
+            {datetime.isTentative ? ' (tentative)' : ''}
             {datetime.time ? `, ${datetime.time}` : ''}
           </p>
         </div>
