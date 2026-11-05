@@ -2,6 +2,16 @@ import { backendURL } from '../environment';
 import { Emitters } from '../utils';
 import APIWrapper from './APIWrapper';
 
+export type RecruitmentTimelineWebsitePreview = {
+  diff: string;
+  hasChanges: boolean;
+};
+
+export type RecruitmentTimelineWebsitePRRequest = {
+  dispatched: boolean;
+  hasChanges: boolean;
+};
+
 export default class RecruitmentTimelineAPI {
   public static getAllRecruitmentTimelineEvents(): Promise<RecruitmentTimelineEvent[]> {
     return APIWrapper.get(`${backendURL}/recruitment-timeline`)
@@ -35,5 +45,33 @@ export default class RecruitmentTimelineAPI {
     if (!response.status || response.status >= 400 || response.data?.error) {
       throw new Error(response.data?.error ?? 'Unable to delete recruitment timeline event.');
     }
+  }
+
+  public static async previewWebsiteChanges(): Promise<RecruitmentTimelineWebsitePreview> {
+    const response = await APIWrapper.post(
+      `${backendURL}/recruitment-timeline/website-preview`,
+      {}
+    );
+    if (!response.status || response.status >= 400 || response.data?.error) {
+      throw new Error(
+        response.data?.error ?? 'Unable to preview recruitment timeline website changes.'
+      );
+    }
+
+    return response.data as RecruitmentTimelineWebsitePreview;
+  }
+
+  public static async createWebsitePR(): Promise<RecruitmentTimelineWebsitePRRequest> {
+    const response = await APIWrapper.post(
+      `${backendURL}/recruitment-timeline/create-website-pr`,
+      {}
+    );
+    if (!response.status || response.status >= 400 || response.data?.error) {
+      throw new Error(
+        response.data?.error ?? 'Unable to create recruitment timeline website pull request.'
+      );
+    }
+
+    return response.data as RecruitmentTimelineWebsitePRRequest;
   }
 }

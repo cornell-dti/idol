@@ -71,7 +71,7 @@
       "upperclassmen": { "date": "September 1", "isTentative": false, "time": "6:30-8:00pm" },
       "spring": { "date": "January 27", "isTentative": false, "time": "5:30-7:00pm" }
     },
-     {
+    {
       "title": "Applications due",
       "description": "We're welcoming any and all students who are looking to make a difference through tech. Applicants are not considered on a rolling basis.",
       "location": "Google Form Application",
@@ -101,18 +101,18 @@
       "description": "Prepare to talk about past projects, teamwork experiences, and your motivation for joining DTI.",
       "location": "Varying locations",
       "type": "interview",
-      "freshmen": { "date": "October 20", "endDate": "October 21", "isTentative": false },
-      "upperclassmen": { "date": "September 8", "endDate": "September 9", "isTentative": true },
-      "spring": { "date": "February 2", "endDate": "February 6", "isTentative": true }
+      "freshmen": { "date": "October 20-21", "endDate": "October 21", "isTentative": false },
+      "upperclassmen": { "date": "September 8-9", "endDate": "September 9", "isTentative": true },
+      "spring": { "date": "February 2-6", "endDate": "February 6", "isTentative": true }
     },
     {
       "title": "Technical Interviews",
       "description": "Demonstrate your technical skills through problem-solving challenges relevant to your subteam.",
       "location": "Varying locations",
       "type": "interview",
-      "freshmen": { "date": "October 27", "endDate": "October 28", "isTentative": false },
-      "upperclassmen": { "date": "September 13", "endDate": "September 14", "isTentative": false },
-      "spring": { "date": "February 8", "endDate": "February 9", "isTentative": false }
+      "freshmen": { "date": "October 27-28", "endDate": "October 28", "isTentative": false },
+      "upperclassmen": { "date": "September 13-14", "endDate": "September 14", "isTentative": false },
+      "spring": { "date": "February 8-9", "endDate": "February 9", "isTentative": false }
     },
     {
       "title": "Offers extended",
@@ -138,7 +138,7 @@
       "freshmen": { "date": "October 6", "isTentative": false, "time": "5:30-7:00PM" },
       "spring": { "date": "January 24", "isTentative": false, "time": "5:00-6:15PM" }
     },
-     {
+    {
       "title": "URMC x DTI Recruitment Workshop",
       "description": "Includes collaborative discussions on diversity in both DTI and URMC, as well as preparing for DTI's application with resume reviews and interview tips!",
       "location": "Upson 106",

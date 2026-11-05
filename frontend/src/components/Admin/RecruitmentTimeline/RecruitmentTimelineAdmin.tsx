@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Card, Dropdown, Form, Loader, Message, Modal } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
-import RecruitmentTimelineAPI from '../../../API/RecruitmentTimelineAPI';
+import RecruitmentTimelineAPI, {
+  RecruitmentTimelineWebsitePreview
+} from '../../../API/RecruitmentTimelineAPI';
 import styles from './RecruitmentTimelineAdmin.module.css';
 
 type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
 
 type CycleDateForm = {
-  sortDate: string;
+  startDate: string;
   endDate: string;
   time: string;
   isTentative: boolean;
@@ -17,6 +19,7 @@ type TimelineEventForm = {
   title: string;
   description: string;
   location: string;
+  isLocationTentative: boolean;
   link: string;
   type: string;
   cycles: Record<Cycle, boolean>;
@@ -42,13 +45,14 @@ const emptyEventForm: TimelineEventForm = {
   title: '',
   description: '',
   location: '',
+  isLocationTentative: false,
   link: '',
   type: 'info',
   cycles: { freshmen: false, upperclassmen: false, spring: false },
   cycleDates: {
-    freshmen: { sortDate: '', endDate: '', time: '', isTentative: false },
-    upperclassmen: { sortDate: '', endDate: '', time: '', isTentative: false },
-    spring: { sortDate: '', endDate: '', time: '', isTentative: false }
+    freshmen: { startDate: '', endDate: '', time: '', isTentative: false },
+    upperclassmen: { startDate: '', endDate: '', time: '', isTentative: false },
+    spring: { startDate: '', endDate: '', time: '', isTentative: false }
   }
 };
 
@@ -58,14 +62,49 @@ const cycleLabels: Record<Cycle, string> = {
   spring: 'Spring'
 };
 
-const formatDisplayDate = (sortDate: string): string => {
-  if (!sortDate) return '';
+const formatDisplayDate = (startDate: string): string => {
+  if (!startDate) return '';
 
   return new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: 'numeric',
     timeZone: 'UTC'
-  }).format(new Date(`${sortDate}T00:00:00Z`));
+  }).format(new Date(`${startDate}T00:00:00Z`));
+};
+
+const formatEventDate = (startDate?: string, endDate?: string, fallbackDate = ''): string => {
+  if (!startDate) return fallbackDate;
+
+  const formattedStartDate = formatDisplayDate(startDate);
+  if (!endDate) return formattedStartDate;
+
+  const formattedEndDate = formatDisplayDate(endDate);
+  const startMonth = formattedStartDate.split(' ')[0];
+  const endDay = formattedEndDate.startsWith(`${startMonth} `)
+    ? formattedEndDate.slice(startMonth.length + 1)
+    : formattedEndDate;
+  return `${formattedStartDate}-${endDay}`;
+};
+
+const renderDiff = (diff: string): JSX.Element => {
+  const lines = diff.split('\n');
+
+  return (
+    <pre>
+      {lines.map((line, index) => {
+        let lineClass: string | undefined;
+        if (line.startsWith('+') && !line.startsWith('+++')) lineClass = styles.diffAdded;
+        if (line.startsWith('-') && !line.startsWith('---')) lineClass = styles.diffRemoved;
+
+        return (
+          <span className={lineClass} key={`${index}-${line}`}>
+            {line}
+            {index < lines.length - 1 ? '\n' : ''}
+          </span>
+        );
+      })}
+    </pre>
+  );
 };
 
 const convertTo24Hr = (time: string): string => {
@@ -118,14 +157,14 @@ const CycleDateFields = ({ form, setForm }: CycleDateFieldsProps): JSX.Element =
                 label="Date"
                 type="date"
                 required
-                value={cycleDate.sortDate}
-                onChange={(_, data) => updateCycleDate({ sortDate: data.value })}
+                value={cycleDate.startDate}
+                onChange={(_, data) => updateCycleDate({ startDate: data.value })}
               />
               <Form.Input
                 label="End date (optional)"
                 type="date"
                 value={cycleDate.endDate}
-                min={cycleDate.sortDate}
+                min={cycleDate.startDate}
                 onChange={(_, data) => updateCycleDate({ endDate: data.value })}
               />
               <Form.Input
@@ -192,6 +231,11 @@ const TimelineEventFormFields = ({
         onChange={(_, data) => setForm({ ...form, link: data.value })}
       />
     </Form.Group>
+    <Form.Checkbox
+      label="Tentative location"
+      checked={form.isLocationTentative}
+      onChange={(_, data) => setForm({ ...form, isLocationTentative: Boolean(data.checked) })}
+    />
     <Form.Field required>
       <label>Event Type</label>
       <Dropdown
@@ -252,6 +296,12 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
   const [isSaving, setIsSaving] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<RecruitmentTimelineEvent | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
+  const [isCreatingWebsitePR, setIsCreatingWebsitePR] = useState(false);
+  const [isWebsitePRConfirmationOpen, setIsWebsitePRConfirmationOpen] = useState(false);
+  const [websitePreview, setWebsitePreview] = useState<RecruitmentTimelineWebsitePreview | null>(
+    null
+  );
 
   useEffect(() => {
     RecruitmentTimelineAPI.getAllRecruitmentTimelineEvents()
@@ -272,15 +322,16 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       events
         .filter((event) => event[selectedCycle])
         .sort((eventA, eventB) => {
-          const firstSortDate = eventA[selectedCycle]?.sortDate;
-          const secondSortDate = eventB[selectedCycle]?.sortDate;
-          if (!firstSortDate && !secondSortDate) {
+          const firstStartDate = eventA[selectedCycle]?.startDate;
+          const secondStartDate = eventB[selectedCycle]?.startDate;
+          if (!firstStartDate && !secondStartDate) {
             return eventA.title.localeCompare(eventB.title);
           }
-          if (!firstSortDate) return 1;
-          if (!secondSortDate) return -1;
+          if (!firstStartDate) return 1;
+          if (!secondStartDate) return -1;
           return (
-            firstSortDate.localeCompare(secondSortDate) || eventA.title.localeCompare(eventB.title)
+            firstStartDate.localeCompare(secondStartDate) ||
+            eventA.title.localeCompare(eventB.title)
           );
         }),
     [events, selectedCycle]
@@ -307,7 +358,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     }
 
     const selectedCycleWithoutDates = (Object.keys(eventForm.cycles) as Cycle[]).find(
-      (cycle) => eventForm.cycles[cycle] && !eventForm.cycleDates[cycle].sortDate
+      (cycle) => eventForm.cycles[cycle] && !eventForm.cycleDates[cycle].startDate
     );
     if (selectedCycleWithoutDates) {
       Emitters.generalError.emit({
@@ -321,7 +372,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       (cycle) =>
         eventForm.cycles[cycle] &&
         eventForm.cycleDates[cycle].endDate &&
-        eventForm.cycleDates[cycle].endDate < eventForm.cycleDates[cycle].sortDate
+        eventForm.cycleDates[cycle].endDate < eventForm.cycleDates[cycle].startDate
     );
     if (cycleWithInvalidDateRange) {
       Emitters.generalError.emit({
@@ -355,7 +406,12 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       title: eventForm.title.trim(),
       description: eventForm.description.trim(),
       type: eventForm.type,
-      ...(eventForm.location.trim() ? { location: eventForm.location.trim() } : {}),
+      ...(eventForm.location.trim()
+        ? {
+            location: eventForm.location.trim(),
+            isLocationTentative: eventForm.isLocationTentative
+          }
+        : {}),
       ...(eventForm.link.trim() ? { link: eventForm.link.trim() } : {})
     };
 
@@ -363,8 +419,8 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       if (eventForm.cycles[cycle]) {
         const cycleDate = eventForm.cycleDates[cycle];
         event[cycle] = {
-          date: formatDisplayDate(cycleDate.sortDate),
-          sortDate: cycleDate.sortDate,
+          date: formatEventDate(cycleDate.startDate, cycleDate.endDate),
+          startDate: cycleDate.startDate,
           ...(cycleDate.endDate ? { endDate: cycleDate.endDate } : {}),
           ...(cycleDate.time.trim() ? { time: cycleDate.time.trim() } : {}),
           isTentative: cycleDate.isTentative
@@ -375,6 +431,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     });
 
     if (!eventForm.location.trim()) delete event.location;
+    if (!eventForm.location.trim()) delete event.isLocationTentative;
     if (!eventForm.link.trim()) delete event.link;
 
     setIsSaving(true);
@@ -410,6 +467,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       title: event.title,
       description: event.description,
       location: event.location ?? '',
+      isLocationTentative: event.isLocationTentative ?? false,
       link: event.link ?? '',
       type: event.type,
       cycles: {
@@ -419,19 +477,19 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       },
       cycleDates: {
         freshmen: {
-          sortDate: event.freshmen?.sortDate ?? '',
+          startDate: event.freshmen?.startDate ?? '',
           endDate: event.freshmen?.endDate ?? '',
           time: event.freshmen?.time ?? '',
           isTentative: event.freshmen?.isTentative ?? false
         },
         upperclassmen: {
-          sortDate: event.upperclassmen?.sortDate ?? '',
+          startDate: event.upperclassmen?.startDate ?? '',
           endDate: event.upperclassmen?.endDate ?? '',
           time: event.upperclassmen?.time ?? '',
           isTentative: event.upperclassmen?.isTentative ?? false
         },
         spring: {
-          sortDate: event.spring?.sortDate ?? '',
+          startDate: event.spring?.startDate ?? '',
           endDate: event.spring?.endDate ?? '',
           time: event.spring?.time ?? '',
           isTentative: event.spring?.isTentative ?? false
@@ -460,6 +518,46 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     }
   };
 
+  const runWithLoading = async (
+    setLoading: (value: boolean) => void,
+    errorHeader: string,
+    fn: () => Promise<void>
+  ): Promise<void> => {
+    setLoading(true);
+    try {
+      await fn();
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: errorHeader,
+        contentMsg: error instanceof Error ? error.message : 'Something went wrong'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const previewWebsiteChanges = (): Promise<void> =>
+    runWithLoading(
+      setIsPreviewing,
+      'Error previewing recruitment timeline website changes',
+      async () => setWebsitePreview(await RecruitmentTimelineAPI.previewWebsiteChanges())
+    );
+
+  const createWebsitePR = (): Promise<void> =>
+    runWithLoading(
+      setIsCreatingWebsitePR,
+      'Error creating recruitment timeline website pull request',
+      async () => {
+        const { hasChanges } = await RecruitmentTimelineAPI.createWebsitePR();
+        Emitters.generalSuccess.emit({
+          headerMsg: hasChanges ? 'Website update workflow started' : 'No changes to publish',
+          contentMsg: hasChanges
+            ? 'The bot will create or update the recruitment timeline pull request shortly.'
+            : 'The website recruitment timeline already matches the current IDOL timeline.'
+        });
+      }
+    );
+
   const renderTimelineEvents = (): JSX.Element => {
     if (isLoading) return <Loader active inline />;
     if (cycleEvents.length === 0) {
@@ -477,12 +575,16 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
                 <Card.Meta className={styles.eventMeta}>
                   <span>
                     {cycleDate?.date}
-                    {cycleDate?.endDate ? ` - ${formatDisplayDate(cycleDate.endDate)}` : ''}
                     {cycleDate?.time ? `, ${cycleDate.time}` : ''}
                     {cycleDate?.isTentative ? ' (tentative)' : ''}
                   </span>
                   <span>Type: {event.type}</span>
-                  {event.location && <span>Location: {event.location}</span>}
+                  {event.location && (
+                    <span>
+                      Location: {event.location}
+                      {event.isLocationTentative ? ' (tentative)' : ''}
+                    </span>
+                  )}
                 </Card.Meta>
                 <Card.Description>{event.description}</Card.Description>
               </Card.Content>
@@ -535,18 +637,65 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         {renderTimelineEvents()}
         <div className={styles.buttonContainer}>
           <div>
-            <Button color="blue" type="button">
+            <Button
+              color="blue"
+              type="button"
+              loading={isCreatingWebsitePR}
+              disabled={isCreatingWebsitePR}
+              onClick={() => setIsWebsitePRConfirmationOpen(true)}
+            >
               Create Website PR
             </Button>
             <p className={styles.publishNote}>
               Use this only after all timeline changes are ready for the website.
             </p>
           </div>
-          <Button basic type="button">
+          <Button
+            basic
+            type="button"
+            loading={isPreviewing}
+            disabled={isPreviewing}
+            onClick={previewWebsiteChanges}
+          >
             Preview Diff
           </Button>
         </div>
       </div>
+      <Modal
+        size="small"
+        open={isWebsitePRConfirmationOpen}
+        onClose={() => setIsWebsitePRConfirmationOpen(false)}
+        closeOnDimmerClick={!isCreatingWebsitePR}
+      >
+        <Modal.Header>Create Website Pull Request</Modal.Header>
+        <Modal.Content>
+          <p>
+            Are you sure you want to publish the current recruitment timeline changes to the
+            website?
+          </p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            type="button"
+            disabled={isCreatingWebsitePR}
+            onClick={() => setIsWebsitePRConfirmationOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            primary
+            type="button"
+            loading={isCreatingWebsitePR}
+            disabled={isCreatingWebsitePR}
+            onClick={() => {
+              setIsWebsitePRConfirmationOpen(false);
+              createWebsitePR();
+            }}
+          >
+            Create Website PR
+          </Button>
+        </Modal.Actions>
+      </Modal>
       <Modal
         open={Boolean(editingEvent)}
         onClose={() => setEditingEvent(null)}
@@ -589,6 +738,23 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
             onClick={deleteTimelineEvent}
           >
             Delete Event
+          </Button>
+        </Modal.Actions>
+      </Modal>
+      <Modal size="large" open={Boolean(websitePreview)} onClose={() => setWebsitePreview(null)}>
+        <Modal.Header>Website Timeline Preview</Modal.Header>
+        <Modal.Content scrolling>
+          {websitePreview?.hasChanges ? (
+            renderDiff(websitePreview.diff)
+          ) : (
+            <Message positive>
+              The public website timeline already matches the current Firebase events.
+            </Message>
+          )}
+        </Modal.Content>
+        <Modal.Actions>
+          <Button type="button" onClick={() => setWebsitePreview(null)}>
+            Close
           </Button>
         </Modal.Actions>
       </Modal>
