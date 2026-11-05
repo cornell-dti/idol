@@ -44,12 +44,13 @@
   display: flex;
   justify-content: flex-end;
 }
-.page.page label {
+.page.page label:not(:has(input)) {
   font: var(--idol-type-label-small);
   color: var(--idol-fg-dimmer);
   letter-spacing: var(--idol-type-label-small-tracking);
 }
 .page label[for='profile-college']::after,
+.page :global(div):has(> label > input[required]) > label:not(:has(input))::after,
 .page :global(div):has(> div > input[required]) > label::after,
 .page :global(div):has(> textarea[required]) > label::after,
 .page :global(div):has(> div > input[aria-required='true']) > label::after {
