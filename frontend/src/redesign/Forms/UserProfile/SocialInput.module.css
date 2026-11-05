@@ -13,3 +13,9 @@
   background: currentColor;
   mask: var(--brand-mark) center / contain no-repeat;
 }
+
+.linkedinMark {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
