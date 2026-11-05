@@ -1,0 +1,77 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: min(800px, calc(100% - 64px));
+  margin: 32px auto;
+}
+.page h1 {
+  margin: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.photo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.avatarButton {
+  display: inline-flex;
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  line-height: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.avatarButton:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 4px;
+}
+.page .bio {
+  min-height: 160px;
+  height: 160px;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.page.page label {
+  font: var(--idol-type-label-small);
+  color: var(--idol-fg-dimmer);
+  letter-spacing: var(--idol-type-label-small-tracking);
+}
+.page label[for='profile-college']::after,
+.page :global(div):has(> div > input[required]) > label::after,
+.page :global(div):has(> textarea[required]) > label::after,
+.page :global(div):has(> div > input[aria-required='true']) > label::after {
+  content: ' *';
+  color: var(--idol-danger-default);
+}
+@media (max-width: 640px) {
+  .page {
+    width: calc(100% - 32px);
+    margin: 24px auto;
+    gap: 24px;
+  }
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.photoEditor > div {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.photoEditor > div > div {
+  margin: 0;
+  max-width: 100%;
+}

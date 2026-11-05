@@ -1,6 +1,6 @@
 import { forwardRef, ReactElement, ReactNode } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
-import { useDesignSystemTheme } from '../Theme/Theme';
+import { useDesignSystemAppearance } from '../Theme/Theme';
 import styles from './Menu.module.css';
 
 export type MenuProps = Pick<
@@ -8,6 +8,8 @@ export type MenuProps = Pick<
   'open' | 'defaultOpen' | 'onOpenChange' | 'disabled'
 > & {
   trigger: ReactElement;
+  matchTriggerWidth?: boolean;
+  origin?: 'center' | 'bottom-left';
   children: ReactNode;
   align?: BaseMenu.Positioner.Props['align'];
   side?: BaseMenu.Positioner.Props['side'];
@@ -17,19 +19,26 @@ export type MenuProps = Pick<
 /** Base UI owns positioning, keyboard navigation, dismissal, and focus restoration. */
 export function Menu({
   trigger,
+  matchTriggerWidth = false,
+  origin = 'center',
   children,
   align = 'start',
   side = 'bottom',
   'aria-label': ariaLabel,
   ...props
 }: MenuProps): JSX.Element {
-  const theme = useDesignSystemTheme();
+  const { theme, accent } = useDesignSystemAppearance();
   return (
     <BaseMenu.Root {...props}>
       <BaseMenu.Trigger render={trigger} />
-      <BaseMenu.Portal data-idol-redesign data-idol-theme={theme}>
+      <BaseMenu.Portal data-idol-redesign data-idol-theme={theme} data-idol-accent={accent}>
         <BaseMenu.Positioner side={side} align={align} sideOffset={4} className={styles.positioner}>
-          <BaseMenu.Popup aria-label={ariaLabel} className={styles.popup}>
+          <BaseMenu.Popup
+            aria-label={ariaLabel}
+            className={`${styles.popup} ${matchTriggerWidth ? styles.matchTrigger : ''} ${
+              origin === 'bottom-left' ? styles.bottomLeft : ''
+            }`}
+          >
             {children}
           </BaseMenu.Popup>
         </BaseMenu.Positioner>

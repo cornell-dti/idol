@@ -23,7 +23,7 @@
   --idol-fg-default: #f5f5f5;
   --idol-fg-dimmer: #a3a3a3;
   --idol-stroke-black: rgba(255, 255, 255, 0.1);
-  --idol-stroke-medium: #ffffff;
+  --idol-stroke-medium: rgba(255, 255, 255, 0.24);
   --idol-stroke-white: rgba(255, 255, 255, 0.1);
   --idol-bg-root: #121212;
   --idol-bg-default: #171717;
@@ -33,4 +33,69 @@
   --idol-danger-default: #ff5561;
   --idol-success-default: #00d88c;
   --idol-danger-dimmer: rgb(88.003308% 22.05206% 26.707441%);
+}
+
+[data-idol-redesign] {
+  --idol-on-accent: #fff;
+  --idol-on-danger: #fff;
+}
+
+[data-idol-redesign][data-idol-accent='black'] {
+  --idol-accent-default: #171717;
+  --idol-accent-dimmer: #080808;
+  --idol-on-accent: #fff;
+}
+
+[data-idol-redesign][data-idol-accent='purple'] {
+  --idol-accent-default: #a13699;
+  --idol-accent-dimmer: #892b82;
+  --idol-on-accent: #fff;
+}
+
+[data-idol-redesign][data-idol-accent='pink'] {
+  --idol-accent-default: #ff3aa1;
+  --idol-accent-dimmer: #ed208b;
+  --idol-on-accent: #171717;
+}
+
+[data-idol-redesign][data-idol-accent='red'] {
+  --idol-accent-default: #f41935;
+  --idol-accent-dimmer: #d8102b;
+  --idol-on-accent: #fff;
+}
+
+[data-idol-redesign][data-idol-accent='orange'] {
+  --idol-accent-default: #ff7a00;
+  --idol-accent-dimmer: #e66b00;
+  --idol-on-accent: #171717;
+}
+
+[data-idol-redesign][data-idol-accent='yellow'] {
+  --idol-accent-default: #ffc400;
+  --idol-accent-dimmer: #e0ab00;
+  --idol-on-accent: #171717;
+}
+
+[data-idol-redesign][data-idol-accent='green'] {
+  --idol-accent-default: #38bd2d;
+  --idol-accent-dimmer: #2ca323;
+  --idol-on-accent: #fff;
+}
+
+[data-idol-redesign][data-idol-theme='dark'][data-idol-accent='black'] {
+  --idol-accent-default: #f5f5f5;
+  --idol-accent-dimmer: #d4d4d4;
+  --idol-on-accent: #171717;
+}
+
+[data-idol-redesign][data-idol-theme='light'] {
+  color-scheme: light;
+}
+[data-idol-redesign][data-idol-theme='dark'] {
+  color-scheme: dark;
+}
+
+[data-idol-redesign] ::selection {
+  background: var(--idol-accent-default);
+  color: var(--idol-on-accent);
 }

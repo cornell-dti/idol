@@ -15,7 +15,10 @@ import { Emitters } from '../utils';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
-import { PreviewProvider, usePreviewToggle } from '../redesign/preview';
+import { PreviewProvider, usePreview, usePreviewToggle } from '../redesign/preview';
+import AppLayout from '../redesign/AppLayout';
+import PreviewRouteGuard from '../redesign/PreviewRouteGuard';
+import { AppearanceProvider } from '../design-system-2026/components/Theme/AppearanceProvider';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
@@ -48,22 +51,27 @@ export default function AppTemplate(props: AppProps): JSX.Element {
         <link rel="manifest" href="/manifest.json" />
         <title>Cornell DTI IDOL</title>
       </Head>
-      <UserProvider>
-        <FirestoreDataProvider>
-          <PreviewProvider>
-            <RoutingMiddleware>
-              <AppContent>
-                <Component {...pageProps} />
-              </AppContent>
-            </RoutingMiddleware>
-          </PreviewProvider>
-        </FirestoreDataProvider>
-      </UserProvider>
+      <AppearanceProvider>
+        <UserProvider>
+          <FirestoreDataProvider>
+            <PreviewProvider>
+              <RoutingMiddleware>
+                <PreviewRouteGuard>
+                  <AppContent>
+                    <Component {...pageProps} />
+                  </AppContent>
+                </PreviewRouteGuard>
+              </RoutingMiddleware>
+            </PreviewProvider>
+          </FirestoreDataProvider>
+        </UserProvider>
+      </AppearanceProvider>
     </>
   );
 }
 
 function AppContent({ children }: { readonly children: ReactNode }): JSX.Element {
+  const preview = usePreview();
   const [navVisible, setNavVisible] = useState(false);
   const hasAdminPermission = useHasAdminPermission();
   const hasMemberPermissions = useHasMemberPermission();
@@ -82,38 +90,42 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
       <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
-      <div className="App">
-        <SiteHeader />
-        <div className="appSidebarContainer">
-          {!hasMemberPermissions ? (
-            <div className="appSidebarDimmer">{children}</div>
-          ) : (
-            <>
-              <Sidebar
-                as={Menu}
-                animation="overlay"
-                icon="labeled"
-                inverted
-                onHide={() => setNavVisible(false)}
-                vertical
-                visible={navVisible}
-                width="thin"
-                onClick={() => {
-                  Emitters.navOpenEmitter.emit(false);
-                }}
-                className="appSidebar"
-              >
-                <MenuContent hasAdminPermission={hasAdminPermission} />
-              </Sidebar>
-              <Sidebar.Pushable>
-                <Sidebar.Pusher dimmed={navVisible}>
-                  <div className="appSidebarDimmer">{children}</div>
-                </Sidebar.Pusher>
-              </Sidebar.Pushable>
-            </>
-          )}
+      {preview ? (
+        <AppLayout>{children}</AppLayout>
+      ) : (
+        <div className="App">
+          <SiteHeader />
+          <div className="appSidebarContainer">
+            {!hasMemberPermissions ? (
+              <div className="appSidebarDimmer">{children}</div>
+            ) : (
+              <>
+                <Sidebar
+                  as={Menu}
+                  animation="overlay"
+                  icon="labeled"
+                  inverted
+                  onHide={() => setNavVisible(false)}
+                  vertical
+                  visible={navVisible}
+                  width="thin"
+                  onClick={() => {
+                    Emitters.navOpenEmitter.emit(false);
+                  }}
+                  className="appSidebar"
+                >
+                  <MenuContent hasAdminPermission={hasAdminPermission} />
+                </Sidebar>
+                <Sidebar.Pushable>
+                  <Sidebar.Pusher dimmed={navVisible}>
+                    <div className="appSidebarDimmer">{children}</div>
+                  </Sidebar.Pusher>
+                </Sidebar.Pushable>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

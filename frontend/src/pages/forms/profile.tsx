@@ -1,3 +1,5 @@
-import Profile from '../../components/Forms/UserProfile/UserProfile';
+import OldProfile from '../../components/Forms/UserProfile/UserProfile';
+import Profile from '../../redesign/Forms/UserProfile/UserProfile';
+import { previewPage } from '../../redesign/preview';
 
-export default Profile;
+export default previewPage(OldProfile, Profile);

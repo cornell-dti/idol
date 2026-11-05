@@ -20,7 +20,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 32px;
   min-height: 264px;
   padding: 16px;
   border: 1px solid var(--idol-stroke-black);
@@ -30,7 +30,7 @@
 }
 .modal .title {
   margin: 0;
-  padding-right: 24px;
+  padding-right: 40px;
   font: var(--idol-type-heading-2);
   letter-spacing: var(--idol-type-heading-2-tracking);
   outline: none;
@@ -109,4 +109,10 @@
   .backdrop {
     transition: none;
   }
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

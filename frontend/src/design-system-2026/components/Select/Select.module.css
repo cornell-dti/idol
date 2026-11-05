@@ -106,3 +106,33 @@
   width: 12px;
   height: 12px;
 }
+
+.selectOption {
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .selectOption {
+    transition: none;
+  }
+}
+
+.selectPopup {
+  transform-origin: center;
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 160ms ease,
+    transform 160ms cubic-bezier(0.2, 0, 0, 1);
+}
+.selectPopup[data-starting-style],
+.selectPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .selectPopup {
+    transition: none;
+  }
+}

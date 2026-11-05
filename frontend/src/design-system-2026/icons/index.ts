@@ -27,3 +27,20 @@ export { QuestionIcon } from '@phosphor-icons/react/dist/csr/Question';
 export { RocketLaunchIcon } from '@phosphor-icons/react/dist/csr/RocketLaunch';
 export { ScalesIcon } from '@phosphor-icons/react/dist/csr/Scales';
 export { UserIcon } from '@phosphor-icons/react/dist/csr/User';
+export { SignOutIcon } from '@phosphor-icons/react/dist/csr/SignOut';
+
+export { ArrowCounterClockwiseIcon } from '@phosphor-icons/react/dist/csr/ArrowCounterClockwise';
+export { ArrowClockwiseIcon } from '@phosphor-icons/react/dist/csr/ArrowClockwise';
+export { UploadSimpleIcon } from '@phosphor-icons/react/dist/csr/UploadSimple';
+
+export { GlobeIcon } from '@phosphor-icons/react/dist/csr/Globe';
+export { GithubLogoIcon } from '@phosphor-icons/react/dist/csr/GithubLogo';
+export { LinkedinLogoIcon } from '@phosphor-icons/react/dist/csr/LinkedinLogo';
+export { ArrowSquareOutIcon } from '@phosphor-icons/react/dist/csr/ArrowSquareOut';
+export { WalletIcon } from '@phosphor-icons/react/dist/csr/Wallet';
+export { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle';
+export { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart';
+export { BusIcon } from '@phosphor-icons/react/dist/csr/Bus';
+export { CompassIcon } from '@phosphor-icons/react/dist/csr/Compass';
+export { BuildingsIcon } from '@phosphor-icons/react/dist/csr/Buildings';
+export { PaletteIcon } from '@phosphor-icons/react/dist/csr/Palette';

@@ -9,6 +9,7 @@ export type InputProps = Omit<BaseInput.Props, 'size' | 'className'> &
     size?: 'default' | 'large';
     shape?: 'default' | 'pill';
     icon?: ReactNode;
+    prefix?: string;
   };
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -22,6 +23,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       size = 'default',
       shape = 'default',
       icon,
+      prefix,
       className = '',
       ...props
     },
@@ -43,6 +45,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {icon && (
           <span className={styles.iconSlot} aria-hidden="true">
             {icon}
+          </span>
+        )}
+        {prefix && (
+          <span className={styles.prefix} aria-hidden="true">
+            {prefix}
           </span>
         )}
         <BaseInput
