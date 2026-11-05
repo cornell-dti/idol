@@ -15,40 +15,6 @@
   max-width: 100%;
   animation: arrive 450ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-.debugPicker {
-  position: fixed;
-  bottom: 12px;
-  left: 12px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 8px;
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: 8px;
-  background: var(--idol-bg-default);
-  color: var(--idol-fg-dimmer);
-  font-size: 11px;
-  line-height: 1;
-}
-.debugPicker select {
-  max-width: 76px;
-  height: 24px;
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: 4px;
-  background: var(--idol-bg-default);
-  color: var(--idol-fg-default);
-  font: inherit;
-}
-.debugPicker input {
-  width: 24px;
-  height: 24px;
-  padding: 1px;
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: 4px;
-  background: transparent;
-  cursor: pointer;
-}
 .eyebrow {
   display: flex;
   justify-content: center;
