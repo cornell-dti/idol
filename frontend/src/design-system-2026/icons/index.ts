@@ -44,3 +44,4 @@ export { BusIcon } from '@phosphor-icons/react/dist/csr/Bus';
 export { CompassIcon } from '@phosphor-icons/react/dist/csr/Compass';
 export { BuildingsIcon } from '@phosphor-icons/react/dist/csr/Buildings';
 export { PaletteIcon } from '@phosphor-icons/react/dist/csr/Palette';
+export { PencilSimpleLineIcon } from '@phosphor-icons/react/dist/csr/PencilSimpleLine';
