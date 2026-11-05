@@ -187,7 +187,7 @@ export default function Settings(): JSX.Element {
               icon={<SignOutIcon size={16} />}
               onClick={() => auth.signOut()}
             >
-              Log out
+              Sign out
             </Button>
           </Card>
         </div>
