@@ -1,5 +1,7 @@
+import { CSSProperties } from 'react';
+import GitHubMark from '../../../../../new-dti-website/public/github.svg';
 import { Input } from '../../../design-system-2026/components';
-import { GlobeIcon, GithubLogoIcon, LinkedinLogoIcon } from '../../../design-system-2026/icons';
+import { GlobeIcon, LinkedinLogoIcon } from '../../../design-system-2026/icons';
 import { SocialKind, SOCIAL_PREFIXES, normalizeSocialLink, socialDisplay } from './socialLinks';
 import styles from './SocialInput.module.css';
 
@@ -20,8 +22,13 @@ export default function SocialInput({
 }): JSX.Element {
   const icons = {
     website: <GlobeIcon size={16} />,
-    github: <GithubLogoIcon size={16} />,
-    linkedin: <LinkedinLogoIcon size={16} />,
+    github: (
+      <span
+        className={styles.brandMark}
+        style={{ '--brand-mark': `url("${GitHubMark.src}")` } as CSSProperties}
+      />
+    ),
+    linkedin: <LinkedinLogoIcon size={16} weight="fill" />,
     calendly: <span className={styles.calendly} />
   };
   return (

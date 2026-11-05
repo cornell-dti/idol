@@ -19,6 +19,9 @@
   min-width: 0;
   padding: 0 10px;
   border: 0;
+  transition:
+    box-shadow 140ms ease,
+    background-color 140ms ease;
   border-radius: 6px;
   background: var(--idol-bg-default);
   box-shadow:
@@ -95,6 +98,7 @@
   outline: none;
 }
 .selectOption[data-highlighted] {
+  transition-duration: 0s;
   background: var(--idol-bg-dimmer);
 }
 .selectOption[data-disabled] {
@@ -113,6 +117,7 @@
     box-shadow 140ms ease;
 }
 @media (prefers-reduced-motion: reduce) {
+  .inputFrame,
   .selectOption {
     transition: none;
   }

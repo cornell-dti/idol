@@ -37,7 +37,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       disabled={disabled}
       invalid={invalid}
     >
-      <div
+      <label
+        htmlFor={id}
         className={`${styles.inputFrame} ${size === 'large' ? styles.largeInput : ''} ${
           shape === 'pill' ? styles.pillInput : ''
         } ${error || invalid ? styles.invalid : ''} ${disabled ? styles.disabled : ''}`}
@@ -59,7 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           className={`${styles.input} ${className}`}
         />
-      </div>
+      </label>
     </FieldShell>
   )
 );
