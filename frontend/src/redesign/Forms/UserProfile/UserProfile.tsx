@@ -8,6 +8,7 @@ import {
   Select,
   Textarea
 } from '../../../design-system-2026/components';
+import { CheckIcon } from '../../../design-system-2026/icons';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
 import useProfileEditor from '../../../components/Forms/UserProfile/useProfileEditor';
 import ProfileImageModal from './ProfileImageModal';
@@ -189,7 +190,9 @@ export default function UserProfile(): JSX.Element {
         </div>
       </Card>
       <div className={styles.actions}>
-        <Button type="submit">Save</Button>
+        <Button type="submit" icon={<CheckIcon size={16} aria-hidden="true" />}>
+          Save changes
+        </Button>
       </div>
     </form>
   );
