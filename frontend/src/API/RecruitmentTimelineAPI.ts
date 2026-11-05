@@ -18,4 +18,22 @@ export default class RecruitmentTimelineAPI {
         return Array.isArray(val.events) ? (val.events as RecruitmentTimelineEvent[]) : [];
       });
   }
+
+  public static async createTimelineEvent(
+    event: RecruitmentTimelineEvent
+  ): Promise<RecruitmentTimelineEvent> {
+    const response = await APIWrapper.post(`${backendURL}/recruitment-timeline`, event);
+    if (!response.status || response.status >= 400 || response.data?.error) {
+      throw new Error(response.data?.error ?? 'Unable to save recruitment timeline event.');
+    }
+
+    return response.data.event as RecruitmentTimelineEvent;
+  }
+
+  public static async deleteTimelineEvent(id: string): Promise<void> {
+    const response = await APIWrapper.delete(`${backendURL}/recruitment-timeline/${id}`);
+    if (!response.status || response.status >= 400 || response.data?.error) {
+      throw new Error(response.data?.error ?? 'Unable to delete recruitment timeline event.');
+    }
+  }
 }
