@@ -2,6 +2,7 @@ type Cycle = 'freshmen' | 'upperclassmen' | 'spring';
 
 type WebsiteEventDate = {
   date: string;
+  endDate?: string;
   isTentative: boolean;
   time?: string;
 };
@@ -20,11 +21,19 @@ export type WebsiteRecruitmentEvent = {
 
 const cycles: Cycle[] = ['freshmen', 'upperclassmen', 'spring'];
 
+const formatDisplayDate = (startDate: string): string =>
+  new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  }).format(new Date(`${startDate}T00:00:00Z`));
+
 const toWebsiteEventDate = (eventDate?: RecruitmentEventDate): WebsiteEventDate | undefined => {
   if (!eventDate) return undefined;
 
   return {
     date: eventDate.date,
+    ...(eventDate.endDate ? { endDate: formatDisplayDate(eventDate.endDate) } : {}),
     isTentative: eventDate.isTentative,
     ...(eventDate.time ? { time: eventDate.time } : {})
   };
@@ -49,7 +58,9 @@ const toWebsiteEvent = (event: RecruitmentTimelineEvent): WebsiteRecruitmentEven
 };
 
 const formatEventDate = (eventDate: WebsiteEventDate): string =>
-  `{ "date": ${JSON.stringify(eventDate.date)}, "isTentative": ${eventDate.isTentative}${
+  `{ "date": ${JSON.stringify(eventDate.date)}${
+    eventDate.endDate ? `, "endDate": ${JSON.stringify(eventDate.endDate)}` : ''
+  }, "isTentative": ${eventDate.isTentative}${
     eventDate.time ? `, "time": ${JSON.stringify(eventDate.time)}` : ''
   } }`;
 

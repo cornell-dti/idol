@@ -76,7 +76,7 @@ const formatEventDate = (startDate?: string, endDate?: string, fallbackDate = ''
   if (!startDate) return fallbackDate;
 
   const formattedStartDate = formatDisplayDate(startDate);
-  if (!endDate) return startDate;
+  if (!endDate) return formattedStartDate;
 
   const formattedEndDate = formatDisplayDate(endDate);
   const startMonth = formattedStartDate.split(' ')[0];
