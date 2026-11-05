@@ -54,7 +54,13 @@ export default function UserProvider({ children }: { readonly children: ReactNod
     []
   );
 
-  if (user === 'INIT') return <LoadingScreen />;
+  if (user === 'INIT') {
+    return (
+      <div data-testid="UserProvider" className="App">
+        <LoadingScreen />
+      </div>
+    );
+  }
   if (user == null) {
     return (
       <div data-testid="UserProvider" className="App">

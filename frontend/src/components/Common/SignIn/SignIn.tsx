@@ -1,4 +1,4 @@
-import { CSSProperties, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Head from 'next/head';
 import { signInWithPopup } from 'firebase/auth';
 import {
@@ -12,33 +12,9 @@ import { auth, provider } from '../../../firebase';
 import styles from './SignIn.module.css';
 import GoogleLogo from '../../../static/images/google-logo.png';
 import LoginGlow from './LoginGlow';
-import {
-  ACCENT_OPTIONS,
-  Accent,
-  THEME_OPTIONS,
-  ThemePreference,
-  useAppearance
-} from '../../../design-system-2026/components/Theme/AppearanceProvider';
 
 export default function SignIn(): JSX.Element {
   const page = useRef<HTMLDivElement>(null);
-  const { theme, accent, setTheme, setAccent } = useAppearance();
-  const [customAccent, setCustomAccent] = useState('');
-  const debugStyle = customAccent
-    ? ({
-        '--idol-accent-default': customAccent,
-        '--idol-accent-dimmer': `color-mix(in srgb, ${customAccent} 85%, black)`,
-        '--idol-on-accent':
-          [1, 3, 5].reduce((sum, offset, index) => {
-            const channel = parseInt(customAccent.slice(offset, offset + 2), 16) / 255;
-            const linear =
-              channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
-            return sum + linear * [0.2126, 0.7152, 0.0722][index];
-          }, 0) > 0.179
-            ? '#171717'
-            : '#fff'
-      } as CSSProperties)
-    : undefined;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const onGoogleSignIn = async () => {
@@ -61,7 +37,7 @@ export default function SignIn(): JSX.Element {
     }
   };
   return (
-    <DesignSystemScope style={debugStyle}>
+    <DesignSystemScope>
       <Head>
         <title>Welcome to IDOL</title>
         <link
@@ -118,43 +94,6 @@ export default function SignIn(): JSX.Element {
             </footer>
           </section>
         </main>
-        {/* Temporary login appearance controls. Custom colors stay local to this preview. */}
-        <div className={styles.debugPicker} role="group" aria-label="Debug appearance">
-          <span>Debug</span>
-          <select
-            aria-label="Debug theme"
-            value={theme}
-            onChange={(event) => setTheme(event.target.value as ThemePreference)}
-          >
-            {THEME_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <select
-            aria-label="Debug accent"
-            value={customAccent ? 'custom' : accent}
-            onChange={(event) => {
-              if (event.target.value === 'custom') return;
-              setCustomAccent('');
-              setAccent(event.target.value as Accent);
-            }}
-          >
-            {ACCENT_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-            {customAccent && <option value="custom">custom</option>}
-          </select>
-          <input
-            type="color"
-            aria-label="Debug custom accent color"
-            value={customAccent || '#006fff'}
-            onChange={(event) => setCustomAccent(event.target.value)}
-          />
-        </div>
       </DottedBackground>
     </DesignSystemScope>
   );
