@@ -15,7 +15,15 @@ const runCommand = (program: string, ...programArguments: readonly string[]) => 
     .map((argument) => (argument.includes(' ') ? `"${argument}"` : argument))
     .join(' ');
   console.log(`> ${program} ${programArgumentsQuoted}`);
-  return spawnSync(program, programArguments, { stdio: 'inherit' });
+  const result = spawnSync(program, programArguments, { stdio: 'inherit' });
+  if (result.error) throw result.error;
+  if (result.status !== 0) {
+    throw new Error(
+      `Command failed with exit code ${result.status ?? 'unknown'}: ${program} ${programArgumentsQuoted}`
+    );
+  }
+
+  return result;
 };
 
 const getTimelineContent = (): string => {

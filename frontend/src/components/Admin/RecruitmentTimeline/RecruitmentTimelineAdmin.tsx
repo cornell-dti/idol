@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Card, Dropdown, Form, Loader, Message, Modal } from 'semantic-ui-react';
 import { Emitters } from '../../../utils';
 import RecruitmentTimelineAPI, {
-  RecruitmentTimelineEvent,
   RecruitmentTimelineWebsitePreview
 } from '../../../API/RecruitmentTimelineAPI';
 import styles from './RecruitmentTimelineAdmin.module.css';
@@ -69,6 +68,41 @@ const formatDisplayDate = (sortDate: string): string => {
     day: 'numeric',
     timeZone: 'UTC'
   }).format(new Date(`${sortDate}T00:00:00Z`));
+};
+
+const formatEventDate = (sortDate?: string, endDate?: string, fallbackDate = ''): string => {
+  if (!sortDate) return fallbackDate;
+
+  const startDate = formatDisplayDate(sortDate);
+  if (!endDate) return startDate;
+
+  const formattedEndDate = formatDisplayDate(endDate);
+  const startMonth = startDate.split(' ')[0];
+  const endDay = formattedEndDate.startsWith(`${startMonth} `)
+    ? formattedEndDate.slice(startMonth.length + 1)
+    : formattedEndDate;
+  return `${startDate}-${endDay}`;
+};
+
+const renderDiff = (diff: string): JSX.Element => {
+  const lines = diff.split('\n');
+
+  return (
+    <pre>
+      {lines.map((line, index) => {
+        let lineClass: string | undefined;
+        if (line.startsWith('+') && !line.startsWith('+++')) lineClass = styles.diffAdded;
+        if (line.startsWith('-') && !line.startsWith('---')) lineClass = styles.diffRemoved;
+
+        return (
+          <span className={lineClass} key={`${index}-${line}`}>
+            {line}
+            {index < lines.length - 1 ? '\n' : ''}
+          </span>
+        );
+      })}
+    </pre>
+  );
 };
 
 const convertTo24Hr = (time: string): string => {
@@ -257,6 +291,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isCreatingWebsitePR, setIsCreatingWebsitePR] = useState(false);
+  const [isWebsitePRConfirmationOpen, setIsWebsitePRConfirmationOpen] = useState(false);
   const [websitePreview, setWebsitePreview] = useState<RecruitmentTimelineWebsitePreview | null>(
     null
   );
@@ -371,7 +406,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
       if (eventForm.cycles[cycle]) {
         const cycleDate = eventForm.cycleDates[cycle];
         event[cycle] = {
-          date: formatDisplayDate(cycleDate.sortDate),
+          date: formatEventDate(cycleDate.sortDate, cycleDate.endDate),
           sortDate: cycleDate.sortDate,
           ...(cycleDate.endDate ? { endDate: cycleDate.endDate } : {}),
           ...(cycleDate.time.trim() ? { time: cycleDate.time.trim() } : {}),
@@ -468,37 +503,45 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
     }
   };
 
-  const previewWebsiteChanges = async (): Promise<void> => {
-    setIsPreviewing(true);
+  const runWithLoading = async (
+    setLoading: (value: boolean) => void,
+    errorHeader: string,
+    fn: () => Promise<void>
+  ): Promise<void> => {
+    setLoading(true);
     try {
-      setWebsitePreview(await RecruitmentTimelineAPI.previewWebsiteChanges());
+      await fn();
     } catch (error) {
       Emitters.generalError.emit({
-        headerMsg: 'Error previewing recruitment timeline website changes',
+        headerMsg: errorHeader,
         contentMsg: error instanceof Error ? error.message : 'Something went wrong'
       });
     } finally {
-      setIsPreviewing(false);
+      setLoading(false);
     }
   };
 
-  const createWebsitePR = async (): Promise<void> => {
-    setIsCreatingWebsitePR(true);
-    try {
-      await RecruitmentTimelineAPI.createWebsitePR();
-      Emitters.generalSuccess.emit({
-        headerMsg: 'Website update workflow started',
-        contentMsg: 'The bot will create or update the recruitment timeline pull request shortly.'
-      });
-    } catch (error) {
-      Emitters.generalError.emit({
-        headerMsg: 'Error creating recruitment timeline website pull request',
-        contentMsg: error instanceof Error ? error.message : 'Something went wrong'
-      });
-    } finally {
-      setIsCreatingWebsitePR(false);
-    }
-  };
+  const previewWebsiteChanges = (): Promise<void> =>
+    runWithLoading(
+      setIsPreviewing,
+      'Error previewing recruitment timeline website changes',
+      async () => setWebsitePreview(await RecruitmentTimelineAPI.previewWebsiteChanges())
+    );
+
+  const createWebsitePR = (): Promise<void> =>
+    runWithLoading(
+      setIsCreatingWebsitePR,
+      'Error creating recruitment timeline website pull request',
+      async () => {
+        const { hasChanges } = await RecruitmentTimelineAPI.createWebsitePR();
+        Emitters.generalSuccess.emit({
+          headerMsg: hasChanges ? 'Website update workflow started' : 'No changes to publish',
+          contentMsg: hasChanges
+            ? 'The bot will create or update the recruitment timeline pull request shortly.'
+            : 'The website recruitment timeline already matches the current IDOL timeline.'
+        });
+      }
+    );
 
   const renderTimelineEvents = (): JSX.Element => {
     if (isLoading) return <Loader active inline />;
@@ -516,8 +559,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
                 <Card.Header>{event.title}</Card.Header>
                 <Card.Meta className={styles.eventMeta}>
                   <span>
-                    {cycleDate?.date}
-                    {cycleDate?.endDate ? ` - ${formatDisplayDate(cycleDate.endDate)}` : ''}
+                    {formatEventDate(cycleDate?.sortDate, cycleDate?.endDate, cycleDate?.date)}
                     {cycleDate?.time ? `, ${cycleDate.time}` : ''}
                     {cycleDate?.isTentative ? ' (tentative)' : ''}
                   </span>
@@ -580,7 +622,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
               type="button"
               loading={isCreatingWebsitePR}
               disabled={isCreatingWebsitePR}
-              onClick={createWebsitePR}
+              onClick={() => setIsWebsitePRConfirmationOpen(true)}
             >
               Create Website PR
             </Button>
@@ -599,6 +641,41 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
           </Button>
         </div>
       </div>
+      <Modal
+        size="small"
+        open={isWebsitePRConfirmationOpen}
+        onClose={() => setIsWebsitePRConfirmationOpen(false)}
+        closeOnDimmerClick={!isCreatingWebsitePR}
+      >
+        <Modal.Header>Create Website Pull Request</Modal.Header>
+        <Modal.Content>
+          <p>
+            Are you sure you want to publish the current recruitment timeline changes to the
+            website?
+          </p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            type="button"
+            disabled={isCreatingWebsitePR}
+            onClick={() => setIsWebsitePRConfirmationOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            primary
+            type="button"
+            loading={isCreatingWebsitePR}
+            disabled={isCreatingWebsitePR}
+            onClick={() => {
+              setIsWebsitePRConfirmationOpen(false);
+              createWebsitePR();
+            }}
+          >
+            Create Website PR
+          </Button>
+        </Modal.Actions>
+      </Modal>
       <Modal
         open={Boolean(editingEvent)}
         onClose={() => setEditingEvent(null)}
@@ -648,7 +725,7 @@ const RecruitmentTimelineAdmin = (): JSX.Element => {
         <Modal.Header>Website Timeline Preview</Modal.Header>
         <Modal.Content scrolling>
           {websitePreview?.hasChanges ? (
-            <pre>{websitePreview.diff}</pre>
+            renderDiff(websitePreview.diff)
           ) : (
             <Message positive>
               The public website timeline already matches the current Firebase events.

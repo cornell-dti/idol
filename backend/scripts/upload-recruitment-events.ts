@@ -58,6 +58,15 @@ const getSortDate = (date: string, fallRecruitmentYear: number): string => {
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 };
 
+const formatDateRange = (date: string, endDate?: string): string => {
+  if (!endDate) return date;
+
+  const month = date.split(' ')[0];
+  const endDay = endDate.startsWith(`${month} `) ? endDate.slice(month.length + 1) : endDate;
+
+  return `${date}-${endDay}`;
+};
+
 const addSortDates = (
   event: SourceRecruitmentTimelineEvent,
   fallRecruitmentYear: number
@@ -70,6 +79,7 @@ const addSortDates = (
 
     normalizedEvent[cycle] = {
       ...eventDate,
+      date: formatDateRange(eventDate.date, eventDate.endDate),
       sortDate: eventDate.sortDate ?? getSortDate(eventDate.date, fallRecruitmentYear),
       ...(eventDate.endDate ? { endDate: getSortDate(eventDate.endDate, fallRecruitmentYear) } : {})
     } as RecruitmentEventDate;

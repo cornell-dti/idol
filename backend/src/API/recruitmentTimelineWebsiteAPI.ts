@@ -20,6 +20,7 @@ export type RecruitmentTimelineWebsitePreview = {
 
 export type RecruitmentTimelineWebsitePRRequest = {
   dispatched: boolean;
+  hasChanges: boolean;
 };
 
 const getWebsiteEventsFile = async (): Promise<string> => {
@@ -62,8 +63,15 @@ export const requestRecruitmentTimelineWebsitePR = async (
     );
   }
 
-  const events = await RecruitmentTimelineDao.getAllRecruitmentTimelineEvents();
+  const [events, currentFile] = await Promise.all([
+    RecruitmentTimelineDao.getAllRecruitmentTimelineEvents(),
+    getWebsiteEventsFile()
+  ]);
   const websiteEventsContent = serializeRecruitmentTimelineEvents(events);
+  if (currentFile === websiteEventsContent) {
+    return { dispatched: false, hasChanges: false };
+  }
+
   if (Buffer.byteLength(websiteEventsContent, 'utf8') > MAX_DISPATCH_CONTENT_BYTES) {
     throw new Error(
       'Recruitment timeline data is too large to send to the website update workflow.'
@@ -78,5 +86,5 @@ export const requestRecruitmentTimelineWebsitePR = async (
     client_payload: { content: websiteEventsContent }
   });
 
-  return { dispatched: response.status === 204 };
+  return { dispatched: response.status === 204, hasChanges: true };
 };

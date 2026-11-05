@@ -7,6 +7,11 @@ export type RecruitmentTimelineWebsitePreview = {
   hasChanges: boolean;
 };
 
+export type RecruitmentTimelineWebsitePRRequest = {
+  dispatched: boolean;
+  hasChanges: boolean;
+};
+
 export default class RecruitmentTimelineAPI {
   public static getAllRecruitmentTimelineEvents(): Promise<RecruitmentTimelineEvent[]> {
     return APIWrapper.get(`${backendURL}/recruitment-timeline`)
@@ -56,20 +61,17 @@ export default class RecruitmentTimelineAPI {
     return response.data as RecruitmentTimelineWebsitePreview;
   }
 
-  public static async createWebsitePR(): Promise<void> {
+  public static async createWebsitePR(): Promise<RecruitmentTimelineWebsitePRRequest> {
     const response = await APIWrapper.post(
       `${backendURL}/recruitment-timeline/create-website-pr`,
       {}
     );
-    if (
-      !response.status ||
-      response.status >= 400 ||
-      response.data?.error ||
-      !response.data.dispatched
-    ) {
+    if (!response.status || response.status >= 400 || response.data?.error) {
       throw new Error(
         response.data?.error ?? 'Unable to create recruitment timeline website pull request.'
       );
     }
+
+    return response.data as RecruitmentTimelineWebsitePRRequest;
   }
 }
