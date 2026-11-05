@@ -9,6 +9,12 @@
   text-align: center;
 }
 
+.loadError {
+  margin-top: 1.5rem !important;
+  width: 100%;
+  max-width: 560px;
+}
+
 .categoryList {
   margin-top: 1.5rem;
   width: 100%;

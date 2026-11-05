@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import CoffeeChatDao from '../src/dao/CoffeeChatDao'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import PermissionsManager from '../src/utils/permissionsManager';
 import { fakeIdolMember, fakeCoffeeChat, fakeIdolLead } from './data/createData';
@@ -9,9 +10,12 @@ import {
   deleteCoffeeChat,
   clearAllCoffeeChats,
   checkMemberMeetsCategory,
-  runAutoChecker
+  runAutoChecker,
+  getCoffeeChatCategoriesByUser,
+  submitCoffeeChatCategoryResponse
 } from '../src/API/coffeeChatAPI';
-import { setMember, deleteMember } from '../src/API/memberAPI';
+import { coffeeChatCategoriesCollection, memberCollection } from '../src/firebase';
+import { setMember } from '../src/API/memberAPI';
 import { BadRequestError, PermissionError } from '../src/utils/errors';
 
 const user = fakeIdolMember();
@@ -247,32 +251,134 @@ describe('runAutoChecker tests', () => {
   });
 });
 
-describe('More complicated member meets category checks', () => {
-  const admin = { ...fakeIdolLead() };
-  const user1 = fakeIdolMember();
-  const user2 = { ...fakeIdolMember(), role: 'dev-advisor' };
-  const user3 = { ...fakeIdolMember(), role: 'tpm' };
-  const user4 = { ...fakeIdolMember(), semesterJoined: 'Fall 2026' };
+describe('member coffee chat category responses', () => {
+  jest.setTimeout(30000);
+
+  const runId = Date.now() * 10 + Math.floor(Math.random() * 1000);
+  const newbieCategory = `a newbie ${runId}`;
+  const instrumentCategory = `plays an instrument ${runId}`;
+  const indices = [runId, runId + 1];
+  const admin = fakeIdolLead();
+  const newbie = {
+    ...fakeIdolMember(),
+    netid: `newbie-${runId}`,
+    firstName: 'New',
+    lastName: 'Member',
+    semesterJoined: 'Fall 2026'
+  };
+  const veteran = {
+    ...fakeIdolMember(),
+    netid: `veteran-${runId}`,
+    firstName: 'Veteran',
+    lastName: 'Member',
+    semesterJoined: 'Fall 2024'
+  };
+  const details = (member: IdolMember): MemberDetails => ({
+    name: `${member.firstName} ${member.lastName}`,
+    netid: member.netid
+  });
+  const freshCategories = (): CoffeeChatCategory[] => [
+    { name: newbieCategory, members: [], index: indices[0] },
+    { name: instrumentCategory, members: [details(newbie)], index: indices[1] }
+  ];
+  const originalIsLeadOrAdmin = PermissionsManager.isLeadOrAdmin;
 
   beforeAll(async () => {
-    const users = [user1, user2, user3, user4];
-    await Promise.all(users.map((user) => setMember(user, admin)));
+    PermissionsManager.isLeadOrAdmin = jest.fn().mockResolvedValue(true);
+    await Promise.all([newbie, veteran].map((member) => setMember(member, admin)));
+  });
+
+  beforeEach(async () => {
+    await CoffeeChatDao.setMemberCategories(details(newbie), []);
+    await CoffeeChatDao.setMemberCategories(details(veteran), []);
+    await CoffeeChatDao.updateCategories(freshCategories());
   });
 
   afterAll(async () => {
-    const users = [user1, user2, user3, user4];
-    await Promise.all(users.map((user) => deleteMember(user.email, admin)));
+    try {
+      await CoffeeChatDao.setMemberCategories(details(newbie), []);
+      await CoffeeChatDao.setMemberCategories(details(veteran), []);
+      await Promise.all(
+        indices.map((index) => coffeeChatCategoriesCollection.doc(String(index)).delete())
+      );
+      await Promise.all(
+        [newbie, veteran].map((member) => memberCollection.doc(member.email).delete())
+      );
+    } finally {
+      PermissionsManager.isLeadOrAdmin = originalIsLeadOrAdmin;
+    }
   });
 
-  test('is newbie', async () => {
-    const result = await checkMemberMeetsCategory(user4.email, user1.email, 'a newbie');
-    expect(result.status).toBe('pass');
-    expect(result.message).toBe('');
+  test('getCoffeeChatCategoriesByUser returns the categories that list this member', async () => {
+    await expect(getCoffeeChatCategoriesByUser(newbie)).resolves.toEqual([instrumentCategory]);
+    await expect(getCoffeeChatCategoriesByUser(veteran)).resolves.toEqual([]);
   });
 
-  test('is newbie', async () => {
-    const result = await checkMemberMeetsCategory(user2.email, user1.email, 'a newbie');
-    expect(result.status).toBe('fail');
-    expect(result.message).toBe(`${user2.firstName} ${user2.lastName} is not a newbie`);
+  test('a new member can submit the categories they fit, including a newbie', async () => {
+    const saved = await submitCoffeeChatCategoryResponse(
+      [newbieCategory, instrumentCategory],
+      newbie
+    );
+
+    expect(new Set(saved)).toEqual(new Set([newbieCategory, instrumentCategory]));
+    const names = await getCoffeeChatCategoriesByUser(newbie);
+    expect(new Set(names)).toEqual(new Set([newbieCategory, instrumentCategory]));
+  });
+
+  test('any member who selects a newbie meets that category', async () => {
+    await submitCoffeeChatCategoryResponse([newbieCategory], veteran);
+
+    const result = await checkMemberMeetsCategory(veteran.email, newbie.email, newbieCategory);
+    expect(result).toEqual({ status: 'pass', message: '' });
+  });
+
+  test('a new member who does not select a newbie does not meet that category', async () => {
+    await submitCoffeeChatCategoryResponse([instrumentCategory], newbie);
+
+    const result = await checkMemberMeetsCategory(newbie.email, veteran.email, newbieCategory);
+    expect(result).toEqual({
+      status: 'fail',
+      message: `New Member does not meet the category '${newbieCategory}'`
+    });
+  });
+
+  test('a later submission replaces the earlier one', async () => {
+    await submitCoffeeChatCategoryResponse([newbieCategory, instrumentCategory], veteran);
+    const saved = await submitCoffeeChatCategoryResponse([], veteran);
+
+    expect(saved).toEqual([]);
+    await expect(getCoffeeChatCategoriesByUser(veteran)).resolves.toEqual([]);
+  });
+
+  test('submit trims category names and ignores blanks', async () => {
+    const saved = await submitCoffeeChatCategoryResponse(
+      ['', '   ', `  ${instrumentCategory}  `],
+      veteran
+    );
+
+    expect(saved).toEqual([instrumentCategory]);
+  });
+
+  test('submit rejects unknown category names without changing membership', async () => {
+    const unknown = `not-a-category-${runId}`;
+    await submitCoffeeChatCategoryResponse([newbieCategory, instrumentCategory], veteran);
+    await expect(
+      submitCoffeeChatCategoryResponse([instrumentCategory, unknown], veteran)
+    ).rejects.toMatchObject({
+      reason: `Unknown coffee chat categories: ${unknown}`
+    });
+    const names = await getCoffeeChatCategoriesByUser(veteran);
+    expect(new Set(names)).toEqual(new Set([newbieCategory, instrumentCategory]));
+  });
+
+  test('submit rejects a payload that is not a list of category names', async () => {
+    await expect(submitCoffeeChatCategoryResponse(newbieCategory, veteran)).rejects.toMatchObject({
+      reason: 'Categories must be a list of category names.'
+    });
+    await expect(
+      submitCoffeeChatCategoryResponse([newbieCategory, 1], veteran)
+    ).rejects.toMatchObject({
+      reason: 'Categories must be a list of category names.'
+    });
   });
 });

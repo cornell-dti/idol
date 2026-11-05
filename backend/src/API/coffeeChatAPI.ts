@@ -342,22 +342,15 @@ export const checkMemberMeetsCategory = async (
   let message: string = '';
 
   if (otherMember && submitter) {
-    if (category === 'a newbie') {
-      status = otherMember.semesterJoined === 'Fall 2026' ? 'pass' : 'fail';
+    const categories = await CoffeeChatDao.getAllCategories();
+    const categoryDoc = categories.find((c) => c.name === category);
+    if (categoryDoc) {
+      const inCategory = categoryDoc.members.some(
+        (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
+      );
+      status = inCategory ? 'pass' : 'fail';
       if (status === 'fail') {
-        message = `${otherMember.firstName} ${otherMember.lastName} is not a newbie`;
-      }
-    } else {
-      const categories = await CoffeeChatDao.getAllCategories();
-      const categoryDoc = categories.find((c) => c.name === category);
-      if (categoryDoc) {
-        const inCategory = categoryDoc.members.some(
-          (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
-        );
-        status = inCategory ? 'pass' : 'fail';
-        if (status === 'fail') {
-          message = `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`;
-        }
+        message = `${otherMember.firstName} ${otherMember.lastName} does not meet the category '${category}'`;
       }
     }
   }
