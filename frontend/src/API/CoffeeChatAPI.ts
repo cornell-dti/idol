@@ -119,7 +119,7 @@ export default class CoffeeChatAPI {
     await APIWrapper.post(`${backendURL}/coffee-chat-categories/upload`, { csv });
   }
 
-  public static async getCoffeeChatCategoriesByUser(): Promise<{
+  public static async getCoffeeChatCategoryForm(): Promise<{
     categories: string[];
     submitted: boolean;
   }> {

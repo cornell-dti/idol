@@ -28,7 +28,7 @@ const MemberView: React.FC = () => {
       try {
         const [board, response] = await Promise.all([
           CoffeeChatAPI.getCoffeeChatBingoBoard(),
-          CoffeeChatAPI.getCoffeeChatCategoriesByUser()
+          CoffeeChatAPI.getCoffeeChatCategoryForm()
         ]);
         const names = board.flat().filter((name) => name.trim() !== '');
         const submittedSet = new Set(response.categories);

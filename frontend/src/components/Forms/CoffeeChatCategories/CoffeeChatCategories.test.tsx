@@ -8,7 +8,7 @@ jest.mock('../../../API/CoffeeChatAPI', () => ({
   __esModule: true,
   default: {
     getCoffeeChatBingoBoard: jest.fn(),
-    getCoffeeChatCategoriesByUser: jest.fn(),
+    getCoffeeChatCategoryForm: jest.fn(),
     submitCoffeeChatCategories: jest.fn()
   }
 }));
@@ -22,7 +22,7 @@ describe('<CoffeeChatCategories />', () => {
 
   test('shows a load failure and no submit button when categories fail to load', async () => {
     mockedCoffeeChatAPI.getCoffeeChatBingoBoard.mockRejectedValue(new Error('network'));
-    mockedCoffeeChatAPI.getCoffeeChatCategoriesByUser.mockResolvedValue({
+    mockedCoffeeChatAPI.getCoffeeChatCategoryForm.mockResolvedValue({
       categories: [],
       submitted: false
     });
@@ -38,7 +38,7 @@ describe('<CoffeeChatCategories />', () => {
     mockedCoffeeChatAPI.getCoffeeChatBingoBoard.mockResolvedValue([
       ['a newbie', 'plays an instrument']
     ]);
-    mockedCoffeeChatAPI.getCoffeeChatCategoriesByUser.mockResolvedValue({
+    mockedCoffeeChatAPI.getCoffeeChatCategoryForm.mockResolvedValue({
       categories: ['a newbie'],
       submitted: false
     });
@@ -53,7 +53,7 @@ describe('<CoffeeChatCategories />', () => {
 
   test('shows a submitted response without the form', async () => {
     mockedCoffeeChatAPI.getCoffeeChatBingoBoard.mockResolvedValue([['a newbie']]);
-    mockedCoffeeChatAPI.getCoffeeChatCategoriesByUser.mockResolvedValue({
+    mockedCoffeeChatAPI.getCoffeeChatCategoryForm.mockResolvedValue({
       categories: ['a newbie'],
       submitted: true
     });
@@ -70,7 +70,7 @@ describe('<CoffeeChatCategories />', () => {
     mockedCoffeeChatAPI.getCoffeeChatBingoBoard.mockResolvedValue([
       ['a newbie', 'plays an instrument']
     ]);
-    mockedCoffeeChatAPI.getCoffeeChatCategoriesByUser.mockResolvedValue({
+    mockedCoffeeChatAPI.getCoffeeChatCategoryForm.mockResolvedValue({
       categories: ['a newbie'],
       submitted: false
     });
@@ -87,7 +87,7 @@ describe('<CoffeeChatCategories />', () => {
 
   test('shows an empty submitted response without the form', async () => {
     mockedCoffeeChatAPI.getCoffeeChatBingoBoard.mockResolvedValue([['a newbie']]);
-    mockedCoffeeChatAPI.getCoffeeChatCategoriesByUser.mockResolvedValue({
+    mockedCoffeeChatAPI.getCoffeeChatCategoryForm.mockResolvedValue({
       categories: [],
       submitted: true
     });

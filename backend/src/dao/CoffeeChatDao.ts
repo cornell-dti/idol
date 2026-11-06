@@ -45,6 +45,20 @@ const placeMemberOnCategories = (
   return saved;
 };
 
+async function clearCategoryMembers(): Promise<void> {
+  const snapshot = await coffeeChatCategoriesCollection.get();
+  const batchSize = 500;
+  const commits: Promise<FirebaseFirestore.WriteResult[]>[] = [];
+  for (let i = 0; i < snapshot.docs.length; i += batchSize) {
+    const batch = db.batch();
+    snapshot.docs.slice(i, i + batchSize).forEach((doc) => {
+      batch.update(doc.ref, { members: [] });
+    });
+    commits.push(batch.commit());
+  }
+  await Promise.all(commits);
+}
+
 async function materializeCoffeeChat(dbCoffeeChat: DBCoffeeChat): Promise<CoffeeChat> {
   const submitter =
     (await getMemberFromDocumentReference(dbCoffeeChat.submitter)) ?? DELETED_MEMBER;
@@ -178,7 +192,9 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
   }
 
   /**
-   * Archives all coffee chats by setting the isArchived field to true.
+   * Semester reset: archives current coffee chats, deletes previously archived ones,
+   * clears every category's members, and deletes one-submission records so members
+   * can submit categories again.
    */
   static async archiveCoffeeChats(): Promise<void> {
     const coffeeChatsToDelete = await coffeeChatsCollection.where('isArchived', '==', true).get();
@@ -192,6 +208,10 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
     });
 
     await Promise.all([Promise.all(deletePromises), batch.commit()]);
+    await Promise.all([
+      deleteCollection(db, 'coffee-chat-category-responses', 500),
+      clearCategoryMembers()
+    ]);
   }
 
   /**

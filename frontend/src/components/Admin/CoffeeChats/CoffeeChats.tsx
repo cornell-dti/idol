@@ -98,7 +98,7 @@ const CoffeeChats: React.FC = () => {
   const archiveAllCoffeeChats = async () => {
     if (
       !window.confirm(
-        'Are you sure you want to archive all coffee chats? This action cannot be undone.'
+        'This will archive all coffee chats, clear every category\'s members, and reset everyone\'s coffee chat category responses. This cannot be undone.'
       )
     ) {
       return;
@@ -108,7 +108,8 @@ const CoffeeChats: React.FC = () => {
       await CoffeeChatAPI.archiveCoffeeChats();
       Emitters.generalSuccess.emit({
         headerMsg: 'Success',
-        contentMsg: 'All coffee chats have been archived successfully!! :)'
+        contentMsg:
+          'All coffee chats have been archived, and category members and responses have been reset.'
       });
       setIsLoading(true);
     } catch (error) {

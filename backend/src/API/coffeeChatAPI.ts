@@ -139,7 +139,8 @@ export const clearAllCoffeeChats = async (user: IdolMember): Promise<void> => {
 };
 
 /**
- * Archives all coffee chats by setting the isArchived field to true.
+ * Archives all coffee chats, clears every category's members, and deletes
+ * category-form submissions so members can submit again next semester.
  * @param user - The user making the request.
  * @throws PermissionError if the user does not have permissions.
  */
