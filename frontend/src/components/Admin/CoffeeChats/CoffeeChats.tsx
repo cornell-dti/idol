@@ -98,7 +98,7 @@ const CoffeeChats: React.FC = () => {
   const archiveAllCoffeeChats = async () => {
     if (
       !window.confirm(
-        'This will archive all coffee chats, clear every category\'s members, and reset everyone\'s coffee chat category responses. This cannot be undone.'
+        "This will archive all coffee chats, clear every category's members, and reset everyone's coffee chat category responses. This cannot be undone."
       )
     ) {
       return;
