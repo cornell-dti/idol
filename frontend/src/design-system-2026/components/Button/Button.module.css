@@ -1,0 +1,87 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  max-width: 100%;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 1px var(--idol-stroke-black),
+    0 2px 8px #0000000a;
+}
+
+.button.primary,
+.button.danger {
+  color: var(--idol-bg-default);
+  background-image: linear-gradient(var(--button-top), var(--button-bottom));
+}
+
+.button.primary {
+  --button-top: var(--idol-accent-default);
+  --button-bottom: var(--idol-accent-dimmer);
+  box-shadow:
+    inset 0 0 0 1px var(--idol-stroke-white),
+    0 2px 8px #0000000a;
+}
+
+.button.danger {
+  --button-top: var(--idol-danger-default);
+  --button-bottom: var(--idol-danger-dimmer);
+}
+
+.button.primary:hover:not(:disabled),
+.button.danger:hover:not(:disabled) {
+  background-image: linear-gradient(#ffffff33, #ffffff33),
+    linear-gradient(var(--button-top), var(--button-bottom));
+}
+
+.button.secondary {
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+}
+
+.button.tertiary {
+  background: var(--idol-bg-root);
+  color: var(--idol-fg-default);
+  box-shadow: none;
+}
+
+.button.secondary:hover:not(:disabled),
+.button.tertiary:hover:not(:disabled) {
+  background: var(--idol-bg-dimmer);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.button.iconButton {
+  width: 36px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.button.smallIconButton {
+  width: 24px;
+  height: 24px;
+}

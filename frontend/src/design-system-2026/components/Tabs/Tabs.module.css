@@ -1,0 +1,112 @@
+.tab:focus-visible,
+.tabPanel:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+
+.tab[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tabsContainer {
+  min-width: 0;
+}
+
+.tabList {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 24px;
+  background: var(--idol-bg-dimmer);
+  box-shadow: 0 2px 8px #0000000a;
+}
+
+.tab.tab {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 24px;
+  background: transparent;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab.tab:hover:not([data-disabled]):not([aria-selected='true']) {
+  background: var(--idol-bg-dimmer);
+  color: var(--idol-fg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+
+.tab.tab[aria-selected='true'] {
+  border: 1px solid var(--idol-stroke-black);
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+
+.tabTrack {
+  position: relative;
+  isolation: isolate;
+}
+
+.tabTrack .tab[aria-selected='true'] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tabIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  width: var(--active-tab-width);
+  height: var(--active-tab-height);
+  transform: translate(var(--active-tab-left), var(--active-tab-top));
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 24px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+  pointer-events: none;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0, 0, 1),
+    width 220ms cubic-bezier(0.2, 0, 0, 1),
+    height 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabIndicator {
+    transition: none;
+  }
+}
+
+.tabList .tab:focus-visible {
+  outline-offset: -3px;
+}
+
+.tabPanel {
+  margin-top: 16px;
+  font: var(--idol-type-body-default);
+}

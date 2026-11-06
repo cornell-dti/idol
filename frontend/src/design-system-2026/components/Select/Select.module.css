@@ -1,0 +1,108 @@
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.inputFrame {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 36px;
+  min-width: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  box-shadow:
+    inset 0 0 0 1px var(--idol-stroke-black),
+    0 2px 8px #0000000a;
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+}
+
+.inputFrame.inputFrame {
+  color: var(--idol-fg-dimmer);
+}
+
+.inputFrame:hover:not(.disabled):not(:disabled):not(.invalid) {
+  box-shadow:
+    inset 0 0 0 1px var(--idol-stroke-medium),
+    0 2px 8px #0000000a;
+}
+
+.inputFrame:focus-within:not(.disabled):not(:disabled):not(.invalid) {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1.5px var(--idol-fg-dimmer),
+    0 2px 8px #0000000a;
+}
+
+.inputFrame.invalid {
+  outline: none;
+  color: var(--idol-danger-default);
+  box-shadow:
+    inset 0 0 0 1.5px var(--idol-danger-default),
+    0 2px 8px #0000000a;
+}
+
+.selectTrigger {
+  cursor: pointer;
+  text-align: left;
+}
+.selectValue {
+  flex: 1;
+  color: var(--idol-fg-default);
+}
+.selectValue[data-placeholder] {
+  color: var(--idol-fg-dimmer);
+}
+.invalid .selectValue {
+  color: var(--idol-danger-default);
+}
+.selectPositioner {
+  z-index: 1100;
+  outline: none;
+}
+.selectPopup {
+  width: var(--anchor-width);
+  max-height: min(320px, var(--available-height));
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  font: var(--idol-type-label-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+.selectOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+.selectOption[data-highlighted] {
+  background: var(--idol-bg-dimmer);
+}
+.selectOption[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.selectCheck {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+}

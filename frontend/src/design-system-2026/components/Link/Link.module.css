@@ -1,0 +1,15 @@
+.link:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+.link.link {
+  color: var(--idol-accent-default);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  border-radius: 2px;
+}
+.link.link:hover,
+.link.link:active {
+  color: var(--idol-accent-dimmer);
+}

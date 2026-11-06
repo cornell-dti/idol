@@ -150,6 +150,15 @@ import {
   updateReimbursementRequestStatus,
   addReimbursementRequestMessage
 } from './API/reimbursementAPI';
+import {
+  createTimelineEvent,
+  deleteTimelineEvent,
+  getAllRecruitmentTimelineEvents
+} from './API/recruitmentTimelineAPI';
+import {
+  previewRecruitmentTimelineWebsiteChanges,
+  requestRecruitmentTimelineWebsitePR
+} from './API/recruitmentTimelineWebsiteAPI';
 
 import { HandlerError, PermissionError } from './utils/errors';
 
@@ -525,6 +534,24 @@ loginCheckedPut('/tec-config', async (req, user) => {
 loginCheckedPost('/send-period-reminder', async (req, user) => ({
   info: await notifyMemberPeriod(req, req.body, user)
 }));
+
+// Recruitment Timeline
+loginCheckedGet('/recruitment-timeline', async (_, user) => ({
+  events: await getAllRecruitmentTimelineEvents(user)
+}));
+loginCheckedPost('/recruitment-timeline', async (req, user) => ({
+  event: await createTimelineEvent(req.body, user)
+}));
+loginCheckedDelete('/recruitment-timeline/:id', async (req, user) => {
+  await deleteTimelineEvent(req.params.id, user);
+  return {};
+});
+loginCheckedPost('/recruitment-timeline/website-preview', async (_, user) =>
+  previewRecruitmentTimelineWebsiteChanges(user)
+);
+loginCheckedPost('/recruitment-timeline/create-website-pr', async (_, user) =>
+  requestRecruitmentTimelineWebsitePR(user)
+);
 
 // Candidate Decider
 loginCheckedGet('/candidate-decider', async (_, user) => ({

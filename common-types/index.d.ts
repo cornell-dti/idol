@@ -680,3 +680,27 @@ interface TECConfig {
   readonly requiredLeadInternalTecCredits: number;
   readonly requiredLeadExternalTecCredits: number;
 }
+
+/** A scheduled date for a recruitment timeline event. */
+type RecruitmentEventDate = {
+  date: string;
+  endDate?: string;
+  startDate?: string;
+  time?: string;
+  isTentative: boolean;
+};
+
+/** A recruitment event displayed on the IDOL edit recruitment timeline page. */
+type RecruitmentTimelineEvent = {
+  id: string;
+  title: string;
+  description: string;
+  location?: string;
+  isLocationTentative?: boolean;
+  type: string;
+  link?: string;
+  order?: number;
+  freshmen?: RecruitmentEventDate;
+  upperclassmen?: RecruitmentEventDate;
+  spring?: RecruitmentEventDate;
+};

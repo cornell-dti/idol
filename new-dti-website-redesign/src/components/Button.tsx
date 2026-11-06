@@ -75,10 +75,10 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       </>
     );
 
-    if (href) {
+    if (href && !disabled) {
       return (
         <Link
-          href={disabled ? '' : href}
+          href={href}
           onClick={onClick}
           className={sharedClasses}
           target={newTab ? '_blank' : undefined}

@@ -3,8 +3,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
-import products from './products.json';
+import { products, activeProducts, archivedProducts } from './productData';
 import Product from './Product';
 import ProductNav from './ProductNav';
 import { TABLET_BREAKPOINT } from '../../consts';
@@ -14,19 +13,13 @@ import SectionSep from '../../components/SectionSep';
 interface NodePosition {
   id: string;
   y: number;
-  isVisible: boolean;
+  scrollY: number;
 }
 
 export default function ProductsList() {
   const productSectionRef = useRef<(HTMLDivElement | null)[]>(products.map(() => null));
   const nodesRef = useRef<(HTMLHeadingElement | null)[]>(products.map(() => null));
   const svgContainerRef = useRef<HTMLDivElement>(null);
-
-  const containerTopRef = useRef(0);
-  const containerBottomRef = useRef(0);
-
-  const lastProgressRef = useRef(0);
-  const scrollTickingRef = useRef(false);
 
   const { width } = useScreenSize();
   const isMobile = width <= TABLET_BREAKPOINT;
@@ -35,13 +28,15 @@ export default function ProductsList() {
   const [activeProduct, setActiveProduct] = useState<string>(products[0]?.id || '');
   const [nodePositions, setNodePositions] = useState<NodePosition[]>([]);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [progressEnd, setProgressEnd] = useState(0);
 
   const safeSetNodePositions = useCallback((next: NodePosition[]) => {
     setNodePositions((prev) => {
       if (
         prev.length === next.length &&
-        prev.every((p, i) => p.id === next[i].id && p.y === next[i].y)
+        prev.every(
+          (p, i) => p.id === next[i].id && p.y === next[i].y && p.scrollY === next[i].scrollY
+        )
       ) {
         return prev;
       }
@@ -54,17 +49,20 @@ export default function ProductsList() {
 
     const containerRect = svgContainerRef.current.getBoundingClientRect();
     const containerTop = containerRect.top + window.scrollY;
-    containerTopRef.current = containerTop;
 
     const positions: NodePosition[] = nodesRef.current
       .map((node, index) => {
-        if (!node) return null;
+        const article = productSectionRef.current[index];
+        if (!node || !article) return null;
         const rect = node.getBoundingClientRect();
         const relativeY = rect.top + window.scrollY - containerTop + rect.height / 2;
         return {
           id: products[index].id,
           y: relativeY,
-          isVisible: rect.top >= -100 && rect.bottom <= window.innerHeight + 100
+          scrollY: Math.max(
+            0,
+            article.getBoundingClientRect().top + window.scrollY - (isMobile ? 184 : 80)
+          )
         };
       })
       .filter((pos): pos is NodePosition => pos !== null);
@@ -76,63 +74,59 @@ export default function ProductsList() {
       const lastRect = lastProduct.getBoundingClientRect();
       const totalHeight = lastRect.bottom + window.scrollY - containerTop;
       if (totalHeight !== svgHeight) setSvgHeight(totalHeight);
-      containerBottomRef.current = containerTop + totalHeight;
-    } else {
-      containerBottomRef.current = containerTop;
     }
-  }, [safeSetNodePositions, svgHeight]);
-
-  const updateScrollProgress = useCallback(() => {
-    if (nodePositions.length === 0) return;
-
-    const containerTop = containerTopRef.current;
-    const containerBottom = containerBottomRef.current;
-    const viewportCenter = window.scrollY + window.innerHeight / 2;
-
-    let next = 0;
-    if (viewportCenter <= containerTop) next = 0;
-    else if (viewportCenter >= containerBottom) next = 1;
-    else next = (viewportCenter - containerTop + 150) / (containerBottom - containerTop);
-
-    next = Math.max(0, Math.min(1, next));
-
-    if (Math.abs(next - lastProgressRef.current) < 0.002) return;
-
-    lastProgressRef.current = next;
-    setScrollProgress(next);
-  }, [nodePositions.length]);
+  }, [safeSetNodePositions, svgHeight, isMobile]);
 
   const measureAll = useCallback(() => {
-    requestAnimationFrame(() => {
-      updateNodePositions();
-      requestAnimationFrame(() => {
-        updateScrollProgress();
-      });
-    });
-  }, [updateNodePositions, updateScrollProgress]);
+    requestAnimationFrame(updateNodePositions);
+  }, [updateNodePositions]);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (!isClient) return;
+    if (!isClient || nodePositions.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveProduct(entry.target.id);
-        });
-      },
-      {
-        rootMargin: isMobile ? '-50px 0px -20% 0px' : '-100px 0px -50% 0px',
-        threshold: isMobile ? 0.8 : 0.1
-      }
-    );
-
-    productSectionRef.current.forEach((node) => node && observer.observe(node));
-    return () => observer.disconnect();
-  }, [isClient, isMobile]);
+    let frame = 0;
+    const updateProgress = () => {
+      frame = 0;
+      const { scrollY } = window;
+      const nextIndex = nodePositions.findIndex((node) => node.scrollY > scrollY);
+      const previous =
+        nextIndex === 0
+          ? { scrollY: 0, y: 0 }
+          : nodePositions[nextIndex === -1 ? nodePositions.length - 1 : nextIndex - 1];
+      const next =
+        nextIndex === -1
+          ? { scrollY: document.documentElement.scrollHeight - window.innerHeight, y: svgHeight }
+          : nodePositions[nextIndex];
+      // Interpolate between product anchors so scrolling stays continuous and
+      // each anchor lands exactly on the center of its heading marker.
+      const fraction = Math.max(
+        0,
+        Math.min(1, (scrollY - previous.scrollY) / Math.max(1, next.scrollY - previous.scrollY))
+      );
+      setProgressEnd(previous.y + (next.y - previous.y) * fraction);
+      const upcomingIndex = nodePositions.findIndex(
+        (node) => node.scrollY > scrollY + window.innerHeight / 3
+      );
+      const activeIndex = Math.max(
+        0,
+        upcomingIndex === -1 ? nodePositions.length - 1 : upcomingIndex - 1
+      );
+      setActiveProduct(nodePositions[activeIndex].id);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(updateProgress);
+    };
+    updateProgress();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [isClient, nodePositions, svgHeight]);
 
   useEffect(() => {
     if (!isClient) return;
@@ -165,37 +159,21 @@ export default function ProductsList() {
     return () => ro.disconnect();
   }, [isClient, measureAll]);
 
-  useEffect(() => {
-    if (!isClient) return;
-
-    const onScroll = () => {
-      if (scrollTickingRef.current) return;
-      scrollTickingRef.current = true;
-      requestAnimationFrame(() => {
-        scrollTickingRef.current = false;
-        updateScrollProgress();
-      });
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [isClient, updateScrollProgress]);
-
   const prefersReducedMotion =
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
   return (
     <section id="products" className="scroll-m-20">
-      <div className={`relative flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
+      <div className="relative flex flex-col min-[769px]:flex-row">
         <ProductNav activeProduct={activeProduct} productRefs={productSectionRef.current} />
 
-        <div className="flex flex-row h-fit" ref={svgContainerRef}>
+        <div className="relative flex flex-row h-fit min-w-0 flex-1" ref={svgContainerRef}>
           <svg
             width={17}
             height={svgHeight}
-            className={clsx('absolute ml-[-10px]')}
-            style={{ minHeight: '100%' }}
+            className="absolute top-0 left-0 -translate-x-1/2 pointer-events-none"
+            aria-hidden="true"
           >
             <defs>
               <linearGradient
@@ -232,9 +210,9 @@ export default function ProductsList() {
               const y1 = 0;
               const y2 = svgHeight;
               const lineLength = Math.max(0, y2 - y1);
-              const clamped = Math.max(0, Math.min(1, scrollProgress));
+              const clamped = Math.max(0, Math.min(lineLength, progressEnd));
               const dashArray = `${lineLength} ${lineLength}`;
-              const dashOffset = lineLength * (1 - clamped);
+              const dashOffset = lineLength - clamped;
 
               return (
                 <>
@@ -258,9 +236,6 @@ export default function ProductsList() {
                     strokeLinecap="round"
                     strokeDasharray={dashArray}
                     strokeDashoffset={dashOffset}
-                    style={{
-                      transition: prefersReducedMotion ? 'none' : 'stroke-dashoffset 0.1s ease-out'
-                    }}
                   />
                 </>
               );
@@ -273,45 +248,61 @@ export default function ProductsList() {
                   cy={node.y}
                   r="6.5"
                   fill="var(--background-1)"
-                  stroke={
-                    scrollProgress >= node.y / svgHeight
-                      ? 'var(--accent-red)'
-                      : 'var(--foreground-3)'
-                  }
+                  stroke={progressEnd >= node.y ? 'var(--accent-red)' : 'var(--foreground-3)'}
                   strokeWidth="1"
                 />
                 <circle
                   cx="8.5"
                   cy={node.y}
                   r="3"
-                  fill={
-                    scrollProgress >= node.y / svgHeight
-                      ? 'var(--accent-red)'
-                      : 'var(--foreground-3)'
-                  }
+                  fill={progressEnd >= node.y ? 'var(--accent-red)' : 'var(--foreground-3)'}
                   style={{ transition: prefersReducedMotion ? 'none' : 'fill 0.2s ease-out' }}
                 />
               </g>
             ))}
           </svg>
 
-          <div className="flex flex-col">
-            {products.map((product, index) => (
-              <React.Fragment key={product.name}>
-                <Product
-                  {...product}
-                  ref={(el) => {
-                    productSectionRef.current[index] = el as HTMLDivElement;
-                  }}
-                  nodeRef={(el) => {
-                    nodesRef.current[index] = el as HTMLHeadingElement;
-                  }}
-                  className={index === products.length - 1 ? '!border-b-0' : ''}
-                />
-                {index !== products.length - 1 && (
-                  <SectionSep grid className="!w-full !mx-0 border-l-1 border-border-1" />
+          <div className="flex flex-col min-w-0">
+            {[activeProducts, archivedProducts].map((group, groupIndex) => (
+              <section
+                key={groupIndex}
+                aria-label={groupIndex === 0 ? 'Active products' : 'Archived products'}
+              >
+                {groupIndex === 1 && (
+                  <>
+                    <SectionSep grid className="!w-full !mx-0 border-l-1 border-border-1" />
+                    <div
+                      id="archived-products"
+                      className="scroll-mt-52 md:scroll-mt-24 p-4 sm:p-8 border-b border-border-1"
+                    >
+                      <h2 className="h3">Archived products</h2>
+                    </div>
+                  </>
                 )}
-              </React.Fragment>
+                {group.map((product, groupProductIndex) => {
+                  const index =
+                    groupIndex === 0
+                      ? groupProductIndex
+                      : activeProducts.length + groupProductIndex;
+                  return (
+                    <React.Fragment key={product.name}>
+                      <Product
+                        {...product}
+                        ref={(el) => {
+                          productSectionRef.current[index] = el as HTMLDivElement;
+                        }}
+                        nodeRef={(el) => {
+                          nodesRef.current[index] = el as HTMLHeadingElement;
+                        }}
+                        className={index === products.length - 1 ? '!border-b-0' : ''}
+                      />
+                      {groupProductIndex !== group.length - 1 && (
+                        <SectionSep grid className="!w-full !mx-0 border-l-1 border-border-1" />
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </section>
             ))}
           </div>
         </div>

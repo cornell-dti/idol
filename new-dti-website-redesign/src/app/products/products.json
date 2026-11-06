@@ -22,8 +22,8 @@
     "image": "/products/images/redi.png",
     "imageAlt": "2 phones showing the a profile match card and an ongoing chat between two Cornellians",
     "name": "Redi",
+    "archived": true,
     "description": "Redi is a Cornell-only dating app delivering weekly curated matches and campus-themed prompts.",
-    "link": "https://apps.apple.com/us/app/redi-love/id6754899018",
     "comingSoon": false,
     "id": "redi",
     "accentColor": "#1A1A1A"
@@ -32,6 +32,7 @@
     "image": "/products/images/carriage.png",
     "imageAlt": "2 laptops showing the map and scheduled rides page of the Carriage application",
     "name": "Carriage",
+    "archived": true,
     "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities.",
     "link": "https://carriage-web.netlify.app/",
     "comingSoon": false,
@@ -103,8 +104,8 @@
     "image": "/products/images/design@cornell.png",
     "imageAlt": "2 tablets showing the homepage and articles page of the Design @ Cornell website",
     "name": "Design @ Cornell",
+    "archived": true,
     "description": "Design @ Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
-    "link": "https://www.cudesign.io/",
     "comingSoon": false,
     "id": "designatcornell",
     "accentColor": "#FFF8CD"

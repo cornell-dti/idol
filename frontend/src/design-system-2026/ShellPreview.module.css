@@ -1,0 +1,13 @@
+.page {
+  padding: 40px;
+}
+
+.page h1 {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 20px 16px;
+  }
+}
