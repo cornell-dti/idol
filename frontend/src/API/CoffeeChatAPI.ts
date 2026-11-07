@@ -46,7 +46,8 @@ export default class CoffeeChatAPI {
     if (!uuid) {
       return;
     }
-    await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
+    const res = await APIWrapper.delete(`${backendURL}/coffee-chat/${uuid}`);
+    assertOk(res.data, 'Could not delete coffee chat.');
   }
 
   public static async archiveCoffeeChats(): Promise<void> {
