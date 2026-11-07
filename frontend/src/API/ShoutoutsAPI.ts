@@ -8,9 +8,12 @@ type ShoutoutResponseObj = {
 };
 
 export default class ShoutoutsAPI {
-  public static getAllShoutouts(): Promise<Shoutout[]> {
+  public static getAllShoutouts(options?: { throwOnError: boolean }): Promise<Shoutout[]> {
     const responseProm = APIWrapper.get(`${backendURL}/shoutout`).then((res) => res.data);
     return responseProm.then((val) => {
+      if (options?.throwOnError && (!val || val.error)) {
+        throw new Error(val?.error || 'Could not load shoutouts.');
+      }
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all shoutouts",
@@ -23,11 +26,18 @@ export default class ShoutoutsAPI {
     });
   }
 
-  public static getShoutouts(email: string, type: 'given' | 'received'): Promise<Shoutout[]> {
+  public static getShoutouts(
+    email: string,
+    type: 'given' | 'received',
+    options?: { throwOnError: boolean }
+  ): Promise<Shoutout[]> {
     const responseProm = APIWrapper.get(`${backendURL}/shoutout/${email}?type=${type}`).then(
       (res) => res.data
     );
     return responseProm.then((val) => {
+      if (options?.throwOnError && (!val || val.error)) {
+        throw new Error(val?.error || 'Could not load shoutouts.');
+      }
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: `Couldn't get ${type} shoutouts!`,
@@ -53,6 +63,9 @@ export default class ShoutoutsAPI {
   }
 
   public static async deleteShoutout(uuid: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/shoutout/${uuid}`);
+    const { data } = await APIWrapper.delete(`${backendURL}/shoutout/${uuid}`);
+    if (data == null || data.error) {
+      throw new Error(data?.error || 'Could not delete shoutout.');
+    }
   }
 }
