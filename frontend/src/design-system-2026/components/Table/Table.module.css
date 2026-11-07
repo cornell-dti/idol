@@ -1,0 +1,70 @@
+.scroll {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+.scroll:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--idol-fg-default);
+  font: var(--idol-type-label-default);
+  text-align: left;
+}
+.table th {
+  padding: 14px 16px;
+  background: var(--idol-bg-dimmer);
+  white-space: nowrap;
+  font-weight: 600;
+}
+.table td {
+  padding: 16px;
+  border-top: 1px solid var(--idol-stroke-black);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.table tbody tr:hover {
+  background: var(--idol-bg-root);
+}
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.sort:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+.ascending {
+  transform: rotate(180deg);
+}
+.table .state {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--idol-fg-dimmer);
+}
+.state p {
+  margin: 0 0 12px;
+}
+.caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
