@@ -7,6 +7,7 @@ import styles from './CoffeeChatDetails.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
 import { ALL_STATUS } from '../../../consts';
+import { useBreadcrumbTitle } from '../../../redesign/BreadcrumbContext';
 
 type CoffeeChatCardProps = {
   status: Status;
@@ -85,6 +86,7 @@ const CoffeeChatDetails: React.FC = () => {
   const category = Array.isArray(router.query.category)
     ? router.query.category[0]
     : router.query.category;
+  useBreadcrumbTitle(category);
 
   const [isLoading, setLoading] = useState(true);
   const [isRerunning, setIsRerunning] = useState(false);
