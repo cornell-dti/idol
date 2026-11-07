@@ -1,0 +1,376 @@
+.experience {
+  width: 100%;
+}
+.pivot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 64px 0 120px;
+  perspective: 1400px;
+  isolation: isolate;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+.stage[data-dragging],
+.stage[data-dragging] * {
+  cursor: grabbing;
+}
+
+.aura {
+  position: absolute;
+  inset: 15% 4%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at var(--light-x, 50%) var(--light-y, 50%),
+    #bd905522,
+    transparent 65%
+  );
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+.board {
+  --board-tilt: 30deg;
+  --board-turn: -17deg;
+  --board-offset: -24px;
+  --paper: #f4ead4;
+  --ink: #433c30;
+  position: relative;
+  width: 68%;
+  padding: 10px;
+  border: 1px solid #a47948;
+  border-radius: 10px;
+  background: repeating-linear-gradient(94deg, #a87a4d22 0 1px, transparent 1px 7px),
+    linear-gradient(100deg, #9b7046, #c39b6b 30%, #a47749 70%, #c49b69);
+  transform-style: preserve-3d;
+  transform: translate(var(--drag-x, 0px), calc(var(--board-offset) + var(--drag-y, 0px)))
+    rotateX(calc(var(--board-tilt) + var(--tilt-x, 0deg))) rotateY(var(--tilt-y, 0deg))
+    rotateZ(calc(var(--board-turn) + var(--spin, 0deg)));
+  touch-action: none;
+  box-shadow:
+    -1px 2px 0 #986d41,
+    -2px 4px 0 #a5794b,
+    -3px 6px 0 #8e643b,
+    -4px 8px 0 #785534,
+    -5px 10px 0 #674a30,
+    -10px 22px 24px #00000030,
+    -18px 40px 55px #00000020;
+  animation: arrive 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.paper {
+  position: relative;
+  padding: 22px 18px 14px;
+  border-radius: 2px 5px 3px 2px;
+  color: var(--ink);
+  background: radial-gradient(ellipse at 95% 4%, #ac743425, transparent 38%),
+    repeating-linear-gradient(0deg, #826b3b05 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, #826b3b07 0 1px, transparent 1px 4px), var(--paper);
+  box-shadow:
+    0 1px 3px #3f260f55,
+    inset 0 0 20px #a9863e12;
+}
+
+/* An imperfect coffee ring printed into the paper, away from the labels. */
+.paper::before {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  width: 95px;
+  height: 90px;
+  border: 5px double #90633214;
+  border-radius: 48% 52% 46% 54%;
+  transform: rotate(-24deg);
+  pointer-events: none;
+}
+
+.printHeader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 18px;
+  text-align: center;
+}
+
+.edition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font:
+    600 9px/1.5 ui-monospace,
+    monospace;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.printTitle {
+  font:
+    700 19px/1.2 Georgia,
+    serif;
+  letter-spacing: 5px;
+}
+
+.bingoTitle {
+  font:
+    900 57px/1.1 Georgia,
+    serif;
+  letter-spacing: 14px;
+  text-indent: 14px;
+  color: #794a36;
+}
+
+.tagline {
+  margin-top: 6px;
+  font:
+    10px/1.5 ui-monospace,
+    monospace;
+  letter-spacing: 1px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  border: 2px solid #70614b;
+  background: #70614b;
+  gap: 1px;
+}
+
+.tile {
+  touch-action: pan-y;
+  --stamp-ink: #2b6b50;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  min-width: 0;
+  min-height: 124px;
+  padding: 10px 7px 12px;
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+  background-image: repeating-linear-gradient(0deg, #826b3b05 0 1px, transparent 1px 3px);
+  color: var(--ink);
+  font:
+    500 12px/1.35 Georgia,
+    serif;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.stampSlot {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.stamp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 63px;
+  height: 63px;
+  border: 3px double currentColor;
+  border-radius: 50%;
+  color: var(--stamp-ink);
+  font:
+    800 11px/1.3 ui-monospace,
+    monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transform: rotate(var(--stamp-angle));
+  opacity: 0.88;
+  /* Small flecks let the paper show through the ink. */
+  mask-image: repeating-linear-gradient(22deg, #000 0 2px, #0009 2px 3px, #000 3px 5px);
+  animation: stamp-in 400ms var(--stamp-delay) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.pending {
+  --stamp-ink: #74664e;
+}
+.pending .stamp {
+  opacity: 0.4;
+  border-style: dashed;
+  font-size: 9px;
+  letter-spacing: 0;
+}
+.rejected {
+  --stamp-ink: #a34233;
+}
+.bingo {
+  background-color: #eddfb3;
+}
+
+.category {
+  position: relative;
+  overflow-wrap: anywhere;
+}
+
+.tileNumber {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  color: #89785d;
+  font:
+    8px/1 ui-monospace,
+    monospace;
+}
+
+.bingoStar {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #997522;
+}
+
+.printFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 14px;
+  font:
+    8px/1.5 ui-monospace,
+    monospace;
+  letter-spacing: 0.7px;
+}
+
+.tile:hover {
+  background-color: #e8d8b5;
+  box-shadow: inset 0 0 18px #946e2820;
+}
+.tile:focus-visible {
+  z-index: 1;
+  outline: 3px solid #794a36;
+  outline-offset: -4px;
+}
+.tile:active {
+  box-shadow: inset 0 2px 8px #604b3238;
+}
+
+.hint {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+  text-align: center;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(var(--stamp-angle)) scale(1.35);
+  }
+  to {
+    transform: rotate(var(--stamp-angle)) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .stage {
+    padding: 40px 0 80px;
+  }
+  .board {
+    --board-tilt: 15deg;
+    --board-turn: -4deg;
+    --board-offset: -20px;
+    width: 82%;
+    padding: 6px;
+  }
+  .paper {
+    padding: 16px 8px 12px;
+  }
+  .edition {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  .printTitle {
+    font-size: 15px;
+    letter-spacing: 2px;
+  }
+  .bingoTitle {
+    font-size: 44px;
+    letter-spacing: 9px;
+    text-indent: 9px;
+  }
+  .tagline {
+    font-size: 7px;
+    letter-spacing: 0.5px;
+  }
+  .tile {
+    min-height: 112px;
+    padding: 12px 3px 8px;
+    font-size: 10px;
+  }
+  .stampSlot {
+    height: 44px;
+  }
+  .stamp {
+    width: 44px;
+    height: 44px;
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+  .stamp svg {
+    width: 16px;
+    height: 16px;
+  }
+  .pending .stamp {
+    font-size: 7px;
+  }
+  .printFooter {
+    font-size: 6px;
+    letter-spacing: 0;
+  }
+  .printFooter svg {
+    flex-shrink: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    cursor: default;
+  }
+  .board {
+    touch-action: pan-y;
+  }
+  .board,
+  .tile,
+  .stamp {
+    animation: none;
+    transition: none;
+  }
+}
