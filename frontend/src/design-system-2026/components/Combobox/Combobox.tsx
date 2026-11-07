@@ -36,6 +36,7 @@ export function Combobox({
         onValueChange={(next) => onValueChange(next ?? '')}
         itemToStringLabel={(item) => item || 'N/A'}
         required={required}
+        disabled={field.disabled}
       >
         <div
           ref={anchor}
@@ -68,8 +69,8 @@ export function Combobox({
             className={styles.selectPositioner}
           >
             <BaseCombobox.Popup className={styles.selectPopup}>
-              <BaseCombobox.Empty className={styles.selectOption}>
-                No matches found.
+              <BaseCombobox.Empty>
+                <span className={inputStyles.emptyMessage}>No matches found.</span>
               </BaseCombobox.Empty>
               <BaseCombobox.List>
                 {(item: string) => (
