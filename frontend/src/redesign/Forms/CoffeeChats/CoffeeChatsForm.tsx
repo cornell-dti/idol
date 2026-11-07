@@ -284,7 +284,7 @@ const CoffeeChatsForm: React.FC = () => {
               }}
             />
           )}
-           <LabelledCheckbox
+          <LabelledCheckbox
             label="Member not listed"
             checked={isNonIDOLMember}
             disabled={busy}
