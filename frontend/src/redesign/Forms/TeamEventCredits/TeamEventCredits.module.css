@@ -1,0 +1,197 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: min(1100px, calc(100% - 64px));
+  margin: 32px auto;
+  color: var(--idol-fg-default);
+  font: var(--idol-type-body-default);
+}
+.page h1,
+.page h2,
+.page h3,
+.page p {
+  margin: 0;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 24px;
+  align-items: start;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 48px;
+}
+.periods {
+  display: grid;
+  gap: 16px;
+}
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .periods {
+    grid-row: 1;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+}
+.page .periodTitle,
+.cardTitle h3 {
+  font: var(--idol-type-heading-4);
+}
+.counts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 0;
+}
+.counts dt,
+.label {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-small);
+}
+.counts dd {
+  margin: 8px 0 0;
+}
+.form,
+.proofs,
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.form label:not(:has(input)),
+.form :global(label):has(+ div) {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-small);
+}
+.proof {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.proof img {
+  object-fit: cover;
+  border-radius: 6px;
+}
+.fileButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 10px 12px;
+  border: 1px solid var(--idol-stroke-black);
+  background: var(--idol-bg-default);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.fileButton input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.fileButton:focus-within {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 2px;
+}
+.actions,
+.toolbar,
+.cardTitle,
+.creditRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+.toolbar {
+  flex-wrap: wrap;
+}
+.toolbar > div:last-child {
+  width: 253px;
+  max-width: 100%;
+}
+.tabs {
+  display: flex;
+  gap: 0;
+  padding: 1px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 24px;
+  background: var(--idol-bg-dimmer);
+}
+.panel {
+  margin-top: 24px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.cardTitle {
+  align-items: start;
+  flex-wrap: wrap;
+}
+.creditRow {
+  flex-wrap: wrap;
+}
+.creditRow p {
+  font: var(--idol-type-label-small);
+  color: var(--idol-fg-dimmer);
+}
+.creditRow strong {
+  padding: 4px 6px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  color: var(--idol-fg-default);
+  background: var(--idol-bg-dimmer);
+}
+.preview {
+  display: block;
+  max-width: 100%;
+  max-height: 50vh;
+  object-fit: contain;
+  border-radius: 6px;
+}
+@media (max-width: 640px) {
+  .page {
+    width: calc(100% - 32px);
+    margin: 24px auto;
+    gap: 32px;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .actions {
+    flex-wrap: wrap;
+  }
+}
+
+.periods > section > div:last-child {
+  gap: 8px;
+}
+.thumbnail {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-dimmer);
+  color: var(--idol-fg-dimmer);
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+.thumbnail img {
+  display: block;
+  object-fit: cover;
+}
+.thumbnail:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
