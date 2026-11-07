@@ -12,6 +12,7 @@ export type ModalProps = {
   trigger?: ReactElement;
   title: string;
   description?: string;
+  width?: number;
   children?: ReactNode;
   footer?: ReactNode;
   surfaceClassName?: string;
@@ -31,6 +32,7 @@ export function Modal({
   trigger,
   title,
   description,
+  width,
   children,
   footer,
   surfaceClassName = '',
@@ -49,7 +51,12 @@ export function Modal({
       >
         <ModalBackdrop className={styles.backdrop} />
         <Dialog.Viewport className={styles.viewport}>
-          <Dialog.Popup {...popupProps} id={id} className={styles.modal}>
+          <Dialog.Popup
+            {...popupProps}
+            id={id}
+            className={styles.modal}
+            style={width ? { width } : undefined}
+          >
             <div className={`${styles.surface} ${surfaceClassName}`}>
               {surfaceOverlay}
               <div className={styles.heading}>

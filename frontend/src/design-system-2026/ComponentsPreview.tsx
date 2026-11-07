@@ -13,7 +13,9 @@ import {
   TabPanel,
   DesignSystemScope,
   Tabs,
-  Textarea
+  Textarea,
+  Table,
+  Pill
 } from './components';
 import { ArrowRightIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon } from './icons';
 import ExtendedComponentsPreview from './ExtendedComponentsPreview';
@@ -327,6 +329,35 @@ export default function ComponentsPreview(): JSX.Element {
           items={sampleTabs}
           value={tab}
           onValueChange={setTab}
+        />
+      )}
+      {section(
+        'table',
+        '12',
+        'Table',
+        'Semantic tables with keyboard sorting, loading, error, and empty states.',
+        <Table
+          caption="Example portfolio assignments"
+          rows={[
+            { id: 'one', name: 'Portfolio 1', submissions: 12 },
+            { id: 'two', name: 'Portfolio 2', submissions: 8 }
+          ]}
+          rowKey={(row) => row.id}
+          columns={[
+            {
+              id: 'name',
+              header: 'Assignment',
+              sortValue: (row) => row.name,
+              cell: (row) => row.name
+            },
+            {
+              id: 'count',
+              header: 'Submissions',
+              sortValue: (row) => row.submissions,
+              cell: (row) => row.submissions
+            },
+            { id: 'status', header: 'Status', cell: () => <Pill color="green">Open</Pill> }
+          ]}
         />
       )}
       <ExtendedComponentsPreview theme={theme} />
