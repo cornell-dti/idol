@@ -3,12 +3,14 @@ import styles from './Card.module.css';
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
   header?: ReactNode;
+  headingLevel?: 'h2' | 'h3' | 'h4' | 'p';
   action?: ReactNode;
   direction?: 'column' | 'row';
 };
 
 export function Card({
   header,
+  headingLevel: Heading = 'h2',
   action,
   direction = 'column',
   children,
@@ -16,17 +18,25 @@ export function Card({
   ...props
 }: CardProps): JSX.Element {
   const layered = header != null || action != null;
+  const Container = layered ? 'section' : 'div';
   return (
-    <div {...props} className={`${styles.card} ${layered ? styles.layeredCard : ''} ${className}`}>
+    <Container
+      {...props}
+      className={`${styles.card} ${layered ? styles.layeredCard : ''} ${className}`}
+    >
       {layered && (
         <div className={styles.cardHeader}>
-          <div>{header}</div>
+          {typeof header === 'string' ? (
+            <Heading className={styles.cardTitle}>{header}</Heading>
+          ) : (
+            header
+          )}
           {action}
         </div>
       )}
       <div className={`${styles.cardBody} ${direction === 'row' ? styles.cardRow : ''}`}>
         {children}
       </div>
-    </div>
+    </Container>
   );
 }

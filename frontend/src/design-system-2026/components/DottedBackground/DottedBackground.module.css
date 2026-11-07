@@ -8,4 +8,5 @@
   );
   background-size: 11.76px 11.76px;
   background-repeat: repeat;
+  background-attachment: local;
 }

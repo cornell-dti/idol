@@ -38,8 +38,8 @@
     border-color 160ms ease;
 }
 .switch.switch[data-checked] {
-  background: var(--idol-fg-default);
-  border-color: var(--idol-fg-default);
+  background: var(--idol-accent-default);
+  border-color: var(--idol-accent-default);
 }
 .switchThumb {
   width: 14px;
@@ -53,7 +53,7 @@
 }
 .switchThumb[data-checked] {
   transform: translateX(16px);
-  background: var(--idol-bg-default);
+  background: var(--idol-on-accent);
 }
 .switch:dir(rtl) .switchThumb[data-checked] {
   transform: translateX(-16px);

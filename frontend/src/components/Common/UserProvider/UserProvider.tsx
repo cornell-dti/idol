@@ -1,11 +1,10 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { Loader } from 'semantic-ui-react';
 import { User } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import SignIn from '../SignIn/SignIn.lazy';
 import EmailNotFoundErrorModal from '../../Modals/EmailNotFoundErrorModal';
 
-import styles from './UserProvider.module.css';
+import LoadingScreen from '../../../design-system-2026/components/LoadingScreen/LoadingScreen';
 
 type UserContextType = { readonly email: string } | 'INIT' | null;
 
@@ -58,11 +57,7 @@ export default function UserProvider({ children }: { readonly children: ReactNod
   if (user === 'INIT') {
     return (
       <div data-testid="UserProvider" className="App">
-        <div className={styles.LoaderContainer}>
-          <Loader active={true} size="massive">
-            Signing you in...
-          </Loader>
-        </div>
+        <LoadingScreen />
       </div>
     );
   }

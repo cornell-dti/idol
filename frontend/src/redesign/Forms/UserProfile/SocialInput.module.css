@@ -1,0 +1,21 @@
+.calendly {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url('/icons/calendly.svg') center / contain no-repeat;
+}
+
+.brandMark {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: var(--brand-mark) center / contain no-repeat;
+}
+
+.linkedinMark {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}

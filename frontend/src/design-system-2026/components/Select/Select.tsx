@@ -1,7 +1,7 @@
 import { forwardRef, ReactNode } from 'react';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { CaretDownIcon, CheckIcon } from '../../icons';
-import { useDesignSystemTheme } from '../Theme/Theme';
+import { useDesignSystemAppearance } from '../Theme/Theme';
 import { FieldShell, FieldProps } from '../FieldShell/FieldShell';
 import styles from './Select.module.css';
 
@@ -34,7 +34,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     },
     ref
   ) => {
-    const theme = useDesignSystemTheme();
+    const { theme, accent } = useDesignSystemAppearance();
     return (
       <FieldShell
         id={id}
@@ -63,7 +63,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
               <CaretDownIcon size={16} aria-hidden="true" />
             </BaseSelect.Icon>
           </BaseSelect.Trigger>
-          <BaseSelect.Portal data-idol-redesign data-idol-theme={theme}>
+          <BaseSelect.Portal data-idol-redesign data-idol-theme={theme} data-idol-accent={accent}>
             <BaseSelect.Positioner
               sideOffset={4}
               alignItemWithTrigger={false}

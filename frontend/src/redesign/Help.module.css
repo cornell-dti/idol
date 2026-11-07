@@ -1,0 +1,145 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: min(800px, calc(100% - 64px));
+  margin: 64px auto;
+  color: var(--idol-fg-default);
+}
+.page h1 {
+  margin: 0;
+}
+.glossary {
+  margin: 0;
+}
+.entry {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--idol-stroke-black);
+}
+.entry:first-child {
+  padding-top: 0;
+}
+.entry:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.term {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.termIcon {
+  flex-shrink: 0;
+  color: var(--idol-fg-default);
+}
+.term .termTitle {
+  margin: 0;
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+.entry dd,
+.page .support {
+  margin: 0;
+  font: var(--idol-type-body-default);
+  letter-spacing: var(--idol-type-body-default-tracking);
+}
+.term .pageLink {
+  display: inline-flex;
+  vertical-align: middle;
+  color: var(--idol-fg-dimmer);
+  border-radius: 4px;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease;
+}
+.term .pageLink:hover {
+  color: var(--idol-accent-default);
+  background: var(--idol-bg-dimmer);
+}
+@media (max-width: 640px) {
+  .page {
+    width: calc(100% - 32px);
+    margin: 32px auto;
+    gap: 32px;
+  }
+  .entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .term .pageLink {
+    transition: none;
+  }
+}
+
+.search {
+  width: 240px;
+  max-width: 100%;
+}
+.glossaryCard > :first-child {
+  flex-wrap: wrap;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.products {
+  border-top: 1px solid var(--idol-stroke-black);
+  padding-top: 24px;
+}
+.products:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.page .productsTitle {
+  margin: 0 0 24px;
+  font: var(--idol-type-heading-4);
+}
+.status {
+  display: block;
+  margin-bottom: 4px;
+  font: var(--idol-type-label-small);
+  color: var(--idol-fg-dimmer);
+}
+.page .empty {
+  margin: 0;
+  font: var(--idol-type-body-default);
+  color: var(--idol-fg-dimmer);
+}
+@media (max-width: 440px) {
+  .search {
+    width: 100%;
+  }
+}
+
+.productLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: #fff;
+}
+.productLogo img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.termLabel {
+  min-width: 0;
+}
+.termLabel .status {
+  margin: 4px 0 0;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
