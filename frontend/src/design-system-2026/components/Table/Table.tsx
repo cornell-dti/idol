@@ -51,64 +51,68 @@ export function Table<T>({
     return sort.descending ? 'descending' : 'ascending';
   };
   return (
-    <div className={styles.scroll} role="region" aria-label={caption} tabIndex={0}>
-      <table className={styles.table} aria-busy={loading || undefined}>
-        <caption className={styles.caption}>{caption}</caption>
-        <thead>
-          <tr>
-            {columns.map((item) => (
-              <th key={item.id} scope="col" aria-sort={sortDirection(item)}>
-                {item.sortValue ? (
-                  <button
-                    className={styles.sort}
-                    type="button"
-                    onClick={() =>
-                      setSort({ id: item.id, descending: sort?.id === item.id && !sort.descending })
-                    }
-                  >
-                    {item.header}
-                    <CaretDownIcon
-                      size={12}
-                      aria-hidden="true"
-                      className={sort?.id === item.id && !sort.descending ? styles.ascending : ''}
-                    />
-                  </button>
-                ) : (
-                  item.header
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {loading || error || rows.length === 0 ? (
+    <div className={styles.frame}>
+      <div className={styles.scroll} role="region" aria-label={caption} tabIndex={0}>
+        <table className={styles.table} aria-busy={loading || undefined}>
+          <caption className={styles.caption}>{caption}</caption>
+          <thead>
             <tr>
-              <td colSpan={columns.length} className={styles.state}>
-                {loading && <p role="status">Loading…</p>}
-                {!loading && error && (
-                  <div role="alert">
-                    <p>{error}</p>
-                    {onRetry && (
-                      <Button variant="secondary" onClick={onRetry}>
-                        Try again
-                      </Button>
-                    )}
-                  </div>
-                )}
-                {!loading && !error && emptyState}
-              </td>
+              {columns.map((item) => (
+                <th key={item.id} scope="col" aria-sort={sortDirection(item)}>
+                  {item.sortValue ? (
+                    <button
+                      className={styles.sort}
+                      type="button"
+                      onClick={() =>
+                        setSort({
+                          id: item.id,
+                          descending: sort?.id === item.id && !sort.descending
+                        })
+                      }
+                    >
+                      {item.header}
+                      <CaretDownIcon
+                        size={12}
+                        aria-hidden="true"
+                        className={sort?.id === item.id && !sort.descending ? styles.ascending : ''}
+                      />
+                    </button>
+                  ) : (
+                    item.header
+                  )}
+                </th>
+              ))}
             </tr>
-          ) : (
-            ordered.map(({ row, index }) => (
-              <tr key={rowKey(row, index)}>
-                {columns.map((item) => (
-                  <td key={item.id}>{item.cell(row, index)}</td>
-                ))}
-              </tr>
-            ))
+          </thead>
+          <tbody>
+            {!loading &&
+              !error &&
+              ordered.map(({ row, index }) => (
+                <tr key={rowKey(row, index)}>
+                  {columns.map((item) => (
+                    <td key={item.id}>{item.cell(row, index)}</td>
+                  ))}
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+      {(loading || error || rows.length === 0) && (
+        <div className={styles.state}>
+          {loading && <p role="status">Loading…</p>}
+          {!loading && error && (
+            <div role="alert">
+              <p>{error}</p>
+              {onRetry && (
+                <Button variant="secondary" onClick={onRetry}>
+                  Try again
+                </Button>
+              )}
+            </div>
           )}
-        </tbody>
-      </table>
+          {!loading && !error && emptyState}
+        </div>
+      )}
     </div>
   );
 }
