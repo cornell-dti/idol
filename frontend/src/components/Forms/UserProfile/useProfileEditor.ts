@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { LEAD_ROLES } from 'common-types/constants';
 import { useUserEmail } from '../../Common/UserProvider/UserProvider';
@@ -6,6 +6,28 @@ import { useSelf } from '../../Common/FirestoreDataProvider';
 import { Member, MembersAPI } from '../../../API/MembersAPI';
 import { getNetIDFromEmail, getRoleDescriptionFromRoleID, Emitters } from '../../../utils';
 import ImagesAPI from '../../../API/ImagesAPI';
+
+const EDITABLE_FIELDS = [
+  'firstName',
+  'lastName',
+  'pronouns',
+  'semesterJoined',
+  'graduation',
+  'major',
+  'doubleMajor',
+  'minor',
+  'college',
+  'hometown',
+  'about',
+  'website',
+  'linkedin',
+  'github',
+  'coffeeChatLink'
+] as const;
+
+// Empty optional inputs are saved as null; compare them as the same value.
+const getProfileValues = (member: Partial<Member>) =>
+  EDITABLE_FIELDS.map((field) => (member[field]?.trim() ? member[field] : ''));
 
 export default function useProfileEditor() {
   const userEmail = useUserEmail();
@@ -28,6 +50,27 @@ export default function useProfileEditor() {
   const [linkedin, setLinkedin] = useState(userInfoBeforeEdit?.linkedin ?? '');
   const [github, setGithub] = useState(userInfoBeforeEdit?.github ?? '');
   const [coffeeChatLink, setCoffeeChatLink] = useState(userInfoBeforeEdit?.coffeeChatLink ?? '');
+
+  const [savedValues, setSavedValues] = useState(() => getProfileValues(userInfoBeforeEdit ?? {}));
+  const [savingProfile, setSavingProfile] = useState(false);
+  const saveInFlight = useRef(false);
+  const hasProfileChanges = getProfileValues({
+    firstName,
+    lastName,
+    pronouns,
+    semesterJoined,
+    graduation,
+    major,
+    doubleMajor,
+    minor,
+    college: college as College,
+    hometown,
+    about,
+    website,
+    linkedin,
+    github,
+    coffeeChatLink
+  }).some((value, index) => value !== savedValues[index]);
 
   const [open, setOpen] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<string>('');
@@ -54,19 +97,31 @@ export default function useProfileEditor() {
    * @param member - The member object to update.
    */
   const updateUser = async (member: Member): Promise<void> => {
-    MembersAPI.updateMember(member).then((val) => {
+    saveInFlight.current = true;
+    setSavingProfile(true);
+    try {
+      const val = await MembersAPI.updateMember(member);
       if (val.error) {
         Emitters.userEditError.emit({
           headerMsg: "Couldn't update user!",
           contentMsg: val.error
         });
       } else {
+        setSavedValues(getProfileValues(member));
         Emitters.generalSuccess.emit({
           headerMsg: 'Information Updated',
           contentMsg: `Member information successfully updated!`
         });
       }
-    });
+    } catch {
+      Emitters.userEditError.emit({
+        headerMsg: "Couldn't update user!",
+        contentMsg: 'Please try again. Your changes have been kept.'
+      });
+    } finally {
+      saveInFlight.current = false;
+      setSavingProfile(false);
+    }
   };
 
   /**
@@ -106,6 +161,8 @@ export default function useProfileEditor() {
    * Shows an error notification if required fields are empty.
    */
   const saveProfileInfo = () => {
+    if (!hasProfileChanges || saveInFlight.current) return;
+
     const requiredFields = [
       firstName,
       lastName,
@@ -193,6 +250,8 @@ export default function useProfileEditor() {
     setProfilePhoto,
     setEditorRef,
     savingPhoto,
+    hasProfileChanges,
+    savingProfile,
     initialPronouns,
     cropAndSubmitImage,
     saveProfileInfo

@@ -190,7 +190,11 @@ export default function UserProfile(): JSX.Element {
         </div>
       </Card>
       <div className={styles.actions}>
-        <Button type="submit" icon={<CheckIcon size={16} aria-hidden="true" />}>
+        <Button
+          type="submit"
+          icon={<CheckIcon size={16} aria-hidden="true" />}
+          disabled={!profile.hasProfileChanges || profile.savingProfile}
+        >
           Save changes
         </Button>
       </div>

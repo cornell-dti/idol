@@ -44,7 +44,9 @@ const UserProfile: React.FC = () => {
     setEditorRef,
     initialPronouns,
     cropAndSubmitImage,
-    saveProfileInfo
+    saveProfileInfo,
+    hasProfileChanges,
+    savingProfile
   } = useProfileEditor();
 
   return (
@@ -274,7 +276,11 @@ const UserProfile: React.FC = () => {
       <span className={styles.coffeeChatLinkFootnote}>
         *If coffee chat link not provided, your email will be displayed.
       </span>
-      <Form.Button onClick={saveProfileInfo} floated="right">
+      <Form.Button
+        onClick={saveProfileInfo}
+        floated="right"
+        disabled={!hasProfileChanges || savingProfile}
+      >
         Save
       </Form.Button>
     </Form>
