@@ -68,9 +68,13 @@ export default class CoffeeChatAPI {
   }
 
   public static async runAutoChecker(uuid: string): Promise<CoffeeChat> {
-    return APIWrapper.put(`${backendURL}/coffee-chat/autocheck/${uuid}/`, {}).then(
-      (res) => res.data.coffeeChat
-    );
+    const res = await APIWrapper.put(`${backendURL}/coffee-chat/autocheck/${uuid}/`, {});
+    const data = assertOk(res?.data, 'Could not rerun the autochecker.');
+    const { coffeeChat } = data;
+    if (!coffeeChat || typeof coffeeChat !== 'object') {
+      throw new Error('Could not rerun the autochecker.');
+    }
+    return coffeeChat as CoffeeChat;
   }
 
   public static checkMemberMeetsCategory(
