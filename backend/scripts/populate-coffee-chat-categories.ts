@@ -139,8 +139,7 @@ const main = async () => {
 };
 
 const latestCount = (membersByCategory: Map<string, MemberDetails[]>): number =>
-  new Set(
-    [...membersByCategory.values()].flatMap((listed) => listed.map((member) => member.netid))
-  ).size;
+  new Set([...membersByCategory.values()].flatMap((listed) => listed.map((member) => member.netid)))
+    .size;
 
 main().catch(console.error);
