@@ -14,6 +14,8 @@ import SiteHeader from '../components/Common/SiteHeader/SiteHeader';
 import { Emitters } from '../utils';
 import ErrorModal from '../components/Modals/ErrorModal';
 import SuccessModal from '../components/Modals/SuccessModal';
+import SuccessNotifications from '../redesign/SuccessNotifications';
+import { ToastProvider } from '../design-system-2026/components';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import { PreviewProvider, usePreview, usePreviewToggle } from '../redesign/preview';
 import AppLayout from '../redesign/AppLayout';
@@ -86,10 +88,14 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
   });
 
   return (
-    <div>
+    <ToastProvider>
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
-      <SuccessModal onEmitter={Emitters.generalSuccess}></SuccessModal>
+      {preview ? (
+        <SuccessNotifications onEmitter={Emitters.generalSuccess} />
+      ) : (
+        <SuccessModal onEmitter={Emitters.generalSuccess} />
+      )}
       {preview ? (
         <AppLayout>{children}</AppLayout>
       ) : (
@@ -126,7 +132,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
           </div>
         </div>
       )}
-    </div>
+    </ToastProvider>
   );
 }
 

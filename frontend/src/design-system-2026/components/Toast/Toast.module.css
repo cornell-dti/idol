@@ -1,0 +1,121 @@
+.viewport {
+  position: fixed;
+  z-index: 1400;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: max(32px, env(safe-area-inset-bottom));
+  width: max-content;
+  max-width: min(600px, calc(100vw - 32px));
+  outline: none;
+  pointer-events: none;
+}
+.toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 48px;
+  padding: 10px 12px 10px 20px;
+  border: 1px solid #ffffff1f;
+  border-radius: 24px;
+  background: #171717;
+  color: #fff;
+  box-shadow:
+    0 8px 28px #0003,
+    0 2px 6px #0002;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  opacity: 1;
+  transform: translateY(var(--toast-swipe-movement-y, 0px)) scale(1);
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease;
+}
+.toast[data-starting-style] {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+}
+.toast[data-ending-style] {
+  opacity: 0;
+  transform: translateY(24px) scale(0.96);
+}
+.toast[data-ending-style][data-swipe-direction='down'] {
+  transform: translateY(calc(var(--toast-swipe-movement-y, 0px) + 80px));
+}
+.toast[data-swiping] {
+  transition: none;
+}
+.toast[data-limited] {
+  display: none;
+}
+.content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.toast .title {
+  color: #fff;
+  margin: 0;
+  font: var(--idol-type-body-default);
+  letter-spacing: var(--idol-type-body-default-tracking);
+}
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.close svg {
+  color: inherit;
+}
+.close:hover {
+  background: #ffffff24;
+}
+.close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+@media (max-width: 760px) {
+  .viewport {
+    bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transition: opacity 80ms ease;
+  }
+  .toast[data-starting-style],
+  .toast[data-ending-style] {
+    transform: none;
+  }
+}
+
+.description {
+  margin: 4px 0 0;
+  color: #fff;
+  font: var(--idol-type-body-small);
+}
+.description p {
+  margin: 0;
+}
+.content a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.content a:hover {
+  color: #fff;
+}
+.content a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
