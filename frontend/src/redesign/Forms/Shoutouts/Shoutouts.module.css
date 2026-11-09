@@ -190,16 +190,6 @@
   color: var(--idol-danger-default);
   font: var(--idol-type-body-default);
 }
-.success {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--idol-fg-default);
-}
-.success svg {
-  flex-shrink: 0;
-  color: var(--idol-accent-default);
-}
 .empty {
   display: flex;
   flex-direction: column;

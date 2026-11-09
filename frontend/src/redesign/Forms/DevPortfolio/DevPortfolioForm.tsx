@@ -12,7 +12,8 @@ import {
   Link,
   Modal,
   Table,
-  Textarea
+  Textarea,
+  useToast
 } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
 import { PlusIcon, TrashIcon, MagnifyingGlassIcon } from '../../../design-system-2026/icons';
@@ -102,7 +103,7 @@ export default function DevPortfolioForm(): JSX.Element {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [review, setReview] = useState(false);
-  const [success, setSuccess] = useState<DevPortfolioInfo>();
+  const toast = useToast();
   const [search, setSearch] = useState('');
   const [reload, setReload] = useState(0);
   const errorRef = useRef<HTMLDivElement>(null);
@@ -177,7 +178,15 @@ export default function DevPortfolioForm(): JSX.Element {
         })
       );
       if (result.error) throw new Error(result.error);
-      setSuccess(portfolio);
+      toast.add({
+        title: `${portfolio.name} submitted.`,
+        description: (
+          <Link href={`/forms/dev-portfolio-submissions/${portfolio.uuid}`}>
+            View submission and status
+          </Link>
+        ),
+        timeout: 0
+      });
       setDraft(freshDraft());
       setReview(false);
       setError('');
@@ -198,14 +207,6 @@ export default function DevPortfolioForm(): JSX.Element {
         <h1 className="idol-heading-1">Dev Portfolio</h1>
         <p>Share the work you’ve opened, reviewed, and documented.</p>
       </header>
-      {success && (
-        <div className={styles.success} role="status">
-          <strong>{success.name} submitted.</strong> Your submission has been received.{' '}
-          <Link href={`/forms/dev-portfolio-submissions/${success.uuid}`}>
-            View submission and status
-          </Link>
-        </div>
-      )}
       {loading && <PageState title="Loading assignments…" loading />}
       {!loading && loadError && (
         <PageState title="Couldn’t load assignments" retry={() => setReload((value) => value + 1)}>
@@ -236,7 +237,6 @@ export default function DevPortfolioForm(): JSX.Element {
                         options.find((item) => assignmentLabel(item) === label)?.uuid ?? ''
                       );
                       setError('');
-                      setSuccess(undefined);
                     }}
                     placeholder="Select assignment"
                     disabled={busy}
