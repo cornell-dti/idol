@@ -120,14 +120,23 @@ export default function TeamEventCreditDashboard(props: {
     setError('');
     try {
       await TeamEventsAPI.deleteTeamEventAttendance(selected.uuid);
-      setPendingAttendance((items) => items.filter((item) => item.uuid !== selected.uuid));
-      await ImagesAPI.deleteImage(selected.image);
-      setSelected(null);
-      Emitters.teamEventsUpdated.emit();
     } catch {
       setError('Could not cancel the request. Please refresh your history before trying again.');
+      return;
     } finally {
       setBusy(false);
+    }
+
+    setPendingAttendance((items) => items.filter((item) => item.uuid !== selected.uuid));
+    setSelected(null);
+    Emitters.teamEventsUpdated.emit();
+    if (selected.image) {
+      await ImagesAPI.deleteImage(selected.image, { throwOnError: true }).catch(() => {
+        Emitters.generalError.emit({
+          headerMsg: 'Credit request cancelled',
+          contentMsg: 'Your request was cancelled, but we could not remove the proof image.'
+        });
+      });
     }
   };
   const list = (status: string, attendance: TeamEventAttendance[]) => {
@@ -268,9 +277,7 @@ export default function TeamEventCreditDashboard(props: {
         }}
         title={cancel ? 'Cancel this credit request?' : 'Team Event Credit Preview'}
         description={
-          cancel
-            ? 'Your pending submission and its proof will be removed.'
-            : event?.name ?? 'Event unavailable'
+          cancel ? 'Your pending submission will be removed.' : event?.name ?? 'Event unavailable'
         }
         footer={
           <>

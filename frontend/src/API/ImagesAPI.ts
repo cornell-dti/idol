@@ -28,7 +28,13 @@ export default class ImagesAPI {
     });
   }
 
-  public static async deleteImage(name: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/image/${name}`);
+  public static async deleteImage(
+    name: string,
+    options?: { throwOnError: boolean }
+  ): Promise<void> {
+    const { data, status } = await APIWrapper.delete(`${backendURL}/image/${name}`);
+    if (options?.throwOnError && (data == null || data.error || (status ?? 0) >= 400)) {
+      throw new Error(data?.error || 'Could not delete image.');
+    }
   }
 }
