@@ -1,3 +1,9 @@
+/**
+ * This is a one-time migration script.
+ *
+ * Members submit coffee chat categories directly in IDOL now. Run this script only to import a past
+ * Google Form export (as a CSV). It is not part of the normal workflow.
+ */
 /* eslint-disable no-console */
 /// <reference types="common-types" />
 import admin from 'firebase-admin';
