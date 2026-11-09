@@ -1,0 +1,429 @@
+.home {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hero {
+  position: relative;
+  height: 362px;
+  flex-shrink: 0;
+  background: var(--idol-bg-root);
+}
+.heroPhoto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heroFade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 150% 150% at 50% -16.7%,
+    transparent 40%,
+    var(--idol-bg-root) 100%
+  );
+}
+.welcome {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 80px;
+  text-align: center;
+}
+.welcome h1 {
+  margin: 0;
+  color: #fff;
+  font: var(--idol-type-title);
+  letter-spacing: var(--idol-type-title-tracking);
+  text-shadow: 0 0 20px #0009;
+}
+.surface {
+  position: relative;
+  flex: 1;
+  margin-top: -32px;
+  padding: 64px 32px;
+  border-radius: 24px 24px 0 0;
+}
+.search {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(449px, calc(100% - 48px));
+  z-index: 1;
+}
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+  align-items: start;
+  gap: 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.shortcuts,
+.glance {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.glance {
+  gap: 24px;
+}
+.glance h2 {
+  margin-bottom: -8px;
+}
+.shortcutGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.shortcutLink {
+  display: flex;
+  color: var(--idol-fg-default);
+  border-radius: 16px;
+  text-decoration: none;
+}
+.shortcutLink:hover,
+.shortcutLink:focus {
+  color: var(--idol-fg-default);
+  text-decoration: none;
+}
+.shortcutCard {
+  flex: 1;
+  transition:
+    background-color 140ms ease,
+    scale 100ms ease;
+}
+.shortcutLink:hover .shortcutCard {
+  background: var(--idol-bg-dimmer);
+}
+.shortcutLink:active .shortcutCard {
+  scale: 0.97;
+}
+.shortcutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.shortcutContent h3 {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+.shortcutContent p {
+  font: var(--idol-type-body-default);
+  color: var(--idol-fg-dimmer);
+}
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 10px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+.editButton {
+  display: flex;
+  justify-content: center;
+}
+.notice {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+  text-align: center;
+}
+.notice:empty {
+  display: none;
+}
+.cardArrow {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+.cardArrow:hover {
+  background: var(--idol-bg-default);
+}
+.metrics {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+}
+.metrics > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.metrics dd {
+  margin: 0;
+  font: 400 24px/32px var(--idol-font-family);
+  letter-spacing: -0.96px;
+}
+.metrics dt {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-default);
+}
+.loading {
+  min-height: 54px;
+  justify-content: center;
+  color: var(--idol-fg-dimmer);
+}
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.editorSurface {
+  gap: 8px;
+}
+.editorHeading {
+  font: var(--idol-type-heading-4);
+}
+.editorList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.editorRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px;
+  border-radius: 6px;
+}
+.editorRow:hover,
+.editorRow:focus-within {
+  background: var(--idol-bg-dimmer);
+}
+.grabbedRow > * {
+  opacity: 0.3;
+}
+.dropBefore::before,
+.dropAfter::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #0066ff;
+  box-shadow: 0 0 0 1px #0066ff16;
+  pointer-events: none;
+  z-index: 1;
+}
+.dropBefore::before {
+  top: -1px;
+}
+.dropAfter::after {
+  bottom: -1px;
+}
+.dragPortal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  pointer-events: none;
+}
+.dragPreview {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  box-shadow:
+    0 12px 32px #0003,
+    0 2px 6px #0002;
+  transform: scale(1.015) rotate(-0.5deg);
+  transform-origin: left center;
+}
+.rowLabel {
+  flex: 1;
+}
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  color: inherit;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+.dragHandle:active {
+  cursor: grabbing;
+}
+.inactiveHandle {
+  display: flex;
+  opacity: 0.4;
+}
+.removed {
+  border-top: 1px solid var(--idol-stroke-black);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+.muted {
+  color: var(--idol-fg-dimmer);
+  padding: 8px;
+}
+.shortcutLink:focus-visible,
+.cardArrow:focus-visible,
+.dragHandle:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 1100px) {
+  .columns {
+    gap: 24px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  }
+  .surface {
+    padding: 56px 24px;
+  }
+  .shortcutGrid {
+    gap: 16px;
+  }
+}
+@media (max-width: 940px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .glance {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .glance h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+  .metrics {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+@media (max-width: 760px) {
+  .surface {
+    border-radius: 0;
+  }
+}
+@media (max-width: 640px) {
+  .hero {
+    height: 300px;
+  }
+  .welcome {
+    bottom: 76px;
+    left: 16px;
+    right: 16px;
+  }
+  .welcome h1 {
+    font: var(--idol-type-heading-1);
+    letter-spacing: var(--idol-type-heading-1-tracking);
+  }
+  .surface {
+    padding: 48px 16px 32px;
+  }
+  .shortcutGrid,
+  .glance {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .search {
+    width: calc(100% - 32px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shortcutCard {
+    transition: none;
+  }
+  .shortcutLink:active .shortcutCard {
+    scale: 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero [data-cover-trigger] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero:hover [data-cover-trigger],
+  .hero:focus-within [data-cover-trigger] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heroPhoto {
+    animation: cover-arrive 360ms ease-out backwards;
+  }
+
+  .surface {
+    animation: surface-arrive 320ms cubic-bezier(0.2, 0.7, 0.3, 1) 65ms backwards;
+  }
+
+  .enterCard {
+    animation: card-arrive 220ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  }
+}
+
+@keyframes cover-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes surface-arrive {
+  from {
+    opacity: 0.6;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,145 @@
+.trigger {
+  position: absolute;
+  z-index: 1;
+  top: 16px;
+  right: 16px;
+}
+
+.choices {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choices legend,
+.upload h3 {
+  margin: 0 0 16px;
+  padding: 0;
+  color: var(--idol-fg-default);
+  font: var(--idol-type-heading-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 24px;
+}
+
+.tile {
+  position: relative;
+  min-width: 0;
+}
+
+.option {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--idol-bg-dimmer);
+}
+
+.option:hover .thumbnail {
+  box-shadow: 0 0 0 1px var(--idol-fg-dimmer);
+}
+
+.option input:checked + .thumbnail,
+.option input:focus-visible + .thumbnail {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 2px;
+}
+
+.option input:focus-visible + .thumbnail {
+  outline-style: dashed;
+}
+
+.tile .remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--idol-bg-default);
+}
+
+.upload {
+  margin-top: 24px;
+}
+
+.uploadControls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.hint {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+}
+
+.error {
+  margin: 12px 0 0;
+  color: var(--idol-danger-default);
+}
+
+.dropSurface.dropSurface {
+  border-color: var(--idol-accent-default);
+  border-style: dashed;
+  background: color-mix(in srgb, var(--idol-accent-default) 8%, var(--idol-bg-default));
+}
+
+.dropSurface > :not(.dropOverlay) {
+  opacity: 0;
+}
+
+.dropOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  color: var(--idol-accent-default);
+  pointer-events: none;
+}
+
+.dropOverlay strong {
+  font: var(--idol-type-heading-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile .remove {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tile:hover .remove,
+  .tile:focus-within .remove {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}

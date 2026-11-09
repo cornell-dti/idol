@@ -1,0 +1,198 @@
+import { useRef, useState } from 'react';
+import { Button, IconButton, Modal } from '../../design-system-2026/components';
+import { CheckIcon, ImageIcon, UploadSimpleIcon, XIcon } from '../../design-system-2026/icons';
+import {
+  coverFileTypes,
+  CoverPreferences,
+  defaultCover,
+  makeCustomCover,
+  presetCovers
+} from './covers';
+import styles from './CoverEditor.module.css';
+
+type Props = {
+  value: CoverPreferences;
+  onSave: (value: CoverPreferences) => void;
+  disabled: boolean;
+};
+
+export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Element {
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState(value);
+  const [busy, setBusy] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [error, setError] = useState('');
+  const input = useRef<HTMLInputElement>(null);
+  const dragDepth = useRef(0);
+
+  const changeOpen = (next: boolean) => {
+    if (busy) return;
+    if (next) {
+      setDraft(value);
+      setError('');
+    }
+    dragDepth.current = 0;
+    setDragging(false);
+    setOpen(next);
+  };
+
+  const upload = async (file?: File) => {
+    if (!file || busy) return;
+    setBusy(true);
+    setError('');
+    try {
+      const cover = await makeCustomCover(file);
+      setDraft((current) => ({ selected: cover.id, custom: [...current.custom, cover] }));
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'This photo could not be uploaded.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const save = () => {
+    try {
+      onSave(draft);
+      changeOpen(false);
+    } catch {
+      setError(
+        'Could not save covers in this browser. Try removing a custom photo or choosing a smaller one.'
+      );
+    }
+  };
+
+  return (
+    <Modal
+      id="home-cover-editor"
+      open={open}
+      onOpenChange={changeOpen}
+      title="Edit cover"
+      description="Customize the IDOL homepage cover image."
+      width={640}
+      trigger={
+        <Button
+          variant="secondary"
+          className={styles.trigger}
+          data-cover-trigger=""
+          disabled={disabled}
+          icon={<ImageIcon size={16} aria-hidden />}
+        >
+          Change cover
+        </Button>
+      }
+      surfaceClassName={dragging ? styles.dropSurface : undefined}
+      surfaceOverlay={
+        dragging ? (
+          <div className={styles.dropOverlay} role="status">
+            <UploadSimpleIcon size={40} aria-hidden />
+            <strong>Drop to upload</strong>
+            <span>JPEG, PNG, or WebP</span>
+          </div>
+        ) : undefined
+      }
+      popupProps={{
+        onDragEnter: (event) => {
+          if (!event.dataTransfer.types.includes('Files') || busy) return;
+          event.preventDefault();
+          dragDepth.current += 1;
+          setDragging(true);
+        },
+        onDragOver: (event) => {
+          if (!event.dataTransfer.types.includes('Files')) return;
+          event.preventDefault();
+          const { dataTransfer } = event;
+          dataTransfer.dropEffect = busy ? 'none' : 'copy';
+        },
+        onDragLeave: () => {
+          dragDepth.current = Math.max(0, dragDepth.current - 1);
+          if (dragDepth.current === 0) setDragging(false);
+        },
+        onDrop: (event) => {
+          event.preventDefault();
+          dragDepth.current = 0;
+          setDragging(false);
+          upload(event.dataTransfer.files[0]);
+        }
+      }}
+      footer={
+        <>
+          <Button variant="secondary" disabled={busy} onClick={() => changeOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            icon={<CheckIcon size={16} aria-hidden />}
+            disabled={busy || draft === value}
+            onClick={save}
+          >
+            Save changes
+          </Button>
+        </>
+      }
+    >
+      <fieldset className={styles.choices}>
+        <legend>Pick a cover</legend>
+        <div className={styles.grid}>
+          {[...presetCovers, ...draft.custom].map((cover) => (
+            <div className={styles.tile} key={cover.id}>
+              <label className={styles.option}>
+                <input
+                  type="radio"
+                  name="homepage-cover"
+                  checked={draft.selected === cover.id}
+                  onChange={() => setDraft((current) => ({ ...current, selected: cover.id }))}
+                />
+                <img className={styles.thumbnail} src={cover.src} alt="" />
+                <span>{cover.name}</span>
+              </label>
+              {cover.id.startsWith('custom-') && (
+                <IconButton
+                  className={styles.remove}
+                  variant="tertiary"
+                  size={24}
+                  icon={<XIcon size={14} aria-hidden />}
+                  aria-label={`Remove ${cover.name}`}
+                  onClick={() =>
+                    setDraft((current) => ({
+                      selected: current.selected === cover.id ? defaultCover.id : current.selected,
+                      custom: current.custom.filter((item) => item.id !== cover.id)
+                    }))
+                  }
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </fieldset>
+      <section className={styles.upload} aria-labelledby="cover-upload-title">
+        <h3 id="cover-upload-title">Or, upload your own</h3>
+        <input
+          ref={input}
+          type="file"
+          accept={coverFileTypes}
+          hidden
+          onChange={(event) => {
+            const { currentTarget } = event;
+            upload(currentTarget.files?.[0]);
+            currentTarget.value = '';
+          }}
+        />
+        <div className={styles.uploadControls}>
+          <Button
+            variant="secondary"
+            icon={<UploadSimpleIcon size={16} aria-hidden />}
+            disabled={busy}
+            onClick={() => input.current?.click()}
+          >
+            {busy ? 'Preparing photo…' : 'Choose photo'}
+          </Button>
+          <span className={styles.hint}>Or drop an image here.</span>
+        </div>
+        {error && (
+          <p role="alert" className={styles.error}>
+            {error}
+          </p>
+        )}
+      </section>
+    </Modal>
+  );
+}

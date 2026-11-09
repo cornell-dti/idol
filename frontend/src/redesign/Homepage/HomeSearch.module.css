@@ -1,0 +1,47 @@
+.popup {
+  border-radius: 16px;
+  padding: 6px;
+  box-shadow:
+    0 8px 24px #00000014,
+    0 2px 8px #0000000a;
+}
+.option {
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 8px;
+  background: var(--idol-bg-default);
+}
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 4px;
+}
+.label {
+  color: var(--idol-fg-default);
+  font: var(--idol-type-body-default);
+  font-weight: 600;
+}
+.description,
+.empty {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+}
+.empty {
+  display: block;
+  padding: 16px;
+}
+.empty:empty {
+  display: none;
+}
