@@ -12,6 +12,7 @@
 
 .inputFrame {
   display: flex;
+  cursor: text;
   align-items: center;
   gap: 6px;
   width: 100%;
@@ -87,4 +88,22 @@
 
 .pillInput {
   border-radius: 123px;
+}
+
+.inputFrame {
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .inputFrame {
+    transition: none;
+  }
+}
+
+.prefix {
+  color: var(--idol-fg-dimmer);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-right: -6px;
 }

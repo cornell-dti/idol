@@ -3,7 +3,7 @@ import { Button as BaseButton } from '@base-ui/react/button';
 import styles from './Button.module.css';
 
 export type ButtonProps = Omit<BaseButton.Props, 'className'> & { className?: string } & {
-  variant?: 'primary' | 'secondary' | 'danger';
+  variant?: 'primary' | 'secondary' | 'danger' | 'secondaryDanger';
   icon?: ReactNode;
 };
 

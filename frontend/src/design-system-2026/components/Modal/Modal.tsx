@@ -1,19 +1,25 @@
-import { ReactElement, ReactNode } from 'react';
+import { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { IconButton } from '../Button/Button';
 import { XIcon } from '../../icons';
-import { useDesignSystemTheme } from '../Theme/Theme';
+import { useDesignSystemAppearance } from '../Theme/Theme';
 import styles from './Modal.module.css';
 
 export type ModalProps = {
   id: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  trigger: ReactElement;
+  trigger?: ReactElement;
   title: string;
   description?: string;
   children?: ReactNode;
   footer?: ReactNode;
+  surfaceClassName?: string;
+  surfaceOverlay?: ReactNode;
+  popupProps?: Pick<
+    HTMLAttributes<HTMLDivElement>,
+    'onDragEnter' | 'onDragLeave' | 'onDragOver' | 'onDrop'
+  >;
 };
 export const ModalClose = Dialog.Close;
 export const ModalBackdrop = Dialog.Backdrop;
@@ -26,30 +32,41 @@ export function Modal({
   title,
   description,
   children,
-  footer
+  footer,
+  surfaceClassName = '',
+  surfaceOverlay,
+  popupProps
 }: ModalProps): JSX.Element {
-  const theme = useDesignSystemTheme();
+  const { theme, accent } = useDesignSystemAppearance();
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger render={trigger} />
-      <Dialog.Portal data-idol-redesign data-idol-theme={theme} className={styles.portal}>
+      {trigger && <Dialog.Trigger render={trigger} />}
+      <Dialog.Portal
+        data-idol-redesign
+        data-idol-theme={theme}
+        data-idol-accent={accent}
+        className={styles.portal}
+      >
         <ModalBackdrop className={styles.backdrop} />
         <Dialog.Viewport className={styles.viewport}>
-          <Dialog.Popup id={id} className={styles.modal}>
-            <div className={styles.surface}>
-              <Dialog.Title className={styles.title}>{title}</Dialog.Title>
-              {description && (
-                <Dialog.Description className={styles.description}>
-                  {description}
-                </Dialog.Description>
-              )}
+          <Dialog.Popup {...popupProps} id={id} className={styles.modal}>
+            <div className={`${styles.surface} ${surfaceClassName}`}>
+              {surfaceOverlay}
+              <div className={styles.heading}>
+                <Dialog.Title className={styles.title}>{title}</Dialog.Title>
+                {description && (
+                  <Dialog.Description className={styles.description}>
+                    {description}
+                  </Dialog.Description>
+                )}
+              </div>
               <div className={styles.content}>{children}</div>
               <ModalClose
                 render={
                   <IconButton
                     aria-label="Close modal"
                     variant="tertiary"
-                    size={24}
+                    size={36}
                     icon={<XIcon size={16} aria-hidden="true" />}
                     className={styles.close}
                   />

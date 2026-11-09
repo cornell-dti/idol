@@ -37,13 +37,13 @@
   background: var(--idol-bg-dimmer);
 }
 .radio[data-checked] {
-  border-color: var(--idol-fg-default);
+  border-color: var(--idol-accent-default);
 }
 .radioIndicator {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--idol-fg-default);
+  background: var(--idol-accent-default);
 }
 .radioGroup {
   display: flex;

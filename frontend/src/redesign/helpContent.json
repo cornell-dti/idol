@@ -1,0 +1,156 @@
+{
+  "pageTitle": "Help",
+  "documentTitle": "Help · IDOL",
+  "glossaryTitle": "Glossary",
+  "search": {
+    "label": "Search glossary",
+    "placeholder": "Search",
+    "empty": "No matches for “{query}”. Try a product name or another term."
+  },
+  "terms": [
+    {
+      "title": "IDOL",
+      "description": "Internal DTI Organization Logic (IDOL) is DTI’s internal tools platform. It brings member profiles, team participation, submissions, and recruiting tools together in one place.",
+      "icon": "House"
+    },
+    {
+      "title": "Shoutouts",
+      "href": "/forms/shoutouts",
+      "description": "Recognize a teammate for their work or a moment you appreciated. Shoutouts at revealed during All Hands.",
+      "icon": "Megaphone"
+    },
+    {
+      "title": "Team Event Credits",
+      "href": "/forms/teamEventCredits",
+      "description": "Team Event Credits (TECs) track participation in internal and external events. Select an event, add the requested attendance details and photo evidence, and submit for review. Your dashboard shows progress toward the requirements for the current period.",
+      "icon": "CalendarBlank"
+    },
+    {
+      "title": "Coffee Chats",
+      "href": "/forms/coffeeChats",
+      "description": "Log conversations with teammates to work toward Coffee Chat Bingo. If you blackout (complete) the whole board, you may win a prize!",
+      "icon": "Coffee"
+    },
+    {
+      "title": "Dev Portfolios",
+      "href": "/forms/devPortfolio",
+      "description": "Dev portfolio assignments record the development work you have opened or reviewed. Choose an assignment, add the relevant GitHub pull request links, and submit before its deadline.",
+      "icon": "Code"
+    },
+    {
+      "title": "Profile",
+      "href": "/forms/profile",
+      "description": "Keep your information up to date. All this data gets used on the cornelldti.org website.",
+      "icon": "User"
+    },
+    {
+      "title": "Alumni",
+      "href": "/alumni",
+      "description": "Explore DTI’s alumni directory to stay connected with former members. You can browse by their role on DTI or by company, and use the map to search for alumni in a specific location.",
+      "icon": "GraduationCap"
+    }
+  ],
+  "productsTitle": "Products",
+  "products": [
+    {
+      "id": "loop",
+      "description": "Loop is a Chrome extension that helps Cornell students cut through listserv clutter and find events, opportunities, and resources that matter to them.",
+      "href": "https://cornelldti.org/products/#loop",
+      "status": "Coming soon",
+      "logo": "loop",
+      "title": "Loop"
+    },
+    {
+      "id": "curaise",
+      "description": "CURaise is a centralized fundraising platform built for the Cornell community, combining payment processing, pre-order and pickup management, and real-time revenue tracking into one seamless dashboard. It takes the hassle out of running a fundraiser so student organizers can focus on their cause, not logistics.",
+      "href": "https://www.curaise.app/",
+      "status": "",
+      "logo": "curaise",
+      "title": "CU Raise"
+    },
+    {
+      "id": "cornellgo",
+      "description": "Navigating Campus for the first time is confusing. CornellGO is a scavenger hunt app that makes discovering campus easy and fun through interactive, location-based challenges.",
+      "href": "https://apps.apple.com/us/app/cornellgo/id1562549651",
+      "status": "",
+      "logo": "cornellgo",
+      "title": "CornellGO"
+    },
+    {
+      "id": "cuapts",
+      "description": "The search for off-campus housing in Ithaca is insane. CU Apts helps you search for off-campus housing, share apartment reviews, and explore your best options.",
+      "href": "https://www.cuapts.org/",
+      "status": "",
+      "logo": "cuapts",
+      "title": "CU Apts"
+    },
+    {
+      "id": "idol",
+      "description": "IDOL – Internal DTI Organization Logic – is our very own internal tools subteam. Responsible for developing and maintaining this website, recruitment tools, internal coffee chat tracking, and other administrative systems.",
+      "href": "/",
+      "status": "",
+      "logo": "idol",
+      "title": "IDOL"
+    },
+    {
+      "id": "cureviews",
+      "description": "CU Reviews is a course review website. You can browse classes and view their metrics, read about other students' experiences, and submit your own course reviews for others.",
+      "href": "https://www.cureviews.org/",
+      "status": "",
+      "logo": "cureviews",
+      "title": "CU Reviews"
+    },
+    {
+      "id": "courseplan",
+      "description": "Start your college career here with us. CoursePlan has everything you need to fulfill your requirements, all in one place. You can design your 4-year plan by simply dragging them into your schedule.",
+      "href": "https://www.courseplan.io/",
+      "status": "",
+      "logo": "courseplan",
+      "title": "CoursePlan"
+    },
+    {
+      "id": "queuemein",
+      "description": "Office hours are too crowded and unorganized. Queue Me In removes the frustration from office hours by helping students get support and professors better understand their classes.",
+      "href": "https://queueme.in/",
+      "status": "",
+      "logo": "queuemein",
+      "title": "Queue Me In"
+    },
+    {
+      "id": "zing",
+      "description": "Collaborating with The Learning Strategies Center (LSC) at Cornell, Zing is an all-in-one web interface to create optimal groups for class projects based on students' study preferences.",
+      "href": "https://zing-lsc-prod.web.app/",
+      "status": "",
+      "logo": "zing",
+      "title": "Zing"
+    },
+    {
+      "id": "redi",
+      "description": "Redi is a Cornell-only dating app delivering weekly curated matches and campus-themed prompts.",
+      "status": "Archived",
+      "logo": "redi",
+      "title": "Redi"
+    },
+    {
+      "id": "carriage",
+      "description": "Carriage is dedicated to making Cornell accessible for all students and work directly with CULift, Cornell's paratransit service for students with disabilities.",
+      "status": "Archived",
+      "logo": "carriage",
+      "title": "Carriage"
+    },
+    {
+      "id": "designatcornell",
+      "description": "Design @ Cornell is a centralized repository that contains all the resources and information needed for faculty, staff, current and future students interested in design at Cornell.",
+      "status": "Archived",
+      "logo": "designatcornell",
+      "title": "Design @ Cornell"
+    }
+  ],
+  "support": {
+    "title": "More help",
+    "beforeLink": "Still stuck? Get some more help by visiting the ",
+    "linkLabel": "#idol-support",
+    "href": "https://cornelldti.slack.com/channels/idol-support",
+    "afterLink": " channel on Slack. Include what you were trying to do and a screenshot if something looks wrong."
+  }
+}

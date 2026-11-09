@@ -21,8 +21,8 @@
   background: var(--idol-bg-dimmer);
 }
 .checkbox.checkbox[data-checked] {
-  background: var(--idol-fg-default);
-  border-color: var(--idol-fg-default);
+  background: var(--idol-accent-default);
+  border-color: var(--idol-accent-default);
 }
 .checkIndicator {
   display: flex;
@@ -31,7 +31,7 @@
   width: 12px;
   height: 12px;
   margin: 0;
-  color: var(--idol-bg-default);
+  color: var(--idol-on-accent);
 }
 .checkIndicator svg {
   display: block;

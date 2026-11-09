@@ -9,6 +9,7 @@ export type InputProps = Omit<BaseInput.Props, 'size' | 'className'> &
     size?: 'default' | 'large';
     shape?: 'default' | 'pill';
     icon?: ReactNode;
+    prefix?: string;
   };
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -22,6 +23,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       size = 'default',
       shape = 'default',
       icon,
+      prefix,
       className = '',
       ...props
     },
@@ -35,7 +37,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       disabled={disabled}
       invalid={invalid}
     >
-      <div
+      <label
+        htmlFor={id}
         className={`${styles.inputFrame} ${size === 'large' ? styles.largeInput : ''} ${
           shape === 'pill' ? styles.pillInput : ''
         } ${error || invalid ? styles.invalid : ''} ${disabled ? styles.disabled : ''}`}
@@ -45,6 +48,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {icon}
           </span>
         )}
+        {prefix && (
+          <span className={styles.prefix} aria-hidden="true">
+            {prefix}
+          </span>
+        )}
         <BaseInput
           {...props}
           ref={ref}
@@ -52,7 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           className={`${styles.input} ${className}`}
         />
-      </div>
+      </label>
     </FieldShell>
   )
 );

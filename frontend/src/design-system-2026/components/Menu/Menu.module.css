@@ -18,7 +18,7 @@
   letter-spacing: var(--idol-type-label-default-tracking);
   box-shadow: 0 2px 8px color-mix(in srgb, var(--idol-stroke-black) 40%, transparent);
   outline: none;
-  transform-origin: var(--transform-origin);
+  transform-origin: center;
   opacity: 1;
   transform: scale(1);
   transition:
@@ -46,6 +46,7 @@
 }
 
 .item[data-highlighted]:not([data-disabled]) {
+  transition-duration: 0s;
   background: var(--idol-bg-dimmer);
 }
 
@@ -65,6 +66,11 @@
   flex-shrink: 0;
 }
 
+.icon,
+.icon * {
+  color: inherit;
+}
+
 .groupLabel {
   padding: 8px;
   color: var(--idol-fg-dimmer);
@@ -82,4 +88,23 @@
   .popup {
     transition: none;
   }
+}
+
+.matchTrigger {
+  width: var(--anchor-width);
+}
+
+.item {
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}
+
+.bottomLeft {
+  transform-origin: bottom left;
 }

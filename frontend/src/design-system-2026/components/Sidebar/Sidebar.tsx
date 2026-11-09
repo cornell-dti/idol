@@ -1,13 +1,15 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Avatar } from '../Avatar/Avatar';
 import { IconButton } from '../Button/Button';
 import { Input } from '../Input/Input';
+import { Menu } from '../Menu/Menu';
+import { useDesignSystemAppearance } from '../Theme/Theme';
 import { MagnifyingGlassIcon, SidebarIcon } from '../../icons';
 import styles from './Sidebar.module.css';
 
-export type SidebarItemProps = {
+export type SidebarItemProps = Omit<BaseButton.Props, 'className' | 'children'> & {
   label: string;
   secondaryLabel?: string;
   icon: ReactNode;
@@ -18,61 +20,69 @@ export type SidebarItemProps = {
   onClick?: () => void;
 };
 
-export function SidebarItem({
-  label,
-  secondaryLabel,
-  icon,
-  selected = false,
-  minimized = false,
-  size = 'default',
-  href,
-  onClick
-}: SidebarItemProps): JSX.Element {
-  const className = `${styles.item} ${selected ? styles.selected : ''} ${
-    minimized ? styles.minimizedItem : ''
-  } ${size === 'large' ? styles.largeItem : ''}`;
-  const content = (
-    <>
-      <span className={styles.itemIcon} aria-hidden="true">
-        {icon}
-      </span>
-      <span className={styles.itemLabels} aria-hidden={minimized || undefined}>
-        <span>{label}</span>
-        {size === 'large' && secondaryLabel && (
-          <span className={styles.secondaryLabel}>{secondaryLabel}</span>
-        )}
-      </span>
-    </>
-  );
-  const name = secondaryLabel ? `${label}: ${secondaryLabel}` : label;
-  if (href)
-    return (
-      <Link href={href}>
-        <a
-          href={href}
-          className={className}
-          onClick={onClick}
-          aria-current={selected ? 'page' : undefined}
-          aria-label={minimized ? name : undefined}
-          title={minimized ? name : undefined}
-        >
-          {content}
-        </a>
-      </Link>
+export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
+  (
+    {
+      label,
+      secondaryLabel,
+      icon,
+      selected = false,
+      minimized = false,
+      size = 'default',
+      href,
+      onClick,
+      ...buttonProps
+    },
+    ref
+  ) => {
+    const className = `${styles.item} ${selected ? styles.selected : ''} ${
+      minimized ? styles.minimizedItem : ''
+    } ${size === 'large' ? styles.largeItem : ''}`;
+    const content = (
+      <>
+        <span className={styles.itemIcon} aria-hidden="true">
+          {icon}
+        </span>
+        <span className={styles.itemLabels} aria-hidden={minimized || undefined}>
+          <span>{label}</span>
+          {size === 'large' && secondaryLabel && (
+            <span className={styles.secondaryLabel}>{secondaryLabel}</span>
+          )}
+        </span>
+      </>
     );
-  return (
-    <BaseButton
-      type="button"
-      className={className}
-      onClick={onClick}
-      aria-pressed={selected}
-      aria-label={minimized ? name : undefined}
-      title={minimized ? name : undefined}
-    >
-      {content}
-    </BaseButton>
-  );
-}
+    const name = secondaryLabel ? `${label}: ${secondaryLabel}` : label;
+    if (href)
+      return (
+        <Link href={href}>
+          <a
+            href={href}
+            className={className}
+            onClick={onClick}
+            aria-current={selected ? 'page' : undefined}
+            aria-label={minimized ? name : undefined}
+            title={minimized ? name : undefined}
+          >
+            {content}
+          </a>
+        </Link>
+      );
+    return (
+      <BaseButton
+        {...buttonProps}
+        ref={ref}
+        type="button"
+        className={className}
+        onClick={onClick}
+        aria-pressed={selected}
+        aria-label={minimized ? name : undefined}
+        title={minimized ? name : undefined}
+      >
+        {content}
+      </BaseButton>
+    );
+  }
+);
 
 export type SidebarEntry = Omit<SidebarItemProps, 'minimized' | 'size'> & { id: string };
 export type SidebarSection = { id: string; label: string; items: readonly SidebarEntry[] };
@@ -81,7 +91,7 @@ export type SidebarProps = {
   label?: string;
   sections: readonly SidebarSection[];
   footerItems?: readonly SidebarEntry[];
-  profile: { name: string; src?: string; onClick: () => void };
+  profile: { name: string; src?: string; onClick?: () => void; menu?: ReactNode };
   minimized: boolean;
   onMinimizedChange: (minimized: boolean) => void;
   theme?: 'light' | 'dark';
@@ -96,8 +106,9 @@ export function Sidebar({
   profile,
   minimized,
   onMinimizedChange,
-  theme = 'light'
+  theme
 }: SidebarProps): JSX.Element {
+  const appearance = useDesignSystemAppearance();
   const [query, setQuery] = useState('');
   const search = useRef<HTMLInputElement>(null);
   const focusSearch = useRef(false);
@@ -107,6 +118,16 @@ export function Sidebar({
       focusSearch.current = false;
     }
   }, [minimized]);
+  const profileItem = (
+    <SidebarItem
+      label="Profile"
+      secondaryLabel={profile.name}
+      size="large"
+      minimized={minimized}
+      icon={<Avatar name={profile.name} src={profile.src} decorative />}
+      onClick={profile.onClick}
+    />
+  );
   const normalized = query.trim().toLowerCase();
   const filtered = sections
     .map((section) => ({
@@ -117,7 +138,8 @@ export function Sidebar({
   return (
     <aside
       data-idol-redesign
-      data-idol-theme={theme}
+      data-idol-theme={theme ?? appearance.theme}
+      data-idol-accent={appearance.accent}
       aria-label={label}
       className={`${styles.sidebar} ${minimized ? styles.minimized : ''}`}
     >
@@ -181,14 +203,19 @@ export function Sidebar({
         {footerItems.map(({ id: itemId, ...item }) => (
           <SidebarItem key={itemId} {...item} minimized={minimized} />
         ))}
-        <SidebarItem
-          label="Profile"
-          secondaryLabel={profile.name}
-          size="large"
-          minimized={minimized}
-          icon={<Avatar name={profile.name} src={profile.src} decorative />}
-          onClick={profile.onClick}
-        />
+        {profile.menu ? (
+          <Menu
+            trigger={profileItem}
+            origin="bottom-left"
+            matchTriggerWidth={!minimized}
+            side="top"
+            aria-label="Account menu"
+          >
+            {profile.menu}
+          </Menu>
+        ) : (
+          profileItem
+        )}
       </div>
     </aside>
   );

@@ -1,15 +1,18 @@
-import { ComponentType, createContext, ReactNode, useContext, useState } from 'react';
+import { ComponentType, createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useSelf } from '../components/Common/FirestoreDataProvider';
 
 const PREVIEW_SUBTEAM = 'idol';
+export const PREVIEW_STORAGE_KEY = 'idol:new-ui';
 
 type PreviewToggle = {
+  readonly ready: boolean;
   readonly canPreview: boolean;
   readonly enabled: boolean;
   readonly setEnabled: (enabled: boolean) => void;
 };
 
 const PreviewContext = createContext<PreviewToggle>({
+  ready: false,
   canPreview: false,
   enabled: false,
   setEnabled: () => {}
@@ -22,10 +25,27 @@ const PreviewContext = createContext<PreviewToggle>({
 export function PreviewProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const self = useSelf();
   const canPreview = self?.subteams.includes(PREVIEW_SUBTEAM) ?? false;
-  const [enabled, setEnabled] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [enabled, setEnabledState] = useState(false);
+  useEffect(() => {
+    try {
+      setEnabledState(window.localStorage.getItem(PREVIEW_STORAGE_KEY) === 'true');
+    } catch {
+      // The toggle still works when browser storage is unavailable.
+    }
+    setReady(true);
+  }, []);
+  const setEnabled = (value: boolean) => {
+    setEnabledState(value);
+    try {
+      window.localStorage.setItem(PREVIEW_STORAGE_KEY, String(value));
+    } catch {
+      // Keep the in-memory preference when storage is unavailable.
+    }
+  };
 
   return (
-    <PreviewContext.Provider value={{ canPreview, enabled, setEnabled }}>
+    <PreviewContext.Provider value={{ ready, canPreview, enabled, setEnabled }}>
       {children}
     </PreviewContext.Provider>
   );

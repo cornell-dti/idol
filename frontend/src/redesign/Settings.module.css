@@ -1,0 +1,228 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: min(800px, calc(100% - 64px));
+  margin: 64px auto;
+  color: var(--idol-fg-default);
+}
+.page h1 {
+  margin: 0;
+}
+.appearance {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.page .rowTitle {
+  margin: 0 0 22px;
+  font: var(--idol-type-heading-4);
+  flex-shrink: 0;
+}
+.row .themes,
+.row .accents {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.row .accents {
+  gap: 0;
+}
+.choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font: var(--idol-type-label-default);
+}
+.choice .optionRadio {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.thumbnail {
+  display: flex;
+  width: 136px;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+.choice:has([data-checked]) .thumbnail,
+.choice:has([data-checked]) .swatchRing {
+  border-color: var(--idol-accent-default);
+}
+.choice:has(.optionRadio:focus-visible) {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+.themePreview {
+  display: block;
+  width: 128px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.light {
+  --mini-bg: #f2f2f2;
+  --mini-panel: #fff;
+  --mini-fg: #171717;
+  --mini-stroke: #0000001a;
+}
+.dark {
+  --mini-bg: #121212;
+  --mini-panel: #1c1c1c;
+  --mini-fg: #f5f5f5;
+  --mini-stroke: #ffffff26;
+}
+.colorChoice {
+  width: 70px;
+}
+.swatchRing {
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: flex;
+}
+.swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--swatch-color);
+}
+.thumbnail,
+.swatchRing {
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease;
+}
+.choice:hover .thumbnail,
+.choice:hover .swatchRing {
+  background: var(--idol-bg-dimmer);
+}
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.page .hint {
+  margin: 0;
+  font: var(--idol-type-label-small);
+  color: var(--idol-fg-dimmer);
+}
+.page .name {
+  margin: 0 0 4px;
+  font: var(--idol-type-heading-4);
+}
+.page .email {
+  margin: 0;
+  font: var(--idol-type-label-default);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1100px) {
+  .row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .page .rowTitle {
+    margin: 0;
+  }
+}
+@media (max-width: 640px) {
+  .page {
+    width: calc(100% - 32px);
+    margin: 32px auto;
+    gap: 32px;
+  }
+  .row .themes {
+    gap: 16px;
+  }
+  .colorChoice {
+    width: 64px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thumbnail,
+  .swatchRing {
+    transition: none;
+  }
+}
+
+.swatch[data-color='black'] {
+  --swatch-color: #171717;
+}
+
+.swatch[data-color='blue'] {
+  --swatch-color: #006fff;
+}
+
+.swatch[data-color='purple'] {
+  --swatch-color: #a13699;
+}
+
+.swatch[data-color='pink'] {
+  --swatch-color: #ff3aa1;
+}
+
+.swatch[data-color='red'] {
+  --swatch-color: #f41935;
+}
+
+.swatch[data-color='orange'] {
+  --swatch-color: #ff7a00;
+}
+
+.swatch[data-color='yellow'] {
+  --swatch-color: #ffc400;
+}
+
+.swatch[data-color='green'] {
+  --swatch-color: #38bd2d;
+}
+
+.accountCards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.page .profileDescription {
+  margin: 0;
+  font: var(--idol-type-body-default);
+  color: var(--idol-fg-dimmer);
+}
+:global([data-idol-theme='dark']) .swatch[data-color='black'] {
+  --swatch-color: #f5f5f5;
+}
+@media (max-width: 640px) {
+  .accountCards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cardDetails {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+.accountCard .cardButton {
+  width: 100%;
+  margin-top: auto;
+  text-decoration: none;
+}
