@@ -91,6 +91,7 @@ export type SidebarProps = {
   label?: string;
   sections: readonly SidebarSection[];
   footerItems?: readonly SidebarEntry[];
+  footer?: ReactNode;
   profile: { name: string; src?: string; onClick?: () => void; menu?: ReactNode };
   minimized: boolean;
   onMinimizedChange: (minimized: boolean) => void;
@@ -103,6 +104,7 @@ export function Sidebar({
   label = 'IDOL navigation',
   sections,
   footerItems = [],
+  footer,
   profile,
   minimized,
   onMinimizedChange,
@@ -200,6 +202,7 @@ export function Sidebar({
         {!filtered.length && !minimized && <p className={styles.empty}>No matching pages.</p>}
       </nav>
       <div className={styles.footer}>
+        {footer}
         {footerItems.map(({ id: itemId, ...item }) => (
           <SidebarItem key={itemId} {...item} minimized={minimized} />
         ))}

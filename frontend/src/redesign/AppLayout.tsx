@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   AppShell,
@@ -14,12 +15,9 @@ import type { SidebarEntry } from '../design-system-2026/components/Sidebar/Side
 import {
   SignOutIcon,
   CalendarIcon,
-  ClipboardTextIcon,
-  GraduationCapIcon,
   GearIcon,
   QuestionIcon,
   UserIcon,
-  HouseIcon,
   ScalesIcon,
   UsersIcon
 } from '../design-system-2026/icons';
@@ -31,6 +29,11 @@ import { auth } from '../firebase';
 import { usePreviewToggle } from './preview';
 import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
 import getBreadcrumbs from './breadcrumbRoutes';
+import memberNavigation from './navigation';
+import Navigation from './Navigation/Navigation';
+import ProfileMenu from './Navigation/ProfileMenu';
+import useMobileNavigation from './Navigation/useMobileNavigation';
+import styles from './Navigation/Navigation.module.css';
 
 /** Navigation for the redesign, using the same routes and permissions as the released app. */
 export default function AppLayout({ children }: { readonly children: ReactNode }): JSX.Element {
@@ -38,6 +41,7 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
   const self = useSelf();
   const hasAdminPermission = useHasAdminPermission();
   const { enabled, setEnabled } = usePreviewToggle();
+  const mobile = useMobileNavigation();
   const [minimized, setMinimized] = useState(false);
   const [hasInstance, setHasInstance] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<string>();
@@ -59,14 +63,6 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
   }, [self?.netid]);
 
   useEffect(() => {
-    const compact = window.matchMedia('(max-width: 760px)');
-    const resize = () => setMinimized(compact.matches);
-    resize();
-    compact.addEventListener('change', resize);
-    return () => compact.removeEventListener('change', resize);
-  }, []);
-
-  useEffect(() => {
     let active = true;
     setHasInstance(false);
     if (self) {
@@ -83,13 +79,11 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
     id: href,
     href,
     label,
-    icon: <IconComponent size={16} aria-hidden="true" />,
+    icon: <IconComponent size={mobile ? 24 : 16} aria-hidden="true" />,
     selected: router.pathname === href || (href !== '/' && router.pathname.startsWith(`${href}/`))
   });
-  const items = [
-    entry('/', 'Home', HouseIcon),
-    entry('/forms', 'Forms', ClipboardTextIcon),
-    entry('/alumni', 'Alumni', GraduationCapIcon),
+  const items = memberNavigation(router.pathname, mobile ? 24 : 16);
+  const recruitmentItems = [
     ...(hasInstance ? [entry('/candidate-decider', 'Candidate Decider', ScalesIcon)] : []),
     entry('/interview-scheduler', 'Interview Scheduler', CalendarIcon)
   ];
@@ -99,6 +93,53 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
     router.asPath,
     breadcrumbTitle?.path === router.asPath ? breadcrumbTitle.label : undefined
   );
+
+  const profileName = self ? `${self.firstName} ${self.lastName}` : 'Profile';
+  const profileMenu = (
+    <>
+      <MenuItem icon={<UserIcon size={16} />} onClick={() => router.push('/forms/profile')}>
+        Profile
+      </MenuItem>
+      <MenuItem icon={<GearIcon size={16} />} onClick={() => router.push('/settings')}>
+        Settings
+      </MenuItem>
+      <MenuItem icon={<QuestionIcon size={16} />} onClick={() => router.push('/help')}>
+        Help
+      </MenuItem>
+      {mobile && <MenuItem onClick={() => setEnabled(!enabled)}>Switch to classic UI</MenuItem>}
+      <MenuSeparator />
+      <MenuItem variant="danger" icon={<SignOutIcon size={16} />} onClick={() => auth.signOut()}>
+        Sign Out
+      </MenuItem>
+    </>
+  );
+  let header =
+    router.pathname === '/' ? null : (
+      <>
+        <Breadcrumbs items={breadcrumbs} />
+        <LabelledSwitch label="Try new UI" checked={enabled} onCheckedChange={setEnabled} />
+      </>
+    );
+  if (mobile)
+    header = (
+      <>
+        <div className={styles.headerStart}>
+          {router.pathname === '/' ? (
+            <Link href="/">
+              <a href="/" className={styles.brand}>
+                <img src="/design-system/figma/idol-logo.png" alt="" width={32} height={32} />
+                <span>IDOL</span>
+              </a>
+            </Link>
+          ) : (
+            <Breadcrumbs items={breadcrumbs} />
+          )}
+        </div>
+        <ProfileMenu name={profileName} src={profilePhoto}>
+          {profileMenu}
+        </ProfileMenu>
+      </>
+    );
 
   return (
     <DesignSystemScope>
@@ -111,51 +152,51 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
         />
       </Head>
       <AppShell
+        flush={mobile}
+        animateNavigation={router.pathname === '/'}
+        pageKey={router.asPath.split(/[?#]/)[0]}
         sidebar={
-          <Sidebar
-            id="app-navigation"
-            minimized={minimized}
-            onMinimizedChange={setMinimized}
-            sections={[
-              { id: 'main', label: 'Main', items },
-              ...(adminItems.length ? [{ id: 'admin', label: 'Admin', items: adminItems }] : [])
-            ]}
-            profile={{
-              name: self ? `${self.firstName} ${self.lastName}` : 'Profile',
-              src: profilePhoto,
-              menu: (
-                <>
-                  <MenuItem
-                    icon={<UserIcon size={16} />}
-                    onClick={() => router.push('/forms/profile')}
-                  >
-                    Profile
-                  </MenuItem>
-                  <MenuItem icon={<GearIcon size={16} />} onClick={() => router.push('/settings')}>
-                    Settings
-                  </MenuItem>
-                  <MenuItem icon={<QuestionIcon size={16} />} onClick={() => router.push('/help')}>
-                    Help
-                  </MenuItem>
-                  <MenuSeparator />
-                  <MenuItem
-                    variant="danger"
-                    icon={<SignOutIcon size={16} />}
-                    onClick={() => auth.signOut()}
-                  >
-                    Sign Out
-                  </MenuItem>
-                </>
-              )
-            }}
-          />
+          !mobile && (
+            <Sidebar
+              id="app-navigation"
+              minimized={minimized}
+              onMinimizedChange={setMinimized}
+              sections={[
+                { id: 'main', label: 'Main', items },
+                ...(adminItems.length ? [{ id: 'admin', label: 'Admin', items: adminItems }] : []),
+                { id: 'recruitment', label: 'Recruitment', items: recruitmentItems }
+              ]}
+              footer={
+                router.pathname === '/' ? (
+                  <LabelledSwitch
+                    label={minimized ? 'New UI' : 'Try new UI'}
+                    checked={enabled}
+                    onCheckedChange={setEnabled}
+                  />
+                ) : undefined
+              }
+              profile={{ name: profileName, src: profilePhoto, menu: profileMenu }}
+            />
+          )
         }
-        header={
-          <>
-            <Breadcrumbs items={breadcrumbs} />
-            <LabelledSwitch label="Try new UI" checked={enabled} onCheckedChange={setEnabled} />
-          </>
+        navigation={
+          mobile && (
+            <Navigation
+              key={self?.email ?? 'anonymous'}
+              storageKey={self?.email ? `idol:navbar:${self.email}` : undefined}
+              pageKey={router.asPath.split(/[?#]/)[0]}
+              items={[
+                ...items,
+                ...adminItems,
+                ...recruitmentItems,
+                entry('/forms/profile', 'Edit Profile', UserIcon),
+                entry('/settings', 'Settings', GearIcon),
+                entry('/help', 'Help', QuestionIcon)
+              ]}
+            />
+          )
         }
+        header={header}
       >
         <BreadcrumbTitleContext.Provider value={setBreadcrumbTitle}>
           {children}

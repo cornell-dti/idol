@@ -47,3 +47,9 @@ export { CompassIcon } from '@phosphor-icons/react/dist/csr/Compass';
 export { BuildingsIcon } from '@phosphor-icons/react/dist/csr/Buildings';
 export { PaletteIcon } from '@phosphor-icons/react/dist/csr/Palette';
 export { PencilSimpleLineIcon } from '@phosphor-icons/react/dist/csr/PencilSimpleLine';
+
+export { CalendarStarIcon } from '@phosphor-icons/react/dist/csr/CalendarStar';
+export { GitBranchIcon } from '@phosphor-icons/react/dist/csr/GitBranch';
+export { DotsSixVerticalIcon } from '@phosphor-icons/react/dist/csr/DotsSixVertical';
+export { DotsThreeIcon } from '@phosphor-icons/react/dist/csr/DotsThree';
+export { ImageIcon } from '@phosphor-icons/react/dist/csr/Image';
