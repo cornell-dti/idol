@@ -28,6 +28,8 @@ const breadcrumbRoutes: Record<string, Route> = {
   '/interview-scheduler/[uuid]': { label: 'Schedule', parent: '/interview-scheduler' },
   '/settings': { label: 'Settings' },
   '/help': { label: 'Help' },
+  '/design-system-2026': { label: 'Design System' },
+  '/design-system-2026/shell': { label: 'App Shell', parent: '/design-system-2026' },
   '/admin': { label: 'Admin' },
   '/admin/member-review': { label: 'Member Information Review', parent: '/admin' },
   '/admin/site-deployer': { label: 'Site Deployer', parent: '/admin' },
@@ -48,6 +50,7 @@ const breadcrumbRoutes: Record<string, Route> = {
   '/admin/interview-scheduler': { label: 'Interview Scheduler', parent: '/admin' },
   '/admin/interview-status': { label: 'Interview Status', parent: '/admin' },
   '/admin/alumni-admin-view': { label: 'Alumni', parent: '/admin' },
+  '/admin/recruitment-timeline': { label: 'Recruitment Timeline', parent: '/admin' },
   '/admin/reimbursement': { label: 'Reimbursement', parent: '/admin' }
 };
 
