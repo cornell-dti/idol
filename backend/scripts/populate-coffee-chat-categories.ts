@@ -1,3 +1,9 @@
+/**
+ * This is a one-time migration script.
+ *
+ * Members submit coffee chat categories directly in IDOL now. Run this script only to import a past
+ * Google Form export (as a CSV). It is not part of the normal workflow.
+ */
 /* eslint-disable no-console */
 /// <reference types="common-types" />
 import admin from 'firebase-admin';
@@ -19,7 +25,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const memberPromise: Promise<IdolMember[]> = db
-  .collection('approved-members')
+  .collection('members')
   .get()
   .then((val) => val.docs.map((doc) => doc.data() as IdolMember));
 
@@ -28,77 +34,118 @@ const memberDetails = (mem: IdolMember): MemberDetails => ({
   netid: mem.netid
 });
 
-const getMembersByCategory = async (members: IdolMember[]) => {
-  const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
+/** Splits a CSV line without breaking commas that sit inside quotes. */
+const parseCsvLine = (line: string): string[] => {
+  const cells: string[] = [];
+  let current = '';
+  let inQuotes = false;
 
-  const csv = fs.readFileSync('./scripts/sp26-coffee-chat-bingo.csv').toString();
-  const rows = csv.split(/\r?\n/);
-
-  let responses = rows.splice(1);
-
-  const seenNetIds = new Set<string>();
-  responses = responses
-    .reverse()
-    .filter((response) => {
-      const netid = response.split(',')[2]?.trim().toLowerCase();
-      if (!netid || seenNetIds.has(netid)) {
-        return false;
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
       }
-      seenNetIds.add(netid);
-      return true;
-    })
-    .reverse();
+    } else if (char === ',' && !inQuotes) {
+      cells.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
 
-  const board = rows[0]
-    .split(',')
-    .slice(3)
-    .map((c) => c.trim());
-  const suggestions: CoffeeChatSuggestions = {};
+  cells.push(current);
+  return cells;
+};
 
-  const OFFSET = 3;
-  board.forEach((category, index) => {
-    suggestions[category] = responses
-      .filter((response) => {
-        const cells = response.split(',');
-        return cells[OFFSET + index]?.trim().toLowerCase() === 'yes';
-      })
-      .map((response) => {
-        const netid = response.split(',')[2]?.trim().toLowerCase();
-        return netid ? memberByNetID.get(netid) : undefined;
-      })
-      .filter((m): m is IdolMember => m !== undefined)
-      .map((m) => memberDetails(m));
+const getMembersByCategory = (members: IdolMember[]) => {
+  const memberByNetID = new Map(members.map((m) => [m.netid.trim().toLowerCase(), m] as const));
+  const csv = fs.readFileSync('./scripts/fa26-coffee-chat-bingo.csv').toString();
+  const rows = csv
+    .split(/\r?\n/)
+    .filter((row) => row.trim() !== '')
+    .map(parseCsvLine)
+    .slice(1);
+
+  // Google Forms appends new submissions, so the last row for a netid is the current one.
+  const latestResponse = new Map<string, string[]>();
+  rows.forEach((row) => {
+    const netid = row[2]?.trim().toLowerCase();
+    if (netid) latestResponse.set(netid, row);
   });
 
-  const alumniSnapshot = await db.collection('alumni').where('gradYear', '==', 2025).get();
-  const alumniMembers: MemberDetails[] = alumniSnapshot.docs.map((doc) => {
-    const alum = doc.data() as Alumni;
-    return { name: `${alum.firstName} ${alum.lastName}`, netid: alum.uuid };
-  });
-  const existingAlumNetIds = new Set(
-    (suggestions['a DTI alum'] ?? []).map((m) => m.netid.trim().toLowerCase())
-  );
-  suggestions['a DTI alum'] = [
-    ...(suggestions['a DTI alum'] ?? []),
-    ...alumniMembers.filter((m) => !existingAlumNetIds.has(m.netid.trim().toLowerCase()))
-  ];
+  const membersByCategory = new Map<string, MemberDetails[]>();
+  const skippedNetids: string[] = [];
 
-  return board.map(
-    (name, index): CoffeeChatCategory => ({ name, members: suggestions[name], index })
-  );
+  latestResponse.forEach((row, netid) => {
+    const member = memberByNetID.get(netid);
+    if (!member) {
+      skippedNetids.push(netid);
+      return;
+    }
+    const selected = (row[3] ?? '')
+      .split(',')
+      .map((category) => category.trim())
+      .filter((category) => category !== '');
+    selected.forEach((category) => {
+      const listed = membersByCategory.get(category) ?? [];
+      listed.push(memberDetails(member));
+      membersByCategory.set(category, listed);
+    });
+  });
+
+  return { membersByCategory, skippedNetids };
 };
 
 const main = async () => {
   const members = await memberPromise;
-  const categories = await getMembersByCategory(members);
+  const { membersByCategory, skippedNetids } = getMembersByCategory(members);
+  const snapshot = await db.collection('coffee-chat-categories').get();
+  let categories = snapshot.docs.map((doc) => doc.data() as CoffeeChatCategory);
+  const storedNames = new Set(categories.map((category) => category.name));
+  const responseNames = new Set(membersByCategory.keys());
+  const missingFromDatabase = [...responseNames].filter((name) => !storedNames.has(name));
+  const missingFromResponses = categories.filter((category) => !responseNames.has(category.name));
+
+  // The previous run stored the question text as category 0. Putting that card's real name back here.
+  if (missingFromDatabase.length === 1 && missingFromResponses.length === 1) {
+    const [restoredName] = missingFromDatabase;
+    const broken = missingFromResponses[0];
+    categories = categories.map((category) =>
+      category.index === broken.index ? { ...category, name: restoredName } : category
+    );
+    console.log(`Restoring category ${broken.index} to "${restoredName}".`);
+  } else if (missingFromDatabase.length > 0 || missingFromResponses.length > 0) {
+    throw new Error(
+      `Category names do not match the form. In the form only: ${missingFromDatabase.join(
+        '; '
+      )}. In the database only: ${missingFromResponses.map((category) => category.name).join('; ')}.`
+    );
+  }
 
   const batch = db.batch();
-  for (const category of categories) {
-    batch.set(db.collection('coffee-chat-categories').doc(String(category.index)), category);
-  }
+  categories.forEach((category) => {
+    const updated = { ...category, members: membersByCategory.get(category.name) ?? [] };
+    batch.set(db.collection('coffee-chat-categories').doc(String(category.index)), updated);
+    console.log(`${updated.index}. ${updated.name}: ${updated.members.length} members`);
+  });
   await batch.commit();
 
-  console.log(`Successfully uploaded ${categories.length} categories to coffee-chat-categories.`);
+  console.log(
+    `Updated ${categories.length} categories from ${latestCount(membersByCategory)} form responses.`
+  );
+  if (skippedNetids.length > 0) {
+    console.log(
+      `Skipped ${skippedNetids.length} netids with no member: ${skippedNetids.join(', ')}`
+    );
+  }
 };
+
+const latestCount = (membersByCategory: Map<string, MemberDetails[]>): number =>
+  new Set([...membersByCategory.values()].flatMap((listed) => listed.map((member) => member.netid)))
+    .size;
 
 main().catch(console.error);
