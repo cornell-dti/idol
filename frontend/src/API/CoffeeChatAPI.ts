@@ -22,9 +22,15 @@ export default class CoffeeChatAPI {
     return APIWrapper.get(`${backendURL}/coffee-chat`).then((res) => res.data.coffeeChats);
   }
 
-  public static async getCoffeeChatsByUser(user: IdolMember): Promise<CoffeeChat[]> {
+  public static async getCoffeeChatsByUser(
+    user: IdolMember,
+    options?: { throwOnError: boolean }
+  ): Promise<CoffeeChat[]> {
     const res = APIWrapper.get(`${backendURL}/coffee-chat/${user.email}`).then((res) => res.data);
     return res.then((val) => {
+      if (options?.throwOnError && (!val || val.error || !Array.isArray(val.coffeeChats))) {
+        throw new Error(val?.error || 'Could not load coffee chats.');
+      }
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all coffee chats for this user",

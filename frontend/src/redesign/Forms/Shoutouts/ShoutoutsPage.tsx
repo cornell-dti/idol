@@ -21,6 +21,7 @@ import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import ShoutoutForm from './ShoutoutForm';
 import ShoutoutCard from './ShoutoutCard';
 import styles from './Shoutouts.module.css';
+import receivedShoutouts from './receivedShoutouts';
 
 type View = 'given' | 'received';
 
@@ -52,15 +53,7 @@ export default function ShoutoutsPage(): JSX.Element {
       ]);
       if (request.current !== version) return;
       setGiven(sent);
-      // Preserve IDOL's existing name/tag matching for received shoutouts.
-      const names = [firstName, lastName, `${firstName} ${lastName}`].filter(Boolean);
-      setReceived(
-        all.filter((shoutout) =>
-          [shoutout.receiver, ...(shoutout.tags ?? [])].some((text) =>
-            names.some((name) => text.toLowerCase().includes(name))
-          )
-        )
-      );
+      setReceived(receivedShoutouts(all, firstName, lastName));
     } catch {
       if (request.current === version) setError('Couldn’t load your shoutouts. Please try again.');
     } finally {
