@@ -39,7 +39,11 @@ const dayParts = new Intl.DateTimeFormat('en-US', {
   month: '2-digit',
   day: '2-digit'
 });
-const displayDate = new Intl.DateTimeFormat('en-US', { timeZone, dateStyle: 'medium' });
+const displayDate = new Intl.DateTimeFormat('en-US', {
+  timeZone,
+  dateStyle: 'long',
+  timeStyle: 'short'
+});
 
 function calendarDay(timestamp: number): string {
   const parts = dayParts.formatToParts(timestamp);
@@ -120,36 +124,63 @@ function ShoutoutCard({
   const from = item.isAnon
     ? 'Anonymous'
     : `${item.giver?.firstName ?? ''} ${item.giver?.lastName ?? ''}`.trim() || 'Unknown member';
+  const attachment = item.images?.[0] && (
+    <Attachment
+      key={item.images[0]}
+      path={item.images[0]}
+      recipient={item.receiver}
+      cache={imageCache}
+    />
+  );
+
+  if (present) {
+    return (
+      <Card className={styles.card}>
+        <article className={styles.cardContent}>
+          <span className={styles.number}>{index + 1}</span>
+          <h2>{item.receiver}</h2>
+          <p className={styles.message}>{item.message}</p>
+          <p className={styles.meta}>– {from}</p>
+          {attachment}
+        </article>
+      </Card>
+    );
+  }
+
   return (
-    <Card className={styles.card}>
-      <article className={styles.cardContent}>
-        <span className={styles.number}>{index + 1}</span>
-        <h2>{item.receiver}</h2>
-        <p className={styles.message}>{item.message}</p>
-        <p className={styles.meta}>– {from}</p>
-        {item.images?.[0] && (
-          <Attachment
-            key={item.images[0]}
-            path={item.images[0]}
-            recipient={item.receiver}
-            cache={imageCache}
+    <Card
+      header={
+        <time dateTime={new Date(item.timestamp).toISOString()}>
+          {displayDate.format(item.timestamp)}
+        </time>
+      }
+      action={
+        <div className={styles.cardActions}>
+          {item.hidden && <Pill>Hidden</Pill>}
+          <IconButton
+            variant="tertiary"
+            aria-label={`${item.hidden ? 'Unhide' : 'Hide'} shoutout for ${item.receiver}`}
+            icon={item.hidden ? <EyeIcon size={16} /> : <EyeSlashIcon size={16} />}
+            onClick={() => onModerate(item)}
           />
-        )}
-        {!present && (
-          <div className={styles.cardActions}>
-            {item.hidden && <Pill>Hidden</Pill>}
-            <time className={styles.meta} dateTime={new Date(item.timestamp).toISOString()}>
-              {displayDate.format(item.timestamp)}
-            </time>
-            <IconButton
-              variant="tertiary"
-              aria-label={`${item.hidden ? 'Unhide' : 'Hide'} shoutout for ${item.receiver}`}
-              icon={item.hidden ? <EyeIcon size={16} /> : <EyeSlashIcon size={16} />}
-              onClick={() => onModerate(item)}
-            />
-          </div>
-        )}
-      </article>
+        </div>
+      }
+    >
+      <dl className={styles.participants}>
+        <div>
+          <dt>To:</dt>
+          <dd>{item.receiver}</dd>
+        </div>
+        <div>
+          <dt>From:</dt>
+          <dd>{from}</dd>
+        </div>
+      </dl>
+      <div className={styles.listMessage}>
+        <h2>Shoutout</h2>
+        <p>{item.message}</p>
+      </div>
+      {attachment}
     </Card>
   );
 }
@@ -312,7 +343,7 @@ export function AdminShoutoutsView({
           </header>
           <TabRoot value={view} onValueChange={(next) => setView(next as View)}>
             <div className={styles.toolbar}>
-              <TabList aria-label="Shoutout visibility" activateOnFocus>
+              <TabList aria-label="Shoutout visibility" segmented activateOnFocus>
                 {tabs.map((tab) => (
                   <Tab key={tab.value} value={tab.value} icon={<tab.icon size={16} />}>
                     {tab.label}

@@ -9,9 +9,8 @@
 
 .heading {
   display: grid;
-  justify-items: center;
   gap: 16px;
-  text-align: center;
+  text-align: left;
 }
 
 .heading h1 {
@@ -93,6 +92,34 @@
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.participants,
+.listMessage {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.participants {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+.participants dt,
+.listMessage h2 {
+  margin: 0 0 6px;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+}
+
+.participants dd,
+.listMessage p {
+  margin: 0;
+}
+
+.listMessage p {
+  white-space: pre-wrap;
 }
 
 .number {
