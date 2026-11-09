@@ -101,7 +101,7 @@ export default function ShoutoutsPage(): JSX.Element {
       .sort((a, b) => b.timestamp - a.timestamp);
     if (loading)
       return (
-        <div className={styles.skeletonGrid} role="status" aria-label="Loading shoutouts">
+        <div className={styles.skeletonList} role="status" aria-label="Loading shoutouts">
           {[0, 1, 2, 3].map((key) => (
             <div key={key} className={styles.skeleton} />
           ))}
@@ -137,18 +137,20 @@ export default function ShoutoutsPage(): JSX.Element {
         </Card>
       );
     return (
-      <div className={styles.cards}>
+      // eslint-disable-next-line jsx-a11y/no-redundant-roles -- Safari needs this when list markers are hidden.
+      <ul className={styles.historyList} role="list">
         {matches.map((shoutout) => (
-          <ShoutoutCard
-            key={shoutout.uuid}
-            shoutout={shoutout}
-            own={shoutout.giver?.email === email}
-            canManage={isAdmin || shoutout.giver?.email === email}
-            onUpdate={update}
-            onDelete={remove}
-          />
+          <li key={shoutout.uuid}>
+            <ShoutoutCard
+              shoutout={shoutout}
+              own={shoutout.giver?.email === email}
+              canManage={isAdmin || shoutout.giver?.email === email}
+              onUpdate={update}
+              onDelete={remove}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     );
   };
 
