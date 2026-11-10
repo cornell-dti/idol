@@ -15,12 +15,6 @@ const shortcutDefinitions = [
     href: '/forms/teamEventCredits'
   },
   {
-    id: 'profile',
-    label: 'Edit Profile',
-    description: 'Edit your profile on DTI’s website.',
-    href: '/forms/profile'
-  },
-  {
     id: 'coffee',
     label: 'Coffee Chats',
     description: 'Submit your coffee chats.',
@@ -37,6 +31,12 @@ const shortcutDefinitions = [
     label: 'Alumni',
     description: 'Stay connected with DTI alumni.',
     href: '/alumni'
+  },
+  {
+    id: 'profile',
+    label: 'Edit Profile',
+    description: 'Edit your profile on DTI’s website.',
+    href: '/forms/profile'
   }
 ] as const;
 
@@ -46,7 +46,7 @@ export const shortcuts = shortcutDefinitions.map((shortcut) => ({
 }));
 
 export type ShortcutId = (typeof shortcuts)[number]['id'];
-export const defaultShortcuts: ShortcutId[] = ['shoutouts', 'tec', 'profile', 'coffee'];
+export const defaultShortcuts = shortcuts.map(({ id }) => id);
 
 /** An empty selection is intentional; corrupt/old browser storage falls back to defaults. */
 export function parseShortcuts(value: string | null): ShortcutId[] {
