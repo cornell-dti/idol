@@ -99,11 +99,8 @@ export default function HomeSearch({
     : undefined;
   const recent = recentSearchPages(recentPages, canAdmin);
   const idleLabel = recent.length ? 'Recent pages' : 'Common actions';
-  const items = hasQuery
-    ? searchPages(query, canAdmin, recent)
-    : recent.length
-    ? recent
-    : commonActions;
+  const idleItems = recent.length ? recent : commonActions;
+  const items = hasQuery ? searchPages(query, canAdmin, recent) : idleItems;
   const shortcut = (
     <span className={styles.shortcut} aria-hidden="true">
       <kbd>{modifier}</kbd>

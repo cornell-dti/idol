@@ -75,7 +75,8 @@ export function AppearanceProvider({
       /* The current session can still use the selected appearance. */
     }
   };
-  const preferredTheme = theme === 'auto' ? (deviceDark ? 'dark' : 'light') : theme;
+  const deviceTheme = deviceDark ? 'dark' : 'light';
+  const preferredTheme = theme === 'auto' ? deviceTheme : theme;
   return (
     <AppearanceContext.Provider
       value={{

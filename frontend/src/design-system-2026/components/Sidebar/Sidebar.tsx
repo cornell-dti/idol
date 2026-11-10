@@ -181,34 +181,33 @@ export function Sidebar({
             onClick={() => onMinimizedChange(!minimized)}
           />
         </div>
-        {searchControl ? (
-          searchControl
-        ) : minimized ? (
-          <IconButton
-            variant="secondary"
-            disabled={loading}
-            aria-label="Search navigation"
-            icon={<MagnifyingGlassIcon size={16} aria-hidden="true" />}
-            className={styles.searchButton}
-            onClick={() => {
-              focusSearch.current = true;
-              onMinimizedChange(false);
-            }}
-          />
-        ) : (
-          <Input
-            ref={search}
-            disabled={loading}
-            id={`${id}-search`}
-            type="search"
-            aria-label="Search navigation"
-            placeholder="Search"
-            shape="pill"
-            icon={<MagnifyingGlassIcon size={16} aria-hidden="true" />}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        )}
+        {searchControl ||
+          (minimized ? (
+            <IconButton
+              variant="secondary"
+              disabled={loading}
+              aria-label="Search navigation"
+              icon={<MagnifyingGlassIcon size={16} aria-hidden="true" />}
+              className={styles.searchButton}
+              onClick={() => {
+                focusSearch.current = true;
+                onMinimizedChange(false);
+              }}
+            />
+          ) : (
+            <Input
+              ref={search}
+              disabled={loading}
+              id={`${id}-search`}
+              type="search"
+              aria-label="Search navigation"
+              placeholder="Search"
+              shape="pill"
+              icon={<MagnifyingGlassIcon size={16} aria-hidden="true" />}
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          ))}
       </div>
       <nav
         id={`${id}-navigation`}

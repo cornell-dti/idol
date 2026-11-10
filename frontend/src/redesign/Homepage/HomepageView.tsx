@@ -95,6 +95,35 @@ function SummaryCard({
   state: SummaryState;
   onRetry: () => void;
 }): JSX.Element {
+  let content: JSX.Element;
+  if (state.error) {
+    content = (
+      <div className={styles.error}>
+        <p role="alert">{state.error}</p>
+        <Button variant="secondary" onClick={onRetry}>
+          Try again
+        </Button>
+      </div>
+    );
+  } else if (state.metrics) {
+    content = (
+      <dl className={styles.metrics}>
+        {state.metrics.map((metric) => (
+          <div key={metric.label}>
+            <dd>{metric.value}</dd>
+            <dt>{metric.label}</dt>
+          </div>
+        ))}
+      </dl>
+    );
+  } else {
+    content = (
+      <div role="status" aria-label={`Loading ${title}`}>
+        <MetricsSkeleton count={metricCount} />
+      </div>
+    );
+  }
+
   return (
     <Card
       header={title}
@@ -107,27 +136,7 @@ function SummaryCard({
         </Link>
       }
     >
-      {state.error ? (
-        <div className={styles.error}>
-          <p role="alert">{state.error}</p>
-          <Button variant="secondary" onClick={onRetry}>
-            Try again
-          </Button>
-        </div>
-      ) : state.metrics ? (
-        <dl className={styles.metrics}>
-          {state.metrics.map((metric) => (
-            <div key={metric.label}>
-              <dd>{metric.value}</dd>
-              <dt>{metric.label}</dt>
-            </div>
-          ))}
-        </dl>
-      ) : (
-        <div role="status" aria-label={`Loading ${title}`}>
-          <MetricsSkeleton count={metricCount} />
-        </div>
-      )}
+      {content}
     </Card>
   );
 }
