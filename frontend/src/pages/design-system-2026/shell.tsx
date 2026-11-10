@@ -25,6 +25,7 @@ import {
   UsersIcon
 } from '../../design-system-2026/icons';
 import type { Icon } from '../../design-system-2026/icons';
+import HomeSearch from '../../redesign/Homepage/HomeSearch';
 import styles from '../../design-system-2026/ShellPreview.module.css';
 
 const mainEntries: [string, Icon][] = [
@@ -91,6 +92,7 @@ export default function ShellPreview(): JSX.Element {
             label="IDOL navigation"
             minimized={minimized}
             onMinimizedChange={setMinimized}
+            searchControl={<HomeSearch placement="sidebar" compact={minimized} />}
             sections={[
               { id: 'main', label: 'Main', items: entries(mainEntries) },
               { id: 'admin', label: 'Admin', items: entries(adminEntries) }

@@ -3,13 +3,16 @@ import type { Breadcrumb } from '../design-system-2026/components/Breadcrumbs/Br
 type Route = { label: string; parent?: string };
 
 /** Navigation hierarchy is explicit because several detail URLs are siblings of their list. */
-const breadcrumbRoutes: Record<string, Route> = {
+export const breadcrumbRoutes: Record<string, Route> = {
   '/': { label: 'Home' },
   '/forms': { label: 'Forms' },
   '/forms/signin': { label: 'Sign-In', parent: '/forms' },
   '/forms/profile': { label: 'Profile', parent: '/forms' },
   '/forms/shoutouts': { label: 'Shoutouts', parent: '/forms' },
-  '/forms/teamEventCredits': { label: 'Team Event Credits', parent: '/forms' },
+  '/forms/teamEventCredits': {
+    label: 'Team Event Credits',
+    parent: '/forms'
+  },
   '/forms/devPortfolio': { label: 'Dev Portfolio', parent: '/forms' },
   '/forms/dev-portfolio-submissions/[uuid]': {
     label: 'Portfolio',
@@ -47,6 +50,7 @@ const breadcrumbRoutes: Record<string, Route> = {
   '/admin/coffee-chat-details/[id]': { label: 'Category', parent: '/admin/coffee-chats' },
   '/admin/interview-scheduler': { label: 'Interview Scheduler', parent: '/admin' },
   '/admin/interview-status': { label: 'Interview Status', parent: '/admin' },
+  '/admin/recruitment-timeline': { label: 'Recruitment Timeline', parent: '/admin' },
   '/admin/alumni-admin-view': { label: 'Alumni', parent: '/admin' },
   '/admin/reimbursement': { label: 'Reimbursement', parent: '/admin' }
 };

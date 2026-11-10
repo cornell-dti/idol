@@ -9,6 +9,7 @@ import {
   ToastProvider
 } from '../../design-system-2026/components';
 import HomepageView from '../../redesign/Homepage/HomepageView';
+import HomeSearch from '../../redesign/Homepage/HomeSearch';
 import memberNavigation from '../../redesign/navigation';
 import Navigation from '../../redesign/Navigation/Navigation';
 import ProfileMenu from '../../redesign/Navigation/ProfileMenu';
@@ -45,6 +46,9 @@ export default function HomepagePreview({ animateHome }: { animateHome?: boolean
                 id="homepage-preview-navigation"
                 minimized={minimized}
                 onMinimizedChange={setMinimized}
+                searchControl={
+                  <HomeSearch placement="sidebar" compact={minimized} keyboardShortcut={false} />
+                }
                 sections={[{ id: 'main', label: 'Main', items: memberNavigation('/') }]}
                 profile={{
                   name: 'Clément Rozé',

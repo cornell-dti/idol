@@ -97,6 +97,7 @@ export type SidebarProps = {
   sections: readonly SidebarSection[];
   footerItems?: readonly SidebarEntry[];
   footer?: ReactNode;
+  searchControl?: ReactNode;
   loading?: boolean;
   profile: { name: string; src?: string; onClick?: () => void; menu?: ReactNode };
   minimized: boolean;
@@ -111,6 +112,7 @@ export function Sidebar({
   sections,
   footerItems = [],
   footer,
+  searchControl,
   loading = false,
   profile,
   minimized,
@@ -179,7 +181,9 @@ export function Sidebar({
             onClick={() => onMinimizedChange(!minimized)}
           />
         </div>
-        {minimized ? (
+        {searchControl ? (
+          searchControl
+        ) : minimized ? (
           <IconButton
             variant="secondary"
             disabled={loading}

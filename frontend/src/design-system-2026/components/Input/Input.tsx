@@ -10,6 +10,7 @@ export type InputProps = Omit<BaseInput.Props, 'size' | 'className'> &
     shape?: 'default' | 'pill';
     icon?: ReactNode;
     prefix?: string;
+    endAdornment?: ReactNode;
   };
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -24,6 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       shape = 'default',
       icon,
       prefix,
+      endAdornment,
       className = '',
       ...props
     },
@@ -60,6 +62,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           className={`${styles.input} ${className}`}
         />
+        {endAdornment}
       </label>
     </FieldShell>
   )

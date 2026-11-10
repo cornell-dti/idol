@@ -31,7 +31,9 @@ import { readPreviewPreference, usePreviewToggle } from './preview';
 import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
 import getBreadcrumbs from './breadcrumbRoutes';
 import memberNavigation from './navigation';
+import HomeSearch from './Homepage/HomeSearch';
 import { HomepageSkeleton } from './Homepage/HomepageView';
+import { rememberPage } from './Homepage/recentPages';
 import Navigation from './Navigation/Navigation';
 import ProfileMenu from './Navigation/ProfileMenu';
 import useMobileNavigation from './Navigation/useMobileNavigation';
@@ -116,8 +118,18 @@ export default function AppLayout({
   const [profilePhoto, setProfilePhoto] = useState<string>();
   const [breadcrumbTitle, setBreadcrumbTitle] = useState<BreadcrumbTitle>();
   const pagePath = router.asPath.split(/[?#]/)[0];
-  const { pathname } = router;
+  const email = self?.email;
+  const { isReady, pathname } = router;
   const detailLabel = breadcrumbTitle?.path === router.asPath ? breadcrumbTitle.label : undefined;
+
+  useEffect(() => {
+    if (!isReady || !email || pagePath === '/') return;
+    if (pathname.startsWith('/admin') && !hasAdminPermission) return;
+    const crumbs = getBreadcrumbs(pathname, pagePath, detailLabel);
+    const label = crumbs[crumbs.length - 1].label;
+    if (typeof label === 'string' && label !== 'Page')
+      rememberPage(email, { href: pagePath, label });
+  }, [detailLabel, email, hasAdminPermission, isReady, pagePath, pathname]);
 
   useEffect(() => {
     let active = true;
@@ -200,9 +212,12 @@ export default function AppLayout({
             <Breadcrumbs items={breadcrumbs} />
           )}
         </div>
-        <ProfileMenu name={profileName} src={profilePhoto}>
-          {profileMenu}
-        </ProfileMenu>
+        <div className={styles.headerActions}>
+          {pathname !== '/' && <HomeSearch pageKey={pagePath} placement="header" compact />}
+          <ProfileMenu name={profileName} src={profilePhoto}>
+            {profileMenu}
+          </ProfileMenu>
+        </div>
       </>
     );
 
@@ -228,6 +243,15 @@ export default function AppLayout({
               minimized={minimized}
               onMinimizedChange={setMinimized}
               sections={sections}
+              searchControl={
+                <HomeSearch
+                  pageKey={pagePath}
+                  placement="sidebar"
+                  compact={minimized}
+                  keyboardShortcut={pathname !== '/'}
+                  disabled={sidebarLoading}
+                />
+              }
               footer={
                 router.pathname === '/' ? (
                   <LabelledSwitch
