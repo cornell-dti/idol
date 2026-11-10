@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { auth } from '../firebase';
 import { getUserIdToken } from '../components/Common/UserProvider/UserProvider';
 
@@ -20,10 +20,10 @@ export default class APIWrapper {
       .then((resOrErr) => this.responseMiddleware(resOrErr));
   }
 
-  public static async get(url: string, config?: AxiosRequestConfig): Promise<APIProcessedResponse> {
+  public static async get(url: string): Promise<APIProcessedResponse> {
     const idToken = await getUserIDTokenNonNull();
     return axios
-      .get(url, { ...config, headers: { ...config?.headers, 'auth-token': idToken } })
+      .get(url, { headers: { 'auth-token': idToken } })
       .catch((err: AxiosError) => err)
       .then((resOrErr) => this.responseMiddleware(resOrErr));
   }

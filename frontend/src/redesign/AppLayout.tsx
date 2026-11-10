@@ -87,7 +87,7 @@ export function AppLayoutLoading(): JSX.Element {
               loading
               minimized={false}
               onMinimizedChange={() => {}}
-              sections={navigationSections(pathname, 16, false, true)}
+              sections={navigationSections(pathname, 16, false, false)}
               footer={home && <LabelledSwitch label="Try new UI" disabled />}
               profile={{ name: 'Member name' }}
             />
@@ -149,7 +149,7 @@ export default function AppLayout({
   useEffect(() => {
     if (!self) return undefined;
     let active = true;
-    CandidateDeciderAPI.hasCandidateDeciderInstance(8000)
+    CandidateDeciderAPI.hasCandidateDeciderInstance()
       .catch(() => false)
       .then((allowed) => {
         if (active) setCandidateAccess({ email: self.email, allowed });
@@ -159,16 +159,10 @@ export default function AppLayout({
     };
   }, [self]);
 
-  const sidebarLoading = Boolean(self && candidateAccess?.email !== self.email);
-  const hasInstance = candidateAccess?.email === self?.email && candidateAccess?.allowed === true;
+  const hasInstance = candidateAccess?.email === email && candidateAccess?.allowed === true;
   const size = mobile ? 24 : 16;
   const entry = navigationEntry(router.pathname, size);
-  const sections = navigationSections(
-    router.pathname,
-    size,
-    hasAdminPermission,
-    hasInstance || (!mobile && sidebarLoading)
-  );
+  const sections = navigationSections(pathname, size, hasAdminPermission, hasInstance);
   const breadcrumbs = getBreadcrumbs(pathname, router.asPath, detailLabel);
 
   const profileName = self ? `${self.firstName} ${self.lastName}` : 'Profile';
@@ -239,7 +233,6 @@ export default function AppLayout({
           !mobile && (
             <Sidebar
               id="app-navigation"
-              loading={sidebarLoading}
               minimized={minimized}
               onMinimizedChange={setMinimized}
               sections={sections}
@@ -249,7 +242,6 @@ export default function AppLayout({
                   placement="sidebar"
                   compact={minimized}
                   keyboardShortcut={pathname !== '/'}
-                  disabled={sidebarLoading}
                 />
               }
               footer={
@@ -257,7 +249,6 @@ export default function AppLayout({
                   <LabelledSwitch
                     label={minimized ? 'New UI' : 'Try new UI'}
                     checked={enabled}
-                    disabled={sidebarLoading}
                     onCheckedChange={setEnabled}
                   />
                 ) : undefined

@@ -34,13 +34,11 @@ export default function HomeSearch({
   placement = 'home',
   compact = false,
   keyboardShortcut = true,
-  disabled = false,
   pageKey
 }: {
   placement?: 'home' | 'sidebar' | 'header';
   compact?: boolean;
   keyboardShortcut?: boolean;
-  disabled?: boolean;
   pageKey?: string;
 }): JSX.Element {
   const router = useRouter();
@@ -69,7 +67,7 @@ export default function HomeSearch({
   }, []);
 
   useEffect(() => {
-    if (!keyboardShortcut || disabled) return undefined;
+    if (!keyboardShortcut) return undefined;
     const onKeyDown = (event: KeyboardEvent) => {
       if (
         event.defaultPrevented ||
@@ -92,7 +90,7 @@ export default function HomeSearch({
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [disabled, keyboardShortcut, showSearch]);
+  }, [keyboardShortcut, showSearch]);
   const search = normalizeSearch(query);
   const hasQuery = Boolean(query.trim());
   const words = search ? search.split(' ') : [];
@@ -153,7 +151,6 @@ export default function HomeSearch({
   return (
     <Combobox.Root<SearchPage>
       items={items}
-      disabled={disabled}
       value={null}
       inputValue={query}
       onInputValueChange={(value, details) => {

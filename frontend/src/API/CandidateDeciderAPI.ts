@@ -7,8 +7,8 @@ export default class CandidateDeciderAPI {
     return response.then((val) => val.data.instances);
   }
 
-  static async hasCandidateDeciderInstance(timeout?: number): Promise<boolean> {
-    const response = await APIWrapper.get(`${backendURL}/candidate-decider-instance/`, { timeout });
+  static async hasCandidateDeciderInstance(): Promise<boolean> {
+    const response = await APIWrapper.get(`${backendURL}/candidate-decider-instance/`);
     return response.data?.hasInstance === true;
   }
 
