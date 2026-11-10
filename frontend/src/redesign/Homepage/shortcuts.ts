@@ -70,9 +70,10 @@ export function moveShortcut(items: ShortcutId[], id: ShortcutId, target: number
   return result;
 }
 
-/** Convert a visible boundary between rows into an index after removing the grabbed row. */
+/** Insert a shortcut at the visible boundary, accounting for its original row if present. */
 export function dropShortcut(items: ShortcutId[], id: ShortcutId, slot: number): ShortcutId[] {
+  if (slot < 0 || slot > items.length) return items;
   const index = items.indexOf(id);
-  if (index < 0 || slot < 0 || slot > items.length) return items;
-  return moveShortcut(items, id, slot > index ? slot - 1 : slot);
+  if (index >= 0) return moveShortcut(items, id, slot > index ? slot - 1 : slot);
+  return [...items.slice(0, slot), id, ...items.slice(slot)];
 }
