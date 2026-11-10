@@ -1,56 +1,49 @@
-import {
-  MegaphoneIcon,
-  CalendarStarIcon,
-  PencilSimpleLineIcon,
-  CoffeeIcon,
-  GitBranchIcon,
-  GraduationCapIcon
-} from '../../design-system-2026/icons';
+import { ClipboardTextIcon } from '../../design-system-2026/icons';
+import { breadcrumbRoutes } from '../breadcrumbRoutes';
 
-export const shortcuts = [
+const shortcutDefinitions = [
   {
     id: 'shoutouts',
     label: 'Shoutouts',
     description: 'Give someone a shoutout or view your past.',
-    href: '/forms/shoutouts',
-    icon: MegaphoneIcon
+    href: '/forms/shoutouts'
   },
   {
     id: 'tec',
     label: 'Team Event Credits',
     description: 'Track your team event credits.',
-    href: '/forms/teamEventCredits',
-    icon: CalendarStarIcon
+    href: '/forms/teamEventCredits'
   },
   {
     id: 'profile',
     label: 'Edit Profile',
     description: 'Edit your profile on DTI’s website.',
-    href: '/forms/profile',
-    icon: PencilSimpleLineIcon
+    href: '/forms/profile'
   },
   {
     id: 'coffee',
     label: 'Coffee Chats',
     description: 'Submit your coffee chats.',
-    href: '/forms/coffeeChats',
-    icon: CoffeeIcon
+    href: '/forms/coffeeChats'
   },
   {
     id: 'portfolio',
     label: 'Dev Portfolio Assignments',
     description: 'Submit opened and reviewed pull requests.',
-    href: '/forms/devPortfolio',
-    icon: GitBranchIcon
+    href: '/forms/devPortfolio'
   },
   {
     id: 'alumni',
     label: 'Alumni',
     description: 'Stay connected with DTI alumni.',
-    href: '/alumni',
-    icon: GraduationCapIcon
+    href: '/alumni'
   }
 ] as const;
+
+export const shortcuts = shortcutDefinitions.map((shortcut) => ({
+  ...shortcut,
+  icon: breadcrumbRoutes[shortcut.href].icon ?? ClipboardTextIcon
+}));
 
 export type ShortcutId = (typeof shortcuts)[number]['id'];
 export const defaultShortcuts: ShortcutId[] = ['shoutouts', 'tec', 'profile', 'coffee'];

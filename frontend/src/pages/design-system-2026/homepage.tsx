@@ -10,23 +10,18 @@ import {
 } from '../../design-system-2026/components';
 import HomepageView from '../../redesign/Homepage/HomepageView';
 import HomeSearch from '../../redesign/Homepage/HomeSearch';
-import memberNavigation from '../../redesign/navigation';
+import memberNavigation, { navigationEntry } from '../../redesign/navigation';
 import Navigation from '../../redesign/Navigation/Navigation';
 import ProfileMenu from '../../redesign/Navigation/ProfileMenu';
 import useMobileNavigation from '../../redesign/Navigation/useMobileNavigation';
-import {
-  CalendarIcon,
-  GearIcon,
-  QuestionIcon,
-  UserIcon,
-  UsersIcon
-} from '../../design-system-2026/icons';
 import styles from '../../redesign/Navigation/Navigation.module.css';
 
 /** Isolated, development-only visual fixture. It never requests or writes member data. */
 export default function HomepagePreview({ animateHome }: { animateHome?: boolean }): JSX.Element {
   const mobile = useMobileNavigation();
   const [minimized, setMinimized] = useState(false);
+  const entry = navigationEntry('/', 24);
+  const profileEntry = navigationEntry('/', 16);
   return (
     <DesignSystemScope>
       <ToastProvider>
@@ -72,9 +67,14 @@ export default function HomepagePreview({ animateHome }: { animateHome?: boolean
                   <span>IDOL</span>
                 </a>
                 <ProfileMenu name="Clément Rozé" src="/design-system/figma/profile-clement.png">
-                  <MenuItem icon={<UserIcon size={16} />}>Profile</MenuItem>
-                  <MenuItem icon={<GearIcon size={16} />}>Settings</MenuItem>
-                  <MenuItem icon={<QuestionIcon size={16} />}>Help</MenuItem>
+                  {['/forms/profile', '/settings', '/help'].map((href) => {
+                    const { label, icon } = profileEntry(href);
+                    return (
+                      <MenuItem key={href} icon={icon}>
+                        {label}
+                      </MenuItem>
+                    );
+                  })}
                 </ProfileMenu>
               </>
             ) : null
@@ -86,26 +86,11 @@ export default function HomepagePreview({ animateHome }: { animateHome?: boolean
                 storageKey="idol:navbar:design-preview"
                 items={[
                   ...memberNavigation('/', 24),
-                  { id: '/admin', href: '/admin', label: 'Admin', icon: <UsersIcon size={24} /> },
-                  {
-                    id: '/interview-scheduler',
-                    href: '/interview-scheduler',
-                    label: 'Interview Scheduler',
-                    icon: <CalendarIcon size={24} />
-                  },
-                  {
-                    id: '/forms/profile',
-                    href: '/forms/profile',
-                    label: 'Edit Profile',
-                    icon: <UserIcon size={24} />
-                  },
-                  {
-                    id: '/settings',
-                    href: '/settings',
-                    label: 'Settings',
-                    icon: <GearIcon size={24} />
-                  },
-                  { id: '/help', href: '/help', label: 'Help', icon: <QuestionIcon size={24} /> }
+                  entry('/admin'),
+                  entry('/interview-scheduler'),
+                  entry('/forms/profile', 'Edit Profile'),
+                  entry('/settings'),
+                  entry('/help')
                 ]}
               />
             )
