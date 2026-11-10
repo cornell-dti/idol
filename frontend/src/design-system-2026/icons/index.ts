@@ -13,6 +13,7 @@ export { CheckIcon } from '@phosphor-icons/react/dist/csr/Check';
 export { XIcon } from '@phosphor-icons/react/dist/csr/X';
 export type { Icon, IconProps, IconWeight } from '@phosphor-icons/react';
 export { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight';
+export { ArrowsVerticalIcon } from '@phosphor-icons/react/dist/csr/ArrowsVertical';
 export { CaretDownIcon } from '@phosphor-icons/react/dist/csr/CaretDown';
 export { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 export { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';

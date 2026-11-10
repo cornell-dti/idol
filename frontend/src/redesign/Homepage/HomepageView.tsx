@@ -4,14 +4,7 @@ import Link from 'next/link';
 import { Button, Card, DottedBackground, useToast } from '../../design-system-2026/components';
 import { ArrowRightIcon } from '../../design-system-2026/icons';
 import HomeSearch from './HomeSearch';
-import CoverEditor from './CoverEditor';
-import {
-  defaultCover,
-  defaultCoverPreferences,
-  presetCovers,
-  readCoverPreferences,
-  CoverPreferences
-} from './covers';
+import HomepageCover from './HomepageCover';
 import ShortcutEditor from './ShortcutEditor';
 import { defaultShortcuts, parseShortcuts, ShortcutId, shortcuts } from './shortcuts';
 import { HomeSummary, SummaryState } from './summary';
@@ -154,17 +147,6 @@ export default function HomepageView({
 }: HomepageViewProps): JSX.Element {
   const toast = useToast();
   const coverKey = `${storageKey ?? 'idol:homepage'}:cover`;
-  const [coverPreferences, setCoverPreferences] = useState(defaultCoverPreferences);
-  useEffect(() => setCoverPreferences(readCoverPreferences(coverKey)), [coverKey]);
-  const cover =
-    [...presetCovers, ...coverPreferences.custom].find(
-      (item) => item.id === coverPreferences.selected
-    ) ?? defaultCover;
-  const saveCover = (next: CoverPreferences) => {
-    localStorage.setItem(coverKey, JSON.stringify(next));
-    setCoverPreferences(next);
-    toast.add({ id: 'cover-saved', title: 'Cover saved.' });
-  };
   const [selected, setSelected] = useState<ShortcutId[]>(defaultShortcuts);
   const [ready, setReady] = useState(false);
   const [notice, setNotice] = useState('');
@@ -197,9 +179,7 @@ export default function HomepageView({
         <title>Home · IDOL</title>
       </Head>
       <div className={styles.hero}>
-        <img className={styles.heroPhoto} src={cover.src} alt="" />
-        <div className={styles.heroFade} />
-        <CoverEditor value={coverPreferences} onSave={saveCover} disabled={false} />
+        <HomepageCover key={coverKey} storageKey={coverKey} />
         <div className={styles.welcome}>
           <h1>{name ? `Welcome, ${name}!` : 'Welcome to IDOL!'}</h1>
         </div>

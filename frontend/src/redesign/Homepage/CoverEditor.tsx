@@ -4,6 +4,7 @@ import { CheckIcon, ImageIcon, UploadSimpleIcon, XIcon } from '../../design-syst
 import {
   coverFileTypes,
   CoverPreferences,
+  coverThumbnail,
   defaultCover,
   makeCustomCover,
   presetCovers
@@ -60,7 +61,11 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
     setError('');
     try {
       const cover = await makeCustomCover(file);
-      setDraft((current) => ({ selected: cover.id, custom: [...current.custom, cover] }));
+      setDraft((current) => ({
+        ...current,
+        selected: cover.id,
+        custom: [...current.custom, cover]
+      }));
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'This photo could not be uploaded.');
     } finally {
@@ -87,15 +92,9 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
       onOpenChange={changeOpen}
       title="Edit cover"
       description="Customize the IDOL homepage cover image."
-      width={640}
+      width={1000}
       trigger={
-        <Button
-          variant="secondary"
-          className={styles.trigger}
-          data-cover-trigger=""
-          disabled={disabled}
-          icon={<ImageIcon size={16} aria-hidden />}
-        >
+        <Button variant="secondary" disabled={disabled} icon={<ImageIcon size={16} aria-hidden />}>
           Change cover
         </Button>
       }
@@ -160,7 +159,13 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
                   checked={draft.selected === cover.id}
                   onChange={() => setDraft((current) => ({ ...current, selected: cover.id }))}
                 />
-                <img className={styles.thumbnail} src={cover.src} alt="" />
+                <img
+                  className={styles.thumbnail}
+                  src={coverThumbnail(cover)}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
                 <span title={cover.name}>{cover.name}</span>
               </label>
               {cover.id.startsWith('custom-') && (
@@ -173,7 +178,10 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
                   onClick={() =>
                     setDraft((current) => ({
                       selected: current.selected === cover.id ? defaultCover.id : current.selected,
-                      custom: current.custom.filter((item) => item.id !== cover.id)
+                      custom: current.custom.filter((item) => item.id !== cover.id),
+                      positions: Object.fromEntries(
+                        Object.entries(current.positions).filter(([id]) => id !== cover.id)
+                      )
                     }))
                   }
                 />

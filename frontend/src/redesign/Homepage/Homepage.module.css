@@ -36,6 +36,25 @@
     var(--idol-bg-root) 100%
   );
 }
+.coverControls {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+}
+.coverDragArea {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  cursor: ns-resize;
+  touch-action: none;
+}
+.coverDragArea:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: -3px;
+}
 .welcome {
   position: absolute;
   left: 24px;
@@ -465,13 +484,13 @@ legend.editorHeading {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .hero [data-cover-trigger] {
+  .coverControls:not([data-repositioning]) {
     opacity: 0;
     pointer-events: none;
   }
 
-  .hero:hover [data-cover-trigger],
-  .hero:focus-within [data-cover-trigger] {
+  .hero:hover .coverControls,
+  .hero:focus-within .coverControls {
     opacity: 1;
     pointer-events: auto;
   }

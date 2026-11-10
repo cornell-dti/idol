@@ -1,19 +1,51 @@
-export type Cover = { id: string; name: string; src: string };
-export type CoverPreferences = { selected: string; custom: Cover[] };
+export type Cover = { id: string; name: string; src: string; srcSet?: string };
+export type CoverPreferences = {
+  selected: string;
+  custom: Cover[];
+  positions: Record<string, number>;
+};
 
+const coverDirectory = '/redesign/home/covers';
+const presetCover = (id: string, name: string): Cover => ({
+  id,
+  name,
+  src: `${coverDirectory}/${id}.webp`
+});
+
+const responsiveCover = (id: string, name: string): Cover => {
+  const cover = presetCover(id, name);
+  return { ...cover, srcSet: `${coverDirectory}/medium/${id}.webp 1280w, ${cover.src} 2560w` };
+};
+
+export const defaultCover = presetCover('idol-work-session', 'IDOL work sesh');
 export const presetCovers: Cover[] = [
-  { id: 'all-members', name: 'All members', src: '/redesign/home/covers/all-members.webp' },
-  { id: 'info-session', name: 'Info sesh', src: '/redesign/home/covers/info-session.webp' },
-  { id: 'trends-course', name: 'Trends course', src: '/redesign/home/covers/trends-course.webp' },
-  {
-    id: 'idol-work-session',
-    name: 'IDOL work sesh',
-    src: '/redesign/home/covers/idol-work-session.webp'
-  }
+  responsiveCover('all-members', 'All members'),
+  presetCover('info-session', 'Info sesh'),
+  presetCover('trends-course', 'Trends course'),
+  defaultCover,
+  responsiveCover('pms', 'PMs'),
+  responsiveCover('tpms', 'TPMs'),
+  responsiveCover('designers', 'Designers'),
+  responsiveCover('developers', 'Developers'),
+  responsiveCover('business', 'Business'),
+  responsiveCover('cornellgo', 'CornellGo'),
+  responsiveCover('cuapts', 'CU Apts'),
+  responsiveCover('curaise', 'CU Raise'),
+  responsiveCover('idol', 'IDOL')
 ];
 
-export const defaultCover = presetCovers[3];
-export const defaultCoverPreferences: CoverPreferences = { selected: defaultCover.id, custom: [] };
+export const coverThumbnail = (cover: Cover): string =>
+  cover.id.startsWith('custom-') ? cover.src : `${coverDirectory}/thumbnails/${cover.id}.webp`;
+
+export const defaultCoverPosition = 50;
+export const clampCoverPosition = (position: number): number =>
+  Math.min(100, Math.max(0, position));
+
+export const defaultCoverPreferences: CoverPreferences = {
+  selected: defaultCover.id,
+  custom: [],
+  positions: {}
+};
 
 export function readCoverPreferences(key: string): CoverPreferences {
   try {
@@ -21,17 +53,28 @@ export function readCoverPreferences(key: string): CoverPreferences {
       localStorage.getItem(key) ?? 'null'
     ) as Partial<CoverPreferences> | null;
     const custom = Array.isArray(saved?.custom)
-      ? saved.custom.filter(
-          (cover) =>
-            typeof cover?.id === 'string' &&
-            cover.id.startsWith('custom-') &&
-            typeof cover.name === 'string' &&
-            typeof cover.src === 'string' &&
-            /^data:image\/(webp|jpeg);base64,/.test(cover.src)
-        )
+      ? saved.custom
+          .filter(
+            (cover) =>
+              typeof cover?.id === 'string' &&
+              cover.id.startsWith('custom-') &&
+              typeof cover.name === 'string' &&
+              typeof cover.src === 'string' &&
+              /^data:image\/(webp|jpeg);base64,/.test(cover.src)
+          )
+          .map(({ id, name, src }) => ({ id, name, src }))
       : [];
-    const selected = [...presetCovers, ...custom].find((cover) => cover.id === saved?.selected);
-    return { selected: selected?.id ?? defaultCover.id, custom };
+    const available = [...presetCovers, ...custom];
+    const selected = available.find((cover) => cover.id === saved?.selected);
+    const positions = Object.fromEntries(
+      available.flatMap(({ id }) => {
+        const position = saved?.positions?.[id];
+        return typeof position === 'number' && Number.isFinite(position)
+          ? [[id, clampCoverPosition(position)]]
+          : [];
+      })
+    );
+    return { selected: selected?.id ?? defaultCover.id, custom, positions };
   } catch {
     return defaultCoverPreferences;
   }
@@ -56,6 +99,7 @@ export async function makeCustomCover(file: File): Promise<Cover> {
     canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
     const context = canvas.getContext('2d');
     if (!context) throw new Error('Canvas unavailable');
+    context.imageSmoothingQuality = 'high';
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
     const webp = canvas.toDataURL('image/webp', 0.82);
     return {
