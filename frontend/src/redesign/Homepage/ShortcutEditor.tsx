@@ -118,7 +118,6 @@ export default function ShortcutEditor({
       }
       title="Edit shortcuts"
       description="Customize the IDOL homepage to your liking! Drag to reorder items."
-      surfaceClassName={styles.editorSurface}
       footer={
         <>
           <Button variant="secondary" onClick={() => changeOpen(false)}>

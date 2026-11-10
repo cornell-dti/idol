@@ -9,6 +9,7 @@ import {
   presetCovers
 } from './covers';
 import styles from './CoverEditor.module.css';
+import homeStyles from './Homepage.module.css';
 
 type Props = {
   value: CoverPreferences;
@@ -148,7 +149,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
       }
     >
       <fieldset className={styles.choices}>
-        <legend>Pick a cover</legend>
+        <legend className={homeStyles.editorHeading}>Pick a cover</legend>
         <div className={styles.grid}>
           {[...presetCovers, ...draft.custom].map((cover) => (
             <div className={styles.tile} key={cover.id}>
@@ -182,7 +183,9 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
         </div>
       </fieldset>
       <section className={styles.upload} aria-labelledby="cover-upload-title">
-        <h3 id="cover-upload-title">Or, upload your own</h3>
+        <h3 id="cover-upload-title" className={homeStyles.editorHeading}>
+          Or, upload your own
+        </h3>
         <input
           ref={input}
           type="file"

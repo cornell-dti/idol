@@ -12,14 +12,6 @@
   border: 0;
 }
 
-.choices legend,
-.upload h3 {
-  margin: 0 0 16px;
-  padding: 0;
-  color: var(--idol-fg-default);
-  font: var(--idol-type-heading-4);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -85,6 +77,8 @@
 
 .upload {
   margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--idol-stroke-black);
 }
 
 .uploadControls {
