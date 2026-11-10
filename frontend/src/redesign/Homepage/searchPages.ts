@@ -45,7 +45,9 @@ const keywords: Record<string, string> = {
 };
 
 const isAdmin = (path: string) => path === '/admin' || path.startsWith('/admin/');
-const routeEntries = Object.entries(breadcrumbRoutes);
+const isDesignPreview = (path: string) =>
+  path === '/design-system-2026' || path.startsWith('/design-system-2026/');
+const routeEntries = Object.entries(breadcrumbRoutes).filter(([path]) => !isDesignPreview(path));
 const detailRoutes = routeEntries.filter(([path]) => path.includes('['));
 const fillerWords = new Set([
   'a',
@@ -95,6 +97,7 @@ const pages = routeEntries
 export const commonActions = shortcuts.slice(0, 3).map(({ href }) => pageForRoute(href));
 
 function findRoute(path: string): string | undefined {
+  if (isDesignPreview(path)) return undefined;
   if (Object.hasOwn(breadcrumbRoutes, path)) return path.includes('[') ? undefined : path;
   const segments = path.split('/');
   return detailRoutes.find(([route]) => {

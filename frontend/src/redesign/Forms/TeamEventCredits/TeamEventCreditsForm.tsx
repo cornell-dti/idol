@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
-import { Button, Card, Input, IconButton } from '../../../design-system-2026/components';
+import { Button, Card, Input, IconButton, Pill } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
 import { PlusIcon, TrashIcon } from '../../../design-system-2026/icons';
 import {
@@ -300,10 +300,29 @@ const TeamEventCreditForm: React.FC = () => {
                   'There is no upcoming period.'
                 )}
               </p>
-              <p>
-                {tecConfig.considerEventKind
-                  ? `You need: ${remainingInternalCredits} internal, ${remainingExternalCredits} external credits.`
-                  : `You need: ${remainingCredits} more credits this period.`}
+              <p className={styles.creditSummary}>
+                <span>You need:</span>{' '}
+                <span className={styles.creditRequirements}>
+                  {tecConfig.considerEventKind ? (
+                    <>
+                      <span className={styles.creditRequirement}>
+                        <strong>{remainingInternalCredits}</strong>{' '}
+                        <Pill className={styles.creditKind}>Internal</Pill>
+                      </span>{' '}
+                      <span className={`${styles.creditRequirement} ${styles.externalCredit}`}>
+                        <strong>{remainingExternalCredits}</strong>{' '}
+                        <Pill color="green" className={styles.creditKind}>
+                          External
+                        </Pill>
+                      </span>
+                    </>
+                  ) : (
+                    <span className={styles.creditRequirement}>
+                      <strong>{remainingCredits}</strong>{' '}
+                      <Pill className={styles.creditKind}>Credits</Pill>
+                    </span>
+                  )}
+                </span>
               </p>
               <Combobox
                 id="tec-event"

@@ -63,6 +63,42 @@
   flex-direction: column;
   gap: 24px;
 }
+.creditSummary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.creditRequirements {
+  display: inline-flex;
+  max-width: 100%;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-dimmer);
+}
+.creditRequirement {
+  --credit-color: var(--idol-accent-default);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  padding: 8px 12px;
+}
+.creditRequirement + .creditRequirement {
+  border-inline-start: 1px solid var(--idol-stroke-black);
+}
+.creditRequirement strong {
+  font: var(--idol-type-heading-3);
+  letter-spacing: var(--idol-type-heading-3-tracking);
+}
+.externalCredit {
+  --credit-color: var(--idol-success-default);
+}
+.creditRequirement > span.creditKind {
+  padding: 4px 8px;
+  background: color-mix(in srgb, var(--credit-color) 10%, var(--idol-bg-dimmer));
+  color: color-mix(in srgb, var(--credit-color) 45%, var(--idol-fg-default));
+}
 .form label:not(:has(input)),
 .form :global(label):has(+ div) {
   color: var(--idol-fg-dimmer);

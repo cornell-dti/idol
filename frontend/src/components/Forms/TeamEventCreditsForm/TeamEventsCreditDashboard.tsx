@@ -73,20 +73,18 @@ const TeamEventCreditDashboard = (props: {
   const deleteTECAttendanceRequest = (attendance: TeamEventAttendance) => {
     TeamEventsAPI.deleteTeamEventAttendance(attendance.uuid)
       .then(() => {
-        setPendingAttendance(
-          pendingAttendance.filter((currAttendance) => currAttendance.uuid !== attendance.uuid)
-        );
+        setPendingAttendance((pending) => pending.filter((item) => item.uuid !== attendance.uuid));
         Emitters.generalSuccess.emit({
           headerMsg: 'Team Event Attendance Deleted!',
           contentMsg: 'Your team event attendance was successfully deleted!'
         });
-        ImagesAPI.deleteImage(`${attendance.image}`);
+        ImagesAPI.deleteImage(attendance.image).catch(() => {});
         Emitters.teamEventsUpdated.emit();
       })
-      .catch((error) => {
+      .catch(() => {
         Emitters.generalError.emit({
-          headerMsg: 'You are not allowed to delete this team event attendance!',
-          contentMsg: error
+          headerMsg: 'Could not cancel the credit request',
+          contentMsg: 'Please refresh your history before trying again.'
         });
       });
   };

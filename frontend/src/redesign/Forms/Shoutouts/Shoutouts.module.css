@@ -111,12 +111,16 @@
   margin-top: 24px;
   outline: none;
 }
-.cards,
-.skeletonGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.historyList,
+.skeletonList {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
-  align-items: start;
+}
+.historyList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .cardActions {
   gap: 4px;
@@ -215,10 +219,6 @@
     width: calc(100% - 32px);
     margin: 24px auto;
     gap: 32px;
-  }
-  .cards,
-  .skeletonGrid {
-    grid-template-columns: minmax(0, 1fr);
   }
   .toolbar {
     flex-wrap: wrap;
