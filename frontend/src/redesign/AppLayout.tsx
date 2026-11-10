@@ -37,10 +37,7 @@ function navigationSections(pathname: string, size: number, admin: boolean, cand
     {
       id: 'recruitment',
       label: 'Recruitment',
-      items: [
-        ...(candidate ? [entry('/candidate-decider')] : []),
-        entry('/interview-scheduler')
-      ]
+      items: [...(candidate ? [entry('/candidate-decider')] : []), entry('/interview-scheduler')]
     }
   ];
 }
@@ -104,7 +101,7 @@ export default function AppLayout({
     if (!isReady || !email || pagePath === '/') return;
     if (pathname.startsWith('/admin') && !hasAdminPermission) return;
     const crumbs = getBreadcrumbs(pathname, pagePath, detailLabel);
-    const label = crumbs[crumbs.length - 1].label;
+    const { label } = crumbs[crumbs.length - 1];
     if (typeof label === 'string' && label !== 'Page')
       rememberPage(email, { href: pagePath, label });
   }, [detailLabel, email, hasAdminPermission, isReady, pagePath, pathname]);

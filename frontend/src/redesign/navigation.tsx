@@ -22,7 +22,8 @@ export function navigationEntry(pathname: string, size: number) {
       icon: <Icon size={size} aria-hidden />,
       selected:
         pathname === href ||
-        (href === '/forms/devPortfolio' && pathname.startsWith('/forms/dev-portfolio-submissions/')) ||
+        (href === '/forms/devPortfolio' &&
+          pathname.startsWith('/forms/dev-portfolio-submissions/')) ||
         (href !== '/' && href !== '/forms' && pathname.startsWith(`${href}/`))
     };
   };
