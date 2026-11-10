@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button, IconButton, Modal } from '../../design-system-2026/components';
+import { Button, IconButton, Modal, useToast } from '../../design-system-2026/components';
 import { CheckIcon, ImageIcon, UploadSimpleIcon, XIcon } from '../../design-system-2026/icons';
 import {
   coverFileTypes,
@@ -16,13 +16,17 @@ type Props = {
   disabled: boolean;
 };
 
+const maxCustomCovers = 10;
+
 export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Element {
+  const toast = useToast();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState(value);
   const [busy, setBusy] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState('');
   const input = useRef<HTMLInputElement>(null);
+  const uploading = useRef(false);
   const dragDepth = useRef(0);
 
   const changeOpen = (next: boolean) => {
@@ -36,8 +40,21 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
     setOpen(next);
   };
 
+  const canAddCover = () => {
+    if (draft.custom.length < maxCustomCovers) return true;
+    toast.add({
+      id: 'cover-upload-limit',
+      type: 'negative',
+      priority: 'high',
+      title: 'Maximum of 10 custom photos reached.',
+      description: 'Remove a custom photo to add another.'
+    });
+    return false;
+  };
+
   const upload = async (file?: File) => {
-    if (!file || busy) return;
+    if (!file || uploading.current || !canAddCover()) return;
+    uploading.current = true;
     setBusy(true);
     setError('');
     try {
@@ -46,6 +63,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'This photo could not be uploaded.');
     } finally {
+      uploading.current = false;
       setBusy(false);
     }
   };
@@ -142,7 +160,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
                   onChange={() => setDraft((current) => ({ ...current, selected: cover.id }))}
                 />
                 <img className={styles.thumbnail} src={cover.src} alt="" />
-                <span>{cover.name}</span>
+                <span title={cover.name}>{cover.name}</span>
               </label>
               {cover.id.startsWith('custom-') && (
                 <IconButton
@@ -181,7 +199,9 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
             variant="secondary"
             icon={<UploadSimpleIcon size={16} aria-hidden />}
             disabled={busy}
-            onClick={() => input.current?.click()}
+            onClick={() => {
+              if (canAddCover()) input.current?.click();
+            }}
           >
             {busy ? 'Preparing photo…' : 'Choose photo'}
           </Button>

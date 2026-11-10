@@ -33,11 +33,17 @@
 
 .option {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
   margin: 0;
   text-align: center;
   cursor: pointer;
-  overflow-wrap: anywhere;
+}
+
+.option > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .option input {

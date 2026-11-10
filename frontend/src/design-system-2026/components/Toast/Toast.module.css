@@ -39,6 +39,10 @@
   --toast-surface: #fff;
   --toast-ink: #171717;
 }
+.toast[data-type='negative'] {
+  --toast-surface: var(--idol-danger-dimmer);
+  --toast-ink: var(--idol-on-danger);
+}
 .toast[data-starting-style] {
   opacity: 0;
   transform: translateY(20px) scale(0.96);
