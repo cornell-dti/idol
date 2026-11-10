@@ -10,6 +10,7 @@ import {
   deleteCoffeeChat,
   clearAllCoffeeChats,
   checkMemberMeetsCategory,
+  getCoffeeChatSuggestions,
   runAutoChecker,
   getCoffeeChatCategoriesByUser,
   getCoffeeChatCategoryForm,
@@ -328,6 +329,17 @@ describe('member coffee chat category responses', () => {
     expect(new Set(saved)).toEqual(new Set([newbieCategory, instrumentCategory]));
     const names = await getCoffeeChatCategoriesByUser(newbie);
     expect(new Set(names)).toEqual(new Set([newbieCategory, instrumentCategory]));
+  });
+
+  test('suggestions omit members who are no longer in the members collection', async () => {
+    const former = { name: 'Former Member', netid: `former-${runId}` };
+    await CoffeeChatDao.updateCategories([
+      { name: newbieCategory, members: [], index: indices[0] },
+      { name: instrumentCategory, members: [details(newbie), former], index: indices[1] }
+    ]);
+
+    const suggestions = await getCoffeeChatSuggestions(veteran.email);
+    expect(suggestions[instrumentCategory].map((member) => member.netid)).toEqual([newbie.netid]);
   });
 
   test('any member who selects a newbie meets that category', async () => {

@@ -2,7 +2,7 @@ import { Request } from 'express';
 import CoffeeChatDao from '../dao/CoffeeChatDao';
 import PermissionsManager from '../utils/permissionsManager';
 import { BadRequestError, PermissionError } from '../utils/errors';
-import { getMember, allApprovedMembers } from './memberAPI';
+import { getMember, allMembers, allApprovedMembers } from './memberAPI';
 import { sendCoffeeChatReminder } from './mailAPI';
 import parseCoffeeChatCSV from '../utils/coffeeChatCSVParser';
 
@@ -161,26 +161,43 @@ export const archiveCoffeeChats = async (user: IdolMember): Promise<void> => {
 export const getCoffeeChatBingoBoard = (): Promise<string[][]> =>
   CoffeeChatDao.getCoffeeChatBingoBoard();
 
+const normalizeNetid = (netid: string): string => netid.trim().toLowerCase();
+
+/** Netids of people who currently have an IDOL member document. */
+const currentMemberNetids = async (): Promise<Set<string>> => {
+  const members = await allMembers();
+  return new Set(members.map((member) => normalizeNetid(member.netid)));
+};
+
+/** Category entries whose netid still belongs to someone in the members collection. */
+const membersStillOnIdol = (
+  listed: readonly MemberDetails[],
+  currentNetids: ReadonlySet<string>
+): MemberDetails[] => listed.filter((member) => currentNetids.has(normalizeNetid(member.netid)));
+
 /**
  * Gets coffee chat suggestions for a specific member, excluding themselves from each category
  * @param email - the email of the member requesting suggestions
  * @returns a CoffeeChatSuggestions object
  */
 export const getCoffeeChatSuggestions = async (email: string): Promise<CoffeeChatSuggestions> => {
-  const [member, suggestions] = await Promise.all([
+  const [member, suggestions, currentNetids] = await Promise.all([
     getMember(email),
-    CoffeeChatDao.getCoffeeChatSuggestions()
+    CoffeeChatDao.getCoffeeChatSuggestions(),
+    currentMemberNetids()
   ]);
 
   if (!member) {
     throw new BadRequestError(`Member with email ${email} does not exist`);
   }
 
-  const selfNetid = member.netid.trim().toLowerCase();
+  const selfNetid = normalizeNetid(member.netid);
   return Object.fromEntries(
     Object.entries(suggestions).map(([category, members]) => [
       category,
-      members.filter((m) => m.netid.trim().toLowerCase() !== selfNetid)
+      membersStillOnIdol(members, currentNetids).filter(
+        (listed) => normalizeNetid(listed.netid) !== selfNetid
+      )
     ])
   );
 };
@@ -360,11 +377,14 @@ export const checkMemberMeetsCategory = async (
   let message: string = '';
 
   if (otherMember && submitter) {
-    const categories = await CoffeeChatDao.getAllCategories();
+    const [categories, currentNetids] = await Promise.all([
+      CoffeeChatDao.getAllCategories(),
+      currentMemberNetids()
+    ]);
     const categoryDoc = categories.find((c) => c.name === category);
     if (categoryDoc) {
-      const inCategory = categoryDoc.members.some(
-        (m) => m.netid.trim().toLowerCase() === otherMember.netid.trim().toLowerCase()
+      const inCategory = membersStillOnIdol(categoryDoc.members, currentNetids).some(
+        (listed) => normalizeNetid(listed.netid) === normalizeNetid(otherMember.netid)
       );
       status = inCategory ? 'pass' : 'fail';
       if (status === 'fail') {
