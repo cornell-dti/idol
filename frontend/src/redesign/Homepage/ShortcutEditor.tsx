@@ -23,12 +23,13 @@ type Drag = {
 export default function ShortcutEditor({
   selected,
   onSave,
-  onClose
+  disabled
 }: {
   selected: ShortcutId[];
   onSave: (items: ShortcutId[]) => void;
-  onClose: () => void;
+  disabled: boolean;
 }): JSX.Element {
+  const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState(selected);
   const [announcement, setAnnouncement] = useState('');
   const list = useRef<HTMLUListElement>(null);
@@ -37,6 +38,14 @@ export default function ShortcutEditor({
   const updateDrag = (next: Drag | null) => {
     dragging.current = next;
     setDrag(next);
+  };
+  const changeOpen = (next: boolean) => {
+    if (next) {
+      setDraft(selected);
+      setAnnouncement('');
+    }
+    updateDrag(null);
+    setOpen(next);
   };
   const startDrag = (event: PointerEvent<HTMLButtonElement>, id: ShortcutId, index: number) => {
     if (event.button !== 0) return;
@@ -100,19 +109,28 @@ export default function ShortcutEditor({
   return (
     <Modal
       id="home-shortcut-editor"
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
+      open={open}
+      onOpenChange={changeOpen}
+      trigger={
+        <Button variant="secondary" disabled={disabled}>
+          Edit shortcuts
+        </Button>
+      }
       title="Edit shortcuts"
       description="Customize the IDOL homepage to your liking! Drag to reorder items."
       surfaceClassName={styles.editorSurface}
       footer={
         <>
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="secondary" onClick={() => changeOpen(false)}>
             Cancel
           </Button>
-          <Button icon={<CheckIcon size={16} />} onClick={() => onSave(draft)}>
+          <Button
+            icon={<CheckIcon size={16} />}
+            onClick={() => {
+              onSave(draft);
+              changeOpen(false);
+            }}
+          >
             Save changes
           </Button>
         </>

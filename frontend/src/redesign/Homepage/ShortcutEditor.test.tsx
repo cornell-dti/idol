@@ -29,7 +29,8 @@ const rect = (top: number, height: number): DOMRect => ({
 
 it('shows a grabbed row and insertion boundary, then saves the item at that boundary', () => {
   const onSave = jest.fn();
-  render(<ShortcutEditor selected={defaultShortcuts} onSave={onSave} onClose={() => {}} />);
+  render(<ShortcutEditor selected={defaultShortcuts} onSave={onSave} disabled={false} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Edit shortcuts' }));
   const list = within(screen.getByRole('region', { name: 'Added:' })).getByRole('list');
   jest.spyOn(list, 'getBoundingClientRect').mockReturnValue(rect(100, 160));
   Array.from(list.children).forEach((row, index) =>
@@ -48,13 +49,13 @@ it('shows a grabbed row and insertion boundary, then saves the item at that boun
 
 it('cancels a grab with Escape and leaves the saved order untouched', () => {
   const onSave = jest.fn();
-  const onClose = jest.fn();
-  render(<ShortcutEditor selected={defaultShortcuts} onSave={onSave} onClose={onClose} />);
+  render(<ShortcutEditor selected={defaultShortcuts} onSave={onSave} disabled={false} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Edit shortcuts' }));
   const handle = screen.getByRole('button', { name: 'Reorder Shoutouts' });
   fireEvent.pointerDown(handle, { button: 0, clientX: 112, clientY: 120 });
   fireEvent.keyDown(handle, { key: 'Escape' });
   expect(document.querySelector('.dragPreview')).not.toBeInTheDocument();
-  expect(onClose).not.toHaveBeenCalled();
+  expect(screen.getByRole('dialog', { name: 'Edit shortcuts' })).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Save changes' }));
   expect(onSave).toHaveBeenCalledWith(defaultShortcuts);
 });

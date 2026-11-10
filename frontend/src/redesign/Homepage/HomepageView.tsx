@@ -98,7 +98,6 @@ export default function HomepageView({
   };
   const [selected, setSelected] = useState<ShortcutId[]>(defaultShortcuts);
   const [ready, setReady] = useState(false);
-  const [editing, setEditing] = useState(false);
   const [notice, setNotice] = useState('');
   useEffect(() => {
     try {
@@ -110,7 +109,6 @@ export default function HomepageView({
   }, [storageKey]);
   const save = (items: ShortcutId[]) => {
     setSelected(items);
-    setEditing(false);
     try {
       if (storageKey) window.localStorage.setItem(storageKey, JSON.stringify(items));
       setNotice('');
@@ -173,9 +171,7 @@ export default function HomepageView({
               </Card>
             )}
             <div className={styles.editButton}>
-              <Button variant="secondary" disabled={!ready} onClick={() => setEditing(true)}>
-                Edit shortcuts
-              </Button>
+              <ShortcutEditor selected={selected} onSave={save} disabled={!ready} />
             </div>
             <p className={styles.notice} role="status">
               {notice}
@@ -203,9 +199,6 @@ export default function HomepageView({
           </section>
         </div>
       </DottedBackground>
-      {editing && (
-        <ShortcutEditor selected={selected} onSave={save} onClose={() => setEditing(false)} />
-      )}
     </div>
   );
 }
