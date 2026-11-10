@@ -1,39 +1,71 @@
 import type { Breadcrumb } from '../design-system-2026/components/Breadcrumbs/Breadcrumbs';
+import {
+  CalendarIcon,
+  CalendarStarIcon,
+  ClipboardTextIcon,
+  CoffeeIcon,
+  GearIcon,
+  GitBranchIcon,
+  GraduationCapIcon,
+  HouseIcon,
+  MegaphoneIcon,
+  QuestionIcon,
+  ScalesIcon,
+  UserIcon,
+  UsersIcon
+} from '../design-system-2026/icons';
+import type { Icon } from '../design-system-2026/icons';
 
-type Route = { label: string; parent?: string; supportsDarkTheme?: boolean };
+type Route = { label: string; icon?: Icon; parent?: string; supportsDarkTheme?: boolean };
 
 /** Navigation hierarchy is explicit because several detail URLs are siblings of their list. */
 export const breadcrumbRoutes: Record<string, Route> = {
-  '/': { label: 'Home', supportsDarkTheme: true },
-  '/forms': { label: 'Forms' },
+  '/': { label: 'Home', icon: HouseIcon, supportsDarkTheme: true },
+  '/forms': { label: 'Forms', icon: ClipboardTextIcon },
   '/forms/signin': { label: 'Sign-In', parent: '/forms' },
-  '/forms/profile': { label: 'Profile', parent: '/forms', supportsDarkTheme: true },
-  '/forms/shoutouts': { label: 'Shoutouts', parent: '/forms', supportsDarkTheme: true },
-  '/forms/teamEventCredits': {
-    label: 'Team Event Credits',
+  '/forms/profile': { label: 'Profile', icon: UserIcon, parent: '/forms', supportsDarkTheme: true },
+  '/forms/shoutouts': {
+    label: 'Shoutouts',
+    icon: MegaphoneIcon,
     parent: '/forms',
     supportsDarkTheme: true
   },
-  '/forms/devPortfolio': { label: 'Dev Portfolio', parent: '/forms', supportsDarkTheme: true },
+  '/forms/teamEventCredits': {
+    label: 'Team Event Credits',
+    icon: CalendarStarIcon,
+    parent: '/forms',
+    supportsDarkTheme: true
+  },
+  '/forms/devPortfolio': {
+    label: 'Dev Portfolio',
+    icon: GitBranchIcon,
+    parent: '/forms',
+    supportsDarkTheme: true
+  },
   '/forms/dev-portfolio-submissions/[uuid]': {
     label: 'Portfolio',
     parent: '/forms/devPortfolio',
     supportsDarkTheme: true
   },
-  '/forms/coffeeChats': { label: 'Coffee Chats', parent: '/forms', supportsDarkTheme: true },
+  '/forms/coffeeChats': {
+    label: 'Coffee Chats',
+    icon: CoffeeIcon,
+    parent: '/forms',
+    supportsDarkTheme: true
+  },
   '/forms/coffeeChatCategories': {
     label: 'Coffee Chat Categories',
     parent: '/forms'
   },
   '/forms/reimbursement': { label: 'Reimbursement', parent: '/forms' },
-  '/alumni': { label: 'Alumni' },
-  '/candidate-decider': { label: 'Candidate Decider' },
+  '/alumni': { label: 'Alumni', icon: GraduationCapIcon },
+  '/candidate-decider': { label: 'Candidate Decider', icon: ScalesIcon },
   '/candidate-decider/[uuid]': { label: 'Instance', parent: '/candidate-decider' },
-  '/interview-scheduler': { label: 'Interview Scheduler' },
+  '/interview-scheduler': { label: 'Interview Scheduler', icon: CalendarIcon },
   '/interview-scheduler/[uuid]': { label: 'Schedule', parent: '/interview-scheduler' },
-  '/settings': { label: 'Settings', supportsDarkTheme: true },
-  '/help': { label: 'Help', supportsDarkTheme: true },
-  '/admin': { label: 'Admin' },
+  '/settings': { label: 'Settings', icon: GearIcon, supportsDarkTheme: true },
+  '/help': { label: 'Help', icon: QuestionIcon, supportsDarkTheme: true },
+  '/admin': { label: 'Admin', icon: UsersIcon },
   '/admin/member-review': { label: 'Member Information Review', parent: '/admin' },
   '/admin/site-deployer': { label: 'Site Deployer', parent: '/admin' },
   '/admin/signin-creator': { label: 'Sign-In Creator', parent: '/admin' },

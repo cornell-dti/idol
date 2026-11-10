@@ -11,18 +11,8 @@ import {
   MenuSeparator,
   Sidebar
 } from '../design-system-2026/components';
-import type { SidebarEntry } from '../design-system-2026/components/Sidebar/Sidebar';
 import LoadingScreen from '../design-system-2026/components/LoadingScreen/LoadingScreen';
-import {
-  SignOutIcon,
-  CalendarIcon,
-  GearIcon,
-  QuestionIcon,
-  UserIcon,
-  ScalesIcon,
-  UsersIcon
-} from '../design-system-2026/icons';
-import type { Icon } from '../design-system-2026/icons';
+import { SignOutIcon } from '../design-system-2026/icons';
 import { useHasAdminPermission, useSelf } from '../components/Common/FirestoreDataProvider';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import ImagesAPI from '../API/ImagesAPI';
@@ -30,7 +20,7 @@ import { auth } from '../firebase';
 import { readPreviewPreference, usePreviewToggle } from './preview';
 import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
 import getBreadcrumbs from './breadcrumbRoutes';
-import memberNavigation from './navigation';
+import memberNavigation, { navigationEntry } from './navigation';
 import HomeSearch from './Homepage/HomeSearch';
 import { HomepageSkeleton } from './Homepage/HomepageView';
 import { rememberPage } from './Homepage/recentPages';
@@ -39,29 +29,17 @@ import ProfileMenu from './Navigation/ProfileMenu';
 import useMobileNavigation from './Navigation/useMobileNavigation';
 import styles from './Navigation/Navigation.module.css';
 
-function navigationEntry(pathname: string, size: number) {
-  return (href: string, label: string, IconComponent: Icon): SidebarEntry => ({
-    id: href,
-    href,
-    label,
-    icon: <IconComponent size={size} aria-hidden="true" />,
-    selected: pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
-  });
-}
-
 function navigationSections(pathname: string, size: number, admin: boolean, candidate: boolean) {
   const entry = navigationEntry(pathname, size);
   return [
     { id: 'main', label: 'Main', items: memberNavigation(pathname, size) },
-    ...(admin
-      ? [{ id: 'admin', label: 'Admin', items: [entry('/admin', 'Admin', UsersIcon)] }]
-      : []),
+    ...(admin ? [{ id: 'admin', label: 'Admin', items: [entry('/admin')] }] : []),
     {
       id: 'recruitment',
       label: 'Recruitment',
       items: [
-        ...(candidate ? [entry('/candidate-decider', 'Candidate Decider', ScalesIcon)] : []),
-        entry('/interview-scheduler', 'Interview Scheduler', CalendarIcon)
+        ...(candidate ? [entry('/candidate-decider')] : []),
+        entry('/interview-scheduler')
       ]
     }
   ];
@@ -166,17 +144,17 @@ export default function AppLayout({
   const breadcrumbs = getBreadcrumbs(pathname, router.asPath, detailLabel);
 
   const profileName = self ? `${self.firstName} ${self.lastName}` : 'Profile';
+  const profileEntry = navigationEntry(pathname, 16);
   const profileMenu = (
     <>
-      <MenuItem icon={<UserIcon size={16} />} onClick={() => router.push('/forms/profile')}>
-        Profile
-      </MenuItem>
-      <MenuItem icon={<GearIcon size={16} />} onClick={() => router.push('/settings')}>
-        Settings
-      </MenuItem>
-      <MenuItem icon={<QuestionIcon size={16} />} onClick={() => router.push('/help')}>
-        Help
-      </MenuItem>
+      {['/forms/profile', '/settings', '/help'].map((href) => {
+        const { label, icon } = profileEntry(href);
+        return (
+          <MenuItem key={href} icon={icon} onClick={() => router.push(href)}>
+            {label}
+          </MenuItem>
+        );
+      })}
       {mobile && <MenuItem onClick={() => setEnabled(!enabled)}>Switch to classic UI</MenuItem>}
       <MenuSeparator />
       <MenuItem variant="danger" icon={<SignOutIcon size={16} />} onClick={() => auth.signOut()}>
@@ -265,9 +243,9 @@ export default function AppLayout({
               pageKey={pagePath}
               items={[
                 ...sections.flatMap((section) => section.items),
-                entry('/forms/profile', 'Edit Profile', UserIcon),
-                entry('/settings', 'Settings', GearIcon),
-                entry('/help', 'Help', QuestionIcon)
+                entry('/forms/profile', 'Edit Profile'),
+                entry('/settings'),
+                entry('/help')
               ]}
             />
           )

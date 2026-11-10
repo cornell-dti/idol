@@ -1,13 +1,4 @@
-import {
-  CalendarIcon,
-  ClipboardTextIcon,
-  ClockIcon,
-  GearIcon,
-  HouseIcon,
-  QuestionIcon,
-  ScalesIcon,
-  UsersIcon
-} from '../../design-system-2026/icons';
+import { ClipboardTextIcon, ClockIcon } from '../../design-system-2026/icons';
 import type { Icon } from '../../design-system-2026/icons';
 import { breadcrumbRoutes } from '../breadcrumbRoutes';
 import type { RecentPage } from './recentPages';
@@ -53,15 +44,6 @@ const keywords: Record<string, string> = {
   '/admin/reimbursement': 'review approve expenses refunds receipts'
 };
 
-const icons: Record<string, Icon> = {
-  '/': HouseIcon,
-  '/settings': GearIcon,
-  '/help': QuestionIcon,
-  '/admin': UsersIcon,
-  '/candidate-decider': ScalesIcon,
-  '/interview-scheduler': CalendarIcon
-};
-
 const isAdmin = (path: string) => path === '/admin' || path.startsWith('/admin/');
 const routeEntries = Object.entries(breadcrumbRoutes);
 const detailRoutes = routeEntries.filter(([path]) => path.includes('['));
@@ -92,7 +74,7 @@ export const normalizeSearch = (text: string) =>
     .trim();
 
 function pageForRoute(route: string, href = route, visitedLabel?: string): SearchPage {
-  const { label, parent } = breadcrumbRoutes[route];
+  const { label, parent, icon } = breadcrumbRoutes[route];
   const shortcut = shortcuts.find((item) => item.href === route);
   const parentLabel = parent && breadcrumbRoutes[parent].label;
   const title = visitedLabel || shortcut?.label || label;
@@ -101,7 +83,7 @@ function pageForRoute(route: string, href = route, visitedLabel?: string): Searc
     href,
     label: isAdmin(route) && route !== '/admin' ? `Admin · ${context}` : context,
     description: shortcut?.description ?? (parentLabel === 'Admin' ? undefined : parentLabel),
-    icon: shortcut?.icon ?? icons[route] ?? (visitedLabel ? ClockIcon : ClipboardTextIcon),
+    icon: icon ?? (visitedLabel ? ClockIcon : ClipboardTextIcon),
     keywords: keywords[route]
   };
 }
