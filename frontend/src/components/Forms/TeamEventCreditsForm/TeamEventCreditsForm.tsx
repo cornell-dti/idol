@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Label, Dropdown, Loader } from 'semantic-ui-react';
 import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 import {
@@ -28,7 +28,11 @@ const TeamEventCreditForm: React.FC = () => {
   const [pendingAttendance, setPendingAttendance] = useState<TeamEventAttendance[]>([]);
   const [rejectedAttendance, setRejectedAttendance] = useState<TeamEventAttendance[]>([]);
   const [isAttendanceLoading, setIsAttendanceLoading] = useState<boolean>(true);
-  const [images, setImages] = useState<string[]>(['']);
+  const [images, setImages] = useState<{ id: number; file: File | null; path: string }[]>([
+    { id: 0, file: null, path: '' }
+  ]);
+  const nextImageId = useRef(1);
+  const [submitting, setSubmitting] = useState(false);
   const [tecConfig, setTecConfig] = useState<TECConfig | null>(null);
 
   useEffect(() => {
@@ -106,31 +110,24 @@ const TeamEventCreditForm: React.FC = () => {
   );
   const hasRemainingKindCredits = remainingInternalCredits > 0 || remainingExternalCredits > 0;
 
+  const createImageInput = () => {
+    const id = nextImageId.current;
+    nextImageId.current += 1;
+    return { id, file: null, path: '' };
+  };
+
   const handleAddIconClick = () => {
-    setImages((images) => [...images, '']);
+    const image = createImageInput();
+    setImages((current) => [...current, image]);
   };
 
-  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>, index: number): void => {
-    if (!e.target.files) return;
-    const newImage = URL.createObjectURL(e.target.files[0]);
-    const newImages = images.map((currentImage, i) => {
-      if (i === index) {
-        return newImage;
-      }
-      return currentImage;
-    });
-    setImages(newImages);
-  };
-
-  const requestTeamEventCredit = async (
-    eventCreditRequest: TeamEventAttendance,
-    uploadedImage: string
-  ) => {
-    const createdAttendance = await TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
-    // upload image
-    const blob = await fetch(uploadedImage).then((res) => res.blob());
-    await ImagesAPI.uploadImage(blob, `${eventCreditRequest.image}`);
-    return createdAttendance;
+  const handleNewImage = (e: React.ChangeEvent<HTMLInputElement>, id: number): void => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const path = `eventProofs/${getNetIDFromEmail(
+      userInfo.email
+    )}/${new Date().toISOString()}[${id}]`;
+    setImages((current) => current.map((image) => (image.id === id ? { id, file, path } : image)));
   };
 
   const getCreditsWithHours = (teamEvent: TeamEventInfo | undefined, hours: number) =>
@@ -139,6 +136,7 @@ const TeamEventCreditForm: React.FC = () => {
       : Number(teamEvent?.numCredits || 0);
 
   const submitTeamEventCredit = async () => {
+    if (submitting) return;
     const getCredits: (attendance: TeamEventAttendance[]) => number = (attendance) => {
       const filteredAttendance = attendance.filter((event) => event.eventUuid === teamEvent?.uuid);
       const sum = filteredAttendance.reduce(
@@ -151,13 +149,14 @@ const TeamEventCreditForm: React.FC = () => {
 
     const submittedCredits = getCredits(approvedAttendance) + getCredits(pendingAttendance);
     const creditsToSubmit = images.length * getCreditsWithHours(teamEvent, Number(hours));
+    const proofs = images.flatMap(({ id, file, path }) => (file ? [{ id, file, path }] : []));
 
     if (!teamEvent) {
       Emitters.generalError.emit({
         headerMsg: 'No Team Event Selected',
         contentMsg: 'Please select a team event!'
       });
-    } else if (images.some((image) => image === '')) {
+    } else if (proofs.length !== images.length) {
       Emitters.generalError.emit({
         headerMsg: 'Unsuccessful Image Upload',
         contentMsg: 'Please upload all images from top to bottom!'
@@ -180,34 +179,42 @@ const TeamEventCreditForm: React.FC = () => {
         } credit(s) exceeds the event credit limit of ${teamEvent.maxCredits} credit(s).`
       });
     } else {
-      await Promise.all(
-        images.map(async (image, i) => {
+      setSubmitting(true);
+      const results = await Promise.allSettled(
+        proofs.map(async ({ path, file }) => {
           const newTeamEventAttendance: TeamEventAttendance = {
             member: userInfo,
             hoursAttended: teamEvent.hasHours ? Number(hours) : undefined,
-            image: `eventProofs/${getNetIDFromEmail(
-              userInfo.email
-            )}/${new Date().toISOString()}[${i}]`,
+            image: path,
             eventUuid: teamEvent.uuid,
             status: 'pending' as Status,
             reason: '',
             uuid: ''
           };
 
-          const createdAttendance = await requestTeamEventCredit(newTeamEventAttendance, image);
-
-          if (createdAttendance) {
-            setPendingAttendance((pending) => [...pending, createdAttendance]);
-          }
+          await ImagesAPI.uploadImage(file, path, { throwOnError: true });
+          const createdAttendance =
+            await TeamEventsAPI.requestTeamEventCredit(newTeamEventAttendance);
+          setPendingAttendance((pending) => [...pending, createdAttendance]);
         })
       );
+      setSubmitting(false);
+      const failedImages = proofs.filter((_, index) => results[index].status === 'rejected');
+      if (failedImages.length) {
+        setImages(failedImages);
+        Emitters.generalError.emit({
+          headerMsg: 'Could not submit all credit requests',
+          contentMsg: 'Check your history and retry the remaining submissions.'
+        });
+        return;
+      }
       Emitters.generalSuccess.emit({
         headerMsg: 'Team Event Credit submitted!',
         contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
       });
       setTeamEvent(undefined);
       setHours('0');
-      setImages(['']);
+      setImages([createImageInput()]);
     }
   };
 
@@ -256,6 +263,7 @@ const TeamEventCreditForm: React.FC = () => {
             {teamEventInfoList ? (
               <Dropdown
                 placeholder="Select a Team Event"
+                disabled={submitting}
                 fluid
                 search={(options, query) =>
                   options.filter((option) => option.key.toLowerCase().includes(query.toLowerCase()))
@@ -327,6 +335,7 @@ const TeamEventCreditForm: React.FC = () => {
               step="1"
               size="large"
               value={hours}
+              disabled={submitting}
               onChange={(event) => setHours(event.target.value)}
               className={styles.width_20}
               required
@@ -343,14 +352,14 @@ const TeamEventCreditForm: React.FC = () => {
             the same event (if the event allows for multiple submissions).
           </p>
 
-          {images.map((image, i) => (
-            <div style={{ marginBottom: '10px' }} key={i}>
+          {images.map(({ id }, index) => (
+            <div style={{ marginBottom: '10px' }} key={id}>
               <input
-                id="newImage"
+                id={index === 0 ? 'newImage' : `newImage-${id}`}
                 type="file"
                 accept="image/png, image/jpeg"
-                value={image ? undefined : ''}
-                onChange={(e) => handleNewImage(e, i)}
+                disabled={submitting}
+                onChange={(e) => handleNewImage(e, id)}
               />
             </div>
           ))}
@@ -358,6 +367,7 @@ const TeamEventCreditForm: React.FC = () => {
         <Form.Button
           floated="right"
           size="mini"
+          disabled={submitting}
           style={{ marginBottom: '10px' }}
           onClick={handleAddIconClick}
         >
@@ -365,9 +375,9 @@ const TeamEventCreditForm: React.FC = () => {
         </Form.Button>
         <Form.Button
           floated="right"
-          onClick={async () => {
-            await submitTeamEventCredit();
-          }}
+          loading={submitting}
+          disabled={submitting}
+          onClick={submitTeamEventCredit}
         >
           Submit
         </Form.Button>

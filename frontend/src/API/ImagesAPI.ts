@@ -21,14 +21,27 @@ export default class ImagesAPI {
     return responseProm.then((val) => val.url);
   }
 
-  public static uploadImage(body: Blob, name: string): Promise<void> {
-    return this.getSignedURL(name).then((url) => {
-      const headers = { 'content-type': body.type };
-      return APIWrapper.put(url, body, headers).then(() => undefined);
-    });
+  public static async uploadImage(
+    body: Blob,
+    name: string,
+    options?: { throwOnError: boolean }
+  ): Promise<void> {
+    const url = await this.getSignedURL(name);
+    if (options?.throwOnError && !url) throw new Error('Could not get an image upload URL.');
+    const headers = { 'content-type': body.type };
+    const { data, status } = await APIWrapper.put(url, body, headers);
+    if (options?.throwOnError && (data == null || data.error || (status ?? 0) >= 400)) {
+      throw new Error(data?.error || 'Could not upload image.');
+    }
   }
 
-  public static async deleteImage(name: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/image/${name}`);
+  public static async deleteImage(
+    name: string,
+    options?: { throwOnError: boolean }
+  ): Promise<void> {
+    const { data, status } = await APIWrapper.delete(`${backendURL}/image/${name}`);
+    if (options?.throwOnError && (data == null || data.error || (status ?? 0) >= 400)) {
+      throw new Error(data?.error || 'Could not delete image.');
+    }
   }
 }

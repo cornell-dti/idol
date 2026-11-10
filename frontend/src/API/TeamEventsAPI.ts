@@ -76,13 +76,16 @@ export class TeamEventsAPI {
   public static async requestTeamEventCredit(
     request: TeamEventAttendance
   ): Promise<TeamEventAttendance> {
-    return APIWrapper.post(`${backendURL}/team-event-attendance`, { request }).then(
-      (res) => res.data.teamEventAttendance
-    );
+    const { data } = await APIWrapper.post(`${backendURL}/team-event-attendance`, { request });
+    if (!data?.teamEventAttendance)
+      throw new Error(data?.error || 'Could not submit credit request.');
+    return data.teamEventAttendance;
   }
 
   public static async deleteTeamEventAttendance(uuid: string): Promise<void> {
-    await APIWrapper.delete(`${backendURL}/team-event-attendance/${uuid}`);
+    const { data } = await APIWrapper.delete(`${backendURL}/team-event-attendance/${uuid}`);
+    if (data == null || data.error)
+      throw new Error(data?.error || 'Could not cancel credit request.');
   }
 
   public static async updateTeamEventAttendance(

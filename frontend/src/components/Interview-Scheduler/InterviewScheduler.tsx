@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Card, Dropdown, Header, Message, Sidebar } from 'semantic-ui-react';
 import Link from 'next/link';
 import { LEAD_ROLES } from 'common-types/constants';
+import { useBreadcrumbTitle } from '../../redesign/BreadcrumbContext';
 import InterviewSchedulerAPI from '../../API/InterviewSchedulerAPI';
 import { useHasMemberPermission, useMember } from '../Common/FirestoreDataProvider';
 import styles from './InterviewScheduler.module.css';
@@ -88,6 +89,7 @@ const InviteCard: React.FC<{ scheduler: InterviewScheduler; slot?: InterviewSlot
 
 const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
   const [scheduler, setScheduler] = useState<InterviewScheduler>();
+  useBreadcrumbTitle(scheduler?.uuid === uuid ? scheduler.name : undefined);
   const [slots, setSlots] = useState<InterviewSlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<InterviewSlot | undefined>();
   const [hoveredSlot, setHoveredSlot] = useState<InterviewSlot | undefined>();

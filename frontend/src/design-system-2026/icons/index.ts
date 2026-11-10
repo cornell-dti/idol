@@ -39,6 +39,8 @@ export { LinkedinLogoIcon } from '@phosphor-icons/react/dist/csr/LinkedinLogo';
 export { ArrowSquareOutIcon } from '@phosphor-icons/react/dist/csr/ArrowSquareOut';
 export { WalletIcon } from '@phosphor-icons/react/dist/csr/Wallet';
 export { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle';
+export { ClockIcon } from '@phosphor-icons/react/dist/csr/Clock';
+export { XCircleIcon } from '@phosphor-icons/react/dist/csr/XCircle';
 export { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart';
 export { BusIcon } from '@phosphor-icons/react/dist/csr/Bus';
 export { CompassIcon } from '@phosphor-icons/react/dist/csr/Compass';

@@ -8,6 +8,7 @@ import styles from './TeamEventDetails.module.css';
 import { TeamEventsAPI } from '../../../API/TeamEventsAPI';
 import { Emitters } from '../../../utils';
 import { ALL_STATUS, INITIATIVE_EVENTS } from '../../../consts';
+import { useBreadcrumbTitle } from '../../../redesign/BreadcrumbContext';
 
 const defaultTeamEvent: TeamEvent = {
   name: '',
@@ -75,6 +76,7 @@ const TeamEventDetails: React.FC = () => {
   const [teamEvent, setTeamEvent] = useState<TeamEvent>(defaultTeamEvent);
   const [isLoading, setLoading] = useState(true);
   const [status, setStatus] = useState<Status | string>();
+  useBreadcrumbTitle(teamEvent?.uuid === uuid ? teamEvent.name : undefined);
 
   const fullReset = () => {
     setLoading(true);
