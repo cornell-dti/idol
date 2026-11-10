@@ -109,10 +109,10 @@ const CoffeeChatsDashboard = ({
         Emitters.coffeeChatsUpdated.emit();
         resetState();
       })
-      .catch((error) => {
+      .catch(() => {
         Emitters.generalError.emit({
-          headerMsg: 'You are not allowed to delete this coffee chat!',
-          contentMsg: error
+          headerMsg: 'Could not delete coffee chat',
+          contentMsg: 'Please refresh your history before trying again.'
         });
       });
   };
