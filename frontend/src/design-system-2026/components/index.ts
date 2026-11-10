@@ -30,3 +30,5 @@ export { AppShell } from './AppShell/AppShell';
 export type { AppShellProps } from './AppShell/AppShell';
 export { Menu, MenuItem, MenuGroup, MenuSeparator } from './Menu/Menu';
 export type { MenuProps, MenuItemProps } from './Menu/Menu';
+export { Table } from './Table/Table';
+export type { TableProps, TableColumn } from './Table/Table';

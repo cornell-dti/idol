@@ -1,6 +1,7 @@
 import { useEffect, useState, Dispatch, SetStateAction, useCallback } from 'react';
 import { Modal } from 'semantic-ui-react';
 import CandidateDeciderAPI from '../../API/CandidateDeciderAPI';
+import { useBreadcrumbTitle } from '../../redesign/BreadcrumbContext';
 import ResponsesPanel from './ResponsesPanel';
 import LocalProgressPanel from './LocalProgressPanel';
 import { useHasAdminPermission, useSelf } from '../Common/FirestoreDataProvider';
@@ -55,6 +56,7 @@ const CandidateDecider: React.FC<CandidateDeciderProps> = ({ uuid }) => {
 
   const userInfo = useSelf();
   const instance = useCandidateDeciderInstance(uuid);
+  useBreadcrumbTitle(instance.uuid === uuid ? instance.name : undefined);
   const [reviews, setReviews] = useCandidateDeciderReviews(uuid);
 
   const getRating = useCallback(

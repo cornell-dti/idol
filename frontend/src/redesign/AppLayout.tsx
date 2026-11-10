@@ -26,8 +26,11 @@ import {
 import type { Icon } from '../design-system-2026/icons';
 import { useHasAdminPermission, useSelf } from '../components/Common/FirestoreDataProvider';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
+import ImagesAPI from '../API/ImagesAPI';
 import { auth } from '../firebase';
 import { usePreviewToggle } from './preview';
+import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
+import getBreadcrumbs from './breadcrumbRoutes';
 
 /** Navigation for the redesign, using the same routes and permissions as the released app. */
 export default function AppLayout({ children }: { readonly children: ReactNode }): JSX.Element {
@@ -37,6 +40,23 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
   const { enabled, setEnabled } = usePreviewToggle();
   const [minimized, setMinimized] = useState(false);
   const [hasInstance, setHasInstance] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string>();
+  const [breadcrumbTitle, setBreadcrumbTitle] = useState<BreadcrumbTitle>();
+
+  useEffect(() => {
+    let active = true;
+    setProfilePhoto(undefined);
+    if (self?.netid) {
+      ImagesAPI.getImage(`images/${self.netid}`)
+        .then((url) => {
+          if (active) setProfilePhoto(url);
+        })
+        .catch(() => {});
+    }
+    return () => {
+      active = false;
+    };
+  }, [self?.netid]);
 
   useEffect(() => {
     const compact = window.matchMedia('(max-width: 760px)');
@@ -74,10 +94,11 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
     entry('/interview-scheduler', 'Interview Scheduler', CalendarIcon)
   ];
   const adminItems = hasAdminPermission ? [entry('/admin', 'Admin', UsersIcon)] : [];
-  const current = [...items, ...adminItems].find((item) => item.selected);
-  const accountPage = { '/forms/profile': 'Profile', '/settings': 'Settings', '/help': 'Help' }[
-    router.pathname
-  ];
+  const breadcrumbs = getBreadcrumbs(
+    router.pathname,
+    router.asPath,
+    breadcrumbTitle?.path === router.asPath ? breadcrumbTitle.label : undefined
+  );
 
   return (
     <DesignSystemScope>
@@ -101,6 +122,7 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
             ]}
             profile={{
               name: self ? `${self.firstName} ${self.lastName}` : 'Profile',
+              src: profilePhoto,
               menu: (
                 <>
                   <MenuItem
@@ -130,21 +152,14 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
         }
         header={
           <>
-            <Breadcrumbs
-              items={[
-                { id: 'idol', label: 'IDOL', href: '/' },
-                {
-                  id: 'current',
-                  label: accountPage ?? current?.label ?? 'Page',
-                  href: router.asPath
-                }
-              ]}
-            />
+            <Breadcrumbs items={breadcrumbs} />
             <LabelledSwitch label="Try new UI" checked={enabled} onCheckedChange={setEnabled} />
           </>
         }
       >
-        {children}
+        <BreadcrumbTitleContext.Provider value={setBreadcrumbTitle}>
+          {children}
+        </BreadcrumbTitleContext.Provider>
       </AppShell>
     </DesignSystemScope>
   );
