@@ -12,6 +12,7 @@ import {
   Sidebar
 } from '../design-system-2026/components';
 import type { SidebarEntry } from '../design-system-2026/components/Sidebar/Sidebar';
+import LoadingScreen from '../design-system-2026/components/LoadingScreen/LoadingScreen';
 import {
   SignOutIcon,
   CalendarIcon,
@@ -26,26 +27,97 @@ import { useHasAdminPermission, useSelf } from '../components/Common/FirestoreDa
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import ImagesAPI from '../API/ImagesAPI';
 import { auth } from '../firebase';
-import { usePreviewToggle } from './preview';
+import { readPreviewPreference, usePreviewToggle } from './preview';
 import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
 import getBreadcrumbs from './breadcrumbRoutes';
 import memberNavigation from './navigation';
+import { HomepageSkeleton } from './Homepage/HomepageView';
 import Navigation from './Navigation/Navigation';
 import ProfileMenu from './Navigation/ProfileMenu';
 import useMobileNavigation from './Navigation/useMobileNavigation';
 import styles from './Navigation/Navigation.module.css';
 
+function navigationEntry(pathname: string, size: number) {
+  return (href: string, label: string, IconComponent: Icon): SidebarEntry => ({
+    id: href,
+    href,
+    label,
+    icon: <IconComponent size={size} aria-hidden="true" />,
+    selected: pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
+  });
+}
+
+function navigationSections(pathname: string, size: number, admin: boolean, candidate: boolean) {
+  const entry = navigationEntry(pathname, size);
+  return [
+    { id: 'main', label: 'Main', items: memberNavigation(pathname, size) },
+    ...(admin
+      ? [{ id: 'admin', label: 'Admin', items: [entry('/admin', 'Admin', UsersIcon)] }]
+      : []),
+    {
+      id: 'recruitment',
+      label: 'Recruitment',
+      items: [
+        ...(candidate ? [entry('/candidate-decider', 'Candidate Decider', ScalesIcon)] : []),
+        entry('/interview-scheduler', 'Interview Scheduler', CalendarIcon)
+      ]
+    }
+  ];
+}
+
+export function AppLayoutLoading(): JSX.Element {
+  const { pathname } = useRouter();
+  const mobile = useMobileNavigation();
+  const [preview, setPreview] = useState(false);
+  useEffect(() => setPreview(readPreviewPreference()), []);
+
+  const home = pathname === '/';
+  if (!preview || (mobile && !home)) return <LoadingScreen />;
+  return (
+    <DesignSystemScope>
+      <AppShell
+        flush={mobile}
+        header={null}
+        sidebar={
+          !mobile && (
+            <Sidebar
+              id="app-navigation"
+              loading
+              minimized={false}
+              onMinimizedChange={() => {}}
+              sections={navigationSections(pathname, 16, false, true)}
+              footer={home && <LabelledSwitch label="Try new UI" disabled />}
+              profile={{ name: 'Member name' }}
+            />
+          )
+        }
+      >
+        {home ? <HomepageSkeleton /> : <LoadingScreen inline />}
+      </AppShell>
+    </DesignSystemScope>
+  );
+}
+
 /** Navigation for the redesign, using the same routes and permissions as the released app. */
-export default function AppLayout({ children }: { readonly children: ReactNode }): JSX.Element {
+export default function AppLayout({
+  children,
+  animateHome
+}: {
+  readonly children: ReactNode;
+  readonly animateHome: boolean;
+}): JSX.Element {
   const router = useRouter();
   const self = useSelf();
   const hasAdminPermission = useHasAdminPermission();
   const { enabled, setEnabled } = usePreviewToggle();
   const mobile = useMobileNavigation();
   const [minimized, setMinimized] = useState(false);
-  const [hasInstance, setHasInstance] = useState(false);
+  const [candidateAccess, setCandidateAccess] = useState<{ email: string; allowed: boolean }>();
   const [profilePhoto, setProfilePhoto] = useState<string>();
   const [breadcrumbTitle, setBreadcrumbTitle] = useState<BreadcrumbTitle>();
+  const pagePath = router.asPath.split(/[?#]/)[0];
+  const { pathname } = router;
+  const detailLabel = breadcrumbTitle?.path === router.asPath ? breadcrumbTitle.label : undefined;
 
   useEffect(() => {
     let active = true;
@@ -63,36 +135,29 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
   }, [self?.netid]);
 
   useEffect(() => {
+    if (!self) return undefined;
     let active = true;
-    setHasInstance(false);
-    if (self) {
-      CandidateDeciderAPI.hasCandidateDeciderInstance().then((result) => {
-        if (active) setHasInstance(result);
+    CandidateDeciderAPI.hasCandidateDeciderInstance(8000)
+      .catch(() => false)
+      .then((allowed) => {
+        if (active) setCandidateAccess({ email: self.email, allowed });
       });
-    }
     return () => {
       active = false;
     };
   }, [self]);
 
-  const entry = (href: string, label: string, IconComponent: Icon): SidebarEntry => ({
-    id: href,
-    href,
-    label,
-    icon: <IconComponent size={mobile ? 24 : 16} aria-hidden="true" />,
-    selected: router.pathname === href || (href !== '/' && router.pathname.startsWith(`${href}/`))
-  });
-  const items = memberNavigation(router.pathname, mobile ? 24 : 16);
-  const recruitmentItems = [
-    ...(hasInstance ? [entry('/candidate-decider', 'Candidate Decider', ScalesIcon)] : []),
-    entry('/interview-scheduler', 'Interview Scheduler', CalendarIcon)
-  ];
-  const adminItems = hasAdminPermission ? [entry('/admin', 'Admin', UsersIcon)] : [];
-  const breadcrumbs = getBreadcrumbs(
+  const sidebarLoading = Boolean(self && candidateAccess?.email !== self.email);
+  const hasInstance = candidateAccess?.email === self?.email && candidateAccess?.allowed === true;
+  const size = mobile ? 24 : 16;
+  const entry = navigationEntry(router.pathname, size);
+  const sections = navigationSections(
     router.pathname,
-    router.asPath,
-    breadcrumbTitle?.path === router.asPath ? breadcrumbTitle.label : undefined
+    size,
+    hasAdminPermission,
+    hasInstance || (!mobile && sidebarLoading)
   );
+  const breadcrumbs = getBreadcrumbs(pathname, router.asPath, detailLabel);
 
   const profileName = self ? `${self.firstName} ${self.lastName}` : 'Profile';
   const profileMenu = (
@@ -153,24 +218,22 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
       </Head>
       <AppShell
         flush={mobile}
-        animateNavigation={router.pathname === '/'}
-        pageKey={router.asPath.split(/[?#]/)[0]}
+        animateNavigation={animateHome}
+        pageKey={pagePath}
         sidebar={
           !mobile && (
             <Sidebar
               id="app-navigation"
+              loading={sidebarLoading}
               minimized={minimized}
               onMinimizedChange={setMinimized}
-              sections={[
-                { id: 'main', label: 'Main', items },
-                ...(adminItems.length ? [{ id: 'admin', label: 'Admin', items: adminItems }] : []),
-                { id: 'recruitment', label: 'Recruitment', items: recruitmentItems }
-              ]}
+              sections={sections}
               footer={
                 router.pathname === '/' ? (
                   <LabelledSwitch
                     label={minimized ? 'New UI' : 'Try new UI'}
                     checked={enabled}
+                    disabled={sidebarLoading}
                     onCheckedChange={setEnabled}
                   />
                 ) : undefined
@@ -184,11 +247,9 @@ export default function AppLayout({ children }: { readonly children: ReactNode }
             <Navigation
               key={self?.email ?? 'anonymous'}
               storageKey={self?.email ? `idol:navbar:${self.email}` : undefined}
-              pageKey={router.asPath.split(/[?#]/)[0]}
+              pageKey={pagePath}
               items={[
-                ...items,
-                ...adminItems,
-                ...recruitmentItems,
+                ...sections.flatMap((section) => section.items),
                 entry('/forms/profile', 'Edit Profile', UserIcon),
                 entry('/settings', 'Settings', GearIcon),
                 entry('/help', 'Help', QuestionIcon)

@@ -3,11 +3,11 @@ import { DottedBackground } from '../DottedBackground/DottedBackground';
 import styles from './LoadingScreen.module.css';
 
 /** Visible only while startup work is pending; the animation never delays completion. */
-export default function LoadingScreen(): JSX.Element {
+export default function LoadingScreen({ inline = false }: { inline?: boolean }): JSX.Element {
   return (
-    <DesignSystemScope>
+    <DesignSystemScope className={inline ? styles.container : undefined}>
       <DottedBackground
-        className={styles.screen}
+        className={`${styles.screen} ${inline ? styles.inline : ''}`}
         role="status"
         aria-label="Loading IDOL"
         aria-busy="true"

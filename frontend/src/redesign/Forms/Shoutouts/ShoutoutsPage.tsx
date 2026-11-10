@@ -96,7 +96,7 @@ export default function ShoutoutsPage(): JSX.Element {
       return (
         <div className={styles.skeletonGrid} role="status" aria-label="Loading shoutouts">
           {[0, 1, 2, 3].map((key) => (
-            <div key={key} className={styles.skeleton} />
+            <div key={key} className={`${styles.skeleton} idol-skeleton`} aria-hidden="true" />
           ))}
         </div>
       );

@@ -94,9 +94,12 @@ export const useTeams = (): readonly Team[] => {
   return Array.from(teamsMap.values());
 };
 
-type Props = { readonly children: ReactNode };
+type Props = { readonly children: ReactNode; readonly loading?: ReactNode };
 
-export default function FirestoreDataProvider({ children }: Props): JSX.Element {
+export default function FirestoreDataProvider({
+  children,
+  loading = <LoadingScreen />
+}: Props): JSX.Element {
   const [adminEmails, setAdminEmails] = useState<readonly string[] | undefined>();
   const [members, setMembers] = useState<readonly IdolMember[] | undefined>();
   const [approvedMembers, setApprovedMembers] = useState<readonly IdolMember[] | undefined>();
@@ -156,7 +159,7 @@ export default function FirestoreDataProvider({ children }: Props): JSX.Element 
       }
       {!hasIDOLAccess || adminEmails == null || members == null || approvedMembers == null ? (
         <div>
-          <LoadingScreen />
+          {hasIDOLAccess ? loading : <LoadingScreen />}
           {!hasIDOLAccess && (
             <Modal
               basic

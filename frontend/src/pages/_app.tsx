@@ -18,27 +18,42 @@ import SuccessNotifications from '../redesign/SuccessNotifications';
 import { ToastProvider } from '../design-system-2026/components';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import { PreviewProvider, usePreview, usePreviewToggle } from '../redesign/preview';
-import AppLayout from '../redesign/AppLayout';
+import AppLayout, { AppLayoutLoading } from '../redesign/AppLayout';
 import PreviewRouteGuard from '../redesign/PreviewRouteGuard';
 import { AppearanceProvider } from '../design-system-2026/components/Theme/AppearanceProvider';
+import homeStyles from '../redesign/Homepage/Homepage.module.css';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import './App.css';
 import '../design-system-2026/tokens/colors.css';
 import '../design-system-2026/tokens/typography.css';
+import '../design-system-2026/tokens/skeleton.css';
 
 export default function AppTemplate(props: AppProps): JSX.Element {
   const { Component, pageProps } = props;
-  const router = useRouter();
+  const { pathname } = useRouter();
+  const isDesignPreview =
+    process.env.NODE_ENV === 'development' &&
+    (pathname === '/design-system-2026' || pathname.startsWith('/design-system-2026/'));
+  const isHome =
+    pathname === '/' || (isDesignPreview && pathname === '/design-system-2026/homepage');
+  const [entrancePath, setEntrancePath] = useState(isHome ? pathname : null);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  useEffect(() => {
+    if (pathname !== entrancePath) setEntrancePath(null);
+  }, [pathname, entrancePath]);
+  const animateHome = hydrated && pathname === entrancePath;
+  const entranceClass = `${homeStyles.entranceScope} ${animateHome ? homeStyles.enter : ''}`;
 
   // Local design-system previews stay independent of Firebase.
-  if (
-    process.env.NODE_ENV === 'development' &&
-    (router.pathname === '/design-system-2026' ||
-      router.pathname.startsWith('/design-system-2026/'))
-  ) {
-    return <Component {...pageProps} />;
+  if (isDesignPreview) {
+    return (
+      <div className={entranceClass}>
+        <Component {...pageProps} animateHome={animateHome} />
+      </div>
+    );
   }
 
   return (
@@ -54,25 +69,33 @@ export default function AppTemplate(props: AppProps): JSX.Element {
         <title>Cornell DTI IDOL</title>
       </Head>
       <AppearanceProvider>
-        <UserProvider>
-          <FirestoreDataProvider>
-            <PreviewProvider>
-              <RoutingMiddleware>
-                <PreviewRouteGuard>
-                  <AppContent>
-                    <Component {...pageProps} />
-                  </AppContent>
-                </PreviewRouteGuard>
-              </RoutingMiddleware>
-            </PreviewProvider>
-          </FirestoreDataProvider>
-        </UserProvider>
+        <div className={entranceClass}>
+          <UserProvider loading={<AppLayoutLoading />}>
+            <FirestoreDataProvider loading={<AppLayoutLoading />}>
+              <PreviewProvider>
+                <RoutingMiddleware>
+                  <PreviewRouteGuard>
+                    <AppContent animateHome={animateHome}>
+                      <Component {...pageProps} />
+                    </AppContent>
+                  </PreviewRouteGuard>
+                </RoutingMiddleware>
+              </PreviewProvider>
+            </FirestoreDataProvider>
+          </UserProvider>
+        </div>
       </AppearanceProvider>
     </>
   );
 }
 
-function AppContent({ children }: { readonly children: ReactNode }): JSX.Element {
+function AppContent({
+  children,
+  animateHome
+}: {
+  readonly children: ReactNode;
+  readonly animateHome: boolean;
+}): JSX.Element {
   const preview = usePreview();
   const [navVisible, setNavVisible] = useState(false);
   const hasAdminPermission = useHasAdminPermission();
@@ -97,7 +120,7 @@ function AppContent({ children }: { readonly children: ReactNode }): JSX.Element
         <SuccessModal onEmitter={Emitters.generalSuccess} />
       )}
       {preview ? (
-        <AppLayout>{children}</AppLayout>
+        <AppLayout animateHome={animateHome}>{children}</AppLayout>
       ) : (
         <div className="App">
           <SiteHeader />

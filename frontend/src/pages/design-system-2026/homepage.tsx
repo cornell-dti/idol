@@ -23,7 +23,7 @@ import {
 import styles from '../../redesign/Navigation/Navigation.module.css';
 
 /** Isolated, development-only visual fixture. It never requests or writes member data. */
-export default function HomepagePreview(): JSX.Element {
+export default function HomepagePreview({ animateHome }: { animateHome?: boolean }): JSX.Element {
   const mobile = useMobileNavigation();
   const [minimized, setMinimized] = useState(false);
   return (
@@ -38,7 +38,7 @@ export default function HomepagePreview(): JSX.Element {
         </Head>
         <AppShell
           flush={mobile}
-          animateNavigation
+          animateNavigation={animateHome}
           sidebar={
             !mobile && (
               <Sidebar

@@ -18,6 +18,7 @@ export type SidebarItemProps = Omit<BaseButton.Props, 'className' | 'children'> 
   size?: 'default' | 'large';
   href?: string;
   onClick?: () => void;
+  loading?: boolean;
 };
 
 export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
@@ -31,6 +32,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
       size = 'default',
       href,
       onClick,
+      loading = false,
       ...buttonProps
     },
     ref
@@ -52,6 +54,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
       </>
     );
     const name = secondaryLabel ? `${label}: ${secondaryLabel}` : label;
+    if (loading) return <div className={className}>{content}</div>;
     if (href)
       return (
         <Link href={href}>
@@ -84,7 +87,9 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
   }
 );
 
-export type SidebarEntry = Omit<SidebarItemProps, 'minimized' | 'size'> & { id: string };
+export type SidebarEntry = Omit<SidebarItemProps, 'minimized' | 'size' | 'loading'> & {
+  id: string;
+};
 export type SidebarSection = { id: string; label: string; items: readonly SidebarEntry[] };
 export type SidebarProps = {
   id: string;
@@ -92,6 +97,7 @@ export type SidebarProps = {
   sections: readonly SidebarSection[];
   footerItems?: readonly SidebarEntry[];
   footer?: ReactNode;
+  loading?: boolean;
   profile: { name: string; src?: string; onClick?: () => void; menu?: ReactNode };
   minimized: boolean;
   onMinimizedChange: (minimized: boolean) => void;
@@ -105,6 +111,7 @@ export function Sidebar({
   sections,
   footerItems = [],
   footer,
+  loading = false,
   profile,
   minimized,
   onMinimizedChange,
@@ -126,11 +133,12 @@ export function Sidebar({
       secondaryLabel={profile.name}
       size="large"
       minimized={minimized}
-      icon={<Avatar name={profile.name} src={profile.src} decorative />}
+      loading={loading}
+      icon={<Avatar name={profile.name} src={loading ? undefined : profile.src} decorative />}
       onClick={profile.onClick}
     />
   );
-  const normalized = query.trim().toLowerCase();
+  const normalized = loading ? '' : query.trim().toLowerCase();
   const filtered = sections
     .map((section) => ({
       ...section,
@@ -142,20 +150,28 @@ export function Sidebar({
       data-idol-redesign
       data-idol-theme={theme ?? appearance.theme}
       data-idol-accent={appearance.accent}
-      aria-label={label}
-      className={`${styles.sidebar} ${minimized ? styles.minimized : ''}`}
+      aria-label={loading ? 'Loading navigation' : label}
+      aria-busy={loading || undefined}
+      className={`${styles.sidebar} ${minimized ? styles.minimized : ''} ${
+        loading ? styles.loading : ''
+      }`}
     >
-      <div className={styles.top}>
+      <div className={styles.top} aria-hidden={loading || undefined}>
         <div className={styles.header}>
-          <img
-            src="/design-system/figma/idol-logo.png"
-            alt="IDOL"
-            width={32}
-            height={32}
-            aria-hidden={minimized || undefined}
-          />
+          {loading ? (
+            <span className={styles.logoPlaceholder} />
+          ) : (
+            <img
+              src="/design-system/figma/idol-logo.png"
+              alt="IDOL"
+              width={32}
+              height={32}
+              aria-hidden={minimized || undefined}
+            />
+          )}
           <IconButton
             variant="tertiary"
+            disabled={loading}
             aria-label={minimized ? 'Expand sidebar' : 'Collapse sidebar'}
             aria-expanded={!minimized}
             aria-controls={`${id}-navigation`}
@@ -166,6 +182,7 @@ export function Sidebar({
         {minimized ? (
           <IconButton
             variant="secondary"
+            disabled={loading}
             aria-label="Search navigation"
             icon={<MagnifyingGlassIcon size={16} aria-hidden="true" />}
             className={styles.searchButton}
@@ -177,6 +194,7 @@ export function Sidebar({
         ) : (
           <Input
             ref={search}
+            disabled={loading}
             id={`${id}-search`}
             type="search"
             aria-label="Search navigation"
@@ -188,25 +206,30 @@ export function Sidebar({
           />
         )}
       </div>
-      <nav id={`${id}-navigation`} aria-label={`${label} sections`} className={styles.navigation}>
+      <nav
+        id={`${id}-navigation`}
+        aria-label={`${label} sections`}
+        aria-hidden={loading || undefined}
+        className={styles.navigation}
+      >
         {filtered.map((section) => (
           <div key={section.id} className={styles.group}>
             <p className={styles.category} aria-hidden={minimized || undefined}>
-              {section.label}
+              <span>{section.label}</span>
             </p>
             {section.items.map(({ id: itemId, ...item }) => (
-              <SidebarItem key={itemId} {...item} minimized={minimized} />
+              <SidebarItem key={itemId} {...item} minimized={minimized} loading={loading} />
             ))}
           </div>
         ))}
         {!filtered.length && !minimized && <p className={styles.empty}>No matching pages.</p>}
       </nav>
-      <div className={styles.footer}>
+      <div className={styles.footer} aria-hidden={loading || undefined}>
         {footer}
         {footerItems.map(({ id: itemId, ...item }) => (
-          <SidebarItem key={itemId} {...item} minimized={minimized} />
+          <SidebarItem key={itemId} {...item} minimized={minimized} loading={loading} />
         ))}
-        {profile.menu ? (
+        {profile.menu && !loading ? (
           <Menu
             trigger={profileItem}
             origin="bottom-left"

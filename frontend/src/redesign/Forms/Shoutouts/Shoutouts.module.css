@@ -209,18 +209,6 @@
   min-height: 220px;
   border: 1px solid var(--idol-stroke-black);
   border-radius: 16px;
-  background: var(--idol-bg-dimmer);
-  animation: pulse 1.5s ease-in-out infinite alternate;
-}
-@keyframes pulse {
-  to {
-    opacity: 0.4;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .skeleton {
-    animation: none;
-  }
 }
 @media (max-width: 640px) {
   .page {

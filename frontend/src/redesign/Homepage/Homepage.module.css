@@ -1,3 +1,14 @@
+.entranceScope {
+  display: contents;
+}
+
+/* Keep the slide on the app scope so swapping the skeleton for Home cannot restart it. */
+@property --idol-home-offset {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 .home {
   min-height: 100%;
   display: flex;
@@ -45,6 +56,7 @@
   margin-top: -32px;
   padding: 64px 32px;
   border-radius: 24px 24px 0 0;
+  translate: 0 var(--idol-home-offset, 0px);
 }
 .search {
   position: absolute;
@@ -139,7 +151,8 @@
 .notice:empty {
   display: none;
 }
-.cardArrow {
+.cardArrow,
+.cardArrowSkeleton {
   display: flex;
   width: 24px;
   height: 24px;
@@ -171,10 +184,76 @@
   color: var(--idol-fg-dimmer);
   font: var(--idol-type-label-default);
 }
-.loading {
-  min-height: 54px;
-  justify-content: center;
-  color: var(--idol-fg-dimmer);
+.coverSkeleton {
+  position: absolute;
+  inset: 0;
+  opacity: 0.75;
+}
+.welcomeSkeleton {
+  --idol-skeleton-base: color-mix(in srgb, var(--idol-bg-dimmer), var(--idol-fg-default) 7%);
+  width: min(360px, 100%);
+  height: var(--idol-type-title-line-height);
+  margin-inline: auto;
+  border-radius: 12px;
+}
+.searchSkeleton {
+  height: 52px;
+  border-radius: 123px;
+}
+.headingSkeleton {
+  display: inline-block;
+  width: 120px;
+  height: 20px;
+  border-radius: 6px;
+  vertical-align: middle;
+}
+.shortcutIconSkeleton {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+}
+.shortcutCopySkeleton {
+  display: grid;
+  gap: 8px;
+  padding-block: 7px;
+}
+.shortcutTitleSkeleton,
+.shortcutDescriptionSkeleton,
+.cardTitleSkeleton,
+.metricValueSkeleton,
+.metricLabelSkeleton {
+  border-radius: 4px;
+}
+.shortcutTitleSkeleton {
+  width: 55%;
+  height: 16px;
+}
+.shortcutDescriptionSkeleton {
+  width: 85%;
+  height: 14px;
+}
+.editSkeleton {
+  width: 108px;
+  height: 36px;
+  border-radius: 6px;
+}
+.cardTitleSkeleton {
+  width: 100px;
+  height: 10px;
+}
+.cardTitleSkeleton,
+.cardArrowSkeleton {
+  --idol-skeleton-base: color-mix(in srgb, var(--idol-bg-dimmer), var(--idol-fg-default) 7%);
+}
+.metricValueSkeleton {
+  width: 44%;
+  height: 22px;
+  margin-block: 5px;
+}
+.metricLabelSkeleton {
+  width: 75%;
+  height: 8px;
+  margin-block: 3px;
 }
 .error {
   display: flex;
@@ -350,6 +429,9 @@
     font: var(--idol-type-heading-1);
     letter-spacing: var(--idol-type-heading-1-tracking);
   }
+  .welcomeSkeleton {
+    height: var(--idol-type-heading-1-line-height);
+  }
   .surface {
     padding: 48px 16px 32px;
   }
@@ -384,46 +466,13 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .heroPhoto {
-    animation: cover-arrive 360ms ease-out backwards;
-  }
-
-  .surface {
-    animation: surface-arrive 320ms cubic-bezier(0.2, 0.7, 0.3, 1) 65ms backwards;
-  }
-
-  .enterCard {
-    animation: card-arrive 220ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  .enter {
+    animation: home-arrive 280ms cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 }
 
-@keyframes cover-arrive {
+@keyframes home-arrive {
   from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes surface-arrive {
-  from {
-    opacity: 0.6;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes card-arrive {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    --idol-home-offset: 14px;
   }
 }

@@ -17,17 +17,88 @@ import { defaultShortcuts, parseShortcuts, ShortcutId, shortcuts } from './short
 import { HomeSummary, SummaryState } from './summary';
 import styles from './Homepage.module.css';
 
-// Keep the last card under 750 ms even with every shortcut enabled.
-const cardDelay = (index: number) => ({ animationDelay: `${150 + index * 42}ms` });
+const summaryCards = [
+  { key: 'coffee', title: 'Coffee Chats', href: '/forms/coffeeChats', metricCount: 3 },
+  { key: 'tec', title: 'Team Event Credits', href: '/forms/teamEventCredits', metricCount: 3 },
+  { key: 'shoutouts', title: 'Shoutouts', href: '/forms/shoutouts', metricCount: 2 }
+] as const;
+
+function MetricsSkeleton({ count }: { count: number }): JSX.Element {
+  return (
+    <div className={styles.metrics} aria-hidden="true">
+      {Array.from({ length: count }, (_, index) => (
+        <div key={index}>
+          <span className={`${styles.metricValueSkeleton} idol-skeleton`} />
+          <span className={`${styles.metricLabelSkeleton} idol-skeleton`} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function HomepageSkeleton(): JSX.Element {
+  return (
+    <div className={styles.home} role="status" aria-label="Loading home">
+      <div aria-hidden="true" className={styles.hero}>
+        <div className={`${styles.coverSkeleton} idol-skeleton`} />
+        <div className={styles.welcome}>
+          <div className={`${styles.welcomeSkeleton} idol-skeleton`} />
+        </div>
+      </div>
+      <DottedBackground className={styles.surface} aria-hidden="true">
+        <div className={`${styles.search} ${styles.searchSkeleton} idol-skeleton`} />
+        <div className={styles.columns}>
+          <div className={styles.shortcuts}>
+            <h2 className="idol-heading-2">
+              <span className={`${styles.headingSkeleton} idol-skeleton`} />
+            </h2>
+            <div className={styles.shortcutGrid}>
+              {defaultShortcuts.map((id) => (
+                <Card key={id}>
+                  <div className={styles.shortcutContent}>
+                    <div className={`${styles.shortcutIconSkeleton} idol-skeleton`} />
+                    <div className={styles.shortcutCopySkeleton}>
+                      <div className={`${styles.shortcutTitleSkeleton} idol-skeleton`} />
+                      <div className={`${styles.shortcutDescriptionSkeleton} idol-skeleton`} />
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <div className={styles.editButton}>
+              <div className={`${styles.editSkeleton} idol-skeleton`} />
+            </div>
+          </div>
+          <div className={styles.glance}>
+            <h2 className="idol-heading-2">
+              <span className={`${styles.headingSkeleton} idol-skeleton`} />
+            </h2>
+            {summaryCards.map(({ key, metricCount }) => (
+              <Card
+                key={key}
+                header={<span className={`${styles.cardTitleSkeleton} idol-skeleton`} />}
+                action={<span className={`${styles.cardArrowSkeleton} idol-skeleton`} />}
+              >
+                <MetricsSkeleton count={metricCount} />
+              </Card>
+            ))}
+          </div>
+        </div>
+      </DottedBackground>
+    </div>
+  );
+}
 
 function SummaryCard({
   title,
   href,
+  metricCount,
   state,
   onRetry
 }: {
   title: string;
   href: string;
+  metricCount: number;
   state: SummaryState;
   onRetry: () => void;
 }): JSX.Element {
@@ -50,21 +121,19 @@ function SummaryCard({
             Try again
           </Button>
         </div>
-      ) : (
-        <dl className={styles.metrics} aria-busy={!state.metrics}>
-          {state.metrics ? (
-            state.metrics.map((metric) => (
-              <div key={metric.label}>
-                <dd>{metric.value}</dd>
-                <dt>{metric.label}</dt>
-              </div>
-            ))
-          ) : (
-            <div className={styles.loading} role="status">
-              Loading…
+      ) : state.metrics ? (
+        <dl className={styles.metrics}>
+          {state.metrics.map((metric) => (
+            <div key={metric.label}>
+              <dd>{metric.value}</dd>
+              <dt>{metric.label}</dt>
             </div>
-          )}
+          ))}
         </dl>
+      ) : (
+        <div role="status" aria-label={`Loading ${title}`}>
+          <MetricsSkeleton count={metricCount} />
+        </div>
       )}
     </Card>
   );
@@ -107,6 +176,8 @@ export default function HomepageView({
     }
     setReady(true);
   }, [storageKey]);
+  if (!ready) return <HomepageSkeleton />;
+
   const save = (items: ShortcutId[]) => {
     setSelected(items);
     try {
@@ -128,7 +199,7 @@ export default function HomepageView({
       <div className={styles.hero}>
         <img className={styles.heroPhoto} src={cover.src} alt="" />
         <div className={styles.heroFade} />
-        <CoverEditor value={coverPreferences} onSave={saveCover} disabled={!ready} />
+        <CoverEditor value={coverPreferences} onSave={saveCover} disabled={false} />
         <div className={styles.welcome}>
           <h1>{name ? `Welcome, ${name}!` : 'Welcome to IDOL!'}</h1>
         </div>
@@ -143,13 +214,9 @@ export default function HomepageView({
               Shortcuts
             </h2>
             <div className={styles.shortcutGrid}>
-              {visible.map((item, index) => (
+              {visible.map((item) => (
                 <Link key={item.id} href={item.href}>
-                  <a
-                    href={item.href}
-                    className={`${styles.shortcutLink} ${styles.enterCard}`}
-                    style={cardDelay(index)}
-                  >
+                  <a href={item.href} className={styles.shortcutLink}>
                     <Card className={styles.shortcutCard}>
                       <div className={styles.shortcutContent}>
                         <span className={styles.iconTile}>
@@ -166,12 +233,12 @@ export default function HomepageView({
               ))}
             </div>
             {!visible.length && (
-              <Card className={styles.enterCard} style={cardDelay(0)}>
+              <Card>
                 <p role="status">Choose your favorite actions with Edit shortcuts.</p>
               </Card>
             )}
             <div className={styles.editButton}>
-              <ShortcutEditor selected={selected} onSave={save} disabled={!ready} />
+              <ShortcutEditor selected={selected} onSave={save} disabled={false} />
             </div>
             <p className={styles.notice} role="status">
               {notice}
@@ -181,20 +248,15 @@ export default function HomepageView({
             <h2 id="home-glance" className="idol-heading-2">
               At a glance
             </h2>
-            {(
-              [
-                ['Coffee Chats', '/forms/coffeeChats', summary.coffee],
-                ['Team Event Credits', '/forms/teamEventCredits', summary.tec],
-                ['Shoutouts', '/forms/shoutouts', summary.shoutouts]
-              ] as const
-            ).map(([title, href, state], index) => (
-              <div
-                key={href}
-                className={styles.enterCard}
-                style={cardDelay(Math.max(visible.length, 1) + index)}
-              >
-                <SummaryCard title={title} href={href} state={state} onRetry={onRetry} />
-              </div>
+            {summaryCards.map(({ key, title, href, metricCount }) => (
+              <SummaryCard
+                key={key}
+                title={title}
+                href={href}
+                metricCount={metricCount}
+                state={summary[key]}
+                onRetry={onRetry}
+              />
             ))}
           </section>
         </div>
