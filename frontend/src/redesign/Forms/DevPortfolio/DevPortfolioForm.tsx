@@ -333,27 +333,33 @@ export default function DevPortfolioForm(): JSX.Element {
                 </form>
               )}
             </Card>
-            <aside className={styles.sidebar} aria-label="Assignment information">
-              <Card header={portfolio?.name ?? 'Your next submission'}>
-                {portfolio ? (
-                  <>
-                    <AssignmentStatus portfolio={portfolio} />
-                    <DeadlineSummary portfolio={portfolio} />
-                    <Link href={`/forms/dev-portfolio-submissions/${portfolio.uuid}`}>
-                      View assignment & submissions
-                    </Link>
-                  </>
-                ) : (
-                  <p>Select an assignment to see its dates and submission window.</p>
-                )}
-              </Card>
-              <Card header="Before you submit">
-                <p>
-                  {self?.role === 'tpm' || self?.role === 'dev-advisor'
-                    ? 'Opened PRs are optional for your role. Include links when available.'
-                    : 'Include at least one opened PR and one reviewed PR, or explain an exception.'}
-                </p>
-                <p>Include documentation or testing with every submission.</p>
+            <aside aria-label="Assignment tips">
+              <Card header="Tips">
+                <section className={styles.tipSection}>
+                  <h3 className={styles.sectionTitle}>
+                    {portfolio?.name ?? 'Your next submission'}
+                  </h3>
+                  {portfolio ? (
+                    <>
+                      <AssignmentStatus portfolio={portfolio} />
+                      <DeadlineSummary portfolio={portfolio} />
+                      <Link href={`/forms/dev-portfolio-submissions/${portfolio.uuid}`}>
+                        View assignment & submissions
+                      </Link>
+                    </>
+                  ) : (
+                    <p>Select an assignment to see its dates and submission window.</p>
+                  )}
+                </section>
+                <section className={styles.tipSection}>
+                  <h3 className={styles.sectionTitle}>Before you submit</h3>
+                  <p>
+                    {self?.role === 'tpm' || self?.role === 'dev-advisor'
+                      ? 'Opened PRs are optional for your role. Include links when available.'
+                      : 'Include at least one opened PR and one reviewed PR, or explain an exception.'}
+                  </p>
+                  <p>Include documentation or testing with every submission.</p>
+                </section>
               </Card>
             </aside>
           </div>
