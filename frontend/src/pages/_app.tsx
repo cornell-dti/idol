@@ -20,6 +20,7 @@ import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import { PreviewProvider, usePreview, usePreviewToggle } from '../redesign/preview';
 import AppLayout, { AppLayoutLoading } from '../redesign/AppLayout';
 import PreviewRouteGuard from '../redesign/PreviewRouteGuard';
+import { breadcrumbRoutes } from '../redesign/breadcrumbRoutes';
 import { AppearanceProvider } from '../design-system-2026/components/Theme/AppearanceProvider';
 import homeStyles from '../redesign/Homepage/Homepage.module.css';
 
@@ -68,7 +69,7 @@ export default function AppTemplate(props: AppProps): JSX.Element {
         <link rel="manifest" href="/manifest.json" />
         <title>Cornell DTI IDOL</title>
       </Head>
-      <AppearanceProvider>
+      <AppearanceProvider forceLight={!breadcrumbRoutes[pathname]?.supportsDarkTheme}>
         <div className={entranceClass}>
           <UserProvider loading={<AppLayoutLoading />}>
             <FirestoreDataProvider loading={<AppLayoutLoading />}>
