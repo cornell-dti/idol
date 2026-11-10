@@ -96,7 +96,13 @@ function Attachment({
   }, [path, cache]);
 
   if (failed) return <p className={styles.meta}>Image unavailable.</p>;
-  if (!url) return <p className={styles.meta}>Loading image…</p>;
+  if (!url)
+    return (
+      <div role="status">
+        <span className={styles.visuallyHidden}>Loading image…</span>
+        <div className={`${styles.attachmentSkeleton} idol-skeleton`} aria-hidden />
+      </div>
+    );
   return (
     <img
       className={styles.attachment}
@@ -185,6 +191,36 @@ function ShoutoutCard({
   );
 }
 
+function ShoutoutListSkeleton(): JSX.Element {
+  return (
+    <div role="status">
+      <span className={styles.visuallyHidden}>Loading shoutouts…</span>
+      <div className={styles.list} aria-hidden>
+        {[0, 1, 2].map((index) => (
+          <Card
+            key={index}
+            header={<span className={`${styles.skeletonDate} idol-skeleton`} />}
+            action={<span className={`${styles.skeletonAction} idol-skeleton`} />}
+          >
+            <div className={styles.participants}>
+              {[0, 1].map((column) => (
+                <div key={column} className={styles.skeletonCopy}>
+                  <span className={`${styles.skeletonLabel} idol-skeleton`} />
+                  <span className={`${styles.skeletonName} idol-skeleton`} />
+                </div>
+              ))}
+            </div>
+            <div className={styles.skeletonCopy}>
+              <span className={`${styles.skeletonLabel} idol-skeleton`} />
+              <span className={`${styles.skeletonMessage} idol-skeleton`} />
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 type ViewProps = {
   shoutouts: Shoutout[];
   loading?: boolean;
@@ -269,12 +305,7 @@ export function AdminShoutoutsView({
         Choose a start date on or before the end date.
       </p>
     );
-  else if (loading)
-    results = (
-      <p className={styles.status} role="status">
-        Loading shoutouts…
-      </p>
-    );
+  else if (loading) results = <ShoutoutListSkeleton />;
   else if (error)
     results = (
       <div className={styles.status}>
@@ -374,19 +405,18 @@ export function AdminShoutoutsView({
             <DesignSystemScope theme="dark">
               <DottedBackground className={styles.stage}>
                 <Dialog.Title className={styles.visuallyHidden}>Present shoutouts</Dialog.Title>
-                <DesignSystemScope theme="light" className={styles.stageBack}>
-                  <Dialog.Close
-                    render={
-                      <Button
-                        variant="secondary"
-                        aria-keyshortcuts="Escape"
-                        icon={<ArrowLeftIcon size={16} aria-hidden />}
-                      >
-                        Back
-                      </Button>
-                    }
-                  />
-                </DesignSystemScope>
+                <Dialog.Close
+                  render={
+                    <Button
+                      className={styles.stageBack}
+                      variant="secondary"
+                      aria-keyshortcuts="Escape"
+                      icon={<ArrowLeftIcon size={16} aria-hidden />}
+                    >
+                      Back
+                    </Button>
+                  }
+                />
                 {visible.length ? (
                   <ShoutoutStack
                     items={visible}

@@ -3,9 +3,9 @@
   flex-direction: column;
   min-width: 0;
   max-width: 100%;
-  border: 1px solid var(--idol-stroke-black);
+  border: 1px solid var(--idol-stroke-card, var(--idol-stroke-black));
   border-radius: 16px;
-  background: var(--idol-bg-default);
+  background: var(--idol-bg-card, var(--idol-bg-default));
   color: var(--idol-fg-default);
   box-shadow: 0 2px 8px #0000000a;
 }
@@ -25,7 +25,7 @@
 
 .card.layeredCard {
   padding: 0 3px 3px;
-  background: var(--idol-bg-dimmer);
+  background: var(--idol-bg-card-layer, var(--idol-bg-dimmer));
 }
 
 .cardHeader {
@@ -40,9 +40,9 @@
 }
 
 .layeredCard > .cardBody {
-  border: 1px solid var(--idol-stroke-black);
+  border: 1px solid var(--idol-stroke-card, var(--idol-stroke-black));
   border-radius: 12px;
-  background: var(--idol-bg-default);
+  background: var(--idol-bg-card, var(--idol-bg-default));
 }
 
 .card .cardTitle {

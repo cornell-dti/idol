@@ -161,6 +161,51 @@
   border-radius: 8px;
 }
 
+.attachmentSkeleton {
+  width: min(100%, 240px);
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+}
+
+.skeletonCopy {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
+.skeletonDate,
+.skeletonAction,
+.skeletonLabel,
+.skeletonName,
+.skeletonMessage {
+  display: block;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.skeletonDate {
+  width: min(40vw, 180px);
+}
+
+.skeletonAction {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+}
+
+.skeletonLabel {
+  width: 44px;
+  height: 12px;
+}
+
+.skeletonName {
+  width: min(75%, 120px);
+}
+
+.skeletonMessage {
+  width: 65%;
+}
+
 .status {
   margin: 32px auto;
   text-align: center;
@@ -298,25 +343,17 @@
   font: var(--idol-type-body-default);
 }
 
-.stageBack {
+.stage button.stageBack {
   position: absolute;
   z-index: 2;
   top: max(24px, env(safe-area-inset-top));
   left: clamp(20px, 4vw, 32px);
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .stageBack {
-    opacity: 0.48;
-    transition: opacity 320ms ease 240ms;
-  }
-
-  .stageBack:hover,
-  .stageBack:focus-within {
-    opacity: 1;
-    transition: opacity 160ms ease;
-  }
+.stage button.stageBack:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .stage .stack {
@@ -370,8 +407,7 @@
   .incoming {
     animation: none;
   }
-  .presentation,
-  .stageBack {
+  .presentation {
     transition: none;
   }
   .outgoing {
