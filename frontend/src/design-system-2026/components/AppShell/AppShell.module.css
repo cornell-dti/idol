@@ -16,6 +16,10 @@
   flex-shrink: 0;
   min-height: 0;
 }
+.sidebar:has([data-search-surface='sidebar'][data-expanded]) {
+  /* Keep the expanded field above the panel even during the sidebar's entrance fade. */
+  z-index: 3;
+}
 .shell .sidebar > aside {
   height: 100%;
 }

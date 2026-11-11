@@ -63,7 +63,9 @@ export function AppLayoutLoading(): JSX.Element {
               minimized={false}
               onMinimizedChange={() => {}}
               sections={navigationSections(pathname, 16, false, false)}
-              footer={home && <LabelledSwitch label="Try new UI" disabled />}
+              footer={
+                <LabelledSwitch className={styles.previewToggle} label="Try new UI" disabled />
+              }
               profile={{ name: 'Member name' }}
             />
           )
@@ -159,13 +161,7 @@ export default function AppLayout({
       </MenuItem>
     </>
   );
-  let header =
-    router.pathname === '/' ? null : (
-      <>
-        <Breadcrumbs items={breadcrumbs} />
-        <LabelledSwitch label="Try new UI" checked={enabled} onCheckedChange={setEnabled} />
-      </>
-    );
+  let header = pathname === '/' ? null : <Breadcrumbs items={breadcrumbs} />;
   if (mobile)
     header = (
       <>
@@ -220,13 +216,16 @@ export default function AppLayout({
                 />
               }
               footer={
-                router.pathname === '/' ? (
-                  <LabelledSwitch
-                    label={minimized ? 'New UI' : 'Try new UI'}
-                    checked={enabled}
-                    onCheckedChange={setEnabled}
-                  />
-                ) : undefined
+                <LabelledSwitch
+                  className={`${styles.previewToggle} ${
+                    minimized ? styles.previewToggleCompact : ''
+                  }`}
+                  label="Try new UI"
+                  aria-label="Try new UI"
+                  title={minimized ? 'Try new UI' : undefined}
+                  checked={enabled}
+                  onCheckedChange={setEnabled}
+                />
               }
               profile={{ name: profileName, src: profilePhoto, menu: profileMenu }}
             />

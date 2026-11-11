@@ -95,6 +95,24 @@
   gap: 8px;
   flex-shrink: 0;
 }
+.previewToggle.previewToggle {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 11px;
+  border-radius: 123px;
+  white-space: nowrap;
+}
+.previewToggle:hover {
+  background: var(--idol-bg-dimmer);
+}
+.previewToggle.previewToggleCompact {
+  justify-content: center;
+  padding: 0;
+}
+.previewToggleCompact > span:last-child {
+  display: none;
+}
 .overlay {
   position: fixed;
   inset: 0;
