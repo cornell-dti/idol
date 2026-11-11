@@ -23,7 +23,7 @@ import ImagesAPI from '../API/ImagesAPI';
 import { auth } from '../firebase';
 import { readPreviewPreference, usePreviewToggle } from './preview';
 import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
-import getBreadcrumbs from './breadcrumbRoutes';
+import getBreadcrumbs, { breadcrumbRoutes } from './breadcrumbRoutes';
 import memberNavigation, { navigationEntry } from './navigation';
 import HomeSearch from './Homepage/HomeSearch';
 import { HomepageSkeleton } from './Homepage/HomepageView';
@@ -63,6 +63,7 @@ export function AppLayoutLoading(): JSX.Element {
     <DesignSystemScope>
       <AppShell
         flush={mobile}
+        contentTheme={breadcrumbRoutes[pathname]?.supportsDarkTheme ? undefined : 'light'}
         header={null}
         sidebar={
           !mobile && (
@@ -213,6 +214,7 @@ export default function AppLayout({
         flush={mobile}
         animateNavigation={animateHome}
         pageKey={pagePath}
+        contentTheme={breadcrumbRoutes[pathname]?.supportsDarkTheme ? undefined : 'light'}
         sidebar={
           !mobile && (
             <Sidebar

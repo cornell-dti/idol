@@ -31,13 +31,7 @@ const AppearanceContext = createContext<Appearance>({
 });
 export const useAppearance = (): Appearance => useContext(AppearanceContext);
 
-export function AppearanceProvider({
-  children,
-  forceLight = false
-}: {
-  readonly children: ReactNode;
-  readonly forceLight?: boolean;
-}): JSX.Element {
+export function AppearanceProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const [theme, setThemeState] = useState<ThemePreference>('auto');
   const [accent, setAccentState] = useState<Accent>('blue');
   const [deviceDark, setDeviceDark] = useState(false);
@@ -82,7 +76,7 @@ export function AppearanceProvider({
       value={{
         theme,
         accent,
-        resolvedTheme: forceLight ? 'light' : preferredTheme,
+        resolvedTheme: preferredTheme,
         setTheme: (next) => {
           setThemeState(next);
           persist(next, accent);
