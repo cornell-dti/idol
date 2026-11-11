@@ -31,11 +31,7 @@ export default function NavigationCard({ testID, items }: Props): JSX.Element {
         {visibleItems.map(({ header, description, link }) => (
           <Link key={link} href={link}>
             <a href={link} className={styles.cardLink}>
-              <RedesignCard className={styles.navigationCard}>
-                <div className={styles.cardHeading}>
-                  <h2>{header}</h2>
-                  <ArrowRightIcon size={16} aria-hidden />
-                </div>
+              <RedesignCard header={header} action={<ArrowRightIcon size={16} aria-hidden />}>
                 <p>{description}</p>
               </RedesignCard>
             </a>
