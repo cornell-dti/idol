@@ -5,6 +5,7 @@ import { Button, Card, DottedBackground, useToast } from '../../design-system-20
 import { ArrowRightIcon } from '../../design-system-2026/icons';
 import HomeSearch from './HomeSearch';
 import HomepageCover from './HomepageCover';
+import { coverStorageKey } from './covers';
 import ShortcutEditor from './ShortcutEditor';
 import { defaultShortcuts, parseShortcuts, ShortcutId, shortcuts } from './shortcuts';
 import { HomeSummary, SummaryState } from './summary';
@@ -155,7 +156,7 @@ export default function HomepageView({
   onRetry
 }: HomepageViewProps): JSX.Element {
   const toast = useToast();
-  const coverKey = `${storageKey ?? 'idol:homepage'}:cover`;
+  const coverKey = coverStorageKey(storageKey);
   const [selected, setSelected] = useState<ShortcutId[]>(defaultShortcuts);
   const [ready, setReady] = useState(false);
   const [notice, setNotice] = useState('');

@@ -2,27 +2,18 @@ import { PointerEvent, useEffect, useRef, useState } from 'react';
 import { Button, useToast } from '../../design-system-2026/components';
 import { ArrowsVerticalIcon, CheckIcon } from '../../design-system-2026/icons';
 import CoverEditor from './CoverEditor';
-import {
-  clampCoverPosition,
-  CoverPreferences,
-  defaultCover,
-  defaultCoverPosition,
-  defaultCoverPreferences,
-  presetCovers,
-  readCoverPreferences
-} from './covers';
+import { clampCoverPosition, defaultCover, defaultCoverPosition, presetCovers } from './covers';
+import useCoverPreferences from './useCoverPreferences';
 import styles from './Homepage.module.css';
 
 export default function HomepageCover({ storageKey }: { storageKey: string }): JSX.Element {
   const toast = useToast();
-  const [preferences, setPreferences] = useState(defaultCoverPreferences);
+  const { preferences, saveCover } = useCoverPreferences(storageKey);
   const [draftPosition, setDraftPosition] = useState<number | null>(null);
   const photo = useRef<HTMLImageElement>(null);
   const dragArea = useRef<HTMLDivElement>(null);
   const action = useRef<HTMLElement>(null);
   const drag = useRef<{ id: number; y: number; position: number; overflow: number } | null>(null);
-
-  useEffect(() => setPreferences(readCoverPreferences(storageKey)), [storageKey]);
 
   const cover =
     [...presetCovers, ...preferences.custom].find((item) => item.id === preferences.selected) ??
@@ -33,12 +24,6 @@ export default function HomepageCover({ storageKey }: { storageKey: string }): J
   useEffect(() => {
     if (repositioning) dragArea.current?.focus({ preventScroll: true });
   }, [repositioning]);
-
-  const saveCover = (next: CoverPreferences) => {
-    localStorage.setItem(storageKey, JSON.stringify(next));
-    setPreferences(next);
-    toast.add({ id: 'cover-saved', title: 'Cover saved.' });
-  };
 
   const stopRepositioning = () => {
     drag.current = null;
