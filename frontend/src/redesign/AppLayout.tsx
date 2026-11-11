@@ -13,7 +13,11 @@ import {
 } from '../design-system-2026/components';
 import LoadingScreen from '../design-system-2026/components/LoadingScreen/LoadingScreen';
 import { SignOutIcon } from '../design-system-2026/icons';
-import { useHasAdminPermission, useSelf } from '../components/Common/FirestoreDataProvider';
+import {
+  useHasAdminPermission,
+  useHasMemberPermission,
+  useSelf
+} from '../components/Common/FirestoreDataProvider';
 import CandidateDeciderAPI from '../API/CandidateDeciderAPI';
 import ImagesAPI from '../API/ImagesAPI';
 import { auth } from '../firebase';
@@ -45,11 +49,16 @@ function navigationSections(pathname: string, size: number, admin: boolean, cand
 export function AppLayoutLoading(): JSX.Element {
   const { pathname } = useRouter();
   const mobile = useMobileNavigation();
+  const hasMemberPermission = useHasMemberPermission();
   const [preview, setPreview] = useState(false);
   useEffect(() => setPreview(readPreviewPreference()), []);
 
   const home = pathname === '/';
-  if (!preview || (mobile && !home)) return <LoadingScreen />;
+  const isInterviewScheduler =
+    pathname === '/interview-scheduler' || pathname.startsWith('/interview-scheduler/');
+  if (!preview || (mobile && !home) || (isInterviewScheduler && !hasMemberPermission)) {
+    return <LoadingScreen />;
+  }
   return (
     <DesignSystemScope>
       <AppShell

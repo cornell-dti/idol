@@ -101,6 +101,7 @@ function AppContent({
   const [navVisible, setNavVisible] = useState(false);
   const hasAdminPermission = useHasAdminPermission();
   const hasMemberPermissions = useHasMemberPermission();
+  const showMemberRedesign = preview && hasMemberPermissions;
   useEffect(() => {
     const cb = (isOpen: boolean) => {
       setNavVisible(isOpen);
@@ -115,12 +116,12 @@ function AppContent({
     <ToastProvider>
       <ErrorModal onEmitter={Emitters.generalError}></ErrorModal>
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
-      {preview ? (
+      {showMemberRedesign ? (
         <SuccessNotifications onEmitter={Emitters.generalSuccess} />
       ) : (
         <SuccessModal onEmitter={Emitters.generalSuccess} />
       )}
-      {preview ? (
+      {showMemberRedesign ? (
         <AppLayout animateHome={animateHome}>{children}</AppLayout>
       ) : (
         <div className="App">
