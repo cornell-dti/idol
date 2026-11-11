@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useLayoutEffect, useRef } from 'react';
 import { DottedBackground } from '../DottedBackground/DottedBackground';
+import { DesignSystemScope, Theme } from '../Theme/Theme';
 import styles from './AppShell.module.css';
 
 export type AppShellProps = {
@@ -10,6 +11,7 @@ export type AppShellProps = {
   animateNavigation?: boolean;
   children?: ReactNode;
   pageKey?: string;
+  contentTheme?: Theme;
 };
 
 const useClientLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
@@ -22,7 +24,8 @@ export function AppShell({
   flush = false,
   animateNavigation = false,
   children,
-  pageKey
+  pageKey,
+  contentTheme
 }: AppShellProps): JSX.Element {
   const content = useRef<HTMLDivElement>(null);
   useClientLayoutEffect(() => {
@@ -46,9 +49,11 @@ export function AppShell({
       <div className={styles.wrapper}>
         <main id="shell-content" tabIndex={-1} className={styles.panel}>
           {header != null && <header className={styles.header}>{header}</header>}
-          <DottedBackground ref={content} className={styles.content}>
-            {children}
-          </DottedBackground>
+          <DesignSystemScope theme={contentTheme} className={styles.contentScope}>
+            <DottedBackground ref={content} className={styles.content}>
+              {children}
+            </DottedBackground>
+          </DesignSystemScope>
         </main>
         {navigation}
       </div>
