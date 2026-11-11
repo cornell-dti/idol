@@ -338,16 +338,48 @@
   display: flex;
   box-sizing: border-box;
   min-height: 100dvh;
-  padding: 80px clamp(20px, 4vw, 48px) max(24px, env(safe-area-inset-bottom));
+  padding: 0 clamp(20px, 4vw, 32px) max(24px, env(safe-area-inset-bottom));
   color: var(--idol-fg-default);
   font: var(--idol-type-body-default);
 }
 
+.stageTabs,
+.stagePanel:not([hidden]) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stageToolbar {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: max(24px, env(safe-area-inset-top)) 0 8px;
+  background: var(--idol-bg-canvas);
+}
+
+.stagePanel {
+  margin-top: 8px;
+}
+
+.stageList .card {
+  min-height: 0;
+}
+
+.stageList .cardContent {
+  gap: 6px;
+  padding: 0;
+}
+
+.stageList .number {
+  margin-bottom: 2px;
+}
+
 .stage button.stageBack {
-  position: absolute;
-  z-index: 2;
-  top: max(24px, env(safe-area-inset-top));
-  left: clamp(20px, 4vw, 32px);
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
