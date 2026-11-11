@@ -3,7 +3,7 @@
   outline-offset: 3px;
 }
 .link.link {
-  color: var(--idol-link-color, var(--idol-accent-default));
+  color: var(--idol-accent-default);
   font: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -11,5 +11,5 @@
 }
 .link.link:hover,
 .link.link:active {
-  color: var(--idol-link-color, var(--idol-accent-dimmer));
+  color: var(--idol-accent-dimmer);
 }

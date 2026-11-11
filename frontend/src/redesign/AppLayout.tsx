@@ -192,7 +192,7 @@ export default function AppLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Bricolage+Grotesque:wght@600;700&family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=Instrument+Sans:wght@400;600&family=Inter:wght@400;600&family=Orbitron:wght@600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
           rel="stylesheet"
         />
       </Head>

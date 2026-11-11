@@ -80,59 +80,6 @@
   --idol-font-family: ui-monospace, Menlo, Consolas, monospace;
 }
 
-[data-idol-redesign][data-idol-theme='fantasy'] {
-  --idol-font-family: 'Crimson Text', Georgia, serif;
-  --idol-heading-font-family: 'Cinzel', Georgia, serif;
-  --idol-type-heading-1-size: 34px;
-  --idol-type-heading-1-line-height: 42px;
-  --idol-type-heading-1-weight: 700;
-  --idol-type-heading-1-tracking: 0;
-  --idol-type-body-default-size: 18px;
-  --idol-type-body-default-line-height: 25px;
-  --idol-type-body-default-tracking: 0;
-  --idol-type-body-large-size: 20px;
-  --idol-type-body-large-line-height: 28px;
-  --idol-type-label-default-size: 16px;
-  --idol-type-label-default-line-height: 18px;
-}
-
-[data-idol-redesign][data-idol-theme='spotlight'] {
-  --idol-font-family: 'Atkinson Hyperlegible Next', sans-serif;
-  --idol-type-heading-1-size: 36px;
-  --idol-type-heading-1-line-height: 44px;
-  --idol-type-heading-1-weight: 700;
-  --idol-type-heading-1-tracking: 0;
-  --idol-type-heading-3-size: 22px;
-  --idol-type-heading-3-line-height: 28px;
-  --idol-type-body-default-size: 17px;
-  --idol-type-body-default-line-height: 24px;
-  --idol-type-body-default-tracking: 0;
-  --idol-type-body-large-size: 19px;
-  --idol-type-body-large-line-height: 26px;
-  --idol-type-body-small-size: 14px;
-  --idol-type-body-small-line-height: 20px;
-  --idol-type-label-default-size: 16px;
-  --idol-type-label-default-line-height: 20px;
-}
-
-[data-idol-redesign][data-idol-theme='blueprint'] {
-  --idol-font-family: 'Instrument Sans', sans-serif;
-  --idol-heading-font-family: 'Orbitron', sans-serif;
-  --idol-type-heading-1-tracking: -0.64px;
-  --idol-type-heading-3-size: 18px;
-  --idol-type-body-default-size: 15px;
-  --idol-type-body-default-line-height: 22px;
-  --idol-type-body-default-tracking: 0;
-}
-
-[data-idol-redesign][data-idol-theme='electric'] {
-  --idol-heading-font-family: 'Bricolage Grotesque', sans-serif;
-  --idol-type-heading-1-size: 36px;
-  --idol-type-heading-1-line-height: 44px;
-  --idol-type-heading-1-weight: 700;
-  --idol-type-heading-4-weight: 700;
-}
-
 [data-idol-redesign] :where(h1, h2, h3, h4, h5, h6, p) {
   margin: 0;
 }

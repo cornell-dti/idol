@@ -72,7 +72,7 @@ function ThemeThumbnail({
         width="31"
         height="19"
         rx="3"
-        fill="var(--idol-fantasy-parchment, var(--idol-bg-root))"
+        fill="var(--idol-bg-root)"
         stroke="var(--idol-stroke-medium)"
       />
       <rect
@@ -81,7 +81,7 @@ function ThemeThumbnail({
         width="36"
         height="19"
         rx="3"
-        fill="var(--idol-fantasy-parchment, var(--idol-bg-root))"
+        fill="var(--idol-bg-root)"
         stroke="var(--idol-stroke-medium)"
       />
       <rect x="46" y="52" width="16" height="3" rx="1.5" fill="var(--idol-accent-default)" />
@@ -117,11 +117,13 @@ function ThemeThumbnail({
 function ThemeOptions({
   id,
   label,
-  options
+  options,
+  placeholder
 }: {
   id: string;
   label: string;
   options: readonly ThemePreference[];
+  placeholder?: string;
 }): JSX.Element {
   const { theme, accent, setTheme } = useAppearance();
   return (
@@ -141,6 +143,7 @@ function ThemeOptions({
           <span>{mode[0].toUpperCase() + mode.slice(1)}</span>
         </label>
       ))}
+      {placeholder && <span className={styles.themePlaceholder}>{placeholder}</span>}
     </RadioGroup>
   );
 }
@@ -199,6 +202,7 @@ export default function Settings(): JSX.Element {
               id="settings-special-theme"
               label="Special theme"
               options={SPECIAL_THEME_OPTIONS}
+              placeholder="More coming soon!"
             />
             <div className={`${styles.row} ${styles.coverRow}`}>
               <h3 className={styles.rowTitle}>Homepage cover image</h3>

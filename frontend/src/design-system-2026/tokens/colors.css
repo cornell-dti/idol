@@ -20,10 +20,6 @@
   --idol-bg-card-layer: var(--idol-bg-dimmer);
   --idol-stroke-card: var(--idol-stroke-black);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 4%);
-  --idol-outline-width: initial;
-  --idol-card-radius: initial;
-  --idol-control-shadow: initial;
-  --idol-link-color: initial;
   --idol-accent-default: #006fff;
   --idol-accent-dimmer: #0060e6;
   --idol-danger-default: #d30000;
@@ -39,10 +35,7 @@
 [data-idol-redesign]:is(
     [data-idol-theme='dark'],
     [data-idol-theme='pumpkin'],
-    [data-idol-theme='hacker'],
-    [data-idol-theme='fantasy'],
-    [data-idol-theme='spotlight'],
-    [data-idol-theme='blueprint']
+    [data-idol-theme='hacker']
   ) {
   color-scheme: dark;
   --idol-fg-default: #f5f5f5;
@@ -157,88 +150,6 @@
   --idol-accent-default: #8dff76;
   --idol-accent-dimmer: #5add4a;
   --idol-on-accent: #0d230c;
-}
-
-[data-idol-redesign][data-idol-theme='fantasy'] {
-  --idol-fg-default: #f8efd9;
-  --idol-fg-dimmer: #d3c6a7;
-  --idol-bg-root: #15231b;
-  --idol-bg-default: #203329;
-  --idol-bg-dimmer: #304538;
-  --idol-bg-canvas: #182820;
-  --idol-bg-card: var(--idol-bg-default);
-  --idol-bg-card-layer: var(--idol-bg-dimmer);
-  --idol-stroke-black: rgb(222 180 112 / 32%);
-  --idol-stroke-medium: #846941;
-  --idol-stroke-card: var(--idol-stroke-black);
-  --idol-accent-default: #deb470;
-  --idol-accent-dimmer: #ca9c55;
-  --idol-on-accent: #2e2415;
-  --idol-fantasy-parchment: #f3e8cc;
-  --idol-canvas-pattern: url('/design-system/patterns/fantasy.png');
-  --idol-canvas-pattern-size: 112px 112px;
-}
-
-[data-idol-redesign][data-idol-theme='spotlight'] {
-  --idol-fg-default: #fff;
-  --idol-fg-dimmer: #ededed;
-  --idol-bg-root: #0d0d0d;
-  --idol-bg-default: #202020;
-  --idol-bg-dimmer: #343434;
-  --idol-bg-canvas: #1e1e1e;
-  --idol-bg-card: var(--idol-bg-default);
-  --idol-bg-card-layer: var(--idol-bg-dimmer);
-  --idol-stroke-black: #969696;
-  --idol-stroke-medium: #b8b8b8;
-  --idol-stroke-card: var(--idol-stroke-black);
-  --idol-accent-default: #ffdd54;
-  --idol-accent-dimmer: #f3c841;
-  --idol-on-accent: #131313;
-  --idol-canvas-pattern: linear-gradient(135deg, transparent 5.4px, #828282 6.2px, transparent 7px);
-  --idol-canvas-pattern-size: 38px 38px;
-}
-
-[data-idol-redesign][data-idol-theme='blueprint'] {
-  --idol-fg-default: #eefaff;
-  --idol-fg-dimmer: #b1d4e9;
-  --idol-bg-root: #0d203b;
-  --idol-bg-default: #183459;
-  --idol-bg-dimmer: #21446b;
-  --idol-bg-canvas: #112746;
-  --idol-bg-card: var(--idol-bg-default);
-  --idol-bg-card-layer: var(--idol-bg-dimmer);
-  --idol-stroke-black: #467397;
-  --idol-stroke-medium: #638eb0;
-  --idol-stroke-card: var(--idol-stroke-black);
-  --idol-accent-default: #92eafa;
-  --idol-accent-dimmer: #6ccbdc;
-  --idol-on-accent: #102a40;
-  --idol-canvas-pattern: linear-gradient(#9ae0ff1b 1px, transparent 1px),
-    linear-gradient(90deg, #9ae0ff1b 1px, transparent 1px),
-    linear-gradient(#9ae0ff0b 1px, transparent 1px),
-    linear-gradient(90deg, #9ae0ff0b 1px, transparent 1px);
-  --idol-canvas-pattern-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
-}
-
-[data-idol-redesign][data-idol-theme='electric'] {
-  --idol-fg-default: #211620;
-  --idol-fg-dimmer: #57434e;
-  --idol-bg-root: #fff1e6;
-  --idol-bg-default: #fff8ee;
-  --idol-bg-dimmer: #ffdded;
-  --idol-bg-canvas: #ffe5a1;
-  --idol-stroke-black: #211620;
-  --idol-stroke-medium: #211620;
-  --idol-shadow-surface: 4px 4px 0 #211620;
-  --idol-outline-width: 2px;
-  --idol-card-radius: 10px;
-  --idol-control-shadow: 2px 3px 0 #211620;
-  --idol-accent-default: #ff1493;
-  --idol-accent-dimmer: #d90075;
-  --idol-on-accent: #211620;
-  --idol-link-color: #a30059;
-  --idol-canvas-pattern: radial-gradient(circle at 2px 2px, #21162055 1px, transparent 1.4px);
-  --idol-canvas-pattern-size: 18px 18px;
 }
 
 [data-idol-redesign] ::selection {

@@ -3,8 +3,8 @@
   flex-direction: column;
   min-width: 0;
   max-width: 100%;
-  border: var(--idol-outline-width, 1px) solid var(--idol-stroke-card, var(--idol-stroke-black));
-  border-radius: var(--idol-card-radius, 16px);
+  border: 1px solid var(--idol-stroke-card, var(--idol-stroke-black));
+  border-radius: 16px;
   background: var(--idol-bg-card, var(--idol-bg-default));
   color: var(--idol-fg-default);
   box-shadow: var(--idol-shadow-surface);
@@ -17,28 +17,6 @@
   flex: 1;
   min-width: 0;
   padding: 16px;
-}
-
-.card.parchment {
-  color-scheme: light;
-  --idol-bg-card: var(--idol-fantasy-parchment, #f3e8cc);
-  --idol-bg-default: #fff4d8;
-  --idol-bg-dimmer: #eaddbd;
-  --idol-bg-root: var(--idol-bg-card);
-  --idol-fg-default: #352a1b;
-  --idol-fg-dimmer: #574930;
-  --idol-stroke-black: #ad9366;
-  --idol-stroke-medium: #846941;
-  --idol-stroke-card: var(--idol-stroke-medium);
-  --idol-accent-default: #785022;
-  --idol-accent-dimmer: #633e17;
-  --idol-on-accent: #fff4d8;
-  --idol-danger-default: #a12c38;
-  --idol-success-default: #295e44;
-  box-shadow:
-    inset 0 0 0 3px var(--idol-bg-card),
-    inset 0 0 0 4px #ba9e6e,
-    var(--idol-shadow-surface);
 }
 
 .cardRow {
@@ -63,7 +41,7 @@
 
 .layeredCard > .cardBody {
   border: 1px solid var(--idol-stroke-card, var(--idol-stroke-black));
-  border-radius: calc(var(--idol-card-radius, 16px) - 4px);
+  border-radius: 12px;
   background: var(--idol-bg-card, var(--idol-bg-default));
 }
 

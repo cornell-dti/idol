@@ -25,7 +25,10 @@ test('renders the theme groups and restores the chosen accent after leaving a Sp
     addEventListener: jest.fn(),
     removeEventListener: jest.fn()
   });
-  localStorage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify({ theme: 'dark', accent: 'pink' }));
+  localStorage.setItem(
+    APPEARANCE_STORAGE_KEY,
+    JSON.stringify({ theme: 'electric', accent: 'pink' })
+  );
 
   try {
     render(
@@ -40,13 +43,15 @@ test('renders the theme groups and restores the chosen accent after leaving a Sp
     const accentGroup = screen.getByRole('radiogroup', { name: 'Accent color' });
     const accent = within(accentGroup);
     expect(within(defaultThemes).getAllByRole('radio')).toHaveLength(3);
-    expect(within(specialThemes).getAllByRole('radio')).toHaveLength(6);
+    expect(within(defaultThemes).getByRole('radio', { name: 'Auto' })).toBeChecked();
+    expect(within(specialThemes).getAllByRole('radio')).toHaveLength(2);
+    expect(within(specialThemes).getByText('More coming soon!')).toBeInTheDocument();
     expect(defaultThemes.nextElementSibling).toContainElement(accentGroup);
     expect(accent.getByRole('radio', { name: 'Pink' })).toBeChecked();
 
     const editProfile = screen.getByRole('link', { name: 'Edit profile' });
     expect(editProfile.querySelector('svg')).toBeInTheDocument();
-    ['Pumpkin', 'Hacker', 'Fantasy', 'Spotlight', 'Blueprint', 'Electric'].forEach((name) => {
+    ['Pumpkin', 'Hacker'].forEach((name) => {
       fireEvent.click(within(specialThemes).getByRole('radio', { name }));
       expect(accentGroup).toHaveAttribute('aria-disabled', 'true');
       expect(accent.queryByRole('radio', { checked: true })).not.toBeInTheDocument();

@@ -1,5 +1,4 @@
 import { HTMLAttributes, ReactNode } from 'react';
-import { useDesignSystemTheme } from '../Theme/Theme';
 import styles from './Card.module.css';
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
@@ -19,14 +18,11 @@ export function Card({
   ...props
 }: CardProps): JSX.Element {
   const layered = header != null || action != null;
-  const parchment = useDesignSystemTheme() === 'fantasy' && !layered;
   const Container = layered ? 'section' : 'div';
   return (
     <Container
       {...props}
-      className={`${styles.card} ${layered ? styles.layeredCard : ''} ${
-        parchment ? styles.parchment : ''
-      } ${className}`}
+      className={`${styles.card} ${layered ? styles.layeredCard : ''} ${className}`}
     >
       {layered && (
         <div className={styles.cardHeader}>

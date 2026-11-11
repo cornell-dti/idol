@@ -51,10 +51,19 @@
 .page .themeRow .rowTitle {
   margin: 0;
 }
-@media (min-width: 1101px) {
-  .themeRow > .choice:nth-of-type(4) {
-    grid-column: 2;
-  }
+.themePlaceholder {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  aspect-ratio: 128 / 80;
+  min-height: 44px;
+  margin: 4px;
+  padding: 4px;
+  border: 1px dashed var(--idol-stroke-medium);
+  border-radius: 6px;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+  text-align: center;
 }
 .accentLabel {
   display: grid;

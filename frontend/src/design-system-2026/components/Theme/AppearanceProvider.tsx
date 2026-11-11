@@ -2,14 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useRef, useState } fro
 import { flushSync } from 'react-dom';
 
 export const BASE_THEME_OPTIONS = ['light', 'dark', 'auto'] as const;
-export const SPECIAL_THEME_OPTIONS = [
-  'pumpkin',
-  'hacker',
-  'fantasy',
-  'spotlight',
-  'blueprint',
-  'electric'
-] as const;
+export const SPECIAL_THEME_OPTIONS = ['pumpkin', 'hacker'] as const;
 export const THEME_OPTIONS = [...BASE_THEME_OPTIONS, ...SPECIAL_THEME_OPTIONS] as const;
 export const ACCENT_OPTIONS = [
   'black',
@@ -27,8 +20,7 @@ export type Accent = (typeof ACCENT_OPTIONS)[number];
 export const isSpecialTheme = (theme: ThemePreference): boolean =>
   SPECIAL_THEME_OPTIONS.some((option) => option === theme);
 export const APPEARANCE_STORAGE_KEY = 'idol:appearance';
-export const isDarkTheme = (theme: ResolvedTheme): boolean =>
-  theme !== 'light' && theme !== 'electric';
+export const isDarkTheme = (theme: ResolvedTheme): boolean => theme !== 'light';
 
 type Appearance = {
   theme: ThemePreference;
