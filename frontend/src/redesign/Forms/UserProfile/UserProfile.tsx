@@ -12,6 +12,7 @@ import { CheckIcon } from '../../../design-system-2026/icons';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
 import useProfileEditor from '../../../components/Forms/UserProfile/useProfileEditor';
 import ProfileImageModal from './ProfileImageModal';
+import UnsavedProfileChanges from './UnsavedProfileChanges';
 import styles from './UserProfile.module.css';
 import SocialInput from './SocialInput';
 
@@ -198,6 +199,7 @@ export default function UserProfile(): JSX.Element {
           Save changes
         </Button>
       </div>
+      <UnsavedProfileChanges dirty={profile.hasProfileChanges} />
     </form>
   );
 }
