@@ -12,7 +12,6 @@
 .appearance {
   display: flex;
   flex-direction: column;
-  gap: 48px;
 }
 .row {
   display: flex;
@@ -25,14 +24,51 @@
   font: var(--idol-type-heading-4);
   flex-shrink: 0;
 }
-.row .themes,
+.page .coverRow .rowTitle {
+  margin: 0;
+}
+.appearance .row {
+  padding-block: 24px;
+}
+.appearance > .row:first-child {
+  padding-top: 0;
+  padding-bottom: 12px;
+}
+.appearance > .row:nth-child(2) {
+  padding-top: 12px;
+}
+.appearance > .row:last-child {
+  padding-bottom: 0;
+}
+.appearance > .row:nth-child(n + 3) {
+  border-top: 1px solid var(--idol-stroke-black);
+}
+.appearance .themeRow {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) repeat(3, minmax(0, 136px));
+  gap: 16px clamp(8px, 2vw, 24px);
+}
+.page .themeRow .rowTitle {
+  margin: 0;
+}
+@media (min-width: 1101px) {
+  .themeRow > .choice:nth-of-type(4) {
+    grid-column: 2;
+  }
+}
+.accentLabel {
+  display: grid;
+  gap: 8px;
+  max-width: 180px;
+  flex-shrink: 0;
+}
+.page .accentLabel .rowTitle {
+  margin: 0;
+}
 .row .accents {
   display: flex;
   flex-direction: row;
-  gap: 24px;
   flex-wrap: wrap;
-}
-.row .accents {
   gap: 0;
 }
 .choice {
@@ -53,39 +89,28 @@
   cursor: pointer;
 }
 .thumbnail {
+  box-sizing: border-box;
   display: flex;
-  width: 136px;
+  width: 100%;
+  max-width: 136px;
   padding: 2px;
   border: 2px solid transparent;
   border-radius: 8px;
 }
-.choice:has([data-checked]) .thumbnail,
-.choice:has([data-checked]) .swatchRing {
+.choice:has([data-checked], .optionRadio:focus-visible) .thumbnail,
+.choice:has([data-checked], .optionRadio:focus-visible) .swatchRing {
   border-color: var(--idol-accent-default);
 }
-.choice:has(.optionRadio:focus-visible) {
-  outline: 2px solid var(--idol-accent-default);
-  outline-offset: 4px;
-  border-radius: 8px;
+.choice:has(.optionRadio:focus-visible) .thumbnail,
+.choice:has(.optionRadio:focus-visible) .swatchRing {
+  box-shadow: inset 0 0 0 1px var(--idol-accent-default);
 }
 .themePreview {
   display: block;
-  width: 128px;
-  height: 80px;
+  width: 100%;
+  height: auto;
   border-radius: 6px;
   overflow: hidden;
-}
-.light {
-  --mini-bg: #f2f2f2;
-  --mini-panel: #fff;
-  --mini-fg: #171717;
-  --mini-stroke: #0000001a;
-}
-.dark {
-  --mini-bg: #121212;
-  --mini-panel: #1c1c1c;
-  --mini-fg: #f5f5f5;
-  --mini-stroke: #ffffff26;
 }
 .colorChoice {
   width: 70px;
@@ -108,9 +133,16 @@
     border-color 140ms ease,
     background-color 140ms ease;
 }
-.choice:hover .thumbnail,
-.choice:hover .swatchRing {
+.choice:hover:not(:has([data-disabled])) .thumbnail,
+.choice:hover:not(:has([data-disabled])) .swatchRing {
   background: var(--idol-bg-dimmer);
+}
+.colorChoice:has([data-disabled]),
+.colorChoice .optionRadio[data-disabled] {
+  cursor: not-allowed;
+}
+.row[data-disabled] > * {
+  opacity: 0.55;
 }
 .account {
   display: flex;
@@ -142,15 +174,19 @@
   .page .rowTitle {
     margin: 0;
   }
+  .appearance .themeRow {
+    grid-template-columns: repeat(3, minmax(0, 136px));
+    justify-content: start;
+  }
+  .themeRow .rowTitle {
+    grid-column: 1 / -1;
+  }
 }
 @media (max-width: 640px) {
   .page {
     width: calc(100% - 32px);
     margin: 32px auto;
     gap: 32px;
-  }
-  .row .themes {
-    gap: 16px;
   }
   .colorChoice {
     width: 64px;
@@ -164,7 +200,7 @@
 }
 
 .swatch[data-color='black'] {
-  --swatch-color: #171717;
+  --swatch-color: var(--idol-black-accent);
 }
 
 .swatch[data-color='blue'] {
@@ -204,9 +240,6 @@
   margin: 0;
   font: var(--idol-type-body-default);
   color: var(--idol-fg-dimmer);
-}
-:global([data-idol-theme='dark']) .swatch[data-color='black'] {
-  --swatch-color: #f5f5f5;
 }
 @media (max-width: 640px) {
   .accountCards {

@@ -4,6 +4,7 @@
  * Names mirror Figma paths with an idol prefix; Light is the default mode.
  */
 [data-idol-redesign] {
+  color-scheme: light;
   --idol-fg-default: #171717;
   --idol-fg-dimmer: #737373;
   --idol-stroke-black: rgba(0, 0, 0, 0.1);
@@ -13,17 +14,37 @@
   --idol-bg-default: #ffffff;
   --idol-bg-dimmer: #f2f2f2;
   --idol-bg-canvas: var(--idol-bg-default);
+  --idol-canvas-pattern: initial;
+  --idol-canvas-pattern-size: initial;
   --idol-bg-card: var(--idol-bg-default);
   --idol-bg-card-layer: var(--idol-bg-dimmer);
   --idol-stroke-card: var(--idol-stroke-black);
+  --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 4%);
+  --idol-outline-width: initial;
+  --idol-card-radius: initial;
+  --idol-control-shadow: initial;
+  --idol-link-color: initial;
   --idol-accent-default: #006fff;
   --idol-accent-dimmer: #0060e6;
   --idol-danger-default: #d30000;
   --idol-success-default: #009966;
   --idol-danger-dimmer: rgb(70.832705% 6.020674% 6.020674%);
+  --idol-black-accent: #171717;
+  --idol-black-accent-dimmer: #080808;
+  --idol-on-black-accent: #fff;
+  --idol-toast-surface: #171717;
+  --idol-toast-ink: #fff;
 }
 
-[data-idol-redesign][data-idol-theme='dark'] {
+[data-idol-redesign]:is(
+    [data-idol-theme='dark'],
+    [data-idol-theme='pumpkin'],
+    [data-idol-theme='hacker'],
+    [data-idol-theme='fantasy'],
+    [data-idol-theme='spotlight'],
+    [data-idol-theme='blueprint']
+  ) {
+  color-scheme: dark;
   --idol-fg-default: #f5f5f5;
   --idol-fg-dimmer: #a3a3a3;
   --idol-stroke-black: rgba(255, 255, 255, 0.1);
@@ -36,11 +57,47 @@
   --idol-bg-card: #131313;
   --idol-bg-card-layer: #191919;
   --idol-stroke-card: rgba(255, 255, 255, 0.07);
+  --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 22%);
   --idol-accent-default: #3b82f6;
   --idol-accent-dimmer: #2563eb;
   --idol-danger-default: #ff5561;
   --idol-success-default: #00d88c;
   --idol-danger-dimmer: rgb(88.003308% 22.05206% 26.707441%);
+  --idol-black-accent: #f5f5f5;
+  --idol-black-accent-dimmer: #d4d4d4;
+  --idol-on-black-accent: #171717;
+  --idol-toast-surface: #fff;
+  --idol-toast-ink: #171717;
+  --idol-skeleton-highlight: color-mix(in srgb, var(--idol-fg-default) 12%, var(--idol-bg-dimmer));
+}
+
+[data-idol-redesign]:is([data-idol-theme='pumpkin'], [data-idol-theme='hacker']) {
+  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-layer: var(--idol-bg-dimmer);
+}
+
+[data-idol-redesign][data-idol-theme='pumpkin'] {
+  --idol-fg-default: #fff0dc;
+  --idol-fg-dimmer: #cbb096;
+  --idol-bg-root: #20140f;
+  --idol-bg-default: #2a1a13;
+  --idol-bg-dimmer: #392419;
+  --idol-bg-canvas: #140d0a;
+  --idol-canvas-pattern: url('/design-system/patterns/pumpkin.png');
+  --idol-canvas-pattern-size: 290px 230px;
+}
+
+[data-idol-redesign][data-idol-theme='hacker'] {
+  --idol-fg-default: #baffae;
+  --idol-fg-dimmer: #8fba89;
+  --idol-bg-root: #08110a;
+  --idol-bg-default: #101c11;
+  --idol-bg-dimmer: #192b1b;
+  --idol-bg-canvas: #050906;
+  --idol-stroke-black: rgb(168 255 155 / 18%);
+  --idol-stroke-card: var(--idol-stroke-black);
+  --idol-canvas-pattern: url('/design-system/patterns/hacker.png');
+  --idol-canvas-pattern-size: 822px 448px;
 }
 
 [data-idol-redesign] {
@@ -49,9 +106,9 @@
 }
 
 [data-idol-redesign][data-idol-accent='black'] {
-  --idol-accent-default: #171717;
-  --idol-accent-dimmer: #080808;
-  --idol-on-accent: #fff;
+  --idol-accent-default: var(--idol-black-accent);
+  --idol-accent-dimmer: var(--idol-black-accent-dimmer);
+  --idol-on-accent: var(--idol-on-black-accent);
 }
 
 [data-idol-redesign][data-idol-accent='purple'] {
@@ -90,20 +147,110 @@
   --idol-on-accent: #fff;
 }
 
-[data-idol-redesign][data-idol-theme='dark'][data-idol-accent='black'] {
-  --idol-accent-default: #f5f5f5;
-  --idol-accent-dimmer: #d4d4d4;
-  --idol-on-accent: #171717;
+[data-idol-redesign][data-idol-theme='pumpkin'] {
+  --idol-accent-default: #ff9d42;
+  --idol-accent-dimmer: #e9822e;
+  --idol-on-accent: #261306;
 }
 
-[data-idol-redesign][data-idol-theme='light'] {
-  color-scheme: light;
+[data-idol-redesign][data-idol-theme='hacker'] {
+  --idol-accent-default: #8dff76;
+  --idol-accent-dimmer: #5add4a;
+  --idol-on-accent: #0d230c;
 }
-[data-idol-redesign][data-idol-theme='dark'] {
-  color-scheme: dark;
+
+[data-idol-redesign][data-idol-theme='fantasy'] {
+  --idol-fg-default: #f8efd9;
+  --idol-fg-dimmer: #d3c6a7;
+  --idol-bg-root: #15231b;
+  --idol-bg-default: #203329;
+  --idol-bg-dimmer: #304538;
+  --idol-bg-canvas: #182820;
+  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-layer: var(--idol-bg-dimmer);
+  --idol-stroke-black: rgb(222 180 112 / 32%);
+  --idol-stroke-medium: #846941;
+  --idol-stroke-card: var(--idol-stroke-black);
+  --idol-accent-default: #deb470;
+  --idol-accent-dimmer: #ca9c55;
+  --idol-on-accent: #2e2415;
+  --idol-fantasy-parchment: #f3e8cc;
+  --idol-canvas-pattern: url('/design-system/patterns/fantasy.png');
+  --idol-canvas-pattern-size: 112px 112px;
+}
+
+[data-idol-redesign][data-idol-theme='spotlight'] {
+  --idol-fg-default: #fff;
+  --idol-fg-dimmer: #ededed;
+  --idol-bg-root: #0d0d0d;
+  --idol-bg-default: #202020;
+  --idol-bg-dimmer: #343434;
+  --idol-bg-canvas: #1e1e1e;
+  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-layer: var(--idol-bg-dimmer);
+  --idol-stroke-black: #969696;
+  --idol-stroke-medium: #b8b8b8;
+  --idol-stroke-card: var(--idol-stroke-black);
+  --idol-accent-default: #ffdd54;
+  --idol-accent-dimmer: #f3c841;
+  --idol-on-accent: #131313;
+  --idol-canvas-pattern: linear-gradient(135deg, transparent 5.4px, #828282 6.2px, transparent 7px);
+  --idol-canvas-pattern-size: 38px 38px;
+}
+
+[data-idol-redesign][data-idol-theme='blueprint'] {
+  --idol-fg-default: #eefaff;
+  --idol-fg-dimmer: #b1d4e9;
+  --idol-bg-root: #0d203b;
+  --idol-bg-default: #183459;
+  --idol-bg-dimmer: #21446b;
+  --idol-bg-canvas: #112746;
+  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-layer: var(--idol-bg-dimmer);
+  --idol-stroke-black: #467397;
+  --idol-stroke-medium: #638eb0;
+  --idol-stroke-card: var(--idol-stroke-black);
+  --idol-accent-default: #92eafa;
+  --idol-accent-dimmer: #6ccbdc;
+  --idol-on-accent: #102a40;
+  --idol-canvas-pattern: linear-gradient(#9ae0ff1b 1px, transparent 1px),
+    linear-gradient(90deg, #9ae0ff1b 1px, transparent 1px),
+    linear-gradient(#9ae0ff0b 1px, transparent 1px),
+    linear-gradient(90deg, #9ae0ff0b 1px, transparent 1px);
+  --idol-canvas-pattern-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
+}
+
+[data-idol-redesign][data-idol-theme='electric'] {
+  --idol-fg-default: #211620;
+  --idol-fg-dimmer: #57434e;
+  --idol-bg-root: #fff1e6;
+  --idol-bg-default: #fff8ee;
+  --idol-bg-dimmer: #ffdded;
+  --idol-bg-canvas: #ffe5a1;
+  --idol-stroke-black: #211620;
+  --idol-stroke-medium: #211620;
+  --idol-shadow-surface: 4px 4px 0 #211620;
+  --idol-outline-width: 2px;
+  --idol-card-radius: 10px;
+  --idol-control-shadow: 2px 3px 0 #211620;
+  --idol-accent-default: #ff1493;
+  --idol-accent-dimmer: #d90075;
+  --idol-on-accent: #211620;
+  --idol-link-color: #a30059;
+  --idol-canvas-pattern: radial-gradient(circle at 2px 2px, #21162055 1px, transparent 1.4px);
+  --idol-canvas-pattern-size: 18px 18px;
 }
 
 [data-idol-redesign] ::selection {
   background: var(--idol-accent-default);
   color: var(--idol-on-accent);
+}
+
+:root[data-idol-theme-update] :is([data-idol-redesign], [data-idol-redesign] *) {
+  transition: none !important;
+}
+
+:root::view-transition-group(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease-in-out;
 }

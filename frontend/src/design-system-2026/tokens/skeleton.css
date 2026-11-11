@@ -11,10 +11,6 @@
   --idol-skeleton-animation: idol-skeleton-shimmer 1.6s linear infinite;
 }
 
-[data-idol-redesign][data-idol-theme='dark'] {
-  --idol-skeleton-highlight: color-mix(in srgb, var(--idol-fg-default) 12%, var(--idol-bg-dimmer));
-}
-
 .idol-skeleton {
   background: var(--idol-skeleton-background);
   background-color: var(--idol-skeleton-base);
