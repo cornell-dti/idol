@@ -1,3 +1,54 @@
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 24px;
+  padding-bottom: 32px;
+}
+
+.cardLink.cardLink {
+  display: flex;
+  min-width: 0;
+  border-radius: 16px;
+  color: var(--idol-fg-default);
+  text-decoration: none;
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+
+.cardLink .navigationCard {
+  flex: 1;
+}
+
+.cardLink:hover .navigationCard {
+  background: var(--idol-bg-dimmer);
+}
+
+.cardHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardHeading svg {
+  flex-shrink: 0;
+}
+
+.navigationCard h2 {
+  margin: 0;
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+
+.navigationCard p {
+  margin: 0;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-default);
+}
+
 @media (max-width: 900px) {
   .cardsContainer {
     display: flex;
