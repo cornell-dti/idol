@@ -1,7 +1,11 @@
 .page {
   position: relative;
+  box-sizing: border-box;
   display: grid;
+  /* A shrinkable track: an auto one grows to the card's 400px and pushes it off narrow screens. */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
+  width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
   padding: 48px 24px;
@@ -11,8 +15,7 @@
   isolation: isolate;
 }
 .main {
-  width: 400px;
-  max-width: 100%;
+  width: min(400px, 100%);
   animation: arrive 450ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .eyebrow {
@@ -142,7 +145,11 @@
     padding: 32px 16px;
   }
   .surface {
-    padding: 28px 20px;
+    gap: 20px;
+    padding: 28px 16px;
+  }
+  .page .description {
+    max-width: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
