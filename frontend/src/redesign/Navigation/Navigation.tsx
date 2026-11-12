@@ -10,6 +10,16 @@ import { defaultNavigation, parseNavigation, compactNavigationLabel } from './pr
 import useSheetDrag from './useSheetDrag';
 import styles from './Navigation.module.css';
 
+const tabbableSelector =
+  'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])';
+/** Visible, keyboard-focusable elements inside `root`, in DOM order. */
+function tabbables(root: HTMLElement | null): HTMLElement[] {
+  if (!root) return [];
+  return Array.from(root.querySelectorAll<HTMLElement>(tabbableSelector)).filter(
+    (element) => element.getClientRects().length > 0 && !element.closest('[hidden], [inert]')
+  );
+}
+
 /** Receives only permitted routes. A separate storage key isolates each member's preferences. */
 export default function Navigation({
   items,
@@ -91,6 +101,26 @@ export default function Navigation({
     (item): item is SidebarEntry => Boolean(item)
   );
   const moreItems = available.filter((item) => !pinned.includes(item.id));
+  // While editing, the reorder and remove controls live on the real bar, outside the popup. Base
+  // UI's focus trap would keep Tab out of them (and aria-hide them), so editing turns it off and
+  // Tab instead cycles the sheet's controls, then the bar's, then back to the sheet.
+  useEffect(() => {
+    if (!open || !editing) return undefined;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab' || event.defaultPrevented || event.altKey || event.ctrlKey) return;
+      if (event.metaKey) return;
+      const order = [...tabbables(sheet.current), ...tabbables(navbarSlot)];
+      if (!order.length) return;
+      const index = order.indexOf(document.activeElement as HTMLElement);
+      const step = event.shiftKey ? -1 : 1;
+      let next = event.shiftKey ? order.length - 1 : 0;
+      if (index !== -1) next = (index + step + order.length) % order.length;
+      event.preventDefault();
+      order[next].focus();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, editing, navbarSlot]);
   const changeOpen = (next: boolean) => {
     setOpen(next);
     if (next) {
@@ -103,8 +133,10 @@ export default function Navigation({
   return (
     <Dialog.Root
       open={open}
-      // Non-modal pointer-wise so the navbar below stays usable; focus is still trapped.
-      modal="trap-focus"
+      // Non-modal pointer-wise so the navbar below stays usable; focus is trapped, except while
+      // editing (see the Tab loop above), when focus moving to the bar must not close the sheet.
+      modal={editing ? false : 'trap-focus'}
+      disablePointerDismissal={editing}
       onOpenChange={(next, details) => {
         // Presses on the bottom bar are handled by the bar itself (More toggles, links navigate).
         const target = details?.event?.target;
