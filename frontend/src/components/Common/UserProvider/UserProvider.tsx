@@ -35,7 +35,13 @@ export const getUserIdToken = async (): Promise<string | null> => {
   return cachedUser.getIdToken();
 };
 
-export default function UserProvider({ children }: { readonly children: ReactNode }): JSX.Element {
+export default function UserProvider({
+  children,
+  loading = <LoadingScreen />
+}: {
+  readonly children: ReactNode;
+  readonly loading?: ReactNode;
+}): JSX.Element {
   const [user, setUser] = useState<UserContextType>('INIT');
 
   useEffect(
@@ -57,7 +63,7 @@ export default function UserProvider({ children }: { readonly children: ReactNod
   if (user === 'INIT') {
     return (
       <div data-testid="UserProvider" className="App">
-        <LoadingScreen />
+        {loading}
       </div>
     );
   }

@@ -3,10 +3,10 @@ module.exports = {
   typescript: { ignoreBuildErrors: true },
   webpack(config, { isServer }) {
     if (isServer) {
-      // React 17 has no ESM export for react/jsx-runtime. Use Base UI's supported
-      // CommonJS entry points for Next 12 SSR, without changing other packages.
+      // React 17 has no ESM export for react/jsx-runtime. Use the supported
+      // CommonJS entries for Base UI and Vaul (including its Radix dependencies).
       config.externals.unshift(({ request }, callback) => {
-        if (/^@base-ui\/(react|utils)(\/|$)/.test(request || '')) {
+        if (request === 'vaul' || /^@base-ui\/(react|utils)(\/|$)/.test(request || '')) {
           return callback(null, `commonjs ${request}`);
         }
         return callback();

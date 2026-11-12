@@ -6,10 +6,11 @@ import {
   Input,
   LabelledCheckbox,
   Pill,
-  Textarea
+  Textarea,
+  useToast
 } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
-import { CheckIcon, PlusIcon, XIcon } from '../../../design-system-2026/icons';
+import { PlusIcon, XIcon } from '../../../design-system-2026/icons';
 import ImagesAPI from '../../../API/ImagesAPI';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './Shoutouts.module.css';
@@ -26,7 +27,7 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
   const [preview, setPreview] = useState('');
   const [fileError, setFileError] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const toast = useToast();
   const [attempted, setAttempted] = useState(false);
   const [busy, setBusy] = useState(false);
   const input = useRef<HTMLInputElement>(null);
@@ -49,7 +50,6 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
     event.preventDefault();
     if (submitting.current) return;
     setAttempted(true);
-    setSuccess('');
     setError('');
     if (!recipient.trim()) {
       recipientInput.current?.focus();
@@ -84,7 +84,7 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
         tags: tags.length ? tags : undefined
       });
       if (!result || result.error) throw new Error(result?.error || 'Please try again.');
-      setSuccess(`Shoutout sent! Thank you for recognizing ${recipient.trim()}.`);
+      toast.add({ title: `Shoutout sent to ${recipient.trim()}.` });
       setRecipient('');
       setMessage('');
       setTags([]);
@@ -97,7 +97,9 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
       onSent();
     } catch (reason) {
       setError(
-        `Couldn’t send your shoutout. ${reason instanceof Error ? reason.message : 'Please try again.'}`
+        `Couldn’t send your shoutout. ${
+          reason instanceof Error ? reason.message : 'Please try again.'
+        }`
       );
     } finally {
       submitting.current = false;
@@ -241,12 +243,6 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
         {error && (
           <p className={styles.error} role="alert">
             {error}
-          </p>
-        )}
-        {success && (
-          <p className={styles.success} role="status">
-            <CheckIcon size={16} />
-            {success}
           </p>
         )}
       </form>

@@ -12,6 +12,10 @@
   --idol-bg-root: #fafafa;
   --idol-bg-default: #ffffff;
   --idol-bg-dimmer: #f2f2f2;
+  --idol-bg-canvas: var(--idol-bg-default);
+  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-layer: var(--idol-bg-dimmer);
+  --idol-stroke-card: var(--idol-stroke-black);
   --idol-accent-default: #006fff;
   --idol-accent-dimmer: #0060e6;
   --idol-danger-default: #d30000;
@@ -28,6 +32,10 @@
   --idol-bg-root: #121212;
   --idol-bg-default: #171717;
   --idol-bg-dimmer: #1f1f1f;
+  --idol-bg-canvas: #090909;
+  --idol-bg-card: #131313;
+  --idol-bg-card-layer: #191919;
+  --idol-stroke-card: rgba(255, 255, 255, 0.07);
   --idol-accent-default: #3b82f6;
   --idol-accent-dimmer: #2563eb;
   --idol-danger-default: #ff5561;

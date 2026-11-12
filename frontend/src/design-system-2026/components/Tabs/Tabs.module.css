@@ -53,9 +53,7 @@
 }
 
 .tab.tab:hover:not([data-disabled]):not([aria-selected='true']) {
-  background: var(--idol-bg-dimmer);
   color: var(--idol-fg-default);
-  box-shadow: 0 2px 8px #0000000a;
 }
 
 .tab.tab[aria-selected='true'] {

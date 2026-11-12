@@ -213,7 +213,7 @@ const CoffeeChatsForm: React.FC = () => {
       setPendingChats((pending) => [...pending, coffeeChat]);
       Emitters.generalSuccess.emit({
         headerMsg: 'Coffee Chat submitted!',
-        contentMsg: `The leads were notified of your submission, and your coffee chat will be approved soon!`
+        contentMsg: 'Coffee chat submitted.'
       });
       resetState();
     }

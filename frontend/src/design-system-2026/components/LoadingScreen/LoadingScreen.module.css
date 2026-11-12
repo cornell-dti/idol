@@ -8,6 +8,13 @@
   min-height: 100vh;
   min-height: 100dvh;
 }
+.container {
+  height: 100%;
+}
+.screen.inline {
+  position: static;
+  min-height: 100%;
+}
 .spinner {
   position: relative;
   width: 44px;

@@ -13,6 +13,7 @@ export { CheckIcon } from '@phosphor-icons/react/dist/csr/Check';
 export { XIcon } from '@phosphor-icons/react/dist/csr/X';
 export type { Icon, IconProps, IconWeight } from '@phosphor-icons/react';
 export { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight';
+export { ArrowsVerticalIcon } from '@phosphor-icons/react/dist/csr/ArrowsVertical';
 export { CaretDownIcon } from '@phosphor-icons/react/dist/csr/CaretDown';
 export { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 export { SidebarIcon } from '@phosphor-icons/react/dist/csr/Sidebar';
@@ -47,3 +48,9 @@ export { CompassIcon } from '@phosphor-icons/react/dist/csr/Compass';
 export { BuildingsIcon } from '@phosphor-icons/react/dist/csr/Buildings';
 export { PaletteIcon } from '@phosphor-icons/react/dist/csr/Palette';
 export { PencilSimpleLineIcon } from '@phosphor-icons/react/dist/csr/PencilSimpleLine';
+
+export { CalendarStarIcon } from '@phosphor-icons/react/dist/csr/CalendarStar';
+export { GitBranchIcon } from '@phosphor-icons/react/dist/csr/GitBranch';
+export { DotsSixVerticalIcon } from '@phosphor-icons/react/dist/csr/DotsSixVertical';
+export { DotsThreeIcon } from '@phosphor-icons/react/dist/csr/DotsThree';
+export { ImageIcon } from '@phosphor-icons/react/dist/csr/Image';

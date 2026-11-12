@@ -239,7 +239,7 @@ const TeamEventCreditForm: React.FC = () => {
       });
       Emitters.generalSuccess.emit({
         headerMsg: 'Team Event Credit submitted!',
-        contentMsg: `The leads were notified of your submission, and your credit will be approved soon!`
+        contentMsg: 'Team event credit submitted.'
       });
       setTeamEvent(undefined);
       setHours('0');

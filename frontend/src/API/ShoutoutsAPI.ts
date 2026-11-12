@@ -54,8 +54,16 @@ export default class ShoutoutsAPI {
     return APIWrapper.post(`${backendURL}/shoutout`, shoutout).then((res) => res.data);
   }
 
-  public static hideShoutout(uuid: string, hide: boolean): Promise<void> {
-    return APIWrapper.put(`${backendURL}/shoutout`, { uuid, hide }).then((res) => res.data);
+  public static async hideShoutout(
+    uuid: string,
+    hide: boolean,
+    options?: { throwOnError: boolean }
+  ): Promise<void> {
+    const { data, status } = await APIWrapper.put(`${backendURL}/shoutout`, { uuid, hide });
+    if (options?.throwOnError && (!data || data.error || (status && status >= 400))) {
+      throw new Error(data?.error || 'Could not update shoutout visibility.');
+    }
+    return data;
   }
 
   public static updateShoutout(uuid: string, shoutout: Shoutout): Promise<ShoutoutResponseObj> {
