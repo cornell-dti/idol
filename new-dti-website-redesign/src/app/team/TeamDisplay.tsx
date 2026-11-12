@@ -253,23 +253,18 @@ export default function TeamDisplay() {
     );
   };
 
-  const tabs = roleIcons.icons.map((role) => {
-    const isMedScreen = width < LAPTOP_BREAKPOINT && width >= TABLET_BREAKPOINT;
-    const displayLabel = role.altText === 'Development' && isMedScreen ? 'Dev' : role.altText;
-
-    return {
-      label: displayLabel,
-      icon: (
-        <img
-          src={`${role.src}.svg`}
-          alt={`${role.altText} icon`}
-          width={role.width}
-          height={role.height}
-        />
-      ),
-      content: TabContent(role.altText)
-    };
-  });
+  const tabs = roleIcons.icons.map((role) => ({
+    label: role.altText,
+    icon: (
+      <img
+        src={`${role.src}.svg`}
+        alt={`${role.altText} icon`}
+        width={role.width}
+        height={role.height}
+      />
+    ),
+    content: TabContent(role.altText)
+  }));
 
   return (
     <section id="meet-the-team" className="scroll-mt-18">

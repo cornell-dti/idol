@@ -2,7 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import useScreenSize from '../hooks/useScreenSize';
-import { TABLET_BREAKPOINT } from '../consts';
+
+// Team tabs wrap into a 2-column, 3-row grid below LAPTOP_BREAKPOINT; a single row overflows phone widths
+const TEAM_TABLIST_CLASSES =
+  'flex-wrap rounded-md [@media(min-width:1024px)]:flex-nowrap [@media(min-width:1024px)]:rounded-full';
+const TEAM_HIGHLIGHT_CLASSES = 'rounded-md [@media(min-width:1024px)]:rounded-full';
+const TEAM_TAB_CLASSES =
+  'basis-1/2 flex-col rounded-md px-2 [@media(min-width:1024px)]:flex-1 [@media(min-width:1024px)]:flex-row [@media(min-width:1024px)]:rounded-full [@media(min-width:1024px)]:px-6';
 
 type Tab = {
   label: string;
@@ -24,7 +30,7 @@ export default function Tabs({ tabs, className = '', variant = 'normal', onTabCh
   const containerRef = useRef<HTMLDivElement>(null);
   const { width } = useScreenSize();
 
-  const isMobile = width < TABLET_BREAKPOINT;
+  const isTeam = variant === 'team';
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
@@ -70,21 +76,21 @@ export default function Tabs({ tabs, className = '', variant = 'normal', onTabCh
         <div
           ref={containerRef}
           className={`flex flex-1 relative w-fit border-1 border-border-1 bg-black p-0.5 
-          ${variant === 'team' && isMobile ? 'grid grid-cols-3 rounded-md' : 'rounded-full'}`}
+          ${isTeam ? TEAM_TABLIST_CLASSES : 'rounded-full'}`}
           role="tablist"
           aria-label="Tabbed content"
           onKeyDown={handleKeyDown}
         >
           <div
             ref={highlightRef}
-            className={`absolute -top-0.25 -left-0.25 bg-background-2 rounded-full transition-transform duration-300 ease-in-out z-0  
-            ${variant === 'team' && isMobile ? 'rounded-md' : 'rounded-full'}`}
+            className={`absolute -top-0.25 -left-0.25 bg-background-2 transition-transform duration-300 ease-in-out z-0
+            ${isTeam ? TEAM_HIGHLIGHT_CLASSES : 'rounded-full'}`}
           />
 
           {tabs.map((tab, index) => (
             <button
-              className={`flex gap-2 items-center justify-center whitespace-nowrap flex-1 h-fill rounded-full py-3 px-6 cursor-pointer focusState z-1
-              ${variant === 'team' && isMobile ? 'flex-col' : 'flex-row'}`}
+              className={`flex gap-2 items-center justify-center whitespace-nowrap h-fill py-3 cursor-pointer focusState z-1
+              ${isTeam ? TEAM_TAB_CLASSES : 'flex-1 flex-row rounded-full px-6'}`}
               key={tab.label}
               ref={(el) => {
                 tabsRef.current[index] = el;
