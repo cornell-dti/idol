@@ -22,12 +22,15 @@ export default function NavigationEditor({
   items,
   selected,
   onSave,
-  onCancel
+  onCancel,
+  actionsSlot
 }: {
   items: SidebarEntry[];
   selected: string[];
   onSave: (ids: string[]) => void;
   onCancel: () => void;
+  /** Where Cancel/Save render (the sheet header's top-right); inline when absent. */
+  actionsSlot?: HTMLElement | null;
 }): JSX.Element {
   const [draft, setDraft] = useState(selected);
   const [announcement, setAnnouncement] = useState('');
@@ -144,20 +147,30 @@ export default function NavigationEditor({
     onLostPointerCapture: () => updateDrag(null)
   });
   const grabbed = items.find((item) => item.id === drag?.id);
+  let statusMessage = '';
+  if (draft.length < 2) statusMessage = 'Choose at least two pages to save.';
+  else if (announcement.startsWith('Remove a page')) statusMessage = announcement;
+  const actions = (
+    <div className={`${styles.editActions} ${actionsSlot ? styles.headerActions : ''}`}>
+      <Button ref={cancel} variant="secondary" onClick={onCancel}>
+        Cancel
+      </Button>
+      <Button
+        disabled={draft.length < 2 || draft.length > maxPinnedPages}
+        icon={<CheckIcon size={16} />}
+        onClick={() => onSave(draft)}
+      >
+        Save
+      </Button>
+    </div>
+  );
   return (
     <div data-vaul-no-drag className={styles.editor}>
-      <div className={styles.editActions}>
-        <Button ref={cancel} variant="secondary" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button
-          disabled={draft.length < 2 || draft.length > maxPinnedPages}
-          icon={<CheckIcon size={16} />}
-          onClick={() => onSave(draft)}
-        >
-          Save changes
-        </Button>
-      </div>
+      {actionsSlot ? createPortal(actions, actionsSlot) : actions}
+      {/* Always rendered (a blank line when quiet) so a message never changes the sheet's height. */}
+      <p className={styles.editStatus} aria-hidden>
+        {statusMessage || '\u00a0'}
+      </p>
       <p id="navbar-reorder-help" className={styles.srOnly}>
         Drag a page into the navbar or drag it back into this grid to remove it. You can also tap to
         add, use the remove buttons, and use left and right arrow keys to reorder. Home and More
@@ -198,11 +211,6 @@ export default function NavigationEditor({
       <p className={styles.srOnly} role="status">
         {announcement}
       </p>
-      {(draft.length < 2 || announcement.startsWith('Remove a page')) && (
-        <p className={styles.editStatus}>
-          {draft.length < 2 ? 'Choose at least two pages to save.' : announcement}
-        </p>
-      )}
       <div className={styles.previewBar}>
         <div ref={navbar} className={styles.navbar} role="group" aria-label="Navbar preview">
           <div className={`${styles.navItem} ${styles.fixedItem}`} aria-label="Home, fixed">

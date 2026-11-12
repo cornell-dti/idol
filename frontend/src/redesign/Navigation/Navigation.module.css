@@ -1,9 +1,14 @@
 .bar {
+  position: relative;
   flex-shrink: 0;
   padding: 8px 16px max(8px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--idol-stroke-black);
   background: var(--idol-bg-default);
   z-index: 5;
+}
+/* While the More sheet is up, sit above it (1151) so it slides out from behind the bar. */
+.bar[data-sheet] {
+  z-index: 1152;
 }
 .navbar {
   display: flex;
@@ -42,7 +47,7 @@
 }
 .navItem[aria-current='page'],
 .navItem[data-selected],
-.navItem[data-state='open'] {
+.navItem[data-open] {
   background: var(--idol-bg-dimmer);
   color: var(--idol-fg-default);
 }
@@ -118,6 +123,12 @@
   inset: 0;
   z-index: 1150;
   background: #0006;
+  opacity: 1;
+  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.overlay[data-starting-style],
+.overlay[data-ending-style] {
+  opacity: 0;
 }
 .drawer {
   position: fixed;
@@ -132,7 +143,8 @@
   max-height: 90dvh;
   display: flex;
   flex-direction: column;
-  padding: 12px 24px max(24px, env(safe-area-inset-bottom));
+  /* Sits on top of the bottom bar (which handles the safe area), so no inset padding here. */
+  padding: 12px 24px 24px;
   border: 1px solid var(--idol-stroke-black);
   border-bottom: 0;
   border-radius: 28px 28px 0 0;
@@ -141,6 +153,15 @@
   font: var(--idol-type-body-default);
   outline: none;
   box-shadow: 0 -12px 60px #0002;
+  /* Our own drag handles vertical gestures; see .pageGrid[data-scrolls] for the exception. */
+  touch-action: none;
+  /* Transitions (not keyframes) so toggling or grabbing mid-slide reverses from where it is. */
+  transform: translateY(0);
+  transition: transform 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.drawer[data-starting-style],
+.drawer[data-ending-style] {
+  transform: translateY(100%);
 }
 .drawer,
 .drawer * {
@@ -148,12 +169,16 @@
 }
 .handle {
   flex-shrink: 0;
+  width: 36px;
+  height: 5px;
   margin: 0 auto 20px;
+  border-radius: 3px;
   background: var(--idol-fg-dimmer);
+  opacity: 0.5;
 }
 .drawerHeading {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 24px;
@@ -167,6 +192,9 @@
   margin: 0;
   color: var(--idol-fg-dimmer);
   font: var(--idol-type-body-small);
+}
+.pageGrid[data-scrolls] {
+  touch-action: pan-y;
 }
 .pageGrid {
   display: grid;
@@ -231,6 +259,16 @@
 }
 .editActions > button {
   flex: 1;
+}
+.headerSlot:empty {
+  display: none;
+}
+.editActions.headerActions {
+  gap: 8px;
+  margin: 0;
+}
+.headerActions > button {
+  flex: none;
 }
 .editGrid {
   min-height: 0;
@@ -301,7 +339,7 @@ button.page:hover {
   left: -4px;
   width: 3px;
   border-radius: 2px;
-  background: #0066ff;
+  background: var(--idol-accent-default);
   pointer-events: none;
 }
 .removeTarget {
@@ -311,13 +349,14 @@ button.page:hover {
   background: var(--idol-bg-dimmer);
 }
 .editStatus {
+  /* Tucked under the "Edit navbar" heading, in space that is always reserved. */
+  margin: -16px 0 12px;
   color: var(--idol-fg-dimmer);
   font: var(--idol-type-body-small);
-  margin: 8px 0 0;
   flex-shrink: 0;
-}
-.editStatus:empty {
-  display: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .dragPortal {
   position: fixed;
@@ -383,5 +422,45 @@ button.page:hover {
   .overlay {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* iOS-style wiggle while editing: page grid tiles and navbar preview items gently rock. */
+@media (prefers-reduced-motion: no-preference) {
+  .editGrid .draggablePage,
+  .previewItem {
+    animation: edit-wiggle 260ms ease-in-out infinite alternate;
+  }
+  /* Vary phase and speed so neighbours never rock in unison. */
+  .editGrid .draggablePage:nth-child(2n),
+  .previewItem:nth-child(2n) {
+    animation-duration: 240ms;
+    animation-delay: -120ms;
+  }
+  .editGrid .draggablePage:nth-child(3n),
+  .previewItem:nth-child(3n) {
+    animation-duration: 280ms;
+    animation-delay: -70ms;
+  }
+  /* Hold still while picked up. */
+  .editGrid .draggablePage.grabbedItem,
+  .editGrid .draggablePage:active,
+  .previewItem.grabbedItem,
+  .previewItem:has(.draggablePage:active) {
+    animation: none;
+  }
+}
+@keyframes edit-wiggle {
+  from {
+    rotate: -1.5deg;
+  }
+  to {
+    rotate: 1.5deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer,
+  .overlay {
+    transition: none;
   }
 }
