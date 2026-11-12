@@ -4,9 +4,10 @@ import { Card, Button } from 'semantic-ui-react';
 import styles from './NavigationCard.module.css';
 import { useHasAdminPermission } from '../FirestoreDataProvider';
 import { isProduction } from '../../../environment';
-import { Card as RedesignCard } from '../../../design-system-2026/components';
-import { ArrowRightIcon } from '../../../design-system-2026/icons';
+import { ClipboardTextIcon } from '../../../design-system-2026/icons';
+import type { Icon } from '../../../design-system-2026/icons';
 import { usePreview } from '../../../redesign/preview';
+import ShortcutCard from '../../../redesign/ShortcutCard/ShortcutCard';
 
 export type NavigationCardItem = {
   readonly header: string;
@@ -14,6 +15,8 @@ export type NavigationCardItem = {
   readonly link: string;
   readonly adminOnly?: boolean;
   readonly disabled?: boolean;
+  /** Shown in the redesign's icon tile; falls back to a generic form icon. */
+  readonly icon?: Icon;
 };
 
 type Props = { readonly testID?: string; readonly items: readonly NavigationCardItem[] };
@@ -28,14 +31,14 @@ export default function NavigationCard({ testID, items }: Props): JSX.Element {
   if (preview) {
     return (
       <div className={styles.cardGrid} data-testid={testID}>
-        {visibleItems.map(({ header, description, link }) => (
-          <Link key={link} href={link}>
-            <a href={link} className={styles.cardLink}>
-              <RedesignCard header={header} action={<ArrowRightIcon size={16} aria-hidden />}>
-                <p>{description}</p>
-              </RedesignCard>
-            </a>
-          </Link>
+        {visibleItems.map(({ header, description, link, icon }) => (
+          <ShortcutCard
+            key={link}
+            href={link}
+            label={header}
+            description={description}
+            icon={icon ?? ClipboardTextIcon}
+          />
         ))}
       </div>
     );
