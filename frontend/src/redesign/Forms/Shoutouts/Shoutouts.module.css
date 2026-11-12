@@ -194,16 +194,6 @@
   color: var(--idol-danger-default);
   font: var(--idol-type-body-default);
 }
-.success {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--idol-fg-default);
-}
-.success svg {
-  flex-shrink: 0;
-  color: var(--idol-accent-default);
-}
 .empty {
   display: flex;
   flex-direction: column;
@@ -223,18 +213,6 @@
   min-height: 220px;
   border: 1px solid var(--idol-stroke-black);
   border-radius: 16px;
-  background: var(--idol-bg-dimmer);
-  animation: pulse 1.5s ease-in-out infinite alternate;
-}
-@keyframes pulse {
-  to {
-    opacity: 0.4;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .skeleton {
-    animation: none;
-  }
 }
 @media (max-width: 640px) {
   .page {

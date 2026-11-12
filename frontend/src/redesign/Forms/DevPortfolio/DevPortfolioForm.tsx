@@ -12,7 +12,8 @@ import {
   Link,
   Modal,
   Table,
-  Textarea
+  Textarea,
+  useToast
 } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
 import { PlusIcon, TrashIcon, MagnifyingGlassIcon } from '../../../design-system-2026/icons';
@@ -102,7 +103,7 @@ export default function DevPortfolioForm(): JSX.Element {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [review, setReview] = useState(false);
-  const [success, setSuccess] = useState<DevPortfolioInfo>();
+  const toast = useToast();
   const [search, setSearch] = useState('');
   const [reload, setReload] = useState(0);
   const errorRef = useRef<HTMLDivElement>(null);
@@ -177,7 +178,15 @@ export default function DevPortfolioForm(): JSX.Element {
         })
       );
       if (result.error) throw new Error(result.error);
-      setSuccess(portfolio);
+      toast.add({
+        title: `${portfolio.name} submitted.`,
+        description: (
+          <Link href={`/forms/dev-portfolio-submissions/${portfolio.uuid}`}>
+            View submission and status
+          </Link>
+        ),
+        timeout: 0
+      });
       setDraft(freshDraft());
       setReview(false);
       setError('');
@@ -198,14 +207,6 @@ export default function DevPortfolioForm(): JSX.Element {
         <h1 className="idol-heading-1">Dev Portfolio</h1>
         <p>Share the work you’ve opened, reviewed, and documented.</p>
       </header>
-      {success && (
-        <div className={styles.success} role="status">
-          <strong>{success.name} submitted.</strong> Your submission has been received.{' '}
-          <Link href={`/forms/dev-portfolio-submissions/${success.uuid}`}>
-            View submission and status
-          </Link>
-        </div>
-      )}
       {loading && <PageState title="Loading assignments…" loading />}
       {!loading && loadError && (
         <PageState title="Couldn’t load assignments" retry={() => setReload((value) => value + 1)}>
@@ -236,7 +237,6 @@ export default function DevPortfolioForm(): JSX.Element {
                         options.find((item) => assignmentLabel(item) === label)?.uuid ?? ''
                       );
                       setError('');
-                      setSuccess(undefined);
                     }}
                     placeholder="Select assignment"
                     disabled={busy}
@@ -333,27 +333,33 @@ export default function DevPortfolioForm(): JSX.Element {
                 </form>
               )}
             </Card>
-            <aside className={styles.sidebar} aria-label="Assignment information">
-              <Card header={portfolio?.name ?? 'Your next submission'}>
-                {portfolio ? (
-                  <>
-                    <AssignmentStatus portfolio={portfolio} />
-                    <DeadlineSummary portfolio={portfolio} />
-                    <Link href={`/forms/dev-portfolio-submissions/${portfolio.uuid}`}>
-                      View assignment & submissions
-                    </Link>
-                  </>
-                ) : (
-                  <p>Select an assignment to see its dates and submission window.</p>
-                )}
-              </Card>
-              <Card header="Before you submit">
-                <p>
-                  {self?.role === 'tpm' || self?.role === 'dev-advisor'
-                    ? 'Opened PRs are optional for your role. Include links when available.'
-                    : 'Include at least one opened PR and one reviewed PR, or explain an exception.'}
-                </p>
-                <p>Include documentation or testing with every submission.</p>
+            <aside aria-label="Assignment tips">
+              <Card header="Tips">
+                <section className={styles.tipSection}>
+                  <h3 className={styles.sectionTitle}>
+                    {portfolio?.name ?? 'Your next submission'}
+                  </h3>
+                  {portfolio ? (
+                    <>
+                      <AssignmentStatus portfolio={portfolio} />
+                      <DeadlineSummary portfolio={portfolio} />
+                      <Link href={`/forms/dev-portfolio-submissions/${portfolio.uuid}`}>
+                        View assignment & submissions
+                      </Link>
+                    </>
+                  ) : (
+                    <p>Select an assignment to see its dates and submission window.</p>
+                  )}
+                </section>
+                <section className={styles.tipSection}>
+                  <h3 className={styles.sectionTitle}>Before you submit</h3>
+                  <p>
+                    {self?.role === 'tpm' || self?.role === 'dev-advisor'
+                      ? 'Opened PRs are optional for your role. Include links when available.'
+                      : 'Include at least one opened PR and one reviewed PR, or explain an exception.'}
+                  </p>
+                  <p>Include documentation or testing with every submission.</p>
+                </section>
               </Card>
             </aside>
           </div>

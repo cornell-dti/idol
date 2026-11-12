@@ -1,0 +1,509 @@
+.entranceScope {
+  display: contents;
+}
+
+/* Keep the slide on the app scope so swapping the skeleton for Home cannot restart it. */
+@property --idol-home-offset {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+.home {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hero {
+  position: relative;
+  height: 362px;
+  flex-shrink: 0;
+  background: var(--idol-bg-root);
+}
+.heroPhoto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heroFade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 150% 150% at 50% -16.7%,
+    transparent 40%,
+    var(--idol-bg-root) 100%
+  );
+}
+.coverControls {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+}
+.coverDragArea {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  cursor: ns-resize;
+  touch-action: none;
+}
+.coverDragArea:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: -3px;
+}
+.welcome {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 80px;
+  text-align: center;
+}
+.welcome h1 {
+  margin: 0;
+  color: #fff;
+  font: var(--idol-type-title);
+  letter-spacing: var(--idol-type-title-tracking);
+  text-shadow: 0 0 20px #0009;
+}
+.surface {
+  position: relative;
+  flex: 1;
+  margin-top: -32px;
+  padding: 64px 32px;
+  border-radius: 24px 24px 0 0;
+  translate: 0 var(--idol-home-offset, 0px);
+}
+.search {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(449px, calc(100% - 48px));
+  z-index: 1;
+}
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+  align-items: start;
+  gap: 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.shortcuts,
+.glance {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.glance {
+  gap: 24px;
+}
+.glance h2 {
+  margin-bottom: -8px;
+}
+.shortcutGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.shortcutLink {
+  display: flex;
+  color: var(--idol-fg-default);
+  border-radius: 16px;
+  text-decoration: none;
+}
+.shortcutLink:hover,
+.shortcutLink:focus {
+  color: var(--idol-fg-default);
+  text-decoration: none;
+}
+.shortcutCard {
+  flex: 1;
+  transition:
+    background-color 140ms ease,
+    scale 100ms ease;
+}
+.shortcutLink:hover .shortcutCard {
+  background: var(--idol-bg-dimmer);
+}
+.shortcutLink:active .shortcutCard {
+  scale: 0.97;
+}
+.shortcutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.shortcutContent h3 {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+.shortcutContent p {
+  font: var(--idol-type-body-default);
+  color: var(--idol-fg-dimmer);
+}
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 10px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+.editButton {
+  display: flex;
+  justify-content: center;
+}
+.notice {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+  text-align: center;
+}
+.notice:empty {
+  display: none;
+}
+.cardArrow,
+.cardArrowSkeleton {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+.cardArrow:hover {
+  background: var(--idol-bg-default);
+}
+.metrics {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+}
+.metrics > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.metrics dd {
+  margin: 0;
+  font: 400 24px/32px var(--idol-font-family);
+  letter-spacing: -0.96px;
+}
+.metrics dt {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-default);
+}
+.coverSkeleton {
+  position: absolute;
+  inset: 0;
+  opacity: 0.75;
+}
+.welcomeSkeleton {
+  --idol-skeleton-base: color-mix(in srgb, var(--idol-bg-dimmer), var(--idol-fg-default) 7%);
+  width: min(360px, 100%);
+  height: var(--idol-type-title-line-height);
+  margin-inline: auto;
+  border-radius: 12px;
+}
+.searchSkeleton {
+  height: 52px;
+  border-radius: 123px;
+}
+.headingSkeleton {
+  display: inline-block;
+  width: 120px;
+  height: 20px;
+  border-radius: 6px;
+  vertical-align: middle;
+}
+.shortcutIconSkeleton {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+}
+.shortcutCopySkeleton {
+  display: grid;
+  gap: 8px;
+  padding-block: 7px;
+}
+.shortcutTitleSkeleton,
+.shortcutDescriptionSkeleton,
+.cardTitleSkeleton,
+.metricValueSkeleton,
+.metricLabelSkeleton {
+  border-radius: 4px;
+}
+.shortcutTitleSkeleton {
+  width: 55%;
+  height: 16px;
+}
+.shortcutDescriptionSkeleton {
+  width: 85%;
+  height: 14px;
+}
+.editSkeleton {
+  width: 108px;
+  height: 36px;
+  border-radius: 6px;
+}
+.cardTitleSkeleton {
+  width: 100px;
+  height: 10px;
+}
+.cardTitleSkeleton,
+.cardArrowSkeleton {
+  --idol-skeleton-base: color-mix(in srgb, var(--idol-bg-dimmer), var(--idol-fg-default) 7%);
+}
+.metricValueSkeleton {
+  width: 44%;
+  height: 22px;
+  margin-block: 5px;
+}
+.metricLabelSkeleton {
+  width: 75%;
+  height: 8px;
+  margin-block: 3px;
+}
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+h3.editorHeading,
+legend.editorHeading {
+  margin: 0 0 16px;
+  padding: 0;
+  color: var(--idol-fg-default);
+  font: var(--idol-type-heading-4);
+}
+.editorList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.editorRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px;
+  border-radius: 6px;
+}
+.editorRow:hover,
+.editorRow:focus-within {
+  background: var(--idol-bg-dimmer);
+}
+.grabbedRow > * {
+  opacity: 0.3;
+}
+.dropBefore::before,
+.dropAfter::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #0066ff;
+  box-shadow: 0 0 0 1px #0066ff16;
+  pointer-events: none;
+  z-index: 1;
+}
+.dropBefore::before {
+  top: -1px;
+}
+.dropAfter::after {
+  bottom: -1px;
+}
+.dragPortal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  pointer-events: none;
+}
+.dragPreview {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  box-shadow:
+    0 12px 32px #0003,
+    0 2px 6px #0002;
+  transform: scale(1.015) rotate(-0.5deg);
+  transform-origin: left center;
+}
+.rowLabel {
+  flex: 1;
+}
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  color: inherit;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+.dragHandle:active {
+  cursor: grabbing;
+}
+.shortcutDropTarget {
+  outline: 1px dashed var(--idol-accent-default);
+  outline-offset: 3px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--idol-accent-default) 6%, transparent);
+}
+.shortcutFooter {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: clamp(4px, calc(10vw - 28px), 16px);
+}
+.resetShortcuts {
+  margin-inline-end: auto;
+}
+.removed {
+  border-top: 1px solid var(--idol-stroke-black);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+.muted {
+  color: var(--idol-fg-dimmer);
+  padding: 8px;
+}
+.shortcutLink:focus-visible,
+.cardArrow:focus-visible,
+.dragHandle:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 1100px) {
+  .columns {
+    gap: 24px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  }
+  .surface {
+    padding: 56px 24px;
+  }
+  .shortcutGrid {
+    gap: 16px;
+  }
+}
+@media (max-width: 940px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .glance {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .glance h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+  .metrics {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+@media (max-width: 760px) {
+  .surface {
+    border-radius: 0;
+  }
+}
+@media (max-width: 640px) {
+  .hero {
+    height: 300px;
+  }
+  .welcome {
+    bottom: 76px;
+    left: 16px;
+    right: 16px;
+  }
+  .welcome h1 {
+    font: var(--idol-type-heading-1);
+    letter-spacing: var(--idol-type-heading-1-tracking);
+  }
+  .welcomeSkeleton {
+    height: var(--idol-type-heading-1-line-height);
+  }
+  .surface {
+    padding: 48px 16px 32px;
+  }
+  .shortcutGrid,
+  .glance {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .search {
+    width: calc(100% - 32px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shortcutCard {
+    transition: none;
+  }
+  .shortcutLink:active .shortcutCard {
+    scale: 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .coverControls:not([data-repositioning]) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero:hover .coverControls,
+  .hero:focus-within .coverControls {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: home-arrive 280ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+}
+
+@keyframes home-arrive {
+  from {
+    --idol-home-offset: 14px;
+  }
+}

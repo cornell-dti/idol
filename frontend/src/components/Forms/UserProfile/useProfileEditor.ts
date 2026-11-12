@@ -110,7 +110,7 @@ export default function useProfileEditor() {
         setSavedValues(getProfileValues(member));
         Emitters.generalSuccess.emit({
           headerMsg: 'Information Updated',
-          contentMsg: `Member information successfully updated!`
+          contentMsg: 'Profile saved.'
         });
       }
     } catch {

@@ -14,6 +14,9 @@ module.exports = {
         '^.+\\.module\\.(css|sass|scss)$'
       ],
       moduleNameMapper: {
+        // Jest 27 cannot resolve Radix's conditional subpath export.
+        '^@radix-ui/primitive/is-development$':
+          '<rootDir>/node_modules/@radix-ui/primitive/dist/internal/is-development.true.js',
         // Jest 27 does not resolve package.json imports; match Base UI's browser condition.
         '^#prehydration/(tabs/indicator|slider/thumb)$':
           '<rootDir>/node_modules/@base-ui/react/internals/prehydrationScript.stub.js',

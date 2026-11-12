@@ -8,8 +8,8 @@ export default class CandidateDeciderAPI {
   }
 
   static async hasCandidateDeciderInstance(): Promise<boolean> {
-    const response = APIWrapper.get(`${backendURL}/candidate-decider-instance/`);
-    return response.then((val) => val.data.hasInstance);
+    const response = await APIWrapper.get(`${backendURL}/candidate-decider-instance/`);
+    return response.data?.hasInstance === true;
   }
 
   static async getInstance(uuid: string): Promise<CandidateDeciderInstance> {

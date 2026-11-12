@@ -24,9 +24,14 @@ export const TabList = forwardRef<
   Omit<BaseTabs.List.Props, 'className' | 'children'> & {
     className?: string;
     children?: ReactNode;
+    segmented?: boolean;
   }
->(({ className = '', children, ...props }, ref) => (
-  <BaseTabs.List {...props} ref={ref} className={`${styles.tabTrack} ${className}`}>
+>(({ className = '', children, segmented = false, ...props }, ref) => (
+  <BaseTabs.List
+    {...props}
+    ref={ref}
+    className={`${styles.tabTrack} ${segmented ? styles.tabList : ''} ${className}`}
+  >
     {children}
     <BaseTabs.Indicator className={styles.tabIndicator} aria-hidden="true" />
   </BaseTabs.List>
@@ -54,7 +59,7 @@ export function Tabs({ id, label, items, value, onValueChange }: TabsProps): JSX
       onValueChange={onValueChange}
       className={styles.tabsContainer}
     >
-      <TabList aria-label={label} className={styles.tabList} activateOnFocus>
+      <TabList aria-label={label} segmented activateOnFocus>
         {items.map((item) => (
           <Tab key={item.value} value={item.value} disabled={item.disabled} icon={item.icon}>
             {item.label}

@@ -70,12 +70,13 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
     }
   };
   const deviceTheme = deviceDark ? 'dark' : 'light';
+  const preferredTheme = theme === 'auto' ? deviceTheme : theme;
   return (
     <AppearanceContext.Provider
       value={{
         theme,
         accent,
-        resolvedTheme: theme === 'auto' ? deviceTheme : theme,
+        resolvedTheme: preferredTheme,
         setTheme: (next) => {
           setThemeState(next);
           persist(next, accent);

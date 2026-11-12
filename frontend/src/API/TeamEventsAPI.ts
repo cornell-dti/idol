@@ -32,9 +32,12 @@ export class TeamEventsAPI {
     });
   }
 
-  public static getAllTeamEventInfo(): Promise<TeamEventInfo[]> {
+  public static getAllTeamEventInfo(options?: { throwOnError: boolean }): Promise<TeamEventInfo[]> {
     const res = APIWrapper.get(`${backendURL}/team-event?meta_only=true`).then((res) => res.data);
     return res.then((val) => {
+      if (options?.throwOnError && (!val || val.error || !Array.isArray(val.events))) {
+        throw new Error(val?.error || 'Could not load team events.');
+      }
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all events",
@@ -96,9 +99,14 @@ export class TeamEventsAPI {
     );
   }
 
-  public static async getTeamEventAttendanceByUser(): Promise<TeamEventAttendance[]> {
+  public static async getTeamEventAttendanceByUser(options?: {
+    throwOnError: boolean;
+  }): Promise<TeamEventAttendance[]> {
     const res = APIWrapper.get(`${backendURL}/team-event-attendance`).then((res) => res.data);
     return res.then((val) => {
+      if (options?.throwOnError && (!val || val.error || !Array.isArray(val.teamEventAttendance))) {
+        throw new Error(val?.error || 'Could not load team event attendance.');
+      }
       if (val.error) {
         Emitters.generalError.emit({
           headerMsg: "Couldn't get all team event attendance for this user",

@@ -1,0 +1,34 @@
+[data-idol-redesign] {
+  --idol-skeleton-base: var(--idol-bg-dimmer);
+  --idol-skeleton-highlight: var(--idol-bg-default);
+  --idol-skeleton-background: linear-gradient(
+      100deg,
+      transparent 30%,
+      var(--idol-skeleton-highlight) 50%,
+      transparent 70%
+    )
+    150% 0 / 220% 100% no-repeat;
+  --idol-skeleton-animation: idol-skeleton-shimmer 1.6s linear infinite;
+}
+
+[data-idol-redesign][data-idol-theme='dark'] {
+  --idol-skeleton-highlight: color-mix(in srgb, var(--idol-fg-default) 12%, var(--idol-bg-dimmer));
+}
+
+.idol-skeleton {
+  background: var(--idol-skeleton-background);
+  background-color: var(--idol-skeleton-base);
+  animation: var(--idol-skeleton-animation);
+}
+
+@keyframes idol-skeleton-shimmer {
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-idol-redesign] {
+    --idol-skeleton-animation: none;
+  }
+}

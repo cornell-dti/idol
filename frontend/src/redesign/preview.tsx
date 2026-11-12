@@ -18,6 +18,14 @@ const PreviewContext = createContext<PreviewToggle>({
   setEnabled: () => {}
 });
 
+export function readPreviewPreference(): boolean {
+  try {
+    return window.localStorage.getItem(PREVIEW_STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Lets IDOL switch between the released site and the latest redesign work.
  * Everyone else always sees the released site.
@@ -28,11 +36,7 @@ export function PreviewProvider({ children }: { readonly children: ReactNode }):
   const [ready, setReady] = useState(false);
   const [enabled, setEnabledState] = useState(false);
   useEffect(() => {
-    try {
-      setEnabledState(window.localStorage.getItem(PREVIEW_STORAGE_KEY) === 'true');
-    } catch {
-      // The toggle still works when browser storage is unavailable.
-    }
+    setEnabledState(readPreviewPreference());
     setReady(true);
   }, []);
   const setEnabled = (value: boolean) => {
