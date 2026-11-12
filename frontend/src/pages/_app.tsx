@@ -45,7 +45,7 @@ export default function AppTemplate(props: AppProps): JSX.Element {
     if (pathname !== entrancePath) setEntrancePath(null);
   }, [pathname, entrancePath]);
   const animateHome = hydrated && pathname === entrancePath;
-  const entranceClass = `${homeStyles.entranceScope} ${animateHome ? homeStyles.enter : ''}`;
+  const entranceClass = homeStyles.entranceScope;
 
   // Local design-system previews stay independent of Firebase.
   if (isDesignPreview) {
