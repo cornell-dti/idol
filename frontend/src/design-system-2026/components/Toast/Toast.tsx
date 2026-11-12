@@ -7,7 +7,7 @@ import styles from './Toast.module.css';
 /** Accessible announcements, hover/focus-paused timeout, and downward swipe dismissal. */
 export function ToastProvider({ children }: { children: ReactNode }): JSX.Element {
   return (
-    <BaseToast.Provider timeout={5000} limit={1}>
+    <BaseToast.Provider timeout={3000} limit={1}>
       {children}
       <ToastViewport />
     </BaseToast.Provider>

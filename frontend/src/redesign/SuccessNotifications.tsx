@@ -16,8 +16,8 @@ export default function SuccessNotifications({
       add({
         title: contentMsg || headerMsg,
         description: child,
-        // Keep follow-up links available until dismissed; allow longer messages time to be read.
-        timeout: child ? 0 : 8000
+        // Keep follow-up links available until dismissed.
+        ...(child ? { timeout: 0 } : {})
       });
     };
     onEmitter.subscribe(notify);
