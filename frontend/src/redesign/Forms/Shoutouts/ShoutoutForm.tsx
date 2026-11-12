@@ -109,7 +109,19 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
 
   return (
     <Card header="Give someone a shoutout!">
-      <form className={styles.form} noValidate onSubmit={submit} aria-busy={busy}>
+      <form
+        className={styles.form}
+        noValidate
+        onSubmit={submit}
+        aria-busy={busy}
+        onKeyDown={(event) => {
+          // ⌘/Ctrl + Enter submits from any field.
+          if (event.key !== 'Enter' || !(event.metaKey || event.ctrlKey)) return;
+          if (event.nativeEvent.isComposing) return;
+          event.preventDefault();
+          event.currentTarget.requestSubmit();
+        }}
+      >
         <fieldset disabled={busy} className={styles.fields}>
           <Input
             ref={recipientInput}
@@ -235,7 +247,12 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
               onCheckedChange={setAnonymous}
               disabled={busy}
             />
-            <Button type="submit" disabled={busy} icon={<PlusIcon size={16} />}>
+            <Button
+              type="submit"
+              disabled={busy}
+              icon={<PlusIcon size={16} />}
+              aria-keyshortcuts="Meta+Enter Control+Enter"
+            >
               {busy ? 'Sending…' : 'Send shoutout'}
             </Button>
           </div>
