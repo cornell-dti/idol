@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Router, { NextRouter } from 'next/router';
+import { SignOutIcon } from '@phosphor-icons/react/dist/csr/SignOut';
 import { Button, Modal } from '../../../design-system-2026/components';
 import { Emitters } from '../../../utils';
 import styles from './UserProfile.module.css';
@@ -137,7 +138,7 @@ export default function UnsavedProfileChanges({ dirty }: { dirty: boolean }): JS
           <Button variant="secondary" onClick={stayOnPage}>
             Stay on page
           </Button>
-          <Button variant="danger" onClick={leavePage}>
+          <Button variant="danger" icon={<SignOutIcon size={16} />} onClick={leavePage}>
             Leave page
           </Button>
         </>
