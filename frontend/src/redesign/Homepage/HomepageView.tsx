@@ -3,10 +3,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Card, DottedBackground, useToast } from '../../design-system-2026/components';
 import { ArrowRightIcon } from '../../design-system-2026/icons';
+import productLogos from '../helpProductLogos';
 import HomeSearch from './HomeSearch';
 import HomepageCover from './HomepageCover';
 import { coverStorageKey } from './covers';
 import ShortcutEditor from './ShortcutEditor';
+import ShortcutCard from '../ShortcutCard/ShortcutCard';
 import { defaultShortcuts, parseShortcuts, ShortcutId, shortcuts } from './shortcuts';
 import { HomeSummary, SummaryState } from './summary';
 import styles from './Homepage.module.css';
@@ -16,6 +18,113 @@ const summaryCards = [
   { key: 'tec', title: 'Team Event Credits', href: '/forms/teamEventCredits', metricCount: 3 },
   { key: 'shoutouts', title: 'Shoutouts', href: '/forms/shoutouts', metricCount: 2 }
 ] as const;
+
+const slackChannel = (channel: string) => `https://cornelldti.slack.com/channels/${channel}`;
+
+// Products with a #<product>-support channel; logos are shared with the Help page.
+const productSupport = [
+  { id: 'idol', name: 'IDOL', channel: 'idol-support' },
+  { id: 'courseplan', name: 'CoursePlan', channel: 'courseplan-support' },
+  { id: 'curaise', name: 'CU Raise', channel: 'curaise-support' },
+  { id: 'loop', name: 'Loop', channel: 'loop-support' }
+] as const;
+
+const helpLinks = [
+  {
+    title: 'Glossary',
+    description: 'Common terms & IDOL definitions',
+    href: '/help',
+    external: false
+  },
+  {
+    title: 'More help',
+    description: 'Ask the IDOL team on Slack.',
+    href: slackChannel('idol-support'),
+    external: true
+  }
+] as const;
+
+function ProductSupport(): JSX.Element {
+  return (
+    <section className={styles.productSupport} aria-labelledby="home-product-support">
+      <h2 id="home-product-support" className="idol-heading-2">
+        Product support
+      </h2>
+      <ul className={styles.productGrid}>
+        {productSupport.map(({ id, name, channel }) => (
+          <li key={id}>
+            <a
+              href={slackChannel(channel)}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.productLink}
+              aria-label={`${name} support on Slack (#${channel})`}
+            >
+              <span className={styles.productTile}>
+                <img src={productLogos[id]} alt="" width={40} height={40} />
+              </span>
+              <span>{name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function GetHelp(): JSX.Element {
+  return (
+    <section className={styles.getHelp} aria-labelledby="home-get-help">
+      <h2 id="home-get-help" className="idol-heading-2">
+        Get help
+      </h2>
+      <div className={styles.helpGrid}>
+        {helpLinks.map(({ title, description, href, external }) => {
+          const card = (
+            <Card
+              size="compact"
+              header={title}
+              headingLevel="h3"
+              action={<ArrowRightIcon size={16} aria-hidden />}
+              className={styles.helpCard}
+            >
+              <p className={styles.helpDescription}>{description}</p>
+            </Card>
+          );
+          return external ? (
+            <a key={href} href={href} target="_blank" rel="noreferrer" className={styles.helpLink}>
+              {card}
+            </a>
+          ) : (
+            <Link key={href} href={href}>
+              <a href={href} className={styles.helpLink}>
+                {card}
+              </a>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// Not per-user: the skeleton renders before we know who is signed in.
+const shortcutCountKey = 'idol:home-shortcut-count';
+function readShortcutCount(): number | null {
+  try {
+    const value = Number(window.localStorage.getItem(shortcutCountKey));
+    return Number.isInteger(value) && value >= 0 && value <= shortcuts.length ? value : null;
+  } catch {
+    return null;
+  }
+}
+function rememberShortcutCount(count: number) {
+  try {
+    window.localStorage.setItem(shortcutCountKey, String(count));
+  } catch {
+    // Storage unavailable: the skeleton falls back to the default count.
+  }
+}
 
 function MetricsSkeleton({ count }: { count: number }): JSX.Element {
   return (
@@ -31,6 +140,12 @@ function MetricsSkeleton({ count }: { count: number }): JSX.Element {
 }
 
 export function HomepageSkeleton(): JSX.Element {
+  // Match the viewer's real number of shortcut cards (remembered from their last visit).
+  const [shortcutCount, setShortcutCount] = useState<number>(defaultShortcuts.length);
+  useEffect(() => {
+    const remembered = readShortcutCount();
+    if (remembered !== null) setShortcutCount(remembered);
+  }, []);
   return (
     <div className={styles.home} role="status" aria-label="Loading home">
       <div aria-hidden="true" className={styles.hero}>
@@ -47,7 +162,7 @@ export function HomepageSkeleton(): JSX.Element {
               <span className={`${styles.headingSkeleton} idol-skeleton`} />
             </h2>
             <div className={styles.shortcutGrid}>
-              {defaultShortcuts.map((id) => (
+              {Array.from({ length: shortcutCount }, (_, id) => (
                 <Card key={id}>
                   <div className={styles.shortcutContent}>
                     <div className={`${styles.shortcutIconSkeleton} idol-skeleton`} />
@@ -62,20 +177,55 @@ export function HomepageSkeleton(): JSX.Element {
             <div className={styles.editButton}>
               <div className={`${styles.editSkeleton} idol-skeleton`} />
             </div>
+            <div className={styles.productSupport}>
+              <h2 className="idol-heading-2">
+                <span className={`${styles.headingSkeleton} idol-skeleton`} />
+              </h2>
+              <div className={styles.productGrid}>
+                {productSupport.map(({ id }) => (
+                  <div key={id} className={styles.productLink}>
+                    <span className={`${styles.productTileSkeleton} idol-skeleton`} />
+                    <span className={`${styles.productLabelSkeleton} idol-skeleton`} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className={styles.glance}>
-            <h2 className="idol-heading-2">
-              <span className={`${styles.headingSkeleton} idol-skeleton`} />
-            </h2>
-            {summaryCards.map(({ key, metricCount }) => (
-              <Card
-                key={key}
-                header={<span className={`${styles.cardTitleSkeleton} idol-skeleton`} />}
-                action={<span className={`${styles.cardArrowSkeleton} idol-skeleton`} />}
-              >
-                <MetricsSkeleton count={metricCount} />
-              </Card>
-            ))}
+          <div className={styles.sidebar}>
+            <div className={styles.glance}>
+              <h2 className="idol-heading-2">
+                <span className={`${styles.headingSkeleton} idol-skeleton`} />
+              </h2>
+              {summaryCards.map(({ key, metricCount }) => (
+                <Card
+                  key={key}
+                  header={<span className={`${styles.cardTitleSkeleton} idol-skeleton`} />}
+                  action={<span className={`${styles.cardArrowSkeleton} idol-skeleton`} />}
+                >
+                  <MetricsSkeleton count={metricCount} />
+                </Card>
+              ))}
+            </div>
+            <div className={styles.getHelp}>
+              <h2 className="idol-heading-2">
+                <span className={`${styles.headingSkeleton} idol-skeleton`} />
+              </h2>
+              <div className={styles.helpGrid}>
+                {helpLinks.map(({ href }) => (
+                  <Card
+                    key={href}
+                    size="compact"
+                    header={<span className={`${styles.cardTitleSkeleton} idol-skeleton`} />}
+                    action={<span className={`${styles.cardArrowSkeleton} idol-skeleton`} />}
+                  >
+                    <div className={styles.helpCopySkeleton}>
+                      <span className={`${styles.helpLineSkeleton} idol-skeleton`} />
+                      <span className={`${styles.helpLineSkeleton} idol-skeleton`} />
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </DottedBackground>
@@ -168,6 +318,9 @@ export default function HomepageView({
     }
     setReady(true);
   }, [storageKey]);
+  useEffect(() => {
+    if (ready && storageKey) rememberShortcutCount(selected.length);
+  }, [ready, storageKey, selected]);
   if (!ready) return <HomepageSkeleton />;
 
   const save = (items: ShortcutId[]) => {
@@ -205,21 +358,13 @@ export default function HomepageView({
             </h2>
             <div className={styles.shortcutGrid}>
               {visible.map((item) => (
-                <Link key={item.id} href={item.href}>
-                  <a href={item.href} className={styles.shortcutLink}>
-                    <Card className={styles.shortcutCard}>
-                      <div className={styles.shortcutContent}>
-                        <span className={styles.iconTile}>
-                          <item.icon size={32} aria-hidden />
-                        </span>
-                        <div>
-                          <h3>{item.label}</h3>
-                          <p>{item.description}</p>
-                        </div>
-                      </div>
-                    </Card>
-                  </a>
-                </Link>
+                <ShortcutCard
+                  key={item.id}
+                  href={item.href}
+                  label={item.label}
+                  description={item.description}
+                  icon={item.icon}
+                />
               ))}
             </div>
             {!visible.length && (
@@ -233,22 +378,26 @@ export default function HomepageView({
             <p className={styles.notice} role="status">
               {notice}
             </p>
+            <ProductSupport />
           </section>
-          <section className={styles.glance} aria-labelledby="home-glance">
-            <h2 id="home-glance" className="idol-heading-2">
-              At a glance
-            </h2>
-            {summaryCards.map(({ key, title, href, metricCount }) => (
-              <SummaryCard
-                key={key}
-                title={title}
-                href={href}
-                metricCount={metricCount}
-                state={summary[key]}
-                onRetry={onRetry}
-              />
-            ))}
-          </section>
+          <div className={styles.sidebar}>
+            <section className={styles.glance} aria-labelledby="home-glance">
+              <h2 id="home-glance" className="idol-heading-2">
+                At a glance
+              </h2>
+              {summaryCards.map(({ key, title, href, metricCount }) => (
+                <SummaryCard
+                  key={key}
+                  title={title}
+                  href={href}
+                  metricCount={metricCount}
+                  state={summary[key]}
+                  onRetry={onRetry}
+                />
+              ))}
+            </section>
+            <GetHelp />
+          </div>
         </div>
       </DottedBackground>
     </div>
