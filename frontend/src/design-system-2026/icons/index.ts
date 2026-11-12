@@ -1,4 +1,8 @@
 // Import individual modules so Next.js 12 does not compile the entire icon catalog.
+import { createElement, forwardRef } from 'react';
+import type { IconProps } from '@phosphor-icons/react';
+import { LinkedinLogoIcon as PhosphorLinkedinLogoIcon } from '@phosphor-icons/react/dist/csr/LinkedinLogo';
+
 export { HouseIcon } from '@phosphor-icons/react/dist/csr/House';
 export { UsersIcon } from '@phosphor-icons/react/dist/csr/Users';
 export { CoffeeIcon } from '@phosphor-icons/react/dist/csr/Coffee';
@@ -36,7 +40,6 @@ export { UploadSimpleIcon } from '@phosphor-icons/react/dist/csr/UploadSimple';
 
 export { GlobeIcon } from '@phosphor-icons/react/dist/csr/Globe';
 export { GithubLogoIcon } from '@phosphor-icons/react/dist/csr/GithubLogo';
-export { LinkedinLogoIcon } from '@phosphor-icons/react/dist/csr/LinkedinLogo';
 export { ArrowSquareOutIcon } from '@phosphor-icons/react/dist/csr/ArrowSquareOut';
 export { WalletIcon } from '@phosphor-icons/react/dist/csr/Wallet';
 export { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle';
@@ -54,3 +57,15 @@ export { GitBranchIcon } from '@phosphor-icons/react/dist/csr/GitBranch';
 export { DotsSixVerticalIcon } from '@phosphor-icons/react/dist/csr/DotsSixVertical';
 export { DotsThreeIcon } from '@phosphor-icons/react/dist/csr/DotsThree';
 export { ImageIcon } from '@phosphor-icons/react/dist/csr/Image';
+
+export { MapTrifoldIcon } from '@phosphor-icons/react/dist/csr/MapTrifold';
+export { ListBulletsIcon } from '@phosphor-icons/react/dist/csr/ListBullets';
+export { EnvelopeSimpleIcon } from '@phosphor-icons/react/dist/csr/EnvelopeSimple';
+export { FunnelSimpleIcon } from '@phosphor-icons/react/dist/csr/FunnelSimple';
+export { MapPinIcon } from '@phosphor-icons/react/dist/csr/MapPin';
+
+/** LinkedIn's mark is always the filled square; color still comes from `currentColor`. */
+export const LinkedinLogoIcon = forwardRef<SVGSVGElement, IconProps>((props, ref) =>
+  createElement(PhosphorLinkedinLogoIcon, { ...props, ref, weight: 'fill' })
+);
+LinkedinLogoIcon.displayName = 'LinkedinLogoIcon';

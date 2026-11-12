@@ -28,6 +28,10 @@
   background: var(--idol-bg-card-layer, var(--idol-bg-dimmer));
 }
 
+.card.layeredBare {
+  padding: 3px;
+}
+
 .cardHeader {
   display: flex;
   align-items: center;
@@ -50,4 +54,14 @@
   font: inherit;
   letter-spacing: inherit;
   color: inherit;
+}
+
+.compact .cardBody {
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.compact > .cardHeader {
+  min-height: 32px;
+  padding: 4px 10px 5px;
 }
