@@ -1,4 +1,4 @@
-import { MouseEvent, PointerEvent, RefObject, useRef } from 'react';
+import { MouseEvent, PointerEvent, RefObject, useEffect, useRef } from 'react';
 
 type Drag = {
   pointerId: number;
@@ -10,6 +10,8 @@ type Drag = {
   lastTime: number;
   velocity: number;
   active: boolean;
+  /** The scrollable area the press started in (e.g. an overflowing page grid), if any. */
+  scroller: HTMLElement | null;
 };
 
 const startThreshold = 6;
@@ -23,23 +25,62 @@ function currentOffset(element: HTMLElement): number {
   return new DOMMatrixReadOnly(transform).m42;
 }
 
+/** Nearest ancestor of `target`, up to `sheet`, that can scroll vertically right now. */
+function scrollerFor(target: Element, sheet: HTMLElement): HTMLElement | null {
+  for (let node: Element | null = target; node && node !== sheet; node = node.parentElement) {
+    if (node instanceof HTMLElement && node.scrollHeight > node.clientHeight + 1) {
+      const { overflowY } = getComputedStyle(node);
+      if (overflowY === 'auto' || overflowY === 'scroll') return node;
+    }
+  }
+  return null;
+}
+
+/** A downward swipe in a scroller that is not at its top scrolls it rather than dragging. */
+// 1px of slack: high-DPI screens can leave a scroller "at the top" at a fractional scrollTop.
+const scrollsInstead = (current: Drag, dy: number) =>
+  dy > 0 && current.scroller !== null && current.scroller.scrollTop > 1;
+
 /**
  * Drag a bottom sheet down to dismiss it, from anywhere on it. The sheet's open/close motion is a
  * CSS transition, so a press mid-animation freezes it where it is and the drag carries on from
  * there; releasing either settles back open or closes from that exact position.
  * Elements marked `data-vaul-no-drag` (e.g. the navbar editor) keep their own gestures.
+ * Inside a scrollable area, swipes scroll it; a downward swipe only drags the sheet once the area
+ * is scrolled to its top.
  */
 export default function useSheetDrag({
+  open,
   sheet,
   backdrop,
   onClose
 }: {
+  open: boolean;
   sheet: RefObject<HTMLElement>;
   backdrop: RefObject<HTMLElement>;
   onClose: () => void;
 }) {
   const drag = useRef<Drag | null>(null);
   const suppressClick = useRef(false);
+
+  // The page grid is a scroll container with `touch-action: auto`/`pan-y`, so the browser would
+  // claim a downward swipe on it (scrolled to the top, or not overflowing at all) as a no-op
+  // scroll and cancel our pointer stream. Cancelling that touchmove keeps the gesture
+  // ours. React 17 listens to touchmove passively, so this needs a native listener. It goes on the
+  // document because the sheet mounts a render after `open` flips (Base UI's portal); `drag` is
+  // only set by a press on the sheet, so other touches pass through untouched.
+  useEffect(() => {
+    if (!open) return undefined;
+    const onTouchMove = (event: TouchEvent) => {
+      const { current } = drag;
+      const touch = event.touches[0];
+      if (!current || !touch || !event.cancelable) return;
+      const dy = touch.clientY - current.startY;
+      if (current.active || (dy > 0 && !scrollsInstead(current, dy))) event.preventDefault();
+    };
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    return () => document.removeEventListener('touchmove', onTouchMove);
+  }, [open]);
 
   const apply = (offset: number) => {
     const element = sheet.current;
@@ -79,7 +120,8 @@ export default function useSheetDrag({
       lastY: event.clientY,
       lastTime: now,
       velocity: 0,
-      active: false
+      active: false,
+      scroller: scrollerFor(event.target as Element, element)
     };
     suppressClick.current = false;
   };
@@ -91,8 +133,9 @@ export default function useSheetDrag({
     const dy = event.clientY - current.startY;
     if (!current.active) {
       if (Math.abs(dy) < startThreshold) return;
-      // An upward swipe on a still sheet is a scroll, not a drag.
-      if (dy < 0 && current.startOffset === 0) {
+      // An upward swipe on a still sheet is a scroll, not a drag; so is a downward one in a
+      // scroller that can still scroll up.
+      if ((dy < 0 && current.startOffset === 0) || scrollsInstead(current, dy)) {
         drag.current = null;
         return;
       }

@@ -37,7 +37,12 @@ export default function Navigation({
   const sheet = useRef<HTMLDivElement>(null);
   const backdrop = useRef<HTMLDivElement>(null);
   const grid = useRef<HTMLElement>(null);
-  const sheetDrag = useSheetDrag({ sheet, backdrop, onClose: () => setOpen(false) });
+  const sheetDrag = useSheetDrag({
+    open,
+    sheet,
+    backdrop,
+    onClose: () => setOpen(false)
+  });
   // Only a grid that actually overflows gets native touch scrolling; otherwise dragging anywhere,
   // links included, pulls the sheet.
   const [gridScrolls, setGridScrolls] = useState(false);
