@@ -15,7 +15,9 @@ import {
   Tabs,
   Textarea,
   Table,
-  Pill
+  Pill,
+  MultiCombobox,
+  YearPicker
 } from './components';
 import { ArrowRightIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon } from './icons';
 import ExtendedComponentsPreview from './ExtendedComponentsPreview';
@@ -30,6 +32,8 @@ export default function ComponentsPreview(): JSX.Element {
   const [message, setMessage] = useState('Try a button. Actions stay in this preview.');
   const [email, setEmail] = useState('');
   const [requiredTeam, setRequiredTeam] = useState('');
+  const [subteams, setSubteams] = useState<string[]>(['design']);
+  const [year, setYear] = useState<number | null>(null);
   const [tab, setTab] = useState('overview');
   const [singleTab, setSingleTab] = useState('first');
   const announce = (action: string) => setMessage(`${action} clicked.`);
@@ -202,6 +206,25 @@ export default function ComponentsPreview(): JSX.Element {
             onValueChange={(value) => setRequiredTeam(value || '')}
             options={[{ value: 'design', label: 'Design' }]}
           />
+          <MultiCombobox
+            id="preview-subteams"
+            label="Subteams (multi-select)"
+            placeholder="Search subteams"
+            options={['Design', 'Development', 'Product', 'Business'].map((label) => ({
+              value: label.toLowerCase(),
+              label
+            }))}
+            value={subteams}
+            onValueChange={setSubteams}
+          />
+          <YearPicker
+            id="preview-year"
+            label="Graduation year"
+            min={2014}
+            max={2030}
+            value={year}
+            onValueChange={setYear}
+          />
           <div className={styles.wide}>
             <Input
               id="preview-search"
@@ -225,7 +248,7 @@ export default function ComponentsPreview(): JSX.Element {
         'cards',
         '07',
         'Cards',
-        'A simple surface or a layered header, with column and row layouts.',
+        'A simple surface, a layered surface, or a layered header, with column and row layouts.',
         <div className={styles.cardGrid}>
           {(['column', 'row'] as const).map((direction) => (
             <Card key={direction} direction={direction} className={styles.demoCard}>
@@ -235,6 +258,10 @@ export default function ComponentsPreview(): JSX.Element {
               </p>
             </Card>
           ))}
+          <Card layered className={styles.demoCard}>
+            <div className={styles.cardSlot}>Your content goes here</div>
+            <p className="idol-body-small">Layered, no header</p>
+          </Card>
           {(['column', 'row'] as const).map((direction) => (
             <Card
               key={direction}
