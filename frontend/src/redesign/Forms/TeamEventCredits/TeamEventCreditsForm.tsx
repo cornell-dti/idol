@@ -250,7 +250,11 @@ const TeamEventCreditForm: React.FC = () => {
 
   const period = getTECPeriod(new Date(), tecDeadlines);
   const eventLabel = (event: TeamEventInfo) =>
-    `${event.name} · ${new Date(event.date).toLocaleDateString()} · ${event.numCredits} credit(s)${event.hasHours ? '/hour' : ''} · ${event.maxCredits} max${tecConfig.considerEventKind && event.kind ? ` · ${event.kind}` : ''}${event.isInitiativeEvent ? ' · Initiative' : ''}`;
+    `${event.name} · ${new Date(event.date).toLocaleDateString()} · ${event.numCredits} credit(s)${
+      event.hasHours ? '/hour' : ''
+    } · ${event.maxCredits} max${
+      tecConfig.considerEventKind && event.kind ? ` · ${event.kind}` : ''
+    }${event.isInitiativeEvent ? ' · Initiative' : ''}`;
   return (
     <div className={styles.page}>
       <Head>
@@ -431,37 +435,41 @@ const TeamEventCreditForm: React.FC = () => {
           />
         </div>
         <aside className={styles.periods} aria-label="Credit periods">
-          {tecDeadlines.map((deadline, index) => (
-            <Card
-              key={deadline.toISOString()}
-              header={index === period ? 'Current' : ['Past', 'Upcoming'][Number(index > period)]}
-            >
-              <h2 className={styles.periodTitle}>Period {index + 1}</h2>
-              <p>
-                Ends:{' '}
-                {deadline.toLocaleDateString('en-US', {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                  timeZone: 'UTC'
-                })}
-              </p>
-              {tecConfig.considerEventKind ? (
-                <dl className={styles.counts}>
-                  <div>
-                    <dt>Internal</dt>
-                    <dd>{internalCounts[index]}</dd>
-                  </div>
-                  <div>
-                    <dt>External</dt>
-                    <dd>{externalCounts[index]}</dd>
-                  </div>
-                </dl>
-              ) : (
-                <p>Approved credits: {tecCounts[index]}</p>
-              )}
-            </Card>
-          ))}
+          <Card header="Credit periods">
+            {tecDeadlines.map((deadline, index) => (
+              <section key={deadline.toISOString()} className={styles.periodSection}>
+                <div className={styles.periodHeading}>
+                  <h2 className={styles.periodTitle}>Period {index + 1}</h2>
+                  <span className={styles.label}>
+                    {index === period ? 'Current' : ['Past', 'Upcoming'][Number(index > period)]}
+                  </span>
+                </div>
+                <p>
+                  Ends:{' '}
+                  {deadline.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    timeZone: 'UTC'
+                  })}
+                </p>
+                {tecConfig.considerEventKind ? (
+                  <dl className={styles.counts}>
+                    <div>
+                      <dt>Internal</dt>
+                      <dd>{internalCounts[index]}</dd>
+                    </div>
+                    <div>
+                      <dt>External</dt>
+                      <dd>{externalCounts[index]}</dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <p>Approved credits: {tecCounts[index]}</p>
+                )}
+              </section>
+            ))}
+          </Card>
         </aside>
       </div>
     </div>

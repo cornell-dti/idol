@@ -196,7 +196,7 @@ export default function TeamEventCreditDashboard(props: {
               <div className={styles.cardTitle}>
                 <h3>{event?.name ?? 'Event no longer available'}</h3>
                 {tecConfig.considerEventKind && event?.kind && (
-                  <Pill color={event.kind === 'external' ? 'green' : 'accent'}>
+                  <Pill color={event.kind === 'external' ? 'green' : 'blue'}>
                     {event.kind === 'external' ? 'External' : 'Internal'}
                   </Pill>
                 )}
