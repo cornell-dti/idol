@@ -167,23 +167,6 @@
   font: var(--idol-type-heading-4);
   letter-spacing: var(--idol-type-heading-4-tracking);
 }
-.speakerLegend {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.speakerLegend li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font: var(--idol-type-body-default);
-}
-.speakerLegend .number {
-  margin: 0;
-}
 .speakerPopup .speakerHint {
   margin: 0;
   color: var(--idol-fg-dimmer);
