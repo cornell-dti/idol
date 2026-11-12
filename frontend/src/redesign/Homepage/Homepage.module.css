@@ -113,6 +113,11 @@
 .productSupport h2 {
   margin: 0;
 }
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 .productGrid {
   display: flex;
   flex-wrap: wrap;

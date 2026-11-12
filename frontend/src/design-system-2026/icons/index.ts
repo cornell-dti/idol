@@ -29,6 +29,7 @@ export { LinkIcon } from '@phosphor-icons/react/dist/csr/Link';
 export { ListChecksIcon } from '@phosphor-icons/react/dist/csr/ListChecks';
 export { MegaphoneIcon } from '@phosphor-icons/react/dist/csr/Megaphone';
 export { QuestionIcon } from '@phosphor-icons/react/dist/csr/Question';
+export { InfoIcon } from '@phosphor-icons/react/dist/csr/Info';
 export { RocketLaunchIcon } from '@phosphor-icons/react/dist/csr/RocketLaunch';
 export { ScalesIcon } from '@phosphor-icons/react/dist/csr/Scales';
 export { UserIcon } from '@phosphor-icons/react/dist/csr/User';
