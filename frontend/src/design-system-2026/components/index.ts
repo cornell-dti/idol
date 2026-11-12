@@ -37,3 +37,5 @@ export type { MenuProps, MenuItemProps } from './Menu/Menu';
 export { Table } from './Table/Table';
 export type { TableProps, TableColumn } from './Table/Table';
 export { ToastProvider, useToast } from './Toast/Toast';
+export { Tooltip } from './Tooltip/Tooltip';
+export type { TooltipProps } from './Tooltip/Tooltip';

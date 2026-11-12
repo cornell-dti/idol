@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Button, Card, DottedBackground, useToast } from '../../design-system-2026/components';
-import { ArrowRightIcon } from '../../design-system-2026/icons';
+import {
+  Button,
+  Card,
+  DottedBackground,
+  IconButton,
+  Tooltip,
+  useToast
+} from '../../design-system-2026/components';
+import { ArrowRightIcon, InfoIcon } from '../../design-system-2026/icons';
 import productLogos from '../helpProductLogos';
 import HomeSearch from './HomeSearch';
 import HomepageCover from './HomepageCover';
@@ -47,9 +54,22 @@ const helpLinks = [
 function ProductSupport(): JSX.Element {
   return (
     <section className={styles.productSupport} aria-labelledby="home-product-support">
-      <h2 id="home-product-support" className="idol-heading-2">
-        Product support
-      </h2>
+      <div className={styles.sectionHeading}>
+        <h2 id="home-product-support" className="idol-heading-2">
+          Product support
+        </h2>
+        <Tooltip
+          trigger={
+            <IconButton
+              variant="tertiary"
+              size={24}
+              icon={<InfoIcon size={16} />}
+              aria-label="About product support"
+            />
+          }
+          content="Found a bug or have feedback on a DTI product? Each one has its own Slack support channel. Pick a product to open it."
+        />
+      </div>
       <ul className={styles.productGrid}>
         {productSupport.map(({ id, name, channel }) => (
           <li key={id}>
