@@ -33,6 +33,7 @@ export default function Navigation({
   // Stays true through the close animation, so the bar stays above the sliding sheet.
   const [sheetVisible, setSheetVisible] = useState(false);
   const [headerSlot, setHeaderSlot] = useState<HTMLDivElement | null>(null);
+  const [navbarSlot, setNavbarSlot] = useState<HTMLDivElement | null>(null);
   const sheet = useRef<HTMLDivElement>(null);
   const backdrop = useRef<HTMLDivElement>(null);
   const grid = useRef<HTMLElement>(null);
@@ -110,7 +111,9 @@ export default function Navigation({
       }}
     >
       <div ref={bar} className={styles.bar} data-sheet={sheetVisible || open || undefined}>
-        <nav className={styles.navbar} aria-label="Main navigation">
+        {/* While editing, the editor renders its draggable navbar here, on the real bar. */}
+        <div ref={setNavbarSlot} className={styles.navbarSlot} />
+        <nav className={styles.navbar} aria-label="Main navigation" hidden={editing}>
           {links.map((item) => (
             <Link href={item.href ?? item.id} key={item.id}>
               <a
@@ -183,6 +186,7 @@ export default function Navigation({
               selected={pinned}
               onCancel={() => setEditing(false)}
               actionsSlot={headerSlot}
+              navbarSlot={navbarSlot}
               onSave={(next) => {
                 setSelected(next);
                 setEditing(false);
