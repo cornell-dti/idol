@@ -126,11 +126,66 @@
   display: inline-grid;
   place-items: center;
   justify-self: start;
-  min-width: 24px;
+  box-sizing: border-box;
+  min-width: 28px;
+  height: 28px;
   margin-bottom: 6px;
-  padding: 2px 5px;
-  border-radius: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
   background: var(--idol-bg-dimmer);
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-small);
+  font-variant-numeric: tabular-nums;
+}
+/* Fixed blue/green per speaker, independent of the chosen accent. */
+.speakerBlue {
+  background: color-mix(in srgb, var(--idol-info-default) 14%, transparent);
+  color: var(--idol-info-default);
+}
+.speakerGreen {
+  background: color-mix(in srgb, var(--idol-success-default) 14%, transparent);
+  color: var(--idol-success-default);
+}
+.presentActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.speakerPopup.speakerPopup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 264px;
+  max-width: var(--available-width);
+  max-height: none;
+  padding: 12px;
+  border-radius: 12px;
+}
+.speakerTitle {
+  margin: 0;
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+.speakerLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.speakerLegend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--idol-type-body-default);
+}
+.speakerLegend .number {
+  margin: 0;
+}
+.speakerPopup .speakerHint {
+  margin: 0;
   color: var(--idol-fg-dimmer);
   font: var(--idol-type-label-small);
 }

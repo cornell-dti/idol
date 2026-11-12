@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 import { Dialog } from '@base-ui/react/dialog';
+import { Popover } from '@base-ui/react/popover';
 import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
 import { ArrowLeftIcon } from '@phosphor-icons/react/dist/csr/ArrowLeft';
 import { EyeIcon } from '@phosphor-icons/react/dist/csr/Eye';
@@ -22,7 +23,9 @@ import {
   TabRoot,
   useToast
 } from '../../../design-system-2026/components';
-import { ArrowRightIcon, MagnifyingGlassIcon } from '../../../design-system-2026/icons';
+import { ArrowRightIcon, MagnifyingGlassIcon, UsersIcon } from '../../../design-system-2026/icons';
+import { useDesignSystemAppearance } from '../../../design-system-2026/components/Theme/Theme';
+import selectStyles from '../../../design-system-2026/components/Select/Select.module.css';
 import ImagesAPI from '../../../API/ImagesAPI';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import ShoutoutStack from './ShoutoutStack';
@@ -35,6 +38,90 @@ const tabs = [
 ] as const;
 type View = (typeof tabs)[number]['value'];
 type PresentationView = 'stack' | 'list';
+
+// Ops leads take turns reading: the first N shoutouts are speaker 1's, the next N speaker 2's, …
+const defaultPerSpeaker = 20;
+const perSpeakerKey = 'idol-admin-shoutouts-per-speaker';
+const speakers = [
+  { label: 'Speaker 1', className: 'speakerBlue' },
+  { label: 'Speaker 2', className: 'speakerGreen' }
+] as const;
+const speakerFor = (index: number, perSpeaker: number) =>
+  speakers[Math.floor(index / perSpeaker) % speakers.length];
+const clampPerSpeaker = (value: number) =>
+  Number.isFinite(value) ? Math.min(500, Math.max(1, Math.round(value))) : defaultPerSpeaker;
+
+function SpeakerSettings({
+  perSpeaker,
+  onChange
+}: {
+  perSpeaker: number;
+  onChange: (value: number) => void;
+}): JSX.Element {
+  const { theme, accent } = useDesignSystemAppearance();
+  const [draft, setDraft] = useState(String(perSpeaker));
+  useEffect(() => setDraft(String(perSpeaker)), [perSpeaker]);
+  const commit = () => {
+    const next = clampPerSpeaker(Number(draft));
+    setDraft(String(next));
+    onChange(next);
+  };
+  return (
+    <Popover.Root
+      onOpenChange={(open) => {
+        if (!open) commit();
+      }}
+    >
+      <Popover.Trigger
+        render={
+          <Button variant="secondary" icon={<UsersIcon size={16} aria-hidden />}>
+            {perSpeaker} per speaker
+          </Button>
+        }
+      />
+      <Popover.Portal data-idol-redesign data-idol-theme={theme} data-idol-accent={accent}>
+        <Popover.Positioner
+          sideOffset={4}
+          align="end"
+          collisionPadding={8}
+          className={selectStyles.selectPositioner}
+        >
+          <Popover.Popup className={`${selectStyles.selectPopup} ${styles.speakerPopup}`}>
+            <Popover.Title className={styles.speakerTitle}>Speaker rotation</Popover.Title>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                commit();
+              }}
+            >
+              <Input
+                id="shoutouts-per-speaker"
+                label="Shoutouts per speaker"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={500}
+                value={draft}
+                onChange={(event) => setDraft(event.target.value)}
+                onBlur={commit}
+              />
+            </form>
+            <ul className={styles.speakerLegend}>
+              {speakers.map((speaker, index) => (
+                <li key={speaker.label}>
+                  <span className={`${styles.number} ${styles[speaker.className]}`} aria-hidden>
+                    {index * perSpeaker + 1}
+                  </span>
+                  {speaker.label}: #{index * perSpeaker + 1}–{(index + 1) * perSpeaker}
+                </li>
+              ))}
+            </ul>
+          </Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+}
 const timeZone = 'America/New_York';
 const dayParts = new Intl.DateTimeFormat('en-US', {
   timeZone,
@@ -120,12 +207,14 @@ function Attachment({
 function ShoutoutCard({
   item,
   index,
+  perSpeaker,
   present,
   onModerate,
   imageCache
 }: {
   item: Shoutout;
   index: number;
+  perSpeaker: number;
   present: boolean;
   onModerate: (item: Shoutout) => void;
   imageCache: ImageCache;
@@ -146,7 +235,12 @@ function ShoutoutCard({
     return (
       <Card className={styles.card}>
         <article className={styles.cardContent}>
-          <span className={styles.number}>{index + 1}</span>
+          <span
+            className={`${styles.number} ${styles[speakerFor(index, perSpeaker).className]}`}
+            title={speakerFor(index, perSpeaker).label}
+          >
+            {index + 1}
+          </span>
           <h2>{item.receiver}</h2>
           <p className={styles.message}>{item.message}</p>
           <p className={styles.meta}>– {from}</p>
@@ -165,7 +259,7 @@ function ShoutoutCard({
       }
       action={
         <div className={styles.cardActions}>
-          {item.hidden && <Pill>Hidden</Pill>}
+          {item.hidden && <Pill color="red">Hidden</Pill>}
           <IconButton
             variant="tertiary"
             aria-label={`${item.hidden ? 'Unhide' : 'Hide'} shoutout for ${item.receiver}`}
@@ -245,6 +339,23 @@ export function AdminShoutoutsView({
   const [query, setQuery] = useState('');
   const [presenting, setPresenting] = useState(false);
   const [presentationView, setPresentationView] = useState<PresentationView>('stack');
+  const [perSpeaker, setPerSpeakerState] = useState(defaultPerSpeaker);
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(perSpeakerKey);
+      if (saved) setPerSpeakerState(clampPerSpeaker(Number(saved)));
+    } catch {
+      // Storage unavailable: keep the default.
+    }
+  }, []);
+  const setPerSpeaker = (value: number) => {
+    setPerSpeakerState(value);
+    try {
+      window.localStorage.setItem(perSpeakerKey, String(value));
+    } catch {
+      // Storage unavailable: the choice lasts for this visit.
+    }
+  };
   const stagePopup = useRef<HTMLDivElement>(null);
   const [pending, setPending] = useState<Shoutout | null>(null);
   const [saving, setSaving] = useState(false);
@@ -291,6 +402,7 @@ export function AdminShoutoutsView({
     <ShoutoutCard
       item={item}
       index={index}
+      perSpeaker={perSpeaker}
       present={present}
       imageCache={imageCache}
       onModerate={(target) => {
@@ -364,16 +476,19 @@ export function AdminShoutoutsView({
                   onChange={(event) => setDates({ ...dates, end: event.target.value })}
                 />
               </div>
-              <Dialog.Trigger
-                render={
-                  <Button
-                    disabled={invalid || loading || error || !visible.length}
-                    icon={<PlayIcon size={16} aria-hidden />}
-                  >
-                    Present
-                  </Button>
-                }
-              />
+              <div className={styles.presentActions}>
+                <SpeakerSettings perSpeaker={perSpeaker} onChange={setPerSpeaker} />
+                <Dialog.Trigger
+                  render={
+                    <Button
+                      disabled={invalid || loading || error || !visible.length}
+                      icon={<PlayIcon size={16} aria-hidden />}
+                    >
+                      Present
+                    </Button>
+                  }
+                />
+              </div>
             </div>
           </header>
           <TabRoot value={view} onValueChange={(next) => setView(next as View)}>
