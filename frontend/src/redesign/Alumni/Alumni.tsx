@@ -27,6 +27,7 @@ import cityKey from './cityKey';
 import {
   activeFilterCount,
   AlumniFilters,
+  alumniWithoutYear,
   companyOptions,
   EMPTY_FILTERS,
   filterAlumni,
@@ -85,6 +86,8 @@ export default function Alumni(): JSX.Element {
   const companies = useMemo(() => companyOptions(alumni), [alumni]);
   const years = useMemo(() => gradYearBounds(alumni), [alumni]);
   const filtered = useMemo(() => filterAlumni(alumni, filters), [alumni, filters]);
+  // With a year range set, alumni with no graduation year get their own section at the bottom.
+  const noYear = useMemo(() => alumniWithoutYear(alumni, filters), [alumni, filters]);
 
   // Pins count only alumni that match the filters, and cities with none are hidden.
   const cityCounts = useMemo(() => {
@@ -105,11 +108,13 @@ export default function Alumni(): JSX.Element {
     if (selectedCity && !cityCounts.has(selectedCity)) setSelectedCity(null);
   }, [cityCounts, selectedCity]);
 
-  const results = useMemo(() => {
-    if (view !== 'map' || !city) return filtered;
+  const [results, noYearResults] = useMemo(() => {
+    if (view !== 'map' || !city) return [filtered, noYear];
     const ids = new Set(city.alumniIds);
-    return filtered.filter((alum) => ids.has(alum.uuid));
-  }, [filtered, view, city]);
+    const inCity = (alum: Alumni) => ids.has(alum.uuid);
+    return [filtered.filter(inCity), noYear.filter(inCity)];
+  }, [filtered, noYear, view, city]);
+  const total = results.length + noYearResults.length;
 
   useEffect(() => setShown(PAGE_SIZE), [filters, selectedCity, view]);
 
@@ -131,7 +136,7 @@ export default function Alumni(): JSX.Element {
     />
   );
 
-  const resultList = () => {
+  const resultList = (panel: View) => {
     if (loading)
       return (
         <div className={styles.cardList} role="status" aria-label="Loading alumni">
@@ -152,7 +157,7 @@ export default function Alumni(): JSX.Element {
           </div>
         </Card>
       );
-    if (!results.length)
+    if (!total)
       return (
         <Card>
           <div className={styles.empty} role="status">
@@ -170,23 +175,48 @@ export default function Alumni(): JSX.Element {
           </div>
         </Card>
       );
+    // One "Show more" pages through both lists, so the no-year section only appears once every
+    // alum in the range has been shown.
+    const shownNoYear = noYearResults.slice(0, Math.max(0, shown - results.length));
+    const noYearHeading = `${panel}-alumni-no-year`;
     return (
       <>
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles -- Safari needs this when list markers are hidden. */}
-        <ul className={styles.cardList} role="list">
-          {results.slice(0, shown).map((alum) => (
-            <li key={alum.uuid}>
-              <AlumniCard alum={alum} />
-            </li>
-          ))}
-        </ul>
-        {results.length > shown && (
+        {results.length ? (
+          // eslint-disable-next-line jsx-a11y/no-redundant-roles -- Safari needs this when list markers are hidden.
+          <ul className={styles.cardList} role="list">
+            {results.slice(0, shown).map((alum) => (
+              <li key={alum.uuid}>
+                <AlumniCard alum={alum} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.rangeEmpty}>No alumni with a graduation year in this range.</p>
+        )}
+        {shownNoYear.length > 0 && (
+          <section className={styles.noYearSection} aria-labelledby={noYearHeading}>
+            <div className={styles.noYearHeader}>
+              <h2 id={noYearHeading} className="idol-heading-4">
+                No graduation year listed ({noYearResults.length})
+              </h2>
+            </div>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles -- Safari needs this when list markers are hidden. */}
+            <ul className={styles.cardList} role="list">
+              {shownNoYear.map((alum) => (
+                <li key={alum.uuid}>
+                  <AlumniCard alum={alum} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {total > shown && (
           <Button
             variant="secondary"
             className={styles.showMore}
             onClick={() => setShown((current) => current + PAGE_SIZE)}
           >
-            Show more ({results.length - shown} left)
+            Show more ({total - shown} left)
           </Button>
         )}
       </>
@@ -196,9 +226,9 @@ export default function Alumni(): JSX.Element {
   const summary = !loading && !error && (
     <div className={styles.summary}>
       <p role="status">
-        {results.length === alumni.length
+        {total === alumni.length
           ? `${alumni.length} alumni`
-          : `Showing ${results.length} of ${alumni.length} alumni`}
+          : `Showing ${total} of ${alumni.length} alumni`}
       </p>
       {view === 'map' && city && (
         <Button
@@ -293,11 +323,11 @@ export default function Alumni(): JSX.Element {
               </Card>
             )}
             {summary}
-            {resultList()}
+            {resultList('map')}
           </TabPanel>
           <TabPanel value="list" className={styles.panel}>
             {summary}
-            {resultList()}
+            {resultList('list')}
           </TabPanel>
         </TabRoot>
       </div>
@@ -312,7 +342,8 @@ export default function Alumni(): JSX.Element {
               Clear all
             </Button>
             <Button onClick={() => setFiltersOpen(false)}>
-              Show {filtered.length} {filtered.length === 1 ? 'alum' : 'alumni'}
+              Show {filtered.length + noYear.length}{' '}
+              {filtered.length + noYear.length === 1 ? 'alum' : 'alumni'}
             </Button>
           </>
         }

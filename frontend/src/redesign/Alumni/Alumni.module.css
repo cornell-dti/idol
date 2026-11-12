@@ -252,6 +252,32 @@
 .showMore {
   align-self: center;
 }
+.rangeEmpty {
+  margin: 0;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+}
+.noYearSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--idol-stroke-black);
+}
+.noYearHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.noYearHeader h2,
+.noYearHeader p {
+  margin: 0;
+}
+.noYearHeader p {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+}
 .empty {
   display: flex;
   flex-direction: column;

@@ -103,10 +103,14 @@ const searchText = (alum: Alumni): string =>
     .join(' ')
     .toLowerCase();
 
+const hasYearRange = (filters: AlumniFilters) =>
+  filters.fromYear !== null || filters.toYear !== null;
+
 /**
  * Applies search and sidebar filters. Every search word must match some field, so
- * "google new york" finds Google alumni based in New York. Alumni without a graduation
- * year are hidden only while a year range is set.
+ * "google new york" finds Google alumni based in New York. While a year range is set, alumni
+ * without a graduation year can't be placed in it, so they're left out here and listed
+ * separately by `alumniWithoutYear`.
  */
 export function filterAlumni(alumni: readonly Alumni[], filters: AlumniFilters): Alumni[] {
   const terms = filters.query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -119,13 +123,24 @@ export function filterAlumni(alumni: readonly Alumni[], filters: AlumniFilters):
     if (jobCategories.length && !jobCategories.includes(alum.jobCategory)) return false;
     if (companies.length && !companies.includes(companyKey(alum.company))) return false;
     if (dtiRoles.length && !alum.dtiRoles?.some((role) => dtiRoles.includes(role))) return false;
-    if (fromYear !== null || toYear !== null) {
+    if (hasYearRange(filters)) {
       if (typeof alum.gradYear !== 'number') return false;
       if (fromYear !== null && alum.gradYear < fromYear) return false;
       if (toYear !== null && alum.gradYear > toYear) return false;
     }
     return true;
   });
+}
+
+/**
+ * Alumni with no graduation year who match every filter except the year range. Empty when no
+ * range is set, since `filterAlumni` already includes them then.
+ */
+export function alumniWithoutYear(alumni: readonly Alumni[], filters: AlumniFilters): Alumni[] {
+  if (!hasYearRange(filters)) return [];
+  return filterAlumni(alumni, { ...filters, fromYear: null, toYear: null }).filter(
+    (alum) => typeof alum.gradYear !== 'number'
+  );
 }
 
 export const sortAlumni = (alumni: readonly Alumni[]): Alumni[] =>
