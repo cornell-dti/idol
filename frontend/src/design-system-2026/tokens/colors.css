@@ -21,6 +21,8 @@
   --idol-stroke-card: var(--idol-stroke-black);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 4%);
   --idol-accent-default: #006fff;
+  /* Fixed blue that never follows the chosen accent (e.g. internal vs external TEC tags). */
+  --idol-info-default: #006fff;
   --idol-accent-dimmer: #0060e6;
   --idol-danger-default: #d30000;
   --idol-success-default: #009966;
@@ -52,6 +54,7 @@
   --idol-stroke-card: rgba(255, 255, 255, 0.07);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 22%);
   --idol-accent-default: #3b82f6;
+  --idol-info-default: #3b82f6;
   --idol-accent-dimmer: #2563eb;
   --idol-danger-default: #ff5561;
   --idol-success-default: #00d88c;
