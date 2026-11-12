@@ -59,6 +59,16 @@ export default function NavigationEditor({
   useEffect(() => {
     cancel.current?.focus();
   }, []);
+  // Removing a page with the keyboard deletes the focused button; land on its neighbour instead.
+  const focusPinnedAfterRemove = useRef<number | null>(null);
+  useEffect(() => {
+    const index = focusPinnedAfterRemove.current;
+    if (index === null) return;
+    focusPinnedAfterRemove.current = null;
+    const handles = navbar.current?.querySelectorAll<HTMLElement>('[data-reorder-handle]');
+    const target = handles?.length ? handles[Math.min(index, handles.length - 1)] : cancel.current;
+    target?.focus();
+  }, [draft]);
   const label = (id: string) => items.find((item) => item.id === id)?.label;
   const remove = (id: string) => {
     setDraft(draft.filter((item) => item !== id));
@@ -181,6 +191,7 @@ export default function NavigationEditor({
               className={`${styles.navItem} ${styles.draggablePage}`}
               aria-label={`Reorder ${item.label}`}
               aria-describedby="navbar-reorder-help"
+              data-reorder-handle
               {...handlers(id, 'navbar')}
               onKeyDown={(event) => {
                 if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
@@ -189,6 +200,7 @@ export default function NavigationEditor({
                 }
                 if (event.key === 'Delete' || event.key === 'Backspace') {
                   event.preventDefault();
+                  focusPinnedAfterRemove.current = index;
                   remove(id);
                 }
                 if (event.key === 'Escape' && dragRef.current) {
@@ -207,7 +219,11 @@ export default function NavigationEditor({
               type="button"
               className={styles.removePage}
               aria-label={`Remove ${item.label}`}
-              onClick={() => remove(id)}
+              onClick={(event) => {
+                // Only a keyboard press (detail 0) needs focus moved; taps shouldn't show a ring.
+                if (event.detail === 0) focusPinnedAfterRemove.current = index;
+                remove(id);
+              }}
             >
               <XIcon size={12} aria-hidden />
             </button>
