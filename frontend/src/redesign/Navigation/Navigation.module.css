@@ -270,9 +270,24 @@
 .headerActions > button {
   flex: none;
 }
-.editGrid {
+.gridWrap {
+  /* Scrolls if the sheet runs out of room; otherwise tracks the grid's height smoothly. */
+  flex: 0 1 auto;
   min-height: 0;
-  padding-bottom: 8px;
+  margin: -4px;
+  padding: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: height 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.gridWrap > .editGrid {
+  margin: 0;
+  padding: 0 0 8px;
+  overflow: visible;
+}
+.navbarSlot:empty,
+.navbar[hidden] {
+  display: none;
 }
 .draggablePage {
   touch-action: none;
@@ -461,6 +476,11 @@ button.page:hover {
 @media (prefers-reduced-motion: reduce) {
   .drawer,
   .overlay {
+    transition: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gridWrap {
     transition: none;
   }
 }

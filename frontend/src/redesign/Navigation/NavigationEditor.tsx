@@ -23,7 +23,8 @@ export default function NavigationEditor({
   selected,
   onSave,
   onCancel,
-  actionsSlot
+  actionsSlot,
+  navbarSlot
 }: {
   items: SidebarEntry[];
   selected: string[];
@@ -31,11 +32,22 @@ export default function NavigationEditor({
   onCancel: () => void;
   /** Where Cancel/Save render (the sheet header's top-right); inline when absent. */
   actionsSlot?: HTMLElement | null;
+  /** The real bottom bar: editing happens on it directly instead of on a preview copy. */
+  navbarSlot?: HTMLElement | null;
 }): JSX.Element {
   const [draft, setDraft] = useState(selected);
   const [announcement, setAnnouncement] = useState('');
   const grid = useRef<HTMLDivElement>(null);
   const navbar = useRef<HTMLDivElement>(null);
+  const [gridHeight, setGridHeight] = useState<number>();
+  useEffect(() => {
+    const element = grid.current;
+    if (!element) return undefined;
+    // +8 for the wrapper's 4px padding on each side (border-box).
+    const observer = new ResizeObserver(() => setGridHeight(element.offsetHeight + 8));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   const cancel = useRef<HTMLElement>(null);
   const dragRef = useRef<Drag | null>(null);
   const suppressClick = useRef(false);
@@ -147,6 +159,72 @@ export default function NavigationEditor({
     onLostPointerCapture: () => updateDrag(null)
   });
   const grabbed = items.find((item) => item.id === drag?.id);
+  const navbarEditor = (
+    <div ref={navbar} className={styles.navbar} role="group" aria-label="Navbar" data-vaul-no-drag>
+      <div className={`${styles.navItem} ${styles.fixedItem}`} aria-label="Home, fixed">
+        <HouseIcon size={24} aria-hidden />
+        <span>Home</span>
+      </div>
+      {draft.map((id, index) => {
+        const item = items.find((candidate) => candidate.id === id);
+        if (!item) return null;
+        return (
+          <div
+            key={id}
+            data-pinned-item
+            className={`${styles.previewItem} ${drag?.id === id ? styles.grabbedItem : ''} ${
+              drag?.slot === index ? styles.insertBefore : ''
+            }`}
+          >
+            <button
+              type="button"
+              className={`${styles.navItem} ${styles.draggablePage}`}
+              aria-label={`Reorder ${item.label}`}
+              aria-describedby="navbar-reorder-help"
+              {...handlers(id, 'navbar')}
+              onKeyDown={(event) => {
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                  event.preventDefault();
+                  move(id, index + (event.key === 'ArrowLeft' ? -1 : 1));
+                }
+                if (event.key === 'Delete' || event.key === 'Backspace') {
+                  event.preventDefault();
+                  remove(id);
+                }
+                if (event.key === 'Escape' && dragRef.current) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  updateDrag(null);
+                }
+              }}
+            >
+              <span className={styles.navIcon} aria-hidden>
+                {item.icon}
+              </span>
+              <span>{compactNavigationLabel(item.id, item.label)}</span>
+            </button>
+            <button
+              type="button"
+              className={styles.removePage}
+              aria-label={`Remove ${item.label}`}
+              onClick={() => remove(id)}
+            >
+              <XIcon size={12} aria-hidden />
+            </button>
+          </div>
+        );
+      })}
+      <div
+        className={`${styles.navItem} ${styles.fixedItem} ${
+          drag?.slot === draft.length ? styles.insertBefore : ''
+        }`}
+        aria-label="More, fixed"
+      >
+        <DotsThreeIcon size={24} aria-hidden />
+        <span>More</span>
+      </div>
+    </div>
+  );
   let statusMessage = '';
   if (draft.length < 2) statusMessage = 'Choose at least two pages to save.';
   else if (announcement.startsWith('Remove a page')) statusMessage = announcement;
@@ -176,107 +254,49 @@ export default function NavigationEditor({
         add, use the remove buttons, and use left and right arrow keys to reorder. Home and More
         stay fixed. Choose two or three pages.
       </p>
-      <div
-        ref={grid}
-        className={`${styles.pageGrid} ${styles.editGrid} ${
-          drag?.remove ? styles.removeTarget : ''
-        }`}
-        role="group"
-        aria-label="Available pages"
-      >
-        {items
-          .filter((item) => !draft.includes(item.id))
-          .map((item) => (
-            <button
-              type="button"
-              key={item.id}
-              className={`${styles.page} ${styles.draggablePage} ${
-                drag?.id === item.id ? styles.grabbedItem : ''
-              }`}
-              aria-label={`Add ${item.label}`}
-              aria-describedby="navbar-reorder-help"
-              {...handlers(item.id, 'grid')}
-              onClick={() => {
-                if (!suppressClick.current) add(item.id);
-                suppressClick.current = false;
-              }}
-            >
-              <span className={styles.pageIcon} aria-hidden>
-                {item.icon}
-              </span>
-              <span>{item.label}</span>
-            </button>
-          ))}
+      {/* Animates to the grid's height, so the sheet slides when a row empties or fills. */}
+      <div className={styles.gridWrap} style={{ height: gridHeight }}>
+        <div
+          ref={grid}
+          className={`${styles.pageGrid} ${styles.editGrid} ${
+            drag?.remove ? styles.removeTarget : ''
+          }`}
+          role="group"
+          aria-label="Available pages"
+        >
+          {items
+            .filter((item) => !draft.includes(item.id))
+            .map((item) => (
+              <button
+                type="button"
+                key={item.id}
+                className={`${styles.page} ${styles.draggablePage} ${
+                  drag?.id === item.id ? styles.grabbedItem : ''
+                }`}
+                aria-label={`Add ${item.label}`}
+                aria-describedby="navbar-reorder-help"
+                {...handlers(item.id, 'grid')}
+                onClick={() => {
+                  if (!suppressClick.current) add(item.id);
+                  suppressClick.current = false;
+                }}
+              >
+                <span className={styles.pageIcon} aria-hidden>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </button>
+            ))}
+        </div>
       </div>
       <p className={styles.srOnly} role="status">
         {announcement}
       </p>
-      <div className={styles.previewBar}>
-        <div ref={navbar} className={styles.navbar} role="group" aria-label="Navbar preview">
-          <div className={`${styles.navItem} ${styles.fixedItem}`} aria-label="Home, fixed">
-            <HouseIcon size={24} aria-hidden />
-            <span>Home</span>
-          </div>
-          {draft.map((id, index) => {
-            const item = items.find((candidate) => candidate.id === id);
-            if (!item) return null;
-            return (
-              <div
-                key={id}
-                data-pinned-item
-                className={`${styles.previewItem} ${drag?.id === id ? styles.grabbedItem : ''} ${
-                  drag?.slot === index ? styles.insertBefore : ''
-                }`}
-              >
-                <button
-                  type="button"
-                  className={`${styles.navItem} ${styles.draggablePage}`}
-                  aria-label={`Reorder ${item.label}`}
-                  aria-describedby="navbar-reorder-help"
-                  {...handlers(id, 'navbar')}
-                  onKeyDown={(event) => {
-                    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-                      event.preventDefault();
-                      move(id, index + (event.key === 'ArrowLeft' ? -1 : 1));
-                    }
-                    if (event.key === 'Delete' || event.key === 'Backspace') {
-                      event.preventDefault();
-                      remove(id);
-                    }
-                    if (event.key === 'Escape' && dragRef.current) {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      updateDrag(null);
-                    }
-                  }}
-                >
-                  <span className={styles.navIcon} aria-hidden>
-                    {item.icon}
-                  </span>
-                  <span>{compactNavigationLabel(item.id, item.label)}</span>
-                </button>
-                <button
-                  type="button"
-                  className={styles.removePage}
-                  aria-label={`Remove ${item.label}`}
-                  onClick={() => remove(id)}
-                >
-                  <XIcon size={12} aria-hidden />
-                </button>
-              </div>
-            );
-          })}
-          <div
-            className={`${styles.navItem} ${styles.fixedItem} ${
-              drag?.slot === draft.length ? styles.insertBefore : ''
-            }`}
-            aria-label="More, fixed"
-          >
-            <DotsThreeIcon size={24} aria-hidden />
-            <span>More</span>
-          </div>
-        </div>
-      </div>
+      {navbarSlot ? (
+        createPortal(navbarEditor, navbarSlot)
+      ) : (
+        <div className={styles.previewBar}>{navbarEditor}</div>
+      )}
       {drag &&
         grabbed &&
         createPortal(
