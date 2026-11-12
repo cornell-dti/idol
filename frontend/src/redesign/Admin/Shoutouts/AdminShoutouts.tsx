@@ -60,7 +60,19 @@ function SpeakerSettings({
 }): JSX.Element {
   const { theme, accent } = useDesignSystemAppearance();
   const [draft, setDraft] = useState(String(perSpeaker));
-  useEffect(() => setDraft(String(perSpeaker)), [perSpeaker]);
+  const [open, setOpen] = useState(false);
+  // Resync only when the value really changed elsewhere, so mid-typing text like "05" survives.
+  useEffect(
+    () => setDraft((current) => (Number(current) === perSpeaker ? current : String(perSpeaker))),
+    [perSpeaker]
+  );
+  // Apply every in-range value as it's typed or stepped with the arrows; blur/Enter/close tidy up
+  // anything left half-typed or out of range.
+  const change = (value: string) => {
+    setDraft(value);
+    const next = Number(value);
+    if (value.trim() !== '' && Number.isInteger(next) && next >= 1 && next <= 500) onChange(next);
+  };
   const commit = () => {
     const next = clampPerSpeaker(Number(draft));
     setDraft(String(next));
@@ -68,8 +80,10 @@ function SpeakerSettings({
   };
   return (
     <Popover.Root
-      onOpenChange={(open) => {
-        if (!open) commit();
+      open={open}
+      onOpenChange={(next) => {
+        if (!next) commit();
+        setOpen(next);
       }}
     >
       <Popover.Trigger
@@ -90,8 +104,10 @@ function SpeakerSettings({
             <Popover.Title className={styles.speakerTitle}>Speaker rotation</Popover.Title>
             <form
               onSubmit={(event) => {
+                // Enter saves and closes; focus returns to the trigger.
                 event.preventDefault();
                 commit();
+                setOpen(false);
               }}
             >
               <Input
@@ -102,20 +118,10 @@ function SpeakerSettings({
                 min={1}
                 max={500}
                 value={draft}
-                onChange={(event) => setDraft(event.target.value)}
+                onChange={(event) => change(event.target.value)}
                 onBlur={commit}
               />
             </form>
-            <ul className={styles.speakerLegend}>
-              {speakers.map((speaker, index) => (
-                <li key={speaker.label}>
-                  <span className={`${styles.number} ${styles[speaker.className]}`} aria-hidden>
-                    {index * perSpeaker + 1}
-                  </span>
-                  {speaker.label}: #{index * perSpeaker + 1}–{(index + 1) * perSpeaker}
-                </li>
-              ))}
-            </ul>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
