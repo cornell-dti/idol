@@ -68,7 +68,7 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
         if (uploaded.current?.file === file) path = uploaded.current.path;
         else {
           path = `shoutoutImages/${user.email}/${new Date().toISOString()}`;
-          await ImagesAPI.uploadImage(file, path);
+          await ImagesAPI.uploadImage(file, path, { throwOnError: true });
           uploaded.current = { file, path };
         }
       }

@@ -160,7 +160,7 @@ const TeamEventCreditForm: React.FC = () => {
     uploadedImage: string
   ) => {
     const blob = await fetch(uploadedImage).then((res) => res.blob());
-    await ImagesAPI.uploadImage(blob, `${eventCreditRequest.image}`);
+    await ImagesAPI.uploadImage(blob, `${eventCreditRequest.image}`, { throwOnError: true });
     return TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
   };
 
