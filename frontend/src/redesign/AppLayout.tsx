@@ -195,7 +195,12 @@ export default function AppLayout({
           )}
         </div>
         <div className={styles.headerActions}>
-          {pathname !== '/' && <HomeSearch pageKey={pagePath} placement="header" compact />}
+          <HomeSearch
+            pageKey={pagePath}
+            placement="header"
+            compact
+            keyboardShortcut={pathname !== '/'}
+          />
           <ProfileMenu name={profileName} src={profilePhoto}>
             {profileMenu}
           </ProfileMenu>
