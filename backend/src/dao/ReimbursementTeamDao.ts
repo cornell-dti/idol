@@ -1,4 +1,5 @@
 import { reimbursementTeamCollection } from '../firebase';
+import DEFAULT_REIMBURSEMENT_TEAMS from '../consts/reimbursementTeams';
 import BaseDao from './BaseDao';
 
 export default class ReimbursementTeamDao extends BaseDao<ReimbursementTeam, ReimbursementTeam> {
@@ -11,10 +12,16 @@ export default class ReimbursementTeamDao extends BaseDao<ReimbursementTeam, Rei
   }
 
   /**
-   * Gets all reimbursement teams
-   * @returns A `ReimbursementTeam` list with all teams
+   * Gets all reimbursement teams. If the collection is empty, seeds the
+   * default teams first so new environments populate themselves without
+   * anyone having to run the seed script by hand.
    */
   async getAllTeams(): Promise<ReimbursementTeam[]> {
+    const teams = await this.getDocuments();
+    if (teams.length > 0) return teams;
+    await Promise.all(
+      DEFAULT_REIMBURSEMENT_TEAMS.map((team) => this.createDocument(team.teamId, team))
+    );
     return this.getDocuments();
   }
 
