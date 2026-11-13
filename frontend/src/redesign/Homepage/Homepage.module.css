@@ -527,10 +527,29 @@ legend.editorHeading {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  gap: clamp(4px, calc(10vw - 28px), 16px);
+  gap: 16px;
 }
 .resetShortcuts {
   margin-inline-end: auto;
+}
+/* Phones: Reset on its own line, then Cancel and Save side by side, so nothing wraps alone. */
+@media (max-width: 640px) {
+  .shortcutFooter {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .shortcutFooter > button {
+    justify-content: center;
+  }
+  .resetShortcuts {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin: 0;
+  }
+  .editorList {
+    gap: 10px;
+  }
 }
 .removed {
   border-top: 1px solid var(--idol-stroke-black);
