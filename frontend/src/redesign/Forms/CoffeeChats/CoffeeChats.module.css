@@ -122,6 +122,41 @@
   display: grid;
   gap: 16px;
 }
+.chatFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
+  margin: 0;
+}
+.chatFacts > div {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 6px;
+  min-width: 0;
+}
+.chatFacts dt {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-small);
+}
+.chatFacts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.chatFactWide {
+  grid-column: 1 / -1;
+}
+.slackLink.slackLink {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  color: var(--idol-accent-default);
+  font: var(--idol-type-label-default);
+}
+.footerStart {
+  margin-inline-end: auto;
+}
 .historyCards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -146,6 +181,9 @@
   }
   .historyCards {
     grid-template-columns: 1fr;
+  }
+  .chatFacts {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 @media (prefers-reduced-motion: reduce) {
