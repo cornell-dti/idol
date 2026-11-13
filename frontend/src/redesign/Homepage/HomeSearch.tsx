@@ -53,6 +53,7 @@ export default function HomeSearch({
   const [open, setOpen] = useState(false);
   const [recentPages, setRecentPages] = useState<RecentPage[]>([]);
   const [modifier, setModifier] = useState('⌘');
+  const [narrow, setNarrow] = useState(false);
   const inPanel = placement !== 'home';
   const [collapsedWidth, setCollapsedWidth] = useState(0);
   const [wide, setWide] = useState<{ left: number; right: number; width: number } | null>(null);
@@ -81,6 +82,11 @@ export default function HomeSearch({
 
   useEffect(() => {
     if (!/Mac|iPhone|iPad/i.test(window.navigator.platform)) setModifier('Ctrl');
+    const media = window.matchMedia(mobileQuery);
+    const update = () => setNarrow(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
   }, []);
 
   useEffect(() => {
@@ -119,6 +125,8 @@ export default function HomeSearch({
   const idleItems = recent.length ? recent : commonActions;
   const items = hasQuery ? searchPages(query, canAdmin, recent) : idleItems;
   const searchLabel = inPanel ? 'Search pages and actions' : 'Search or find common actions';
+  // The full homepage prompt gets cut off on phones.
+  const homePlaceholder = narrow ? 'Search or find actions' : searchLabel;
   // Shell lip in px, matching the CSS --search-lip (1px border + 3px padding, like a layered
   // Card). The expanded field grows outward by this much so its contents stay put.
   const lip = 4;
@@ -142,7 +150,7 @@ export default function HomeSearch({
         className={styles.panelInput}
         aria-label={searchLabel}
         aria-keyshortcuts={keyboardShortcut ? 'Meta+K Control+K' : undefined}
-        placeholder={inPanel ? 'Search' : searchLabel}
+        placeholder={inPanel ? 'Search' : homePlaceholder}
         onFocus={showSearch}
         onKeyDown={(event) => {
           // Esc leaves the search entirely, not just the results list.

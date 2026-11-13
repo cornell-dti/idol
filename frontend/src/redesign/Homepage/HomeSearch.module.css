@@ -52,6 +52,12 @@
   flex-shrink: 0;
   pointer-events: none;
 }
+/* ⌘K and Esc mean nothing without a hardware keyboard. */
+@media (max-width: 640px), (hover: none) and (pointer: coarse) {
+  .keyHints {
+    display: none;
+  }
+}
 /* Stack both hints in one cell; the slot sizes to the wider one so nothing shifts. */
 .keyHints > * {
   grid-area: 1 / 1;
