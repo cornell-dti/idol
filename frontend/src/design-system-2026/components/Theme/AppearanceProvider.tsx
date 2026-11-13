@@ -20,27 +20,38 @@ export type Accent = (typeof ACCENT_OPTIONS)[number];
 export const isSpecialTheme = (theme: ThemePreference): boolean =>
   SPECIAL_THEME_OPTIONS.some((option) => option === theme);
 export const APPEARANCE_STORAGE_KEY = 'idol:appearance';
+/** 0–100; 50 is each theme as designed. */
+export const DEFAULT_CONTRAST = 50;
+const clampContrast = (value: unknown): number =>
+  typeof value === 'number' && Number.isFinite(value)
+    ? Math.min(100, Math.max(0, Math.round(value)))
+    : DEFAULT_CONTRAST;
 export const isDarkTheme = (theme: ResolvedTheme): boolean => theme !== 'light';
 
 type Appearance = {
   theme: ThemePreference;
   resolvedTheme: ResolvedTheme;
   accent: Accent;
+  contrast: number;
   setTheme: (theme: ThemePreference) => void;
   setAccent: (accent: Accent) => void;
+  setContrast: (contrast: number) => void;
 };
 const AppearanceContext = createContext<Appearance>({
   theme: 'auto',
   resolvedTheme: 'light',
   accent: 'blue',
+  contrast: DEFAULT_CONTRAST,
   setTheme: () => {},
-  setAccent: () => {}
+  setAccent: () => {},
+  setContrast: () => {}
 });
 export const useAppearance = (): Appearance => useContext(AppearanceContext);
 
 export function AppearanceProvider({ children }: { readonly children: ReactNode }): JSX.Element {
   const [theme, setThemeState] = useState<ThemePreference>('auto');
   const [accent, setAccentState] = useState<Accent>('blue');
+  const [contrast, setContrastState] = useState(DEFAULT_CONTRAST);
   const [deviceDark, setDeviceDark] = useState(false);
   const themeRequest = useRef(0);
   useEffect(() => {
@@ -49,6 +60,7 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
         const saved = JSON.parse(localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? '{}');
         setThemeState(THEME_OPTIONS.includes(saved?.theme) ? saved.theme : 'auto');
         setAccentState(ACCENT_OPTIONS.includes(saved?.accent) ? saved.accent : 'blue');
+        setContrastState(clampContrast(saved?.contrast));
       } catch {
         /* Keep working if browser storage is blocked or malformed. */
       }
@@ -67,11 +79,18 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
       window.removeEventListener('storage', sync);
     };
   }, []);
-  const persist = (nextTheme: ThemePreference, nextAccent: Accent) => {
+  // Contrast is applied on <html> so portals and every nested theme scope pick it up.
+  useEffect(() => {
+    const { style } = document.documentElement;
+    const offset = (contrast - DEFAULT_CONTRAST) * 1.2;
+    style.setProperty('--idol-contrast-up', `${Math.max(0, offset)}%`);
+    style.setProperty('--idol-contrast-down', `${Math.max(0, -offset)}%`);
+  }, [contrast]);
+  const persist = (nextTheme: ThemePreference, nextAccent: Accent, nextContrast = contrast) => {
     try {
       localStorage.setItem(
         APPEARANCE_STORAGE_KEY,
-        JSON.stringify({ theme: nextTheme, accent: nextAccent })
+        JSON.stringify({ theme: nextTheme, accent: nextAccent, contrast: nextContrast })
       );
     } catch {
       /* The current session can still use the selected appearance. */
@@ -116,8 +135,14 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
       value={{
         theme,
         accent,
+        contrast,
         resolvedTheme: preferredTheme,
         setTheme,
+        setContrast: (next) => {
+          const value = clampContrast(next);
+          setContrastState(value);
+          persist(theme, accent, value);
+        },
         setAccent: (next) => {
           if (isSpecialTheme(theme)) return;
           setAccentState(next);
