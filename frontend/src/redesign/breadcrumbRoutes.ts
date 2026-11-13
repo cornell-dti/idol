@@ -58,7 +58,7 @@ export const breadcrumbRoutes: Record<string, Route> = {
     parent: '/forms'
   },
   '/forms/reimbursement': { label: 'Reimbursement', parent: '/forms' },
-  '/alumni': { label: 'Alumni', icon: GraduationCapIcon },
+  '/alumni': { label: 'Alumni', icon: GraduationCapIcon, supportsDarkTheme: true },
   '/candidate-decider': { label: 'Candidate Decider', icon: ScalesIcon },
   '/candidate-decider/[uuid]': { label: 'Instance', parent: '/candidate-decider' },
   '/interview-scheduler': { label: 'Interview Scheduler', icon: CalendarIcon },
