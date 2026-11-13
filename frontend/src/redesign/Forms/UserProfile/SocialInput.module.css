@@ -2,7 +2,8 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: currentColor;
+  /* Calendly's brand blue, like the full-color LinkedIn mark. */
+  background: #006bff;
   mask: url('/icons/calendly.svg') center / contain no-repeat;
 }
 
@@ -10,7 +11,8 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: currentColor;
+  /* GitHub's mark is solid black (white on dark themes), not the dimmed field color. */
+  background: var(--idol-fg-default);
   mask: var(--brand-mark) center / contain no-repeat;
 }
 
