@@ -80,10 +80,21 @@
 .columns {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+  /* Product support sits under Shortcuts; the right column spans both rows. */
+  grid-template-rows: auto 1fr;
   align-items: start;
-  gap: 48px;
+  gap: 0 48px;
   max-width: 1000px;
   margin: 0 auto;
+}
+.columns > .shortcuts {
+  grid-area: 1 / 1;
+}
+.columns > .productSupport {
+  grid-area: 2 / 1;
+}
+.columns > .sidebar {
+  grid-area: 1 / 2 / span 2;
 }
 .shortcuts,
 .glance {
@@ -108,7 +119,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 32px;
+  margin-top: 48px;
 }
 .productSupport h2 {
   margin: 0;
@@ -507,7 +518,7 @@ legend.editorHeading {
 }
 @media (max-width: 1100px) {
   .columns {
-    gap: 24px;
+    gap: 0 24px;
     grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
   }
   .surface {
@@ -518,9 +529,32 @@ legend.editorHeading {
   }
 }
 @media (max-width: 940px) {
+  /* One column: Shortcuts, At a glance, Product support, then Get help. */
   .columns {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
     gap: 32px;
+  }
+  .columns > .sidebar {
+    display: contents;
+  }
+  .columns > .shortcuts,
+  .columns > .productSupport,
+  .columns > .sidebar > * {
+    grid-area: auto;
+  }
+  .columns > .shortcuts {
+    order: 1;
+  }
+  .columns > .sidebar > .glance {
+    order: 2;
+  }
+  .columns > .productSupport {
+    order: 3;
+    margin-top: 0;
+  }
+  .columns > .sidebar > .getHelp {
+    order: 4;
   }
   .glance {
     display: grid;
