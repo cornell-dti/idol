@@ -104,7 +104,39 @@
 .externalCredit {
   --credit-color: var(--idol-success-default);
 }
-.creditRequirement > span.creditKind {
+.eventOption {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+.eventText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.eventName {
+  font-weight: 600;
+}
+.eventMeta {
+  font: var(--idol-type-body-default);
+  letter-spacing: var(--idol-type-body-default-tracking);
+  color: var(--idol-fg-dimmer);
+}
+span.eventKind.eventKind {
+  flex-shrink: 0;
+}
+span.eventKind.eventKind {
+  --credit-color: var(--idol-info-default);
+}
+span.eventKind.externalCredit {
+  --credit-color: var(--idol-success-default);
+}
+.creditRequirement > span.creditKind,
+span.eventKind.eventKind {
   padding: 4px 8px;
   background: color-mix(in srgb, var(--credit-color) 10%, var(--idol-bg-dimmer));
   color: color-mix(in srgb, var(--credit-color) 45%, var(--idol-fg-default));

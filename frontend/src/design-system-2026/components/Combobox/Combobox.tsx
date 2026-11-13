@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
 import { FieldShell, FieldProps } from '../FieldShell/FieldShell';
 import { useDesignSystemAppearance } from '../Theme/Theme';
@@ -13,6 +13,8 @@ export type ComboboxProps = FieldProps & {
   onValueChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
+  /** Custom content for an option row; the option string is still what's searched and selected. */
+  renderOption?: (option: string) => ReactNode;
 };
 
 /** Searchable counterpart to Select; only values from the supplied options can be selected. */
@@ -24,6 +26,7 @@ export function Combobox({
   onValueChange,
   placeholder,
   required,
+  renderOption,
   ...field
 }: ComboboxProps): JSX.Element {
   const { theme, accent } = useDesignSystemAppearance();
@@ -76,7 +79,7 @@ export function Combobox({
               <BaseCombobox.List>
                 {(item: string) => (
                   <BaseCombobox.Item key={item} value={item} className={styles.selectOption}>
-                    {item || 'N/A'}
+                    {renderOption ? renderOption(item) : item || 'N/A'}
                     <BaseCombobox.ItemIndicator className={styles.selectCheck}>
                       <CheckIcon size={12} />
                     </BaseCombobox.ItemIndicator>
