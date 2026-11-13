@@ -161,33 +161,67 @@
   border-color: var(--idol-stroke-black);
   background: var(--idol-bg-default);
   color: var(--idol-fg-default);
+  /* Clicking zoom quickly counts as a double-click; don't select the +/- glyphs. */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .map :global(.leaflet-bar a:hover) {
   background: var(--idol-bg-dimmer);
 }
+/* Popup: same surface as the design system Tooltip/Menu. */
 .map :global(.leaflet-popup-content-wrapper),
 .map :global(.leaflet-popup-tip) {
+  border: 1px solid var(--idol-stroke-black);
   background: var(--idol-bg-default);
   color: var(--idol-fg-default);
-  box-shadow: 0 2px 8px #00000014;
+  box-shadow: var(--idol-shadow-surface);
 }
 .map :global(.leaflet-popup-content-wrapper) {
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: 8px;
+  padding: 0;
+  border-radius: 6px;
+}
+/* Overlap the bubble's bottom border so the tip reads as one shape. */
+.map :global(.leaflet-popup-tip-container) {
+  margin-top: -1px;
+}
+.map :global(.leaflet-popup-tip) {
+  width: 12px;
+  height: 12px;
+  margin-top: -7px;
+  padding: 0;
 }
 .map :global(.leaflet-popup-content) {
-  margin: 10px 14px;
+  margin: 0;
+  font: inherit;
+  line-height: normal;
 }
 .popup {
   display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 6px 8px 12px;
+}
+.popupText {
+  display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 2px;
-  font: var(--idol-type-body-small);
+  min-width: 0;
+  padding-top: 2px;
 }
-.popup strong {
+.popupText strong {
   font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  font-weight: 600;
 }
-.popup span {
+.popupText span {
+  font: var(--idol-type-body-small);
+  letter-spacing: var(--idol-type-body-small-tracking);
+  color: var(--idol-fg-dimmer);
+}
+.popupClose {
+  flex-shrink: 0;
   color: var(--idol-fg-dimmer);
 }
 .pinRoot {
