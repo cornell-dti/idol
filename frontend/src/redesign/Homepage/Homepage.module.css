@@ -387,26 +387,40 @@ legend.editorHeading {
   font: var(--idol-type-heading-4);
 }
 .editorList {
+  display: grid;
+  /* Two columns, matching the homepage's shortcut grid. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
+/* Each shortcut is a draggable tile; the whole tile drags except its Add/Remove button. */
 .editorRow {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  min-height: 40px;
-  padding: 8px;
-  border-radius: 6px;
+  min-height: 112px;
+  padding: 16px 12px 12px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+  text-align: center;
   cursor: grab;
   touch-action: none;
   user-select: none;
+  transition: background-color 140ms ease;
 }
 .editorRow:active {
   cursor: grabbing;
 }
 .editorRow button:not([data-drag-handle]) {
+  position: absolute;
+  top: 6px;
+  right: 6px;
   cursor: pointer;
 }
 .editorRow:hover,
@@ -416,13 +430,29 @@ legend.editorHeading {
 .grabbedRow > * {
   opacity: 0.3;
 }
+.grabbedRow {
+  border-style: dashed;
+}
+.editorTileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 10px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+/* Drop lines run down the gap between tiles. */
 .dropBefore::before,
 .dropAfter::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
   border-radius: 2px;
   background: var(--idol-accent-default);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--idol-accent-default) 9%, transparent);
@@ -430,10 +460,10 @@ legend.editorHeading {
   z-index: 1;
 }
 .dropBefore::before {
-  top: -1px;
+  left: -8px;
 }
 .dropAfter::after {
-  bottom: -1px;
+  right: -8px;
 }
 .dragPortal {
   position: fixed;
@@ -444,33 +474,42 @@ legend.editorHeading {
 .dragPreview {
   position: fixed;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  min-height: 40px;
-  padding: 8px;
+  box-sizing: border-box;
+  min-height: 112px;
+  padding: 16px 12px 12px;
   border: 1px solid var(--idol-stroke-black);
-  border-radius: 6px;
+  border-radius: 12px;
   background: var(--idol-bg-default);
   color: var(--idol-fg-default);
+  text-align: center;
   box-shadow:
     0 12px 32px #0003,
     0 2px 6px #0002;
-  transform: scale(1.015) rotate(-0.5deg);
-  transform-origin: left center;
+  transform: scale(1.03) rotate(-1.5deg);
 }
 .rowLabel {
-  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font: var(--idol-type-label-default);
 }
 .dragHandle {
+  position: absolute;
+  top: 8px;
+  left: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   width: 16px;
+  height: 20px;
   padding: 0;
   border: 0;
   border-radius: 3px;
-  color: inherit;
+  color: var(--idol-fg-dimmer);
   background: transparent;
   cursor: grab;
   touch-action: none;
