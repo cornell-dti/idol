@@ -1,6 +1,12 @@
 import { useRef, useState } from 'react';
 import { Button, IconButton, Modal, useToast } from '../../design-system-2026/components';
-import { CheckIcon, ImageIcon, UploadSimpleIcon, XIcon } from '../../design-system-2026/icons';
+import {
+  CaretDownIcon,
+  CheckIcon,
+  ImageIcon,
+  UploadSimpleIcon,
+  XIcon
+} from '../../design-system-2026/icons';
 import {
   coverFileTypes,
   CoverPreferences,
@@ -20,6 +26,9 @@ type Props = {
 
 const maxCustomCovers = 10;
 
+/** Covers shown before "Show more", so Save stays in view without scrolling far. */
+const collapsedCount = 8;
+
 export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Element {
   const toast = useToast();
   const [open, setOpen] = useState(false);
@@ -27,6 +36,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
   const [busy, setBusy] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState('');
+  const [expanded, setExpanded] = useState(false);
   const input = useRef<HTMLInputElement>(null);
   const uploading = useRef(false);
   const dragDepth = useRef(0);
@@ -36,6 +46,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
     if (next) {
       setDraft(value);
       setError('');
+      setExpanded(false);
     }
     dragDepth.current = 0;
     setDragging(false);
@@ -66,6 +77,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
         selected: cover.id,
         custom: [...current.custom, cover]
       }));
+      setExpanded(true);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'This photo could not be uploaded.');
     } finally {
@@ -84,6 +96,14 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
       );
     }
   };
+
+  const covers = [...presetCovers, ...draft.custom];
+  // Collapsed, show the first covers plus the picked one if it is further down the list.
+  const collapsedCovers = covers.filter(
+    (cover, index) => index < collapsedCount || cover.id === draft.selected
+  );
+  const hiddenCount = covers.length - collapsedCovers.length;
+  const visibleCovers = expanded ? covers : collapsedCovers;
 
   return (
     <Modal
@@ -150,7 +170,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
       <fieldset className={styles.choices}>
         <legend className={homeStyles.editorHeading}>Pick a cover</legend>
         <div className={styles.grid}>
-          {[...presetCovers, ...draft.custom].map((cover) => (
+          {visibleCovers.map((cover) => (
             <div className={styles.tile} key={cover.id}>
               <label className={styles.option}>
                 <input
@@ -189,6 +209,17 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
             </div>
           ))}
         </div>
+        {covers.length > collapsedCount && (
+          <Button
+            variant="secondary"
+            className={styles.showMore}
+            icon={<CaretDownIcon size={16} aria-hidden className={expanded ? styles.flip : ''} />}
+            aria-expanded={expanded}
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? 'Show fewer' : `Show ${hiddenCount} more`}
+          </Button>
+        )}
       </fieldset>
       <section className={styles.upload} aria-labelledby="cover-upload-title">
         <h3 id="cover-upload-title" className={homeStyles.editorHeading}>
