@@ -89,16 +89,17 @@ export default function Alumni(): JSX.Element {
   // With a year range set, alumni with no graduation year get their own section at the bottom.
   const noYear = useMemo(() => alumniWithoutYear(alumni, filters), [alumni, filters]);
 
-  // Pins count only alumni that match the filters, and cities with none are hidden.
+  // Pins count every alum the list shows for that city (including those with no graduation
+  // year), so a pin's number matches what selecting it shows. Cities with none are hidden.
   const cityCounts = useMemo(() => {
-    const visible = new Set(filtered.map((alum) => alum.uuid));
+    const visible = new Set([...filtered, ...noYear].map((alum) => alum.uuid));
     const counts = new Map<string, number>();
     cities.forEach((city) => {
       const count = city.alumniIds.filter((id) => visible.has(id)).length;
       if (count) counts.set(cityKey(city), count);
     });
     return counts;
-  }, [cities, filtered]);
+  }, [cities, filtered, noYear]);
   const visibleCities = useMemo(
     () => cities.filter((city) => cityCounts.has(cityKey(city))),
     [cities, cityCounts]
