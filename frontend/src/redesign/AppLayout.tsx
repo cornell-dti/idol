@@ -12,7 +12,7 @@ import {
   Sidebar
 } from '../design-system-2026/components';
 import LoadingScreen from '../design-system-2026/components/LoadingScreen/LoadingScreen';
-import { SignOutIcon } from '../design-system-2026/icons';
+import { ClockCounterClockwiseIcon, SignOutIcon } from '../design-system-2026/icons';
 import {
   useHasAdminPermission,
   useHasMemberPermission,
@@ -164,7 +164,14 @@ export default function AppLayout({
           </MenuItem>
         );
       })}
-      {mobile && <MenuItem onClick={() => setEnabled(!enabled)}>Switch to classic UI</MenuItem>}
+      {mobile && (
+        <MenuItem
+          icon={<ClockCounterClockwiseIcon size={16} />}
+          onClick={() => setEnabled(!enabled)}
+        >
+          Switch to classic UI
+        </MenuItem>
+      )}
       <MenuSeparator />
       <MenuItem variant="danger" icon={<SignOutIcon size={16} />} onClick={() => auth.signOut()}>
         Sign Out
