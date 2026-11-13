@@ -34,9 +34,19 @@
   width: calc(80vw - 6rem) !important;
   min-width: 0;
   justify-content: flex-start;
-  flex-wrap: wrap;
   overflow-y: auto;
   overflow-x: auto;
+}
+
+/* Let Semantic's form fields shrink with the editor instead of overflowing it. */
+.userEditor :global(.fields > .field),
+.userEditor :global(.ui.selection.dropdown),
+.userEditor :global(.ui.input > input) {
+  min-width: 0 !important;
+}
+
+.userEditor :global(.ui.input > input) {
+  flex-shrink: 1;
 }
 
 .subteamEditorCardGroup {
