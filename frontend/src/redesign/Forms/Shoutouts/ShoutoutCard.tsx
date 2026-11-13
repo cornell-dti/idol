@@ -216,6 +216,12 @@ export default function ShoutoutCard({
             required
             value={message}
             onChange={(event) => setMessage(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter' || !(event.metaKey || event.ctrlKey)) return;
+              if (event.nativeEvent.isComposing) return;
+              event.preventDefault();
+              save();
+            }}
             disabled={busy}
           />
           {error && (

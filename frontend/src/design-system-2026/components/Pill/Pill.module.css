@@ -9,8 +9,12 @@
   white-space: nowrap;
 }
 .pill.accent {
-  background: rgb(0 111 255 / 10%);
+  background: color-mix(in srgb, var(--idol-accent-default) 10%, transparent);
   color: var(--idol-accent-default);
+}
+.pill.blue {
+  background: color-mix(in srgb, var(--idol-info-default) 10%, transparent);
+  color: var(--idol-info-default);
 }
 .pill.red {
   background: rgb(211 0 0 / 19%);

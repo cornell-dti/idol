@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Combobox } from '@base-ui/react/combobox';
 import { useHasAdminPermission } from '../../components/Common/FirestoreDataProvider';
 import { useUserEmail } from '../../components/Common/UserProvider/UserProvider';
-import { Input } from '../../design-system-2026/components/Input/Input';
 import { useDesignSystemAppearance } from '../../design-system-2026/components/Theme/Theme';
 import { ArrowRightIcon, MagnifyingGlassIcon } from '../../design-system-2026/icons';
 import { readRecentPages, RecentPage } from './recentPages';
@@ -16,6 +15,9 @@ import {
 } from './searchPages';
 import selectStyles from '../../design-system-2026/components/Select/Select.module.css';
 import styles from './HomeSearch.module.css';
+
+const mobileQuery = '(max-width: 640px)';
+const mobileGutter = 12;
 
 function highlight(text: string, pattern: RegExp | undefined) {
   if (!pattern) return text;
@@ -52,10 +54,25 @@ export default function HomeSearch({
   const [recentPages, setRecentPages] = useState<RecentPage[]>([]);
   const [modifier, setModifier] = useState('⌘');
   const inPanel = placement !== 'home';
+  const [collapsedWidth, setCollapsedWidth] = useState(0);
+  const [wide, setWide] = useState<{ left: number; right: number; width: number } | null>(null);
   const showSearch = useCallback(() => {
+    // The results reveal from the field's resting width so they track the shell as it grows.
+    setCollapsedWidth(anchor.current?.offsetWidth ?? 0);
+    // On phones the header field opens across the whole top bar (over the avatar), not leftwards.
+    const rect = anchor.current?.getBoundingClientRect();
+    if (placement === 'header' && rect && window.matchMedia(mobileQuery).matches) {
+      setWide({
+        left: Math.max(0, rect.left - mobileGutter),
+        right: Math.max(0, window.innerWidth - mobileGutter - rect.right),
+        width: rect.width
+      });
+    } else {
+      setWide(null);
+    }
     setRecentPages(readRecentPages(email));
     setOpen(true);
-  }, [email]);
+  }, [email, placement]);
 
   useEffect(() => {
     setOpen(false);
@@ -101,49 +118,48 @@ export default function HomeSearch({
   const idleLabel = recent.length ? 'Recent pages' : 'Common actions';
   const idleItems = recent.length ? recent : commonActions;
   const items = hasQuery ? searchPages(query, canAdmin, recent) : idleItems;
-  const shortcut = (
-    <span className={styles.shortcut} aria-hidden="true">
-      <kbd>{modifier}</kbd>
-      <kbd>K</kbd>
-    </span>
-  );
   const searchLabel = inPanel ? 'Search pages and actions' : 'Search or find common actions';
-  const field = inPanel ? (
+  // Shell lip in px, matching the CSS --search-lip (1px border + 3px padding, like a layered
+  // Card). The expanded field grows outward by this much so its contents stay put.
+  const lip = 4;
+  // Results tuck this far up under the shell's bottom lip (mirrors --search-tuck in the CSS).
+  const tuck = inPanel ? 4 : 6;
+  const sizeClass = inPanel ? styles.sizePanel : styles.sizeHome;
+  const wideVars = wide
+    ? ({
+        '--grow-left': `${wide.left}px`,
+        '--grow-right': `${wide.right}px`,
+        '--search-open-width': `${wide.width + wide.left + wide.right - 2 * lip}px`
+      } as CSSProperties)
+    : undefined;
+  const wideAttr = wide ? '' : undefined;
+  const field = (
     <label className={styles.panelSearch}>
-      <MagnifyingGlassIcon size={16} aria-hidden />
+      <MagnifyingGlassIcon size={inPanel ? 16 : 20} aria-hidden />
       <Combobox.Input
         ref={input}
+        id={inPanel ? undefined : 'home-search'}
         className={styles.panelInput}
         aria-label={searchLabel}
         aria-keyshortcuts={keyboardShortcut ? 'Meta+K Control+K' : undefined}
-        placeholder="Search"
+        placeholder={inPanel ? 'Search' : searchLabel}
         onFocus={showSearch}
+        onKeyDown={(event) => {
+          // Esc leaves the search entirely, not just the results list.
+          if (event.key !== 'Escape' || event.nativeEvent.isComposing) return;
+          setOpen(false);
+          event.currentTarget.blur();
+        }}
       />
-      {open ? (
-        <kbd aria-hidden="true" className={styles.key}>
-          Esc
-        </kbd>
-      ) : (
-        shortcut
-      )}
+      {/* Both hints stay mounted so they can cross-fade when the search opens or closes. */}
+      <span className={styles.keyHints} data-open={open || undefined} aria-hidden="true">
+        <span className={styles.shortcut}>
+          <kbd>{modifier}</kbd>
+          <kbd>K</kbd>
+        </span>
+        <kbd className={styles.key}>Esc</kbd>
+      </span>
     </label>
-  ) : (
-    <Combobox.Input
-      ref={input}
-      onFocus={showSearch}
-      render={
-        <Input
-          id="home-search"
-          aria-label={searchLabel}
-          aria-keyshortcuts="Meta+K Control+K"
-          size="large"
-          shape="pill"
-          placeholder={searchLabel}
-          icon={<MagnifyingGlassIcon size={20} aria-hidden />}
-          endAdornment={shortcut}
-        />
-      }
-    />
   );
   return (
     <Combobox.Root<SearchPage>
@@ -166,13 +182,19 @@ export default function HomeSearch({
         router.push(item.href);
       }}
     >
-      <div className={inPanel ? styles.fieldSlot : undefined}>
+      <div
+        ref={anchor}
+        className={`${styles.fieldSlot} ${sizeClass}`}
+        data-search-surface={placement}
+        data-wide={wideAttr}
+        style={wideVars}
+      >
         <div
-          ref={anchor}
-          className={inPanel ? styles.morph : styles.anchor}
-          data-search-surface={inPanel ? placement : undefined}
+          className={styles.morph}
+          data-search-surface={placement}
           data-compact={inPanel && compact ? '' : undefined}
-          data-expanded={inPanel && open ? '' : undefined}
+          data-expanded={open ? '' : undefined}
+          data-wide={wideAttr}
         >
           {field}
         </div>
@@ -181,13 +203,23 @@ export default function HomeSearch({
         <Combobox.Positioner
           anchor={anchor}
           align={placement === 'header' ? 'end' : 'start'}
-          sideOffset={inPanel ? -1 : 8}
-          className={selectStyles.selectPositioner}
+          sideOffset={lip - tuck}
+          alignOffset={wide ? -wide.right : -lip}
+          // The lip pushes the shell to within 5px of the viewport in the sidebar; the default
+          // collision padding would then nudge the results 1px off the field above them.
+          collisionPadding={{ top: 5, bottom: 5, left: 0, right: 0 }}
+          className={`${selectStyles.selectPositioner} ${styles.positioner} ${sizeClass}`}
+          data-search-surface={placement}
+          data-wide={wideAttr}
+          style={{ '--collapsed-width': `${collapsedWidth}px`, ...wideVars } as CSSProperties}
         >
           <Combobox.Popup
-            className={`${selectStyles.selectPopup} ${styles.popup} ${inPanel ? styles.panel : ''}`}
+            className={`${styles.panel} ${sizeClass}`}
+            data-search-surface={placement}
+            data-wide={wideAttr}
+            style={wideVars}
           >
-            <div className={inPanel ? styles.panelResults : undefined}>
+            <div className={styles.panelResults}>
               {!hasQuery && <div className={styles.groupLabel}>{idleLabel}</div>}
               <Combobox.Empty className={styles.empty}>
                 No matching actions. Try a different search.

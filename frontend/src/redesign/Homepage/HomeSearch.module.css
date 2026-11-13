@@ -4,20 +4,17 @@
   initial-value: 0turn;
 }
 
-.anchor {
-  position: relative;
-  border-radius: 123px;
-}
-.anchor:focus-within {
+/* Focus shine on the homepage field while it is focused but closed (e.g. after Esc). */
+.morph[data-search-surface='home']:not([data-expanded]):focus-within {
   box-shadow:
     0 0 0 3px var(--idol-accent-default),
     0 4px 18px color-mix(in srgb, var(--idol-accent-default) 26%, transparent);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .anchor:focus-within::after {
+  .morph[data-search-surface='home']:not([data-expanded]):focus-within::after {
     content: '';
     position: absolute;
-    inset: -3px;
+    inset: -4px;
     padding: 3px;
     border-radius: inherit;
     pointer-events: none;
@@ -50,12 +47,33 @@
   }
 }
 
-.popup {
-  border-radius: 16px;
-  padding: 6px;
-  box-shadow:
-    0 8px 24px #00000014,
-    0 2px 8px #0000000a;
+.keyHints {
+  display: grid;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+/* Stack both hints in one cell; the slot sizes to the wider one so nothing shifts. */
+.keyHints > * {
+  grid-area: 1 / 1;
+  justify-self: end;
+  /* Outgoing hint: a quick, soft fade so the two never read as overlapping. */
+  transition:
+    opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.keyHints .key,
+.keyHints[data-open] .shortcut {
+  opacity: 0;
+  transform: translateY(3px) scale(0.96);
+}
+/* Incoming hint: waits for the outgoing one to mostly clear, then eases in slowly. */
+.keyHints:not([data-open]) .shortcut,
+.keyHints[data-open] .key {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 320ms cubic-bezier(0.4, 0, 0.2, 1) 120ms,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
 }
 .shortcut {
   display: inline-flex;
@@ -77,61 +95,208 @@
   font: var(--idol-type-label-small);
   white-space: nowrap;
 }
+/*
+ * Layered search shell (same construction as Card/Modal): when open, a dimmer lip grows
+ * outward around the field and wraps the results, which sit on an elevated surface.
+ * Size tokens are shared by the field slot and the portaled popup so their edges line up.
+ */
+.sizePanel {
+  --search-height: 36px;
+  --search-lip: 4px;
+  --search-pad: 10px;
+  --search-outer-radius: 16px;
+  --search-inner-radius: 12px;
+  --search-open-width: min(376px, calc(100vw - 24px));
+}
+.sizePanel[data-search-surface='header'] {
+  --search-open-width: min(376px, calc(100vw - 90px));
+}
+.sizeHome {
+  --search-height: 52px;
+  --search-lip: 4px;
+  --search-pad: 15px;
+  --search-outer-radius: 22px;
+  --search-inner-radius: 18px;
+  --search-open-width: var(--anchor-width, 100%);
+}
+.sizePanel,
+.sizeHome {
+  --search-duration: 240ms;
+  --search-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --search-shadow: 0 18px 44px rgb(0 0 0 / 16%), 0 4px 14px rgb(0 0 0 / 7%);
+  /* Trailing inset that puts the 21px Esc/⌘K keys as far from the right edge as from the top. */
+  --search-pad-end: calc((var(--search-height) - 23px) / 2);
+  /* How far the results tuck up under the expanded shell's bottom lip (mirrors TUCK in the TSX). */
+  --search-tuck: 4px;
+}
+.sizeHome {
+  --search-tuck: 6px;
+}
+
+/* Open homepage search: an accent ring + glow around the whole shell + results (drawn below). */
+.positioner.sizeHome {
+  --search-shadow: 0 0 0 3px var(--idol-accent-default),
+    0 18px 44px color-mix(in srgb, var(--idol-accent-default) 18%, rgb(0 0 0 / 10%)),
+    0 4px 18px color-mix(in srgb, var(--idol-accent-default) 26%, transparent);
+}
+
+/* One gradient sweep around shell + results each time the homepage search opens (⌘K or click).
+   It lives on the results so it remounts per open; it reaches up over the expanded shell. */
+@media (prefers-reduced-motion: no-preference) {
+  .panel[data-search-surface='home'][data-open]:not([data-ending-style])::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * (var(--search-height) + 2 * var(--search-lip) - var(--search-tuck)) - 4px) -4px -4px;
+    padding: 3px;
+    border-radius: calc(var(--search-outer-radius) + 3px);
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--idol-home-search-angle),
+      transparent 55%,
+      var(--idol-accent-default) 82%,
+      color-mix(in srgb, var(--idol-accent-default), white 60%) 94%,
+      transparent 100%
+    );
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: ring-shine 1000ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+}
+
+/*
+ * Dim the rest of the app while a search is open. The layer covers exactly the expanded shell +
+ * results, and its huge outer shadow darkens everything else, so the search itself stays bright
+ * no matter which stacking context its field lives in.
+ */
+.positioner {
+  /* The resting field's box, measured from the results' top edge: where everything grows from. */
+  --rest-top: calc(-1 * (var(--search-height) + var(--search-lip) - var(--search-tuck)));
+  --rest-bottom: calc(100% + var(--search-lip) - var(--search-tuck));
+  --rest-start: var(--search-lip);
+  --rest-end: calc(100% - var(--search-lip) - var(--collapsed-width));
+}
+.positioner[data-search-surface='header'] {
+  --rest-start: calc(100% - var(--search-lip) - var(--collapsed-width));
+  --rest-end: var(--search-lip);
+}
+/* Phone header: grows out to both gutters, so the resting field sits --grow-* in from each side. */
+.positioner[data-search-surface='header'][data-wide] {
+  --rest-start: var(--grow-left);
+  --rest-end: var(--grow-right);
+}
+.positioner::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * (var(--search-height) + 2 * var(--search-lip) - var(--search-tuck))) 0 0;
+  border-radius: var(--search-outer-radius);
+  /* Ring, glow and shadow share the dimmer's layer so both halves sit above the dim identically. */
+  box-shadow:
+    var(--search-shadow),
+    0 0 0 200vmax rgb(0 0 0 / 14%);
+  pointer-events: none;
+  /* Same duration and curve as the shell, so the outline grows in lockstep with field + results. */
+  transition-duration: var(--search-duration);
+  transition-timing-function: var(--search-ease);
+  transition-property: inset, border-radius, opacity;
+}
+.positioner[data-closed]::before {
+  inset: var(--rest-top) var(--rest-end) var(--rest-bottom) var(--rest-start);
+  border-radius: calc(var(--search-height) / 2);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .positioner[data-open]::before {
+    animation: search-outline-in var(--search-duration) var(--search-ease);
+  }
+}
+@keyframes search-outline-in {
+  from {
+    inset: var(--rest-top) var(--rest-end) var(--rest-bottom) var(--rest-start);
+    border-radius: calc(var(--search-height) / 2);
+    opacity: 0;
+  }
+}
+
 .fieldSlot {
   position: relative;
-  height: 36px;
+  height: var(--search-height);
 }
 .fieldSlot:has([data-compact]) {
   width: 36px;
 }
 .morph {
   position: absolute;
+  box-sizing: border-box;
   z-index: 1;
   inset: 0 auto auto 0;
   width: 100%;
-  height: 36px;
-  border-radius: 123px;
-  transition:
-    width 200ms cubic-bezier(0.2, 0.7, 0.3, 1),
-    height 200ms cubic-bezier(0.2, 0.7, 0.3, 1),
-    border-radius 200ms ease;
+  height: var(--search-height);
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: calc(var(--search-height) / 2);
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+  /* One duration and curve for every property, so the radius, lip and size move together. */
+  transition-duration: var(--search-duration);
+  transition-timing-function: var(--search-ease);
+  transition-property: inset, width, height, border-radius, background-color, border-color,
+    box-shadow;
 }
 .morph[data-search-surface='header'] {
   inset-inline: auto 0;
 }
+.morph:not([data-expanded]):hover,
+.morph:not([data-expanded]):focus-within {
+  border-color: var(--idol-stroke-medium);
+}
 .morph[data-expanded] {
   z-index: 1101;
-  width: min(376px, calc(100vw - 24px));
-  height: 48px;
-  border-radius: 16px 16px 0 0;
+  inset: calc(-1 * var(--search-lip)) auto auto calc(-1 * var(--search-lip));
+  width: calc(var(--search-open-width) + 2 * var(--search-lip));
+  height: calc(var(--search-height) + 2 * var(--search-lip));
+  border-bottom-color: transparent;
+  border-radius: var(--search-outer-radius) var(--search-outer-radius) 0 0;
+  background: var(--idol-bg-card-layer, var(--idol-bg-dimmer));
+  box-shadow: none;
+}
+.morph[data-search-surface='home'][data-expanded] {
+  width: calc(100% + 2 * var(--search-lip));
 }
 .morph[data-search-surface='header'][data-expanded] {
-  width: min(376px, calc(100vw - 90px));
+  inset: calc(-1 * var(--search-lip)) calc(-1 * var(--search-lip)) auto auto;
+}
+.morph[data-search-surface='header'][data-wide][data-expanded] {
+  inset: calc(-1 * var(--search-lip)) calc(-1 * var(--grow-right)) auto auto;
 }
 .panelSearch {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   gap: 6px;
   width: 100%;
   height: 100%;
-  padding: 0 10px;
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: inherit;
-  background: var(--idol-bg-default);
+  padding: 0 var(--search-pad-end) 0 var(--search-pad);
   color: var(--idol-fg-dimmer);
   cursor: text;
+  transition: padding var(--search-duration) var(--search-ease);
+}
+.sizeHome .panelSearch {
+  gap: 8px;
 }
 .panelSearch svg {
   flex-shrink: 0;
 }
-.morph:not([data-expanded]) .panelSearch:focus-within {
-  border-color: var(--idol-stroke-medium);
+/* Inset and padding change by the same amount on the same curve, so the contents never move. */
+.morph[data-expanded] .panelSearch {
+  padding-inline: calc(var(--search-pad) + var(--search-lip))
+    calc(var(--search-pad-end) + var(--search-lip));
 }
 .morph[data-compact]:not([data-expanded]) .panelSearch {
   gap: 0;
   padding: 0 9px;
 }
-.morph[data-compact]:not([data-expanded]) .shortcut {
+.morph[data-compact]:not([data-expanded]) .keyHints {
   display: none;
 }
 .panelInput {
@@ -145,32 +310,79 @@
   color: var(--idol-fg-default);
   font: var(--idol-type-label-default);
 }
+.sizeHome .panelInput {
+  font: var(--idol-type-body-large);
+}
 .panelInput::placeholder {
   color: var(--idol-fg-dimmer);
 }
-.popup.panel {
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: calc(var(--search-open-width) + 2 * var(--search-lip));
   max-height: min(360px, var(--available-height));
-  padding: 0;
+  /* Lip minus the 1px border: the results' edges sit exactly where the resting field's were. */
+  padding: 0 calc(var(--search-lip) - 1px) calc(var(--search-lip) - 1px);
+  border: 1px solid var(--idol-stroke-black);
   border-top: 0;
-  border-radius: 0 0 16px 16px;
-  transform-origin: top;
+  border-radius: 0 0 var(--search-outer-radius) var(--search-outer-radius);
+  background: var(--idol-bg-card-layer, var(--idol-bg-dimmer));
+  color: var(--idol-fg-default);
+  font: var(--idol-type-label-default);
+  outline: none;
+  /* Just past the sweep ring; tight sides/bottom keep the reveal in step with the shell. */
+  clip-path: inset(-120px -8px -8px);
+  /* Revealed only by clip-path, on the shell's duration and curve, so both read as one surface. */
   transition:
-    opacity 160ms ease,
-    transform 200ms cubic-bezier(0.2, 0.7, 0.3, 1);
+    clip-path var(--search-duration) var(--search-ease),
+    background-color var(--search-duration) var(--search-ease);
 }
+.sizeHome.panel {
+  max-height: min(440px, var(--available-height));
+}
+/* Unroll from the field's resting width and grow with the shell. */
 .panel[data-starting-style],
 .panel[data-ending-style] {
-  transform: scaleY(0.93);
+  clip-path: inset(
+    0 calc(100% - var(--search-lip) - var(--collapsed-width)) 100% var(--search-lip)
+  );
+  /* Start in the resting field's colour, like the shell does. */
+  background-color: var(--idol-bg-default);
+}
+.panel[data-search-surface='header'][data-starting-style],
+.panel[data-search-surface='header'][data-ending-style] {
+  clip-path: inset(
+    0 var(--search-lip) 100% calc(100% - var(--search-lip) - var(--collapsed-width))
+  );
+}
+.panel[data-search-surface='header'][data-wide][data-starting-style],
+.panel[data-search-surface='header'][data-wide][data-ending-style] {
+  clip-path: inset(0 var(--grow-right) 100% var(--grow-left));
 }
 .panelResults {
   min-height: 0;
   padding: 6px;
+  border: 1px solid var(--idol-stroke-card, var(--idol-stroke-black));
+  border-radius: var(--search-inner-radius);
+  background: var(--idol-bg-card, var(--idol-bg-default));
+  box-shadow: var(--idol-shadow-surface);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+.sizeHome .panelResults {
+  padding: 8px;
+}
 @media (prefers-reduced-motion: reduce) {
+  .keyHints > *,
+  .keyHints:not([data-open]) .shortcut,
+  .keyHints[data-open] .key,
   .morph,
-  .popup.panel {
+  .panelSearch,
+  .panel,
+  .positioner::before {
     transition: none;
   }
 }

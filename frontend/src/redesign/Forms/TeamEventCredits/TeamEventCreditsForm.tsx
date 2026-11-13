@@ -160,7 +160,7 @@ const TeamEventCreditForm: React.FC = () => {
     uploadedImage: string
   ) => {
     const blob = await fetch(uploadedImage).then((res) => res.blob());
-    await ImagesAPI.uploadImage(blob, `${eventCreditRequest.image}`);
+    await ImagesAPI.uploadImage(blob, `${eventCreditRequest.image}`, { throwOnError: true });
     return TeamEventsAPI.requestTeamEventCredit(eventCreditRequest);
   };
 
@@ -249,8 +249,50 @@ const TeamEventCreditForm: React.FC = () => {
   };
 
   const period = getTECPeriod(new Date(), tecDeadlines);
+  const ordinal = (day: number) => {
+    if (day % 100 >= 11 && day % 100 <= 13) return 'th';
+    return ['th', 'st', 'nd', 'rd'][day % 10] ?? 'th';
+  };
+  const eventDate = (event: TeamEventInfo) => {
+    const date = new Date(event.date);
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    return `${month} ${date.getDate()}${ordinal(date.getDate())}, ${date.getFullYear()}`;
+  };
+  const eventCredits = (event: TeamEventInfo) => {
+    const credits = Number(event.numCredits);
+    const unit = credits === 1 ? 'credit' : 'credits';
+    const max = Number(event.maxCredits) !== credits ? ` (${event.maxCredits} max)` : '';
+    return `${event.numCredits} ${unit}${event.hasHours ? '/hour' : ''}${max}`;
+  };
+  const showsKind = (event: TeamEventInfo) => Boolean(tecConfig.considerEventKind && event.kind);
+  // The searchable label keeps every detail so typing a date, "internal" or "external" still filters.
   const eventLabel = (event: TeamEventInfo) =>
-    `${event.name} · ${new Date(event.date).toLocaleDateString()} · ${event.numCredits} credit(s)${event.hasHours ? '/hour' : ''} · ${event.maxCredits} max${tecConfig.considerEventKind && event.kind ? ` · ${event.kind}` : ''}${event.isInitiativeEvent ? ' · Initiative' : ''}`;
+    `${event.name} · ${eventDate(event)} · ${eventCredits(event)}${
+      showsKind(event) ? ` · ${event.kind}` : ''
+    }${event.isInitiativeEvent ? ' · Initiative' : ''}`;
+  const renderEventOption = (label: string) => {
+    const event = teamEventInfoList.find((candidate) => eventLabel(candidate) === label);
+    if (!event) return label;
+    return (
+      <span className={styles.eventOption}>
+        <span className={styles.eventText}>
+          <span className={styles.eventName}>{event.name}</span>
+          <span className={styles.eventMeta}>
+            {eventDate(event)} · {eventCredits(event)}
+            {event.isInitiativeEvent ? ' · Initiative' : ''}
+          </span>
+        </span>
+        {showsKind(event) &&
+          (event.kind === 'external' ? (
+            <Pill color="green" className={`${styles.eventKind} ${styles.externalCredit}`}>
+              External
+            </Pill>
+          ) : (
+            <Pill className={styles.eventKind}>Internal</Pill>
+          ))}
+      </span>
+    );
+  };
   return (
     <div className={styles.page}>
       <Head>
@@ -338,6 +380,7 @@ const TeamEventCreditForm: React.FC = () => {
                     setTeamEvent(teamEventInfoList.find((event) => eventLabel(event) === label));
                 }}
                 placeholder="Search events..."
+                renderOption={renderEventOption}
               />
               {teamEvent?.hasHours && (
                 <Input
@@ -431,37 +474,41 @@ const TeamEventCreditForm: React.FC = () => {
           />
         </div>
         <aside className={styles.periods} aria-label="Credit periods">
-          {tecDeadlines.map((deadline, index) => (
-            <Card
-              key={deadline.toISOString()}
-              header={index === period ? 'Current' : ['Past', 'Upcoming'][Number(index > period)]}
-            >
-              <h2 className={styles.periodTitle}>Period {index + 1}</h2>
-              <p>
-                Ends:{' '}
-                {deadline.toLocaleDateString('en-US', {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                  timeZone: 'UTC'
-                })}
-              </p>
-              {tecConfig.considerEventKind ? (
-                <dl className={styles.counts}>
-                  <div>
-                    <dt>Internal</dt>
-                    <dd>{internalCounts[index]}</dd>
-                  </div>
-                  <div>
-                    <dt>External</dt>
-                    <dd>{externalCounts[index]}</dd>
-                  </div>
-                </dl>
-              ) : (
-                <p>Approved credits: {tecCounts[index]}</p>
-              )}
-            </Card>
-          ))}
+          <Card header="Credit periods">
+            {tecDeadlines.map((deadline, index) => (
+              <section key={deadline.toISOString()} className={styles.periodSection}>
+                <div className={styles.periodHeading}>
+                  <h2 className={styles.periodTitle}>Period {index + 1}</h2>
+                  <span className={styles.label}>
+                    {index === period ? 'Current' : ['Past', 'Upcoming'][Number(index > period)]}
+                  </span>
+                </div>
+                <p>
+                  Ends:{' '}
+                  {deadline.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    timeZone: 'UTC'
+                  })}
+                </p>
+                {tecConfig.considerEventKind ? (
+                  <dl className={styles.counts}>
+                    <div>
+                      <dt>Internal</dt>
+                      <dd>{internalCounts[index]}</dd>
+                    </div>
+                    <div>
+                      <dt>External</dt>
+                      <dd>{externalCounts[index]}</dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <p>Approved credits: {tecCounts[index]}</p>
+                )}
+              </section>
+            ))}
+          </Card>
         </aside>
       </div>
     </div>

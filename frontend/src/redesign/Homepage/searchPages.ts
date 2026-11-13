@@ -12,15 +12,18 @@ const keywords: Record<string, string> = {
     'preferences appearance theme dark mode light mode accent color change switch toggle',
   '/help': 'support documentation faq questions report a bug',
   '/forms': 'forms submit application',
-  '/forms/signin': 'sign in signin check in checkin meeting attendance',
-  '/forms/profile': 'account personal information bio photo avatar social links',
-  '/forms/shoutouts': 'shout outs appreciation thanks kudos sent received',
-  '/forms/teamEventCredits': 'tec tecs team events credits attendance',
+  '/forms/signin': 'sign in signin check in checkin meeting attendance submit',
+  '/forms/profile':
+    'account personal information bio photo picture pic headshot avatar social links pronouns major edit update change',
+  '/forms/shoutouts': 'shout outs appreciation thanks kudos give send write post sent received',
+  '/forms/teamEventCredits':
+    'tec tecs team events credits attendance submit request log earn hours proof photo picture',
   '/forms/devPortfolio':
-    'developer development portfolio assignments github pr prs pull requests submissions',
-  '/forms/coffeeChats': 'coffee chat chats bingo',
-  '/forms/coffeeChatCategories': 'coffee chat topics bingo categories',
-  '/forms/reimbursement': 'submit expense expenses report refund receipt payment money',
+    'developer development portfolio assignments github pr prs pull requests submit submissions',
+  '/forms/coffeeChats': 'coffee chat chats bingo submit log',
+  '/forms/coffeeChatCategories': 'coffee chat topics bingo categories submit',
+  '/forms/reimbursement':
+    'submit request reimburse expense expenses report refund receipt payment money',
   '/alumni': 'alumni graduates former members',
   '/candidate-decider': 'applicants applications decisions reviews recruitment candidate instance',
   '/interview-scheduler': 'interviews book schedule slots appointment time',
@@ -49,23 +52,21 @@ const isDesignPreview = (path: string) =>
   path === '/design-system-2026' || path.startsWith('/design-system-2026/');
 const routeEntries = Object.entries(breadcrumbRoutes).filter(([path]) => !isDesignPreview(path));
 const detailRoutes = routeEntries.filter(([path]) => path.includes('['));
-const fillerWords = new Set([
-  'a',
-  'an',
-  'can',
-  'do',
-  'find',
-  'go',
-  'how',
-  'i',
-  'me',
-  'my',
-  'open',
-  'show',
-  'the',
-  'to',
-  'where'
-]);
+/** Conversational words that never decide which page matches. */
+const fillerWords = new Set(
+  (
+    'a about an and any are at can could do for find go how i id im in into is it lets me my of ' +
+    'on open our out please pls show some that the there this to up want wanna we where which ' +
+    'with would you your need like'
+  ).split(' ')
+);
+/** Actions people type ("submit tec"): they rank pages that mention them, but never exclude one. */
+const intentWords = new Set(
+  (
+    'add apply browse change check create edit enter file fill get give log look make manage new ' +
+    'post record request see send start submit submitting track update upload view write'
+  ).split(' ')
+);
 
 export const normalizeSearch = (text: string) =>
   text
@@ -145,9 +146,20 @@ function oneEdit(left: string, right: string): boolean {
   return a.slice(1) === b.slice(1) || (a[0] === b[1] && a[1] === b[0] && a.slice(2) === b.slice(2));
 }
 
+/** Reduce plurals and verb endings so "credits", "chats" or "reimbursed" find their pages. */
+function stem(word: string): string {
+  if (word.length > 4 && word.endsWith('ies')) return `${word.slice(0, -3)}y`;
+  if (word.length > 5 && word.endsWith('ing')) return word.slice(0, -3);
+  if (word.length > 4 && word.endsWith('ed')) return word.slice(0, -2);
+  if (word.length > 3 && word.endsWith('s') && !word.endsWith('ss')) return word.slice(0, -1);
+  return word;
+}
+
 function wordScore(word: string, terms: string[], weight: number): number {
-  if (terms.includes(word)) return weight + 3;
-  if (terms.some((term) => term.startsWith(word))) return weight + 2;
+  const root = stem(word);
+  if (terms.some((term) => term === word || stem(term) === root)) return weight + 3;
+  if (terms.some((term) => term.startsWith(word) || (root.length >= 3 && term.startsWith(root))))
+    return weight + 2;
   if (terms.some((term) => term.includes(word))) return weight + 1;
   if (word.length >= 4 && terms.some((term) => oneEdit(word, term))) return 1;
   return 0;
@@ -170,7 +182,12 @@ export function searchPages(query: string, canAdmin: boolean, recent: SearchPage
   if (!normalized) return [];
   const inputWords = normalized.split(' ');
   const meaningfulWords = inputWords.filter((word) => !fillerWords.has(word));
-  const words = meaningfulWords.length ? meaningfulWords : inputWords;
+  const subjectWords = meaningfulWords.filter((word) => !intentWords.has(word));
+  // Every subject word must match; an action word alone ("submit") still has to match.
+  const words = [subjectWords, meaningfulWords, inputWords].find((list) => list.length) ?? [];
+  const optionalWords = subjectWords.length
+    ? meaningfulWords.filter((word) => intentWords.has(word))
+    : [];
   const phrase = words.join(' ');
   const details = recent.filter(({ href }) => !Object.hasOwn(breadcrumbRoutes, href));
   return [...pages, ...details]
@@ -187,11 +204,12 @@ export function searchPages(query: string, canAdmin: boolean, recent: SearchPage
           '$1 $2'
         )}`
       ).split(' ');
-      const scores = words.map((word) =>
-        Math.max(wordScore(word, titleWords, 5), wordScore(word, terms, 2))
-      );
+      const scoreWord = (word: string) =>
+        Math.max(wordScore(word, titleWords, 5), wordScore(word, terms, 2));
+      const scores = words.map(scoreWord);
+      const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);
       const score = scores.every(Boolean)
-        ? scores.reduce((total, value) => total + value, 0) + (label.startsWith(phrase) ? 10 : 0)
+        ? sum(scores) + sum(optionalWords.map(scoreWord)) + (label.startsWith(phrase) ? 10 : 0)
         : 0;
       return { page, score };
     })

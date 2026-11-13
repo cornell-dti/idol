@@ -1,0 +1,37 @@
+.positioner {
+  z-index: 1100;
+  outline: none;
+}
+
+/* Same surface as Menu: default background, black stroke, surface shadow. */
+.popup {
+  box-sizing: border-box;
+  max-width: min(260px, var(--available-width));
+  padding: 8px 12px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  font: var(--idol-type-body-small);
+  letter-spacing: var(--idol-type-body-small-tracking);
+  box-shadow: var(--idol-shadow-surface);
+  outline: none;
+  transform-origin: var(--transform-origin);
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 140ms ease,
+    transform 140ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup {
+    transition: none;
+  }
+}

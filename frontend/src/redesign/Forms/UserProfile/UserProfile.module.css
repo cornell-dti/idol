@@ -44,6 +44,10 @@
   display: flex;
   justify-content: flex-end;
 }
+.unsavedDialog.unsavedDialog {
+  min-height: 0;
+  gap: 0;
+}
 .page.page label:not(:has(input)) {
   font: var(--idol-type-label-small);
   color: var(--idol-fg-dimmer);

@@ -16,6 +16,11 @@
   height: 96px;
   font: var(--idol-type-heading-1);
 }
+.avatar.mediumAvatar {
+  width: 64px;
+  height: 64px;
+  font: var(--idol-type-heading-3);
+}
 .avatar img {
   width: 100%;
   height: 100%;

@@ -107,9 +107,14 @@ export default function EditTeam(): JSX.Element {
     <div className={styles.AddUser} data-testid="EditTeam">
       <ErrorModal onEmitter={Emitters.teamEditError}></ErrorModal>
       <div className={styles.content}>
-        <Card.Group>
+        <Card.Group className={styles.cardGroup}>
           <Card
-            style={{ width: '20vw', height: 'calc(100vh - 80px - 7rem)', position: 'relative' }}
+            style={{
+              width: '20vw',
+              height: 'calc(100vh - 80px - 7rem)',
+              position: 'relative',
+              flexShrink: 0
+            }}
           >
             <h2 className={styles.cardHeader}>Select a Team</h2>
             <div
@@ -165,7 +170,7 @@ export default function EditTeam(): JSX.Element {
             </Card.Content>
           </Card>
           {currentSelectedTeam !== undefined ? (
-            <Card style={{ width: 'calc(80vw - 6rem)' }}>
+            <Card style={{ width: 'calc(80vw - 6rem)', minWidth: 0 }}>
               <Card.Content className={styles.cardContent}>
                 <h2 className={styles.cardHeader}>{currentSelectedTeam.name}</h2>
                 <Form>

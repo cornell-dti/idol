@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
+import Router from 'next/router';
 import { Toast as BaseToast } from '@base-ui/react/toast';
 import { XIcon } from '../../icons';
 import { useDesignSystemAppearance } from '../Theme/Theme';
@@ -15,8 +16,34 @@ export function ToastProvider({ children }: { children: ReactNode }): JSX.Elemen
 }
 
 function ToastViewport(): JSX.Element {
-  const { toasts } = BaseToast.useToastManager();
+  const { toasts, close } = BaseToast.useToastManager();
   const { theme, accent } = useDesignSystemAppearance();
+  const latest = useRef({ toasts, close });
+  latest.current = { toasts, close };
+
+  // Leaving the page dismisses toasts about it. Only toasts already open when navigation starts
+  // close, so a "Saved" toast fired right before a redirect still shows on the next page.
+  useEffect(() => {
+    let stale: string[] = [];
+    const onStart = (_url: string, { shallow }: { shallow?: boolean } = {}) => {
+      stale = shallow ? [] : latest.current.toasts.map((toast) => toast.id);
+    };
+    const onComplete = () => {
+      stale.forEach((id) => latest.current.close(id));
+      stale = [];
+    };
+    const onError = () => {
+      stale = [];
+    };
+    Router.events.on('routeChangeStart', onStart);
+    Router.events.on('routeChangeComplete', onComplete);
+    Router.events.on('routeChangeError', onError);
+    return () => {
+      Router.events.off('routeChangeStart', onStart);
+      Router.events.off('routeChangeComplete', onComplete);
+      Router.events.off('routeChangeError', onError);
+    };
+  }, []);
   return (
     <BaseToast.Portal data-idol-redesign data-idol-theme={theme} data-idol-accent={accent}>
       <BaseToast.Viewport className={styles.viewport} aria-label="Notifications">

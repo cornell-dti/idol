@@ -10,6 +10,13 @@
   margin-right: 2rem;
   padding-top: 5rem;
   padding-bottom: 2rem;
+  /* Anchors the fixed card headers to this page, as the classic layout's sidebar container does. */
+  transform: translateZ(0);
+}
+
+/* Keep the team list and editor side by side when the page is narrower than the window. */
+.cardGroup {
+  flex-wrap: nowrap !important;
 }
 
 .memberCount {

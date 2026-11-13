@@ -377,7 +377,7 @@ export default function AddUser(): JSX.Element {
     <div className={styles.AddUser} data-testid="AddUser">
       <ErrorModal onEmitter={Emitters.userEditError}></ErrorModal>
       <div className={styles.content}>
-        <Card.Group>
+        <Card.Group className={styles.cardGroup}>
           <Card className={styles.userSelector}>
             <h2 className={styles.cardHeader}>Select a User</h2>
             <div className={styles.userSelectorChoices}>

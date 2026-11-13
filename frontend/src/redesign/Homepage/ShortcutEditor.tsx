@@ -1,5 +1,6 @@
 import { PointerEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { SquaresFourIcon } from '@phosphor-icons/react/dist/csr/SquaresFour';
 import { Button, DesignSystemScope, IconButton, Modal } from '../../design-system-2026/components';
 import {
   CheckIcon,
@@ -58,13 +59,15 @@ export default function ShortcutEditor({
     updateDrag(null);
     setOpen(next);
   };
-  const startDrag = (event: PointerEvent<HTMLButtonElement>, id: ShortcutId) => {
+  // The whole row drags, except its trailing Add/Remove button.
+  const startDrag = (event: PointerEvent<HTMLLIElement>, id: ShortcutId) => {
     if (event.button !== 0 || dragging.current) return;
-    const row = event.currentTarget.closest('li');
-    if (!row) return;
+    const target = event.target as Element;
+    if (target.closest('button:not([data-drag-handle])')) return;
+    const row = event.currentTarget;
     event.preventDefault();
-    event.currentTarget.focus();
-    event.currentTarget.setPointerCapture(event.pointerId);
+    row.querySelector<HTMLButtonElement>('[data-drag-handle]')?.focus();
+    row.setPointerCapture(event.pointerId);
     const rect = row.getBoundingClientRect();
     updateDrag({
       id,
@@ -90,13 +93,13 @@ export default function ShortcutEditor({
       return { section: 'removed' };
     return null;
   };
-  const trackDrag = (event: PointerEvent<HTMLButtonElement>) => {
+  const trackDrag = (event: PointerEvent<HTMLLIElement>) => {
     const { current } = dragging;
     if (current?.pointerId !== event.pointerId) return;
     const { clientX: x, clientY: y } = event;
     updateDrag({ ...current, x, y, target: dropTargetAt(current.id, x, y) });
   };
-  const finishDrag = (event: PointerEvent<HTMLButtonElement>) => {
+  const finishDrag = (event: PointerEvent<HTMLLIElement>) => {
     const { current } = dragging;
     if (current?.pointerId !== event.pointerId) return;
     const { id } = current;
@@ -122,20 +125,23 @@ export default function ShortcutEditor({
         `${shortcuts.find((item) => item.id === id)?.label} moved to position ${target + 1}.`
       );
   };
-  const cancelDrag = (event: PointerEvent<HTMLButtonElement>) => {
+  const cancelDrag = (event: PointerEvent<HTMLLIElement>) => {
     if (dragging.current?.pointerId === event.pointerId) updateDrag(null);
   };
+  const dragRowProps = (id: ShortcutId) => ({
+    onPointerDown: (event: PointerEvent<HTMLLIElement>) => startDrag(event, id),
+    onPointerMove: trackDrag,
+    onPointerUp: finishDrag,
+    onPointerCancel: cancelDrag,
+    onLostPointerCapture: cancelDrag
+  });
   const dragHandle = (id: ShortcutId, label: string, index?: number) => (
     <button
       type="button"
       className={styles.dragHandle}
       aria-label={`Drag ${label}`}
       aria-describedby="shortcut-reorder-help"
-      onPointerDown={(event) => startDrag(event, id)}
-      onPointerMove={trackDrag}
-      onPointerUp={finishDrag}
-      onPointerCancel={cancelDrag}
-      onLostPointerCapture={cancelDrag}
+      data-drag-handle
       onKeyDown={(event) => {
         if (event.key === 'Escape' && dragging.current) {
           event.preventDefault();
@@ -158,7 +164,7 @@ export default function ShortcutEditor({
       open={open}
       onOpenChange={changeOpen}
       trigger={
-        <Button variant="secondary" disabled={disabled}>
+        <Button variant="secondary" disabled={disabled} icon={<SquaresFourIcon size={16} />}>
           Edit shortcuts
         </Button>
       }
@@ -213,6 +219,7 @@ export default function ShortcutEditor({
             return (
               <li
                 key={id}
+                {...dragRowProps(id)}
                 className={`${styles.editorRow} ${drag?.id === id ? styles.grabbedRow : ''} ${
                   addedSlot === index ? styles.dropBefore : ''
                 } ${
@@ -254,6 +261,7 @@ export default function ShortcutEditor({
             .map((item) => (
               <li
                 key={item.id}
+                {...dragRowProps(item.id)}
                 className={`${styles.editorRow} ${drag?.id === item.id ? styles.grabbedRow : ''}`}
               >
                 {dragHandle(item.id, item.label)}

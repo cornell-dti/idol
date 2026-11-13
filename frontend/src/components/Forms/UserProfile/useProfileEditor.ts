@@ -142,7 +142,7 @@ export default function useProfileEditor() {
     try {
       const canvas = editor.getImage().toDataURL('image/jpeg');
       const blob = await fetch(canvas).then((res) => res.blob());
-      await ImagesAPI.uploadImage(blob, `images/${userInfo.netid}`);
+      await ImagesAPI.uploadImage(blob, `images/${userInfo.netid}`, { throwOnError: true });
       if (profilePhoto.startsWith('blob:')) window.URL.revokeObjectURL(profilePhoto);
       setProfilePhoto(window.URL.createObjectURL(blob));
       setOpen(false);

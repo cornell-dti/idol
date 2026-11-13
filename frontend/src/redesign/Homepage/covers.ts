@@ -5,6 +5,9 @@ export type CoverPreferences = {
   positions: Record<string, number>;
 };
 
+export const coverStorageKey = (homepageStorageKey?: string): string =>
+  `${homepageStorageKey ?? 'idol:homepage'}:cover`;
+
 const coverDirectory = '/redesign/home/covers';
 const presetCover = (id: string, name: string): Cover => ({
   id,
