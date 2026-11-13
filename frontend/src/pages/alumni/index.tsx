@@ -1,3 +1,5 @@
-import Alumni from '../../components/Alumni/Alumni';
+import OldAlumni from '../../components/Alumni/Alumni';
+import Alumni from '../../redesign/Alumni/Alumni';
+import { previewPage } from '../../redesign/preview';
 
-export default Alumni;
+export default previewPage(OldAlumni, Alumni);

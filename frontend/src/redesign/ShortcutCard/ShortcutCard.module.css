@@ -1,0 +1,60 @@
+.link {
+  display: flex;
+  min-width: 0;
+  color: var(--idol-fg-default);
+  border-radius: 16px;
+  text-decoration: none;
+}
+.link:hover,
+.link:focus {
+  color: var(--idol-fg-default);
+  text-decoration: none;
+}
+.link:focus-visible {
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 3px;
+}
+.card {
+  flex: 1;
+  transition:
+    background-color 140ms ease,
+    scale 100ms ease;
+}
+.link:hover .card {
+  background: var(--idol-bg-dimmer);
+}
+.link:active .card {
+  scale: 0.97;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.content h3 {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+.content p {
+  font: var(--idol-type-body-default);
+  color: var(--idol-fg-dimmer);
+}
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 10px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+  .link:active .card {
+    scale: 1;
+  }
+}

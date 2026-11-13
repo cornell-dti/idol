@@ -16,7 +16,7 @@
   color: var(--idol-fg-default);
   font: var(--idol-type-label-default);
   letter-spacing: var(--idol-type-label-default-tracking);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--idol-stroke-black) 40%, transparent);
+  box-shadow: var(--idol-shadow-surface);
   outline: none;
   transform-origin: center;
   opacity: 1;

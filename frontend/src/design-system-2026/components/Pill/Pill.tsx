@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 import styles from './Pill.module.css';
 
 export type PillProps = HTMLAttributes<HTMLSpanElement> & {
-  color?: 'accent' | 'red' | 'green';
+  color?: 'accent' | 'blue' | 'red' | 'green';
 };
 export function Pill({
   color = 'accent',

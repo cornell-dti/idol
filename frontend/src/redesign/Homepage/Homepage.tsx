@@ -6,6 +6,7 @@ import { TeamEventsAPI } from '../../API/TeamEventsAPI';
 import TecConfigAPI from '../../API/TecConfigAPI';
 import receivedShoutouts from '../Forms/Shoutouts/receivedShoutouts';
 import HomepageView from './HomepageView';
+import { homeShortcutsStorageKey } from './shortcuts';
 import { coffeeMetrics, HomeSummary, tecMetrics } from './summary';
 
 const loading: HomeSummary = { coffee: {}, tec: {}, shoutouts: {} };
@@ -57,7 +58,7 @@ export default function Homepage(): JSX.Element {
     <HomepageView
       key={self?.email}
       name={self ? `${self.firstName} ${self.lastName}` : ''}
-      storageKey={self ? `idol:home-shortcuts:${self.email}` : undefined}
+      storageKey={homeShortcutsStorageKey(self?.email)}
       summary={summary}
       onRetry={() => setAttempt((value) => value + 1)}
     />

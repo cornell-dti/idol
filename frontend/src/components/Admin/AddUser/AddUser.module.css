@@ -2,10 +2,18 @@
   margin-left: 2rem;
   margin-right: 2rem;
   padding-top: 5rem;
+  /* Anchors the fixed card headers to this page, as the classic layout's sidebar container does. */
+  transform: translateZ(0);
+}
+
+/* Keep the user list and editor side by side when the page is narrower than the window. */
+.cardGroup {
+  flex-wrap: nowrap !important;
 }
 
 .userSelector {
   width: 20vw !important;
+  flex-shrink: 0;
   height: calc(100vh - 80px - 7rem);
 }
 
@@ -24,10 +32,21 @@
 
 .userEditor {
   width: calc(80vw - 6rem) !important;
+  min-width: 0;
   justify-content: flex-start;
-  flex-wrap: wrap;
   overflow-y: auto;
   overflow-x: auto;
+}
+
+/* Let Semantic's form fields shrink with the editor instead of overflowing it. */
+.userEditor :global(.fields > .field),
+.userEditor :global(.ui.selection.dropdown),
+.userEditor :global(.ui.input > input) {
+  min-width: 0 !important;
+}
+
+.userEditor :global(.ui.input > input) {
+  flex-shrink: 1;
 }
 
 .subteamEditorCardGroup {

@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'next/router';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import UserProfile from './UserProfile';
@@ -148,4 +149,42 @@ describe.each([
     );
     emitError.mockRestore();
   });
+});
+
+test('redesigned profile keeps unsaved edits until leaving is confirmed', async () => {
+  (useSelf as jest.Mock).mockReturnValue(member);
+  (useUserEmail as jest.Mock).mockReturnValue(member.email);
+  const push = jest.fn().mockResolvedValue(true);
+  const router = { push, replace: jest.fn(), beforePopState: jest.fn(), events: Router.events };
+  const originalRouter = Router.router;
+  Object.assign(Router, { router });
+  const view = render(<RedesignedUserProfile />);
+
+  try {
+    await router.push('/settings');
+    expect(push).toHaveBeenCalledTimes(1);
+    push.mockClear();
+
+    const hometown = screen.getByDisplayValue('Ithaca');
+    fireEvent.change(hometown, { target: { value: 'Boston' } });
+    await act(async () => {
+      expect(await router.push('/settings')).toBe(false);
+    });
+    expect(screen.getByRole('dialog', { name: 'Unsaved changes' })).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: 'Stay on page' }));
+    expect(push).not.toHaveBeenCalled();
+    expect(hometown).toHaveValue('Boston');
+
+    await act(async () => {
+      await router.push('/settings');
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Leave page' }));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/settings'));
+
+    fireEvent.change(hometown, { target: { value: 'Ithaca' } });
+    expect(router.push).toBe(push);
+  } finally {
+    view.unmount();
+    Object.assign(Router, { router: originalRouter });
+  }
 });

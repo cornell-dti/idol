@@ -126,11 +126,49 @@
   display: inline-grid;
   place-items: center;
   justify-self: start;
-  min-width: 24px;
+  box-sizing: border-box;
+  min-width: 28px;
+  height: 28px;
   margin-bottom: 6px;
-  padding: 2px 5px;
-  border-radius: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
   background: var(--idol-bg-dimmer);
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-small);
+  font-variant-numeric: tabular-nums;
+}
+/* Fixed blue/green per speaker, independent of the chosen accent. */
+.speakerBlue {
+  background: color-mix(in srgb, var(--idol-info-default) 14%, transparent);
+  color: var(--idol-info-default);
+}
+.speakerGreen {
+  background: color-mix(in srgb, var(--idol-success-default) 14%, transparent);
+  color: var(--idol-success-default);
+}
+.presentActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.speakerPopup.speakerPopup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 264px;
+  max-width: var(--available-width);
+  max-height: none;
+  padding: 12px;
+  border-radius: 12px;
+}
+.speakerTitle {
+  margin: 0;
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+.speakerPopup .speakerHint {
+  margin: 0;
   color: var(--idol-fg-dimmer);
   font: var(--idol-type-label-small);
 }
@@ -338,16 +376,48 @@
   display: flex;
   box-sizing: border-box;
   min-height: 100dvh;
-  padding: 80px clamp(20px, 4vw, 48px) max(24px, env(safe-area-inset-bottom));
+  padding: 0 clamp(20px, 4vw, 32px) max(24px, env(safe-area-inset-bottom));
   color: var(--idol-fg-default);
   font: var(--idol-type-body-default);
 }
 
+.stageTabs,
+.stagePanel:not([hidden]) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stageToolbar {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: max(24px, env(safe-area-inset-top)) 0 8px;
+  background: var(--idol-bg-canvas);
+}
+
+.stagePanel {
+  margin-top: 8px;
+}
+
+.stageList .card {
+  min-height: 0;
+}
+
+.stageList .cardContent {
+  gap: 6px;
+  padding: 0;
+}
+
+.stageList .number {
+  margin-bottom: 2px;
+}
+
 .stage button.stageBack {
-  position: absolute;
-  z-index: 2;
-  top: max(24px, env(safe-area-inset-top));
-  left: clamp(20px, 4vw, 32px);
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }

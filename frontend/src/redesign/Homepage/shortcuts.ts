@@ -1,6 +1,9 @@
 import { ClipboardTextIcon } from '../../design-system-2026/icons';
 import { breadcrumbRoutes } from '../breadcrumbRoutes';
 
+export const homeShortcutsStorageKey = (email?: string): string | undefined =>
+  email ? `idol:home-shortcuts:${email}` : undefined;
+
 const shortcutDefinitions = [
   {
     id: 'shoutouts',

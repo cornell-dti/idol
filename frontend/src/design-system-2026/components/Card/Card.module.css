@@ -7,7 +7,7 @@
   border-radius: 16px;
   background: var(--idol-bg-card, var(--idol-bg-default));
   color: var(--idol-fg-default);
-  box-shadow: 0 2px 8px #0000000a;
+  box-shadow: var(--idol-shadow-surface);
 }
 
 .cardBody {
@@ -26,6 +26,10 @@
 .card.layeredCard {
   padding: 0 3px 3px;
   background: var(--idol-bg-card-layer, var(--idol-bg-dimmer));
+}
+
+.card.layeredBare {
+  padding: 3px;
 }
 
 .cardHeader {
@@ -50,4 +54,14 @@
   font: inherit;
   letter-spacing: inherit;
   color: inherit;
+}
+
+.compact .cardBody {
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.compact > .cardHeader {
+  min-height: 32px;
+  padding: 4px 10px 5px;
 }
