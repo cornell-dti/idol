@@ -49,6 +49,7 @@ export default function HomeSearch({
   const { theme, accent } = useDesignSystemAppearance();
   const anchor = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
+  const popup = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [recentPages, setRecentPages] = useState<RecentPage[]>([]);
@@ -87,6 +88,36 @@ export default function HomeSearch({
     update();
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
+  }, []);
+
+  // A press outside an open search only dismisses it; it must not also activate whatever is
+  // underneath (a shortcut card, a link). Listening on window in the capture phase runs before
+  // Base UI's document listeners, so on touch (where Base UI closes on click) we close it here.
+  const openRef = useRef(open);
+  openRef.current = open;
+  useEffect(() => {
+    let swallow = false;
+    const inside = (target: EventTarget | null) =>
+      target instanceof Node &&
+      Boolean(anchor.current?.contains(target) || popup.current?.contains(target));
+    const onPointerDown = (event: PointerEvent) => {
+      swallow = openRef.current && !inside(event.target);
+    };
+    const onClick = (event: MouseEvent) => {
+      const outside = (swallow || openRef.current) && !inside(event.target);
+      swallow = false;
+      if (!outside) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (openRef.current) setOpen(false);
+      if (document.activeElement === input.current) input.current?.blur();
+    };
+    window.addEventListener('pointerdown', onPointerDown, true);
+    window.addEventListener('click', onClick, true);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown, true);
+      window.removeEventListener('click', onClick, true);
+    };
   }, []);
 
   useEffect(() => {
@@ -225,6 +256,7 @@ export default function HomeSearch({
           style={{ '--collapsed-width': `${collapsedWidth}px`, ...wideVars } as CSSProperties}
         >
           <Combobox.Popup
+            ref={popup}
             className={`${styles.panel} ${sizeClass}`}
             data-search-surface={placement}
             data-wide={wideAttr}
