@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { createHash } from 'crypto';
 import { Button, Card, Input, LabelledCheckbox } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
-import { PlusIcon } from '../../../design-system-2026/icons';
+import { PaperPlaneTiltIcon } from '../../../design-system-2026/icons';
 import { Emitters, getChattedOtherNetIds } from '../../../utils';
 import { useSelf } from '../../../components/Common/FirestoreDataProvider';
 import { MembersAPI } from '../../../API/MembersAPI';
@@ -220,7 +220,9 @@ const CoffeeChatsForm: React.FC = () => {
   };
 
   const memberLabel = (person: IdolMember) =>
-    `${person.firstName} ${person.lastName} (${person.netid})${netIdsAlreadyChatted.has(person.netid.trim().toLowerCase()) ? ' · Previously chatted' : ''}`;
+    `${person.firstName} ${person.lastName} (${person.netid})${
+      netIdsAlreadyChatted.has(person.netid.trim().toLowerCase()) ? ' · Previously chatted' : ''
+    }`;
   return (
     <div className={styles.page}>
       <Head>
@@ -372,7 +374,7 @@ const CoffeeChatsForm: React.FC = () => {
           <div className={styles.actions}>
             <Button
               type="submit"
-              icon={<PlusIcon size={16} />}
+              icon={<PaperPlaneTiltIcon size={16} />}
               disabled={busy || isChatLoading || loadError}
             >
               {busy ? 'Submitting…' : 'Submit coffee chat'}
