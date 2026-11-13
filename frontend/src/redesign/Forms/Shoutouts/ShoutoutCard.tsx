@@ -5,7 +5,8 @@ import {
   DottedBackground,
   IconButton,
   Modal,
-  Textarea
+  Textarea,
+  useToast
 } from '../../../design-system-2026/components';
 import { CheckIcon, PencilSimpleLineIcon, TrashIcon } from '../../../design-system-2026/icons';
 import ImagesAPI from '../../../API/ImagesAPI';
@@ -109,6 +110,7 @@ export default function ShoutoutCard({
   onUpdate,
   onDelete
 }: Props): JSX.Element {
+  const toast = useToast();
   const [mode, setMode] = useState<'edit' | 'delete' | null>(null);
   const [message, setMessage] = useState(shoutout.message);
   const [busy, setBusy] = useState(false);
@@ -141,6 +143,7 @@ export default function ShoutoutCard({
       if (!result || result.error) throw new Error(result?.error || 'Please try again.');
       onUpdate(result.shoutout ?? updated);
       setMode(null);
+      toast.add({ title: 'Shoutout updated.' });
     } catch {
       setError('Couldn’t save your changes. Please try again.');
     } finally {
@@ -157,6 +160,7 @@ export default function ShoutoutCard({
       await ShoutoutsAPI.deleteShoutout(shoutout.uuid);
       setMode(null);
       onDelete(shoutout.uuid);
+      toast.add({ title: 'Shoutout deleted.' });
     } catch {
       setError('Couldn’t delete this shoutout. Please try again.');
     } finally {
