@@ -560,9 +560,13 @@ legend.editorHeading {
   .surface {
     padding: 48px 16px 32px;
   }
-  .shortcutGrid,
   .glance {
     grid-template-columns: minmax(0, 1fr);
+  }
+  /* Shortcuts stay 2×2 on phones so they fit on one screen. */
+  .shortcutGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
   .search {
     width: calc(100% - 32px);
