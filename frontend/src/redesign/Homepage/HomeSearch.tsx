@@ -212,6 +212,9 @@ export default function HomeSearch({
           anchor={anchor}
           align={placement === 'header' ? 'end' : 'start'}
           sideOffset={lip - tuck}
+          // The results are one surface with the field, so they always open below it, even when
+          // the on-screen keyboard leaves more room above.
+          collisionAvoidance={{ side: 'none' }}
           alignOffset={wide ? -wide.right : -lip}
           // The lip pushes the shell to within 5px of the viewport in the sidebar; the default
           // collision padding would then nudge the results 1px off the field above them.
