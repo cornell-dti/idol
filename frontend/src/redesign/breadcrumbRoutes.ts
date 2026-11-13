@@ -21,7 +21,7 @@ type Route = { label: string; icon?: Icon; parent?: string; supportsDarkTheme?: 
 /** Navigation hierarchy is explicit because several detail URLs are siblings of their list. */
 export const breadcrumbRoutes: Record<string, Route> = {
   '/': { label: 'Home', icon: HouseIcon, supportsDarkTheme: true },
-  '/forms': { label: 'Forms', icon: ClipboardTextIcon },
+  '/forms': { label: 'Forms', icon: ClipboardTextIcon, supportsDarkTheme: true },
   '/forms/signin': { label: 'Sign-In', parent: '/forms' },
   '/forms/profile': { label: 'Profile', icon: UserIcon, parent: '/forms', supportsDarkTheme: true },
   '/forms/shoutouts': {
@@ -68,7 +68,7 @@ export const breadcrumbRoutes: Record<string, Route> = {
   '/design-system-2026': { label: 'Design System' },
   '/design-system-2026/shell': { label: 'App Shell', parent: '/design-system-2026' },
   '/design-system-2026/homepage': { label: 'Home Preview', parent: '/design-system-2026' },
-  '/admin': { label: 'Admin', icon: UsersIcon },
+  '/admin': { label: 'Admin', icon: UsersIcon, supportsDarkTheme: true },
   '/admin/member-review': { label: 'Member Information Review', parent: '/admin' },
   '/admin/site-deployer': { label: 'Site Deployer', parent: '/admin' },
   '/admin/signin-creator': { label: 'Sign-In Creator', parent: '/admin' },

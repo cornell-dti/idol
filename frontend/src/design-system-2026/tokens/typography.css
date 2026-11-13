@@ -1,39 +1,40 @@
 /* Figma Typography 179:7955, imported 2026-10-26.
  * Text styles converted to CSS tokens. All rules require the redesign scope.
- * Inter is loaded by the preview page, not by the main application.
+ * Font families are loaded by the redesigned app shell.
  */
 [data-idol-redesign] {
   --idol-font-family: 'Inter', sans-serif;
+  --idol-heading-font-family: var(--idol-font-family);
   --idol-type-title-size: 40px;
   --idol-type-title-line-height: 48px;
   --idol-type-title-weight: 600;
   --idol-type-title-tracking: -2.4px;
   --idol-type-title: var(--idol-type-title-weight) var(--idol-type-title-size) /
-    var(--idol-type-title-line-height) var(--idol-font-family);
+    var(--idol-type-title-line-height) var(--idol-heading-font-family);
   --idol-type-heading-1-size: 32px;
   --idol-type-heading-1-line-height: 40px;
   --idol-type-heading-1-weight: 600;
   --idol-type-heading-1-tracking: -1.28px;
   --idol-type-heading-1: var(--idol-type-heading-1-weight) var(--idol-type-heading-1-size) /
-    var(--idol-type-heading-1-line-height) var(--idol-font-family);
+    var(--idol-type-heading-1-line-height) var(--idol-heading-font-family);
   --idol-type-heading-2-size: 24px;
   --idol-type-heading-2-line-height: 32px;
   --idol-type-heading-2-weight: 600;
   --idol-type-heading-2-tracking: -0.96px;
   --idol-type-heading-2: var(--idol-type-heading-2-weight) var(--idol-type-heading-2-size) /
-    var(--idol-type-heading-2-line-height) var(--idol-font-family);
+    var(--idol-type-heading-2-line-height) var(--idol-heading-font-family);
   --idol-type-heading-3-size: 20px;
   --idol-type-heading-3-line-height: 26px;
   --idol-type-heading-3-weight: 600;
   --idol-type-heading-3-tracking: -0.4px;
   --idol-type-heading-3: var(--idol-type-heading-3-weight) var(--idol-type-heading-3-size) /
-    var(--idol-type-heading-3-line-height) var(--idol-font-family);
+    var(--idol-type-heading-3-line-height) var(--idol-heading-font-family);
   --idol-type-heading-4-size: 16px;
   --idol-type-heading-4-line-height: 24px;
   --idol-type-heading-4-weight: 600;
   --idol-type-heading-4-tracking: -0.32px;
   --idol-type-heading-4: var(--idol-type-heading-4-weight) var(--idol-type-heading-4-size) /
-    var(--idol-type-heading-4-line-height) var(--idol-font-family);
+    var(--idol-type-heading-4-line-height) var(--idol-heading-font-family);
   --idol-type-body-large-size: 16px;
   --idol-type-body-large-line-height: 22px;
   --idol-type-body-large-weight: 400;
@@ -73,6 +74,10 @@
     var(--idol-type-label-small-line-height) var(--idol-font-family);
   font: var(--idol-type-body-default);
   letter-spacing: var(--idol-type-body-default-tracking);
+}
+
+[data-idol-redesign][data-idol-theme='hacker'] {
+  --idol-font-family: ui-monospace, Menlo, Consolas, monospace;
 }
 
 [data-idol-redesign] :where(h1, h2, h3, h4, h5, h6, p) {

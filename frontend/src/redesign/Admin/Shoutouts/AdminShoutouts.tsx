@@ -5,6 +5,8 @@ import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
 import { ArrowLeftIcon } from '@phosphor-icons/react/dist/csr/ArrowLeft';
 import { EyeIcon } from '@phosphor-icons/react/dist/csr/Eye';
 import { EyeSlashIcon } from '@phosphor-icons/react/dist/csr/EyeSlash';
+import { ListBulletsIcon } from '@phosphor-icons/react/dist/csr/ListBullets';
+import { StackIcon } from '@phosphor-icons/react/dist/csr/Stack';
 import {
   Button,
   Card,
@@ -32,6 +34,7 @@ const tabs = [
   { value: 'hidden', label: 'Hidden', icon: EyeSlashIcon }
 ] as const;
 type View = (typeof tabs)[number]['value'];
+type PresentationView = 'stack' | 'list';
 const timeZone = 'America/New_York';
 const dayParts = new Intl.DateTimeFormat('en-US', {
   timeZone,
@@ -241,6 +244,7 @@ export function AdminShoutoutsView({
   const [view, setView] = useState<View>('all');
   const [query, setQuery] = useState('');
   const [presenting, setPresenting] = useState(false);
+  const [presentationView, setPresentationView] = useState<PresentationView>('stack');
   const stagePopup = useRef<HTMLDivElement>(null);
   const [pending, setPending] = useState<Shoutout | null>(null);
   const [saving, setSaving] = useState(false);
@@ -405,27 +409,61 @@ export function AdminShoutoutsView({
             <DesignSystemScope theme="dark">
               <DottedBackground className={styles.stage}>
                 <Dialog.Title className={styles.visuallyHidden}>Present shoutouts</Dialog.Title>
-                <Dialog.Close
-                  render={
-                    <Button
-                      className={styles.stageBack}
-                      variant="secondary"
-                      aria-keyshortcuts="Escape"
-                      icon={<ArrowLeftIcon size={16} aria-hidden />}
-                    >
-                      Back
-                    </Button>
-                  }
-                />
-                {visible.length ? (
-                  <ShoutoutStack
-                    items={visible}
-                    shortcutsDisabled={!presenting}
-                    renderCard={(item, index) => renderCard(item, index, true)}
-                  />
-                ) : (
-                  <p className={styles.status}>No visible shoutouts to present.</p>
-                )}
+                <TabRoot
+                  className={styles.stageTabs}
+                  value={presentationView}
+                  onValueChange={(next) => setPresentationView(next as PresentationView)}
+                >
+                  <div className={styles.stageToolbar}>
+                    <Dialog.Close
+                      render={
+                        <Button
+                          className={styles.stageBack}
+                          variant="secondary"
+                          aria-keyshortcuts="Escape"
+                          icon={<ArrowLeftIcon size={16} aria-hidden />}
+                        >
+                          Back
+                        </Button>
+                      }
+                    />
+                    {!!visible.length && (
+                      <TabList aria-label="Presentation layout" segmented activateOnFocus>
+                        <Tab value="stack" icon={<StackIcon size={16} />}>
+                          Stack
+                        </Tab>
+                        <Tab value="list" icon={<ListBulletsIcon size={16} />}>
+                          List
+                        </Tab>
+                      </TabList>
+                    )}
+                  </div>
+                  {visible.length ? (
+                    <>
+                      <TabPanel value="stack" className={styles.stagePanel} keepMounted>
+                        <ShoutoutStack
+                          items={visible}
+                          shortcutsDisabled={!presenting || presentationView !== 'stack'}
+                          renderCard={(item, index) => renderCard(item, index, true)}
+                        />
+                      </TabPanel>
+                      <TabPanel value="list" className={styles.stagePanel}>
+                        <DesignSystemScope theme="light">
+                          <ol
+                            className={`${styles.list} ${styles.stageList}`}
+                            aria-label="Presented shoutouts"
+                          >
+                            {visible.map((item, index) => (
+                              <li key={item.uuid}>{renderCard(item, index, true)}</li>
+                            ))}
+                          </ol>
+                        </DesignSystemScope>
+                      </TabPanel>
+                    </>
+                  ) : (
+                    <p className={styles.status}>No visible shoutouts to present.</p>
+                  )}
+                </TabRoot>
               </DottedBackground>
             </DesignSystemScope>
           </Dialog.Popup>

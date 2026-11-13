@@ -7,7 +7,7 @@
   border-radius: 16px;
   background: var(--idol-bg-card, var(--idol-bg-default));
   color: var(--idol-fg-default);
-  box-shadow: 0 2px 8px #0000000a;
+  box-shadow: var(--idol-shadow-surface);
 }
 
 .cardBody {

@@ -1,6 +1,9 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
-export const THEME_OPTIONS = ['light', 'dark', 'auto'] as const;
+export const BASE_THEME_OPTIONS = ['light', 'dark', 'auto'] as const;
+export const SPECIAL_THEME_OPTIONS = ['pumpkin', 'hacker'] as const;
+export const THEME_OPTIONS = [...BASE_THEME_OPTIONS, ...SPECIAL_THEME_OPTIONS] as const;
 export const ACCENT_OPTIONS = [
   'black',
   'blue',
@@ -12,12 +15,16 @@ export const ACCENT_OPTIONS = [
   'green'
 ] as const;
 export type ThemePreference = (typeof THEME_OPTIONS)[number];
+export type ResolvedTheme = Exclude<ThemePreference, 'auto'>;
 export type Accent = (typeof ACCENT_OPTIONS)[number];
+export const isSpecialTheme = (theme: ThemePreference): boolean =>
+  SPECIAL_THEME_OPTIONS.some((option) => option === theme);
 export const APPEARANCE_STORAGE_KEY = 'idol:appearance';
+export const isDarkTheme = (theme: ResolvedTheme): boolean => theme !== 'light';
 
 type Appearance = {
   theme: ThemePreference;
-  resolvedTheme: 'light' | 'dark';
+  resolvedTheme: ResolvedTheme;
   accent: Accent;
   setTheme: (theme: ThemePreference) => void;
   setAccent: (accent: Accent) => void;
@@ -35,6 +42,7 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
   const [theme, setThemeState] = useState<ThemePreference>('auto');
   const [accent, setAccentState] = useState<Accent>('blue');
   const [deviceDark, setDeviceDark] = useState(false);
+  const themeRequest = useRef(0);
   useEffect(() => {
     const restore = () => {
       try {
@@ -71,17 +79,47 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
   };
   const deviceTheme = deviceDark ? 'dark' : 'light';
   const preferredTheme = theme === 'auto' ? deviceTheme : theme;
+  const setTheme = (next: ThemePreference) => {
+    const request = themeRequest.current + 1;
+    themeRequest.current = request;
+    persist(next, accent);
+    const nextTheme = next === 'auto' ? deviceTheme : next;
+
+    if (nextTheme === preferredTheme) {
+      setThemeState(next);
+      return;
+    }
+
+    const applyTheme = () => {
+      if (request !== themeRequest.current) return;
+      const root = document.documentElement;
+      root.setAttribute('data-idol-theme-update', '');
+      try {
+        flushSync(() => setThemeState(next));
+        // Resolve the new theme before restoring each component's interaction transitions.
+        root.getBoundingClientRect();
+      } finally {
+        root.removeAttribute('data-idol-theme-update');
+      }
+    };
+    if (
+      document.startViewTransition &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      document.startViewTransition(applyTheme);
+    } else {
+      applyTheme();
+    }
+  };
   return (
     <AppearanceContext.Provider
       value={{
         theme,
         accent,
         resolvedTheme: preferredTheme,
-        setTheme: (next) => {
-          setThemeState(next);
-          persist(next, accent);
-        },
+        setTheme,
         setAccent: (next) => {
+          if (isSpecialTheme(theme)) return;
           setAccentState(next);
           persist(theme, next);
         }
