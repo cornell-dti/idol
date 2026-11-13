@@ -14,12 +14,22 @@ const CoffeeChatCategoryEditModal: React.FC<Props> = ({ category, onSaved }) => 
   const [members, setMembers] = useState<MemberDetails[]>(category.members);
   const [isSaving, setIsSaving] = useState(false);
   const allMembers = useMembers();
+  const currentNetids = new Set(allMembers.map((member) => member.netid.trim().toLowerCase()));
 
-  const memberOptions = allMembers.map((m) => ({
-    key: m.netid,
-    value: m.netid,
-    text: `${m.firstName} ${m.lastName} (${m.netid})`
-  }));
+  const memberOptions = [
+    ...allMembers.map((member) => ({
+      key: member.netid,
+      value: member.netid,
+      text: `${member.firstName} ${member.lastName} (${member.netid})`
+    })),
+    ...members
+      .filter((member) => !currentNetids.has(member.netid.trim().toLowerCase()))
+      .map((member) => ({
+        key: member.netid,
+        value: member.netid,
+        text: `${member.name} (${member.netid})`
+      }))
+  ];
 
   const selectedNetids = members.map((m) => m.netid);
 
