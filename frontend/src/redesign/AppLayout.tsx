@@ -26,6 +26,7 @@ import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
 import getBreadcrumbs, { breadcrumbRoutes } from './breadcrumbRoutes';
 import memberNavigation, { navigationEntry } from './navigation';
 import HomeSearch from './Homepage/HomeSearch';
+import LegacyBanner from './LegacyBanner';
 import { HomepageSkeleton } from './Homepage/HomepageView';
 import { rememberPage } from './Homepage/recentPages';
 import Navigation from './Navigation/Navigation';
@@ -151,6 +152,9 @@ export default function AppLayout({
   const entry = navigationEntry(router.pathname, size);
   const sections = navigationSections(pathname, size, hasAdminPermission, hasInstance);
   const breadcrumbs = getBreadcrumbs(pathname, router.asPath, detailLabel);
+  // Pages not yet redesigned are the ones still locked to the classic light theme.
+  const legacyPage =
+    !breadcrumbRoutes[pathname]?.supportsDarkTheme && !pathname.startsWith('/design-system');
 
   const profileName = self ? `${self.firstName} ${self.lastName}` : 'Profile';
   const profileEntry = navigationEntry(pathname, 16);
@@ -272,6 +276,7 @@ export default function AppLayout({
         header={header}
       >
         <BreadcrumbTitleContext.Provider value={setBreadcrumbTitle}>
+          {legacyPage && <LegacyBanner />}
           {children}
         </BreadcrumbTitleContext.Provider>
       </AppShell>
