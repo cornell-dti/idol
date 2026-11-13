@@ -26,7 +26,10 @@ const summaryCards = [
   { key: 'shoutouts', title: 'Shoutouts', href: '/forms/shoutouts', metricCount: 2 }
 ] as const;
 
-const slackChannel = (channel: string) => `https://cornelldti.slack.com/channels/${channel}`;
+// app_redirect opens the channel in the Slack app on phones, where /channels/ links dead-end in the
+// mobile browser, and still opens Slack on the web on desktop.
+const slackChannel = (channel: string) =>
+  `https://cornelldti.slack.com/app_redirect?channel=${channel}`;
 
 // Products with a #<product>-support channel; logos are shared with the Help page.
 const productSupport = [

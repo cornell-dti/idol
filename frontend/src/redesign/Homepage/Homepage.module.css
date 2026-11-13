@@ -168,11 +168,14 @@
   height: 40px;
   object-fit: contain;
 }
-.productLink:hover {
-  color: var(--idol-accent-default);
-}
-.productLink:hover .productTile {
-  transform: translateY(-6px) rotate(-8deg);
+/* Hover only on real pointers: on touch, a sticky hover left tapped tiles tilted and blue. */
+@media (hover: hover) {
+  .productLink:hover {
+    color: var(--idol-accent-default);
+  }
+  .productLink:hover .productTile {
+    transform: translateY(-6px) rotate(-8deg);
+  }
 }
 /* Press: shrink a little and ease part of the tilt back, quicker than the hover lift. */
 .productLink:active .productTile {
