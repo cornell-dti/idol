@@ -49,9 +49,15 @@
 }
 .term .pageLink {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* A 32px hit area around the 16px icon; negative margins keep the heading's line height. */
+  width: 32px;
+  height: 32px;
+  margin: -8px -8px -8px -4px;
   vertical-align: middle;
   color: var(--idol-fg-dimmer);
-  border-radius: 4px;
+  border-radius: 8px;
   transition:
     color 140ms ease,
     background-color 140ms ease;
