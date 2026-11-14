@@ -58,10 +58,10 @@ export default function SignIn(): JSX.Element {
                 height={64}
               />
               <div className={styles.intro}>
-                <h1 id="sign-in-title">Welcome to IDOL.</h1>
+                <h1 id="sign-in-title">Welcome to IDOL!</h1>
               </div>
               <p className={styles.description}>
-                IDOL is our internal platform for all things admin and team-related!
+                IDOL is our internal platform for all things admin and team-related.
               </p>
               <div className={styles.action}>
                 <Button
