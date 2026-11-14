@@ -10,6 +10,7 @@ import {
 import {
   ACCENT_OPTIONS,
   BASE_THEME_OPTIONS,
+  DEFAULT_CONTRAST,
   SPECIAL_THEME_OPTIONS,
   isDarkTheme,
   isSpecialTheme,
@@ -26,6 +27,7 @@ import CoverEditor from './Homepage/CoverEditor';
 import { coverStorageKey } from './Homepage/covers';
 import { homeShortcutsStorageKey } from './Homepage/shortcuts';
 import useCoverPreferences from './Homepage/useCoverPreferences';
+import sliderStyles from '../design-system-2026/components/Slider/Slider.module.css';
 import styles from './Settings.module.css';
 
 function ThemeThumbnail({
@@ -149,7 +151,7 @@ function ThemeOptions({
 }
 
 export default function Settings(): JSX.Element {
-  const { theme, resolvedTheme, accent, setAccent } = useAppearance();
+  const { theme, resolvedTheme, accent, setAccent, contrast, setContrast } = useAppearance();
   const accentDisabled = isSpecialTheme(theme);
   const self = useSelf();
   const email = useUserEmail();
@@ -204,6 +206,37 @@ export default function Settings(): JSX.Element {
               options={SPECIAL_THEME_OPTIONS}
               placeholder="More coming soon!"
             />
+            <div className={`${styles.row} ${styles.coverRow}`}>
+              <div>
+                <h3 id="settings-contrast" className={styles.rowTitle}>
+                  Contrast
+                </h3>
+              </div>
+              <div className={styles.contrastControl}>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={contrast}
+                  aria-labelledby="settings-contrast"
+                  aria-describedby="settings-contrast-hint"
+                  className={`${sliderStyles.slider} ${styles.contrastSlider}`}
+                  onChange={(event) => setContrast(Number(event.target.value))}
+                  onDoubleClick={() => setContrast(DEFAULT_CONTRAST)}
+                />
+                <output className={styles.contrastValue} aria-hidden="true">
+                  {contrast}
+                </output>
+                <Button
+                  variant="secondary"
+                  disabled={contrast === DEFAULT_CONTRAST}
+                  onClick={() => setContrast(DEFAULT_CONTRAST)}
+                >
+                  Reset
+                </Button>
+              </div>
+            </div>
             <div className={`${styles.row} ${styles.coverRow}`}>
               <h3 className={styles.rowTitle}>Homepage cover image</h3>
               <CoverEditor value={preferences} onSave={saveCover} disabled={false} />

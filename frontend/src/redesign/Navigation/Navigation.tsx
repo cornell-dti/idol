@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button, useToast } from '../../design-system-2026/components';
@@ -6,7 +6,12 @@ import { useDesignSystemAppearance } from '../../design-system-2026/components/T
 import type { SidebarEntry } from '../../design-system-2026/components/Sidebar/Sidebar';
 import { PencilSimpleLineIcon, DotsThreeIcon } from '../../design-system-2026/icons';
 import NavigationEditor from './NavigationEditor';
-import { defaultNavigation, parseNavigation, compactNavigationLabel } from './preferences';
+import {
+  defaultNavigation,
+  parseNavigation,
+  compactNavigationLabel,
+  maxPinnedPages
+} from './preferences';
 import useSheetDrag from './useSheetDrag';
 import styles from './Navigation.module.css';
 
@@ -37,6 +42,11 @@ export default function Navigation({
   const [editing, setEditing] = useState(false);
   const toast = useToast();
   const [notice, setNotice] = useState('');
+  // The editor's latest draft; closing the sheet while editing saves it.
+  const draftRef = useRef<string[] | null>(null);
+  const trackDraft = useCallback((ids: string[]) => {
+    draftRef.current = ids;
+  }, []);
   // The sheet opens above the bottom bar, so the real navbar stays visible underneath it.
   const bar = useRef<HTMLDivElement>(null);
   const [barHeight, setBarHeight] = useState(0);
@@ -121,12 +131,26 @@ export default function Navigation({
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [open, editing, navbarSlot]);
+  const save = (next: string[]) => {
+    draftRef.current = null;
+    setSelected(next);
+    setEditing(false);
+    try {
+      if (storageKey) localStorage.setItem(storageKey, JSON.stringify(next));
+      setNotice('');
+      setOpen(false);
+      toast.add({ title: 'Navbar saved.' });
+    } catch {
+      setNotice('Navbar updated for this session. Browser storage is unavailable.');
+    }
+  };
   const changeOpen = (next: boolean) => {
     setOpen(next);
     if (next) {
       setSheetVisible(true);
       sheetDrag.reset();
       setEditing(false);
+      draftRef.current = null;
       setNotice('');
     }
   };
@@ -144,7 +168,16 @@ export default function Navigation({
         changeOpen(next);
       }}
       onOpenChangeComplete={(isOpen) => {
-        if (!isOpen) setSheetVisible(false);
+        if (isOpen) return;
+        setSheetVisible(false);
+        if (!editing) return;
+        // Swiping (or tapping) the sheet closed mid-edit saves the edit, like tapping Save, and
+        // always leaves edit mode so the real navbar comes back.
+        const draft = draftRef.current;
+        draftRef.current = null;
+        setEditing(false);
+        const valid = draft && draft.length >= 2 && draft.length <= maxPinnedPages;
+        if (valid && draft.join() !== pinned.join()) save(draft);
       }}
     >
       <div ref={bar} className={styles.bar} data-sheet={sheetVisible || open || undefined}>
@@ -221,21 +254,14 @@ export default function Navigation({
             <NavigationEditor
               items={available}
               selected={pinned}
-              onCancel={() => setEditing(false)}
+              onCancel={() => {
+                draftRef.current = null;
+                setEditing(false);
+              }}
               actionsSlot={headerSlot}
               navbarSlot={navbarSlot}
-              onSave={(next) => {
-                setSelected(next);
-                setEditing(false);
-                try {
-                  if (storageKey) localStorage.setItem(storageKey, JSON.stringify(next));
-                  setNotice('');
-                  setOpen(false);
-                  toast.add({ title: 'Navbar saved.' });
-                } catch {
-                  setNotice('Navbar updated for this session. Browser storage is unavailable.');
-                }
-              }}
+              onDraftChange={trackDraft}
+              onSave={save}
             />
           ) : (
             <>

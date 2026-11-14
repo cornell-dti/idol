@@ -82,10 +82,12 @@ export default function ShortcutEditor({
   };
   const dropTargetAt = (id: ShortcutId, x: number, y: number): DropTarget | null => {
     if (list.current && containsPoint(addedSection.current, x, y)) {
+      // Tiles flow in rows, so the slot is the first tile below the pointer's row, or in its row
+      // and right of the pointer.
       const rows = Array.from(list.current.children);
       const next = rows.findIndex((row) => {
         const rect = row.getBoundingClientRect();
-        return y < rect.top + rect.height / 2;
+        return y < rect.top || (y <= rect.bottom && x < rect.left + rect.width / 2);
       });
       return { section: 'added', slot: next < 0 ? rows.length : next };
     }
@@ -149,9 +151,10 @@ export default function ShortcutEditor({
           updateDrag(null);
           return;
         }
-        if (index !== undefined && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+        const step = { ArrowUp: -1, ArrowLeft: -1, ArrowDown: 1, ArrowRight: 1 }[event.key];
+        if (index !== undefined && step) {
           event.preventDefault();
-          move(id, index + (event.key === 'ArrowUp' ? -1 : 1));
+          move(id, index + step);
         }
       }}
     >
@@ -198,8 +201,8 @@ export default function ShortcutEditor({
       }
     >
       <p className={styles.srOnly} id="shortcut-reorder-help">
-        Drag a handle to move between sections. Use the arrow keys to reorder added shortcuts, or
-        use the Add and Remove buttons to move between sections.
+        Drag a tile to move between sections. Use the arrow keys to reorder added shortcuts, or use
+        the Add and Remove buttons to move between sections.
       </p>
       <p className={styles.srOnly} role="status">
         {announcement}
@@ -227,7 +230,9 @@ export default function ShortcutEditor({
                 }`}
               >
                 {dragHandle(id, item.label, index)}
-                <item.icon size={16} aria-hidden />
+                <span className={styles.editorTileIcon}>
+                  <item.icon size={24} aria-hidden />
+                </span>
                 <span className={styles.rowLabel}>{item.label}</span>
                 <IconButton
                   variant="tertiary"
@@ -265,7 +270,9 @@ export default function ShortcutEditor({
                 className={`${styles.editorRow} ${drag?.id === item.id ? styles.grabbedRow : ''}`}
               >
                 {dragHandle(item.id, item.label)}
-                <item.icon size={16} aria-hidden />
+                <span className={styles.editorTileIcon}>
+                  <item.icon size={24} aria-hidden />
+                </span>
                 <span className={styles.rowLabel}>{item.label}</span>
                 <IconButton
                   variant="tertiary"
@@ -293,9 +300,10 @@ export default function ShortcutEditor({
               className={styles.dragPreview}
               style={{ left: drag.x - drag.offsetX, top: drag.y - drag.offsetY, width: drag.width }}
             >
-              <DotsSixVerticalIcon size={16} aria-hidden />
-              <grabbed.icon size={16} aria-hidden />
-              <span>{grabbed.label}</span>
+              <span className={styles.editorTileIcon}>
+                <grabbed.icon size={24} aria-hidden />
+              </span>
+              <span className={styles.rowLabel}>{grabbed.label}</span>
             </div>
           </DesignSystemScope>,
           document.body

@@ -37,6 +37,22 @@
   display: flex;
   gap: 8px;
 }
+.coverActions {
+  display: contents;
+}
+.coverMore {
+  display: none;
+}
+/* Frosted glass so the ⋯ button sits lightly on any cover photo. */
+.coverControls button.coverMore {
+  background: rgb(0 0 0 / 0.3);
+  color: #fff;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.coverControls button.coverMore:hover:not(:disabled) {
+  background: rgb(0 0 0 / 0.45);
+}
 .coverDragArea {
   position: absolute;
   z-index: 1;
@@ -80,10 +96,21 @@
 .columns {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+  /* Product support sits under Shortcuts; the right column spans both rows. */
+  grid-template-rows: auto 1fr;
   align-items: start;
-  gap: 48px;
+  gap: 0 48px;
   max-width: 1000px;
   margin: 0 auto;
+}
+.columns > .shortcuts {
+  grid-area: 1 / 1;
+}
+.columns > .productSupport {
+  grid-area: 2 / 1;
+}
+.columns > .sidebar {
+  grid-area: 1 / 2 / span 2;
 }
 .shortcuts,
 .glance {
@@ -108,7 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 32px;
+  margin-top: 48px;
 }
 .productSupport h2 {
   margin: 0;
@@ -157,11 +184,14 @@
   height: 40px;
   object-fit: contain;
 }
-.productLink:hover {
-  color: var(--idol-accent-default);
-}
-.productLink:hover .productTile {
-  transform: translateY(-6px) rotate(-8deg);
+/* Hover only on real pointers: on touch, a sticky hover left tapped tiles tilted and blue. */
+@media (hover: hover) {
+  .productLink:hover {
+    color: var(--idol-accent-default);
+  }
+  .productLink:hover .productTile {
+    transform: translateY(-6px) rotate(-8deg);
+  }
 }
 /* Press: shrink a little and ease part of the tilt back, quicker than the hover lift. */
 .productLink:active .productTile {
@@ -373,26 +403,40 @@ legend.editorHeading {
   font: var(--idol-type-heading-4);
 }
 .editorList {
+  display: grid;
+  /* Two columns, matching the homepage's shortcut grid. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
+/* Each shortcut is a draggable tile; the whole tile drags except its Add/Remove button. */
 .editorRow {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  min-height: 40px;
-  padding: 8px;
-  border-radius: 6px;
+  min-height: 112px;
+  padding: 16px 12px 12px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+  text-align: center;
   cursor: grab;
   touch-action: none;
   user-select: none;
+  transition: background-color 140ms ease;
 }
 .editorRow:active {
   cursor: grabbing;
 }
 .editorRow button:not([data-drag-handle]) {
+  position: absolute;
+  top: 6px;
+  right: 6px;
   cursor: pointer;
 }
 .editorRow:hover,
@@ -402,13 +446,29 @@ legend.editorHeading {
 .grabbedRow > * {
   opacity: 0.3;
 }
+.grabbedRow {
+  border-style: dashed;
+}
+.editorTileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 10px;
+  background: var(--idol-bg-default);
+  box-shadow: 0 2px 8px #0000000a;
+}
+/* Drop lines run down the gap between tiles. */
 .dropBefore::before,
 .dropAfter::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
   border-radius: 2px;
   background: var(--idol-accent-default);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--idol-accent-default) 9%, transparent);
@@ -416,10 +476,10 @@ legend.editorHeading {
   z-index: 1;
 }
 .dropBefore::before {
-  top: -1px;
+  left: -8px;
 }
 .dropAfter::after {
-  bottom: -1px;
+  right: -8px;
 }
 .dragPortal {
   position: fixed;
@@ -430,33 +490,42 @@ legend.editorHeading {
 .dragPreview {
   position: fixed;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  min-height: 40px;
-  padding: 8px;
+  box-sizing: border-box;
+  min-height: 112px;
+  padding: 16px 12px 12px;
   border: 1px solid var(--idol-stroke-black);
-  border-radius: 6px;
+  border-radius: 12px;
   background: var(--idol-bg-default);
   color: var(--idol-fg-default);
+  text-align: center;
   box-shadow:
     0 12px 32px #0003,
     0 2px 6px #0002;
-  transform: scale(1.015) rotate(-0.5deg);
-  transform-origin: left center;
+  transform: scale(1.03) rotate(-1.5deg);
 }
 .rowLabel {
-  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font: var(--idol-type-label-default);
 }
 .dragHandle {
+  position: absolute;
+  top: 8px;
+  left: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   width: 16px;
+  height: 20px;
   padding: 0;
   border: 0;
   border-radius: 3px;
-  color: inherit;
+  color: var(--idol-fg-dimmer);
   background: transparent;
   cursor: grab;
   touch-action: none;
@@ -474,10 +543,29 @@ legend.editorHeading {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  gap: clamp(4px, calc(10vw - 28px), 16px);
+  gap: 16px;
 }
 .resetShortcuts {
   margin-inline-end: auto;
+}
+/* Phones: Reset on its own line, then Cancel and Save side by side, so nothing wraps alone. */
+@media (max-width: 640px) {
+  .shortcutFooter {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .shortcutFooter > button {
+    justify-content: center;
+  }
+  .resetShortcuts {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin: 0;
+  }
+  .editorList {
+    gap: 10px;
+  }
 }
 .removed {
   border-top: 1px solid var(--idol-stroke-black);
@@ -507,7 +595,7 @@ legend.editorHeading {
 }
 @media (max-width: 1100px) {
   .columns {
-    gap: 24px;
+    gap: 0 24px;
     grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
   }
   .surface {
@@ -518,9 +606,32 @@ legend.editorHeading {
   }
 }
 @media (max-width: 940px) {
+  /* One column: Shortcuts, At a glance, Product support, then Get help. */
   .columns {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
     gap: 32px;
+  }
+  .columns > .sidebar {
+    display: contents;
+  }
+  .columns > .shortcuts,
+  .columns > .productSupport,
+  .columns > .sidebar > * {
+    grid-area: auto;
+  }
+  .columns > .shortcuts {
+    order: 1;
+  }
+  .columns > .sidebar > .glance {
+    order: 2;
+  }
+  .columns > .productSupport {
+    order: 3;
+    margin-top: 0;
+  }
+  .columns > .sidebar > .getHelp {
+    order: 4;
   }
   .glance {
     display: grid;
@@ -560,16 +671,20 @@ legend.editorHeading {
   .surface {
     padding: 48px 16px 32px;
   }
-  .shortcutGrid,
   .glance {
     grid-template-columns: minmax(0, 1fr);
+  }
+  /* Shortcuts stay 2×2 on phones so they fit on one screen. */
+  .shortcutGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
   .search {
     width: calc(100% - 32px);
   }
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 641px) {
   .coverControls:not([data-repositioning]) {
     opacity: 0;
     pointer-events: none;
@@ -584,11 +699,31 @@ legend.editorHeading {
   }
 }
 
+/* Phones and touch screens: the cover actions hide behind a ⋯ button until it's tapped. */
+@media (max-width: 640px), not all and (hover: hover) and (pointer: fine) {
+  .coverControls:not([data-repositioning]):not([data-menu-open]) .coverMore {
+    display: inline-flex;
+  }
+  .coverControls:not([data-repositioning]):not([data-menu-open]) .coverActions {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .coverControls {
     transition:
       opacity 160ms ease,
       translate 220ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .coverControls[data-menu-open] .coverActions > * {
+    animation: coverActionsIn 220ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+}
+
+@keyframes coverActionsIn {
+  from {
+    opacity: 0;
+    translate: 8px 0;
   }
 }
 

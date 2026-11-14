@@ -27,6 +27,29 @@
 .page .coverRow .rowTitle {
   margin: 0;
 }
+.page .rowHint {
+  margin: 4px 0 0;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-small);
+}
+.contrastControl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(360px, 100%);
+}
+.contrastControl .contrastSlider {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.contrastValue {
+  min-width: 3ch;
+  color: var(--idol-fg-default);
+  font: var(--idol-type-label-default);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
 .appearance .row {
   padding-block: 24px;
 }
@@ -78,7 +101,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 16px 0;
 }
 .choice {
   position: relative;

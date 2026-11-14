@@ -10,7 +10,7 @@ import {
   useToast
 } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
-import { PlusIcon, XIcon } from '../../../design-system-2026/icons';
+import { PaperPlaneTiltIcon, PlusIcon, XIcon } from '../../../design-system-2026/icons';
 import ImagesAPI from '../../../API/ImagesAPI';
 import ShoutoutsAPI from '../../../API/ShoutoutsAPI';
 import styles from './Shoutouts.module.css';
@@ -250,7 +250,7 @@ export default function ShoutoutForm({ user, members, onSent }: Props): JSX.Elem
             <Button
               type="submit"
               disabled={busy}
-              icon={<PlusIcon size={16} />}
+              icon={<PaperPlaneTiltIcon size={16} />}
               aria-keyshortcuts="Meta+Enter Control+Enter"
             >
               {busy ? 'Sending…' : 'Send shoutout'}

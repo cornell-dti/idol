@@ -81,13 +81,25 @@ export default function useProfileEditor() {
   const initialPronouns = userInfoBeforeEdit?.pronouns;
   const userInfo = useSelf();
 
+  // True until the first photo lookup settles, so the redesign can show a skeleton, not initials.
+  const [photoLoading, setPhotoLoading] = useState(process.env.NODE_ENV !== 'test');
+
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {
-      return;
+      return undefined;
     }
-    ImagesAPI.getImage(`images/${userInfo ? userInfo.netid : ''}`).then((url: string) => {
-      setProfilePhoto(url);
-    });
+    let active = true;
+    ImagesAPI.getImage(`images/${userInfo ? userInfo.netid : ''}`)
+      .then((url: string) => {
+        if (active) setProfilePhoto(url);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (active && userInfo) setPhotoLoading(false);
+      });
+    return () => {
+      active = false;
+    };
   }, [userInfo]);
 
   /**
@@ -247,6 +259,7 @@ export default function useProfileEditor() {
     open,
     setOpen,
     profilePhoto,
+    photoLoading,
     setProfilePhoto,
     setEditorRef,
     savingPhoto,

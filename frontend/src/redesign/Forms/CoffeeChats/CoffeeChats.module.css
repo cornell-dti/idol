@@ -117,10 +117,64 @@
 .yellow {
   color: #a18015;
 }
-.rejected_section,
-.archived_chats_section {
+.historySection {
   display: grid;
   gap: 16px;
+  min-width: 0;
+}
+.historySection h2 {
+  margin: 0;
+}
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+}
+.page .empty h3 {
+  margin: 0;
+  font: var(--idol-type-heading-3);
+}
+.empty p {
+  margin: 0;
+  color: var(--idol-fg-dimmer);
+}
+.chatFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
+  margin: 0;
+}
+.chatFacts > div {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 6px;
+  min-width: 0;
+}
+.chatFacts dt {
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-label-small);
+}
+.chatFacts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.chatFactWide {
+  grid-column: 1 / -1;
+}
+.slackLink.slackLink {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  color: var(--idol-accent-default);
+  font: var(--idol-type-label-default);
+}
+.footerStart {
+  margin-inline-end: auto;
 }
 .historyCards {
   display: grid;
@@ -146,6 +200,9 @@
   }
   .historyCards {
     grid-template-columns: 1fr;
+  }
+  .chatFacts {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 @media (prefers-reduced-motion: reduce) {

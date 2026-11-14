@@ -40,3 +40,10 @@
   display: grid;
   place-items: center;
 }
+.avatar .skeleton {
+  /* Same shimmer as the homepage skeletons; the stronger base keeps it visible on dark cards. */
+  --idol-skeleton-base: color-mix(in srgb, var(--idol-bg-dimmer), var(--idol-fg-default) 7%);
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}

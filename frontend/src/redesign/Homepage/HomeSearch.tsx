@@ -49,10 +49,12 @@ export default function HomeSearch({
   const { theme, accent } = useDesignSystemAppearance();
   const anchor = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
+  const popup = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [recentPages, setRecentPages] = useState<RecentPage[]>([]);
   const [modifier, setModifier] = useState('⌘');
+  const [narrow, setNarrow] = useState(false);
   const inPanel = placement !== 'home';
   const [collapsedWidth, setCollapsedWidth] = useState(0);
   const [wide, setWide] = useState<{ left: number; right: number; width: number } | null>(null);
@@ -81,6 +83,41 @@ export default function HomeSearch({
 
   useEffect(() => {
     if (!/Mac|iPhone|iPad/i.test(window.navigator.platform)) setModifier('Ctrl');
+    const media = window.matchMedia(mobileQuery);
+    const update = () => setNarrow(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  // A press outside an open search only dismisses it; it must not also activate whatever is
+  // underneath (a shortcut card, a link). Listening on window in the capture phase runs before
+  // Base UI's document listeners, so on touch (where Base UI closes on click) we close it here.
+  const openRef = useRef(open);
+  openRef.current = open;
+  useEffect(() => {
+    let swallow = false;
+    const inside = (target: EventTarget | null) =>
+      target instanceof Node &&
+      Boolean(anchor.current?.contains(target) || popup.current?.contains(target));
+    const onPointerDown = (event: PointerEvent) => {
+      swallow = openRef.current && !inside(event.target);
+    };
+    const onClick = (event: MouseEvent) => {
+      const outside = (swallow || openRef.current) && !inside(event.target);
+      swallow = false;
+      if (!outside) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (openRef.current) setOpen(false);
+      if (document.activeElement === input.current) input.current?.blur();
+    };
+    window.addEventListener('pointerdown', onPointerDown, true);
+    window.addEventListener('click', onClick, true);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown, true);
+      window.removeEventListener('click', onClick, true);
+    };
   }, []);
 
   useEffect(() => {
@@ -119,6 +156,8 @@ export default function HomeSearch({
   const idleItems = recent.length ? recent : commonActions;
   const items = hasQuery ? searchPages(query, canAdmin, recent) : idleItems;
   const searchLabel = inPanel ? 'Search pages and actions' : 'Search or find common actions';
+  // The full homepage prompt gets cut off on phones.
+  const homePlaceholder = narrow ? 'Search or find actions' : searchLabel;
   // Shell lip in px, matching the CSS --search-lip (1px border + 3px padding, like a layered
   // Card). The expanded field grows outward by this much so its contents stay put.
   const lip = 4;
@@ -142,7 +181,7 @@ export default function HomeSearch({
         className={styles.panelInput}
         aria-label={searchLabel}
         aria-keyshortcuts={keyboardShortcut ? 'Meta+K Control+K' : undefined}
-        placeholder={inPanel ? 'Search' : searchLabel}
+        placeholder={inPanel ? 'Search' : homePlaceholder}
         onFocus={showSearch}
         onKeyDown={(event) => {
           // Esc leaves the search entirely, not just the results list.
@@ -204,6 +243,9 @@ export default function HomeSearch({
           anchor={anchor}
           align={placement === 'header' ? 'end' : 'start'}
           sideOffset={lip - tuck}
+          // The results are one surface with the field, so they always open below it, even when
+          // the on-screen keyboard leaves more room above.
+          collisionAvoidance={{ side: 'none' }}
           alignOffset={wide ? -wide.right : -lip}
           // The lip pushes the shell to within 5px of the viewport in the sidebar; the default
           // collision padding would then nudge the results 1px off the field above them.
@@ -214,6 +256,7 @@ export default function HomeSearch({
           style={{ '--collapsed-width': `${collapsedWidth}px`, ...wideVars } as CSSProperties}
         >
           <Combobox.Popup
+            ref={popup}
             className={`${styles.panel} ${sizeClass}`}
             data-search-surface={placement}
             data-wide={wideAttr}

@@ -1,6 +1,6 @@
 import { PointerEvent, useEffect, useRef, useState } from 'react';
-import { Button, useToast } from '../../design-system-2026/components';
-import { ArrowsVerticalIcon, CheckIcon } from '../../design-system-2026/icons';
+import { Button, IconButton, useToast } from '../../design-system-2026/components';
+import { ArrowsVerticalIcon, CheckIcon, DotsThreeIcon } from '../../design-system-2026/icons';
 import CoverEditor from './CoverEditor';
 import { clampCoverPosition, defaultCover, defaultCoverPosition, presetCovers } from './covers';
 import useCoverPreferences from './useCoverPreferences';
@@ -10,6 +10,9 @@ export default function HomepageCover({ storageKey }: { storageKey: string }): J
   const toast = useToast();
   const { preferences, saveCover } = useCoverPreferences(storageKey);
   const [draftPosition, setDraftPosition] = useState<number | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const controls = useRef<HTMLDivElement>(null);
+  const more = useRef<HTMLElement>(null);
   const photo = useRef<HTMLImageElement>(null);
   const dragArea = useRef<HTMLDivElement>(null);
   const action = useRef<HTMLElement>(null);
@@ -25,10 +28,35 @@ export default function HomepageCover({ storageKey }: { storageKey: string }): J
     if (repositioning) dragArea.current?.focus({ preventScroll: true });
   }, [repositioning]);
 
+  // A tap anywhere else folds the phone menu back up. Taps inside the cover dialog don't count.
+  useEffect(() => {
+    if (!menuOpen || repositioning) return undefined;
+    const close = (event: globalThis.PointerEvent) => {
+      const target = event.target as Element | null;
+      if (controls.current?.contains(target) || target?.closest('[role="dialog"]')) return;
+      setMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', close);
+    return () => document.removeEventListener('pointerdown', close);
+  }, [menuOpen, repositioning]);
+
+  const openMenu = () => {
+    setMenuOpen(true);
+    requestAnimationFrame(() => {
+      const first = controls.current?.querySelector<HTMLElement>(`.${styles.coverActions} button`);
+      first?.focus({ preventScroll: true });
+    });
+  };
+
   const stopRepositioning = () => {
     drag.current = null;
     setDraftPosition(null);
-    action.current?.focus({ preventScroll: true });
+    setMenuOpen(false);
+    // On phones the actions fold away again, so focus goes back to the menu button.
+    requestAnimationFrame(() => {
+      const visibleMore = more.current?.offsetParent ? more.current : null;
+      (visibleMore ?? action.current)?.focus({ preventScroll: true });
+    });
   };
 
   const savePosition = () => {
@@ -126,22 +154,43 @@ export default function HomepageCover({ storageKey }: { storageKey: string }): J
           }}
         />
       )}
-      <div className={styles.coverControls} data-repositioning={repositioning || undefined}>
-        {repositioning ? (
-          <Button variant="secondary" onClick={stopRepositioning}>
-            Cancel
+      <div
+        ref={controls}
+        className={styles.coverControls}
+        data-repositioning={repositioning || undefined}
+        data-menu-open={menuOpen || undefined}
+        onKeyDown={(event) => {
+          if (event.key !== 'Escape' || !menuOpen || repositioning) return;
+          setMenuOpen(false);
+          requestAnimationFrame(() => more.current?.focus({ preventScroll: true }));
+        }}
+      >
+        {/* On phones the actions sit behind this button so the cover stays clean. */}
+        <IconButton
+          ref={more}
+          className={styles.coverMore}
+          aria-label="Cover options"
+          aria-expanded={menuOpen}
+          icon={<DotsThreeIcon size={20} />}
+          onClick={openMenu}
+        />
+        <div className={styles.coverActions}>
+          {repositioning ? (
+            <Button variant="secondary" onClick={stopRepositioning}>
+              Cancel
+            </Button>
+          ) : (
+            <CoverEditor value={preferences} onSave={saveCover} disabled={false} />
+          )}
+          <Button
+            ref={action}
+            variant={repositioning ? 'primary' : 'secondary'}
+            icon={repositioning ? <CheckIcon size={16} /> : <ArrowsVerticalIcon size={16} />}
+            onClick={repositioning ? savePosition : () => setDraftPosition(savedPosition)}
+          >
+            {repositioning ? 'Save' : 'Reposition'}
           </Button>
-        ) : (
-          <CoverEditor value={preferences} onSave={saveCover} disabled={false} />
-        )}
-        <Button
-          ref={action}
-          variant={repositioning ? 'primary' : 'secondary'}
-          icon={repositioning ? <CheckIcon size={16} /> : <ArrowsVerticalIcon size={16} />}
-          onClick={repositioning ? savePosition : () => setDraftPosition(savedPosition)}
-        >
-          {repositioning ? 'Save' : 'Reposition'}
-        </Button>
+        </div>
       </div>
     </>
   );
