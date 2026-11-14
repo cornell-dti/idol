@@ -5,11 +5,23 @@ type Props = { readonly containerRef: RefObject<HTMLDivElement> };
 type Point = { x: number; y: number };
 
 // Uneven overlapping contours, rather than a circular cutout around the cursor.
-const contours = [
+const shapes = [
   [430, 330, 285, 215],
   [345, 275, 205, 170],
   [535, 385, 215, 150]
-].map(([cx, cy, rx, ry], layer) =>
+];
+// Like water, the light is dragged along by the pointer's motion rather than following it.
+// `share` is how much of the recent movement a layer picks up, `lag` how slowly it responds (ms).
+// Different values per layer let the blobs separate and swirl past each other.
+const wake = [
+  { share: 0.22, lag: 650 },
+  { share: 0.34, lag: 480 },
+  { share: 0.14, lag: 900 }
+];
+const maxDrift = 120;
+/** How long the pointer's recent movement keeps dragging the light (ms). */
+const flowMemory = 700;
+const contours = shapes.map(([cx, cy, rx, ry], layer) =>
   Array.from({ length: 16 }, (_, index) => {
     const angle = (index / 16) * Math.PI * 2;
     const ripple = 1 + Math.sin(angle * 3 + layer * 2) * 0.12 + Math.cos(angle * 5 + layer) * 0.06;
@@ -40,6 +52,9 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
     const anchor = element.firstElementChild as HTMLDivElement;
     const lobes = Array.from(element.querySelectorAll<SVGPathElement>('path'));
     let current = contours.map((points) => points.map((point) => ({ ...point })));
+    let drift = contours.map(() => ({ x: 0, y: 0 }));
+    let flow = { x: 0, y: 0 };
+    let previous: Point | null = null;
     let pointer: Point | null = null;
     let phase = 0;
     let lastTime = 0;
@@ -51,17 +66,37 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
       const px = pointer ? ((pointer.x - bounds.left) / Math.max(bounds.width, 1)) * 860 : 0;
       const py = pointer ? ((pointer.y - bounds.top) / Math.max(bounds.height, 1)) * 660 : 0;
       let settling = false;
+      // Recent pointer movement, fading out over flowMemory: the current that drags the light.
+      if (pointer && previous) {
+        flow.x += px - previous.x;
+        flow.y += py - previous.y;
+      }
+      previous = pointer ? { x: px, y: py } : null;
+      const fade = Math.exp(-dt / flowMemory);
+      flow.x *= fade;
+      flow.y *= fade;
+      if (Math.abs(flow.x) + Math.abs(flow.y) > 0.05) settling = true;
+      const clamp = (value: number) => Math.max(-maxDrift, Math.min(maxDrift, value));
       lobes.forEach((lobe, layer) => {
-        // Each layer has a different drag; deformation lingers after the pointer passes.
-        const ease = 1 - Math.exp(-dt / (280 + layer * 100));
+        // Each layer is carried a little way along the current, at its own share and lag.
+        const { share, lag } = wake[layer];
+        const driftX = clamp(flow.x * share);
+        const driftY = clamp(flow.y * share);
+        const offset = drift[layer];
+        const glide = 1 - Math.exp(-dt / lag);
+        offset.x += (driftX - offset.x) * glide;
+        offset.y += (driftY - offset.y) * glide;
+        if (Math.abs(driftX - offset.x) + Math.abs(driftY - offset.y) > 0.05) settling = true;
+        // Edges part slowly around the pointer and close again slowly behind it.
+        const ease = 1 - Math.exp(-dt / (420 + layer * 160));
         contours[layer].forEach((point, index) => {
-          const dx = point.x - px;
-          const dy = point.y - py;
+          const dx = point.x + offset.x - px;
+          const dy = point.y + offset.y - py;
           const distance = Math.hypot(dx, dy);
-          const influence = pointer ? Math.exp(-((distance / 215) ** 2)) : 0;
+          const influence = pointer ? Math.exp(-((distance / 240) ** 2)) : 0;
           const variation = Math.sin(index * 1.7 + layer * 2.3 + phase + px * 0.004 + py * 0.003);
-          const push = influence * (40 + variation * 12);
-          const curl = influence * (25 + variation * 15) * (layer === 1 ? -1 : 1);
+          const push = influence * (110 + variation * 30);
+          const curl = influence * (40 + variation * 20) * (layer === 1 ? -1 : 1);
           // Tangential movement lets edges flow past the cursor asymmetrically.
           // The softened denominator avoids sudden direction changes at a control point.
           const divisor = Math.sqrt(distance * distance + 3600);
@@ -73,6 +108,7 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
           if (Math.abs(targetX - vertex.x) + Math.abs(targetY - vertex.y) > 0.05) settling = true;
         });
         lobe.setAttribute('d', outline(current[layer]));
+        lobe.setAttribute('transform', `translate(${offset.x} ${offset.y})`);
       });
       if (settling) frame = window.requestAnimationFrame(paint);
       else lastTime = 0;
@@ -102,7 +138,13 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
       pointer = null;
       lastTime = 0;
       current = contours.map((points) => points.map((point) => ({ ...point })));
-      lobes.forEach((lobe, index) => lobe.setAttribute('d', outline(contours[index])));
+      drift = contours.map(() => ({ x: 0, y: 0 }));
+      flow = { x: 0, y: 0 };
+      previous = null;
+      lobes.forEach((lobe, index) => {
+        lobe.setAttribute('d', outline(contours[index]));
+        lobe.removeAttribute('transform');
+      });
       if (!motion.matches) {
         delete element.dataset.motion;
         return;
