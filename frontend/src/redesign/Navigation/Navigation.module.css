@@ -282,7 +282,7 @@
 }
 .gridWrap > .editGrid {
   margin: 0;
-  padding: 0 0 8px;
+  padding: 0;
   overflow: visible;
 }
 .navbarSlot:empty,
@@ -363,9 +363,16 @@ button.page:hover {
   border-radius: 14px;
   background: var(--idol-bg-dimmer);
 }
+.editor {
+  position: relative;
+}
 .editStatus {
-  /* Tucked under the "Edit navbar" heading, in space that is always reserved. */
-  margin: -16px 0 12px;
+  /* Overlaid in the gap under the heading, so editing keeps the sheet the same height. */
+  position: absolute;
+  top: -21px;
+  left: 0;
+  right: 0;
+  margin: 0;
   color: var(--idol-fg-dimmer);
   font: var(--idol-type-body-small);
   flex-shrink: 0;

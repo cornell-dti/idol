@@ -150,7 +150,7 @@
     "title": "More help",
     "beforeLink": "Still stuck? Get some more help by visiting the ",
     "linkLabel": "#idol-support",
-    "href": "https://cornelldti.slack.com/channels/idol-support",
+    "href": "https://cornelldti.slack.com/app_redirect?channel=idol-support",
     "afterLink": " channel on Slack. Include what you were trying to do and a screenshot if something looks wrong."
   }
 }

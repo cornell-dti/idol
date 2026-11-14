@@ -20,15 +20,19 @@ export const canSubmit = (portfolio: DevPortfolioInfo, now = Date.now()): boolea
 
 export const cleanLinks = (links: readonly string[]): string[] =>
   links.map((link) => link.trim()).filter(Boolean);
-function isGithubLink(value: string, repository = false): boolean {
+/**
+ * Accepts the same links as the backend and the classic form: any github.com PR URL (including
+ * /files or /commits tabs, www., http, or no protocol). Repositories must be /owner/repository.
+ */
+export function isGithubLink(value: string, repository = false): boolean {
   try {
-    const url = new URL(value);
+    const url = new URL(/^[a-z][a-z\d+.-]*:\/\//i.test(value) ? value : `https://${value}`);
     return (
-      url.protocol === 'https:' &&
-      url.hostname === 'github.com' &&
+      ['https:', 'http:'].includes(url.protocol) &&
+      ['github.com', 'www.github.com'].includes(url.hostname.toLowerCase()) &&
       !url.username &&
       !url.password &&
-      (repository ? /^\/[\w.-]+\/[\w.-]+\/?$/ : /^\/[\w.-]+\/[\w.-]+\/pull\/\d+\/?$/).test(
+      (repository ? /^\/[\w.-]+\/[\w.-]+\/?$/ : /^\/[\w.-]+\/[\w.-]+\/pull\/\d+(?:\/.*)?$/).test(
         url.pathname
       )
     );
@@ -68,7 +72,7 @@ export function validateDraft(
     opened.some((link) => !isGithubLink(link, draft.submitRepo)) ||
     [...reviewed, ...other].some((link) => !isGithubLink(link))
   )
-    return 'Use valid HTTPS GitHub links. Pull requests must end in /pull/123; repositories must use /owner/repository.';
+    return 'Use valid GitHub links. Pull requests look like github.com/owner/repo/pull/123; repositories look like github.com/owner/repository.';
   if (!draft.documentation.trim())
     return 'Describe or link to the documentation or tests you added.';
   if (role !== 'dev-advisor' && other.length && !draft.explanation.trim())

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { LEAD_ROLES, ADVISOR_ROLES } from 'common-types/constants';
 import { Button, Card, Input, IconButton, Pill } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
-import { PlusIcon, TrashIcon } from '../../../design-system-2026/icons';
+import { PaperPlaneTiltIcon, PlusIcon, TrashIcon } from '../../../design-system-2026/icons';
 import {
   calculateCredits,
   Emitters,
@@ -449,7 +449,7 @@ const TeamEventCreditForm: React.FC = () => {
                 <Button
                   type="submit"
                   disabled={busy || isAttendanceLoading}
-                  icon={<PlusIcon size={16} />}
+                  icon={<PaperPlaneTiltIcon size={16} />}
                 >
                   {busy ? 'Submitting…' : 'Submit TEC'}
                 </Button>

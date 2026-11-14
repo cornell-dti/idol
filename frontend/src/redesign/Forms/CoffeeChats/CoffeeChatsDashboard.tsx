@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import { Button, Card, Link } from '../../../design-system-2026/components';
+import { Card, Link, Tabs } from '../../../design-system-2026/components';
+import { ClockCounterClockwiseIcon, XCircleIcon } from '../../../design-system-2026/icons';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
@@ -32,8 +33,7 @@ const CoffeeChatsDashboard = ({
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [openRejected, setOpenRejected] = useState(false);
-  const [openArchived, setOpenArchived] = useState(false);
+  const [historyTab, setHistoryTab] = useState('previous');
   const [bingoCount, setBingoCount] = useState(0);
 
   const allChats = useMemo(
@@ -161,44 +161,60 @@ const CoffeeChatsDashboard = ({
         approvedArchivedChats={[...approvedArchivedChats]}
       />
 
-      <div className={styles.rejected_section}>
-        <Button
-          variant="secondary"
-          aria-expanded={openRejected}
-          onClick={() => setOpenRejected((prev) => !prev)}
-        >
-          Show Previously Rejected Chats
-        </Button>
-        {openRejected &&
-          (previouslyRejectedChats.length > 0 ? (
-            <RejectedChatsDisplay coffeeChats={previouslyRejectedChats} />
-          ) : (
-            <div className={styles.rejected_display}>
-              You don't have any previously rejected chats.
-            </div>
-          ))}
-      </div>
-
-      <br></br>
-
-      <div className={styles.archived_chats_section}>
-        <Button
-          variant="secondary"
-          aria-expanded={openArchived}
-          onClick={() => setOpenArchived((prev) => !prev)}
-        >
-          Previous Coffee Chats
-        </Button>
-        {openArchived &&
-          (approvedArchivedChats.length > 0 ? (
-            <ArchivedChatsDisplay coffeeChats={approvedArchivedChats} />
-          ) : (
-            <div className={styles.archived_display}>You don't have any previous chats.</div>
-          ))}
-      </div>
+      <section className={styles.historySection} aria-labelledby="coffee-chat-history">
+        <h2 id="coffee-chat-history" className="idol-heading-2">
+          History
+        </h2>
+        <Tabs
+          id="coffee-chat-history-tabs"
+          label="Coffee chat history"
+          value={historyTab}
+          onValueChange={setHistoryTab}
+          items={[
+            {
+              value: 'previous',
+              label: 'Previous chats',
+              icon: <ClockCounterClockwiseIcon size={16} />,
+              content:
+                approvedArchivedChats.length > 0 ? (
+                  <ChatHistory coffeeChats={approvedArchivedChats} />
+                ) : (
+                  <HistoryEmpty
+                    title="No previous chats yet"
+                    description="Approved chats from past semesters will appear here."
+                  />
+                )
+            },
+            {
+              value: 'rejected',
+              label: 'Rejected chats',
+              icon: <XCircleIcon size={16} />,
+              content:
+                previouslyRejectedChats.length > 0 ? (
+                  <ChatHistory coffeeChats={previouslyRejectedChats} />
+                ) : (
+                  <HistoryEmpty
+                    title="No rejected chats"
+                    description="Chats that were rejected and later replaced will appear here."
+                  />
+                )
+            }
+          ]}
+        />
+      </section>
     </>
   );
 };
+
+// Matches the empty states on Shoutouts, Alumni, and Dev Portfolio.
+const HistoryEmpty = ({ title, description }: { title: string; description: string }) => (
+  <Card>
+    <div className={styles.empty} role="status">
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
+  </Card>
+);
 
 const ChatHistory = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => (
   <div className={styles.historyCards}>
@@ -216,6 +232,4 @@ const ChatHistory = ({ coffeeChats }: { coffeeChats: CoffeeChat[] }) => (
     ))}
   </div>
 );
-const RejectedChatsDisplay = ChatHistory;
-const ArchivedChatsDisplay = ChatHistory;
 export default CoffeeChatsDashboard;

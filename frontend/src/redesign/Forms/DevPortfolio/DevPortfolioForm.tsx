@@ -16,7 +16,14 @@ import {
   useToast
 } from '../../../design-system-2026/components';
 import { Combobox } from '../../../design-system-2026/components/Combobox/Combobox';
-import { PlusIcon, TrashIcon, MagnifyingGlassIcon } from '../../../design-system-2026/icons';
+import {
+  EyeIcon,
+  MagnifyingGlassIcon,
+  PaperPlaneTiltIcon,
+  PencilSimpleLineIcon,
+  PlusIcon,
+  TrashIcon
+} from '../../../design-system-2026/icons';
 import { AssignmentStatus, DeadlineSummary, PageState } from './PortfolioParts';
 import {
   assignmentState,
@@ -205,7 +212,6 @@ export default function DevPortfolioForm(): JSX.Element {
       </Head>
       <header className={styles.header}>
         <h1 className="idol-heading-1">Dev Portfolio</h1>
-        <p>Share the work you’ve opened, reviewed, and documented.</p>
       </header>
       {loading && <PageState title="Loading assignments…" loading />}
       {!loading && loadError && (
@@ -325,7 +331,7 @@ export default function DevPortfolioForm(): JSX.Element {
                     <Button
                       type="submit"
                       disabled={busy || !portfolio || !canSubmit(portfolio)}
-                      icon={<PlusIcon size={16} />}
+                      icon={<EyeIcon size={16} />}
                     >
                       Review submission
                     </Button>
@@ -436,25 +442,46 @@ export default function DevPortfolioForm(): JSX.Element {
         description="Your latest submission replaces previous submissions for grading."
         footer={
           <>
-            <Button variant="secondary" disabled={busy} onClick={() => setReview(false)}>
+            <Button
+              variant="secondary"
+              disabled={busy}
+              icon={<PencilSimpleLineIcon size={16} />}
+              onClick={() => setReview(false)}
+            >
               Keep editing
             </Button>
-            <Button disabled={busy} onClick={submit}>
+            <Button disabled={busy} icon={<PaperPlaneTiltIcon size={16} />} onClick={submit}>
               {busy ? 'Submitting…' : 'Submit assignment'}
             </Button>
           </>
         }
       >
-        <div className={styles.modalContent}>
-          <p>Check that this submission includes all the work you want reviewed.</p>
-          <p>
-            {cleanLinks(draft.opened).length} opened {draft.submitRepo ? 'repositories' : 'PRs'} ·{' '}
-            {cleanLinks(draft.reviewed).length} reviewed PRs · {cleanLinks(draft.other).length}{' '}
-            other PRs
-          </p>
-          <h3>Documentation or testing</h3>
-          <p className={styles.documentation}>{draft.documentation}</p>
-          {portfolio && <DeadlineSummary portfolio={portfolio} />}
+        <div className={styles.reviewContent}>
+          <dl className={styles.reviewCounts}>
+            <div>
+              <dt>Opened {draft.submitRepo ? 'repositories' : 'PRs'}</dt>
+              <dd>{cleanLinks(draft.opened).length}</dd>
+            </div>
+            <div>
+              <dt>Reviewed PRs</dt>
+              <dd>{cleanLinks(draft.reviewed).length}</dd>
+            </div>
+            <div>
+              <dt>Other PRs</dt>
+              <dd>{cleanLinks(draft.other).length}</dd>
+            </div>
+          </dl>
+          <section className={styles.reviewSection} aria-labelledby="portfolio-review-docs">
+            <h3 id="portfolio-review-docs">Documentation or testing</h3>
+            <p className={`${styles.documentation} ${styles.reviewDocumentation}`}>
+              {draft.documentation}
+            </p>
+          </section>
+          {portfolio && (
+            <div className={styles.dateCards}>
+              <DeadlineSummary portfolio={portfolio} />
+            </div>
+          )}
         </div>
       </Modal>
     </div>

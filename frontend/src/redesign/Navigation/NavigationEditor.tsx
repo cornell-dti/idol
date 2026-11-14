@@ -23,6 +23,7 @@ export default function NavigationEditor({
   selected,
   onSave,
   onCancel,
+  onDraftChange,
   actionsSlot,
   navbarSlot
 }: {
@@ -30,12 +31,17 @@ export default function NavigationEditor({
   selected: string[];
   onSave: (ids: string[]) => void;
   onCancel: () => void;
+  /** Reports every draft change, so closing the sheet mid-edit can save it. */
+  onDraftChange?: (ids: string[]) => void;
   /** Where Cancel/Save render (the sheet header's top-right); inline when absent. */
   actionsSlot?: HTMLElement | null;
   /** The real bottom bar: editing happens on it directly instead of on a preview copy. */
   navbarSlot?: HTMLElement | null;
 }): JSX.Element {
   const [draft, setDraft] = useState(selected);
+  useEffect(() => {
+    onDraftChange?.(draft);
+  }, [draft, onDraftChange]);
   const [announcement, setAnnouncement] = useState('');
   const grid = useRef<HTMLDivElement>(null);
   const navbar = useRef<HTMLDivElement>(null);

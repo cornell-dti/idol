@@ -1,0 +1,23 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--idol-accent-default) 24%, transparent);
+  background: color-mix(in srgb, var(--idol-accent-default) 10%, var(--idol-bg-default));
+  color: var(--idol-fg-default);
+  font: var(--idol-type-body-small);
+  text-align: center;
+}
+.banner svg {
+  flex-shrink: 0;
+  color: var(--idol-accent-default);
+}
+.banner p {
+  font: inherit;
+  margin: 0;
+}
+.banner strong {
+  font-weight: 600;
+}

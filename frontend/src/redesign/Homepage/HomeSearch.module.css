@@ -52,6 +52,12 @@
   flex-shrink: 0;
   pointer-events: none;
 }
+/* ⌘K and Esc mean nothing without a hardware keyboard. */
+@media (max-width: 640px), (hover: none) and (pointer: coarse) {
+  .keyHints {
+    display: none;
+  }
+}
 /* Stack both hints in one cell; the slot sizes to the wider one so nothing shifts. */
 .keyHints > * {
   grid-area: 1 / 1;
@@ -343,24 +349,44 @@
 .sizeHome.panel {
   max-height: min(440px, var(--available-height));
 }
-/* Unroll from the field's resting width and grow with the shell. */
-.panel[data-starting-style],
-.panel[data-ending-style] {
-  clip-path: inset(
+/* Panels that grow sideways are clipped flush, so their edge moves exactly with the shell's. */
+.panel:not([data-search-surface='home']) {
+  clip-path: inset(-120px 0 -8px);
+}
+/* The resting field's box: the results unroll from here and grow with the shell. */
+.panel {
+  --panel-rest-clip: inset(
     0 calc(100% - var(--search-lip) - var(--collapsed-width)) 100% var(--search-lip)
   );
-  /* Start in the resting field's colour, like the shell does. */
-  background-color: var(--idol-bg-default);
 }
-.panel[data-search-surface='header'][data-starting-style],
-.panel[data-search-surface='header'][data-ending-style] {
-  clip-path: inset(
+.panel[data-search-surface='header'] {
+  --panel-rest-clip: inset(
     0 var(--search-lip) 100% calc(100% - var(--search-lip) - var(--collapsed-width))
   );
 }
-.panel[data-search-surface='header'][data-wide][data-starting-style],
-.panel[data-search-surface='header'][data-wide][data-ending-style] {
-  clip-path: inset(0 var(--grow-right) 100% var(--grow-left));
+.panel[data-search-surface='header'][data-wide] {
+  --panel-rest-clip: inset(0 var(--grow-right) 100% var(--grow-left));
+}
+/*
+ * Opening uses a keyframe animation, which starts the moment the popup mounts, in the same frame
+ * as the shell's transition and the outline's animation. A transition from data-starting-style
+ * would only begin a frame or two later, so the results visibly trailed the field.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .panel[data-open] {
+    animation: search-panel-in var(--search-duration) var(--search-ease);
+  }
+}
+@keyframes search-panel-in {
+  from {
+    clip-path: var(--panel-rest-clip);
+    /* Start in the resting field's colour, like the shell does. */
+    background-color: var(--idol-bg-default);
+  }
+}
+.panel[data-ending-style] {
+  clip-path: var(--panel-rest-clip);
+  background-color: var(--idol-bg-default);
 }
 .panelResults {
   min-height: 0;

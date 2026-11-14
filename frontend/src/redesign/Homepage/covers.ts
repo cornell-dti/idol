@@ -20,21 +20,24 @@ const responsiveCover = (id: string, name: string): Cover => {
   return { ...cover, srcSet: `${coverDirectory}/medium/${id}.webp 1280w, ${cover.src} 2560w` };
 };
 
-export const defaultCover = presetCover('idol-work-session', 'IDOL work sesh');
+export const defaultCover = responsiveCover('eureka', 'Eureka!');
 export const presetCovers: Cover[] = [
-  responsiveCover('all-members', 'All members'),
-  presetCover('info-session', 'Info sesh'),
-  presetCover('trends-course', 'Trends course'),
   defaultCover,
+  responsiveCover('idol-work-session', 'IDOL work sesh'),
+  responsiveCover('idol', 'IDOL'),
+  responsiveCover('courseplan-work-session', 'CoursePlan work sesh'),
+  responsiveCover('curaise-work-session', 'CU Raise work sesh'),
+  responsiveCover('cuapts', 'CU Apts'),
+  responsiveCover('business', 'Business'),
   responsiveCover('pms', 'PMs'),
   responsiveCover('tpms', 'TPMs'),
   responsiveCover('designers', 'Designers'),
   responsiveCover('developers', 'Developers'),
-  responsiveCover('business', 'Business'),
   responsiveCover('cornellgo', 'CornellGo'),
-  responsiveCover('cuapts', 'CU Apts'),
   responsiveCover('curaise', 'CU Raise'),
-  responsiveCover('idol', 'IDOL')
+  responsiveCover('all-members', 'All members'),
+  presetCover('info-session', 'Info sesh'),
+  presetCover('trends-course', 'Trends course')
 ];
 
 export const coverThumbnail = (cover: Cover): string =>

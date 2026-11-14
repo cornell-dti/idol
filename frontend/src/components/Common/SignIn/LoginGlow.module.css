@@ -22,10 +22,18 @@
   width: 100%;
   height: 100%;
   overflow: visible;
+  /*
+   * Blur the whole SVG, not each path: Safari ignores CSS filters on SVG child elements, which
+   * left the lobes as hard-edged shapes there. All lobes share one blur, so the result matches.
+   */
+  filter: blur(38px);
 }
 .lobe {
   fill: var(--idol-accent-default);
-  filter: blur(38px);
+}
+/* Hidden until the page picks this load's random shape, so the neutral one never flashes. */
+.glow:not([data-ready]) .field {
+  visibility: hidden;
 }
 @media (prefers-reduced-motion: no-preference) {
   .glow[data-motion='enabled'] .bloom {
