@@ -381,7 +381,6 @@ export default function CoffeeChatsBoard3D({
         </div>
       </div>
       <div className={styles.controls}>
-        <p className={styles.hint}>Drag the edges to spin. Grab again to stop.</p>
         <Button
           variant="secondary"
           icon={<ArrowCounterClockwise size={18} />}

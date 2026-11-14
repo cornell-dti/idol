@@ -161,7 +161,10 @@ const InterviewScheduler: React.FC<{ uuid: string }> = ({ uuid }) => {
               <div className={styles.headerContainer}>
                 <div>
                   <Header as="h2">{scheduler.name}</Header>
-                  <p>{`${getDateString(scheduler.startDate, false)} - ${getDateString(scheduler.endDate, false)}`}</p>
+                  <p>{`${getDateString(scheduler.startDate, false)} - ${getDateString(
+                    scheduler.endDate,
+                    false
+                  )}`}</p>
                   <p>
                     Hover over to review time slots. Click to show more information, sign up, or
                     cancel.

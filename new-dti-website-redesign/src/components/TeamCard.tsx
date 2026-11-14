@@ -162,7 +162,9 @@ export const MemberDetailsCard = ({
 
       <div className={`${baseStyles} justify-between`}>
         <div
-          className={`flex flex-col gap-8 ${showImage ? 'p-4 md:p-8 md:pt-8' : 'p-4 pt-4 md:p-8 md:pt-8'}`}
+          className={`flex flex-col gap-8 ${
+            showImage ? 'p-4 md:p-8 md:pt-8' : 'p-4 pt-4 md:p-8 md:pt-8'
+          }`}
         >
           <div className="flex gap-8">
             <div className="w-1/2">

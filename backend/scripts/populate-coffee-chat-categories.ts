@@ -122,7 +122,9 @@ const main = async () => {
     throw new Error(
       `Category names do not match the form. In the form only: ${missingFromDatabase.join(
         '; '
-      )}. In the database only: ${missingFromResponses.map((category) => category.name).join('; ')}.`
+      )}. In the database only: ${missingFromResponses
+        .map((category) => category.name)
+        .join('; ')}.`
     );
   }
 
