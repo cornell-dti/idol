@@ -50,6 +50,18 @@
   background: var(--idol-bg-default);
   box-shadow: 0 2px 8px #0000000a;
 }
+/* Smaller tiles on phones, where two cards share a row. */
+@media (max-width: 640px) {
+  .iconTile {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+  .iconTile svg {
+    width: 24px;
+    height: 24px;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .card {
     transition: none;
