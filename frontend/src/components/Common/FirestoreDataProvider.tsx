@@ -1,4 +1,3 @@
-import { Modal } from 'semantic-ui-react';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { onSnapshot } from 'firebase/firestore';
 import { LEAD_ROLES } from 'common-types/constants';
@@ -13,6 +12,8 @@ import { Team } from '../../API/TeamsAPI';
 import { isProduction, allowAdmin, environment, allowApplicant } from '../../environment';
 import { MembersAPI } from '../../API/MembersAPI';
 import LoadingScreen from '../../design-system-2026/components/LoadingScreen/LoadingScreen';
+import { Button, Modal } from '../../design-system-2026/components';
+import { SignOutIcon } from '../../design-system-2026/icons';
 
 type ListenedFirestoreData = {
   readonly adminEmails?: readonly string[];
@@ -162,11 +163,19 @@ export default function FirestoreDataProvider({
           {hasIDOLAccess ? loading : <LoadingScreen />}
           {!hasIDOLAccess && (
             <Modal
-              basic
-              open={!hasIDOLAccess}
-              header="Hey there :)"
-              content={errorMessage}
-              actions={[{ key: 'sign-out', content: 'Sign out', onClick: () => auth.signOut() }]}
+              id="idol-access-denied"
+              open
+              onOpenChange={() => {
+                // Members without access can only sign out.
+              }}
+              dismissible={false}
+              title="Hey there :)"
+              description={errorMessage}
+              footer={
+                <Button icon={<SignOutIcon size={16} />} onClick={() => auth.signOut()}>
+                  Sign out
+                </Button>
+              }
             />
           )}
         </div>
