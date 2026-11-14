@@ -276,7 +276,6 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
           >
             {busy ? 'Preparing photo…' : 'Choose photo'}
           </Button>
-          <span className={styles.hint}>Or drop an image here.</span>
         </div>
         {error && (
           <p role="alert" className={styles.error}>
