@@ -162,7 +162,8 @@
   color: var(--idol-on-accent);
 }
 
-:root[data-idol-theme-update] :is([data-idol-redesign], [data-idol-redesign] *) {
+:root:is([data-idol-theme-update], [data-idol-contrast-update])
+  :is([data-idol-redesign], [data-idol-redesign] *) {
   transition: none !important;
 }
 
@@ -179,6 +180,29 @@
  * - Less contrast: every surface blends toward bg-default, so the layers flatten out.
  * The provider sets the two percentages on <html>; both are 0% at the default.
  */
+/*
+ * Registered so they can animate: a contrast change eases both percentages on <html>, and every
+ * surface built from them follows in lockstep. Element transitions are paused meanwhile (see
+ * data-idol-contrast-update above) so nothing lags behind on its own timing.
+ */
+@property --idol-contrast-up {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+@property --idol-contrast-down {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    transition:
+      --idol-contrast-up 200ms ease,
+      --idol-contrast-down 200ms ease;
+  }
+}
+
 [data-idol-redesign] {
   --idol-fg-dimmer: var(--idol-fg-dimmer-base);
   --idol-stroke-black: var(--idol-stroke-black-base);

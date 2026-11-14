@@ -80,12 +80,41 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
     };
   }, []);
   // Contrast is applied on <html> so portals and every nested theme scope pick it up.
+  // Only changes made through setContrast ease in; restoring the saved value on load is instant.
+  const animateContrast = useRef(false);
+  const contrastTimer = useRef<number>();
   useEffect(() => {
-    const { style } = document.documentElement;
+    const root = document.documentElement;
     const offset = (contrast - DEFAULT_CONTRAST) * 1.2;
-    style.setProperty('--idol-contrast-up', `${Math.max(0, offset)}%`);
-    style.setProperty('--idol-contrast-down', `${Math.max(0, -offset)}%`);
+    const apply = () => {
+      root.style.setProperty('--idol-contrast-up', `${Math.max(0, offset)}%`);
+      root.style.setProperty('--idol-contrast-down', `${Math.max(0, -offset)}%`);
+    };
+    if (!animateContrast.current) {
+      root.style.transition = 'none';
+      apply();
+      root.getBoundingClientRect();
+      root.style.removeProperty('transition');
+      return;
+    }
+    animateContrast.current = false;
+    // The two percentages ease on <html> (colors.css). Pause every element's own transitions
+    // meanwhile so all surfaces move together instead of some trailing on their own timing.
+    root.setAttribute('data-idol-contrast-update', '');
+    apply();
+    window.clearTimeout(contrastTimer.current);
+    contrastTimer.current = window.setTimeout(
+      () => root.removeAttribute('data-idol-contrast-update'),
+      250
+    );
   }, [contrast]);
+  useEffect(
+    () => () => {
+      window.clearTimeout(contrastTimer.current);
+      document.documentElement.removeAttribute('data-idol-contrast-update');
+    },
+    []
+  );
   const persist = (nextTheme: ThemePreference, nextAccent: Accent, nextContrast = contrast) => {
     try {
       localStorage.setItem(
@@ -140,6 +169,7 @@ export function AppearanceProvider({ children }: { readonly children: ReactNode 
         setTheme,
         setContrast: (next) => {
           const value = clampContrast(next);
+          animateContrast.current = value !== contrast;
           setContrastState(value);
           persist(theme, accent, value);
         },
