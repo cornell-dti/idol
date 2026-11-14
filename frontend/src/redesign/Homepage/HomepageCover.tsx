@@ -42,12 +42,10 @@ export default function HomepageCover({ storageKey }: { storageKey: string }): J
 
   const openMenu = () => {
     setMenuOpen(true);
-    requestAnimationFrame(
-      () =>
-        controls.current
-          ?.querySelector<HTMLElement>(`.${styles.coverActions} button`)
-          ?.focus({ preventScroll: true })
-    );
+    requestAnimationFrame(() => {
+      const first = controls.current?.querySelector<HTMLElement>(`.${styles.coverActions} button`);
+      first?.focus({ preventScroll: true });
+    });
   };
 
   const stopRepositioning = () => {
