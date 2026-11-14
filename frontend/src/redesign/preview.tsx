@@ -1,7 +1,6 @@
 import { ComponentType, createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { useSelf } from '../components/Common/FirestoreDataProvider';
+import { useHasMemberPermission } from '../components/Common/FirestoreDataProvider';
 
-const PREVIEW_SUBTEAM = 'idol';
 export const PREVIEW_STORAGE_KEY = 'idol:new-ui';
 
 type PreviewToggle = {
@@ -28,11 +27,10 @@ export function readPreviewPreference(): boolean {
 
 /**
  * Lets IDOL switch between the released site and the latest redesign work.
- * Everyone else always sees the released site.
+ * Temporary: all members can toggle for the reveal. Will restore the idol subteam check after.
  */
 export function PreviewProvider({ children }: { readonly children: ReactNode }): JSX.Element {
-  const self = useSelf();
-  const canPreview = self?.subteams.includes(PREVIEW_SUBTEAM) ?? false;
+  const canPreview = useHasMemberPermission();
   const [ready, setReady] = useState(false);
   const [enabled, setEnabledState] = useState(false);
   useEffect(() => {
@@ -65,7 +63,7 @@ export const usePreview = (): boolean => {
 };
 
 /**
- * Renders `NewPage` for idol and `OldPage` for everyone else.
+ * Renders `NewPage` when preview is on and `OldPage` otherwise.
  * To release, replace `previewPage(OldPage, NewPage)` with `NewPage`.
  */
 export function previewPage<P extends object>(
