@@ -21,13 +21,38 @@ const wake = [
 const maxDrift = 120;
 /** How long the pointer's recent movement keeps dragging the light (ms). */
 const flowMemory = 700;
-const contours = shapes.map(([cx, cy, rx, ry], layer) =>
-  Array.from({ length: 16 }, (_, index) => {
-    const angle = (index / 16) * Math.PI * 2;
-    const ripple = 1 + Math.sin(angle * 3 + layer * 2) * 0.12 + Math.cos(angle * 5 + layer) * 0.06;
-    return { x: cx + Math.cos(angle) * rx * ripple, y: cy + Math.sin(angle) * ry * ripple };
-  })
-);
+/**
+ * Builds the three lobes. With Math.random each page load gets its own placement, size, tilt
+ * and edge ripples; with a constant 0.5 it gives the neutral shape used for server rendering.
+ */
+const makeContours = (random: () => number): Point[][] =>
+  shapes.map(([cx, cy, rx, ry], layer) => {
+    const spread = (amount: number) => (random() - 0.5) * 2 * amount;
+    // The main lobe stays near the card; the smaller ones wander further around it.
+    const centerX = cx + spread(layer === 0 ? 50 : 120);
+    const centerY = cy + spread(layer === 0 ? 40 : 90);
+    const width = rx * (0.8 + random() * 0.4);
+    const height = ry * (0.8 + random() * 0.4);
+    const tilt = spread(0.45);
+    const waves = [2 + Math.floor(random() * 3), 4 + Math.floor(random() * 3)];
+    const shifts = [random() * Math.PI * 2, random() * Math.PI * 2];
+    const depths = [0.08 + random() * 0.08, 0.03 + random() * 0.06];
+    return Array.from({ length: 16 }, (_, index) => {
+      const angle = (index / 16) * Math.PI * 2;
+      const ripple =
+        1 +
+        Math.sin(angle * waves[0] + shifts[0]) * depths[0] +
+        Math.cos(angle * waves[1] + shifts[1]) * depths[1];
+      const x = Math.cos(angle) * width * ripple;
+      const y = Math.sin(angle) * height * ripple;
+      return {
+        x: centerX + x * Math.cos(tilt) - y * Math.sin(tilt),
+        y: centerY + x * Math.sin(tilt) + y * Math.cos(tilt)
+      };
+    });
+  });
+const neutralContours = makeContours(() => 0.5);
+const lobeOpacity = [0.095, 0.058, 0.045];
 const outline = (points: Point[]) => {
   const last = points[points.length - 1];
   let path = `M ${(last.x + points[0].x) / 2} ${(last.y + points[0].y) / 2}`;
@@ -44,13 +69,19 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
   useEffect(() => {
     const element = glow.current;
     const container = containerRef.current;
-    if (!element || !container || !window.matchMedia) return undefined;
+    if (!element || !container) return undefined;
+    if (!window.matchMedia) {
+      element.dataset.ready = '';
+      return undefined;
+    }
     const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
     const hover = window.matchMedia('(hover: hover) and (pointer: fine)');
     let frame = 0;
     let attached = false;
     const anchor = element.firstElementChild as HTMLDivElement;
     const lobes = Array.from(element.querySelectorAll<SVGPathElement>('path'));
+    // A fresh shape on every page load, whether or not motion is allowed.
+    const contours = makeContours(Math.random);
     let current = contours.map((points) => points.map((point) => ({ ...point })));
     let drift = contours.map(() => ({ x: 0, y: 0 }));
     let flow = { x: 0, y: 0 };
@@ -145,6 +176,7 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
         lobe.setAttribute('d', outline(contours[index]));
         lobe.removeAttribute('transform');
       });
+      element.dataset.ready = '';
       if (!motion.matches) {
         delete element.dataset.motion;
         return;
@@ -181,12 +213,12 @@ export default function LoginGlow({ containerRef }: Props): JSX.Element {
             preserveAspectRatio="none"
             focusable="false"
           >
-            {contours.map((points, index) => (
+            {neutralContours.map((points, index) => (
               <path
-                key={points[0].x}
+                key={lobeOpacity[index]}
                 className={styles.lobe}
                 d={outline(points)}
-                opacity={[0.095, 0.058, 0.045][index]}
+                opacity={lobeOpacity[index]}
               />
             ))}
           </svg>
