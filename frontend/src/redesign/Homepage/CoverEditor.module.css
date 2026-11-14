@@ -16,6 +16,14 @@
   min-width: 0;
 }
 
+.showMore {
+  margin-top: 16px;
+}
+
+.flip {
+  rotate: 180deg;
+}
+
 .option {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -45,10 +53,17 @@
   object-fit: cover;
   border-radius: 8px;
   background: var(--idol-bg-dimmer);
+  transition: scale 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 .option:hover .thumbnail {
   box-shadow: 0 0 0 1px var(--idol-fg-dimmer);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .option:hover .thumbnail {
+    scale: 1.04;
+  }
 }
 
 .option input:checked + .thumbnail,

@@ -12,7 +12,7 @@ import {
   Sidebar
 } from '../design-system-2026/components';
 import LoadingScreen from '../design-system-2026/components/LoadingScreen/LoadingScreen';
-import { SignOutIcon } from '../design-system-2026/icons';
+import { ClockCounterClockwiseIcon, SignOutIcon } from '../design-system-2026/icons';
 import {
   useHasAdminPermission,
   useHasMemberPermission,
@@ -26,6 +26,7 @@ import { BreadcrumbTitleContext, BreadcrumbTitle } from './BreadcrumbContext';
 import getBreadcrumbs, { breadcrumbRoutes } from './breadcrumbRoutes';
 import memberNavigation, { navigationEntry } from './navigation';
 import HomeSearch from './Homepage/HomeSearch';
+import LegacyBanner from './LegacyBanner';
 import { HomepageSkeleton } from './Homepage/HomepageView';
 import { rememberPage } from './Homepage/recentPages';
 import Navigation from './Navigation/Navigation';
@@ -151,6 +152,9 @@ export default function AppLayout({
   const entry = navigationEntry(router.pathname, size);
   const sections = navigationSections(pathname, size, hasAdminPermission, hasInstance);
   const breadcrumbs = getBreadcrumbs(pathname, router.asPath, detailLabel);
+  // Pages not yet redesigned are the ones still locked to the classic light theme.
+  const legacyPage =
+    !breadcrumbRoutes[pathname]?.supportsDarkTheme && !pathname.startsWith('/design-system');
 
   const profileName = self ? `${self.firstName} ${self.lastName}` : 'Profile';
   const profileEntry = navigationEntry(pathname, 16);
@@ -164,7 +168,14 @@ export default function AppLayout({
           </MenuItem>
         );
       })}
-      {mobile && <MenuItem onClick={() => setEnabled(!enabled)}>Switch to classic UI</MenuItem>}
+      {mobile && (
+        <MenuItem
+          icon={<ClockCounterClockwiseIcon size={16} />}
+          onClick={() => setEnabled(!enabled)}
+        >
+          Switch to classic UI
+        </MenuItem>
+      )}
       <MenuSeparator />
       <MenuItem variant="danger" icon={<SignOutIcon size={16} />} onClick={() => auth.signOut()}>
         Sign Out
@@ -188,7 +199,12 @@ export default function AppLayout({
           )}
         </div>
         <div className={styles.headerActions}>
-          {pathname !== '/' && <HomeSearch pageKey={pagePath} placement="header" compact />}
+          <HomeSearch
+            pageKey={pagePath}
+            placement="header"
+            compact
+            keyboardShortcut={pathname !== '/'}
+          />
           <ProfileMenu name={profileName} src={profilePhoto}>
             {profileMenu}
           </ProfileMenu>
@@ -260,6 +276,7 @@ export default function AppLayout({
         header={header}
       >
         <BreadcrumbTitleContext.Provider value={setBreadcrumbTitle}>
+          {legacyPage && <LegacyBanner />}
           {children}
         </BreadcrumbTitleContext.Provider>
       </AppShell>

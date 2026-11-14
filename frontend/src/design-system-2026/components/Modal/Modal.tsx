@@ -15,6 +15,8 @@ export type ModalProps = {
   width?: number;
   children?: ReactNode;
   footer?: ReactNode;
+  /** When false, hides the close button and ignores outside presses. */
+  dismissible?: boolean;
   surfaceClassName?: string;
   surfaceOverlay?: ReactNode;
   popupProps?: Pick<
@@ -35,13 +37,14 @@ export function Modal({
   width,
   children,
   footer,
+  dismissible = true,
   surfaceClassName = '',
   surfaceOverlay,
   popupProps
 }: ModalProps): JSX.Element {
   const { theme, accent } = useDesignSystemAppearance();
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} disablePointerDismissal={!dismissible}>
       {trigger && <Dialog.Trigger render={trigger} />}
       <Dialog.Portal
         data-idol-redesign
@@ -68,17 +71,19 @@ export function Modal({
                 )}
               </div>
               <div className={styles.content}>{children}</div>
-              <ModalClose
-                render={
-                  <IconButton
-                    aria-label="Close modal"
-                    variant="tertiary"
-                    size={36}
-                    icon={<XIcon size={16} aria-hidden="true" />}
-                    className={styles.close}
-                  />
-                }
-              />
+              {dismissible && (
+                <ModalClose
+                  render={
+                    <IconButton
+                      aria-label="Close modal"
+                      variant="tertiary"
+                      size={36}
+                      icon={<XIcon size={16} aria-hidden="true" />}
+                      className={styles.close}
+                    />
+                  }
+                />
+              )}
             </div>
             {footer && <div className={styles.footer}>{footer}</div>}
           </Dialog.Popup>

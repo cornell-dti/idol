@@ -8,8 +8,14 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   border-radius: 2px;
+  transition: color 150ms ease;
 }
 .link.link:hover,
 .link.link:active {
   color: var(--idol-accent-dimmer);
+}
+@media (prefers-reduced-motion: reduce) {
+  .link.link {
+    transition: none;
+  }
 }

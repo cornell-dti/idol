@@ -58,6 +58,9 @@ export { GitBranchIcon } from '@phosphor-icons/react/dist/csr/GitBranch';
 export { DotsSixVerticalIcon } from '@phosphor-icons/react/dist/csr/DotsSixVertical';
 export { DotsThreeIcon } from '@phosphor-icons/react/dist/csr/DotsThree';
 export { ImageIcon } from '@phosphor-icons/react/dist/csr/Image';
+export { PaperPlaneTiltIcon } from '@phosphor-icons/react/dist/csr/PaperPlaneTilt';
+export { EyeIcon } from '@phosphor-icons/react/dist/csr/Eye';
+export { ClockCounterClockwiseIcon } from '@phosphor-icons/react/dist/csr/ClockCounterClockwise';
 
 export { MapTrifoldIcon } from '@phosphor-icons/react/dist/csr/MapTrifold';
 export { ListBulletsIcon } from '@phosphor-icons/react/dist/csr/ListBullets';

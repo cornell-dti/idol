@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Link, Input } from '../../../design-system-2026/components';
-import { TrashIcon, MagnifyingGlassIcon } from '../../../design-system-2026/icons';
+import { Modal, Button, Input, Pill } from '../../../design-system-2026/components';
+import {
+  ArrowSquareOutIcon,
+  CheckIcon,
+  MagnifyingGlassIcon,
+  TrashIcon
+} from '../../../design-system-2026/icons';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
+
+const statusColor = { approved: 'green', pending: 'blue', rejected: 'red' } as const;
+const statusLabel = { approved: 'Approved', pending: 'Pending', rejected: 'Rejected' } as const;
+
+export function CoffeeChatStatus({ status }: { status: CoffeeChat['status'] }): JSX.Element {
+  return <Pill color={statusColor[status]}>{statusLabel[status]}</Pill>;
+}
 
 type Props = {
   coffeeChat?: CoffeeChat;
@@ -94,7 +106,6 @@ const CoffeeChatModal: React.FC<Props> = ({
   const detailTitle = coffeeChat
     ? `Coffee Chat with ${coffeeChat.otherMember.firstName} ${coffeeChat.otherMember.lastName}`
     : 'Coffee chat suggestions';
-  const deleteLabel = confirm ? 'Delete coffee chat' : 'Delete';
   return (
     <Modal
       id="coffee-chat-details"
@@ -107,32 +118,42 @@ const CoffeeChatModal: React.FC<Props> = ({
       description={confirm ? 'This removes your submission and frees its category.' : category}
       footer={
         <>
-          <Button
-            variant="secondary"
-            disabled={busy}
-            onClick={() => (confirm ? setConfirm(false) : setOpen(false))}
-          >
-            {confirm ? 'Cancel' : 'Done'}
-          </Button>
-          {coffeeChat && coffeeChat.status !== 'rejected' && (
+          {coffeeChat && coffeeChat.status !== 'rejected' && !confirm && (
             <Button
-              variant="danger"
+              variant="secondaryDanger"
+              className={styles.footerStart}
               disabled={busy}
               icon={<TrashIcon size={16} />}
-              onClick={async () => {
-                if (!confirm) {
-                  setConfirm(true);
-                  return;
-                }
-                setBusy(true);
-                try {
-                  await deleteCoffeeChatRequest(coffeeChat);
-                } finally {
-                  setBusy(false);
-                }
-              }}
+              onClick={() => setConfirm(true)}
             >
-              {busy ? 'Deleting…' : deleteLabel}
+              Delete
+            </Button>
+          )}
+          {confirm ? (
+            <>
+              <Button variant="secondary" disabled={busy} onClick={() => setConfirm(false)}>
+                Cancel
+              </Button>
+              <Button
+                variant="danger"
+                disabled={busy}
+                icon={<TrashIcon size={16} />}
+                onClick={async () => {
+                  if (!coffeeChat) return;
+                  setBusy(true);
+                  try {
+                    await deleteCoffeeChatRequest(coffeeChat);
+                  } finally {
+                    setBusy(false);
+                  }
+                }}
+              >
+                {busy ? 'Deleting…' : 'Delete coffee chat'}
+              </Button>
+            </>
+          ) : (
+            <Button disabled={busy} icon={<CheckIcon size={16} />} onClick={() => setOpen(false)}>
+              Done
             </Button>
           )}
         </>
@@ -140,16 +161,50 @@ const CoffeeChatModal: React.FC<Props> = ({
     >
       {coffeeChat ? (
         <div className={styles.details}>
-          <p>
-            Member: {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName}{' '}
-            {!coffeeChat.isNonIDOLMember && `(${coffeeChat.otherMember.netid})`}
-          </p>
-          <p>Category: {coffeeChat.category}</p>
-          <p>Status: {coffeeChat.status}</p>
-          {coffeeChat.reason && <p>Reason: {coffeeChat.reason}</p>}
-          <Link href={coffeeChat.slackLink} target="_blank" rel="noopener noreferrer">
+          <dl className={styles.chatFacts}>
+            <div>
+              <dt>Member</dt>
+              <dd>
+                {coffeeChat.otherMember.firstName} {coffeeChat.otherMember.lastName}
+                {!coffeeChat.isNonIDOLMember && (
+                  <span className={styles.gray}> ({coffeeChat.otherMember.netid})</span>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>
+                <CoffeeChatStatus status={coffeeChat.status} />
+              </dd>
+            </div>
+            {coffeeChat.date > 0 && (
+              <div>
+                <dt>Submitted</dt>
+                <dd>
+                  {new Date(coffeeChat.date).toLocaleDateString(undefined, {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                  })}
+                </dd>
+              </div>
+            )}
+            {coffeeChat.reason && (
+              <div className={styles.chatFactWide}>
+                <dt>Reason</dt>
+                <dd>{coffeeChat.reason}</dd>
+              </div>
+            )}
+          </dl>
+          <a
+            className={styles.slackLink}
+            href={coffeeChat.slackLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             View Slack post
-          </Link>
+            <ArrowSquareOutIcon size={16} aria-hidden />
+          </a>
         </div>
       ) : (
         <div className={styles.details}>
@@ -176,7 +231,9 @@ const CoffeeChatModal: React.FC<Props> = ({
               <p className={styles.suggestionCount} role="status">
                 {isLoading
                   ? 'Loading…'
-                  : `${filteredMembers.length} ${filteredMembers.length === 1 ? 'member' : 'members'}`}
+                  : `${filteredMembers.length} ${
+                      filteredMembers.length === 1 ? 'member' : 'members'
+                    }`}
               </p>
             </div>
           )}

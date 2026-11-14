@@ -55,6 +55,7 @@ export default function UserProfile(): JSX.Element {
             <Avatar
               name={`${profile.firstName} ${profile.lastName}`}
               src={profile.profilePhoto}
+              loading={profile.photoLoading}
               size={96}
             />
           </button>

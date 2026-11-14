@@ -26,7 +26,10 @@ const summaryCards = [
   { key: 'shoutouts', title: 'Shoutouts', href: '/forms/shoutouts', metricCount: 2 }
 ] as const;
 
-const slackChannel = (channel: string) => `https://cornelldti.slack.com/channels/${channel}`;
+// app_redirect opens the channel in the Slack app on phones, where /channels/ links dead-end in the
+// mobile browser, and still opens Slack on the web on desktop.
+const slackChannel = (channel: string) =>
+  `https://cornelldti.slack.com/app_redirect?channel=${channel}`;
 
 // Products with a #<product>-support channel; logos are shared with the Help page.
 const productSupport = [
@@ -197,18 +200,18 @@ export function HomepageSkeleton(): JSX.Element {
             <div className={styles.editButton}>
               <div className={`${styles.editSkeleton} idol-skeleton`} />
             </div>
-            <div className={styles.productSupport}>
-              <h2 className="idol-heading-2">
-                <span className={`${styles.headingSkeleton} idol-skeleton`} />
-              </h2>
-              <div className={styles.productGrid}>
-                {productSupport.map(({ id }) => (
-                  <div key={id} className={styles.productLink}>
-                    <span className={`${styles.productTileSkeleton} idol-skeleton`} />
-                    <span className={`${styles.productLabelSkeleton} idol-skeleton`} />
-                  </div>
-                ))}
-              </div>
+          </div>
+          <div className={styles.productSupport}>
+            <h2 className="idol-heading-2">
+              <span className={`${styles.headingSkeleton} idol-skeleton`} />
+            </h2>
+            <div className={styles.productGrid}>
+              {productSupport.map(({ id }) => (
+                <div key={id} className={styles.productLink}>
+                  <span className={`${styles.productTileSkeleton} idol-skeleton`} />
+                  <span className={`${styles.productLabelSkeleton} idol-skeleton`} />
+                </div>
+              ))}
             </div>
           </div>
           <div className={styles.sidebar}>
@@ -398,8 +401,8 @@ export default function HomepageView({
             <p className={styles.notice} role="status">
               {notice}
             </p>
-            <ProductSupport />
           </section>
+          <ProductSupport />
           <div className={styles.sidebar}>
             <section className={styles.glance} aria-labelledby="home-glance">
               <h2 id="home-glance" className="idol-heading-2">

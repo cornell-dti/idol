@@ -110,7 +110,8 @@
   flex-wrap: wrap;
   gap: 4px;
   padding: 10px;
-  font: var(--idol-type-body-small);
+  font: var(--idol-type-body-default);
+  letter-spacing: var(--idol-type-body-default-tracking);
   color: var(--idol-fg-dimmer);
 }
 .footer a {
