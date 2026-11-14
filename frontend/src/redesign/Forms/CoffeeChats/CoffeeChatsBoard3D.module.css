@@ -377,3 +377,10 @@
     transition: none;
   }
 }
+
+/* Wider screens have room around the board, so let its shadow spill out. */
+@media (min-width: 641px) {
+  .experience {
+    overflow-x: visible;
+  }
+}

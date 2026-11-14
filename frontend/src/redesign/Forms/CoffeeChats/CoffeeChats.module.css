@@ -301,3 +301,11 @@
   overflow-y: auto;
   scrollbar-gutter: stable;
 }
+
+/* Mobile keeps the clip; wider screens let the 3D board's shadow spill out. */
+@media (min-width: 641px) {
+  .page,
+  .boardViews {
+    overflow-x: visible;
+  }
+}
