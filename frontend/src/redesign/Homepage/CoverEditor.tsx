@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, IconButton, Modal, useToast } from '../../design-system-2026/components';
 import {
   CaretDownIcon,
@@ -26,8 +26,34 @@ type Props = {
 
 const maxCustomCovers = 10;
 
-/** Covers shown before "Show more", so Save stays in view without scrolling far. */
-const collapsedCount = 8;
+/** Grid columns per viewport, matching the breakpoints in CoverEditor.module.css. */
+const columnQueries: [string, number][] = [
+  ['(max-width: 480px)', 2],
+  ['(max-width: 720px)', 3],
+  ['(max-width: 900px)', 4]
+];
+
+/**
+ * Covers shown before "Show more": two full rows on desktop and three on phones, so Save
+ * stays in view without scrolling far.
+ */
+function useCollapsedCount(): number {
+  const [count, setCount] = useState(10);
+  useEffect(() => {
+    const queries = [...columnQueries.map(([query]) => query), '(max-width: 640px)'].map((query) =>
+      window.matchMedia(query)
+    );
+    const update = () => {
+      const columns = columnQueries.find(([query]) => window.matchMedia(query).matches)?.[1] ?? 5;
+      const rows = window.matchMedia('(max-width: 640px)').matches ? 3 : 2;
+      setCount(columns * rows);
+    };
+    update();
+    queries.forEach((query) => query.addEventListener('change', update));
+    return () => queries.forEach((query) => query.removeEventListener('change', update));
+  }, []);
+  return count;
+}
 
 export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Element {
   const toast = useToast();
@@ -37,6 +63,7 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const collapsedCount = useCollapsedCount();
   const input = useRef<HTMLInputElement>(null);
   const uploading = useRef(false);
   const dragDepth = useRef(0);
@@ -98,10 +125,12 @@ export default function CoverEditor({ value, onSave, disabled }: Props): JSX.Ele
   };
 
   const covers = [...presetCovers, ...draft.custom];
-  // Collapsed, show the first covers plus the picked one if it is further down the list.
-  const collapsedCovers = covers.filter(
-    (cover, index) => index < collapsedCount || cover.id === draft.selected
-  );
+  // Collapsed, show whole rows. If the picked cover is further down, it takes the last slot.
+  const selectedIndex = covers.findIndex((cover) => cover.id === draft.selected);
+  const collapsedCovers =
+    selectedIndex < collapsedCount
+      ? covers.slice(0, collapsedCount)
+      : [...covers.slice(0, collapsedCount - 1), covers[selectedIndex]];
   const hiddenCount = covers.length - collapsedCovers.length;
   const visibleCovers = expanded ? covers : collapsedCovers;
 
