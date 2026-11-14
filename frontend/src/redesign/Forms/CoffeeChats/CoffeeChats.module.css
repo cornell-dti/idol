@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 48px;
   width: min(800px, calc(100% - 64px));
+  max-width: 100%;
+  box-sizing: border-box;
   margin: 32px auto;
   font: var(--idol-type-body-default);
   color: var(--idol-fg-default);
@@ -42,6 +44,7 @@
 }
 .boardViews {
   width: 100%;
+  max-width: 100%;
   min-width: 0;
 }
 .boardViews .boardScroll {

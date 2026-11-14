@@ -1,5 +1,10 @@
 .experience {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  /* 3D spin expands the board's layout box past the viewport; clip instead of
+     letting the page grow a horizontal scrollbar (intermittent while spinning). */
+  overflow-x: clip;
 }
 .pivot {
   position: absolute;
@@ -22,6 +27,8 @@
   display: grid;
   place-items: center;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 64px 0 120px;
   perspective: 1400px;
   isolation: isolate;
@@ -55,6 +62,8 @@
   --ink: #433c30;
   position: relative;
   width: 68%;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   border: 1px solid #a47948;
   border-radius: 10px;
@@ -275,12 +284,6 @@
   box-shadow: inset 0 2px 8px #604b3238;
 }
 
-.hint {
-  color: var(--idol-fg-dimmer);
-  font: var(--idol-type-body-small);
-  text-align: center;
-}
-
 @keyframes arrive {
   from {
     opacity: 0;
@@ -301,13 +304,13 @@
 
 @media (max-width: 640px) {
   .stage {
-    padding: 40px 0 80px;
+    padding: 40px 8px 80px;
   }
   .board {
     --board-tilt: 15deg;
     --board-turn: -4deg;
     --board-offset: -20px;
-    width: 82%;
+    width: min(82%, 100%);
     padding: 6px;
   }
   .paper {
@@ -372,5 +375,12 @@
   .stamp {
     animation: none;
     transition: none;
+  }
+}
+
+/* Wider screens have room around the board, so let its shadow spill out. */
+@media (min-width: 641px) {
+  .experience {
+    overflow-x: visible;
   }
 }

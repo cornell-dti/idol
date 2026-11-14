@@ -66,7 +66,9 @@ export default function DevPortfolioDetails({ uuid }: Props): JSX.Element {
     .filter(
       ({ submission }) =>
         (filter === 'all' || submission.status === filter) &&
-        `${submission.member.firstName} ${submission.member.lastName} ${submission.member.netid} ${submission.documentationText ?? ''}`
+        `${submission.member.firstName} ${submission.member.lastName} ${submission.member.netid} ${
+          submission.documentationText ?? ''
+        }`
           .toLowerCase()
           .includes(search.toLowerCase())
     );

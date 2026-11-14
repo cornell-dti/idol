@@ -109,7 +109,9 @@ export default function TeamDisplay() {
       items.push(
         <div
           key={member.netid}
-          className={`relative border-r border-border-1 ${(i + 1) % columns === 0 ? 'border-r-0' : ''}`}
+          className={`relative border-r border-border-1 ${
+            (i + 1) % columns === 0 ? 'border-r-0' : ''
+          }`}
         >
           {isAlumni ? (
             <MemberCard

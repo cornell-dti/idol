@@ -157,12 +157,20 @@ const SchedulingSidePanel: React.FC<{
         );
         Emitters.generalSuccess.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `You have successfully ${isSigningUp ? 'signed up for' : 'cancelled'} this time slot!${isMember && isSigningUp ? ' A confirmation and calendar invite has been sent to your email.' : ''}`
+          contentMsg: `You have successfully ${
+            isSigningUp ? 'signed up for' : 'cancelled'
+          } this time slot!${
+            isMember && isSigningUp
+              ? ' A confirmation and calendar invite has been sent to your email.'
+              : ''
+          }`
         });
       } else {
         Emitters.generalError.emit({
           headerMsg: `${isSigningUp ? 'Sign Up' : 'Cancel'} Time Slot`,
-          contentMsg: `Could not ${isSigningUp ? 'sign up for' : 'cancel'} this time slot. Another user may have edited this time slot already.`
+          contentMsg: `Could not ${
+            isSigningUp ? 'sign up for' : 'cancel'
+          } this time slot. Another user may have edited this time slot already.`
         });
         refresh();
         setSelectedSlot(undefined);

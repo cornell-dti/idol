@@ -19,7 +19,9 @@ const runCommand = (program: string, ...programArguments: readonly string[]) => 
   if (result.error) throw result.error;
   if (result.status !== 0) {
     throw new Error(
-      `Command failed with exit code ${result.status ?? 'unknown'}: ${program} ${programArgumentsQuoted}`
+      `Command failed with exit code ${
+        result.status ?? 'unknown'
+      }: ${program} ${programArgumentsQuoted}`
     );
   }
 
