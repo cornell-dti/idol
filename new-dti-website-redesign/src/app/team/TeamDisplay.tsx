@@ -67,12 +67,11 @@ export default function TeamDisplay() {
     setClickedSection(newMember ? roleName : undefined);
 
     if (newMember && member.netid !== selectedMember?.netid) {
-      requestAnimationFrame(
-        () =>
-          memberDetailsRef.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          })
+      requestAnimationFrame(() =>
+        memberDetailsRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
       );
     }
   };
