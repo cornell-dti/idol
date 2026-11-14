@@ -212,7 +212,7 @@ export default function Settings(): JSX.Element {
                   Contrast
                 </h3>
                 <p id="settings-contrast-hint" className={styles.rowHint}>
-                  Strengthen or soften secondary text, borders, and card layers.
+                  Strengthen or soften how the page, cards, and card layers stand apart.
                 </p>
               </div>
               <div className={styles.contrastControl}>

@@ -10,16 +10,18 @@
   --idol-stroke-black-base: rgba(0, 0, 0, 0.1);
   --idol-stroke-medium-base: rgba(0, 0, 0, 0.3);
   --idol-stroke-white: rgba(255, 255, 255, 0.2);
-  --idol-bg-root: #fafafa;
+  --idol-bg-root-base: #fafafa;
   --idol-bg-default: #ffffff;
   --idol-bg-dimmer-base: #f2f2f2;
-  --idol-bg-canvas: var(--idol-bg-default);
+  --idol-bg-canvas-base: var(--idol-bg-default);
   --idol-canvas-pattern: initial;
   --idol-canvas-pattern-size: initial;
-  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-base: var(--idol-bg-default);
   --idol-bg-card-layer-base: var(--idol-bg-dimmer-base);
   --idol-stroke-card: var(--idol-stroke-black);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 4%);
+  /* Where backdrops head when contrast goes up (see the contrast block below). */
+  --idol-contrast-deep: #000;
   --idol-accent-default: #006fff;
   /* Fixed blue that never follows the chosen accent (e.g. internal vs external TEC tags). */
   --idol-info-default: #006fff;
@@ -45,11 +47,11 @@
   --idol-stroke-black-base: rgba(255, 255, 255, 0.1);
   --idol-stroke-medium-base: rgba(255, 255, 255, 0.24);
   --idol-stroke-white: rgba(255, 255, 255, 0.1);
-  --idol-bg-root: #121212;
+  --idol-bg-root-base: #121212;
   --idol-bg-default: #171717;
   --idol-bg-dimmer-base: #1f1f1f;
-  --idol-bg-canvas: #090909;
-  --idol-bg-card: #131313;
+  --idol-bg-canvas-base: #090909;
+  --idol-bg-card-base: #131313;
   --idol-bg-card-layer-base: #191919;
   --idol-stroke-card: rgba(255, 255, 255, 0.07);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 22%);
@@ -68,17 +70,17 @@
 }
 
 [data-idol-redesign]:is([data-idol-theme='pumpkin'], [data-idol-theme='hacker']) {
-  --idol-bg-card: var(--idol-bg-default);
+  --idol-bg-card-base: var(--idol-bg-default);
   --idol-bg-card-layer-base: var(--idol-bg-dimmer-base);
 }
 
 [data-idol-redesign][data-idol-theme='pumpkin'] {
   --idol-fg-default: #fff0dc;
   --idol-fg-dimmer-base: #cbb096;
-  --idol-bg-root: #20140f;
+  --idol-bg-root-base: #20140f;
   --idol-bg-default: #2a1a13;
   --idol-bg-dimmer-base: #392419;
-  --idol-bg-canvas: #140d0a;
+  --idol-bg-canvas-base: #140d0a;
   --idol-canvas-pattern: url('/design-system/patterns/pumpkin.png');
   --idol-canvas-pattern-size: 290px 230px;
 }
@@ -86,10 +88,10 @@
 [data-idol-redesign][data-idol-theme='hacker'] {
   --idol-fg-default: #baffae;
   --idol-fg-dimmer-base: #8fba89;
-  --idol-bg-root: #08110a;
+  --idol-bg-root-base: #08110a;
   --idol-bg-default: #101c11;
   --idol-bg-dimmer-base: #192b1b;
-  --idol-bg-canvas: #050906;
+  --idol-bg-canvas-base: #050906;
   --idol-stroke-black-base: rgb(168 255 155 / 18%);
   --idol-stroke-card: var(--idol-stroke-black);
   --idol-canvas-pattern: url('/design-system/patterns/hacker.png');
@@ -170,38 +172,39 @@
 }
 
 /*
- * Contrast preference (Settings → Contrast). Each theme sets the *-base colors above; secondary
- * text, strokes and layered surfaces then lean toward the foreground (more contrast) or the
- * background (less), so cards and their lips separate more or blend in.
+ * Contrast preference (Settings → Contrast). It only moves backgrounds and surfaces; text and
+ * borders keep their theme colors. Each theme sets the *-base colors above.
+ * - More contrast: fills (bg-dimmer, card layers) lean toward the foreground and backdrops
+ *   (page root, canvas) sink toward --idol-contrast-deep, so cards stand out from the page.
+ * - Less contrast: every surface blends toward bg-default, so the layers flatten out.
  * The provider sets the two percentages on <html>; both are 0% at the default.
  */
 [data-idol-redesign] {
-  --idol-fg-dimmer: color-mix(
+  --idol-fg-dimmer: var(--idol-fg-dimmer-base);
+  --idol-stroke-black: var(--idol-stroke-black-base);
+  --idol-stroke-medium: var(--idol-stroke-medium-base);
+  --idol-bg-root: color-mix(
     in srgb,
     color-mix(
       in srgb,
-      var(--idol-fg-dimmer-base),
-      var(--idol-fg-default) var(--idol-contrast-up, 0%)
+      var(--idol-bg-root-base),
+      var(--idol-contrast-deep) calc(var(--idol-contrast-up, 0%) * 0.15)
     ),
     var(--idol-bg-default) var(--idol-contrast-down, 0%)
   );
-  --idol-stroke-black: color-mix(
+  --idol-bg-canvas: color-mix(
     in srgb,
     color-mix(
       in srgb,
-      var(--idol-stroke-black-base),
-      var(--idol-fg-default) calc(var(--idol-contrast-up, 0%) * 0.6)
+      var(--idol-bg-canvas-base),
+      var(--idol-contrast-deep) calc(var(--idol-contrast-up, 0%) * 0.15)
     ),
-    var(--idol-bg-default) calc(var(--idol-contrast-down, 0%) * 0.6)
+    var(--idol-bg-default) var(--idol-contrast-down, 0%)
   );
-  --idol-stroke-medium: color-mix(
+  --idol-bg-card: color-mix(
     in srgb,
-    color-mix(
-      in srgb,
-      var(--idol-stroke-medium-base),
-      var(--idol-fg-default) calc(var(--idol-contrast-up, 0%) * 0.6)
-    ),
-    var(--idol-bg-default) calc(var(--idol-contrast-down, 0%) * 0.6)
+    var(--idol-bg-card-base),
+    var(--idol-bg-default) var(--idol-contrast-down, 0%)
   );
   --idol-bg-dimmer: color-mix(
     in srgb,
@@ -219,6 +222,6 @@
       var(--idol-bg-card-layer-base),
       var(--idol-fg-default) calc(var(--idol-contrast-up, 0%) * 0.15)
     ),
-    var(--idol-bg-card, var(--idol-bg-default)) var(--idol-contrast-down, 0%)
+    var(--idol-bg-card) var(--idol-contrast-down, 0%)
   );
 }
