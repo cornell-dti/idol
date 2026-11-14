@@ -6,7 +6,6 @@
   max-width: 100%;
   box-sizing: border-box;
   margin: 32px auto;
-  overflow-x: clip;
   font: var(--idol-type-body-default);
   color: var(--idol-fg-default);
 }
@@ -47,7 +46,6 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: clip;
 }
 .boardViews .boardScroll {
   width: fit-content;
@@ -302,10 +300,3 @@
   scrollbar-gutter: stable;
 }
 
-/* Mobile keeps the clip; wider screens let the 3D board's shadow spill out. */
-@media (min-width: 641px) {
-  .page,
-  .boardViews {
-    overflow-x: visible;
-  }
-}
