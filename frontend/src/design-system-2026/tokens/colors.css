@@ -18,7 +18,7 @@
   --idol-canvas-pattern-size: initial;
   --idol-bg-card-base: var(--idol-bg-default);
   --idol-bg-card-layer-base: var(--idol-bg-dimmer-base);
-  --idol-stroke-card: var(--idol-stroke-black);
+  --idol-stroke-card-base: var(--idol-stroke-black-base);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 4%);
   /* Where backdrops head when contrast goes up (see the contrast block below). */
   --idol-contrast-deep: #000;
@@ -53,7 +53,7 @@
   --idol-bg-canvas-base: #090909;
   --idol-bg-card-base: #131313;
   --idol-bg-card-layer-base: #191919;
-  --idol-stroke-card: rgba(255, 255, 255, 0.07);
+  --idol-stroke-card-base: rgba(255, 255, 255, 0.07);
   --idol-shadow-surface: 0 2px 8px rgb(0 0 0 / 22%);
   --idol-accent-default: #3b82f6;
   --idol-info-default: #3b82f6;
@@ -93,7 +93,7 @@
   --idol-bg-dimmer-base: #192b1b;
   --idol-bg-canvas-base: #050906;
   --idol-stroke-black-base: rgb(168 255 155 / 18%);
-  --idol-stroke-card: var(--idol-stroke-black);
+  --idol-stroke-card-base: var(--idol-stroke-black-base);
   --idol-canvas-pattern: url('/design-system/patterns/hacker.png');
   --idol-canvas-pattern-size: 822px 448px;
 }
@@ -173,11 +173,12 @@
 }
 
 /*
- * Contrast preference (Settings → Contrast). It only moves backgrounds and surfaces; text and
- * borders keep their theme colors. Each theme sets the *-base colors above.
+ * Contrast preference (Settings → Contrast). It moves backgrounds, surfaces and borders; text
+ * keeps its theme colors. Each theme sets the *-base colors above.
  * - More contrast: fills (bg-dimmer, card layers) lean toward the foreground and backdrops
  *   (page root, canvas) sink toward --idol-contrast-deep, so cards stand out from the page.
  * - Less contrast: every surface blends toward bg-default, so the layers flatten out.
+ * - Borders lean toward the foreground with more contrast and fade toward transparent with less.
  * The provider sets the two percentages on <html>; both are 0% at the default.
  */
 /*
@@ -205,8 +206,33 @@
 
 [data-idol-redesign] {
   --idol-fg-dimmer: var(--idol-fg-dimmer-base);
-  --idol-stroke-black: var(--idol-stroke-black-base);
-  --idol-stroke-medium: var(--idol-stroke-medium-base);
+  --idol-stroke-black: color-mix(
+    in srgb,
+    color-mix(
+      in srgb,
+      var(--idol-stroke-black-base),
+      var(--idol-fg-default) calc(var(--idol-contrast-up, 0%) * 0.4)
+    ),
+    transparent calc(var(--idol-contrast-down, 0%) * 0.75)
+  );
+  --idol-stroke-medium: color-mix(
+    in srgb,
+    color-mix(
+      in srgb,
+      var(--idol-stroke-medium-base),
+      var(--idol-fg-default) calc(var(--idol-contrast-up, 0%) * 0.4)
+    ),
+    transparent calc(var(--idol-contrast-down, 0%) * 0.75)
+  );
+  --idol-stroke-card: color-mix(
+    in srgb,
+    color-mix(
+      in srgb,
+      var(--idol-stroke-card-base),
+      var(--idol-fg-default) calc(var(--idol-contrast-up, 0%) * 0.4)
+    ),
+    transparent calc(var(--idol-contrast-down, 0%) * 0.75)
+  );
   --idol-bg-root: color-mix(
     in srgb,
     color-mix(
