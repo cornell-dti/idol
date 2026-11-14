@@ -185,7 +185,9 @@ const PieChart = ({
               }}
             />
             <path
-              d={`M 0 0 L ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]} ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
+              d={`M 0 0 L ${polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[0]} ${
+                polarToRect(totalAngle - BORDER_ANGLE_OFFSET, currentRadius)[1]
+              }`}
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
               fill="none"
@@ -194,7 +196,9 @@ const PieChart = ({
               }}
             />
             <path
-              d={`M 0 0 L ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]} ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
+              d={`M 0 0 L ${
+                polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[0]
+              } ${polarToRect(totalAngle - theta + BORDER_ANGLE_OFFSET, currentRadius)[1]}`}
               stroke={getColorClass(roleKey as Role, false, true)}
               strokeWidth="1"
               fill="none"
@@ -205,9 +209,16 @@ const PieChart = ({
             <text
               x={textLocation[0]}
               y={textLocation[1]}
-              className={`font-bold text-xl ${getColorClass(roleKey as Role, false, false, 'fill-accent')}`}
+              className={`font-bold text-xl ${getColorClass(
+                roleKey as Role,
+                false,
+                false,
+                'fill-accent'
+              )}`}
               style={{ textAnchor: 'middle' }}
-              aria-label={`${Math.round(percentage * 100)}% of our members are in ${roleStats[role].name.toLowerCase()}`}
+              aria-label={`${Math.round(percentage * 100)}% of our members are in ${roleStats[
+                role
+              ].name.toLowerCase()}`}
             >
               {`${Math.round(percentage * 100)}%`}
             </text>
@@ -290,7 +301,12 @@ export default function WhoWeAre() {
                 onMouseLeave={() => setChartSection(undefined)}
               >
                 <div
-                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 transition-opacity ${getColorClass(rawRole as Role, false, false, 'border-accent')}`}
+                  className={`w-8 h-8 rounded-sm border-1 flex-shrink-0 transition-opacity ${getColorClass(
+                    rawRole as Role,
+                    false,
+                    false,
+                    'border-accent'
+                  )}`}
                   style={{
                     backgroundColor: roleStats[role].color,
                     opacity: chartSection === role ? 1 : 0.5

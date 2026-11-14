@@ -67,11 +67,12 @@ export default function TeamDisplay() {
     setClickedSection(newMember ? roleName : undefined);
 
     if (newMember && member.netid !== selectedMember?.netid) {
-      requestAnimationFrame(() =>
-        memberDetailsRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        })
+      requestAnimationFrame(
+        () =>
+          memberDetailsRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          })
       );
     }
   };
@@ -109,7 +110,9 @@ export default function TeamDisplay() {
       items.push(
         <div
           key={member.netid}
-          className={`relative border-r border-border-1 ${(i + 1) % columns === 0 ? 'border-r-0' : ''}`}
+          className={`relative border-r border-border-1 ${
+            (i + 1) % columns === 0 ? 'border-r-0' : ''
+          }`}
         >
           {isAlumni ? (
             <MemberCard

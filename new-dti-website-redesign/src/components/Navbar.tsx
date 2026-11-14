@@ -293,12 +293,18 @@ export default function Navbar({ demo }: NavbarProps) {
                           linkRefs.current[i] = el;
                         }}
                         className={`h-10 px-4 hover:text-foreground-1 flex items-center gap-1 interactive activeState focusState rounded-full font-medium
-                    ${pathname === href || dropdown?.some((d) => d.href === pathname) ? 'text-foreground-1' : 'text-foreground-3'}`}
+                    ${
+                      pathname === href || dropdown?.some((d) => d.href === pathname)
+                        ? 'text-foreground-1'
+                        : 'text-foreground-3'
+                    }`}
                       >
                         {label}
                         <ChevronIcon
                           size={16}
-                          className={`transition-transform duration-300 ${openDropdown === label ? 'rotate-180' : 'rotate-0'}`}
+                          className={`transition-transform duration-300 ${
+                            openDropdown === label ? 'rotate-180' : 'rotate-0'
+                          }`}
                         />
                       </Link>
 

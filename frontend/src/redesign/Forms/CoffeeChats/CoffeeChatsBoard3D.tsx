@@ -149,8 +149,8 @@ export default function CoffeeChatsBoard3D({
           stage.current.releasePointerCapture(activeDrag.id);
         }
         stage.current?.removeAttribute('data-dragging');
-        ['--spin', '--drag-x', '--drag-y', '--tilt-x', '--tilt-y'].forEach((name) =>
-          stage.current?.style.removeProperty(name)
+        ['--spin', '--drag-x', '--drag-y', '--tilt-x', '--tilt-y'].forEach(
+          (name) => stage.current?.style.removeProperty(name)
         );
         state.angle = 0;
         state.targetX = 0;

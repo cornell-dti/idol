@@ -29,7 +29,9 @@ const UnassignedApplicantsSidebar: React.FC<UnassignedApplicantsSidebarProps> = 
       .then(() => {
         Emitters.generalSuccess.emit({
           headerMsg: 'Emails Copied',
-          contentMsg: `Copied ${unassignedApplicants.length} email${unassignedApplicants.length !== 1 ? 's' : ''} to clipboard.`
+          contentMsg: `Copied ${unassignedApplicants.length} email${
+            unassignedApplicants.length !== 1 ? 's' : ''
+          } to clipboard.`
         });
       })
       .catch(() => {
