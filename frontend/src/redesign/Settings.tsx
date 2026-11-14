@@ -211,7 +211,6 @@ export default function Settings(): JSX.Element {
                 <h3 id="settings-contrast" className={styles.rowTitle}>
                   Contrast
                 </h3>
-
               </div>
               <div className={styles.contrastControl}>
                 <input
