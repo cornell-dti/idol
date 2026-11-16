@@ -1,5 +1,6 @@
 import type { Breadcrumb } from '../design-system-2026/components/Breadcrumbs/Breadcrumbs';
 import {
+  CalendarBlankIcon,
   CalendarIcon,
   CalendarStarIcon,
   ClipboardTextIcon,
@@ -24,6 +25,12 @@ export const breadcrumbRoutes: Record<string, Route> = {
   '/forms': { label: 'Forms', icon: ClipboardTextIcon, supportsDarkTheme: true },
   '/forms/signin': { label: 'Sign-In', parent: '/forms' },
   '/forms/profile': { label: 'Profile', icon: UserIcon, parent: '/forms', supportsDarkTheme: true },
+  '/forms/attendance': {
+    label: 'Attendance',
+    icon: CalendarBlankIcon,
+    parent: '/forms',
+    supportsDarkTheme: true
+  },
   '/forms/shoutouts': {
     label: 'Shoutouts',
     icon: MegaphoneIcon,
