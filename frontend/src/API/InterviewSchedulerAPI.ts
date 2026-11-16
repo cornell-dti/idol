@@ -30,6 +30,12 @@ export default class InterviewSchedulerAPI {
     APIWrapper.delete(`${backendURL}/interview-scheduler/${uuid}`);
   }
 
+  static async sendLeadConfirmations(uuid: string): Promise<number> {
+    return APIWrapper.post(`${backendURL}/interview-scheduler/${uuid}/lead-confirmations`, {}).then(
+      (val) => val.data.emailsSent
+    );
+  }
+
   static async getSlots(uuid: string, isApplicant: boolean): Promise<InterviewSlot[]> {
     return APIWrapper.get(
       `${backendURL}/interview-slots${isApplicant ? '/applicant' : ''}/${uuid}`

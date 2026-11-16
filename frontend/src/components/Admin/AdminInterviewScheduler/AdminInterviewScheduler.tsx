@@ -259,6 +259,23 @@ export const InterviewSchedulerEditor = ({ instances, setInstances }: EditorProp
     );
   };
 
+  const sendLeadConfirmations = async (instance: InterviewScheduler) => {
+    // eslint-disable-next-line no-alert
+    if (!window.confirm(`Send confirmation emails to all leads for ${instance.name}?`)) return;
+    try {
+      const emailsSent = await InterviewSchedulerAPI.sendLeadConfirmations(instance.uuid);
+      Emitters.generalSuccess.emit({
+        headerMsg: 'Lead confirmations sent.',
+        contentMsg: `Sent ${emailsSent} confirmation emails with calendar invites.`
+      });
+    } catch (error) {
+      Emitters.generalError.emit({
+        headerMsg: 'Failed to send lead confirmations.',
+        contentMsg: String(error)
+      });
+    }
+  };
+
   if (isLoading) return <Loader size="large" />;
   return (
     <div className={styles.editorContainer}>
@@ -280,6 +297,9 @@ export const InterviewSchedulerEditor = ({ instances, setInstances }: EditorProp
                 <div>
                   <InterviewSchedulerDeleteModal setInstances={setInstances} uuid={instance.uuid} />
                   <Button onClick={() => setEditingInstance(instance)}>Edit</Button>
+                  <Button primary onClick={() => sendLeadConfirmations(instance)}>
+                    Send Lead Confirmations
+                  </Button>
                 </div>
               </Card.Content>
             </Card>

@@ -288,6 +288,31 @@ export const addInterviewSlots = async (
 };
 
 /**
+ * Sends each lead a confirmation email with a calendar invite for every slot they are leading.
+ * Leads don't get emails while the scheduler is being filled, so this is sent once it's final.
+ * User must be a lead or admin.
+ * @param uuid - the uuid of the scheduler instance
+ * @param user - the user sending the confirmations
+ * @returns - the number of confirmation emails sent
+ */
+export const sendLeadConfirmations = async (uuid: string, user: IdolMember): Promise<number> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin)
+    throw new PermissionError('User does not have permission to send lead confirmations.');
+
+  const scheduler = await interviewSchedulerDao.getInstance(uuid);
+  if (!scheduler)
+    throw new NotFoundError(`Interview scheduler instance with uuid ${uuid} does not exist!`);
+
+  const slots = await interviewSlotDao.getSlotsForScheduler(uuid);
+  const ledSlots = slots.filter((slot) => slot.lead?.email);
+  await Promise.all(
+    ledSlots.map((slot) => sendMemberInterviewInvite(slot.lead!.email, scheduler, slot))
+  );
+  return ledSlots.length;
+};
+
+/**
  * Handles sending notifications when interview slots are updated
  * @param oldSlot - The previous state of the slot
  * @param newSlot - The updated state of the slot

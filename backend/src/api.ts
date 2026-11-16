@@ -111,6 +111,7 @@ import {
   getAllInterviewSchedulerInstances,
   getInterviewSchedulerInstance,
   getInterviewSlots,
+  sendLeadConfirmations,
   updateInterviewSchedulerInstance,
   updateInterviewSlot
 } from './API/interviewSchedulerAPI';
@@ -659,6 +660,10 @@ loginCheckedPut('/interview-scheduler', async (req, user) => ({
 loginCheckedDelete('/interview-scheduler/:uuid', async (req, user) =>
   deleteInterviewSchedulerInstance(req.params.uuid, user).then(() => ({}))
 );
+
+loginCheckedPost('/interview-scheduler/:uuid/lead-confirmations', async (req, user) => ({
+  emailsSent: await sendLeadConfirmations(req.params.uuid, user)
+}));
 
 router.get('/interview-slots/applicant/:uuid', async (req, res) => {
   const userEmail = await getUserEmailFromRequest(req);
