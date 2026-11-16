@@ -25,6 +25,10 @@
   margin-bottom: 1rem;
 }
 
+.attendanceSection {
+  margin-top: 4rem;
+}
+
 @media (max-width: 900px) {
   .quickActions {
     display: flex;

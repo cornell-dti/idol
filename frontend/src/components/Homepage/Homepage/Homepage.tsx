@@ -12,6 +12,11 @@ const everyoneItems: readonly NavigationCardItem[] = [
     link: '/forms/profile'
   },
   {
+    header: 'Attendance',
+    description: 'Check in to the current all-hands and review your attendance for the semester.',
+    link: '/forms/attendance'
+  },
+  {
     header: 'Sign-In Form',
     description: 'Sign in to an event.',
     link: '/forms/signin',

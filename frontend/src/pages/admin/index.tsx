@@ -94,6 +94,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     description: 'View team budgets and manage reimbursement requests.',
     link: '/admin/reimbursement',
     adminOnly: true
+  },
+  {
+    header: 'Attendance Tracker',
+    description: 'Track member attendance across all-hands.',
+    link: '/admin/attendance',
+    adminOnly: true
   }
 ];
 
