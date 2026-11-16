@@ -40,6 +40,12 @@ const shortcutDefinitions = [
     label: 'Edit Profile',
     description: 'Edit your profile on DTI’s website.',
     href: '/forms/profile'
+  },
+  {
+    id: 'attendance',
+    label: 'Attendance',
+    description: 'Check in and review your attendance for the semester.',
+    href: '/forms/attendance'
   }
 ] as const;
 
