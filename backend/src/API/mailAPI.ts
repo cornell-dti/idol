@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import { Request } from 'express';
 import getEmailTransporter from '../nodemailer';
 import { isProd } from '../api';
@@ -461,9 +462,17 @@ Cornell DTI`;
 export const sendMemberInterviewInvite = async (
   email: string,
   scheduler: InterviewScheduler,
-  slot: InterviewSlot
+  slot: InterviewSlot,
+  threadId?: string
 ) => {
-  const subject = `[Cornell DTI] Interview Confirmation`;
+  // With a threadId, send as a reply so Gmail groups it into the lead's summary thread.
+  const threadOptions = threadId
+    ? {
+        subject: `Re: ${leadThreadSubject(scheduler)}`,
+        inReplyTo: threadId,
+        references: threadId
+      }
+    : { subject: `[Cornell DTI] Interview Confirmation` };
   const { dateString, startTimeString, endTimeString } = formatInterviewDateTime(slot, scheduler);
 
   const text = `Hello!
@@ -482,7 +491,7 @@ Cornell DTI`;
   return sendEmail({
     from: 'dti.idol.github.bot@gmail.com',
     to: email,
-    subject,
+    ...threadOptions,
     text,
     alternatives: [
       {
@@ -491,6 +500,55 @@ Cornell DTI`;
       }
     ]
   });
+};
+
+/**
+ * Subject of a lead's confirmation thread. Replies must share it for Gmail to thread them.
+ */
+const leadThreadSubject = (scheduler: InterviewScheduler) =>
+  `[Cornell DTI] Your Interviews - ${scheduler.name}`;
+
+/**
+ * Send a lead one email listing every interview they are leading. This starts a thread
+ * that the calendar invites for each interview are sent as replies to.
+ * @param email - The lead's email
+ * @param scheduler - The interview scheduler instance
+ * @param slots - The slots the lead is leading, sorted by start time
+ * @returns - The Message-ID of the summary email, used to thread the invites
+ */
+export const sendLeadInterviewSummary = async (
+  email: string,
+  scheduler: InterviewScheduler,
+  slots: InterviewSlot[]
+): Promise<string> => {
+  const messageId = `<lead-summary-${uuidv4()}@cornelldti.org>`;
+  const interviews = slots
+    .map((slot) => {
+      const { dateString, startTimeString, endTimeString } = formatInterviewDateTime(
+        slot,
+        scheduler
+      );
+      return `- ${dateString}, ${startTimeString} - ${endTimeString} in ${slot.room}`;
+    })
+    .join('\n');
+
+  const text = `Hello!
+
+Here are the ${slots.length} interviews you are leading for ${scheduler.name}. A calendar invite for each one will follow in this thread.
+
+${interviews}
+
+Best regards,
+Cornell DTI`;
+
+  await sendEmail({
+    from: 'dti.idol.github.bot@gmail.com',
+    to: email,
+    subject: leadThreadSubject(scheduler),
+    messageId,
+    text
+  });
+  return messageId;
 };
 
 /**

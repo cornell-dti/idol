@@ -8,9 +8,10 @@ import {
   sendInterviewInvite,
   sendInterviewCancellation,
   sendMemberInterviewInvite,
-  sendMemberInterviewCancellation
+  sendMemberInterviewCancellation,
+  sendLeadInterviewSummary
 } from './mailAPI';
-import detectEmailChanges from '../utils/interviewSlotUtil';
+import detectEmailChanges, { groupSlotsByLead } from '../utils/interviewSlotUtil';
 
 const interviewSchedulerDao = new InterviewSchedulerDao();
 const interviewSlotDao = new InterviewSlotDao();
@@ -288,7 +289,8 @@ export const addInterviewSlots = async (
 };
 
 /**
- * Sends each lead a confirmation email with a calendar invite for every slot they are leading.
+ * Sends each lead one email thread: a summary of every slot they are leading, then a
+ * calendar invite for each slot as a reply in that thread.
  * Leads don't get emails while the scheduler is being filled, so this is sent once it's final.
  * User must be a lead or admin.
  * @param uuid - the uuid of the scheduler instance
@@ -305,11 +307,20 @@ export const sendLeadConfirmations = async (uuid: string, user: IdolMember): Pro
     throw new NotFoundError(`Interview scheduler instance with uuid ${uuid} does not exist!`);
 
   const slots = await interviewSlotDao.getSlotsForScheduler(uuid);
-  const ledSlots = slots.filter((slot) => slot.lead?.email);
+  const slotsByLead = groupSlotsByLead(slots);
+
   await Promise.all(
-    ledSlots.map((slot) => sendMemberInterviewInvite(slot.lead!.email, scheduler, slot))
+    Array.from(slotsByLead.entries()).map(async ([email, leadSlots]) => {
+      const threadId = await sendLeadInterviewSummary(email, scheduler, leadSlots);
+      // Send invites one at a time so they show up in the thread in time order.
+      await leadSlots.reduce(
+        (previous, slot) =>
+          previous.then(() => sendMemberInterviewInvite(email, scheduler, slot, threadId)),
+        Promise.resolve<unknown>(undefined)
+      );
+    })
   );
-  return ledSlots.length;
+  return Array.from(slotsByLead.values()).reduce((count, leadSlots) => count + leadSlots.length, 0);
 };
 
 /**
