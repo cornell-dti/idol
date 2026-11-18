@@ -11,7 +11,7 @@ import { DBCoffeeChat } from '../types/DataTypes';
 import { getMemberFromDocumentReference, DELETED_MEMBER } from '../utils/memberUtil';
 import BaseDao, { FirestoreFilter } from './BaseDao';
 import { deleteCollection } from '../utils/firebase-utils';
-import { BadRequestError } from '../utils/errors';
+import { BadRequestError, NotFoundError } from '../utils/errors';
 
 const normalizeNetid = (netid: string): string => netid.trim().toLowerCase();
 
@@ -44,6 +44,20 @@ const placeMemberOnCategories = (
 
   return saved;
 };
+
+async function renameCoffeeChats(previousName: string, name: string): Promise<void> {
+  const snapshot = await coffeeChatsCollection.where('category', '==', previousName).get();
+  const batchSize = 500;
+  const commits: Promise<FirebaseFirestore.WriteResult[]>[] = [];
+  for (let i = 0; i < snapshot.docs.length; i += batchSize) {
+    const batch = db.batch();
+    snapshot.docs.slice(i, i + batchSize).forEach((doc) => {
+      batch.update(doc.ref, { category: name });
+    });
+    commits.push(batch.commit());
+  }
+  await Promise.all(commits);
+}
 
 async function clearCategoryMembers(): Promise<void> {
   const snapshot = await coffeeChatCategoriesCollection.get();
@@ -253,6 +267,39 @@ export default class CoffeeChatDao extends BaseDao<CoffeeChat, DBCoffeeChat> {
    */
   static async updateCategoryMembers(index: number, members: MemberDetails[]): Promise<void> {
     await coffeeChatCategoriesCollection.doc(String(index)).update({ members });
+  }
+
+  /**
+   * Renames one category and retitles every coffee chat that used the old name,
+   * so the bingo board and review counts stay attached to it!
+   * @param index - the category document id
+   * @param name - the new category name
+   * @returns the category with its new name
+   */
+  static async renameCategory(index: number, name: string): Promise<CoffeeChatCategory> {
+    const trimmed = name.trim();
+    if (!trimmed) throw new BadRequestError('Category name is required.');
+    if (trimmed.length > 200) {
+      throw new BadRequestError('Category name should be 200 characters or fewer.');
+    }
+
+    const docRef = coffeeChatCategoriesCollection.doc(String(index));
+    const snapshot = await docRef.get();
+    if (!snapshot.exists) {
+      throw new NotFoundError(`Coffee chat category ${index} was not found.`);
+    }
+    const category = snapshot.data() as CoffeeChatCategory;
+    if (category.name === trimmed) return category;
+
+    const categories = await CoffeeChatDao.getAllCategories();
+    const duplicate = categories.some(
+      (other) => other.index !== index && other.name.trim().toLowerCase() === trimmed.toLowerCase()
+    );
+    if (duplicate) throw new BadRequestError(`A category named '${trimmed}' already exists!`);
+
+    await docRef.update({ name: trimmed });
+    await renameCoffeeChats(category.name, trimmed);
+    return { ...category, name: trimmed };
   }
 
   /**

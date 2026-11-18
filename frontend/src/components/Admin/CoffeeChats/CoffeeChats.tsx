@@ -218,17 +218,30 @@ const CoffeeChats: React.FC = () => {
             />
           </div>
           <div className={styles.dropdownButton}>
-            <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Edit Members in Category</p>
+            <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Edit Categories</p>
             {categories.map((cat) => (
               <div key={cat.index} className={styles.categoryRow}>
                 <span>{cat.name}</span>
                 <CoffeeChatCategoryEditModal
                   category={cat}
-                  onSaved={(updated) =>
+                  onSaved={(updated) => {
+                    const previous = categories.find((item) => item.index === updated.index);
                     setCategories((prev) =>
                       prev.map((c) => (c.index === updated.index ? updated : c))
-                    )
-                  }
+                    );
+                    if (!previous || previous.name === updated.name) return;
+                    const retitle = (chat: CoffeeChat): CoffeeChat =>
+                      chat.category === previous.name ? { ...chat, category: updated.name } : chat;
+                    setBingoBoard((board) =>
+                      board.map((row) =>
+                        row.map((cell) => (cell === previous.name ? updated.name : cell))
+                      )
+                    );
+                    setPendingChats((chats) => chats.map(retitle));
+                    setSpecificApprovedChats((chats) => chats.map(retitle));
+                    setSpecificPendingChats((chats) => chats.map(retitle));
+                    setSpecificRejectedChats((chats) => chats.map(retitle));
+                  }}
                 />
               </div>
             ))}

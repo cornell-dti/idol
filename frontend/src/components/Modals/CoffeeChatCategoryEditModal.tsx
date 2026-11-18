@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Dropdown, DropdownProps } from 'semantic-ui-react';
+import { Modal, Button, Dropdown, DropdownProps, Input } from 'semantic-ui-react';
 import { useMembers } from '../Common/FirestoreDataProvider';
 import CoffeeChatAPI from '../../API/CoffeeChatAPI';
 import { Emitters } from '../../utils';
@@ -11,6 +11,7 @@ type Props = {
 
 const CoffeeChatCategoryEditModal: React.FC<Props> = ({ category, onSaved }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState(category.name);
   const [members, setMembers] = useState<MemberDetails[]>(category.members);
   const [isSaving, setIsSaving] = useState(false);
   const allMembers = useMembers();
@@ -24,6 +25,7 @@ const CoffeeChatCategoryEditModal: React.FC<Props> = ({ category, onSaved }) => 
   const selectedNetids = members.map((m) => m.netid);
 
   const handleOpen = () => {
+    setName(category.name);
     setMembers(category.members);
     setIsOpen(true);
   };
@@ -39,20 +41,33 @@ const CoffeeChatCategoryEditModal: React.FC<Props> = ({ category, onSaved }) => 
     setMembers(updated);
   };
 
+  const trimmedName = name.trim();
+
   const handleSave = async () => {
+    if (!trimmedName) return;
     setIsSaving(true);
     try {
+      const renamed =
+        trimmedName === category.name
+          ? category
+          : await CoffeeChatAPI.renameCategory(category.index, trimmedName);
       await CoffeeChatAPI.updateCategoryMembers(category.index, members);
-      onSaved({ ...category, members });
+      onSaved({ ...renamed, members });
       setIsOpen(false);
       Emitters.generalSuccess.emit({
         headerMsg: 'Category updated',
-        contentMsg: `'${category.name}' now has ${members.length} member(s).`
+        contentMsg:
+          trimmedName === category.name
+            ? `'${trimmedName}' now has ${members.length} member(s).`
+            : `'${category.name}' is now '${trimmedName}' with ${members.length} member(s).`
       });
-    } catch {
+    } catch (error) {
       Emitters.generalError.emit({
         headerMsg: 'Failed to update category',
-        contentMsg: `Could not save changes to '${category.name}'.`
+        contentMsg:
+          error instanceof Error && error.message
+            ? error.message
+            : `Could not save changes to '${category.name}'.`
       });
     }
     setIsSaving(false);
@@ -68,6 +83,14 @@ const CoffeeChatCategoryEditModal: React.FC<Props> = ({ category, onSaved }) => 
     >
       <Modal.Header>Edit: {category.name}</Modal.Header>
       <Modal.Content>
+        <label htmlFor={`category-name-${category.index}`}>Category name</label>
+        <Input
+          fluid
+          value={name}
+          input={{ id: `category-name-${category.index}`, maxLength: 200 }}
+          onChange={(_, data) => setName(String(data.value ?? ''))}
+        />
+        <p style={{ margin: '1rem 0 0.5rem', fontWeight: 600 }}>Members</p>
         <Dropdown
           placeholder="Search members..."
           fluid
@@ -84,7 +107,12 @@ const CoffeeChatCategoryEditModal: React.FC<Props> = ({ category, onSaved }) => 
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-        <Button primary onClick={handleSave} loading={isSaving} disabled={isSaving}>
+        <Button
+          primary
+          onClick={handleSave}
+          loading={isSaving}
+          disabled={isSaving || trimmedName.length === 0}
+        >
           Save
         </Button>
       </Modal.Actions>

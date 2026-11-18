@@ -48,6 +48,7 @@ import {
   archiveCoffeeChats,
   getCoffeeCategories,
   updateCategoryMembers,
+  renameCoffeeChatCategory,
   uploadCoffeeChatCSV,
   getCoffeeChatCategoryForm,
   submitCoffeeChatCategoryResponse
@@ -446,6 +447,10 @@ loginCheckedPut('/coffee-chat-categories/:index/members', async (req, user) => {
   await updateCategoryMembers(Number(req.params.index), req.body.members, user);
   return {};
 });
+
+loginCheckedPut('/coffee-chat-categories/:index/name', async (req, user) => ({
+  category: await renameCoffeeChatCategory(Number(req.params.index), req.body.name, user)
+}));
 
 loginCheckedPost('/coffee-chat-categories/upload', async (req, user) => {
   await uploadCoffeeChatCSV(req.body.csv, user);
